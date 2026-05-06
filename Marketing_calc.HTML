@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор Юнит-Экономики (CPC)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+        .card { background: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .input-field { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-weight: 500; outline: none; transition: all 0.2s; }
+        .input-field:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+        .result-card { border-left: 4px solid #3b82f6; background: #eff6ff; }
+        .result-card.green { border-left-color: #10b981; background: #ecfdf5; }
+        .result-card.orange { border-left-color: #f97316; background: #fff7ed; }
+        .result-card.red { border-left-color: #ef4444; background: #fef2f2; }
+        .th { background-color: #f1f5f9; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; color: #64748b; padding: 0.75rem; }
+        .td-label { font-weight: 500; color: #475569; padding: 0.75rem; background-color: #fff; }
+        .td-val { text-align: right; padding: 0.75rem; font-family: monospace; font-weight: 500; }
+        .td-total { background-color: #f8fafc; font-weight: 700; color: #0f172a; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Калькулятор Юнит-Экономики (CPC-модель)</h1>
+                <p class="text-sm text-slate-500 mt-1">Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов</p>
+            </div>
+            <button onclick="resetDefaults()" class="text-sm bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-50 transition">
+                ↺ Сбросить значения
+            </button>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- INPUTS -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="card p-5">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        Входные данные
+                    </h2>
+                    <p class="text-xs text-slate-400 mb-4">Измените значения для мгновенного пересчета</p>
+                    <div id="inputs-container" class="space-y-4 max-h-[800px] overflow-y-auto pr-1">
+                        <!-- Generated via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS -->
+            <div class="lg:col-span-8 space-y-6">
+                
+                <!-- Summary Metrics -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="card p-4 result-card green">
+                        <div class="text-xs text-slate-500 mb-1">Чистая прибыль</div>
+                        <div class="text-2xl font-bold text-slate-900" id="res-profit">$0.00</div>
+                        <div class="text-xs text-slate-400 mt-1">После всех налогов</div>
+                    </div>
+                    <div class="card p-4 result-card">
+                        <div class="text-xs text-slate-500 mb-1">ROMI</div>
+                        <div class="text-2xl font-bold text-slate-900" id="res-romi">0.00x</div>
+                        <div class="text-xs text-slate-400 mt-1">Окупаемость всех вложений</div>
+                    </div>
+                    <div class="card p-4 result-card orange">
+                        <div class="text-xs text-slate-500 mb-1">CPA / CAC</div>
+                        <div class="text-2xl font-bold text-slate-900">
+                            <span id="res-cpa">$0.00</span> / <span id="res-cac" class="text-base font-normal text-slate-500">$0.00</span>
+                        </div>
+                        <div class="text-xs text-slate-400 mt-1">Рекламный / Полный</div>
+                    </div>
+                </div>
+
+                <!-- Summary Table -->
+                <div class="card overflow-hidden">
+                    <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                        <h2 class="font-semibold text-slate-700">Расчётные показатели (Итого за период)</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <tbody id="summary-table" class="divide-y divide-slate-100">
+                                <!-- Rows via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Monthly Breakdown Table -->
+                <div class="card overflow-hidden">
+                    <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <h2 class="font-semibold text-slate-700">Помесячная разбивка</h2>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">3 месяца (по сценарию)</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-center border-collapse min-w-[700px]">
+                            <thead>
+                                <tr>
+                                    <th class="th text-left sticky left-0 bg-slate-100 z-10 border-b border-slate-300 shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]">Показатель</th>
+                                    <th class="th border-b border-slate-300">Месяц 1</th>
+                                    <th class="th border-b border-slate-300">Месяц 2</th>
+                                    <th class="th border-b border-slate-300">Месяц 3</th>
+                                    <th class="th border-b border-slate-300 bg-slate-100 text-blue-900">Итого</th>
+                                </tr>
+                            </thead>
+                            <tbody id="monthly-table" class="divide-y divide-slate-100">
+                                <!-- Rows via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const defaults = {
+            monthlyBudget: 150.00,
+            cpc: 0.33,
+            ctr: 1.40,
+            cvrLead: 3.00,
+            cvrDeal: 35.00,
+            costConsult: 25.00,
+            costPack: 160.00,
+            ltv: 30.00,
+            months: 3,
+            mgmt: 150.00,
+            site: 300.00,
+            tilda: 30.00,
+            dom: 5.00,
+            magnet: 20.00,
+            acq: 3.60,
+            taxTurnover: 6.00
+        };
+
+        const inputsConfig = [
+            { key: 'monthlyBudget', label: 'Месячный бюджет на рекламу', type: 'money' },
+            { key: 'cpc', label: 'Средняя цена клика CPC', type: 'money' },
+            { key: 'ctr', label: 'CTR (кликабельность)', type: 'pct' },
+            { key: 'cvrLead', label: 'Конверсия Клик → Лид', type: 'pct' },
+            { key: 'cvrDeal', label: 'Конверсия Лид → Сделка', type: 'pct' },
+            { key: 'costConsult', label: 'Стоимость консультации', type: 'money' },
+            { key: 'costPack', label: 'Стоимость пакета консультаций', type: 'money' },
+            { key: 'ltv', label: 'LTV-фактор (доля купивших пакет)', type: 'pct' },
+            { key: 'months', label: 'Период расчёта (месяцев)', type: 'num' },
+            { key: 'mgmt', label: 'Настройка и ведение рекламы', type: 'money' },
+            { key: 'site', label: 'Разработка сайта', type: 'money' },
+            { key: 'tilda', label: 'Tilda', type: 'money' },
+            { key: 'dom', label: 'Домен', type: 'money' },
+            { key: 'magnet', label: 'Лид-магнит', type: 'money' },
+            { key: 'acq', label: 'Комиссия эквайринга', type: 'pct' },
+            { key: 'taxTurnover', label: 'Налог на оборот', type: 'pct' },
+        ];
+
+        let currentValues = { ...defaults };
+
+        function formatMoney(val) { return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'USD' }).format(val); }
+        function formatNum(val) { return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
+        function formatInt(val) { return new Intl.NumberFormat('ru-RU').format(Math.round(val)); }
+
+        function initInputs() {
+            const container = document.getElementById('inputs-container');
+            container.innerHTML = '';
+            inputsConfig.forEach(def => {
+                const div = document.createElement('div');
+                const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? '$' : '');
+                div.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-sm font-medium text-slate-700">${def.label}</label>
+                        <span class="text-xs text-slate-400">${suffix}</span>
+                    </div>
+                    <input type="number" step="any" value="${defaults[def.key]}" id="in-${def.key}" class="input-field" oninput="handleInput('${def.key}', this.value)">
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function handleInput(key, val) {
+            currentValues[key] = parseFloat(val) || 0;
+            calculate();
+        }
+
+        function resetDefaults() {
+            currentValues = { ...defaults };
+            inputsConfig.forEach(def => {
+                document.getElementById(`in-${def.key}`).value = defaults[def.key];
+            });
+            calculate();
+        }
+
+        function calculate() {
+            const v = currentValues;
+            const months = Math.max(1, v.months || 1);
+
+            // Summary Calculations
+            const totalBudget = v.monthlyBudget * months;
+            const ctrDec = v.ctr / 100;
+            const clicks = v.cpc > 0 ? totalBudget / v.cpc : 0;
+            const impressions = ctrDec > 0 ? Math.floor(clicks / ctrDec) : 0;
+            const leads = clicks * (v.cvrLead / 100);
+            const deals = Math.max(leads * (v.cvrDeal / 100), 0.1);
+            const packs = deals * (v.ltv / 100);
+
+            const revConsult = deals * v.costConsult;
+            const revPack = packs * v.costPack;
+            const revenue = revConsult + revPack;
+            const avgCheck = deals > 0 ? revenue / deals : 0;
+            const acqAmount = revenue * (v.acq / 100);
+            const netRevenue = revenue - acqAmount;
+
+            const opex = totalBudget + v.mgmt + v.tilda + v.dom + acqAmount;
+            const siteAmort = v.site * months / 12;
+            const magnetAmort = v.magnet * months / 12;
+            const totalCosts = opex + siteAmort + magnetAmort;
+
+            const ebitda = netRevenue - opex;
+            const tax = revenue * (v.taxTurnover / 100);
+            const netProfit = ebitda - tax;
+
+            const roas = totalBudget > 0 ? netRevenue / totalBudget : 0;
+            const cpa = deals > 0 ? totalBudget / deals : 0;
+            const cac = deals > 0 ? totalCosts / deals : 0;
+            const romi = totalCosts > 0 ? (netRevenue - totalCosts) / totalCosts : 0;
+
+            // Update Top Cards
+            document.getElementById('res-profit').textContent = formatMoney(netProfit);
+            document.getElementById('res-romi').textContent = romi.toFixed(2) + 'x';
+            document.getElementById('res-cpa').textContent = formatMoney(cpa);
+            document.getElementById('res-cac').textContent = formatMoney(cac);
+
+            // Update Summary Table
+            const summaryRows = [
+                ['Общий рекламный бюджет', formatMoney(totalBudget)],
+                ['Количество кликов', formatInt(clicks)],
+                ['Количество показов', formatInt(impressions)],
+                ['Количество лидов', formatNum(leads)],
+                ['Количество сделок', formatNum(deals)],
+                ['Продано пакетов', formatNum(packs)],
+                ['Выручка от консультаций', formatMoney(revConsult)],
+                ['Выручка от пакетов', formatMoney(revPack)],
+                ['Общая выручка Revenue', formatMoney(revenue), 'text-blue-700 font-bold'],
+                ['Средний чек', formatMoney(avgCheck)],
+                ['Комиссия эквайринга', formatMoney(acqAmount)],
+                ['Чистая выручка (после эквайринга)', formatMoney(netRevenue)],
+                ['Операционные затраты OPEX', formatMoney(opex)],
+                ['Амортизация сайта', formatMoney(siteAmort)],
+                ['Амортизация лид-магнита', formatMoney(magnetAmort)],
+                ['Общие затраты Total Costs', formatMoney(totalCosts), 'text-red-700 font-bold'],
+                ['EBITDA (прибыль до налогов)', formatMoney(ebitda)],
+                ['Налог на оборот', formatMoney(tax)],
+                ['Чистая прибыль после налогов', formatMoney(netProfit), 'text-green-700 font-bold'],
+                ['ROAS (возврат рекламы)', roas.toFixed(2) + 'x'],
+                ['CPA (цена клиента реклама)', formatMoney(cpa)],
+                ['CAC (цена клиента полная)', formatMoney(cac)],
+                ['ROMI (окупаемость инвестиций)', romi.toFixed(2) + 'x']
+            ];
+
+            const summaryTbody = document.getElementById('summary-table');
+            summaryTbody.innerHTML = summaryRows.map(([l, val, cls]) => `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="p-3 text-slate-600 pl-5 border-l-4 ${l.includes('Прибыль') || l.includes('Выручка') ? 'border-blue-400' : (l.includes('Затрат') ? 'border-red-400' : 'border-transparent')}">${l}</td>
+                    <td class="p-3 text-right pr-5 font-mono font-medium ${cls || ''}">${val}</td>
+                </tr>
+            `).join('');
+
+            // Monthly Breakdown
+            const monthlyRows = [
+                { label: 'Рекламный бюджет', key: 'mBudget', fmt: 'money' },
+                { label: 'Количество кликов', key: 'mClicks', fmt: 'int' },
+                { label: 'Количество лидов', key: 'mLeads', fmt: 'num' },
+                { label: 'Количество сделок', key: 'mDeals', fmt: 'num' },
+                { label: 'Продано пакетов', key: 'mPacks', fmt: 'num' },
+                { label: 'Выручка от консультаций', key: 'mRevCons', fmt: 'money' },
+                { label: 'Выручка от пакетов', key: 'mRevPack', fmt: 'money' },
+                { label: 'Общая выручка', key: 'mRevTotal', fmt: 'money' },
+                { label: 'Комиссия эквайринга', key: 'mAcq', fmt: 'money' },
+                { label: 'Чистая выручка', key: 'mNetRev', fmt: 'money' },
+                { label: 'Расходы', key: 'mCosts', fmt: 'money' },
+                { label: 'EBITDA (до налога)', key: 'mEbitda', fmt: 'money' },
+                { label: 'Налог на оборот', key: 'mTax', fmt: 'money' },
+                { label: 'Денежный поток', key: 'mCash', fmt: 'money' },
+                { label: 'Накопленный поток', key: 'mCum', fmt: 'money' },
+            ];
+
+            let monthData = [];
+            let totalMonth = {};
+            let cumCash = 0;
+
+            for (let m = 1; m <= 3; m++) {
+                let mBudget = v.monthlyBudget;
+                let mClicks = v.cpc > 0 ? mBudget / v.cpc : 0;
+                let mLeads = mClicks * (v.cvrLead / 100);
+                
+                let baseDeals = Math.max(mLeads * (v.cvrDeal / 100), 0.1);
+                let mDeals = (m === 1) ? baseDeals * 0.5 : baseDeals;
+                let mPacksBase = mDeals * (v.ltv / 100);
+                let mPacks = (m === 1) ? mPacksBase * 0.5 : mPacksBase; // Logic from Python script
+
+                let mRevConsBase = mDeals * v.costConsult;
+                let mRevCons = (m === 1) ? mRevConsBase * 0.5 : mRevConsBase; // Logic from Python script
+                
+                let mRevPackBase = mPacks * v.costPack;
+                let mRevPack = (m === 1) ? mRevPackBase * 0.5 : mRevPackBase; // Logic from Python script
+
+                let mRevTotal = mRevCons + mRevPack;
+                let mAcq = mRevTotal * (v.acq / 100);
+                let mNetRev = mRevTotal - mAcq;
+
+                let mCosts;
+                if (m === 1) {
+                    mCosts = mBudget + v.mgmt + v.site + v.tilda + v.dom + v.magnet + mAcq;
+                } else {
+                    mCosts = mBudget + mAcq;
+                }
+
+                let mEbitda = mNetRev - mCosts;
+                let mTax = mRevTotal * (v.taxTurnover / 100);
+                let mCash = mEbitda - mTax;
+                cumCash += mCash;
+
+                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
+                monthData.push(row);
+
+                // Accumulate totals
+                for (let k in row) {
+                    if (k === 'mCum') continue;
+                    totalMonth[k] = (totalMonth[k] || 0) + row[k];
+                }
+            }
+            totalMonth.mCum = cumCash;
+
+            const monthlyTbody = document.getElementById('monthly-table');
+            monthlyTbody.innerHTML = monthlyRows.map(meta => {
+                const cells = monthData.map(r => {
+                    let val = r[meta.key];
+                    let txt = meta.fmt === 'money' ? formatMoney(val) : (meta.fmt === 'int' ? formatInt(val) : formatNum(val));
+                    let color = (meta.key === 'mCash' || meta.key === 'mCum') && val < 0 ? 'text-red-600' : 'text-slate-700';
+                    return `<td class="td-val border-b border-slate-100 ${color}">${txt}</td>`;
+                }).join('');
+
+                let totalVal = totalMonth[meta.key];
+                let totalTxt = meta.fmt === 'money' ? formatMoney(totalVal) : (meta.fmt === 'int' ? formatInt(totalVal) : formatNum(totalVal));
+
+                return `<tr class="hover:bg-slate-50 transition-colors">
+                    <td class="td-label border-b border-slate-100 border-r border-slate-100 sticky left-0 bg-white z-10">${meta.label}</td>
+                    ${cells}
+                    <td class="td-val border-b border-slate-100 bg-slate-100 font-bold text-blue-900 border-l border-slate-300">${totalTxt}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initInputs();
+            calculate();
+        });
+    </script>
+</body>
+</html>
