@@ -212,13 +212,13 @@
                     Из чего состоит себестоимость <span class="product-name-live"></span>?
                 </h2>
                 <p class="text-sm text-slate-500 mt-2">
-                    Здесь считаем именно материалы. Если статья к вам не относится, оставьте сумму 0.
+                    Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.
                 </p>
 
                 <div class="mt-6 space-y-5">
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">Себестоимость материалов на единицу</label>
-                        <input id="own-materials-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                        <input id="own-materials-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateInboundDeliveryDefault()">
                     </div>
 
                     <div class="rounded-lg border border-slate-200 p-4">
@@ -227,20 +227,25 @@
                             <button type="button" data-yn-group="vatIncluded" data-yn-value="yes" onclick="selectProductYesNo('vatIncluded','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                             <button type="button" data-yn-group="vatIncluded" data-yn-value="no" onclick="selectProductYesNo('vatIncluded','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
+                        <div id="own-vat-rate-wrap" class="hidden mt-3">
+                            <label class="block text-xs text-slate-500 mb-1">Ставка НДС на материалы, %</label>
+                            <input id="own-vat-rate" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateInboundDeliveryDefault()">
+                            <p class="text-xs text-slate-400 mt-1">Если НДС не применяется — оставьте 0.</p>
+                        </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4 space-y-4">
-                        <div>
-                            <div class="text-sm font-medium text-slate-800">Доставка материалов до меня уже включена в себестоимость?</div>
-                            <div class="flex gap-2 mt-3">
-                                <button type="button" data-yn-group="inboundIncluded" data-yn-value="yes" onclick="selectProductYesNo('inboundIncluded','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="inboundIncluded" data-yn-value="no" onclick="selectProductYesNo('inboundIncluded','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
-                            </div>
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Доставка материалов до меня уже включена в себестоимость?</div>
+                        <div class="flex gap-2 mt-3">
+                            <button type="button" data-yn-group="inboundIncluded" data-yn-value="yes" onclick="selectProductYesNo('inboundIncluded','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="inboundIncluded" data-yn-value="no" onclick="selectProductYesNo('inboundIncluded','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div>
+                        <div id="own-inbound-cost-wrap" class="hidden mt-3">
                             <label class="block text-sm font-medium text-slate-700 mb-2">Стоимость доставки материалов до меня</label>
-                            <input id="own-inbound-delivery-cost" type="number" min="0" step="0.01" value="0" class="input-field">
-                            <p class="text-xs text-slate-400 mt-1">Если не применимо — оставьте 0.</p>
+                            <input id="own-inbound-delivery-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="markInboundDeliveryManual()">
+                            <p class="text-xs text-slate-400 mt-1">
+                                По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.
+                            </p>
                         </div>
                     </div>
 
@@ -252,9 +257,8 @@
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4 space-y-5">
+                    <div id="own-import-details" class="hidden rounded-lg border border-blue-100 bg-blue-50/30 p-4 space-y-5">
                         <h3 class="font-semibold text-slate-900">Импорт, таможня и разрешительные расходы</h3>
-                        <p class="text-xs text-slate-400">Если статья не применяется, оставьте сумму 0.</p>
 
                         <div>
                             <div class="text-sm font-medium text-slate-800">Услуги брокера</div>
@@ -262,7 +266,10 @@
                                 <button type="button" data-yn-group="broker" data-yn-value="yes" onclick="selectProductYesNo('broker','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                                 <button type="button" data-yn-group="broker" data-yn-value="no" onclick="selectProductYesNo('broker','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                             </div>
-                            <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field mt-3" placeholder="Сколько">
+                            <div id="own-broker-cost-wrap" class="hidden mt-3">
+                                <label class="block text-xs text-slate-500 mb-1">Стоимость услуг брокера</label>
+                                <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                            </div>
                         </div>
 
                         <div>
@@ -271,7 +278,10 @@
                                 <button type="button" data-yn-group="cargoInsurance" data-yn-value="yes" onclick="selectProductYesNo('cargoInsurance','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                                 <button type="button" data-yn-group="cargoInsurance" data-yn-value="no" onclick="selectProductYesNo('cargoInsurance','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                             </div>
-                            <input id="own-cargo-insurance-cost" type="number" min="0" step="0.01" value="0" class="input-field mt-3" placeholder="Сколько">
+                            <div id="own-cargo-insurance-cost-wrap" class="hidden mt-3">
+                                <label class="block text-xs text-slate-500 mb-1">Стоимость страхования груза</label>
+                                <input id="own-cargo-insurance-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                            </div>
                         </div>
 
                         <div>
@@ -280,7 +290,10 @@
                                 <button type="button" data-yn-group="duties" data-yn-value="yes" onclick="selectProductYesNo('duties','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                                 <button type="button" data-yn-group="duties" data-yn-value="no" onclick="selectProductYesNo('duties','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                             </div>
-                            <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field mt-3" placeholder="Сколько">
+                            <div id="own-duties-cost-wrap" class="hidden mt-3">
+                                <label class="block text-xs text-slate-500 mb-1">Сумма пошлин и сборов</label>
+                                <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                            </div>
                         </div>
 
                         <div>
@@ -289,7 +302,10 @@
                                 <button type="button" data-yn-group="certification" data-yn-value="yes" onclick="selectProductYesNo('certification','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                                 <button type="button" data-yn-group="certification" data-yn-value="no" onclick="selectProductYesNo('certification','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                             </div>
-                            <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field mt-3" placeholder="Сколько">
+                            <div id="own-certification-cost-wrap" class="hidden mt-3">
+                                <label class="block text-xs text-slate-500 mb-1">Стоимость сертификации и документов</label>
+                                <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -308,7 +324,7 @@
                             <button type="button" data-yn-group="warehouse" data-yn-value="yes" onclick="selectProductYesNo('warehouse','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                             <button type="button" data-yn-group="warehouse" data-yn-value="no" onclick="selectProductYesNo('warehouse','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                        <div id="own-warehouse-details" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
                             <div>
                                 <label class="block text-xs text-slate-500 mb-1">Срок хранения, дней</label>
                                 <input id="own-storage-days" type="number" min="0" step="1" value="0" class="input-field">
@@ -326,20 +342,18 @@
                             <button type="button" data-yn-group="customerDelivery" data-yn-value="yes" onclick="selectProductYesNo('customerDelivery','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                             <button type="button" data-yn-group="customerDelivery" data-yn-value="no" onclick="selectProductYesNo('customerDelivery','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div class="mt-3">
-                            <label class="block text-xs text-slate-500 mb-1">Стоимость доставки, % от стоимости товара</label>
-                            <input id="own-customer-delivery-pct" type="number" min="0" step="0.01" value="10" class="input-field">
-                            <p class="text-xs text-slate-400 mt-1">Если не знаете — оставьте 10% по умолчанию.</p>
+                        <div id="own-customer-delivery-details" class="hidden mt-3 space-y-4">
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Стоимость доставки, % от стоимости товара</label>
+                                <input id="own-customer-delivery-pct" type="number" min="0" step="0.01" value="10" class="input-field">
+                                <p class="text-xs text-slate-400 mt-1">Если не знаете — оставьте 10% по умолчанию.</p>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Процент возвратов товара</label>
+                                <input id="own-return-rate" type="number" min="0" step="0.01" value="0" class="input-field">
+                                <p class="text-xs text-slate-400 mt-1">Возвраты умножаются на стоимость доставки и увеличивают логистические расходы.</p>
+                            </div>
                         </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Процент возвратов товара</label>
-                        <div class="relative">
-                            <input id="own-return-rate" type="number" min="0" step="0.01" value="0" class="input-field pr-10">
-                            <span class="absolute right-3 top-2.5 text-slate-400">%</span>
-                        </div>
-                        <p class="text-xs text-slate-400 mt-1">Возвраты будут умножаться на стоимость доставки и увеличивать логистические расходы.</p>
                     </div>
                 </div>
             </div>
@@ -351,51 +365,76 @@
                 </h2>
 
                 <div class="mt-6 space-y-5">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Комиссия агрегатора / маркетплейса / дилера / продавца, % от оборота</label>
-                        <input id="own-sales-commission-pct" type="number" min="0" step="0.01" value="0" class="input-field">
-                        <p class="text-xs text-slate-400 mt-1">Для продаж через маркетплейс, точку на рынке, магазин партнёра и аналогичные каналы.</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Зарплаты и другие вознаграждения, сумма за период</label>
-                        <input id="own-payroll-rewards" type="number" min="0" step="0.01" value="0" class="input-field">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Средний процент штрафов и удержаний площадки от оборота</label>
-                        <div class="relative">
-                            <input id="own-platform-penalties-pct" type="number" min="0" step="0.01" value="0" class="input-field pr-10">
-                            <span class="absolute right-3 top-2.5 text-slate-400">%</span>
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Есть комиссия агрегатора / маркетплейса / дилера / продавца?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="salesCommission" data-yn-value="yes" onclick="selectProductYesNo('salesCommission','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="salesCommission" data-yn-value="no" onclick="selectProductYesNo('salesCommission','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-sales-commission-wrap" class="hidden mt-3">
+                            <label class="block text-xs text-slate-500 mb-1">Комиссия, % от оборота</label>
+                            <input id="own-sales-commission-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+                            <p class="text-xs text-slate-400 mt-1">Для маркетплейса, точки на рынке, магазина партнёра и аналогичных каналов.</p>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Налог на оборот</label>
-                        <div class="relative">
-                            <input id="own-turnover-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field pr-10">
-                            <span class="absolute right-3 top-2.5 text-slate-400">%</span>
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Есть зарплаты и другие вознаграждения?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="payroll" data-yn-value="yes" onclick="selectProductYesNo('payroll','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="payroll" data-yn-value="no" onclick="selectProductYesNo('payroll','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-payroll-wrap" class="hidden mt-3">
+                            <label class="block text-xs text-slate-500 mb-1">Сумма зарплат и вознаграждений за период</label>
+                            <input id="own-payroll-rewards" type="number" min="0" step="0.01" value="0" class="input-field">
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4 space-y-4">
-                        <h3 class="font-semibold text-slate-900">Сотрудники и страховые взносы</h3>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Количество сотрудников, за которых платятся взносы</label>
-                            <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field">
-                            <p class="text-xs text-slate-400 mt-1">Самозанятых не включайте. ИП включайте, если по вашему режиму за него платятся такие взносы.</p>
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Есть штрафы и удержания со стороны площадки / агрегатора?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="platformPenalties" data-yn-value="yes" onclick="selectProductYesNo('platformPenalties','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="platformPenalties" data-yn-value="no" onclick="selectProductYesNo('platformPenalties','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Средняя зарплата одного сотрудника за период</label>
-                            <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field">
+                        <div id="own-platform-penalties-wrap" class="hidden mt-3">
+                            <label class="block text-xs text-slate-500 mb-1">Средний процент штрафов и удержаний от оборота</label>
+                            <input id="own-platform-penalties-pct" type="number" min="0" step="0.01" value="0" class="input-field">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Ставка страховых взносов, %</label>
-                            <div class="relative">
-                                <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="0" class="input-field pr-10">
-                                <span class="absolute right-3 top-2.5 text-slate-400">%</span>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Платите налог на оборот?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="turnoverTax" data-yn-value="yes" onclick="selectProductYesNo('turnoverTax','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="turnoverTax" data-yn-value="no" onclick="selectProductYesNo('turnoverTax','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-turnover-tax-wrap" class="hidden mt-3">
+                            <label class="block text-xs text-slate-500 mb-1">Налог на оборот, %</label>
+                            <input id="own-turnover-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Есть сотрудники, за которых платятся обязательные взносы?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="employees" data-yn-value="yes" onclick="selectProductYesNo('employees','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="employees" data-yn-value="no" onclick="selectProductYesNo('employees','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-employees-details" class="hidden mt-3 space-y-4">
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Количество сотрудников, за которых платятся взносы</label>
+                                <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field">
+                                <p class="text-xs text-slate-400 mt-1">Самозанятых не включайте. ИП включайте, если по вашему режиму за него платятся такие взносы.</p>
                             </div>
-                            <p class="text-xs text-slate-400 mt-1">Пока ставка вводится вручную: автоматический бухгалтерский расчёт будет отдельным следующим слоем, без жёстко заданной юрисдикции.</p>
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Средняя зарплата одного сотрудника за период</label>
+                                <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Ставка обязательных страховых / социальных взносов, %</label>
+                                <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+                                <p class="text-xs text-slate-400 mt-1">Пока ставка вводится вручную; бухгалтерский расчёт по юрисдикции подключим отдельным слоем.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -726,6 +765,25 @@
 
         let productName = '';
         let productSource = null;
+        let productOwnInitialized = false;
+        let productOwnInboundDeliveryManual = false;
+        const productOwnChoices = {};
+        const productOwnDefaults = {
+            vatIncluded: 'yes',
+            inboundIncluded: 'no',
+            materialsImported: 'no',
+            broker: 'no',
+            cargoInsurance: 'no',
+            duties: 'no',
+            certification: 'no',
+            warehouse: 'no',
+            customerDelivery: 'no',
+            salesCommission: 'no',
+            payroll: 'no',
+            platformPenalties: 'no',
+            turnoverTax: 'no',
+            employees: 'no'
+        };
 
         function submitProductIntro(event) {
             event.preventDefault();
@@ -751,6 +809,138 @@
             document.getElementById('product-source-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        function setProductChoiceVisual(group, value) {
+            document.querySelectorAll(`[data-yn-group="${group}"]`).forEach(button => {
+                const selected = button.dataset.ynValue === value;
+                button.classList.toggle('yn-choice-selected', selected);
+                button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+        }
+
+        function setProductHidden(id, hidden) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden', hidden);
+        }
+
+        function setProductFieldZero(id) {
+            const el = document.getElementById(id);
+            if (el) el.value = 0;
+        }
+
+        function resetProductOwnGroup(group, fieldIds = []) {
+            productOwnChoices[group] = 'no';
+            setProductChoiceVisual(group, 'no');
+            fieldIds.forEach(setProductFieldZero);
+            syncProductOwnVisibility(group);
+        }
+
+        function materialsCostWithVat() {
+            const materials = Number(document.getElementById('own-materials-cost')?.value) || 0;
+            if (productOwnChoices.vatIncluded !== 'no') return materials;
+            const vatRate = Number(document.getElementById('own-vat-rate')?.value) || 0;
+            return materials * (1 + Math.max(0, vatRate) / 100);
+        }
+
+        function updateInboundDeliveryDefault() {
+            if (!productOwnInitialized || productOwnInboundDeliveryManual) return;
+            if (productOwnChoices.inboundIncluded !== 'no') return;
+            const input = document.getElementById('own-inbound-delivery-cost');
+            if (!input) return;
+            input.value = (materialsCostWithVat() * 0.10).toFixed(2);
+        }
+
+        function markInboundDeliveryManual() {
+            productOwnInboundDeliveryManual = true;
+        }
+
+        function syncProductOwnVisibility(group) {
+            const value = productOwnChoices[group];
+
+            if (group === 'vatIncluded') {
+                setProductHidden('own-vat-rate-wrap', value !== 'no');
+                if (value === 'yes') setProductFieldZero('own-vat-rate');
+                productOwnInboundDeliveryManual = false;
+                updateInboundDeliveryDefault();
+                return;
+            }
+
+            if (group === 'inboundIncluded') {
+                setProductHidden('own-inbound-cost-wrap', value !== 'no');
+                if (value === 'yes') {
+                    setProductFieldZero('own-inbound-delivery-cost');
+                    productOwnInboundDeliveryManual = false;
+                } else {
+                    productOwnInboundDeliveryManual = false;
+                    updateInboundDeliveryDefault();
+                }
+                return;
+            }
+
+            if (group === 'materialsImported') {
+                setProductHidden('own-import-details', value !== 'yes');
+                if (value !== 'yes') {
+                    resetProductOwnGroup('broker', ['own-broker-cost']);
+                    resetProductOwnGroup('cargoInsurance', ['own-cargo-insurance-cost']);
+                    resetProductOwnGroup('duties', ['own-duties-cost']);
+                    resetProductOwnGroup('certification', ['own-certification-cost']);
+                }
+                return;
+            }
+
+            const detailMap = {
+                broker: 'own-broker-cost-wrap',
+                cargoInsurance: 'own-cargo-insurance-cost-wrap',
+                duties: 'own-duties-cost-wrap',
+                certification: 'own-certification-cost-wrap',
+                warehouse: 'own-warehouse-details',
+                customerDelivery: 'own-customer-delivery-details',
+                salesCommission: 'own-sales-commission-wrap',
+                payroll: 'own-payroll-wrap',
+                platformPenalties: 'own-platform-penalties-wrap',
+                turnoverTax: 'own-turnover-tax-wrap',
+                employees: 'own-employees-details'
+            };
+
+            if (detailMap[group]) {
+                setProductHidden(detailMap[group], value !== 'yes');
+            }
+
+            if (value !== 'yes') {
+                const zeroFields = {
+                    broker: ['own-broker-cost'],
+                    cargoInsurance: ['own-cargo-insurance-cost'],
+                    duties: ['own-duties-cost'],
+                    certification: ['own-certification-cost'],
+                    warehouse: ['own-storage-days', 'own-storage-day-cost'],
+                    customerDelivery: ['own-return-rate'],
+                    salesCommission: ['own-sales-commission-pct'],
+                    payroll: ['own-payroll-rewards'],
+                    platformPenalties: ['own-platform-penalties-pct'],
+                    turnoverTax: ['own-turnover-tax-pct'],
+                    employees: ['own-employees-count', 'own-employee-salary', 'own-insurance-contribution-pct']
+                };
+                (zeroFields[group] || []).forEach(setProductFieldZero);
+            }
+
+            if (group === 'customerDelivery' && value === 'yes') {
+                const pct = document.getElementById('own-customer-delivery-pct');
+                if (pct && !(Number(pct.value) > 0)) pct.value = 10;
+            }
+        }
+
+        function initProductOwnForm() {
+            if (productOwnInitialized) return;
+            Object.entries(productOwnDefaults).forEach(([group, value]) => {
+                productOwnChoices[group] = value;
+                setProductChoiceVisual(group, value);
+            });
+            productOwnInitialized = true;
+
+            Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
+            document.getElementById('own-customer-delivery-pct').value = 10;
+            updateInboundDeliveryDefault();
+        }
+
         function selectProductSource(source) {
             productSource = source;
 
@@ -764,16 +954,15 @@
             ownForm.classList.toggle('hidden', source !== 'own');
 
             if (source === 'own') {
+                initProductOwnForm();
                 ownForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
         function selectProductYesNo(group, value) {
-            document.querySelectorAll(`[data-yn-group="${group}"]`).forEach(button => {
-                const selected = button.dataset.ynValue === value;
-                button.classList.toggle('yn-choice-selected', selected);
-                button.setAttribute('aria-pressed', selected ? 'true' : 'false');
-            });
+            productOwnChoices[group] = value;
+            setProductChoiceVisual(group, value);
+            syncProductOwnVisibility(group);
         }
 
         function selectServiceMode(mode) {
