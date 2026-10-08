@@ -2789,14 +2789,28 @@
                     .replaceAll('"', '&quot;')
                     .replaceAll("'", '&#039;');
 
+                const vatRatePct = vatEnabled
+                    ? Math.max(0, productNumber('own-sales-vat-pct'))
+                    : 0;
+                const vatAmount =
+                    vatEnabled &&
+                    p.taxAdjustedPrice !== null &&
+                    p.taxAdjustedPriceWithVat !== null
+                        ? Math.max(0, p.taxAdjustedPriceWithVat - p.taxAdjustedPrice)
+                        : null;
+
                 return `
                     <div class="aggregate-price-card">
-                        <div class="font-bold aggregate-title mb-3">«${name}» после учёта налога бизнеса</div>
+                        <div class="font-bold aggregate-title mb-3">«${name}» — цена после учёта налога бизнеса</div>
                         <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                            <span class="aggregate-muted">Цена продажи без НДС</span>
+                            <span class="aggregate-muted">Цена товара</span>
                             <span class="font-bold text-right">${withoutVat} у.е.*</span>
-                            <span class="aggregate-muted">${vatEnabled ? 'Цена для покупателя с НДС' : 'НДС'}</span>
-                            <span class="font-bold text-right">${vatEnabled ? withVat + ' у.е.*' : 'не применяется'}</span>
+                            <span class="aggregate-muted">НДС</span>
+                            <span class="font-bold text-right">${vatEnabled ? vatRatePct.toLocaleString('ru-RU') + '% = ' + aggregatePriceText(vatAmount) + ' у.е.*' : 'не применяется'}</span>
+                            ${vatEnabled ? `
+                                <span class="aggregate-muted">Итоговая цена для покупателя</span>
+                                <span class="font-bold text-right">${withVat} у.е.*</span>
+                            ` : ''}
                         </div>
                     </div>
                 `;
