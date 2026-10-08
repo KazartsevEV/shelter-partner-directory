@@ -623,12 +623,18 @@
 
                                 <div>
                                     <label class="block text-xs text-slate-500 mb-1">Обязательные страховые / социальные взносы работодателя, %</label>
-                                    <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="11.5" class="input-field" oninput="markInsuranceRateManual(); updateEmployeeContributionEstimate()">
+                                    <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="11.5" class="input-field" oninput="markPayrollFieldManual('employerSocial'); updateEmployeeContributionEstimate()">
                                 </div>
 
                                 <div>
                                     <label class="block text-xs text-slate-500 mb-1">Налоги работодателя на фонд оплаты труда, %</label>
-                                    <input id="own-employer-payroll-tax-pct" type="number" min="0" step="0.01" value="6" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                    <input id="own-employer-payroll-tax-pct" type="number" min="0" step="0.01" value="6" class="input-field" oninput="markPayrollFieldManual('employerPayrollTax'); updateEmployeeContributionEstimate()">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Взносы на травматизм / профриск, %</label>
+                                    <input id="own-employer-injury-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="markPayrollFieldManual('injury'); updateEmployeeContributionEstimate()">
+                                    <p id="own-employer-injury-note" class="text-xs text-slate-400 mt-1"></p>
                                 </div>
 
                                 <div>
@@ -650,12 +656,12 @@
 
                                 <div>
                                     <label class="block text-xs text-slate-500 mb-1">Подоходный налог сотрудника, % (редактируется)</label>
-                                    <input id="own-employee-income-tax-pct" type="number" min="0" step="0.01" value="10" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                    <input id="own-employee-income-tax-pct" type="number" min="0" step="0.01" value="10" class="input-field" oninput="markPayrollFieldManual('employeeIncomeTax'); updateEmployeeContributionEstimate()">
                                 </div>
 
                                 <div>
                                     <label class="block text-xs text-slate-500 mb-1">Пенсионные / социальные / медицинские удержания сотрудника, % (редактируется)</label>
-                                    <input id="own-employee-withholding-pct" type="number" min="0" step="0.01" value="12" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                    <input id="own-employee-withholding-pct" type="number" min="0" step="0.01" value="12" class="input-field" oninput="markPayrollFieldManual('employeeSocial'); updateEmployeeContributionEstimate()">
                                 </div>
 
                                 <div>
@@ -676,6 +682,10 @@
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
                                     <span>Налоги работодателя на ФОТ / месяц</span>
                                     <span id="own-employer-payroll-tax-estimate" class="font-semibold text-slate-900">0,00</span>
+                                </div>
+                                <div class="flex justify-between gap-4 text-xs text-slate-500">
+                                    <span>Травматизм / профриск / месяц</span>
+                                    <span id="own-employer-injury-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
                                     <span>Другие начисления работодателя / месяц</span>
@@ -1073,7 +1083,7 @@
             AE: 12.5, GB: 13.8, US: 7.65, UY: 12.63, UZ: 12, VE: 17, VN: 21.5,
             ZM: 5
         };
-        const employerPayrollTaxRates = { KZ: 6 };
+        const employerPayrollTaxRates = { KZ: 6, RU: 0 };
         const employeeSocialSecurityRates = {
             AL:9.5,DZ:9,AO:3,AR:17,AM:5,AU:2,AT:18.07,AZ:3,BS:4.65,BH:8,BB:11,BY:1,BE:13.07,
             BO:12.71,BA:31,BR:14,BG:13.78,CM:4.2,CA:7.58,TD:3.5,CL:17,CN:10.5,CO:10,CG:4,
@@ -1096,12 +1106,37 @@
             LA:25,LV:36,LB:25,LS:30,LY:10,LI:22.4,LT:32,LU:42,MO:12,MK:10,MG:20,MW:40,
             MY:30,MT:35,MR:40,MU:20,MX:35,MD:12,MN:20,ME:15,MA:38,MZ:32,MM:25,NA:37,
             NL:49.5,NZ:39,NI:30,NG:24,NO:39.8,OM:0,PK:35,PA:25,PG:42,PE:30,PH:35,PL:32,
-            PT:48,PR:33,QA:0,RO:10,RU:13,RW:30,WS:27,SA:0,SN:43,RS:10,SC:15,SL:30,SG:24,
+            PT:48,PR:33,QA:0,RO:10,RU:22,RW:30,WS:27,SA:0,SN:43,RS:10,SC:15,SL:30,SG:24,
             SK:35,SI:50,ZA:45,KR:45,ES:47,LK:18,SD:15,SR:38,SZ:33,SE:52,CH:40,SY:22,
             TW:40,TJ:12,TZ:30,TH:35,TT:25,TN:40,TR:40,UG:40,UA:18,AE:0,GB:45,US:37,
             UY:36,UZ:12,VE:34,VN:35,ZM:37,ZW:41.2
         };
         let insuranceRateManual = false;
+        const payrollManualOverrides = {
+            employerSocial: false,
+            employerPayrollTax: false,
+            employeeIncomeTax: false,
+            employeeSocial: false,
+            injury: false
+        };
+        const payrollCountryRules = {
+            RU: {
+                employerSocialBaseRate: 30,
+                employerSocialOverLimitRate: 15.1,
+                employerSocialAnnualLimit: 2979000,
+                injuryDefaultRate: 0.2,
+                injuryRateMin: 0.2,
+                injuryRateMax: 8.5,
+                employeeSocialRate: 0,
+                employeeIncomeTaxBrackets: [
+                    [2400000, 13],
+                    [5000000, 15],
+                    [20000000, 18],
+                    [50000000, 20],
+                    [Infinity, 22]
+                ]
+            }
+        };
 
         function countryFlag(code) {
             if (code === 'XK') return '🇽🇰';
@@ -1132,10 +1167,22 @@
             applyCountryInsuranceRate(true);
         }
 
-        function markInsuranceRateManual() {
-            insuranceRateManual = true;
+        function markPayrollFieldManual(key) {
+            if (key in payrollManualOverrides) payrollManualOverrides[key] = true;
+            if (key === 'employerSocial') insuranceRateManual = true;
             const note = document.getElementById('own-insurance-rate-note');
             if (note) note.textContent = 'Ставка изменена вручную.';
+        }
+
+        function markInsuranceRateManual() {
+            markPayrollFieldManual('employerSocial');
+        }
+
+        function resetPayrollManualOverrides() {
+            Object.keys(payrollManualOverrides).forEach(key => {
+                payrollManualOverrides[key] = false;
+            });
+            insuranceRateManual = false;
         }
 
         function formatReferencePct(value) {
@@ -1159,10 +1206,17 @@
 
             const status = document.getElementById('ref-country-status');
             if (status) {
-                const hasAny = [employerSocial, employeeSocial, pitTop, payrollTax].some(Number.isFinite);
-                status.textContent = hasAny
-                    ? 'Поля ниже можно редактировать под ваш фактический режим.'
-                    : 'Нет унифицированных данных по выбранной стране — заполните применимые ставки вручную.';
+                if (code === 'RU') {
+                    status.innerHTML =
+                        'РФ, 2026: страховые взносы — 30% в пределах годовой базы 2 979 000 ₽ на сотрудника и 15,1% сверх неё; ' +
+                        'травматизм — 0,2–8,5% по классу профриска; НДФЛ по зарплате — прогрессивно 13% / 15% / 18% / 20% / 22%. ' +
+                        'Отдельных удержаний пенсионного/медицинского страхования из зарплаты работника в стандартной схеме нет.';
+                } else {
+                    const hasAny = [employerSocial, employeeSocial, pitTop, payrollTax].some(Number.isFinite);
+                    status.textContent = hasAny
+                        ? 'Поля ниже можно редактировать под ваш фактический режим.'
+                        : 'Нет унифицированных данных по выбранной стране — заполните применимые ставки вручную.';
+                }
             }
         }
 
@@ -1170,43 +1224,76 @@
             const select = document.getElementById('own-insurance-country');
             const contributionInput = document.getElementById('own-insurance-contribution-pct');
             const employerTaxInput = document.getElementById('own-employer-payroll-tax-pct');
+            const injuryInput = document.getElementById('own-employer-injury-pct');
+            const injuryNote = document.getElementById('own-employer-injury-note');
             const employeeTaxInput = document.getElementById('own-employee-income-tax-pct');
             const employeeWithholdingInput = document.getElementById('own-employee-withholding-pct');
             const note = document.getElementById('own-insurance-rate-note');
             if (!select || !contributionInput) return;
 
             const code = select.value || 'KZ';
+            resetPayrollManualOverrides();
+
             const employerSocial = employerContributionRates[code];
             const employeeSocial = employeeSocialSecurityRates[code];
             const pitTop = personalIncomeTaxTopRates[code];
             const employerPayrollTax = employerPayrollTaxRates[code];
 
-            insuranceRateManual = false;
             contributionInput.value = Number.isFinite(employerSocial) ? employerSocial : 0;
             if (employerTaxInput) employerTaxInput.value = Number.isFinite(employerPayrollTax) ? employerPayrollTax : 0;
             if (employeeTaxInput) employeeTaxInput.value = Number.isFinite(pitTop) ? pitTop : 0;
             if (employeeWithholdingInput) employeeWithholdingInput.value = Number.isFinite(employeeSocial) ? employeeSocial : 0;
+            if (injuryInput) injuryInput.value = 0;
+            if (injuryNote) injuryNote.textContent = '';
+
+            if (code === 'RU') {
+                contributionInput.value = 30;
+                if (employerTaxInput) employerTaxInput.value = 0;
+                if (employeeTaxInput) employeeTaxInput.value = 13;
+                if (employeeWithholdingInput) employeeWithholdingInput.value = 0;
+                if (injuryInput) injuryInput.value = 0.2;
+                if (injuryNote) injuryNote.textContent = 'РФ: тариф зависит от класса профессионального риска — от 0,2% до 8,5%. По умолчанию установлен минимальный 0,2%; замените на свой тариф.';
+            }
 
             updatePayrollCountryReference(code);
 
             if (note) {
-                if (code === 'KZ') {
-                    note.textContent = 'Казахстан: справочник 2026 — 14,5% взносов работодателя, 10% соцстраха/удержаний сотрудника и 10% верхняя справочная ставка подоходного налога. Отдельный налог работодателя на ФОТ 6% оставлен отдельным редактируемым полем.';
+                if (code === 'RU') {
+                    note.textContent = 'РФ: поле 30% — базовый тариф. Авторасчёт учитывает годовой предел базы 2 979 000 ₽ на сотрудника и ставку 15,1% сверх него. НДФЛ автоматически считается по прогрессивной шкале, пока вы не измените поле вручную.';
+                } else if (code === 'KZ') {
+                    note.textContent = 'Казахстан: справочные ставки подставлены автоматически. Поля остаются редактируемыми под ваш фактический режим.';
                 } else {
-                    note.textContent = 'Автоподстановка использует справочные международные ставки. Верхняя ставка подоходного налога не равна эффективному удержанию каждого сотрудника; при необходимости замените её фактической.';
+                    note.textContent = 'Автоподстановка использует справочные международные ставки. При необходимости замените их фактическими.';
                 }
             }
 
             updateEmployeeContributionEstimate();
         }
 
+        function progressiveTax(amount, brackets) {
+            let tax = 0;
+            let previousLimit = 0;
+            let remaining = Math.max(0, amount);
+
+            for (const [limit, rate] of brackets) {
+                const band = Math.max(0, Math.min(remaining, limit - previousLimit));
+                tax += band * rate / 100;
+                remaining -= band;
+                previousLimit = limit;
+                if (remaining <= 0) break;
+            }
+            return tax;
+        }
+
         function updateEmployeeContributionEstimate() {
             const count = Math.max(0, Number(document.getElementById('own-employees-count')?.value) || 0);
             const salary = Math.max(0, Number(document.getElementById('own-employee-salary')?.value) || 0);
             const gross = count * salary;
+            const code = document.getElementById('own-insurance-country')?.value || 'KZ';
 
             const contributionRate = Math.max(0, Number(document.getElementById('own-insurance-contribution-pct')?.value) || 0);
             const employerTaxRate = Math.max(0, Number(document.getElementById('own-employer-payroll-tax-pct')?.value) || 0);
+            const injuryRate = Math.max(0, Number(document.getElementById('own-employer-injury-pct')?.value) || 0);
             const employerOtherRate = Math.max(0, Number(document.getElementById('own-employer-other-pct')?.value) || 0);
             const fixedPerEmployee = Math.max(0, Number(document.getElementById('own-employer-fixed-per-employee')?.value) || 0);
 
@@ -1214,19 +1301,43 @@
             const employeeWithholdingRate = Math.max(0, Number(document.getElementById('own-employee-withholding-pct')?.value) || 0);
             const employeeOtherWithholdingRate = Math.max(0, Number(document.getElementById('own-employee-other-withholding-pct')?.value) || 0);
 
-            const employerContributions = gross * contributionRate / 100;
+            let employerContributions = gross * contributionRate / 100;
+            let employeeIncomeTax = gross * employeeTaxRate / 100;
+
+            if (code === 'RU' && count > 0) {
+                const rules = payrollCountryRules.RU;
+                const annualSalaryPerEmployee = salary * 12;
+
+                if (!payrollManualOverrides.employerSocial) {
+                    const belowLimit = Math.min(annualSalaryPerEmployee, rules.employerSocialAnnualLimit);
+                    const aboveLimit = Math.max(0, annualSalaryPerEmployee - rules.employerSocialAnnualLimit);
+                    const annualEmployerSocialPerEmployee =
+                        belowLimit * rules.employerSocialBaseRate / 100 +
+                        aboveLimit * rules.employerSocialOverLimitRate / 100;
+                    employerContributions = annualEmployerSocialPerEmployee / 12 * count;
+                }
+
+                if (!payrollManualOverrides.employeeIncomeTax) {
+                    const annualPitPerEmployee = progressiveTax(annualSalaryPerEmployee, rules.employeeIncomeTaxBrackets);
+                    employeeIncomeTax = annualPitPerEmployee / 12 * count;
+                }
+            }
+
             const employerPayrollTax = gross * employerTaxRate / 100;
+            const employerInjury = gross * injuryRate / 100;
             const employerOther = gross * employerOtherRate / 100;
             const employerFixed = count * fixedPerEmployee;
-            const employerTotalCost = gross + employerContributions + employerPayrollTax + employerOther + employerFixed;
+            const employerTotalCost = gross + employerContributions + employerPayrollTax + employerInjury + employerOther + employerFixed;
 
-            const employeeWithheld = gross * (employeeTaxRate + employeeWithholdingRate + employeeOtherWithholdingRate) / 100;
-            const employeeNet = Math.max(0, gross - employeeWithheld);
+            const employeeSocialWithheld = gross * employeeWithholdingRate / 100;
+            const employeeOtherWithheld = gross * employeeOtherWithholdingRate / 100;
+            const employeeNet = Math.max(0, gross - employeeIncomeTax - employeeSocialWithheld - employeeOtherWithheld);
 
             const values = {
                 'own-payroll-gross-estimate': gross,
                 'own-insurance-monthly-estimate': employerContributions,
                 'own-employer-payroll-tax-estimate': employerPayrollTax,
+                'own-employer-injury-estimate': employerInjury,
                 'own-employer-other-estimate': employerOther,
                 'own-employer-fixed-estimate': employerFixed,
                 'own-employer-total-cost-estimate': employerTotalCost,
@@ -1413,6 +1524,7 @@
                         'own-employee-salary',
                         'own-insurance-contribution-pct',
                         'own-employer-payroll-tax-pct',
+                        'own-employer-injury-pct',
                         'own-employer-other-pct',
                         'own-employer-fixed-per-employee',
                         'own-employee-income-tax-pct',
