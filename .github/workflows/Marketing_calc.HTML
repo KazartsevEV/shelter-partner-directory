@@ -313,10 +313,6 @@
         };
         let agentPayers = { ...defaultAgentPayers };
 
-        function payerLabel(key) {
-            return agentPayers[key] === 'me' ? 'Я' : 'Партнёр';
-        }
-
         function setAgentPayer(key, payer) {
             if (!agentExpenseKeys.includes(key)) return;
             agentPayers[key] = payer === 'me' ? 'me' : 'partner';
@@ -566,7 +562,7 @@
 
             // Update Summary Table
             const summaryRows = [
-                [isAgent ? 'Общий рекламный бюджет — платит ' + payerLabel('monthlyBudget') : 'Общий рекламный бюджет', formatMoney(totalBudget)],
+                ['Общий рекламный бюджет', formatMoney(totalBudget)],
                 ['Количество кликов', formatInt(clicks)],
                 ['Количество показов', formatInt(impressions)],
                 ['Количество лидов', formatNum(leads)],
@@ -592,13 +588,6 @@
                 [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', formatMoney(netRevenue)],
                 ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', formatMoney(agentIncome)]] : []),
                 ...(isHired ? [['Оплата исполнителю', formatMoney(executorCost)]] : []),
-                ...(isAgent ? [
-                    ['Ведение рекламы — платит ' + payerLabel('mgmt'), formatMoney(v.mgmt)],
-                    ['Сайт — платит ' + payerLabel('site'), formatMoney(v.site)],
-                    ['Хостинг / конструктор сайта — платит ' + payerLabel('hosting'), formatMoney(v.hosting)],
-                    ['Домен — платит ' + payerLabel('dom'), formatMoney(v.dom)],
-                    ['Лид-магнит — платит ' + payerLabel('magnet'), formatMoney(v.magnet)]
-                ] : []),
                 [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', formatMoney(opex)],
                 ['Амортизация сайта', formatMoney(siteAmort)],
                 ['Амортизация лид-магнита', formatMoney(magnetAmort)],
