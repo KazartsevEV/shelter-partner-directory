@@ -2382,23 +2382,30 @@
 
         function calculateProductPortfolio() {
             const items = productPortfolio.slice();
+
             if (!items.length) {
                 return {
                     items: [],
+                    pricingReady: false,
                     totalAdBudget: 0,
                     totalForecastOrders: 0,
-                    totalRevenue: 0,
-                    totalEbitdaBeforeShared: 0,
+                    totalRevenue: null,
+                    totalEbitdaBeforeShared: null,
                     sharedBusinessCosts: 0,
-                    businessEbitda: 0,
-                    tax: 0,
-                    netProfit: 0
+                    businessEbitda: null,
+                    tax: null,
+                    netProfit: null,
+                    taxPriceMultiplier: null,
+                    adjustedRevenue: null,
+                    adjustedEbitda: null,
+                    adjustedTax: null,
+                    adjustedNetProfit: null
                 };
             }
 
-            // One calculation engine, but an independent funnel for every SKU.
             const prepared = items.map(item => {
                 const input = item.inputs || {};
+
                 const budget = Math.max(0, Number(input['own-product-ad-budget']) || 0);
                 const cpc = Math.max(0, Number(input['own-product-ad-cpc']) || 0);
                 const ctrPct = Math.max(0, Number(input['own-product-ad-ctr']) || 0);
@@ -2455,7 +2462,9 @@
                 };
             });
 
-            const totalForecastOrders = prepared.reduce((sum, row) => sum + row.orders, 0);
+            const totalForecastOrders =
+                prepared.reduce((sum, row) => sum + row.orders, 0);
+
             prepared.forEach(row => {
                 row.salesMix =
                     totalForecastOrders > 0
@@ -2463,38 +2472,46 @@
                         : 0;
             });
 
-            const revenueWeightDenominator = prepared.reduce((sum, row) => {
-                return sum + (row.price !== null ? row.price * row.salesMix : 0);
-            }, 0);
+            const pricingReady =
+                prepared.every(
+                    row => row.price !== null && Number.isFinite(row.price)
+                );
+
+            const revenueWeightDenominator =
+                pricingReady
+                    ? prepared.reduce(
+                        (sum, row) => sum + row.price * row.salesMix,
+                        0
+                      )
+                    : null;
 
             prepared.forEach(row => {
                 row.revenueWeight =
-                    revenueWeightDenominator > 0 && row.price !== null
+                    pricingReady &&
+                    revenueWeightDenominator !== null &&
+                    revenueWeightDenominator > 0
                         ? row.price * row.salesMix / revenueWeightDenominator
-                        : 0;
+                        : null;
             });
 
-            const totalAdBudget = prepared.reduce((sum, row) => sum + row.budget, 0);
+            const totalAdBudget =
+                prepared.reduce((sum, row) => sum + row.budget, 0);
 
             const resultItems = prepared.map(row => {
-                const adBudget =
-                    row.budget;
-
-                const forecastSales =
-                    row.orders;
-
-                const weightedCac =
+                const forecastSales = row.orders;
+                const adBudget = row.budget;
+                const actualCac =
                     forecastSales > 0
                         ? adBudget / forecastSales
                         : null;
 
-                const revenue =
-                    row.price !== null
-                        ? row.price * forecastSales
-                        : 0;
-
                 const cogs =
                     row.unitCost * forecastSales;
+
+                const revenue =
+                    row.price !== null && Number.isFinite(row.price)
+                        ? row.price * forecastSales
+                        : null;
 
                 const turnoverExpenseRate =
                     Math.max(
@@ -2502,15 +2519,24 @@
                         Number(row.item.salesVariablePct || 0) +
                         Number(row.item.penaltiesPct || 0)
                     ) / 100;
-                const turnoverExpenses = revenue * turnoverExpenseRate;
+
+                const turnoverExpenses =
+                    revenue === null
+                        ? null
+                        : revenue * turnoverExpenseRate;
 
                 const ebitda =
-                    revenue -
-                    cogs -
-                    adBudget -
-                    turnoverExpenses;
+                    revenue === null || turnoverExpenses === null
+                        ? null
+                        : revenue -
+                          cogs -
+                          adBudget -
+                          turnoverExpenses;
 
-                const roas = adBudget > 0 ? revenue / adBudget : null;
+                const roas =
+                    revenue !== null && adBudget > 0
+                        ? revenue / adBudget
+                        : null;
 
                 return {
                     id: row.item.id,
@@ -2532,7 +2558,7 @@
                     salesMix: row.salesMix,
                     revenueWeight: row.revenueWeight,
                     baseCac: row.baseCac,
-                    weightedCac,
+                    weightedCac: actualCac,
                     adBudget,
                     forecastSales,
                     price: row.price,
@@ -2544,49 +2570,89 @@
                 };
             });
 
-            const totalRevenue = resultItems.reduce((sum, row) => sum + row.revenue, 0);
-            const totalEbitdaBeforeShared = resultItems.reduce((sum, row) => sum + row.ebitda, 0);
-
-            // Shared business costs are still deducted once.
-            const totalManagement = prepared.reduce((sum, row) => sum + row.management, 0);
+            const totalManagement =
+                prepared.reduce((sum, row) => sum + row.management, 0);
             const salesFixedShared = Math.max(
                 0,
                 ...items.map(item => Number(item.salesFixedMonthly || 0))
             );
-            const sharedBusinessCosts = totalManagement + salesFixedShared;
-            const businessEbitda = totalEbitdaBeforeShared - sharedBusinessCosts;
+            const sharedBusinessCosts =
+                totalManagement + salesFixedShared;
 
-            const taxRate = Math.max(0, productNumber('own-business-tax-pct')) / 100;
-            let tax = 0;
-            if (productBusinessTaxType === 'turnover') {
+            const totalRevenue =
+                pricingReady
+                    ? resultItems.reduce((sum, row) => sum + row.revenue, 0)
+                    : null;
+
+            const totalEbitdaBeforeShared =
+                pricingReady
+                    ? resultItems.reduce((sum, row) => sum + row.ebitda, 0)
+                    : null;
+
+            const businessEbitda =
+                totalEbitdaBeforeShared === null
+                    ? null
+                    : totalEbitdaBeforeShared - sharedBusinessCosts;
+
+            const taxRate =
+                Math.max(0, productNumber('own-business-tax-pct')) / 100;
+
+            let tax = null;
+            if (
+                pricingReady &&
+                productBusinessTaxType === 'turnover'
+            ) {
                 tax = totalRevenue * taxRate;
-            } else if (productBusinessTaxType === 'profit') {
+            } else if (
+                pricingReady &&
+                productBusinessTaxType === 'profit'
+            ) {
                 tax = Math.max(0, businessEbitda) * taxRate;
             }
 
-            const priceSensitiveRevenueNet = resultItems.reduce(
-                (sum, row) => sum + row.revenue - row.turnoverExpenses,
-                0
-            );
+            const priceSensitiveRevenueNet =
+                pricingReady
+                    ? resultItems.reduce(
+                        (sum, row) =>
+                            sum + row.revenue - row.turnoverExpenses,
+                        0
+                      )
+                    : null;
+
             const priceIndependentCosts =
-                resultItems.reduce((sum, row) => sum + row.cogs + row.adBudget, 0) +
-                sharedBusinessCosts;
+                pricingReady
+                    ? resultItems.reduce(
+                        (sum, row) =>
+                            sum + row.cogs + row.adBudget,
+                        0
+                      ) + sharedBusinessCosts
+                    : null;
 
             let taxPriceMultiplier = null;
-            if (productBusinessTaxType === 'turnover') {
+
+            if (
+                pricingReady &&
+                productBusinessTaxType === 'turnover'
+            ) {
                 const denominator =
-                    priceSensitiveRevenueNet - taxRate * totalRevenue;
+                    priceSensitiveRevenueNet -
+                    taxRate * totalRevenue;
+
                 taxPriceMultiplier =
                     denominator > 0
                         ? priceSensitiveRevenueNet / denominator
                         : null;
-            } else if (productBusinessTaxType === 'profit') {
+            } else if (
+                pricingReady &&
+                productBusinessTaxType === 'profit'
+            ) {
                 if (businessEbitda <= 0 || taxRate <= 0) {
                     taxPriceMultiplier = 1;
                 } else {
                     const afterTaxRetained = 1 - taxRate;
                     taxPriceMultiplier =
-                        afterTaxRetained > 0 && priceSensitiveRevenueNet > 0
+                        afterTaxRetained > 0 &&
+                        priceSensitiveRevenueNet > 0
                             ? (
                                 priceIndependentCosts +
                                 businessEbitda / afterTaxRetained
@@ -2599,20 +2665,24 @@
                 taxPriceMultiplier === null
                     ? null
                     : totalRevenue * taxPriceMultiplier;
+
             const adjustedTurnoverExpenses =
                 taxPriceMultiplier === null
                     ? null
                     : resultItems.reduce(
                         (sum, row) =>
-                            sum + row.turnoverExpenses * taxPriceMultiplier,
+                            sum +
+                            row.turnoverExpenses * taxPriceMultiplier,
                         0
                     );
+
             const adjustedEbitda =
                 taxPriceMultiplier === null
                     ? null
                     : adjustedRevenue -
                       adjustedTurnoverExpenses -
                       priceIndependentCosts;
+
             const adjustedTax =
                 taxPriceMultiplier === null
                     ? null
@@ -2621,6 +2691,7 @@
                             ? adjustedRevenue * taxRate
                             : Math.max(0, adjustedEbitda) * taxRate
                     );
+
             const adjustedNetProfit =
                 adjustedEbitda === null || adjustedTax === null
                     ? null
@@ -2628,6 +2699,7 @@
 
             return {
                 items: resultItems,
+                pricingReady,
                 totalAdBudget,
                 totalForecastOrders,
                 totalRevenue,
@@ -2635,7 +2707,10 @@
                 sharedBusinessCosts,
                 businessEbitda,
                 tax,
-                netProfit: businessEbitda - tax,
+                netProfit:
+                    businessEbitda === null || tax === null
+                        ? null
+                        : businessEbitda - tax,
                 taxPriceMultiplier,
                 adjustedRevenue,
                 adjustedEbitda,
@@ -2656,14 +2731,14 @@
                     taxAdjustedPrice: null,
                     taxAdjustedPriceWithVat: null,
                     salesMix: 0,
-                    revenueWeight: 0,
+                    revenueWeight: null,
                     baseCac: null,
                     weightedCac: null,
                     adBudget: 0,
                     forecastSales: 0,
-                    revenue: 0,
+                    revenue: null,
                     cogs: 0,
-                    ebitda: 0,
+                    ebitda: null,
                     roas: null
                 };
             }
@@ -2723,7 +2798,10 @@
                 weightedCac: aggregatePriceText(p.weightedCac),
                 adBudgetPortfolio: aggregatePriceText(p.adBudget),
                 forecastSalesPortfolio: p.forecastSales.toLocaleString('ru-RU', { maximumFractionDigits: 2 }),
-                revenueWeight: (p.revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
+                revenueWeight:
+                    p.revenueWeight === null
+                        ? '—'
+                        : (p.revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
                 salesMixNormalized: (p.salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
                 revenuePortfolio: aggregatePriceText(p.revenue),
                 cogsPortfolio: aggregatePriceText(p.cogs),
@@ -3244,9 +3322,7 @@
                                         <span class="aggregate-muted">Доля продаж «${esc(item.name)}» в моём магазине</span>
                                         <span class="font-bold text-right" data-aggregate-price="salesMixNormalized">${(aggregatePricingMetrics(item).salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
                                         <span class="aggregate-muted">Доля выручки от «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right" data-aggregate-price="revenueWeight">${(aggregatePricingMetrics(item).revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
-                                        <span class="aggregate-muted">Базовые расходы на рекламу для продажи 1 ед. «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right"><span data-aggregate-price="baseCac">${aggregatePriceText(aggregatePricingMetrics(item).baseCac)}</span> у.е.*</span>
+                                        <span class="font-bold text-right" data-aggregate-price="revenueWeight">${aggregatePricingMetrics(item).revenueWeight === null ? '—' : (aggregatePricingMetrics(item).revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%'}</span>
                                         <span class="aggregate-muted">Расходы на рекламу для продажи 1 ед. «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="weightedCac">${aggregatePriceText(aggregatePricingMetrics(item).weightedCac)}</span> у.е.*</span>
                                         <span class="aggregate-muted">Рекламный бюджет на «${esc(item.name)}»</span>
