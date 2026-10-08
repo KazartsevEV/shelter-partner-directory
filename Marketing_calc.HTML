@@ -2849,6 +2849,235 @@
             updateProductPortfolioBusinessSummary();
         }
 
+        function calculateProductCashFlow(model) {
+            if (!model?.pricingReady || !model.items.length) {
+                return { ready: false, months: [], cumulativeEnd: null };
+            }
+
+            const schedules = productPortfolio.map(item => {
+                const row = model.items.find(entry => entry.id === item.id);
+                if (!row || row.price === null || !Number.isFinite(row.price)) return null;
+
+                const planning = item.planning || {};
+                const materialsTotal = Math.max(0, Number(item.materialsBatchTotal || 0));
+                const advancePct = Math.min(100, Math.max(0, Number(planning.advancePct) || 0));
+                const advanceAmount = materialsTotal * advancePct / 100;
+                const materialsRemainder = Math.max(0, materialsTotal - advanceAmount);
+
+                const supplyDays = Math.max(0, Number(planning.supplyDays) || 0);
+                const advanceLeadDays =
+                    planning.advanceLeadDays === '' ||
+                    planning.advanceLeadDays === null ||
+                    planning.advanceLeadDays === undefined
+                        ? supplyDays
+                        : Math.max(0, Number(planning.advanceLeadDays) || 0);
+                const advanceDay =
+                    advancePct > 0
+                        ? Math.max(0, supplyDays - advanceLeadDays)
+                        : null;
+
+                const productionDays = Math.max(0, Number(planning.productionDays) || 0);
+                const productionStart = supplyDays;
+                const saleStart = productionStart + productionDays;
+
+                const stockQty = Math.max(0, Number(item.logisticsQty || 0));
+                const salesPerMonth = Math.max(0, Number(row.forecastSales || 0));
+                const unitsPerDay = salesPerMonth / 30;
+                const sellThroughDays =
+                    stockQty > 0 && unitsPerDay > 0
+                        ? stockQty / unitsPerDay
+                        : null;
+                const saleEnd =
+                    sellThroughDays === null
+                        ? null
+                        : saleStart + sellThroughDays;
+
+                const productionTotal = Math.max(0, Number(item.productionTotal || 0));
+                const warehouseInboundTotal =
+                    Math.max(0, Number(item.warehouseInboundUnitCost || 0)) * stockQty;
+                const warehouseDayCost = Math.max(0, Number(item.warehouseDayCost || 0));
+
+                const costBeforeCustomerDelivery =
+                    Math.max(0, Number(item.materialsUnitCost || 0)) +
+                    Math.max(0, Number(item.productionUnitCost || 0));
+                const customerDeliveryPct = Math.max(0, Number(item.customerDeliveryPct || 0));
+                const customerReturnPct = Math.max(0, Number(item.customerReturnPct || 0));
+                const customerDeliveryPerUnit =
+                    costBeforeCustomerDelivery *
+                    customerDeliveryPct / 100 *
+                    (1 + customerReturnPct / 100);
+
+                const turnoverExpenseRate =
+                    Math.max(
+                        0,
+                        Number(item.salesVariablePct || 0) +
+                        Number(item.penaltiesPct || 0)
+                    ) / 100;
+
+                return {
+                    item,
+                    row,
+                    materialsTotal,
+                    advanceAmount,
+                    materialsRemainder,
+                    advanceDay,
+                    supplyDays,
+                    productionDays,
+                    productionStart,
+                    productionTotal,
+                    saleStart,
+                    saleEnd,
+                    stockQty,
+                    unitsPerDay,
+                    warehouseInboundTotal,
+                    warehouseDayCost,
+                    customerDeliveryPerUnit,
+                    turnoverExpenseRate,
+                    adBudgetMonthly: Math.max(0, Number(item.adBudget || 0)),
+                    adManagementMonthly: Math.max(0, Number(item.adManagement || 0)),
+                    salesFixedMonthly: Math.max(0, Number(item.salesFixedMonthly || 0))
+                };
+            }).filter(Boolean);
+
+            if (!schedules.length || schedules.some(schedule => schedule.saleEnd === null)) {
+                return { ready: false, months: [], cumulativeEnd: null };
+            }
+
+            const horizonDays = Math.max(
+                1,
+                ...schedules.map(schedule => schedule.saleEnd || 0)
+            );
+            const monthCount = Math.max(1, Math.ceil(horizonDays / 30));
+            const months = Array.from({ length: monthCount }, (_, index) => ({
+                month: index + 1,
+                inflow: 0,
+                outflow: 0,
+                cashFlow: 0,
+                cumulative: 0
+            }));
+
+            const addEvent = (day, amount) => {
+                if (!(amount > 0)) return;
+                const monthIndex = Math.min(
+                    monthCount - 1,
+                    Math.max(0, Math.floor(Math.max(0, day) / 30))
+                );
+                months[monthIndex].outflow += amount;
+            };
+
+            const overlap = (startA, endA, startB, endB) =>
+                Math.max(0, Math.min(endA, endB) - Math.max(startA, startB));
+
+            schedules.forEach(schedule => {
+                if (schedule.advanceDay !== null) {
+                    addEvent(schedule.advanceDay, schedule.advanceAmount);
+                }
+                addEvent(schedule.supplyDays, schedule.materialsRemainder);
+
+                if (schedule.productionDays > 0) {
+                    for (let m = 0; m < monthCount; m++) {
+                        const monthStart = m * 30;
+                        const monthEnd = (m + 1) * 30;
+                        const days = overlap(
+                            monthStart,
+                            monthEnd,
+                            schedule.productionStart,
+                            schedule.saleStart
+                        );
+                        if (days > 0) {
+                            months[m].outflow +=
+                                schedule.productionTotal *
+                                days / schedule.productionDays;
+                        }
+                    }
+                } else {
+                    addEvent(schedule.productionStart, schedule.productionTotal);
+                }
+
+                addEvent(schedule.saleStart, schedule.warehouseInboundTotal);
+
+                for (let m = 0; m < monthCount; m++) {
+                    const monthStart = m * 30;
+                    const monthEnd = (m + 1) * 30;
+                    const sellStart = Math.max(monthStart, schedule.saleStart);
+                    const sellEnd = Math.min(monthEnd, schedule.saleEnd);
+                    const sellingDays = Math.max(0, sellEnd - sellStart);
+                    if (!(sellingDays > 0)) continue;
+
+                    const relativeStart = sellStart - schedule.saleStart;
+                    const relativeEnd = sellEnd - schedule.saleStart;
+                    const soldUnits = Math.min(
+                        schedule.stockQty,
+                        schedule.unitsPerDay * sellingDays
+                    );
+                    const revenue = soldUnits * schedule.row.price;
+
+                    const inventoryIntegral =
+                        schedule.stockQty * (relativeEnd - relativeStart) -
+                        schedule.unitsPerDay *
+                        (relativeEnd * relativeEnd - relativeStart * relativeStart) / 2;
+                    const warehouseCost =
+                        schedule.warehouseDayCost *
+                        Math.max(0, inventoryIntegral);
+
+                    const customerDelivery =
+                        soldUnits * schedule.customerDeliveryPerUnit;
+                    const turnoverExpenses =
+                        revenue * schedule.turnoverExpenseRate;
+                    const adMedia =
+                        schedule.adBudgetMonthly / 30 * sellingDays;
+                    const adManagement =
+                        schedule.adManagementMonthly / 30 * sellingDays;
+
+                    months[m].inflow += revenue;
+                    months[m].outflow +=
+                        warehouseCost +
+                        customerDelivery +
+                        turnoverExpenses +
+                        adMedia +
+                        adManagement;
+                }
+            });
+
+            // Sales staff/platform fixed cost is a shared business cost.
+            // Charge it once per month while at least one SKU is actively selling.
+            for (let m = 0; m < monthCount; m++) {
+                const monthStart = m * 30;
+                const monthEnd = (m + 1) * 30;
+                let sharedSalesCost = 0;
+
+                schedules.forEach(schedule => {
+                    const activeDays = overlap(
+                        monthStart,
+                        monthEnd,
+                        schedule.saleStart,
+                        schedule.saleEnd
+                    );
+                    if (activeDays > 0) {
+                        sharedSalesCost = Math.max(
+                            sharedSalesCost,
+                            schedule.salesFixedMonthly / 30 * activeDays
+                        );
+                    }
+                });
+
+                months[m].outflow += sharedSalesCost;
+            }
+
+            let cumulative = 0;
+            months.forEach(month => {
+                month.cashFlow = month.inflow - month.outflow;
+                cumulative += month.cashFlow;
+                month.cumulative = cumulative;
+            });
+
+            return {
+                ready: true,
+                months,
+                cumulativeEnd: cumulative
+            };
+        }
+
         function updateProductPortfolioBusinessSummary() {
             const box = document.getElementById('product-portfolio-business-summary');
             const priceBox = document.getElementById('product-tax-price-list');
@@ -2860,12 +3089,65 @@
                     ? '—'
                     : moneyInputValue(value) + ' у.е.*';
 
+            const cashFlow = calculateProductCashFlow(model);
+            const cashFlowTable = cashFlow.ready
+                ? `
+                    <div class="mt-4 pt-4 border-t aggregate-separator">
+                        <div class="aggregate-title font-bold mb-2">Cash flow по месяцам за период</div>
+                        <div class="aggregate-muted text-xs mb-3">
+                            До налогов: показывает реальные поступления и выплаты во времени, а не бухгалтерскую EBITDA.
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-xs border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 pr-4 aggregate-muted whitespace-nowrap">Показатель</th>
+                                        ${cashFlow.months.map(month => `
+                                            <th class="text-right py-2 px-2 aggregate-muted whitespace-nowrap">Месяц ${month.month}</th>
+                                        `).join('')}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${[
+                                        ['Поступления', 'inflow'],
+                                        ['Выплаты', 'outflow'],
+                                        ['Cash flow', 'cashFlow'],
+                                        ['Накопленный cash flow', 'cumulative']
+                                    ].map(([label, key]) => `
+                                        <tr class="border-t aggregate-separator">
+                                            <td class="py-2 pr-4 font-semibold whitespace-nowrap">${label}</td>
+                                            ${cashFlow.months.map(month => `
+                                                <td class="py-2 px-2 text-right font-bold whitespace-nowrap">
+                                                    ${money(month[key])}
+                                                </td>
+                                            `).join('')}
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+                : `
+                    <div class="mt-4 pt-4 border-t aggregate-separator">
+                        <div class="aggregate-title font-bold">Cash flow по месяцам за период</div>
+                        <div class="aggregate-muted text-xs mt-2">
+                            Появится после того, как рассчитаны цена товара, сроки и прогноз продаж.
+                        </div>
+                    </div>
+                `;
+
             box.innerHTML = `
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                     <span class="aggregate-muted">Выручка всего бизнеса</span>
                     <span class="font-bold text-right">${money(model.totalRevenue)}</span>
                     <span class="aggregate-muted">EBITDA всего бизнеса</span>
                     <span class="font-bold text-right">${money(model.businessEbitda)}</span>
+                </div>
+
+                ${cashFlowTable}
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mt-4 pt-4 border-t aggregate-separator">
                     <span class="aggregate-muted">Сумма налога</span>
                     <span class="font-bold text-right">${money(model.tax)}</span>
                     <span class="aggregate-muted">Чистая прибыль после налога</span>
