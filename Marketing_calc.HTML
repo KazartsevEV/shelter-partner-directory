@@ -260,6 +260,22 @@
         </div>
 
         <div id="product-own-form" class="hidden mt-5 space-y-5" hidden>
+            <div id="additional-product-name-wrap" class="card p-6 md:p-8 hidden" hidden>
+                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Новый товар</div>
+                <label for="additional-product-name-input" class="block text-sm font-medium text-slate-700 mb-2">
+                    Как называется этот товар?
+                </label>
+                <input
+                    id="additional-product-name-input"
+                    type="text"
+                    class="input-field"
+                    placeholder="Введите название товара"
+                    autocomplete="off"
+                    oninput="setAdditionalProductName(this.value)"
+                >
+                <p id="additional-product-name-error" class="hidden text-xs text-red-600 mt-2">Введите название товара.</p>
+            </div>
+
             <div class="card p-6 md:p-8">
                 <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Себестоимость</div>
                 <h2 class="text-2xl font-bold text-slate-900">
@@ -1885,6 +1901,7 @@
             const addButton = document.getElementById('add-product-button');
 
             if (choice === 'complete') {
+                if (!requireAdditionalProductName()) return;
                 saveCurrentProductToPortfolio();
                 if (addButton) addButton.classList.add('hidden');
                 if (taxBlock) {
@@ -1961,6 +1978,16 @@
             nameInput.value = '';
             document.getElementById('product-name-error').classList.add('hidden');
 
+            const additionalNameInput = document.getElementById('additional-product-name-input');
+            const additionalNameWrap = document.getElementById('additional-product-name-wrap');
+            const additionalNameError = document.getElementById('additional-product-name-error');
+            if (additionalNameInput) additionalNameInput.value = '';
+            if (additionalNameWrap) {
+                additionalNameWrap.hidden = true;
+                additionalNameWrap.classList.add('hidden');
+            }
+            if (additionalNameError) additionalNameError.classList.add('hidden');
+
             document.getElementById('product-source-name').textContent = '';
             document.querySelectorAll('.product-name-live').forEach(el => { el.textContent = ''; });
 
@@ -2016,6 +2043,7 @@
         }
 
         function addAnotherProduct() {
+            if (!requireAdditionalProductName()) return;
             saveCurrentProductToPortfolio();
             freezeCurrentProductOnPage();
             currentProductSequence += 1;
@@ -2788,19 +2816,47 @@
             recalculateProductAdFunnel();
         }
 
-        function selectProductSource(source) {
-            if (currentProductSequence > 1 && !productName) {
-                const enteredName = window.prompt('Название товара');
-                if (!enteredName || !enteredName.trim()) return;
-                productName = enteredName.trim();
-                const nameInput = document.getElementById('product-name-input');
-                if (nameInput) nameInput.value = productName;
-                document.getElementById('product-source-name').textContent = '«' + productName + '»';
-                document.querySelectorAll('.product-name-live').forEach(el => {
-                    el.textContent = '«' + productName + '»';
-                });
+        function setAdditionalProductName(value) {
+            productName = String(value || '').trim();
+
+            const originalNameInput = document.getElementById('product-name-input');
+            if (originalNameInput) originalNameInput.value = productName;
+
+            const sourceName = document.getElementById('product-source-name');
+            if (sourceName) {
+                sourceName.textContent = productName ? '«' + productName + '»' : 'следующий товар';
             }
 
+            document.querySelectorAll('.product-name-live').forEach(el => {
+                el.textContent = productName ? '«' + productName + '»' : '';
+            });
+
+            const error = document.getElementById('additional-product-name-error');
+            if (error && productName) error.classList.add('hidden');
+
+            updateProductAssortmentGate();
+        }
+
+        function requireAdditionalProductName() {
+            if (productName) return true;
+            if (currentProductSequence <= 1) return true;
+
+            const wrap = document.getElementById('additional-product-name-wrap');
+            const input = document.getElementById('additional-product-name-input');
+            const error = document.getElementById('additional-product-name-error');
+            if (wrap) {
+                wrap.hidden = false;
+                wrap.classList.remove('hidden');
+            }
+            if (error) error.classList.remove('hidden');
+            if (input) {
+                input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                input.focus();
+            }
+            return false;
+        }
+
+        function selectProductSource(source) {
             productSource = source;
 
             document.querySelectorAll('.product-source-choice').forEach(button => {
@@ -2816,11 +2872,24 @@
 
             if (source === 'own') {
                 initProductOwnForm();
+
+                const additionalNameWrap = document.getElementById('additional-product-name-wrap');
+                const additionalNameInput = document.getElementById('additional-product-name-input');
+                if (additionalNameWrap) {
+                    const showAdditionalName = currentProductSequence > 1;
+                    additionalNameWrap.hidden = !showAdditionalName;
+                    additionalNameWrap.classList.toggle('hidden', !showAdditionalName);
+                }
+
                 requestAnimationFrame(() => {
                     Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
                     updateProductAssortmentGate();
                     renderProductPortfolio();
                     ownForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    if (currentProductSequence > 1 && additionalNameInput && !productName) {
+                        additionalNameInput.focus({ preventScroll: true });
+                    }
                 });
             }
         }
