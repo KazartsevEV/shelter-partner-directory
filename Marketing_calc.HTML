@@ -2743,18 +2743,26 @@
                 };
             }
 
-            const salesVatEnabled = productOwnChoices.salesVat === 'yes';
-            const vatRate = salesVatEnabled
-                ? Math.max(0, productNumber('own-sales-vat-pct')) / 100
+            const salesVatChoice = productOwnChoices.salesVat;
+            const salesVatEnabled = salesVatChoice === 'yes';
+            const vatPct = salesVatEnabled
+                ? Math.max(0, productNumber('own-sales-vat-pct'))
                 : 0;
+            const vatReady = salesVatEnabled && vatPct > 0;
+            const vatRate = vatReady ? vatPct / 100 : 0;
+
             const priceBeforeTaxWithVat =
-                row.price === null ? null : row.price * (1 + vatRate);
+                row.price === null || !vatReady
+                    ? null
+                    : row.price * (1 + vatRate);
+
             const taxAdjustedPrice =
                 row.price === null || model.taxPriceMultiplier === null
                     ? null
                     : row.price * model.taxPriceMultiplier;
+
             const taxAdjustedPriceWithVat =
-                taxAdjustedPrice === null
+                taxAdjustedPrice === null || !vatReady
                     ? null
                     : taxAdjustedPrice * (1 + vatRate);
 
@@ -2764,6 +2772,9 @@
                 priceBeforeTaxWithVat,
                 taxAdjustedPrice,
                 taxAdjustedPriceWithVat,
+                salesVatChoice,
+                vatPct,
+                vatReady,
                 salesMix: row.salesMix,
                 revenueWeight: row.revenueWeight,
                 baseCac: row.baseCac,
@@ -2813,6 +2824,24 @@
                     el.textContent = value;
                 });
             });
+
+            const vatLabel = section.querySelector('[data-vat-price-label]');
+            const vatValue = section.querySelector('[data-vat-price-value]');
+            if (vatLabel && vatValue) {
+                if (!p.salesVatChoice) {
+                    vatLabel.textContent = 'Цена с НДС';
+                    vatValue.textContent = '—';
+                } else if (p.salesVatChoice === 'no') {
+                    vatLabel.textContent = 'НДС';
+                    vatValue.textContent = 'не применяется';
+                } else if (!p.vatReady) {
+                    vatLabel.textContent = 'Цена с НДС';
+                    vatValue.textContent = 'укажите ставку НДС';
+                } else {
+                    vatLabel.textContent = 'Цена с НДС';
+                    vatValue.textContent = aggregatePriceText(p.priceBeforeTaxWithVat) + ' у.е.*';
+                }
+            }
         }
 
         function refreshAllAggregatePricing() {
@@ -3309,10 +3338,25 @@
                                             <span data-aggregate-price="priceBeforeTax">${aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTax)}</span> у.е.*
                                         </div>
                                     </div>
-                                    <div class="aggregate-price-card">
-                                        <div class="aggregate-muted text-xs">Цена с НДС</div>
-                                        <div class="aggregate-price-number mt-1">
-                                            <span data-aggregate-price="priceBeforeTaxWithVat">${aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTaxWithVat)}</span> у.е.*
+                                    <div class="aggregate-price-card" data-vat-price-card>
+                                        <div class="aggregate-muted text-xs" data-vat-price-label>
+                                            ${aggregatePricingMetrics(item).salesVatChoice === 'no' ? 'НДС' : 'Цена с НДС'}
+                                        </div>
+                                        <div class="aggregate-price-number mt-1" data-vat-price-value>
+                                            ${
+                                                aggregatePricingMetrics(item).salesVatChoice === 'no'
+                                                    ? 'не применяется'
+                                                    : (
+                                                        aggregatePricingMetrics(item).salesVatChoice === 'yes' &&
+                                                        !aggregatePricingMetrics(item).vatReady
+                                                            ? 'укажите ставку НДС'
+                                                            : (
+                                                                aggregatePricingMetrics(item).salesVatChoice === 'yes'
+                                                                    ? aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTaxWithVat) + ' у.е.*'
+                                                                    : '—'
+                                                            )
+                                                    )
+                                            }
                                         </div>
                                     </div>
                                 </div>
