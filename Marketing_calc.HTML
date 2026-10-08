@@ -266,9 +266,39 @@
                 </p>
 
                 <div class="mt-6 space-y-5">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Себестоимость материалов на единицу</label>
-                        <input id="own-materials-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateInboundDeliveryDefault()">
+                    <div class="rounded-xl border border-blue-100 bg-blue-50/30 p-4">
+                        <div class="text-sm font-medium text-slate-800 mb-3">Как задаём себестоимость материалов?</div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" data-material-cost-mode="known" class="material-cost-mode-choice rounded-xl border-2 border-emerald-300 bg-emerald-50 text-emerald-800 px-3 py-3 text-sm font-bold">
+                                Точно знаю, почём купить
+                            </button>
+                            <button type="button" data-material-cost-mode="calculate" class="material-cost-mode-choice rounded-xl border-2 border-violet-300 bg-violet-50 text-violet-800 px-3 py-3 text-sm font-bold">
+                                Надо считать
+                            </button>
+                        </div>
+
+                        <div id="own-materials-known-wrap" class="mt-4 hidden" hidden data-product-collapsible>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Себестоимость материалов на единицу</label>
+                            <input id="own-materials-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateInboundDeliveryDefault(); recalculateMaterialsLandedCost()">
+                        </div>
+
+                        <div id="own-materials-calc-wrap" class="mt-4 hidden space-y-3" hidden data-product-collapsible>
+                            <p class="text-xs text-slate-500">
+                                Добавьте все материалы для 1 единицы <span class="product-name-live"></span>. Для каждого материала можно указать своего поставщика и отдельный источник цены.
+                            </p>
+
+                            <div id="own-material-rows" class="space-y-3"></div>
+
+                            <button type="button" onclick="addMaterialRow()" class="w-full rounded-lg border border-dashed border-violet-300 bg-violet-50 text-violet-700 px-3 py-2.5 font-semibold">
+                                + Добавить материал
+                            </button>
+
+                            <div class="rounded-lg bg-white border border-violet-100 p-3 flex justify-between gap-4 text-sm">
+                                <span class="text-slate-600">Материалы на 1 единицу</span>
+                                <span id="own-materials-calculated-total" class="font-bold text-slate-900">0,00</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="rounded-lg border border-slate-200 p-4">
@@ -1149,6 +1179,8 @@
         const productOwnChoices = {};
         let productBusinessTaxType = null;
         let productionLaborMode = 'self';
+        let materialCostMode = null;
+        let materialRowSeq = 0;
         const productImportPayers = {
             broker: null,
             cargoInsurance: null,
@@ -1530,6 +1562,106 @@
             setProductChoiceVisual(group, 'no');
             fieldIds.forEach(setProductFieldZero);
             syncProductOwnVisibility(group);
+        }
+
+        function setMaterialCostMode(mode) {
+            materialCostMode = mode === 'known' || mode === 'calculate' ? mode : null;
+
+            document.querySelectorAll('.material-cost-mode-choice[data-material-cost-mode]').forEach(button => {
+                const selected = button.dataset.materialCostMode === materialCostMode;
+                button.classList.toggle('ring-2', selected);
+                button.classList.toggle('ring-offset-2', selected);
+                button.classList.toggle('ring-blue-500', selected);
+                button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+
+            setProductHidden('own-materials-known-wrap', materialCostMode !== 'known');
+            setProductHidden('own-materials-calc-wrap', materialCostMode !== 'calculate');
+
+            if (materialCostMode === 'calculate') {
+                const rows = document.getElementById('own-material-rows');
+                if (rows && !rows.children.length) addMaterialRow();
+                updateCalculatedMaterialsCost();
+            }
+
+            updateInboundDeliveryDefault();
+            recalculateMaterialsLandedCost();
+        }
+
+        function addMaterialRow() {
+            const container = document.getElementById('own-material-rows');
+            if (!container) return;
+
+            materialRowSeq += 1;
+            const row = document.createElement('div');
+            row.className = 'material-cost-row rounded-lg border border-slate-200 bg-white p-3';
+            row.dataset.rowId = materialRowSeq;
+            row.innerHTML = `
+                <div class="grid grid-cols-[1fr_auto] gap-2 items-end">
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Материал</label>
+                        <input type="text" class="material-cost-name input-field" placeholder="Например: ткань">
+                    </div>
+                    <button type="button" onclick="removeMaterialRow(this)" class="h-10 w-10 rounded-lg border border-slate-300 text-slate-500">×</button>
+                </div>
+
+                <div class="mt-2">
+                    <label class="block text-xs text-slate-500 mb-1">Поставщик</label>
+                    <input type="text" class="material-cost-supplier input-field" placeholder="Название поставщика">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Цена 1 ед. материала</label>
+                        <input type="number" min="0" step="0.01" value="0" class="material-cost-price input-field" oninput="updateCalculatedMaterialsCost()">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Сколько нужно на 1 товар</label>
+                        <input type="number" min="0" step="0.0001" value="1" class="material-cost-qty input-field" oninput="updateCalculatedMaterialsCost()">
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <label class="block text-xs text-slate-500 mb-1">Ссылка на Market, где увидели цену <span class="text-slate-400">(необязательно)</span></label>
+                    <input type="url" class="material-cost-market-url input-field" placeholder="https://">
+                </div>
+
+                <div class="mt-2 text-xs text-slate-500">
+                    Вклад материала в 1 товар:
+                    <span class="material-cost-line-total font-semibold text-slate-900">0,00</span>
+                </div>
+            `;
+            container.appendChild(row);
+            updateCalculatedMaterialsCost();
+        }
+
+        function removeMaterialRow(button) {
+            button.closest('.material-cost-row')?.remove();
+            updateCalculatedMaterialsCost();
+        }
+
+        function updateCalculatedMaterialsCost() {
+            let total = 0;
+
+            document.querySelectorAll('.material-cost-row').forEach(row => {
+                const price = Math.max(0, Number(row.querySelector('.material-cost-price')?.value) || 0);
+                const qty = Math.max(0, Number(row.querySelector('.material-cost-qty')?.value) || 0);
+                const lineTotal = price * qty;
+                total += lineTotal;
+
+                const lineOut = row.querySelector('.material-cost-line-total');
+                if (lineOut) lineOut.textContent = moneyInputValue(lineTotal);
+            });
+
+            const totalOut = document.getElementById('own-materials-calculated-total');
+            if (totalOut) totalOut.textContent = moneyInputValue(total);
+
+            const baseInput = document.getElementById('own-materials-cost');
+            if (baseInput && materialCostMode === 'calculate') baseInput.value = total.toFixed(2);
+
+            productOwnInboundDeliveryManual = false;
+            updateInboundDeliveryDefault();
+            recalculateMaterialsLandedCost();
         }
 
         function materialsCostWithVat() {
@@ -2051,6 +2183,7 @@
             initProductionWorkersCountryDirectory();
             setProductBusinessTaxType(null);
             setProductionLaborMode('self');
+            setMaterialCostMode(null);
 
             Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
             document.getElementById('own-customer-delivery-pct').value = 10;
@@ -2209,6 +2342,13 @@
             if (productionLaborButton) {
                 event.preventDefault();
                 setProductionLaborMode(productionLaborButton.dataset.productionLaborMode);
+                return;
+            }
+
+            const materialCostModeButton = event.target.closest('.material-cost-mode-choice[data-material-cost-mode]');
+            if (materialCostModeButton) {
+                event.preventDefault();
+                setMaterialCostMode(materialCostModeButton.dataset.materialCostMode);
                 return;
             }
 
