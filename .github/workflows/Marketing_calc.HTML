@@ -432,7 +432,7 @@
                             <button type="button" data-yn-group="productionPremises" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-production-premises-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Расход в месяц</label>
+                            <label class="block text-xs text-slate-500 mb-1">Расход / месяц</label>
                             <input id="own-production-premises-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
                         </div>
                     </div>
@@ -562,9 +562,9 @@
                             <button type="button" data-yn-group="productionOverheads" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-production-overheads-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Накладные расходы на 1 произведённую единицу</label>
+                            <label class="block text-xs text-slate-500 mb-1">Накладные организационные расходы / месяц</label>
                             <input id="own-production-overheads-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
-                            <p class="text-xs text-slate-400 mt-1">Эта сумма прибавляется напрямую к стоимости производства 1 единицы. Включая проверки, аккредитации и аналогичные организационные расходы.</p>
+                            <p class="text-xs text-slate-400 mt-1">Эта сумма относится ко всему месяцу и распределяется на количество произведённых единиц. Включая проверки, аккредитации и аналогичные организационные расходы.</p>
                         </div>
                     </div>
                 </div>
@@ -584,7 +584,7 @@
                     </label>
                     <input id="own-production-monthly-qty" type="number" min="1" step="1" value="1" class="input-field">
                     <p class="text-xs text-slate-500 mt-2">
-                        Аренда помещения, аренда оборудования, ежемесячная амортизация купленного оборудования и газ распределяются на объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.
+                        Аренда помещения / месяц, аренда оборудования / месяц, амортизация оборудования / месяц, газ / месяц, рабочие / месяц и накладные организационные расходы / месяц распределяются на месячный объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.
                     </p>
                 </div>
 
@@ -2117,7 +2117,7 @@
                     ? productNumber('own-production-electricity-tariff') * productNumber('own-production-electricity-usage')
                     : 0;
 
-            const overheadPerProducedUnit =
+            const overheadMonthly =
                 productOwnChoices.productionOverheads === 'yes'
                     ? productNumber('own-production-overheads-monthly')
                     : 0;
@@ -2139,13 +2139,13 @@
                 equipmentRentalMonthly +
                 equipmentDepreciationMonthly +
                 gasMonthly +
-                productionWorkersMonthly;
+                productionWorkersMonthly +
+                overheadMonthly;
 
             const fixedPerProducedUnit = fixedMonthly / qty;
             const beforeDefect =
                 fixedPerProducedUnit +
-                electricityPerProducedUnit +
-                overheadPerProducedUnit;
+                electricityPerProducedUnit;
 
             const unitCost = beforeDefect / yieldFactor;
             const defectUplift = unitCost - beforeDefect;
@@ -2161,8 +2161,8 @@
                     ['Амортизация оборудования / 1 ед.', equipmentDepreciationMonthly / qty],
                     ['Газ / отопление / 1 ед.', gasMonthly / qty],
                     ['Рабочие с налогами и взносами / 1 ед.', productionWorkersMonthly / qty],
+                    ['Накладные организационные / 1 ед.', overheadMonthly / qty],
                     ['Электричество / 1 произведённую ед.', electricityPerProducedUnit],
-                    ['Накладные организационные / 1 ед.', overheadPerProducedUnit],
                     [`Удорожание из-за брака (${defectPct.toLocaleString('ru-RU')}%)`, defectUplift]
                 ];
 
