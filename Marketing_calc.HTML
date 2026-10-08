@@ -22,6 +22,11 @@
         .td-label { font-weight: 500; color: #475569; padding: 0.75rem; background-color: #fff; text-align: left; vertical-align: middle; }
         .td-val { text-align: right; padding: 0.75rem; font-family: monospace; font-weight: 500; }
         .td-total { background-color: #f8fafc; font-weight: 700; color: #0f172a; }
+        .product-source-choice.product-source-selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+        }
 
         #monthly-breakdown-table {
             table-layout: fixed;
@@ -146,15 +151,52 @@
         </div>
     </section>
 
-    <section id="product-screen" class="max-w-3xl mx-auto hidden">
+    <section id="product-screen" class="max-w-4xl mx-auto hidden">
         <button onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
+
         <div class="card p-6 md:p-8">
             <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар</div>
-            <h1 class="text-3xl font-bold text-slate-900">Товарный калькулятор</h1>
-            <p class="text-sm text-slate-600 mt-3 leading-relaxed">
-                Ветка создана, но расчётную модель товара не подменяем логикой услуг.
-                Её входные параметры и структура расходов будут добавлены отдельным следующим этапом.
-            </p>
+            <h1 class="text-3xl font-bold text-slate-900">Что продаёте?</h1>
+
+            <form class="mt-6" onsubmit="submitProductIntro(event)">
+                <label for="product-name-input" class="block text-sm font-medium text-slate-700 mb-2">Наименование товара</label>
+                <input
+                    id="product-name-input"
+                    type="text"
+                    class="input-field"
+                    placeholder="Например: кофемашина, футболка, набор свечей"
+                    autocomplete="off"
+                >
+                <p id="product-name-error" class="hidden text-xs text-red-600 mt-2">Введите наименование товара.</p>
+
+                <button
+                    type="submit"
+                    class="mt-4 w-full sm:w-auto bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+                >
+                    Рассчитать мой товар
+                </button>
+            </form>
+        </div>
+
+        <div id="product-source-block" class="card p-6 md:p-8 mt-5 hidden">
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Шаг 2</div>
+            <h2 class="text-2xl font-bold text-slate-900">
+                Откуда берёте <span id="product-source-name"></span>?
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <button type="button" data-product-source="own" onclick="selectProductSource('own')" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Делаю сам</div>
+                </button>
+
+                <button type="button" data-product-source="resale" onclick="selectProductSource('resale')" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Покупаю у других</div>
+                </button>
+
+                <button type="button" data-product-source="dropship" onclick="selectProductSource('dropship')" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Дропшиппинг</div>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -478,6 +520,40 @@
         function showAgentChooser() { showOnly('agent-screen'); }
         function showAgentComplex() { showOnly('agent-complex-screen'); }
         function showProductBranch() { showOnly('product-screen'); }
+
+        let productName = '';
+        let productSource = null;
+
+        function submitProductIntro(event) {
+            event.preventDefault();
+
+            const input = document.getElementById('product-name-input');
+            const error = document.getElementById('product-name-error');
+            const value = input.value.trim();
+
+            if (!value) {
+                error.classList.remove('hidden');
+                document.getElementById('product-source-block').classList.add('hidden');
+                input.focus();
+                return;
+            }
+
+            productName = value;
+            error.classList.add('hidden');
+            document.getElementById('product-source-name').textContent = '«' + productName + '»';
+            document.getElementById('product-source-block').classList.remove('hidden');
+            document.getElementById('product-source-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function selectProductSource(source) {
+            productSource = source;
+
+            document.querySelectorAll('.product-source-choice').forEach(button => {
+                const selected = button.dataset.productSource === source;
+                button.classList.toggle('product-source-selected', selected);
+                button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+        }
 
         function selectServiceMode(mode) {
             serviceMode = mode;
