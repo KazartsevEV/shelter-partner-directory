@@ -2150,7 +2150,11 @@
         }
 
         function recalculatePortfolioItemQuantity(item, kind, qty) {
-            const n = Math.min(99999, Math.max(1, Math.floor(Number(qty) || 1)));
+            const raw = Number(qty);
+            const n =
+                kind === 'ads'
+                    ? Math.min(99999, Math.max(0.01, Number.isFinite(raw) ? raw : 0.01))
+                    : Math.min(99999, Math.max(1, Math.floor(raw || 1)));
 
             if (kind === 'materials') {
                 item.materialsBatchQty = n;
@@ -2204,23 +2208,27 @@
                 const cpc = Math.max(0, Number(item.inputs['own-product-ad-cpc']) || 0);
                 const clickLead = Math.max(0, Number(item.inputs['own-product-ad-click-lead']) || 0) / 100;
                 const leadSale = Math.max(0, Number(item.inputs['own-product-ad-lead-sale']) || 0) / 100;
-                const unitsOrder = Math.max(0, Number(item.inputs['own-product-ad-units-order']) || 0);
-                const unitsPerBudgetUnit = cpc > 0 ? (clickLead * leadSale * unitsOrder) / cpc : 0;
-                const requiredBudget = unitsPerBudgetUnit > 0 ? n / unitsPerBudgetUnit : 0;
+                const salesPerBudgetUnit =
+                    cpc > 0
+                        ? (clickLead * leadSale) / cpc
+                        : 0;
+                const requiredBudget = salesPerBudgetUnit > 0 ? n / salesPerBudgetUnit : 0;
                 const management = Number(item.adManagement || 0);
+                const baseCac = n > 0 ? requiredBudget / n : 0;
+                const managementPerUnit = n > 0 ? management / n : 0;
 
                 item.forecastUnitsPerMonth = n;
                 item.adBudget = requiredBudget;
                 item.adTotal = requiredBudget + management;
-                item.adCostPerUnit = n > 0 ? item.adTotal / n : 0;
+                item.adCostPerUnit = baseCac;
                 item.inputs['own-product-ad-budget'] = String(requiredBudget);
 
                 setFrozenProductValue(item.id, 'own-product-ad-budget', requiredBudget);
-                setFrozenProductValue(item.id, 'own-product-ad-units', moneyInputValue(n), true);
-                setFrozenProductValue(item.id, 'own-product-ad-cac-unit', moneyInputValue(item.adCostPerUnit), true);
-                setFrozenProductValue(item.id, 'own-product-ad-media-unit', moneyInputValue(n > 0 ? requiredBudget / n : 0), true);
-                setFrozenProductValue(item.id, 'own-product-ad-management-unit', moneyInputValue(n > 0 ? management / n : 0), true);
-                setFrozenProductValue(item.id, 'own-product-ad-full-unit', moneyInputValue(item.adCostPerUnit), true);
+                setFrozenProductValue(item.id, 'own-product-ad-units', n.toLocaleString('ru-RU', { maximumFractionDigits: 2 }), true);
+                setFrozenProductValue(item.id, 'own-product-ad-cac-unit', moneyInputValue(baseCac), true);
+                setFrozenProductValue(item.id, 'own-product-ad-media-unit', moneyInputValue(baseCac), true);
+                setFrozenProductValue(item.id, 'own-product-ad-management-unit', moneyInputValue(managementPerUnit), true);
+                setFrozenProductValue(item.id, 'own-product-ad-full-unit', moneyInputValue(baseCac + managementPerUnit), true);
             }
         }
 
@@ -2935,7 +2943,12 @@
             Object.entries(qtyValues).forEach(([kind, value]) => {
                 const input = section.querySelector(`[data-aggregate-qty-kind="${kind}"]`);
                 if (input && document.activeElement !== input) {
-                    input.value = Math.min(99999, Math.max(1, Math.round(Number(value) || 1)));
+                    if (kind === 'ads') {
+                        const n = Math.min(99999, Math.max(0.01, Number(value) || 0.01));
+                        input.value = Number(n.toFixed(2));
+                    } else {
+                        input.value = Math.min(99999, Math.max(1, Math.round(Number(value) || 1)));
+                    }
                 }
             });
 
@@ -2963,7 +2976,11 @@
             const item = productPortfolio.find(product => product.id === Number(productId));
             if (!item) return;
 
-            const n = Math.min(99999, Math.max(1, Math.floor(Number(value) || 1)));
+            const raw = Number(value);
+            const n =
+                kind === 'ads'
+                    ? Math.min(99999, Math.max(0.01, Number.isFinite(raw) ? raw : 0.01))
+                    : Math.min(99999, Math.max(1, Math.floor(raw || 1)));
 
             if (Number(productId) === currentProductSequence) {
                 const fieldByKind = {
@@ -2977,11 +2994,13 @@
                     const cpc = productNumber('own-product-ad-cpc');
                     const clickLead = productNumber('own-product-ad-click-lead') / 100;
                     const leadSale = productNumber('own-product-ad-lead-sale') / 100;
-                    const unitsOrder = productNumber('own-product-ad-units-order');
-                    const unitsPerBudgetUnit = cpc > 0 ? (clickLead * leadSale * unitsOrder) / cpc : 0;
+                    const salesPerBudgetUnit =
+                        cpc > 0
+                            ? (clickLead * leadSale) / cpc
+                            : 0;
                     const budgetInput = document.getElementById('own-product-ad-budget');
-                    if (budgetInput && unitsPerBudgetUnit > 0) {
-                        budgetInput.value = (n / unitsPerBudgetUnit).toFixed(2);
+                    if (budgetInput && salesPerBudgetUnit > 0) {
+                        budgetInput.value = (n / salesPerBudgetUnit).toFixed(2);
                         recalculateProductAdFunnel();
                     }
                 } else {
@@ -3004,15 +3023,24 @@
         }
 
         function aggregateQtyInput(item, kind, value) {
+            const isAds = kind === 'ads';
+            const numeric = Number(value);
+            const normalized = isAds
+                ? Math.min(99999, Math.max(0.01, Number.isFinite(numeric) ? numeric : 0.01))
+                : Math.min(99999, Math.max(1, Math.round(numeric || 1)));
+            const renderedValue = isAds
+                ? Number(normalized.toFixed(2))
+                : normalized;
+
             return `<input
                 type="number"
-                min="1"
+                min="${isAds ? '0.01' : '1'}"
                 max="99999"
-                step="1"
-                inputmode="numeric"
+                step="${isAds ? '0.01' : '1'}"
+                inputmode="decimal"
                 class="aggregate-qty-input"
                 data-aggregate-qty-kind="${kind}"
-                value="${Math.min(99999, Math.max(1, Math.round(Number(value) || 1)))}"
+                value="${renderedValue}"
                 oninput="updateAggregateQuantity(${item.id}, '${kind}', this.value)"
             >`;
         }
