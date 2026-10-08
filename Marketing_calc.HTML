@@ -9,7 +9,7 @@
     <title>Калькулятор Юнит-Экономики (CPC)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
         .card { background: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .input-field { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-weight: 500; outline: none; transition: all 0.2s; }
@@ -23,7 +23,13 @@
         .td-val { text-align: right; padding: 0.75rem; font-family: monospace; font-weight: 500; }
         .td-total { background-color: #f8fafc; font-weight: 700; color: #0f172a; }
 
-        #monthly-breakdown-table { table-layout: fixed; width: max-content; min-width: 100%; }
+        #monthly-breakdown-table {
+            table-layout: fixed;
+            width: max-content;
+            min-width: 100%;
+            font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+            font-stretch: condensed;
+        }
         .monthly-label-col {
             width: 260px; min-width: 260px; max-width: 260px;
             white-space: normal; overflow-wrap: break-word; line-height: 1.35;
@@ -36,15 +42,25 @@
         @media (max-width: 640px) {
             body { padding: 0.75rem; }
             .monthly-label-col {
-                width: 172px; min-width: 172px; max-width: 172px;
-                padding: 0.55rem 0.5rem; font-size: 0.78rem; line-height: 1.25;
+                width: 148px; min-width: 148px; max-width: 148px;
+                padding: 0.5rem 0.4rem; font-size: 0.72rem; line-height: 1.18;
             }
             .monthly-value-col {
-                width: 96px; min-width: 96px; max-width: 96px;
-                padding: 0.55rem 0.45rem; font-size: 0.78rem;
+                width: 82px; min-width: 82px; max-width: 82px;
+                padding: 0.5rem 0.3rem; font-size: 0.72rem;
             }
-            #monthly-breakdown-table .td-val { padding: 0.55rem 0.45rem; }
-            #monthly-breakdown-table .td-label { padding: 0.55rem 0.5rem; }
+            #monthly-breakdown-table .td-val {
+                padding: 0.5rem 0.3rem;
+                font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+                font-variant-numeric: tabular-nums;
+                letter-spacing: -0.02em;
+            }
+            #monthly-breakdown-table .td-label { padding: 0.5rem 0.4rem; }
+            #monthly-breakdown-table .th {
+                font-size: 0.68rem;
+                letter-spacing: 0.015em;
+                padding: 0.5rem 0.3rem;
+            }
         }
     </style>
 </head>
@@ -461,8 +477,8 @@
                 <th class="th monthly-value-col border-b border-slate-300 bg-slate-100 text-blue-900">Итого</th>
             `;
             const mobile = window.matchMedia('(max-width: 640px)').matches;
-            const labelWidth = mobile ? 172 : 260;
-            const valueWidth = mobile ? 96 : 118;
+            const labelWidth = mobile ? 148 : 260;
+            const valueWidth = mobile ? 82 : 118;
             document.getElementById('monthly-breakdown-table').style.width =
                 (labelWidth + (months + 1) * valueWidth) + 'px';
 
