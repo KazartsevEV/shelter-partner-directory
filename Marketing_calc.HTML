@@ -2243,9 +2243,12 @@
                 planning.advanceLeadDays !== '' &&
                 planning.advanceLeadDays !== null &&
                 planning.advanceLeadDays !== undefined;
-            const waitAfterAdvanceDays = hasExplicitAdvanceLead
-                ? Math.max(0, Number(planning.advanceLeadDays) || 0)
-                : supplyDays;
+            const waitAfterAdvanceDays =
+                advancePct <= 0
+                    ? 0
+                    : (hasExplicitAdvanceLead
+                        ? Math.max(0, Number(planning.advanceLeadDays) || 0)
+                        : supplyDays);
 
             const productionDays = Math.max(0, Number(planning.productionDays) || 0);
 
