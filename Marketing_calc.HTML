@@ -710,6 +710,10 @@
                                     <span id="own-employer-fixed-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="border-t border-slate-200 pt-2 mt-2 flex justify-between gap-4 text-sm">
+                                    <span class="font-semibold text-slate-800">Итого налоги и обязательные начисления работодателя / месяц</span>
+                                    <span id="own-employer-mandatory-total-estimate" class="font-bold text-slate-900">0,00</span>
+                                </div>
+                                <div class="border-t border-slate-200 pt-2 mt-2 flex justify-between gap-4 text-sm">
                                     <span class="font-semibold text-slate-800">Полная стоимость сотрудников бизнесу / месяц</span>
                                     <span id="own-employer-total-cost-estimate" class="font-bold text-slate-900">0,00</span>
                                 </div>
@@ -1087,7 +1091,7 @@
             EG: 18.75, SV: 7.5, GQ: 21.5, EE: 33.8, FJ: 10, FI: 20.81, FR: 45,
             GA: 20.1, DE: 19.42, GR: 21.79, GT: 12.67, GN: 18, HU: 13, IS: 6.35,
             IN: 12, ID: 11.74, IQ: 12, IE: 11.25, IL: 7.6, IT: 30, CI: 18.45,
-            JM: 12.5, JP: 16.44, JO: 14.25, KZ: 14.5, KE: 6, XK: 5, KW: 11.5,
+            JM: 12.5, JP: 16.44, JO: 14.25, KZ: 11.5, KE: 6, XK: 5, KW: 11.5,
             LA: 6, LV: 23.59, LB: 22.5, LY: 15.38, LT: 1.77, LU: 15.1, MG: 19,
             MY: 13, MT: 10, MR: 15, MU: 6, MX: 7.6, FM: 7.5, MD: 24, MN: 14.5,
             ME: 6, MA: 21.09, MZ: 4, NZ: 3.5, NO: 14.1, PA: 12.25, PG: 8.4,
@@ -1104,7 +1108,7 @@
             BO:12.71,BA:31,BR:14,BG:13.78,CM:4.2,CA:7.58,TD:3.5,CL:17,CN:10.5,CO:10,CG:4,
             CR:10.83,HR:20,CY:8.8,CZ:11.6,DK:0,EC:9.45,EG:11,SV:3,GQ:4.5,EE:3.6,FJ:8,FI:10.17,
             FR:23,GA:2.5,DE:19.33,GR:13.37,GT:4.83,GN:5,HU:18.5,IS:4,IN:12,ID:4,IQ:5,IE:4.2,
-            IL:12.17,IT:10,CI:6.3,JM:7.25,JP:15.48,JO:7.5,KZ:10,KE:6,XK:5,KW:8,LA:5.5,
+            IL:12.17,IT:10,CI:6.3,JM:7.25,JP:15.48,JO:7.5,KZ:12,KE:6,XK:5,KW:8,LA:5.5,
             LV:10.5,LB:3,LY:5.13,LT:19.5,LU:12.95,MG:2,MY:11,MT:10,MR:1,MU:3,MX:2.78,
             FM:7.5,MD:9,MN:11.5,ME:15.5,MA:6.74,MZ:3,NL:27.65,NZ:10,NO:7.6,PA:9.75,
             PG:6,PY:9,PH:5,PL:13.71,PT:11,QA:0,RO:35,RU:0,RW:6,SA:9.75,RS:19.9,SG:20,
@@ -1276,7 +1280,7 @@
                 if (code === 'RU') {
                     note.textContent = 'РФ: поле 30% — базовый тариф. Авторасчёт учитывает годовой предел базы 2 979 000 ₽ на сотрудника и ставку 15,1% сверх него. НДФЛ автоматически считается по прогрессивной шкале, пока вы не измените поле вручную.';
                 } else if (code === 'KZ') {
-                    note.textContent = 'Казахстан: справочные ставки подставлены автоматически. Поля остаются редактируемыми под ваш фактический режим.';
+                    note.textContent = 'Казахстан, 2026: начисления работодателя сверх зарплаты — 11,5% (социальные отчисления 5% + ОПВР 3,5% + ОСМС работодателя 3%); социальный налог — 6% отдельной строкой. Удержания сотрудника — 12% (ОПВ 10% + ОСМС 2%). Подоходный налог — 10% справочно. Поля можно редактировать под ваш режим и применимые пределы базы.';
                 } else {
                     note.textContent = 'Автоподстановка использует справочные международные ставки. При необходимости замените их фактическими.';
                 }
@@ -1342,7 +1346,13 @@
             const employerInjury = gross * injuryRate / 100;
             const employerOther = gross * employerOtherRate / 100;
             const employerFixed = count * fixedPerEmployee;
-            const employerTotalCost = gross + employerContributions + employerPayrollTax + employerInjury + employerOther + employerFixed;
+            const employerMandatoryTotal =
+                employerContributions +
+                employerPayrollTax +
+                employerInjury +
+                employerOther +
+                employerFixed;
+            const employerTotalCost = gross + employerMandatoryTotal;
 
             const employeeSocialWithheld = gross * employeeWithholdingRate / 100;
             const employeeOtherWithheld = gross * employeeOtherWithholdingRate / 100;
@@ -1355,6 +1365,7 @@
                 'own-employer-injury-estimate': employerInjury,
                 'own-employer-other-estimate': employerOther,
                 'own-employer-fixed-estimate': employerFixed,
+                'own-employer-mandatory-total-estimate': employerMandatoryTotal,
                 'own-employer-total-cost-estimate': employerTotalCost,
                 'own-employee-net-estimate': employeeNet
             };
