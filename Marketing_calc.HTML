@@ -1826,6 +1826,9 @@
             const isMine = productImportPayers[key] === 'me';
             setProductHidden(costFieldId + '-wrap', !isMine);
             if (!isMine) setProductFieldZero(costFieldId);
+
+            // Keep the block-1 landed cost in sync with payer changes.
+            recalculateMaterialsLandedCost();
         }
 
         function setProductLogisticsPayer(key, value) {
