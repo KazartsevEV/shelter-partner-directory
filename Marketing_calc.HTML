@@ -1960,6 +1960,14 @@
                 logisticsQty,
                 warehouseInboundUnitCost,
                 warehouseStorageUnitCost,
+                customerDeliveryPct:
+                    productLogisticsPayers.customerDelivery === 'me'
+                        ? productNumber('own-customer-delivery-pct')
+                        : 0,
+                customerReturnPct:
+                    productLogisticsPayers.customerDelivery === 'me'
+                        ? productNumber('own-return-rate')
+                        : 0,
                 warehouseStageTotal: (warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
                 salesFixedMonthly: productNumberFromText('own-sales-fixed-monthly'),
                 salesFixedPerUnit: productNumberFromText('own-sales-fixed-per-unit'),
@@ -2086,6 +2094,36 @@
             else if ('value' in el) el.value = value;
         }
 
+        function recalculatePortfolioLogistics(item) {
+            if (!item) return;
+
+            const costBeforeLogistics =
+                Number(item.materialsUnitCost || 0) +
+                Number(item.productionUnitCost || 0);
+            const deliveryPct = Math.max(0, Number(item.customerDeliveryPct || 0));
+            const returnPct = Math.max(0, Number(item.customerReturnPct || 0));
+            const baseDelivery = costBeforeLogistics * deliveryPct / 100;
+            const returnDeliveryUplift = baseDelivery * returnPct / 100;
+
+            item.logisticsUnitCost =
+                Number(item.warehouseInboundUnitCost || 0) +
+                Number(item.warehouseStorageUnitCost || 0) +
+                baseDelivery +
+                returnDeliveryUplift;
+            item.warehouseStageTotal =
+                (Number(item.warehouseInboundUnitCost || 0) +
+                 Number(item.warehouseStorageUnitCost || 0)) *
+                Number(item.logisticsQty || 0);
+
+            setFrozenProductValue(item.id, 'own-logistics-unit-cost', moneyInputValue(item.logisticsUnitCost), true);
+            setFrozenProductValue(
+                item.id,
+                'own-logistics-selected-total',
+                moneyInputValue(item.logisticsUnitCost * Number(item.logisticsQty || 0)),
+                true
+            );
+        }
+
         function recalculatePortfolioItemQuantity(item, kind, qty) {
             const n = Math.min(99999, Math.max(1, Math.floor(Number(qty) || 1)));
 
@@ -2099,6 +2137,7 @@
 
                 setFrozenProductValue(item.id, 'own-materials-batch-qty', n);
                 setFrozenProductValue(item.id, 'own-materials-landed-unit-cost', moneyInputValue(item.materialsUnitCost), true);
+                recalculatePortfolioLogistics(item);
             }
 
             if (kind === 'production') {
@@ -2112,6 +2151,7 @@
 
                 setFrozenProductValue(item.id, 'own-production-monthly-qty', n);
                 setFrozenProductValue(item.id, 'own-production-unit-cost', moneyInputValue(item.productionUnitCost), true);
+                recalculatePortfolioLogistics(item);
             }
 
             if (kind === 'logistics') {
@@ -2176,33 +2216,44 @@
 
             const advancePct = Math.min(100, Math.max(0, Number(planning.advancePct) || 0));
             const advanceAmount = materialsTotal * advancePct / 100;
-            const supplyDays = Math.max(0, Number(planning.supplyDays) || 0);
-            const advanceLeadDays = Math.max(0, Number(planning.advanceLeadDays) || 0);
-            const waitAfterAdvanceDays = advanceLeadDays > 0 ? advanceLeadDays : supplyDays;
-            const productionDays = Math.max(0, Number(planning.productionDays) || 0);
-            const warehouseDays = Math.max(0, Number(item?.inputs?.['own-warehouse-days']) || 0);
-            const preSalesDays = waitAfterAdvanceDays + productionDays + warehouseDays;
 
+            const supplyDays = Math.max(0, Number(planning.supplyDays) || 0);
+            const hasExplicitAdvanceLead =
+                planning.advanceLeadDays !== '' &&
+                planning.advanceLeadDays !== null &&
+                planning.advanceLeadDays !== undefined;
+            const waitAfterAdvanceDays = hasExplicitAdvanceLead
+                ? Math.max(0, Number(planning.advanceLeadDays) || 0)
+                : supplyDays;
+
+            const productionDays = Math.max(0, Number(planning.productionDays) || 0);
             const salesSpeedPerMonth = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
             const stockQty = Math.max(0, Number(item?.logisticsQty) || 0);
-            const sellThroughDays =
+
+            // The stock is sold while it is on the warehouse; this is one stage,
+            // not "warehouse waiting" plus a second independent selling stage.
+            const warehouseSalesDays =
                 salesSpeedPerMonth > 0
                     ? stockQty / salesSpeedPerMonth * 30
                     : null;
-            const paybackDays =
-                sellThroughDays === null
+            const totalCycleDays =
+                warehouseSalesDays === null
                     ? null
-                    : preSalesDays + sellThroughDays;
+                    : waitAfterAdvanceDays + productionDays + warehouseSalesDays;
+
+            // Real payback needs monetary inflow / selling price / profit.
+            // Those values are not yet present in the product branch, so do not
+            // mislabel sell-through time as investment payback.
+            const paybackDays = null;
 
             return {
                 investmentTotal,
                 advanceAmount,
                 waitAfterAdvanceDays,
                 productionDays,
-                warehouseDays,
-                preSalesDays,
                 salesSpeedPerMonth,
-                sellThroughDays,
+                warehouseSalesDays,
+                totalCycleDays,
                 paybackDays
             };
         }
@@ -2223,10 +2274,10 @@
                 advanceAmount: moneyInputValue(m.advanceAmount),
                 waitDays: aggregateDaysText(m.waitAfterAdvanceDays),
                 productionDays: aggregateDaysText(m.productionDays),
-                warehouseDays: aggregateDaysText(m.warehouseDays),
-                preSalesDays: aggregateDaysText(m.preSalesDays),
+                warehouseSalesDays: aggregateDaysText(m.warehouseSalesDays),
+                totalCycleDays: aggregateDaysText(m.totalCycleDays),
                 salesSpeed: moneyInputValue(m.salesSpeedPerMonth),
-                paybackDays: aggregateDaysText(m.paybackDays)
+                paybackDays: '—'
             };
             Object.entries(outputs).forEach(([key, value]) => {
                 const el = section.querySelector(`[data-aggregate-final="${key}"]`);
@@ -2457,15 +2508,15 @@
 
                             <div class="aggregate-line mt-4 leading-relaxed">
                                 В течение
-                                <span class="aggregate-final-value" data-aggregate-final="preSalesDays">${aggregateDaysText(aggregatePlanMetrics(item).preSalesDays)}</span>
+                                <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
                                 дней: после предоплаты
                                 <span class="aggregate-final-value" data-aggregate-final="advanceAmount">${moneyInputValue(aggregatePlanMetrics(item).advanceAmount)}</span>
                                 у.е.* жду поставку
                                 <span class="aggregate-final-value" data-aggregate-final="waitDays">${aggregateDaysText(aggregatePlanMetrics(item).waitAfterAdvanceDays)}</span>
                                 дней + производство
                                 <span class="aggregate-final-value" data-aggregate-final="productionDays">${aggregateDaysText(aggregatePlanMetrics(item).productionDays)}</span>
-                                дней + склад
-                                <span class="aggregate-final-value" data-aggregate-final="warehouseDays">${aggregateDaysText(aggregatePlanMetrics(item).warehouseDays)}</span>
+                                дней + склад и продажи
+                                <span class="aggregate-final-value" data-aggregate-final="warehouseSalesDays">${aggregateDaysText(aggregatePlanMetrics(item).warehouseSalesDays)}</span>
                                 дней.
                             </div>
 
@@ -2477,8 +2528,8 @@
 
                             <div class="aggregate-final-total mt-4">
                                 Мои вложения окупятся в течение:
-                                <span class="aggregate-final-value" data-aggregate-final="paybackDays">${aggregateDaysText(aggregatePlanMetrics(item).paybackDays)}</span>
-                                дней, если всё пойдёт, как я думаю.
+                                <span class="aggregate-final-value" data-aggregate-final="paybackDays">—</span>
+                                <span class="aggregate-muted text-sm font-medium"> — после подключения оборота и прибыли.</span>
                             </div>
 
                             <div class="grid grid-cols-2 gap-3 mt-5">
