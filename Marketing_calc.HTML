@@ -171,6 +171,30 @@
             color: #ecfdf5;
             border: 1px solid rgba(209, 250, 229, 0.55);
         }
+        #product-tax-block.product-business-aggregate .aggregate-pricing-panel {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(209,250,229,0.22);
+        }
+        #product-tax-block.product-business-aggregate .aggregate-price-card {
+            border: 1px solid rgba(209,250,229,0.28);
+            border-radius: 0.85rem;
+            padding: 0.9rem;
+            background: rgba(255,255,255,0.06);
+        }
+        #product-tax-block.product-business-aggregate .aggregate-price-number {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 900;
+            font-variant-numeric: tabular-nums;
+        }
+        @media print {
+            .aggregate-action-confirm,
+            .aggregate-action-recalc,
+            #product-browser-save-status {
+                display: none !important;
+            }
+        }
 
         #monthly-breakdown-table {
             table-layout: fixed;
@@ -1197,7 +1221,7 @@
             <div id="product-tax-block" class="card product-business-aggregate p-6 md:p-8 hidden" hidden>
                 <div id="product-business-summary-list"></div>
 
-                <div class="mt-5 pt-5 border-t aggregate-separator">
+                <div id="product-tax-details" class="hidden mt-5 pt-5 border-t aggregate-separator" hidden>
                     <div class="aggregate-tax-title text-lg font-bold">Заплачу налог</div>
 
                     <div class="mt-3">
@@ -1207,7 +1231,7 @@
                         </div>
                         <div id="own-business-tax-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label id="own-business-tax-label" class="block text-xs text-slate-500 mb-1">Ставка налога, %</label>
-                            <input id="own-business-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="syncVisibleAggregateFromCurrentProduct()">
+                            <input id="own-business-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="refreshAllAggregatePricing()">
                         </div>
                     </div>
 
@@ -1219,9 +1243,19 @@
                         </div>
                         <div id="own-sales-vat-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-xs text-slate-500 mb-1">Размер НДС, %</label>
-                            <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="syncVisibleAggregateFromCurrentProduct()">
+                            <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="refreshAllAggregatePricing()">
                         </div>
                     </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 pt-5 border-t aggregate-separator">
+                        <button type="button" onclick="saveProductCalculationToBrowser()" class="aggregate-action-confirm">
+                            Сохранить результат в браузере
+                        </button>
+                        <button type="button" onclick="exportProductCalculationPdf()" class="aggregate-action-recalc">
+                            Экспорт в PDF
+                        </button>
+                    </div>
+                    <div id="product-browser-save-status" class="aggregate-muted text-xs mt-2"></div>
                 </div>
             </div>
         </div>
@@ -2273,7 +2307,10 @@
                     salesSpeedPerMonth,
                     advanceAmount,
                     zeroMarginRevenue: null,
-                    zeroMarginUnitPrice: null
+                    zeroMarginUnitPrice: null,
+                    nonRevenueCosts: null,
+                    variableSalesRate,
+                    stockQty
                 };
             }
 
@@ -2315,7 +2352,10 @@
                     salesSpeedPerMonth,
                     advanceAmount,
                     zeroMarginRevenue: null,
-                    zeroMarginUnitPrice: null
+                    zeroMarginUnitPrice: null,
+                    nonRevenueCosts: null,
+                    variableSalesRate,
+                    stockQty
                 };
             }
 
@@ -2379,8 +2419,185 @@
                 salesSpeedPerMonth,
                 advanceAmount,
                 zeroMarginRevenue,
-                zeroMarginUnitPrice
+                zeroMarginUnitPrice,
+                nonRevenueCosts,
+                variableSalesRate,
+                stockQty
             };
+        }
+
+        function aggregatePricingMetrics(item) {
+            const cycle = aggregatePlanMetrics(item);
+            const marginPct = Math.max(0, Number(item?.planning?.targetReturnPct) || 0);
+            const targetProfit =
+                cycle.requiredCapital === null
+                    ? null
+                    : cycle.requiredCapital * marginPct / 100;
+
+            if (
+                targetProfit === null ||
+                cycle.nonRevenueCosts === null ||
+                !Number.isFinite(cycle.nonRevenueCosts) ||
+                !(cycle.stockQty > 0) ||
+                !(1 - cycle.variableSalesRate > 0)
+            ) {
+                return {
+                    marginPct,
+                    targetProfit,
+                    priceBeforeTax: null,
+                    priceBeforeTaxWithVat: null,
+                    taxAdjustedPrice: null,
+                    taxAdjustedPriceWithVat: null
+                };
+            }
+
+            const preTaxRevenue =
+                (cycle.nonRevenueCosts + targetProfit) /
+                (1 - cycle.variableSalesRate);
+            const priceBeforeTax = preTaxRevenue / cycle.stockQty;
+
+            const salesVatEnabled = productOwnChoices.salesVat === 'yes';
+            const vatRate = salesVatEnabled
+                ? Math.max(0, productNumber('own-sales-vat-pct')) / 100
+                : 0;
+            const priceBeforeTaxWithVat = priceBeforeTax * (1 + vatRate);
+
+            const businessTaxRate = Math.max(0, productNumber('own-business-tax-pct')) / 100;
+            let taxedRevenue = null;
+
+            if (productBusinessTaxType === 'turnover') {
+                const retained = 1 - cycle.variableSalesRate - businessTaxRate;
+                taxedRevenue = retained > 0
+                    ? (cycle.nonRevenueCosts + targetProfit) / retained
+                    : null;
+            } else if (productBusinessTaxType === 'profit') {
+                const retainedProfit = 1 - businessTaxRate;
+                const requiredPretaxProfit = retainedProfit > 0
+                    ? targetProfit / retainedProfit
+                    : null;
+                taxedRevenue = requiredPretaxProfit === null
+                    ? null
+                    : (cycle.nonRevenueCosts + requiredPretaxProfit) /
+                      (1 - cycle.variableSalesRate);
+            }
+
+            const taxAdjustedPrice =
+                taxedRevenue === null
+                    ? null
+                    : taxedRevenue / cycle.stockQty;
+            const taxAdjustedPriceWithVat =
+                taxAdjustedPrice === null
+                    ? null
+                    : taxAdjustedPrice * (1 + vatRate);
+
+            return {
+                marginPct,
+                targetProfit,
+                priceBeforeTax,
+                priceBeforeTaxWithVat,
+                taxAdjustedPrice,
+                taxAdjustedPriceWithVat
+            };
+        }
+
+        function aggregatePriceText(value) {
+            return value === null || !Number.isFinite(Number(value))
+                ? '—'
+                : moneyInputValue(value);
+        }
+
+        function updateAggregatePricing(item) {
+            if (!item) return;
+            const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
+            if (!section) return;
+
+            const p = aggregatePricingMetrics(item);
+            const outputs = {
+                priceBeforeTax: aggregatePriceText(p.priceBeforeTax),
+                priceBeforeTaxWithVat: aggregatePriceText(p.priceBeforeTaxWithVat),
+                targetProfit: aggregatePriceText(p.targetProfit),
+                taxAdjustedPrice: aggregatePriceText(p.taxAdjustedPrice),
+                taxAdjustedPriceWithVat: aggregatePriceText(p.taxAdjustedPriceWithVat)
+            };
+            Object.entries(outputs).forEach(([key, value]) => {
+                section.querySelectorAll(`[data-aggregate-price="${key}"]`).forEach(el => {
+                    el.textContent = value;
+                });
+            });
+        }
+
+        function refreshAllAggregatePricing() {
+            productPortfolio.forEach(item => updateAggregatePricing(item));
+        }
+
+        function updateAggregateMargin(productId, value) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+            if (!item.planning) item.planning = {};
+            item.planning.targetReturnPct = Math.max(0, Number(value) || 0);
+            updateAggregatePricing(item);
+        }
+
+        function setAggregatePricingDecision(productId, decision, button) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+            if (!item.planning) item.planning = {};
+            item.planning.pricingDecision = decision;
+
+            const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
+            if (!section) return;
+            section.querySelectorAll('[data-pricing-decision]').forEach(el => {
+                el.classList.toggle(
+                    'is-accepted',
+                    el.dataset.pricingDecision === decision
+                );
+            });
+        }
+
+        function showAggregateTaxPricing(productId, button) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+            if (!item.planning) item.planning = {};
+            item.planning.taxRequested = true;
+
+            const tax = document.getElementById('product-tax-details');
+            if (tax) {
+                tax.hidden = false;
+                tax.classList.remove('hidden');
+            }
+
+            const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
+            const result = section?.querySelector('[data-tax-price-result]');
+            if (result) {
+                result.hidden = false;
+                result.classList.remove('hidden');
+            }
+
+            updateAggregatePricing(item);
+            if (tax) tax.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function saveProductCalculationToBrowser() {
+            try {
+                const payload = {
+                    savedAt: new Date().toISOString(),
+                    productPortfolio,
+                    taxType: productBusinessTaxType,
+                    businessTaxPct: productNumber('own-business-tax-pct'),
+                    salesVat: productOwnChoices.salesVat || 'no',
+                    salesVatPct: productNumber('own-sales-vat-pct')
+                };
+                localStorage.setItem('marketingCalcProductResultV1', JSON.stringify(payload));
+                const status = document.getElementById('product-browser-save-status');
+                if (status) status.textContent = 'Расчёт сохранён в этом браузере.';
+            } catch (error) {
+                const status = document.getElementById('product-browser-save-status');
+                if (status) status.textContent = 'Браузер не разрешил сохранить расчёт.';
+            }
+        }
+
+        function exportProductCalculationPdf() {
+            window.print();
         }
 
         function aggregateDaysText(value) {
@@ -2441,6 +2658,13 @@
                 el.classList.toggle('is-accepted', selected);
             });
 
+            const cashPricing = section.querySelector('[data-cash-pricing]');
+            if (cashPricing) {
+                const showCash = item.planning.fundingMode === 'cash';
+                cashPricing.hidden = !showCash;
+                cashPricing.classList.toggle('hidden', !showCash);
+            }
+
             const creditResult = section.querySelector('[data-credit-result]');
             if (creditResult) {
                 const showCredit = item.planning.fundingMode === 'credit';
@@ -2449,6 +2673,7 @@
             }
 
             updateAggregateFinalSummary(item);
+            updateAggregatePricing(item);
         }
 
         function updateAggregateAmounts(item) {
@@ -2483,6 +2708,7 @@
             });
 
             updateAggregateFinalSummary(item);
+            updateAggregatePricing(item);
         }
 
         function syncVisibleAggregateFromCurrentProduct() {
@@ -2659,6 +2885,77 @@
                                     onclick="setAggregateFundingMode(${item.id}, 'credit', this)">
                                     Рассчитать кредит
                                 </button>
+                            </div>
+
+                            <div data-cash-pricing class="aggregate-pricing-panel hidden" hidden>
+                                <label class="block text-sm font-semibold mb-2">
+                                    Какой процент я намерен заработать от вложенного?
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number"
+                                        min="0"
+                                        step="0.01"
+                                        value="${esc(planning.targetReturnPct ?? '')}"
+                                        class="input-field"
+                                        placeholder="Введите маржу"
+                                        oninput="updateAggregateMargin(${item.id}, this.value)">
+                                    <span class="font-bold text-emerald-100">%</span>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                                    <div class="aggregate-price-card">
+                                        <div class="aggregate-muted text-xs">Цена «${esc(item.name)}» за 1 ед. без налогов и НДС</div>
+                                        <div class="aggregate-price-number mt-1">
+                                            <span data-aggregate-price="priceBeforeTax">${aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTax)}</span> у.е.*
+                                        </div>
+                                    </div>
+                                    <div class="aggregate-price-card">
+                                        <div class="aggregate-muted text-xs">Цена с НДС</div>
+                                        <div class="aggregate-price-number mt-1">
+                                            <span data-aggregate-price="priceBeforeTaxWithVat">${aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTaxWithVat)}</span> у.е.*
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="aggregate-title text-lg font-bold mt-5">
+                                    Это рыночная цена за «${esc(item.name)}»?
+                                </div>
+                                <div class="aggregate-muted mt-2 text-sm leading-relaxed">
+                                    Проведите анализ рынка и получите мнение своего маркетолога: сможет ли он привлечь клиентов на ваш товар с учётом этой стоимости, или лучше производить другой товар либо построить бизнес иначе.
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 mt-5">
+                                    <button type="button"
+                                        data-pricing-decision="think"
+                                        class="aggregate-action-recalc"
+                                        onclick="setAggregatePricingDecision(${item.id}, 'think', this)">
+                                        Буду думать
+                                    </button>
+                                    <button type="button"
+                                        data-pricing-decision="tax"
+                                        class="aggregate-action-confirm"
+                                        onclick="showAggregateTaxPricing(${item.id}, this)">
+                                        Рассчитать цену с учётом налогов
+                                    </button>
+                                </div>
+
+                                <div data-tax-price-result class="${planning.taxRequested ? '' : 'hidden'} mt-4 pt-4 border-t aggregate-separator" ${planning.taxRequested ? '' : 'hidden'}>
+                                    <div class="aggregate-muted text-xs">Цена, сохраняющая выбранную прибыль после налога</div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                                        <div class="aggregate-price-card">
+                                            <div class="aggregate-muted text-xs">Без НДС</div>
+                                            <div class="aggregate-price-number mt-1">
+                                                <span data-aggregate-price="taxAdjustedPrice">${aggregatePriceText(aggregatePricingMetrics(item).taxAdjustedPrice)}</span> у.е.*
+                                            </div>
+                                        </div>
+                                        <div class="aggregate-price-card">
+                                            <div class="aggregate-muted text-xs">С НДС</div>
+                                            <div class="aggregate-price-number mt-1">
+                                                <span data-aggregate-price="taxAdjustedPriceWithVat">${aggregatePriceText(aggregatePricingMetrics(item).taxAdjustedPriceWithVat)}</span> у.е.*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div data-credit-result class="hidden mt-4 pt-4 border-t aggregate-separator" hidden>
@@ -3705,6 +4002,7 @@
             productOwnChoices[group] = value;
             setProductChoiceVisual(group, value);
             syncProductOwnVisibility(group);
+            if (group === 'salesVat') refreshAllAggregatePricing();
         }
 
         function setProductImportPayer(key, value) {
@@ -3912,6 +4210,7 @@
             }
 
             if (!hasType) setProductFieldZero('own-business-tax-pct');
+            refreshAllAggregatePricing();
         }
 
         // Native delegated click handling for all yes/no branches.
