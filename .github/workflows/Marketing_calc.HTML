@@ -659,9 +659,26 @@
                     у.е. в используемой вами валюте.
                 </div>
 
+                <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Количество <span class="product-name-live"></span> для расчёта
+                    </label>
+                    <input id="own-logistics-qty" type="number" min="1" step="1" value="1" class="input-field">
+                    <p class="text-xs text-slate-500 mt-2">
+                        Стоимость 1 ед. не меняется от количества; ниже дополнительно считается общая логистика для выбранного количества.
+                    </p>
+                </div>
+
                 <p id="own-logistics-minimum-note" class="mt-3 text-xs text-slate-500"></p>
                 <div id="own-logistics-unit-breakdown" class="mt-4 text-xs text-slate-600 leading-relaxed"></div>
+                <div class="mt-4 rounded-xl bg-white/80 border border-emerald-200 p-4 flex justify-between gap-4 text-sm">
+                    <span class="font-semibold text-slate-800">Логистика для выбранного количества</span>
+                    <span id="own-logistics-selected-total" class="font-bold text-emerald-800">0,00</span>
+                </div>
 
+                <button type="button" onclick="recalculateLogisticsUnitCost()" class="mt-5 w-full rounded-xl bg-emerald-600 text-white px-5 py-3.5 text-base font-bold shadow-md hover:bg-emerald-700 active:scale-[0.99] transition">
+                    Пересчитать
+                </button>
             </div>
 
             <div class="card p-6 md:p-8">
@@ -855,14 +872,28 @@
                     Расходы на продажу 1 ед. <span class="product-name-live"></span>
                 </div>
 
+                <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Сколько единиц <span class="product-name-live"></span> продаёте в месяц?
+                    </label>
+                    <input id="own-sales-monthly-qty" type="number" min="1" step="1" value="1" class="input-field">
+                    <p class="text-xs text-slate-500 mt-2">
+                        Постоянные расходы за месяц распределяются на это количество проданных единиц.
+                    </p>
+                </div>
+
                 <div class="mt-4 space-y-3">
                     <div class="rounded-xl bg-white/80 border border-emerald-200 p-4">
                         <div class="flex justify-between gap-4 text-sm">
                             <span class="font-semibold text-slate-800">Постоянные расходы / месяц</span>
                             <span id="own-sales-fixed-monthly" class="font-bold text-slate-900">0,00</span>
                         </div>
+                        <div class="flex justify-between gap-4 text-sm mt-2">
+                            <span class="font-semibold text-slate-800">Постоянные расходы / 1 ед.</span>
+                            <span id="own-sales-fixed-per-unit" class="font-bold text-emerald-800">0,00</span>
+                        </div>
                         <p class="text-xs text-slate-500 mt-1">
-                            Зарплаты / гонорары + обязательные налоги и начисления работодателя. На 1 ед. будут распределены после задания объёма продаж.
+                            Зарплаты / гонорары + обязательные налоги и начисления работодателя делятся на количество проданных единиц в месяц.
                         </p>
                     </div>
 
@@ -895,6 +926,9 @@
                     <p class="text-xs text-slate-500 mt-1">Комиссия + штрафы/удержания. Налоги вынесены в отдельный финальный блок и здесь не смешиваются.</p>
                 </div>
 
+                <button type="button" onclick="recalculateSalesCostSummary()" class="mt-5 w-full rounded-xl bg-emerald-600 text-white px-5 py-3.5 text-base font-bold shadow-md hover:bg-emerald-700 active:scale-[0.99] transition">
+                    Пересчитать
+                </button>
             </div>
 
             <div class="card p-6 md:p-8">
@@ -2285,9 +2319,13 @@
             const deliveryPerUnit = baseDelivery + returnDeliveryUplift;
 
             const total = warehousePerUnit + deliveryPerUnit;
+            const selectedQty = Math.max(1, Math.floor(Number(document.getElementById('own-logistics-qty')?.value) || 1));
+            const selectedTotal = total * selectedQty;
 
             const output = document.getElementById('own-logistics-unit-cost');
             if (output) output.textContent = moneyInputValue(total);
+            const selectedOutput = document.getElementById('own-logistics-selected-total');
+            if (selectedOutput) selectedOutput.textContent = moneyInputValue(selectedTotal);
 
             const breakdown = document.getElementById('own-logistics-unit-breakdown');
             if (breakdown) {
@@ -2440,6 +2478,8 @@
                     : 0;
 
             const fixedMonthly = payrollMonthly + employerMandatory;
+            const monthlySalesQty = Math.max(1, Math.floor(Number(document.getElementById('own-sales-monthly-qty')?.value) || 1));
+            const fixedPerUnit = fixedMonthly / monthlySalesQty;
             const commissionPct =
                 productOwnChoices.salesCommission === 'yes'
                     ? productNumber('own-sales-commission-pct')
@@ -2452,6 +2492,8 @@
 
             const fixedOut = document.getElementById('own-sales-fixed-monthly');
             if (fixedOut) fixedOut.textContent = moneyInputValue(fixedMonthly);
+            const fixedPerUnitOut = document.getElementById('own-sales-fixed-per-unit');
+            if (fixedPerUnitOut) fixedPerUnitOut.textContent = moneyInputValue(fixedPerUnit);
 
             const variableOut = document.getElementById('own-sales-variable-pct');
             if (variableOut) variableOut.textContent = commissionPct.toLocaleString('ru-RU') + '%';
