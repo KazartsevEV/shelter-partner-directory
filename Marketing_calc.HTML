@@ -1147,7 +1147,7 @@
             <div id="product-ad-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
                 <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 5</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
-                    Чтобы продать 1 ед. <span class="product-name-live"></span>, нужно потратить на привлечение покупателя
+                    Base CAC для 1 ед. <span class="product-name-live"></span> составляет
                     <span id="own-product-ad-cac-unit" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
                     у.е.*
                 </div>
@@ -3219,7 +3219,7 @@
                                         <span class="font-bold text-right" data-aggregate-price="salesMixNormalized">${(aggregatePricingMetrics(item).salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
                                         <span class="aggregate-muted">Доля выручки</span>
                                         <span class="font-bold text-right" data-aggregate-price="revenueWeight">${(aggregatePricingMetrics(item).revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
-                                        <span class="aggregate-muted">Средний CAC бизнеса</span>
+                                        <span class="aggregate-muted">Base CAC этого SKU</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="baseCac">${aggregatePriceText(aggregatePricingMetrics(item).baseCac)}</span> у.е.*</span>
                                         <span class="aggregate-muted">Weighted CAC товара</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="weightedCac">${aggregatePriceText(aggregatePricingMetrics(item).weightedCac)}</span> у.е.*</span>
@@ -4470,6 +4470,7 @@
             const mediaPerUnit = units > 0 ? budget / units : 0;
             const managementPerUnit = units > 0 ? management / units : 0;
             const fullPerUnit = mediaPerUnit + managementPerUnit;
+            const baseCac = mediaPerUnit;
 
             const intOut = (id, value) => {
                 const el = document.getElementById(id);
@@ -4493,7 +4494,7 @@
             moneyOut('own-product-ad-media-unit', mediaPerUnit);
             moneyOut('own-product-ad-management-unit', managementPerUnit);
             moneyOut('own-product-ad-full-unit', fullPerUnit);
-            moneyOut('own-product-ad-cac-unit', fullPerUnit);
+            moneyOut('own-product-ad-cac-unit', baseCac);
 
             const note = document.getElementById('own-product-ad-note');
             if (note) {
@@ -4502,7 +4503,7 @@
                 } else if (clicks > 0 && (clickLeadPct <= 0 || leadSalePct <= 0)) {
                     note.textContent = 'Укажите обе конверсии больше 0, чтобы рассчитать стоимость продажи 1 ед.';
                 } else if (units > 0) {
-                    note.textContent = 'Формула: (рекламный бюджет + ведение рекламы) ÷ прогноз проданных единиц. CTR влияет на прогноз показов, но при заданном CPC не меняет стоимость клика.';
+                    note.textContent = 'Base CAC = рекламный бюджет ÷ покупки. Ведение рекламы показано отдельно и не входит в CAC SKU.';
                 } else {
                     note.textContent = 'Заполните воронку, чтобы получить рекламную стоимость продажи 1 единицы.';
                 }
