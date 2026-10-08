@@ -1092,7 +1092,10 @@
                     Рекламные расходы на привлечение покупателей <span class="product-name-live"></span>
                 </h2>
                 <p class="text-sm text-slate-500 mt-2">
-                    Считаем воронку от рекламного бюджета до фактически проданных единиц товара. Цель — понять, сколько рекламных денег приходится на продажу 1 ед.
+                    Считаем одну общую воронку бизнеса: бюджет → клики → лиды → покупки → Base CAC.
+                </p>
+                <p id="product-shared-marketing-note" class="hidden mt-2 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    Для портфеля используется одна общая маркетинговая воронка. Значения взяты из первого товара и применяются ко всем SKU.
                 </p>
 
                 <div class="mt-6 space-y-5">
@@ -3322,6 +3325,7 @@
 
             document.querySelectorAll('#product-own-form input').forEach(input => {
                 input.value = input.defaultValue || '';
+                input.disabled = false;
             });
             document.querySelectorAll('#product-own-form select').forEach(select => {
                 if ([...select.options].some(option => option.value === 'KZ')) select.value = 'KZ';
@@ -4250,6 +4254,36 @@
             return false;
         }
 
+        function syncSharedProductMarketingInputs() {
+            const sharedIds = [
+                'own-product-ad-budget',
+                'own-product-ad-cpc',
+                'own-product-ad-ctr',
+                'own-product-ad-click-lead',
+                'own-product-ad-lead-sale',
+                'own-product-ad-management'
+            ];
+            const first = productPortfolio[0] || null;
+            const useShared = currentProductSequence > 1 && !!first;
+
+            sharedIds.forEach(id => {
+                const field = document.getElementById(id);
+                if (!field) return;
+                if (useShared && first.inputs && first.inputs[id] !== undefined) {
+                    field.value = first.inputs[id];
+                }
+                field.disabled = useShared;
+            });
+
+            const note = document.getElementById('product-shared-marketing-note');
+            if (note) {
+                note.hidden = !useShared;
+                note.classList.toggle('hidden', !useShared);
+            }
+
+            if (useShared) recalculateProductAdFunnel();
+        }
+
         function selectProductSource(source) {
             productSource = source;
 
@@ -4266,6 +4300,7 @@
 
             if (source === 'own') {
                 initProductOwnForm();
+                syncSharedProductMarketingInputs();
 
                 const additionalNameWrap = document.getElementById('additional-product-name-wrap');
                 const additionalNameInput = document.getElementById('additional-product-name-input');
