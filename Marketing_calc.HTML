@@ -27,6 +27,12 @@
             background: #eff6ff;
             box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
         }
+        .yn-choice.yn-choice-selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-weight: 600;
+        }
 
         #monthly-breakdown-table {
             table-layout: fixed;
@@ -196,6 +202,203 @@
                 <button type="button" data-product-source="dropship" onclick="selectProductSource('dropship')" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
                     <div class="font-semibold text-slate-900">Дропшиппинг</div>
                 </button>
+            </div>
+        </div>
+
+        <div id="product-own-form" class="hidden mt-5 space-y-5">
+            <div class="card p-6 md:p-8">
+                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Себестоимость</div>
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Из чего состоит себестоимость <span class="product-name-live"></span>?
+                </h2>
+                <p class="text-sm text-slate-500 mt-2">
+                    Здесь считаем именно материалы. Если статья к вам не относится, оставьте сумму 0.
+                </p>
+
+                <div class="mt-6 space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Себестоимость материалов на единицу</label>
+                        <input id="own-materials-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">НДС уже включён в себестоимость материалов?</div>
+                        <div class="flex gap-2 mt-3">
+                            <button type="button" data-yn-group="vatIncluded" data-yn-value="yes" onclick="selectProductYesNo('vatIncluded','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="vatIncluded" data-yn-value="no" onclick="selectProductYesNo('vatIncluded','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4 space-y-4">
+                        <div>
+                            <div class="text-sm font-medium text-slate-800">Доставка материалов до меня уже включена в себестоимость?</div>
+                            <div class="flex gap-2 mt-3">
+                                <button type="button" data-yn-group="inboundIncluded" data-yn-value="yes" onclick="selectProductYesNo('inboundIncluded','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="inboundIncluded" data-yn-value="no" onclick="selectProductYesNo('inboundIncluded','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Стоимость доставки материалов до меня</label>
+                            <input id="own-inbound-delivery-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                            <p class="text-xs text-slate-400 mt-1">Если не применимо — оставьте 0.</p>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Материалы везут ко мне из-за границы?</div>
+                        <div class="flex gap-2 mt-3">
+                            <button type="button" data-yn-group="materialsImported" data-yn-value="yes" onclick="selectProductYesNo('materialsImported','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="materialsImported" data-yn-value="no" onclick="selectProductYesNo('materialsImported','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4 space-y-5">
+                        <h3 class="font-semibold text-slate-900">Импорт, таможня и разрешительные расходы</h3>
+                        <p class="text-xs text-slate-400">Если статья не применяется, оставьте сумму 0.</p>
+
+                        <div>
+                            <div class="text-sm font-medium text-slate-800">Услуги брокера</div>
+                            <div class="flex gap-2 mt-2">
+                                <button type="button" data-yn-group="broker" data-yn-value="yes" onclick="selectProductYesNo('broker','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="broker" data-yn-value="no" onclick="selectProductYesNo('broker','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            </div>
+                            <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field mt-3" placeholder="Сколько">
+                        </div>
+
+                        <div>
+                            <div class="text-sm font-medium text-slate-800">Страхование груза</div>
+                            <div class="flex gap-2 mt-2">
+                                <button type="button" data-yn-group="cargoInsurance" data-yn-value="yes" onclick="selectProductYesNo('cargoInsurance','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="cargoInsurance" data-yn-value="no" onclick="selectProductYesNo('cargoInsurance','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            </div>
+                            <input id="own-cargo-insurance-cost" type="number" min="0" step="0.01" value="0" class="input-field mt-3" placeholder="Сколько">
+                        </div>
+
+                        <div>
+                            <div class="text-sm font-medium text-slate-800">Пошлины и сборы</div>
+                            <div class="flex gap-2 mt-2">
+                                <button type="button" data-yn-group="duties" data-yn-value="yes" onclick="selectProductYesNo('duties','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="duties" data-yn-value="no" onclick="selectProductYesNo('duties','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            </div>
+                            <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field mt-3" placeholder="Сколько">
+                        </div>
+
+                        <div>
+                            <div class="text-sm font-medium text-slate-800">Сертификация и разрешительная документация</div>
+                            <div class="flex gap-2 mt-2">
+                                <button type="button" data-yn-group="certification" data-yn-value="yes" onclick="selectProductYesNo('certification','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="certification" data-yn-value="no" onclick="selectProductYesNo('certification','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            </div>
+                            <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field mt-3" placeholder="Сколько">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6 md:p-8">
+                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Логистика и склад</div>
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Логистика <span class="product-name-live"></span>
+                </h2>
+
+                <div class="mt-6 space-y-5">
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Хранение на складе</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="warehouse" data-yn-value="yes" onclick="selectProductYesNo('warehouse','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="warehouse" data-yn-value="no" onclick="selectProductYesNo('warehouse','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Срок хранения, дней</label>
+                                <input id="own-storage-days" type="number" min="0" step="1" value="0" class="input-field">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Цена хранения за 1 день</label>
+                                <input id="own-storage-day-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Доставка до покупателя</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="customerDelivery" data-yn-value="yes" onclick="selectProductYesNo('customerDelivery','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="customerDelivery" data-yn-value="no" onclick="selectProductYesNo('customerDelivery','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div class="mt-3">
+                            <label class="block text-xs text-slate-500 mb-1">Стоимость доставки, % от стоимости товара</label>
+                            <input id="own-customer-delivery-pct" type="number" min="0" step="0.01" value="10" class="input-field">
+                            <p class="text-xs text-slate-400 mt-1">Если не знаете — оставьте 10% по умолчанию.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Процент возвратов товара</label>
+                        <div class="relative">
+                            <input id="own-return-rate" type="number" min="0" step="0.01" value="0" class="input-field pr-10">
+                            <span class="absolute right-3 top-2.5 text-slate-400">%</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-1">Возвраты будут умножаться на стоимость доставки и увеличивать логистические расходы.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6 md:p-8">
+                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Комиссии, налоги и сборы</div>
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Расходы при продаже <span class="product-name-live"></span>
+                </h2>
+
+                <div class="mt-6 space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Комиссия агрегатора / маркетплейса / дилера / продавца, % от оборота</label>
+                        <input id="own-sales-commission-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+                        <p class="text-xs text-slate-400 mt-1">Для продаж через маркетплейс, точку на рынке, магазин партнёра и аналогичные каналы.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Зарплаты и другие вознаграждения, сумма за период</label>
+                        <input id="own-payroll-rewards" type="number" min="0" step="0.01" value="0" class="input-field">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Средний процент штрафов и удержаний площадки от оборота</label>
+                        <div class="relative">
+                            <input id="own-platform-penalties-pct" type="number" min="0" step="0.01" value="0" class="input-field pr-10">
+                            <span class="absolute right-3 top-2.5 text-slate-400">%</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Налог на оборот</label>
+                        <div class="relative">
+                            <input id="own-turnover-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field pr-10">
+                            <span class="absolute right-3 top-2.5 text-slate-400">%</span>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4 space-y-4">
+                        <h3 class="font-semibold text-slate-900">Сотрудники и страховые взносы</h3>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Количество сотрудников, за которых платятся взносы</label>
+                            <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field">
+                            <p class="text-xs text-slate-400 mt-1">Самозанятых не включайте. ИП включайте, если по вашему режиму за него платятся такие взносы.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Средняя зарплата одного сотрудника за период</label>
+                            <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Ставка страховых взносов, %</label>
+                            <div class="relative">
+                                <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="0" class="input-field pr-10">
+                                <span class="absolute right-3 top-2.5 text-slate-400">%</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Пока ставка вводится вручную: автоматический бухгалтерский расчёт будет отдельным следующим слоем, без жёстко заданной юрисдикции.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -541,6 +744,9 @@
             productName = value;
             error.classList.add('hidden');
             document.getElementById('product-source-name').textContent = '«' + productName + '»';
+            document.querySelectorAll('.product-name-live').forEach(el => {
+                el.textContent = '«' + productName + '»';
+            });
             document.getElementById('product-source-block').classList.remove('hidden');
             document.getElementById('product-source-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -551,6 +757,21 @@
             document.querySelectorAll('.product-source-choice').forEach(button => {
                 const selected = button.dataset.productSource === source;
                 button.classList.toggle('product-source-selected', selected);
+                button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+
+            const ownForm = document.getElementById('product-own-form');
+            ownForm.classList.toggle('hidden', source !== 'own');
+
+            if (source === 'own') {
+                ownForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function selectProductYesNo(group, value) {
+            document.querySelectorAll(`[data-yn-group="${group}"]`).forEach(button => {
+                const selected = button.dataset.ynValue === value;
+                button.classList.toggle('yn-choice-selected', selected);
                 button.setAttribute('aria-pressed', selected ? 'true' : 'false');
             });
         }
