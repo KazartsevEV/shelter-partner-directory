@@ -587,6 +587,25 @@
                                 <p class="text-xs text-slate-400 mt-1">По умолчанию — 🇰🇿 Казахстан.</p>
                             </div>
 
+                            <div id="own-payroll-country-reference" class="rounded-lg border border-blue-100 bg-blue-50/40 p-3 text-xs text-slate-600 space-y-1">
+                                <div class="font-semibold text-slate-800">Справочник по выбранной стране</div>
+                                <div>Взносы работодателя: <span id="ref-employer-social" class="font-semibold">—</span></div>
+                                <div>Взносы / соцстрах сотрудника: <span id="ref-employee-social" class="font-semibold">—</span></div>
+                                <div>Верхняя справочная ставка подоходного налога: <span id="ref-personal-income-tax" class="font-semibold">—</span></div>
+                                <div>Отдельный налог работодателя на ФОТ: <span id="ref-employer-payroll-tax" class="font-semibold">—</span></div>
+                                <div id="ref-country-status" class="text-slate-500"></div>
+                                <div class="pt-2 text-[11px] text-amber-700 leading-relaxed">
+                                    Ставки носят справочный характер. Реальный расчёт зависит от налогового режима, резидентства, порогов, льгот, возраста и статуса сотрудника. Проверяйте применимые ставки со своим бухгалтером.
+                                </div>
+                                <div class="text-[11px] text-slate-400">
+                                    Источник:
+                                    <a class="text-blue-600 underline" href="https://tradingeconomics.com/country-list/social-security-rate-for-companies" target="_blank" rel="noopener">взносы работодателя</a>,
+                                    <a class="text-blue-600 underline" href="https://tradingeconomics.com/country-list/social-security-rate-for-employees" target="_blank" rel="noopener">взносы сотрудника</a>,
+                                    <a class="text-blue-600 underline" href="https://tradingeconomics.com/country-list/personal-income-tax-rate" target="_blank" rel="noopener">подоходный налог</a>.
+                                    Обновлено: 08.10.2026.
+                                </div>
+                            </div>
+
                             <div>
                                 <label class="block text-xs text-slate-500 mb-1">Количество сотрудников, за которых вы платите зарплату, взносы и налоги</label>
                                 <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
@@ -630,12 +649,12 @@
                                 <p class="text-xs text-slate-400">Эти суммы уменьшают выплату сотруднику на руки, но не прибавляются второй раз к расходам работодателя.</p>
 
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Подоходный налог сотрудника, %</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Подоходный налог сотрудника, % (редактируется)</label>
                                     <input id="own-employee-income-tax-pct" type="number" min="0" step="0.01" value="10" class="input-field" oninput="updateEmployeeContributionEstimate()">
                                 </div>
 
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Пенсионные / социальные / медицинские удержания сотрудника, %</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Пенсионные / социальные / медицинские удержания сотрудника, % (редактируется)</label>
                                     <input id="own-employee-withholding-pct" type="number" min="0" step="0.01" value="12" class="input-field" oninput="updateEmployeeContributionEstimate()">
                                 </div>
 
@@ -1043,7 +1062,7 @@
             EG: 18.75, SV: 7.5, GQ: 21.5, EE: 33.8, FJ: 10, FI: 20.81, FR: 45,
             GA: 20.1, DE: 19.42, GR: 21.79, GT: 12.67, GN: 18, HU: 13, IS: 6.35,
             IN: 12, ID: 11.74, IQ: 12, IE: 11.25, IL: 7.6, IT: 30, CI: 18.45,
-            JM: 12.5, JP: 16.44, JO: 14.25, KZ: 11.5, KE: 6, XK: 5, KW: 11.5,
+            JM: 12.5, JP: 16.44, JO: 14.25, KZ: 14.5, KE: 6, XK: 5, KW: 11.5,
             LA: 6, LV: 23.59, LB: 22.5, LY: 15.38, LT: 1.77, LU: 15.1, MG: 19,
             MY: 13, MT: 10, MR: 15, MU: 6, MX: 7.6, FM: 7.5, MD: 24, MN: 14.5,
             ME: 6, MA: 21.09, MZ: 4, NZ: 3.5, NO: 14.1, PA: 12.25, PG: 8.4,
@@ -1055,8 +1074,33 @@
             ZM: 5
         };
         const employerPayrollTaxRates = { KZ: 6 };
-        const employeeIncomeTaxRates = { KZ: 10 };
-        const employeeWithholdingRates = { KZ: 12 };
+        const employeeSocialSecurityRates = {
+            AL:9.5,DZ:9,AO:3,AR:17,AM:5,AU:2,AT:18.07,AZ:3,BS:4.65,BH:8,BB:11,BY:1,BE:13.07,
+            BO:12.71,BA:31,BR:14,BG:13.78,CM:4.2,CA:7.58,TD:3.5,CL:17,CN:10.5,CO:10,CG:4,
+            CR:10.83,HR:20,CY:8.8,CZ:11.6,DK:0,EC:9.45,EG:11,SV:3,GQ:4.5,EE:3.6,FJ:8,FI:10.17,
+            FR:23,GA:2.5,DE:19.33,GR:13.37,GT:4.83,GN:5,HU:18.5,IS:4,IN:12,ID:4,IQ:5,IE:4.2,
+            IL:12.17,IT:10,CI:6.3,JM:7.25,JP:15.48,JO:7.5,KZ:10,KE:6,XK:5,KW:8,LA:5.5,
+            LV:10.5,LB:3,LY:5.13,LT:19.5,LU:12.95,MG:2,MY:11,MT:10,MR:1,MU:3,MX:2.78,
+            FM:7.5,MD:9,MN:11.5,ME:15.5,MA:6.74,MZ:3,NL:27.65,NZ:10,NO:7.6,PA:9.75,
+            PG:6,PY:9,PH:5,PL:13.71,PT:11,QA:0,RO:35,RU:0,RW:6,SA:9.75,RS:19.9,SG:20,
+            SK:14.4,SI:22.1,ZA:1,KR:9.4,ES:6.5,LK:8,LC:5,SE:7,CH:6.4,TW:6.16,TJ:2,TH:5,
+            TN:9.18,TR:14,UG:5,UA:0,AE:5,GB:12,US:7.65,UY:23.1,UZ:4,VE:6,VN:10.5,ZM:5
+        };
+        const personalIncomeTaxTopRates = {
+            AF:20,AL:23,DZ:35,AO:25,AR:35,AM:20,AW:52,AU:45,AT:55,AZ:25,BS:0,BH:0,BD:30,
+            BB:28.5,BY:13,BE:50,BM:0,BO:13,BA:10,BW:25,BR:27.5,BN:0,BG:10,KH:20,CM:38.5,
+            CA:33,KY:0,TD:30,CL:40,CN:45,CO:39,CG:40,CR:25,HR:30,CY:35,CZ:23,DK:60.5,
+            DO:25,EC:30,EG:27.5,SV:30,GQ:25,EE:22,ET:35,FJ:20,FI:52,FR:45,GA:35,GM:35,
+            GE:20,DE:45,GH:35,GR:44,GT:7,GN:20,HN:25,HK:16,HU:15,IS:46.29,IN:39,ID:35,
+            IQ:15,IE:40,IM:21,IL:50,IT:43,JM:30,JP:55.95,JO:30,KZ:10,KE:35,XK:10,KW:0,
+            LA:25,LV:36,LB:25,LS:30,LY:10,LI:22.4,LT:32,LU:42,MO:12,MK:10,MG:20,MW:40,
+            MY:30,MT:35,MR:40,MU:20,MX:35,MD:12,MN:20,ME:15,MA:38,MZ:32,MM:25,NA:37,
+            NL:49.5,NZ:39,NI:30,NG:24,NO:39.8,OM:0,PK:35,PA:25,PG:42,PE:30,PH:35,PL:32,
+            PT:48,PR:33,QA:0,RO:10,RU:13,RW:30,WS:27,SA:0,SN:43,RS:10,SC:15,SL:30,SG:24,
+            SK:35,SI:50,ZA:45,KR:45,ES:47,LK:18,SD:15,SR:38,SZ:33,SE:52,CH:40,SY:22,
+            TW:40,TJ:12,TZ:30,TH:35,TT:25,TN:40,TR:40,UG:40,UA:18,AE:0,GB:45,US:37,
+            UY:36,UZ:12,VE:34,VN:35,ZM:37,ZW:41.2
+        };
         let insuranceRateManual = false;
 
         function countryFlag(code) {
@@ -1094,6 +1138,34 @@
             if (note) note.textContent = 'Ставка изменена вручную.';
         }
 
+        function formatReferencePct(value) {
+            return Number.isFinite(value) ? value.toLocaleString('ru-RU') + '%' : 'нет данных';
+        }
+
+        function updatePayrollCountryReference(code) {
+            const employerSocial = employerContributionRates[code];
+            const employeeSocial = employeeSocialSecurityRates[code];
+            const pitTop = personalIncomeTaxTopRates[code];
+            const payrollTax = employerPayrollTaxRates[code];
+
+            const setText = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = formatReferencePct(value);
+            };
+            setText('ref-employer-social', employerSocial);
+            setText('ref-employee-social', employeeSocial);
+            setText('ref-personal-income-tax', pitTop);
+            setText('ref-employer-payroll-tax', payrollTax);
+
+            const status = document.getElementById('ref-country-status');
+            if (status) {
+                const hasAny = [employerSocial, employeeSocial, pitTop, payrollTax].some(Number.isFinite);
+                status.textContent = hasAny
+                    ? 'Поля ниже можно редактировать под ваш фактический режим.'
+                    : 'Нет унифицированных данных по выбранной стране — заполните применимые ставки вручную.';
+            }
+        }
+
         function applyCountryInsuranceRate(force = false) {
             const select = document.getElementById('own-insurance-country');
             const contributionInput = document.getElementById('own-insurance-contribution-pct');
@@ -1104,21 +1176,24 @@
             if (!select || !contributionInput) return;
 
             const code = select.value || 'KZ';
-            const contributionRate = employerContributionRates[code];
+            const employerSocial = employerContributionRates[code];
+            const employeeSocial = employeeSocialSecurityRates[code];
+            const pitTop = personalIncomeTaxTopRates[code];
+            const employerPayrollTax = employerPayrollTaxRates[code];
 
             insuranceRateManual = false;
-            contributionInput.value = Number.isFinite(contributionRate) ? contributionRate : 0;
-            if (employerTaxInput) employerTaxInput.value = Number.isFinite(employerPayrollTaxRates[code]) ? employerPayrollTaxRates[code] : 0;
-            if (employeeTaxInput) employeeTaxInput.value = Number.isFinite(employeeIncomeTaxRates[code]) ? employeeIncomeTaxRates[code] : 0;
-            if (employeeWithholdingInput) employeeWithholdingInput.value = Number.isFinite(employeeWithholdingRates[code]) ? employeeWithholdingRates[code] : 0;
+            contributionInput.value = Number.isFinite(employerSocial) ? employerSocial : 0;
+            if (employerTaxInput) employerTaxInput.value = Number.isFinite(employerPayrollTax) ? employerPayrollTax : 0;
+            if (employeeTaxInput) employeeTaxInput.value = Number.isFinite(pitTop) ? pitTop : 0;
+            if (employeeWithholdingInput) employeeWithholdingInput.value = Number.isFinite(employeeSocial) ? employeeSocial : 0;
+
+            updatePayrollCountryReference(code);
 
             if (note) {
                 if (code === 'KZ') {
-                    note.textContent = 'Казахстан: взносы работодателя 11,5% и налог работодателя на ФОТ 6% показаны отдельными строками. Удержания сотрудника считаются отдельно и не увеличивают расход работодателя второй раз.';
-                } else if (Number.isFinite(contributionRate)) {
-                    note.textContent = 'Для этой страны автоматически подставлена справочная ставка взносов работодателя. Налоги на ФОТ и удержания сотрудника оставлены отдельными редактируемыми полями.';
+                    note.textContent = 'Казахстан: справочник 2026 — 14,5% взносов работодателя, 10% соцстраха/удержаний сотрудника и 10% верхняя справочная ставка подоходного налога. Отдельный налог работодателя на ФОТ 6% оставлен отдельным редактируемым полем.';
                 } else {
-                    note.textContent = 'Для этой страны нет единой справочной ставки — заполните применимые взносы и налоги вручную.';
+                    note.textContent = 'Автоподстановка использует справочные международные ставки. Верхняя ставка подоходного налога не равна эффективному удержанию каждого сотрудника; при необходимости замените её фактической.';
                 }
             }
 
