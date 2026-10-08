@@ -609,9 +609,20 @@
                         <div class="grid grid-cols-2 gap-2 mt-3 items-end">
                             <button type="button" data-logistics-payer-key="warehouse" data-logistics-payer-value="me" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                             <button type="button" data-logistics-payer-key="warehouse" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
-                            <div id="own-warehouse-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                <label class="block text-xs text-slate-500 mb-1">Сколько</label>
-                                <input id="own-warehouse-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                            <div id="own-warehouse-cost-wrap" class="col-span-2 mt-1 hidden space-y-4" hidden data-product-collapsible>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Сколько стоит 1 день хранения?</label>
+                                    <input id="own-warehouse-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">
+                                        Сколько дней сейчас 1 <span class="product-name-live"></span> в среднем лежит на складе?
+                                    </label>
+                                    <input id="own-warehouse-days" type="number" min="0" step="1" placeholder="" class="input-field">
+                                    <p class="text-xs text-slate-400 mt-1">
+                                        Если затрудняетесь — оставьте поле пустым. Оно будет рассчитано на следующих этапах.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2262,7 +2273,11 @@
             if (key === 'warehouse') {
                 const isMine = productLogisticsPayers[key] === 'me';
                 setProductHidden('own-warehouse-cost-wrap', !isMine);
-                if (!isMine) setProductFieldZero('own-warehouse-cost');
+                if (!isMine) {
+                    setProductFieldZero('own-warehouse-cost');
+                    const days = document.getElementById('own-warehouse-days');
+                    if (days) days.value = '';
+                }
             }
 
             if (key === 'customerDelivery') {
