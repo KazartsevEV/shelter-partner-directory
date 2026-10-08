@@ -318,7 +318,7 @@
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-broker-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Сколько</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Стоимость услуг брокера за партию</label>
                                         <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -330,7 +330,7 @@
                                     <button type="button" data-import-payer-key="cargoInsurance" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="cargoInsurance" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-cargo-insurance-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Сколько</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Страхование, % от стоимости материалов с НДС</label>
                                         <input id="own-cargo-insurance-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -342,7 +342,7 @@
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-duties-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Сколько</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Пошлины и сборы на 1 единицу</label>
                                         <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -354,7 +354,7 @@
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-certification-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Сколько</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Сертификация и документы за партию</label>
                                         <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -363,6 +363,31 @@
                     </div>
                     </div>
                 </div>
+            <div id="materials-landed-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
+                <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 1</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
+                    Для того, чтобы купить и привезти материалы для 1 ед. <span class="product-name-live"></span>, нужно потратить
+                    <span id="own-materials-landed-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
+                    у.е. в используемой вами валюте.
+                </div>
+
+                <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Количество <span class="product-name-live"></span> в партии
+                    </label>
+                    <input id="own-materials-batch-qty" type="number" min="1" step="1" value="1" class="input-field">
+                    <p class="text-xs text-slate-500 mt-2">
+                        Измените количество <span class="product-name-live"></span> — фиксированные расходы на брокера и разрешительные документы распределятся по партии, и стоимость 1 единицы изменится.
+                    </p>
+                </div>
+
+                <div id="own-materials-landed-breakdown" class="mt-4 text-xs text-slate-600 leading-relaxed"></div>
+
+                <button type="button" onclick="recalculateMaterialsLandedCost()" class="mt-5 w-full rounded-xl bg-emerald-600 text-white px-5 py-3.5 text-base font-bold shadow-md hover:bg-emerald-700 active:scale-[0.99] transition">
+                    Пересчитать
+                </button>
+            </div>
+
             <div class="card p-6 md:p-8">
                 <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Производство</div>
                 <h2 class="text-2xl font-bold text-slate-900">
@@ -1564,6 +1589,71 @@
 
         }
 
+        function productNumber(id) {
+            return Math.max(0, Number(document.getElementById(id)?.value) || 0);
+        }
+
+        function recalculateMaterialsLandedCost() {
+            const qty = Math.max(1, Math.floor(Number(document.getElementById('own-materials-batch-qty')?.value) || 1));
+            const materialsBase = productNumber('own-materials-cost');
+            const materialsWithVat = materialsCostWithVat();
+            const vatAdded = Math.max(0, materialsWithVat - materialsBase);
+
+            const inboundDelivery =
+                productOwnChoices.inboundIncluded === 'no'
+                    ? productNumber('own-inbound-delivery-cost')
+                    : 0;
+
+            const imported = productOwnChoices.materialsImported === 'yes';
+            const brokerPerUnit =
+                imported && productImportPayers.broker === 'me'
+                    ? productNumber('own-broker-cost') / qty
+                    : 0;
+
+            const insurancePct =
+                imported && productImportPayers.cargoInsurance === 'me'
+                    ? productNumber('own-cargo-insurance-cost')
+                    : 0;
+            const insurancePerUnit = materialsWithVat * insurancePct / 100;
+
+            const dutiesPerUnit =
+                imported && productImportPayers.duties === 'me'
+                    ? productNumber('own-duties-cost')
+                    : 0;
+
+            const certificationPerUnit =
+                imported && productImportPayers.certification === 'me'
+                    ? productNumber('own-certification-cost') / qty
+                    : 0;
+
+            const unitCost =
+                materialsBase +
+                vatAdded +
+                inboundDelivery +
+                brokerPerUnit +
+                insurancePerUnit +
+                dutiesPerUnit +
+                certificationPerUnit;
+
+            const out = document.getElementById('own-materials-landed-unit-cost');
+            if (out) out.textContent = moneyInputValue(unitCost);
+
+            const breakdown = document.getElementById('own-materials-landed-breakdown');
+            if (breakdown) {
+                breakdown.innerHTML = [
+                    ['Материалы', materialsBase],
+                    ['НДС сверх указанной себестоимости', vatAdded],
+                    ['Доставка материалов до вас', inboundDelivery],
+                    ['Брокер на 1 ед. партии', brokerPerUnit],
+                    ['Страхование груза', insurancePerUnit],
+                    ['Пошлины и сборы', dutiesPerUnit],
+                    ['Сертификация / разрешения на 1 ед. партии', certificationPerUnit]
+                ].map(([label, value]) =>
+                    `<div class="flex justify-between gap-3 py-0.5"><span>${label}</span><span class="font-semibold text-slate-800">${moneyInputValue(value)}</span></div>`
+                ).join('');
+            }
+        }
+
         let equipmentRentalSeq = 0;
         let equipmentPurchaseSeq = 0;
 
@@ -1682,6 +1772,7 @@
             Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
             document.getElementById('own-customer-delivery-pct').value = 10;
             updateInboundDeliveryDefault();
+            recalculateMaterialsLandedCost();
         }
 
         function selectProductSource(source) {
