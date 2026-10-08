@@ -314,10 +314,35 @@
         };
         let agentPayers = { ...defaultAgentPayers };
 
+        const agentExpenseLabels = {
+            monthlyBudget: 'рекламный бюджет',
+            mgmt: 'ведение рекламы',
+            site: 'разработка сайта',
+            hosting: 'хостинг / конструктор',
+            dom: 'домен',
+            magnet: 'лид-магнит'
+        };
+
+        function unassignedAgentExpenseKeys() {
+            if (serviceMode !== 'agent') return [];
+            return agentExpenseKeys.filter(key => {
+                const amount = Number(currentValues[key]) || 0;
+                return amount > 0 && agentPayers[key] !== 'me' && agentPayers[key] !== 'partner';
+            });
+        }
+
+        function refreshPayerWarning(key) {
+            const warning = document.getElementById(`payer-warning-${key}`);
+            if (!warning) return;
+            const amount = Number(currentValues[key]) || 0;
+            const unresolved = amount > 0 && agentPayers[key] !== 'me' && agentPayers[key] !== 'partner';
+            warning.classList.toggle('hidden', !unresolved);
+        }
+
         function setAgentPayer(key, payer) {
             if (!agentExpenseKeys.includes(key)) return;
             agentPayers[key] = payer === 'me' ? 'me' : 'partner';
-            initInputs();
+            refreshPayerWarning(key);
             calculate();
         }
 
@@ -408,7 +433,10 @@
                             </label>
                         </div>
                     </div>
-                    ${agentPayers[def.key] ? '' : '<p class="text-[11px] text-amber-600 mt-1">Выберите, кто оплачивает эту статью.</p>'}
+                    <p id="payer-warning-${def.key}"
+                       class="text-[11px] text-amber-600 mt-1 ${((Number(currentValues[def.key]) || 0) > 0 && !agentPayers[def.key]) ? '' : 'hidden'}">
+                        Выберите, кто оплачивает эту статью.
+                    </p>
                 ` : '';
 
                 div.innerHTML = `
@@ -426,6 +454,9 @@
 
         function handleInput(key, val) {
             currentValues[key] = parseFloat(val) || 0;
+            if (serviceMode === 'agent' && agentExpenseKeys.includes(key)) {
+                refreshPayerWarning(key);
+            }
             calculate();
         }
 
@@ -464,7 +495,7 @@
             } else if (mode === 'agent') {
                 badge.textContent = 'Услуга · агент';
                 context.classList.remove('hidden');
-                context.textContent = 'Для каждой прямой статьи расходов выберите «Кто платит»: Я или Партнёр. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса. Ваш процент всегда считается расходом партнёра. Налоги агента модель не предполагает.';
+                context.textContent = 'Для каждой ненулевой статьи расходов выберите «Кто платит»: Я или Партнёр. Нулевые расходы распределять не нужно. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса.';
             }
 
             document.getElementById('summary-title').textContent =
@@ -482,9 +513,8 @@
             const isAgent = serviceMode === 'agent';
             const markup = Math.max(0, v.markup || 0);
             const agentPct = Math.max(0, v.agentPct || 0);
-            const agentPayersComplete = !isAgent || agentExpenseKeys.every(
-                key => agentPayers[key] === 'me' || agentPayers[key] === 'partner'
-            );
+            const unassignedPayers = isAgent ? unassignedAgentExpenseKeys() : [];
+            const agentPayersComplete = unassignedPayers.length === 0;
 
             // Keep the monthly view synchronized with the selected calculation period.
             document.getElementById('months-badge').textContent = `${months} ${monthWord(months)} (по сценарию)`;
@@ -500,16 +530,18 @@
                 (labelWidth + (months + 1) * valueWidth) + 'px';
 
             if (isAgent && !agentPayersComplete) {
+                const missingPayersText = unassignedPayers.map(key => agentExpenseLabels[key]).join(', ');
+
                 document.getElementById('res-profit-label').textContent = 'Мне остаётся за период';
-                document.getElementById('res-profit-sub').textContent = 'Сначала выберите плательщика по всем переменным расходам';
+                document.getElementById('res-profit-sub').textContent = 'Не выбран плательщик: ' + missingPayersText;
                 document.getElementById('res-profit').textContent = '—';
 
                 document.getElementById('res-romi-label').textContent = 'Расчётная прибыль партнёра';
-                document.getElementById('res-romi-sub').textContent = 'Сначала распределите расходы между вами и партнёром';
+                document.getElementById('res-romi-sub').textContent = 'Не распределены: ' + missingPayersText;
                 document.getElementById('res-romi').textContent = '—';
 
                 document.getElementById('res-third-label').textContent = 'Накопленный cash flow партнёра';
-                document.getElementById('res-third-sub').textContent = 'Расчёт появится после выбора плательщиков';
+                document.getElementById('res-third-sub').textContent = 'Расчёт включится автоматически после последнего выбора';
                 document.getElementById('res-cpa').textContent = '—';
                 document.getElementById('res-cpa-sep').textContent = '';
                 document.getElementById('res-cac').textContent = '';
@@ -517,14 +549,14 @@
                 document.getElementById('summary-table').innerHTML = `
                     <tr>
                         <td colspan="2" class="p-4 text-sm text-amber-700 bg-amber-50">
-                            Выберите «Я» или «Партнёр» для каждой переменной статьи расходов.
+                            Не выбран плательщик: ${missingPayersText}.
                         </td>
                     </tr>
                 `;
                 document.getElementById('monthly-table').innerHTML = `
                     <tr>
                         <td colspan="${months + 2}" class="p-4 text-sm text-amber-700 bg-amber-50 text-left">
-                            Помесячный расчёт появится после выбора плательщика по всем переменным расходам.
+                            Не выбран плательщик: ${missingPayersText}. После выбора расчёт построится автоматически.
                         </td>
                     </tr>
                 `;
