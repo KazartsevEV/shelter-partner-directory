@@ -22,6 +22,30 @@
         .td-label { font-weight: 500; color: #475569; padding: 0.75rem; background-color: #fff; }
         .td-val { text-align: right; padding: 0.75rem; font-family: monospace; font-weight: 500; }
         .td-total { background-color: #f8fafc; font-weight: 700; color: #0f172a; }
+
+        #monthly-breakdown-table { table-layout: fixed; width: max-content; min-width: 100%; }
+        .monthly-label-col {
+            width: 260px; min-width: 260px; max-width: 260px;
+            white-space: normal; overflow-wrap: break-word; line-height: 1.35;
+        }
+        .monthly-value-col {
+            width: 118px; min-width: 118px; max-width: 118px; white-space: nowrap;
+        }
+        #monthly-scroll { -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+
+        @media (max-width: 640px) {
+            body { padding: 0.75rem; }
+            .monthly-label-col {
+                width: 172px; min-width: 172px; max-width: 172px;
+                padding: 0.55rem 0.5rem; font-size: 0.78rem; line-height: 1.25;
+            }
+            .monthly-value-col {
+                width: 96px; min-width: 96px; max-width: 96px;
+                padding: 0.55rem 0.45rem; font-size: 0.78rem;
+            }
+            #monthly-breakdown-table .td-val { padding: 0.55rem 0.45rem; }
+            #monthly-breakdown-table .td-label { padding: 0.55rem 0.5rem; }
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -196,12 +220,12 @@
 
                 <!-- Monthly Breakdown Table -->
                 <div class="card overflow-hidden">
-                    <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
+                    <div class="bg-slate-50 px-4 sm:px-5 py-3 border-b border-slate-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                         <h2 class="font-semibold text-slate-700">Помесячная разбивка</h2>
-                        <span id="months-badge" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">3 месяца (по сценарию)</span>
+                        <span id="months-badge" class="self-start sm:self-auto text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">3 месяца (по сценарию)</span>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table id="monthly-breakdown-table" class="w-full text-sm text-center border-collapse min-w-[700px]">
+                    <div id="monthly-scroll" class="overflow-x-auto">
+                        <table id="monthly-breakdown-table" class="text-sm text-center border-collapse">
                             <thead>
                                 <tr id="monthly-head-row">
                                     <!-- Generated via JS from the selected period -->
@@ -432,11 +456,15 @@
             // Keep the monthly view synchronized with the selected calculation period.
             document.getElementById('months-badge').textContent = `${months} ${monthWord(months)} (по сценарию)`;
             document.getElementById('monthly-head-row').innerHTML = `
-                <th class="th text-left sticky left-0 bg-slate-100 z-10 border-b border-slate-300 shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]">Показатель</th>
-                ${Array.from({ length: months }, (_, i) => `<th class="th border-b border-slate-300">Месяц ${i + 1}</th>`).join('')}
-                <th class="th border-b border-slate-300 bg-slate-100 text-blue-900">Итого</th>
+                <th class="th monthly-label-col text-left sticky left-0 bg-slate-100 z-10 border-b border-slate-300 shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]">Показатель</th>
+                ${Array.from({ length: months }, (_, i) => `<th class="th monthly-value-col border-b border-slate-300">Месяц ${i + 1}</th>`).join('')}
+                <th class="th monthly-value-col border-b border-slate-300 bg-slate-100 text-blue-900">Итого</th>
             `;
-            document.getElementById('monthly-breakdown-table').style.minWidth = `${Math.max(700, 260 + months * 120)}px`;
+            const mobile = window.matchMedia('(max-width: 640px)').matches;
+            const labelWidth = mobile ? 172 : 260;
+            const valueWidth = mobile ? 96 : 118;
+            document.getElementById('monthly-breakdown-table').style.width =
+                (labelWidth + (months + 1) * valueWidth) + 'px';
 
             // Summary Calculations
             const totalBudget = v.monthlyBudget * months;
@@ -739,7 +767,7 @@
                 if (meta.section) {
                     return `<tr>
                         <td colspan="${months + 2}" class="text-left px-3 py-2 bg-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wide border-y border-slate-300">
-                            ${meta.section}
+                            <span class="sticky left-3">${meta.section}</span>
                         </td>
                     </tr>`;
                 }
@@ -750,7 +778,7 @@
                     let color = (meta.key === 'mCash' || meta.key === 'mCum' || meta.key === 'mAgentNet' || meta.key === 'mAgentCum') && val < 0
                         ? 'text-red-600'
                         : 'text-slate-700';
-                    return `<td class="td-val border-b border-slate-100 ${color}">${txt}</td>`;
+                    return `<td class="td-val monthly-value-col border-b border-slate-100 ${color}">${txt}</td>`;
                 }).join('');
 
                 let totalVal = totalMonth[meta.key];
@@ -760,9 +788,9 @@
                     : 'text-blue-900';
 
                 return `<tr class="hover:bg-slate-50 transition-colors">
-                    <td class="td-label border-b border-slate-100 border-r border-slate-100 sticky left-0 bg-white z-10">${meta.label}</td>
+                    <td class="td-label monthly-label-col border-b border-slate-100 border-r border-slate-100 sticky left-0 bg-white z-10">${meta.label}</td>
                     ${cells}
-                    <td class="td-val border-b border-slate-100 bg-slate-100 font-bold ${totalColor} border-l border-slate-300">${totalTxt}</td>
+                    <td class="td-val monthly-value-col border-b border-slate-100 bg-slate-100 font-bold ${totalColor} border-l border-slate-300">${totalTxt}</td>
                 </tr>`;
             }).join('');
         }
@@ -771,6 +799,12 @@
             initInputs();
             calculate();
             showHome();
+        });
+
+        window.addEventListener('resize', () => {
+            if (!document.getElementById('calculator-screen').classList.contains('hidden')) {
+                calculate();
+            }
         });
     </script>
 
