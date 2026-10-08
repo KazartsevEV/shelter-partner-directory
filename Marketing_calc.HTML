@@ -2011,7 +2011,9 @@
                     supplyDays: '',
                     advancePct: '',
                     advanceLeadDays: '',
-                    productionDays: ''
+                    productionDays: '',
+                    targetMarginPct: '',
+                    salesMixPct: ''
                 },
                 inputs: Object.fromEntries(
                     Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id]'))
@@ -2372,83 +2374,248 @@
             };
         }
 
-        function aggregatePricingMetrics(item) {
-            const cycle = aggregatePlanMetrics(item);
-            const rawMargin = item?.planning?.targetReturnPct;
-            const hasMargin =
-                rawMargin !== '' &&
-                rawMargin !== null &&
-                rawMargin !== undefined &&
-                Number.isFinite(Number(rawMargin));
-            const marginPct = hasMargin ? Math.max(0, Number(rawMargin)) : null;
-            const targetProfit =
-                hasMargin && cycle.requiredCapital !== null
-                    ? cycle.requiredCapital * marginPct / 100
-                    : null;
-
-            if (
-                targetProfit === null ||
-                cycle.nonRevenueCosts === null ||
-                !Number.isFinite(cycle.nonRevenueCosts) ||
-                !(cycle.stockQty > 0) ||
-                !(1 - cycle.variableSalesRate > 0)
-            ) {
+        function calculateProductPortfolio() {
+            const items = productPortfolio.slice();
+            if (!items.length) {
                 return {
-                    marginPct,
-                    targetProfit,
-                    priceBeforeTax: null,
-                    priceBeforeTaxWithVat: null,
-                    taxAdjustedPrice: null,
-                    taxAdjustedPriceWithVat: null
+                    funnel: null,
+                    items: [],
+                    totalRevenue: 0,
+                    totalEbitdaBeforeShared: 0,
+                    sharedBusinessCosts: 0,
+                    businessEbitda: 0,
+                    tax: 0,
+                    netProfit: 0
                 };
             }
 
-            const preTaxRevenue =
-                (cycle.nonRevenueCosts + targetProfit) /
-                (1 - cycle.variableSalesRate);
-            const priceBeforeTax = preTaxRevenue / cycle.stockQty;
+            // One common marketing funnel for the whole product portfolio.
+            // Until the UI is physically moved into a shared block, the first
+            // saved product supplies these common funnel inputs.
+            const funnelSource = items[0];
+            const input = funnelSource.inputs || {};
+            const budget = Math.max(0, Number(input['own-product-ad-budget']) || 0);
+            const cpc = Math.max(0, Number(input['own-product-ad-cpc']) || 0);
+            const ctrPct = Math.max(0, Number(input['own-product-ad-ctr']) || 0);
+            const clickLeadPct = Math.max(0, Number(input['own-product-ad-click-lead']) || 0);
+            const leadSalePct = Math.max(0, Number(input['own-product-ad-lead-sale']) || 0);
+            const unitsPerOrder = Math.max(0, Number(input['own-product-ad-units-order']) || 0);
+            const management = Math.max(0, Number(input['own-product-ad-management']) || 0);
+
+            const clicks = cpc > 0 ? budget / cpc : 0;
+            const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;
+            const leads = clicks * clickLeadPct / 100;
+            const orders = leads * leadSalePct / 100;
+            const forecastUnits = orders * unitsPerOrder;
+            const baseCac = forecastUnits > 0 ? budget / forecastUnits : null;
+
+            const prepared = items.map(item => {
+                const unitCost =
+                    Math.max(0, Number(item.materialsUnitCost || 0)) +
+                    Math.max(0, Number(item.productionUnitCost || 0)) +
+                    Math.max(0, Number(item.logisticsUnitCost || 0));
+
+                const rawMargin = item?.planning?.targetMarginPct;
+                const hasMargin =
+                    rawMargin !== '' &&
+                    rawMargin !== null &&
+                    rawMargin !== undefined &&
+                    Number.isFinite(Number(rawMargin));
+                const marginPct = hasMargin
+                    ? Math.min(99.99, Math.max(0, Number(rawMargin)))
+                    : null;
+                const marginRate = marginPct === null ? null : marginPct / 100;
+
+                const rawMix = item?.planning?.salesMixPct;
+                const mixWeight =
+                    rawMix !== '' &&
+                    rawMix !== null &&
+                    rawMix !== undefined &&
+                    Number.isFinite(Number(rawMix))
+                        ? Math.max(0, Number(rawMix))
+                        : (items.length === 1 ? 100 : 0);
+
+                const price =
+                    baseCac !== null &&
+                    marginRate !== null &&
+                    1 - marginRate > 0
+                        ? (unitCost + baseCac) / (1 - marginRate)
+                        : null;
+
+                return {
+                    item,
+                    unitCost,
+                    marginPct,
+                    marginRate,
+                    mixWeight,
+                    price
+                };
+            });
+
+            const mixTotal = prepared.reduce((sum, row) => sum + row.mixWeight, 0);
+            prepared.forEach(row => {
+                row.salesMix = mixTotal > 0 ? row.mixWeight / mixTotal : 0;
+            });
+
+            const revenueWeightDenominator = prepared.reduce((sum, row) => {
+                return sum +
+                    (row.price !== null ? row.price * row.salesMix : 0);
+            }, 0);
+
+            const resultItems = prepared.map(row => {
+                const revenueWeight =
+                    revenueWeightDenominator > 0 && row.price !== null
+                        ? row.price * row.salesMix / revenueWeightDenominator
+                        : 0;
+
+                const weightedCac =
+                    baseCac !== null && row.salesMix > 0
+                        ? baseCac * revenueWeight / row.salesMix
+                        : null;
+
+                const adBudget =
+                    budget * revenueWeight;
+
+                const forecastSales =
+                    forecastUnits * row.salesMix;
+
+                const revenue =
+                    row.price !== null
+                        ? row.price * forecastSales
+                        : 0;
+
+                const cogs =
+                    row.unitCost * forecastSales;
+
+                const turnoverExpenseRate =
+                    Math.max(
+                        0,
+                        Number(row.item.salesVariablePct || 0) +
+                        Number(row.item.penaltiesPct || 0)
+                    ) / 100;
+                const turnoverExpenses = revenue * turnoverExpenseRate;
+
+                const ebitda =
+                    revenue -
+                    cogs -
+                    adBudget -
+                    turnoverExpenses;
+
+                const roas = adBudget > 0 ? revenue / adBudget : null;
+
+                return {
+                    id: row.item.id,
+                    name: row.item.name,
+                    source: row.item.source,
+                    unitCost: row.unitCost,
+                    marginPct: row.marginPct,
+                    salesMix: row.salesMix,
+                    revenueWeight,
+                    baseCac,
+                    weightedCac,
+                    adBudget,
+                    forecastSales,
+                    price: row.price,
+                    revenue,
+                    cogs,
+                    turnoverExpenses,
+                    ebitda,
+                    roas
+                };
+            });
+
+            const totalRevenue = resultItems.reduce((sum, row) => sum + row.revenue, 0);
+            const totalEbitdaBeforeShared = resultItems.reduce((sum, row) => sum + row.ebitda, 0);
+
+            // Shared costs are deducted once at the business level.
+            const salesFixedShared = Math.max(
+                0,
+                ...items.map(item => Number(item.salesFixedMonthly || 0))
+            );
+            const sharedBusinessCosts = management + salesFixedShared;
+            const businessEbitda = totalEbitdaBeforeShared - sharedBusinessCosts;
+
+            const taxRate = Math.max(0, productNumber('own-business-tax-pct')) / 100;
+            let tax = 0;
+            if (productBusinessTaxType === 'turnover') {
+                tax = totalRevenue * taxRate;
+            } else if (productBusinessTaxType === 'profit') {
+                tax = Math.max(0, businessEbitda) * taxRate;
+            }
+
+            return {
+                funnel: {
+                    budget,
+                    cpc,
+                    ctrPct,
+                    clickLeadPct,
+                    leadSalePct,
+                    unitsPerOrder,
+                    clicks,
+                    impressions,
+                    leads,
+                    orders,
+                    forecastUnits,
+                    baseCac,
+                    management
+                },
+                items: resultItems,
+                totalRevenue,
+                totalEbitdaBeforeShared,
+                sharedBusinessCosts,
+                businessEbitda,
+                tax,
+                netProfit: businessEbitda - tax
+            };
+        }
+
+        function aggregatePricingMetrics(item) {
+            const model = calculateProductPortfolio();
+            const row = model.items.find(entry => entry.id === item?.id) || null;
+
+            if (!row) {
+                return {
+                    marginPct: null,
+                    priceBeforeTax: null,
+                    priceBeforeTaxWithVat: null,
+                    taxAdjustedPrice: null,
+                    taxAdjustedPriceWithVat: null,
+                    salesMix: 0,
+                    revenueWeight: 0,
+                    baseCac: null,
+                    weightedCac: null,
+                    adBudget: 0,
+                    forecastSales: 0,
+                    revenue: 0,
+                    cogs: 0,
+                    ebitda: 0,
+                    roas: null
+                };
+            }
 
             const salesVatEnabled = productOwnChoices.salesVat === 'yes';
             const vatRate = salesVatEnabled
                 ? Math.max(0, productNumber('own-sales-vat-pct')) / 100
                 : 0;
-            const priceBeforeTaxWithVat = priceBeforeTax * (1 + vatRate);
-
-            const businessTaxRate = Math.max(0, productNumber('own-business-tax-pct')) / 100;
-            let taxedRevenue = null;
-
-            if (productBusinessTaxType === 'turnover') {
-                const retained = 1 - cycle.variableSalesRate - businessTaxRate;
-                taxedRevenue = retained > 0
-                    ? (cycle.nonRevenueCosts + targetProfit) / retained
-                    : null;
-            } else if (productBusinessTaxType === 'profit') {
-                const retainedProfit = 1 - businessTaxRate;
-                const requiredPretaxProfit = retainedProfit > 0
-                    ? targetProfit / retainedProfit
-                    : null;
-                taxedRevenue = requiredPretaxProfit === null
-                    ? null
-                    : (cycle.nonRevenueCosts + requiredPretaxProfit) /
-                      (1 - cycle.variableSalesRate);
-            }
-
-            const taxAdjustedPrice =
-                taxedRevenue === null
-                    ? null
-                    : taxedRevenue / cycle.stockQty;
-            const taxAdjustedPriceWithVat =
-                taxAdjustedPrice === null
-                    ? null
-                    : taxAdjustedPrice * (1 + vatRate);
+            const priceBeforeTaxWithVat =
+                row.price === null ? null : row.price * (1 + vatRate);
 
             return {
-                marginPct,
-                targetProfit,
-                priceBeforeTax,
+                marginPct: row.marginPct,
+                priceBeforeTax: row.price,
                 priceBeforeTaxWithVat,
-                taxAdjustedPrice,
-                taxAdjustedPriceWithVat
+                taxAdjustedPrice: null,
+                taxAdjustedPriceWithVat: null,
+                salesMix: row.salesMix,
+                revenueWeight: row.revenueWeight,
+                baseCac: row.baseCac,
+                weightedCac: row.weightedCac,
+                adBudget: row.adBudget,
+                forecastSales: row.forecastSales,
+                revenue: row.revenue,
+                cogs: row.cogs,
+                ebitda: row.ebitda,
+                roas: row.roas
             };
         }
 
@@ -2467,9 +2634,18 @@
             const outputs = {
                 priceBeforeTax: aggregatePriceText(p.priceBeforeTax),
                 priceBeforeTaxWithVat: aggregatePriceText(p.priceBeforeTaxWithVat),
-                targetProfit: aggregatePriceText(p.targetProfit),
                 taxAdjustedPrice: aggregatePriceText(p.taxAdjustedPrice),
-                taxAdjustedPriceWithVat: aggregatePriceText(p.taxAdjustedPriceWithVat)
+                taxAdjustedPriceWithVat: aggregatePriceText(p.taxAdjustedPriceWithVat),
+                baseCac: aggregatePriceText(p.baseCac),
+                weightedCac: aggregatePriceText(p.weightedCac),
+                adBudgetPortfolio: aggregatePriceText(p.adBudget),
+                forecastSalesPortfolio: p.forecastSales.toLocaleString('ru-RU', { maximumFractionDigits: 2 }),
+                revenueWeight: (p.revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
+                salesMixNormalized: (p.salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
+                revenuePortfolio: aggregatePriceText(p.revenue),
+                cogsPortfolio: aggregatePriceText(p.cogs),
+                ebitdaPortfolio: aggregatePriceText(p.ebitda),
+                roasPortfolio: p.roas === null ? '—' : p.roas.toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + 'x'
             };
             Object.entries(outputs).forEach(([key, value]) => {
                 section.querySelectorAll(`[data-aggregate-price="${key}"]`).forEach(el => {
@@ -2486,11 +2662,22 @@
             const item = productPortfolio.find(product => product.id === Number(productId));
             if (!item) return;
             if (!item.planning) item.planning = {};
-            item.planning.targetReturnPct =
+            item.planning.targetMarginPct =
+                String(value).trim() === ''
+                    ? ''
+                    : Math.min(99.99, Math.max(0, Number(value) || 0));
+            refreshAllAggregatePricing();
+        }
+
+        function updateAggregateSalesMix(productId, value) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+            if (!item.planning) item.planning = {};
+            item.planning.salesMixPct =
                 String(value).trim() === ''
                     ? ''
                     : Math.max(0, Number(value) || 0);
-            updateAggregatePricing(item);
+            refreshAllAggregatePricing();
         }
 
         function setAggregatePricingDecision(productId, decision, button) {
@@ -2849,16 +3036,31 @@
 
                             <div data-cash-pricing class="aggregate-pricing-panel hidden" hidden>
                                 <label class="block text-sm font-semibold mb-2">
-                                    Какой процент я намерен заработать от вложенного?
+                                    Целевая маржинальность «${esc(item.name)}», %
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number"
+                                        min="0"
+                                        max="99.99"
+                                        step="0.01"
+                                        value="${esc(planning.targetMarginPct ?? '')}"
+                                        class="input-field"
+                                        placeholder="Введите целевую маржу"
+                                        oninput="updateAggregateMargin(${item.id}, this.value)">
+                                    <span class="font-bold text-emerald-100">%</span>
+                                </div>
+
+                                <label class="block text-sm font-semibold mt-4 mb-2">
+                                    Прогнозная доля продаж «${esc(item.name)}» в штуках, %
                                 </label>
                                 <div class="flex items-center gap-2">
                                     <input type="number"
                                         min="0"
                                         step="0.01"
-                                        value="${esc(planning.targetReturnPct ?? '')}"
+                                        value="${esc(planning.salesMixPct ?? (productPortfolio.length === 1 ? 100 : ''))}"
                                         class="input-field"
-                                        placeholder="Введите маржу"
-                                        oninput="updateAggregateMargin(${item.id}, this.value)">
+                                        placeholder="Например, 30"
+                                        oninput="updateAggregateSalesMix(${item.id}, this.value)">
                                     <span class="font-bold text-emerald-100">%</span>
                                 </div>
 
@@ -2889,6 +3091,31 @@
                                     </div>
                                 </div>
 
+                                <div class="aggregate-price-card mt-4 text-sm">
+                                    <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+                                        <span class="aggregate-muted">Доля продаж</span>
+                                        <span class="font-bold text-right" data-aggregate-price="salesMixNormalized">${(aggregatePricingMetrics(item).salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
+                                        <span class="aggregate-muted">Доля выручки</span>
+                                        <span class="font-bold text-right" data-aggregate-price="revenueWeight">${(aggregatePricingMetrics(item).revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
+                                        <span class="aggregate-muted">Средний CAC бизнеса</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="baseCac">${aggregatePriceText(aggregatePricingMetrics(item).baseCac)}</span> у.е.*</span>
+                                        <span class="aggregate-muted">Weighted CAC товара</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="weightedCac">${aggregatePriceText(aggregatePricingMetrics(item).weightedCac)}</span> у.е.*</span>
+                                        <span class="aggregate-muted">Рекламный бюджет товара</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="adBudgetPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).adBudget)}</span> у.е.*</span>
+                                        <span class="aggregate-muted">Прогноз продаж</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="forecastSalesPortfolio">${aggregatePricingMetrics(item).forecastSales.toLocaleString('ru-RU', { maximumFractionDigits: 2 })}</span> шт.</span>
+                                        <span class="aggregate-muted">Выручка</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="revenuePortfolio">${aggregatePriceText(aggregatePricingMetrics(item).revenue)}</span> у.е.*</span>
+                                        <span class="aggregate-muted">Себестоимость</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="cogsPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).cogs)}</span> у.е.*</span>
+                                        <span class="aggregate-muted">EBITDA SKU</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="ebitdaPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).ebitda)}</span> у.е.*</span>
+                                        <span class="aggregate-muted">ROAS</span>
+                                        <span class="font-bold text-right" data-aggregate-price="roasPortfolio">${aggregatePricingMetrics(item).roas === null ? '—' : aggregatePricingMetrics(item).roas.toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + 'x'}</span>
+                                    </div>
+                                </div>
+
                                 <div class="aggregate-title text-lg font-bold mt-5">
                                     Это рыночная цена за «${esc(item.name)}»?
                                 </div>
@@ -2912,7 +3139,7 @@
                                 </div>
 
                                 <div data-tax-price-result class="${planning.taxRequested ? '' : 'hidden'} mt-4 pt-4 border-t aggregate-separator" ${planning.taxRequested ? '' : 'hidden'}>
-                                    <div class="aggregate-muted text-xs">Цена, сохраняющая выбранную прибыль после налога</div>
+                                    <div class="aggregate-muted text-xs">Налог считается на уровне всего бизнеса после EBITDA портфеля.</div>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
                                         <div class="aggregate-price-card">
                                             <div class="aggregate-muted text-xs">Без НДС</div>
