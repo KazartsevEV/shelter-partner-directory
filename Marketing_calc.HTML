@@ -473,17 +473,26 @@
                         <div id="own-employees-details" class="hidden mt-3 space-y-4" hidden data-product-collapsible>
                             <div>
                                 <label class="block text-xs text-slate-500 mb-1">Количество сотрудников, за которых платятся взносы</label>
-                                <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field">
+                                <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
                                 <p class="text-xs text-slate-400 mt-1">Самозанятых не включайте. ИП включайте, если по вашему режиму за него платятся такие взносы.</p>
                             </div>
                             <div>
-                                <label class="block text-xs text-slate-500 mb-1">Средняя зарплата одного сотрудника за период</label>
-                                <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field">
+                                <label class="block text-xs text-slate-500 mb-1">Средняя зарплата одного сотрудника за месяц</label>
+                                <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
                             </div>
                             <div>
-                                <label class="block text-xs text-slate-500 mb-1">Ставка обязательных страховых / социальных взносов, %</label>
-                                <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="0" class="input-field">
-                                <p class="text-xs text-slate-400 mt-1">Пока ставка вводится вручную; бухгалтерский расчёт по юрисдикции подключим отдельным слоем.</p>
+                                <label class="block text-xs text-slate-500 mb-1">Страна начисления обязательных взносов</label>
+                                <select id="own-insurance-country" class="input-field bg-white" onchange="applyCountryInsuranceRate()"></select>
+                                <p class="text-xs text-slate-400 mt-1">По умолчанию — 🇰🇿 Казахстан.</p>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Ставка обязательных взносов работодателя, %</label>
+                                <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="11.5" class="input-field" oninput="markInsuranceRateManual(); updateEmployeeContributionEstimate()">
+                                <p id="own-insurance-rate-note" class="text-xs text-slate-400 mt-1"></p>
+                            </div>
+                            <div class="rounded-lg bg-slate-50 border border-slate-200 p-3">
+                                <div class="text-xs text-slate-500">Оценочные обязательные взносы работодателя за месяц</div>
+                                <div id="own-insurance-monthly-estimate" class="text-lg font-semibold text-slate-900 mt-1">0,00</div>
                             </div>
                         </div>
                     </div>
@@ -838,6 +847,101 @@
             turnoverTax: 'no',
             employees: 'no'
         };
+        const insuranceCountryCodes = "AW,AF,AO,AI,AX,AL,AD,AE,AR,AM,AS,AQ,TF,AG,AU,AT,AZ,BI,BE,BJ,BQ,BF,BD,BG,BH,BS,BA,BL,BY,BZ,BM,BO,BR,BB,BN,BT,BV,BW,CF,CA,CC,CH,CL,CN,CI,CM,CD,CG,CK,CO,KM,CV,CR,CU,CW,CX,KY,CY,CZ,DE,DJ,DM,DK,DO,DZ,EC,EG,ER,EH,ES,EE,ET,FI,FJ,FK,FR,FO,FM,GA,GB,GE,GG,GH,GI,GN,GP,GM,GW,GQ,GR,GD,GL,GT,GF,GU,GY,HK,HM,HN,HR,HT,HU,ID,IM,IN,IO,IE,IR,IQ,IS,IL,IT,JM,JE,JO,JP,KZ,KE,KG,KH,KI,KN,KR,KW,LA,LB,LR,LY,LC,LI,LK,LS,LT,LU,LV,MO,MF,MA,MC,MD,MG,MV,MX,MH,MK,ML,MT,MM,ME,MN,MP,MZ,MR,MS,MQ,MU,MW,MY,YT,NA,NC,NE,NF,NG,NI,NU,NL,NO,NP,NR,NZ,OM,PK,PA,PN,PE,PH,PW,PG,PL,PR,KP,PT,PY,PS,PF,QA,RE,RO,RU,RW,SA,SD,SN,SG,GS,SH,SJ,SB,SL,SV,SM,SO,PM,RS,SS,ST,SR,SK,SI,SE,SZ,SX,SC,SY,TC,TD,TG,TH,TJ,TK,TM,TL,TO,TT,TN,TR,TV,TW,TZ,UG,UA,UM,UY,US,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,ZA,ZM,ZW,XK".split(',');
+        const employerContributionRates = {
+            AL: 15, DZ: 26, AO: 8, AR: 26.4, AM: 5, AU: 12, AT: 20.98, AZ: 22,
+            BS: 6.65, BH: 18, BB: 12.75, BY: 34, BE: 27, BO: 17.21, BA: 5, BR: 28.8,
+            BG: 19.62, CM: 16.2, CA: 8.23, TD: 16.5, CL: 7.11, CN: 28.2, CO: 20.5,
+            CD: 20.28, CR: 26.83, HR: 16.5, CY: 8.8, CZ: 33.8, DK: 0, EC: 12.15,
+            EG: 18.75, SV: 7.5, GQ: 21.5, EE: 33.8, FJ: 10, FI: 20.81, FR: 45,
+            GA: 20.1, DE: 19.42, GR: 21.79, GT: 12.67, GN: 18, HU: 13, IS: 6.35,
+            IN: 12, ID: 11.74, IQ: 12, IE: 11.25, IL: 7.6, IT: 30, CI: 18.45,
+            JM: 12.5, JP: 16.44, JO: 14.25, KZ: 11.5, KE: 6, XK: 5, KW: 11.5,
+            LA: 6, LV: 23.59, LB: 22.5, LY: 15.38, LT: 1.77, LU: 15.1, MG: 19,
+            MY: 13, MT: 10, MR: 15, MU: 6, MX: 7.6, FM: 7.5, MD: 24, MN: 14.5,
+            ME: 6, MA: 21.09, MZ: 4, NZ: 3.5, NO: 14.1, PA: 12.25, PG: 8.4,
+            PY: 16.5, PH: 10, PL: 20.48, PT: 23.75, QA: 0, CG: 20.29, RO: 2.25,
+            RU: 30, RW: 8, SA: 11.75, RS: 15.15, SG: 17, SK: 36.2, SI: 16.1,
+            ZA: 1, KR: 10.35, ES: 30.65, LK: 12, LC: 5, SE: 31.42, CH: 6.4,
+            TW: 15.7, TJ: 20, TH: 5, TN: 16.57, TR: 20.75, UG: 10, UA: 22,
+            AE: 12.5, GB: 13.8, US: 7.65, UY: 12.63, UZ: 12, VE: 17, VN: 21.5,
+            ZM: 5
+        };
+        let insuranceRateManual = false;
+
+        function countryFlag(code) {
+            if (code === 'XK') return '🇽🇰';
+            return code.replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt(0)));
+        }
+
+        function insuranceCountryName(code) {
+            if (code === 'XK') return 'Косово';
+            try {
+                return new Intl.DisplayNames(['ru'], { type: 'region' }).of(code) || code;
+            } catch (e) {
+                return code;
+            }
+        }
+
+        function initInsuranceCountryDirectory() {
+            const select = document.getElementById('own-insurance-country');
+            if (!select || select.options.length) return;
+
+            const countries = insuranceCountryCodes
+                .map(code => ({ code, name: insuranceCountryName(code) }))
+                .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+
+            select.innerHTML = countries.map(({ code, name }) =>
+                `<option value="${code}"${code === 'KZ' ? ' selected' : ''}>${countryFlag(code)} ${name}</option>`
+            ).join('');
+
+            applyCountryInsuranceRate(true);
+        }
+
+        function markInsuranceRateManual() {
+            insuranceRateManual = true;
+            const note = document.getElementById('own-insurance-rate-note');
+            if (note) note.textContent = 'Ставка изменена вручную.';
+        }
+
+        function applyCountryInsuranceRate(force = false) {
+            const select = document.getElementById('own-insurance-country');
+            const rateInput = document.getElementById('own-insurance-contribution-pct');
+            const note = document.getElementById('own-insurance-rate-note');
+            if (!select || !rateInput) return;
+
+            const code = select.value || 'KZ';
+            const rate = employerContributionRates[code];
+
+            insuranceRateManual = false;
+            rateInput.value = Number.isFinite(rate) ? rate : 0;
+
+            if (note) {
+                if (code === 'KZ') {
+                    note.textContent = 'Казахстан: 11,5% = социальные отчисления 5% + ОПВР 3,5% + ОСМС работодателя 3%. Социальный налог не включён.';
+                } else if (Number.isFinite(rate)) {
+                    note.textContent = 'Справочная ставка работодателя. Пороговые базы, льготы и специальные режимы могут менять фактическую сумму.';
+                } else {
+                    note.textContent = 'В справочнике нет единой ставки для этой страны — введите применимую ставку вручную.';
+                }
+            }
+
+            updateEmployeeContributionEstimate();
+        }
+
+        function updateEmployeeContributionEstimate() {
+            const count = Math.max(0, Number(document.getElementById('own-employees-count')?.value) || 0);
+            const salary = Math.max(0, Number(document.getElementById('own-employee-salary')?.value) || 0);
+            const rate = Math.max(0, Number(document.getElementById('own-insurance-contribution-pct')?.value) || 0);
+            const estimate = count * salary * rate / 100;
+            const output = document.getElementById('own-insurance-monthly-estimate');
+            if (output) {
+                output.textContent = estimate.toLocaleString('ru-RU', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+        }
 
         function submitProductIntro(event) {
             event.preventDefault();
@@ -961,6 +1065,11 @@
                 setProductHidden(detailMap[group], value !== 'yes');
             }
 
+            if (group === 'employees' && value === 'yes') {
+                initInsuranceCountryDirectory();
+                applyCountryInsuranceRate(true);
+            }
+
             if (value !== 'yes') {
                 const zeroFields = {
                     salesCommission: ['own-sales-commission-pct'],
@@ -970,6 +1079,7 @@
                     employees: ['own-employees-count', 'own-employee-salary', 'own-insurance-contribution-pct']
                 };
                 (zeroFields[group] || []).forEach(setProductFieldZero);
+                if (group === 'employees') updateEmployeeContributionEstimate();
             }
 
         }
@@ -981,6 +1091,7 @@
                 setProductChoiceVisual(group, value);
             });
             productOwnInitialized = true;
+            initInsuranceCountryDirectory();
 
             Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
             document.getElementById('own-customer-delivery-pct').value = 10;
