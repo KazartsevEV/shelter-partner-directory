@@ -1102,16 +1102,23 @@
             </div>
 
             <div id="product-tax-block" class="card p-6 md:p-8 hidden" hidden>
-                <div class="text-xs uppercase tracking-[0.18em] text-rose-600 font-semibold mb-2">Налоги</div>
-                <h2 class="text-2xl font-bold text-slate-900">Финальный налоговый блок</h2>
-                <p class="text-sm text-slate-500 mt-2">Налоги не включаются в расходы блока продаж дважды: они рассчитываются отдельно от комиссии, зарплат и штрафов.</p>
-                <div class="mt-6">
-                    <div class="rounded-lg border border-slate-200 p-4 space-y-4">
+                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Общая модель</div>
+                <h2 class="text-2xl font-bold text-slate-900">Что нужно сделать и оплатить</h2>
+                <p class="text-sm text-slate-500 mt-2">Сводим уже рассчитанные блоки каждого товара в один рабочий сценарий.</p>
+
+                <div id="product-business-summary-list" class="mt-6 space-y-5"></div>
+
+                <div class="mt-6 rounded-xl border-2 border-rose-200 bg-rose-50/40 p-4 md:p-5">
+                    <div class="text-xs uppercase tracking-[0.16em] text-rose-600 font-bold">Налог</div>
+                    <div class="text-lg font-bold text-slate-900 mt-1">Заплачу налог</div>
+                    <p class="text-xs text-slate-500 mt-1">Налог считается отдельно от комиссии, зарплат и штрафов.</p>
+
+                    <div class="mt-4 rounded-lg border border-slate-200 bg-white p-4 space-y-4">
                         <div>
-                            <div class="text-sm font-medium text-slate-800">Какой налог платите?</div>
+                            <div class="text-sm font-medium text-slate-800">С чего платите налог?</div>
                             <div class="grid grid-cols-2 gap-2 mt-2">
-                                <button type="button" data-business-tax-type="turnover" class="business-tax-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">На оборот</button>
-                                <button type="button" data-business-tax-type="profit" class="business-tax-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">На прибыль</button>
+                                <button type="button" data-business-tax-type="turnover" class="business-tax-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">С оборота</button>
+                                <button type="button" data-business-tax-type="profit" class="business-tax-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">С прибыли</button>
                             </div>
                             <div id="own-business-tax-wrap" class="hidden mt-3" hidden data-product-collapsible>
                                 <label id="own-business-tax-label" class="block text-xs text-slate-500 mb-1">Ставка налога, %</label>
@@ -1798,19 +1805,51 @@
         }
 
         function currentProductPortfolioSnapshot() {
+            const materialsBatchQty = Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
+            const productionQty = Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
+            const logisticsQty = Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
+            const salesQty = Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
+
+            const warehouseInboundUnitCost =
+                productLogisticsPayers.warehouseInbound === 'me'
+                    ? productNumber('own-warehouse-inbound-unit-cost')
+                    : 0;
+            const warehouseStorageUnitCost =
+                productLogisticsPayers.warehouse === 'me'
+                    ? productNumber('own-warehouse-cost') * Math.max(0, productNumber('own-warehouse-days'))
+                    : 0;
+
             return {
                 id: currentProductSequence,
                 name: productName,
                 source: productSource,
                 materialsUnitCost: latestMaterialsLandedUnitCost,
+                materialsBatchQty,
+                materialsBatchTotal: latestMaterialsLandedUnitCost * materialsBatchQty,
                 productionUnitCost: latestProductionUnitCost,
+                productionQty,
+                productionTotal: latestProductionUnitCost * productionQty,
                 logisticsUnitCost: productNumberFromText('own-logistics-unit-cost'),
+                logisticsQty,
+                warehouseInboundUnitCost,
+                warehouseStorageUnitCost,
+                warehouseStageTotal: (warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
                 salesFixedMonthly: productNumberFromText('own-sales-fixed-monthly'),
                 salesFixedPerUnit: productNumberFromText('own-sales-fixed-per-unit'),
+                salesQty,
                 salesVariablePct: productNumber('own-sales-commission-pct'),
                 penaltiesPct: productNumber('own-platform-penalties-pct'),
                 adCostPerUnit: productNumberFromText('own-product-ad-cac-unit'),
                 forecastUnitsPerMonth: productNumberFromText('own-product-ad-units'),
+                adBudget: productNumber('own-product-ad-budget'),
+                adManagement: productNumber('own-product-ad-management'),
+                adTotal: productNumber('own-product-ad-budget') + productNumber('own-product-ad-management'),
+                planning: {
+                    supplyDays: '',
+                    advancePct: '',
+                    advanceLeadDays: '',
+                    productionDays: ''
+                },
                 inputs: Object.fromEntries(
                     Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id]'))
                         .map(el => [el.id, el.value])
@@ -1822,8 +1861,12 @@
             if (!productName || productSource !== 'own') return;
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
-            if (index >= 0) productPortfolio[index] = snapshot;
-            else productPortfolio.push(snapshot);
+            if (index >= 0) {
+                snapshot.planning = productPortfolio[index].planning || snapshot.planning;
+                productPortfolio[index] = snapshot;
+            } else {
+                productPortfolio.push(snapshot);
+            }
             renderProductPortfolio();
         }
 
@@ -1899,6 +1942,101 @@
                 '</div>';
         }
 
+        function updateProductPlanning(productId, key, value) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+            if (!item.planning) item.planning = {};
+            item.planning[key] = value;
+        }
+
+        function renderProductBusinessSummary() {
+            const box = document.getElementById('product-business-summary-list');
+            if (!box) return;
+
+            const esc = value => String(value ?? '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+
+            const sourceLabels = {
+                own: 'Делаю сам',
+                resale: 'Покупаю у других',
+                dropship: 'Дропшиппинг'
+            };
+
+            box.innerHTML = productPortfolio.map((item, index) => {
+                const planning = item.planning || {};
+                const sellingPct = Number(item.salesVariablePct || 0) + Number(item.penaltiesPct || 0);
+                const materialQty = Number(item.materialsBatchQty || 1);
+                const productionQty = Number(item.productionQty || 1);
+                const logisticsQty = Number(item.logisticsQty || 1);
+                const salesQty = Number(item.salesQty || 1);
+                const adUnits = Number(item.forecastUnitsPerMonth || 0);
+
+                return `<section class="rounded-2xl border-2 border-slate-200 bg-slate-50 p-4 md:p-5" data-business-product-id="${item.id}">
+                    <div class="text-xs uppercase tracking-[0.14em] text-blue-600 font-bold">Товар ${index + 1}</div>
+                    <div class="text-xl font-bold text-slate-900 mt-1">
+                        Я буду продавать «${esc(item.name)}» · ${esc(sourceLabels[item.source] || item.source || '')}
+                    </div>
+
+                    <div class="mt-4 space-y-3 text-sm">
+                        <div class="rounded-xl border border-slate-200 bg-white p-4">
+                            <div class="font-semibold text-slate-900">
+                                Привезу материал на ${moneyInputValue(materialQty)} шт. общей стоимостью ${moneyInputValue(item.materialsBatchTotal)} у.е.*
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Срок поставки, дней</label>
+                                    <input type="number" min="0" step="1" value="${esc(planning.supplyDays)}" class="input-field"
+                                        oninput="updateProductPlanning(${item.id}, 'supplyDays', this.value)">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Аванс поставщику, %</label>
+                                    <input type="number" min="0" max="100" step="0.01" value="${esc(planning.advancePct)}" class="input-field"
+                                        oninput="updateProductPlanning(${item.id}, 'advancePct', this.value)">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">За сколько дней до поставки плачу аванс</label>
+                                    <input type="number" min="0" step="1" value="${esc(planning.advanceLeadDays)}" class="input-field"
+                                        oninput="updateProductPlanning(${item.id}, 'advanceLeadDays', this.value)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rounded-xl border border-slate-200 bg-white p-4">
+                            <div class="font-semibold text-slate-900">
+                                Сделаю ${moneyInputValue(productionQty)} шт., потрачу ${moneyInputValue(item.productionTotal)} у.е.*
+                            </div>
+                            <div class="mt-3">
+                                <label class="block text-xs text-slate-500 mb-1">Срок производства этого количества, дней</label>
+                                <input type="number" min="0" step="1" value="${esc(planning.productionDays)}" class="input-field"
+                                    oninput="updateProductPlanning(${item.id}, 'productionDays', this.value)">
+                            </div>
+                        </div>
+
+                        <div class="rounded-xl border border-slate-200 bg-white p-4 font-semibold text-slate-900">
+                            Положу на склад ${moneyInputValue(logisticsQty)} шт., заплачу не менее ${moneyInputValue(item.warehouseStageTotal)} у.е.*
+                        </div>
+
+                        <div class="rounded-xl border border-slate-200 bg-white p-4">
+                            <div class="font-semibold text-slate-900">
+                                Заплачу продавцам / площадке ${moneyInputValue(item.salesFixedMonthly)} у.е.* за возможность продать ${moneyInputValue(salesQty)} шт.
+                            </div>
+                            <div class="text-xs text-slate-500 mt-1">
+                                Дополнительно: ${moneyInputValue(sellingPct)}% оборота — комиссии, штрафы и удержания.
+                            </div>
+                        </div>
+
+                        <div class="rounded-xl border border-slate-200 bg-white p-4 font-semibold text-slate-900">
+                            Заплачу ${moneyInputValue(item.adTotal)} у.е.* за рекламу, чтобы продать около ${moneyInputValue(adUnits)} шт.
+                        </div>
+                    </div>
+                </section>`;
+            }).join('');
+        }
+
         function updateProductAssortmentGate() {
             const completeButton = document.getElementById('assortment-complete-button');
             if (!completeButton) return;
@@ -1922,6 +2060,7 @@
             if (choice === 'complete') {
                 if (!requireAdditionalProductName()) return;
                 saveCurrentProductToPortfolio();
+                renderProductBusinessSummary();
                 if (addButton) addButton.classList.add('hidden');
                 if (taxBlock) {
                     taxBlock.hidden = false;
