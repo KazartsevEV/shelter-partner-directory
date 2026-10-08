@@ -562,15 +562,29 @@
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4">
-                        <div class="text-sm font-medium text-slate-800">Платите налог на оборот?</div>
-                        <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="turnoverTax" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="turnoverTax" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                    <div class="rounded-lg border border-slate-200 p-4 space-y-4">
+                        <div>
+                            <div class="text-sm font-medium text-slate-800">Какой налог платите?</div>
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <button type="button" data-business-tax-type="turnover" class="business-tax-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">На оборот</button>
+                                <button type="button" data-business-tax-type="profit" class="business-tax-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">На прибыль</button>
+                            </div>
+                            <div id="own-business-tax-wrap" class="hidden mt-3" hidden data-product-collapsible>
+                                <label id="own-business-tax-label" class="block text-xs text-slate-500 mb-1">Ставка налога, %</label>
+                                <input id="own-business-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+                            </div>
                         </div>
-                        <div id="own-turnover-tax-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Налог на оборот, %</label>
-                            <input id="own-turnover-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+
+                        <div class="border-t border-slate-200 pt-4">
+                            <div class="text-sm font-medium text-slate-800">Работаете с НДС?</div>
+                            <div class="flex gap-2 mt-2">
+                                <button type="button" data-yn-group="salesVat" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="salesVat" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            </div>
+                            <div id="own-sales-vat-wrap" class="hidden mt-3" hidden data-product-collapsible>
+                                <label class="block text-xs text-slate-500 mb-1">Размер НДС, %</label>
+                                <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+                            </div>
                         </div>
                     </div>
 
@@ -1037,6 +1051,7 @@
         let productOwnInitialized = false;
         let productOwnInboundDeliveryManual = false;
         const productOwnChoices = {};
+        let productBusinessTaxType = null;
         const productImportPayers = {
             broker: null,
             cargoInsurance: null,
@@ -1060,7 +1075,7 @@
             salesCommission: 'no',
             payroll: 'no',
             platformPenalties: 'no',
-            turnoverTax: 'no',
+            salesVat: 'no',
             employees: 'no'
         };
         const insuranceCountryCodes = "AW,AF,AO,AI,AX,AL,AD,AE,AR,AM,AS,AQ,TF,AG,AU,AT,AZ,BI,BE,BJ,BQ,BF,BD,BG,BH,BS,BA,BL,BY,BZ,BM,BO,BR,BB,BN,BT,BV,BW,CF,CA,CC,CH,CL,CN,CI,CM,CD,CG,CK,CO,KM,CV,CR,CU,CW,CX,KY,CY,CZ,DE,DJ,DM,DK,DO,DZ,EC,EG,ER,EH,ES,EE,ET,FI,FJ,FK,FR,FO,FM,GA,GB,GE,GG,GH,GI,GN,GP,GM,GW,GQ,GR,GD,GL,GT,GF,GU,GY,HK,HM,HN,HR,HT,HU,ID,IM,IN,IO,IE,IR,IQ,IS,IL,IT,JM,JE,JO,JP,KZ,KE,KG,KH,KI,KN,KR,KW,LA,LB,LR,LY,LC,LI,LK,LS,LT,LU,LV,MO,MF,MA,MC,MD,MG,MV,MX,MH,MK,ML,MT,MM,ME,MN,MP,MZ,MR,MS,MQ,MU,MW,MY,YT,NA,NC,NE,NF,NG,NI,NU,NL,NO,NP,NR,NZ,OM,PK,PA,PN,PE,PH,PW,PG,PL,PR,KP,PT,PY,PS,PF,QA,RE,RO,RU,RW,SA,SD,SN,SG,GS,SH,SJ,SB,SL,SV,SM,SO,PM,RS,SS,ST,SR,SK,SI,SE,SZ,SX,SC,SY,TC,TD,TG,TH,TJ,TK,TM,TL,TO,TT,TN,TR,TV,TW,TZ,UG,UA,UM,UY,US,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,ZA,ZM,ZW,XK".split(',');
@@ -1475,7 +1490,7 @@
                 salesCommission: 'own-sales-commission-wrap',
                 payroll: 'own-payroll-wrap',
                 platformPenalties: 'own-platform-penalties-wrap',
-                turnoverTax: 'own-turnover-tax-wrap',
+                salesVat: 'own-sales-vat-wrap',
                 employees: 'own-employees-details'
             };
 
@@ -1518,7 +1533,7 @@
                     salesCommission: ['own-sales-commission-pct'],
                     payroll: ['own-payroll-rewards'],
                     platformPenalties: ['own-platform-penalties-pct'],
-                    turnoverTax: ['own-turnover-tax-pct'],
+                    salesVat: ['own-sales-vat-pct'],
                     employees: [
                         'own-employees-count',
                         'own-employee-salary',
@@ -1651,6 +1666,7 @@
             });
             productOwnInitialized = true;
             initInsuranceCountryDirectory();
+            setProductBusinessTaxType(null);
 
             Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
             document.getElementById('own-customer-delivery-pct').value = 10;
@@ -1735,6 +1751,28 @@
             }
         }
 
+        function setProductBusinessTaxType(type) {
+            productBusinessTaxType = type === 'turnover' || type === 'profit' ? type : null;
+
+            document.querySelectorAll('.business-tax-choice[data-business-tax-type]').forEach(button => {
+                const selected = button.dataset.businessTaxType === productBusinessTaxType;
+                button.classList.toggle('yn-choice-selected', selected);
+                button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+
+            const hasType = !!productBusinessTaxType;
+            setProductHidden('own-business-tax-wrap', !hasType);
+
+            const label = document.getElementById('own-business-tax-label');
+            if (label) {
+                label.textContent = productBusinessTaxType === 'profit'
+                    ? 'Налог на прибыль, %'
+                    : 'Налог на оборот, %';
+            }
+
+            if (!hasType) setProductFieldZero('own-business-tax-pct');
+        }
+
         // Native delegated click handling for all yes/no branches.
         // This does not depend on inline onclick handlers or Tailwind class ordering.
         document.addEventListener('click', function(event) {
@@ -1762,6 +1800,13 @@
                     logisticsPayerButton.dataset.logisticsPayerKey,
                     logisticsPayerButton.dataset.logisticsPayerValue
                 );
+                return;
+            }
+
+            const businessTaxButton = event.target.closest('.business-tax-choice[data-business-tax-type]');
+            if (businessTaxButton) {
+                event.preventDefault();
+                setProductBusinessTaxType(businessTaxButton.dataset.businessTaxType);
                 return;
             }
 
