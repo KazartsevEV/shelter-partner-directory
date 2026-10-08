@@ -279,7 +279,7 @@
                         </div>
 
                         <div id="own-materials-known-wrap" class="mt-4 hidden" hidden data-product-collapsible>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Себестоимость материалов на единицу</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Себестоимость материалов на единицу, у.е.*</label>
                             <input id="own-materials-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateInboundDeliveryDefault(); recalculateMaterialsLandedCost()">
                         </div>
 
@@ -295,7 +295,7 @@
                             </button>
 
                             <div class="rounded-lg bg-white border border-violet-100 p-3 flex justify-between gap-4 text-sm">
-                                <span class="text-slate-600">Материалы на 1 единицу</span>
+                                <span class="text-slate-600">Материалы на 1 единицу, у.е.*</span>
                                 <span id="own-materials-calculated-total" class="font-bold text-slate-900">0,00</span>
                             </div>
                         </div>
@@ -321,7 +321,7 @@
                             <button type="button" data-yn-group="inboundIncluded" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-inbound-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Стоимость доставки материалов до меня</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Стоимость, у.е.* доставки материалов до меня, у.е.*</label>
                             <input id="own-inbound-delivery-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="markInboundDeliveryManual()">
                             <p class="text-xs text-slate-400 mt-1">
                                 По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.
@@ -348,7 +348,7 @@
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-broker-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Стоимость услуг брокера за партию</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Стоимость, у.е.* услуг брокера за партию, у.е.*</label>
                                         <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -372,7 +372,7 @@
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-duties-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Пошлины и сборы на 1 единицу</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Пошлины и сборы на 1 единицу, у.е.*</label>
                                         <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -384,7 +384,7 @@
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-certification-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Сертификация и документы за партию</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Сертификация и документы за партию, у.е.*</label>
                                         <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -398,7 +398,7 @@
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     Для того, чтобы купить и привезти материалы для 1 ед. <span class="product-name-live"></span>, нужно потратить
                     <span id="own-materials-landed-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е. в используемой вами валюте.
+                    у.е.*.
                 </div>
 
                 <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -432,7 +432,7 @@
                             <button type="button" data-yn-group="productionPremises" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-production-premises-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Расход / месяц</label>
+                            <label class="block text-xs text-slate-500 mb-1">Расход / месяц, у.е.*</label>
                             <input id="own-production-premises-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
                         </div>
                     </div>
@@ -485,7 +485,7 @@
                                     <input id="own-production-workers-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateProductionWorkersCost()">
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц, у.е.*</label>
                                     <input id="own-production-worker-gross" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionWorkersCost()">
                                 </div>
                             </div>
@@ -562,7 +562,7 @@
                             <button type="button" data-yn-group="productionOverheads" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-production-overheads-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Накладные организационные расходы / месяц</label>
+                            <label class="block text-xs text-slate-500 mb-1">Накладные организационные расходы / месяц, у.е.*</label>
                             <input id="own-production-overheads-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
                             <p class="text-xs text-slate-400 mt-1">Эта сумма относится ко всему месяцу и распределяется на количество произведённых единиц. Включая проверки, аккредитации и аналогичные организационные расходы.</p>
                         </div>
@@ -573,9 +573,9 @@
             <div id="production-unit-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
                 <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 2</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
-                    Стоимость производства 1 ед. <span class="product-name-live"></span> составляет
+                    Стоимость, у.е.* производства 1 ед. <span class="product-name-live"></span> составляет
                     <span id="own-production-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е. в используемой вами валюте.
+                    у.е.*.
                 </div>
 
                 <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -611,7 +611,7 @@
                             <button type="button" data-logistics-payer-key="warehouse" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
                             <div id="own-warehouse-cost-wrap" class="col-span-2 mt-1 hidden space-y-4" hidden data-product-collapsible>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Сколько стоит 1 день хранения?</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Сколько стоит 1 день хранения, у.е.*?</label>
                                     <input id="own-warehouse-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateLogisticsUnitCost()">
                                 </div>
                                 <div>
@@ -656,7 +656,7 @@
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     Минимальная стоимость хранения и доставки до покупателя 1 ед. <span class="product-name-live"></span> составляет
                     <span id="own-logistics-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е. в используемой вами валюте.
+                    у.е.*.
                 </div>
 
                 <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -665,7 +665,7 @@
                     </label>
                     <input id="own-logistics-qty" type="number" min="1" step="1" value="1" class="input-field">
                     <p class="text-xs text-slate-500 mt-2">
-                        Стоимость 1 ед. не меняется от количества; ниже дополнительно считается общая логистика для выбранного количества.
+                        Стоимость, у.е.* 1 ед. не меняется от количества; ниже дополнительно считается общая логистика для выбранного количества.
                     </p>
                 </div>
 
@@ -708,7 +708,7 @@
                             <button type="button" data-yn-group="payroll" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-payroll-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Регулярные расходы на ЗП и иные вознаграждения за месяц</label>
+                            <label class="block text-xs text-slate-500 mb-1">Регулярные расходы на ЗП и иные вознаграждения за месяц, у.е.*</label>
                             <input id="own-payroll-rewards" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateSalesCostSummary()">
                         </div>
                     </div>
@@ -766,7 +766,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs text-slate-500 mb-1">Средняя начисленная зарплата одного сотрудника за месяц</label>
+                                <label class="block text-xs text-slate-500 mb-1">Средняя начисленная зарплата одного сотрудника за месяц, у.е.*</label>
                                 <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
                                 <p class="text-xs text-slate-400 mt-1">Используйте начисленную зарплату до удержаний сотрудника.</p>
                             </div>
@@ -796,7 +796,7 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Фиксированные обязательные платежи на 1 сотрудника / месяц</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Фиксированные обязательные платежи на 1 сотрудника / месяц, у.е.*</label>
                                     <input id="own-employer-fixed-per-employee" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
                                 </div>
 
@@ -948,7 +948,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Свой рекламный бюджет на месяц</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Свой рекламный бюджет на месяц, у.е.*</label>
                             <input id="own-product-ad-budget" type="number" min="0" step="0.01" value="150" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
@@ -966,7 +966,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Средняя цена клика CPC</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Средняя цена клика CPC, у.е.*</label>
                             <input id="own-product-ad-cpc" type="number" min="0" step="0.01" value="0.33" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
@@ -986,7 +986,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Гонорар маркетолога / месяц</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Гонорар маркетолога / месяц, у.е.*</label>
                             <input id="own-product-ad-management" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateProductAdFunnel()">
                             <p class="text-xs text-slate-400 mt-1">Если маркетологу отдельно не платите — оставьте 0.</p>
                         </div>
@@ -999,7 +999,7 @@
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     Чтобы продать 1 ед. <span class="product-name-live"></span>, нужно потратить на привлечение покупателя
                     <span id="own-product-ad-cac-unit" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е.
+                    у.е.*
                 </div>
 
                 <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -1199,12 +1199,12 @@
 
         const baseInputsConfig = [
             { key: 'monthlyBudget', label: 'Месячный бюджет на рекламу', type: 'money' },
-            { key: 'cpc', label: 'Средняя цена клика CPC', type: 'money' },
+            { key: 'cpc', label: 'Средняя цена клика CPC, у.е.*', type: 'money' },
             { key: 'ctr', label: 'CTR (кликабельность)', type: 'pct' },
             { key: 'cvrLead', label: 'Конверсия Клик → Лид', type: 'pct' },
             { key: 'cvrDeal', label: 'Конверсия Лид → Сделка', type: 'pct' },
-            { key: 'costConsult', label: 'Стоимость консультации', type: 'money' },
-            { key: 'costPack', label: 'Стоимость пакета консультаций', type: 'money' },
+            { key: 'costConsult', label: 'Стоимость, у.е.* консультации', type: 'money' },
+            { key: 'costPack', label: 'Стоимость, у.е.* пакета консультаций', type: 'money' },
             { key: 'ltv', label: 'LTV-фактор (доля купивших пакет)', type: 'pct' },
             { key: 'months', label: 'Период расчёта (месяцев)', type: 'num' },
             { key: 'mgmt', label: 'Настройка и ведение рекламы', type: 'money' },
@@ -1312,7 +1312,7 @@
             return baseInputsConfig;
         }
 
-        function formatMoney(val) { return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'USD' }).format(val); }
+        function formatMoney(val) { return `${formatNum(val)} у.е.*`; }
         function formatNum(val) { return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
         function formatInt(val) { return new Intl.NumberFormat('ru-RU').format(Math.round(val)); }
         function monthWord(n) {
@@ -1328,7 +1328,7 @@
             container.innerHTML = '';
             getInputsConfig().forEach(def => {
                 const div = document.createElement('div');
-                const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? '$' : '');
+                const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? 'у.е.*' : '');
                 const value = currentValues[def.key] ?? defaults[def.key] ?? 0;
                 const showPayer = serviceMode === 'agent' && agentExpenseKeys.includes(def.key);
                 const payerControls = showPayer ? `
@@ -1838,7 +1838,7 @@
 
                 <div class="grid grid-cols-2 gap-2 mt-2">
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Цена 1 ед. материала</label>
+                        <label class="block text-xs text-slate-500 mb-1">Цена 1 ед. материала, у.е.*</label>
                         <input type="number" min="0" step="0.01" value="0" class="material-cost-price input-field" oninput="updateCalculatedMaterialsCost()">
                     </div>
                     <div>
@@ -2213,7 +2213,7 @@
                 </div>
                 <div class="grid grid-cols-[1fr_auto] gap-2 items-end mt-2">
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Стоимость 1 ед. / мес</label>
+                        <label class="block text-xs text-slate-500 mb-1">Стоимость, у.е.* 1 ед. / мес, у.е.*</label>
                         <input type="number" min="0" step="0.01" value="0" class="equipment-rental-cost input-field" oninput="updateEquipmentRentalTotal()">
                     </div>
                     <button type="button" onclick="removeEquipmentRow(this, 'rental')" class="h-10 w-10 rounded-lg border border-slate-300 text-slate-500">×</button>
@@ -2255,7 +2255,7 @@
                 </div>
                 <div class="grid grid-cols-[1fr_auto] gap-2 items-end mt-2">
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Стоимость 1 ед.</label>
+                        <label class="block text-xs text-slate-500 mb-1">Стоимость, у.е.* 1 ед.</label>
                         <input type="number" min="0" step="0.01" value="0" class="equipment-purchase-cost input-field" oninput="updateEquipmentDepreciationTotal()">
                     </div>
                     <button type="button" onclick="removeEquipmentRow(this, 'purchase')" class="h-10 w-10 rounded-lg border border-slate-300 text-slate-500">×</button>
@@ -3188,6 +3188,7 @@
 
     <footer class="max-w-7xl mx-auto mt-8 mb-4 text-xs text-slate-500 leading-relaxed">
         <div class="border-t border-slate-200 pt-4">
+            <p class="mb-3 font-semibold text-slate-700">* у.е. — деньги в вашей валюте.</p>
             <p class="font-semibold text-slate-700">Лицензия на коммерческое использование</p>
             <p class="mt-1">
                 Разрешается копирование, изменение, распространение и использование этого калькулятора,
