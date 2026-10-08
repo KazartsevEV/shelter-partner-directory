@@ -364,6 +364,116 @@
                     </div>
                 </div>
             <div class="card p-6 md:p-8">
+                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Производство</div>
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Расходы на производство 1 единицы <span class="product-name-live"></span>
+                </h2>
+
+                <div class="mt-6 space-y-5">
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Аренда помещения + коммунальные платежи?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="productionPremises" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="productionPremises" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-production-premises-wrap" class="hidden mt-3" hidden data-product-collapsible>
+                            <label class="block text-xs text-slate-500 mb-1">Расход в месяц</label>
+                            <input id="own-production-premises-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Аренда оборудования?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="equipmentRental" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="equipmentRental" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-equipment-rental-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
+                            <div id="own-equipment-rental-rows" class="space-y-3"></div>
+                            <button type="button" onclick="addEquipmentRentalRow()" class="w-full rounded-lg border border-dashed border-blue-300 bg-blue-50 text-blue-700 px-3 py-2 font-semibold">+ Добавить оборудование</button>
+                            <div class="text-xs text-slate-500">Итого аренда оборудования / месяц: <span id="own-equipment-rental-total" class="font-semibold text-slate-900">0,00</span></div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Закупка оборудования?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="equipmentPurchase" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="equipmentPurchase" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-equipment-purchase-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
+                            <p class="text-xs text-slate-500">
+                                Линейная амортизация в месяц = стоимость оборудования ÷ срок службы в месяцах.
+                            </p>
+                            <div id="own-equipment-purchase-rows" class="space-y-3"></div>
+                            <button type="button" onclick="addEquipmentPurchaseRow()" class="w-full rounded-lg border border-dashed border-blue-300 bg-blue-50 text-blue-700 px-3 py-2 font-semibold">+ Добавить оборудование</button>
+                            <div class="text-xs text-slate-500">Итого амортизация купленного оборудования / месяц: <span id="own-equipment-depreciation-total" class="font-semibold text-slate-900">0,00</span></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Доля брака производства, % от общего объёма</label>
+                        <input id="own-production-defect-pct" type="number" min="0" max="100" step="0.01" value="0" class="input-field">
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Расходы на газ?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="productionGas" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="productionGas" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-production-gas-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Тариф</label>
+                                    <input id="own-production-gas-tariff" type="number" min="0" step="0.0001" value="0" class="input-field" oninput="updateProductionUtilityTotal('gas')">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Расход / месяц</label>
+                                    <input id="own-production-gas-usage" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionUtilityTotal('gas')">
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-500">Газ / месяц: <span id="own-production-gas-total" class="font-semibold text-slate-900">0,00</span></div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Расходы на электричество?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="productionElectricity" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="productionElectricity" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-production-electricity-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Тариф</label>
+                                    <input id="own-production-electricity-tariff" type="number" min="0" step="0.0001" value="0" class="input-field" oninput="updateProductionUtilityTotal('electricity')">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Расход / месяц</label>
+                                    <input id="own-production-electricity-usage" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionUtilityTotal('electricity')">
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-500">Электричество / месяц: <span id="own-production-electricity-total" class="font-semibold text-slate-900">0,00</span></div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Есть прочие накладные, организационные и регулярные представительские расходы?</div>
+                        <div class="flex gap-2 mt-2">
+                            <button type="button" data-yn-group="productionOverheads" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="productionOverheads" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        </div>
+                        <div id="own-production-overheads-wrap" class="hidden mt-3" hidden data-product-collapsible>
+                            <label class="block text-xs text-slate-500 mb-1">Расход в месяц</label>
+                            <input id="own-production-overheads-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
+                            <p class="text-xs text-slate-400 mt-1">Включая прохождение проверок, аккредитаций и аналогичные регулярные расходы.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6 md:p-8">
                 <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Логистика и склад</div>
                 <h2 class="text-2xl font-bold text-slate-900">
                     Логистика <span class="product-name-live"></span>
@@ -465,16 +575,16 @@
                     </div>
 
                     <div class="rounded-lg border border-slate-200 p-4">
-                        <div class="text-sm font-medium text-slate-800">Есть сотрудники, за которых платятся обязательные взносы?</div>
+                        <div class="text-sm font-medium text-slate-800">Платите обязательные взносы за сотрудников?</div>
                         <div class="flex gap-2 mt-2">
                             <button type="button" data-yn-group="employees" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                             <button type="button" data-yn-group="employees" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-employees-details" class="hidden mt-3 space-y-4" hidden data-product-collapsible>
                             <div>
-                                <label class="block text-xs text-slate-500 mb-1">Количество сотрудников, за которых платятся взносы</label>
+                                <label class="block text-xs text-slate-500 mb-1">Количество сотрудников, за которых вы платите взносы</label>
                                 <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
-                                <p class="text-xs text-slate-400 mt-1">Самозанятых не включайте. ИП включайте, если по вашему режиму за него платятся такие взносы.</p>
+                                <p class="text-xs text-slate-400 mt-1">Самозанятых не включайте. ИП включайте, если по вашему режиму вы платите за него такие взносы.</p>
                             </div>
                             <div>
                                 <label class="block text-xs text-slate-500 mb-1">Средняя зарплата одного сотрудника за месяц</label>
@@ -841,6 +951,12 @@
             vatIncluded: 'yes',
             inboundIncluded: 'no',
             materialsImported: 'no',
+            productionPremises: 'no',
+            equipmentRental: 'no',
+            equipmentPurchase: 'no',
+            productionGas: 'no',
+            productionElectricity: 'no',
+            productionOverheads: 'no',
             salesCommission: 'no',
             payroll: 'no',
             platformPenalties: 'no',
@@ -1054,6 +1170,12 @@
             }
 
             const detailMap = {
+                productionPremises: 'own-production-premises-wrap',
+                equipmentRental: 'own-equipment-rental-wrap',
+                equipmentPurchase: 'own-equipment-purchase-wrap',
+                productionGas: 'own-production-gas-wrap',
+                productionElectricity: 'own-production-electricity-wrap',
+                productionOverheads: 'own-production-overheads-wrap',
                 salesCommission: 'own-sales-commission-wrap',
                 payroll: 'own-payroll-wrap',
                 platformPenalties: 'own-platform-penalties-wrap',
@@ -1065,6 +1187,27 @@
                 setProductHidden(detailMap[group], value !== 'yes');
             }
 
+            if (group === 'equipmentRental') {
+                const rows = document.getElementById('own-equipment-rental-rows');
+                if (value === 'yes' && rows && !rows.children.length) addEquipmentRentalRow();
+                if (value !== 'yes' && rows) {
+                    rows.innerHTML = '';
+                    updateEquipmentRentalTotal();
+                }
+            }
+
+            if (group === 'equipmentPurchase') {
+                const rows = document.getElementById('own-equipment-purchase-rows');
+                if (value === 'yes' && rows && !rows.children.length) addEquipmentPurchaseRow();
+                if (value !== 'yes' && rows) {
+                    rows.innerHTML = '';
+                    updateEquipmentDepreciationTotal();
+                }
+            }
+
+            if (group === 'productionGas') updateProductionUtilityTotal('gas');
+            if (group === 'productionElectricity') updateProductionUtilityTotal('electricity');
+
             if (group === 'employees' && value === 'yes') {
                 initInsuranceCountryDirectory();
                 applyCountryInsuranceRate(true);
@@ -1072,6 +1215,10 @@
 
             if (value !== 'yes') {
                 const zeroFields = {
+                    productionPremises: ['own-production-premises-monthly'],
+                    productionGas: ['own-production-gas-tariff', 'own-production-gas-usage'],
+                    productionElectricity: ['own-production-electricity-tariff', 'own-production-electricity-usage'],
+                    productionOverheads: ['own-production-overheads-monthly'],
                     salesCommission: ['own-sales-commission-pct'],
                     payroll: ['own-payroll-rewards'],
                     platformPenalties: ['own-platform-penalties-pct'],
@@ -1082,6 +1229,111 @@
                 if (group === 'employees') updateEmployeeContributionEstimate();
             }
 
+        }
+
+        let equipmentRentalSeq = 0;
+        let equipmentPurchaseSeq = 0;
+
+        function moneyInputValue(value) {
+            return (Number(value) || 0).toLocaleString('ru-RU', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function addEquipmentRentalRow() {
+            const container = document.getElementById('own-equipment-rental-rows');
+            if (!container) return;
+            equipmentRentalSeq += 1;
+            const row = document.createElement('div');
+            row.className = 'equipment-rental-row rounded-lg border border-slate-200 bg-slate-50 p-3';
+            row.dataset.rowId = equipmentRentalSeq;
+            row.innerHTML = `
+                <div class="grid grid-cols-[1fr_110px_auto] gap-2 items-end">
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Оборудование</label>
+                        <input type="text" class="equipment-rental-name input-field" placeholder="Название">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Стоимость / мес</label>
+                        <input type="number" min="0" step="0.01" value="0" class="equipment-rental-cost input-field" oninput="updateEquipmentRentalTotal()">
+                    </div>
+                    <button type="button" onclick="removeEquipmentRow(this, 'rental')" class="h-10 w-10 rounded-lg border border-slate-300 text-slate-500">×</button>
+                </div>
+            `;
+            container.appendChild(row);
+            updateEquipmentRentalTotal();
+        }
+
+        function updateEquipmentRentalTotal() {
+            const total = Array.from(document.querySelectorAll('.equipment-rental-cost'))
+                .reduce((sum, input) => sum + Math.max(0, Number(input.value) || 0), 0);
+            const output = document.getElementById('own-equipment-rental-total');
+            if (output) output.textContent = moneyInputValue(total);
+        }
+
+        function addEquipmentPurchaseRow() {
+            const container = document.getElementById('own-equipment-purchase-rows');
+            if (!container) return;
+            equipmentPurchaseSeq += 1;
+            const row = document.createElement('div');
+            row.className = 'equipment-purchase-row rounded-lg border border-slate-200 bg-slate-50 p-3';
+            row.dataset.rowId = equipmentPurchaseSeq;
+            row.innerHTML = `
+                <div class="grid grid-cols-[1fr_105px_auto] gap-2 items-end">
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Оборудование</label>
+                        <input type="text" class="equipment-purchase-name input-field" placeholder="Название">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Стоимость</label>
+                        <input type="number" min="0" step="0.01" value="0" class="equipment-purchase-cost input-field" oninput="updateEquipmentDepreciationTotal()">
+                    </div>
+                    <button type="button" onclick="removeEquipmentRow(this, 'purchase')" class="h-10 w-10 rounded-lg border border-slate-300 text-slate-500">×</button>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Срок службы, мес.</label>
+                        <input type="number" min="1" step="1" value="12" class="equipment-useful-life input-field" oninput="updateEquipmentDepreciationTotal()">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Амортизация / мес</label>
+                        <input type="text" value="0,00" class="equipment-depreciation input-field bg-slate-100" readonly>
+                    </div>
+                </div>
+            `;
+            container.appendChild(row);
+            updateEquipmentDepreciationTotal();
+        }
+
+        function updateEquipmentDepreciationTotal() {
+            let total = 0;
+            document.querySelectorAll('.equipment-purchase-row').forEach(row => {
+                const cost = Math.max(0, Number(row.querySelector('.equipment-purchase-cost')?.value) || 0);
+                const life = Math.max(1, Number(row.querySelector('.equipment-useful-life')?.value) || 1);
+                const monthly = cost / life;
+                total += monthly;
+                const out = row.querySelector('.equipment-depreciation');
+                if (out) out.value = moneyInputValue(monthly);
+            });
+            const totalOut = document.getElementById('own-equipment-depreciation-total');
+            if (totalOut) totalOut.textContent = moneyInputValue(total);
+        }
+
+        function removeEquipmentRow(button, kind) {
+            button.closest(kind === 'rental' ? '.equipment-rental-row' : '.equipment-purchase-row')?.remove();
+            if (kind === 'rental') updateEquipmentRentalTotal();
+            else updateEquipmentDepreciationTotal();
+        }
+
+        function updateProductionUtilityTotal(kind) {
+            const prefix = kind === 'gas' ? 'gas' : 'electricity';
+            const group = kind === 'gas' ? 'productionGas' : 'productionElectricity';
+            const enabled = productOwnChoices[group] === 'yes';
+            const tariff = enabled ? Math.max(0, Number(document.getElementById(`own-production-${prefix}-tariff`)?.value) || 0) : 0;
+            const usage = enabled ? Math.max(0, Number(document.getElementById(`own-production-${prefix}-usage`)?.value) || 0) : 0;
+            const output = document.getElementById(`own-production-${prefix}-total`);
+            if (output) output.textContent = moneyInputValue(tariff * usage);
         }
 
         function initProductOwnForm() {
