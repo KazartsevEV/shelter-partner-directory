@@ -3192,25 +3192,25 @@
 
                                 <div class="aggregate-price-card mt-4 text-sm">
                                     <div class="grid grid-cols-2 gap-x-4 gap-y-2">
-                                        <span class="aggregate-muted">Доля продаж</span>
+                                        <span class="aggregate-muted">Доля продаж «${esc(item.name)}» в моём магазине</span>
                                         <span class="font-bold text-right" data-aggregate-price="salesMixNormalized">${(aggregatePricingMetrics(item).salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
-                                        <span class="aggregate-muted">Доля выручки</span>
+                                        <span class="aggregate-muted">Доля выручки от «${esc(item.name)}»</span>
                                         <span class="font-bold text-right" data-aggregate-price="revenueWeight">${(aggregatePricingMetrics(item).revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
-                                        <span class="aggregate-muted">Base CAC этого SKU</span>
+                                        <span class="aggregate-muted">Базовые расходы на рекламу для продажи 1 ед. «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="baseCac">${aggregatePriceText(aggregatePricingMetrics(item).baseCac)}</span> у.е.*</span>
-                                        <span class="aggregate-muted">Фактический CAC этого SKU</span>
+                                        <span class="aggregate-muted">Расходы на рекламу для продажи 1 ед. «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="weightedCac">${aggregatePriceText(aggregatePricingMetrics(item).weightedCac)}</span> у.е.*</span>
-                                        <span class="aggregate-muted">Рекламный бюджет этого SKU</span>
+                                        <span class="aggregate-muted">Рекламный бюджет на «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="adBudgetPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).adBudget)}</span> у.е.*</span>
-                                        <span class="aggregate-muted">Прогноз продаж</span>
+                                        <span class="aggregate-muted">Сколько «${esc(item.name)}» продам по текущему прогнозу</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="forecastSalesPortfolio">${aggregatePricingMetrics(item).forecastSales.toLocaleString('ru-RU', { maximumFractionDigits: 2 })}</span> шт.</span>
-                                        <span class="aggregate-muted">Выручка</span>
+                                        <span class="aggregate-muted">Выручка от продажи «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="revenuePortfolio">${aggregatePriceText(aggregatePricingMetrics(item).revenue)}</span> у.е.*</span>
-                                        <span class="aggregate-muted">Себестоимость</span>
+                                        <span class="aggregate-muted">Себестоимость проданных «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="cogsPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).cogs)}</span> у.е.*</span>
-                                        <span class="aggregate-muted">EBITDA SKU</span>
+                                        <span class="aggregate-muted">EBITDA «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="ebitdaPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).ebitda)}</span> у.е.*</span>
-                                        <span class="aggregate-muted">ROAS</span>
+                                        <span class="aggregate-muted">ROAS рекламы «${esc(item.name)}»</span>
                                         <span class="font-bold text-right" data-aggregate-price="roasPortfolio">${aggregatePricingMetrics(item).roas === null ? '—' : aggregatePricingMetrics(item).roas.toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + 'x'}</span>
                                     </div>
                                 </div>
