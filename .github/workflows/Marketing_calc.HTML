@@ -23,6 +23,103 @@
 </head>
 <body class="p-4 md:p-8">
 
+    <!-- ENTRY / ROUTING SCREENS -->
+    <section id="home-screen" class="max-w-4xl mx-auto">
+        <div class="card p-6 md:p-8">
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Юнит-экономика</div>
+            <h1 class="text-3xl font-bold text-slate-900">Что я продаю?</h1>
+            <p class="text-sm text-slate-500 mt-2">Выберите модель бизнеса. Дальше калькулятор покажет только релевантную ветку.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
+                <button onclick="showProductBranch()" class="card p-6 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="text-2xl mb-2">📦</div>
+                    <div class="text-xl font-semibold text-slate-900">Товар</div>
+                    <div class="text-sm text-slate-500 mt-1">Товарный бизнес</div>
+                </button>
+                <button onclick="showServiceChooser()" class="card p-6 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="text-2xl mb-2">🧩</div>
+                    <div class="text-xl font-semibold text-slate-900">Услуга</div>
+                    <div class="text-sm text-slate-500 mt-1">Консультации, подряд, агентская модель</div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="service-screen" class="max-w-5xl mx-auto hidden">
+        <button onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
+        <div class="card p-6 md:p-8">
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Услуга</div>
+            <h1 class="text-3xl font-bold text-slate-900">Кто исполнитель услуги?</h1>
+            <p class="text-sm text-slate-500 mt-2">Выберите, как устроены деньги между клиентом, вами и исполнителем.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-7">
+                <button onclick="selectServiceMode('self')" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Я сам</div>
+                    <div class="text-sm text-slate-500 mt-1">Старый калькулятор без изменений бизнес-логики.</div>
+                </button>
+                <button onclick="selectServiceMode('hired')" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Нанимаю другого</div>
+                    <div class="text-sm text-slate-500 mt-1">Добавляем оплату исполнителю как расход.</div>
+                </button>
+                <button onclick="showAgentChooser()" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Я агент</div>
+                    <div class="text-sm text-slate-500 mt-1">Привлекаю клиентов другим и получаю вознаграждение.</div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="agent-screen" class="max-w-4xl mx-auto hidden">
+        <button onclick="showServiceChooser()" class="text-sm text-blue-600 hover:underline mb-4">← К выбору исполнителя</button>
+        <div class="card p-6 md:p-8">
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Агентская модель</div>
+            <h1 class="text-3xl font-bold text-slate-900">Как мне платят?</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
+                <button onclick="selectServiceMode('agent')" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Мне платят % с объёма продаж</div>
+                    <div class="text-sm text-slate-500 mt-1">Калькулятор вычислит ваш доход из общего объёма продаж.</div>
+                </button>
+                <button onclick="showAgentComplex()" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">У меня сложная система мотивации</div>
+                    <div class="text-sm text-slate-500 mt-1">Обсудить отдельную модель расчёта.</div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="agent-complex-screen" class="max-w-3xl mx-auto hidden">
+        <button onclick="showAgentChooser()" class="text-sm text-blue-600 hover:underline mb-4">← Назад</button>
+        <div class="card p-6 md:p-8">
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Кастомная модель</div>
+            <h1 class="text-3xl font-bold text-slate-900">Сложная система мотивации</h1>
+            <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                Если вознаграждение зависит от нескольких ставок, порогов, категорий товара или других условий,
+                лучше сначала формализовать схему, а потом встраивать её в калькулятор.
+            </p>
+            <a href="mailto:nomad260393@gmail.com?subject=%D0%9A%D0%B0%D1%81%D1%82%D0%BE%D0%BC%D0%BD%D0%B0%D1%8F%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%20%D0%BA%D0%B0%D0%BB%D1%8C%D0%BA%D1%83%D0%BB%D1%8F%D1%82%D0%BE%D1%80%D0%B0"
+               class="inline-flex mt-6 bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Связаться с разработчиком
+            </a>
+            <p class="text-sm text-slate-500 mt-3">nomad260393@gmail.com</p>
+        </div>
+    </section>
+
+    <section id="product-screen" class="max-w-3xl mx-auto hidden">
+        <button onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
+        <div class="card p-6 md:p-8">
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар</div>
+            <h1 class="text-3xl font-bold text-slate-900">Товарный калькулятор</h1>
+            <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                Ветка создана, но расчётную модель товара не подменяем логикой услуг.
+                Её входные параметры и структура расходов будут добавлены отдельным следующим этапом.
+            </p>
+        </div>
+    </section>
+
+    <div id="calculator-screen" class="hidden">
+    <div class="max-w-7xl mx-auto mb-4 flex flex-wrap items-center justify-between gap-3">
+        <button onclick="showServiceChooser()" class="text-sm text-blue-600 hover:underline">← Услуги</button>
+        <span id="mode-badge" class="text-xs bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full font-semibold"></span>
+    </div>
+
     <div class="max-w-7xl mx-auto">
         <header class="mb-8 flex justify-between items-center">
             <div>
@@ -43,7 +140,8 @@
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                         Входные данные
                     </h2>
-                    <p class="text-xs text-slate-400 mb-4">Измените значения для мгновенного пересчета</p>
+                    <p class="text-xs text-slate-400 mb-3">Измените значения для мгновенного пересчета</p>
+                    <div id="mode-context" class="hidden text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 leading-relaxed"></div>
                     <div id="inputs-container" class="space-y-4 max-h-[800px] overflow-y-auto pr-1">
                         <!-- Generated via JS -->
                     </div>
@@ -114,6 +212,7 @@
             </div>
         </div>
     </div>
+    </div><!-- /calculator-screen -->
 
     <script>
         const defaults = {
@@ -132,10 +231,12 @@
             dom: 5.00,
             magnet: 20.00,
             acq: 3.60,
-            taxTurnover: 6.00
+            taxTurnover: 6.00,
+            markup: 0.00,
+            agentPct: 0.00
         };
 
-        const inputsConfig = [
+        const baseInputsConfig = [
             { key: 'monthlyBudget', label: 'Месячный бюджет на рекламу', type: 'money' },
             { key: 'cpc', label: 'Средняя цена клика CPC', type: 'money' },
             { key: 'ctr', label: 'CTR (кликабельность)', type: 'pct' },
@@ -154,7 +255,42 @@
             { key: 'taxTurnover', label: 'Налог на оборот*', type: 'pct' },
         ];
 
+        let serviceMode = 'self';
         let currentValues = { ...defaults };
+
+        function getInputsConfig() {
+            const splitAt = baseInputsConfig.findIndex(item => item.key === 'months');
+            const beforePeriod = baseInputsConfig.slice(0, splitAt);
+            const fromPeriod = baseInputsConfig.slice(splitAt);
+
+            if (serviceMode === 'hired') {
+                return [
+                    ...beforePeriod,
+                    {
+                        key: 'markup',
+                        label: 'Торговая наценка к стоимости исполнителя',
+                        type: 'pct',
+                        help: 'Например: исполнитель получает 100, наценка 25% → клиент платит 125. Выплата исполнителю считается из выручки и добавляется в расходы. * Исполнитель самостоятельно выступает налоговым агентом и платит налоги с полученной суммы.'
+                    },
+                    ...fromPeriod
+                ];
+            }
+
+            if (serviceMode === 'agent') {
+                return [
+                    ...beforePeriod,
+                    {
+                        key: 'agentPct',
+                        label: 'Моё вознаграждение с объёма продаж',
+                        type: 'pct',
+                        help: 'Ваш доход считается как указанный процент от общего объёма продаж, который создаёт эта воронка.'
+                    },
+                    ...fromPeriod
+                ];
+            }
+
+            return baseInputsConfig;
+        }
 
         function formatMoney(val) { return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'USD' }).format(val); }
         function formatNum(val) { return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
@@ -170,15 +306,263 @@
         function initInputs() {
             const container = document.getElementById('inputs-container');
             container.innerHTML = '';
-            inputsConfig.forEach(def => {
+            getInputsConfig().forEach(def => {
                 const div = document.createElement('div');
-                const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? '$' : '');
+                const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? '
+
+        function showOnly(id) {
+            ['home-screen', 'service-screen', 'agent-screen', 'agent-complex-screen', 'product-screen', 'calculator-screen']
+                .forEach(screenId => document.getElementById(screenId).classList.toggle('hidden', screenId !== id));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showHome() { showOnly('home-screen'); }
+        function showServiceChooser() { showOnly('service-screen'); }
+        function showAgentChooser() { showOnly('agent-screen'); }
+        function showAgentComplex() { showOnly('agent-complex-screen'); }
+        function showProductBranch() { showOnly('product-screen'); }
+
+        function selectServiceMode(mode) {
+            serviceMode = mode;
+            const badge = document.getElementById('mode-badge');
+            const context = document.getElementById('mode-context');
+
+            if (mode === 'self') {
+                badge.textContent = 'Услуга · я сам';
+                context.classList.add('hidden');
+                context.textContent = '';
+            } else if (mode === 'hired') {
+                badge.textContent = 'Услуга · нанимаю исполнителя';
+                context.classList.remove('hidden');
+                context.textContent = 'Оплата исполнителю считается отдельной статьёй расходов. Налог исполнителя в вашу модель не включается.';
+            } else if (mode === 'agent') {
+                badge.textContent = 'Услуга · агент';
+                context.classList.remove('hidden');
+                context.textContent = 'Воронка считает общий объём продаж, а вашей выручкой становится только указанный процент агентского вознаграждения.';
+            }
+
+            initInputs();
+            calculate();
+            showOnly('calculator-screen');
+        }
+
+        function calculate() {
+            const v = currentValues;
+            const months = Math.max(1, Math.floor(v.months || 1));
+            const isHired = serviceMode === 'hired';
+            const isAgent = serviceMode === 'agent';
+            const markup = Math.max(0, v.markup || 0);
+            const agentPct = Math.max(0, v.agentPct || 0);
+
+            // Keep the monthly view synchronized with the selected calculation period.
+            document.getElementById('months-badge').textContent = `${months} ${monthWord(months)} (по сценарию)`;
+            document.getElementById('monthly-head-row').innerHTML = `
+                <th class="th text-left sticky left-0 bg-slate-100 z-10 border-b border-slate-300 shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]">Показатель</th>
+                ${Array.from({ length: months }, (_, i) => `<th class="th border-b border-slate-300">Месяц ${i + 1}</th>`).join('')}
+                <th class="th border-b border-slate-300 bg-slate-100 text-blue-900">Итого</th>
+            `;
+            document.getElementById('monthly-breakdown-table').style.minWidth = `${Math.max(700, 260 + months * 120)}px`;
+
+            // Summary Calculations
+            const totalBudget = v.monthlyBudget * months;
+            const ctrDec = v.ctr / 100;
+            const clicks = v.cpc > 0 ? totalBudget / v.cpc : 0;
+            const impressions = ctrDec > 0 ? Math.floor(clicks / ctrDec) : 0;
+            const leads = clicks * (v.cvrLead / 100);
+            const deals = Math.max(leads * (v.cvrDeal / 100), 0.1);
+            const packs = deals * (v.ltv / 100);
+
+            const grossRevConsult = deals * v.costConsult;
+            const grossRevPack = packs * v.costPack;
+            const grossSales = grossRevConsult + grossRevPack;
+
+            const revConsult = isAgent ? grossRevConsult * (agentPct / 100) : grossRevConsult;
+            const revPack = isAgent ? grossRevPack * (agentPct / 100) : grossRevPack;
+            const revenue = revConsult + revPack;
+            const avgCheck = deals > 0 ? revenue / deals : 0;
+            const acqAmount = revenue * (v.acq / 100);
+            const netRevenue = revenue - acqAmount;
+
+            const executorCost = isHired ? (markup >= 0 ? revenue / (1 + markup / 100) : 0) : 0;
+            const opex = totalBudget + v.mgmt + v.tilda + v.dom + acqAmount + executorCost;
+            const siteAmort = v.site * months / 12;
+            const magnetAmort = v.magnet * months / 12;
+            const totalCosts = opex + siteAmort + magnetAmort;
+
+            const ebitda = netRevenue - opex;
+            const tax = revenue * (v.taxTurnover / 100);
+            const netProfit = ebitda - tax;
+
+            const roas = totalBudget > 0 ? netRevenue / totalBudget : 0;
+            const cpa = deals > 0 ? totalBudget / deals : 0;
+            const cac = deals > 0 ? totalCosts / deals : 0;
+            const romi = totalCosts > 0 ? (netRevenue - totalCosts) / totalCosts : 0;
+
+            // Update Top Cards
+            document.getElementById('res-profit').textContent = formatMoney(netProfit);
+            document.getElementById('res-romi').textContent = romi.toFixed(2) + 'x';
+            document.getElementById('res-cpa').textContent = formatMoney(cpa);
+            document.getElementById('res-cac').textContent = formatMoney(cac);
+
+            // Update Summary Table
+            const summaryRows = [
+                ['Общий рекламный бюджет', formatMoney(totalBudget)],
+                ['Количество кликов', formatInt(clicks)],
+                ['Количество показов', formatInt(impressions)],
+                ['Количество лидов', formatNum(leads)],
+                ['Количество сделок', formatNum(deals)],
+                ['Продано пакетов', formatNum(packs)],
+                ...(isAgent ? [
+                    ['Объём продаж консультаций', formatMoney(grossRevConsult)],
+                    ['Объём продаж пакетов', formatMoney(grossRevPack)],
+                    ['Общий объём продаж', formatMoney(grossSales), 'text-blue-700 font-bold'],
+                    ['Агентская выручка Revenue', formatMoney(revenue), 'text-blue-700 font-bold']
+                ] : [
+                    ['Выручка от консультаций', formatMoney(revConsult)],
+                    ['Выручка от пакетов', formatMoney(revPack)],
+                    ['Общая выручка Revenue', formatMoney(revenue), 'text-blue-700 font-bold']
+                ]),
+                [isAgent ? 'Средний агентский доход со сделки' : 'Средний чек', formatMoney(avgCheck)],
+                ['Комиссия эквайринга', formatMoney(acqAmount)],
+                ['Чистая выручка (после эквайринга)', formatMoney(netRevenue)],
+                ...(isHired ? [['Оплата исполнителю', formatMoney(executorCost)]] : []),
+                ['Операционные затраты OPEX', formatMoney(opex)],
+                ['Амортизация сайта', formatMoney(siteAmort)],
+                ['Амортизация лид-магнита', formatMoney(magnetAmort)],
+                ['Общие затраты Total Costs', formatMoney(totalCosts), 'text-red-700 font-bold'],
+                ['EBITDA (прибыль до налогов)', formatMoney(ebitda)],
+                ['Налог на оборот*', formatMoney(tax)],
+                ['Чистая прибыль после налогов', formatMoney(netProfit), 'text-green-700 font-bold'],
+                ['ROAS (возврат рекламы)', roas.toFixed(2) + 'x'],
+                ['CPA (цена клиента реклама)', formatMoney(cpa)],
+                ['CAC (цена клиента полная)', formatMoney(cac)],
+                ['ROMI (окупаемость инвестиций)', romi.toFixed(2) + 'x']
+            ];
+
+            const summaryTbody = document.getElementById('summary-table');
+            summaryTbody.innerHTML = summaryRows.map(([l, val, cls]) => `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="p-3 text-slate-600 pl-5 border-l-4 ${l.includes('Прибыль') || l.includes('Выручка') ? 'border-blue-400' : (l.includes('Затрат') ? 'border-red-400' : 'border-transparent')}">${l}</td>
+                    <td class="p-3 text-right pr-5 font-mono font-medium ${cls || ''}">${val}</td>
+                </tr>
+            `).join('');
+
+            // Monthly Breakdown
+            const monthlyRows = [
+                { label: 'Рекламный бюджет', key: 'mBudget', fmt: 'money' },
+                { label: 'Количество кликов', key: 'mClicks', fmt: 'int' },
+                { label: 'Количество лидов', key: 'mLeads', fmt: 'num' },
+                { label: 'Количество сделок', key: 'mDeals', fmt: 'num' },
+                { label: 'Продано пакетов', key: 'mPacks', fmt: 'num' },
+                ...(isAgent ? [
+                    { label: 'Объём продаж консультаций', key: 'mGrossRevCons', fmt: 'money' },
+                    { label: 'Объём продаж пакетов', key: 'mGrossRevPack', fmt: 'money' },
+                    { label: 'Общий объём продаж', key: 'mGrossSales', fmt: 'money' },
+                    { label: 'Агентская выручка', key: 'mRevTotal', fmt: 'money' }
+                ] : [
+                    { label: 'Выручка от консультаций', key: 'mRevCons', fmt: 'money' },
+                    { label: 'Выручка от пакетов', key: 'mRevPack', fmt: 'money' },
+                    { label: 'Общая выручка', key: 'mRevTotal', fmt: 'money' }
+                ]),
+                { label: 'Комиссия эквайринга', key: 'mAcq', fmt: 'money' },
+                { label: 'Чистая выручка', key: 'mNetRev', fmt: 'money' },
+                ...(isHired ? [{ label: 'Оплата исполнителю', key: 'mExecutor', fmt: 'money' }] : []),
+                { label: 'Расходы', key: 'mCosts', fmt: 'money' },
+                { label: 'EBITDA (до налога)', key: 'mEbitda', fmt: 'money' },
+                { label: 'Налог на оборот*', key: 'mTax', fmt: 'money' },
+                { label: 'Денежный поток', key: 'mCash', fmt: 'money' },
+                { label: 'Накопленный поток', key: 'mCum', fmt: 'money' },
+            ];
+
+            let monthData = [];
+            let totalMonth = {};
+            let cumCash = 0;
+
+            for (let m = 1; m <= months; m++) {
+                let mBudget = v.monthlyBudget;
+                let mClicks = v.cpc > 0 ? mBudget / v.cpc : 0;
+                let mLeads = mClicks * (v.cvrLead / 100);
+                
+                let baseDeals = Math.max(mLeads * (v.cvrDeal / 100), 0.1);
+                let mDeals = (m === 1) ? baseDeals * 0.5 : baseDeals;
+                let mPacksBase = mDeals * (v.ltv / 100);
+                let mPacks = (m === 1) ? mPacksBase * 0.5 : mPacksBase; // Logic from Python script
+
+                let mRevConsBase = mDeals * v.costConsult;
+                let mGrossRevCons = (m === 1) ? mRevConsBase * 0.5 : mRevConsBase; // Existing first-month scenario logic
+                
+                let mRevPackBase = mPacks * v.costPack;
+                let mGrossRevPack = (m === 1) ? mRevPackBase * 0.5 : mRevPackBase; // Existing first-month scenario logic
+
+                let mGrossSales = mGrossRevCons + mGrossRevPack;
+                let mRevCons = isAgent ? mGrossRevCons * (agentPct / 100) : mGrossRevCons;
+                let mRevPack = isAgent ? mGrossRevPack * (agentPct / 100) : mGrossRevPack;
+                let mRevTotal = mRevCons + mRevPack;
+                let mAcq = mRevTotal * (v.acq / 100);
+                let mNetRev = mRevTotal - mAcq;
+                let mExecutor = isHired ? mRevTotal / (1 + markup / 100) : 0;
+
+                let mCosts;
+                if (m === 1) {
+                    mCosts = mBudget + v.mgmt + v.site + v.tilda + v.dom + v.magnet + mAcq + mExecutor;
+                } else {
+                    mCosts = mBudget + mAcq + mExecutor;
+                }
+
+                let mEbitda = mNetRev - mCosts;
+                let mTax = mRevTotal * (v.taxTurnover / 100);
+                let mCash = mEbitda - mTax;
+                cumCash += mCash;
+
+                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
+                monthData.push(row);
+
+                // Accumulate totals
+                for (let k in row) {
+                    if (k === 'mCum') continue;
+                    totalMonth[k] = (totalMonth[k] || 0) + row[k];
+                }
+            }
+            totalMonth.mCum = cumCash;
+
+            const monthlyTbody = document.getElementById('monthly-table');
+            monthlyTbody.innerHTML = monthlyRows.map(meta => {
+                const cells = monthData.map(r => {
+                    let val = r[meta.key];
+                    let txt = meta.fmt === 'money' ? formatMoney(val) : (meta.fmt === 'int' ? formatInt(val) : formatNum(val));
+                    let color = (meta.key === 'mCash' || meta.key === 'mCum') && val < 0 ? 'text-red-600' : 'text-slate-700';
+                    return `<td class="td-val border-b border-slate-100 ${color}">${txt}</td>`;
+                }).join('');
+
+                let totalVal = totalMonth[meta.key];
+                let totalTxt = meta.fmt === 'money' ? formatMoney(totalVal) : (meta.fmt === 'int' ? formatInt(totalVal) : formatNum(totalVal));
+
+                return `<tr class="hover:bg-slate-50 transition-colors">
+                    <td class="td-label border-b border-slate-100 border-r border-slate-100 sticky left-0 bg-white z-10">${meta.label}</td>
+                    ${cells}
+                    <td class="td-val border-b border-slate-100 bg-slate-100 font-bold text-blue-900 border-l border-slate-300">${totalTxt}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initInputs();
+            calculate();
+            showHome();
+        });
+    </script>
+</body>
+</html>
+
+ : '');
+                const value = currentValues[def.key] ?? defaults[def.key] ?? 0;
                 div.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
                         <label class="text-sm font-medium text-slate-700">${def.label}</label>
                         <span class="text-xs text-slate-400">${suffix}</span>
                     </div>
-                    <input type="number" step="any" value="${defaults[def.key]}" id="in-${def.key}" class="input-field" oninput="handleInput('${def.key}', this.value)">
+                    <input type="number" step="any" value="${value}" id="in-${def.key}" class="input-field" oninput="handleInput('${def.key}', this.value)">
+                    ${def.help ? `<p class="text-[11px] text-slate-400 mt-1 leading-relaxed">${def.help}</p>` : ''}
                 `;
                 container.appendChild(div);
             });
@@ -191,9 +575,7 @@
 
         function resetDefaults() {
             currentValues = { ...defaults };
-            inputsConfig.forEach(def => {
-                document.getElementById(`in-${def.key}`).value = defaults[def.key];
-            });
+            initInputs();
             calculate();
         }
 
