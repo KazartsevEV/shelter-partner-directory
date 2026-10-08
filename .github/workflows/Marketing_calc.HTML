@@ -305,12 +305,12 @@
 
         const agentExpenseKeys = ['monthlyBudget', 'mgmt', 'site', 'hosting', 'dom', 'magnet'];
         const defaultAgentPayers = {
-            monthlyBudget: 'partner',
-            mgmt: 'partner',
-            site: 'partner',
-            hosting: 'partner',
-            dom: 'partner',
-            magnet: 'partner'
+            monthlyBudget: null,
+            mgmt: null,
+            site: null,
+            hosting: null,
+            dom: null,
+            magnet: null
         };
         let agentPayers = { ...defaultAgentPayers };
 
@@ -408,6 +408,7 @@
                             </label>
                         </div>
                     </div>
+                    ${agentPayers[def.key] ? '' : '<p class="text-[11px] text-amber-600 mt-1">Выберите, кто оплачивает эту статью.</p>'}
                 ` : '';
 
                 div.innerHTML = `
@@ -481,6 +482,9 @@
             const isAgent = serviceMode === 'agent';
             const markup = Math.max(0, v.markup || 0);
             const agentPct = Math.max(0, v.agentPct || 0);
+            const agentPayersComplete = !isAgent || agentExpenseKeys.every(
+                key => agentPayers[key] === 'me' || agentPayers[key] === 'partner'
+            );
 
             // Keep the monthly view synchronized with the selected calculation period.
             document.getElementById('months-badge').textContent = `${months} ${monthWord(months)} (по сценарию)`;
@@ -494,6 +498,38 @@
             const valueWidth = mobile ? 82 : 118;
             document.getElementById('monthly-breakdown-table').style.width =
                 (labelWidth + (months + 1) * valueWidth) + 'px';
+
+            if (isAgent && !agentPayersComplete) {
+                document.getElementById('res-profit-label').textContent = 'Мне остаётся за период';
+                document.getElementById('res-profit-sub').textContent = 'Сначала выберите плательщика по всем переменным расходам';
+                document.getElementById('res-profit').textContent = '—';
+
+                document.getElementById('res-romi-label').textContent = 'Расчётная прибыль партнёра';
+                document.getElementById('res-romi-sub').textContent = 'Сначала распределите расходы между вами и партнёром';
+                document.getElementById('res-romi').textContent = '—';
+
+                document.getElementById('res-third-label').textContent = 'Накопленный cash flow партнёра';
+                document.getElementById('res-third-sub').textContent = 'Расчёт появится после выбора плательщиков';
+                document.getElementById('res-cpa').textContent = '—';
+                document.getElementById('res-cpa-sep').textContent = '';
+                document.getElementById('res-cac').textContent = '';
+
+                document.getElementById('summary-table').innerHTML = `
+                    <tr>
+                        <td colspan="2" class="p-4 text-sm text-amber-700 bg-amber-50">
+                            Выберите «Я» или «Партнёр» для каждой переменной статьи расходов.
+                        </td>
+                    </tr>
+                `;
+                document.getElementById('monthly-table').innerHTML = `
+                    <tr>
+                        <td colspan="${months + 2}" class="p-4 text-sm text-amber-700 bg-amber-50 text-left">
+                            Помесячный расчёт появится после выбора плательщика по всем переменным расходам.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
 
             // Summary Calculations
             const totalBudget = v.monthlyBudget * months;
@@ -523,12 +559,12 @@
             const executorCost = isHired ? (markup >= 0 ? revenue / (1 + markup / 100) : 0) : 0;
             const agentCost = isAgent ? agentIncome : 0;
 
-            const partnerBudget = isAgent && agentPayers.monthlyBudget === 'me' ? 0 : totalBudget;
-            const partnerMgmt = isAgent && agentPayers.mgmt === 'me' ? 0 : v.mgmt;
-            const partnerHosting = isAgent && agentPayers.hosting === 'me' ? 0 : v.hosting;
-            const partnerDom = isAgent && agentPayers.dom === 'me' ? 0 : v.dom;
-            const siteAmort = isAgent && agentPayers.site === 'me' ? 0 : v.site * months / 12;
-            const magnetAmort = isAgent && agentPayers.magnet === 'me' ? 0 : v.magnet * months / 12;
+            const partnerBudget = isAgent ? (agentPayers.monthlyBudget === 'partner' ? totalBudget : 0) : totalBudget;
+            const partnerMgmt = isAgent ? (agentPayers.mgmt === 'partner' ? v.mgmt : 0) : v.mgmt;
+            const partnerHosting = isAgent ? (agentPayers.hosting === 'partner' ? v.hosting : 0) : v.hosting;
+            const partnerDom = isAgent ? (agentPayers.dom === 'partner' ? v.dom : 0) : v.dom;
+            const siteAmort = isAgent ? (agentPayers.site === 'partner' ? v.site * months / 12 : 0) : v.site * months / 12;
+            const magnetAmort = isAgent ? (agentPayers.magnet === 'partner' ? v.magnet * months / 12 : 0) : v.magnet * months / 12;
 
             const agentCashExpenses = isAgent
                 ? (agentPayers.monthlyBudget === 'me' ? totalBudget : 0)
@@ -705,15 +741,19 @@
                 let mNetRev = mRevTotal - mAcq;
                 let mExecutor = isHired ? mRevTotal / (1 + markup / 100) : 0;
 
-                const mPartnerBudget = isAgent && agentPayers.monthlyBudget === 'me' ? 0 : mBudget;
+                const mPartnerBudget = isAgent
+                    ? (agentPayers.monthlyBudget === 'partner' ? mBudget : 0)
+                    : mBudget;
                 const mAgentBudget = isAgent && agentPayers.monthlyBudget === 'me' ? mBudget : 0;
 
                 const firstMonthPartnerExtras = m === 1
-                    ? (isAgent && agentPayers.mgmt === 'me' ? 0 : v.mgmt)
-                        + (isAgent && agentPayers.site === 'me' ? 0 : v.site)
-                        + (isAgent && agentPayers.hosting === 'me' ? 0 : v.hosting)
-                        + (isAgent && agentPayers.dom === 'me' ? 0 : v.dom)
-                        + (isAgent && agentPayers.magnet === 'me' ? 0 : v.magnet)
+                    ? (isAgent
+                        ? (agentPayers.mgmt === 'partner' ? v.mgmt : 0)
+                            + (agentPayers.site === 'partner' ? v.site : 0)
+                            + (agentPayers.hosting === 'partner' ? v.hosting : 0)
+                            + (agentPayers.dom === 'partner' ? v.dom : 0)
+                            + (agentPayers.magnet === 'partner' ? v.magnet : 0)
+                        : v.mgmt + v.site + v.hosting + v.dom + v.magnet)
                     : 0;
 
                 const firstMonthAgentExtras = isAgent && m === 1
