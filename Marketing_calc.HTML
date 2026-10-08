@@ -2013,7 +2013,9 @@
                     advancePct: '',
                     advanceLeadDays: '',
                     productionDays: '',
-                    targetMarginPct: ''
+                    targetMarginPct: '',
+                    creditRatePct: '',
+                    creditTermDays: ''
                 },
                 inputs: Object.fromEntries(
                     Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id]'))
@@ -3217,6 +3219,7 @@
                     ? ''
                     : Math.min(99.99, Math.max(0, Number(value) || 0));
             refreshAllAggregatePricing();
+            updateAggregateCredit(item);
         }
 
         function setAggregatePricingDecision(productId, decision, button) {
@@ -3279,6 +3282,116 @@
             return Math.ceil(Math.max(0, Number(value))).toLocaleString('ru-RU');
         }
 
+        function calculateAggregateCredit(item) {
+            const cycle = aggregatePlanMetrics(item);
+            const principal =
+                cycle.requiredCapital === null
+                    ? null
+                    : Math.max(0, Number(cycle.requiredCapital) || 0);
+
+            const rawRate = item?.planning?.creditRatePct;
+            const hasRate =
+                rawRate !== '' &&
+                rawRate !== null &&
+                rawRate !== undefined &&
+                Number.isFinite(Number(rawRate));
+            const annualRatePct =
+                hasRate ? Math.max(0, Number(rawRate)) : null;
+
+            const rawTerm = item?.planning?.creditTermDays;
+            const hasTerm =
+                rawTerm !== '' &&
+                rawTerm !== null &&
+                rawTerm !== undefined &&
+                Number.isFinite(Number(rawTerm));
+            const termDays =
+                hasTerm ? Math.max(1, Math.ceil(Number(rawTerm))) : null;
+
+            const interest =
+                principal !== null &&
+                annualRatePct !== null &&
+                termDays !== null
+                    ? principal * annualRatePct / 100 * termDays / 365
+                    : null;
+
+            const totalCost =
+                interest === null || principal === null
+                    ? null
+                    : principal + interest;
+
+            const marginPct =
+                item?.planning?.targetMarginPct !== '' &&
+                item?.planning?.targetMarginPct !== null &&
+                item?.planning?.targetMarginPct !== undefined &&
+                Number.isFinite(Number(item.planning.targetMarginPct))
+                    ? Math.max(0, Number(item.planning.targetMarginPct))
+                    : null;
+
+            return {
+                principal,
+                annualRatePct,
+                termDays,
+                interest,
+                totalCost,
+                marginPct
+            };
+        }
+
+        function updateAggregateCredit(item) {
+            if (!item) return;
+            const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
+            if (!section) return;
+
+            const credit = calculateAggregateCredit(item);
+
+            const amount = section.querySelector('[data-credit-amount]');
+            if (amount) {
+                amount.textContent =
+                    credit.principal === null
+                        ? '—'
+                        : moneyInputValue(credit.principal);
+            }
+
+            const total = section.querySelector('[data-credit-total]');
+            if (total) {
+                total.textContent =
+                    credit.totalCost === null
+                        ? '—'
+                        : moneyInputValue(credit.totalCost);
+            }
+
+            const hint = section.querySelector('[data-credit-hint]');
+            if (hint) {
+                hint.textContent = 'Ставка по кредиту должна быть ниже вашей маржинальности.';
+                const warning =
+                    credit.annualRatePct !== null &&
+                    credit.marginPct !== null &&
+                    credit.annualRatePct >= credit.marginPct;
+                hint.classList.toggle('text-amber-200', warning);
+                hint.classList.toggle('font-bold', warning);
+            }
+        }
+
+        function updateAggregateCreditField(productId, key, value) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+            if (!item.planning) item.planning = {};
+
+            if (key === 'creditRatePct') {
+                item.planning.creditRatePct =
+                    String(value).trim() === ''
+                        ? ''
+                        : Math.max(0, Number(value) || 0);
+            } else if (key === 'creditTermDays') {
+                item.planning.creditTermDays =
+                    String(value).trim() === ''
+                        ? ''
+                        : Math.max(1, Math.ceil(Number(value) || 1));
+            }
+
+            updateAggregateCredit(item);
+        }
+
         function updateAggregateFinalSummary(item) {
             if (!item) return;
             const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
@@ -3302,8 +3415,7 @@
                         ? '—'
                         : moneyInputValue(m.requiredCapital);
             }
-            const creditTerm = section.querySelector('[data-credit-term]');
-            if (creditTerm) creditTerm.textContent = cycleText;
+            updateAggregateCredit(item);
         }
 
         function recalculateAggregateBusinessPlan(productId) {
@@ -3347,10 +3459,28 @@
                 const showCredit = item.planning.fundingMode === 'credit';
                 creditResult.hidden = !showCredit;
                 creditResult.classList.toggle('hidden', !showCredit);
+
+                if (showCredit) {
+                    const cycle = aggregatePlanMetrics(item);
+                    if (
+                        (item.planning.creditTermDays === '' ||
+                         item.planning.creditTermDays === null ||
+                         item.planning.creditTermDays === undefined) &&
+                        cycle.totalCycleDays !== null
+                    ) {
+                        item.planning.creditTermDays = Math.max(
+                            1,
+                            Math.ceil(cycle.totalCycleDays)
+                        );
+                        const termInput = creditResult.querySelector('[data-credit-term-input]');
+                        if (termInput) termInput.value = item.planning.creditTermDays;
+                    }
+                }
             }
 
             updateAggregateFinalSummary(item);
             updateAggregatePricing(item);
+            updateAggregateCredit(item);
         }
 
         function updateAggregateAmounts(item) {
@@ -3697,11 +3827,45 @@
 
                             <div data-credit-result class="hidden mt-4 pt-4 border-t aggregate-separator" hidden>
                                 <div class="aggregate-line font-semibold">
-                                    Для расчёта кредита: минимум
+                                    Сумма кредита:
                                     <span class="aggregate-final-value" data-credit-amount>${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
-                                    у.е.* на
-                                    <span class="aggregate-final-value" data-credit-term>${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
-                                    дней.
+                                    у.е.*
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                                    <div>
+                                        <label class="block text-xs mb-1">Ставка по кредиту, % годовых</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            step="0.01"
+                                            value="${esc(planning.creditRatePct ?? '')}"
+                                            class="input-field"
+                                            placeholder="Например, 18"
+                                            oninput="updateAggregateCreditField(${item.id}, 'creditRatePct', this.value)">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs mb-1">Срок кредита, дней</label>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            step="1"
+                                            value="${esc(planning.creditTermDays ?? '')}"
+                                            data-credit-term-input
+                                            class="input-field"
+                                            oninput="updateAggregateCreditField(${item.id}, 'creditTermDays', this.value)">
+                                    </div>
+                                </div>
+
+                                <div class="aggregate-price-card mt-4">
+                                    <div class="aggregate-muted text-xs">Полная стоимость кредита</div>
+                                    <div class="aggregate-price-number mt-1">
+                                        <span data-credit-total>—</span> у.е.*
+                                    </div>
+                                </div>
+
+                                <div data-credit-hint class="aggregate-muted text-xs mt-3">
+                                    Ставка по кредиту должна быть ниже вашей маржинальности.
                                 </div>
                             </div>
                         </div>
