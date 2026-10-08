@@ -2119,6 +2119,54 @@
             }
         }
 
+        function updateAggregateAmounts(item) {
+            if (!item) return;
+            const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
+            if (!section) return;
+
+            const values = {
+                materialsTotal: item.materialsBatchTotal,
+                productionTotal: item.productionTotal,
+                warehouseTotal: item.warehouseStageTotal,
+                salesTotal: item.salesFixedMonthly,
+                adTotal: item.adTotal
+            };
+            Object.entries(values).forEach(([key, value]) => {
+                const el = section.querySelector(`[data-aggregate-output="${key}"]`);
+                if (el) el.textContent = moneyInputValue(value);
+            });
+
+            const qtyValues = {
+                materials: item.materialsBatchQty,
+                production: item.productionQty,
+                logistics: item.logisticsQty,
+                sales: item.salesQty,
+                ads: item.forecastUnitsPerMonth
+            };
+            Object.entries(qtyValues).forEach(([kind, value]) => {
+                const input = section.querySelector(`[data-aggregate-qty-kind="${kind}"]`);
+                if (input && document.activeElement !== input) {
+                    input.value = Math.min(99999, Math.max(1, Math.round(Number(value) || 1)));
+                }
+            });
+        }
+
+        function syncVisibleAggregateFromCurrentProduct() {
+            const aggregate = document.getElementById('product-tax-block');
+            if (!aggregate || aggregate.hidden || aggregate.classList.contains('hidden')) return;
+            if (!productName || productSource !== 'own') return;
+
+            const snapshot = currentProductPortfolioSnapshot();
+            const index = productPortfolio.findIndex(item => item.id === snapshot.id);
+            if (index >= 0) {
+                snapshot.planning = productPortfolio[index].planning || snapshot.planning;
+                productPortfolio[index] = snapshot;
+            } else {
+                productPortfolio.push(snapshot);
+            }
+            updateAggregateAmounts(snapshot);
+        }
+
         function updateAggregateQuantity(productId, kind, value) {
             const item = productPortfolio.find(product => product.id === Number(productId));
             if (!item) return;
@@ -2159,7 +2207,8 @@
                 recalculatePortfolioItemQuantity(item, kind, n);
             }
 
-            renderProductBusinessSummary();
+            const refreshed = productPortfolio.find(product => product.id === Number(productId));
+            updateAggregateAmounts(refreshed);
         }
 
         function aggregateQtyInput(item, kind, value) {
@@ -2170,6 +2219,7 @@
                 step="1"
                 inputmode="numeric"
                 class="aggregate-qty-input"
+                data-aggregate-qty-kind="${kind}"
                 value="${Math.min(99999, Math.max(1, Math.round(Number(value) || 1)))}"
                 oninput="updateAggregateQuantity(${item.id}, '${kind}', this.value)"
             >`;
@@ -2209,7 +2259,7 @@
                     <div class="mt-6 space-y-5 text-sm">
                         <div class="aggregate-line">
                             <div class="font-semibold">
-                                Привезу материал на ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью ${moneyInputValue(item.materialsBatchTotal)} у.е.*
+                                Привезу материал на ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью <span data-aggregate-output="materialsTotal">${moneyInputValue(item.materialsBatchTotal)}</span> у.е.*
                             </div>
                             <div class="mt-3 space-y-3">
                                 <div>
@@ -2232,7 +2282,7 @@
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator">
                             <div class="font-semibold">
-                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу ${moneyInputValue(item.productionTotal)} у.е.*
+                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> у.е.*
                             </div>
                             <div class="mt-3">
                                 <label class="block text-xs mb-1">Срок производства, дней</label>
@@ -2242,15 +2292,15 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее ${moneyInputValue(item.warehouseStageTotal)} у.е.*
+                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу продавцам / площадке ${moneyInputValue(item.salesFixedMonthly)} у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
+                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу ${moneyInputValue(item.adTotal)} у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
+                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
                         </div>
                     </div>
                 </section>`;
@@ -3178,6 +3228,7 @@
                 }
             }
 
+            syncVisibleAggregateFromCurrentProduct();
         }
 
         function initProductOwnForm() {
@@ -3401,6 +3452,7 @@
             const totalOut = document.getElementById('own-sales-variable-total-pct');
             if (totalOut) totalOut.textContent = variableTotalPct.toLocaleString('ru-RU') + '%';
 
+            syncVisibleAggregateFromCurrentProduct();
         }
 
         function productNumberFromText(id) {
@@ -3467,6 +3519,8 @@
                     note.textContent = 'Заполните воронку, чтобы получить рекламную стоимость продажи 1 единицы.';
                 }
             }
+
+            syncVisibleAggregateFromCurrentProduct();
         }
 
         function setProductBusinessTaxType(type) {
