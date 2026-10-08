@@ -160,9 +160,11 @@
             color: #065f46;
             border: 1px solid #ecfdf5;
         }
-        #product-tax-block.product-business-aggregate .aggregate-action-confirm.is-accepted {
+        #product-tax-block.product-business-aggregate .aggregate-action-confirm.is-accepted,
+        #product-tax-block.product-business-aggregate .aggregate-action-recalc.is-accepted {
             background: #a7f3d0;
             color: #064e3b;
+            border-color: #a7f3d0;
         }
         #product-tax-block.product-business-aggregate .aggregate-action-recalc {
             background: transparent;
@@ -1959,6 +1961,10 @@
                 logisticsUnitCost: productNumberFromText('own-logistics-unit-cost'),
                 logisticsQty,
                 warehouseInboundUnitCost,
+                warehouseDayCost:
+                    productLogisticsPayers.warehouse === 'me'
+                        ? productNumber('own-warehouse-cost')
+                        : 0,
                 warehouseStorageUnitCost,
                 customerDeliveryPct:
                     productLogisticsPayers.customerDelivery === 'me'
@@ -2201,21 +2207,14 @@
 
         function aggregatePlanMetrics(item) {
             const planning = item?.planning || {};
-            const materialsTotal = Number(item?.materialsBatchTotal || 0);
-            const productionTotal = Number(item?.productionTotal || 0);
-            const warehouseTotal = Number(item?.warehouseStageTotal || 0);
-            const salesTotal = Number(item?.salesFixedMonthly || 0);
-            const adTotal = Number(item?.adTotal || 0);
-
-            const investmentTotal =
-                materialsTotal +
-                productionTotal +
-                warehouseTotal +
-                salesTotal +
-                adTotal;
+            const materialsTotal = Math.max(0, Number(item?.materialsBatchTotal || 0));
+            const productionTotal = Math.max(0, Number(item?.productionTotal || 0));
+            const stockQty = Math.max(0, Number(item?.logisticsQty || 0));
+            const salesSpeedPerMonth = Math.max(0, Number(item?.forecastUnitsPerMonth || 0));
 
             const advancePct = Math.min(100, Math.max(0, Number(planning.advancePct) || 0));
             const advanceAmount = materialsTotal * advancePct / 100;
+            const materialsRemainder = Math.max(0, materialsTotal - advanceAmount);
 
             const supplyDays = Math.max(0, Number(planning.supplyDays) || 0);
             const hasExplicitAdvanceLead =
@@ -2225,36 +2224,162 @@
             const waitAfterAdvanceDays = hasExplicitAdvanceLead
                 ? Math.max(0, Number(planning.advanceLeadDays) || 0)
                 : supplyDays;
-
             const productionDays = Math.max(0, Number(planning.productionDays) || 0);
-            const salesSpeedPerMonth = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
-            const stockQty = Math.max(0, Number(item?.logisticsQty) || 0);
 
-            // The stock is sold while it is on the warehouse; this is one stage,
-            // not "warehouse waiting" plus a second independent selling stage.
-            const warehouseSalesDays =
-                salesSpeedPerMonth > 0
+            const sellThroughDays =
+                salesSpeedPerMonth > 0 && stockQty > 0
                     ? stockQty / salesSpeedPerMonth * 30
                     : null;
             const totalCycleDays =
-                warehouseSalesDays === null
+                sellThroughDays === null
                     ? null
-                    : waitAfterAdvanceDays + productionDays + warehouseSalesDays;
+                    : waitAfterAdvanceDays + productionDays + sellThroughDays;
 
-            // Real payback needs monetary inflow / selling price / profit.
-            // Those values are not yet present in the product branch, so do not
-            // mislabel sell-through time as investment payback.
-            const paybackDays = null;
+            const warehouseInboundTotal =
+                Math.max(0, Number(item?.warehouseInboundUnitCost || 0)) * stockQty;
+            const warehouseDayCost = Math.max(0, Number(item?.warehouseDayCost || 0));
+
+            const costBeforeCustomerDelivery =
+                Math.max(0, Number(item?.materialsUnitCost || 0)) +
+                Math.max(0, Number(item?.productionUnitCost || 0));
+            const customerDeliveryPct = Math.max(0, Number(item?.customerDeliveryPct || 0));
+            const customerReturnPct = Math.max(0, Number(item?.customerReturnPct || 0));
+            const customerDeliveryPerUnit =
+                costBeforeCustomerDelivery *
+                customerDeliveryPct / 100 *
+                (1 + customerReturnPct / 100);
+            const customerDeliveryTotal = customerDeliveryPerUnit * stockQty;
+
+            const salesFixedMonthly = Math.max(0, Number(item?.salesFixedMonthly || 0));
+            const adBudgetMonthly = Math.max(0, Number(item?.adBudget || 0));
+            const adManagementMonthly = Math.max(0, Number(item?.adManagement || 0));
+            const variableSalesPct = Math.min(
+                99.99,
+                Math.max(
+                    0,
+                    Number(item?.salesVariablePct || 0) +
+                    Number(item?.penaltiesPct || 0)
+                )
+            );
+            const variableSalesRate = variableSalesPct / 100;
+
+            if (sellThroughDays === null) {
+                return {
+                    requiredCapital: null,
+                    totalCycleDays: null,
+                    waitAfterAdvanceDays,
+                    productionDays,
+                    sellThroughDays: null,
+                    salesSpeedPerMonth,
+                    advanceAmount,
+                    zeroMarginRevenue: null,
+                    zeroMarginUnitPrice: null
+                };
+            }
+
+            const sellThroughMonths = sellThroughDays / 30;
+            // Constant sales speed => inventory falls linearly from stockQty to zero.
+            const warehouseStorageTotal =
+                warehouseDayCost * stockQty * sellThroughDays / 2;
+            const salesFixedTotal = salesFixedMonthly * sellThroughMonths;
+            const adMediaTotal = adBudgetMonthly * sellThroughMonths;
+            const adManagementTotal = adManagementMonthly * sellThroughMonths;
+
+            const nonRevenueCosts =
+                materialsTotal +
+                productionTotal +
+                warehouseInboundTotal +
+                warehouseStorageTotal +
+                customerDeliveryTotal +
+                salesFixedTotal +
+                adMediaTotal +
+                adManagementTotal;
+
+            const retainedRevenueRate = 1 - variableSalesRate;
+            const zeroMarginRevenue =
+                retainedRevenueRate > 0
+                    ? nonRevenueCosts / retainedRevenueRate
+                    : null;
+            const zeroMarginUnitPrice =
+                zeroMarginRevenue !== null && stockQty > 0
+                    ? zeroMarginRevenue / stockQty
+                    : null;
+
+            if (zeroMarginRevenue === null || zeroMarginUnitPrice === null) {
+                return {
+                    requiredCapital: null,
+                    totalCycleDays,
+                    waitAfterAdvanceDays,
+                    productionDays,
+                    sellThroughDays,
+                    salesSpeedPerMonth,
+                    advanceAmount,
+                    zeroMarginRevenue: null,
+                    zeroMarginUnitPrice: null
+                };
+            }
+
+            // Timeline cash-flow. Revenue starts only after supply + production.
+            // Operating costs continue until the last unit is sold.
+            let balance = 0;
+            let minBalance = 0;
+
+            balance -= advanceAmount;
+            minBalance = Math.min(minBalance, balance);
+
+            // At material arrival the remainder is paid and production is funded.
+            balance -= materialsRemainder;
+            balance -= productionTotal;
+            minBalance = Math.min(minBalance, balance);
+
+            // Goods enter the warehouse before selling starts.
+            balance -= warehouseInboundTotal;
+            minBalance = Math.min(minBalance, balance);
+
+            let remainingUnits = stockQty;
+            let elapsedSellingDays = 0;
+            const grossRevenuePerUnit = zeroMarginUnitPrice;
+            const unitsPerDay = salesSpeedPerMonth / 30;
+
+            while (remainingUnits > 0.0000001 && elapsedSellingDays < 36500) {
+                const dayFraction = Math.min(1, remainingUnits / Math.max(unitsPerDay, 0.0000001));
+                const sold = Math.min(remainingUnits, unitsPerDay * dayFraction);
+                const averageInventory = Math.max(0, remainingUnits - sold / 2);
+
+                const revenue = sold * grossRevenuePerUnit;
+                const variableSalesCost = revenue * variableSalesRate;
+                const customerDeliveryCost = sold * customerDeliveryPerUnit;
+                const warehouseCost = warehouseDayCost * averageInventory * dayFraction;
+                const sellersCost = salesFixedMonthly / 30 * dayFraction;
+                const mediaCost = adBudgetMonthly / 30 * dayFraction;
+                const marketerCost = adManagementMonthly / 30 * dayFraction;
+
+                balance += revenue;
+                balance -=
+                    variableSalesCost +
+                    customerDeliveryCost +
+                    warehouseCost +
+                    sellersCost +
+                    mediaCost +
+                    marketerCost;
+
+                remainingUnits -= sold;
+                elapsedSellingDays += dayFraction;
+                minBalance = Math.min(minBalance, balance);
+            }
+
+            const requiredCapital = Math.max(0, -minBalance);
 
             return {
-                investmentTotal,
-                advanceAmount,
+                requiredCapital,
+                totalCycleDays,
                 waitAfterAdvanceDays,
                 productionDays,
+                sellThroughDays,
                 salesSpeedPerMonth,
-                warehouseSalesDays,
-                totalCycleDays,
-                paybackDays
+                advanceAmount,
+                zeroMarginRevenue,
+                zeroMarginUnitPrice
             };
         }
 
@@ -2269,20 +2394,25 @@
             if (!section) return;
 
             const m = aggregatePlanMetrics(item);
-            const outputs = {
-                investmentTotal: moneyInputValue(m.investmentTotal),
-                advanceAmount: moneyInputValue(m.advanceAmount),
-                waitDays: aggregateDaysText(m.waitAfterAdvanceDays),
-                productionDays: aggregateDaysText(m.productionDays),
-                warehouseSalesDays: aggregateDaysText(m.warehouseSalesDays),
-                totalCycleDays: aggregateDaysText(m.totalCycleDays),
-                salesSpeed: moneyInputValue(m.salesSpeedPerMonth),
-                paybackDays: '—'
-            };
-            Object.entries(outputs).forEach(([key, value]) => {
-                const el = section.querySelector(`[data-aggregate-final="${key}"]`);
-                if (el) el.textContent = value;
-            });
+            const requiredCapitalText =
+                m.requiredCapital === null ? '—' : moneyInputValue(m.requiredCapital);
+            const cycleText =
+                m.totalCycleDays === null ? '—' : aggregateDaysText(m.totalCycleDays);
+
+            const capitalEl = section.querySelector('[data-aggregate-final="requiredCapital"]');
+            const termEl = section.querySelector('[data-aggregate-final="totalCycleDays"]');
+            if (capitalEl) capitalEl.textContent = requiredCapitalText;
+            if (termEl) termEl.textContent = cycleText;
+
+            const creditInfo = section.querySelector('[data-credit-amount]');
+            if (creditInfo) {
+                creditInfo.textContent =
+                    m.requiredCapital === null
+                        ? '—'
+                        : moneyInputValue(m.requiredCapital);
+            }
+            const creditTerm = section.querySelector('[data-credit-term]');
+            if (creditTerm) creditTerm.textContent = cycleText;
         }
 
         function recalculateAggregateBusinessPlan(productId) {
@@ -2297,20 +2427,28 @@
             updateAggregateFinalSummary(refreshed);
         }
 
-        function acceptAggregateBusinessPlan(productId, button) {
+        function setAggregateFundingMode(productId, mode, button) {
             const item = productPortfolio.find(product => product.id === Number(productId));
             if (!item) return;
             if (!item.planning) item.planning = {};
-            item.planning.accepted = true;
+            item.planning.fundingMode = mode === 'credit' ? 'credit' : 'cash';
 
-            document.querySelectorAll('.aggregate-action-confirm').forEach(el => {
-                el.classList.remove('is-accepted');
-                if (el !== button) el.textContent = 'Меня устраивает';
+            const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
+            if (!section) return;
+
+            section.querySelectorAll('[data-funding-choice]').forEach(el => {
+                const selected = el.dataset.fundingChoice === item.planning.fundingMode;
+                el.classList.toggle('is-accepted', selected);
             });
-            if (button) {
-                button.classList.add('is-accepted');
-                button.textContent = '✓ Меня устраивает';
+
+            const creditResult = section.querySelector('[data-credit-result]');
+            if (creditResult) {
+                const showCredit = item.planning.fundingMode === 'credit';
+                creditResult.hidden = !showCredit;
+                creditResult.classList.toggle('hidden', !showCredit);
             }
+
+            updateAggregateFinalSummary(item);
         }
 
         function updateAggregateAmounts(item) {
@@ -2501,48 +2639,40 @@
 
                         <div class="aggregate-final-box">
                             <div class="aggregate-final-total">
-                                Итого я вложу:
-                                <span class="aggregate-final-value" data-aggregate-final="investmentTotal">${moneyInputValue(aggregatePlanMetrics(item).investmentTotal)}</span>
-                                у.е.*
-                            </div>
-
-                            <div class="aggregate-line mt-4 leading-relaxed">
-                                В течение
-                                <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
-                                дней: после предоплаты
-                                <span class="aggregate-final-value" data-aggregate-final="advanceAmount">${moneyInputValue(aggregatePlanMetrics(item).advanceAmount)}</span>
-                                у.е.* жду поставку
-                                <span class="aggregate-final-value" data-aggregate-final="waitDays">${aggregateDaysText(aggregatePlanMetrics(item).waitAfterAdvanceDays)}</span>
-                                дней + производство
-                                <span class="aggregate-final-value" data-aggregate-final="productionDays">${aggregateDaysText(aggregatePlanMetrics(item).productionDays)}</span>
-                                дней + склад и продажи
-                                <span class="aggregate-final-value" data-aggregate-final="warehouseSalesDays">${aggregateDaysText(aggregatePlanMetrics(item).warehouseSalesDays)}</span>
+                                Чтобы сделать, как я придумал, мне нужно
+                                <span class="aggregate-final-value" data-aggregate-final="requiredCapital">${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
+                                у.е.* на
+                                <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
                                 дней.
                             </div>
 
-                            <div class="aggregate-line mt-4 leading-relaxed">
-                                Отсюда товар продаётся со скоростью, которую позволяет рекламный бюджет в модели маркетолога:
-                                <span class="aggregate-final-value" data-aggregate-final="salesSpeed">${moneyInputValue(aggregatePlanMetrics(item).salesSpeedPerMonth)}</span>
-                                шт. / месяц.
-                            </div>
-
-                            <div class="aggregate-final-total mt-4">
-                                Мои вложения окупятся в течение:
-                                <span class="aggregate-final-value" data-aggregate-final="paybackDays">—</span>
-                                <span class="aggregate-muted text-sm font-medium"> — после подключения оборота и прибыли.</span>
+                            <div class="aggregate-muted mt-3 text-xs leading-relaxed">
+                                До налогов. Нулевая маржа считается по предприятию целиком: поставка и производство проходят до начала продаж, а склад, продавцы, доставка покупателю и реклама продолжаются до последней проданной единицы.
                             </div>
 
                             <div class="grid grid-cols-2 gap-3 mt-5">
                                 <button type="button"
+                                    data-funding-choice="cash"
                                     class="aggregate-action-confirm"
-                                    onclick="acceptAggregateBusinessPlan(${item.id}, this)">
-                                    Меня устраивает
+                                    onclick="setAggregateFundingMode(${item.id}, 'cash', this)">
+                                    У меня есть деньги
                                 </button>
                                 <button type="button"
+                                    data-funding-choice="credit"
                                     class="aggregate-action-recalc"
-                                    onclick="recalculateAggregateBusinessPlan(${item.id})">
-                                    Пересчитать
+                                    onclick="setAggregateFundingMode(${item.id}, 'credit', this)">
+                                    Рассчитать кредит
                                 </button>
+                            </div>
+
+                            <div data-credit-result class="hidden mt-4 pt-4 border-t aggregate-separator" hidden>
+                                <div class="aggregate-line font-semibold">
+                                    Для расчёта кредита: минимум
+                                    <span class="aggregate-final-value" data-credit-amount>${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
+                                    у.е.* на
+                                    <span class="aggregate-final-value" data-credit-term>${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
+                                    дней.
+                                </div>
                             </div>
                         </div>
                     </div>
