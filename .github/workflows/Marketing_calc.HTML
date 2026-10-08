@@ -317,7 +317,7 @@
                                 <div class="grid grid-cols-2 gap-2 mt-3 items-end">
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
-                                    <div class="col-span-2 mt-1">
+                                    <div id="own-broker-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
                                         <label class="block text-xs text-slate-500 mb-1">Сколько</label>
                                         <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
@@ -329,7 +329,7 @@
                                 <div class="grid grid-cols-2 gap-2 mt-3 items-end">
                                     <button type="button" data-import-payer-key="cargoInsurance" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="cargoInsurance" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
-                                    <div class="col-span-2 mt-1">
+                                    <div id="own-cargo-insurance-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
                                         <label class="block text-xs text-slate-500 mb-1">Сколько</label>
                                         <input id="own-cargo-insurance-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
@@ -341,7 +341,7 @@
                                 <div class="grid grid-cols-2 gap-2 mt-3 items-end">
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
-                                    <div class="col-span-2 mt-1">
+                                    <div id="own-duties-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
                                         <label class="block text-xs text-slate-500 mb-1">Сколько</label>
                                         <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
@@ -353,7 +353,7 @@
                                 <div class="grid grid-cols-2 gap-2 mt-3 items-end">
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
-                                    <div class="col-span-2 mt-1">
+                                    <div id="own-certification-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
                                         <label class="block text-xs text-slate-500 mb-1">Сколько</label>
                                         <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
@@ -1029,6 +1029,19 @@
                 button.classList.toggle('yn-choice-selected', !!selected);
                 button.setAttribute('aria-pressed', selected ? 'true' : 'false');
             });
+
+            const costFieldByKey = {
+                broker: 'own-broker-cost',
+                cargoInsurance: 'own-cargo-insurance-cost',
+                duties: 'own-duties-cost',
+                certification: 'own-certification-cost'
+            };
+            const costFieldId = costFieldByKey[key];
+            if (!costFieldId) return;
+
+            const isMine = productImportPayers[key] === 'me';
+            setProductHidden(costFieldId + '-wrap', !isMine);
+            if (!isMine) setProductFieldZero(costFieldId);
         }
 
         function setProductLogisticsPayer(key, value) {
