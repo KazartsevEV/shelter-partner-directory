@@ -1697,13 +1697,19 @@
             row.className = 'equipment-rental-row rounded-lg border border-slate-200 bg-slate-50 p-3';
             row.dataset.rowId = equipmentRentalSeq;
             row.innerHTML = `
-                <div class="grid grid-cols-[1fr_110px_auto] gap-2 items-end">
+                <div class="grid grid-cols-[1fr_72px] gap-2">
                     <div>
                         <label class="block text-xs text-slate-500 mb-1">Оборудование</label>
                         <input type="text" class="equipment-rental-name input-field" placeholder="Название">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Стоимость / мес</label>
+                        <label class="block text-xs text-slate-500 mb-1">Ед.</label>
+                        <input type="number" min="1" step="1" value="1" class="equipment-rental-qty input-field" oninput="updateEquipmentRentalTotal()">
+                    </div>
+                </div>
+                <div class="grid grid-cols-[1fr_auto] gap-2 items-end mt-2">
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Стоимость 1 ед. / мес</label>
                         <input type="number" min="0" step="0.01" value="0" class="equipment-rental-cost input-field" oninput="updateEquipmentRentalTotal()">
                     </div>
                     <button type="button" onclick="removeEquipmentRow(this, 'rental')" class="h-10 w-10 rounded-lg border border-slate-300 text-slate-500">×</button>
@@ -1714,10 +1720,15 @@
         }
 
         function updateEquipmentRentalTotal() {
-            const total = Array.from(document.querySelectorAll('.equipment-rental-cost'))
-                .reduce((sum, input) => sum + Math.max(0, Number(input.value) || 0), 0);
+            const total = Array.from(document.querySelectorAll('.equipment-rental-row'))
+                .reduce((sum, row) => {
+                    const qty = Math.max(1, Math.floor(Number(row.querySelector('.equipment-rental-qty')?.value) || 1));
+                    const cost = Math.max(0, Number(row.querySelector('.equipment-rental-cost')?.value) || 0);
+                    return sum + qty * cost;
+                }, 0);
             const output = document.getElementById('own-equipment-rental-total');
             if (output) output.textContent = moneyInputValue(total);
+            recalculateProductionUnitCost();
         }
 
         function addEquipmentPurchaseRow() {
@@ -1728,13 +1739,19 @@
             row.className = 'equipment-purchase-row rounded-lg border border-slate-200 bg-slate-50 p-3';
             row.dataset.rowId = equipmentPurchaseSeq;
             row.innerHTML = `
-                <div class="grid grid-cols-[1fr_105px_auto] gap-2 items-end">
+                <div class="grid grid-cols-[1fr_72px] gap-2">
                     <div>
                         <label class="block text-xs text-slate-500 mb-1">Оборудование</label>
                         <input type="text" class="equipment-purchase-name input-field" placeholder="Название">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Стоимость</label>
+                        <label class="block text-xs text-slate-500 mb-1">Ед.</label>
+                        <input type="number" min="1" step="1" value="1" class="equipment-purchase-qty input-field" oninput="updateEquipmentDepreciationTotal()">
+                    </div>
+                </div>
+                <div class="grid grid-cols-[1fr_auto] gap-2 items-end mt-2">
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">Стоимость 1 ед.</label>
                         <input type="number" min="0" step="0.01" value="0" class="equipment-purchase-cost input-field" oninput="updateEquipmentDepreciationTotal()">
                     </div>
                     <button type="button" onclick="removeEquipmentRow(this, 'purchase')" class="h-10 w-10 rounded-lg border border-slate-300 text-slate-500">×</button>
@@ -1757,15 +1774,17 @@
         function updateEquipmentDepreciationTotal() {
             let total = 0;
             document.querySelectorAll('.equipment-purchase-row').forEach(row => {
+                const qty = Math.max(1, Math.floor(Number(row.querySelector('.equipment-purchase-qty')?.value) || 1));
                 const cost = Math.max(0, Number(row.querySelector('.equipment-purchase-cost')?.value) || 0);
                 const life = Math.max(1, Number(row.querySelector('.equipment-useful-life')?.value) || 1);
-                const monthly = cost / life;
+                const monthly = qty * cost / life;
                 total += monthly;
                 const out = row.querySelector('.equipment-depreciation');
                 if (out) out.value = moneyInputValue(monthly);
             });
             const totalOut = document.getElementById('own-equipment-depreciation-total');
             if (totalOut) totalOut.textContent = moneyInputValue(total);
+            recalculateProductionUnitCost();
         }
 
         function removeEquipmentRow(button, kind) {
@@ -1796,17 +1815,22 @@
 
             const equipmentRentalMonthly =
                 productOwnChoices.equipmentRental === 'yes'
-                    ? Array.from(document.querySelectorAll('.equipment-rental-cost'))
-                        .reduce((sum, input) => sum + Math.max(0, Number(input.value) || 0), 0)
+                    ? Array.from(document.querySelectorAll('.equipment-rental-row'))
+                        .reduce((sum, row) => {
+                            const itemQty = Math.max(1, Math.floor(Number(row.querySelector('.equipment-rental-qty')?.value) || 1));
+                            const itemCost = Math.max(0, Number(row.querySelector('.equipment-rental-cost')?.value) || 0);
+                            return sum + itemQty * itemCost;
+                        }, 0)
                     : 0;
 
             const equipmentDepreciationMonthly =
                 productOwnChoices.equipmentPurchase === 'yes'
                     ? Array.from(document.querySelectorAll('.equipment-purchase-row'))
                         .reduce((sum, row) => {
+                            const itemQty = Math.max(1, Math.floor(Number(row.querySelector('.equipment-purchase-qty')?.value) || 1));
                             const cost = Math.max(0, Number(row.querySelector('.equipment-purchase-cost')?.value) || 0);
                             const life = Math.max(1, Number(row.querySelector('.equipment-useful-life')?.value) || 1);
-                            return sum + cost / life;
+                            return sum + itemQty * cost / life;
                         }, 0)
                     : 0;
 
