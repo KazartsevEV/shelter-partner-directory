@@ -80,6 +80,57 @@
             display: none !important;
         }
 
+        #product-tax-block.product-business-aggregate {
+            background: linear-gradient(145deg, #064e3b 0%, #065f46 55%, #047857 100%);
+            border: 1px solid #0f766e;
+            color: #ecfdf5;
+            box-shadow: 0 18px 45px rgba(6, 78, 59, 0.28);
+        }
+        #product-tax-block.product-business-aggregate .aggregate-title,
+        #product-tax-block.product-business-aggregate .aggregate-line,
+        #product-tax-block.product-business-aggregate .aggregate-tax-title {
+            color: #ecfdf5;
+        }
+        #product-tax-block.product-business-aggregate .aggregate-muted,
+        #product-tax-block.product-business-aggregate label {
+            color: #d1fae5;
+        }
+        #product-tax-block.product-business-aggregate .aggregate-separator {
+            border-color: rgba(209, 250, 229, 0.22);
+        }
+        #product-tax-block.product-business-aggregate .input-field {
+            background: rgba(255, 255, 255, 0.96);
+            color: #064e3b;
+            border-color: rgba(167, 243, 208, 0.7);
+        }
+        #product-tax-block.product-business-aggregate .aggregate-qty-input {
+            display: inline-block;
+            width: 6.4ch;
+            min-width: 6.4ch;
+            max-width: 6.4ch;
+            height: 2.35rem;
+            margin: 0 0.18rem;
+            padding: 0.2rem 0.35rem;
+            border-radius: 0.55rem;
+            border: 1px solid rgba(167, 243, 208, 0.95);
+            background: #ecfdf5;
+            color: #064e3b;
+            font-weight: 800;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            vertical-align: middle;
+        }
+        #product-tax-block.product-business-aggregate .business-tax-choice {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(209,250,229,0.45);
+            color: #ecfdf5;
+        }
+        #product-tax-block.product-business-aggregate .business-tax-choice.yn-choice-selected {
+            background: #ecfdf5;
+            border-color: #ecfdf5;
+            color: #065f46;
+        }
+
         #monthly-breakdown-table {
             table-layout: fixed;
             width: max-content;
@@ -1102,11 +1153,11 @@
                 </div>
             </div>
 
-            <div id="product-tax-block" class="card p-6 md:p-8 hidden" hidden>
+            <div id="product-tax-block" class="card product-business-aggregate p-6 md:p-8 hidden" hidden>
                 <div id="product-business-summary-list"></div>
 
-                <div class="mt-5 pt-5 border-t border-slate-200">
-                    <div class="text-lg font-bold text-slate-900">Заплачу налог</div>
+                <div class="mt-5 pt-5 border-t aggregate-separator">
+                    <div class="aggregate-tax-title text-lg font-bold">Заплачу налог</div>
 
                     <div class="mt-3">
                         <div class="grid grid-cols-2 gap-2">
@@ -1119,8 +1170,8 @@
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-4 border-t border-slate-200">
-                        <div class="text-sm font-medium text-slate-800">Работаете с НДС?</div>
+                    <div class="mt-4 pt-4 border-t aggregate-separator">
+                        <div class="aggregate-title text-sm font-medium">Работаете с НДС?</div>
                         <div class="flex gap-2 mt-2">
                             <button type="button" data-yn-group="salesVat" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
                             <button type="button" data-yn-group="salesVat" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
@@ -1811,14 +1862,59 @@
                     ? productNumber('own-warehouse-cost') * Math.max(0, productNumber('own-warehouse-days'))
                     : 0;
 
+            const materialsBase = productNumber('own-materials-cost');
+            const materialsWithVat = materialsCostWithVat();
+            const vatAdded = Math.max(0, materialsWithVat - materialsBase);
+            const inboundDelivery =
+                productOwnChoices.inboundIncluded === 'no'
+                    ? productNumber('own-inbound-delivery-cost')
+                    : 0;
+            const imported = productOwnChoices.materialsImported === 'yes';
+            const materialsInsurance =
+                imported && productImportPayers.cargoInsurance === 'me'
+                    ? materialsWithVat * productNumber('own-cargo-insurance-cost') / 100
+                    : 0;
+            const materialsDuties =
+                imported && productImportPayers.duties === 'me'
+                    ? productNumber('own-duties-cost')
+                    : 0;
+            const materialsFixedBatch =
+                (imported && productImportPayers.broker === 'me' ? productNumber('own-broker-cost') : 0) +
+                (imported && productImportPayers.certification === 'me' ? productNumber('own-certification-cost') : 0);
+            const materialsVariableUnit =
+                materialsBase + vatAdded + inboundDelivery + materialsInsurance + materialsDuties;
+
+            const productionFixedMonthly = Math.max(
+                0,
+                latestProductionUnitCost *
+                    Math.max(0.0001, 1 - productNumber('own-production-defect-pct') / 100) *
+                    productionQty -
+                    (productOwnChoices.productionElectricity === 'yes'
+                        ? productNumber('own-production-electricity-tariff') *
+                          productNumber('own-production-electricity-usage') *
+                          productionQty
+                        : 0)
+            );
+            const productionElectricityPerUnit =
+                productOwnChoices.productionElectricity === 'yes'
+                    ? productNumber('own-production-electricity-tariff') *
+                      productNumber('own-production-electricity-usage')
+                    : 0;
+            const productionDefectPct = Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
+
             return {
                 id: currentProductSequence,
                 name: productName,
                 source: productSource,
                 materialsUnitCost: latestMaterialsLandedUnitCost,
+                materialsVariableUnit,
+                materialsFixedBatch,
                 materialsBatchQty,
                 materialsBatchTotal: latestMaterialsLandedUnitCost * materialsBatchQty,
                 productionUnitCost: latestProductionUnitCost,
+                productionFixedMonthly,
+                productionElectricityPerUnit,
+                productionDefectPct,
                 productionQty,
                 productionTotal: latestProductionUnitCost * productionQty,
                 logisticsUnitCost: productNumberFromText('own-logistics-unit-cost'),
@@ -1941,6 +2037,144 @@
             item.planning[key] = value;
         }
 
+        function setFrozenProductValue(productId, originalId, value, asText = false) {
+            const frozen = document.querySelector(`[data-completed-product-id="${productId}"]`);
+            if (!frozen) return;
+            const el = frozen.querySelector(`[data-frozen-original-id="${originalId}"]`);
+            if (!el) return;
+            if (asText) el.textContent = value;
+            else if ('value' in el) el.value = value;
+        }
+
+        function recalculatePortfolioItemQuantity(item, kind, qty) {
+            const n = Math.min(99999, Math.max(1, Math.floor(Number(qty) || 1)));
+
+            if (kind === 'materials') {
+                item.materialsBatchQty = n;
+                item.inputs['own-materials-batch-qty'] = String(n);
+                item.materialsUnitCost =
+                    Number(item.materialsVariableUnit || 0) +
+                    Number(item.materialsFixedBatch || 0) / n;
+                item.materialsBatchTotal = item.materialsUnitCost * n;
+
+                setFrozenProductValue(item.id, 'own-materials-batch-qty', n);
+                setFrozenProductValue(item.id, 'own-materials-landed-unit-cost', moneyInputValue(item.materialsUnitCost), true);
+            }
+
+            if (kind === 'production') {
+                item.productionQty = n;
+                item.inputs['own-production-monthly-qty'] = String(n);
+                const yieldFactor = Math.max(0.0001, 1 - Number(item.productionDefectPct || 0) / 100);
+                item.productionUnitCost =
+                    (Number(item.productionFixedMonthly || 0) / n +
+                     Number(item.productionElectricityPerUnit || 0)) / yieldFactor;
+                item.productionTotal = item.productionUnitCost * n;
+
+                setFrozenProductValue(item.id, 'own-production-monthly-qty', n);
+                setFrozenProductValue(item.id, 'own-production-unit-cost', moneyInputValue(item.productionUnitCost), true);
+            }
+
+            if (kind === 'logistics') {
+                item.logisticsQty = n;
+                item.inputs['own-logistics-qty'] = String(n);
+                item.warehouseStageTotal =
+                    (Number(item.warehouseInboundUnitCost || 0) +
+                     Number(item.warehouseStorageUnitCost || 0)) * n;
+
+                setFrozenProductValue(item.id, 'own-logistics-qty', n);
+                setFrozenProductValue(item.id, 'own-logistics-selected-total', moneyInputValue(Number(item.logisticsUnitCost || 0) * n), true);
+            }
+
+            if (kind === 'sales') {
+                item.salesQty = n;
+                item.inputs['own-sales-monthly-qty'] = String(n);
+                item.salesFixedPerUnit = Number(item.salesFixedMonthly || 0) / n;
+
+                setFrozenProductValue(item.id, 'own-sales-monthly-qty', n);
+                setFrozenProductValue(item.id, 'own-sales-fixed-per-unit', moneyInputValue(item.salesFixedPerUnit), true);
+                setFrozenProductValue(item.id, 'own-sales-result-unit', moneyInputValue(item.salesFixedPerUnit), true);
+            }
+
+            if (kind === 'ads') {
+                const cpc = Math.max(0, Number(item.inputs['own-product-ad-cpc']) || 0);
+                const clickLead = Math.max(0, Number(item.inputs['own-product-ad-click-lead']) || 0) / 100;
+                const leadSale = Math.max(0, Number(item.inputs['own-product-ad-lead-sale']) || 0) / 100;
+                const unitsOrder = Math.max(0, Number(item.inputs['own-product-ad-units-order']) || 0);
+                const unitsPerBudgetUnit = cpc > 0 ? (clickLead * leadSale * unitsOrder) / cpc : 0;
+                const requiredBudget = unitsPerBudgetUnit > 0 ? n / unitsPerBudgetUnit : 0;
+                const management = Number(item.adManagement || 0);
+
+                item.forecastUnitsPerMonth = n;
+                item.adBudget = requiredBudget;
+                item.adTotal = requiredBudget + management;
+                item.adCostPerUnit = n > 0 ? item.adTotal / n : 0;
+                item.inputs['own-product-ad-budget'] = String(requiredBudget);
+
+                setFrozenProductValue(item.id, 'own-product-ad-budget', requiredBudget);
+                setFrozenProductValue(item.id, 'own-product-ad-units', moneyInputValue(n), true);
+                setFrozenProductValue(item.id, 'own-product-ad-cac-unit', moneyInputValue(item.adCostPerUnit), true);
+                setFrozenProductValue(item.id, 'own-product-ad-media-unit', moneyInputValue(n > 0 ? requiredBudget / n : 0), true);
+                setFrozenProductValue(item.id, 'own-product-ad-management-unit', moneyInputValue(n > 0 ? management / n : 0), true);
+                setFrozenProductValue(item.id, 'own-product-ad-full-unit', moneyInputValue(item.adCostPerUnit), true);
+            }
+        }
+
+        function updateAggregateQuantity(productId, kind, value) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+
+            const n = Math.min(99999, Math.max(1, Math.floor(Number(value) || 1)));
+
+            if (Number(productId) === currentProductSequence) {
+                const fieldByKind = {
+                    materials: 'own-materials-batch-qty',
+                    production: 'own-production-monthly-qty',
+                    logistics: 'own-logistics-qty',
+                    sales: 'own-sales-monthly-qty'
+                };
+
+                if (kind === 'ads') {
+                    const cpc = productNumber('own-product-ad-cpc');
+                    const clickLead = productNumber('own-product-ad-click-lead') / 100;
+                    const leadSale = productNumber('own-product-ad-lead-sale') / 100;
+                    const unitsOrder = productNumber('own-product-ad-units-order');
+                    const unitsPerBudgetUnit = cpc > 0 ? (clickLead * leadSale * unitsOrder) / cpc : 0;
+                    const budgetInput = document.getElementById('own-product-ad-budget');
+                    if (budgetInput && unitsPerBudgetUnit > 0) {
+                        budgetInput.value = (n / unitsPerBudgetUnit).toFixed(2);
+                        recalculateProductAdFunnel();
+                    }
+                } else {
+                    const field = document.getElementById(fieldByKind[kind]);
+                    if (field) field.value = n;
+
+                    if (kind === 'materials') recalculateMaterialsLandedCost();
+                    if (kind === 'production') recalculateProductionUnitCost();
+                    if (kind === 'logistics') recalculateLogisticsUnitCost();
+                    if (kind === 'sales') recalculateSalesCostSummary();
+                }
+
+                saveCurrentProductToPortfolio();
+            } else {
+                recalculatePortfolioItemQuantity(item, kind, n);
+            }
+
+            renderProductBusinessSummary();
+        }
+
+        function aggregateQtyInput(item, kind, value) {
+            return `<input
+                type="number"
+                min="1"
+                max="99999"
+                step="1"
+                inputmode="numeric"
+                class="aggregate-qty-input"
+                value="${Math.min(99999, Math.max(1, Math.round(Number(value) || 1)))}"
+                oninput="updateAggregateQuantity(${item.id}, '${kind}', this.value)"
+            >`;
+        }
+
         function renderProductBusinessSummary() {
             const box = document.getElementById('product-business-summary-list');
             if (!box) return;
@@ -1964,59 +2198,59 @@
                 const productionQty = Number(item.productionQty || 1);
                 const logisticsQty = Number(item.logisticsQty || 1);
                 const salesQty = Number(item.salesQty || 1);
-                const adUnits = Number(item.forecastUnitsPerMonth || 0);
+                const adUnits = Number(item.forecastUnitsPerMonth || 1);
 
-                return `<section class="${index ? 'mt-7 pt-7 border-t border-slate-300' : ''}" data-business-product-id="${item.id}">
-                    <div class="text-lg font-semibold text-slate-900">Я буду продавать</div>
-                    <div class="mt-1 text-2xl font-bold text-slate-900">
-                        «${esc(item.name)}» <span class="text-base font-semibold text-blue-700">· ${esc(sourceLabels[item.source] || item.source || '')}</span>
+                return `<section class="${index ? 'mt-7 pt-7 border-t aggregate-separator' : ''}" data-business-product-id="${item.id}">
+                    <div class="aggregate-title text-lg font-semibold">Я буду продавать</div>
+                    <div class="aggregate-title mt-1 text-2xl font-bold">
+                        «${esc(item.name)}» <span class="text-base font-semibold text-emerald-200">· ${esc(sourceLabels[item.source] || item.source || '')}</span>
                     </div>
 
                     <div class="mt-6 space-y-5 text-sm">
-                        <div>
-                            <div class="font-semibold text-slate-900">
-                                Привезу материал на ${moneyInputValue(materialQty)} шт., общей стоимостью ${moneyInputValue(item.materialsBatchTotal)} у.е.*
+                        <div class="aggregate-line">
+                            <div class="font-semibold">
+                                Привезу материал на ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью ${moneyInputValue(item.materialsBatchTotal)} у.е.*
                             </div>
                             <div class="mt-3 space-y-3">
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Срок поставки, дней</label>
+                                    <label class="block text-xs mb-1">Срок поставки, дней</label>
                                     <input type="number" min="0" step="1" value="${esc(planning.supplyDays)}" class="input-field"
                                         oninput="updateProductPlanning(${item.id}, 'supplyDays', this.value)">
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Аванс поставщику, %</label>
+                                    <label class="block text-xs mb-1">Аванс поставщику, %</label>
                                     <input type="number" min="0" max="100" step="0.01" value="${esc(planning.advancePct)}" class="input-field"
                                         oninput="updateProductPlanning(${item.id}, 'advancePct', this.value)">
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">За сколько дней до поставки плачу аванс</label>
+                                    <label class="block text-xs mb-1">За сколько дней до поставки плачу аванс</label>
                                     <input type="number" min="0" step="1" value="${esc(planning.advanceLeadDays)}" class="input-field"
                                         oninput="updateProductPlanning(${item.id}, 'advanceLeadDays', this.value)">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="pt-4 border-t border-slate-200">
-                            <div class="font-semibold text-slate-900">
-                                Сделаю ${moneyInputValue(productionQty)} шт., потрачу ${moneyInputValue(item.productionTotal)} у.е.*
+                        <div class="aggregate-line pt-4 border-t aggregate-separator">
+                            <div class="font-semibold">
+                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу ${moneyInputValue(item.productionTotal)} у.е.*
                             </div>
                             <div class="mt-3">
-                                <label class="block text-xs text-slate-500 mb-1">Срок производства, дней</label>
+                                <label class="block text-xs mb-1">Срок производства, дней</label>
                                 <input type="number" min="0" step="1" value="${esc(planning.productionDays)}" class="input-field"
                                     oninput="updateProductPlanning(${item.id}, 'productionDays', this.value)">
                             </div>
                         </div>
 
-                        <div class="pt-4 border-t border-slate-200 font-semibold text-slate-900">
-                            Положу на склад ${moneyInputValue(logisticsQty)} шт., заплачу не менее ${moneyInputValue(item.warehouseStageTotal)} у.е.*
+                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
+                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее ${moneyInputValue(item.warehouseStageTotal)} у.е.*
                         </div>
 
-                        <div class="pt-4 border-t border-slate-200 font-semibold text-slate-900">
-                            Заплачу продавцам / площадке ${moneyInputValue(item.salesFixedMonthly)} у.е.* за возможность продать ${moneyInputValue(salesQty)} шт.
+                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
+                            Заплачу продавцам / площадке ${moneyInputValue(item.salesFixedMonthly)} у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
                         </div>
 
-                        <div class="pt-4 border-t border-slate-200 font-semibold text-slate-900">
-                            Заплачу ${moneyInputValue(item.adTotal)} у.е.* за рекламу, чтобы продать ${moneyInputValue(adUnits)} шт.
+                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
+                            Заплачу ${moneyInputValue(item.adTotal)} у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
                         </div>
                     </div>
                 </section>`;
@@ -2163,7 +2397,10 @@
             const sourceClone = sourceBlock.cloneNode(true);
             [introClone, sourceClone].forEach(clone => {
                 clone.removeAttribute('id');
-                clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+                clone.querySelectorAll('[id]').forEach(el => {
+                    el.dataset.frozenOriginalId = el.id;
+                    el.removeAttribute('id');
+                });
                 clone.querySelectorAll('[onclick], [oninput], [onchange], [onsubmit]').forEach(el => {
                     el.removeAttribute('onclick');
                     el.removeAttribute('oninput');
