@@ -436,6 +436,48 @@
                         </div>
                     </div>
 
+                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="text-sm font-medium text-slate-800">Кто выполняет производство?</div>
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <button type="button" data-production-labor-mode="self" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Всё делаю сам</button>
+                            <button type="button" data-production-labor-mode="workers" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Плачу рабочим</button>
+                        </div>
+
+                        <div id="own-production-workers-wrap" class="hidden mt-4 space-y-4" hidden data-product-collapsible>
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Страна расчёта зарплаты и обязательных начислений</label>
+                                <select id="own-production-workers-country" class="input-field bg-white" onchange="updateProductionWorkersCost()"></select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Количество рабочих</label>
+                                    <input id="own-production-workers-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateProductionWorkersCost()">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц</label>
+                                    <input id="own-production-worker-gross" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionWorkersCost()">
+                                </div>
+                            </div>
+
+                            <div class="rounded-lg bg-slate-50 border border-slate-200 p-3 space-y-1 text-xs text-slate-600">
+                                <div class="flex justify-between gap-3">
+                                    <span>Gross зарплата всех рабочих / месяц</span>
+                                    <span id="own-production-workers-gross-total" class="font-semibold text-slate-900">0,00</span>
+                                </div>
+                                <div class="flex justify-between gap-3">
+                                    <span>Налоги и взносы работодателя / месяц</span>
+                                    <span id="own-production-workers-taxes-total" class="font-semibold text-slate-900">0,00</span>
+                                </div>
+                                <div class="border-t border-slate-200 pt-2 mt-2 flex justify-between gap-3 text-sm">
+                                    <span class="font-semibold text-slate-800">Полная стоимость рабочих / месяц</span>
+                                    <span id="own-production-workers-total" class="font-bold text-slate-900">0,00</span>
+                                </div>
+                                <div id="own-production-workers-note" class="pt-1 text-[11px] text-slate-400"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">Доля брака производства, % от общего объёма</label>
                         <input id="own-production-defect-pct" type="number" min="0" max="100" step="0.01" value="0" class="input-field">
@@ -450,15 +492,15 @@
                         <div id="own-production-gas-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Тариф</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Тариф за 1 м³ газа</label>
                                     <input id="own-production-gas-tariff" type="number" min="0" step="0.0001" value="0" class="input-field" oninput="updateProductionUtilityTotal('gas')">
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Расход / месяц</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Расход газа, м³ / месяц</label>
                                     <input id="own-production-gas-usage" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionUtilityTotal('gas')">
                                 </div>
                             </div>
-                            <div class="text-xs text-slate-500">Газ / месяц: <span id="own-production-gas-total" class="font-semibold text-slate-900">0,00</span></div>
+                            <div class="text-xs text-slate-500">Газ / месяц (тариф × м³): <span id="own-production-gas-total" class="font-semibold text-slate-900">0,00</span></div>
                         </div>
                     </div>
 
@@ -471,15 +513,15 @@
                         <div id="own-production-electricity-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Тариф</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Тариф за 1 кВт·ч</label>
                                     <input id="own-production-electricity-tariff" type="number" min="0" step="0.0001" value="0" class="input-field" oninput="updateProductionUtilityTotal('electricity')">
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Расход на 1 произведённую единицу</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Расход электричества, кВт·ч на 1 произведённую единицу</label>
                                     <input id="own-production-electricity-usage" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionUtilityTotal('electricity')">
                                 </div>
                             </div>
-                            <div class="text-xs text-slate-500">Электричество на 1 произведённую единицу: <span id="own-production-electricity-total" class="font-semibold text-slate-900">0,00</span></div>
+                            <div class="text-xs text-slate-500">Электричество на 1 ед. (тариф × кВт·ч): <span id="own-production-electricity-total" class="font-semibold text-slate-900">0,00</span></div>
                         </div>
                     </div>
 
@@ -1106,6 +1148,7 @@
         let productOwnInboundDeliveryManual = false;
         const productOwnChoices = {};
         let productBusinessTaxType = null;
+        let productionLaborMode = 'self';
         const productImportPayers = {
             broker: null,
             cargoInsurance: null,
@@ -1679,6 +1722,104 @@
             }
         }
 
+        function initProductionWorkersCountryDirectory() {
+            const select = document.getElementById('own-production-workers-country');
+            if (!select || select.options.length) return;
+
+            const countries = insuranceCountryCodes
+                .map(code => ({ code, name: insuranceCountryName(code) }))
+                .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+
+            select.innerHTML = countries.map(({ code, name }) =>
+                `<option value="${code}"${code === 'KZ' ? ' selected' : ''}>${countryFlag(code)} ${name}</option>`
+            ).join('');
+        }
+
+        function setProductionLaborMode(mode) {
+            productionLaborMode = mode === 'workers' ? 'workers' : 'self';
+
+            document.querySelectorAll('.production-labor-choice[data-production-labor-mode]').forEach(button => {
+                const selected = button.dataset.productionLaborMode === productionLaborMode;
+                button.classList.toggle('yn-choice-selected', selected);
+                button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+
+            const workersEnabled = productionLaborMode === 'workers';
+            setProductHidden('own-production-workers-wrap', !workersEnabled);
+
+            if (workersEnabled) {
+                initProductionWorkersCountryDirectory();
+            } else {
+                const count = document.getElementById('own-production-workers-count');
+                const gross = document.getElementById('own-production-worker-gross');
+                if (count) count.value = 0;
+                if (gross) gross.value = 0;
+            }
+
+            updateProductionWorkersCost();
+        }
+
+        function productionEmployerChargesForWorker(country, grossMonthly) {
+            const gross = Math.max(0, Number(grossMonthly) || 0);
+            if (!gross) return 0;
+
+            if (country === 'RU') {
+                const rules = payrollCountryRules.RU;
+                const annualGross = gross * 12;
+                const belowLimit = Math.min(annualGross, rules.employerSocialAnnualLimit);
+                const aboveLimit = Math.max(0, annualGross - rules.employerSocialAnnualLimit);
+                const socialAnnual =
+                    belowLimit * rules.employerSocialBaseRate / 100 +
+                    aboveLimit * rules.employerSocialOverLimitRate / 100;
+                const injuryAnnual = annualGross * rules.injuryDefaultRate / 100;
+                return (socialAnnual + injuryAnnual) / 12;
+            }
+
+            const employerSocialRate = Math.max(0, Number(employerContributionRates[country]) || 0);
+            const payrollTaxRate = Math.max(0, Number(employerPayrollTaxRates[country]) || 0);
+            return gross * (employerSocialRate + payrollTaxRate) / 100;
+        }
+
+        function updateProductionWorkersCost() {
+            const enabled = productionLaborMode === 'workers';
+            const count = enabled
+                ? Math.max(0, Math.floor(Number(document.getElementById('own-production-workers-count')?.value) || 0))
+                : 0;
+            const grossPerWorker = enabled
+                ? Math.max(0, Number(document.getElementById('own-production-worker-gross')?.value) || 0)
+                : 0;
+            const country = document.getElementById('own-production-workers-country')?.value || 'KZ';
+
+            const grossTotal = count * grossPerWorker;
+            const chargesPerWorker = productionEmployerChargesForWorker(country, grossPerWorker);
+            const chargesTotal = count * chargesPerWorker;
+            const total = grossTotal + chargesTotal;
+
+            const values = {
+                'own-production-workers-gross-total': grossTotal,
+                'own-production-workers-taxes-total': chargesTotal,
+                'own-production-workers-total': total
+            };
+
+            Object.entries(values).forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = moneyInputValue(value);
+            });
+
+            const note = document.getElementById('own-production-workers-note');
+            if (note) {
+                if (country === 'RU') {
+                    note.textContent = 'РФ: учтены страховые взносы по стандартной шкале 30% / 15,1% сверх предельной базы и базовый травматизм 0,2%.';
+                } else if (country === 'KZ') {
+                    note.textContent = 'Казахстан: учтены 11,5% начислений работодателя + 6% социального налога. Ставки справочные.';
+                } else {
+                    note.textContent = 'Используются справочные ставки работодателя по выбранной стране. Проверяйте применимый режим со своим бухгалтером.';
+                }
+            }
+
+            recalculateProductionUnitCost();
+        }
+
         let equipmentRentalSeq = 0;
         let equipmentPurchaseSeq = 0;
 
@@ -1849,11 +1990,24 @@
                     ? productNumber('own-production-overheads-monthly')
                     : 0;
 
+            const productionWorkersMonthly =
+                productionLaborMode === 'workers'
+                    ? (() => {
+                        const count = Math.max(0, Math.floor(Number(document.getElementById('own-production-workers-count')?.value) || 0));
+                        const grossPerWorker = Math.max(0, Number(document.getElementById('own-production-worker-gross')?.value) || 0);
+                        const country = document.getElementById('own-production-workers-country')?.value || 'KZ';
+                        const grossTotal = count * grossPerWorker;
+                        const chargesTotal = count * productionEmployerChargesForWorker(country, grossPerWorker);
+                        return grossTotal + chargesTotal;
+                    })()
+                    : 0;
+
             const fixedMonthly =
                 premisesMonthly +
                 equipmentRentalMonthly +
                 equipmentDepreciationMonthly +
-                gasMonthly;
+                gasMonthly +
+                productionWorkersMonthly;
 
             const fixedPerProducedUnit = fixedMonthly / qty;
             const beforeDefect =
@@ -1874,6 +2028,7 @@
                     ['Аренда оборудования / 1 ед.', equipmentRentalMonthly / qty],
                     ['Амортизация оборудования / 1 ед.', equipmentDepreciationMonthly / qty],
                     ['Газ / отопление / 1 ед.', gasMonthly / qty],
+                    ['Рабочие с налогами и взносами / 1 ед.', productionWorkersMonthly / qty],
                     ['Электричество / 1 произведённую ед.', electricityPerProducedUnit],
                     ['Накладные организационные / 1 ед.', overheadPerProducedUnit],
                     [`Удорожание из-за брака (${defectPct.toLocaleString('ru-RU')}%)`, defectUplift]
@@ -1893,7 +2048,9 @@
             });
             productOwnInitialized = true;
             initInsuranceCountryDirectory();
+            initProductionWorkersCountryDirectory();
             setProductBusinessTaxType(null);
+            setProductionLaborMode('self');
 
             Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
             document.getElementById('own-customer-delivery-pct').value = 10;
@@ -2039,6 +2196,13 @@
             if (businessTaxButton) {
                 event.preventDefault();
                 setProductBusinessTaxType(businessTaxButton.dataset.businessTaxType);
+                return;
+            }
+
+            const productionLaborButton = event.target.closest('.production-labor-choice[data-production-labor-mode]');
+            if (productionLaborButton) {
+                event.preventDefault();
+                setProductionLaborMode(productionLaborButton.dataset.productionLaborMode);
                 return;
             }
 
