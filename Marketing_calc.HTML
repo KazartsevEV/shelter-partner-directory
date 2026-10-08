@@ -2122,7 +2122,7 @@
             if (!item) return;
             if (!item.planning) item.planning = {};
             item.planning[key] = value;
-            updateAggregateFinalSummary(item);
+            updateAggregateAmounts(item);
         }
 
         function setFrozenProductValue(productId, originalId, value, asText = false) {
@@ -2242,13 +2242,12 @@
         function aggregatePlanMetrics(item) {
             const planning = item?.planning || {};
             const materialsTotal = Math.max(0, Number(item?.materialsBatchTotal || 0));
-            const productionTotal = Math.max(0, Number(item?.productionTotal || 0));
             const stockQty = Math.max(0, Number(item?.logisticsQty || 0));
+            const productionQty = Math.max(0, Number(item?.productionQty || 0));
             const salesSpeedPerMonth = Math.max(0, Number(item?.forecastUnitsPerMonth || 0));
 
             const advancePct = Math.min(100, Math.max(0, Number(planning.advancePct) || 0));
             const advanceAmount = materialsTotal * advancePct / 100;
-            const materialsRemainder = Math.max(0, materialsTotal - advanceAmount);
 
             const supplyDays = Math.max(0, Number(planning.supplyDays) || 0);
             const hasExplicitAdvanceLead =
@@ -2258,7 +2257,14 @@
             const waitAfterAdvanceDays = hasExplicitAdvanceLead
                 ? Math.max(0, Number(planning.advanceLeadDays) || 0)
                 : supplyDays;
-            const productionDays = Math.max(0, Number(planning.productionDays) || 0);
+
+            const hasProductionDays =
+                planning.productionDays !== '' &&
+                planning.productionDays !== null &&
+                planning.productionDays !== undefined;
+            const productionDays = hasProductionDays
+                ? Math.max(0, Number(planning.productionDays) || 0)
+                : 30;
 
             const sellThroughDays =
                 salesSpeedPerMonth > 0 && stockQty > 0
@@ -2269,13 +2275,27 @@
                     ? null
                     : waitAfterAdvanceDays + productionDays + sellThroughDays;
 
+            const productionYield = Math.max(
+                0.0001,
+                1 - Math.min(99.99, Math.max(0, Number(item?.productionDefectPct || 0))) / 100
+            );
+            const productionFixedForPeriod =
+                Math.max(0, Number(item?.productionFixedMonthly || 0)) *
+                productionDays / 30;
+            const productionVariable =
+                Math.max(0, Number(item?.productionElectricityPerUnit || 0)) *
+                productionQty;
+            const productionTotal =
+                (productionFixedForPeriod + productionVariable) /
+                productionYield;
+
             const warehouseInboundTotal =
                 Math.max(0, Number(item?.warehouseInboundUnitCost || 0)) * stockQty;
             const warehouseDayCost = Math.max(0, Number(item?.warehouseDayCost || 0));
 
             const costBeforeCustomerDelivery =
                 Math.max(0, Number(item?.materialsUnitCost || 0)) +
-                Math.max(0, Number(item?.productionUnitCost || 0));
+                (productionQty > 0 ? productionTotal / productionQty : 0);
             const customerDeliveryPct = Math.max(0, Number(item?.customerDeliveryPct || 0));
             const customerReturnPct = Math.max(0, Number(item?.customerReturnPct || 0));
             const customerDeliveryPerUnit =
@@ -2310,28 +2330,43 @@
                     zeroMarginUnitPrice: null,
                     nonRevenueCosts: null,
                     variableSalesRate,
-                    stockQty
+                    stockQty,
+                    productionTotal,
+                    warehouseTotal: null,
+                    salesTotal: null,
+                    adTotal: null,
+                    customerDeliveryTotal
                 };
             }
 
             const sellThroughMonths = sellThroughDays / 30;
-            // Constant sales speed => inventory falls linearly from stockQty to zero.
+
+            // Inventory declines linearly while the planned quantity is sold.
             const warehouseStorageTotal =
                 warehouseDayCost * stockQty * sellThroughDays / 2;
-            const salesFixedTotal = salesFixedMonthly * sellThroughMonths;
+            const warehouseTotal =
+                warehouseInboundTotal + warehouseStorageTotal;
+
+            // These costs cannot be switched off until the planned stock is sold.
+            const salesTotal = salesFixedMonthly * sellThroughMonths;
             const adMediaTotal = adBudgetMonthly * sellThroughMonths;
             const adManagementTotal = adManagementMonthly * sellThroughMonths;
+            const adTotal = adMediaTotal + adManagementTotal;
 
+            // Capital that must be financed by the owner before taxes.
+            // Revenue does not reduce this planning amount: it is the money committed
+            // to executing the whole business cycle at the stated assumptions.
             const nonRevenueCosts =
                 materialsTotal +
                 productionTotal +
-                warehouseInboundTotal +
-                warehouseStorageTotal +
+                warehouseTotal +
                 customerDeliveryTotal +
-                salesFixedTotal +
-                adMediaTotal +
-                adManagementTotal;
+                salesTotal +
+                adTotal;
+            const requiredCapital = nonRevenueCosts;
 
+            // At zero enterprise margin, revenue must cover all fixed/absolute costs
+            // plus percentage-of-turnover sales costs.
             const retainedRevenueRate = 1 - variableSalesRate;
             const zeroMarginRevenue =
                 retainedRevenueRate > 0
@@ -2341,74 +2376,6 @@
                 zeroMarginRevenue !== null && stockQty > 0
                     ? zeroMarginRevenue / stockQty
                     : null;
-
-            if (zeroMarginRevenue === null || zeroMarginUnitPrice === null) {
-                return {
-                    requiredCapital: null,
-                    totalCycleDays,
-                    waitAfterAdvanceDays,
-                    productionDays,
-                    sellThroughDays,
-                    salesSpeedPerMonth,
-                    advanceAmount,
-                    zeroMarginRevenue: null,
-                    zeroMarginUnitPrice: null,
-                    nonRevenueCosts: null,
-                    variableSalesRate,
-                    stockQty
-                };
-            }
-
-            // Timeline cash-flow. Revenue starts only after supply + production.
-            // Operating costs continue until the last unit is sold.
-            let balance = 0;
-            let minBalance = 0;
-
-            balance -= advanceAmount;
-            minBalance = Math.min(minBalance, balance);
-
-            // At material arrival the remainder is paid and production is funded.
-            balance -= materialsRemainder;
-            balance -= productionTotal;
-            minBalance = Math.min(minBalance, balance);
-
-            // Goods enter the warehouse before selling starts.
-            balance -= warehouseInboundTotal;
-            minBalance = Math.min(minBalance, balance);
-
-            let remainingUnits = stockQty;
-            let elapsedSellingDays = 0;
-            const grossRevenuePerUnit = zeroMarginUnitPrice;
-            const unitsPerDay = salesSpeedPerMonth / 30;
-
-            while (remainingUnits > 0.0000001 && elapsedSellingDays < 36500) {
-                const dayFraction = Math.min(1, remainingUnits / Math.max(unitsPerDay, 0.0000001));
-                const sold = Math.min(remainingUnits, unitsPerDay * dayFraction);
-                const averageInventory = Math.max(0, remainingUnits - sold / 2);
-
-                const revenue = sold * grossRevenuePerUnit;
-                const variableSalesCost = revenue * variableSalesRate;
-                const customerDeliveryCost = sold * customerDeliveryPerUnit;
-                const warehouseCost = warehouseDayCost * averageInventory * dayFraction;
-                const sellersCost = salesFixedMonthly / 30 * dayFraction;
-                const mediaCost = adBudgetMonthly / 30 * dayFraction;
-                const marketerCost = adManagementMonthly / 30 * dayFraction;
-
-                balance += revenue;
-                balance -=
-                    variableSalesCost +
-                    customerDeliveryCost +
-                    warehouseCost +
-                    sellersCost +
-                    mediaCost +
-                    marketerCost;
-
-                remainingUnits -= sold;
-                elapsedSellingDays += dayFraction;
-                minBalance = Math.min(minBalance, balance);
-            }
-
-            const requiredCapital = Math.max(0, -minBalance);
 
             return {
                 requiredCapital,
@@ -2422,7 +2389,12 @@
                 zeroMarginUnitPrice,
                 nonRevenueCosts,
                 variableSalesRate,
-                stockQty
+                stockQty,
+                productionTotal,
+                warehouseTotal,
+                salesTotal,
+                adTotal,
+                customerDeliveryTotal
             };
         }
 
@@ -2681,16 +2653,22 @@
             const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
             if (!section) return;
 
+            const cycle = aggregatePlanMetrics(item);
             const values = {
                 materialsTotal: item.materialsBatchTotal,
-                productionTotal: item.productionTotal,
-                warehouseTotal: item.warehouseStageTotal,
-                salesTotal: item.salesFixedMonthly,
-                adTotal: item.adTotal
+                productionTotal: cycle.productionTotal,
+                warehouseTotal: cycle.warehouseTotal,
+                salesTotal: cycle.salesTotal,
+                adTotal: cycle.adTotal
             };
             Object.entries(values).forEach(([key, value]) => {
                 const el = section.querySelector(`[data-aggregate-output="${key}"]`);
-                if (el) el.textContent = moneyInputValue(value);
+                if (el) {
+                    el.textContent =
+                        value === null || !Number.isFinite(Number(value))
+                            ? '—'
+                            : moneyInputValue(value);
+                }
             });
 
             const qtyValues = {
@@ -2842,7 +2820,7 @@
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator">
                             <div class="font-semibold">
-                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> у.е.*
+                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${aggregatePlanMetrics(item).productionTotal === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).productionTotal)}</span> у.е.*
                             </div>
                             <div class="mt-3">
                                 <label class="block text-xs mb-1">Срок производства, дней</label>
@@ -2852,15 +2830,15 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
+                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее <span data-aggregate-output="warehouseTotal">${aggregatePlanMetrics(item).warehouseTotal === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).warehouseTotal)}</span> у.е.*
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
+                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${aggregatePlanMetrics(item).salesTotal === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).salesTotal)}</span> у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
+                            Заплачу <span data-aggregate-output="adTotal">${aggregatePlanMetrics(item).adTotal === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
                         </div>
 
                         <div class="aggregate-final-box">
