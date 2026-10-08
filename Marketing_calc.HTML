@@ -1235,18 +1235,6 @@
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-4 border-t aggregate-separator">
-                        <div class="aggregate-title text-sm font-medium">Работаете с НДС?</div>
-                        <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="salesVat" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="salesVat" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
-                        </div>
-                        <div id="own-sales-vat-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Размер НДС, %</label>
-                            <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="refreshAllAggregatePricing()">
-                        </div>
-                    </div>
-
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 pt-5 border-t aggregate-separator">
                         <button type="button" onclick="saveProductCalculationToBrowser()" class="aggregate-action-confirm">
                             Сохранить результат в браузере
@@ -2122,7 +2110,8 @@
             if (!item) return;
             if (!item.planning) item.planning = {};
             item.planning[key] = value;
-            updateAggregateAmounts(item);
+            updateAggregateFinalSummary(item);
+            updateAggregatePricing(item);
         }
 
         function setFrozenProductValue(productId, originalId, value, asText = false) {
@@ -2258,13 +2247,7 @@
                 ? Math.max(0, Number(planning.advanceLeadDays) || 0)
                 : supplyDays;
 
-            const hasProductionDays =
-                planning.productionDays !== '' &&
-                planning.productionDays !== null &&
-                planning.productionDays !== undefined;
-            const productionDays = hasProductionDays
-                ? Math.max(0, Number(planning.productionDays) || 0)
-                : 30;
+            const productionDays = Math.max(0, Number(planning.productionDays) || 0);
 
             const sellThroughDays =
                 salesSpeedPerMonth > 0 && stockQty > 0
@@ -2275,19 +2258,7 @@
                     ? null
                     : waitAfterAdvanceDays + productionDays + sellThroughDays;
 
-            const productionYield = Math.max(
-                0.0001,
-                1 - Math.min(99.99, Math.max(0, Number(item?.productionDefectPct || 0))) / 100
-            );
-            const productionFixedForPeriod =
-                Math.max(0, Number(item?.productionFixedMonthly || 0)) *
-                productionDays / 30;
-            const productionVariable =
-                Math.max(0, Number(item?.productionElectricityPerUnit || 0)) *
-                productionQty;
-            const productionTotal =
-                (productionFixedForPeriod + productionVariable) /
-                productionYield;
+            const productionTotal = Math.max(0, Number(item?.productionTotal || 0));
 
             const warehouseInboundTotal =
                 Math.max(0, Number(item?.warehouseInboundUnitCost || 0)) * stockQty;
@@ -2295,7 +2266,7 @@
 
             const costBeforeCustomerDelivery =
                 Math.max(0, Number(item?.materialsUnitCost || 0)) +
-                (productionQty > 0 ? productionTotal / productionQty : 0);
+                Math.max(0, Number(item?.productionUnitCost || 0));
             const customerDeliveryPct = Math.max(0, Number(item?.customerDeliveryPct || 0));
             const customerReturnPct = Math.max(0, Number(item?.customerReturnPct || 0));
             const customerDeliveryPerUnit =
@@ -2400,11 +2371,17 @@
 
         function aggregatePricingMetrics(item) {
             const cycle = aggregatePlanMetrics(item);
-            const marginPct = Math.max(0, Number(item?.planning?.targetReturnPct) || 0);
+            const rawMargin = item?.planning?.targetReturnPct;
+            const hasMargin =
+                rawMargin !== '' &&
+                rawMargin !== null &&
+                rawMargin !== undefined &&
+                Number.isFinite(Number(rawMargin));
+            const marginPct = hasMargin ? Math.max(0, Number(rawMargin)) : null;
             const targetProfit =
-                cycle.requiredCapital === null
-                    ? null
-                    : cycle.requiredCapital * marginPct / 100;
+                hasMargin && cycle.requiredCapital !== null
+                    ? cycle.requiredCapital * marginPct / 100
+                    : null;
 
             if (
                 targetProfit === null ||
@@ -2506,7 +2483,10 @@
             const item = productPortfolio.find(product => product.id === Number(productId));
             if (!item) return;
             if (!item.planning) item.planning = {};
-            item.planning.targetReturnPct = Math.max(0, Number(value) || 0);
+            item.planning.targetReturnPct =
+                String(value).trim() === ''
+                    ? ''
+                    : Math.max(0, Number(value) || 0);
             updateAggregatePricing(item);
         }
 
@@ -2653,13 +2633,12 @@
             const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
             if (!section) return;
 
-            const cycle = aggregatePlanMetrics(item);
             const values = {
                 materialsTotal: item.materialsBatchTotal,
-                productionTotal: cycle.productionTotal,
-                warehouseTotal: cycle.warehouseTotal,
-                salesTotal: cycle.salesTotal,
-                adTotal: cycle.adTotal
+                productionTotal: item.productionTotal,
+                warehouseTotal: item.warehouseStageTotal,
+                salesTotal: item.salesFixedMonthly,
+                adTotal: item.adTotal
             };
             Object.entries(values).forEach(([key, value]) => {
                 const el = section.querySelector(`[data-aggregate-output="${key}"]`);
@@ -2820,7 +2799,7 @@
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator">
                             <div class="font-semibold">
-                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${aggregatePlanMetrics(item).productionTotal === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).productionTotal)}</span> у.е.*
+                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> у.е.*
                             </div>
                             <div class="mt-3">
                                 <label class="block text-xs mb-1">Срок производства, дней</label>
@@ -2830,15 +2809,15 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее <span data-aggregate-output="warehouseTotal">${aggregatePlanMetrics(item).warehouseTotal === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).warehouseTotal)}</span> у.е.*
+                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${aggregatePlanMetrics(item).salesTotal === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).salesTotal)}</span> у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
+                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу <span data-aggregate-output="adTotal">${aggregatePlanMetrics(item).adTotal === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
+                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
                         </div>
 
                         <div class="aggregate-final-box">
@@ -2878,6 +2857,18 @@
                                         placeholder="Введите маржу"
                                         oninput="updateAggregateMargin(${item.id}, this.value)">
                                     <span class="font-bold text-emerald-100">%</span>
+                                </div>
+
+                                <div class="mt-4">
+                                    <div class="aggregate-title text-sm font-medium">Работаете с НДС?</div>
+                                    <div class="flex gap-2 mt-2">
+                                        <button type="button" data-yn-group="salesVat" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-emerald-200 text-sm">Да</button>
+                                        <button type="button" data-yn-group="salesVat" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-emerald-200 text-sm">Нет</button>
+                                    </div>
+                                    <div id="own-sales-vat-wrap" class="hidden mt-3" hidden data-product-collapsible>
+                                        <label class="block text-xs mb-1">Размер НДС, %</label>
+                                        <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="refreshAllAggregatePricing()">
+                                    </div>
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
