@@ -38,7 +38,10 @@
             width: 100%;
             min-width: 0;
             white-space: nowrap;
+            font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+            font-stretch: condensed;
             font-weight: 600;
+            letter-spacing: -0.02em;
         }
         .import-payer-choice[data-import-payer-value="me"],
         .logistics-payer-choice[data-logistics-payer-value="me"] {
@@ -92,6 +95,13 @@
 
         @media (max-width: 640px) {
             body { padding: 0.75rem; }
+            .import-payer-choice,
+            .logistics-payer-choice {
+                font-size: 0.92rem;
+                padding-left: 0.55rem !important;
+                padding-right: 0.55rem !important;
+                letter-spacing: -0.035em;
+            }
             .monthly-label-col {
                 width: 148px; min-width: 148px; max-width: 148px;
                 padding: 0.5rem 0.4rem; font-size: 0.72rem; line-height: 1.18;
