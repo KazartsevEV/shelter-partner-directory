@@ -47,6 +47,10 @@
                     <div id="inputs-container" class="space-y-4 max-h-[800px] overflow-y-auto pr-1">
                         <!-- Generated via JS -->
                     </div>
+                    <p class="text-[11px] text-slate-400 mt-4 leading-relaxed">
+                        * Налог в модели считается помесячно, без учёта фактического налогового периода и сроков уплаты:
+                        они зависят от налогового режима пользователя.
+                    </p>
                 </div>
             </div>
 
@@ -92,17 +96,13 @@
                 <div class="card overflow-hidden">
                     <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex justify-between items-center">
                         <h2 class="font-semibold text-slate-700">Помесячная разбивка</h2>
-                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">3 месяца (по сценарию)</span>
+                        <span id="months-badge" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">3 месяца (по сценарию)</span>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-center border-collapse min-w-[700px]">
+                        <table id="monthly-breakdown-table" class="w-full text-sm text-center border-collapse min-w-[700px]">
                             <thead>
-                                <tr>
-                                    <th class="th text-left sticky left-0 bg-slate-100 z-10 border-b border-slate-300 shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]">Показатель</th>
-                                    <th class="th border-b border-slate-300">Месяц 1</th>
-                                    <th class="th border-b border-slate-300">Месяц 2</th>
-                                    <th class="th border-b border-slate-300">Месяц 3</th>
-                                    <th class="th border-b border-slate-300 bg-slate-100 text-blue-900">Итого</th>
+                                <tr id="monthly-head-row">
+                                    <!-- Generated via JS from the selected period -->
                                 </tr>
                             </thead>
                             <tbody id="monthly-table" class="divide-y divide-slate-100">
@@ -151,7 +151,7 @@
             { key: 'dom', label: 'Домен', type: 'money' },
             { key: 'magnet', label: 'Лид-магнит', type: 'money' },
             { key: 'acq', label: 'Комиссия эквайринга', type: 'pct' },
-            { key: 'taxTurnover', label: 'Налог на оборот', type: 'pct' },
+            { key: 'taxTurnover', label: 'Налог на оборот*', type: 'pct' },
         ];
 
         let currentValues = { ...defaults };
@@ -159,6 +159,13 @@
         function formatMoney(val) { return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'USD' }).format(val); }
         function formatNum(val) { return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
         function formatInt(val) { return new Intl.NumberFormat('ru-RU').format(Math.round(val)); }
+        function monthWord(n) {
+            const mod10 = n % 10;
+            const mod100 = n % 100;
+            if (mod10 === 1 && mod100 !== 11) return 'месяц';
+            if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'месяца';
+            return 'месяцев';
+        }
 
         function initInputs() {
             const container = document.getElementById('inputs-container');
@@ -192,7 +199,16 @@
 
         function calculate() {
             const v = currentValues;
-            const months = Math.max(1, v.months || 1);
+            const months = Math.max(1, Math.floor(v.months || 1));
+
+            // Keep the monthly view synchronized with the selected calculation period.
+            document.getElementById('months-badge').textContent = `${months} ${monthWord(months)} (по сценарию)`;
+            document.getElementById('monthly-head-row').innerHTML = `
+                <th class="th text-left sticky left-0 bg-slate-100 z-10 border-b border-slate-300 shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]">Показатель</th>
+                ${Array.from({ length: months }, (_, i) => `<th class="th border-b border-slate-300">Месяц ${i + 1}</th>`).join('')}
+                <th class="th border-b border-slate-300 bg-slate-100 text-blue-900">Итого</th>
+            `;
+            document.getElementById('monthly-breakdown-table').style.minWidth = `${Math.max(700, 260 + months * 120)}px`;
 
             // Summary Calculations
             const totalBudget = v.monthlyBudget * months;
@@ -249,7 +265,7 @@
                 ['Амортизация лид-магнита', formatMoney(magnetAmort)],
                 ['Общие затраты Total Costs', formatMoney(totalCosts), 'text-red-700 font-bold'],
                 ['EBITDA (прибыль до налогов)', formatMoney(ebitda)],
-                ['Налог на оборот', formatMoney(tax)],
+                ['Налог на оборот*', formatMoney(tax)],
                 ['Чистая прибыль после налогов', formatMoney(netProfit), 'text-green-700 font-bold'],
                 ['ROAS (возврат рекламы)', roas.toFixed(2) + 'x'],
                 ['CPA (цена клиента реклама)', formatMoney(cpa)],
@@ -279,7 +295,7 @@
                 { label: 'Чистая выручка', key: 'mNetRev', fmt: 'money' },
                 { label: 'Расходы', key: 'mCosts', fmt: 'money' },
                 { label: 'EBITDA (до налога)', key: 'mEbitda', fmt: 'money' },
-                { label: 'Налог на оборот', key: 'mTax', fmt: 'money' },
+                { label: 'Налог на оборот*', key: 'mTax', fmt: 'money' },
                 { label: 'Денежный поток', key: 'mCash', fmt: 'money' },
                 { label: 'Накопленный поток', key: 'mCum', fmt: 'money' },
             ];
@@ -288,7 +304,7 @@
             let totalMonth = {};
             let cumCash = 0;
 
-            for (let m = 1; m <= 3; m++) {
+            for (let m = 1; m <= months; m++) {
                 let mBudget = v.monthlyBudget;
                 let mClicks = v.cpc > 0 ? mBudget / v.cpc : 0;
                 let mLeads = mClicks * (v.cvrLead / 100);
