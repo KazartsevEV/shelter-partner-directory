@@ -430,6 +430,31 @@
             const cac = deals > 0 ? totalCosts / deals : 0;
             const romi = totalCosts > 0 ? (netRevenue - totalCosts) / totalCosts : 0;
 
+            // Agent payout follows the same monthly ramp-up scenario as the table below.
+            let agentIncomeScenario = agentIncome;
+            let agentDealsScenario = deals;
+            if (isAgent) {
+                agentIncomeScenario = 0;
+                agentDealsScenario = 0;
+                for (let m = 1; m <= months; m++) {
+                    const mBudgetPreview = v.monthlyBudget;
+                    const mClicksPreview = v.cpc > 0 ? mBudgetPreview / v.cpc : 0;
+                    const mLeadsPreview = mClicksPreview * (v.cvrLead / 100);
+                    const baseDealsPreview = Math.max(mLeadsPreview * (v.cvrDeal / 100), 0.1);
+                    const mDealsPreview = (m === 1) ? baseDealsPreview * 0.5 : baseDealsPreview;
+                    const mPacksBasePreview = mDealsPreview * (v.ltv / 100);
+                    const mPacksPreview = (m === 1) ? mPacksBasePreview * 0.5 : mPacksBasePreview;
+                    const mRevConsBasePreview = mDealsPreview * v.costConsult;
+                    const mGrossRevConsPreview = (m === 1) ? mRevConsBasePreview * 0.5 : mRevConsBasePreview;
+                    const mRevPackBasePreview = mPacksPreview * v.costPack;
+                    const mGrossRevPackPreview = (m === 1) ? mRevPackBasePreview * 0.5 : mRevPackBasePreview;
+                    const mGrossSalesPreview = mGrossRevConsPreview + mGrossRevPackPreview;
+                    agentIncomeScenario += mGrossSalesPreview * (agentPct / 100);
+                    agentDealsScenario += mDealsPreview;
+                }
+            }
+            const agentIncomePerDealScenario = agentDealsScenario > 0 ? agentIncomeScenario / agentDealsScenario : 0;
+
             // Update Summary Table
             const summaryRows = [
                 ['Общий рекламный бюджет', formatMoney(totalBudget)],
@@ -443,8 +468,8 @@
                     ['Объём продаж пакетов партнёра', formatMoney(grossRevPack)],
                     ['Общий объём продаж партнёра', formatMoney(grossSales), 'text-blue-700 font-bold'],
                     ['Мой процент от продаж', formatNum(agentPct) + '%'],
-                    ['Моё вознаграждение', formatMoney(agentIncome), 'text-green-700 font-bold'],
-                    ['Мой доход с одной сделки', formatMoney(agentIncomePerDeal)],
+                    ['Моё вознаграждение', formatMoney(agentIncomeScenario), 'text-green-700 font-bold'],
+                    ['Мой доход с одной сделки', formatMoney(agentIncomePerDealScenario)],
                     ['Выручка партнёра Revenue', formatMoney(revenue), 'text-blue-700 font-bold']
                 ] : [
                     ['Выручка от консультаций', formatMoney(revConsult)],
@@ -567,7 +592,7 @@
             if (isAgent) {
                 profitLabel.textContent = 'Мой доход за период';
                 profitSub.textContent = 'Вознаграждение по договору, до моих налогов и расходов';
-                document.getElementById('res-profit').textContent = formatMoney(agentIncome);
+                document.getElementById('res-profit').textContent = formatMoney(totalMonth.mAgentIncome || 0);
 
                 romiLabel.textContent = 'Чистая прибыль партнёра';
                 romiSub.textContent = 'После его расходов, агентского вознаграждения и налога';
