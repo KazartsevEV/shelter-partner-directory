@@ -2021,10 +2021,16 @@
             currentProductSequence += 1;
             resetCurrentProductForNext();
 
-            const host = document.getElementById('completed-product-forms');
-            const currentIntro = document.getElementById('product-name-input')?.closest('.card');
-            if (host && currentIntro) {
-                currentIntro.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const sourceBlock = document.getElementById('product-source-block');
+            const nameInput = document.getElementById('product-name-input');
+            const introCard = nameInput?.closest('.card');
+
+            if (introCard) introCard.classList.add('hidden');
+            if (sourceBlock) {
+                sourceBlock.hidden = false;
+                sourceBlock.classList.remove('hidden');
+                document.getElementById('product-source-name').textContent = 'следующий товар';
+                sourceBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
@@ -2783,6 +2789,18 @@
         }
 
         function selectProductSource(source) {
+            if (currentProductSequence > 1 && !productName) {
+                const enteredName = window.prompt('Название товара');
+                if (!enteredName || !enteredName.trim()) return;
+                productName = enteredName.trim();
+                const nameInput = document.getElementById('product-name-input');
+                if (nameInput) nameInput.value = productName;
+                document.getElementById('product-source-name').textContent = '«' + productName + '»';
+                document.querySelectorAll('.product-name-live').forEach(el => {
+                    el.textContent = '«' + productName + '»';
+                });
+            }
+
             productSource = source;
 
             document.querySelectorAll('.product-source-choice').forEach(button => {
