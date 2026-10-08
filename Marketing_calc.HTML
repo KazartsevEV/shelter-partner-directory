@@ -258,6 +258,28 @@
         let serviceMode = 'self';
         let currentValues = { ...defaults };
 
+        const agentExpenseKeys = ['monthlyBudget', 'mgmt', 'site', 'tilda', 'dom', 'magnet'];
+        const defaultAgentPayers = {
+            monthlyBudget: 'partner',
+            mgmt: 'partner',
+            site: 'partner',
+            tilda: 'partner',
+            dom: 'partner',
+            magnet: 'partner'
+        };
+        let agentPayers = { ...defaultAgentPayers };
+
+        function payerLabel(key) {
+            return agentPayers[key] === 'me' ? 'Я' : 'Партнёр';
+        }
+
+        function setAgentPayer(key, payer) {
+            if (!agentExpenseKeys.includes(key)) return;
+            agentPayers[key] = payer === 'me' ? 'me' : 'partner';
+            initInputs();
+            calculate();
+        }
+
         function getInputsConfig() {
             const splitAt = baseInputsConfig.findIndex(item => item.key === 'months');
             const beforePeriod = baseInputsConfig.slice(0, splitAt);
@@ -310,12 +332,34 @@
                 const div = document.createElement('div');
                 const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? '$' : '');
                 const value = currentValues[def.key] ?? defaults[def.key] ?? 0;
+                const showPayer = serviceMode === 'agent' && agentExpenseKeys.includes(def.key);
+                const payerControls = showPayer ? `
+                    <div class="mt-2 flex items-center justify-between gap-3 rounded-md bg-slate-50 border border-slate-200 px-3 py-2">
+                        <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Кто платит</span>
+                        <div class="flex gap-3 text-xs text-slate-700">
+                            <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                                <input type="radio" name="payer-${def.key}" value="me"
+                                    ${agentPayers[def.key] === 'me' ? 'checked' : ''}
+                                    onchange="setAgentPayer('${def.key}', 'me')">
+                                <span>Я</span>
+                            </label>
+                            <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                                <input type="radio" name="payer-${def.key}" value="partner"
+                                    ${agentPayers[def.key] === 'partner' ? 'checked' : ''}
+                                    onchange="setAgentPayer('${def.key}', 'partner')">
+                                <span>Партнёр</span>
+                            </label>
+                        </div>
+                    </div>
+                ` : '';
+
                 div.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
                         <label class="text-sm font-medium text-slate-700">${def.label}</label>
                         <span class="text-xs text-slate-400">${suffix}</span>
                     </div>
                     <input type="number" step="any" value="${value}" id="in-${def.key}" class="input-field" oninput="handleInput('${def.key}', this.value)">
+                    ${payerControls}
                     ${def.help ? `<p class="text-[11px] text-slate-400 mt-1 leading-relaxed">${def.help}</p>` : ''}
                 `;
                 container.appendChild(div);
@@ -329,6 +373,7 @@
 
         function resetDefaults() {
             currentValues = { ...defaults };
+            agentPayers = { ...defaultAgentPayers };
             initInputs();
             calculate();
         }
@@ -361,7 +406,7 @@
             } else if (mode === 'agent') {
                 badge.textContent = 'Услуга · агент';
                 context.classList.remove('hidden');
-                context.textContent = 'Два контура: сверху — сколько вы получаете как агент; ниже — полная экономика партнёра. Ваш процент считается расходом партнёра. Налоги и собственные расходы агента модель не предполагает.';
+                context.textContent = 'Для каждой прямой статьи расходов выберите, кто её оплачивает: Я или Партнёр. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса. Ваш процент всегда считается расходом партнёра. Налоги агента модель не предполагает.';
             }
 
             document.getElementById('summary-title').textContent =
@@ -416,9 +461,24 @@
 
             const executorCost = isHired ? (markup >= 0 ? revenue / (1 + markup / 100) : 0) : 0;
             const agentCost = isAgent ? agentIncome : 0;
-            const opex = totalBudget + v.mgmt + v.tilda + v.dom + acqAmount + executorCost + agentCost;
-            const siteAmort = v.site * months / 12;
-            const magnetAmort = v.magnet * months / 12;
+
+            const partnerBudget = isAgent && agentPayers.monthlyBudget === 'me' ? 0 : totalBudget;
+            const partnerMgmt = isAgent && agentPayers.mgmt === 'me' ? 0 : v.mgmt;
+            const partnerTilda = isAgent && agentPayers.tilda === 'me' ? 0 : v.tilda;
+            const partnerDom = isAgent && agentPayers.dom === 'me' ? 0 : v.dom;
+            const siteAmort = isAgent && agentPayers.site === 'me' ? 0 : v.site * months / 12;
+            const magnetAmort = isAgent && agentPayers.magnet === 'me' ? 0 : v.magnet * months / 12;
+
+            const agentCashExpenses = isAgent
+                ? (agentPayers.monthlyBudget === 'me' ? totalBudget : 0)
+                    + (agentPayers.mgmt === 'me' ? v.mgmt : 0)
+                    + (agentPayers.site === 'me' ? v.site : 0)
+                    + (agentPayers.tilda === 'me' ? v.tilda : 0)
+                    + (agentPayers.dom === 'me' ? v.dom : 0)
+                    + (agentPayers.magnet === 'me' ? v.magnet : 0)
+                : 0;
+
+            const opex = partnerBudget + partnerMgmt + partnerTilda + partnerDom + acqAmount + executorCost + agentCost;
             const totalCosts = opex + siteAmort + magnetAmort;
 
             const ebitda = netRevenue - opex;
@@ -454,6 +514,7 @@
                 }
             }
             const agentIncomePerDealScenario = agentDealsScenario > 0 ? agentIncomeScenario / agentDealsScenario : 0;
+            const agentNetScenario = agentIncomeScenario - agentCashExpenses;
 
             // Update Summary Table
             const summaryRows = [
@@ -468,8 +529,10 @@
                     ['Объём продаж пакетов партнёра', formatMoney(grossRevPack)],
                     ['Общий объём продаж партнёра', formatMoney(grossSales), 'text-blue-700 font-bold'],
                     ['Мой процент от продаж', formatNum(agentPct) + '%'],
-                    ['Моё вознаграждение', formatMoney(agentIncomeScenario), 'text-green-700 font-bold'],
-                    ['Мой доход с одной сделки', formatMoney(agentIncomePerDealScenario)],
+                    ['Моё вознаграждение до моих расходов', formatMoney(agentIncomeScenario), 'text-green-700 font-bold'],
+                    ['Мои расходы (оплачиваю я)', formatMoney(agentCashExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
+                    ['Мне остаётся', formatMoney(agentNetScenario), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
+                    ['Моё вознаграждение с одной сделки', formatMoney(agentIncomePerDealScenario)],
                     ['Выручка партнёра Revenue', formatMoney(revenue), 'text-blue-700 font-bold']
                 ] : [
                     ['Выручка от консультаций', formatMoney(revConsult)],
@@ -481,6 +544,14 @@
                 [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', formatMoney(netRevenue)],
                 ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', formatMoney(agentIncome)]] : []),
                 ...(isHired ? [['Оплата исполнителю', formatMoney(executorCost)]] : []),
+                ...(isAgent ? [
+                    ['Рекламный бюджет — платит ' + payerLabel('monthlyBudget'), formatMoney(totalBudget)],
+                    ['Ведение рекламы — платит ' + payerLabel('mgmt'), formatMoney(v.mgmt)],
+                    ['Сайт — платит ' + payerLabel('site'), formatMoney(v.site)],
+                    ['Tilda — платит ' + payerLabel('tilda'), formatMoney(v.tilda)],
+                    ['Домен — платит ' + payerLabel('dom'), formatMoney(v.dom)],
+                    ['Лид-магнит — платит ' + payerLabel('magnet'), formatMoney(v.magnet)]
+                ] : []),
                 [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', formatMoney(opex)],
                 ['Амортизация сайта', formatMoney(siteAmort)],
                 ['Амортизация лид-магнита', formatMoney(magnetAmort)],
@@ -513,7 +584,9 @@
                     { label: 'Объём продаж консультаций партнёра', key: 'mGrossRevCons', fmt: 'money' },
                     { label: 'Объём продаж пакетов партнёра', key: 'mGrossRevPack', fmt: 'money' },
                     { label: 'Общий объём продаж партнёра', key: 'mGrossSales', fmt: 'money' },
-                    { label: 'Моё вознаграждение / расход партнёра', key: 'mAgentIncome', fmt: 'money' }
+                    { label: 'Моё вознаграждение до расходов', key: 'mAgentIncome', fmt: 'money' },
+                    { label: 'Мои расходы', key: 'mAgentExpenses', fmt: 'money' },
+                    { label: 'Мне остаётся', key: 'mAgentNet', fmt: 'money' }
                 ] : [
                     { label: 'Выручка от консультаций', key: 'mRevCons', fmt: 'money' },
                     { label: 'Выручка от пакетов', key: 'mRevPack', fmt: 'money' },
@@ -558,19 +631,36 @@
                 let mNetRev = mRevTotal - mAcq;
                 let mExecutor = isHired ? mRevTotal / (1 + markup / 100) : 0;
 
-                let mCosts;
-                if (m === 1) {
-                    mCosts = mBudget + v.mgmt + v.site + v.tilda + v.dom + v.magnet + mAcq + mExecutor + mAgentIncome;
-                } else {
-                    mCosts = mBudget + mAcq + mExecutor + mAgentIncome;
-                }
+                const mPartnerBudget = isAgent && agentPayers.monthlyBudget === 'me' ? 0 : mBudget;
+                const mAgentBudget = isAgent && agentPayers.monthlyBudget === 'me' ? mBudget : 0;
+
+                const firstMonthPartnerExtras = m === 1
+                    ? (isAgent && agentPayers.mgmt === 'me' ? 0 : v.mgmt)
+                        + (isAgent && agentPayers.site === 'me' ? 0 : v.site)
+                        + (isAgent && agentPayers.tilda === 'me' ? 0 : v.tilda)
+                        + (isAgent && agentPayers.dom === 'me' ? 0 : v.dom)
+                        + (isAgent && agentPayers.magnet === 'me' ? 0 : v.magnet)
+                    : 0;
+
+                const firstMonthAgentExtras = isAgent && m === 1
+                    ? (agentPayers.mgmt === 'me' ? v.mgmt : 0)
+                        + (agentPayers.site === 'me' ? v.site : 0)
+                        + (agentPayers.tilda === 'me' ? v.tilda : 0)
+                        + (agentPayers.dom === 'me' ? v.dom : 0)
+                        + (agentPayers.magnet === 'me' ? v.magnet : 0)
+                    : 0;
+
+                let mAgentExpenses = isAgent ? mAgentBudget + firstMonthAgentExtras : 0;
+                let mAgentNet = isAgent ? mAgentIncome - mAgentExpenses : 0;
+
+                let mCosts = mPartnerBudget + firstMonthPartnerExtras + mAcq + mExecutor + mAgentIncome;
 
                 let mEbitda = mNetRev - mCosts;
                 let mTax = mRevTotal * (v.taxTurnover / 100);
                 let mCash = mEbitda - mTax;
                 cumCash += mCash;
 
-                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
+                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentNet, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
                 monthData.push(row);
 
                 // Accumulate totals
@@ -590,9 +680,9 @@
             const cpaSep = document.getElementById('res-cpa-sep');
 
             if (isAgent) {
-                profitLabel.textContent = 'Мой доход за период';
-                profitSub.textContent = 'Вознаграждение по договору, до моих налогов и расходов';
-                document.getElementById('res-profit').textContent = formatMoney(totalMonth.mAgentIncome || 0);
+                profitLabel.textContent = 'Мне остаётся за период';
+                profitSub.textContent = 'Вознаграждение минус расходы, которые оплачиваю я; до налогов агента';
+                document.getElementById('res-profit').textContent = formatMoney(totalMonth.mAgentNet || 0);
 
                 romiLabel.textContent = 'Чистая прибыль партнёра';
                 romiSub.textContent = 'После его расходов, агентского вознаграждения и налога';
@@ -624,7 +714,7 @@
                 const cells = monthData.map(r => {
                     let val = r[meta.key];
                     let txt = meta.fmt === 'money' ? formatMoney(val) : (meta.fmt === 'int' ? formatInt(val) : formatNum(val));
-                    let color = (meta.key === 'mCash' || meta.key === 'mCum') && val < 0 ? 'text-red-600' : 'text-slate-700';
+                    let color = (meta.key === 'mCash' || meta.key === 'mCum' || meta.key === 'mAgentNet') && val < 0 ? 'text-red-600' : 'text-slate-700';
                     return `<td class="td-val border-b border-slate-100 ${color}">${txt}</td>`;
                 }).join('');
 
