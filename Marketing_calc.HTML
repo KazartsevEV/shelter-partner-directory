@@ -190,8 +190,8 @@
                         <!-- Generated via JS -->
                     </div>
                     <p class="text-[11px] text-slate-400 mt-4 leading-relaxed">
-                        * Налог в модели считается помесячно, без учёта фактического налогового периода и сроков уплаты:
-                        они зависят от налогового режима пользователя.
+                        * Налоги партнёра и агента в модели считаются помесячно, без учёта фактических налоговых периодов и сроков уплаты:
+                        они зависят от налогового режима каждого участника.
                     </p>
                 </div>
             </div>
@@ -277,7 +277,8 @@
             acq: 3.60,
             taxTurnover: 6.00,
             markup: 0.00,
-            agentPct: 0.00
+            agentPct: 0.00,
+            agentTaxTurnover: 0.00
         };
 
         const baseInputsConfig = [
@@ -339,6 +340,16 @@
             }
 
             if (serviceMode === 'agent') {
+                const agentFromPeriod = fromPeriod.map(item => {
+                    if (item.key === 'acq') {
+                        return { ...item, label: 'Комиссия эквайринга — платит партнёр' };
+                    }
+                    if (item.key === 'taxTurnover') {
+                        return { ...item, label: 'Налог партнёра на оборот*' };
+                    }
+                    return item;
+                });
+
                 return [
                     ...beforePeriod,
                     {
@@ -347,7 +358,13 @@
                         type: 'pct',
                         help: 'Ваш доход считается как указанный процент от общего объёма продаж, который создаёт эта воронка.'
                     },
-                    ...fromPeriod
+                    {
+                        key: 'agentTaxTurnover',
+                        label: 'Мой налог на оборот*',
+                        type: 'pct',
+                        help: 'Считается с вашего агентского вознаграждения и уменьшает сумму, которая остаётся вам.'
+                    },
+                    ...agentFromPeriod
                 ];
             }
 
@@ -558,7 +575,8 @@
                 }
             }
             const agentIncomePerDealScenario = agentDealsScenario > 0 ? agentIncomeScenario / agentDealsScenario : 0;
-            const agentNetScenario = agentIncomeScenario - agentCashExpenses;
+            const agentTaxScenario = isAgent ? agentIncomeScenario * (Math.max(0, v.agentTaxTurnover || 0) / 100) : 0;
+            const agentNetScenario = agentIncomeScenario - agentCashExpenses - agentTaxScenario;
 
             // Update Summary Table
             const summaryRows = [
@@ -575,7 +593,8 @@
                     ['Мой процент от продаж', formatNum(agentPct) + '%'],
                     ['Моё вознаграждение до моих расходов', formatMoney(agentIncomeScenario), 'text-green-700 font-bold'],
                     ['Мои расходы (оплачиваю я)', formatMoney(agentCashExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
-                    ['Мне остаётся', formatMoney(agentNetScenario), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
+                    ['Мой налог на оборот*', formatMoney(agentTaxScenario), agentTaxScenario > 0 ? 'text-red-700 font-bold' : ''],
+                    ['Мне остаётся после моих расходов и налога', formatMoney(agentNetScenario), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
                     ['Моё вознаграждение с одной сделки', formatMoney(agentIncomePerDealScenario)],
                     ['Выручка партнёра Revenue', formatMoney(revenue), 'text-blue-700 font-bold']
                 ] : [
@@ -624,7 +643,8 @@
                 { section: 'Я — агент' },
                 { label: 'Моё вознаграждение до расходов', key: 'mAgentIncome', fmt: 'money' },
                 { label: 'Расходы, которые оплачиваю я', key: 'mAgentExpenses', fmt: 'money' },
-                { label: 'Мне остаётся', key: 'mAgentNet', fmt: 'money' },
+                { label: 'Мой налог на оборот*', key: 'mAgentTax', fmt: 'money' },
+                { label: 'Мне остаётся после расходов и налога', key: 'mAgentNet', fmt: 'money' },
                 { label: 'Накопленно мне остаётся', key: 'mAgentCum', fmt: 'money' },
 
                 { section: 'Партнёр' },
@@ -705,7 +725,8 @@
                     : 0;
 
                 let mAgentExpenses = isAgent ? mAgentBudget + firstMonthAgentExtras : 0;
-                let mAgentNet = isAgent ? mAgentIncome - mAgentExpenses : 0;
+                let mAgentTax = isAgent ? mAgentIncome * (Math.max(0, v.agentTaxTurnover || 0) / 100) : 0;
+                let mAgentNet = isAgent ? mAgentIncome - mAgentExpenses - mAgentTax : 0;
                 cumAgentNet += mAgentNet;
                 let mAgentCum = cumAgentNet;
 
@@ -717,7 +738,7 @@
                 let mCash = mEbitda - mTax;
                 cumCash += mCash;
 
-                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentNet, mAgentCum, mPartnerDirect, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
+                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentTax, mAgentNet, mAgentCum, mPartnerDirect, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
                 monthData.push(row);
 
                 // Accumulate totals
@@ -739,7 +760,7 @@
 
             if (isAgent) {
                 profitLabel.textContent = 'Мне остаётся за период';
-                profitSub.textContent = 'Вознаграждение минус расходы, которые оплачиваю я; до налогов агента';
+                profitSub.textContent = 'Вознаграждение минус мои расходы и мой налог на оборот';
                 document.getElementById('res-profit').textContent = formatMoney(totalMonth.mAgentNet || 0);
 
                 romiLabel.textContent = 'Расчётная прибыль партнёра';
