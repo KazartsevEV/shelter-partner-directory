@@ -33,6 +33,12 @@
             color: #1d4ed8;
             font-weight: 600;
         }
+        .import-payer-choice.yn-choice-selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-weight: 600;
+        }
         [data-product-collapsible][hidden] {
             display: none !important;
         }
@@ -265,55 +271,59 @@
                     </div>
 
                     <div id="own-import-details" class="hidden rounded-lg border border-blue-100 bg-blue-50/30 p-4 space-y-5" hidden data-product-collapsible>
-                        <h3 class="font-semibold text-slate-900">Импорт, таможня и разрешительные расходы</h3>
+                        <h3 class="font-semibold text-slate-900">Кто платит за импорт, таможню и разрешительные документы?</h3>
+                        <p class="text-xs text-slate-500">Если статья не применяется — оставьте сумму 0. Плательщика не выбираем за пользователя.</p>
 
-                        <div>
-                            <div class="text-sm font-medium text-slate-800">Услуги брокера</div>
-                            <div class="flex gap-2 mt-2">
-                                <button type="button" data-yn-group="broker" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="broker" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        <div class="space-y-4">
+                            <div class="rounded-lg border border-slate-200 bg-white p-4">
+                                <div class="text-sm font-medium text-slate-800">Услуги брокера</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-[auto_auto_1fr] gap-2 mt-3 items-end">
+                                    <button type="button" data-import-payer-key="broker" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
+                                    <button type="button" data-import-payer-key="broker" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
+                                    <div>
+                                        <label class="block text-xs text-slate-500 mb-1">Сколько</label>
+                                        <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                                    </div>
+                                </div>
                             </div>
-                            <div id="own-broker-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                                <label class="block text-xs text-slate-500 mb-1">Стоимость услуг брокера</label>
-                                <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+
+                            <div class="rounded-lg border border-slate-200 bg-white p-4">
+                                <div class="text-sm font-medium text-slate-800">Страхование груза</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-[auto_auto_1fr] gap-2 mt-3 items-end">
+                                    <button type="button" data-import-payer-key="cargoInsurance" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
+                                    <button type="button" data-import-payer-key="cargoInsurance" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
+                                    <div>
+                                        <label class="block text-xs text-slate-500 mb-1">Сколько</label>
+                                        <input id="own-cargo-insurance-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rounded-lg border border-slate-200 bg-white p-4">
+                                <div class="text-sm font-medium text-slate-800">Пошлины и сборы</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-[auto_auto_1fr] gap-2 mt-3 items-end">
+                                    <button type="button" data-import-payer-key="duties" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
+                                    <button type="button" data-import-payer-key="duties" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
+                                    <div>
+                                        <label class="block text-xs text-slate-500 mb-1">Сколько</label>
+                                        <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rounded-lg border border-slate-200 bg-white p-4">
+                                <div class="text-sm font-medium text-slate-800">Сертификация и разрешительная документация</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-[auto_auto_1fr] gap-2 mt-3 items-end">
+                                    <button type="button" data-import-payer-key="certification" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
+                                    <button type="button" data-import-payer-key="certification" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
+                                    <div>
+                                        <label class="block text-xs text-slate-500 mb-1">Сколько</label>
+                                        <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div>
-                            <div class="text-sm font-medium text-slate-800">Страхование груза</div>
-                            <div class="flex gap-2 mt-2">
-                                <button type="button" data-yn-group="cargoInsurance" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="cargoInsurance" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
-                            </div>
-                            <div id="own-cargo-insurance-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                                <label class="block text-xs text-slate-500 mb-1">Стоимость страхования груза</label>
-                                <input id="own-cargo-insurance-cost" type="number" min="0" step="0.01" value="0" class="input-field">
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="text-sm font-medium text-slate-800">Пошлины и сборы</div>
-                            <div class="flex gap-2 mt-2">
-                                <button type="button" data-yn-group="duties" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="duties" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
-                            </div>
-                            <div id="own-duties-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                                <label class="block text-xs text-slate-500 mb-1">Сумма пошлин и сборов</label>
-                                <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field">
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="text-sm font-medium text-slate-800">Сертификация и разрешительная документация</div>
-                            <div class="flex gap-2 mt-2">
-                                <button type="button" data-yn-group="certification" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="certification" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
-                            </div>
-                            <div id="own-certification-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                                <label class="block text-xs text-slate-500 mb-1">Стоимость сертификации и документов</label>
-                                <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field">
-                            </div>
-                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -775,14 +785,16 @@
         let productOwnInitialized = false;
         let productOwnInboundDeliveryManual = false;
         const productOwnChoices = {};
+        const productImportPayers = {
+            broker: null,
+            cargoInsurance: null,
+            duties: null,
+            certification: null
+        };
         const productOwnDefaults = {
             vatIncluded: 'yes',
             inboundIncluded: 'no',
             materialsImported: 'no',
-            broker: 'no',
-            cargoInsurance: 'no',
-            duties: 'no',
-            certification: 'no',
             warehouse: 'no',
             customerDelivery: 'no',
             salesCommission: 'no',
@@ -895,19 +907,14 @@
             if (group === 'materialsImported') {
                 setProductHidden('own-import-details', value !== 'yes');
                 if (value !== 'yes') {
-                    resetProductOwnGroup('broker', ['own-broker-cost']);
-                    resetProductOwnGroup('cargoInsurance', ['own-cargo-insurance-cost']);
-                    resetProductOwnGroup('duties', ['own-duties-cost']);
-                    resetProductOwnGroup('certification', ['own-certification-cost']);
+                    Object.keys(productImportPayers).forEach(key => setProductImportPayer(key, null));
+                    ['own-broker-cost', 'own-cargo-insurance-cost', 'own-duties-cost', 'own-certification-cost']
+                        .forEach(setProductFieldZero);
                 }
                 return;
             }
 
             const detailMap = {
-                broker: 'own-broker-cost-wrap',
-                cargoInsurance: 'own-cargo-insurance-cost-wrap',
-                duties: 'own-duties-cost-wrap',
-                certification: 'own-certification-cost-wrap',
                 warehouse: 'own-warehouse-details',
                 customerDelivery: 'own-customer-delivery-details',
                 salesCommission: 'own-sales-commission-wrap',
@@ -923,10 +930,6 @@
 
             if (value !== 'yes') {
                 const zeroFields = {
-                    broker: ['own-broker-cost'],
-                    cargoInsurance: ['own-cargo-insurance-cost'],
-                    duties: ['own-duties-cost'],
-                    certification: ['own-certification-cost'],
                     warehouse: ['own-storage-days', 'own-storage-day-cost'],
                     customerDelivery: ['own-return-rate'],
                     salesCommission: ['own-sales-commission-pct'],
@@ -986,6 +989,17 @@
             syncProductOwnVisibility(group);
         }
 
+        function setProductImportPayer(key, value) {
+            if (!(key in productImportPayers)) return;
+            productImportPayers[key] = value === 'me' || value === 'seller' ? value : null;
+
+            document.querySelectorAll(`[data-import-payer-key="${key}"]`).forEach(button => {
+                const selected = productImportPayers[key] && button.dataset.importPayerValue === productImportPayers[key];
+                button.classList.toggle('yn-choice-selected', !!selected);
+                button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+        }
+
         // Native delegated click handling for all yes/no branches.
         // This does not depend on inline onclick handlers or Tailwind class ordering.
         document.addEventListener('click', function(event) {
@@ -993,6 +1007,16 @@
             if (sourceButton) {
                 event.preventDefault();
                 selectProductSource(sourceButton.dataset.productSource);
+                return;
+            }
+
+            const importPayerButton = event.target.closest('.import-payer-choice[data-import-payer-key][data-import-payer-value]');
+            if (importPayerButton) {
+                event.preventDefault();
+                setProductImportPayer(
+                    importPayerButton.dataset.importPayerKey,
+                    importPayerButton.dataset.importPayerValue
+                );
                 return;
             }
 
