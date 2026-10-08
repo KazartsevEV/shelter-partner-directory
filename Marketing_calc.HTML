@@ -1107,11 +1107,6 @@
                             <input id="own-product-ad-budget" type="number" min="0" step="0.01" value="150" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Среднее количество <span class="product-name-live"></span> в 1 покупке</label>
-                            <input id="own-product-ad-units-order" type="number" min="0.01" step="0.01" value="1" class="input-field" oninput="recalculateProductAdFunnel()">
-                        </div>
-
                     </div>
 
                     <div class="rounded-xl border border-violet-200 bg-violet-50 p-4 space-y-4">
@@ -2399,15 +2394,13 @@
             const ctrPct = Math.max(0, Number(input['own-product-ad-ctr']) || 0);
             const clickLeadPct = Math.max(0, Number(input['own-product-ad-click-lead']) || 0);
             const leadSalePct = Math.max(0, Number(input['own-product-ad-lead-sale']) || 0);
-            const unitsPerOrder = Math.max(0, Number(input['own-product-ad-units-order']) || 0);
             const management = Math.max(0, Number(input['own-product-ad-management']) || 0);
 
             const clicks = cpc > 0 ? budget / cpc : 0;
             const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;
             const leads = clicks * clickLeadPct / 100;
             const orders = leads * leadSalePct / 100;
-            const forecastUnits = orders * unitsPerOrder;
-            const baseCac = forecastUnits > 0 ? budget / forecastUnits : null;
+            const baseCac = orders > 0 ? budget / orders : null;
 
             const prepared = items.map(item => {
                 const unitCost =
@@ -2477,7 +2470,7 @@
                     budget * revenueWeight;
 
                 const forecastSales =
-                    forecastUnits * row.salesMix;
+                    orders * row.salesMix;
 
                 const revenue =
                     row.price !== null
@@ -2528,10 +2521,7 @@
             const totalEbitdaBeforeShared = resultItems.reduce((sum, row) => sum + row.ebitda, 0);
 
             // Shared costs are deducted once at the business level.
-            const salesFixedShared = Math.max(
-                0,
-                ...items.map(item => Number(item.salesFixedMonthly || 0))
-            );
+            const salesFixedShared = Math.max(0, Number(funnelSource.salesFixedMonthly || 0));
             const sharedBusinessCosts = management + salesFixedShared;
             const businessEbitda = totalEbitdaBeforeShared - sharedBusinessCosts;
 
@@ -2550,12 +2540,10 @@
                     ctrPct,
                     clickLeadPct,
                     leadSalePct,
-                    unitsPerOrder,
                     clicks,
                     impressions,
                     leads,
                     orders,
-                    forecastUnits,
                     baseCac,
                     management
                 },
@@ -4336,14 +4324,13 @@
             const ctrPct = productNumber('own-product-ad-ctr');
             const clickLeadPct = productNumber('own-product-ad-click-lead');
             const leadSalePct = productNumber('own-product-ad-lead-sale');
-            const unitsPerOrder = Math.max(0, productNumber('own-product-ad-units-order'));
             const management = productNumber('own-product-ad-management');
 
             const clicks = cpc > 0 ? budget / cpc : 0;
             const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;
             const leads = clicks * clickLeadPct / 100;
             const orders = leads * leadSalePct / 100;
-            const units = orders * unitsPerOrder;
+            const units = orders;
 
             const mediaPerUnit = units > 0 ? budget / units : 0;
             const managementPerUnit = units > 0 ? management / units : 0;
@@ -4377,8 +4364,8 @@
             if (note) {
                 if (budget > 0 && cpc <= 0) {
                     note.textContent = 'Укажите CPC больше 0, чтобы построить воронку.';
-                } else if (clicks > 0 && (clickLeadPct <= 0 || leadSalePct <= 0 || unitsPerOrder <= 0)) {
-                    note.textContent = 'Укажите конверсии и среднее количество единиц в покупке больше 0, чтобы рассчитать стоимость продажи 1 ед.';
+                } else if (clicks > 0 && (clickLeadPct <= 0 || leadSalePct <= 0)) {
+                    note.textContent = 'Укажите обе конверсии больше 0, чтобы рассчитать стоимость продажи 1 ед.';
                 } else if (units > 0) {
                     note.textContent = 'Формула: (рекламный бюджет + ведение рекламы) ÷ прогноз проданных единиц. CTR влияет на прогноз показов, но при заданном CPC не меняет стоимость клика.';
                 } else {
