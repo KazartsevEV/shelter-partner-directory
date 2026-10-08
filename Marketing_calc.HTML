@@ -33,6 +33,9 @@
             color: #1d4ed8;
             font-weight: 600;
         }
+        [data-product-collapsible][hidden] {
+            display: none !important;
+        }
 
         #monthly-breakdown-table {
             table-layout: fixed;
@@ -224,10 +227,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">НДС уже включён в себестоимость материалов?</div>
                         <div class="flex gap-2 mt-3">
-                            <button type="button" data-yn-group="vatIncluded" data-yn-value="yes" onclick="selectProductYesNo('vatIncluded','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="vatIncluded" data-yn-value="no" onclick="selectProductYesNo('vatIncluded','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="vatIncluded" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="vatIncluded" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-vat-rate-wrap" class="hidden mt-3">
+                        <div id="own-vat-rate-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-xs text-slate-500 mb-1">Ставка НДС на материалы, %</label>
                             <input id="own-vat-rate" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateInboundDeliveryDefault()">
                             <p class="text-xs text-slate-400 mt-1">Если НДС не применяется — оставьте 0.</p>
@@ -237,10 +240,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Доставка материалов до меня уже включена в себестоимость?</div>
                         <div class="flex gap-2 mt-3">
-                            <button type="button" data-yn-group="inboundIncluded" data-yn-value="yes" onclick="selectProductYesNo('inboundIncluded','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="inboundIncluded" data-yn-value="no" onclick="selectProductYesNo('inboundIncluded','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="inboundIncluded" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="inboundIncluded" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-inbound-cost-wrap" class="hidden mt-3">
+                        <div id="own-inbound-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Стоимость доставки материалов до меня</label>
                             <input id="own-inbound-delivery-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="markInboundDeliveryManual()">
                             <p class="text-xs text-slate-400 mt-1">
@@ -252,21 +255,21 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Материалы везут ко мне из-за границы?</div>
                         <div class="flex gap-2 mt-3">
-                            <button type="button" data-yn-group="materialsImported" data-yn-value="yes" onclick="selectProductYesNo('materialsImported','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="materialsImported" data-yn-value="no" onclick="selectProductYesNo('materialsImported','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="materialsImported" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="materialsImported" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                     </div>
 
-                    <div id="own-import-details" class="hidden rounded-lg border border-blue-100 bg-blue-50/30 p-4 space-y-5">
+                    <div id="own-import-details" class="hidden rounded-lg border border-blue-100 bg-blue-50/30 p-4 space-y-5" hidden data-product-collapsible>
                         <h3 class="font-semibold text-slate-900">Импорт, таможня и разрешительные расходы</h3>
 
                         <div>
                             <div class="text-sm font-medium text-slate-800">Услуги брокера</div>
                             <div class="flex gap-2 mt-2">
-                                <button type="button" data-yn-group="broker" data-yn-value="yes" onclick="selectProductYesNo('broker','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="broker" data-yn-value="no" onclick="selectProductYesNo('broker','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                                <button type="button" data-yn-group="broker" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="broker" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                             </div>
-                            <div id="own-broker-cost-wrap" class="hidden mt-3">
+                            <div id="own-broker-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
                                 <label class="block text-xs text-slate-500 mb-1">Стоимость услуг брокера</label>
                                 <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                             </div>
@@ -275,10 +278,10 @@
                         <div>
                             <div class="text-sm font-medium text-slate-800">Страхование груза</div>
                             <div class="flex gap-2 mt-2">
-                                <button type="button" data-yn-group="cargoInsurance" data-yn-value="yes" onclick="selectProductYesNo('cargoInsurance','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="cargoInsurance" data-yn-value="no" onclick="selectProductYesNo('cargoInsurance','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                                <button type="button" data-yn-group="cargoInsurance" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="cargoInsurance" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                             </div>
-                            <div id="own-cargo-insurance-cost-wrap" class="hidden mt-3">
+                            <div id="own-cargo-insurance-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
                                 <label class="block text-xs text-slate-500 mb-1">Стоимость страхования груза</label>
                                 <input id="own-cargo-insurance-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                             </div>
@@ -287,10 +290,10 @@
                         <div>
                             <div class="text-sm font-medium text-slate-800">Пошлины и сборы</div>
                             <div class="flex gap-2 mt-2">
-                                <button type="button" data-yn-group="duties" data-yn-value="yes" onclick="selectProductYesNo('duties','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="duties" data-yn-value="no" onclick="selectProductYesNo('duties','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                                <button type="button" data-yn-group="duties" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="duties" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                             </div>
-                            <div id="own-duties-cost-wrap" class="hidden mt-3">
+                            <div id="own-duties-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
                                 <label class="block text-xs text-slate-500 mb-1">Сумма пошлин и сборов</label>
                                 <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                             </div>
@@ -299,10 +302,10 @@
                         <div>
                             <div class="text-sm font-medium text-slate-800">Сертификация и разрешительная документация</div>
                             <div class="flex gap-2 mt-2">
-                                <button type="button" data-yn-group="certification" data-yn-value="yes" onclick="selectProductYesNo('certification','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                                <button type="button" data-yn-group="certification" data-yn-value="no" onclick="selectProductYesNo('certification','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                                <button type="button" data-yn-group="certification" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                                <button type="button" data-yn-group="certification" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                             </div>
-                            <div id="own-certification-cost-wrap" class="hidden mt-3">
+                            <div id="own-certification-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
                                 <label class="block text-xs text-slate-500 mb-1">Стоимость сертификации и документов</label>
                                 <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                             </div>
@@ -321,10 +324,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Хранение на складе</div>
                         <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="warehouse" data-yn-value="yes" onclick="selectProductYesNo('warehouse','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="warehouse" data-yn-value="no" onclick="selectProductYesNo('warehouse','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="warehouse" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="warehouse" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-warehouse-details" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                        <div id="own-warehouse-details" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3" hidden data-product-collapsible>
                             <div>
                                 <label class="block text-xs text-slate-500 mb-1">Срок хранения, дней</label>
                                 <input id="own-storage-days" type="number" min="0" step="1" value="0" class="input-field">
@@ -339,10 +342,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Доставка до покупателя</div>
                         <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="customerDelivery" data-yn-value="yes" onclick="selectProductYesNo('customerDelivery','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="customerDelivery" data-yn-value="no" onclick="selectProductYesNo('customerDelivery','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="customerDelivery" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="customerDelivery" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-customer-delivery-details" class="hidden mt-3 space-y-4">
+                        <div id="own-customer-delivery-details" class="hidden mt-3 space-y-4" hidden data-product-collapsible>
                             <div>
                                 <label class="block text-xs text-slate-500 mb-1">Стоимость доставки, % от стоимости товара</label>
                                 <input id="own-customer-delivery-pct" type="number" min="0" step="0.01" value="10" class="input-field">
@@ -368,10 +371,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Есть комиссия агрегатора / маркетплейса / дилера / продавца?</div>
                         <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="salesCommission" data-yn-value="yes" onclick="selectProductYesNo('salesCommission','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="salesCommission" data-yn-value="no" onclick="selectProductYesNo('salesCommission','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="salesCommission" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="salesCommission" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-sales-commission-wrap" class="hidden mt-3">
+                        <div id="own-sales-commission-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-xs text-slate-500 mb-1">Комиссия, % от оборота</label>
                             <input id="own-sales-commission-pct" type="number" min="0" step="0.01" value="0" class="input-field">
                             <p class="text-xs text-slate-400 mt-1">Для маркетплейса, точки на рынке, магазина партнёра и аналогичных каналов.</p>
@@ -381,10 +384,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Есть зарплаты и другие вознаграждения?</div>
                         <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="payroll" data-yn-value="yes" onclick="selectProductYesNo('payroll','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="payroll" data-yn-value="no" onclick="selectProductYesNo('payroll','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="payroll" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="payroll" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-payroll-wrap" class="hidden mt-3">
+                        <div id="own-payroll-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-xs text-slate-500 mb-1">Сумма зарплат и вознаграждений за период</label>
                             <input id="own-payroll-rewards" type="number" min="0" step="0.01" value="0" class="input-field">
                         </div>
@@ -393,10 +396,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Есть штрафы и удержания со стороны площадки / агрегатора?</div>
                         <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="platformPenalties" data-yn-value="yes" onclick="selectProductYesNo('platformPenalties','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="platformPenalties" data-yn-value="no" onclick="selectProductYesNo('platformPenalties','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="platformPenalties" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="platformPenalties" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-platform-penalties-wrap" class="hidden mt-3">
+                        <div id="own-platform-penalties-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-xs text-slate-500 mb-1">Средний процент штрафов и удержаний от оборота</label>
                             <input id="own-platform-penalties-pct" type="number" min="0" step="0.01" value="0" class="input-field">
                         </div>
@@ -405,10 +408,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Платите налог на оборот?</div>
                         <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="turnoverTax" data-yn-value="yes" onclick="selectProductYesNo('turnoverTax','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="turnoverTax" data-yn-value="no" onclick="selectProductYesNo('turnoverTax','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="turnoverTax" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="turnoverTax" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-turnover-tax-wrap" class="hidden mt-3">
+                        <div id="own-turnover-tax-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-xs text-slate-500 mb-1">Налог на оборот, %</label>
                             <input id="own-turnover-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field">
                         </div>
@@ -417,10 +420,10 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">Есть сотрудники, за которых платятся обязательные взносы?</div>
                         <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="employees" data-yn-value="yes" onclick="selectProductYesNo('employees','yes')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="employees" data-yn-value="no" onclick="selectProductYesNo('employees','no')" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                            <button type="button" data-yn-group="employees" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
+                            <button type="button" data-yn-group="employees" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
-                        <div id="own-employees-details" class="hidden mt-3 space-y-4">
+                        <div id="own-employees-details" class="hidden mt-3 space-y-4" hidden data-product-collapsible>
                             <div>
                                 <label class="block text-xs text-slate-500 mb-1">Количество сотрудников, за которых платятся взносы</label>
                                 <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field">
@@ -819,7 +822,9 @@
 
         function setProductHidden(id, hidden) {
             const el = document.getElementById(id);
-            if (el) el.classList.toggle('hidden', hidden);
+            if (!el) return;
+            el.hidden = hidden;
+            el.classList.toggle('hidden', hidden);
         }
 
         function setProductFieldZero(id) {
@@ -955,7 +960,10 @@
 
             if (source === 'own') {
                 initProductOwnForm();
-                ownForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                requestAnimationFrame(() => {
+                    Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
+                    ownForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
             }
         }
 
@@ -964,6 +972,15 @@
             setProductChoiceVisual(group, value);
             syncProductOwnVisibility(group);
         }
+
+        // Native delegated click handling for all yes/no branches.
+        // This does not depend on inline onclick handlers or Tailwind class ordering.
+        document.addEventListener('click', function(event) {
+            const button = event.target.closest('.yn-choice[data-yn-group][data-yn-value]');
+            if (!button) return;
+            event.preventDefault();
+            selectProductYesNo(button.dataset.ynGroup, button.dataset.ynValue);
+        });
 
         function selectServiceMode(mode) {
             serviceMode = mode;
