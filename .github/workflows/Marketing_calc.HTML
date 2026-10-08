@@ -582,27 +582,98 @@
                         </div>
                         <div id="own-employees-details" class="hidden mt-3 space-y-4" hidden data-product-collapsible>
                             <div>
-                                <label class="block text-xs text-slate-500 mb-1">Количество сотрудников, за которых вы платите взносы</label>
-                                <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
-                                <p class="text-xs text-slate-400 mt-1">Самозанятых не включайте. ИП включайте, если по вашему режиму вы платите за него такие взносы.</p>
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-500 mb-1">Средняя зарплата одного сотрудника за месяц</label>
-                                <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-500 mb-1">Страна начисления обязательных взносов</label>
+                                <label class="block text-xs text-slate-500 mb-1">Страна расчёта зарплаты, взносов и налогов</label>
                                 <select id="own-insurance-country" class="input-field bg-white" onchange="applyCountryInsuranceRate()"></select>
                                 <p class="text-xs text-slate-400 mt-1">По умолчанию — 🇰🇿 Казахстан.</p>
                             </div>
+
                             <div>
-                                <label class="block text-xs text-slate-500 mb-1">Ставка обязательных взносов работодателя, %</label>
-                                <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="11.5" class="input-field" oninput="markInsuranceRateManual(); updateEmployeeContributionEstimate()">
-                                <p id="own-insurance-rate-note" class="text-xs text-slate-400 mt-1"></p>
+                                <label class="block text-xs text-slate-500 mb-1">Количество сотрудников, за которых вы платите зарплату, взносы и налоги</label>
+                                <input id="own-employees-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                <p class="text-xs text-slate-400 mt-1">Самозанятых не включайте. ИП включайте, если по вашему режиму вы платите за него обязательные платежи.</p>
                             </div>
-                            <div class="rounded-lg bg-slate-50 border border-slate-200 p-3">
-                                <div class="text-xs text-slate-500">Оценочные обязательные взносы работодателя за месяц</div>
-                                <div id="own-insurance-monthly-estimate" class="text-lg font-semibold text-slate-900 mt-1">0,00</div>
+
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Средняя начисленная зарплата одного сотрудника за месяц</label>
+                                <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                <p class="text-xs text-slate-400 mt-1">Используйте начисленную зарплату до удержаний сотрудника.</p>
+                            </div>
+
+                            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 space-y-4">
+                                <div class="font-semibold text-slate-900">Начисления работодателя сверх зарплаты</div>
+
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Обязательные страховые / социальные взносы работодателя, %</label>
+                                    <input id="own-insurance-contribution-pct" type="number" min="0" step="0.01" value="11.5" class="input-field" oninput="markInsuranceRateManual(); updateEmployeeContributionEstimate()">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Налоги работодателя на фонд оплаты труда, %</label>
+                                    <input id="own-employer-payroll-tax-pct" type="number" min="0" step="0.01" value="6" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Другие обязательные начисления работодателя, %</label>
+                                    <input id="own-employer-other-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Фиксированные обязательные платежи на 1 сотрудника / месяц</label>
+                                    <input id="own-employer-fixed-per-employee" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                </div>
+
+                                <p id="own-insurance-rate-note" class="text-xs text-slate-400"></p>
+                            </div>
+
+                            <div class="rounded-lg border border-slate-200 bg-white p-4 space-y-4">
+                                <div class="font-semibold text-slate-900">Удержания из зарплаты сотрудника</div>
+                                <p class="text-xs text-slate-400">Эти суммы уменьшают выплату сотруднику на руки, но не прибавляются второй раз к расходам работодателя.</p>
+
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Подоходный налог сотрудника, %</label>
+                                    <input id="own-employee-income-tax-pct" type="number" min="0" step="0.01" value="10" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Пенсионные / социальные / медицинские удержания сотрудника, %</label>
+                                    <input id="own-employee-withholding-pct" type="number" min="0" step="0.01" value="12" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Прочие удержания сотрудника, %</label>
+                                    <input id="own-employee-other-withholding-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
+                                </div>
+                            </div>
+
+                            <div class="rounded-lg bg-slate-50 border border-slate-200 p-4 space-y-2">
+                                <div class="flex justify-between gap-4 text-xs text-slate-500">
+                                    <span>Начисленная зарплата / месяц</span>
+                                    <span id="own-payroll-gross-estimate" class="font-semibold text-slate-900">0,00</span>
+                                </div>
+                                <div class="flex justify-between gap-4 text-xs text-slate-500">
+                                    <span>Взносы работодателя / месяц</span>
+                                    <span id="own-insurance-monthly-estimate" class="font-semibold text-slate-900">0,00</span>
+                                </div>
+                                <div class="flex justify-between gap-4 text-xs text-slate-500">
+                                    <span>Налоги работодателя на ФОТ / месяц</span>
+                                    <span id="own-employer-payroll-tax-estimate" class="font-semibold text-slate-900">0,00</span>
+                                </div>
+                                <div class="flex justify-between gap-4 text-xs text-slate-500">
+                                    <span>Другие начисления работодателя / месяц</span>
+                                    <span id="own-employer-other-estimate" class="font-semibold text-slate-900">0,00</span>
+                                </div>
+                                <div class="flex justify-between gap-4 text-xs text-slate-500">
+                                    <span>Фиксированные платежи / месяц</span>
+                                    <span id="own-employer-fixed-estimate" class="font-semibold text-slate-900">0,00</span>
+                                </div>
+                                <div class="border-t border-slate-200 pt-2 mt-2 flex justify-between gap-4 text-sm">
+                                    <span class="font-semibold text-slate-800">Полная стоимость сотрудников бизнесу / месяц</span>
+                                    <span id="own-employer-total-cost-estimate" class="font-bold text-slate-900">0,00</span>
+                                </div>
+                                <div class="flex justify-between gap-4 text-xs text-slate-500">
+                                    <span>Оценочно сотрудникам на руки / месяц</span>
+                                    <span id="own-employee-net-estimate" class="font-semibold text-slate-900">0,00</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -983,6 +1054,9 @@
             AE: 12.5, GB: 13.8, US: 7.65, UY: 12.63, UZ: 12, VE: 17, VN: 21.5,
             ZM: 5
         };
+        const employerPayrollTaxRates = { KZ: 6 };
+        const employeeIncomeTaxRates = { KZ: 10 };
+        const employeeWithholdingRates = { KZ: 12 };
         let insuranceRateManual = false;
 
         function countryFlag(code) {
@@ -1022,23 +1096,29 @@
 
         function applyCountryInsuranceRate(force = false) {
             const select = document.getElementById('own-insurance-country');
-            const rateInput = document.getElementById('own-insurance-contribution-pct');
+            const contributionInput = document.getElementById('own-insurance-contribution-pct');
+            const employerTaxInput = document.getElementById('own-employer-payroll-tax-pct');
+            const employeeTaxInput = document.getElementById('own-employee-income-tax-pct');
+            const employeeWithholdingInput = document.getElementById('own-employee-withholding-pct');
             const note = document.getElementById('own-insurance-rate-note');
-            if (!select || !rateInput) return;
+            if (!select || !contributionInput) return;
 
             const code = select.value || 'KZ';
-            const rate = employerContributionRates[code];
+            const contributionRate = employerContributionRates[code];
 
             insuranceRateManual = false;
-            rateInput.value = Number.isFinite(rate) ? rate : 0;
+            contributionInput.value = Number.isFinite(contributionRate) ? contributionRate : 0;
+            if (employerTaxInput) employerTaxInput.value = Number.isFinite(employerPayrollTaxRates[code]) ? employerPayrollTaxRates[code] : 0;
+            if (employeeTaxInput) employeeTaxInput.value = Number.isFinite(employeeIncomeTaxRates[code]) ? employeeIncomeTaxRates[code] : 0;
+            if (employeeWithholdingInput) employeeWithholdingInput.value = Number.isFinite(employeeWithholdingRates[code]) ? employeeWithholdingRates[code] : 0;
 
             if (note) {
                 if (code === 'KZ') {
-                    note.textContent = 'Казахстан: 11,5% = социальные отчисления 5% + ОПВР 3,5% + ОСМС работодателя 3%. Социальный налог не включён.';
-                } else if (Number.isFinite(rate)) {
-                    note.textContent = 'Справочная ставка работодателя. Пороговые базы, льготы и специальные режимы могут менять фактическую сумму.';
+                    note.textContent = 'Казахстан: взносы работодателя 11,5% и налог работодателя на ФОТ 6% показаны отдельными строками. Удержания сотрудника считаются отдельно и не увеличивают расход работодателя второй раз.';
+                } else if (Number.isFinite(contributionRate)) {
+                    note.textContent = 'Для этой страны автоматически подставлена справочная ставка взносов работодателя. Налоги на ФОТ и удержания сотрудника оставлены отдельными редактируемыми полями.';
                 } else {
-                    note.textContent = 'В справочнике нет единой ставки для этой страны — введите применимую ставку вручную.';
+                    note.textContent = 'Для этой страны нет единой справочной ставки — заполните применимые взносы и налоги вручную.';
                 }
             }
 
@@ -1048,15 +1128,45 @@
         function updateEmployeeContributionEstimate() {
             const count = Math.max(0, Number(document.getElementById('own-employees-count')?.value) || 0);
             const salary = Math.max(0, Number(document.getElementById('own-employee-salary')?.value) || 0);
-            const rate = Math.max(0, Number(document.getElementById('own-insurance-contribution-pct')?.value) || 0);
-            const estimate = count * salary * rate / 100;
-            const output = document.getElementById('own-insurance-monthly-estimate');
-            if (output) {
-                output.textContent = estimate.toLocaleString('ru-RU', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-            }
+            const gross = count * salary;
+
+            const contributionRate = Math.max(0, Number(document.getElementById('own-insurance-contribution-pct')?.value) || 0);
+            const employerTaxRate = Math.max(0, Number(document.getElementById('own-employer-payroll-tax-pct')?.value) || 0);
+            const employerOtherRate = Math.max(0, Number(document.getElementById('own-employer-other-pct')?.value) || 0);
+            const fixedPerEmployee = Math.max(0, Number(document.getElementById('own-employer-fixed-per-employee')?.value) || 0);
+
+            const employeeTaxRate = Math.max(0, Number(document.getElementById('own-employee-income-tax-pct')?.value) || 0);
+            const employeeWithholdingRate = Math.max(0, Number(document.getElementById('own-employee-withholding-pct')?.value) || 0);
+            const employeeOtherWithholdingRate = Math.max(0, Number(document.getElementById('own-employee-other-withholding-pct')?.value) || 0);
+
+            const employerContributions = gross * contributionRate / 100;
+            const employerPayrollTax = gross * employerTaxRate / 100;
+            const employerOther = gross * employerOtherRate / 100;
+            const employerFixed = count * fixedPerEmployee;
+            const employerTotalCost = gross + employerContributions + employerPayrollTax + employerOther + employerFixed;
+
+            const employeeWithheld = gross * (employeeTaxRate + employeeWithholdingRate + employeeOtherWithholdingRate) / 100;
+            const employeeNet = Math.max(0, gross - employeeWithheld);
+
+            const values = {
+                'own-payroll-gross-estimate': gross,
+                'own-insurance-monthly-estimate': employerContributions,
+                'own-employer-payroll-tax-estimate': employerPayrollTax,
+                'own-employer-other-estimate': employerOther,
+                'own-employer-fixed-estimate': employerFixed,
+                'own-employer-total-cost-estimate': employerTotalCost,
+                'own-employee-net-estimate': employeeNet
+            };
+
+            Object.entries(values).forEach(([id, value]) => {
+                const output = document.getElementById(id);
+                if (output) {
+                    output.textContent = value.toLocaleString('ru-RU', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            });
         }
 
         function submitProductIntro(event) {
@@ -1223,7 +1333,17 @@
                     payroll: ['own-payroll-rewards'],
                     platformPenalties: ['own-platform-penalties-pct'],
                     turnoverTax: ['own-turnover-tax-pct'],
-                    employees: ['own-employees-count', 'own-employee-salary', 'own-insurance-contribution-pct']
+                    employees: [
+                        'own-employees-count',
+                        'own-employee-salary',
+                        'own-insurance-contribution-pct',
+                        'own-employer-payroll-tax-pct',
+                        'own-employer-other-pct',
+                        'own-employer-fixed-per-employee',
+                        'own-employee-income-tax-pct',
+                        'own-employee-withholding-pct',
+                        'own-employee-other-withholding-pct'
+                    ]
                 };
                 (zeroFields[group] || []).forEach(setProductFieldZero);
                 if (group === 'employees') updateEmployeeContributionEstimate();
