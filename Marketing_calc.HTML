@@ -210,6 +210,8 @@
     <section id="product-screen" class="max-w-4xl mx-auto hidden">
         <button onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
 
+        <div id="completed-product-forms" class="space-y-5 mb-5"></div>
+
         <div class="card p-6 md:p-8">
             <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар</div>
             <h1 class="text-3xl font-bold text-slate-900">Что продаёте?</h1>
@@ -1962,14 +1964,68 @@
             document.getElementById('product-source-name').textContent = '';
             document.querySelectorAll('.product-name-live').forEach(el => { el.textContent = ''; });
 
-            window.scrollTo({ top: document.getElementById('product-screen').offsetTop, behavior: 'smooth' });
             nameInput.focus();
+        }
+
+        function freezeCurrentProductOnPage() {
+            const host = document.getElementById('completed-product-forms');
+            const screen = document.getElementById('product-screen');
+            const sourceBlock = document.getElementById('product-source-block');
+            if (!host || !screen || !sourceBlock || !productName) return;
+
+            const introCard = document.getElementById('product-name-input')?.closest('.card');
+            if (!introCard) return;
+
+            const frozen = document.createElement('section');
+            frozen.className = 'rounded-2xl border-2 border-slate-200 bg-slate-50 p-3 md:p-4';
+            frozen.dataset.completedProductId = String(currentProductSequence);
+
+            const heading = document.createElement('div');
+            heading.className = 'mb-3 px-1';
+            heading.innerHTML =
+                '<div class="text-xs uppercase tracking-[0.16em] text-blue-600 font-semibold">Заполненный товар</div>' +
+                '<div class="text-xl font-bold text-slate-900 mt-1"></div>';
+            heading.querySelector('.text-xl').textContent = '«' + productName + '»';
+            frozen.appendChild(heading);
+
+            const introClone = introCard.cloneNode(true);
+            const sourceClone = sourceBlock.cloneNode(true);
+            [introClone, sourceClone].forEach(clone => {
+                clone.removeAttribute('id');
+                clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+                clone.querySelectorAll('[onclick], [oninput], [onchange], [onsubmit]').forEach(el => {
+                    el.removeAttribute('onclick');
+                    el.removeAttribute('oninput');
+                    el.removeAttribute('onchange');
+                    el.removeAttribute('onsubmit');
+                });
+                clone.querySelectorAll('button').forEach(button => {
+                    button.disabled = true;
+                    button.classList.add('cursor-default');
+                });
+                clone.querySelectorAll('input, select, textarea').forEach(field => {
+                    field.disabled = true;
+                });
+                clone.querySelectorAll('#product-assortment-gate, #product-tax-block').forEach(el => el.remove());
+                clone.hidden = false;
+                clone.classList.remove('hidden');
+                frozen.appendChild(clone);
+            });
+
+            host.appendChild(frozen);
         }
 
         function addAnotherProduct() {
             saveCurrentProductToPortfolio();
+            freezeCurrentProductOnPage();
             currentProductSequence += 1;
             resetCurrentProductForNext();
+
+            const host = document.getElementById('completed-product-forms');
+            const currentIntro = document.getElementById('product-name-input')?.closest('.card');
+            if (host && currentIntro) {
+                currentIntro.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         function submitProductIntro(event) {
