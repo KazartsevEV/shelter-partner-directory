@@ -227,7 +227,7 @@
             months: 3,
             mgmt: 150.00,
             site: 300.00,
-            tilda: 30.00,
+            hosting: 30.00,
             dom: 5.00,
             magnet: 20.00,
             acq: 3.60,
@@ -248,7 +248,7 @@
             { key: 'months', label: 'Период расчёта (месяцев)', type: 'num' },
             { key: 'mgmt', label: 'Настройка и ведение рекламы', type: 'money' },
             { key: 'site', label: 'Разработка сайта', type: 'money' },
-            { key: 'tilda', label: 'Tilda', type: 'money' },
+            { key: 'hosting', label: 'Хостинг / конструктор сайта', type: 'money' },
             { key: 'dom', label: 'Домен', type: 'money' },
             { key: 'magnet', label: 'Лид-магнит', type: 'money' },
             { key: 'acq', label: 'Комиссия эквайринга', type: 'pct' },
@@ -258,12 +258,12 @@
         let serviceMode = 'self';
         let currentValues = { ...defaults };
 
-        const agentExpenseKeys = ['monthlyBudget', 'mgmt', 'site', 'tilda', 'dom', 'magnet'];
+        const agentExpenseKeys = ['monthlyBudget', 'mgmt', 'site', 'hosting', 'dom', 'magnet'];
         const defaultAgentPayers = {
             monthlyBudget: 'partner',
             mgmt: 'partner',
             site: 'partner',
-            tilda: 'partner',
+            hosting: 'partner',
             dom: 'partner',
             magnet: 'partner'
         };
@@ -406,7 +406,7 @@
             } else if (mode === 'agent') {
                 badge.textContent = 'Услуга · агент';
                 context.classList.remove('hidden');
-                context.textContent = 'Для каждой прямой статьи расходов выберите, кто её оплачивает: Я или Партнёр. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса. Ваш процент всегда считается расходом партнёра. Налоги агента модель не предполагает.';
+                context.textContent = 'Для каждой прямой статьи расходов выберите «Кто платит»: Я или Партнёр. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса. Ваш процент всегда считается расходом партнёра. Налоги агента модель не предполагает.';
             }
 
             document.getElementById('summary-title').textContent =
@@ -464,7 +464,7 @@
 
             const partnerBudget = isAgent && agentPayers.monthlyBudget === 'me' ? 0 : totalBudget;
             const partnerMgmt = isAgent && agentPayers.mgmt === 'me' ? 0 : v.mgmt;
-            const partnerTilda = isAgent && agentPayers.tilda === 'me' ? 0 : v.tilda;
+            const partnerHosting = isAgent && agentPayers.hosting === 'me' ? 0 : v.hosting;
             const partnerDom = isAgent && agentPayers.dom === 'me' ? 0 : v.dom;
             const siteAmort = isAgent && agentPayers.site === 'me' ? 0 : v.site * months / 12;
             const magnetAmort = isAgent && agentPayers.magnet === 'me' ? 0 : v.magnet * months / 12;
@@ -473,12 +473,12 @@
                 ? (agentPayers.monthlyBudget === 'me' ? totalBudget : 0)
                     + (agentPayers.mgmt === 'me' ? v.mgmt : 0)
                     + (agentPayers.site === 'me' ? v.site : 0)
-                    + (agentPayers.tilda === 'me' ? v.tilda : 0)
+                    + (agentPayers.hosting === 'me' ? v.hosting : 0)
                     + (agentPayers.dom === 'me' ? v.dom : 0)
                     + (agentPayers.magnet === 'me' ? v.magnet : 0)
                 : 0;
 
-            const opex = partnerBudget + partnerMgmt + partnerTilda + partnerDom + acqAmount + executorCost + agentCost;
+            const opex = partnerBudget + partnerMgmt + partnerHosting + partnerDom + acqAmount + executorCost + agentCost;
             const totalCosts = opex + siteAmort + magnetAmort;
 
             const ebitda = netRevenue - opex;
@@ -518,7 +518,7 @@
 
             // Update Summary Table
             const summaryRows = [
-                ['Общий рекламный бюджет', formatMoney(totalBudget)],
+                [isAgent ? 'Общий рекламный бюджет — платит ' + payerLabel('monthlyBudget') : 'Общий рекламный бюджет', formatMoney(totalBudget)],
                 ['Количество кликов', formatInt(clicks)],
                 ['Количество показов', formatInt(impressions)],
                 ['Количество лидов', formatNum(leads)],
@@ -545,10 +545,9 @@
                 ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', formatMoney(agentIncome)]] : []),
                 ...(isHired ? [['Оплата исполнителю', formatMoney(executorCost)]] : []),
                 ...(isAgent ? [
-                    ['Рекламный бюджет — платит ' + payerLabel('monthlyBudget'), formatMoney(totalBudget)],
                     ['Ведение рекламы — платит ' + payerLabel('mgmt'), formatMoney(v.mgmt)],
                     ['Сайт — платит ' + payerLabel('site'), formatMoney(v.site)],
-                    ['Tilda — платит ' + payerLabel('tilda'), formatMoney(v.tilda)],
+                    ['Хостинг / конструктор сайта — платит ' + payerLabel('hosting'), formatMoney(v.hosting)],
                     ['Домен — платит ' + payerLabel('dom'), formatMoney(v.dom)],
                     ['Лид-магнит — платит ' + payerLabel('magnet'), formatMoney(v.magnet)]
                 ] : []),
@@ -637,7 +636,7 @@
                 const firstMonthPartnerExtras = m === 1
                     ? (isAgent && agentPayers.mgmt === 'me' ? 0 : v.mgmt)
                         + (isAgent && agentPayers.site === 'me' ? 0 : v.site)
-                        + (isAgent && agentPayers.tilda === 'me' ? 0 : v.tilda)
+                        + (isAgent && agentPayers.hosting === 'me' ? 0 : v.hosting)
                         + (isAgent && agentPayers.dom === 'me' ? 0 : v.dom)
                         + (isAgent && agentPayers.magnet === 'me' ? 0 : v.magnet)
                     : 0;
@@ -645,7 +644,7 @@
                 const firstMonthAgentExtras = isAgent && m === 1
                     ? (agentPayers.mgmt === 'me' ? v.mgmt : 0)
                         + (agentPayers.site === 'me' ? v.site : 0)
-                        + (agentPayers.tilda === 'me' ? v.tilda : 0)
+                        + (agentPayers.hosting === 'me' ? v.hosting : 0)
                         + (agentPayers.dom === 'me' ? v.dom : 0)
                         + (agentPayers.magnet === 'me' ? v.magnet : 0)
                     : 0;
