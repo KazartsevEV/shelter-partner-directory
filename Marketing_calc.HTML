@@ -2009,8 +2009,7 @@
                     advancePct: '',
                     advanceLeadDays: '',
                     productionDays: '',
-                    targetMarginPct: '',
-                    salesMixPct: ''
+                    targetMarginPct: ''
                 },
                 inputs: Object.fromEntries(
                     Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id]'))
@@ -2417,15 +2416,6 @@
                     : null;
                 const marginRate = marginPct === null ? null : marginPct / 100;
 
-                const rawMix = item?.planning?.salesMixPct;
-                const mixWeight =
-                    rawMix !== '' &&
-                    rawMix !== null &&
-                    rawMix !== undefined &&
-                    Number.isFinite(Number(rawMix))
-                        ? Math.max(0, Number(rawMix))
-                        : (items.length === 1 ? 100 : 0);
-
                 const price =
                     baseCac !== null &&
                     marginRate !== null &&
@@ -2449,14 +2439,16 @@
                     unitCost,
                     marginPct,
                     marginRate,
-                    mixWeight,
                     price
                 };
             });
 
-            const mixTotal = prepared.reduce((sum, row) => sum + row.mixWeight, 0);
+            const totalForecastOrders = prepared.reduce((sum, row) => sum + row.orders, 0);
             prepared.forEach(row => {
-                row.salesMix = mixTotal > 0 ? row.mixWeight / mixTotal : 0;
+                row.salesMix =
+                    totalForecastOrders > 0
+                        ? row.orders / totalForecastOrders
+                        : 0;
             });
 
             const revenueWeightDenominator = prepared.reduce((sum, row) => {
@@ -2471,31 +2463,13 @@
             });
 
             const totalAdBudget = prepared.reduce((sum, row) => sum + row.budget, 0);
-            const totalForecastOrders = prepared.reduce((sum, row) => sum + row.orders, 0);
-
-            // Generalized portfolio ad-load:
-            // if every SKU has the same Base CAC this collapses exactly to
-            // AdBudget_i = TotalBudget * RevenueWeight_i
-            // WeightedCAC_i = BaseCAC * RevenueWeight_i / q_i.
-            const adLoadDenominator = prepared.reduce((sum, row) => {
-                return sum +
-                    (
-                        row.baseCac !== null
-                            ? row.baseCac * row.revenueWeight
-                            : 0
-                    );
-            }, 0);
 
             const resultItems = prepared.map(row => {
                 const adBudget =
-                    totalAdBudget > 0 && adLoadDenominator > 0 && row.baseCac !== null
-                        ? totalAdBudget *
-                          (row.baseCac * row.revenueWeight) /
-                          adLoadDenominator
-                        : 0;
+                    row.budget;
 
                 const forecastSales =
-                    totalForecastOrders * row.salesMix;
+                    row.orders;
 
                 const weightedCac =
                     forecastSales > 0
@@ -2788,17 +2762,6 @@
                 String(value).trim() === ''
                     ? ''
                     : Math.min(99.99, Math.max(0, Number(value) || 0));
-            refreshAllAggregatePricing();
-        }
-
-        function updateAggregateSalesMix(productId, value) {
-            const item = productPortfolio.find(product => product.id === Number(productId));
-            if (!item) return;
-            if (!item.planning) item.planning = {};
-            item.planning.salesMixPct =
-                String(value).trim() === ''
-                    ? ''
-                    : Math.max(0, Number(value) || 0);
             refreshAllAggregatePricing();
         }
 
@@ -3172,20 +3135,6 @@
                                     <span class="font-bold text-emerald-100">%</span>
                                 </div>
 
-                                <label class="block text-sm font-semibold mt-4 mb-2">
-                                    Прогнозная доля продаж «${esc(item.name)}» в штуках, %
-                                </label>
-                                <div class="flex items-center gap-2">
-                                    <input type="number"
-                                        min="0"
-                                        step="0.01"
-                                        value="${esc(planning.salesMixPct ?? (productPortfolio.length === 1 ? 100 : ''))}"
-                                        class="input-field"
-                                        placeholder="Например, 30"
-                                        oninput="updateAggregateSalesMix(${item.id}, this.value)">
-                                    <span class="font-bold text-emerald-100">%</span>
-                                </div>
-
                                 <div class="mt-4">
                                     <div class="aggregate-title text-sm font-medium">Работаете с НДС?</div>
                                     <div class="flex gap-2 mt-2">
@@ -3221,9 +3170,9 @@
                                         <span class="font-bold text-right" data-aggregate-price="revenueWeight">${(aggregatePricingMetrics(item).revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
                                         <span class="aggregate-muted">Base CAC этого SKU</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="baseCac">${aggregatePriceText(aggregatePricingMetrics(item).baseCac)}</span> у.е.*</span>
-                                        <span class="aggregate-muted">Weighted CAC товара</span>
+                                        <span class="aggregate-muted">Фактический CAC этого SKU</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="weightedCac">${aggregatePriceText(aggregatePricingMetrics(item).weightedCac)}</span> у.е.*</span>
-                                        <span class="aggregate-muted">Рекламный бюджет товара</span>
+                                        <span class="aggregate-muted">Рекламный бюджет этого SKU</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="adBudgetPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).adBudget)}</span> у.е.*</span>
                                         <span class="aggregate-muted">Прогноз продаж</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="forecastSalesPortfolio">${aggregatePricingMetrics(item).forecastSales.toLocaleString('ru-RU', { maximumFractionDigits: 2 })}</span> шт.</span>
