@@ -36,6 +36,10 @@
         [data-product-collapsible][hidden] {
             display: none !important;
         }
+        #product-source-block[hidden],
+        #product-own-form[hidden] {
+            display: none !important;
+        }
 
         #monthly-breakdown-table {
             table-layout: fixed;
@@ -187,28 +191,28 @@
             </form>
         </div>
 
-        <div id="product-source-block" class="card p-6 md:p-8 mt-5 hidden">
+        <div id="product-source-block" class="card p-6 md:p-8 mt-5 hidden" hidden>
             <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Шаг 2</div>
             <h2 class="text-2xl font-bold text-slate-900">
                 Откуда берёте <span id="product-source-name"></span>?
             </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                <button type="button" data-product-source="own" onclick="selectProductSource('own')" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button type="button" data-product-source="own" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
                     <div class="font-semibold text-slate-900">Делаю сам</div>
                 </button>
 
-                <button type="button" data-product-source="resale" onclick="selectProductSource('resale')" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button type="button" data-product-source="resale" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
                     <div class="font-semibold text-slate-900">Покупаю у других</div>
                 </button>
 
-                <button type="button" data-product-source="dropship" onclick="selectProductSource('dropship')" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button type="button" data-product-source="dropship" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
                     <div class="font-semibold text-slate-900">Дропшиппинг</div>
                 </button>
             </div>
         </div>
 
-        <div id="product-own-form" class="hidden mt-5 space-y-5">
+        <div id="product-own-form" class="hidden mt-5 space-y-5" hidden>
             <div class="card p-6 md:p-8">
                 <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Себестоимость</div>
                 <h2 class="text-2xl font-bold text-slate-900">
@@ -797,7 +801,12 @@
 
             if (!value) {
                 error.classList.remove('hidden');
-                document.getElementById('product-source-block').classList.add('hidden');
+                const sourceBlock = document.getElementById('product-source-block');
+                sourceBlock.hidden = true;
+                sourceBlock.classList.add('hidden');
+                const ownForm = document.getElementById('product-own-form');
+                ownForm.hidden = true;
+                ownForm.classList.add('hidden');
                 input.focus();
                 return;
             }
@@ -808,8 +817,10 @@
             document.querySelectorAll('.product-name-live').forEach(el => {
                 el.textContent = '«' + productName + '»';
             });
-            document.getElementById('product-source-block').classList.remove('hidden');
-            document.getElementById('product-source-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const sourceBlock = document.getElementById('product-source-block');
+            sourceBlock.hidden = false;
+            sourceBlock.classList.remove('hidden');
+            sourceBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function setProductChoiceVisual(group, value) {
@@ -956,7 +967,9 @@
             });
 
             const ownForm = document.getElementById('product-own-form');
-            ownForm.classList.toggle('hidden', source !== 'own');
+            const hideOwn = source !== 'own';
+            ownForm.hidden = hideOwn;
+            ownForm.classList.toggle('hidden', hideOwn);
 
             if (source === 'own') {
                 initProductOwnForm();
@@ -976,6 +989,13 @@
         // Native delegated click handling for all yes/no branches.
         // This does not depend on inline onclick handlers or Tailwind class ordering.
         document.addEventListener('click', function(event) {
+            const sourceButton = event.target.closest('.product-source-choice[data-product-source]');
+            if (sourceButton) {
+                event.preventDefault();
+                selectProductSource(sourceButton.dataset.productSource);
+                return;
+            }
+
             const button = event.target.closest('.yn-choice[data-yn-group][data-yn-value]');
             if (!button) return;
             event.preventDefault();
