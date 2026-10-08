@@ -891,7 +891,9 @@
             <div id="sales-cost-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
                 <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 4</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
-                    Расходы на продажу 1 ед. <span class="product-name-live"></span>
+                    Расходы на продажу 1 ед. <span class="product-name-live"></span> составляют
+                    <span id="own-sales-result-unit" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
+                    у.е.*.
                 </div>
 
                 <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -2998,6 +3000,9 @@
             if (fixedOut) fixedOut.textContent = moneyInputValue(fixedMonthly);
             const fixedPerUnitOut = document.getElementById('own-sales-fixed-per-unit');
             if (fixedPerUnitOut) fixedPerUnitOut.textContent = moneyInputValue(fixedPerUnit);
+
+            const resultUnitOut = document.getElementById('own-sales-result-unit');
+            if (resultUnitOut) resultUnitOut.textContent = moneyInputValue(fixedPerUnit);
 
             const variableOut = document.getElementById('own-sales-variable-pct');
             if (variableOut) variableOut.textContent = commissionPct.toLocaleString('ru-RU') + '%';
