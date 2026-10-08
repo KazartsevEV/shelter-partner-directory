@@ -577,37 +577,55 @@
             `).join('');
 
             // Monthly Breakdown
-            const monthlyRows = [
+            const monthlyRows = isAgent ? [
+                { section: 'Воронка и продажи партнёра' },
+                { label: 'Рекламный бюджет — платит ' + payerLabel('monthlyBudget'), key: 'mBudget', fmt: 'money' },
+                { label: 'Количество кликов', key: 'mClicks', fmt: 'int' },
+                { label: 'Количество лидов', key: 'mLeads', fmt: 'num' },
+                { label: 'Количество сделок', key: 'mDeals', fmt: 'num' },
+                { label: 'Продано пакетов', key: 'mPacks', fmt: 'num' },
+                { label: 'Объём продаж консультаций партнёра', key: 'mGrossRevCons', fmt: 'money' },
+                { label: 'Объём продаж пакетов партнёра', key: 'mGrossRevPack', fmt: 'money' },
+                { label: 'Общий объём продаж партнёра', key: 'mGrossSales', fmt: 'money' },
+
+                { section: 'Я — агент' },
+                { label: 'Моё вознаграждение до расходов', key: 'mAgentIncome', fmt: 'money' },
+                { label: 'Расходы, которые оплачиваю я', key: 'mAgentExpenses', fmt: 'money' },
+                { label: 'Мне остаётся', key: 'mAgentNet', fmt: 'money' },
+                { label: 'Накопленно мне остаётся', key: 'mAgentCum', fmt: 'money' },
+
+                { section: 'Партнёр' },
+                { label: 'Прямые расходы партнёра', key: 'mPartnerDirect', fmt: 'money' },
+                { label: 'Комиссия эквайринга партнёра', key: 'mAcq', fmt: 'money' },
+                { label: 'Вознаграждение агенту', key: 'mAgentIncome', fmt: 'money' },
+                { label: 'Общие расходы партнёра', key: 'mCosts', fmt: 'money' },
+                { label: 'EBITDA партнёра (до налога)', key: 'mEbitda', fmt: 'money' },
+                { label: 'Налог партнёра на оборот*', key: 'mTax', fmt: 'money' },
+                { label: 'Денежный поток партнёра', key: 'mCash', fmt: 'money' },
+                { label: 'Накопленный поток партнёра', key: 'mCum', fmt: 'money' },
+            ] : [
                 { label: 'Рекламный бюджет', key: 'mBudget', fmt: 'money' },
                 { label: 'Количество кликов', key: 'mClicks', fmt: 'int' },
                 { label: 'Количество лидов', key: 'mLeads', fmt: 'num' },
                 { label: 'Количество сделок', key: 'mDeals', fmt: 'num' },
                 { label: 'Продано пакетов', key: 'mPacks', fmt: 'num' },
-                ...(isAgent ? [
-                    { label: 'Объём продаж консультаций партнёра', key: 'mGrossRevCons', fmt: 'money' },
-                    { label: 'Объём продаж пакетов партнёра', key: 'mGrossRevPack', fmt: 'money' },
-                    { label: 'Общий объём продаж партнёра', key: 'mGrossSales', fmt: 'money' },
-                    { label: 'Моё вознаграждение до расходов', key: 'mAgentIncome', fmt: 'money' },
-                    { label: 'Мои расходы', key: 'mAgentExpenses', fmt: 'money' },
-                    { label: 'Мне остаётся', key: 'mAgentNet', fmt: 'money' }
-                ] : [
-                    { label: 'Выручка от консультаций', key: 'mRevCons', fmt: 'money' },
-                    { label: 'Выручка от пакетов', key: 'mRevPack', fmt: 'money' },
-                    { label: 'Общая выручка', key: 'mRevTotal', fmt: 'money' }
-                ]),
-                { label: isAgent ? 'Комиссия эквайринга партнёра' : 'Комиссия эквайринга', key: 'mAcq', fmt: 'money' },
-                { label: isAgent ? 'Чистая выручка партнёра' : 'Чистая выручка', key: 'mNetRev', fmt: 'money' },
+                { label: 'Выручка от консультаций', key: 'mRevCons', fmt: 'money' },
+                { label: 'Выручка от пакетов', key: 'mRevPack', fmt: 'money' },
+                { label: 'Общая выручка', key: 'mRevTotal', fmt: 'money' },
+                { label: 'Комиссия эквайринга', key: 'mAcq', fmt: 'money' },
+                { label: 'Чистая выручка', key: 'mNetRev', fmt: 'money' },
                 ...(isHired ? [{ label: 'Оплата исполнителю', key: 'mExecutor', fmt: 'money' }] : []),
-                { label: isAgent ? 'Расходы партнёра' : 'Расходы', key: 'mCosts', fmt: 'money' },
-                { label: isAgent ? 'EBITDA партнёра (до налога)' : 'EBITDA (до налога)', key: 'mEbitda', fmt: 'money' },
-                { label: isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', key: 'mTax', fmt: 'money' },
-                { label: isAgent ? 'Денежный поток партнёра' : 'Денежный поток', key: 'mCash', fmt: 'money' },
-                { label: isAgent ? 'Накопленный поток партнёра' : 'Накопленный поток', key: 'mCum', fmt: 'money' },
+                { label: 'Расходы', key: 'mCosts', fmt: 'money' },
+                { label: 'EBITDA (до налога)', key: 'mEbitda', fmt: 'money' },
+                { label: 'Налог на оборот*', key: 'mTax', fmt: 'money' },
+                { label: 'Денежный поток', key: 'mCash', fmt: 'money' },
+                { label: 'Накопленный поток', key: 'mCum', fmt: 'money' },
             ];
 
             let monthData = [];
             let totalMonth = {};
             let cumCash = 0;
+            let cumAgentNet = 0;
 
             for (let m = 1; m <= months; m++) {
                 let mBudget = v.monthlyBudget;
@@ -655,24 +673,28 @@
 
                 let mAgentExpenses = isAgent ? mAgentBudget + firstMonthAgentExtras : 0;
                 let mAgentNet = isAgent ? mAgentIncome - mAgentExpenses : 0;
+                cumAgentNet += mAgentNet;
+                let mAgentCum = cumAgentNet;
 
-                let mCosts = mPartnerBudget + firstMonthPartnerExtras + mAcq + mExecutor + mAgentIncome;
+                let mPartnerDirect = mPartnerBudget + firstMonthPartnerExtras + mExecutor;
+                let mCosts = mPartnerDirect + mAcq + mAgentIncome;
 
                 let mEbitda = mNetRev - mCosts;
                 let mTax = mRevTotal * (v.taxTurnover / 100);
                 let mCash = mEbitda - mTax;
                 cumCash += mCash;
 
-                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentNet, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
+                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentNet, mAgentCum, mPartnerDirect, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
                 monthData.push(row);
 
                 // Accumulate totals
                 for (let k in row) {
-                    if (k === 'mCum') continue;
+                    if (k === 'mCum' || k === 'mAgentCum') continue;
                     totalMonth[k] = (totalMonth[k] || 0) + row[k];
                 }
             }
             totalMonth.mCum = cumCash;
+            totalMonth.mAgentCum = cumAgentNet;
 
             const profitLabel = document.getElementById('res-profit-label');
             const profitSub = document.getElementById('res-profit-sub');
@@ -687,8 +709,8 @@
                 profitSub.textContent = 'Вознаграждение минус расходы, которые оплачиваю я; до налогов агента';
                 document.getElementById('res-profit').textContent = formatMoney(totalMonth.mAgentNet || 0);
 
-                romiLabel.textContent = 'Чистая прибыль партнёра';
-                romiSub.textContent = 'После его расходов, агентского вознаграждения и налога';
+                romiLabel.textContent = 'Расчётная прибыль партнёра';
+                romiSub.textContent = 'P&L за период; помесячный cash flow показан отдельно';
                 document.getElementById('res-romi').textContent = formatMoney(netProfit);
 
                 thirdLabel.textContent = 'Накопленный cash flow партнёра';
@@ -714,20 +736,33 @@
 
             const monthlyTbody = document.getElementById('monthly-table');
             monthlyTbody.innerHTML = monthlyRows.map(meta => {
+                if (meta.section) {
+                    return `<tr>
+                        <td colspan="${months + 2}" class="text-left px-3 py-2 bg-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wide border-y border-slate-300">
+                            ${meta.section}
+                        </td>
+                    </tr>`;
+                }
+
                 const cells = monthData.map(r => {
                     let val = r[meta.key];
                     let txt = meta.fmt === 'money' ? formatMoney(val) : (meta.fmt === 'int' ? formatInt(val) : formatNum(val));
-                    let color = (meta.key === 'mCash' || meta.key === 'mCum' || meta.key === 'mAgentNet') && val < 0 ? 'text-red-600' : 'text-slate-700';
+                    let color = (meta.key === 'mCash' || meta.key === 'mCum' || meta.key === 'mAgentNet' || meta.key === 'mAgentCum') && val < 0
+                        ? 'text-red-600'
+                        : 'text-slate-700';
                     return `<td class="td-val border-b border-slate-100 ${color}">${txt}</td>`;
                 }).join('');
 
                 let totalVal = totalMonth[meta.key];
                 let totalTxt = meta.fmt === 'money' ? formatMoney(totalVal) : (meta.fmt === 'int' ? formatInt(totalVal) : formatNum(totalVal));
+                let totalColor = (meta.key === 'mCash' || meta.key === 'mCum' || meta.key === 'mAgentNet' || meta.key === 'mAgentCum') && totalVal < 0
+                    ? 'text-red-700'
+                    : 'text-blue-900';
 
                 return `<tr class="hover:bg-slate-50 transition-colors">
                     <td class="td-label border-b border-slate-100 border-r border-slate-100 sticky left-0 bg-white z-10">${meta.label}</td>
                     ${cells}
-                    <td class="td-val border-b border-slate-100 bg-slate-100 font-bold text-blue-900 border-l border-slate-300">${totalTxt}</td>
+                    <td class="td-val border-b border-slate-100 bg-slate-100 font-bold ${totalColor} border-l border-slate-300">${totalTxt}</td>
                 </tr>`;
             }).join('');
         }
