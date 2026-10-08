@@ -932,6 +932,99 @@
             </div>
 
             <div class="card p-6 md:p-8">
+                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Рекламные расходы</div>
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Рекламные расходы на привлечение покупателей <span class="product-name-live"></span>
+                </h2>
+                <p class="text-sm text-slate-500 mt-2">
+                    Считаем воронку от рекламного бюджета до фактически проданных единиц товара. Цель — понять, сколько рекламных денег приходится на продажу 1 ед.
+                </p>
+
+                <div class="mt-6 space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Рекламный бюджет / месяц</label>
+                        <input id="own-product-ad-budget" type="number" min="0" step="0.01" value="150" class="input-field" oninput="recalculateProductAdFunnel()">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Средняя цена клика CPC</label>
+                        <input id="own-product-ad-cpc" type="number" min="0" step="0.01" value="0.33" class="input-field" oninput="recalculateProductAdFunnel()">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">CTR — кликабельность рекламы, %</label>
+                        <input id="own-product-ad-ctr" type="number" min="0" step="0.01" value="1.4" class="input-field" oninput="recalculateProductAdFunnel()">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Конверсия клик → лид / обращение, %</label>
+                        <input id="own-product-ad-click-lead" type="number" min="0" step="0.01" value="3" class="input-field" oninput="recalculateProductAdFunnel()">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Конверсия лид / обращение → покупка, %</label>
+                        <input id="own-product-ad-lead-sale" type="number" min="0" step="0.01" value="35" class="input-field" oninput="recalculateProductAdFunnel()">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Среднее количество <span class="product-name-live"></span> в 1 покупке</label>
+                        <input id="own-product-ad-units-order" type="number" min="0.01" step="0.01" value="1" class="input-field" oninput="recalculateProductAdFunnel()">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Настройка и ведение рекламы / месяц</label>
+                        <input id="own-product-ad-management" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateProductAdFunnel()">
+                        <p class="text-xs text-slate-400 mt-1">Если ведёте рекламу сами и не хотите учитывать эту стоимость — оставьте 0.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="product-ad-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
+                <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 5</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
+                    Чтобы продать 1 ед. <span class="product-name-live"></span>, нужно потратить на привлечение покупателя
+                    <span id="own-product-ad-cac-unit" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
+                    у.е.
+                </div>
+
+                <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
+                    <div class="grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
+                        <span class="text-slate-600">Показы / месяц</span>
+                        <span id="own-product-ad-impressions" class="font-semibold text-right">0</span>
+                        <span class="text-slate-600">Клики / месяц</span>
+                        <span id="own-product-ad-clicks" class="font-semibold text-right">0</span>
+                        <span class="text-slate-600">Лиды / обращения</span>
+                        <span id="own-product-ad-leads" class="font-semibold text-right">0</span>
+                        <span class="text-slate-600">Покупки / месяц</span>
+                        <span id="own-product-ad-orders" class="font-semibold text-right">0</span>
+                        <span class="text-slate-600">Продано единиц / месяц</span>
+                        <span id="own-product-ad-units" class="font-semibold text-right">0</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-xs text-slate-600 leading-relaxed">
+                    <div class="flex justify-between gap-3 py-0.5">
+                        <span>Чистый рекламный бюджет / 1 ед.</span>
+                        <span id="own-product-ad-media-unit" class="font-semibold text-slate-800">0,00</span>
+                    </div>
+                    <div class="flex justify-between gap-3 py-0.5">
+                        <span>Ведение рекламы / 1 ед.</span>
+                        <span id="own-product-ad-management-unit" class="font-semibold text-slate-800">0,00</span>
+                    </div>
+                    <div class="flex justify-between gap-3 py-0.5 border-t border-emerald-200 mt-2 pt-2">
+                        <span class="font-semibold text-slate-800">Полная стоимость привлечения / 1 ед.</span>
+                        <span id="own-product-ad-full-unit" class="font-bold text-emerald-800">0,00</span>
+                    </div>
+                </div>
+
+                <p id="own-product-ad-note" class="mt-3 text-xs text-slate-500"></p>
+
+                <button type="button" onclick="recalculateProductAdFunnel()" class="mt-5 w-full rounded-xl bg-emerald-600 text-white px-5 py-3.5 text-base font-bold shadow-md hover:bg-emerald-700 active:scale-[0.99] transition">
+                    Пересчитать
+                </button>
+            </div>
+
+            <div class="card p-6 md:p-8">
                 <div class="text-xs uppercase tracking-[0.18em] text-rose-600 font-semibold mb-2">Налоги</div>
                 <h2 class="text-2xl font-bold text-slate-900">Финальный налоговый блок</h2>
                 <p class="text-sm text-slate-500 mt-2">Налоги не включаются в расходы блока продаж дважды: они рассчитываются отдельно от комиссии, зарплат и штрафов.</p>
@@ -2368,6 +2461,7 @@
             recalculateProductionUnitCost();
             recalculateLogisticsUnitCost();
             recalculateSalesCostSummary();
+            recalculateProductAdFunnel();
         }
 
         function selectProductSource(source) {
@@ -2512,6 +2606,63 @@
                 .replace(',', '.')
                 .replace(/[^0-9.-]/g, '');
             return Math.max(0, Number(normalized) || 0);
+        }
+
+        function recalculateProductAdFunnel() {
+            const budget = productNumber('own-product-ad-budget');
+            const cpc = productNumber('own-product-ad-cpc');
+            const ctrPct = productNumber('own-product-ad-ctr');
+            const clickLeadPct = productNumber('own-product-ad-click-lead');
+            const leadSalePct = productNumber('own-product-ad-lead-sale');
+            const unitsPerOrder = Math.max(0, productNumber('own-product-ad-units-order'));
+            const management = productNumber('own-product-ad-management');
+
+            const clicks = cpc > 0 ? budget / cpc : 0;
+            const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;
+            const leads = clicks * clickLeadPct / 100;
+            const orders = leads * leadSalePct / 100;
+            const units = orders * unitsPerOrder;
+
+            const mediaPerUnit = units > 0 ? budget / units : 0;
+            const managementPerUnit = units > 0 ? management / units : 0;
+            const fullPerUnit = mediaPerUnit + managementPerUnit;
+
+            const intOut = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = Math.round(value).toLocaleString('ru-RU');
+            };
+            const numOut = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
+            };
+            const moneyOut = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = moneyInputValue(value);
+            };
+
+            intOut('own-product-ad-impressions', impressions);
+            numOut('own-product-ad-clicks', clicks);
+            numOut('own-product-ad-leads', leads);
+            numOut('own-product-ad-orders', orders);
+            numOut('own-product-ad-units', units);
+
+            moneyOut('own-product-ad-media-unit', mediaPerUnit);
+            moneyOut('own-product-ad-management-unit', managementPerUnit);
+            moneyOut('own-product-ad-full-unit', fullPerUnit);
+            moneyOut('own-product-ad-cac-unit', fullPerUnit);
+
+            const note = document.getElementById('own-product-ad-note');
+            if (note) {
+                if (budget > 0 && cpc <= 0) {
+                    note.textContent = 'Укажите CPC больше 0, чтобы построить воронку.';
+                } else if (clicks > 0 && (clickLeadPct <= 0 || leadSalePct <= 0 || unitsPerOrder <= 0)) {
+                    note.textContent = 'Укажите конверсии и среднее количество единиц в покупке больше 0, чтобы рассчитать стоимость продажи 1 ед.';
+                } else if (units > 0) {
+                    note.textContent = 'Формула: (рекламный бюджет + ведение рекламы) ÷ прогноз проданных единиц. CTR влияет на прогноз показов, но при заданном CPC не меняет стоимость клика.';
+                } else {
+                    note.textContent = 'Заполните воронку, чтобы получить рекламную стоимость продажи 1 единицы.';
+                }
+            }
         }
 
         function setProductBusinessTaxType(type) {
