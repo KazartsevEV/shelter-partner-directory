@@ -2639,15 +2639,11 @@
 
                         <div class="aggregate-final-box">
                             <div class="aggregate-final-total">
-                                Чтобы сделать, как я придумал, мне нужно
+                                Чтобы сделать, как я придумал, и выйти в ноль, не считая налогов, мне нужно
                                 <span class="aggregate-final-value" data-aggregate-final="requiredCapital">${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
                                 у.е.* на
                                 <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
                                 дней.
-                            </div>
-
-                            <div class="aggregate-muted mt-3 text-xs leading-relaxed">
-                                До налогов. Нулевая маржа считается по предприятию целиком: поставка и производство проходят до начала продаж, а склад, продавцы, доставка покупателю и реклама продолжаются до последней проданной единицы.
                             </div>
 
                             <div class="grid grid-cols-2 gap-3 mt-5">
