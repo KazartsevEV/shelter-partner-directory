@@ -234,6 +234,8 @@
             </form>
         </div>
 
+        <p class="mt-3 text-xs text-slate-500">* у.е. — деньги в вашей валюте.</p>
+
         <div id="product-source-block" class="card p-6 md:p-8 mt-5 hidden" hidden>
             <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Шаг 2</div>
             <h2 class="text-2xl font-bold text-slate-900">
@@ -1039,7 +1041,31 @@
                 </button>
             </div>
 
-            <div class="card p-6 md:p-8">
+            <div id="product-assortment-gate" class="card p-6 md:p-8">
+                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Ассортимент</div>
+                <h2 class="text-2xl font-bold text-slate-900">Это весь ваш ассортимент?</h2>
+
+                <div id="product-portfolio-list" class="hidden mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-5">
+                    <button id="assortment-complete-button" type="button" onclick="setProductAssortmentChoice('complete')" class="rounded-xl border-2 border-emerald-300 bg-emerald-50 text-emerald-800 px-4 py-3 font-bold text-left">
+                        Это мой единственный <span class="product-name-live"></span>
+                    </button>
+                    <button type="button" onclick="setProductAssortmentChoice('more')" class="rounded-xl border-2 border-violet-300 bg-violet-50 text-violet-800 px-4 py-3 font-bold text-left">
+                        У меня будут другие товары
+                    </button>
+                </div>
+
+                <button id="add-product-button" type="button" onclick="addAnotherProduct()" class="hidden mt-4 w-full rounded-xl bg-violet-600 text-white px-5 py-3.5 font-bold shadow-md hover:bg-violet-700 transition">
+                    + Добавить товар
+                </button>
+
+                <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                    <strong>Важно!</strong> Если вы хотите получить общую бизнес-модель по разным товарам, заполняйте каждый товар отдельно и выясните у маркетолога его обещания относительно каждого из них.
+                </div>
+            </div>
+
+            <div id="product-tax-block" class="card p-6 md:p-8 hidden" hidden>
                 <div class="text-xs uppercase tracking-[0.18em] text-rose-600 font-semibold mb-2">Налоги</div>
                 <h2 class="text-2xl font-bold text-slate-900">Финальный налоговый блок</h2>
                 <p class="text-sm text-slate-500 mt-2">Налоги не включаются в расходы блока продаж дважды: они рассчитываются отдельно от комиссии, зарплат и штрафов.</p>
@@ -1406,6 +1432,8 @@
         let materialRowSeq = 0;
         let latestMaterialsLandedUnitCost = 0;
         let latestProductionUnitCost = 0;
+        const productPortfolio = [];
+        let currentProductSequence = 1;
         const productImportPayers = {
             broker: null,
             cargoInsurance: null,
@@ -1732,6 +1760,167 @@
             recalculateSalesCostSummary();
         }
 
+        function currentProductPortfolioSnapshot() {
+            return {
+                id: currentProductSequence,
+                name: productName,
+                source: productSource,
+                materialsUnitCost: latestMaterialsLandedUnitCost,
+                productionUnitCost: latestProductionUnitCost,
+                logisticsUnitCost: productNumberFromText('own-logistics-unit-cost'),
+                salesFixedMonthly: productNumberFromText('own-sales-fixed-monthly'),
+                salesFixedPerUnit: productNumberFromText('own-sales-fixed-per-unit'),
+                salesVariablePct: productNumber('own-sales-commission-pct'),
+                penaltiesPct: productNumber('own-platform-penalties-pct'),
+                adCostPerUnit: productNumberFromText('own-product-ad-cac-unit'),
+                forecastUnitsPerMonth: productNumberFromText('own-product-ad-units'),
+                inputs: Object.fromEntries(
+                    Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id]'))
+                        .map(el => [el.id, el.value])
+                )
+            };
+        }
+
+        function saveCurrentProductToPortfolio() {
+            if (!productName || productSource !== 'own') return;
+            const snapshot = currentProductPortfolioSnapshot();
+            const index = productPortfolio.findIndex(item => item.id === snapshot.id);
+            if (index >= 0) productPortfolio[index] = snapshot;
+            else productPortfolio.push(snapshot);
+            renderProductPortfolio();
+        }
+
+        function renderProductPortfolio() {
+            const box = document.getElementById('product-portfolio-list');
+            if (!box) return;
+
+            if (!productPortfolio.length) {
+                box.classList.add('hidden');
+                box.innerHTML = '';
+                return;
+            }
+
+            box.classList.remove('hidden');
+            box.innerHTML =
+                '<div class="font-semibold text-slate-900 mb-2">Уже заполнено:</div>' +
+                productPortfolio.map((item, index) =>
+                    `<div class="flex justify-between gap-3 py-1 border-t border-slate-200 first:border-t-0">
+                        <span>${index + 1}. «${item.name}»</span>
+                        <span class="text-slate-500">реклама / 1 ед.: ${moneyInputValue(item.adCostPerUnit)} у.е.*</span>
+                    </div>`
+                ).join('');
+        }
+
+        function updateProductAssortmentGate() {
+            const completeButton = document.getElementById('assortment-complete-button');
+            if (!completeButton) return;
+
+            const totalIncludingCurrent =
+                productPortfolio.some(item => item.id === currentProductSequence)
+                    ? productPortfolio.length
+                    : productPortfolio.length + (productName ? 1 : 0);
+
+            if (totalIncludingCurrent <= 1) {
+                completeButton.innerHTML = `Это мой единственный <span class="product-name-live">«${productName}»</span>`;
+            } else {
+                completeButton.textContent = 'Это весь мой ассортимент';
+            }
+        }
+
+        function setProductAssortmentChoice(choice) {
+            const taxBlock = document.getElementById('product-tax-block');
+            const addButton = document.getElementById('add-product-button');
+
+            if (choice === 'complete') {
+                saveCurrentProductToPortfolio();
+                if (addButton) addButton.classList.add('hidden');
+                if (taxBlock) {
+                    taxBlock.hidden = false;
+                    taxBlock.classList.remove('hidden');
+                    taxBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                return;
+            }
+
+            if (choice === 'more') {
+                if (taxBlock) {
+                    taxBlock.hidden = true;
+                    taxBlock.classList.add('hidden');
+                }
+                if (addButton) addButton.classList.remove('hidden');
+            }
+        }
+
+        function resetCurrentProductForNext() {
+            productName = '';
+            productSource = null;
+            productOwnInitialized = false;
+            productOwnInboundDeliveryManual = false;
+            productBusinessTaxType = null;
+            productionLaborMode = 'self';
+            materialCostMode = null;
+            latestMaterialsLandedUnitCost = 0;
+            latestProductionUnitCost = 0;
+
+            Object.keys(productOwnChoices).forEach(key => delete productOwnChoices[key]);
+            Object.keys(productImportPayers).forEach(key => productImportPayers[key] = null);
+            Object.keys(productLogisticsPayers).forEach(key => productLogisticsPayers[key] = null);
+
+            document.querySelectorAll('#product-own-form input').forEach(input => {
+                input.value = input.defaultValue || '';
+            });
+            document.querySelectorAll('#product-own-form select').forEach(select => {
+                if ([...select.options].some(option => option.value === 'KZ')) select.value = 'KZ';
+                else select.selectedIndex = 0;
+            });
+            document.querySelectorAll('#product-own-form [data-product-collapsible]').forEach(el => {
+                el.hidden = true;
+                el.classList.add('hidden');
+            });
+            document.querySelectorAll('.product-source-choice').forEach(button => {
+                button.classList.remove('product-source-selected');
+                button.setAttribute('aria-pressed', 'false');
+            });
+
+            ['own-material-rows','own-equipment-rental-rows','own-equipment-purchase-rows'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = '';
+            });
+
+            const ownForm = document.getElementById('product-own-form');
+            ownForm.hidden = true;
+            ownForm.classList.add('hidden');
+
+            const sourceBlock = document.getElementById('product-source-block');
+            sourceBlock.hidden = true;
+            sourceBlock.classList.add('hidden');
+
+            const taxBlock = document.getElementById('product-tax-block');
+            if (taxBlock) {
+                taxBlock.hidden = true;
+                taxBlock.classList.add('hidden');
+            }
+
+            const addButton = document.getElementById('add-product-button');
+            if (addButton) addButton.classList.add('hidden');
+
+            const nameInput = document.getElementById('product-name-input');
+            nameInput.value = '';
+            document.getElementById('product-name-error').classList.add('hidden');
+
+            document.getElementById('product-source-name').textContent = '';
+            document.querySelectorAll('.product-name-live').forEach(el => { el.textContent = ''; });
+
+            window.scrollTo({ top: document.getElementById('product-screen').offsetTop, behavior: 'smooth' });
+            nameInput.focus();
+        }
+
+        function addAnotherProduct() {
+            saveCurrentProductToPortfolio();
+            currentProductSequence += 1;
+            resetCurrentProductForNext();
+        }
+
         function submitProductIntro(event) {
             event.preventDefault();
 
@@ -1760,6 +1949,13 @@
             const sourceBlock = document.getElementById('product-source-block');
             sourceBlock.hidden = false;
             sourceBlock.classList.remove('hidden');
+            updateProductAssortmentGate();
+            renderProductPortfolio();
+            const taxBlock = document.getElementById('product-tax-block');
+            if (taxBlock) {
+                taxBlock.hidden = true;
+                taxBlock.classList.add('hidden');
+            }
             sourceBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -2497,6 +2693,8 @@
                 initProductOwnForm();
                 requestAnimationFrame(() => {
                     Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
+                    updateProductAssortmentGate();
+                    renderProductPortfolio();
                     ownForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             }
