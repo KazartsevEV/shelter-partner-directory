@@ -2373,8 +2373,9 @@
             const items = productPortfolio.slice();
             if (!items.length) {
                 return {
-                    funnel: null,
                     items: [],
+                    totalAdBudget: 0,
+                    totalForecastOrders: 0,
                     totalRevenue: 0,
                     totalEbitdaBeforeShared: 0,
                     sharedBusinessCosts: 0,
@@ -2384,25 +2385,22 @@
                 };
             }
 
-            // One common marketing funnel for the whole product portfolio.
-            // Until the UI is physically moved into a shared block, the first
-            // saved product supplies these common funnel inputs.
-            const funnelSource = items[0];
-            const input = funnelSource.inputs || {};
-            const budget = Math.max(0, Number(input['own-product-ad-budget']) || 0);
-            const cpc = Math.max(0, Number(input['own-product-ad-cpc']) || 0);
-            const ctrPct = Math.max(0, Number(input['own-product-ad-ctr']) || 0);
-            const clickLeadPct = Math.max(0, Number(input['own-product-ad-click-lead']) || 0);
-            const leadSalePct = Math.max(0, Number(input['own-product-ad-lead-sale']) || 0);
-            const management = Math.max(0, Number(input['own-product-ad-management']) || 0);
-
-            const clicks = cpc > 0 ? budget / cpc : 0;
-            const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;
-            const leads = clicks * clickLeadPct / 100;
-            const orders = leads * leadSalePct / 100;
-            const baseCac = orders > 0 ? budget / orders : null;
-
+            // One calculation engine, but an independent funnel for every SKU.
             const prepared = items.map(item => {
+                const input = item.inputs || {};
+                const budget = Math.max(0, Number(input['own-product-ad-budget']) || 0);
+                const cpc = Math.max(0, Number(input['own-product-ad-cpc']) || 0);
+                const ctrPct = Math.max(0, Number(input['own-product-ad-ctr']) || 0);
+                const clickLeadPct = Math.max(0, Number(input['own-product-ad-click-lead']) || 0);
+                const leadSalePct = Math.max(0, Number(input['own-product-ad-lead-sale']) || 0);
+                const management = Math.max(0, Number(input['own-product-ad-management']) || 0);
+
+                const clicks = cpc > 0 ? budget / cpc : 0;
+                const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;
+                const leads = clicks * clickLeadPct / 100;
+                const orders = leads * leadSalePct / 100;
+                const baseCac = orders > 0 ? budget / orders : null;
+
                 const unitCost =
                     Math.max(0, Number(item.materialsUnitCost || 0)) +
                     Math.max(0, Number(item.productionUnitCost || 0)) +
@@ -2437,6 +2435,17 @@
 
                 return {
                     item,
+                    budget,
+                    management,
+                    cpc,
+                    ctrPct,
+                    clickLeadPct,
+                    leadSalePct,
+                    clicks,
+                    impressions,
+                    leads,
+                    orders,
+                    baseCac,
                     unitCost,
                     marginPct,
                     marginRate,
@@ -2451,26 +2460,47 @@
             });
 
             const revenueWeightDenominator = prepared.reduce((sum, row) => {
-                return sum +
-                    (row.price !== null ? row.price * row.salesMix : 0);
+                return sum + (row.price !== null ? row.price * row.salesMix : 0);
             }, 0);
 
-            const resultItems = prepared.map(row => {
-                const revenueWeight =
+            prepared.forEach(row => {
+                row.revenueWeight =
                     revenueWeightDenominator > 0 && row.price !== null
                         ? row.price * row.salesMix / revenueWeightDenominator
                         : 0;
+            });
 
-                const weightedCac =
-                    baseCac !== null && row.salesMix > 0
-                        ? baseCac * revenueWeight / row.salesMix
-                        : null;
+            const totalAdBudget = prepared.reduce((sum, row) => sum + row.budget, 0);
+            const totalForecastOrders = prepared.reduce((sum, row) => sum + row.orders, 0);
 
+            // Generalized portfolio ad-load:
+            // if every SKU has the same Base CAC this collapses exactly to
+            // AdBudget_i = TotalBudget * RevenueWeight_i
+            // WeightedCAC_i = BaseCAC * RevenueWeight_i / q_i.
+            const adLoadDenominator = prepared.reduce((sum, row) => {
+                return sum +
+                    (
+                        row.baseCac !== null
+                            ? row.baseCac * row.revenueWeight
+                            : 0
+                    );
+            }, 0);
+
+            const resultItems = prepared.map(row => {
                 const adBudget =
-                    budget * revenueWeight;
+                    totalAdBudget > 0 && adLoadDenominator > 0 && row.baseCac !== null
+                        ? totalAdBudget *
+                          (row.baseCac * row.revenueWeight) /
+                          adLoadDenominator
+                        : 0;
 
                 const forecastSales =
-                    orders * row.salesMix;
+                    totalForecastOrders * row.salesMix;
+
+                const weightedCac =
+                    forecastSales > 0
+                        ? adBudget / forecastSales
+                        : null;
 
                 const revenue =
                     row.price !== null
@@ -2500,11 +2530,22 @@
                     id: row.item.id,
                     name: row.item.name,
                     source: row.item.source,
+                    funnel: {
+                        budget: row.budget,
+                        cpc: row.cpc,
+                        ctrPct: row.ctrPct,
+                        clickLeadPct: row.clickLeadPct,
+                        leadSalePct: row.leadSalePct,
+                        clicks: row.clicks,
+                        impressions: row.impressions,
+                        leads: row.leads,
+                        orders: row.orders
+                    },
                     unitCost: row.unitCost,
                     marginPct: row.marginPct,
                     salesMix: row.salesMix,
-                    revenueWeight,
-                    baseCac,
+                    revenueWeight: row.revenueWeight,
+                    baseCac: row.baseCac,
                     weightedCac,
                     adBudget,
                     forecastSales,
@@ -2520,9 +2561,13 @@
             const totalRevenue = resultItems.reduce((sum, row) => sum + row.revenue, 0);
             const totalEbitdaBeforeShared = resultItems.reduce((sum, row) => sum + row.ebitda, 0);
 
-            // Shared costs are deducted once at the business level.
-            const salesFixedShared = Math.max(0, Number(funnelSource.salesFixedMonthly || 0));
-            const sharedBusinessCosts = management + salesFixedShared;
+            // Shared business costs are still deducted once.
+            const totalManagement = prepared.reduce((sum, row) => sum + row.management, 0);
+            const salesFixedShared = Math.max(
+                0,
+                ...items.map(item => Number(item.salesFixedMonthly || 0))
+            );
+            const sharedBusinessCosts = totalManagement + salesFixedShared;
             const businessEbitda = totalEbitdaBeforeShared - sharedBusinessCosts;
 
             const taxRate = Math.max(0, productNumber('own-business-tax-pct')) / 100;
@@ -2533,9 +2578,6 @@
                 tax = Math.max(0, businessEbitda) * taxRate;
             }
 
-            // "Цена с учётом налогов" keeps the same planned business EBITDA
-            // after tax by applying one common multiplier to all SKU prices.
-            // A common multiplier preserves revenue weights and therefore weighted CAC.
             const priceSensitiveRevenueNet = resultItems.reduce(
                 (sum, row) => sum + row.revenue - row.turnoverExpenses,
                 0
@@ -2599,20 +2641,9 @@
                     : adjustedEbitda - adjustedTax;
 
             return {
-                funnel: {
-                    budget,
-                    cpc,
-                    ctrPct,
-                    clickLeadPct,
-                    leadSalePct,
-                    clicks,
-                    impressions,
-                    leads,
-                    orders,
-                    baseCac,
-                    management
-                },
                 items: resultItems,
+                totalAdBudget,
+                totalForecastOrders,
                 totalRevenue,
                 totalEbitdaBeforeShared,
                 sharedBusinessCosts,
