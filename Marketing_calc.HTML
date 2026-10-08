@@ -130,6 +130,45 @@
             border-color: #ecfdf5;
             color: #065f46;
         }
+        #product-tax-block.product-business-aggregate .aggregate-final-box {
+            margin-top: 1.25rem;
+            padding: 1.1rem;
+            border: 1px solid rgba(209, 250, 229, 0.34);
+            border-radius: 1rem;
+            background: rgba(2, 44, 34, 0.34);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        #product-tax-block.product-business-aggregate .aggregate-final-total {
+            color: #ffffff;
+            font-size: 1.35rem;
+            line-height: 1.35;
+            font-weight: 800;
+        }
+        #product-tax-block.product-business-aggregate .aggregate-final-value {
+            color: #a7f3d0;
+            font-weight: 900;
+        }
+        #product-tax-block.product-business-aggregate .aggregate-action-confirm,
+        #product-tax-block.product-business-aggregate .aggregate-action-recalc {
+            min-height: 3rem;
+            border-radius: 0.8rem;
+            padding: 0.75rem 1rem;
+            font-weight: 800;
+        }
+        #product-tax-block.product-business-aggregate .aggregate-action-confirm {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #ecfdf5;
+        }
+        #product-tax-block.product-business-aggregate .aggregate-action-confirm.is-accepted {
+            background: #a7f3d0;
+            color: #064e3b;
+        }
+        #product-tax-block.product-business-aggregate .aggregate-action-recalc {
+            background: transparent;
+            color: #ecfdf5;
+            border: 1px solid rgba(209, 250, 229, 0.55);
+        }
 
         #monthly-breakdown-table {
             table-layout: fixed;
@@ -1166,7 +1205,7 @@
                         </div>
                         <div id="own-business-tax-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label id="own-business-tax-label" class="block text-xs text-slate-500 mb-1">Ставка налога, %</label>
-                            <input id="own-business-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+                            <input id="own-business-tax-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="syncVisibleAggregateFromCurrentProduct()">
                         </div>
                     </div>
 
@@ -1178,7 +1217,7 @@
                         </div>
                         <div id="own-sales-vat-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-xs text-slate-500 mb-1">Размер НДС, %</label>
-                            <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field">
+                            <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="syncVisibleAggregateFromCurrentProduct()">
                         </div>
                     </div>
                 </div>
@@ -2035,6 +2074,7 @@
             if (!item) return;
             if (!item.planning) item.planning = {};
             item.planning[key] = value;
+            updateAggregateFinalSummary(item);
         }
 
         function setFrozenProductValue(productId, originalId, value, asText = false) {
@@ -2119,6 +2159,109 @@
             }
         }
 
+        function aggregatePlanMetrics(item) {
+            const planning = item?.planning || {};
+            const materialsTotal = Number(item?.materialsBatchTotal || 0);
+            const productionTotal = Number(item?.productionTotal || 0);
+            const warehouseTotal = Number(item?.warehouseStageTotal || 0);
+            const salesTotal = Number(item?.salesFixedMonthly || 0);
+            const adTotal = Number(item?.adTotal || 0);
+
+            const investmentTotal =
+                materialsTotal +
+                productionTotal +
+                warehouseTotal +
+                salesTotal +
+                adTotal;
+
+            const advancePct = Math.min(100, Math.max(0, Number(planning.advancePct) || 0));
+            const advanceAmount = materialsTotal * advancePct / 100;
+            const supplyDays = Math.max(0, Number(planning.supplyDays) || 0);
+            const advanceLeadDays = Math.max(0, Number(planning.advanceLeadDays) || 0);
+            const waitAfterAdvanceDays = advanceLeadDays > 0 ? advanceLeadDays : supplyDays;
+            const productionDays = Math.max(0, Number(planning.productionDays) || 0);
+            const warehouseDays = Math.max(0, Number(item?.inputs?.['own-warehouse-days']) || 0);
+            const preSalesDays = waitAfterAdvanceDays + productionDays + warehouseDays;
+
+            const salesSpeedPerMonth = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
+            const stockQty = Math.max(0, Number(item?.logisticsQty) || 0);
+            const sellThroughDays =
+                salesSpeedPerMonth > 0
+                    ? stockQty / salesSpeedPerMonth * 30
+                    : null;
+            const paybackDays =
+                sellThroughDays === null
+                    ? null
+                    : preSalesDays + sellThroughDays;
+
+            return {
+                investmentTotal,
+                advanceAmount,
+                waitAfterAdvanceDays,
+                productionDays,
+                warehouseDays,
+                preSalesDays,
+                salesSpeedPerMonth,
+                sellThroughDays,
+                paybackDays
+            };
+        }
+
+        function aggregateDaysText(value) {
+            if (value === null || value === undefined || !Number.isFinite(Number(value))) return '—';
+            return Math.ceil(Math.max(0, Number(value))).toLocaleString('ru-RU');
+        }
+
+        function updateAggregateFinalSummary(item) {
+            if (!item) return;
+            const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
+            if (!section) return;
+
+            const m = aggregatePlanMetrics(item);
+            const outputs = {
+                investmentTotal: moneyInputValue(m.investmentTotal),
+                advanceAmount: moneyInputValue(m.advanceAmount),
+                waitDays: aggregateDaysText(m.waitAfterAdvanceDays),
+                productionDays: aggregateDaysText(m.productionDays),
+                warehouseDays: aggregateDaysText(m.warehouseDays),
+                preSalesDays: aggregateDaysText(m.preSalesDays),
+                salesSpeed: moneyInputValue(m.salesSpeedPerMonth),
+                paybackDays: aggregateDaysText(m.paybackDays)
+            };
+            Object.entries(outputs).forEach(([key, value]) => {
+                const el = section.querySelector(`[data-aggregate-final="${key}"]`);
+                if (el) el.textContent = value;
+            });
+        }
+
+        function recalculateAggregateBusinessPlan(productId) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+
+            if (Number(productId) === currentProductSequence) {
+                saveCurrentProductToPortfolio();
+            }
+            const refreshed = productPortfolio.find(product => product.id === Number(productId)) || item;
+            updateAggregateAmounts(refreshed);
+            updateAggregateFinalSummary(refreshed);
+        }
+
+        function acceptAggregateBusinessPlan(productId, button) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+            if (!item.planning) item.planning = {};
+            item.planning.accepted = true;
+
+            document.querySelectorAll('.aggregate-action-confirm').forEach(el => {
+                el.classList.remove('is-accepted');
+                if (el !== button) el.textContent = 'Меня устраивает';
+            });
+            if (button) {
+                button.classList.add('is-accepted');
+                button.textContent = '✓ Меня устраивает';
+            }
+        }
+
         function updateAggregateAmounts(item) {
             if (!item) return;
             const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
@@ -2149,6 +2292,8 @@
                     input.value = Math.min(99999, Math.max(1, Math.round(Number(value) || 1)));
                 }
             });
+
+            updateAggregateFinalSummary(item);
         }
 
         function syncVisibleAggregateFromCurrentProduct() {
@@ -2301,6 +2446,53 @@
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
                             Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
+                        </div>
+
+                        <div class="aggregate-final-box">
+                            <div class="aggregate-final-total">
+                                Итого я вложу:
+                                <span class="aggregate-final-value" data-aggregate-final="investmentTotal">${moneyInputValue(aggregatePlanMetrics(item).investmentTotal)}</span>
+                                у.е.*
+                            </div>
+
+                            <div class="aggregate-line mt-4 leading-relaxed">
+                                В течение
+                                <span class="aggregate-final-value" data-aggregate-final="preSalesDays">${aggregateDaysText(aggregatePlanMetrics(item).preSalesDays)}</span>
+                                дней: после предоплаты
+                                <span class="aggregate-final-value" data-aggregate-final="advanceAmount">${moneyInputValue(aggregatePlanMetrics(item).advanceAmount)}</span>
+                                у.е.* жду поставку
+                                <span class="aggregate-final-value" data-aggregate-final="waitDays">${aggregateDaysText(aggregatePlanMetrics(item).waitAfterAdvanceDays)}</span>
+                                дней + производство
+                                <span class="aggregate-final-value" data-aggregate-final="productionDays">${aggregateDaysText(aggregatePlanMetrics(item).productionDays)}</span>
+                                дней + склад
+                                <span class="aggregate-final-value" data-aggregate-final="warehouseDays">${aggregateDaysText(aggregatePlanMetrics(item).warehouseDays)}</span>
+                                дней.
+                            </div>
+
+                            <div class="aggregate-line mt-4 leading-relaxed">
+                                Отсюда товар продаётся со скоростью, которую позволяет рекламный бюджет в модели маркетолога:
+                                <span class="aggregate-final-value" data-aggregate-final="salesSpeed">${moneyInputValue(aggregatePlanMetrics(item).salesSpeedPerMonth)}</span>
+                                шт. / месяц.
+                            </div>
+
+                            <div class="aggregate-final-total mt-4">
+                                Мои вложения окупятся в течение:
+                                <span class="aggregate-final-value" data-aggregate-final="paybackDays">${aggregateDaysText(aggregatePlanMetrics(item).paybackDays)}</span>
+                                дней, если всё пойдёт, как я думаю.
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 mt-5">
+                                <button type="button"
+                                    class="aggregate-action-confirm"
+                                    onclick="acceptAggregateBusinessPlan(${item.id}, this)">
+                                    Меня устраивает
+                                </button>
+                                <button type="button"
+                                    class="aggregate-action-recalc"
+                                    onclick="recalculateAggregateBusinessPlan(${item.id})">
+                                    Пересчитать
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>`;
