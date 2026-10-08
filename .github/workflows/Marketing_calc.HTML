@@ -579,7 +579,7 @@
                         <div class="grid grid-cols-2 gap-2 mt-3 items-end">
                             <button type="button" data-logistics-payer-key="warehouse" data-logistics-payer-value="me" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                             <button type="button" data-logistics-payer-key="warehouse" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
-                            <div class="col-span-2 mt-1">
+                            <div id="own-warehouse-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
                                 <label class="block text-xs text-slate-500 mb-1">Сколько</label>
                                 <input id="own-warehouse-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                             </div>
@@ -2125,6 +2125,12 @@
                 button.classList.toggle('yn-choice-selected', !!selected);
                 button.setAttribute('aria-pressed', selected ? 'true' : 'false');
             });
+
+            if (key === 'warehouse') {
+                const isMine = productLogisticsPayers[key] === 'me';
+                setProductHidden('own-warehouse-cost-wrap', !isMine);
+                if (!isMine) setProductFieldZero('own-warehouse-cost');
+            }
 
             if (key === 'customerDelivery') {
                 const isMine = productLogisticsPayers[key] === 'me';
