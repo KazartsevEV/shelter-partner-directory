@@ -475,11 +475,11 @@
                                     <input id="own-production-electricity-tariff" type="number" min="0" step="0.0001" value="0" class="input-field" oninput="updateProductionUtilityTotal('electricity')">
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Расход / месяц</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Расход на 1 произведённую единицу</label>
                                     <input id="own-production-electricity-usage" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionUtilityTotal('electricity')">
                                 </div>
                             </div>
-                            <div class="text-xs text-slate-500">Электричество / месяц: <span id="own-production-electricity-total" class="font-semibold text-slate-900">0,00</span></div>
+                            <div class="text-xs text-slate-500">Электричество на 1 произведённую единицу: <span id="own-production-electricity-total" class="font-semibold text-slate-900">0,00</span></div>
                         </div>
                     </div>
 
@@ -490,12 +490,37 @@
                             <button type="button" data-yn-group="productionOverheads" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-production-overheads-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Расход в месяц</label>
+                            <label class="block text-xs text-slate-500 mb-1">Накладные расходы на 1 произведённую единицу</label>
                             <input id="own-production-overheads-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
-                            <p class="text-xs text-slate-400 mt-1">Включая прохождение проверок, аккредитаций и аналогичные регулярные расходы.</p>
+                            <p class="text-xs text-slate-400 mt-1">Эта сумма прибавляется напрямую к стоимости производства 1 единицы. Включая проверки, аккредитации и аналогичные организационные расходы.</p>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="production-unit-result" class="rounded-2xl border-2 border-violet-300 bg-violet-50 p-5 md:p-6 shadow-sm">
+                <div class="text-xs uppercase tracking-[0.18em] text-violet-700 font-bold mb-2">Итог блока 2</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
+                    Стоимость производства 1 единицы <span class="product-name-live"></span> составляет
+                    <span id="own-production-unit-cost" class="text-2xl md:text-3xl font-bold text-violet-700 whitespace-nowrap">0,00</span>
+                    у.е. в используемой вами валюте.
+                </div>
+
+                <div class="mt-5 rounded-xl bg-white/80 border border-violet-200 p-4">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Сколько единиц <span class="product-name-live"></span> производите в месяц?
+                    </label>
+                    <input id="own-production-monthly-qty" type="number" min="1" step="1" value="1" class="input-field">
+                    <p class="text-xs text-slate-500 mt-2">
+                        Аренда помещения, аренда оборудования, ежемесячная амортизация купленного оборудования и газ распределяются на объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.
+                    </p>
+                </div>
+
+                <div id="own-production-unit-breakdown" class="mt-4 text-xs text-slate-600 leading-relaxed"></div>
+
+                <button type="button" onclick="recalculateProductionUnitCost()" class="mt-5 w-full rounded-xl bg-violet-600 text-white px-5 py-3.5 text-base font-bold shadow-md hover:bg-violet-700 active:scale-[0.99] transition">
+                    Пересчитать
+                </button>
             </div>
 
             <div class="card p-6 md:p-8">
@@ -1759,6 +1784,83 @@
             if (output) output.textContent = moneyInputValue(tariff * usage);
         }
 
+        function recalculateProductionUnitCost() {
+            const qty = Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
+            const defectPct = Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
+            const yieldFactor = Math.max(0.0001, 1 - defectPct / 100);
+
+            const premisesMonthly =
+                productOwnChoices.productionPremises === 'yes'
+                    ? productNumber('own-production-premises-monthly')
+                    : 0;
+
+            const equipmentRentalMonthly =
+                productOwnChoices.equipmentRental === 'yes'
+                    ? Array.from(document.querySelectorAll('.equipment-rental-cost'))
+                        .reduce((sum, input) => sum + Math.max(0, Number(input.value) || 0), 0)
+                    : 0;
+
+            const equipmentDepreciationMonthly =
+                productOwnChoices.equipmentPurchase === 'yes'
+                    ? Array.from(document.querySelectorAll('.equipment-purchase-row'))
+                        .reduce((sum, row) => {
+                            const cost = Math.max(0, Number(row.querySelector('.equipment-purchase-cost')?.value) || 0);
+                            const life = Math.max(1, Number(row.querySelector('.equipment-useful-life')?.value) || 1);
+                            return sum + cost / life;
+                        }, 0)
+                    : 0;
+
+            const gasMonthly =
+                productOwnChoices.productionGas === 'yes'
+                    ? productNumber('own-production-gas-tariff') * productNumber('own-production-gas-usage')
+                    : 0;
+
+            const electricityPerProducedUnit =
+                productOwnChoices.productionElectricity === 'yes'
+                    ? productNumber('own-production-electricity-tariff') * productNumber('own-production-electricity-usage')
+                    : 0;
+
+            const overheadPerProducedUnit =
+                productOwnChoices.productionOverheads === 'yes'
+                    ? productNumber('own-production-overheads-monthly')
+                    : 0;
+
+            const fixedMonthly =
+                premisesMonthly +
+                equipmentRentalMonthly +
+                equipmentDepreciationMonthly +
+                gasMonthly;
+
+            const fixedPerProducedUnit = fixedMonthly / qty;
+            const beforeDefect =
+                fixedPerProducedUnit +
+                electricityPerProducedUnit +
+                overheadPerProducedUnit;
+
+            const unitCost = beforeDefect / yieldFactor;
+            const defectUplift = unitCost - beforeDefect;
+
+            const output = document.getElementById('own-production-unit-cost');
+            if (output) output.textContent = moneyInputValue(unitCost);
+
+            const breakdown = document.getElementById('own-production-unit-breakdown');
+            if (breakdown) {
+                const rows = [
+                    ['Аренда помещения / 1 ед.', premisesMonthly / qty],
+                    ['Аренда оборудования / 1 ед.', equipmentRentalMonthly / qty],
+                    ['Амортизация оборудования / 1 ед.', equipmentDepreciationMonthly / qty],
+                    ['Газ / отопление / 1 ед.', gasMonthly / qty],
+                    ['Электричество / 1 произведённую ед.', electricityPerProducedUnit],
+                    ['Накладные организационные / 1 ед.', overheadPerProducedUnit],
+                    [`Удорожание из-за брака (${defectPct.toLocaleString('ru-RU')}%)`, defectUplift]
+                ];
+
+                breakdown.innerHTML = rows.map(([label, value]) =>
+                    `<div class="flex justify-between gap-3 py-0.5"><span>${label}</span><span class="font-semibold text-slate-800">${moneyInputValue(value)}</span></div>`
+                ).join('');
+            }
+        }
+
         function initProductOwnForm() {
             if (productOwnInitialized) return;
             Object.entries(productOwnDefaults).forEach(([group, value]) => {
@@ -1773,6 +1875,7 @@
             document.getElementById('own-customer-delivery-pct').value = 10;
             updateInboundDeliveryDefault();
             recalculateMaterialsLandedCost();
+            recalculateProductionUnitCost();
         }
 
         function selectProductSource(source) {
