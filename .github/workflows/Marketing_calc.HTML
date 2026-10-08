@@ -385,21 +385,23 @@
                     </div>
 
                     <div class="rounded-lg border border-slate-200 p-4">
-                        <div class="text-sm font-medium text-slate-800">Доставка до покупателя</div>
-                        <div class="flex gap-2 mt-2">
-                            <button type="button" data-yn-group="customerDelivery" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
-                            <button type="button" data-yn-group="customerDelivery" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
+                        <div class="text-sm font-medium text-slate-800">
+                            Кто платит за доставку <span class="product-name-live"></span> до покупателя?
                         </div>
-                        <div id="own-customer-delivery-details" class="hidden mt-3 space-y-4" hidden data-product-collapsible>
-                            <div>
-                                <label class="block text-xs text-slate-500 mb-1">Стоимость доставки, % от стоимости товара</label>
-                                <input id="own-customer-delivery-pct" type="number" min="0" step="0.01" value="10" class="input-field">
-                                <p class="text-xs text-slate-400 mt-1">Если не знаете — оставьте 10% по умолчанию.</p>
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-500 mb-1">Процент возвратов товара</label>
-                                <input id="own-return-rate" type="number" min="0" step="0.01" value="0" class="input-field">
-                                <p class="text-xs text-slate-400 mt-1">Возвраты умножаются на стоимость доставки и увеличивают логистические расходы.</p>
+                        <div class="grid grid-cols-2 gap-2 mt-3 items-end">
+                            <button type="button" data-logistics-payer-key="customerDelivery" data-logistics-payer-value="me" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
+                            <button type="button" data-logistics-payer-key="customerDelivery" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
+                            <div id="own-customer-delivery-details" class="col-span-2 mt-1 hidden space-y-4" hidden data-product-collapsible>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Сколько, % от стоимости товара</label>
+                                    <input id="own-customer-delivery-pct" type="number" min="0" step="0.01" value="10" class="input-field">
+                                    <p class="text-xs text-slate-400 mt-1">Если не знаете — оставьте 10% по умолчанию.</p>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 mb-1">Процент возвратов товара</label>
+                                    <input id="own-return-rate" type="number" min="0" step="0.01" value="0" class="input-field">
+                                    <p class="text-xs text-slate-400 mt-1">Возвраты умножаются на стоимость доставки и увеличивают логистические расходы.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -823,13 +825,13 @@
             certification: null
         };
         const productLogisticsPayers = {
-            warehouse: null
+            warehouse: null,
+            customerDelivery: null
         };
         const productOwnDefaults = {
             vatIncluded: 'yes',
             inboundIncluded: 'no',
             materialsImported: 'no',
-            customerDelivery: 'no',
             salesCommission: 'no',
             payroll: 'no',
             platformPenalties: 'no',
@@ -948,7 +950,6 @@
             }
 
             const detailMap = {
-                customerDelivery: 'own-customer-delivery-details',
                 salesCommission: 'own-sales-commission-wrap',
                 payroll: 'own-payroll-wrap',
                 platformPenalties: 'own-platform-penalties-wrap',
@@ -962,7 +963,6 @@
 
             if (value !== 'yes') {
                 const zeroFields = {
-                    customerDelivery: ['own-return-rate'],
                     salesCommission: ['own-sales-commission-pct'],
                     payroll: ['own-payroll-rewards'],
                     platformPenalties: ['own-platform-penalties-pct'],
@@ -972,10 +972,6 @@
                 (zeroFields[group] || []).forEach(setProductFieldZero);
             }
 
-            if (group === 'customerDelivery' && value === 'yes') {
-                const pct = document.getElementById('own-customer-delivery-pct');
-                if (pct && !(Number(pct.value) > 0)) pct.value = 10;
-            }
         }
 
         function initProductOwnForm() {
@@ -1054,6 +1050,19 @@
                 button.classList.toggle('yn-choice-selected', !!selected);
                 button.setAttribute('aria-pressed', selected ? 'true' : 'false');
             });
+
+            if (key === 'customerDelivery') {
+                const isMine = productLogisticsPayers[key] === 'me';
+                setProductHidden('own-customer-delivery-details', !isMine);
+
+                if (isMine) {
+                    const pct = document.getElementById('own-customer-delivery-pct');
+                    if (pct && !(Number(pct.value) > 0)) pct.value = 10;
+                } else {
+                    setProductFieldZero('own-customer-delivery-pct');
+                    setProductFieldZero('own-return-rate');
+                }
+            }
         }
 
         // Native delegated click handling for all yes/no branches.
