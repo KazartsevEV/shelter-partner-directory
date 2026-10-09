@@ -262,6 +262,30 @@ test('English and Kazakh finance glossary distinguishes markup, margin, profit, 
  A.notEqual(tr('Мой налог на оборот*','en'),tr('Налог партнёра на оборот*','en'));
 });
 
+test('V1 VAT, discount and price-list rejections have complete EN/KK copy',()=>{
+ const cases=[
+  'Введите максимальную скидку, минимальную и целевую маржинальность.',
+  'Сначала завершите расчёт товара, продаж и налога бизнеса.',
+  'Скидка — от 0 до менее 100%; маржинальность — строго больше 0% и меньше 100%.',
+  'Минимальная маржинальность не должна быть выше вашей целевой маржинальности.',
+  'Укажите, применяется ли НДС, и его ставку.',
+  'При этих ставках налогов, комиссий и маржинальности прибыльная цена невозможна. Снизьте нагрузку или маржу.',
+  'Нижняя граница сохраняет минимальную чистую маржу после максимальной скидки, комиссий, налогов и распределённых расходов бизнеса. Верхняя — целевую чистую маржу.',
+  'Введите максимальную скидку и минимальную маржинальность.'
+ ];
+ for(const source of cases){
+  A.equal(tr(source,'ru'),source);
+  for(const lang of ['en','kk']){
+   const translated=tr(source,lang);
+   A.notEqual(translated,source,'untranslated '+lang+': '+source);
+   A.ok(translated.trim().length>0,'missing '+lang+' copy');
+   A.equal(tr(translated,'ru'),translated,'translated diagnostic must not be retranslated');
+  }
+ }
+ A.match(tr(cases[3],'en'),/minimum margin/);
+ A.match(tr(cases[4],'kk'),/ҚҚС/);
+});
+
 test('16 malformed MBA CSV/JSON variants are rejected and their exact diagnostics covered in EN/KK',()=>{
  const MBA=require('../portfolio_v2_mba_observed.js');
  const mk=(extra={})=>({order_id:'order-1',date:'2026-09-01',sku_id:'A',
