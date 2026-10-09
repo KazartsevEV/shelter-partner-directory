@@ -91,6 +91,8 @@ const L={
  }
 };
 let lang='ru';
+const localeKey='nomad360PreferredLanguage'; // UI preference only: never included in financial saved state
+function userLocale(){try{const v=localStorage.getItem(localeKey);return L[v]?v:null}catch(_){return null}}
 function preferred(){
  const candidates=Array.isArray(navigator.languages)&&navigator.languages.length?navigator.languages:[navigator.language||'ru'];
  for(const loc of candidates){const key=String(loc||'').split('-')[0].toLowerCase();if(L[key])return key}
@@ -244,13 +246,16 @@ function handleClick(event){
 }
 function setLanguage(next){
  if(!L[next])return;
- lang=next;buildShell();
+ lang=next;
+ try{localStorage.setItem(localeKey,next)}catch(_){}
+ buildShell();
  const payload=readyOutput();
  // The finance engine is never translated or re-run with altered inputs.
  if(document.getElementById('nomad360-portfolio-tools'))syncPortfolioActions(payload?.out||null);
+ document.dispatchEvent(new CustomEvent('nomad360:languagechange',{detail:{lang}}));
 }
 function boot(){
- lang=preferred();buildShell();
+ lang=userLocale()||preferred();buildShell();
  document.addEventListener('click',handleClick);
  document.addEventListener('change',event=>{
   if(event.target?.id==='nomad360-lang-select')setLanguage(event.target.value);
