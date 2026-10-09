@@ -48,6 +48,7 @@
      const isStock=stock(s);
      let remaining=pos(s.inventoryQty);
      let variableUnit=pos(s.unitCostEffective);
+     let accrualUnit=variableUnit;
      if(isStock){
        const qty=pos(s.inventoryQty),input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
        const prod=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production));
@@ -64,6 +65,10 @@
        post(supplyStart(s),'stockPurchase',inbound);
        const predictedDays=qty/Math.max(EPS,pos(s.forecastUnitsPerMonth)/30);
        const embeddedStorage=pos(s.warehouseDayCost)*predictedDays/2;
+       // Stock acquisition is an upfront CASH payment but its material and
+       // production cost remains COGS only as units are SOLD. Storage cash and
+       // accrual follow the actual declining inventory, not projected COGS.
+       accrualUnit=Math.max(0,accrualUnit-embeddedStorage);
        variableUnit=Math.max(0,variableUnit-(input+prod+inbound)/Math.max(EPS,qty)-embeddedStorage);
      }else if(s.source==='online-service'){
        post(0,'stockPurchase',pos(s.onlineCapex));
@@ -110,7 +115,7 @@
          post(day,'ad',advertising);
          post(day,'shared',overhead);
          post(day,'ordersRevenue',revenue);
-         post(day,'cogsAccrual',units*variableUnit);
+         post(day,'cogsAccrual',units*accrualUnit);
          post(day,'commissionAccrual',commission);
          post(day,'operating',units*variableUnit);
          post(day+receiptLag,'receipt',revenue);
