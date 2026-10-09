@@ -17,8 +17,10 @@
      throw Error('Нужен утверждённый многомесячный план спроса.');
    const items=portfolio.items,resources=portfolio.resources||[],
      horizonMonths=forecast.forecastMonths;
-   if(resources.some(r=>r.kind==='campaign'))
-     throw Error('Распределение общего рекламного бюджета по месяцам не утверждено.');
+   if(resources.some(r=>r.kind==='campaign')&&
+      !forecast.months.every(m=>m.media?.source==='v1-paid-cac-daily'&&
+        Math.abs(m.media.ownerPaid-m.media.allocated-m.media.unattributed)<.000001))
+     throw Error('Не подтверждено сохранение общих рекламных платежей по каждому месяцу.');
    const byId=Object.fromEntries(items.map(s=>[s.id,s]));
    const supplyStart=s=>stock(s)?pos(s.supplyDays)+pos(s.productionDays):0;
    const horizon=Math.max(horizonMonths*30+
