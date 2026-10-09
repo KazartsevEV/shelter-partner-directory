@@ -130,68 +130,97 @@ function render(){
  updateResult();
 }
 function updateResult(){
- const result=document.getElementById('linked-results');if(!result||!state)return;
+ const el=document.getElementById('linked-results');if(!el||!state)return;
  const out=Engine.build(state);
  for(const node of document.querySelectorAll('[data-linked-live]')){
-  const row=out.items?.find(x=>x.id===node.dataset.linkedLive);
-  const list=node.querySelector('[data-linked-price-list]'),paid=node.querySelector('[data-linked-price-paid]');
-  if(list)list.textContent=money(row?.priceList);
-  if(paid)paid.textContent=money(row?.priceGross);
+  const sku=out.items?.find(s=>s.id===node.dataset.linkedLive);
+  const list=node.querySelector('[data-linked-price-list]');
+  const paid=node.querySelector('[data-linked-price-paid]');
+  if(list)list.textContent=money(sku?.priceList);
+  if(paid)paid.textContent=money(sku?.priceGross);
   const meta=node.closest('[data-linked-sku]')?.querySelector('[data-linked-unit-meta]');
-  if(meta)meta.textContent=row?
-   'Для целевой маржи: '+money(row.requiredTargetPrice)+
-   '; для минимальной: '+money(row.requiredFloorPrice)+
-   '; денежная доля: '+money(row.revenueWeight*100)+'%; '+
-   ({TARGET_MET:'целевая маржа обеспечена',MINIMUM_ONLY:'обеспечена минимальная маржа',INFEASIBLE:'минимальная маржа недостижима'}[row.status]||'проверьте входные данные')+'.':
-   'Не завершён портфельный расчёт.';
+  if(meta)meta.textContent=sku?
+    'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
+    '; для минимальной: '+money(sku.requiredFloorPrice)+
+    '; денежная доля: '+money(sku.revenueWeight*100)+'%; '+
+    ({TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима'}[sku.status]||'ожидает проверки'):
+    'Заполните общие ресурсы.';
  }
- document.querySelectorAll('[data-linked-error]').forEach(el=>el.remove());
- document.querySelectorAll('[data-linked-path][aria-invalid]').forEach(el=>el.removeAttribute('aria-invalid'));
+ document.querySelectorAll('[data-linked-error]').forEach(x=>x.remove());
+ document.querySelectorAll('[data-linked-path][aria-invalid]').forEach(x=>x.removeAttribute('aria-invalid'));
  if(!out.ready){
-  const list=[...new Set(out.errors||[])];
-  result.innerHTML='<h2 class="text-xl font-bold">Портфель требует уточнения</h2>'+
-   '<p class="mt-2 text-sm">Исправьте данные общих ресурсов. Расчёты V1 не менялись.</p>';
+  el.innerHTML='<h2 class="text-xl font-black">Портфель пока экономически не подтверждён</h2>'+
+   '<p class="text-sm mt-2">Расчёт V1 остаётся неизменным. V2 не повышает цену за пределы диапазона — исправьте распределение или расходы.</p>'+
+   '<div class="mt-3 space-y-2">'+[...new Set(out.errors||[])].map(message=>
+    '<div class="rounded-lg bg-rose-100 p-3 text-rose-900 text-sm">'+safe(message)+'</div>').join('')+'</div>'+
+   (out.items?.length?'<div class="mt-3 space-y-2">'+out.items.map(item=>
+    '<div class="border border-white/25 rounded-lg p-3 text-sm"><b>'+safe(item.name)+'</b>: диапазон V1 '+
+    money(item.priceMin)+'–'+money(item.priceMax)+', цена для минимальной маржи '+
+    money(item.requiredFloorPrice)+', максимально допустимая цена '+money(item.priceList)+
+    ', итоговая маржа '+money(item.actualAfterTaxMargin)+'%</div>').join('')+'</div>':'');
   for(const issue of out.fieldErrors||[]){
    const field=Array.from(document.querySelectorAll('[data-linked-path]')).find(x=>x.dataset.linkedPath===issue.path);
-   let owner=field?.closest('label')||field?.parentElement;
-   if(!owner){
-    const m=/^resources\.(\d+)/.exec(issue.path),n=/^skus\.(\d+)/.exec(issue.path);
-    owner=m?document.querySelector('[data-linked-resource="'+m[1]+'"]'):
-      n?document.querySelector('[data-linked-sku="'+n[1]+'"]'):null;
-   }
-   if(owner){
+   const m=/^resources\.(\d+)/.exec(issue.path),n=/^skus\.(\d+)/.exec(issue.path);
+   const parent=field?.closest('label')||field?.parentElement||
+    (m?document.querySelector('[data-linked-resource="'+m[1]+'"]'):null)||
+    (n?document.querySelector('[data-linked-sku="'+n[1]+'"]'):null);
+   if(parent){
     if(field)field.setAttribute('aria-invalid','true');
-    const note=document.createElement('div');
-    note.dataset.linkedError='yes';note.className='mt-2 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-xs p-2';
-    note.textContent=issue.message;owner.append(note);
+    const note=document.createElement('div');note.dataset.linkedError='yes';
+    note.className='mt-2 rounded-lg border border-rose-300 bg-rose-50 text-rose-900 p-2 text-xs';
+    note.textContent=issue.message;parent.append(note);
    }
   }
-  if(!out.fieldErrors?.length)result.innerHTML+='<p class="text-rose-300 mt-2">'+safe(list.join(' '))+'</p>';
   return;
  }
- const {totals:t}=out;
- result.innerHTML='<h2 class="text-xl font-black">3. Экономика общего портфеля · 30 дней</h2>'+
- '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+
- [['Прогноз заказов',t.forecast],['Выручка без НДС',t.revenue],['Медиа-бюджет',t.media],
- ['Себестоимость заказов',t.cogs],['Общие месячные расходы',t.monthlyResources],
- ['EBITDA',t.ebitda],['Налоги',t.tax],['Чистый результат',t.netProfit]]
- .map(([label,value])=>'<div class="rounded-lg bg-white/10 p-3"><span class="text-xs text-slate-200">'+label+'</span><div class="text-lg font-bold">'+money(value)+'</div></div>').join('')+'</div>'+
- '<div class="overflow-x-auto mt-5"><table class="min-w-full text-xs"><thead><tr>'+
- ['Товар','Цена с НДС / скидкой','Продажи','Реклама','Себестоимость','Доля выручки','Общ. ресурсы','EBITDA'].map(v=>'<th class="p-2 text-right">'+v+'</th>').join('')+
- '</tr></thead><tbody>'+out.items.map(s=>'<tr class="border-t border-white/20">'+
- [safe(s.name),money(s.priceGross),money(s.forecastOrders),money(s.adBudgetEffective),
- money(s.cogs),money(s.revenueWeight*100)+'%',money(s.resourceShares),money(s.ebitda)]
- .map((v,i)=>'<td class="p-2 text-right '+(i===0?'text-left':'')+'">'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>'+
- '<h3 class="font-bold mt-5">Единые платежи и распределение</h3>'+
- '<div class="mt-2 space-y-2 text-xs">'+out.resources.map(r=>'<div class="rounded-lg bg-white/10 p-2">'+
- '<b>'+safe(r.label)+' — '+money(r.amount)+' '+(r.cadence==='once'?'разово':'в месяц')+'</b>'+
- '<div>Было учтено в V1: '+money(r.previousTotal)+'. '+
- Object.entries(r.bySku).map(([id,v])=>safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(v)).join('; ')+'</div></div>').join('')+'</div>'+
- '<p class="text-xs text-slate-300 mt-4">Разовые ресурсы: '+money(t.onceResources)+
- ' у.е. — показаны отдельно, не включены в месячную EBITDA без срока амортизации. '+
- 'Изменение общего рекламного бюджета переоценивает количество заказов по ранее рассчитанному CAC каждого товара. '+
- 'Совместный кассовый разрыв и кредитный график для смешанного ассортимента ещё не рассчитаны, поэтому стартовый капитал V2 здесь не показывается.</p>'+
- '<p class="text-xs text-emerald-200 mt-2">Инварианты: расходы на кампании и общие ресурсы распределены без дублирования.</p>';
+ const t=out.totals,cf=out.cashflow;
+ const cards=[['Заказы за 30 дней',t.forecast],['Выручка без НДС',t.revenue],
+  ['Рекламный бюджет',t.media],['Себестоимость',t.cogs],
+  ['Общие расходы / мес.',t.monthlyResources],['EBITDA',t.ebitda],
+  ['Налог бизнеса',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
+ const priceTable='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
+  ['Товар','Диапазон V1','Прайс V2','Скидка','Платит покупатель','Прогноз','Денежный вес','Реклама','Чистая маржа'].map(label=>
+   '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
+  out.items.map(s=>'<tr class="border-t border-white/20">'+
+   [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
+    money(s.discountSelected)+'%',money(s.priceGross),money(s.forecastOrders),
+    money(s.revenueWeight*100)+'%',money(s.adBudgetEffective),money(s.actualAfterTaxMargin)+'%']
+   .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
+  '</tbody></table></div>';
+ const resources='<div class="mt-2 space-y-2 text-xs">'+out.resources.map(r=>
+  '<div class="rounded-lg bg-white/10 p-3">'+
+   '<b>'+safe(r.label)+' — '+money(r.amount)+(r.cadence==='once'?' разово':' / мес.')+'</b>'+
+   '<div>Заменённые начисления из V1: '+money(r.previousTotal)+'</div>'+
+   Object.entries(r.bySku).map(([id,amount])=>
+    '<div>'+safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(amount)+'</div>').join('')+
+  '</div>').join('')+'</div>';
+ const flow='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
+  ['Месяц','Поступления','Расходы','Налог','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
+   '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
+  cf.months.map(m=>'<tr class="border-t border-white/20">'+
+   [m.month,money(m.receipt),money(m.operatingOutflow),money(m.tax),money(m.interest),
+    money(m.principalRepaid),money(m.ownerCapital),money(m.cashFlow+m.ownerCapital),
+    money(m.cumulative),money(m.freeCumulative)]
+    .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
+  '</tbody></table></div>';
+ el.innerHTML='<h2 class="text-xl font-black">3. Прайс и экономика портфеля</h2>'+
+ '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
+  '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
+  '<div class="text-xl font-black">'+money(value)+'</div></div>').join('')+'</div>'+
+ (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Целевая маржа достигнута для всех товаров.</p>':
+  '<p class="text-amber-200 text-sm mt-3">Часть товаров обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
+ '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
+ '<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
+ '<h3 class="font-bold mt-5">4. Стартовый капитал и Cash flow</h3>'+
+ '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
+ [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
+  ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]
+ .map(([label,value])=>'<div class="bg-white/10 rounded-lg p-3"><div class="text-xs">'+label+'</div>'+
+  '<b class="text-lg">'+money(value)+'</b></div>').join('')+'</div>'+flow+
+ '<p class="text-xs mt-4 text-slate-300">V2 согласует цену, прогноз заказов, денежный вес и рекламные кампании. '+
+ 'Все закупки и кредиты отражаются как денежные операции; EBITDA считает продажи без повторного расходования стартовых запасов. '+
+ 'Доставка дропшиппинга сдвигает выплаты покупателей. Месяц = 30 дней, налоги моделируются помесячно '+
+ 'без переноса убытков. Разовые общие ресурсы учтены в стартовом денежном потоке, но не амортизируются в EBITDA.</p>';
 }
 function setPath(path,value){
  const parts=path.split('.');let current=state;
