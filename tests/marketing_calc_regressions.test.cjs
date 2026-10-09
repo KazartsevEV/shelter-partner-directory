@@ -89,7 +89,7 @@ test('Creating a new product after editing SKU 1 never overwrites saved SKU 2', 
         }
     };
     const choices = { salesVat: 'yes' };
-    const boot = new Function('document', 'productPortfolio', 'productOwnChoices',
+    const boot = new Function('document', 'productPortfolio', 'productOwnChoices', 'productSource',
         navigation + [
             'let currentProductSequence = 1;',
             "let productBusinessTaxType = 'turnover';",
@@ -107,7 +107,7 @@ test('Creating a new product after editing SKU 1 never overwrites saved SKU 2', 
             'return {run:addAnotherProduct,id:()=>currentProductSequence,tax:()=>productBusinessTaxType,history};'
         ].join('\n')
     );
-    const app = boot(document, [{ id: 1 }, { id: 2 }], choices);
+    const app = boot(document, [{ id: 1 }, { id: 2 }], choices, 'own');
     assert.equal(app.run(), true);
     assert.equal(app.id(), 3);
     assert.equal(app.tax(), 'turnover');
