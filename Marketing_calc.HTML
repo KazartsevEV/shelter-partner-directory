@@ -2442,15 +2442,15 @@
                         </div>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-3 text-sm">
                             <div class="rounded-lg bg-slate-50 p-2">
-                                <div class="text-xs text-slate-500">Материалы / 1 ед.</div>
+                                <div class="text-xs text-slate-500">${item.source==='own'?'Материалы':'Закупка товара'} / 1 ед.</div>
                                 <div class="font-semibold text-slate-900">${moneyInputValue(item.materialsUnitCost)} у.е.*</div>
                             </div>
-                            <div class="rounded-lg bg-slate-50 p-2">
+                            <div class="${item.source==='own'?'rounded-lg bg-slate-50 p-2':'hidden'}">
                                 <div class="text-xs text-slate-500">Производство / 1 ед.</div>
                                 <div class="font-semibold text-slate-900">${moneyInputValue(item.productionUnitCost)} у.е.*</div>
                             </div>
                             <div class="rounded-lg bg-slate-50 p-2">
-                                <div class="text-xs text-slate-500">Логистика / 1 ед.</div>
+                                <div class="text-xs text-slate-500">${item.source==='dropship'?'Доставка покупателю':'Логистика'} / 1 ед.</div>
                                 <div class="font-semibold text-slate-900">${moneyInputValue(item.logisticsUnitCost)} у.е.*</div>
                             </div>
                             <div class="rounded-lg bg-slate-50 p-2">
@@ -4903,7 +4903,7 @@
         function syncVisibleAggregateFromCurrentProduct() {
             const aggregate = document.getElementById('product-tax-block');
             if (!aggregate || aggregate.hidden || aggregate.classList.contains('hidden')) return;
-            if (!productName || productSource !== 'own') return;
+            if (!productName || !['own','resale','dropship'].includes(productSource)) return;
 
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
@@ -5260,7 +5260,7 @@
                                     Это рыночная цена за «${esc(item.name)}»?
                                 </div>
                                 <div class="aggregate-muted mt-2 text-sm leading-relaxed">
-                                    Проведите анализ рынка и получите мнение своего маркетолога: сможет ли он привлечь клиентов на ваш товар с учётом этой стоимости, или лучше ${item.source === 'resale' ? 'торговать другим товаром' : 'производить другой товар'} либо построить бизнес иначе.
+                                    Проведите анализ рынка и получите мнение своего маркетолога: сможет ли он привлечь клиентов на ваш товар с учётом этой стоимости, или лучше ${['resale','dropship'].includes(item.source) ? 'торговать другим товаром' : 'производить другой товар'} либо построить бизнес иначе.
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-3 mt-5">
@@ -5305,7 +5305,7 @@
                                         <a href="#product-logistics-block" onclick="scrollToProductBlock(event, 'product-logistics-block')" class="block underline underline-offset-2">
                                             Оптимизируйте логистику
                                         </a>
-                                        ${item.source === 'resale' ? '' : `<a href="#product-production-block" onclick="scrollToProductBlock(event, 'product-production-block')" class="block underline underline-offset-2">Пересмотрите мотивацию сотрудников, арендные ставки и оборудование</a>`}
+                                        ${['resale','dropship'].includes(item.source) ? '' : `<a href="#product-production-block" onclick="scrollToProductBlock(event, 'product-production-block')" class="block underline underline-offset-2">Пересмотрите мотивацию сотрудников, арендные ставки и оборудование</a>`}
                                         <a href="#product-ad-block" onclick="scrollToProductBlock(event, 'product-ad-block')" class="block underline underline-offset-2">
                                             Поищите новую аудиторию и способы рекламы с маркетологом
                                         </a>
