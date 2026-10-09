@@ -1176,7 +1176,9 @@ function boot(){
  localizeAll();
 }
 root.Nomad360LocaleCore=Object.freeze({
- locale,localizeAll,translationCount:rows.length,hasTranslation:key=>direct.has(key),
+ locale,localizeAll,
+ displayLocale:()=>locale()==='en'?'en-US':locale()==='kk'?'kk-KZ':'ru-RU',
+ translationCount:rows.length,hasTranslation:key=>direct.has(key),
  translate:(source,language)=>lookup(source,language)
 });
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
