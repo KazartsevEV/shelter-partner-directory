@@ -108,6 +108,7 @@ const events=[];
    await choose(sel+' [data-pricing-decision="tax"]');
    await choose('[data-business-tax-type="turnover"]');
    await fill('own-business-tax-pct',6);
+   await page.locator('[data-tax-price-product-id="2"] [data-discount-choice="yes"]').click();
    await page.locator('[data-tax-price-product-id="2"] input[oninput*="maxDiscountPct"]').fill('20');
    await page.locator('[data-tax-price-product-id="2"] input[oninput*="minimumMarginPct"]').fill('10');
    const after=await page.evaluate(()=>{
