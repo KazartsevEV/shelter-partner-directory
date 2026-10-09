@@ -30,7 +30,13 @@ function render(state,onChange){
       select(r.anchorSkuId)+'</select></label>'+
     '<label class="text-xs font-semibold">Доля покупателей, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="attachPct" data-i="'+i+'" value="'+safe(r.attachPct)+'"></label>'+
     '<label class="text-xs font-semibold">Пересечение с самостоятельным спросом, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="overlapPct" data-i="'+i+'" value="'+safe(r.overlapPct)+'"></label>'+
-    '</div><p class="text-xs text-slate-600 mt-2">'+
+    '</div>'+
+    (r.observedRuleId?'<p class="text-xs text-blue-800 mt-2">Взято из истории: N='+safe(r.observedSnapshot?.N||'—')+
+      ', confidence='+money((r.observedSnapshot?.confidence||0)*100)+'%. Показатель пересечения требует вашего ввода: наблюдаемая совместная покупка не доказывает дополнительный спрос.</p>':'')+
+    (r.mode==='bundle'?'<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
+       '<label class="text-xs font-semibold">Скидка за комплект, %<input type="number" min="0" max="99.99" step="any" class="input-field mt-1" data-basket-field="bundleDiscountPct" data-i="'+i+'" value="'+safe(r.bundleDiscountPct??0)+'"></label>'+
+       '<label class="text-xs font-semibold">Или скидка за комплект, у.е. за 1 набор<input type="number" min="0" step="any" class="input-field mt-1" data-basket-field="bundleDiscountAmount" data-i="'+i+'" value="'+safe(r.bundleDiscountAmount??0)+'"></label></div>':'')+
+    '<p class="text-xs text-slate-600 mt-2">'+
       (r.mode==='upsell'?'Исходная позиция исключается из чека; новая занимает её место.':
        r.mode==='bundle'?'Базовая позиция входит в набор один раз, дополнения перечислены ниже.':
        'Базовая позиция сохраняется в чеке, дополнения покупаются вместе с ней.')+
@@ -99,7 +105,21 @@ function updateResult(out){
        money(e.items.reduce((v,p)=>v+p.overlapUnits,0))];
     return '<tr class="border-t border-slate-200">'+values.map(v=>'<td class="p-2 text-right whitespace-nowrap">'+safe(v)+'</td>').join('')+'</tr>';
   }).join('')+'</tbody></table></div>'+
-  '<p class="text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+money(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+money(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
+  (basket.bundleEvents?.length?'<h3 class="font-bold mt-3">Экономика комплектов по чеку</h3>'+
+   '<div class="mt-2 space-y-2">'+basket.bundleEvents.map(e=>
+    '<div class="rounded-lg bg-slate-50 p-3 text-xs">'+safe(e.id)+
+    ': цена позиций без скидки <b>'+money(e.standaloneGross)+'</b>, скидка <b>'+money(e.discountGrossPerBundle)+
+    '</b>, платит покупатель <b>'+money(e.finalGrossPerBundle)+'</b>; выручка без НДС <b>'+
+    money(e.finalNetPerBundle)+'</b>; скидка без НДС на все прогнозные наборы <b>'+
+    money(e.discountNetTotal)+'</b>. Распределение по SKU: '+
+    e.allocations.map(x=>safe(out.items.find(s=>s.id===x.skuId)?.name||x.skuId)+
+      ' −'+money(x.netDiscountPerBundle)+' за набор').join('; ')+'</div>').join('')+
+   '</div>':'')+
+  '<p class="text-xs text-slate-600 mt-2">Скидки наборов: <b>'+money(basket.bundleGrossDiscount)+'</b> с НДС / <b>'+
+    money(basket.bundleNetDiscount)+'</b> без НДС. Изменение выручки при тех же ценах: <b>'+money(basket.revenueLift)+
+    '</b>; прирост переменного вклада: <b>'+money(basket.variableContributionLift)+
+    '</b>; ориентировочный вклад после налога: <b>'+money(basket.netContributionLiftEstimate)+
+    '</b>. Это модель относительно самостоятельных продаж с неизменными ценами, рекламой и числом первично привлечённых покупателей, а не доказанный uplift или измеренная конверсия.</p>'+
   (out.ready?'':'<p class="text-xs text-rose-700 mt-2">Весь портфель ещё не подтверждён: проверьте лимиты запасов, загрузку и маржу.</p>');
 }
 root.LinkedPortfolioV2BasketUI=Object.freeze({render,updateResult});
