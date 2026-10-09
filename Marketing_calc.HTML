@@ -3971,6 +3971,8 @@
                     report('Для «'+item.name+'» не готов рекламный прогноз. Вернитесь к настройкам бюджета и конверсии.');
                     return false;
                 }
+                const credit=calculateAggregateCredit(item);
+                const cycle=aggregatePlanMetrics(item);
                 skus.push({
                     id:'v1-'+item.id,name:item.name,source:item.source,
                     unitCost:row.unitCost,forecastUnitsPerMonth:row.forecastSales,
@@ -3983,6 +3985,19 @@
                     adManagement:Number(item.adManagement)||0,
                     variableSalesPct:(Number(item.salesVariablePct)||0)+(Number(item.penaltiesPct)||0),
                     creditServiceMonthly:Number(row.creditServiceMonthly)||0,
+                    creditPrincipal:item.planning?.fundingMode==='credit'?(Number(credit.principal)||0):0,
+                    creditMonths:item.planning?.fundingMode==='credit'?(Number(credit.termMonths)||0):0,
+                    reserveAmount:Number(cycle.reserveAmount)||0,
+                    inventoryQty:item.source==='dropship'?0:Number(item.logisticsQty)||0,
+                    materialsBatchTotal:Number(item.materialsBatchTotal)||0,
+                    productionTotal:Number(item.productionTotal)||0,
+                    warehouseInboundUnitCost:Number(item.warehouseInboundUnitCost)||0,
+                    warehouseDayCost:Number(item.warehouseDayCost)||0,
+                    supplyDays:Number(item.planning?.supplyDays)||0,
+                    productionDays:item.source==='own'?(Number(item.planning?.productionDays)||0):0,
+                    dropshipDeliveryDays:item.source==='dropship'?(Number(item.dropshipDeliveryDays)||0):0,
+                    dropshipPayoutLagDays:item.source==='dropship'?(Number(item.dropshipPayoutLagDays)||0):0,
+                    dropshipPayoutMode:item.dropshipPayoutMode||'after',
                     vatPct:productOwnChoices.salesVat==='yes'?productNumber('own-sales-vat-pct'):0
                 });
             }
