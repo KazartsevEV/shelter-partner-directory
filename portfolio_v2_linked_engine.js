@@ -48,7 +48,7 @@
     const report=(path,message)=>{errors.push(message);fieldErrors.push({path,message})};
     const rows=Array.isArray(offers)?offers:[];
     const allowed=new Set(['cross_sell','upsell','bundle']);
-    const exclusive={},overlaps={};
+    const exclusive={},overlaps={},pairs=new Set();
     const orders={...baseOrders};
     rows.forEach((r,i)=>{
       const key='offers.'+i,identifier=String(r?.id||'');
@@ -61,6 +61,15 @@
       if(r?.attachPct===''||!Number.isFinite(rawPct)||rawPct<=0||rawPct>100)
         report(key+'.attachPct','Доля покупателей должна быть больше 0% и не выше 100%.');
       const overlapPct=Number(r?.overlapPct??0);
+      if(r?.observedRuleId&&(r?.overlapPct===''||r?.overlapPct===null||
+           r?.overlapPct===undefined))
+        report(key+'.overlapPct','Для правила из реальных чеков вручную укажите пересечение с самостоятельным спросом (0–100%).');
+      const discountPct=Number(r?.bundleDiscountPct??0),discountAmount=Number(r?.bundleDiscountAmount??0);
+      if(!Number.isFinite(discountPct)||discountPct<0||discountPct>=100||
+         !Number.isFinite(discountAmount)||discountAmount<0||
+         (discountPct>0&&discountAmount>0)||
+         (r.mode!=='bundle'&&(discountPct>0||discountAmount>0)))
+        report(key+'.bundleDiscountPct','Скидка набора: выберите либо процент (от 0 до 99,99), либо фиксированную сумму; только для комбо.');
       if(!Number.isFinite(overlapPct)||overlapPct<0||overlapPct>100)
         report(key+'.overlapPct','Пересечение с самостоятельными продажами — от 0 до 100%.');
       const parts=Array.isArray(r?.items)?r.items:[];
@@ -76,11 +85,20 @@
         components.push({skuId:target,qty:quantity});
       });
       if(!allowed.has(r?.mode)||!knownIds.has(anchor)||!(rawPct>0&&rawPct<=100)||
+         (r?.observedRuleId&&(r.overlapPct===''||r.overlapPct===null||r.overlapPct===undefined))||
+         !Number.isFinite(discountPct)||discountPct<0||discountPct>=100||
+         !Number.isFinite(discountAmount)||discountAmount<0||
+         (discountPct>0&&discountAmount>0)||(r.mode!=='bundle'&&(discountPct>0||discountAmount>0))||
          !(overlapPct>=0&&overlapPct<=100)||!parts.length||
          components.some(p=>!knownIds.has(p.skuId)||p.skuId===anchor||
            !Number.isInteger(p.qty)||p.qty<1||p.qty>100)||local.size!==parts.length)return;
       const attach=pos(baseOrders[anchor])*rawPct/100;
-      if(r.mode==='upsell'||r.mode==='bundle')exclusive[anchor]=(exclusive[anchor]||0)+rawPct;
+      exclusive[anchor]=(exclusive[anchor]||0)+rawPct;
+      for(const p of components){
+        const pair=JSON.stringify([anchor,p.skuId]);
+        if(pairs.has(pair))report(key+'.items','Одна пара основная → дополнительная позиция не может начисляться в нескольких связках.');
+        pairs.add(pair);
+      }
       if(r.mode==='upsell')orders[anchor]-=attach;
       const detail=components.map(p=>{
         const gross=attach*p.qty;
@@ -90,10 +108,10 @@
         return {...p,grossUnits:gross,overlapUnits:overlap,netAddedUnits:gross-overlap};
       });
       events.push({id:identifier,mode:r.mode,anchorSkuId:anchor,
-        attachPct:rawPct,overlapPct,transactions:attach,items:detail});
+        attachPct:rawPct,overlapPct,transactions:attach,items:detail,bundleDiscountPct:discountPct,bundleDiscountAmount:discountAmount,observedRuleId:r.observedRuleId||null});
     });
     for(const [sku,pct] of Object.entries(exclusive))
-      if(pct>100+1e-8)report('offers','Наборы и upsell для «'+sku+'» суммарно охватывают больше 100% самостоятельных покупателей.');
+      if(pct>100+1e-8)report('offers','Сумма долей cross-sell, upsell и наборов для «'+sku+'» превышает 100% независимых покупателей. Разделите аудитории, чтобы не продать одну и ту же корзину дважды.');
     for(const [sku,qty] of Object.entries(overlaps))
       if(qty>pos(baseOrders[sku])+1e-8)report('offers',
         'Пересечение продаж «'+sku+'» превышает его независимый спрос из V1.');
@@ -222,13 +240,51 @@
     const taxRate=pos(state.tax?.pct)/100,taxType=state.tax?.type==='profit'?'profit':'turnover';
     // Required customer-facing LIST price. The selected discount is applied at checkout;
     // VAT is pass-through, and the target is after the turnover/profit tax.
-    function requiredListPrice(s,unitLoad,marginPct){
+    function requiredListPrice(s,unitLoad,marginPct,realizedFactor=1){
       if(isOnline(s))return pos(s.priceMax); // Contract fixed at exact V1 fee, no invented price.
       const variable=pos(s.variableSalesPct)/100,goal=marginRate(s,marginPct);
-      const retained=1-variable-(taxType==='turnover'?taxRate:0)-
-        goal/(taxType==='profit'?1-taxRate:1);
+      const retained=realizedFactor*(1-variable-(taxType==='turnover'?taxRate:0)-
+        goal/(taxType==='profit'?1-taxRate:1));
       if(retained<=0||s.discountSelected>=100)return Infinity;
       return unitLoad/retained*(1+pos(s.vatPct)/100)/(1-s.discountSelected/100);
+    }
+    // Allocate the exact customer-facing bundle discount across all lines by
+    // their share of GROSS basket value. This preserves mixed VAT rates and gives
+    // each SKU one and only one discounted revenue/commission/cash entry.
+    function bundlePricing(prices,basket){
+      const discountNet=Object.fromEntries(rows.map(s=>[s.id,0]));
+      const result=[],problems=[];
+      for(const event of basket.events){
+        if(event.mode!=='bundle')continue;
+        const lines=[{skuId:event.anchorSkuId,qty:1},...event.items];
+        const parts=lines.map(p=>{
+          const sku=rows.find(s=>s.id===p.skuId);
+          const gross=pos(prices[p.skuId])*(1-pos(sku.discountSelected)/100)*p.qty;
+          return {...p,sku,gross,net:gross/(1+pos(sku.vatPct)/100)};
+        });
+        const standaloneGross=sum(parts.map(p=>p.gross));
+        const discountGross=event.bundleDiscountPct>0?
+          standaloneGross*event.bundleDiscountPct/100:event.bundleDiscountAmount;
+        if((event.bundleDiscountPct>0||event.bundleDiscountAmount>0)&&
+          parts.some(p=>isOnline(p.sku)))
+          problems.push({path:'offers',message:'Скидка комбо с онлайн-услугой недопустима: V1 хранит эффективный доход, а не клиентскую цену. Уберите онлайн-позицию или скидку.'});
+        if(discountGross>standaloneGross+EPS)
+          problems.push({path:'offers',message:'Фиксированная скидка набора «'+event.id+'» больше цены полного набора.'});
+        const fraction=standaloneGross>0?discountGross/standaloneGross:0;
+        const allocations=parts.map(p=>{
+          const netDiscount=p.net*fraction*event.transactions;
+          discountNet[p.skuId]+=netDiscount;
+          return {skuId:p.skuId,qty:p.qty,grossPerBundle:p.gross,netPerBundle:p.net,
+            grossDiscountPerBundle:p.gross*fraction,netDiscountPerBundle:p.net*fraction};
+        });
+        result.push({...event,standaloneGross,discountGrossPerBundle:discountGross,
+          finalGrossPerBundle:standaloneGross-discountGross,
+          standaloneNet:sum(parts.map(p=>p.net)),
+          finalNetPerBundle:sum(parts.map(p=>p.net))*(1-fraction),
+          discountNetTotal:sum(allocations.map(p=>p.netDiscountPerBundle))*event.transactions,
+          allocations});
+      }
+      return {discountNet,events:result,errors:problems};
     }
     const initialPrices=Object.fromEntries(rows.map(s=>[s.id,pos(s.priceMax)]));
     const calculateScenario=(prices,projectedOrders)=>{
@@ -245,6 +301,7 @@
           (mediaBySku[s.id]+pos(s.onlineExternalAdBudget))/Math.max(EPS,pos(s.onlineDemandBudget)):
           mediaBySku[s.id]/Math.max(EPS,pos(s.adBudget)))]));
       const basket=projectOffers(state.offers,baselineOrders,ids);
+      const bundle=bundlePricing(prices,basket);
       const projections=rows.map(s=>{
         const media=mediaBySku[s.id],orders=pos(basket.orders[s.id]);
         const monthlyResources=allocation.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly')
@@ -260,13 +317,16 @@
           Math.max(0,pos(s.serviceElectricityUnit)-(cashOffsets[s.id].fulfillment/baselineOrders))+
           Math.max(0,pos(s.serviceFixedMonthly)-cashOffsets[s.id].production)/Math.max(EPS,orders):
           pos(s.unitCost)-embeddedUnit;
-        const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
+        const realizedFactor=orders>0&&pos(prices[s.id])>0?
+           Math.max(EPS,1-pos(bundle.discountNet[s.id])/
+            (orders*pos(prices[s.id])*(1-pos(s.discountSelected)/100)/(1+pos(s.vatPct)/100))):1;
+         const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
           monthlyResources+pos(s.creditServiceMonthly))/orders:Infinity;
         return {s,media,orders,monthlyResources,monthlyManager,monthlySelling,
-          netUnitCost,unitLoad,priceTarget:requiredListPrice(s,unitLoad,s.targetMarginPct),
-          priceFloor:requiredListPrice(s,unitLoad,s.minimumMarginPct)};
+          netUnitCost,unitLoad,realizedFactor,priceTarget:requiredListPrice(s,unitLoad,s.targetMarginPct,realizedFactor),
+          priceFloor:requiredListPrice(s,unitLoad,s.minimumMarginPct,realizedFactor)};
       });
-      return {allocation,mediaBySku,projections,basket};
+      return {allocation,mediaBySku,projections,basket,bundle};
     };
     // Revenue-weighted attribution and SKU prices are mutually dependent.
     // Solve them as a damped fixed point, never silently substituting max price.
@@ -290,13 +350,17 @@
     if(!converged)report('resources','Распределение рекламного бюджета и цен не сошлось; зафиксируйте загрузку кампаний по товарам.');
     scenario=calculateScenario(prices,projectedOrders);
     for(const e of scenario.basket.fieldErrors)report(e.path,e.message);
+     for(const e of scenario.bundle.errors)report(e.path,e.message);
     const items=scenario.projections.map(p=>{
       const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad}=p;
       const priceList=Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
         Math.ceil(prices[s.id]*100-1e-8)/100));
       const grossPrice=priceList*(1-s.discountSelected/100);
       const priceNet=grossPrice/(1+pos(s.vatPct)/100);
-      const revenue=priceNet*orders,commission=revenue*pos(s.variableSalesPct)/100;
+      const bundleDiscountNet=pos(scenario.bundle.discountNet[s.id]);
+       const revenue=priceNet*orders-bundleDiscountNet,
+         realizedNetPrice=orders>0?revenue/orders:priceNet,
+         commission=revenue*pos(s.variableSalesPct)/100;
       const cogs=netUnitCost*orders,creditMonthly=pos(s.creditServiceMonthly);
       const ebitda=revenue-cogs-commission-media-monthlyManager-monthlySelling-monthlyResources;
       const depreciation=isOnline(s)?pos(s.onlineAmortMonthly):0;
@@ -311,7 +375,7 @@
         actualAfterTaxMargin+.00001>=pos(s.targetMarginPct);
       return {...s,priceSelected:priceList,priceList,priceGross:grossPrice,priceNet,
         requiredTargetPrice:p.priceTarget,requiredFloorPrice:p.priceFloor,
-        forecastOrders:orders,adBudgetEffective:media,revenue,cogs,commission,
+        forecastOrders:orders,adBudgetEffective:media,revenue,cogs,commission,bundleDiscountNet,realizedNetPrice,
         manager:monthlyManager,selling:monthlySelling,resourceShares:monthlyResources,
         ebitda,creditMonthly,depreciation,incomeTax,preTaxProfit:ebitda-creditMonthly-depreciation,
         unitCostEffective:netUnitCost,unitLoad,revenueWeight:0,cashOffsets:cashOffsets[s.id],
@@ -368,12 +432,16 @@
     }))};
     // Lift is measured at the same calculated portfolio prices, not against
     // a separately repriced standalone scenario (which would mix two effects).
-    basket.revenueLift=sum(items.map(s=>(basket.adjustments[s.id]||0)*s.priceNet));
+    basket.bundleEvents=scenario.bundle.events;
+     basket.bundleGrossDiscount=sum(scenario.bundle.events.map(e=>e.discountGrossPerBundle*e.transactions));
+     basket.bundleNetDiscount=sum(Object.values(scenario.bundle.discountNet));
+     basket.revenueLift=sum(items.map(s=>(basket.adjustments[s.id]||0)*s.priceNet))-basket.bundleNetDiscount;
     basket.variableContributionLift=sum(items.map(s=>{
       const unitVariable=s.source==='offline-service'?
         pos(s.serviceMaterialsUnit)+pos(s.serviceElectricityUnit):pos(s.unitCostEffective);
       return (basket.adjustments[s.id]||0)*
-        (s.priceNet*(1-pos(s.variableSalesPct)/100)-unitVariable);
+        (s.priceNet*(1-pos(s.variableSalesPct)/100)-unitVariable)-
+         pos(s.bundleDiscountNet)*(1-pos(s.variableSalesPct)/100);
     }));
     const counterpart=items.filter(s=>s.source==='online-agent').map(s=>{
        const p=s.onlinePartner,orders=s.forecastOrders,gross=orders*pos(p.customerGrossPerDeal),
@@ -385,6 +453,12 @@
          partnerOpex,capex,amort,profit:gross-commission-acquiring-partnerTax-partnerOpex-amort,
          cash:gross-commission-acquiring-partnerTax-partnerOpex-capex};
      });
+     const incrementalTax=state.tax?.type==='profit'?
+       Math.max(0,basket.variableContributionLift)*taxRate:
+       sum(items.map(s=>((basket.adjustments[s.id]||0)*s.priceNet-
+         pos(s.bundleDiscountNet))*effectiveTaxRate(s,taxRate)));
+     basket.incrementalTaxEstimate=incrementalTax;
+     basket.netContributionLiftEstimate=basket.variableContributionLift-incrementalTax;
      const base={ready:!errors.length,errors,fieldErrors,items,basket,counterpart,
       resources:scenario.allocation,offsets,cashOffsets,
       totals:{revenue:totalRevenue,media:fullMedia,cogs:sum(items.map(s=>s.cogs)),
@@ -453,7 +527,7 @@
       const dailyAd=pos(s.adBudgetEffective)/30;
       const dailyFixed=(pos(s.manager)+pos(s.selling))/30;
       for(let day=0;day<30;day++){
-        const qty=orders/30,at=saleStart+day,netRevenue=qty*pos(s.priceNet);
+        const qty=orders/30,at=saleStart+day,netRevenue=qty*pos(s.realizedNetPrice??s.priceNet);
         // Expense ad/media, management and common assets once per beneficiary.
         post(at,'ad',dailyAd);post(at,'shared',dailyFixed+resourceDaily);
         post(at,'ordersRevenue',netRevenue);
