@@ -208,6 +208,10 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
         console.log('NOMAD360_L47_CENSUS',JSON.stringify(inventory));
       }
     }
+    if(expected!=='ru')console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
+      stage:'product-last-source',locale:expected,
+      gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
+    }));
     const payload=fixture();
     await page.evaluate(p=>{
       LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
@@ -228,6 +232,10 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     const a11y_v2_linked=await localeA11yCensus(page,'v2-linked');
     A.equal(a11y_v2_linked.unlabeled,0,JSON.stringify(a11y_v2_linked.examples));
     if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(a11y_v2_linked));
+    if(expected!=='ru')console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
+      stage:'v2-linked',locale:expected,
+      gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
+    }));
     const baseline=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
