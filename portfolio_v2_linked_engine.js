@@ -369,10 +369,15 @@
         ', а предел V1 — '+item.priceMax+'.');
     if(!invariantMedia||Math.abs(allocated-resourcesTotal)>=EPS)
       report('resources','Не удалось распределить все расходы без потерь или повторного учёта.');
-    const basket={...scenario.basket,transactions:scenario.basket.events.map(event=>({
-      ...event,anchorName:items.find(s=>s.id===event.anchorSkuId)?.name||event.anchorSkuId,
-      items:event.items.map(p=>({...p,name:items.find(s=>s.id===p.skuId)?.name||p.skuId}))
-    }))};
+    const basket={...scenario.basket,transactions:scenario.basket.events.map(event=>{
+      const anchor=items.find(s=>s.id===event.anchorSkuId);
+      const ordinaryGross=(event.mode==='upsell'?0:pos(anchor?.priceGross))+
+        sum(event.items.map(p=>pos(items.find(s=>s.id===p.skuId)?.priceGross)*p.qty));
+      return {...event,anchorName:anchor?.name||event.anchorSkuId,
+        buyerPriceBefore:ordinaryGross,
+        buyerPriceAfter:ordinaryGross*(1-(event.mode==='bundle'?event.bundleDiscountPct:0)/100),
+        items:event.items.map(p=>({...p,name:items.find(s=>s.id===p.skuId)?.name||p.skuId}))};
+    })};
     // Lift is measured at the same calculated portfolio prices, not against
     // a separately repriced standalone scenario (which would mix two effects).
     basket.revenueLift=sum(items.map(s=>s.revenue-
