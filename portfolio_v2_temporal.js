@@ -23,10 +23,13 @@
    if(typeof projectOffers!=='function')
      report('temporal','Не загружен расчёт связей товаров.');
 
+   // Guard the actual cross-tax-owner beneficiary, not unrelated resources.
+   const onlineIds=new Set((state.skus||[]).filter(s=>s.source==='online-service')
+     .map(s=>String(s.id)));
    if(monthsRequested>1&&state.tax?.type==='profit'&&
-      (state.skus||[]).some(s=>s.source==='online-service')&&
-      (state.resources||[]).some(r=>r.cadence==='monthly'))
-     report('resources','Совместное распределение прибыли онлайн-услуг и общих месячных ресурсов не подтверждено для налога на прибыль. Расчёт заблокирован, пока не определено разграничение расходов.');
+      (state.resources||[]).some(r=>r.cadence==='monthly'&&
+        (r.skuIds||[]).some(id=>onlineIds.has(String(id)))))
+     report('resources','Общий месячный ресурс онлайн-услуги при налоге на прибыль имеет неподтверждённое разделение налоговых расходов. Нужен проверенный договор распределения.');
    const skus=Array.isArray(state?.skus)?state.skus:[];
    const byId=Object.fromEntries(skus.map(s=>[String(s.id),s]));
    const ids=new Set(Object.keys(byId));
