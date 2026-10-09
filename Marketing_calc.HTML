@@ -4159,6 +4159,12 @@
                     warehouseInboundUnitCost:Number(item.warehouseInboundUnitCost)||0,
                     warehouseDayCost:Number(item.warehouseDayCost)||0,
                     supplyDays:Number(item.planning?.supplyDays)||0,
+                    advancePct:Number(item.planning?.advancePct)||0,
+                    advanceLeadDays:item.planning?.advanceLeadDays===''||
+                        item.planning?.advanceLeadDays===null||
+                        item.planning?.advanceLeadDays===undefined?
+                        (Number(item.planning?.supplyDays)||0):
+                        (Number(item.planning?.advanceLeadDays)||0),
                     productionDays:item.source==='own'?(Number(item.planning?.productionDays)||0):0,
                     dropshipDeliveryDays:item.source==='dropship'?(Number(item.dropshipDeliveryDays)||0):0,
                     dropshipPayoutLagDays:item.source==='dropship'?(Number(item.dropshipPayoutLagDays)||0):0,
