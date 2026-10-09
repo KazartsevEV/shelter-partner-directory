@@ -43,7 +43,9 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(purchase.materialsBatchQty,15);
    assert.equal(purchase.productionUnitCost,0);
    assert.equal(purchase.productionTotal,0);
-   assert.equal(purchase.materialsUnitCost,30);
+   // Default inbound delivery remains the old 10% of unit purchase cost.
+   assert.equal(purchase.materialsUnitCost,33);
+   assert.equal(purchase.logisticsQty,15);
    assert.equal(await page.locator('#resale-buy-unit').textContent(),'30,00 у.е.*');
 
    // Dropshipping remains unavailable, without a fabricated calculation.
