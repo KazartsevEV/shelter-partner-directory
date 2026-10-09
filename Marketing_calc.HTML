@@ -1494,6 +1494,15 @@
                     </div>
                 </div>
 
+                <section class="card p-4 border border-emerald-200" id="online-v2-entry">
+                  <h2 class="font-bold text-slate-800">Добавить онлайн-услугу в общий портфель V2</h2>
+                  <p class="text-xs text-slate-600 mt-2">Переносим рассчитанную экономику именно вашего бизнеса. В агентской ветке учитываем ваше вознаграждение, а оборот партнёра не записываем как вашу выручку.</p>
+                  <label class="block text-xs mt-3">Название услуги
+                    <input id="online-v2-name" class="input-field mt-1" type="text" placeholder="Например, консультация по маркетингу">
+                  </label>
+                  <button type="button" id="online-v2-add" onclick="openLinkedPortfolioFromOnline()" class="mt-3 w-full bg-emerald-800 text-white rounded-lg p-3 font-bold">Добавить рассчитанную услугу в V2 →</button>
+                  <p id="online-v2-error" role="alert" class="text-sm mt-2 text-rose-700 hidden" hidden></p>
+                </section>
                 <!-- Monthly Breakdown Table -->
                 <div class="card overflow-hidden">
                     <div class="bg-slate-50 px-4 sm:px-5 py-3 border-b border-slate-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
@@ -7163,6 +7172,29 @@
             selectProductYesNo(button.dataset.ynGroup, button.dataset.ynValue);
         });
 
+        let onlineV1PortfolioSnapshot = null;
+        function openLinkedPortfolioFromOnline() {
+          const warning=document.getElementById('online-v2-error');
+          const report=message=>{
+            if(warning){warning.textContent=message;warning.hidden=!message;warning.classList.toggle('hidden',!message);}
+          };
+          report('');
+          try{
+            if(!onlineV1PortfolioSnapshot)throw Error('Сначала завершите корректный расчёт онлайн-услуги.');
+            if(!window.LinkedPortfolioOnlineAdapter||!window.LinkedPortfolioV2UI?.appendOnline)
+              throw Error('Модуль портфеля V2 не загружен.');
+            const existing=LinkedPortfolioV2UI.getState()||LinkedPortfolioV2UI.read();
+            const priorIds=new Set((existing?.skus||[]).map(s=>s.id));
+            let sequence=1;
+            while(priorIds.has('v1-online-'+sequence))sequence++;
+            const title=document.getElementById('online-v2-name')?.value?.trim()||
+              'Онлайн-услуга · '+({self:'сам',hired:'нанятый исполнитель',agent:'агент'}[serviceMode]||serviceMode);
+            const sku=LinkedPortfolioOnlineAdapter.build({...onlineV1PortfolioSnapshot,
+              name:title,id:'v1-online-'+sequence});
+            LinkedPortfolioV2UI.appendOnline(sku);
+            return true;
+          }catch(error){report(error.message);return false;}
+        }
         function selectServiceMode(mode) {
             serviceMode = mode;
             const badge = document.getElementById('mode-badge');
@@ -7191,6 +7223,7 @@
         }
 
         function calculate() {
+            onlineV1PortfolioSnapshot=null;
             const v = currentValues;
             // Guard economic domain before producing any revenue/profit or million-column
             // monthly tables. Invalid input never becomes a plausible-looking forecast.
@@ -7509,6 +7542,13 @@
             }
             totalMonth.mCum = cumCash;
             totalMonth.mAgentCum = cumAgentNet;
+            if(totalMonth.mDeals>0){
+              onlineV1PortfolioSnapshot={
+                mode:serviceMode,values:{...v},payers:{...agentPayers},
+                period:{deals:totalMonth.mDeals,grossRevenue:totalMonth.mGrossSales,
+                  agentIncome:totalMonth.mAgentIncome,executorCost:totalMonth.mExecutor}
+              };
+            }
 
             const accountingNetProfit = totalMonth.mEbitda - totalMonth.mTax - siteAmort - magnetAmort;
             const accruedTotalCosts = totalMonth.mCosts + siteAmort + magnetAmort;
@@ -7930,6 +7970,7 @@
 <script src="./portfolio_v2_ui.js"></script>
 <script src="./portfolio_v2_linked_engine.js"></script>
 <script src="./portfolio_v2_basket_ui.js"></script>
+<script src="./portfolio_v2_online_adapter.js"></script>
 <script src="./portfolio_v2_linked_ui.js"></script>
 </body>
 </html>
