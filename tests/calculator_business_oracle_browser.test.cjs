@@ -171,3 +171,23 @@ test('AMORTIZATION horizon 24 months never depreciates 12-month intangible twice
   A.deepEqual(errors,[]);
  }finally{await page.close();}
 });
+
+test('INVALID INPUT: impossible conversions, zero CTR with spend, negatives & noninteger months fail closed',async()=>{
+ const {page,errors}=await setup('self');
+ try{
+  for(const [key,value]of [
+    ['cvrLead',150],['acq',110],['ctr',0],['cpc',0],
+    ['months',1.5],['monthlyBudget',-100]
+  ]){
+   await page.locator('#in-'+key).fill(String(value));
+   A.equal(await page.locator('#in-'+key).getAttribute('aria-invalid'),'true',
+       key+' must be rejected');
+   A.match(await page.locator('#summary-table').textContent(),/Недопустимая модель/);
+   A.equal((await page.locator('#res-profit').textContent()).trim(),'—');
+   const replacement={cvrLead:20,acq:10,ctr:2,cpc:4,months:3,monthlyBudget:400}[key];
+   await page.locator('#in-'+key).fill(String(replacement));
+   A.notEqual(await page.locator('#in-'+key).getAttribute('aria-invalid'),'true');
+  }
+  A.deepEqual(errors,[]);
+ }finally{await page.close();}
+});
