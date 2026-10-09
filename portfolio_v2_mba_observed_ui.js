@@ -14,6 +14,14 @@ const pct=v=>Number.isFinite(Number(v))?
  (Number(v)*100).toLocaleString(locale(),{minimumFractionDigits:2,maximumFractionDigits:2})+'%</span>':'—';
 const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
   .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+
+const dateLabel=iso=>{
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(String(iso||'')))return esc(iso||'—');
+ const lang=root.Nomad360LocaleCore?.displayLocale?.()||'ru-RU';
+ const rendered=new Intl.DateTimeFormat(lang,{year:'numeric',month:'2-digit',day:'2-digit',
+  timeZone:'UTC'}).format(new Date(iso+'T00:00:00Z'));
+ return '<time data-nomad-display-date="'+esc(iso)+'" datetime="'+esc(iso)+'">'+rendered+'</time>';
+};
 function render(state,onChange){
  const target=document.getElementById('linked-basket-panel')||document.getElementById('linked-results');
  if(!target)return;
@@ -34,7 +42,7 @@ function render(state,onChange){
  '<div data-mba-message class="text-xs mt-2" role="status"></div>'+
  (source?'<div class="rounded-lg bg-slate-50 p-3 mt-4 text-xs">'+
  'Исходных строк: <b>'+money(source.rawLines)+'</b>; точных дублей line_id: <b>'+money(source.deduplicated)+'</b>; '+
- 'подтверждённых чеков в фильтре: <b>'+money(data.N)+'</b>; период: <b>'+esc(data.period.from||'—')+' — '+esc(data.period.to||'—')+
+ 'подтверждённых чеков в фильтре: <b>'+money(data.N)+'</b>; период: <b>'+dateLabel(data.period.from)+' — '+dateLabel(data.period.to)+
  '</b>; валюты: <b>'+esc(data.currencies.join(', ')||'—')+'</b>. Валюты не суммируются в одну сумму.'+
  (data.ready&&data.aovByCurrency.length?'<br>Наблюдаемый средний чек по валютам (из цены файла, без предположений о НДС): '+
  data.aovByCurrency.map(v=>esc(v.currency)+' '+money(v.averageOrderValue)+
