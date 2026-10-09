@@ -468,6 +468,9 @@
                 <button type="button" data-product-source="dropship" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
                     <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Покупаю под заказ, поставщик доставляет покупателю</div>
                 </button>
+                <button type="button" data-product-source="offline-service" class="product-source-choice card p-5 text-left hover:border-emerald-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Офлайн-услуга</div><div class="text-xs text-slate-500 mt-1">Маникюр, парикмахерская, массаж: аренда, расходники и мастера</div>
+                </button>
             </div>
             <div id="product-source-unavailable" class="hidden mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900" role="status" hidden>
                 Для дропшиппинга выберите поставщика, стоимость исполнения заказа и срок доставки.
@@ -6814,6 +6817,7 @@
 
             const ownForm = document.getElementById('product-own-form');
             const hideOwn = !['own','resale','dropship','offline-service'].includes(source);
+            if(source==='offline-service')configureOfflineServiceView();
             ownForm.hidden = hideOwn;
             ownForm.classList.toggle('hidden', hideOwn);
             const unavailable = document.getElementById('product-source-unavailable');
