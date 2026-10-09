@@ -42,6 +42,36 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
     A.equal(localeState.language,expected);
     if(expected==='en')A.ok(localeState.productText.includes('Production')||localeState.productText.includes('Cost'),'translated V1 product text');
     if(expected==='kk')A.ok(localeState.productText.includes('Өндіріс')||localeState.productText.includes('Өзіндік құн'),'translated V1 product text');
+    // A11y attributes set after insertion must localize without touching values.
+    await page.evaluate(()=>{
+      const wrap=document.createElement('div');
+      wrap.id='nomad360-locale-attribute-regression';
+      const field=document.createElement('input');
+      field.id='locale-a11y-probe';
+      field.type='text';
+      field.value='Товар';
+      field.setAttribute('placeholder','Например: кофемашина, футболка, набор свечей');
+      field.setAttribute('aria-label','Название');
+      field.setAttribute('title','Введите название товара');
+      wrap.append(field);
+      document.body.append(wrap);
+    });
+    const expectedPlaceholder=expected==='en'?'For example: coffee machine, T-shirt, candle set':
+      expected==='kk'?'Мысалы: кофе машинасы, футболка, шам жиынтығы':
+      'Например: кофемашина, футболка, набор свечей';
+    await page.waitForFunction(text=>document.querySelector('#locale-a11y-probe')?.getAttribute('placeholder')===text,
+      expectedPlaceholder);
+    await page.evaluate(()=>document.getElementById('locale-a11y-probe')
+      .setAttribute('aria-label','Введите название товара'));
+    const expectedAria=expected==='en'?'Enter product name':
+      expected==='kk'?'Тауар атауын енгізіңіз':'Введите название товара';
+    await page.waitForFunction(text=>document.querySelector('#locale-a11y-probe')?.getAttribute('aria-label')===text,
+      expectedAria);
+    A.equal(await page.locator('#locale-a11y-probe').inputValue(),'Товар');
+    const expectedMeta=expected==='en'?'Nomad360 — free business calculator.':
+      expected==='kk'?'Nomad360 — тегін бизнес-калькулятор.':
+      'Nomad360 — бесплатный калькулятор бизнеса.';
+    A.ok((await page.locator('meta[name="description"]').getAttribute('content')).startsWith(expectedMeta));
     const payload=fixture();
     await page.evaluate(p=>{
       LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
