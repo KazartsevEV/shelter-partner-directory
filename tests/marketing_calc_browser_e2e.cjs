@@ -11,8 +11,9 @@ const approx = (actual, expected, label, epsilon=0.011) => {
     console.log('PASS',label,'observed',actual.toFixed(4),'expected',expected.toFixed(4));
 };
 const number = txt => {
-  const cleaned = String(txt||'').replace(/\s|\u00a0/g,'').replace(',','.').replace(/[^0-9.-]/g,'');
-  return Number(cleaned);
+  // Extract the first localized numeric token; ignore dots in the suffix "у.е.*".
+  const match = String(txt || '').match(/-?\d[\d\s\u00a0]*(?:[.,]\d+)?/);
+  return match ? Number(match[0].replace(/\s|\u00a0/g, '').replace(',', '.')) : NaN;
 };
 const browserLog = [];
 (async()=>{
