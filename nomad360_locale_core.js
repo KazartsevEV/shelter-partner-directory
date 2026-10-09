@@ -1344,20 +1344,6 @@ function dynamicLookup(source,language){
   return language==='en'?'Approved '+approved[1]+'-month scenario: monthly VAT-exclusive receipts, physical procurement, service delivery, bundle discounts, recurring costs and loan schedules. SKU prices are calculated over the full period; profit and cash flow are reconciled month by month.':
    approved[1]+' айға бекітілген сценарий: ҚҚС-сыз айлық түсімдер, нақты сатып алу, қызмет көрсету, жинақ жеңілдіктері, тұрақты шығындар және несие кестелері. SKU бағалары бүкіл кезеңге есептеледі; пайда мен ақша ағыны әр ай бойынша жеке салыстырылады.';
  }
- const periodFailure=/^За (\d+) мес\. «([^»]+)»: минимальная маржа ([\d.,]+)% недостижима в диапазоне V1 ([\d.,]+)–([\d.,]+)\. При цене ([\d.,]+) маржа с учётом оставшихся процентов (не определена|[\d.,]+%); расчётная необходимая цена (выше достижимого предела|[\d.,]+)\.$/.exec(source);
- if(periodFailure){
-  const [,months,name,min,low,high,selected,margin,required]=periodFailure;
-  const shownMargin=margin==='не определена'?(language==='en'?'undefined':'анықталмаған'):margin;
-  const shownRequired=required==='выше достижимого предела'?
-    (language==='en'?'above the feasible range':'қолжетімді диапазоннан жоғары'):required;
-  return language==='en'?
-   'Over '+months+' months, “'+name+'”: minimum margin '+min+'% is unattainable within the V1 price range '+
-     low+'–'+high+'. At price '+selected+', margin including outstanding interest is '+shownMargin+
-     '; required price '+shownRequired+'.':
-   months+' айда «'+name+'»: ең төменгі '+min+'% маржа V1 баға диапазонында ('+
-     low+'–'+high+') қолжетімсіз. '+selected+' бағасында қалған пайыздарды қоса есептегендегі маржа '+
-     shownMargin+'; қажетті есептік баға '+shownRequired+'.';
- }
  const priceMetric=/^Цена для целевой маржи: ([\d.,\s\u00a0]+); для минимальной: ([\d.,\s\u00a0]+); денежная доля: ([\d.,\s\u00a0]+)%; (.+)$/.exec(source);
  if(priceMetric&&direct.has(priceMetric[4])){
   return language==='en'?
