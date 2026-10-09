@@ -179,7 +179,7 @@
         bySku[skuId]=r.amount*(shares[skuId]||0);
         adAllocation[skuId]+=bySku[skuId];
       }
-      return {id:r.id,label:r.label,amount:r.amount,bySku};
+      return {id:r.id,label:r.label,amount:r.amount,bySku,beneficiaries:r.skuIds.slice()};
     });
     const baseCAC=marketing.baseCAC;
     const items=skus.map(s=>{
@@ -255,11 +255,17 @@
             totals.storage+=src.storagePerUnitDay*30*(before+after)/2;
           }
         }
-        // The campaign is charged once when the business is selling.
-        if(activeOrders>EPS)totals.ad=marketing.budget;
+        // Charges follow their actual beneficiary resource group. A warehouse
+        // or team attached only to SKU B does not keep billing merely because
+        // SKU A is still selling after B has sold out.
+        if(activeOrders>EPS)totals.ad=positive(state?.marketing?.budget);
+        for(const campaign of campaignLedger) {
+          if(campaign.beneficiaries.some(k=>(shipped[k]||0)>EPS))totals.ad+=campaign.amount;
+        }
         for(const resource of resourceAllocation.ledger) {
           if(resource.cadence==='once'&&mi===0)totals.oneOff+=resource.amount;
-          if(resource.cadence==='monthly'&&activeOrders>EPS)totals.shared+=resource.amount;
+          if(resource.cadence==='monthly'&&resource.beneficiaries.some(k=>(shipped[k]||0)>EPS))
+            totals.shared+=resource.amount;
         }
         const cost=totals.cogs+totals.acquiring+totals.fulfillment+totals.ad+
           totals.storage+totals.shared+totals.oneOff;
