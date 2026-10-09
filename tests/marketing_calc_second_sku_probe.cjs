@@ -104,7 +104,7 @@ const events=[];
       ancestors:Array.from((function*(v){while(v){yield {tag:v.tagName,id:v.id,cl:v.className,completedId:v.dataset?.completedProductId};v=v.parentElement}})(el)).slice(0,9)
    })));
    console.log('VAT_DOM_PROBE',JSON.stringify(vatNodes));
-   await fill('own-sales-vat-pct',12);
+   await page.locator('#product-tax-block #own-sales-vat-pct').fill('12');
    await choose(sel+' [data-pricing-decision="tax"]');
    await choose('[data-business-tax-type="turnover"]');
    await fill('own-business-tax-pct',6);
