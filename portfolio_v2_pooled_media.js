@@ -51,6 +51,7 @@
    const orders=Object.fromEntries(ids.map(id=>[id,0]));
    const baseOrders=Object.fromEntries(ids.map(id=>[id,0]));
    const discountedUnits=Object.fromEntries(ids.map(id=>[id,0]));
+   const unservedIndependent=Object.fromEntries(ids.map(id=>[id,0]));
    const availableDays=Object.fromEntries(ids.map(id=>[id,0]));
    const allocBySku=Object.fromEntries(ids.map(id=>[id,0]));
    const retainedBySku=Object.fromEntries(ids.map(id=>[id,0]));
@@ -97,13 +98,14 @@
      return {bySku,byCampaign,unassigned};
     };
     const demand=bySku=>{
-     const independent={};
+     const independent={},unserved={};
      for(const id of ids){
       const s=byId[id],v1Media=pos(s.adBudget),ownerMedia=retained[id]+pos(bySku[id]);
       let raw=v1Media>EPS?pos(s.forecastUnitsPerMonth)*ownerMedia/v1Media:
        pos(s.forecastUnitsPerMonth)/30;
       if(!eligible[id])raw=0;
       independent[id]=stockSource(s)?Math.min(raw,pos(stock[id])):raw;
+      unserved[id]=stockSource(s)?Math.max(0,raw-independent[id]):0;
      }
      const basket=projectOffers(state.offers||[],independent,idSet);
      const basis=Object.fromEntries(ids.map(id=>[id,{
@@ -111,7 +113,7 @@
       revenue:pos(priceById[id])*
        Math.max(0,pos(basket.orders[id])-pos(basket.discountedUnits[id]))
      }]));
-     return {independent,basket,basis};
+     return {independent,basket,basis,unserved};
     };
     // Bootstrap symmetric campaigns with V1 demand, so zero retained media
     // cannot erase a SKU before the allocator has a chance to fund it.
@@ -133,8 +135,8 @@
      basis=next;
      if(Math.max(...diff,0)<1e-8){settled=true;break}
     }
-    if(!settled)report('resources','Месяц '+(m+1)+', день '+(day+1)+
-      ': общий рекламный бюджет не сошёлся по спросу и выручке.');
+    if(!settled&&day===0)report('resources','Месяц '+(m+1)+
+      ': общий рекламный бюджет не сошёлся по спросу и выручке; расчёт не подтверждён.');
     // Re-evaluate from converged weight basis, no one-iteration lag.
     const allocation=allocate(basis),result=demand(allocation.bySku);
     for(const e of result.basket.fieldErrors)
@@ -149,6 +151,7 @@
       report('skus.'+id,'Месяц '+(m+1)+', день '+(day+1)+
        ': мощность услуги «'+s.name+'» исчерпана.');
      baseOrders[id]+=pos(result.independent[id]);
+     unservedIndependent[id]+=pos(result.unserved[id]);
      orders[id]+=q;
      discountedUnits[id]+=pos(result.basket.discountedUnits[id]);
      if(eligible[id])availableDays[id]++;
@@ -193,7 +196,7 @@
       ': ресурс «'+r.label+'» требует '+load.toFixed(2)+
       ' при мощности '+pos(r.capacity)+'.');
    }
-   months.push({month:m+1,baseOrders,orders,discountedUnits,
+   months.push({month:m+1,baseOrders,orders,discountedUnits,unservedIndependent,
     events:Array.from(eventsById.values()),remainingStock:{...stock},
     availability:Object.fromEntries(ids.map(id=>[id,availableDays[id]/30])),
     units:sum(Object.values(orders)),media:{
