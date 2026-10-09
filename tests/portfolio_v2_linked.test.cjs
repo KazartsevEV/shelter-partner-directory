@@ -224,3 +224,79 @@ test('price from exact target, not a damped cent above the target',()=>{
  r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
  eq(r.items[0].priceList,40);
 });
+
+
+function inventoryOracle(stock=100, monthly=20) {
+  return E.fromV1({tax:{type:'turnover',pct:5},skus:[{
+    id:'inventory-one', name:'Resale test SKU', source:'resale',
+    unitCost:20,forecastUnitsPerMonth:monthly,adBudget:100,baseCac:5,
+    priceMin:20,priceMax:150,maxDiscountPct:0,
+    minimumMarginPct:10,targetMarginPct:25,salesFixedMonthly:0,
+    adManagement:0,variableSalesPct:0,creditServiceMonthly:0,creditMonths:0,
+    creditPrincipal:0,vatPct:0,inventoryQty:stock,
+    materialsBatchTotal:stock*20,productionTotal:0,reserveAmount:0
+  }]});
+}
+test('31A independent sell-through oracle conserves stock and repeat monthly media over 1/3/5/10 months',()=>{
+  for(const stock of [20,60,100,200]){
+    const result=E.build(inventoryOracle(stock));
+    A.equal(result.ready,true,JSON.stringify(result.errors));
+    const f=result.cashflow, months=stock/20;
+    A.equal(f.months.length,months);
+    const total=field=>f.months.reduce((sum,m)=>sum+m[field],0);
+    eq(total('receipt'),stock*result.items[0].priceNet);
+    eq(total('stockPurchase'),20*stock);
+    eq(total('ad'),100*months);
+    eq(total('tax'),stock*result.items[0].priceNet*.05);
+    eq(total('cashFlow'),total('receipt')-total('stockPurchase')-
+       total('ad')-total('tax'));
+    for(const month of f.months)eq(month.receipt,20*result.items[0].priceNet);
+  }
+});
+test('31A daily warehouse integral equals falling inventory, with no second per-sale storage payment',()=>{
+  const state=inventoryOracle(100),s=state.skus[0],perDay=.5;
+  const saleDays=100/(20/30);
+  s.warehouseDayCost=perDay;
+  s.unitCost=20+perDay*saleDays/2; // independent V1 full-cycle accrued COGS
+  const r=E.build(state);A.equal(r.ready,true,JSON.stringify(r.errors));
+  const f=r.cashflow;
+  eq(f.months.reduce((v,m)=>v+m.operatingOutflow-m.stockPurchase-m.ad-m.shared,0),
+     perDay*100*saleDays/2);
+  for(let index=0;index<5;index++){
+    const start=index*30,end=(index+1)*30,rate=20/30;
+    const holding=perDay*(100*(end-start)-rate*(end*end-start*start)/2);
+    eq(f.months[index].operatingOutflow-f.months[index].stockPurchase-
+       f.months[index].ad-f.months[index].shared,holding);
+  }
+});
+test('31A full term interest and reserve change SKU target price; loan principal stays cash-only',()=>{
+  const s=inventoryOracle(20),item=s.skus[0];
+  item.creditPrincipal=500;item.creditServiceMonthly=5;
+  let last=0;
+  for(const term of [1,3,6,12]){
+    item.creditMonths=term;
+    const r=E.build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
+    A.ok(r.items[0].priceList>last,'term '+term+' must raise required price');
+    last=r.items[0].priceList;
+    eq(r.cashflow.months.reduce((v,m)=>v+m.interest,0),5*term);
+    eq(r.cashflow.months.reduce((v,m)=>v+m.principalRepaid,0),500);
+    eq(r.cashflow.months.reduce((v,m)=>v+m.loanDraw,0),500);
+  }
+  item.creditServiceMonthly=0;item.creditMonths=0;item.creditPrincipal=0;
+  const priceWithoutReserve=E.build(s).items[0].priceList;
+  item.reserveAmount=100;
+  const withReserve=E.build(s);
+  A.equal(withReserve.ready,true,JSON.stringify(withReserve.errors));
+  A.ok(withReserve.items[0].priceList>priceWithoutReserve);
+  eq(withReserve.cashflow.reserve,100);
+});
+test('31A supplier advance and remainder are paid at their declared dates',()=>{
+  const x=inventoryOracle(50),s=x.skus[0];
+  s.supplyDays=40;s.advancePct=50;s.advanceLeadDays=35;
+  const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+  A.equal(r.cashflow.months.length,4);
+  eq(r.cashflow.months[0].stockPurchase,500); // day 5 advance
+  eq(r.cashflow.months[1].stockPurchase,500); // day 40 settlement
+  eq(r.cashflow.months[0].receipt,0);         // goods unavailable before day 40
+  eq(r.cashflow.months.reduce((v,m)=>v+m.stockPurchase,0),1000);
+});
