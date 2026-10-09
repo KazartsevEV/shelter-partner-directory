@@ -64,6 +64,7 @@ function importFromV1(payload){
    });
   }
  }
+ fresh.mbaHistory=prior?.mbaHistory||null;
  state=fresh;resetSequence();save();enter();
 }
 function appendOnline(sku){
@@ -163,6 +164,11 @@ function render(){
  '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
  root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{
    state.offers=offers;save();if(structural)render();else updateResult();
+ });
+ root.LinkedPortfolioV2MBAUI?.render(state,(patch,structural)=>{
+   if(Object.prototype.hasOwnProperty.call(patch,'mbaHistory'))state.mbaHistory=patch.mbaHistory;
+   if(Object.prototype.hasOwnProperty.call(patch,'offers'))state.offers=patch.offers;
+   save();if(structural)render();else updateResult();
  });
  updateResult();
 }
