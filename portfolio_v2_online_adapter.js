@@ -3,7 +3,7 @@
 (function(root,factory){
  const api=factory();
  if(typeof module==='object'&&module.exports)module.exports=api;
- if(root)root.LinkedPortfolioV2OnlineAdapter=api;
+ if(root){root.LinkedPortfolioV2OnlineAdapter=api;root.LinkedPortfolioOnlineAdapter=api;}
 })(typeof globalThis==='object'?globalThis:this,function(){
  'use strict';
  const n=v=>Number(v);
@@ -83,5 +83,51 @@
       forecastWindow:'first-30-days',firstMonthDeals,firstMonthGross}
   };
  }
- return Object.freeze({fromOnlineV1});
+
+ // Period-ledger adapter: unlike fromOnlineV1's first-month template, this
+ // contract uses the actual results of the configured V1 period and preserves
+ // every payer boundary. Agent revenue is commission, not partner turnover.
+ function build(input){
+  const {mode,values:v,payers={},period={},name,id}=input||{};
+  if(!['self','hired','agent'].includes(mode))throw Error('Неизвестный онлайн-сценарий.');
+  const months=Number(v?.months),deals=Number(period.deals);
+  if(!Number.isInteger(months)||months<1||months>120)throw Error('Недопустимый период.');
+  if(!Number.isFinite(deals)||deals<=0)throw Error('Воронка не содержит подтверждённого прогноза сделок.');
+  const value=k=>{const x=Number(v[k]);if(!Number.isFinite(x)||x<0)throw Error('Некорректное поле V1: '+k);return x;};
+  const keys=['monthlyBudget','mgmt','site','hosting','dom','magnet'];
+  const own=key=>mode!=='agent'||payers[key]==='me';
+  if(mode==='agent'&&keys.some(k=>value(k)>0&&!['me','partner'].includes(payers[k])))
+   throw Error('Не распределены расходы агента и партнёра.');
+  const ownerGross=Number(mode==='agent'?period.agentIncome:period.grossRevenue);
+  if(!Number.isFinite(ownerGross)||ownerGross<=0)throw Error('Не рассчитан доход владельца.');
+  const ownerAd=own('monthlyBudget')?value('monthlyBudget'):0;
+  const operations=['mgmt','hosting','dom'].reduce((s,k)=>s+(own(k)?value(k):0),0);
+  const capex=['site','magnet'].reduce((s,k)=>s+(own(k)?value(k):0),0);
+  const amortPeriod=capex*Math.min(months,12)/12;
+  const contractor=mode==='hired'?Number(period.executorCost):0;
+  if(!Number.isFinite(contractor)||contractor<0)throw Error('Не рассчитана оплата исполнителю.');
+  const taxPct=value(mode==='agent'?'agentTaxTurnover':'taxTurnover');
+  if(taxPct>100||value('acq')>100)throw Error('Налог или эквайринг превышает 100%.');
+  const perDeal=ownerGross/deals,forecast=deals/months;
+  if(!(perDeal>0&&forecast>0))throw Error('Неверная цена или количество продаж.');
+  return {
+    id:String(id),name:String(name||'Онлайн-услуга'),source:'online-service',onlineRole:mode,
+    onlineProvenance:{periodMonths:months,dealsInPeriod:deals,
+      partnerGrossRevenue:mode==='agent'?Number(period.grossRevenue):null,
+      ownerRevenueInPeriod:ownerGross,contractorPaymentsInPeriod:contractor,
+      originalPayers:{...payers},originalTaxPct:taxPct},
+    unitCost:contractor/deals,forecastUnitsPerMonth:forecast,
+    adBudget:ownerAd,baseCac:ownerAd/forecast,
+    priceMin:perDeal,priceMax:perDeal,fixedPriceFromV1:true,
+    maxDiscountPct:0,minimumMarginPct:0,targetMarginPct:0,
+    salesFixedMonthly:(operations+amortPeriod)/months,
+    adManagement:0,variableSalesPct:mode==='agent'?0:value('acq'),
+    creditServiceMonthly:0,vatPct:0,
+    ownerTax:{type:'turnover',pct:taxPct,entity:mode==='agent'?'agent':'business'},
+    onlineCapex:capex,onlineAmortMonthly:amortPeriod/months,
+    inventoryQty:0,reserveAmount:0,serviceCapacity:0,
+    materialsBatchTotal:0,productionTotal:0
+  };
+ }
+ return Object.freeze({fromOnlineV1,build});
 });

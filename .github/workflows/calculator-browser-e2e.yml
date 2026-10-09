@@ -13,8 +13,8 @@ on:
       - "tests/marketing_calc_offline_service_browser.test.cjs"
       - "tests/calculator_business_oracle_browser.test.cjs"
       - "portfolio_v2_linked_ui.js"
+      - "tests/portfolio_v2_online_browser.test.cjs"
       - "portfolio_v2_online_adapter.js"
-      - "tests/portfolio_v2_online_import_browser.test.cjs"
       - "portfolio_v2_linked_engine.js"
       - "portfolio_v2_basket_ui.js"
       - "tests/marketing_calc_inline_errors.test.cjs"
@@ -46,6 +46,6 @@ jobs:
           node tests/marketing_calc_inline_errors.test.cjs
           node tests/marketing_calc_dropship_browser.test.cjs
           node tests/portfolio_v2_linked_browser.test.cjs
-          node tests/portfolio_v2_online_import_browser.test.cjs
+          node tests/portfolio_v2_online_browser.test.cjs
           node tests/marketing_calc_offline_service_browser.test.cjs
           node --test tests/calculator_business_oracle_browser.test.cjs
