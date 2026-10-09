@@ -2,7 +2,7 @@ const {chromium}=require('playwright'),A=require('node:assert/strict');
 const path=require('node:path'),{pathToFileURL}=require('node:url');
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
- const page=await browser.newPage({viewport:{width:390,height:844}});
+ const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
  const errors=[];page.on('pageerror',x=>errors.push(x.message));
  await page.route(/^https?:\/\//,r=>r.abort());
  const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
