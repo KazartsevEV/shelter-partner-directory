@@ -154,7 +154,7 @@ function render(){
  (s.onlineContract?
  '<div class="rounded-lg bg-blue-50 p-3 text-xs text-blue-900">Эффективный доход на сделку первого месяца V1: '+money(s.priceMax)+
  (s.source==='online-agent'?' — мой комиссионный доход, не оборот партнёра.':' — средний прогнозный доход, не цена консультации/пакета для клиента.')+
- ' Это результат сценария V1 с учётом стартовых коэффициентов; сумма за расчётную сделку фиксирована только внутри V2.</div>':
+ ' Это результат сценария V1 с учётом стартовых коэффициентов; сумма за расчётную сделку фиксирована только внутри V2.</div>'+field('Лимит онлайн-сделок в месяц (0 — мощность не указана)','skus.'+i+'.onlineCapacity',s.onlineCapacity??0,'min="0" step="1"'):
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
  'max="'+safe(s.maxDiscountPct)+'"'))+'</div>'+
  '<div class="rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
