@@ -89,11 +89,11 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
     });
     A.equal(invalid.ready,false,'over-capacity service must fail closed');
     await page.waitForFunction(code=>{
-      const text=[...document.querySelectorAll('[data-linked-error]')].map(e=>e.textContent).join(' ');
+      const text=[...document.querySelectorAll('#linked-results .bg-rose-100')].map(e=>e.textContent).join(' ');
       return code==='en'?/Month \d+: Service “/.test(text):
        /\d+-ай: «/.test(text);
     },changed);
-    const displayErrors=await page.locator('[data-linked-error]').allTextContents();
+    const displayErrors=await page.locator('#linked-results .bg-rose-100').allTextContents();
     A.ok(displayErrors.some(s=>s.includes('Маникюр')),'product name must survive translation in an error');
     await page.evaluate(source=>{
       localStorage.setItem('marketingCalcLinkedPortfolioV2',source);
