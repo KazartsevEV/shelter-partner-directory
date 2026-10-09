@@ -64,7 +64,7 @@ const url = pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
    assert.equal(await legacyNote('materials').isVisible(),false);
    await legacy('logistics').fill('101');
    assert.equal(await legacyNote('logistics').isVisible(),true);
-   assert.match(await legacyNote('logistics').textContent(),/произведено только 100/);
+   assert.match(await legacyNote('logistics').textContent(),/при выпуске 100/);
    await legacy('logistics').fill('100');
    assert.equal(await legacyNote('logistics').isVisible(),false);
    assert.deepEqual(errors,[]);
