@@ -38,8 +38,8 @@ const events=[];
      }));
      events.push({finance,probe:source,status});
      assert.equal(status.source,source);
-     assert.equal(status.ownFormVisible,false,'No dedicated forms exist yet for '+source);
-     assert.equal(status.savedCount,1,'No second product can yet be stored in those modes');
+     assert.equal(status.ownFormVisible,true,'Detailed form should be available for '+source);
+     assert.equal(status.savedCount,1,'Choosing a branch never creates an unwanted product');
    }
    await page.locator('#product-source-block [data-product-source="own"]').click();
    await page.locator('#additional-product-name-input').fill('Майка — второй товар');
