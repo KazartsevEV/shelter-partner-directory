@@ -5897,6 +5897,78 @@
             if(lag&&lag.value!==''&&Number(lag.value)<0)lag.value='0';
             syncVisibleAggregateFromCurrentProduct();
         }
+        function configureOfflineServiceView() {
+            const service=productSource==='offline-service';
+            const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+            const show=(id,value)=>{const el=document.getElementById(id);if(el){el.hidden=!value;el.classList.toggle('hidden',!value);}};
+            set('product-intro-category',service?'Услуга · Офлайн':'Товар');
+            set('product-intro-title',service?'Какую услугу оказываете?':'Что продаёте?');
+            set('product-name-label',service?'Название услуги':'Наименование товара');
+            set('product-intro-help',service?'Например: маникюр с покрытием, стрижка, массаж. Одна единица = одна оказанная услуга.':'Введите название своего товара. Сведения из учебных примеров сюда не переносятся.');
+            set('product-intro-submit-label',service?'Рассчитать услугу':'Рассчитать мой товар');
+            const input=document.getElementById('product-name-input');
+            if(input)input.placeholder=service?'Например: маникюр с покрытием':'Например: кофемашина, футболка, набор свечей';
+            const back=document.getElementById('product-main-back');
+            if(back){back.textContent=service?'← Онлайн / офлайн':'← Главная';back.setAttribute('onclick',service?'showServiceWorkChooser()':'showHome()');}
+            show('product-production-block',service||productSource==='own');
+            show('production-unit-result',service||productSource==='own');
+            show('offline-service-capacity',service);
+            show('production-defect-panel',!service);
+            show('materials-import-prompt',!service);
+            show('purchase-inbound-delivery-panel',!service&&productSource!=='dropship');
+            show('own-import-details',!service&&productOwnChoices.materialsImported==='yes');
+            show('materials-qty-entry-panel',!service&&productSource==='own');
+            show('product-logistics-block',!service);
+            show('logistics-unit-result',!service);
+            set('materials-step-name',service?'Расходные материалы на одну услугу':'Из чего состоит себестоимость');
+            set('materials-step-help',service?
+                'Укажите расходники на одну процедуру — лак, база, пилки, перчатки и другое. Можно ввести одну сумму или состав по позициям. Без закупочной партии и складских остатков.':
+                'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
+            set('materials-step-result-label',service?'Расходники на 1 оказанную услугу':'Для того, чтобы купить и привезти материалы для 1 ед.');
+            set('production-stage-heading',service?'Офлайн-услуга · рабочее место и персонал':'Производство');
+            set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');
+            set('production-worker-heading',service?'Кто оказывает услугу?':'Кто выполняет производство?');
+            set('production-result-caption',service?'Аренда, мастера и другие расходы на 1 услугу':'Стоимость производства 1 ед.');
+            set('production-qty-label',service?'Прогноз оказанных услуг':'Сколько единиц');
+            set('production-qty-suffix',service?'в месяц (из рекламной воронки)':'производите в месяц?');
+            set('production-result-help',service?
+                'Месячную аренду, зарплаты мастеров и начисления работодателя, оборудование, отопление и накладные расходы распределяем на прогноз фактически оказанных услуг из рекламы. Максимум клиентов проверяем отдельно.':
+                'Аренда помещения / месяц, аренда оборудования / месяц, амортизация оборудования / месяц, газ / месяц, рабочие / месяц и накладные организационные расходы / месяц распределяются на месячный объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.');
+            const qty=document.getElementById('own-production-monthly-qty');
+            if(qty){qty.readOnly=service;qty.classList.toggle('bg-slate-100',service);}
+            if(service){
+                productOwnChoices.inboundIncluded='yes';productOwnChoices.materialsImported='no';
+                setProductChoiceVisual('inboundIncluded','yes');
+                setProductChoiceVisual('materialsImported','no');
+                const inbound=document.getElementById('own-inbound-delivery-cost');if(inbound)inbound.value='0';
+                const defect=document.getElementById('own-production-defect-pct');if(defect)defect.value='0';
+                Object.keys(productImportPayers).forEach(key=>productImportPayers[key]=null);
+                productLogisticsPayers.warehouse=null;
+                productLogisticsPayers.warehouseInbound=null;
+                productLogisticsPayers.customerDelivery=null;
+                for(const id of ['own-warehouse-inbound-unit-cost','own-warehouse-cost','own-warehouse-days','own-customer-delivery-pct','own-return-rate']){
+                    const el=document.getElementById(id);if(el)el.value='0';
+                }
+                syncOfflineServiceForecast();
+            }
+        }
+        function syncOfflineServiceForecast() {
+            if(productSource!=='offline-service')return;
+            const forecast=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const qty=Math.max(1,Math.ceil(forecast));
+            for(const id of ['own-production-monthly-qty','own-materials-batch-qty','own-sales-monthly-qty']){
+                const el=document.getElementById(id);if(el)el.value=String(qty);
+            }
+            const capacityField=document.getElementById('offline-service-monthly-capacity');
+            const capacity=Number(capacityField?.value||0);
+            const warning=document.getElementById('offline-service-capacity-warning');
+            if(warning){
+                const message=capacity>0&&forecast>capacity?'Прогноз клиентов '+forecast.toFixed(1)+' больше физической вместимости '+capacity+' услуг / месяц. Прайс нельзя подтвердить до изменения плана.':'';
+                warning.textContent=message;warning.hidden=!message;warning.classList.toggle('hidden',!message);
+            }
+            recalculateProductionUnitCost();
+            recalculateSalesCostSummary();
+        }
         function setResaleProductPanels(){
             const resale=productSource==='resale',drop=productSource==='dropship',ready=resale||drop;
             const show={'resale-buy-panel':ready,'material-cost-entry-panel':!ready,
@@ -5930,6 +6002,7 @@
             document.querySelectorAll('[data-buy-copy]').forEach(el=>el.textContent=(drop?{...buy,import:'Поставщик отправляет товар покупателю из-за границы?'}:resale?buy:own)[el.dataset.buyCopy]||el.textContent);
             if(ready){['own-materials-known-wrap','own-materials-calc-wrap'].forEach(id=>{const el=document.getElementById(id);if(el){el.hidden=true;el.classList.add('hidden');}});updateResalePurchase();recalculateProductionUnitCost();}
             if(drop)recalculateLogisticsUnitCost();
+            configureOfflineServiceView();
         }
         function addAnotherResaleProduct(){
             const previousSource=productSource;
