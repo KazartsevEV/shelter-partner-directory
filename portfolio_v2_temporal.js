@@ -22,8 +22,7 @@
      report('recurringDemandApproved','Подтвердите предположение о повторении прогноза V1 каждый месяц.');
    if(typeof projectOffers!=='function')
      report('temporal','Не загружен расчёт связей товаров.');
-   if(monthsRequested>1&&(state.resources||[]).some(r=>r.kind==='campaign'))
-     report('resources','Для многомесячного прогноза общего рекламного бюджета требуется подтверждённое помесячное перераспределение. Пока этот договор не определён, расчёт заблокирован.');
+
    if(monthsRequested>1&&state.tax?.type==='profit'&&
       (state.skus||[]).some(s=>s.source==='online-service')&&
       (state.resources||[]).some(r=>r.cadence==='monthly'))
@@ -44,6 +43,14 @@
      }
    }
    if(errors.length)return {ready:false,errors,fieldErrors,months:[],forecastMonths:monthsRequested};
+   if(monthsRequested>1&&(state.resources||[]).some(r=>r.kind==='campaign')){
+     const pooled=typeof globalThis==='object'&&globalThis.LinkedPortfolioPooledMedia?
+       globalThis.LinkedPortfolioPooledMedia:
+       (typeof require==='function'?require('./portfolio_v2_pooled_media.js'):null);
+     if(!pooled?.plan)return {ready:false,errors:['Не загружен календарь общих рекламных кампаний.'],
+       fieldErrors:[{path:'resources',message:'Не загружен календарь рекламных кампаний.'}],months:[],forecastMonths:monthsRequested};
+     return pooled.plan(state,projectOffers,arguments[3]);
+   }
    const base=Object.fromEntries(skus.map(s=>[String(s.id),pos(firstMonthBase?.[s.id]??s.forecastUnitsPerMonth)]));
    const stock=Object.fromEntries(skus.filter(stockSource).map(s=>[String(s.id),pos(s.inventoryQty)]));
    const months=[];
