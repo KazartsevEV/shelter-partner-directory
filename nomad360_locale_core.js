@@ -1145,12 +1145,40 @@ rows.push(
  ["Не больше 20 000 строк за один импорт.","Maximum 20,000 rows per import.","Бір импортта ең көбі 20 000 жол болуы тиіс."],
  ["Сопоставьте неизвестные SKU с позициями V1 перед расчётом ассоциаций.","Map unknown SKU IDs to V1 items before calculating associations.","Байланыстарды есептемес бұрын белгісіз SKU кодтарын V1 позицияларымен сәйкестендіріңіз."]
 );
+/* #47AF: V2 online adapter and period-pricing rejection strings. */
+rows.push(
+ ["Нет подтверждённых позиций V1 (товаров или услуг).","There are no confirmed V1 products or services.","V1-де расталған тауарлар немесе қызметтер жоқ."],
+ ["V2 ожидает рассчитанные товары и услуги V1.","V2 requires calculated V1 products and services.","V2 үшін V1-де есептелген тауарлар мен қызметтер қажет."],
+ ["Горизонт cash flow превышает 120 месяцев.","Cash flow horizon exceeds 120 months.","Ақша ағынының болжам мерзімі 120 айдан асады."],
+ ["Неизвестная онлайн-ветка V1.","Unknown V1 online-service scenario.","V1 онлайн қызмет сценарийі белгісіз."],
+ ["Назовите услугу перед передачей в V2.","Name the service before importing it into V2.","V2-ге импорттамас бұрын қызмет атауын енгізіңіз."],
+ ["Нужна рассчитанная рекламная воронка с положительным бюджетом, CPC и конверсиями.","A calculated advertising funnel with a positive budget, CPC and conversion rates is required.","Оң бюджеті, CPC-і және конверсиялары бар есептелген жарнама воронкасы қажет."],
+ ["Некорректный период V1.","Invalid V1 calculation period.","V1 есептеу мерзімі қате."],
+ ["V1 не подтверждает положительный чек онлайн-услуги.","V1 does not confirm a positive transaction value for this online service.","V1 онлайн қызмет бойынша оң чек сомасын растамайды."],
+ ["В агентской ветке нужен положительный процент вознаграждения.","Agency commission percentage must be greater than zero.","Агенттік сыйақы пайызы нөлден жоғары болуы тиіс."],
+ ["Неизвестный онлайн-сценарий.","Unknown online-service scenario.","Онлайн қызмет сценарийі белгісіз."],
+ ["Недопустимый период.","Invalid calculation period.","Есептеу мерзімі жарамсыз."],
+ ["Воронка не содержит подтверждённого прогноза сделок.","The funnel has no confirmed deal forecast.","Воронкада расталған мәмілелер болжамы жоқ."],
+ ["Не распределены расходы агента и партнёра.","Agent and partner expenses have not been allocated.","Агент пен серіктес шығындары бөлінбеген."],
+ ["Не рассчитан доход владельца.","Owner income has not been calculated.","Иесінің табысы есептелмеген."],
+ ["Не рассчитана оплата исполнителю.","Provider payment has not been calculated.","Орындаушыға төлем есептелмеген."],
+ ["Налог или эквайринг превышает 100%.","Tax or payment-processing percentage exceeds 100%.","Салық немесе эквайринг мөлшерлемесі 100%-дан асады."],
+ ["Неверная цена или количество продаж.","Invalid price or sales quantity.","Баға немесе сатылым саны қате."]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^Некорректное значение V1: ([A-Za-z0-9_.-]+)$/,
+  'Invalid V1 value: $1','V1 мәні жарамсыз: $1'],
+ [/^Процент V1 выше 100: ([A-Za-z0-9_.-]+)$/,
+  'V1 percentage exceeds 100: $1','V1 пайызы 100-ден жоғары: $1'],
+ [/^Для ([A-Za-z0-9_.-]+) укажите, кто платит: я или партнёр\.$/,
+  'For $1, select the payer: me or partner.','$1 бойынша төлеушіні таңдаңыз: мен немесе серіктес.'],
+ [/^Некорректное поле V1: ([A-Za-z0-9_.-]+)$/,
+  'Invalid V1 field: $1','V1 өрісі жарамсыз: $1'],
  [/^В CSV отсутствует столбец ([a-z_]+)\.$/,'CSV is missing the $1 column.','CSV файлында $1 бағаны жоқ.'],
  [/^Повторяющийся заголовок CSV: (.+)$/,'Duplicate CSV column heading: $1','CSV баған атауы қайталанған: $1'],
  [/^CSV строка (\d+): неверное число колонок\.$/,'CSV row $1: incorrect column count.','CSV $1-жол: баған саны қате.'],
@@ -1315,6 +1343,20 @@ function dynamicLookup(source,language){
  if(approved&&approved[2]==='помесячные денежные поступления без НДС, физические закупки, исполнение услуг, скидки комплектов, регулярные расходы и сроки кредитов. Цена SKU рассчитывается по полному периоду, а прибыль и Cash Flow сверяются по каждому месяцу отдельно.'){
   return language==='en'?'Approved '+approved[1]+'-month scenario: monthly VAT-exclusive receipts, physical procurement, service delivery, bundle discounts, recurring costs and loan schedules. SKU prices are calculated over the full period; profit and cash flow are reconciled month by month.':
    approved[1]+' айға бекітілген сценарий: ҚҚС-сыз айлық түсімдер, нақты сатып алу, қызмет көрсету, жинақ жеңілдіктері, тұрақты шығындар және несие кестелері. SKU бағалары бүкіл кезеңге есептеледі; пайда мен ақша ағыны әр ай бойынша жеке салыстырылады.';
+ }
+ const periodFailure=/^За (\d+) мес\. «([^»]+)»: минимальная маржа ([\d.,]+)% недостижима в диапазоне V1 ([\d.,]+)–([\d.,]+)\. При цене ([\d.,]+) маржа с учётом оставшихся процентов (не определена|[\d.,]+%); расчётная необходимая цена (выше достижимого предела|[\d.,]+)\.$/.exec(source);
+ if(periodFailure){
+  const [,months,name,min,low,high,selected,margin,required]=periodFailure;
+  const shownMargin=margin==='не определена'?(language==='en'?'undefined':'анықталмаған'):margin;
+  const shownRequired=required==='выше достижимого предела'?
+    (language==='en'?'above the feasible range':'қолжетімді диапазоннан жоғары'):required;
+  return language==='en'?
+   'Over '+months+' months, “'+name+'”: minimum margin '+min+'% is unattainable within the V1 price range '+
+     low+'–'+high+'. At price '+selected+', margin including outstanding interest is '+shownMargin+
+     '; required price '+shownRequired+'.':
+   months+' айда «'+name+'»: ең төменгі '+min+'% маржа V1 баға диапазонында ('+
+     low+'–'+high+') қолжетімсіз. '+selected+' бағасында қалған пайыздарды қоса есептегендегі маржа '+
+     shownMargin+'; қажетті есептік баға '+shownRequired+'.';
  }
  const priceMetric=/^Цена для целевой маржи: ([\d.,\s\u00a0]+); для минимальной: ([\d.,\s\u00a0]+); денежная доля: ([\d.,\s\u00a0]+)%; (.+)$/.exec(source);
  if(priceMetric&&direct.has(priceMetric[4])){
