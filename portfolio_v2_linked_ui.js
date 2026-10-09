@@ -75,6 +75,7 @@ function importFromV1(payload){
    if(!fresh.offers.some(x=>x.id===r.id)&&allowed.has(r.anchorSkuId)&&
       r.items?.every(p=>allowed.has(p.skuId)))fresh.offers.push(JSON.parse(JSON.stringify(r)));
   fresh.onlineDrafts=prior.onlineDrafts||{};
+  fresh.mbaHistory=prior.mbaHistory||null;
  }
  fresh.lastEntry='goods';
  state=fresh;resetSequence();save();enter();
@@ -183,6 +184,11 @@ function render(){
  '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
  root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{
    state.offers=offers;save();if(structural)render();else updateResult();
+ });
+ root.LinkedPortfolioV2MBAUI?.render(state,(patch,structural)=>{
+   if(Object.prototype.hasOwnProperty.call(patch,'mbaHistory'))state.mbaHistory=patch.mbaHistory;
+   if(Object.prototype.hasOwnProperty.call(patch,'offers'))state.offers=patch.offers;
+   save();if(structural)render();else updateResult();
  });
  updateResult();
 }
