@@ -300,3 +300,34 @@ test('31A supplier advance and remainder are paid at their declared dates',()=>{
   eq(r.cashflow.months[0].receipt,0);         // goods unavailable before day 40
   eq(r.cashflow.months.reduce((v,m)=>v+m.stockPurchase,0),1000);
 });
+
+test('#31C two physical SKUs have different 1/3 month sell-through, no ghost advertising',()=>{
+ const state=E.fromV1({tax:{type:'turnover',pct:5},skus:[
+  {id:'fast',name:'Fast',source:'resale',unitCost:20,
+   forecastUnitsPerMonth:20,adBudget:100,baseCac:5,priceMin:20,priceMax:150,
+   maxDiscountPct:0,minimumMarginPct:10,targetMarginPct:25,
+   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,
+   creditServiceMonthly:0,creditMonths:0,creditPrincipal:0,vatPct:0,
+   inventoryQty:20,materialsBatchTotal:400,productionTotal:0,reserveAmount:0},
+  {id:'slow',name:'Slow',source:'resale',unitCost:20,
+   forecastUnitsPerMonth:20,adBudget:100,baseCac:5,priceMin:20,priceMax:150,
+   maxDiscountPct:0,minimumMarginPct:10,targetMarginPct:25,
+   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,
+   creditServiceMonthly:0,creditMonths:0,creditPrincipal:0,vatPct:0,
+   inventoryQty:60,materialsBatchTotal:1200,productionTotal:0,reserveAmount:0}
+ ]});
+ const result=E.build(state);
+ A.equal(result.ready,true,JSON.stringify(result.errors));
+ const m=result.cashflow.months;
+ A.equal(m.length,3,'physical total horizon');
+ eq(m[0].receipt,20*result.items[0].priceNet+20*result.items[1].priceNet);
+ eq(m[1].receipt,20*result.items[1].priceNet);
+ eq(m[2].receipt,20*result.items[1].priceNet);
+ eq(m[0].ad,200);eq(m[1].ad,100);eq(m[2].ad,100);
+ eq(m[0].stockPurchase,1600);
+ eq(m[1].stockPurchase,0);eq(m[2].stockPurchase,0);
+ const receipt=20*result.items[0].priceNet+60*result.items[1].priceNet;
+ eq(m.reduce((v,x)=>v+x.receipt,0),receipt);
+ eq(m.reduce((v,x)=>v+x.tax,0),receipt*.05);
+ eq(m.reduce((v,x)=>v+x.cashFlow,0),receipt-1600-400-receipt*.05);
+});
