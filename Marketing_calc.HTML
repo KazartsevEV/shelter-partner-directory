@@ -269,7 +269,7 @@
             <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Юнит-экономика</div>
             <h1 class="text-3xl font-bold text-slate-900">Калькулятор моего бизнеса</h1>
             <p class="text-sm text-slate-600 mt-2">Заполните свои цифры с нуля. Калькулятор рассчитает расходы, цену товара, налоги и денежный поток по месяцам. Ни одного тестового товара в вашем расчёте.</p>
-            <button id="start-own-product" type="button" onclick="openPortfolioV2(false)"
+            <button id="start-own-product" type="button" onclick="startFreshProductCalculation()"
                 class="w-full mt-6 px-5 py-4 text-lg font-black rounded-xl bg-blue-600 text-white shadow hover:bg-blue-700">
                 + Рассчитать СВОИ товары
             </button>
@@ -280,22 +280,27 @@
                     class="mt-3 w-full rounded-lg bg-emerald-700 text-white px-4 py-3 font-bold">Продолжить и редактировать мои товары</button>
                 <p class="text-xs text-emerald-800 mt-2">Доступно в этом браузере и на этом устройстве. Другой телефон по этой ссылке не увидит ваш сохранённый расчёт.</p>
             </div>
-            <div id="portfolio-v2-resume-home" class="hidden mt-4 rounded-xl border-2 border-blue-200 bg-blue-50 p-4" hidden>
-                <div class="font-bold text-blue-900">Ваш новый товарный портфель сохранён в этом браузере</div>
-                <p class="text-xs text-blue-800 mt-1">Продолжите с собственными товарами и общими ресурсами — без подстановки демо.</p>
-                <button type="button" onclick="openPortfolioV2(true)" class="mt-3 rounded-lg bg-blue-700 text-white px-4 py-3 font-bold w-full">Продолжить свой портфель</button>
-            </div>
             <details class="mt-6 rounded-xl border border-slate-200 p-4">
                 <summary class="font-bold text-slate-800 cursor-pointer">Посмотреть, что будет рассчитываться</summary>
                 <ol class="list-decimal pl-5 mt-3 text-sm text-slate-600 space-y-2">
-                    <li>Название и способ получения товара.</li>
+                    <li>Название товара и подробная калькуляция собственного производства.</li>
                     <li>Материалы или закупка, производство, работники, оборудование, документы.</li>
                     <li>Логистика и хранение до продажи последнего товара.</li>
                     <li>Продажи, комиссии, рекламная воронка и цена привлечения покупателя.</li>
                     <li>Налоги, резерв денег, кредит и цена с желаемой маржинальностью.</li>
                     <li>Рентабельность бизнеса, cash flow по месяцам и свободный денежный остаток.</li>
                 </ol>
-                <p class="text-xs text-slate-600 mt-3">В новой товарной модели доступны производство, перепродажа и дропшиппинг, общие помещения, сотрудники, сертификаты и рекламные кампании. Старый подробный производственный расчёт сохранён отдельно.</p>
+                <p class="text-xs text-slate-600 mt-3">Основная форма последовательно рассчитывает себестоимость материалов и производства, логистику, рекламную воронку, необходимый капитал, кредит, цену товара и денежный поток.</p>
+            </details>
+            <details class="mt-3 rounded-xl border border-slate-200 p-4">
+                <summary class="font-bold text-slate-700 cursor-pointer">Экспериментальная портфельная модель v2 (отдельный режим)</summary>
+                <p class="text-xs text-slate-600 mt-3">Основная пошаговая форма находится выше. Экспериментальную модель можно открыть отдельно; её сохранения не заменяют расчёты основной формы.</p>
+                <button type="button" onclick="openPortfolioV2(false)" class="text-sm text-blue-700 font-semibold underline mt-3">Открыть экспериментальную модель v2 →</button>
+            <div id="portfolio-v2-resume-home" class="hidden mt-4 rounded-xl border-2 border-blue-200 bg-blue-50 p-4" hidden>
+                <div class="font-bold text-blue-900">Сохранённый черновик экспериментальной модели v2</div>
+                <p class="text-xs text-blue-800 mt-1">Отдельная экспериментальная форма. Она не заменяет основной пошаговый расчёт.</p>
+                <button type="button" onclick="openPortfolioV2(true)" class="mt-3 rounded-lg bg-blue-700 text-white px-4 py-3 font-bold w-full">Продолжить черновик v2</button>
+            </div>
             </details>
             <div class="mt-5 rounded-xl bg-slate-50 p-4">
                 <div class="font-bold text-slate-800">Или посмотреть заполненный учебный пример</div>
@@ -303,7 +308,6 @@
                 <a href="?demo=shopper&amp;finance=cash" class="inline-block mt-3 text-sm font-bold text-blue-700 underline">Посмотреть пример шоппера →</a>
             </div>
             <div class="mt-6 border-t border-slate-200 pt-4">
-                <button id="start-legacy-product" type="button" onclick="startFreshProductCalculation()" class="text-sm text-blue-700 font-semibold underline mr-5">Расширенный расчёт производства (старая форма) →</button>
                 <button onclick="showServiceChooser()" class="text-sm text-blue-700 font-semibold underline">У меня услуга, не товар →</button>
             </div>
         </div>
