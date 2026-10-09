@@ -1461,11 +1461,11 @@ function auditVisibleGaps(targetLanguage=locale()){
  while((node=walk.nextNode())){
   const parent=node.parentElement;
   if(!parent||!valid(node)||!parent.getClientRects().length||
-     parent.closest('[hidden],.hidden,[aria-hidden="true"]'))continue;
+     parent.closest('[hidden],.hidden,[aria-hidden="true"],[data-nomad-display-number]'))continue;
   const baseline=weak.get(node)?.original??node.nodeValue??'';
   const raw=baseline.replace(/\s+/g,' ').trim();
   if(!raw||raw.length<3||skip.test(raw)||!/[А-Яа-яЁё]/.test(raw))continue;
-  if(direct.has(raw))continue;
+  if(direct.has(raw)||patterns.some(([matcher])=>matcher.test(raw)))continue;
   if(lookup(raw,targetLanguage)!==raw)continue;
   const key=(parent.closest('[id]')?.id||parent.tagName)+': '+raw;
   if(seen.has(key))continue;seen.add(key);
