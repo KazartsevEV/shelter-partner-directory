@@ -33,6 +33,10 @@
    const ids=new Set(Object.keys(byId));
    if(!skus.length)report('skus','Пустой портфель.');
    for(const s of skus){
+     if(['own','resale'].includes(s.source)&&
+        pos(s.inventoryQty)>EPS&&
+        pos(s.supplyDays)+pos(s.productionDays)>=monthsRequested*30)
+       report('skus.'+s.id,'Товар «'+s.name+'» поступит после выбранного горизонта. Увеличьте число месяцев, чтобы не переносить платежи на неверные даты.');
      if(s.source==='online-service'){
        const months=Number(s.onlineProvenance?.periodMonths??s.sourcePeriodMonths);
        if(!Number.isInteger(months)||months<monthsRequested)
@@ -57,6 +61,9 @@
      for(const s of skus){
        const id=String(s.id),quantity=pos(orders[id]);
        if(stockSource(s)){
+         if(quantity>EPS&&availability[id]<=EPS)
+           report('skus.'+id,'Месяц '+(month+1)+': «'+s.name+
+             '» ещё не поставлен, но связь предполагает продажи.');
          if(quantity>pos(stock[id])+EPS)
            report('skus.'+id,'Месяц '+(month+1)+': спрос на «'+s.name+
              '» ('+quantity.toFixed(2)+') превышает оставшийся запас ('+
