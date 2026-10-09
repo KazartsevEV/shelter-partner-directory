@@ -1471,9 +1471,12 @@ function refreshDisplayNumbers(language){
   if(raw===null||raw.trim()==='')continue;
   const value=Number(raw);
   if(!Number.isFinite(value))continue;
-  const digits=node.getAttribute('data-nomad-display-fractions')==='0'?0:2;
-  const fmt=new Intl.NumberFormat(tag,{minimumFractionDigits:digits,maximumFractionDigits:digits});
-  const output=fmt.format(value)+(node.hasAttribute('data-nomad-display-money')?
+  const precision=node.getAttribute('data-nomad-display-fractions');
+  const min=precision==='0'||precision==='compact'?0:2;
+  const max=precision==='0'?0:2;
+  const fmt=new Intl.NumberFormat(tag,{minimumFractionDigits:min,maximumFractionDigits:max});
+  const suffix=node.getAttribute('data-nomad-display-suffix')||'';
+  const output=fmt.format(value)+suffix+(node.hasAttribute('data-nomad-display-money')?
    ' '+(language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'):'');
   if(node.textContent!==output)node.textContent=output;
  }
