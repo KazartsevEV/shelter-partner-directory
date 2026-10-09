@@ -17,43 +17,53 @@
   const id = v=>String(v??'');
   const validKind=new Set(['own','resale','dropship']);
   const facilityKinds=new Set(['premises','workers','warehouse','salesStaff','marketingManager','website','hosting','domain','content','other','equipment','certification','campaign']);
-  const scope = (r,ids)=> r.skuIds?.length ? r.skuIds.map(id).filter(s=>ids.includes(s)) : ids.slice();
+  // Omitted beneficiary list means business-wide; an explicitly EMPTY list
+  // means an invalid, unassigned resource, never silently "all SKUs".
+  const scope = (r,ids)=> Array.isArray(r.skuIds) ?
+    r.skuIds.map(id).filter(s=>ids.includes(s)) : ids.slice();
   function marketingFunnel(marketing) {
     const budget=positive(marketing?.budget);
     const cpc=positive(marketing?.cpc);
     const ctr=positive(marketing?.ctrPct)/100;
     const cl=positive(marketing?.clickLeadPct)/100;
     const lo=positive(marketing?.leadOrderPct)/100;
-    const errors=[];
-    if(!(budget>0))errors.push('Укажите общий месячный рекламный бюджет.');
-    if(!(cpc>0))errors.push('CPC должен быть больше нуля.');
-    if(ctr>1||cl>1||lo>1)errors.push('Конверсии не могут превышать 100%.');
-    if(!(ctr>0))errors.push('Укажите CTR, чтобы рассчитать число показов.');
-    if(!(cl>0)||!(lo>0))errors.push('Укажите обе конверсии рекламной воронки.');
+    const errors=[],fieldErrors=[];
+    const report=(path,message)=>{errors.push(message);fieldErrors.push({path,message})};
+    if(!(budget>0))report('marketing.budget','Укажите общий месячный рекламный бюджет.');
+    if(!(cpc>0))report('marketing.cpc','CPC должен быть больше нуля.');
+    if(ctr>1)report('marketing.ctrPct','CTR не может превышать 100%.');
+    if(cl>1)report('marketing.clickLeadPct','Конверсия клик → лид не может превышать 100%.');
+    if(lo>1)report('marketing.leadOrderPct','Конверсия лид → заказ не может превышать 100%.');
+    if(!(ctr>0))report('marketing.ctrPct','Укажите CTR, чтобы рассчитать число показов.');
+    if(!(cl>0))report('marketing.clickLeadPct','Укажите конверсию клик → лид.');
+    if(!(lo>0))report('marketing.leadOrderPct','Укажите конверсию лид → заказ.');
     const clicks=cpc>0 ? budget/cpc : 0;
     const leads=clicks*cl;
     const orders=leads*lo;
-    if(budget>0&&!(orders>0))errors.push('Воронка не прогнозирует ни одного заказа.');
+    if(budget>0&&!(orders>0)&&cl>0&&lo>0&&cpc>0)
+      report('marketing.budget','Воронка не прогнозирует заказов: проверьте бюджет и конверсии.');
     const views=ctr>0?clicks/ctr:null;
     const baseCAC=orders>0?budget/orders:0;
     const coefficient=positive(marketing?.cacReservePct??100);
-    if(!(coefficient>0&&coefficient<=100))errors.push('Коэффициент запаса CAC должен быть от 0 до 100%.');
+    if(!(coefficient>0&&coefficient<=100))
+      report('marketing.cacReservePct','Коэффициент запаса CAC должен быть от 0 до 100%.');
     return {budget,clicks,leads,orders,impressions:views,baseCAC,
-      guardedCAC:coefficient>0?baseCAC/(coefficient/100):null,errors};
+      guardedCAC:coefficient>0?baseCAC/(coefficient/100):null,errors,fieldErrors};
   }
-  function resolveSourcing(sku,errors) {
+  function resolveSourcing(sku,errors,fieldErrors,path) {
+    const report=(field,message)=>{errors.push(message);fieldErrors.push({path:path+'.'+field,message})};
     const kind=sku.source;
-    if(!validKind.has(kind)) errors.push('У '+sku.name+' не выбран способ поставки.');
+    if(!validKind.has(kind)) report('source','У '+sku.name+' не выбран способ поставки.');
     const unitCost=positive(sku.unitCost);
     const batchUnits=positive(sku.batchUnits);
     const advance=positive(sku.initialCashOut);
-    if(!(unitCost>0))errors.push('У '+sku.name+' должна быть указана себестоимость одной единицы.');
-    if(kind==='dropship'&&advance>EPS)errors.push('Для дропшиппинга невозможна стартовая закупка.');
-    if(kind==='dropship'&&batchUnits>EPS)errors.push('Дропшиппинг не формирует собственный складской запас.');
+    if(!(unitCost>0))report('unitCost','У '+sku.name+' должна быть указана себестоимость одной единицы.');
+    if(kind==='dropship'&&advance>EPS)report('source','Для дропшиппинга невозможна стартовая закупка — переключите способ поставки или очистите аванс.');
+    if(kind==='dropship'&&batchUnits>EPS)report('source','Дропшиппинг не формирует собственный складской запас.');
     if(kind!=='dropship'&&positive(sku.storagePerUnitDay)>0&&!(batchUnits>0))
-      errors.push('Для расчёта хранения '+sku.name+' укажите размер складской партии.');
-    if(kind!=='dropship'&&advance>EPS&&!(batchUnits>0))errors.push('Для стартовой закупки укажите размер партии.');
-    if(batchUnits>EPS&&advance-unitCost*batchUnits>EPS)errors.push('Предоплата '+sku.name+' превышает стоимость партии.');
+      report('batchUnits','Для расчёта хранения '+sku.name+' укажите размер складской партии.');
+    if(kind!=='dropship'&&advance>EPS&&!(batchUnits>0))report('batchUnits','Для стартовой закупки укажите размер партии.');
+    if(batchUnits>EPS&&advance-unitCost*batchUnits>EPS)report('initialCashOut','Предоплата '+sku.name+' превышает стоимость партии.');
     const handling=positive(sku.fulfillmentPerOrder);
     const storagePerUnitDay=kind==='dropship'?0:positive(sku.storagePerUnitDay);
     const prepurchase=kind==='dropship'?0:advance;
@@ -63,27 +73,32 @@
       source:kind};
   }
   function normalize(state) {
-    const errors=[];
+    const errors=[],fieldErrors=[];
+    const report=(path,message)=>{errors.push(message);if(path)fieldErrors.push({path,message})};
     let marketing;
     const raw=Array.isArray(state?.skus)?state.skus:[];
-    if(!raw.length)errors.push('Добавьте хотя бы один товар.');
+    if(!raw.length)report('skus','Добавьте хотя бы один товар.');
     const ids=[];
     const skus=raw.map((v,i)=>{
       const name=String(v.name||'').trim(),skuId=id(v.id||'sku-'+i);
-      if(!name)errors.push('У товара '+(i+1)+' нет названия.');
-      if(ids.includes(skuId))errors.push('Повторяющийся ID товара.');
+      if(!name)report('skus.'+i+'.name','У товара '+(i+1)+' нет названия.');
+      if(ids.includes(skuId))report('skus.'+i+'.name','Повторяющийся ID товара.');
       ids.push(skuId);
       const q=positive(v.mixPct);
-      if(!(q>0))errors.push('Доля товара '+name+' должна быть больше нуля.');
+      if(!(q>0))report('skus.'+i+'.mixPct','Доля товара '+name+' должна быть больше нуля.');
       const margin=finite(v.marginPct);
-      if(margin<0||margin>=100)errors.push('Маржинальность '+name+' должна быть от 0 до 99,99%.');
+      if(margin<0||margin>=100)report('skus.'+i+'.marginPct','Маржинальность '+name+' должна быть от 0 до 99,99%.');
       const payment=positive(v.acquiringPct);
-      if(payment>=100)errors.push('Эквайринг '+name+' не может достигать 100%.');
+      if(payment>=100)report('skus.'+i+'.acquiringPct','Эквайринг '+name+' не может достигать 100%.');
       return {id:skuId,name,kind:v.source,mixPct:q,marginPct:margin,
-        acquiringPct:payment, sourcing:resolveSourcing(v,errors),raw:v};
+        acquiringPct:payment, sourcing:resolveSourcing(v,errors,fieldErrors,'skus.'+i),raw:v};
     });
     const qsum=sum(skus.map(s=>s.mixPct));
-    if(skus.length&&Math.abs(qsum-100)>1e-6)errors.push('Сумма долей продаж должна составлять ровно 100%, сейчас '+round(qsum,4)+'%.');
+    if(skus.length&&Math.abs(qsum-100)>1e-6) {
+      const message='Сумма долей продаж должна составлять ровно 100%, сейчас '+round(qsum,4)+'%.';
+      report('mix',message);
+      skus.forEach((s,i)=>fieldErrors.push({path:'skus.'+i+'.mixPct',message}));
+    }
     const resources=(Array.isArray(state?.resources)?state.resources:[]).map((v,i)=>{
       const skuIds=scope(v,ids);
       const label=String(v.label||v.kind||'ресурс').trim();
@@ -97,21 +112,21 @@
         usage:(v.usage&&typeof v.usage==='object')?v.usage:{},
         capacity:positive(v.capacity),totalUsage:0,validFor:v.validFor||'',
         validUntil:v.validUntil||''};
-      if(!facilityKinds.has(kind))errors.push('Неизвестный ресурс '+label+'.');
-      if(!skuIds.length)errors.push('Для ресурса '+label+' не выбран ни один товар.');
-      if(skuIds.length!==new Set(skuIds).size)errors.push('Ресурс '+label+' повторяет товар.');
+      if(!facilityKinds.has(kind))report('resources.'+i+'.kind','Неизвестный ресурс '+label+'.');
+      if(!skuIds.length)report('resources.'+i+'.skuIds','Для ресурса '+label+' не выбран ни один товар.');
+      if(skuIds.length!==new Set(skuIds).size)report('resources.'+i+'.skuIds','Ресурс '+label+' повторяет товар.');
       if(kind==='certification'&&skuIds.length>1&&
         (!v.confirmedCoverage||!String(v.validFor||'').trim()||!v.validUntil))
-        errors.push('Подтвердите область действия, страну и срок сертификата «'+label+'» для всех товаров.');
-      if(kind==='campaign'&&cadence!=='monthly')errors.push('Бюджет рекламной кампании задаётся за месяц, не разовой суммой.');
+        report('resources.'+i+'.confirmedCoverage','Подтвердите область действия, страну и срок сертификата «'+label+'» для всех товаров.');
+      if(kind==='campaign'&&cadence!=='monthly')report('resources.'+i+'.cadence','Бюджет рекламной кампании задаётся за месяц, не разовой суммой.');
       if(basis==='usage') {
         r.totalUsage=sum(skuIds.map(s=>positive(r.usage[s])));
-        if(r.totalUsage<=0)errors.push('Укажите загрузку ресурсов '+label+' по товарам.');
+        if(r.totalUsage<=0)report('resources.'+i+'.allocation','Укажите загрузку ресурсов '+label+' по товарам.');
         if(r.capacity>0&&r.totalUsage-r.capacity>EPS)
-          errors.push('Нагрузка на «'+label+'» превышает доступную мощность.');
+          report('resources.'+i+'.capacity','Нагрузка на «'+label+'» превышает доступную мощность.');
       }
       if(kind==='certification'&&v.validUntil&&Date.parse(v.validUntil)<Date.parse(state.asOf||new Date().toISOString().slice(0,10)))
-        errors.push('Срок сертификата '+label+' истёк.');
+        report('resources.'+i+'.validUntil','Срок сертификата '+label+' истёк.');
       return r;
     });
     // Separate media pools are additional, explicitly named campaigns.
@@ -119,19 +134,21 @@
     const extraMedia=sum(resources.filter(r=>r.kind==='campaign').map(r=>r.amount));
     marketing=marketingFunnel({...state?.marketing,budget:positive(state?.marketing?.budget)+extraMedia});
     errors.push(...marketing.errors);
+    fieldErrors.push(...marketing.fieldErrors);
     const resourceIds=resources.map(r=>r.id);
-    if(new Set(resourceIds).size!==resourceIds.length)errors.push('ID общего ресурса должен быть уникальным.');
+    if(new Set(resourceIds).size!==resourceIds.length)report('resources','ID общего ресурса должен быть уникальным.');
     const fund=state?.funding||{};
     const funding={kind:fund.kind==='credit'?'credit':'cash',annualRatePct:positive(fund.annualRatePct),
       months:Math.max(1,Math.ceil(positive(fund.months)||1)),
       reservePct:positive(fund.reservePct)};
-    if(funding.reservePct>1000)errors.push('Резерв не может превышать 1000%.');
+    if(funding.reservePct>1000)report('funding.reservePct','Резерв не может превышать 1000%.');
     const taxes={type:state?.tax?.type==='profit'?'profit':'turnover',
       pct:positive(state?.tax?.pct),vatPct:positive(state?.tax?.vatPct)};
-    if(taxes.pct>=100||taxes.vatPct>=100)errors.push('Налоги не могут достигать 100%.');
+    if(taxes.pct>=100)report('tax.pct','Ставка налога не может достигать 100%.');
+    if(taxes.vatPct>=100)report('tax.vatPct','Ставка НДС не может достигать 100%.');
     const periodMonths=Math.max(1,Math.ceil(positive(state?.marketing?.periodMonths)||1));
-    if(periodMonths>120)errors.push('Максимальный прогноз — 120 месяцев.');
-    return {errors,marketing,skus,resources,taxes,funding,periodMonths,ids};
+    if(periodMonths>120)report('marketing.periodMonths','Максимальный прогноз — 120 месяцев.');
+    return {errors,fieldErrors,marketing,skus,resources,taxes,funding,periodMonths,ids};
   }
   function resourceShares(resource,prices,quantities) {
     const covered=resource.skuIds;
@@ -160,7 +177,7 @@
   }
   function build(state) {
     const x=normalize(state);
-    if(x.errors.length)return {ready:false,errors:x.errors,marketing:x.marketing};
+    if(x.errors.length)return {ready:false,errors:x.errors,fieldErrors:x.fieldErrors,marketing:x.marketing};
     const {marketing,skus,resources,taxes,funding,periodMonths}=x;
     const orders={};const basePrices={},mix={};
     skus.forEach(s=>{
@@ -214,10 +231,10 @@
     // Monthly sales stop when inventory is exhausted; dropship is made/paid on demand.
     const maxSellMonths=Math.max(periodMonths,...items.map(s=>s.sourcing.batchUnits>0?
       Math.ceil(s.sourcing.batchUnits/Math.max(EPS,s.forecastOrders)):periodMonths));
-    if(maxSellMonths>120)return {ready:false,errors:['Срок распродажи превышает 120 месяцев.'],marketing};
+    if(maxSellMonths>120)return {ready:false,errors:['Срок распродажи превышает 120 месяцев.'],fieldErrors:[{path:'marketing.periodMonths',message:'Срок распродажи превышает 120 месяцев.'}],marketing};
     const salesHorizon=maxSellMonths;
     const flowEnd=Math.max(salesHorizon,funding.kind==='credit'?funding.months:1);
-    if(flowEnd>120)return {ready:false,errors:['Горизонт кредита превышает 120 месяцев.'],marketing};
+    if(flowEnd>120)return {ready:false,errors:['Горизонт кредита превышает 120 месяцев.'],fieldErrors:[{path:'funding.months',message:'Горизонт кредита превышает 120 месяцев.'}],marketing};
 
     function operatingPlan() {
       const remaining=Object.fromEntries(items.map(s=>[s.id,s.sourcing.batchUnits>0?s.sourcing.batchUnits:Infinity]));
@@ -310,7 +327,7 @@
         cashFlow:change,cumulative,freeCumulative:cumulative-reserve};
     });
     const projectedNet=sum(months.map(m=>m.ebitda-m.tax-m.interest));
-    return {ready:true,errors:[],marketing,items,resources:resourceAllocation.ledger,campaigns:campaignLedger,
+    return {ready:true,errors:[],fieldErrors:[],marketing,items,resources:resourceAllocation.ledger,campaigns:campaignLedger,
       marketingBudget:marketing.budget,skuEbitda,resourceMonthly:resourceAllocation.monthlyTotal,
       resourceOnce:resourceAllocation.onceTotal,totalRevenue,costOfGoods,
       acquiring:totalAcquiring,fulfillment:fulfillmentTotal,

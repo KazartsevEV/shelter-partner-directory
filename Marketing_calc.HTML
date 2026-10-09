@@ -2561,7 +2561,7 @@
         // Physical-flow contract for this one batch: raw material units >= produced
         // units adjusted for rejected output; produced >= stored >= scheduled sales.
         // Defects never multiply the *unit material price*, only the required input count.
-        function aggregateQuantityIssues(item) {
+        function aggregateQuantityDetails(item) {
             if (!item) return [];
             const materials = Math.max(0, Number(item.materialsBatchQty) || 0);
             const made = Math.max(0, Number(item.productionQty) || 0);
@@ -2570,12 +2570,24 @@
             const defect = Math.min(99.99, Math.max(0, Number(item.productionDefectPct) || 0));
             const rawNeeded = Math.ceil(made / Math.max(0.0001, 1 - defect / 100));
             const forecasts = Math.max(0, Number(item.forecastUnitsPerMonth) || 0);
-            const issues = [];
-            if (materials < rawNeeded) issues.push('Материалов нужно не менее ' + rawNeeded + ' ед. для выпуска ' + made + ' годных изделий при браке ' + defect + '%. Цена материалов за единицу не изменяется.');
-            if (made < stored) issues.push('Готового товара не может быть меньше количества на складе.');
-            if (stored < sales) issues.push('План продаж партии не может превышать складские остатки.');
-            if (forecasts > 0 && stored < Math.ceil(forecasts)) issues.push('Прогноз месячных продаж (' + forecasts.toLocaleString('ru-RU') + ') превышает запас одной партии (' + stored + ').');
-            return issues;
+            const details = [];
+            if (materials < rawNeeded) details.push({kind:'materials',
+                message:'Нужно не менее ' + rawNeeded + ' ед. материала для ' + made +
+                    ' годных изделий при браке ' + defect + '%. Цена единицы материала не меняется.'});
+            if (made < stored) details.push({kind:'logistics',
+                message:'Готового товара меньше, чем планируется положить на склад: ' + stored + ' шт. при выпуске ' + made + '. Уменьшите склад или увеличьте выпуск.'});
+            if (stored < sales) details.push({kind:'sales',
+                message:'План продаж партии (' + sales + ' шт.) превышает складские остатки (' +
+                    stored + ' шт.). Уменьшите план либо увеличьте запас.'});
+            if (forecasts > 0 && stored < Math.ceil(forecasts)) details.push({kind:'ads',
+                message:'Прогноз продаж за месяц (' + forecasts.toLocaleString('ru-RU') +
+                    ' шт.) превышает запас партии (' + stored +
+                    ' шт.). Скорректируйте рекламу или количество товара.'});
+            return details;
+        }
+
+        function aggregateQuantityIssues(item) {
+            return aggregateQuantityDetails(item).map(issue => issue.message);
         }
 
         function allocatedMaterialCostPerGood(item) {
@@ -4480,12 +4492,23 @@
                 const el = section.querySelector('[data-waterfall="' + key + '"]');
                 if (el) el.textContent = amount === null ? '—' : moneyInputValue(amount || 0) + ' у.е.*';
             });
-            const warning = section.querySelector('[data-quantity-warning]');
-            if (warning) {
-                const issues = m.quantityIssues || [];
-                warning.textContent = issues.length ? 'Нарушена последовательность количеств: ' + issues.join(' ') : '';
-                warning.classList.toggle('hidden', !issues.length);
-            }
+            // Field-level validation updates even when changes come from another SKU
+            // form or a reloaded portfolio; no distant top-of-page warning.
+            const details = aggregateQuantityDetails(item);
+            section.querySelectorAll('[data-aggregate-qty-error]').forEach(note => {
+                const messages = details.filter(issue => issue.kind === note.dataset.aggregateQtyError)
+                    .map(issue => issue.message);
+                const invalid = messages.length > 0;
+                note.textContent = messages.join(' ');
+                note.hidden = !invalid;
+                note.style.display = invalid ? '' : 'none';
+                note.classList.toggle('hidden', !invalid);
+                const field = note.parentElement?.querySelector('[data-aggregate-qty-kind]');
+                if (field) {
+                    field.setAttribute('aria-invalid', invalid ? 'true' : 'false');
+                    field.classList.toggle('border-rose-500', invalid);
+                }
+            });
 
             const creditInfo = section.querySelector('[data-credit-amount]');
             if (creditInfo) {
@@ -4694,17 +4717,23 @@
                 ? Number(normalized.toFixed(2))
                 : normalized;
 
-            return `<input
-                type="number"
-                min="${isAds ? '0.01' : '1'}"
-                max="99999"
-                step="${isAds ? '0.01' : '1'}"
-                inputmode="decimal"
-                class="aggregate-qty-input"
-                data-aggregate-qty-kind="${kind}"
-                value="${renderedValue}"
-                oninput="updateAggregateQuantity(${item.id}, '${kind}', this.value)"
-            >`;
+            const details = aggregateQuantityDetails(item)
+                .filter(issue => issue.kind === kind).map(issue => issue.message);
+            const esc = value => String(value).replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+            return `<span class="inline-flex flex-col align-middle max-w-full mx-1" data-quantity-field="${kind}">
+                <input type="number" min="${isAds ? '0.01' : '1'}" max="99999"
+                    step="${isAds ? '0.01' : '1'}" inputmode="decimal"
+                    class="aggregate-qty-input ${details.length ? 'border-rose-500' : ''}"
+                    data-aggregate-qty-kind="${kind}"
+                    aria-invalid="${details.length ? 'true' : 'false'}"
+                    value="${renderedValue}"
+                    oninput="updateAggregateQuantity(${item.id}, '${kind}', this.value)">
+                <span data-aggregate-qty-error="${kind}" role="alert"
+                    class="mt-1 text-xs text-left font-semibold text-rose-700 bg-rose-50 rounded p-2 max-w-xs ${details.length ? '' : 'hidden'}"
+                    ${details.length ? '' : 'hidden'}
+                    style="${details.length ? '' : 'display:none'}">${esc(details.join(' '))}</span>
+            </span>`;
         }
 
         function renderProductBusinessSummary() {
@@ -4738,7 +4767,7 @@
                         «${esc(item.name)}» <span class="text-base font-semibold text-emerald-200">· ${esc(sourceLabels[item.source] || item.source || '')}</span>
                     </div>
 
-                    <div data-quantity-warning class="rounded-xl border border-amber-300 bg-amber-100 text-amber-950 p-3 text-sm font-semibold ${aggregateQuantityIssues(item).length ? "" : "hidden"}">Нарушена последовательность количеств: ${aggregateQuantityIssues(item).join(" ")}</div>
+                    <!-- Validation belongs to the offending quantity, not the heading. -->
                     <div class="mt-6 space-y-5 text-sm">
                         <div class="aggregate-line">
                             <div class="font-semibold">
