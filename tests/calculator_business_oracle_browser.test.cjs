@@ -9,7 +9,7 @@ let browser;
 const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
 before(async()=>{browser=await chromium.launch({headless:true,args:['--no-sandbox']});});
 after(async()=>{await browser?.close();});
-const fmt=s=>Number(String(s||'').replace(/[^\d,.-]/g,'').replace(/\s/g,'').replace(',','.'));
+const fmt=s=>{const m=String(s||'').replace(/[\u00a0\u202f]/g,' ').match(/[-+]?\d[\d ]*(?:[,.]\d+)?/);return m?Number(m[0].replace(/ /g,'').replace(',','.')):NaN;};
 const eq=(a,b,label)=>A.ok(Math.abs(a-b)<.011,label+' actual '+a+' expected '+b);
 async function setup(mode,overrides={}){
  const page=await browser.newPage({viewport:{width:390,height:844}});
