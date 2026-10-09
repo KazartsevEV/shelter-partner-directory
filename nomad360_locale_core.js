@@ -679,6 +679,87 @@ rows.push(
 );
 
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
+/* Anchored, context-specific variable diagnostics. Captured item names,
+ * amounts, periods and source-field IDs are inserted unchanged: user-entered
+ * product names are NEVER run through the UI dictionary. Unknown strings
+ * remain in the original language rather than risking a mistranslation. */
+const patterns=[
+ [/^Наборы и upsell для «([^»]*)» суммарно охватывают больше 100% самостоятельных покупателей\.$/,
+  'Bundles and upsells for “$1” exceed 100% of independent buyers.',
+  '«$1» үшін жинақтар мен upsell тәуелсіз сатып алушылардың 100%-ынан асады.'],
+ [/^Отрицательный прогноз для «([^»]*)»\.$/,
+  'Negative demand forecast for “$1”.',
+  '«$1» үшін сұраныс болжамы теріс.'],
+ [/^Некорректное рассчитанное значение V1: ([A-Za-z0-9_.-]+)$/,
+  'Invalid calculated V1 value: $1','Қате есептелген V1 мәні: $1'],
+ [/^Из V1 списывается больше расходов, чем было учтено: ([A-Za-z0-9_.-]+) для «([^»]*)»\.$/,
+  'V1 cost offset exceeds the original $1 expense for “$2”.',
+  '«$2» үшін V1-дегі $1 шығынынан артық сома шегеріліп жатыр.'],
+ [/^Перенос общего расхода превышает сумму выбранного денежного блока V1 для «([^»]*)»\.$/,
+  'The shared-cost transfer exceeds the selected V1 cash expense for “$1”.',
+  'Ортақ шығынды көшіру «$1» үшін V1 төлемінен асып кетті.'],
+ [/^Товар «([^»]*)» поступит после выбранного горизонта\. Увеличьте число месяцев, чтобы не переносить платежи на неверные даты\.$/,
+  '“$1” arrives after the forecast horizon. Increase the number of months to keep cash events on their actual dates.',
+  '«$1» болжам мерзімінен кейін келеді. Төлемдерді дұрыс күнде көрсету үшін ай санын көбейтіңіз.'],
+ [/^У онлайн-услуги «([^»]*)» период V1 не подтверждает (\d+) месяцев\. Нужен расчёт V1 на этот период\.$/,
+  'The V1 source period for online service “$1” does not verify $2 months. Recalculate V1 for that horizon.',
+  '«$1» онлайн қызметінің V1 кезеңі $2 айды растамайды. Осы кезеңге V1 есебін жасаңыз.'],
+ [/^«([^»]*)» ещё не поставлен, но связь предполагает продажи\.$/,
+  '“$1” is not yet supplied, but a linked offer assumes sales.',
+  '«$1» әлі жеткізілмеген, алайда байланысқан ұсыныста сатылым көзделген.'],
+ [/^спрос на «([^»]*)» \(([\d.]+)\) превышает оставшийся запас \(([\d.]+)\)\. Продажа связки не подтверждена\.$/,
+  'Demand for “$1” ($2) exceeds remaining stock ($3). The linked offer is not confirmed.',
+  '«$1» сұранысы ($2) қалған қордан ($3) асады. Байланысқан сатылым расталмаған.'],
+ [/^услуги «([^»]*)» требуют ([\d.]+) посещений при мощности ([\d.]+)\.$/,
+  'Service “$1” needs $2 visits but capacity is $3.',
+  '«$1» қызметіне $2 келу қажет, ал қуаты $3.'],
+ [/^ресурс «([^»]*)» загружен на ([\d.]+) при мощности ([\d.]+)\.$/,
+  'Resource “$1” utilization is $2, above capacity $3.',
+  '«$1» ресурсының жүктемесі $2, қолжетімді қуаты $3.'],
+ [/^ресурс «([^»]*)» требует ([\d.]+) при мощности ([\d.]+)\.$/,
+  'Resource “$1” requires $2 but capacity is $3.',
+  '«$1» ресурсына $2 қажет, қуаты $3.'],
+ [/^Кампания «([^»]*)»: неизвестный график платежей\.$/,
+  'Campaign “$1”: unknown payment schedule.',
+  '«$1» кампаниясы: төлем кестесі белгісіз.'],
+ [/^Кампания «([^»]*)»: внешняя оплата требует отдельного подтверждённого контракта плательщика\.$/,
+  'Campaign “$1”: external payments require a verified payer agreement.',
+  '«$1» кампаниясы: сырттан төлем жасау үшін төлеушінің расталған келісімі қажет.'],
+ [/^Из рекламы V1 списано больше исходного бюджета «([^»]*)»\.$/,
+  'Allocated V1 advertising exceeds the original budget of “$1”.',
+  'V1 жарнамасы бойынша «$1» бастапқы бюджетінен артық сома алынды.'],
+ [/^У «([^»]*)» нет проверенного владельческого CAC V1 для назначения общей рекламы: исходный внешний спрос сохраняется, но эффективность новой рекламы неизвестна\.$/,
+  '“$1” has no verified owner-paid V1 CAC for pooled advertising: original demand remains but campaign effectiveness is unknown.',
+  '«$1» үшін ортақ жарнамаға керек расталған иесінің V1 CAC-ы жоқ: бастапқы сұраныс сақталады, жаңа жарнаманың нәтижелілігі белгісіз.'],
+ [/^общий рекламный бюджет не сошёлся по спросу и выручке; расчёт не подтверждён\.$/,
+  'Pooled advertising did not reconcile with demand and revenue; calculation is not validated.',
+  'Ортақ жарнама бюджеті сұраныс пен түсімге сәйкес келмеді; есеп расталмаған.'],
+ [/^комплект требует ([\d.]+) ед\. «([^»]*)», доступно ([\d.]+)\.$/,
+  'Bundle needs $1 units of “$2”; only $3 available.',
+  'Жинаққа «$2» тауарының $1 данасы қажет, тек $3 қолжетімді.'],
+ [/^мощность услуги «([^»]*)» исчерпана\.$/,
+  'Service “$1” has reached capacity.',
+  '«$1» қызметінің қуаты таусылған.'],
+ [/^нарушено сохранение рекламного бюджета\.$/,
+  'Advertising budget conservation failed.',
+  'Жарнама бюджетінің сақталу теңдігі бұзылды.'],
+ [/^За (\d+) мес\. «([^»]*)»: минимальная маржа ([\d.]+)% недостижима в диапазоне V1 ([\d.]+)–([\d.]+)\. При цене ([\d.]+) маржа с учётом оставшихся процентов ([^;]+); расчётная необходимая цена ([^.]*)\.$/,
+  'For $1 months, “$2”: minimum margin $3% is not feasible within V1 range $4–$5. At $6, margin including remaining interest is $7; required price is $8.',
+  '$1 айда «$2»: ең аз $3% маржаға V1 $4–$5 аралығында жету мүмкін емес. $6 бағасында қалған пайызды ескерген маржа $7; қажет баға $8.']
+];
+function dynamicLookup(source,language){
+ const month=/^Месяц (\d+)(?:, день (\d+))?: (.*)$/.exec(source);
+ if(month){
+  const prefix=language==='en'?'Month '+month[1]+(month[2]?', day '+month[2]:''):
+   month[1]+'-ай'+(month[2]?', '+month[2]+'-күн':'');
+  const translated=dynamicLookup(month[3],language);
+  return prefix+': '+translated;
+ }
+ for(const [matcher,en,kk] of patterns)if(matcher.test(source))
+  return source.replace(matcher,language==='en'?en:kk);
+ return source;
+}
+
 const weak=new WeakMap(), attrOriginal=new WeakMap();
 let pending=new Set(),scheduled=false,observer;
 function locale(){
@@ -694,7 +775,7 @@ function lookup(raw,language){
  const m=/^(\s*)([\s\S]*?)(\s*)$/.exec(raw);
  if(!m)return raw;
  const translated=(direct.get(m[2])||direct.get(m[2].replace(/\s+/g,' ').trim()))?.[language];
- return translated?m[1]+translated+m[3]:raw;
+ return m[1]+(translated||dynamicLookup(m[2],language))+m[3];
 }
 function translateNode(node,language){
  if(!valid(node))return;
