@@ -120,7 +120,7 @@
       }
       const min=finite(s.priceMin),max=finite(s.priceMax);
       if(!(min>0&&max>=min))report(key,'Для товара отсутствует подтверждённый диапазон цен V1.');
-      if(!s.fixedPriceFromV1&&!(pos(s.targetMarginPct)>0&&pos(s.minimumMarginPct)>0&&pos(s.targetMarginPct)>=pos(s.minimumMarginPct))
+      if(!s.fixedPriceFromV1&&!(pos(s.targetMarginPct)>0&&pos(s.minimumMarginPct)>0&&pos(s.targetMarginPct)>=pos(s.minimumMarginPct)))
         report(key,'Не готовы минимальная и целевая маржинальность V1.');
       const disc=finite(s.discountSelected),limit=pos(s.maxDiscountPct);
       if(disc<0||disc>limit+EPS||limit>=100)
