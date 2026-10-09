@@ -201,7 +201,7 @@ function updateResult(){
     'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
     '; для минимальной: '+money(sku.requiredFloorPrice)+
     '; денежная доля: '+money(sku.revenueWeight*100)+'%; '+
-    ({TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима'}[sku.status]||'ожидает проверки'):
+    ({CONTRACT:'фиксированный контракт V1',TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима'}[sku.status]||'ожидает проверки'):
     'Заполните общие ресурсы.';
  }
  document.querySelectorAll('[data-linked-error]').forEach(x=>x.remove());
@@ -235,9 +235,9 @@ function updateResult(){
  const cards=[['Продано позиций за 30 дней',t.forecast],['Выручка без НДС',t.revenue],
   ['Рекламный бюджет',t.media],['Себестоимость',t.cogs],
   ['Общие расходы / мес.',t.monthlyResources],['EBITDA',t.ebitda],
-  ['Налог бизнеса',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
+  ['Налоги владельца / агента',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
  const priceTable='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Платит покупатель','Прогноз, ед.','Денежный вес','Реклама','Чистая маржа'].map(label=>
+  ['Товар / услуга','Диапазон V1','Прайс / контракт V2','Скидка','Доход за единицу','Прогноз, ед.','Денежный вес','Моя реклама','Чистая маржа'].map(label=>
    '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
   out.items.map(s=>'<tr class="border-t border-white/20">'+
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
@@ -261,6 +261,15 @@ function updateResult(){
     money(m.cumulative),money(m.freeCumulative)]
     .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
+ const partnerEconomics=(out.counterpart||[]).length?
+   '<h3 class="font-bold mt-5">Оборот партнёра — отдельный учёт, не мой доход</h3>'+
+   '<div class="mt-2 space-y-2">'+out.counterpart.map(p=>
+    '<div class="rounded-lg border border-white/20 p-3 text-xs">'+safe(p.name)+
+    ': оборот '+money(p.gross)+', эквайринг '+money(p.acquiring)+
+    ', выплата мне '+money(p.commission)+', налог партнёра '+money(p.partnerTax)+
+    ', операционные расходы партнёра '+money(p.partnerOpex)+
+    ', прибыль партнёра '+money(p.profit)+', денежный поток партнёра '+money(p.cash)+
+    '</div>').join('')+'</div>':'';
  el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
@@ -268,7 +277,7 @@ function updateResult(){
  (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Целевая маржа достигнута для всех позиций.</p>':
   '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
  '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
- '<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
+ partnerEconomics+'<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
  [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
@@ -277,7 +286,7 @@ function updateResult(){
   '<b class="text-lg">'+money(value)+'</b></div>').join('')+'</div>'+flow+
  '<p class="mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
- 'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+
+ 'Разовые вложения оплачиваются в Cash Flow; онлайн-активы амортизируются в прибыли, не в EBITDA. '+
  'Месяц принят равным 30 дням; налоги моделируются помесячно, без переноса убытков.</p>';
 }
 function setPath(path,value){
@@ -302,7 +311,7 @@ function onEvent(e){
   setPath(field.dataset.linkedPath,field.type==='checkbox'?field.checked:field.value);
   if(/^resources\\.\\d+\\.kind$/.test(field.dataset.linkedPath)&&field.value==='warehouse'){
    const r=state.resources[Number(field.dataset.linkedPath.split('.')[1])];
-   r.skuIds=r.skuIds.filter(id=>state.skus.find(s=>s.id===id)?.source!=='offline-service');
+   r.skuIds=r.skuIds.filter(id=>!(['offline-service','online-self','online-hired','online-agent'].includes(state.skus.find(s=>s.id===id)?.source)));
    for(const key of Object.keys(r.includedBySku||{}))
     if(!r.skuIds.includes(key))delete r.includedBySku[key];
    for(const key of Object.keys(r.usage||{}))
