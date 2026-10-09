@@ -16,14 +16,14 @@
   const allowedKinds=new Set(['premises','workers','warehouse','equipment','certification','salesStaff','marketingManager','campaign','website','hosting','domain','content','other']);
   const sourceId=s=>String(s.id);
   function fromV1(payload){
-    if(!payload||!Array.isArray(payload.skus)||!payload.skus.length)throw Error('Нет подтверждённых товаров V1.');
+    if(!payload||!Array.isArray(payload.skus)||!payload.skus.length)throw Error('Нет подтверждённых позиций V1 (товаров или услуг).');
     const skus=payload.skus.map(v=>({
       ...JSON.parse(JSON.stringify(v)),
       id:sourceId(v),priceSelected:pos(v.priceMax),discountSelected:0
     }));
     return {version:3,source:'v1-calculated',importedAt:new Date().toISOString(),
       sourceSignature:JSON.stringify(payload),
-      skus,resources:[],tax:{...payload.tax},currency:'у.е.*'};
+      skus,resources:[],offers:[],tax:{...payload.tax},currency:'у.е.*'};
   }
   function shares(resource,skus){
     const beneficiaries=resource.skuIds||[];
@@ -37,13 +37,78 @@
     const denominator=sum(values);
     return Object.fromEntries(beneficiaries.map((id,i)=>[id,denominator?values[i]/denominator:0]));
   }
+
+  // Market-basket forecast: independently acquired V1 demand is never recursively
+  // fed into new offers. This prevents cross-sell cycles and double attribution.
+  function projectOffers(offers,baseOrders,knownIds){
+    const errors=[],fieldErrors=[],events=[],usedIds=new Set();
+    const report=(path,message)=>{errors.push(message);fieldErrors.push({path,message})};
+    const rows=Array.isArray(offers)?offers:[];
+    const allowed=new Set(['cross_sell','upsell','bundle']);
+    const exclusive={},overlaps={};
+    const orders={...baseOrders};
+    rows.forEach((r,i)=>{
+      const key='offers.'+i,identifier=String(r?.id||'');
+      if(!identifier||usedIds.has(identifier))report(key+'.id','У связи должен быть уникальный ID.');
+      usedIds.add(identifier);
+      if(!allowed.has(r?.mode))report(key+'.mode','Выберите cross-sell, upsell или набор.');
+      const anchor=String(r?.anchorSkuId||'');
+      if(!knownIds.has(anchor))report(key+'.anchorSkuId','Базовый товар или услуга отсутствует в портфеле.');
+      const rawPct=Number(r?.attachPct);
+      if(r?.attachPct===''||!Number.isFinite(rawPct)||rawPct<=0||rawPct>100)
+        report(key+'.attachPct','Доля покупателей должна быть больше 0% и не выше 100%.');
+      const overlapPct=Number(r?.overlapPct??0);
+      if(!Number.isFinite(overlapPct)||overlapPct<0||overlapPct>100)
+        report(key+'.overlapPct','Пересечение с самостоятельными продажами — от 0 до 100%.');
+      const parts=Array.isArray(r?.items)?r.items:[];
+      if(!parts.length)report(key+'.items','Добавьте хотя бы одну позицию к предложению.');
+      const local=new Set(),components=[];
+      parts.forEach((p,j)=>{
+        const target=String(p?.skuId||''),quantity=Number(p?.qty);
+        if(!knownIds.has(target)||target===anchor||local.has(target))
+          report(key+'.items.'+j+'.skuId','Позиция должна существовать, отличаться от основной и не повторяться в наборе.');
+        local.add(target);
+        if(!Number.isInteger(quantity)||quantity<1||quantity>100)
+          report(key+'.items.'+j+'.qty','Количество в связке должно быть целым числом от 1 до 100.');
+        components.push({skuId:target,qty:quantity});
+      });
+      if(!allowed.has(r?.mode)||!knownIds.has(anchor)||!(rawPct>0&&rawPct<=100)||
+         !(overlapPct>=0&&overlapPct<=100)||!parts.length||
+         components.some(p=>!knownIds.has(p.skuId)||p.skuId===anchor||
+           !Number.isInteger(p.qty)||p.qty<1||p.qty>100)||local.size!==parts.length)return;
+      const attach=pos(baseOrders[anchor])*rawPct/100;
+      if(r.mode==='upsell'||r.mode==='bundle')exclusive[anchor]=(exclusive[anchor]||0)+rawPct;
+      if(r.mode==='upsell')orders[anchor]-=attach;
+      const detail=components.map(p=>{
+        const gross=attach*p.qty;
+        const overlap=gross*overlapPct/100;
+        overlaps[p.skuId]=(overlaps[p.skuId]||0)+overlap;
+        orders[p.skuId]+=gross-overlap;
+        return {...p,grossUnits:gross,overlapUnits:overlap,netAddedUnits:gross-overlap};
+      });
+      events.push({id:identifier,mode:r.mode,anchorSkuId:anchor,
+        attachPct:rawPct,overlapPct,transactions:attach,items:detail});
+    });
+    for(const [sku,pct] of Object.entries(exclusive))
+      if(pct>100+1e-8)report('offers','Наборы и upsell для «'+sku+'» суммарно охватывают больше 100% самостоятельных покупателей.');
+    for(const [sku,qty] of Object.entries(overlaps))
+      if(qty>pos(baseOrders[sku])+1e-8)report('offers',
+        'Пересечение продаж «'+sku+'» превышает его независимый спрос из V1.');
+    for(const [sku,qty] of Object.entries(orders))
+      if(qty<-1e-7)report('offers','Отрицательный прогноз для «'+sku+'».');
+    const adjustments=Object.fromEntries(knownIds.values().map(id=>[
+      id,pos(orders[id])-pos(baseOrders[id])]));
+    return {orders,baseOrders,adjustments,events,errors,fieldErrors,
+      totalBaseUnits:sum(Object.values(baseOrders)),totalUnits:sum(Object.values(orders)),
+      attributedTransactions:sum(events.map(e=>e.transactions))};
+  }
   function build(state){
     const errors=[],fieldErrors=[];
     const report=(path,message)=>{errors.push(message);fieldErrors.push({path,message})};
     if(state?.version!==3||state.source!=='v1-calculated')
-      return {ready:false,errors:['V2 ожидает рассчитанные товары V1.'],fieldErrors:[]};
+      return {ready:false,errors:['V2 ожидает рассчитанные товары и услуги V1.'],fieldErrors:[]};
     const raw=Array.isArray(state.skus)?state.skus:[];
-    if(!raw.length)report('skus','Не импортирован ни один товар.');
+    if(!raw.length)report('skus','Не импортировано ни одной позиции.');
     const ids=new Set(),rows=[];
     for(let i=0;i<raw.length;i++){
       const s=raw[i],id=sourceId(s),key='skus.'+i;
@@ -160,8 +225,11 @@
       const mediaBySku=Object.fromEntries(rows.map(s=>[s.id,pos(s.adBudget)-offsets[s.id].adBudget]));
       for(const r of allocation)if(r.kind==='campaign'&&r.cadence==='monthly')
         for(const [id,amount]of Object.entries(r.bySku))mediaBySku[id]+=amount;
+      const baselineOrders=Object.fromEntries(rows.map(s=>[s.id,
+        pos(s.forecastUnitsPerMonth)*mediaBySku[s.id]/Math.max(EPS,pos(s.adBudget))]));
+      const basket=projectOffers(state.offers,baselineOrders,ids);
       const projections=rows.map(s=>{
-        const media=mediaBySku[s.id],orders=pos(s.forecastUnitsPerMonth)*media/pos(s.adBudget);
+        const media=mediaBySku[s.id],orders=pos(basket.orders[s.id]);
         const monthlyResources=allocation.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly')
           .reduce((v,r)=>v+pos(r.bySku[s.id]),0);
         const monthlyManager=pos(s.adManagement)-offsets[s.id].marketingManagement;
@@ -181,7 +249,7 @@
           netUnitCost,unitLoad,priceTarget:requiredListPrice(s,unitLoad,s.targetMarginPct),
           priceFloor:requiredListPrice(s,unitLoad,s.minimumMarginPct)};
       });
-      return {allocation,mediaBySku,projections};
+      return {allocation,mediaBySku,projections,basket};
     };
     // Revenue-weighted attribution and SKU prices are mutually dependent.
     // Solve them as a damped fixed point, never silently substituting max price.
@@ -204,6 +272,7 @@
     }
     if(!converged)report('resources','Распределение рекламного бюджета и цен не сошлось; зафиксируйте загрузку кампаний по товарам.');
     scenario=calculateScenario(prices,projectedOrders);
+    for(const e of scenario.basket.fieldErrors)report(e.path,e.message);
     const items=scenario.projections.map(p=>{
       const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad}=p;
       const priceList=Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
@@ -263,7 +332,21 @@
         ', а предел V1 — '+item.priceMax+'.');
     if(!invariantMedia||Math.abs(allocated-resourcesTotal)>=EPS)
       report('resources','Не удалось распределить все расходы без потерь или повторного учёта.');
-    const base={ready:!errors.length,errors,fieldErrors,items,resources:scenario.allocation,offsets,cashOffsets,
+    const basket={...scenario.basket,transactions:scenario.basket.events.map(event=>({
+      ...event,anchorName:items.find(s=>s.id===event.anchorSkuId)?.name||event.anchorSkuId,
+      items:event.items.map(p=>({...p,name:items.find(s=>s.id===p.skuId)?.name||p.skuId}))
+    }))};
+    // Lift is measured at the same calculated portfolio prices, not against
+    // a separately repriced standalone scenario (which would mix two effects).
+    basket.revenueLift=sum(items.map(s=>(basket.adjustments[s.id]||0)*s.priceNet));
+    basket.variableContributionLift=sum(items.map(s=>{
+      const unitVariable=s.source==='offline-service'?
+        pos(s.serviceMaterialsUnit)+pos(s.serviceElectricityUnit):pos(s.unitCostEffective);
+      return (basket.adjustments[s.id]||0)*
+        (s.priceNet*(1-pos(s.variableSalesPct)/100)-unitVariable);
+    }));
+    const base={ready:!errors.length,errors,fieldErrors,items,basket,
+      resources:scenario.allocation,offsets,cashOffsets,
       totals:{revenue:totalRevenue,media:fullMedia,cogs:sum(items.map(s=>s.cogs)),
         forecast:sum(items.map(s=>s.forecastOrders)),monthlyResources:monthlyCosts,
         onceResources:onceCosts,ebitda:totalEbitda,interest,tax,netProfit,
@@ -399,5 +482,5 @@
       startupCapital:ownerCapital+borrowedCapital,
       finalCash:running,freeCash:running-reserve,peakOperatingDeficit:-minimum};
   }
-  return Object.freeze({fromV1,build});
+  return Object.freeze({fromV1,build,projectOffers});
 });
