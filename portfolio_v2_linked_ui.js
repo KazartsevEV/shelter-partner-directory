@@ -12,9 +12,14 @@ const pools=[['none','Новый расход (не учитывался в V1)'
  ['unitCost','Уже в себестоимости SKU'],['salesFixed','Уже в расходах на продажи SKU'],
  ['marketingManagement','Уже в гонораре маркетолога SKU'],
  ['adBudget','Уже в рекламном бюджете SKU']];
-const money=v=>Number.isFinite(Number(v))?Number(v).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+const money=v=>Number.isFinite(Number(v))?Number(v).toLocaleString(root.Nomad360LocaleCore?.displayLocale?.()||'ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
 const safe=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const num=v=>v===''?0:Number(v)||0;
+// Canonical display value for already rendered finance-advertising subtables;
+ // never parse printed locale strings back into business data.
+const shown=(v,suffix='')=>Number.isFinite(Number(v))?
+ '<span data-nomad-display-number="'+Number(v)+'"'+
+ (suffix?' data-nomad-display-suffix="'+suffix+'"':'')+'>'+money(v)+suffix+'</span>':'—';
 let state=null,sequence=1;
 function read(){try{const x=JSON.parse(localStorage.getItem(storageKey));return x?.version===3&&x.source==='v1-calculated'&&Array.isArray(x.skus)?x:null}catch(_){return null}}
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(state));updateEntry();return true}catch(_){return false}}
@@ -94,7 +99,7 @@ function resourceCard(r,i){
    r.pool==='marketingManagement'?num(s.adManagement):
    r.pool==='adBudget'?num(s.adBudget):0;
   return '<div class="rounded-lg border border-slate-200 p-3 min-w-0">'+
-   '<label class="flex gap-2 items-center text-sm"><input type="checkbox" data-linked-member="'+i+'" value="'+safe(s.id)+'" '+(checked?'checked':'')+'><b>'+safe(s.name)+'</b></label>'+
+   '<label class="flex gap-2 items-center text-sm"><input type="checkbox" data-linked-member="'+i+'" value="'+safe(s.id)+'" '+(checked?'checked':'')+'><b data-nomad-no-translate>'+safe(s.name)+'</b></label>'+
    (checked?'<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">'+
     (r.pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
       'resources.'+i+'.includedBySku.'+s.id,r.includedBySku?.[s.id]??0):'')+
@@ -132,13 +137,13 @@ function render(){
  const scenario=Engine.build(state);
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
- '<div class="font-bold text-slate-900 text-lg">'+safe(s.name)+'</div>'+
+ '<div class="font-bold text-slate-900 text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
  '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-700 mt-3">'+
- [['Себестоимость V1 / шт.',money(s.unitCost)],['Прогноз V1 / мес.',money(s.forecastUnitsPerMonth)],
- ['Реклама V1 / мес.',money(s.adBudget)],['CAC V1',money(s.baseCac)],['Цена от',money(s.priceMin)],
- ['Цена до',money(s.priceMax)],['Дельта цены',money(num(s.priceMax)-num(s.priceMin))]].map(([label,value])=>
- '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b>'+value+'</b></div>').join('')+'</div>'+
+ [['Себестоимость V1 / шт.',s.unitCost],['Прогноз V1 / мес.',s.forecastUnitsPerMonth],
+ ['Реклама V1 / мес.',s.adBudget],['CAC V1',s.baseCac],['Цена от',s.priceMin],
+ ['Цена до',s.priceMax],['Дельта цены',num(s.priceMax)-num(s.priceMin)]].map(([label,value])=>
+ '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
  'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
@@ -191,7 +196,7 @@ function updateResult(){
   if(plan?.ready){
    const names=Object.fromEntries(state.skus.map(s=>[s.id,s.name]));
    const values=entries=>Object.entries(entries).map(([id,quantity])=>
-    safe(names[id]||id)+': '+money(quantity)).join('; ');
+    '<span data-nomad-no-translate>'+safe(names[id]||id)+'</span>: '+money(quantity)).join('; ');
    const rows=plan.months.map(m=>'<tr class="border-t border-slate-200">'+
     '<td class="p-2">'+m.month+'</td><td class="p-2 text-right">'+money(m.units)+'</td>'+
     '<td class="p-2">'+values(m.orders)+'</td>'+
@@ -210,8 +215,16 @@ function updateResult(){
   const sku=out.items?.find(s=>s.id===node.dataset.linkedLive);
   const list=node.querySelector('[data-linked-price-list]');
   const paid=node.querySelector('[data-linked-price-paid]');
-  if(list)list.textContent=money(sku?.priceList);
-  if(paid)paid.textContent=money(sku?.priceGross);
+  if(list){list.textContent=money(sku?.priceList);
+   if(Number.isFinite(Number(sku?.priceList))&&sku?.priceList!==undefined&&sku?.priceList!==null)
+    list.setAttribute('data-nomad-display-number',String(sku.priceList));
+   else list.removeAttribute('data-nomad-display-number');
+  }
+  if(paid){paid.textContent=money(sku?.priceGross);
+   if(Number.isFinite(Number(sku?.priceGross))&&sku?.priceGross!==undefined&&sku?.priceGross!==null)
+    paid.setAttribute('data-nomad-display-number',String(sku.priceGross));
+   else paid.removeAttribute('data-nomad-display-number');
+  }
   const meta=node.closest('[data-linked-sku]')?.querySelector('[data-linked-unit-meta]');
   if(meta)meta.textContent=sku?
     'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
@@ -228,7 +241,7 @@ function updateResult(){
    '<div class="mt-3 space-y-2">'+[...new Set(out.errors||[])].map(message=>
     '<div class="rounded-lg bg-rose-100 p-3 text-rose-900 text-sm">'+safe(message)+'</div>').join('')+'</div>'+
    (out.items?.length?'<div class="mt-3 space-y-2">'+out.items.map(item=>
-    '<div class="border border-white/25 rounded-lg p-3 text-sm"><b>'+safe(item.name)+'</b>: диапазон V1 '+
+    '<div class="border border-white/25 rounded-lg p-3 text-sm"><b data-nomad-no-translate>'+safe(item.name)+'</b>: диапазон V1 '+
     money(item.priceMin)+'–'+money(item.priceMax)+', цена для минимальной маржи '+
     money(item.requiredFloorPrice)+', максимально допустимая цена '+money(item.priceList)+
     ', итоговая маржа '+money(item.actualAfterTaxMargin)+'%</div>').join('')+'</div>':'');
@@ -265,7 +278,7 @@ function updateResult(){
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
     money(s.discountSelected)+'%',money(s.priceGross),money(s.forecastOrders),
     money(s.revenueWeight*100)+'%',money(s.adBudgetEffective),s.actualAfterTaxMargin===null?'нет продаж':money(s.actualAfterTaxMargin)+'%']
-   .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
+   .map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+(i===0?' data-nomad-no-translate':'')+'>'+v+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
  const resources='<div class="mt-2 space-y-2 text-xs">'+out.resources.map(r=>
   '<div class="rounded-lg bg-white/10 p-3">'+
@@ -275,7 +288,7 @@ function updateResult(){
      ' / '+(num(r.capacity)>0?money(r.capacity):'без лимита')+
      ', остаток '+(r.remainingCapacity===null?'—':money(r.remainingCapacity))+'</div>':'')+
    Object.entries(r.bySku).map(([id,amount])=>
-    '<div>'+safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(amount)+'</div>').join('')+
+    '<div><span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(amount)+'</div>').join('')+
   '</div>').join('')+'</div>';
  const period=cf.periodPnl;
  const periodPanel=period?.ready?
@@ -296,17 +309,17 @@ function updateResult(){
   period.months.map(m=>'<tr class="border-t border-white/20">'+
    [m.month,m.revenue,m.cogs,m.marketing,m.operatingShared,m.serviceFixed,
     m.ebitda,m.amort,m.interest,m.taxAccrued,m.netProfit].map((v,i)=>
-    '<td class="p-2 text-right">'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
+    '<td class="p-2 text-right"'+(i===0?'':' data-nomad-display-number="'+safe(v)+'"')+'>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>'+
   (periodOptimized?'<h4 class="font-semibold mt-4">Проверка цены и маржи SKU за весь период</h4>'+
     '<div class="overflow-x-auto mt-2"><table class="w-full min-w-[640px] text-xs"><thead><tr>'+
     ['Товар / услуга','Цена за период','Маржа за период','Статус','Для минимума','Для цели'].map(x=>'<th class="p-2 text-right">'+x+'</th>').join('')+'</tr></thead><tbody>'+
     (period.priceDiagnostics||[]).map(d=>'<tr class="border-t border-white/20">'+
-      [safe(out.items.find(x=>x.id===d.id)?.name||d.id),money(d.price),
-       d.margin===null?'нет продаж':money(d.margin)+'%',safe(d.status),
-       Number.isFinite(d.requiredFloorPrice)?money(d.requiredFloorPrice):'недостижима',
-       Number.isFinite(d.requiredTargetPrice)?money(d.requiredTargetPrice):'недостижима'].map(x=>
-         '<td class="p-2 text-right whitespace-nowrap">'+x+'</td>').join('')+'</tr>').join('')+
+      [safe(out.items.find(x=>x.id===d.id)?.name||d.id),shown(d.price),
+       d.margin===null?'нет продаж':shown(d.margin,'%'),safe(d.status),
+       Number.isFinite(d.requiredFloorPrice)?shown(d.requiredFloorPrice):'недостижима',
+       Number.isFinite(d.requiredTargetPrice)?shown(d.requiredTargetPrice):'недостижима'].map((x,i)=>
+         '<td class="p-2 text-right whitespace-nowrap"'+(i===0?' data-nomad-no-translate':'')+'>'+x+'</td>').join('')+'</tr>').join('')+
     '</tbody></table></div>':'')+
   (period.onceAssetAmortizationUnverified?
    '<p class="mt-2 text-xs text-amber-200">Есть разовые активы без подтверждённой амортизации; полная бухгалтерская прибыль пока не подтверждена.</p>':'')+
@@ -319,29 +332,29 @@ function updateResult(){
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
   out.temporal.months.map(m=>'<tr class="border-t border-white/20">'+
     '<td class="p-2 text-right">'+m.month+'</td>'+
-    '<td class="p-2 text-right">'+money(m.media.ownerPaid)+'</td>'+
+    '<td class="p-2 text-right">'+shown(m.media.ownerPaid)+'</td>'+
     '<td class="p-2 text-right">'+Object.keys(m.media.allocatedBySku).map(id=>
-      safe(out.items.find(s=>s.id===id)?.name||id)+': '+
-      money(num(m.media.allocatedBySku[id])+num(m.media.retainedBySku[id]))).join('; ')+'</td>'+
-    '<td class="p-2 text-right">'+money(m.media.unattributed)+'</td>'+
+      '<span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+
+      shown(num(m.media.allocatedBySku[id])+num(m.media.retainedBySku[id]))).join('; ')+'</td>'+
+    '<td class="p-2 text-right">'+shown(m.media.unattributed)+'</td>'+
     '<td class="p-2 text-right">'+Object.entries(m.unservedIndependent||{}).filter(([,qty])=>num(qty)>.001).map(([id,qty])=>
-      safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(qty)).join('; ')+'</td>'+
+      '<span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+shown(qty)).join('; ')+'</td>'+
     '<td class="p-2 text-right">'+Object.entries(m.media.paidByCampaign).map(([id,amount])=>
-      safe(state.resources.find(r=>r.id===id)?.label||id)+': '+money(amount)).join('; ')+'</td>'+
+      '<span data-nomad-no-translate>'+safe(state.resources.find(r=>r.id===id)?.label||id)+'</span>: '+shown(amount)).join('; ')+'</td>'+
    '</tr>').join('')+'</tbody></table></div>':'';
  const flow='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
   ['Месяц','Поступления без НДС','Расходы','Налог бизнеса','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
   cf.months.map(m=>'<tr class="border-t border-white/20">'+
-   [m.month,money(m.receipt),money(m.operatingOutflow),money(m.tax),money(m.interest),
-    money(m.principalRepaid),money(m.ownerCapital),money(m.cashFlow+m.ownerCapital),
-    money(m.cumulative),money(m.freeCumulative)]
-    .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
+   [m.month,m.receipt,m.operatingOutflow,m.tax,m.interest,
+    m.principalRepaid,m.ownerCapital,m.cashFlow+m.ownerCapital,
+    m.cumulative,m.freeCumulative]
+    .map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+(i===0?'':' data-nomad-display-number="'+safe(v)+'"')+'>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
  el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
-  '<div class="text-xl font-black">'+money(value)+'</div></div>').join('')+'</div>'+
+  '<div class="text-xl font-black" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</div></div>').join('')+'</div>'+
  (period?.accountingCompleteness==='PROVISIONAL'?
    '<p class="text-amber-200 text-sm mt-3">ПРЕДВАРИТЕЛЬНЫЙ РАСЧЁТ. Разовые расходы или активы без подтверждённой амортизации: целевая маржа за весь период НЕ подтверждена, даже если численная оценка выше цели.</p>':
   t.targetMet?'<p class="text-emerald-200 text-sm mt-3">'+(period?'Целевая маржа подтверждена по фактическому плану всего периода.':'Целевая маржа достигнута для всех позиций.')+'</p>':
@@ -360,7 +373,7 @@ function updateResult(){
  [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
   ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]
  .map(([label,value])=>'<div class="bg-white/10 rounded-lg p-3"><div class="text-xs">'+label+'</div>'+
-  '<b class="text-lg">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
+  '<b class="text-lg" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
  '<p class="mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
  'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+

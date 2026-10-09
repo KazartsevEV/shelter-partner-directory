@@ -20,7 +20,8 @@ const files=[
  'portfolio_v2_mba_observed.js',
  'portfolio_v2_mba_observed_ui.js',
  'nomad360_calculator_ui.js',
- 'nomad360_calculator_ui.css'
+ 'nomad360_calculator_ui.css',
+ 'nomad360_locale_core.js'
 ];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -55,7 +56,7 @@ async function verify(mode){
  }
  const strict=mode==='--parity',maxAttempts=strict?24:3;
  // Newly authored PR assets are only on git, not on the public site until merge.
- const checked=strict?files:files.filter(file=>!file.startsWith('nomad360_'));
+ const checked=strict?files:files.filter(file=>file!=='nomad360_locale_core.js');
  let last=[];
  for(let attempt=1;attempt<=maxAttempts;attempt++){
   const result=await Promise.all(checked.map(async file=>{

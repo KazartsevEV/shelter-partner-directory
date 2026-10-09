@@ -1667,9 +1667,57 @@
             return baseInputsConfig;
         }
 
-        function formatMoney(val) { return `${formatNum(val)} у.е.*`; }
-        function formatNum(val) { return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
-        function formatInt(val) { return new Intl.NumberFormat('ru-RU').format(Math.round(val)); }
+        // Display formatting only: numeric input values and model state remain canonical.
+        function nomadDisplayLocale() {
+            return window.Nomad360LocaleCore?.displayLocale?.() || 'ru-RU';
+        }
+        function formatMoney(val) { const language=window.Nomad360LocaleCore?.locale?.()||'ru'; return `${formatNum(val)} ${language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'}`; }
+        function formatNum(val) { return new Intl.NumberFormat(nomadDisplayLocale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
+        function formatInt(val) { return new Intl.NumberFormat(nomadDisplayLocale()).format(Math.round(val)); }
+        // Presentation-only wrappers for already-calculated period totals.
+        function displayNumberSpan(value,kind) {
+            const numeric=Number(value);
+            const text=kind==='money'?formatMoney(value):kind==='int'?formatInt(value):formatNum(value);
+            if(!Number.isFinite(numeric))return text;
+            const digits=kind==='int'?0:2;
+            return '<span data-nomad-display-number="'+numeric+'" data-nomad-display-fractions="'+digits+'"'+
+                (kind==='money'?' data-nomad-display-money':'')+'>'+text+'</span>';
+        }
+        const displayMoneyNode=value=>displayNumberSpan(value,'money');
+        const displayNumNode=value=>displayNumberSpan(value,'num');
+        const displayIntNode=value=>displayNumberSpan(value,'int');
+
+        // Readonly product outputs carry canonical numeric values independent
+        // of their localized text. Some are reused as source for the V1 model.
+        function setProductReadonlyNumber(id,value,fractions='2',suffix='') {
+            const output=document.getElementById(id);
+            if(!output)return;
+            const numeric=Number(value);
+            if(!Number.isFinite(numeric)){
+                output.textContent='—';
+                output.removeAttribute('data-nomad-display-number');
+                return;
+            }
+            output.setAttribute('data-nomad-display-number',String(numeric));
+            output.setAttribute('data-nomad-display-fractions',fractions);
+            if(suffix)output.setAttribute('data-nomad-display-suffix',suffix);
+            else output.removeAttribute('data-nomad-display-suffix');
+            const min=fractions==='2'?2:0,max=fractions==='0'?0:2;
+            output.textContent=numeric.toLocaleString(nomadDisplayLocale(),
+                {minimumFractionDigits:min,maximumFractionDigits:max})+suffix;
+        }
+
+        function setV1DisplayedMoney(id,value) {
+            const element=document.getElementById(id);if(!element)return;
+            element.textContent=formatMoney(value);
+            if(Number.isFinite(Number(value))){
+                element.setAttribute('data-nomad-display-number',String(value));
+                element.setAttribute('data-nomad-display-money','');
+            } else {
+                element.removeAttribute('data-nomad-display-number');
+                element.removeAttribute('data-nomad-display-money');
+            }
+        }
         function monthWord(n) {
             const mod10 = n % 10;
             const mod100 = n % 100;
@@ -1934,7 +1982,7 @@
         }
 
         function formatReferencePct(value) {
-            return Number.isFinite(value) ? value.toLocaleString('ru-RU') + '%' : 'нет данных';
+            return Number.isFinite(value) ? value.toLocaleString(nomadDisplayLocale()) + '%' : 'нет данных';
         }
 
         function updatePayrollCountryReference(code) {
@@ -2101,12 +2149,7 @@
 
             Object.entries(values).forEach(([id, value]) => {
                 const output = document.getElementById(id);
-                if (output) {
-                    output.textContent = value.toLocaleString('ru-RU', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+                if (output) setProductReadonlyNumber(id,value,'2');
             });
             recalculateSalesCostSummary();
         }
@@ -3480,6 +3523,55 @@
                 : moneyInputValue(value);
         }
 
+        // #47AU: source-backed price and discount displays (presentation only).
+        // This is deliberately separate from aggregatePriceText, which is used
+        // by legacy text-only consumers. Source, SKU state and price maths stay
+        // unchanged when the selected language changes.
+        function aggregatePriceNumber(value,kind='plain'){
+            if(value===null||value===undefined||!Number.isFinite(Number(value)))return '—';
+            const raw=Number(value);
+            if(kind==='money')return displayMoneyNode(raw);
+            if(kind==='percent'||kind==='ratio'){
+                const suffix=kind==='percent'?'%':'x';
+                return '<span data-nomad-display-number="'+raw+
+                    '" data-nomad-display-fractions="compact" data-nomad-display-suffix="'+suffix+'">'+
+                    raw.toLocaleString(nomadDisplayLocale(),{maximumFractionDigits:2})+suffix+'</span>';
+            }
+            return displayNumNode(raw);
+        }
+        function aggregatePriceRangeHTML(result){
+            return result?.ready
+                ? aggregatePriceNumber(result.minPrice)+' – '+aggregatePriceNumber(result.maxPrice,'money')
+                : '—';
+        }
+        function setAggregatePriceDisplay(node,value,kind='plain'){
+            if(!node)return;
+            if(value===null||value===undefined||!Number.isFinite(Number(value))){
+                node.removeAttribute('data-nomad-display-number');
+                node.removeAttribute('data-nomad-display-fractions');
+                node.removeAttribute('data-nomad-display-suffix');
+                node.removeAttribute('data-nomad-display-money');
+                node.textContent='—';
+                return;
+            }
+            const raw=Number(value);
+            node.setAttribute('data-nomad-display-number',String(raw));
+            node.setAttribute('data-nomad-display-fractions',
+                kind==='percent'||kind==='ratio'?'compact':'2');
+            const suffix=kind==='percent'?'%':kind==='ratio'?'x':'';
+            if(suffix)node.setAttribute('data-nomad-display-suffix',suffix);
+            else node.removeAttribute('data-nomad-display-suffix');
+            if(kind==='money')node.setAttribute('data-nomad-display-money','');
+            else node.removeAttribute('data-nomad-display-money');
+            const number=raw.toLocaleString(nomadDisplayLocale(),
+                {minimumFractionDigits:kind==='percent'||kind==='ratio'?0:2,
+                 maximumFractionDigits:2});
+            const language=window.Nomad360LocaleCore?.locale?.()||'ru';
+            const unit=kind==='money'?' '+(language==='en'?'currency units*':
+                language==='kk'?'ш.б.*':'у.е.*'):'';
+            node.textContent=number+suffix+unit;
+        }
+
         function updateAggregatePricing(item) {
             if (!item) return;
             const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
@@ -3487,28 +3579,26 @@
 
             const p = aggregatePricingMetrics(item);
             const outputs = {
-                priceBeforeTax: aggregatePriceText(p.priceBeforeTax),
-                priceBeforeTaxWithVat: aggregatePriceText(p.priceBeforeTaxWithVat),
-                taxAdjustedPrice: aggregatePriceText(p.taxAdjustedPrice),
-                taxAdjustedPriceWithVat: aggregatePriceText(p.taxAdjustedPriceWithVat),
-                baseCac: aggregatePriceText(p.baseCac),
-                weightedCac: aggregatePriceText(p.weightedCac),
-                adBudgetPortfolio: aggregatePriceText(p.adBudget),
-                forecastSalesPortfolio: p.forecastSales.toLocaleString('ru-RU', { maximumFractionDigits: 2 }),
-                revenueWeight:
-                    p.revenueWeight === null
-                        ? '—'
-                        : (p.revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
-                salesMixNormalized: (p.salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
-                revenuePortfolio: aggregatePriceText(p.revenue),
-                cogsPortfolio: aggregatePriceText(p.cogs),
-                ebitdaPortfolio: aggregatePriceText(p.ebitda),
-                roasPortfolio: p.roas === null ? '—' : p.roas.toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + 'x'
+                priceBeforeTax: p.priceBeforeTax,
+                priceBeforeTaxWithVat: p.priceBeforeTaxWithVat,
+                taxAdjustedPrice: p.taxAdjustedPrice,
+                taxAdjustedPriceWithVat: p.taxAdjustedPriceWithVat,
+                baseCac: p.baseCac,
+                weightedCac: p.weightedCac,
+                adBudgetPortfolio: p.adBudget,
+                forecastSalesPortfolio: p.forecastSales,
+                revenueWeight: p.revenueWeight===null?null:p.revenueWeight*100,
+                salesMixNormalized: p.salesMix*100,
+                revenuePortfolio: p.revenue,
+                cogsPortfolio: p.cogs,
+                ebitdaPortfolio: p.ebitda,
+                roasPortfolio: p.roas
             };
-            Object.entries(outputs).forEach(([key, value]) => {
-                section.querySelectorAll(`[data-aggregate-price="${key}"]`).forEach(el => {
-                    el.textContent = value;
-                });
+            Object.entries(outputs).forEach(([key,value]) => {
+                const kind=key==='revenueWeight'||key==='salesMixNormalized'?'percent':
+                    key==='roasPortfolio'?'ratio':'plain';
+                section.querySelectorAll(`[data-aggregate-price="${key}"]`).forEach(el =>
+                    setAggregatePriceDisplay(el,value,kind));
             });
 
             const advicePrice = section.querySelector('[data-business-advice-price]');
@@ -3517,7 +3607,7 @@
                     p.priceBeforeTaxWithVat !== null
                         ? p.priceBeforeTaxWithVat
                         : p.priceBeforeTax;
-                advicePrice.textContent = aggregatePriceText(shownPrice);
+                setAggregatePriceDisplay(advicePrice,shownPrice);
             }
 
             const vatLabel = section.querySelector('[data-vat-price-label]');
@@ -3534,7 +3624,7 @@
                     vatValue.textContent = 'укажите ставку НДС';
                 } else {
                     vatLabel.textContent = 'Цена с НДС';
-                    vatValue.textContent = aggregatePriceText(p.priceBeforeTaxWithVat) + ' у.е.*';
+                    vatValue.innerHTML = aggregatePriceNumber(p.priceBeforeTaxWithVat,'money');
                 }
             }
         }
@@ -4199,10 +4289,7 @@
             const note = card.querySelector('[data-price-list-note]');
 
             if (value) {
-                value.textContent =
-                    result.ready
-                        ? moneyInputValue(result.minPrice) + ' – ' + moneyInputValue(result.maxPrice) + ' у.е.*'
-                        : '—';
+                value.innerHTML=aggregatePriceRangeHTML(result);
             }
 
             if (note) {
@@ -4267,10 +4354,19 @@
             if (!box) return;
 
             const model = calculateProductPortfolio();
+            // Keep V1 aggregate and monthly Cash Flow amounts bound to their
+            // canonical source values; locale switching must never re-run math.
             const money = value =>
                 value === null || !Number.isFinite(Number(value))
                     ? '—'
-                    : moneyInputValue(value) + ' у.е.*';
+                    : displayMoneyNode(value);
+            const percent = value =>
+                value === null || !Number.isFinite(Number(value))
+                    ? '—'
+                    : '<span data-nomad-display-number="'+Number(value)+
+                        '" data-nomad-display-fractions="compact" data-nomad-display-suffix="%">'+
+                        Number(value).toLocaleString(nomadDisplayLocale(),{maximumFractionDigits:2})+
+                        '%</span>';
 
             const cashFlow = calculateProductCashFlow(model);
             const cashFlowTable = cashFlow.ready
@@ -4352,7 +4448,7 @@
 
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mt-4 pt-4 border-t aggregate-separator">
                     <span class="aggregate-muted">Рентабельность бизнеса (чистая прибыль / выручка, без НДС)</span>
-                    <span class="font-bold text-right">${(model.adjustedRevenue ?? model.totalRevenue) > 0 && (model.adjustedNetProfit ?? model.netProfit) !== null ? ((model.adjustedNetProfit ?? model.netProfit) / (model.adjustedRevenue ?? model.totalRevenue) * 100).toLocaleString('ru-RU', {maximumFractionDigits:2}) + '%' : '—'}</span>
+                    <span class="font-bold text-right">${(model.adjustedRevenue ?? model.totalRevenue) > 0 && (model.adjustedNetProfit ?? model.netProfit) !== null ? percent((model.adjustedNetProfit ?? model.netProfit) / (model.adjustedRevenue ?? model.totalRevenue) * 100) : '—'}</span>
                     <span class="aggregate-muted">Сумма налога</span>
                     <span class="font-bold text-right">${money(model.adjustedTax ?? model.tax)}</span>
                     <span class="aggregate-muted">Чистая прибыль после налога</span>
@@ -4410,14 +4506,14 @@
                         ${!productBusinessTaxType ? '<div class="text-sm aggregate-muted mb-3">Выберите выше налог «С оборота» или «С прибыли», чтобы получить числовую цену. Настройки скидки и прайса уже доступны ниже.</div>' : ''}
                         <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                             <span class="aggregate-muted">Цена товара</span>
-                            <span class="font-bold text-right">${withoutVat} у.е.*</span>
+                            <span class="font-bold text-right">${aggregatePriceNumber(p.taxAdjustedPrice,'money')}</span>
                             <span class="aggregate-muted">НДС</span>
-                            <span class="font-bold text-right">${vatEnabled ? vatRatePct.toLocaleString('ru-RU') + '% = ' + aggregatePriceText(vatAmount) + ' у.е.*' : 'не применяется'}</span>
+                            <span class="font-bold text-right">${vatEnabled ? aggregatePriceNumber(vatRatePct,'percent') + ' = ' + aggregatePriceNumber(vatAmount,'money') : 'не применяется'}</span>
                         </div>
 
                         <div class="mt-4 pt-4 border-t aggregate-separator">
                             <div class="aggregate-muted text-xs">${vatEnabled ? 'Итоговая цена для покупателя' : 'Итоговая цена продажи'}</div>
-                            <div class="final-buyer-price mt-1">${aggregatePriceText(finalBuyerPrice)} у.е.*</div>
+                            <div class="final-buyer-price mt-1">${aggregatePriceNumber(finalBuyerPrice,'money')}</div>
                         </div>
 
                         <div class="mt-5 pt-5 border-t aggregate-separator">
@@ -4464,7 +4560,7 @@
                             <div class="aggregate-price-card mt-4">
                                 <div class="aggregate-muted text-xs">Диапазон цены для прайс-листа</div>
                                 <div class="price-list-range mt-1" data-price-list-range>
-                                    ${range.ready ? moneyInputValue(range.minPrice) + ' – ' + moneyInputValue(range.maxPrice) + ' у.е.*' : '—'}
+                                    ${aggregatePriceRangeHTML(range)}
                                 </div>
                                 <div class="aggregate-muted text-xs mt-2" data-price-list-note>
                                     ${
@@ -4706,10 +4802,14 @@
             if (saved && summary) {
                 const count = saved.productPortfolio.length;
                 const date = saved.savedAt ? new Date(saved.savedAt) : null;
+                const language = window.Nomad360UI?.getLanguage?.() || 'ru';
+                const countLabel = language === 'en' ? (count === 1 ? 'product' : 'products') :
+                    language === 'kk' ? 'тауар' : (count === 1 ? 'товар' : 'товаров');
+                const savedLabel = language === 'en' ? ' · last saved ' :
+                    language === 'kk' ? ' · соңғы сақталуы ' : ' · последнее сохранение ';
                 const updated = date && Number.isFinite(date.getTime())
-                    ? ' · последнее сохранение ' + date.toLocaleString('ru-RU') : '';
-                summary.textContent = count + ' ' +
-                    (count === 1 ? 'товар' : 'товаров') + updated;
+                    ? savedLabel + date.toLocaleString(nomadDisplayLocale()) : '';
+                summary.textContent = count + ' ' + countLabel + updated;
             }
         }
 
@@ -5603,7 +5703,7 @@
                     : productPortfolio.length + (productName ? 1 : 0);
 
             if (totalIncludingCurrent <= 1) {
-                completeButton.innerHTML = `Это ${productSource==='offline-service'?'моя единственная услуга':'мой единственный товар'} <span class="product-name-live">«${productName}»</span>`;
+                completeButton.innerHTML = `Это ${productSource==='offline-service'?'моя единственная услуга':'мой единственный товар'} <span class="product-name-live" data-nomad-no-translate>«${productName}»</span>`;
             } else {
                 completeButton.textContent = productSource==='offline-service'?'Это все мои услуги':'Это весь мой ассортимент';
             }
@@ -7000,33 +7100,27 @@
                     : 0;
             const variableTotalPct = commissionPct + penaltiesPct;
 
-            const fixedOut = document.getElementById('own-sales-fixed-monthly');
-            if (fixedOut) fixedOut.textContent = moneyInputValue(fixedMonthly);
-            const fixedPerUnitOut = document.getElementById('own-sales-fixed-per-unit');
-            if (fixedPerUnitOut) fixedPerUnitOut.textContent = moneyInputValue(fixedPerUnit);
-
-            const resultUnitOut = document.getElementById('own-sales-result-unit');
-            if (resultUnitOut) resultUnitOut.textContent = moneyInputValue(fixedPerUnit);
-
-            const variableOut = document.getElementById('own-sales-variable-pct');
-            if (variableOut) variableOut.textContent = commissionPct.toLocaleString('ru-RU') + '%';
-
-            const penaltiesOut = document.getElementById('own-sales-penalties-pct');
-            if (penaltiesOut) penaltiesOut.textContent = penaltiesPct.toLocaleString('ru-RU') + '%';
-
-            const totalOut = document.getElementById('own-sales-variable-total-pct');
-            if (totalOut) totalOut.textContent = variableTotalPct.toLocaleString('ru-RU') + '%';
+            setProductReadonlyNumber('own-sales-fixed-monthly',fixedMonthly,'2');
+            setProductReadonlyNumber('own-sales-fixed-per-unit',fixedPerUnit,'2');
+            setProductReadonlyNumber('own-sales-result-unit',fixedPerUnit,'2');
+            setProductReadonlyNumber('own-sales-variable-pct',commissionPct,'compact','%');
+            setProductReadonlyNumber('own-sales-penalties-pct',penaltiesPct,'compact','%');
+            setProductReadonlyNumber('own-sales-variable-total-pct',variableTotalPct,'compact','%');
 
             syncVisibleAggregateFromCurrentProduct();
         }
 
         function productNumberFromText(id) {
-            const text = document.getElementById(id)?.textContent || '0';
-            const normalized = text
-                .replace(/\s/g, '')
-                .replace(',', '.')
-                .replace(/[^0-9.-]/g, '');
-            return Math.max(0, Number(normalized) || 0);
+            const element=document.getElementById(id);
+            const raw=element?.getAttribute('data-nomad-display-number');
+            if(raw!==null&&raw!==undefined&&raw.trim()!==''){
+                const numeric=Number(raw);
+                return Number.isFinite(numeric)?Math.max(0,numeric):0;
+            }
+            // Backward-compatible fallback for unmarked Russian-only outputs.
+            const normalized=(element?.textContent||'0')
+                .replace(/\s/g,'').replace(',','.').replace(/[^0-9.-]/g,'');
+            return Math.max(0,Number(normalized)||0);
         }
 
         function recalculateProductAdFunnel() {
@@ -7048,18 +7142,9 @@
             const fullPerUnit = mediaPerUnit + managementPerUnit;
             const baseCac = mediaPerUnit;
 
-            const intOut = (id, value) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = Math.round(value).toLocaleString('ru-RU');
-            };
-            const numOut = (id, value) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = value.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
-            };
-            const moneyOut = (id, value) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = moneyInputValue(value);
-            };
+            const intOut=(id,value)=>setProductReadonlyNumber(id,Math.round(value),'0');
+            const numOut=(id,value)=>setProductReadonlyNumber(id,value,'compact');
+            const moneyOut=(id,value)=>setProductReadonlyNumber(id,value,'2');
 
             intOut('own-product-ad-impressions', impressions);
             numOut('own-product-ad-clicks', clicks);
@@ -7231,6 +7316,13 @@
         }
 
         function calculate() {
+            // Invalidate previous display-only numeric markers before rebuilding
+            // the view. Never restore stale values when validation fails.
+            for(const id of ['res-profit','res-romi','res-cpa','res-cac']){
+                const node=document.getElementById(id);
+                node?.removeAttribute('data-nomad-display-number');
+                node?.removeAttribute('data-nomad-display-money');
+            }
             onlineV1PortfolioSnapshot=null;
             const v = currentValues;
             // Guard economic domain before producing any revenue/profit or million-column
@@ -7564,44 +7656,44 @@
             // Monthly cash reflects full CAPEX, P&L reflects only period amortization.
             // Update Summary Table
             const summaryRows = [
-                ['Общий рекламный бюджет', formatMoney(totalBudget)],
-                ['Количество кликов', formatInt(totalMonth.mClicks)],
-                ['Количество показов', formatInt(impressions)],
-                ['Количество лидов', formatNum(totalMonth.mLeads)],
-                ['Количество сделок', formatNum(totalMonth.mDeals)],
-                ['Продано пакетов', formatNum(totalMonth.mPacks)],
+                ['Общий рекламный бюджет', displayMoneyNode(totalBudget)],
+                ['Количество кликов', displayIntNode(totalMonth.mClicks)],
+                ['Количество показов', displayIntNode(impressions)],
+                ['Количество лидов', displayNumNode(totalMonth.mLeads)],
+                ['Количество сделок', displayNumNode(totalMonth.mDeals)],
+                ['Продано пакетов', displayNumNode(totalMonth.mPacks)],
                 ...(isAgent ? [
-                    ['Объём продаж консультаций партнёра', formatMoney(totalMonth.mGrossRevCons)],
-                    ['Объём продаж пакетов партнёра', formatMoney(totalMonth.mGrossRevPack)],
-                    ['Общий объём продаж партнёра', formatMoney(totalMonth.mGrossSales), 'text-blue-700 font-bold'],
-                    ['Мой процент от продаж', formatNum(agentPct) + '%'],
-                    ['Моё вознаграждение до моих расходов', formatMoney(totalMonth.mAgentIncome), 'text-green-700 font-bold'],
-                    ['Мои расходы (оплачиваю я)', formatMoney(totalMonth.mAgentExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
-                    ['Мой налог на оборот*', formatMoney(totalMonth.mAgentTax), agentTaxScenario > 0 ? 'text-red-700 font-bold' : ''],
-                    ['Мне остаётся после моих расходов и налога', formatMoney(totalMonth.mAgentNet), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
-                    ['Моё вознаграждение с одной сделки', formatMoney(totalMonth.mDeals?totalMonth.mAgentIncome/totalMonth.mDeals:0)],
-                    ['Выручка партнёра Revenue', formatMoney(totalMonth.mRevTotal), 'text-blue-700 font-bold']
+                    ['Объём продаж консультаций партнёра', displayMoneyNode(totalMonth.mGrossRevCons)],
+                    ['Объём продаж пакетов партнёра', displayMoneyNode(totalMonth.mGrossRevPack)],
+                    ['Общий объём продаж партнёра', displayMoneyNode(totalMonth.mGrossSales), 'text-blue-700 font-bold'],
+                    ['Мой процент от продаж', displayNumNode(agentPct) + '%'],
+                    ['Моё вознаграждение до моих расходов', displayMoneyNode(totalMonth.mAgentIncome), 'text-green-700 font-bold'],
+                    ['Мои расходы (оплачиваю я)', displayMoneyNode(totalMonth.mAgentExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
+                    ['Мой налог на оборот*', displayMoneyNode(totalMonth.mAgentTax), agentTaxScenario > 0 ? 'text-red-700 font-bold' : ''],
+                    ['Мне остаётся после моих расходов и налога', displayMoneyNode(totalMonth.mAgentNet), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
+                    ['Моё вознаграждение с одной сделки', displayMoneyNode(totalMonth.mDeals?totalMonth.mAgentIncome/totalMonth.mDeals:0)],
+                    ['Выручка партнёра Revenue', displayMoneyNode(totalMonth.mRevTotal), 'text-blue-700 font-bold']
                 ] : [
-                    ['Выручка от консультаций', formatMoney(totalMonth.mRevCons)],
-                    ['Выручка от пакетов', formatMoney(totalMonth.mRevPack)],
-                    ['Общая выручка Revenue', formatMoney(totalMonth.mRevTotal), 'text-blue-700 font-bold']
+                    ['Выручка от консультаций', displayMoneyNode(totalMonth.mRevCons)],
+                    ['Выручка от пакетов', displayMoneyNode(totalMonth.mRevPack)],
+                    ['Общая выручка Revenue', displayMoneyNode(totalMonth.mRevTotal), 'text-blue-700 font-bold']
                 ]),
-                [isAgent ? 'Средний чек партнёра' : 'Средний чек', formatMoney(totalMonth.mDeals?totalMonth.mRevTotal/totalMonth.mDeals:0)],
-                [isAgent ? 'Комиссия эквайринга партнёра' : 'Комиссия эквайринга', formatMoney(totalMonth.mAcq)],
-                [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', formatMoney(totalMonth.mNetRev)],
-                ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', formatMoney(totalMonth.mAgentIncome)]] : []),
-                ...(isHired ? [['Оплата исполнителю', formatMoney(totalMonth.mExecutor)]] : []),
-                [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', formatMoney(totalMonth.mCosts)],
-                ['Амортизация сайта', formatMoney(siteAmort)],
-                ['Амортизация лид-магнита', formatMoney(magnetAmort)],
-                [isAgent ? 'Операционные расходы и амортизация партнёра' : 'Операционные расходы и амортизация', formatMoney(accruedTotalCosts), 'text-red-700 font-bold'],
-                ['Разовые капитальные выплаты (в денежном потоке)', formatMoney(totalMonth.mPartnerCapex)],
-                [isAgent ? 'EBITDA партнёра (до налогов)' : 'EBITDA (прибыль до налогов)', formatMoney(totalMonth.mEbitda)],
-                [isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', formatMoney(totalMonth.mTax)],
-                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', formatMoney(accountingNetProfit), 'text-green-700 font-bold'],
+                [isAgent ? 'Средний чек партнёра' : 'Средний чек', displayMoneyNode(totalMonth.mDeals?totalMonth.mRevTotal/totalMonth.mDeals:0)],
+                [isAgent ? 'Комиссия эквайринга партнёра' : 'Комиссия эквайринга', displayMoneyNode(totalMonth.mAcq)],
+                [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', displayMoneyNode(totalMonth.mNetRev)],
+                ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', displayMoneyNode(totalMonth.mAgentIncome)]] : []),
+                ...(isHired ? [['Оплата исполнителю', displayMoneyNode(totalMonth.mExecutor)]] : []),
+                [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', displayMoneyNode(totalMonth.mCosts)],
+                ['Амортизация сайта', displayMoneyNode(siteAmort)],
+                ['Амортизация лид-магнита', displayMoneyNode(magnetAmort)],
+                [isAgent ? 'Операционные расходы и амортизация партнёра' : 'Операционные расходы и амортизация', displayMoneyNode(accruedTotalCosts), 'text-red-700 font-bold'],
+                ['Разовые капитальные выплаты (в денежном потоке)', displayMoneyNode(totalMonth.mPartnerCapex)],
+                [isAgent ? 'EBITDA партнёра (до налогов)' : 'EBITDA (прибыль до налогов)', displayMoneyNode(totalMonth.mEbitda)],
+                [isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', displayMoneyNode(totalMonth.mTax)],
+                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', displayMoneyNode(accountingNetProfit), 'text-green-700 font-bold'],
                 [isAgent ? 'ROAS партнёра' : 'ROAS (возврат рекламы)', (totalBudget?totalMonth.mNetRev/totalBudget:0).toFixed(2) + 'x'],
-                ['CPA (цена клиента реклама)', formatMoney(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
-                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', formatMoney(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
+                ['CPA (цена клиента реклама)', displayMoneyNode(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
+                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', displayMoneyNode(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
                 [isAgent ? 'ROMI партнёра' : 'ROMI (окупаемость инвестиций)', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x']
             ];
 
@@ -7626,21 +7718,21 @@
             if (isAgent) {
                 profitLabel.textContent = 'Мне остаётся за период';
                 profitSub.textContent = 'Вознаграждение минус мои расходы и мой налог на оборот';
-                document.getElementById('res-profit').textContent = formatMoney(totalMonth.mAgentNet || 0);
+                setV1DisplayedMoney('res-profit',totalMonth.mAgentNet || 0);
 
                 romiLabel.textContent = 'Расчётная прибыль партнёра';
                 romiSub.textContent = 'P&L за период; помесячный cash flow показан отдельно';
-                document.getElementById('res-romi').textContent = formatMoney(accountingNetProfit);
+                setV1DisplayedMoney('res-romi',accountingNetProfit);
 
                 thirdLabel.textContent = 'Накопленный cash flow партнёра';
                 thirdSub.textContent = 'По помесячному сценарию';
-                document.getElementById('res-cpa').textContent = formatMoney(cumCash);
+                setV1DisplayedMoney('res-cpa',cumCash);
                 cpaSep.textContent = '';
                 document.getElementById('res-cac').textContent = '';
             } else {
                 profitLabel.textContent = 'Чистая прибыль';
                 profitSub.textContent = 'После всех налогов';
-                document.getElementById('res-profit').textContent = formatMoney(accountingNetProfit);
+                setV1DisplayedMoney('res-profit',accountingNetProfit);
 
                 romiLabel.textContent = 'ROMI';
                 romiSub.textContent = 'Окупаемость всех вложений';
@@ -7648,9 +7740,9 @@
 
                 thirdLabel.textContent = 'CPA / CAC';
                 thirdSub.textContent = 'Рекламный / Полный';
-                document.getElementById('res-cpa').textContent = formatMoney(totalMonth.mDeals > 0 ? totalBudget / totalMonth.mDeals : 0);
+                setV1DisplayedMoney('res-cpa',totalMonth.mDeals > 0 ? totalBudget / totalMonth.mDeals : 0);
                 cpaSep.textContent = ' / ';
-                document.getElementById('res-cac').textContent = formatMoney(totalMonth.mDeals > 0 ? accruedTotalCosts / totalMonth.mDeals : 0);
+                setV1DisplayedMoney('res-cac',totalMonth.mDeals > 0 ? accruedTotalCosts / totalMonth.mDeals : 0);
             }
 
             const monthlyTbody = document.getElementById('monthly-table');
@@ -7669,7 +7761,9 @@
                     let color = (meta.key === 'mCash' || meta.key === 'mCum' || meta.key === 'mAgentNet' || meta.key === 'mAgentCum') && val < 0
                         ? 'text-red-600'
                         : 'text-slate-700';
-                    return `<td class="td-val monthly-value-col border-b border-slate-100 ${color}">${txt}</td>`;
+                    const numberTag=Number.isFinite(Number(val))?
+                        ` data-nomad-display-number="${val}" data-nomad-display-fractions="${meta.fmt==='int'?'0':'2'}"${meta.fmt==='money'?' data-nomad-display-money':''}`:'';
+                    return `<td class="td-val monthly-value-col border-b border-slate-100 ${color}"${numberTag}>${txt}</td>`;
                 }).join('');
 
                 let totalVal = totalMonth[meta.key];
@@ -7678,10 +7772,12 @@
                     ? 'text-red-700'
                     : 'text-blue-900';
 
+                const totalTag=Number.isFinite(Number(totalVal))?
+                    ` data-nomad-display-number="${totalVal}" data-nomad-display-fractions="${meta.fmt==='int'?'0':'2'}"${meta.fmt==='money'?' data-nomad-display-money':''}`:'';
                 return `<tr class="hover:bg-slate-50 transition-colors">
                     <td class="td-label monthly-label-col border-b border-slate-100 border-r border-slate-100 sticky left-0 bg-white z-10">${meta.label}</td>
                     ${cells}
-                    <td class="td-val monthly-value-col border-b border-slate-100 bg-slate-100 font-bold ${totalColor} border-l border-slate-300">${totalTxt}</td>
+                    <td class="td-val monthly-value-col border-b border-slate-100 bg-slate-100 font-bold ${totalColor} border-l border-slate-300"${totalTag}>${totalTxt}</td>
                 </tr>`;
             }).join('');
         }
@@ -7920,6 +8016,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('nomad360:languagechange', updateSavedProductEntry);
             initInputs();
             calculate();
             showHome();
@@ -7987,5 +8084,6 @@
 <script src="./portfolio_v2_online_adapter.js"></script>
 <script src="./portfolio_v2_linked_ui.js"></script>
 <script src="./nomad360_calculator_ui.js"></script>
+<script src="./nomad360_locale_core.js"></script>
 </body>
 </html>

@@ -1,7 +1,12 @@
 /* V2 market-basket editor. UI-only; the LinkedPortfolioV2Engine remains authoritative. */
 (function(root){
 'use strict';
-const money=v=>Number.isFinite(Number(v))?Number(v).toLocaleString('ru-RU',{maximumFractionDigits:2}):'—';
+const locale=()=>root.Nomad360LocaleCore?.displayLocale?.()||'ru-RU';
+const money=v=>Number.isFinite(Number(v))?Number(v).toLocaleString(locale(),{maximumFractionDigits:2}):'—';
+// Display-only values never write into V2 transactions or saved state.
+const shown=(v,suffix='')=>Number.isFinite(Number(v))?
+ '<span data-nomad-display-number="'+Number(v)+'" data-nomad-display-fractions="compact"'+
+ (suffix?' data-nomad-display-suffix="'+suffix+'"':'')+'>'+money(v)+suffix+'</span>':'—';
 const safe=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const option=(id,label,selected)=>'<option value="'+safe(id)+'" '+(id===selected?'selected':'')+'>'+safe(label)+'</option>';
 const modes=[['cross_sell','Cross-sell · дополнительная покупка'],['upsell','Upsell · замена позиции'],['bundle','Комбо · набор']];
@@ -93,8 +98,8 @@ function updateResult(out){
  if(!basket?.events?.length){host.innerHTML='<p class="text-xs text-slate-500">Связей пока нет. Обычные расчёты V2 остаются неизменными.</p>';return;}
  host.innerHTML='<h3 class="font-bold mt-3">Прогноз привязанных покупок</h3>'+
   (basket.bundleSavingsGross>0?
-    '<p class="text-sm mt-2 text-emerald-800">Скидки по комплектам за месяц: <b>'+money(basket.bundleSavingsGross)+
-    '</b> с НДС; уменьшение выручки без НДС: <b>'+money(basket.bundleSavingsNet)+'</b>. Пересчёт включён в цену, налог, маржу и Cash Flow.</p>':'')+
+    '<p class="text-sm mt-2 text-emerald-800">Скидки по комплектам за месяц: <b>'+shown(basket.bundleSavingsGross)+
+    '</b> с НДС; уменьшение выручки без НДС: <b>'+shown(basket.bundleSavingsNet)+'</b>. Пересчёт включён в цену, налог, маржу и Cash Flow.</p>':'')+
   '<div class="overflow-x-auto mt-2"><table class="min-w-full text-xs"><thead><tr>'+
   ['Вариант','Основная позиция','Чеков со связкой','Дополнения (шт. в чеке)','Дополнительно, ед.','Пересечение, ед.','Скидка комплекта','Цена чека до','Покупатель платит']
   .map(h=>'<th class="p-2 text-right">'+h+'</th>').join('')+'</tr></thead><tbody>'+
@@ -102,11 +107,14 @@ function updateResult(out){
     const main=out.items.find(s=>s.id===e.anchorSkuId)?.name||e.anchorSkuId;
     const extra=e.items.map(p=>(out.items.find(s=>s.id===p.skuId)?.name||p.skuId)+' × '+p.qty).join('; ');
     const values=[e.mode==='bundle'?'Набор':e.mode==='upsell'?'Upsell':'Cross-sell',
-       main,money(e.transactions),extra,money(e.items.reduce((v,p)=>v+p.netAddedUnits,0)),
-       money(e.items.reduce((v,p)=>v+p.overlapUnits,0)),e.mode==='bundle'?money(e.bundleDiscountPct)+'%':'—',money(e.buyerPriceBefore),money(e.buyerPriceAfter)];
-    return '<tr class="border-t border-slate-200">'+values.map(v=>'<td class="p-2 text-right whitespace-nowrap">'+safe(v)+'</td>').join('')+'</tr>';
+       main,e.transactions,extra,e.items.reduce((v,p)=>v+p.netAddedUnits,0),
+       e.items.reduce((v,p)=>v+p.overlapUnits,0),e.bundleDiscountPct,e.buyerPriceBefore,e.buyerPriceAfter];
+    return '<tr class="border-t border-slate-200">'+values.map((v,i)=>
+      '<td class="p-2 text-right whitespace-nowrap"'+([1,3].includes(i)?' data-nomad-no-translate':'')+'>'+
+      ([0,1,3].includes(i)?safe(v):i===6&&e.mode!=='bundle'?'—':shown(v,i===6?'%':''))+'</td>'
+    ).join('')+'</tr>';
   }).join('')+'</tbody></table></div>'+
-  '<p class="text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+money(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+money(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
+  '<p class="text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+shown(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+shown(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
   (out.ready?'':'<p class="text-xs text-rose-700 mt-2">Весь портфель ещё не подтверждён: проверьте лимиты запасов, загрузку и маржу.</p>');
 }
 root.LinkedPortfolioV2BasketUI=Object.freeze({render,updateResult});

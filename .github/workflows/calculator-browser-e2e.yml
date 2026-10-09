@@ -20,6 +20,13 @@ on:
       - "tests/portfolio_v2_f4_release_browser.test.cjs"
       - "tests/nomad360_calculator_ui_browser.test.cjs"
       - "nomad360_calculator_ui.js"
+      - "nomad360_locale_core.js"
+      - "tests/nomad360_locale_core_browser.test.cjs"
+      - "tests/nomad360_locale_product_numbers_browser.test.cjs"
+      - "tests/nomad360_locale_v1_aggregate_cash_browser.test.cjs"
+      - "tests/nomad360_locale_v1_final_prices_browser.test.cjs"
+      - "tests/nomad360_locale_v1_hidden_errors_browser.test.cjs"
+      - "tests/nomad360_locale_release_matrix_browser.test.cjs"
       - "nomad360_calculator_ui.css"
       - ".github/workflows/calculator-portfolio-probe.yml"
       - ".github/workflows/portfolio-v2.yml"
@@ -48,6 +55,7 @@ on:
   push:
     branches: ["main"]
     paths:
+      - "nomad360_locale_core.js"
       - "nomad360_calculator_ui.js"
       - "nomad360_calculator_ui.css"
       - "tests/nomad360_calculator_ui_browser.test.cjs"
@@ -80,6 +88,12 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Run exact top-to-bottom numeric audit
         run: |
+          node tests/nomad360_locale_core_browser.test.cjs
+          node tests/nomad360_locale_product_numbers_browser.test.cjs
+          node tests/nomad360_locale_v1_aggregate_cash_browser.test.cjs
+          node tests/nomad360_locale_v1_final_prices_browser.test.cjs
+          node tests/nomad360_locale_v1_hidden_errors_browser.test.cjs
+          node tests/nomad360_locale_release_matrix_browser.test.cjs
           node tests/marketing_calc_browser_e2e.cjs
           node tests/marketing_calc_prefilled_demo.test.cjs
           node tests/marketing_calc_two_sku_demo.test.cjs

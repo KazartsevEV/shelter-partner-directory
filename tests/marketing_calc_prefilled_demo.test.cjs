@@ -21,7 +21,7 @@ const taxPriceFactor = .89/.83;
 const rates = { commission: .11, turnoverTax: .06 };
 
 async function demo(browser, financing) {
-    const page = await browser.newPage({viewport: {width: 390,height:844}});
+    const page = await browser.newPage({locale:'ru-RU',viewport: {width: 390,height:844}});
     const faults = [];
     page.on('pageerror', e=>faults.push(e.message));
     // External CSS/font assets are deliberately blocked for this offline file test;
@@ -161,7 +161,7 @@ async function demo(browser, financing) {
     try{
         await demo(browser,'cash');
         await demo(browser,'credit');
-        const normal=await browser.newPage();
+        const normal=await browser.newPage({locale:'ru-RU'});
         await normal.goto(htmlUrl,{waitUntil:'domcontentloaded'});
         assert.equal(await normal.locator('#product-demo-banner').isVisible(),false,
             'Ordinary calculator URL must remain untouched');

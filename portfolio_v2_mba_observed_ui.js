@@ -3,10 +3,25 @@
 (function(root){
 'use strict';
 const Engine=root.LinkedPortfolioMBAObserved;
-const money=v=>Number.isFinite(Number(v))?Number(v).toLocaleString('ru-RU',{maximumFractionDigits:2}):'—';
-const pct=v=>Number.isFinite(Number(v))?(100*v).toFixed(2)+'%':'—';
+// Observed metrics are presentation only; canonical orders and association
+// probabilities remain in LinkedPortfolioMBAObserved without locale mutations.
+const locale=()=>root.Nomad360LocaleCore?.displayLocale?.()||'ru-RU';
+const money=v=>Number.isFinite(Number(v))?
+ '<span data-nomad-display-number="'+Number(v)+'" data-nomad-display-fractions="compact">'+
+ Number(v).toLocaleString(locale(),{maximumFractionDigits:2})+'</span>':'—';
+const pct=v=>Number.isFinite(Number(v))?
+ '<span data-nomad-display-number="'+(Number(v)*100)+'" data-nomad-display-fractions="2" data-nomad-display-suffix="%">'+
+ (Number(v)*100).toLocaleString(locale(),{minimumFractionDigits:2,maximumFractionDigits:2})+'%</span>':'—';
 const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
   .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+
+const dateLabel=iso=>{
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(String(iso||'')))return esc(iso||'—');
+ const lang=root.Nomad360LocaleCore?.displayLocale?.()||'ru-RU';
+ const rendered=new Intl.DateTimeFormat(lang,{year:'numeric',month:'2-digit',day:'2-digit',
+  timeZone:'UTC'}).format(new Date(iso+'T00:00:00Z'));
+ return '<time data-nomad-display-date="'+esc(iso)+'" datetime="'+esc(iso)+'">'+rendered+'</time>';
+};
 function render(state,onChange){
  const target=document.getElementById('linked-basket-panel')||document.getElementById('linked-results');
  if(!target)return;
@@ -27,7 +42,7 @@ function render(state,onChange){
  '<div data-mba-message class="text-xs mt-2" role="status"></div>'+
  (source?'<div class="rounded-lg bg-slate-50 p-3 mt-4 text-xs">'+
  'Исходных строк: <b>'+money(source.rawLines)+'</b>; точных дублей line_id: <b>'+money(source.deduplicated)+'</b>; '+
- 'подтверждённых чеков в фильтре: <b>'+money(data.N)+'</b>; период: <b>'+esc(data.period.from||'—')+' — '+esc(data.period.to||'—')+
+ 'подтверждённых чеков в фильтре: <b>'+money(data.N)+'</b>; период: <b>'+dateLabel(data.period.from)+' — '+dateLabel(data.period.to)+
  '</b>; валюты: <b>'+esc(data.currencies.join(', ')||'—')+'</b>. Валюты не суммируются в одну сумму.'+
  (data.ready&&data.aovByCurrency.length?'<br>Наблюдаемый средний чек по валютам (из цены файла, без предположений о НДС): '+
  data.aovByCurrency.map(v=>esc(v.currency)+' '+money(v.averageOrderValue)+
@@ -41,7 +56,7 @@ function render(state,onChange){
    '<h3 class="font-bold text-sm text-amber-950">Сопоставьте неизвестные SKU ('+unresolved.length+')</h3>'+
    unresolved.map(raw=>'<label class="block text-xs mt-2">'+esc(raw)+
     '<select data-mba-map="'+esc(raw)+'" class="input-field mt-1"><option value="">— выберите позицию V1 —</option>'+
-    skus.map(s=>'<option value="'+esc(s.id)+'" '+((history.mapping||{})[raw]===s.id?'selected':'')+'>'+esc(s.name)+' · '+esc(s.id)+'</option>').join('')+
+    skus.map(s=>'<option data-nomad-no-translate value="'+esc(s.id)+'" '+((history.mapping||{})[raw]===s.id?'selected':'')+'>'+esc(s.name)+' · '+esc(s.id)+'</option>').join('')+
     '</select></label>').join('')+'</div>':'')+
  (data.errors.length?'<div class="mt-3 text-sm text-rose-800">'+data.errors.map(esc).join('; ')+'</div>':'')+
  (data.ready?
@@ -49,7 +64,7 @@ function render(state,onChange){
   ['Основа → дополнение','Вместе, чеков','Support совместной корзины','Confidence','Lift','Сценарий']
   .map(h=>'<th class="text-right p-2">'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+
   data.rules.slice(0,60).map((r,i)=>'<tr class="border-t border-slate-200">'+
-  '<td class="p-2">'+esc(r.antecedent.map(name).join(' + ')+' → '+name(r.consequent))+'</td>'+
+  '<td class="p-2" data-nomad-no-translate>'+esc(r.antecedent.map(name).join(' + ')+' → '+name(r.consequent))+'</td>'+
   '<td class="text-right p-2">'+money(r.count)+' / '+money(r.N)+'</td>'+
   '<td class="text-right p-2">'+pct(r.support)+'</td>'+
   '<td class="text-right p-2">'+pct(r.confidence)+'</td>'+

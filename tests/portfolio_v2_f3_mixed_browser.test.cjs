@@ -7,7 +7,7 @@ const close=(a,b,label)=>A.ok(Number.isFinite(a)&&Math.abs(a-b)<.011,
  label+': '+a+' vs '+b);
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
- const page=await browser.newPage({viewport:{width:390,height:844}});
+ const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,route=>route.abort());
  try{

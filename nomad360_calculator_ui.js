@@ -29,7 +29,7 @@ const L={
   printInfo:'Подготовлено к печати. В диалоге выберите «Сохранить как PDF».',
   warning:'Внимание: в расчёте есть предварительные оценки, не подтверждённая бухгалтерская маржа.',
   month:'Месяц',paid:'Поступления',expense:'Расходы',tax:'Налог',interest:'Проценты',principal:'Тело кредита',balance:'Остаток',
-  reportName:'Бизнес-калькулятор Nomad360',language:'Язык'
+  reportName:'Бизнес-калькулятор Nomad360',language:'Язык',cadenceMonthly:'Ежемесячно',cadenceOnce:'Разово'
  },
  en:{
   brand:'NOMAD360 · KAZAKHSTAN SaaS',eyebrow:'THE FIRST TOOL IN OUR ECOSYSTEM',
@@ -58,7 +58,7 @@ const L={
   printInfo:'Ready for printing. Choose “Save as PDF” in the print dialog.',
   warning:'Note: some estimated costs remain provisional; full accounting margin is unverified.',
   month:'Month',paid:'Receipts',expense:'Expenses',tax:'Tax',interest:'Interest',principal:'Loan principal',balance:'Balance',
-  reportName:'Nomad360 Business Calculator',language:'Language'
+  reportName:'Nomad360 Business Calculator',language:'Language',cadenceMonthly:'Monthly',cadenceOnce:'One-time'
  },
  kk:{
   brand:'NOMAD360 · ҚАЗАҚСТАНДЫҚ SaaS',eyebrow:'ЭКОЖҮЙЕНІҢ АЛҒАШҚЫ ҚҰРАЛЫ',
@@ -87,10 +87,12 @@ const L={
   printInfo:'Басып шығаруға дайын. «PDF ретінде сақтау» тармағын таңдаңыз.',
   warning:'Назар аударыңыз: есепте расталмаған шығындар бар, толық бухгалтерлік маржа нақтыланбаған.',
   month:'Ай',paid:'Түсім',expense:'Шығыс',tax:'Салық',interest:'Пайыз',principal:'Несие қарызы',balance:'Қалдық',
-  reportName:'Nomad360 бизнес-калькуляторы',language:'Тіл'
+  reportName:'Nomad360 бизнес-калькуляторы',language:'Тіл',cadenceMonthly:'Ай сайын',cadenceOnce:'Бір рет'
  }
 };
 let lang='ru';
+const localeKey='nomad360PreferredLanguage'; // UI preference only: never included in financial saved state
+function userLocale(){try{const v=localStorage.getItem(localeKey);return L[v]?v:null}catch(_){return null}}
 function preferred(){
  const candidates=Array.isArray(navigator.languages)&&navigator.languages.length?navigator.languages:[navigator.language||'ru'];
  for(const loc of candidates){const key=String(loc||'').split('-')[0].toLowerCase();if(L[key])return key}
@@ -190,7 +192,7 @@ function printable(mode,context){
  '<td'+(i?' class="n"':'')+'>'+(i?fmt(x):x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
  if(out.resources?.length)html+='<h2>'+tr('resources')+'</h2><table class="nomad-export-table"><tbody>'+
  out.resources.map(x=>'<tr><td>'+esc(x.label)+'</td><td class="n">'+fmt(x.amount)+'</td>'+
- '<td>'+esc(x.cadence==='once'?'once':'monthly')+'</td></tr>').join('')+'</tbody></table>';
+ '<td>'+esc(tr(x.cadence==='once'?'cadenceOnce':'cadenceMonthly'))+'</td></tr>').join('')+'</tbody></table>';
  html+='<p class="nomad-footnote">'+tr('noTax')+'</p>';
  }
  html+='<footer class="nomad-print-end">'+tr('source')+' · NOMAD360</footer>';
@@ -210,7 +212,12 @@ function showPreview(){
 }
 function savePrint(mode){
  const context=readyOutput();
- if(!context){const label=document.getElementById('nomad360-export-feedback');if(label)label.textContent=tr('required');return false}
+ if(!context){
+  document.getElementById('nomad360-print-sheet')?.remove();
+  const label=document.getElementById('nomad360-export-feedback');
+  if(label)label.textContent=tr('required');
+  return false;
+ }
  let sheet=document.getElementById('nomad360-print-sheet');
  if(!sheet){sheet=document.createElement('section');sheet.id='nomad360-print-sheet';document.body.append(sheet)}
  sheet.innerHTML=printable(mode,context);
@@ -221,6 +228,8 @@ function savePrint(mode){
 }
 function syncPortfolioActions(out){
  const host=document.getElementById('portfolio-v2-root');if(!host)return;
+ const existingPreview=host.querySelector('#nomad360-price-preview');
+ const keepPreview=existingPreview&&!existingPreview.hidden;
  let section=host.querySelector('#nomad360-portfolio-tools');
  if(!section){section=document.createElement('section');section.id='nomad360-portfolio-tools';
  host.append(section)}
@@ -233,6 +242,22 @@ function syncPortfolioActions(out){
  '<p class="nomad-footnote" id="nomad360-export-feedback">'+(can?tr('pdfHint'):tr('onlyReady'))+'</p>'+
  '<div id="nomad360-price-preview" hidden></div></div>';
  if(!can)section.dataset.ready='false';else section.dataset.ready='true';
+ // Revoke invalid old print output and synchronize valid existing documents.
+ const sheet=document.getElementById('nomad360-print-sheet');
+ if(sheet){
+  if(!can)sheet.remove();
+  else if(['price','report'].includes(sheet.dataset.mode)){
+   const currentState=root.LinkedPortfolioV2UI?.getState?.();
+   if(currentState)sheet.innerHTML=printable(sheet.dataset.mode,{state:currentState,out});
+  }
+ }
+ if(can&&keepPreview){
+  const preview=section.querySelector('#nomad360-price-preview');
+  preview.hidden=false;
+  preview.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(out.items,out)+
+   '<div class="nomad-export-row"><button type="button" data-nomad-export="price">'+tr('listPrint')+'</button>'+
+   '<button type="button" data-nomad-hide-price>'+tr('listClose')+'</button></div>';
+ }
 }
 function handleClick(event){
  if(event.target.closest('[data-nomad-price-toggle]'))showPreview();
@@ -244,13 +269,21 @@ function handleClick(event){
 }
 function setLanguage(next){
  if(!L[next])return;
- lang=next;buildShell();
+ lang=next;
+ try{localStorage.setItem(localeKey,next)}catch(_){}
+ buildShell();
  const payload=readyOutput();
  // The finance engine is never translated or re-run with altered inputs.
  if(document.getElementById('nomad360-portfolio-tools'))syncPortfolioActions(payload?.out||null);
+ // Refresh an already-prepared print document in the newly selected UI locale,
+ // without opening a print dialog or writing any financial input.
+ const sheet=document.getElementById('nomad360-print-sheet');
+ if(sheet&&payload&&['price','report'].includes(sheet.dataset.mode))
+  sheet.innerHTML=printable(sheet.dataset.mode,payload);
+ document.dispatchEvent(new CustomEvent('nomad360:languagechange',{detail:{lang}}));
 }
 function boot(){
- lang=preferred();buildShell();
+ lang=userLocale()||preferred();buildShell();
  document.addEventListener('click',handleClick);
  document.addEventListener('change',event=>{
   if(event.target?.id==='nomad360-lang-select')setLanguage(event.target.value);

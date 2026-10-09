@@ -58,6 +58,36 @@ async function browserCase(browser,locale,expected){
   A.equal(pdf.subarray(0,4).toString(),'%PDF');
   A.ok(pdf.length>6000,'nontrivial PDF report');
   await page.emulateMedia({media:'screen'});
+  // Changing locale must retranslate the already OPEN price preview and the
+  // previously generated report sheet without rerunning window.print().
+  for(const chosen of ['en','kk','ru']){
+   await page.locator('#nomad360-lang-select').selectOption(chosen);
+   A.equal(await page.locator('html').getAttribute('lang'),chosen);
+   A.equal(await page.evaluate(()=>window.__nomadPrintCount),2,'locale change must not open another print dialog');
+   A.equal(await preview.isVisible(),true,'price preview must remain open after locale change');
+   A.equal(await preview.locator('tbody tr').count(),5);
+   A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'report');
+   const heading={en:'Financial summary',kk:'Қаржылық қорытынды',ru:'Финансовый итог'}[chosen];
+   A.ok((await page.locator('#nomad360-print-sheet').textContent()).includes(heading),'print sheet must use selected '+chosen+' language');
+   const cadence={en:/Monthly|One-time/,kk:/Ай сайын|Бір рет/,ru:/Ежемесячно|Разово/}[chosen];
+   A.match(await page.locator('#nomad360-print-sheet').textContent(),cadence,'report resource cadence translated to '+chosen);
+   const localeTag={ru:'ru-RU',kk:'kk-KZ',en:'en-US'}[chosen];
+   const browserPrices=await page.evaluate(({localeTag,items})=>{
+     const fmt=value=>new Intl.NumberFormat(localeTag,
+       {minimumFractionDigits:2,maximumFractionDigits:2}).format(value);
+     return items.map(item=>({list:fmt(item.priceList),buyer:fmt(item.priceGross)}));
+   },{localeTag,items:before.items});
+   const reportPrices=await page.locator('#nomad360-print-sheet .nomad-export-table').first().locator('tbody tr').all();
+   A.equal(reportPrices.length,before.items.length);
+   for(let i=0;i<before.items.length;i++){
+    A.equal((await reportPrices[i].locator('td').nth(2).textContent()).trim(),
+      browserPrices[i].list,'print list price must equal approved V2 math in '+chosen);
+    A.equal((await reportPrices[i].locator('td').nth(4).textContent()).trim(),
+      browserPrices[i].buyer,'print buyer price must equal approved V2 math in '+chosen);
+   }
+   const previewAction={en:'Create price list',kk:'Прайс-парақ жасау',ru:'Сформировать прайс-лист'}[chosen];
+   A.match(await preview.locator('h3').textContent(),new RegExp(previewAction),'open price preview translated to '+chosen);
+  }
   await page.locator('#nomad360-lang-select').selectOption('en');
   A.equal(await page.locator('html').getAttribute('lang'),'en');
   A.match(await page.locator('#nomad360-hero h2').textContent(),/Stop guessing/);
@@ -72,6 +102,28 @@ async function browserCase(browser,locale,expected){
   A.equal(restored.ready,true,JSON.stringify(restored.errors));
   A.equal(restored.items.length,5);
   A.equal(restored.cashflow.periodPnl.netProfit,before.cashflow.periodPnl.netProfit);
+  // Even after a previously valid PDF is prepared, reducing service capacity
+  // invalidates it. A stale sheet cannot be printed as a valid calculation.
+  const approvedDraft=await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState()));
+  const rejected=await page.evaluate(()=>{
+    const draft=LinkedPortfolioV2UI.getState();
+    draft.skus.find(item=>item.id==='salon').serviceCapacity=1;
+    localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify(draft));
+    LinkedPortfolioV2UI.resume();
+    return LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState());
+  });
+  A.equal(rejected.ready,false,'capacity failure blocks portfolio approval');
+  A.equal(await page.locator('#nomad360-print-sheet').count(),0,
+    'previous printable report must be revoked after invalidating calculation');
+  A.equal(await page.evaluate(()=>Nomad360UI.savePrint('report')),false);
+  A.equal(await page.evaluate(()=>window.__nomadPrintCount),2,
+    'invalid portfolio cannot launch a print dialog');
+  A.equal(await page.locator('[data-nomad-export="report"]').isDisabled(),true);
+  await page.evaluate(draft=>{
+    localStorage.setItem('marketingCalcLinkedPortfolioV2',draft);
+    LinkedPortfolioV2UI.resume();
+  },approvedDraft);
+  A.equal(await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()).ready),true);
   A.deepEqual(errors,[]);
   console.log('NOMAD360_UI_PACKAGING_BROWSER_GREEN',JSON.stringify({
     locale,lang:expected.lang,portfolio:5,pdfBytes:pdf.length,priceRows:5,
