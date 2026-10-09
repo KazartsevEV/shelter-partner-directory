@@ -104,7 +104,7 @@ function updateResult(out){
     const values=[e.mode==='bundle'?'Набор':e.mode==='upsell'?'Upsell':'Cross-sell',
        main,money(e.transactions),extra,money(e.items.reduce((v,p)=>v+p.netAddedUnits,0)),
        money(e.items.reduce((v,p)=>v+p.overlapUnits,0)),e.mode==='bundle'?money(e.bundleDiscountPct)+'%':'—',money(e.buyerPriceBefore),money(e.buyerPriceAfter)];
-    return '<tr class="border-t border-slate-200">'+values.map(v=>'<td class="p-2 text-right whitespace-nowrap">'+safe(v)+'</td>').join('')+'</tr>';
+    return '<tr class="border-t border-slate-200">'+values.map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+([1,3].includes(i)?' data-nomad-no-translate':'')+'>'+safe(v)+'</td>').join('')+'</tr>';
   }).join('')+'</tbody></table></div>'+
   '<p class="text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+money(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+money(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
   (out.ready?'':'<p class="text-xs text-rose-700 mt-2">Весь портфель ещё не подтверждён: проверьте лимиты запасов, загрузку и маржу.</p>');
