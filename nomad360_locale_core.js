@@ -1179,6 +1179,17 @@ rows.push(
  ["Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте","Confidence = co-purchased receipts / primary-item receipts; lift = confidence / share of receipts containing the add-on. Total:","Confidence = бірге сатып алынған чектер / негізгі позициясы бар чектер; lift = confidence / қосымша позициясы бар чектер үлесі. Есепте барлығы:"],
  ["направленных правил; показано до 60. Для кортежей A+B → C не делается ложная конвертация в одноякорную связку.","directed rules; up to 60 displayed. Tuples such as A+B → C are not incorrectly converted into single-anchor offers.","бағытталған ереже; ең көбі 60 көрсетілді. A+B → C кортеждері бір негізгі позициясы бар ұсынысқа қате түрлендірілмейді."]
 );
+/* #47AU: V1 discount/VAT/price-list error and helper states; source keys unchanged. */
+rows.push(
+ ["Введите максимальную скидку, минимальную и целевую маржинальность.","Enter the maximum discount, minimum margin and target margin.","Ең жоғары жеңілдікті, ең төменгі және мақсатты маржаны енгізіңіз."],
+ ["Сначала завершите расчёт товара, продаж и налога бизнеса.","Complete the product, sales and business tax calculations first.","Алдымен тауар, сатылым және бизнес салығы бойынша есептеуді аяқтаңыз."],
+ ["Скидка — от 0 до менее 100%; маржинальность — строго больше 0% и меньше 100%.","Discount must be at least 0% and below 100%; margin must be above 0% and below 100%.","Жеңілдік 0%-дан бастап 100%-дан төмен болуы керек; маржа 0%-дан жоғары және 100%-дан төмен болуы керек."],
+ ["Минимальная маржинальность не должна быть выше вашей целевой маржинальности.","The minimum margin cannot exceed your target margin.","Ең төменгі маржа мақсатты маржадан жоғары болмауы тиіс."],
+ ["Укажите, применяется ли НДС, и его ставку.","Specify whether VAT applies and enter the VAT rate.","ҚҚС қолданылатынын көрсетіп, оның мөлшерлемесін енгізіңіз."],
+ ["При этих ставках налогов, комиссий и маржинальности прибыльная цена невозможна. Снизьте нагрузку или маржу.","No profitable price is possible at these tax, commission and margin rates. Reduce the cost burden or target margin.","Бұл салық, комиссия және маржа мөлшерлемелерінде пайда әкелетін баға мүмкін емес. Шығын жүктемесін немесе мақсатты маржаны азайтыңыз."],
+ ["Нижняя граница сохраняет минимальную чистую маржу после максимальной скидки, комиссий, налогов и распределённых расходов бизнеса. Верхняя — целевую чистую маржу.","The lower bound preserves the minimum net margin after the maximum discount, fees, taxes and allocated business expenses. The upper bound targets your desired net margin.","Төменгі шек ең жоғары жеңілдік, комиссиялар, салықтар және бөлінген бизнес шығындарынан кейін ең төменгі таза маржаны сақтайды. Жоғарғы шек мақсатты таза маржаға сәйкес келеді."],
+ ["Введите максимальную скидку и минимальную маржинальность.","Enter the maximum discount and minimum margin.","Ең жоғары жеңілдікті және ең төменгі маржаны енгізіңіз."]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
