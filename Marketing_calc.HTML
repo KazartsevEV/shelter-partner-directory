@@ -273,7 +273,7 @@
                 class="w-full mt-6 px-5 py-4 text-lg font-black rounded-xl bg-blue-600 text-white shadow hover:bg-blue-700">
                 + Рассчитать СВОЙ товар
             </button>
-            <div id="saved-product-entry" class="hidden mt-4 rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4">
+            <div id="saved-product-entry" class="hidden mt-4 rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4" hidden>
                 <div class="font-bold text-emerald-900">Ваш расчёт сохранён в этом браузере</div>
                 <div class="text-sm text-emerald-800 mt-1" id="saved-product-summary"></div>
                 <button id="resume-own-product" type="button" onclick="resumeSavedProductCalculation()"
@@ -4161,6 +4161,7 @@
             const summary = document.getElementById('saved-product-summary');
             if (!box) return;
             const saved = readSavedProductCalculation();
+            box.hidden = !saved;
             box.classList.toggle('hidden', !saved);
             if (saved && summary) {
                 const count = saved.productPortfolio.length;
