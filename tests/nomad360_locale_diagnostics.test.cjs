@@ -286,6 +286,30 @@ test('V1 VAT, discount and price-list rejections have complete EN/KK copy',()=>{
  A.match(tr(cases[4],'kk'),/ҚҚС/);
 });
 
+test('V1 save, resume, V2 transfer and payroll reference errors have EN/KK text',()=>{
+ const keys=[
+  'Сначала рассчитайте и сохраните хотя бы один товар.',
+  'Завершите цены, рекламу, объёмы продаж и налог бизнеса для всех товаров — без готовых расчётов портфель V2 не строится.',
+  'Модуль V2 ещё не загружен. Обновите страницу.',
+  'Это учебный пример. Чтобы сохранять свои данные, начните собственный расчёт с нуля.',
+  'Сначала выберите ветку и укажите название товара или услуги.',
+  'Не удалось сохранить: браузер запретил локальное хранилище.',
+  'Казахстан, 2026: 5% соцотчисления + 3% ОСМС + 3,5% ОПВР + 6% соцналог (17,5% для применимых работников, без предельных баз); пенсионные и медицинские удержания работника не являются надбавкой к gross. ОПВР зависит от категории и возраста.'
+ ];
+ for(const raw of keys){
+  A.equal(tr(raw,'ru'),raw);
+  const english=tr(raw,'en'),kazakh=tr(raw,'kk');
+  A.notEqual(english,raw,'missing EN error: '+raw);
+  A.notEqual(kazakh,raw,'missing KK error: '+raw);
+  A.ok(english&&kazakh);
+ }
+ const en=tr(keys[6],'en'),kk=tr(keys[6],'kk');
+ A.ok(en.includes('17.5%')&&en.includes('3.5%')&&en.includes('2026'),
+  'EN payroll note must preserve exact original numerical rates');
+ A.ok(kk.includes('17,5%')&&kk.includes('3,5%')&&kk.includes('2026'),
+  'KK payroll note must preserve exact original numerical rates');
+});
+
 test('16 malformed MBA CSV/JSON variants are rejected and their exact diagnostics covered in EN/KK',()=>{
  const MBA=require('../portfolio_v2_mba_observed.js');
  const mk=(extra={})=>({order_id:'order-1',date:'2026-09-01',sku_id:'A',
