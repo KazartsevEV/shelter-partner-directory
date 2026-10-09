@@ -5769,6 +5769,14 @@
             if(warning){warning.hidden=cost>0;warning.classList.toggle('hidden',cost>0);}
             updateInboundDeliveryDefault();recalculateMaterialsLandedCost();renderResalePurchaseComposition();
         }
+        function syncDropshipFinanceInputs(){
+            if(productSource!=='dropship')return;
+            const delivery=document.getElementById('dropship-delivery-days');
+            const lag=document.getElementById('dropship-payout-lag');
+            if(delivery&&delivery.value!==''&&Number(delivery.value)<0)delivery.value='0';
+            if(lag&&lag.value!==''&&Number(lag.value)<0)lag.value='0';
+            syncVisibleAggregateFromCurrentProduct();
+        }
         function setResaleProductPanels(){
             const resale=productSource==='resale',drop=productSource==='dropship',ready=resale||drop;
             const show={'resale-buy-panel':ready,'material-cost-entry-panel':!ready,
