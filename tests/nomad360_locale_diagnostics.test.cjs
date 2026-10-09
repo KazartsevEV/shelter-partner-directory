@@ -9,6 +9,9 @@ const win={Nomad360UI:{getLanguage:()=> 'en'}};
 new Function('window','document',src)(win,{readyState:'loading',addEventListener(){}});
 const tr=(original,lang)=>win.Nomad360LocaleCore.translate(original,lang);
 const cases=[
+ ['Прогноз клиентов для «Маникюр» (9.50) больше доступных 8 посещений в месяц.',
+  'Customer forecast for “Маникюр” (9.50) exceeds available 8 monthly appointments.',
+  '«Маникюр» клиент болжамы (9.50) қолжетімді айлық 8 қабылдаудан асады.'],
  ['Месяц 2: спрос на «Товар» (13.50) превышает оставшийся запас (12.00). Продажа связки не подтверждена.',
   'Month 2: Demand for “Товар” (13.50) exceeds remaining stock (12.00). The linked offer is not confirmed.',
   '2-ай: «Товар» сұранысы (13.50) қалған қордан (12.00) асады. Байланысқан сатылым расталмаған.'],
