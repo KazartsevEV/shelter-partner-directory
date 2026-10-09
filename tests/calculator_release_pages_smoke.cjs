@@ -54,9 +54,11 @@ async function verify(mode){
    'HTML references missing local script: '+file);
  }
  const strict=mode==='--parity',maxAttempts=strict?24:3;
+ // Newly authored PR assets are only on git, not on the public site until merge.
+ const checked=strict?files:files.filter(file=>!file.startsWith('nomad360_'));
  let last=[];
  for(let attempt=1;attempt<=maxAttempts;attempt++){
-  const result=await Promise.all(files.map(async file=>{
+  const result=await Promise.all(checked.map(async file=>{
    try{
     const remote=await fetchFile(base+file+'?f4='+Date.now());
     const local=fs.readFileSync(path.join(__dirname,'..',file));
@@ -68,7 +70,7 @@ async function verify(mode){
   last=result;
   if(result.every(x=>x.available&&(!strict||x.matching))){
    console.log('F4_GITHUB_PAGES_'+(strict?'EXACT_SHA256_PARITY':'ALL_ASSETS_AVAILABLE')+
-    '_GREEN',JSON.stringify({assets:files.length,mode,attempt,
+    '_GREEN',JSON.stringify({assets:checked.length,mode,attempt,
      verifiedFiles:result.map(x=>x.file),commit:process.env.GITHUB_SHA||null}));
    return;
   }
