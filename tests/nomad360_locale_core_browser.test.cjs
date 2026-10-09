@@ -325,6 +325,11 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     A.ok(mbaCount>=8,'observed MBA amount/count/lift cells must carry source values');
     A.ok(mbaPercentCount>=4,'support and confidence must be locale-formatted');
     A.ok(basketCount>=3,'linked basket forecast must expose secondary numeric values');
+    const datesBefore=await page.locator('#linked-mba-panel [data-nomad-display-date]').evaluateAll(nodes=>
+      nodes.map(n=>({raw:n.dataset.nomadDisplayDate,datetime:n.getAttribute('datetime')})));
+    A.equal(datesBefore.length,2,'observed report must mark both canonical receipt-range ISO dates');
+    A.ok(datesBefore.every(d=>d.raw==='2026-09-02'&&d.datetime===d.raw));
+
     const nextLocale=expected==='en'?'kk':'en';
     await page.locator('#nomad360-lang-select').selectOption(nextLocale);
     await page.waitForFunction(code=>document.documentElement.lang===code,nextLocale);
@@ -343,6 +348,16 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
         return node.textContent===rendered;
       });
     });
+    await page.waitForFunction(()=>{
+      const elems=[...document.querySelectorAll('#linked-mba-panel [data-nomad-display-date]')];
+      if(elems.length!==2)return false;
+      const dateFmt=new Intl.DateTimeFormat(Nomad360LocaleCore.displayLocale(),
+        {year:'numeric',month:'2-digit',day:'2-digit',timeZone:'UTC'});
+      return elems.every(el=>el.textContent===dateFmt.format(new Date(el.dataset.nomadDisplayDate+'T00:00:00Z')));
+    });
+    A.deepEqual(await page.locator('#linked-mba-panel [data-nomad-display-date]').evaluateAll(nodes=>
+      nodes.map(n=>({raw:n.dataset.nomadDisplayDate,datetime:n.getAttribute('datetime')}))),
+      datesBefore,'language changes never rewrite canonical receipt dates');
     A.equal(await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState())),tableBefore,
       'locale switch must not change MBA receipt history, association confidence, or basket model');
     await page.locator('#nomad360-lang-select').selectOption(expected);
