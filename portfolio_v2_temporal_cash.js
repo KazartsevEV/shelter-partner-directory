@@ -84,6 +84,10 @@
        const original=Math.max(EPS,pos(s.forecastUnitsPerMonth));
        variableUnit=Math.max(0,pos(s.serviceMaterialsUnit)-pos(s.cashOffsets?.materials)/original)+
          Math.max(0,pos(s.serviceElectricityUnit)-pos(s.cashOffsets?.fulfillment)/original);
+       // V1 effective unit cost may include allocated monthly rent/staff.
+       // Recognize per-visit inputs here; rent is separately accrued once per
+       // actual service month through fixedAccrual. Never charge both.
+       accrualUnit=variableUnit;
      }
      const receiptLag=s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
        pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0;
