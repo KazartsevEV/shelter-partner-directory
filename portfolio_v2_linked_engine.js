@@ -215,6 +215,13 @@
     const invariantMedia=Math.abs(fullMedia-(originalMedia-replacedMedia+addedMedia))<EPS;
     const allocated=sum(scenario.allocation.map(r=>sum(Object.values(r.bySku))));
     const resourcesTotal=sum(scenario.allocation.map(r=>r.amount));
+    for(const item of items){
+      if(item.source!=='dropship'&&pos(item.inventoryQty)+EPS<item.forecastOrders){
+        report('skus.'+rows.findIndex(s=>s.id===item.id),
+          'Прогноз по «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
+          ' шт.) превышает запас V1 ('+pos(item.inventoryQty)+' шт.). Увеличьте складскую партию в V1 или скорректируйте распределение рекламы.');
+      }
+    }
     const infeasible=items.filter(item=>!item.minimumMarginFeasible);
     if(infeasible.length)for(const item of infeasible)
       report('skus.'+rows.findIndex(s=>s.id===item.id)+'.priceMax',
@@ -242,95 +249,117 @@
   }
 
   function cashFlow(state,portfolio){
-    // Source-specific single-plan schedule. Each V1 SKU retains its own purchase
-    // quantity, supply days, delivery lag and original loan terms.
+    // A single 30-day campaign per SKU with its own supply lead and payout delay.
+    // Outlays and receipts are calculated daily: launch capital = worst daily deficit
+    // plus the V1 locked liquidity reserve (less available V1 loan draws).
     const items=portfolio.items,resources=portfolio.resources;
-    const durations=items.map(s=>{
-      const stock=s.source==='dropship'?Infinity:pos(s.inventoryQty);
-      const speed=pos(s.forecastOrders);
-      const saleDays=s.source==='dropship'?30:Math.max(30,30*stock/Math.max(speed,EPS));
-      const sellStart=s.source==='dropship'?0:pos(s.supplyDays)+pos(s.productionDays);
-      const receiptDelay=s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
-        pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0;
-      return {s,stock,speed,saleDays,sellStart,receiptDelay,endDay:sellStart+saleDays+receiptDelay};
-    });
-    const horizon=Math.min(120,Math.max(1,Math.ceil(Math.max(30,
-      ...durations.map(d=>d.endDay),
-      ...items.map(s=>pos(s.creditMonths)*30))/30)));
-    const months=Array.from({length:horizon},(_,i)=>({
-      month:i+1,receipt:0,operatingOutflow:0,tax:0,interest:0,principalRepaid:0,
-      loanDraw:0,ownerCapital:0,cashFlow:0,cumulative:0,freeCumulative:0,
-      taxableProfit:0,stockPurchase:0,ad:0,shared:0
+    const plan=items.map(s=>({
+      s,saleStart:s.source==='dropship'?0:pos(s.supplyDays)+pos(s.productionDays),
+      receiptDelay:s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
+        pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0
     }));
-    const add=(day,key,amount)=>{
+    const horizon=Math.max(30,...plan.map(x=>x.saleStart+30+x.receiptDelay),
+      ...items.map(s=>pos(s.creditMonths)*30));
+    if(horizon>3650)throw Error('Горизонт cash flow превышает 120 месяцев.');
+    const dayCount=Math.ceil(horizon);
+    const daily=Array.from({length:dayCount},()=>({
+      receipt:0,ordersRevenue:0,cogsAccrual:0,stockPurchase:0,operating:0,
+      ad:0,shared:0,commission:0,loanDraw:0,interest:0,principal:0,tax:0
+    }));
+    function post(day,key,amount){
       if(!(amount>0))return;
-      const month=Math.min(horizon-1,Math.floor(Math.max(0,day)/30));
-      months[month][key]+=amount;
-    };
-    const overlap=(a,b,c,d)=>Math.max(0,Math.min(b,d)-Math.max(a,c));
-    for(const d of durations){
-      const {s,stock,speed,saleDays,sellStart,receiptDelay}=d;
+      daily[Math.min(dayCount-1,Math.max(0,Math.floor(day)))][key]+=amount;
+    }
+    const totalOnce=sum(resources.filter(r=>r.cadence==='once').map(r=>pos(r.amount)));
+    post(0,'shared',totalOnce);
+    for(const {s,saleStart,receiptDelay} of plan){
+      const stock=pos(s.inventoryQty),orders=pos(s.forecastOrders);
+      let residualPerUnit=pos(s.unitCostEffective);
       if(s.source!=='dropship'){
-        const material=pos(s.materialsBatchTotal),production=pos(s.productionTotal);
-        const warehouseInbound=pos(s.warehouseInboundUnitCost)*stock;
-        add(0,'stockPurchase',material);
-        add(sellStart,'stockPurchase',production+warehouseInbound);
+        const input=pos(s.materialsBatchTotal),production=pos(s.productionTotal),
+          inbound=pos(s.warehouseInboundUnitCost)*stock;
+        post(0,'stockPurchase',input);
+        post(saleStart,'stockPurchase',production+inbound);
+        residualPerUnit=Math.max(0,residualPerUnit-
+          (input+production+inbound)/Math.max(stock,EPS));
       }
-      const unitEffective=pos(s.unitCostEffective);
-      const physicalPerUnit=s.source==='dropship'?unitEffective:
-        Math.max(0,unitEffective-(pos(s.materialsBatchTotal)+pos(s.productionTotal)+pos(s.warehouseInboundUnitCost)*stock)/Math.max(stock,EPS));
-      for(let day=0;day<Math.ceil(saleDays);day++){
-        const sold=Math.max(0,Math.min(speed/30,s.source==='dropship'?speed/30:
-          stock-speed*day/30));
-        if(sold<=0)continue;
-        const dayOfSale=sellStart+day;
-        const grossReceipt=sold*s.priceNet;
-        // Supplier payments for dropship occur at order placement, whereas
-        // customer settlements use the explicit payout delay.
-        add(dayOfSale,'operatingOutflow',sold*physicalPerUnit);
-        add(dayOfSale+receiptDelay,'receipt',grossReceipt);
-        add(dayOfSale+receiptDelay,'operatingOutflow',grossReceipt*pos(s.variableSalesPct)/100);
-      }
-      for(let month=0;month<horizon;month++){
-        const activeDays=overlap(month*30,(month+1)*30,sellStart,sellStart+saleDays);
-        if(activeDays<=0)continue;
-        months[month].ad+=pos(s.adBudgetEffective)*activeDays/30;
-        months[month].shared+=(pos(s.manager)+pos(s.selling))*activeDays/30;
-        const allocs=resources.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly');
-        months[month].shared+=sum(allocs.map(r=>pos(r.bySku[s.id])))*activeDays/30;
+      const resourceDaily=sum(resources.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly')
+        .map(r=>pos(r.bySku[s.id])))/30;
+      const dailyAd=pos(s.adBudgetEffective)/30;
+      const dailyFixed=(pos(s.manager)+pos(s.selling))/30;
+      for(let day=0;day<30;day++){
+        const qty=orders/30,at=saleStart+day,netRevenue=qty*pos(s.priceNet);
+        // Expense ad/media, management and common assets once per beneficiary.
+        post(at,'ad',dailyAd);post(at,'shared',dailyFixed+resourceDaily);
+        post(at,'ordersRevenue',netRevenue);
+        post(at,'cogsAccrual',qty*pos(s.unitCostEffective));
+        // Supplier/fulfillment is funded on the order date.
+        post(at,'operating',qty*residualPerUnit);
+        post(at+receiptDelay,'receipt',netRevenue);
+        post(at+receiptDelay,'commission',netRevenue*pos(s.variableSalesPct)/100);
       }
       if(pos(s.creditPrincipal)>0){
-        months[0].loanDraw+=pos(s.creditPrincipal);
-        const monthsOfCredit=Math.max(1,Math.ceil(pos(s.creditMonths)||1));
-        for(let m=0;m<Math.min(horizon,monthsOfCredit);m++)months[m].interest+=pos(s.creditMonthly);
-        months[Math.min(horizon-1,monthsOfCredit-1)].principalRepaid+=pos(s.creditPrincipal);
+        post(0,'loanDraw',pos(s.creditPrincipal));
+        const months=Math.max(1,Math.ceil(pos(s.creditMonths)||1));
+        for(let i=1;i<=months;i++)post(i*30-1,'interest',pos(s.creditServiceMonthly));
+        post(months*30-1,'principal',pos(s.creditPrincipal));
       }
     }
-    // Shared campaign budgets are already contained in each SKU's ad allocation.
-    // One-time resources are a cash outlay, not a monthly EBITDA charge.
-    months[0].shared+=sum(resources.filter(r=>r.cadence==='once').map(r=>r.amount));
+    const monthCount=Math.max(1,Math.ceil(dayCount/30));
+    const months=Array.from({length:monthCount},(_,index)=>({
+      month:index+1,receipt:0,operatingOutflow:0,tax:0,interest:0,
+      principalRepaid:0,loanDraw:0,ownerCapital:0,cashFlow:0,cumulative:0,
+      freeCumulative:0,stockPurchase:0,ad:0,shared:0,taxableProfit:0
+    }));
     const rate=pos(state.tax?.pct)/100;
-    for(const month of months){
-      month.operatingOutflow+=month.stockPurchase+month.ad+month.shared;
-      month.taxableProfit=month.receipt-
-        month.operatingOutflow-month.interest;
-      month.tax=state.tax?.type==='profit'?Math.max(0,month.taxableProfit)*rate:month.receipt*rate;
-      month.cashFlow=month.receipt-month.operatingOutflow-month.tax-month.interest-month.principalRepaid+month.loanDraw;
+    for(let i=0;i<monthCount;i++){
+      const days=daily.slice(i*30,(i+1)*30);
+      const total=key=>sum(days.map(d=>d[key]));
+      const receipt=total('receipt');
+      const taxableProfit=total('ordersRevenue')-total('cogsAccrual')-
+        total('ordersRevenue')*0 + // variable commission is per SKU, accrued separately below
+        0 -total('ad')-total('interest')-
+        (total('shared')-(i===0?totalOnce:0));
+      const totalCommission=total('commission');
+      const accrualProfit=taxableProfit-totalCommission;
+      const tax=state.tax?.type==='profit'?Math.max(0,accrualProfit)*rate:receipt*rate;
+      // The tax settlement is at month's end, after daily trading movements.
+      post(Math.min(dayCount-1,(i+1)*30-1),'tax',tax);
     }
-    let running=0,lowest=0;
-    for(const month of months){running+=month.cashFlow;lowest=Math.min(lowest,running);}
+    for(let day=0;day<dayCount;day++){
+      const d=daily[day],m=months[Math.floor(day/30)];
+      m.receipt+=d.receipt;
+      m.stockPurchase+=d.stockPurchase;
+      m.ad+=d.ad;
+      m.shared+=d.shared;
+      m.tax+=d.tax;
+      m.interest+=d.interest;
+      m.principalRepaid+=d.principal;
+      m.loanDraw+=d.loanDraw;
+      m.operatingOutflow+=d.operating+d.commission+d.stockPurchase+d.ad+d.shared;
+      m.taxableProfit+=d.ordersRevenue-d.cogsAccrual-d.commission-d.ad-d.shared-d.interest;
+    }
+    let running=0,minimum=0;
+    for(const d of daily){
+      const change=d.receipt+d.loanDraw-
+        d.operating-d.commission-d.stockPurchase-d.ad-d.shared-d.tax-d.interest-d.principal;
+      running+=change;minimum=Math.min(minimum,running);
+    }
     const reserve=sum(items.map(s=>pos(s.reserveAmount)));
-    const ownerCapital=Math.max(0,-lowest)+reserve;
+    const ownerCapital=Math.max(0,-minimum)+reserve;
     months[0].ownerCapital=ownerCapital;
     running=0;
     for(const month of months){
+      month.cashFlow=month.receipt+month.loanDraw-month.operatingOutflow-month.tax-
+        month.interest-month.principalRepaid;
       running+=month.cashFlow+month.ownerCapital;
       month.cumulative=running;
       month.freeCumulative=running-reserve;
     }
-    return {months,reserve,startupCapital:ownerCapital+sum(items.map(s=>pos(s.creditPrincipal))),
-      ownerCapital,borrowedCapital:sum(items.map(s=>pos(s.creditPrincipal))),
-      finalCash:running,freeCash:running-reserve};
+    const borrowedCapital=sum(items.map(s=>pos(s.creditPrincipal)));
+    return {months,reserve,ownerCapital,borrowedCapital,
+      startupCapital:ownerCapital+borrowedCapital,
+      finalCash:running,freeCash:running-reserve,peakOperatingDeficit:-minimum};
   }
   return Object.freeze({fromV1,build});
 });
