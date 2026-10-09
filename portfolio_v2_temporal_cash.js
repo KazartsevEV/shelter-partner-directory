@@ -84,6 +84,10 @@
        const original=Math.max(EPS,pos(s.forecastUnitsPerMonth));
        variableUnit=Math.max(0,pos(s.serviceMaterialsUnit)-pos(s.cashOffsets?.materials)/original)+
          Math.max(0,pos(s.serviceElectricityUnit)-pos(s.cashOffsets?.fulfillment)/original);
+       // V1 effective unit cost may include allocated monthly rent/staff.
+       // Recognize per-visit inputs here; rent is separately accrued once per
+       // actual service month through fixedAccrual. Never charge both.
+       accrualUnit=variableUnit;
      }
      const receiptLag=s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
        pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0;
@@ -233,8 +237,61 @@
      balance+=m.cashFlow+m.ownerCapital;
      m.cumulative=balance;m.freeCumulative=balance-reserve;
    }
+   // F2A: accrual earnings are distinct from cash stock purchase, credit
+   // principal and owner funding. Taxes paid on delayed receipts can settle in
+   // a different month than taxes recognized on fulfilled VAT-net sales.
+   const profitMonths=[];
+   for(let k=0;k<horizonMonths;k++){
+     const entries=daily.slice(k*30,(k+1)*30);
+     const t=key=>sum(entries.map(day=>day[key]));
+     const revenue=t('ordersRevenue'),cogs=t('cogsAccrual');
+     const variableCommission=t('commissionAccrual'),marketing=t('ad');
+     const operatingShared=t('shared')-(k===0?totalOnce:0);
+     const serviceFixed=t('fixedAccrual');
+     const ebitda=revenue-cogs-variableCommission-marketing-
+       operatingShared-serviceFixed;
+     const amort=t('amortAccrual'),interest=t('interest');
+     const preTaxProfit=ebitda-amort-interest;
+     const onlineRevenue=sum(items.filter(s=>s.source==='online-service')
+       .map(s=>pos(timeline[s.id]?.[k]?.netRevenue)));
+     const onlineTurnoverTax=sum(items.filter(s=>s.source==='online-service')
+       .map(s=>pos(timeline[s.id]?.[k]?.netRevenue)*pos(s.ownerTax?.pct)/100));
+     const regularProfit=preTaxProfit-t('onlineProfit');
+     const taxAccrued=(state.tax?.type==='profit'?
+       Math.max(0,regularProfit)*taxPct:
+       Math.max(0,revenue-onlineRevenue)*taxPct)+onlineTurnoverTax;
+     const netProfit=preTaxProfit-taxAccrued;
+     profitMonths.push({month:k+1,revenue,cogs,variableCommission,
+       marketing,operatingShared,serviceFixed,ebitda,amort,
+       interest,preTaxProfit,taxAccrued,netProfit,
+       netMargin:revenue>EPS?netProfit/revenue*100:null,
+       taxCashPaid:months[k].tax,
+       taxTimingDifference:taxAccrued-months[k].tax});
+   }
+   const ps=key=>sum(profitMonths.map(m=>m[key]));
+   const periodRevenue=ps('revenue'),periodProfit=ps('netProfit');
+   const invoices=sum(items.map(s=>sum(timeline[s.id].map(t=>t.netRevenue))));
+   const revenueConserved=Math.abs(invoices-periodRevenue)<.000001;
+   const marketingConserved=Math.abs(ps('marketing')-
+     sum(months.slice(0,horizonMonths).map(m=>m.ad)))<.000001;
+   if(!revenueConserved||!marketingConserved)
+     throw Error('Нарушена сверка периодной прибыли с продажами или рекламными платежами.');
+   const periodPnl={months:profitMonths,horizonMonths,
+     revenue:periodRevenue,ebitda:ps('ebitda'),amort:ps('amort'),
+     interest:ps('interest'),taxAccrued:ps('taxAccrued'),
+     netProfit:periodProfit,
+     netMargin:periodRevenue>EPS?periodProfit/periodRevenue*100:null,
+     cashTaxPaid:sum(months.slice(0,horizonMonths).map(m=>m.tax)),
+     taxTimingDifference:ps('taxAccrued')-
+       sum(months.slice(0,horizonMonths).map(m=>m.tax)),
+     postHorizonInterest:sum(months.slice(horizonMonths).map(m=>m.interest)),
+     pricePolicy:'current-V2-monthly-price-not-reoptimized-for-H',
+     onceAssetAmortizationUnverified:totalOnce>EPS,
+     ready:true,
+     invariants:{revenueConserved,marketingConserved,
+       profitMonthsConserved:Math.abs(ps('netProfit')-periodProfit)<EPS}};
    const borrowedCapital=sum(items.map(s=>pos(s.creditPrincipal)));
-   return {months,reserve,ownerCapital,borrowedCapital,
+   return {periodPnl,months,reserve,ownerCapital,borrowedCapital,
      startupCapital:ownerCapital+borrowedCapital,finalCash:balance,
      freeCash:balance-reserve,peakOperatingDeficit:-peak,
      scenarioHorizonMonths:horizonMonths,vatCashBasis:'net-of-vat-operating',
