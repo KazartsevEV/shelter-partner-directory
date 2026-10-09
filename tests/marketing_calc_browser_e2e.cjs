@@ -163,6 +163,7 @@ const browserLog = [];
  const taxMultiplier=.89/.83;
  approx(await shown(sel+' [data-aggregate-price="priceBeforeTax"]'),basePrice,'Unit base selling price');
  approx(await shown('[data-tax-price-product-id="1"] .final-buyer-price'),basePrice*taxMultiplier*1.12,'Tax+VAT buyer price');
+ await page.locator('[data-tax-price-product-id="1"] [data-discount-choice="yes"]').click();
  await page.locator('[data-tax-price-product-id="1"] input[oninput*="maxDiscountPct"]').fill('20');
  await page.locator('[data-tax-price-product-id="1"] input[oninput*="minimumMarginPct"]').fill('10');
  const load=cogs+900/orders+1120/orders+reserve/qty;
