@@ -1248,6 +1248,18 @@
             </div>
 
             <div id="product-tax-block" class="card product-business-aggregate p-6 md:p-8 hidden" hidden>
+                <div class="rounded-xl border border-emerald-200/40 bg-white/10 p-4 mb-5">
+                    <div class="font-bold text-base">НДС для портфеля</div>
+                    <div class="text-xs aggregate-muted mb-3">Сейчас калькулятор использует одну ставку НДС для всех товаров. Разные ставки для отдельных SKU требуют отдельной модели.</div>
+                    <div class="flex gap-2">
+                        <button type="button" data-yn-group="salesVat" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-emerald-200 text-sm">Да</button>
+                        <button type="button" data-yn-group="salesVat" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-emerald-200 text-sm">Нет</button>
+                    </div>
+                    <div id="own-sales-vat-wrap" class="hidden mt-3" hidden data-product-collapsible>
+                        <label class="block text-xs mb-1">Ставка НДС портфеля, %</label>
+                        <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="refreshAllAggregatePricing()">
+                    </div>
+                </div>
                 <div id="product-business-summary-list"></div>
 
                 <div id="product-tax-details" class="hidden mt-5 pt-5 border-t aggregate-separator" hidden>
@@ -4674,16 +4686,8 @@
                                     <span class="font-bold text-emerald-100">%</span>
                                 </div>
 
-                                <div class="mt-4">
-                                    <div class="aggregate-title text-sm font-medium">Работаете с НДС?</div>
-                                    <div class="flex gap-2 mt-2">
-                                        <button type="button" data-yn-group="salesVat" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-emerald-200 text-sm">Да</button>
-                                        <button type="button" data-yn-group="salesVat" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-emerald-200 text-sm">Нет</button>
-                                    </div>
-                                    <div id="own-sales-vat-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                                        <label class="block text-xs mb-1">Размер НДС, %</label>
-                                        <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="refreshAllAggregatePricing()">
-                                    </div>
+                                <div class="text-xs aggregate-muted mt-3">
+                                    Ставка НДС едина для этого портфеля и задаётся выше, перед карточками товаров.
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
@@ -5026,6 +5030,10 @@
             const introClone = introCard.cloneNode(true);
             const sourceClone = sourceBlock.cloneNode(true);
             [introClone, sourceClone].forEach(clone => {
+                // Remove live-only financial panels BEFORE removing IDs: otherwise
+                // the selectors below no longer match, cloning a hidden tax form
+                // with duplicate field IDs and dead pricing buttons.
+                clone.querySelectorAll('#product-assortment-gate, #product-tax-block').forEach(el => el.remove());
                 clone.removeAttribute('id');
                 clone.querySelectorAll('[id]').forEach(el => {
                     el.dataset.frozenOriginalId = el.id;
@@ -5044,7 +5052,6 @@
                 clone.querySelectorAll('input, select, textarea').forEach(field => {
                     field.disabled = true;
                 });
-                clone.querySelectorAll('#product-assortment-gate, #product-tax-block').forEach(el => el.remove());
                 clone.hidden = false;
                 clone.classList.remove('hidden');
                 frozen.appendChild(clone);
