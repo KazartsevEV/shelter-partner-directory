@@ -386,3 +386,19 @@ test('populated MBA source captions and runtime currency prefix have exact RU/EN
   }
  }
 });
+
+test('financial glossary: monetary units are not translated as physical units',()=>{
+ const anchor='const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));';
+ A.ok(src.includes(anchor),'expected locale-catalog hook');
+ const sandbox={Nomad360UI:{getLanguage:()=> 'en'}};
+ new Function('window','document',src.replace(anchor,'window.__financialRows=rows;'+anchor))(
+  sandbox,{readyState:'loading',addEventListener(){}});
+ const rows=sandbox.__financialRows.filter(([ru])=>ru.includes('у.е.*'));
+ A.ok(rows.length>=50,'monetary labels were not collected');
+ for(const [ru,en,kk] of rows){
+  A.ok(en.includes('currency units*'),'wrong monetary EN unit: '+ru+' => '+en);
+  A.ok(kk.includes('ш.б.*'),'wrong monetary KK unit: '+ru+' => '+kk);
+ }
+ A.equal(tr('у.е.*','en'),'currency units*');
+ A.equal(tr('у.е.*','kk'),'ш.б.*');
+});
