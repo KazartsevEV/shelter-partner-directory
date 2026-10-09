@@ -40,7 +40,6 @@ function importFromV1(payload){
    fresh.resources=prior.resources.map(r=>JSON.parse(JSON.stringify(r)));
    fresh.skus.forEach(s=>{
     const old=prior.skus.find(x=>x.id===s.id);
-    s.priceSelected=Math.min(s.priceMax,Math.max(s.priceMin,Number(old.priceSelected)||s.priceMax));
     s.discountSelected=Math.min(s.maxDiscountPct,Math.max(0,Number(old.discountSelected)||0));
    });
   }
@@ -91,6 +90,8 @@ function resourceCard(r,i){
 }
 function render(){
  const host=document.getElementById('portfolio-v2-root');if(!host||!state)return;
+ const scenario=Engine.build(state);
+ const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
  '<div class="font-bold text-slate-900 text-lg">'+safe(s.name)+'</div>'+
  '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
@@ -100,11 +101,13 @@ function render(){
  ['Цена до',money(s.priceMax)],['Дельта цены',money(num(s.priceMax)-num(s.priceMin))]].map(([label,value])=>
  '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b>'+value+'</b></div>').join('')+'</div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
- field('Цена прайса (внутри диапазона V1)','skus.'+i+'.priceSelected',s.priceSelected,
- 'min="'+safe(s.priceMin)+'" max="'+safe(s.priceMax)+'"')+
- field('Рабочая скидка, % (не выше '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
+ field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
  'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
- '<p class="text-xs text-slate-500 mt-2">Диапазон цены и максимальная скидка получены из V1 и здесь не редактируются. Меняются только сценарная цена и фактическая скидка.</p>'+
+ '<div class="rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
+ '<div class="text-xs">Автоматическая цена прайса V2</div><div class="text-xl font-black" data-linked-price-list>'+money(byId.get(s.id)?.priceList)+'</div>'+
+ '<div class="text-xs mt-2">Покупатель платит (скидка и НДС учтены)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
+ '<div class="text-xs text-slate-700 mt-2" data-linked-unit-meta></div>'+
+ '<p class="text-xs text-slate-500 mt-2">Цену рассчитывает V2 по продажам, денежному весу, рекламной и общей нагрузке. Диапазон цены V1 не меняется.</p>'+
  '</article>').join('');
  host.innerHTML=
  '<div class="rounded-2xl bg-emerald-900 text-white p-5 mb-5">'+
@@ -129,6 +132,19 @@ function render(){
 function updateResult(){
  const result=document.getElementById('linked-results');if(!result||!state)return;
  const out=Engine.build(state);
+ for(const node of document.querySelectorAll('[data-linked-live]')){
+  const row=out.items?.find(x=>x.id===node.dataset.linkedLive);
+  const list=node.querySelector('[data-linked-price-list]'),paid=node.querySelector('[data-linked-price-paid]');
+  if(list)list.textContent=money(row?.priceList);
+  if(paid)paid.textContent=money(row?.priceGross);
+  const meta=node.closest('[data-linked-sku]')?.querySelector('[data-linked-unit-meta]');
+  if(meta)meta.textContent=row?
+   'Для целевой маржи: '+money(row.requiredTargetPrice)+
+   '; для минимальной: '+money(row.requiredFloorPrice)+
+   '; денежная доля: '+money(row.revenueWeight*100)+'%; '+
+   ({TARGET_MET:'целевая маржа обеспечена',MINIMUM_ONLY:'обеспечена минимальная маржа',INFEASIBLE:'минимальная маржа недостижима'}[row.status]||'проверьте входные данные')+'.':
+   'Не завершён портфельный расчёт.';
+ }
  document.querySelectorAll('[data-linked-error]').forEach(el=>el.remove());
  document.querySelectorAll('[data-linked-path][aria-invalid]').forEach(el=>el.removeAttribute('aria-invalid'));
  if(!out.ready){
