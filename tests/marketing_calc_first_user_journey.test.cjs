@@ -36,6 +36,7 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#product-own-form').isVisible(),true);
    assert.equal(await page.locator('#resale-buy-panel').isVisible(),true);
    assert.equal(await page.locator('#product-production-block').isVisible(),false);
+   assert.equal(await page.locator('#production-unit-result').isVisible(),false);
    await page.locator('#resale-buy-qty').fill('15');
    await page.locator('#resale-buy-total').fill('450');
    const purchase=await page.evaluate(()=>currentProductPortfolioSnapshot());
@@ -54,6 +55,7 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#product-own-form').isVisible(),false);
    await page.locator('#product-source-block [data-product-source="own"]').click();
    assert.equal(await page.locator('#product-production-block').isVisible(),true);
+   assert.equal(await page.locator('#production-unit-result').isVisible(),true);
    assert.equal(await page.locator('#product-own-form').isVisible(),true);
    assert.equal(await page.locator('#product-draft-toolbar').isVisible(),true);
    assert.equal(await page.locator('#product-source-unavailable').isVisible(),false);
