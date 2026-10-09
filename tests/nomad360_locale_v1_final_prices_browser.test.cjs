@@ -141,6 +141,16 @@ async function assertPresentation(page,label){
      A.equal(now.model,badModel,'locale switch repaired invalid model without user action');
      A.deepEqual(now.inputs,badInput);
      A.deepEqual(now.rawRange,[],'locale switch revived stale range');
+     const diagnostic=await page.evaluate(()=>{
+      const displayed=document.querySelector('[data-tax-price-product-id="1"] [data-price-list-note]')?.textContent.trim();
+      const raw=calculatePriceListRange(productPortfolio[0]).error;
+      const expected=Nomad360LocaleCore.translate(raw,Nomad360LocaleCore.locale()).trim();
+      return {displayed,expected,raw};
+     });
+     A.equal(diagnostic.displayed,diagnostic.expected,
+       'visible validation failed locale switch '+language);
+     if(language!=='ru')A.notEqual(diagnostic.displayed,diagnostic.raw,
+       'invalid discount notice remains Russian '+language);
      await assertPresentation(page,'invalid margin '+language);
     }
     A.deepEqual(errors,[],'runtime errors '+financing);
