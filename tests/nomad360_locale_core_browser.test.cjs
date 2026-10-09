@@ -50,6 +50,16 @@ const localeVisibleCensus=async(page,stage)=>page.evaluate(stage=>{
     await page.evaluate(()=>showServiceWorkChooser());
     await page.waitForFunction(code=>document.querySelector('#service-work-screen')?.textContent?.includes(code),
       expected==='kk'?'Қызмет':expected==='en'?'Service':'Услуга');
+    if(expected==='en'){
+      for(const mode of ['self','hired','agent']){
+        await page.evaluate(selected=>selectServiceMode(selected),mode);
+        await afterTick(page);
+        console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'online-'+mode)));
+      }
+      await page.evaluate(()=>openPortfolioV2(false));
+      await afterTick(page);
+      console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'experimental-v2')));
+    }
     // Representative V1 form, including dynamic strings, remains translated.
     await page.evaluate(()=>showProductBranch());
     await afterTick(page);
