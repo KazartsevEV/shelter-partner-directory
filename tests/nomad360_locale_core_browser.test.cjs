@@ -88,6 +88,12 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
       return LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState());
     });
     A.equal(invalid.ready,false,'over-capacity service must fail closed');
+    console.log('NOMAD360_I18N_DIAG_OBSERVED',JSON.stringify(await page.evaluate(()=>({
+      lang:document.documentElement.lang,
+      message:(document.querySelector('#linked-results')?.textContent||'').slice(0,1200),
+      sample:[...document.querySelectorAll('#linked-results .bg-rose-100,[data-linked-error]')].map(e=>e.textContent).slice(0,10),
+      raw:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()).errors?.slice(0,6)
+    }))));
     await page.waitForFunction(code=>{
       const text=[...document.querySelectorAll('#linked-results .bg-rose-100')].map(e=>e.textContent).join(' ');
       return code==='en'?/Month \d+: Service “/.test(text):
