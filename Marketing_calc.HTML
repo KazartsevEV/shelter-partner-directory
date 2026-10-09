@@ -4599,6 +4599,7 @@
             }
 
             const ownForm = document.getElementById('product-own-form');
+            if(productSource==='offline-service'){const choice=document.getElementById('product-source-block');if(choice){choice.hidden=true;choice.classList.add('hidden');}}
             if (ownForm && ['own','resale','dropship','offline-service'].includes(productSource)) {
                 ownForm.hidden = false;
                 ownForm.classList.remove('hidden');
@@ -4764,7 +4765,7 @@
                 saveCurrentProductToPortfolio();
             }
             if (!productPortfolio.length) {
-                report('Сначала выберите «Делаю сам» или «Покупаю у других» и введите название товара.');
+                report('Сначала выберите ветку и укажите название товара или услуги.');
                 return false;
             }
             try {
@@ -6817,7 +6818,8 @@
 
             const ownForm = document.getElementById('product-own-form');
             const hideOwn = !['own','resale','dropship','offline-service'].includes(source);
-            if(source==='offline-service')configureOfflineServiceView();
+            const sourceChooser=document.getElementById('product-source-block');
+            if(source==='offline-service'&&sourceChooser){sourceChooser.hidden=true;sourceChooser.classList.add('hidden');}
             ownForm.hidden = hideOwn;
             ownForm.classList.toggle('hidden', hideOwn);
             const unavailable = document.getElementById('product-source-unavailable');
