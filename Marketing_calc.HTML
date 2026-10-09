@@ -4123,22 +4123,136 @@
             panel.classList.toggle('hidden', !show);
         }
 
+        // A blank first-run is always the default. Stored portfolios are opened
+        // ONLY with the explicit "Continue my products" control or ?resume=1.
+        const savedProductStorageKey = 'marketingCalcProductResultV1';
+
+        function readSavedProductCalculation() {
+            try {
+                const text = localStorage.getItem(savedProductStorageKey);
+                if (!text) return null;
+                const parsed = JSON.parse(text);
+                if (!Array.isArray(parsed.productPortfolio) || !parsed.productPortfolio.length ||
+                    parsed.productPortfolio.length > 100) return null;
+                const seen = new Set();
+                for (const item of parsed.productPortfolio) {
+                    if (!item || item.source !== 'own' ||
+                        !Number.isSafeInteger(Number(item.id)) || Number(item.id) <= 0 ||
+                        seen.has(Number(item.id)) ||
+                        typeof item.name !== 'string' || !item.name.trim() ||
+                        !item.inputs || typeof item.inputs !== 'object') return null;
+                    seen.add(Number(item.id));
+                }
+                return parsed;
+            } catch (_) {
+                return null;
+            }
+        }
+
+        function updateSavedProductEntry() {
+            const box = document.getElementById('saved-product-entry');
+            const summary = document.getElementById('saved-product-summary');
+            if (!box) return;
+            const saved = readSavedProductCalculation();
+            box.classList.toggle('hidden', !saved);
+            if (saved && summary) {
+                const count = saved.productPortfolio.length;
+                const date = saved.savedAt ? new Date(saved.savedAt) : null;
+                const updated = date && Number.isFinite(date.getTime())
+                    ? ' · последнее сохранение ' + date.toLocaleString('ru-RU') : '';
+                summary.textContent = count + ' ' +
+                    (count === 1 ? 'товар' : 'товаров') + updated;
+            }
+        }
+
+        function startFreshProductCalculation() {
+            // Starting an empty calculation does NOT delete the prior local saved copy.
+            productPortfolio.length = 0;
+            currentProductSequence = 1;
+            document.getElementById('completed-product-forms').innerHTML = '';
+            resetCurrentProductForNext();
+            const extra = document.getElementById('product-source-unavailable');
+            if (extra) { extra.hidden = true; extra.classList.add('hidden'); }
+            const intro = document.getElementById('product-name-input')?.closest('.card');
+            if (intro) intro.classList.remove('hidden');
+            const box = document.getElementById('product-business-summary-list');
+            if (box) box.innerHTML = '';
+            const status = document.getElementById('product-browser-save-status');
+            if (status) status.textContent = '';
+            renderProductPortfolio();
+            showProductBranch();
+            document.getElementById('product-name-input')?.focus({ preventScroll: true });
+        }
+
+        function resumeSavedProductCalculation() {
+            const saved = readSavedProductCalculation();
+            if (!saved) {
+                updateSavedProductEntry();
+                showHome();
+                return false;
+            }
+            productPortfolio.length = 0;
+            currentProductSequence = 1;
+            document.getElementById('completed-product-forms').innerHTML = '';
+            resetCurrentProductForNext();
+            saved.productPortfolio.forEach(item => productPortfolio.push(item));
+            currentProductSequence = Math.max(...productPortfolio.map(item => Number(item.id))) + 1;
+
+            productBusinessTaxType =
+                saved.taxType === 'turnover' || saved.taxType === 'profit'
+                    ? saved.taxType : null;
+            const taxPct = document.getElementById('own-business-tax-pct');
+            if (taxPct) taxPct.value = String(saved.businessTaxPct ?? 0);
+            if (saved.salesVat === 'yes' || saved.salesVat === 'no') {
+                productOwnChoices.salesVat = saved.salesVat;
+            }
+            const vatPct = document.getElementById('own-sales-vat-pct');
+            if (vatPct) vatPct.value = String(saved.salesVatPct ?? 0);
+
+            showProductBranch();
+            renderProductPortfolio();
+            const lastId = Number(saved.activeProductId) ||
+                Number(productPortfolio[productPortfolio.length - 1].id);
+            const id = productPortfolio.some(item => Number(item.id) === lastId)
+                ? lastId : Number(productPortfolio[0].id);
+            editSavedProduct(id);
+            return true;
+        }
+
         function saveProductCalculationToBrowser() {
+            const status = document.getElementById('product-browser-save-status');
+            if (new URLSearchParams(window.location.search).get('demo') === 'shopper') {
+                if (status) status.textContent =
+                    'Это учебный пример. Для своего сохранения нажмите «Рассчитать СВОЙ товар с нуля».';
+                return false;
+            }
+            if (productName && productSource === 'own') {
+                saveCurrentProductToPortfolio();
+            }
+            if (!productPortfolio.length) {
+                if (status) status.textContent = 'Сначала введите и заполните свой товар.';
+                return false;
+            }
             try {
                 const payload = {
                     savedAt: new Date().toISOString(),
+                    activeProductId: currentProductSequence,
                     productPortfolio,
                     taxType: productBusinessTaxType,
                     businessTaxPct: productNumber('own-business-tax-pct'),
                     salesVat: productOwnChoices.salesVat || 'no',
                     salesVatPct: productNumber('own-sales-vat-pct')
                 };
-                localStorage.setItem('marketingCalcProductResultV1', JSON.stringify(payload));
-                const status = document.getElementById('product-browser-save-status');
-                if (status) status.textContent = 'Расчёт сохранён в этом браузере.';
+                localStorage.setItem(savedProductStorageKey, JSON.stringify(payload));
+                if (status) {
+                    status.innerHTML = 'Сохранено на этом устройстве. ' +
+                        '<a class="underline font-bold" href="?resume=1">Открыть мои заполненные товары для редактирования</a>';
+                }
+                updateSavedProductEntry();
+                return true;
             } catch (error) {
-                const status = document.getElementById('product-browser-save-status');
-                if (status) status.textContent = 'Браузер не разрешил сохранить расчёт.';
+                if (status) status.textContent = 'Не удалось сохранить: браузер запретил локальное хранилище.';
+                return false;
             }
         }
 
@@ -6927,7 +7041,13 @@
             initInputs();
             calculate();
             showHome();
-            if (new URLSearchParams(window.location.search).get('demo') === 'shopper') {
+            const mode = new URLSearchParams(window.location.search);
+            if (mode.get('demo') !== 'shopper' && mode.get('resume') === '1') {
+                resumeSavedProductCalculation();
+            } else if (mode.get('demo') !== 'shopper' && mode.get('start') === 'product') {
+                startFreshProductCalculation();
+            }
+            if (mode.get('demo') === 'shopper') {
                 populateShopperDemonstration().catch(error => {
                     console.error('Calculator demonstration failed:', error);
                     const banner = document.getElementById('product-demo-banner');
