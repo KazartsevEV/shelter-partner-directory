@@ -2506,6 +2506,18 @@
             return issues;
         }
 
+        function allocatedMaterialCostPerGood(item) {
+            const manufactured = Math.max(0, Number(item?.productionQty) || 0);
+            const rawBought = Math.max(0, Number(item?.materialsBatchQty) || 0);
+            if (!manufactured || !rawBought) return null;
+            const defect = Math.min(99.99, Math.max(0, Number(item.productionDefectPct) || 0));
+            const rawUsed = Math.min(rawBought, Math.ceil(manufactured / Math.max(.0001, 1 - defect / 100)));
+            // The input material price never receives a "scrap surcharge".
+            // Allocate the actual consumed material quantity over sellable goods.
+            // Extra unconsumed material is inventory, not COGS.
+            return Math.max(0, Number(item.materialsBatchTotal) || 0) * rawUsed / rawBought / manufactured;
+        }
+
         function projectedStoragePerUnit(item) {
             const stock = Math.max(0, Number(item?.logisticsQty) || 0);
             const velocity = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
@@ -2714,8 +2726,9 @@
 
                 const storedCostPerUnit = Math.max(0, Number(item.warehouseStorageUnitCost) || 0);
                 const projectedStorage = projectedStoragePerUnit(item);
+                const consumedMaterialCost = allocatedMaterialCostPerGood(item);
                 const unitCost =
-                    Math.max(0, Number(item.materialsUnitCost || 0)) +
+                    (consumedMaterialCost === null ? Math.max(0, Number(item.materialsUnitCost) || 0) : consumedMaterialCost) +
                     Math.max(0, Number(item.productionUnitCost || 0)) +
                     Math.max(0, Number(item.logisticsUnitCost || 0)) -
                     storedCostPerUnit +
@@ -2777,6 +2790,7 @@
                     creditServiceMonthly: usesCredit ? credit.monthlyServiceCost : 0,
                     creditServicePerUnit,
                     reservePerUnit,
+                    consumedMaterialsPerUnit: consumedMaterialCost,
                     projectedStoragePerUnit: projectedStorage,
                     quantityIssues: cycle.quantityIssues,
                     marginPct,
@@ -4552,7 +4566,12 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
+                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., доставка до склада и введённые дни хранения — <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
+                            <div class="text-sm mt-2">
+                                Но товар хранится до полной распродажи: ${aggregatePlanMetrics(item).sellThroughDays === null ? 'укажите прогноз продаж' : aggregateDaysText(aggregatePlanMetrics(item).sellThroughDays) + ' дней'};
+                                полное хранение по прогнозу — ${moneyInputValue(aggregatePlanMetrics(item).warehouseTotal || 0)} у.е.* с доставкой на склад.
+                                В цене учитывается весь период хранения, а не только введённые выше дни.
+                            </div>
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
@@ -4655,6 +4674,7 @@
                                 </div>
 
                                 <div class="aggregate-price-card mt-4 text-sm">
+                                    <div class="aggregate-muted mb-2">Маржинальность выше — целевой показатель самого товара; ниже показаны отдельные результаты всего бизнеса, включая постоянные расходы и денежный поток.</div>
                                     <div class="grid grid-cols-2 gap-x-4 gap-y-2">
                                         <span class="aggregate-muted">Доля продаж «${esc(item.name)}» в моём магазине</span>
                                         <span class="font-bold text-right" data-aggregate-price="salesMixNormalized">${(aggregatePricingMetrics(item).salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
