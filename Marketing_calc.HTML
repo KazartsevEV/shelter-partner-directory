@@ -3215,8 +3215,8 @@
         }
 
         function calculateProductCashFlow(model) {
-            if (!model?.pricingReady || !model.items.length) {
-                return { ready: false, months: [], cumulativeEnd: null };
+            if (!model?.pricingReady || !model.items.length || !productBusinessTaxType || model.taxPriceMultiplier === null) {
+                return { ready: false, months: [], cumulativeEnd: null, freeCumulativeEnd: null };
             }
 
             const schedules = productPortfolio.map(item => {
@@ -3290,9 +3290,14 @@
                         ? Math.max(1, Number(credit.termMonths) || 1)
                         : 0;
 
+                const cycle = aggregatePlanMetrics(item);
+                const usesCash = item?.planning?.fundingMode === 'cash';
                 return {
                     item,
                     row,
+                    cashFunding: usesCash ? cycle.requiredCapital : 0,
+                    reserveAmount: cycle.reserveAmount || 0,
+                    loanPrincipal: usesCredit ? credit.principal : 0,
                     materialsTotal,
                     advanceAmount,
                     materialsRemainder,
@@ -3339,7 +3344,13 @@
                 inflow: 0,
                 outflow: 0,
                 cashFlow: 0,
-                cumulative: 0
+                cumulative: 0,
+                taxPaid: 0,
+                interestPaid: 0,
+                principalRepaid: 0,
+                financedInflow: 0,
+                taxableProfit: 0,
+                freeCumulative: 0
             }));
 
             const addEvent = (day, amount) => {
@@ -3354,7 +3365,15 @@
             const overlap = (startA, endA, startB, endB) =>
                 Math.max(0, Math.min(endA, endB) - Math.max(startA, startB));
 
+            const taxRate = Math.max(0, productNumber('own-business-tax-pct')) / 100;
+            const reserveLocked = schedules.reduce((sum, schedule) => sum + schedule.reserveAmount, 0);
             schedules.forEach(schedule => {
+                // Financing is NOT a sale or taxable income. Cash contributions are
+                // recognized once, not deducted as operating cost.
+                const funding = Math.max(0, Number(schedule.cashFunding) || 0) +
+                    Math.max(0, Number(schedule.loanPrincipal) || 0);
+                months[0].inflow += funding;
+                months[0].financedInflow += funding;
                 if (schedule.advanceDay !== null) {
                     addEvent(schedule.advanceDay, schedule.advanceAmount);
                 }
@@ -3396,7 +3415,7 @@
                         schedule.stockQty,
                         schedule.unitsPerDay * sellingDays
                     );
-                    const revenue = soldUnits * schedule.row.price;
+                    const revenue = soldUnits * schedule.row.price * model.taxPriceMultiplier;
 
                     const inventoryIntegral =
                         schedule.stockQty * (relativeEnd - relativeStart) -
@@ -3416,6 +3435,12 @@
                         schedule.adManagementMonthly / 30 * sellingDays;
 
                     months[m].inflow += revenue;
+                    // Accrual-based tax profit (not cash purchases). The SKU COGS
+                    // includes the entire sell-through holding period; monthly cash
+                    // storage outlay is tracked independently below.
+                    months[m].taxableProfit += revenue -
+                        soldUnits * schedule.row.unitCost -
+                        turnoverExpenses - adMedia - adManagement;
                     months[m].outflow +=
                         warehouseCost +
                         customerDelivery +
@@ -3448,24 +3473,38 @@
                 });
 
                 months[m].outflow += sharedSalesCost;
+                months[m].taxableProfit -= sharedSalesCost;
             }
 
             schedules.forEach(schedule => {
-                if (
-                    !schedule.usesCredit ||
-                    !(schedule.creditMonthlyService > 0) ||
-                    !(schedule.creditTermMonths > 0)
-                ) {
-                    return;
-                }
+                if (!schedule.usesCredit ||
+                    schedule.creditMonthlyService === null ||
+                    !(schedule.creditTermMonths > 0)) return;
 
-                for (
-                    let m = 0;
-                    m < Math.min(monthCount, schedule.creditTermMonths);
-                    m++
-                ) {
-                    months[m].outflow += schedule.creditMonthlyService;
+                const count = Math.min(monthCount, schedule.creditTermMonths);
+                for (let m = 0; m < count; m++) {
+                    const interest = schedule.creditMonthlyService;
+                    months[m].outflow += interest;
+                    months[m].interestPaid += interest;
+                    months[m].taxableProfit -= interest;
                 }
+                // Declared credit contract: interest-only, BULLET repayment at term.
+                // Repayment of borrowed capital is a financing cash-flow, never P&L.
+                const due = Math.min(monthCount - 1, Math.max(0, schedule.creditTermMonths - 1));
+                const principal = Math.max(0, Number(schedule.loanPrincipal) || 0);
+                months[due].outflow += principal;
+                months[due].principalRepaid += principal;
+            });
+
+            months.forEach(month => {
+                // Illustrative monthly settlement, with no inter-month loss carryforward.
+                // Revenue is net of pass-through VAT. Taxes on the contingency reserve
+                // are never charged: reserve was never counted as revenue/expense.
+                const tax = productBusinessTaxType === 'turnover'
+                    ? (month.inflow - month.financedInflow) * taxRate
+                    : Math.max(0, month.taxableProfit) * taxRate;
+                month.taxPaid = Math.max(0, tax);
+                month.outflow += month.taxPaid;
             });
 
             let cumulative = 0;
@@ -3473,12 +3512,16 @@
                 month.cashFlow = month.inflow - month.outflow;
                 cumulative += month.cashFlow;
                 month.cumulative = cumulative;
+                // Not all bank cash is discretionary: the reserve remains protected.
+                month.freeCumulative = cumulative - reserveLocked;
             });
 
             return {
                 ready: true,
                 months,
-                cumulativeEnd: cumulative
+                reserveLocked,
+                cumulativeEnd: cumulative,
+                freeCumulativeEnd: cumulative - reserveLocked
             };
         }
 
@@ -3643,8 +3686,11 @@
                                 </thead>
                                 <tbody>
                                     ${[
-                                        ['Поступления', 'inflow'],
-                                        ['Выплаты', 'outflow'],
+                                        ['Поступления (включая внесённые деньги / кредит)', 'inflow'],
+                                        ['Выплаты (включая налог и возврат кредита)', 'outflow'],
+                                        ['Налоги с бизнеса', 'taxPaid'],
+                                        ['Проценты по кредиту', 'interestPaid'],
+                                        ['Возврат тела кредита', 'principalRepaid'],
                                         ['Cash flow', 'cashFlow'],
                                         ['Накопленный cash flow', 'cumulative'],
                                         ['ЖИВЫЕ ДЕНЬГИ · свободный остаток', 'freeCumulative']
