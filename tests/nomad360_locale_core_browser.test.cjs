@@ -312,6 +312,12 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     A.deepEqual(observed.mapping,{'raw-own':'own','raw-salon':'salon'});
     // MBA observed-rule and basket forecast secondary tables must reformat
     // on the existing DOM, without changing the imported history or forecasts.
+    await afterTick(page);
+    if(expected==='en')await assertEnglishLocaleClean(page,'mba-populated-verified');
+    if(expected==='kk'){
+      const gaps=await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps());
+      A.equal(gaps.length,0,'KK populated MBA gaps: '+JSON.stringify(gaps));
+    }
     const tableBefore=await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState()));
     const mbaCount=await page.locator('#linked-mba-panel [data-nomad-display-number]').count();
     const mbaPercentCount=await page.locator('#linked-mba-panel [data-nomad-display-suffix="%"]').count();
