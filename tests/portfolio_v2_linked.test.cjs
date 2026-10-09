@@ -59,3 +59,18 @@ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
 eq(r.cashflow.borrowedCapital,600);eq(r.cashflow.months.reduce((v,m)=>v+m.principalRepaid,0),600);
 eq(r.cashflow.months.reduce((v,m)=>v+m.interest,0),18);
 });
+test('embedded V1 production wage is removed from original cash payment as well as COGS',()=>{
+ const x=sample(),baseline=E.build(x);
+ const r=common('workers',30,'unitCost');r.cashOrigin='production';
+ r.includedBySku={a:50};x.resources.push(r);
+ const y=E.build(x);A.equal(y.ready,true,JSON.stringify(y.errors));
+ eq(y.totals.netProfit-baseline.totals.netProfit,20);
+ eq(y.items[0].cashOffsets.production,50);
+ eq(y.cashflow.freeCash-y.cashflow.ownerCapital+y.cashflow.reserve,y.totals.netProfit);
+ const bad=sample();bad.resources.push({...r,cashOrigin:''});
+ let z=E.build(bad);A.equal(z.ready,false);
+ A.ok(z.errors.some(message=>message.includes('исходный денежный платёж')));
+ bad.resources[0].cashOrigin='materials';bad.resources[0].includedBySku={a:600};
+ z=E.build(bad);A.equal(z.ready,false);
+ A.ok(z.errors.some(message=>message.includes('превышает сумму выбранного')));
+});
