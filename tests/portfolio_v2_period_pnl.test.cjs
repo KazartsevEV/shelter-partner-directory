@@ -47,7 +47,8 @@ test('F2A campaign stays committed after sellout: month zero-revenue loss reduce
   usage:{a:1,b:1},skuIds:['a','b'],includedBySku:{a:100,b:100}}];
  const r=verified(s),p=r.cashflow.periodPnl;
  const price=r.items[0].standaloneNet;
- close(p.revenue,120*price,'only 20+100 actually sold');
+ close(p.revenue,20*r.items.find(s=>s.id==='a').standaloneNet+
+  100*r.items.find(s=>s.id==='b').standaloneNet,'only 20+100 actually sold at their respective prices');
  close(p.months[3].marketing,200,'month4 still-paid campaign');
  close(p.months[3].revenue,0,'month4 no buyers');
  close(p.months[3].netProfit,-200,'month4 loss');
