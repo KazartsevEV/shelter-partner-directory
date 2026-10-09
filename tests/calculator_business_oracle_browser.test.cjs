@@ -96,3 +96,22 @@ test('ZERO DEMAND: zero ad / leads must never manufacture 0.1 orders, income or 
    A.deepEqual(errors,[]);
  }finally{await page.close();}
 });
+
+test('CAPEX: website & lead magnet are one-time cash outflows, amortized in P&L, never double expensed',async()=>{
+ const {page,errors}=await setup('agent',{site:120,magnet:60,mgmt:30,hosting:12,dom:6});
+ try{
+  for(const key of ['monthlyBudget'])await page.locator('input[name="payer-'+key+'"][value="me"]').check();
+  for(const key of ['mgmt','site','hosting','dom','magnet'])
+   await page.locator('input[name="payer-'+key+'"][value="partner"]').check();
+  const partnerEBITDA=monthRevenue-acquisition-monthRevenue*.2-(30+12+6);
+  const capex=120+60,amort=(120+60)*3/12;
+  const partnerProfit=partnerEBITDA-turnover-amort;
+  const partnerCash=partnerEBITDA-turnover-capex;
+  eq(await summary(page,'Амортизация сайта'),30,'site monthly accrual over 3 months');
+  eq(await summary(page,'Амортизация лид-магнита'),15,'lead magnet accrual over 3 months');
+  eq(await summary(page,'Чистая прибыль партнёра после налогов'),partnerProfit,'profit excludes CAPEX but includes depreciation');
+  eq(await cell(page,'monthly-table','Денежный поток партнёра'),partnerCash,'cash includes full up-front CAPEX');
+  eq(fmt(await page.locator('#res-cpa').textContent()),partnerCash,'partner hero is cash');
+  A.deepEqual(errors,[]);
+ }finally{await page.close();}
+});
