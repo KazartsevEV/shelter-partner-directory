@@ -22,6 +22,8 @@
      report('recurringDemandApproved','Подтвердите предположение о повторении прогноза V1 каждый месяц.');
    if(typeof projectOffers!=='function')
      report('temporal','Не загружен расчёт связей товаров.');
+   if(monthsRequested>1&&(state.resources||[]).some(r=>r.kind==='campaign'))
+     report('resources','Для многомесячного прогноза общего рекламного бюджета требуется подтверждённое помесячное перераспределение. Пока этот договор не определён, расчёт заблокирован.');
    const skus=Array.isArray(state?.skus)?state.skus:[];
    const byId=Object.fromEntries(skus.map(s=>[String(s.id),s]));
    const ids=new Set(Object.keys(byId));
