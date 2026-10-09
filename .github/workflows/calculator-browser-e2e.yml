@@ -17,6 +17,10 @@ on:
       - "portfolio_v2_online_adapter.js"
       - "portfolio_v2_linked_engine.js"
       - "portfolio_v2_basket_ui.js"
+      - "portfolio_v2_mba_observed.js"
+      - "portfolio_v2_mba_observed_ui.js"
+      - "tests/portfolio_v2_mba_observed.test.cjs"
+      - "tests/portfolio_v2_mba_browser.test.cjs"
       - "tests/marketing_calc_inline_errors.test.cjs"
       - ".github/workflows/calculator-browser-e2e.yml"
   workflow_dispatch:
@@ -46,6 +50,7 @@ jobs:
           node tests/marketing_calc_inline_errors.test.cjs
           node tests/marketing_calc_dropship_browser.test.cjs
           node tests/portfolio_v2_linked_browser.test.cjs
+          node tests/portfolio_v2_mba_browser.test.cjs
           node tests/portfolio_v2_online_browser.test.cjs
           node tests/marketing_calc_offline_service_browser.test.cjs
           node --test tests/calculator_business_oracle_browser.test.cjs
