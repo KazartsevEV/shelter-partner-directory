@@ -39,7 +39,13 @@ const url = pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
    assert.equal(await inline('resources.0.capacity').count(),0);
    await page.locator('#p2-stage-purchase [data-p2-add-resource]').click();
    await page.locator('[data-p2-resource-member="1"][value="sku-1"]').uncheck();
-   assert.match(await page.locator('[data-p2-resource="resource-3"] [data-p2-inline-error]').textContent(),/не выбран ни один товар/);
+   const resourceCheck=await page.evaluate(()=>({
+      resources:PortfolioV2UI.getState().resources.map(r=>({id:r.id,members:r.skuIds})),
+      issues:PortfolioV2Engine.build(PortfolioV2UI.getState()).fieldErrors,
+      rendered:Array.from(document.querySelectorAll('[data-p2-resource]')).map(el=>({id:el.dataset.p2Resource,notes:Array.from(el.querySelectorAll('[data-p2-inline-error]')).map(n=>n.textContent)}))
+   }));
+   console.log('RESOURCE_INLINE_DIAGNOSTIC',JSON.stringify(resourceCheck));
+   assert.match(await page.locator('[data-p2-resource]').nth(1).locator('[data-p2-inline-error]').textContent(),/не выбран ни один товар/);
    // Common invalid errors must not change the financial results after repair.
    await page.locator('[data-p2-resource-member="1"][value="sku-1"]').check();
    assert.equal(await page.locator('#p2-results').getByText('Исправьте поля, выделенные красным').count(),0);
