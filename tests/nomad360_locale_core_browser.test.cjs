@@ -30,6 +30,11 @@ const localeVisibleCensus=async(page,stage)=>page.evaluate(stage=>{
 },stage);
 
 
+const assertEnglishLocaleClean=async(page,stage)=>{
+ const census=await localeVisibleCensus(page,stage);
+ console.log('NOMAD360_L47_CENSUS',JSON.stringify(census));
+ A.equal(census.total,0,'EN untranslated UI nodes on '+stage+': '+JSON.stringify(census.leaks));
+};
 const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
  const controls=[...document.querySelectorAll('button,input,select,textarea,[role="button"]')]
   .filter(el=>!el.closest('[hidden],.hidden,[aria-hidden="true"]') &&
@@ -76,11 +81,11 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       for(const mode of ['self','hired','agent']){
         await page.evaluate(selected=>selectServiceMode(selected),mode);
         await afterTick(page);
-        console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'online-'+mode)));
+        await assertEnglishLocaleClean(page,'online-'+mode);
       }
       await page.evaluate(()=>openPortfolioV2(false));
       await afterTick(page);
-      console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'experimental-v2')));
+      await assertEnglishLocaleClean(page,'experimental-v2');
     }
     // Representative V1 form, including dynamic strings, remains translated.
     await page.evaluate(()=>showProductBranch());
@@ -149,7 +154,7 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     const formattedMoney=await page.evaluate(()=>formatMoney(1234.5));
     A.ok(formattedMoney.endsWith(expected==='en'?'currency units*':expected==='kk'?'ш.б.*':'у.е.*'),
       'display currency unit localized without changing numeric value');
-    if(expected==='en')console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'v1-product')));
+    if(expected==='en')await assertEnglishLocaleClean(page,'v1-product');
     const a11y_v1_product=await localeA11yCensus(page,'v1-product');
     A.equal(a11y_v1_product.unlabeled,0,JSON.stringify(a11y_v1_product.examples));
     if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(a11y_v1_product));
@@ -169,7 +174,7 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       LinkedPortfolioV2UI.resume();
     },payload);
     await afterTick(page);
-    if(expected==='en')console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'v2-linked')));
+    if(expected==='en')await assertEnglishLocaleClean(page,'v2-linked');
     const a11y_v2_linked=await localeA11yCensus(page,'v2-linked');
     A.equal(a11y_v2_linked.unlabeled,0,JSON.stringify(a11y_v2_linked.examples));
     if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(a11y_v2_linked));
