@@ -88,6 +88,28 @@ async function browserCase(browser,locale,expected){
   A.equal(restored.ready,true,JSON.stringify(restored.errors));
   A.equal(restored.items.length,5);
   A.equal(restored.cashflow.periodPnl.netProfit,before.cashflow.periodPnl.netProfit);
+  // Even after a previously valid PDF is prepared, reducing service capacity
+  // invalidates it. A stale sheet cannot be printed as a valid calculation.
+  const approvedDraft=await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState()));
+  const rejected=await page.evaluate(()=>{
+    const draft=LinkedPortfolioV2UI.getState();
+    draft.skus.find(item=>item.id==='salon').serviceCapacity=1;
+    localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify(draft));
+    LinkedPortfolioV2UI.resume();
+    return LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState());
+  });
+  A.equal(rejected.ready,false,'capacity failure blocks portfolio approval');
+  A.equal(await page.locator('#nomad360-print-sheet').count(),0,
+    'previous printable report must be revoked after invalidating calculation');
+  A.equal(await page.evaluate(()=>Nomad360UI.savePrint('report')),false);
+  A.equal(await page.evaluate(()=>window.__nomadPrintCount),2,
+    'invalid portfolio cannot launch a print dialog');
+  A.equal(await page.locator('[data-nomad-export="report"]').isDisabled(),true);
+  await page.evaluate(draft=>{
+    localStorage.setItem('marketingCalcLinkedPortfolioV2',draft);
+    LinkedPortfolioV2UI.resume();
+  },approvedDraft);
+  A.equal(await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()).ready),true);
   A.deepEqual(errors,[]);
   console.log('NOMAD360_UI_PACKAGING_BROWSER_GREEN',JSON.stringify({
     locale,lang:expected.lang,portfolio:5,pdfBytes:pdf.length,priceRows:5,
