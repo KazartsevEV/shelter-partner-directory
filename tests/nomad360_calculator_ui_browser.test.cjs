@@ -51,7 +51,7 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.evaluate(()=>window.__nomadPrintCount),2);
   A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'report');
   const printable=await page.locator('#nomad360-print-sheet').textContent();
-  A.ok(printable.includes('2 119')||printable.includes('2,119'),'income from approved 5-SKU scenario');
+  A.match(printable.replace(/[\u00a0\u202f]/g,' '),/2\s*119/,'income from approved 5-SKU scenario');
   A.equal(await page.locator('#nomad360-print-sheet .nomad-export-table').count()>=3,true);
   await page.emulateMedia({media:'print'});
   const pdf=await page.pdf({format:'A4',printBackground:true});
