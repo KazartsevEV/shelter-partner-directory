@@ -72,15 +72,18 @@ async function browserCase(browser,locale,expected){
    const cadence={en:/Monthly|One-time/,kk:/Ай сайын|Бір рет/,ru:/Ежемесячно|Разово/}[chosen];
    A.match(await page.locator('#nomad360-print-sheet').textContent(),cadence,'report resource cadence translated to '+chosen);
    const localeTag={ru:'ru-RU',kk:'kk-KZ',en:'en-US'}[chosen];
-   const format=value=>new Intl.NumberFormat(localeTag,
-     {minimumFractionDigits:2,maximumFractionDigits:2}).format(value);
+   const browserPrices=await page.evaluate(({localeTag,items})=>{
+     const fmt=value=>new Intl.NumberFormat(localeTag,
+       {minimumFractionDigits:2,maximumFractionDigits:2}).format(value);
+     return items.map(item=>({list:fmt(item.priceList),buyer:fmt(item.priceGross)}));
+   },{localeTag,items:before.items});
    const reportPrices=await page.locator('#nomad360-print-sheet .nomad-export-table').first().locator('tbody tr').all();
    A.equal(reportPrices.length,before.items.length);
    for(let i=0;i<before.items.length;i++){
     A.equal((await reportPrices[i].locator('td').nth(2).textContent()).trim(),
-      format(before.items[i].priceList),'print list price must equal approved V2 math in '+chosen);
+      browserPrices[i].list,'print list price must equal approved V2 math in '+chosen);
     A.equal((await reportPrices[i].locator('td').nth(4).textContent()).trim(),
-      format(before.items[i].priceGross),'print buyer price must equal approved V2 math in '+chosen);
+      browserPrices[i].buyer,'print buyer price must equal approved V2 math in '+chosen);
    }
    const previewAction={en:'Create price list',kk:'Прайс-парақ жасау',ru:'Сформировать прайс-лист'}[chosen];
    A.match(await preview.locator('h3').textContent(),new RegExp(previewAction),'open price preview translated to '+chosen);
