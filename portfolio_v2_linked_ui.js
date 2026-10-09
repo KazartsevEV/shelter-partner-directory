@@ -275,6 +275,22 @@ function updateResult(){
    Object.entries(r.bySku).map(([id,amount])=>
     '<div>'+safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(amount)+'</div>').join('')+
   '</div>').join('')+'</div>';
+ const advertising=out.temporal?.months?.some(m=>m.media)?
+  '<h3 class="font-bold mt-5">Общая реклама по месяцам · реальные платежи и спрос</h3>'+
+  '<p class="text-xs text-slate-200 mt-2">При распродаже товара его доля прекращается. Нераспределённые деньги остаются фактическим расходом кампании. Маржа полного периода требует отдельного расчёта F2.</p>'+
+  '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[550px] text-xs"><thead><tr>'+
+  ['Месяц','Оплачено','По SKU','Нераспределено','Кампании'].map(s=>
+   '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
+  out.temporal.months.map(m=>'<tr class="border-t border-white/20">'+
+    '<td class="p-2 text-right">'+m.month+'</td>'+
+    '<td class="p-2 text-right">'+money(m.media.ownerPaid)+'</td>'+
+    '<td class="p-2 text-right">'+Object.keys(m.media.allocatedBySku).map(id=>
+      safe(out.items.find(s=>s.id===id)?.name||id)+': '+
+      money(num(m.media.allocatedBySku[id])+num(m.media.retainedBySku[id]))).join('; ')+'</td>'+
+    '<td class="p-2 text-right">'+money(m.media.unattributed)+'</td>'+
+    '<td class="p-2 text-right">'+Object.entries(m.media.paidByCampaign).map(([id,amount])=>
+      safe(state.resources.find(r=>r.id===id)?.label||id)+': '+money(amount)).join('; ')+'</td>'+
+   '</tr>').join('')+'</tbody></table></div>':'';
  const flow='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
   ['Месяц','Поступления без НДС','Расходы','Налог бизнеса','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
@@ -303,7 +319,7 @@ function updateResult(){
  [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
   ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]
  .map(([label,value])=>'<div class="bg-white/10 rounded-lg p-3"><div class="text-xs">'+label+'</div>'+
-  '<b class="text-lg">'+money(value)+'</b></div>').join('')+'</div>'+flow+
+  '<b class="text-lg">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
  '<p class="mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
  'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+
