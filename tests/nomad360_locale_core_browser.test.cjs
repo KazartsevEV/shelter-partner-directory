@@ -145,6 +145,21 @@ const localeVisibleCensus=async(page,stage)=>page.evaluate(stage=>{
     const changed=expected==='en'?'kk':'en';
     await page.locator('#nomad360-lang-select').selectOption(changed);
     await page.waitForFunction(code=>document.documentElement.lang===code,changed);
+    // Existing rendered amount must reformat in-place, without resume/rebuild,
+    // losing active input values or touching the financial source state.
+    await page.waitForFunction(()=>{
+      const node=document.querySelector('[data-linked-sku="0"] [data-linked-price-list]');
+      if(!node)return false;
+      const raw=node.getAttribute('data-nomad-display-number');
+      if(raw===null)return false;
+      return node.textContent===Number(raw).toLocaleString(Nomad360LocaleCore.displayLocale(),
+        {minimumFractionDigits:2,maximumFractionDigits:2});
+    });
+    const beforeRerender=await page.evaluate(()=>({
+      state:JSON.stringify(LinkedPortfolioV2UI.getState()),
+      price:document.querySelector('[data-linked-sku="0"] [data-linked-price-list]')?.textContent
+    }));
+    A.equal(beforeRerender.state,baseline.state,'in-place locale display switch cannot change portfolio source');
     await page.evaluate(()=>LinkedPortfolioV2UI.resume());
     await afterTick(page);
     A.equal((await page.locator('[data-linked-sku="0"] [data-nomad-no-translate]').textContent()).trim(),'Товар','user-entered SKU name may not be localized');
