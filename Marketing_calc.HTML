@@ -2939,21 +2939,23 @@
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
                 const cycle = aggregatePlanMetrics(item);
-                const reservePerUnit = cycle.reserveAmount !== null && item.logisticsQty > 0
-                    ? cycle.reserveAmount / Number(item.logisticsQty) : 0;
+                const reserveUnits=item.source==='dropship'?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const reservePerUnit = cycle.reserveAmount !== null && reserveUnits > 0
+                    ? cycle.reserveAmount / reserveUnits : 0;
 
                 const credit = calculateAggregateCredit(item);
                 const usesCredit = item?.planning?.fundingMode === 'credit';
+                const creditUnits=item.source==='dropship'?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
                 const creditReady =
                     !usesCredit ||
                     (
                         credit.monthlyServiceCost !== null &&
                         credit.totalInterest !== null &&
-                        Math.max(0, Number(item.logisticsQty) || 0) > 0
+                        Math.max(0, Number(creditUnits) || 0) > 0
                     );
                 const creditServicePerUnit =
                     usesCredit && creditReady
-                        ? credit.totalInterest / Number(item.logisticsQty)
+                        ? credit.totalInterest / creditUnits
                         : 0;
                 const pricingUnitLoad =
                     unitCost + creditServicePerUnit + reservePerUnit;
@@ -2970,7 +2972,7 @@
                 const marginRate = marginPct === null ? null : marginPct / 100;
 
                 const price =
-                    (item.source !== 'resale' || Math.max(0,Number(item.inputs?.['resale-buy-total'])||0)>0) &&
+                    (!['resale','dropship'].includes(item.source) || Math.max(0,Number(item.inputs?.['resale-buy-total'])||0)>0) &&
                     baseCac !== null &&
                     marginRate !== null &&
                     creditReady &&
