@@ -10,6 +10,7 @@ on:
       - "tests/marketing_calc_first_user_journey.test.cjs"
       - "tests/marketing_calc_dropship_browser.test.cjs"
       - "tests/portfolio_v2_linked_browser.test.cjs"
+      - "tests/marketing_calc_offline_service_browser.test.cjs"
       - "portfolio_v2_linked_ui.js"
       - "portfolio_v2_linked_engine.js"
       - "tests/marketing_calc_inline_errors.test.cjs"
@@ -41,3 +42,4 @@ jobs:
           node tests/marketing_calc_inline_errors.test.cjs
           node tests/marketing_calc_dropship_browser.test.cjs
           node tests/portfolio_v2_linked_browser.test.cjs
+          node tests/marketing_calc_offline_service_browser.test.cjs
