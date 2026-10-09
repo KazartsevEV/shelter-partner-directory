@@ -13,7 +13,7 @@ const sku={id:'single',name:'Production A',source:'resale',unitCost:20,
  productionTotal:0,reserveAmount:0};
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
- const page=await browser.newPage({viewport:{width:390,height:844}});
+ const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,route=>route.abort());
  try{
