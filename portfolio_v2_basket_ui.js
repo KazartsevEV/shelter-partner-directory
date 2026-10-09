@@ -96,14 +96,14 @@ function updateResult(out){
     '<p class="text-sm mt-2 text-emerald-800">Скидки по комплектам за месяц: <b>'+money(basket.bundleSavingsGross)+
     '</b> с НДС; уменьшение выручки без НДС: <b>'+money(basket.bundleSavingsNet)+'</b>. Пересчёт включён в цену, налог, маржу и Cash Flow.</p>':'')+
   '<div class="overflow-x-auto mt-2"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Вариант','Основная позиция','Чеков со связкой','Дополнения (шт. в чеке)','Дополнительно, ед.','Пересечение, ед.','Скидка комплекта']
+  ['Вариант','Основная позиция','Чеков со связкой','Дополнения (шт. в чеке)','Дополнительно, ед.','Пересечение, ед.','Скидка комплекта','Цена чека до','Покупатель платит']
   .map(h=>'<th class="p-2 text-right">'+h+'</th>').join('')+'</tr></thead><tbody>'+
-  basket.events.map(e=>{
+  (basket.transactions||basket.events).map(e=>{
     const main=out.items.find(s=>s.id===e.anchorSkuId)?.name||e.anchorSkuId;
     const extra=e.items.map(p=>(out.items.find(s=>s.id===p.skuId)?.name||p.skuId)+' × '+p.qty).join('; ');
     const values=[e.mode==='bundle'?'Набор':e.mode==='upsell'?'Upsell':'Cross-sell',
        main,money(e.transactions),extra,money(e.items.reduce((v,p)=>v+p.netAddedUnits,0)),
-       money(e.items.reduce((v,p)=>v+p.overlapUnits,0)),e.mode==='bundle'?money(e.bundleDiscountPct)+'%':'—'];
+       money(e.items.reduce((v,p)=>v+p.overlapUnits,0)),e.mode==='bundle'?money(e.bundleDiscountPct)+'%':'—',money(e.buyerPriceBefore),money(e.buyerPriceAfter)];
     return '<tr class="border-t border-slate-200">'+values.map(v=>'<td class="p-2 text-right whitespace-nowrap">'+safe(v)+'</td>').join('')+'</tr>';
   }).join('')+'</tbody></table></div>'+
   '<p class="text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+money(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+money(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
