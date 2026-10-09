@@ -156,7 +156,7 @@ test('online service three-mode financial labels, V2/MBA copy and legal notice c
   'Выручка от консультаций','Общая выручка Revenue',
   'Чистая выручка (после эквайринга)','Операционные затраты OPEX',
   'Амортизация сайта','ROMI (окупаемость инвестиций)',
-  'Cash flow','Плановая скидка покупателю, % (макс.',
+  'Плановая скидка покупателю, % (макс.',
   'Столбцы: order_id, date (YYYY-MM-DD), sku_id, quantity, unit_price, currency, channel. Дополнительно: status, line_id, returned_quantity, canceled, returned, buyer_id. Один заказ = один чек. Повторные покупки клиента считаются отдельными чеками. Отмены и возвраты исключаются.'
  ];
  for(const ru of sources){
