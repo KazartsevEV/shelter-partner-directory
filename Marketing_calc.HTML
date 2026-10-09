@@ -7695,7 +7695,9 @@
                     let color = (meta.key === 'mCash' || meta.key === 'mCum' || meta.key === 'mAgentNet' || meta.key === 'mAgentCum') && val < 0
                         ? 'text-red-600'
                         : 'text-slate-700';
-                    return `<td class="td-val monthly-value-col border-b border-slate-100 ${color}">${txt}</td>`;
+                    const numberTag=Number.isFinite(Number(val))?
+                        ` data-nomad-display-number="${val}" data-nomad-display-fractions="${meta.fmt==='int'?'0':'2'}"${meta.fmt==='money'?' data-nomad-display-money':''}`:'';
+                    return `<td class="td-val monthly-value-col border-b border-slate-100 ${color}"${numberTag}>${txt}</td>`;
                 }).join('');
 
                 let totalVal = totalMonth[meta.key];
@@ -7704,10 +7706,12 @@
                     ? 'text-red-700'
                     : 'text-blue-900';
 
+                const totalTag=Number.isFinite(Number(totalVal))?
+                    ` data-nomad-display-number="${totalVal}" data-nomad-display-fractions="${meta.fmt==='int'?'0':'2'}"${meta.fmt==='money'?' data-nomad-display-money':''}`:'';
                 return `<tr class="hover:bg-slate-50 transition-colors">
                     <td class="td-label monthly-label-col border-b border-slate-100 border-r border-slate-100 sticky left-0 bg-white z-10">${meta.label}</td>
                     ${cells}
-                    <td class="td-val monthly-value-col border-b border-slate-100 bg-slate-100 font-bold ${totalColor} border-l border-slate-300">${totalTxt}</td>
+                    <td class="td-val monthly-value-col border-b border-slate-100 bg-slate-100 font-bold ${totalColor} border-l border-slate-300"${totalTag}>${totalTxt}</td>
                 </tr>`;
             }).join('');
         }
