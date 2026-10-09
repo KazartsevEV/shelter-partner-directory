@@ -1674,6 +1674,17 @@
         function formatMoney(val) { const language=window.Nomad360LocaleCore?.locale?.()||'ru'; return `${formatNum(val)} ${language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'}`; }
         function formatNum(val) { return new Intl.NumberFormat(nomadDisplayLocale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
         function formatInt(val) { return new Intl.NumberFormat(nomadDisplayLocale()).format(Math.round(val)); }
+        function setV1DisplayedMoney(id,value) {
+            const element=document.getElementById(id);if(!element)return;
+            element.textContent=formatMoney(value);
+            if(Number.isFinite(Number(value))){
+                element.setAttribute('data-nomad-display-number',String(value));
+                element.setAttribute('data-nomad-display-money','');
+            } else {
+                element.removeAttribute('data-nomad-display-number');
+                element.removeAttribute('data-nomad-display-money');
+            }
+        }
         function monthWord(n) {
             const mod10 = n % 10;
             const mod100 = n % 100;
@@ -7239,6 +7250,13 @@
         }
 
         function calculate() {
+            // Invalidate previous display-only numeric markers before rebuilding
+            // the view. Never restore stale values when validation fails.
+            for(const id of ['res-profit','res-romi','res-cpa','res-cac']){
+                const node=document.getElementById(id);
+                node?.removeAttribute('data-nomad-display-number');
+                node?.removeAttribute('data-nomad-display-money');
+            }
             onlineV1PortfolioSnapshot=null;
             const v = currentValues;
             // Guard economic domain before producing any revenue/profit or million-column
@@ -7634,21 +7652,21 @@
             if (isAgent) {
                 profitLabel.textContent = 'Мне остаётся за период';
                 profitSub.textContent = 'Вознаграждение минус мои расходы и мой налог на оборот';
-                document.getElementById('res-profit').textContent = formatMoney(totalMonth.mAgentNet || 0);
+                setV1DisplayedMoney('res-profit',totalMonth.mAgentNet || 0);
 
                 romiLabel.textContent = 'Расчётная прибыль партнёра';
                 romiSub.textContent = 'P&L за период; помесячный cash flow показан отдельно';
-                document.getElementById('res-romi').textContent = formatMoney(accountingNetProfit);
+                setV1DisplayedMoney('res-romi',accountingNetProfit);
 
                 thirdLabel.textContent = 'Накопленный cash flow партнёра';
                 thirdSub.textContent = 'По помесячному сценарию';
-                document.getElementById('res-cpa').textContent = formatMoney(cumCash);
+                setV1DisplayedMoney('res-cpa',cumCash);
                 cpaSep.textContent = '';
                 document.getElementById('res-cac').textContent = '';
             } else {
                 profitLabel.textContent = 'Чистая прибыль';
                 profitSub.textContent = 'После всех налогов';
-                document.getElementById('res-profit').textContent = formatMoney(accountingNetProfit);
+                setV1DisplayedMoney('res-profit',accountingNetProfit);
 
                 romiLabel.textContent = 'ROMI';
                 romiSub.textContent = 'Окупаемость всех вложений';
@@ -7656,9 +7674,9 @@
 
                 thirdLabel.textContent = 'CPA / CAC';
                 thirdSub.textContent = 'Рекламный / Полный';
-                document.getElementById('res-cpa').textContent = formatMoney(totalMonth.mDeals > 0 ? totalBudget / totalMonth.mDeals : 0);
+                setV1DisplayedMoney('res-cpa',totalMonth.mDeals > 0 ? totalBudget / totalMonth.mDeals : 0);
                 cpaSep.textContent = ' / ';
-                document.getElementById('res-cac').textContent = formatMoney(totalMonth.mDeals > 0 ? accruedTotalCosts / totalMonth.mDeals : 0);
+                setV1DisplayedMoney('res-cac',totalMonth.mDeals > 0 ? accruedTotalCosts / totalMonth.mDeals : 0);
             }
 
             const monthlyTbody = document.getElementById('monthly-table');
