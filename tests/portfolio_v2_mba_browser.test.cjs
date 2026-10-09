@@ -54,6 +54,32 @@ const {pathToFileURL}=require('node:url'),path=require('node:path');
   assert.equal(scenario.ready,true,JSON.stringify(scenario.errors));
   assert.ok(scenario.totals.revenue>0);
   assert.ok(Math.abs(scenario.cashflow.months.reduce((v,m)=>v+m.receipt,0)-scenario.totals.revenue)<.001);
+  // Integrated, source-to-cash chain: observed association -> one discounted kit
+  // -> shared worker load and a hard capacity error -> accurate tax/cash recovery.
+  await page.locator('[data-basket-field="mode"]').selectOption('bundle');
+  await page.locator('[data-basket-field="bundleDiscountPct"]').fill('10');
+  await page.locator('[data-linked-add]').click();
+  await page.locator('[data-linked-path="resources.0.kind"]').selectOption('workers');
+  await page.locator('[data-linked-path="resources.0.allocation"]').selectOption('usage');
+  await page.locator('[data-linked-path="resources.0.usageMode"]').selectOption('per-unit');
+  await page.locator('[data-linked-path="resources.0.amount"]').fill('100');
+  await page.locator('[data-linked-path="resources.0.capacity"]').fill('30');
+  await page.locator('[data-linked-path="resources.0.loadPerUnit.a"]').fill('1');
+  await page.locator('[data-linked-path="resources.0.loadPerUnit.b"]').fill('2');
+  let overflow=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
+  assert.equal(overflow.ready,false);
+  assert.match(overflow.errors.join(' '),/Связанные покупки требуют/);
+  await page.locator('[data-linked-path="resources.0.capacity"]').fill('50');
+  scenario=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
+  assert.equal(scenario.ready,true,JSON.stringify(scenario.errors));
+  assert.ok(scenario.basket.bundleSavingsGross>0,'bundle discount recognized in gross checks');
+  assert.ok(scenario.basket.bundleSavingsNet>0,'discount allocated to VAT-exclusive receipts');
+  assert.ok(scenario.resources[0].projectedLoad>30&&scenario.resources[0].projectedLoad<=50);
+  assert.ok(Math.abs(scenario.totals.monthlyResources-100)<.001,'one shared worker payment');
+  assert.ok(Math.abs(scenario.cashflow.months.reduce((v,m)=>v+m.receipt,0)-scenario.totals.revenue)<.001,
+    'discounted receipts match cashflow');
+  assert.ok(Math.abs(scenario.totals.tax-scenario.totals.revenue*.03)<.001,
+    'turnover tax recognized on discounted VAT-exclusive revenue');
   await page.locator('[data-linked-save]').click();
   await page.locator('[data-linked-back]').click();
   await page.evaluate(()=>window.showHome());
@@ -61,6 +87,8 @@ const {pathToFileURL}=require('node:url'),path=require('node:path');
   state=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
   assert.equal(state.mbaHistory.source.rawLines,7,'historical rows persisted without loss');
   assert.equal(state.offers[0].overlapPct,20,'observed rule inputs persisted after resume');
+  assert.equal(Number(state.offers[0].bundleDiscountPct),10,'kit discount survived navigation');
+  assert.equal(state.resources[0].usageMode,'per-unit','worker workload survived navigation');
   assert.equal(await page.locator('[data-mba-transfer]').count(),2);
   await page.locator('[data-mba-clear]').click();
   assert.equal((await page.evaluate(()=>LinkedPortfolioV2UI.getState())).mbaHistory,null);
