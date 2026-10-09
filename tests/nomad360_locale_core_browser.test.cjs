@@ -96,11 +96,12 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
     }))));
     await page.waitForFunction(code=>{
       const text=[...document.querySelectorAll('#linked-results .bg-rose-100')].map(e=>e.textContent).join(' ');
-      return code==='en'?/Month \d+: Service “/.test(text):
-       /\d+-ай: «/.test(text);
+      return code==='en'?/Customer forecast for “Маникюр” \(9\.50\) exceeds available 8 monthly appointments\./.test(text):
+       /«Маникюр» клиент болжамы \(9\.50\) қолжетімді айлық 8 қабылдаудан асады\./.test(text);
     },changed);
     const displayErrors=await page.locator('#linked-results .bg-rose-100').allTextContents();
     A.ok(displayErrors.some(s=>s.includes('Маникюр')),'product name must survive translation in an error');
+    A.ok((await page.locator('#linked-results [data-nomad-no-translate]').allTextContents()).includes('Товар'),'user SKU name in summary must stay in original language');
     await page.evaluate(source=>{
       localStorage.setItem('marketingCalcLinkedPortfolioV2',source);
       LinkedPortfolioV2UI.resume();
