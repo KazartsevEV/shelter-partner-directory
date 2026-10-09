@@ -235,3 +235,27 @@ test('V1 to V2 online adapter, empirical MBA, and period-pricing rejection messa
  const unknown='Строка 5: неизвестная финансовая ошибка.';
  for(const lang of ['en','kk'])A.equal(tr(unknown,lang),unknown,'unknown diagnostic must fail closed');
 });
+
+test('English and Kazakh finance glossary distinguishes markup, margin, profit, turnover tax and principal',()=>{
+ const glossary=[
+  ['Наценка','Markup','Үстеме баға'],
+  ['Торговая наценка к стоимости исполнителя','Markup on provider cost','Орындаушы құнына үстеме баға'],
+  ['Маржа','Margin','Маржа'],
+  ['Чистая прибыль','Net profit','Таза пайда'],
+  ['Выручка без НДС','Revenue excluding VAT','ҚҚС-сыз түсім'],
+  ['Налог на оборот*','Turnover tax*','Айналым салығы*'],
+  ['Мой налог на оборот*','My turnover tax*','Менің айналым салығым*'],
+  ['Налог партнёра на оборот*','Partner turnover tax*','Серіктестің айналым салығы*'],
+  ['Тело кредита','Loan principal','Несиенің негізгі борышы'],
+  ['Прогноз продаж','Sales forecast','Сатылым болжамы'],
+  ['Эквайринг','Payment processing','Эквайринг']
+ ];
+ for(const [ru,en,kk] of glossary){
+  A.equal(tr(ru,'ru'),ru);
+  A.equal(tr(ru,'en'),en,'EN glossary '+ru);
+  A.equal(tr(ru,'kk'),kk,'KK glossary '+ru);
+ }
+ A.notEqual(tr('Наценка','en'),tr('Маржа','en'));
+ A.notEqual(tr('Чистая прибыль','kk'),tr('Выручка без НДС','kk'));
+ A.notEqual(tr('Мой налог на оборот*','en'),tr('Налог партнёра на оборот*','en'));
+});
