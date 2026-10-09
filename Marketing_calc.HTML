@@ -4736,7 +4736,9 @@
             if (capitalEl) capitalEl.textContent = requiredCapitalText;
             if (termEl) termEl.textContent = cycleText;
             const baseEl = section.querySelector('[data-aggregate-final="baseRequiredCapital"]');
-            if (baseEl) baseEl.textContent = moneyInputValue(m.nonRevenueCosts || 0) + ' у.е.*';
+            if (baseEl) baseEl.textContent = moneyInputValue(item.source==='dropship'?m.baseRequiredCapital||0:m.nonRevenueCosts||0) + ' у.е.*';
+            const floatEl=section.querySelector('[data-drop-supplier-float]');
+            if(floatEl)floatEl.textContent=moneyInputValue(m.supplierFloat||0)+' у.е.*';
             const reserveEl = section.querySelector('[data-aggregate-final="reserveAmount"]');
             if (reserveEl) reserveEl.textContent = moneyInputValue(m.reserveAmount || 0) + ' у.е.*';
             const waterfall = {
@@ -5026,7 +5028,8 @@
 
                     <!-- Validation belongs to the offending quantity, not the heading. -->
                     <div class="mt-6 space-y-5 text-sm">
-                        <div class="aggregate-line">
+                        ${item.source==='dropship' ? '<div class="aggregate-line font-semibold">Прогноз заказов от рекламы: ' + moneyInputValue(adUnits) + ' за 30 дней. Склад не закупается.</div>' : ''}
+                        <div class="aggregate-line ${item.source==='dropship'?'hidden':''}">
                             <div class="font-semibold">
                                 ${item.source==='resale'?'Куплю готовый товар в партии':'Привезу материал на'} ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью <span data-aggregate-output="materialsTotal">${moneyInputValue(item.materialsBatchTotal)}</span> у.е.*
                             </div>
@@ -5049,7 +5052,7 @@
                             </div>
                         </div>
 
-                        <div class="aggregate-line pt-4 border-t aggregate-separator ${item.source==='resale'?'hidden':''}">
+                        <div class="aggregate-line pt-4 border-t aggregate-separator ${['resale','dropship'].includes(item.source)?'hidden':''}">
                             <div class="font-semibold">
                                 Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> у.е.*
                             </div>
@@ -5060,7 +5063,7 @@
                             </div>
                         </div>
 
-                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
+                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold ${item.source==='dropship'?'hidden':''}">
                             Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., доставка до склада и введённые дни хранения — <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
                             <div class="text-sm mt-2">
                                 Но товар хранится до полной распродажи: ${aggregatePlanMetrics(item).sellThroughDays === null ? 'укажите прогноз продаж' : aggregateDaysText(aggregatePlanMetrics(item).sellThroughDays) + ' дней'};
@@ -5070,25 +5073,26 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
+                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${item.source==='dropship'?moneyInputValue(adUnits)+' прогнозных заказов':aggregateQtyInput(item, 'sales', salesQty)+' шт.'}
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
                             Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
                         </div>
 
+                        ${item.source==='dropship'?'<div class="aggregate-line pt-4 border-t aggregate-separator">Доставка покупателю: '+(item.dropshipDeliveryDays??0)+' дней, задержка выплаты: '+(item.dropshipPayoutLagDays??0)+' дней. Складских расходов нет.</div>':''}
                         <div class="aggregate-final-box">
                             <div class="aggregate-title text-sm font-bold mb-3">Запас денег, если что-то пойдёт не так</div>
                             <div class="grid grid-cols-2 gap-3 items-center mb-4">
                                 <label class="text-sm font-semibold">Резерв, % от плановых расходов</label>
                                 <input type="number" min="0" max="1000" step="0.01" class="input-field" value="${esc(planning.reservePct ?? '')}" oninput="updateProductPlanning(${item.id}, 'reservePct', this.value)">
-                                <span class="text-sm">Расходы без резерва</span>
-                                <span class="font-bold text-right" data-aggregate-final="baseRequiredCapital">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts)} у.е.*</span>
+                                <span class="text-sm">${item.source==='dropship'?'Стартовые деньги без резерва':'Расходы без резерва'}</span>
+                                <span class="font-bold text-right" data-aggregate-final="baseRequiredCapital">${moneyInputValue(item.source==='dropship'?aggregatePlanMetrics(item).baseRequiredCapital:aggregatePlanMetrics(item).nonRevenueCosts)} у.е.*</span>
                                 <span class="text-sm">Резерв денег, не расход и не налоговый вычет</span>
                                 <span class="font-bold text-right" data-aggregate-final="reserveAmount">${moneyInputValue(aggregatePlanMetrics(item).reserveAmount || 0)} у.е.*</span>
                             </div>
                             <div class="aggregate-final-total">
-                                Чтобы выполнить весь цикл до последней продажи, без расчёта на поступления будущей выручки, с резервом денег мне нужно
+                                ${item.source==='dropship'?'На рекламный запуск и исполнение заказов до доступности денег покупателя мне нужно':'Чтобы выполнить весь цикл до последней продажи, без расчёта на поступления будущей выручки, с резервом денег мне нужно'}
                                 <span class="aggregate-final-value" data-aggregate-final="requiredCapital">${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
                                 у.е.* на
                                 <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
@@ -5104,6 +5108,7 @@
                                     <strong class="text-right" data-waterfall="selling">${moneyInputValue((aggregatePlanMetrics(item).adTotal || 0) + (aggregatePlanMetrics(item).salesTotal || 0))} у.е.*</strong>
                                     <span>Все плановые расходы цикла до резервирования</span>
                                     <strong class="text-right" data-waterfall="costs">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts || 0)} у.е.*</strong>
+                                    ${item.source==='dropship'?'<span>Финансирование заказов в доставке</span><strong class="text-right" data-drop-supplier-float>'+moneyInputValue(aggregatePlanMetrics(item).supplierFloat||0)+' у.е.*</strong>':''}
                                     <span class="font-black">Капитал, необходимый с резервом</span>
                                     <strong class="text-right" data-waterfall="funding">${moneyInputValue(aggregatePlanMetrics(item).requiredCapital || 0)} у.е.*</strong>
                                 </div>
