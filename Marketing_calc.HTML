@@ -3749,7 +3749,7 @@
                     <div class="font-black text-xl tracking-wide">ЖИВЫЕ ДЕНЬГИ</div>
                     <div class="font-semibold mt-1">Денежный поток, которым можно распоряжаться, после налогов, кредитных платежей и обязательного резерва.</div>
                     <div class="text-2xl font-black mt-2">${cashFlow.ready ? money(cashFlow.freeCumulativeEnd) : '—'}</div>
-                    <div class="text-xs mt-1">Минус означает кассовый разрыв. Резерв — ваши деньги, но не свободные для трат; первоначальный собственный вклад в потоке не учитывается. НДС как транзитная сумма исключён.</div>
+                    <div class="text-xs mt-1">Минус означает кассовый разрыв. В поступлениях учтены ваши первоначальные вложения или полученный кредит: это финансирование, а не прибыль. Резерв остаётся вашим, но защищён от расходования. Транзитный НДС исключён.</div>
                 </div>
                 ${cashFlowTable}
 
@@ -4271,6 +4271,16 @@
             if (baseEl) baseEl.textContent = moneyInputValue(m.nonRevenueCosts || 0) + ' у.е.*';
             const reserveEl = section.querySelector('[data-aggregate-final="reserveAmount"]');
             if (reserveEl) reserveEl.textContent = moneyInputValue(m.reserveAmount || 0) + ' у.е.*';
+            const waterfall = {
+                ad: m.adTotal,
+                selling: (m.adTotal || 0) + (m.salesTotal || 0),
+                costs: m.nonRevenueCosts,
+                funding: m.requiredCapital
+            };
+            Object.entries(waterfall).forEach(([key, amount]) => {
+                const el = section.querySelector('[data-waterfall="' + key + '"]');
+                if (el) el.textContent = amount === null ? '—' : moneyInputValue(amount || 0) + ' у.е.*';
+            });
             const warning = section.querySelector('[data-quantity-warning]');
             if (warning) {
                 const issues = m.quantityIssues || [];
@@ -4593,13 +4603,27 @@
                                 <span class="font-bold text-right" data-aggregate-final="reserveAmount">${moneyInputValue(aggregatePlanMetrics(item).reserveAmount || 0)} у.е.*</span>
                             </div>
                             <div class="aggregate-final-total">
-                                Чтобы сделать, как я придумал, и выйти в ноль, не считая налогов, мне нужно
+                                Чтобы выполнить весь цикл до последней продажи, без расчёта на поступления будущей выручки, с резервом денег мне нужно
                                 <span class="aggregate-final-value" data-aggregate-final="requiredCapital">${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
                                 у.е.* на
                                 <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
                                 дней.
                             </div>
 
+                            <div class="mt-4 rounded-xl border border-white/20 p-3 text-sm">
+                                <div class="font-black mb-2">Расходы и потребность в деньгах — от меньшего к большему</div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <span>Реклама и ведение за цикл</span>
+                                    <strong class="text-right" data-waterfall="ad">${moneyInputValue(aggregatePlanMetrics(item).adTotal || 0)} у.е.*</strong>
+                                    <span>Расходы на продажи (реклама + ведение + фиксированные продавцы)</span>
+                                    <strong class="text-right" data-waterfall="selling">${moneyInputValue((aggregatePlanMetrics(item).adTotal || 0) + (aggregatePlanMetrics(item).salesTotal || 0))} у.е.*</strong>
+                                    <span>Все плановые расходы цикла до резервирования</span>
+                                    <strong class="text-right" data-waterfall="costs">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts || 0)} у.е.*</strong>
+                                    <span class="font-black">Капитал, необходимый с резервом</span>
+                                    <strong class="text-right" data-waterfall="funding">${moneyInputValue(aggregatePlanMetrics(item).requiredCapital || 0)} у.е.*</strong>
+                                </div>
+                                <div class="text-xs mt-2 opacity-80">Процентные комиссии и штрафы с выручки оплачиваются при продажах: они рассчитаны отдельно в цене и в cash flow и не являются авансовым расходом этого перечня.</div>
+                            </div>
                             <div class="grid grid-cols-2 gap-3 mt-5">
                                 <button type="button"
                                     data-funding-choice="cash"
