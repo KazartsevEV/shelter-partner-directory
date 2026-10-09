@@ -4832,14 +4832,15 @@
             const introCard = document.getElementById('product-name-input')?.closest('.card');
             if (!introCard) return;
 
+            const frozenProductId = Number(currentProductSequence);
             const existing = host.querySelector(
-                '[data-completed-product-id="' + currentProductSequence + '"]'
+                '[data-completed-product-id="' + frozenProductId + '"]'
             );
             if (existing) existing.remove();
 
             const frozen = document.createElement('section');
             frozen.className = 'rounded-2xl border-2 border-slate-200 bg-slate-50 p-3 md:p-4';
-            frozen.dataset.completedProductId = String(currentProductSequence);
+            frozen.dataset.completedProductId = String(frozenProductId);
 
             const heading = document.createElement('div');
             heading.className = 'mb-3 px-1 flex items-start justify-between gap-3';
@@ -4850,7 +4851,7 @@
                 '</div>' +
                 '<button type="button" class="text-sm font-bold text-blue-700 underline underline-offset-2 whitespace-nowrap">Редактировать товар</button>';
             heading.querySelector('.text-xl').textContent = '«' + productName + '»';
-            heading.querySelector('button').onclick = () => editSavedProduct(currentProductSequence);
+            heading.querySelector('button').onclick = () => editSavedProduct(frozenProductId);
             frozen.appendChild(heading);
 
             const introClone = introCard.cloneNode(true);
