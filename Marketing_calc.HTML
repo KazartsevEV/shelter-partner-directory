@@ -1605,6 +1605,7 @@
         let materialRowSeq = 0;
         let latestMaterialsLandedUnitCost = 0;
         let latestProductionUnitCost = 0;
+        let latestLogisticsUnitCost = 0;
         const productPortfolio = [];
         let currentProductSequence = 1;
         const productImportPayers = {
@@ -1832,7 +1833,7 @@
                 if (code === 'RU') {
                     note.textContent = 'РФ: поле 30% — базовый тариф. Авторасчёт учитывает годовой предел базы 2 979 000 ₽ на сотрудника и ставку 15,1% сверх него. НДФЛ автоматически считается по прогрессивной шкале, пока вы не измените поле вручную.';
                 } else if (code === 'KZ') {
-                    note.textContent = 'Казахстан, 2026: начисления работодателя сверх зарплаты — 11,5% (социальные отчисления 5% + ОПВР 3,5% + ОСМС работодателя 3%); социальный налог — 6% отдельной строкой. Удержания сотрудника — 12% (ОПВ 10% + ОСМС 2%). Подоходный налог — 10% справочно. Поля можно редактировать под ваш режим и применимые пределы базы.';
+                    note.textContent = 'Казахстан, 2026 (упрощённая модель): 5% соцотчисления + 3% ОСМС работодателя + 3,5% ОПВР (не для всех категорий работников) + 6% соцналог. Итого 17,5% сверх gross до пределов базы и исключений. Из gross удерживаются ОПВ 10%, ВОСМС 2% и применимый ИПН: удержания не прибавляют к gross-расходу работодателя. Учитывайте льготы, пределы баз, возраст работника и ваш налоговый режим; при иной базе измените поля вручную.';
                 } else {
                     note.textContent = 'Автоподстановка использует справочные международные ставки. При необходимости замените их фактическими.';
                 }
@@ -2219,7 +2220,7 @@
                 productionDefectPct,
                 productionQty,
                 productionTotal: latestProductionUnitCost * productionQty,
-                logisticsUnitCost: productNumberFromText('own-logistics-unit-cost'),
+                logisticsUnitCost: latestLogisticsUnitCost,
                 logisticsQty,
                 warehouseInboundUnitCost,
                 warehouseDayCost:
@@ -2255,7 +2256,8 @@
                     creditRatePct: '',
                     creditTermMonths: '',
                     maxDiscountPct: '',
-                    minimumMarginPct: ''
+                    minimumMarginPct: '',
+                    reservePct: ''
                 },
                 inputs: Object.fromEntries(
                     Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id]'))
@@ -2484,6 +2486,48 @@
             }
         }
 
+        // Physical-flow contract for this one batch: raw material units >= produced
+        // units adjusted for rejected output; produced >= stored >= scheduled sales.
+        // Defects never multiply the *unit material price*, only the required input count.
+        function aggregateQuantityIssues(item) {
+            if (!item) return [];
+            const materials = Math.max(0, Number(item.materialsBatchQty) || 0);
+            const made = Math.max(0, Number(item.productionQty) || 0);
+            const stored = Math.max(0, Number(item.logisticsQty) || 0);
+            const sales = Math.max(0, Number(item.salesQty) || 0);
+            const defect = Math.min(99.99, Math.max(0, Number(item.productionDefectPct) || 0));
+            const rawNeeded = Math.ceil(made / Math.max(0.0001, 1 - defect / 100));
+            const forecasts = Math.max(0, Number(item.forecastUnitsPerMonth) || 0);
+            const issues = [];
+            if (materials < rawNeeded) issues.push('Материалов нужно не менее ' + rawNeeded + ' ед. для выпуска ' + made + ' годных изделий при браке ' + defect + '%. Цена материалов за единицу не изменяется.');
+            if (made < stored) issues.push('Готового товара не может быть меньше количества на складе.');
+            if (stored < sales) issues.push('План продаж партии не может превышать складские остатки.');
+            if (forecasts > 0 && stored < Math.ceil(forecasts)) issues.push('Прогноз месячных продаж (' + forecasts.toLocaleString('ru-RU') + ') превышает запас одной партии (' + stored + ').');
+            return issues;
+        }
+
+        function allocatedMaterialCostPerGood(item) {
+            const manufactured = Math.max(0, Number(item?.productionQty) || 0);
+            const rawBought = Math.max(0, Number(item?.materialsBatchQty) || 0);
+            if (!manufactured || !rawBought) return null;
+            const defect = Math.min(99.99, Math.max(0, Number(item.productionDefectPct) || 0));
+            const rawUsed = Math.min(rawBought, Math.ceil(manufactured / Math.max(.0001, 1 - defect / 100)));
+            // The input material price never receives a "scrap surcharge".
+            // Allocate the actual consumed material quantity over sellable goods.
+            // Extra unconsumed material is inventory, not COGS.
+            return Math.max(0, Number(item.materialsBatchTotal) || 0) * rawUsed / rawBought / manufactured;
+        }
+
+        function projectedStoragePerUnit(item) {
+            const stock = Math.max(0, Number(item?.logisticsQty) || 0);
+            const velocity = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
+            const dailyRate = Math.max(0, Number(item?.warehouseDayCost) || 0);
+            if (!stock || !velocity) return null;
+            // Constant sales rate: stock declines linearly to zero. Integral of inventory.
+            const sellDays = stock / velocity * 30;
+            return dailyRate * sellDays / 2;
+        }
+
         function aggregatePlanMetrics(item) {
             const planning = item?.planning || {};
             const materialsTotal = Math.max(0, Number(item?.materialsBatchTotal || 0));
@@ -2550,6 +2594,9 @@
             if (sellThroughDays === null) {
                 return {
                     requiredCapital: null,
+                    reservePct: Math.max(0, Number(planning.reservePct) || 0),
+                    reserveAmount: null,
+                    quantityIssues: aggregateQuantityIssues(item),
                     totalCycleDays: null,
                     waitAfterAdvanceDays,
                     productionDays,
@@ -2593,7 +2640,11 @@
                 customerDeliveryTotal +
                 salesTotal +
                 adTotal;
-            const requiredCapital = nonRevenueCosts;
+            const reservePct = Math.min(1000, Math.max(0, Number(planning.reservePct) || 0));
+            const reserveAmount = nonRevenueCosts * reservePct / 100;
+            // A liquidity buffer: additional capital committed, NOT operating expense and
+            // NOT a deduction from taxable profit. If unused, it stays as cash.
+            const requiredCapital = nonRevenueCosts + reserveAmount;
 
             // At zero enterprise margin, revenue must cover all fixed/absolute costs
             // plus percentage-of-turnover sales costs.
@@ -2609,6 +2660,10 @@
 
             return {
                 requiredCapital,
+                baseRequiredCapital: nonRevenueCosts,
+                reservePct,
+                reserveAmount,
+                quantityIssues: aggregateQuantityIssues(item),
                 totalCycleDays,
                 waitAfterAdvanceDays,
                 productionDays,
@@ -2669,10 +2724,18 @@
                 const orders = leads * leadSalePct / 100;
                 const baseCac = orders > 0 ? budget / orders : null;
 
+                const storedCostPerUnit = Math.max(0, Number(item.warehouseStorageUnitCost) || 0);
+                const projectedStorage = projectedStoragePerUnit(item);
+                const consumedMaterialCost = allocatedMaterialCostPerGood(item);
                 const unitCost =
-                    Math.max(0, Number(item.materialsUnitCost || 0)) +
+                    (consumedMaterialCost === null ? Math.max(0, Number(item.materialsUnitCost) || 0) : consumedMaterialCost) +
                     Math.max(0, Number(item.productionUnitCost || 0)) +
-                    Math.max(0, Number(item.logisticsUnitCost || 0));
+                    Math.max(0, Number(item.logisticsUnitCost || 0)) -
+                    storedCostPerUnit +
+                    (projectedStorage === null ? storedCostPerUnit : projectedStorage);
+                const cycle = aggregatePlanMetrics(item);
+                const reservePerUnit = cycle.reserveAmount !== null && item.logisticsQty > 0
+                    ? cycle.reserveAmount / Number(item.logisticsQty) : 0;
 
                 const credit = calculateAggregateCredit(item);
                 const usesCredit = item?.planning?.fundingMode === 'credit';
@@ -2680,14 +2743,15 @@
                     !usesCredit ||
                     (
                         credit.monthlyServiceCost !== null &&
-                        orders > 0
+                        credit.totalInterest !== null &&
+                        Math.max(0, Number(item.logisticsQty) || 0) > 0
                     );
                 const creditServicePerUnit =
                     usesCredit && creditReady
-                        ? credit.monthlyServiceCost / orders
+                        ? credit.totalInterest / Number(item.logisticsQty)
                         : 0;
                 const pricingUnitLoad =
-                    unitCost + creditServicePerUnit;
+                    unitCost + creditServicePerUnit + reservePerUnit;
 
                 const rawMargin = item?.planning?.targetMarginPct;
                 const hasMargin =
@@ -2725,6 +2789,10 @@
                     usesCredit,
                     creditServiceMonthly: usesCredit ? credit.monthlyServiceCost : 0,
                     creditServicePerUnit,
+                    reservePerUnit,
+                    consumedMaterialsPerUnit: consumedMaterialCost,
+                    projectedStoragePerUnit: projectedStorage,
+                    quantityIssues: cycle.quantityIssues,
                     marginPct,
                     marginRate,
                     price
@@ -2743,7 +2811,7 @@
 
             const pricingReady =
                 prepared.every(
-                    row => row.price !== null && Number.isFinite(row.price)
+                    row => row.price !== null && Number.isFinite(row.price) && !row.quantityIssues.length
                 );
 
             const revenueWeightDenominator =
@@ -2825,6 +2893,7 @@
                     unitCost: row.unitCost,
                     creditServiceMonthly: row.creditServiceMonthly,
                     creditServicePerUnit: row.creditServicePerUnit,
+                    reservePerUnit: row.reservePerUnit,
                     marginPct: row.marginPct,
                     salesMix: row.salesMix,
                     revenueWeight: row.revenueWeight,
@@ -3161,8 +3230,8 @@
         }
 
         function calculateProductCashFlow(model) {
-            if (!model?.pricingReady || !model.items.length) {
-                return { ready: false, months: [], cumulativeEnd: null };
+            if (!model?.pricingReady || !model.items.length || !productBusinessTaxType || model.taxPriceMultiplier === null) {
+                return { ready: false, months: [], cumulativeEnd: null, freeCumulativeEnd: null };
             }
 
             const schedules = productPortfolio.map(item => {
@@ -3236,9 +3305,14 @@
                         ? Math.max(1, Number(credit.termMonths) || 1)
                         : 0;
 
+                const cycle = aggregatePlanMetrics(item);
+                const usesCash = item?.planning?.fundingMode === 'cash';
                 return {
                     item,
                     row,
+                    cashFunding: usesCash ? cycle.requiredCapital : 0,
+                    reserveAmount: cycle.reserveAmount || 0,
+                    loanPrincipal: usesCredit ? credit.principal : 0,
                     materialsTotal,
                     advanceAmount,
                     materialsRemainder,
@@ -3285,7 +3359,13 @@
                 inflow: 0,
                 outflow: 0,
                 cashFlow: 0,
-                cumulative: 0
+                cumulative: 0,
+                taxPaid: 0,
+                interestPaid: 0,
+                principalRepaid: 0,
+                financedInflow: 0,
+                taxableProfit: 0,
+                freeCumulative: 0
             }));
 
             const addEvent = (day, amount) => {
@@ -3300,7 +3380,15 @@
             const overlap = (startA, endA, startB, endB) =>
                 Math.max(0, Math.min(endA, endB) - Math.max(startA, startB));
 
+            const taxRate = Math.max(0, productNumber('own-business-tax-pct')) / 100;
+            const reserveLocked = schedules.reduce((sum, schedule) => sum + schedule.reserveAmount, 0);
             schedules.forEach(schedule => {
+                // Financing is NOT a sale or taxable income. Cash contributions are
+                // recognized once, not deducted as operating cost.
+                const funding = Math.max(0, Number(schedule.cashFunding) || 0) +
+                    Math.max(0, Number(schedule.loanPrincipal) || 0);
+                months[0].inflow += funding;
+                months[0].financedInflow += funding;
                 if (schedule.advanceDay !== null) {
                     addEvent(schedule.advanceDay, schedule.advanceAmount);
                 }
@@ -3342,7 +3430,7 @@
                         schedule.stockQty,
                         schedule.unitsPerDay * sellingDays
                     );
-                    const revenue = soldUnits * schedule.row.price;
+                    const revenue = soldUnits * schedule.row.price * model.taxPriceMultiplier;
 
                     const inventoryIntegral =
                         schedule.stockQty * (relativeEnd - relativeStart) -
@@ -3362,6 +3450,12 @@
                         schedule.adManagementMonthly / 30 * sellingDays;
 
                     months[m].inflow += revenue;
+                    // Accrual-based tax profit (not cash purchases). The SKU COGS
+                    // includes the entire sell-through holding period; monthly cash
+                    // storage outlay is tracked independently below.
+                    months[m].taxableProfit += revenue -
+                        soldUnits * schedule.row.unitCost -
+                        turnoverExpenses - adMedia - adManagement;
                     months[m].outflow +=
                         warehouseCost +
                         customerDelivery +
@@ -3394,24 +3488,38 @@
                 });
 
                 months[m].outflow += sharedSalesCost;
+                months[m].taxableProfit -= sharedSalesCost;
             }
 
             schedules.forEach(schedule => {
-                if (
-                    !schedule.usesCredit ||
-                    !(schedule.creditMonthlyService > 0) ||
-                    !(schedule.creditTermMonths > 0)
-                ) {
-                    return;
-                }
+                if (!schedule.usesCredit ||
+                    schedule.creditMonthlyService === null ||
+                    !(schedule.creditTermMonths > 0)) return;
 
-                for (
-                    let m = 0;
-                    m < Math.min(monthCount, schedule.creditTermMonths);
-                    m++
-                ) {
-                    months[m].outflow += schedule.creditMonthlyService;
+                const count = Math.min(monthCount, schedule.creditTermMonths);
+                for (let m = 0; m < count; m++) {
+                    const interest = schedule.creditMonthlyService;
+                    months[m].outflow += interest;
+                    months[m].interestPaid += interest;
+                    months[m].taxableProfit -= interest;
                 }
+                // Declared credit contract: interest-only, BULLET repayment at term.
+                // Repayment of borrowed capital is a financing cash-flow, never P&L.
+                const due = Math.min(monthCount - 1, Math.max(0, schedule.creditTermMonths - 1));
+                const principal = Math.max(0, Number(schedule.loanPrincipal) || 0);
+                months[due].outflow += principal;
+                months[due].principalRepaid += principal;
+            });
+
+            months.forEach(month => {
+                // Illustrative monthly settlement, with no inter-month loss carryforward.
+                // Revenue is net of pass-through VAT. Taxes on the contingency reserve
+                // are never charged: reserve was never counted as revenue/expense.
+                const tax = productBusinessTaxType === 'turnover'
+                    ? (month.inflow - month.financedInflow) * taxRate
+                    : Math.max(0, month.taxableProfit) * taxRate;
+                month.taxPaid = Math.max(0, tax);
+                month.outflow += month.taxPaid;
             });
 
             let cumulative = 0;
@@ -3419,12 +3527,16 @@
                 month.cashFlow = month.inflow - month.outflow;
                 cumulative += month.cashFlow;
                 month.cumulative = cumulative;
+                // Not all bank cash is discretionary: the reserve remains protected.
+                month.freeCumulative = cumulative - reserveLocked;
             });
 
             return {
                 ready: true,
                 months,
-                cumulativeEnd: cumulative
+                reserveLocked,
+                cumulativeEnd: cumulative,
+                freeCumulativeEnd: cumulative - reserveLocked
             };
         }
 
@@ -3497,6 +3609,7 @@
                 Math.max(0, Number(row.unitCost) || 0) +
                 Math.max(0, Number(row.baseCac) || 0) +
                 Math.max(0, Number(row.creditServicePerUnit) || 0) +
+                Math.max(0, Number(row.reservePerUnit) || 0) +
                 Math.max(0, sharedCostPerUnit);
             const priceForMinimumMargin = priceListRequiredCustomerPrice(
                 unitLoad, minimumMarginPct / 100, variableRate,
@@ -3574,7 +3687,7 @@
                     <div class="mt-4 pt-4 border-t aggregate-separator">
                         <div class="aggregate-title font-bold mb-2">Cash flow по месяцам за период</div>
                         <div class="aggregate-muted text-xs mb-3">
-                            До налогов: показывает поступления и выплаты во времени, включая обслуживание кредита. Тело кредита здесь не считается расходом бизнеса.
+                            После бизнес-налогов и кредитных платежей. При кредите: получение тела кредита в первый месяц, выплата тела в конце срока (bullet), проценты ежемесячно; тело кредита не уменьшает прибыль. НДС транзитный и в свободный остаток не включён.
                         </div>
                         <div class="overflow-x-auto">
                             <table class="min-w-full text-xs border-collapse">
@@ -3588,10 +3701,14 @@
                                 </thead>
                                 <tbody>
                                     ${[
-                                        ['Поступления', 'inflow'],
-                                        ['Выплаты', 'outflow'],
+                                        ['Поступления (включая внесённые деньги / кредит)', 'inflow'],
+                                        ['Выплаты (включая налог и возврат кредита)', 'outflow'],
+                                        ['Налоги с бизнеса', 'taxPaid'],
+                                        ['Проценты по кредиту', 'interestPaid'],
+                                        ['Возврат тела кредита', 'principalRepaid'],
                                         ['Cash flow', 'cashFlow'],
-                                        ['Накопленный cash flow', 'cumulative']
+                                        ['Накопленный cash flow', 'cumulative'],
+                                        ['ЖИВЫЕ ДЕНЬГИ · свободный остаток', 'freeCumulative']
                                     ].map(([label, key]) => `
                                         <tr class="border-t aggregate-separator">
                                             <td class="py-2 pr-4 font-semibold whitespace-nowrap">${label}</td>
@@ -3618,23 +3735,31 @@
 
             box.innerHTML = `
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                    <span class="aggregate-muted">Выручка всего бизнеса</span>
-                    <span class="font-bold text-right">${money(model.totalRevenue)}</span>
+                    <span class="aggregate-muted">Выручка всего бизнеса (после налоговой корректировки цены, без НДС)</span>
+                    <span class="font-bold text-right">${money(model.adjustedRevenue ?? model.totalRevenue)}</span>
                     <span class="aggregate-muted">EBITDA всего бизнеса</span>
-                    <span class="font-bold text-right">${money(model.businessEbitda)}</span>
+                    <span class="font-bold text-right">${money(model.adjustedEbitda ?? model.businessEbitda)}</span>
                     <span class="aggregate-muted">Обслуживание кредитов / месяц</span>
                     <span class="font-bold text-right">${money(model.financingCostsMonthly)}</span>
                     <span class="aggregate-muted">Результат после обслуживания кредитов</span>
-                    <span class="font-bold text-right">${money(model.profitBeforeTax)}</span>
+                    <span class="font-bold text-right">${money(model.adjustedProfitBeforeTax ?? model.profitBeforeTax)}</span>
                 </div>
 
+                <div class="mt-5 mb-2 p-4 rounded-xl border-2 border-emerald-300 bg-emerald-900 text-white">
+                    <div class="font-black text-xl tracking-wide">ЖИВЫЕ ДЕНЬГИ</div>
+                    <div class="font-semibold mt-1">Денежный поток, которым можно распоряжаться, после налогов, кредитных платежей и обязательного резерва.</div>
+                    <div class="text-2xl font-black mt-2">${cashFlow.ready ? money(cashFlow.freeCumulativeEnd) : '—'}</div>
+                    <div class="text-xs mt-1">Минус означает кассовый разрыв. В поступлениях учтены ваши первоначальные вложения или полученный кредит: это финансирование, а не прибыль. Резерв остаётся вашим, но защищён от расходования. Транзитный НДС исключён.</div>
+                </div>
                 ${cashFlowTable}
 
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mt-4 pt-4 border-t aggregate-separator">
+                    <span class="aggregate-muted">Рентабельность бизнеса (чистая прибыль / выручка, без НДС)</span>
+                    <span class="font-bold text-right">${(model.adjustedRevenue ?? model.totalRevenue) > 0 && (model.adjustedNetProfit ?? model.netProfit) !== null ? ((model.adjustedNetProfit ?? model.netProfit) / (model.adjustedRevenue ?? model.totalRevenue) * 100).toLocaleString('ru-RU', {maximumFractionDigits:2}) + '%' : '—'}</span>
                     <span class="aggregate-muted">Сумма налога</span>
-                    <span class="font-bold text-right">${money(model.tax)}</span>
+                    <span class="font-bold text-right">${money(model.adjustedTax ?? model.tax)}</span>
                     <span class="aggregate-muted">Чистая прибыль после налога</span>
-                    <span class="font-bold text-right">${money(model.netProfit)}</span>
+                    <span class="font-bold text-right">${money(model.adjustedNetProfit ?? model.netProfit)}</span>
                 </div>
             `;
 
@@ -3701,7 +3826,7 @@
                         <div class="mt-5 pt-5 border-t aggregate-separator">
                             <div class="aggregate-title text-lg font-black">Будете давать скидки?</div>
                             <div class="aggregate-muted text-sm mt-1">
-                                Умножьте цену для прайс-листа, чтобы быть всегда в плюсе.
+                                Плановая цена с учётом скидки, длительности хранения, запаса денег и расходов. При изменении реальных продаж пересчитайте прогноз.
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
@@ -4022,11 +4147,10 @@
 
             const forecastSalesPerMonth =
                 Math.max(0, Number(item?.forecastUnitsPerMonth || 0));
-            const servicePerUnit =
-                monthlyServiceCost !== null &&
-                forecastSalesPerMonth > 0
-                    ? monthlyServiceCost / forecastSalesPerMonth
-                    : null;
+            const stockQty = Math.max(0, Number(item?.logisticsQty) || 0);
+            const servicePerUnit = totalInterest !== null && stockQty > 0
+                ? totalInterest / stockQty
+                : null;
 
             const marginPct =
                 item?.planning?.targetMarginPct !== '' &&
@@ -4097,7 +4221,7 @@
 
             const hint = section.querySelector('[data-credit-hint]');
             if (hint) {
-                hint.textContent = 'Ставка по кредиту должна быть ниже вашей маржинальности.';
+                hint.textContent = 'Модель кредита: ежемесячно платятся проценты, всё тело возвращается в последнем месяце (bullet). Платёж по кредиту — не то же самое, что процентная ставка или маржа товара.';
                 const warning =
                     credit.annualRatePct !== null &&
                     credit.marginPct !== null &&
@@ -4143,6 +4267,26 @@
             const termEl = section.querySelector('[data-aggregate-final="totalCycleDays"]');
             if (capitalEl) capitalEl.textContent = requiredCapitalText;
             if (termEl) termEl.textContent = cycleText;
+            const baseEl = section.querySelector('[data-aggregate-final="baseRequiredCapital"]');
+            if (baseEl) baseEl.textContent = moneyInputValue(m.nonRevenueCosts || 0) + ' у.е.*';
+            const reserveEl = section.querySelector('[data-aggregate-final="reserveAmount"]');
+            if (reserveEl) reserveEl.textContent = moneyInputValue(m.reserveAmount || 0) + ' у.е.*';
+            const waterfall = {
+                ad: m.adTotal,
+                selling: (m.adTotal || 0) + (m.salesTotal || 0),
+                costs: m.nonRevenueCosts,
+                funding: m.requiredCapital
+            };
+            Object.entries(waterfall).forEach(([key, amount]) => {
+                const el = section.querySelector('[data-waterfall="' + key + '"]');
+                if (el) el.textContent = amount === null ? '—' : moneyInputValue(amount || 0) + ' у.е.*';
+            });
+            const warning = section.querySelector('[data-quantity-warning]');
+            if (warning) {
+                const issues = m.quantityIssues || [];
+                warning.textContent = issues.length ? 'Нарушена последовательность количеств: ' + issues.join(' ') : '';
+                warning.classList.toggle('hidden', !issues.length);
+            }
 
             const creditInfo = section.querySelector('[data-credit-amount]');
             if (creditInfo) {
@@ -4395,6 +4539,7 @@
                         «${esc(item.name)}» <span class="text-base font-semibold text-emerald-200">· ${esc(sourceLabels[item.source] || item.source || '')}</span>
                     </div>
 
+                    <div data-quantity-warning class="rounded-xl border border-amber-300 bg-amber-100 text-amber-950 p-3 text-sm font-semibold ${aggregateQuantityIssues(item).length ? "" : "hidden"}">Нарушена последовательность количеств: ${aggregateQuantityIssues(item).join(" ")}</div>
                     <div class="mt-6 space-y-5 text-sm">
                         <div class="aggregate-line">
                             <div class="font-semibold">
@@ -4431,7 +4576,12 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., заплачу не менее <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
+                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., доставка до склада и введённые дни хранения — <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
+                            <div class="text-sm mt-2">
+                                Но товар хранится до полной распродажи: ${aggregatePlanMetrics(item).sellThroughDays === null ? 'укажите прогноз продаж' : aggregateDaysText(aggregatePlanMetrics(item).sellThroughDays) + ' дней'};
+                                полное хранение по прогнозу — ${moneyInputValue(aggregatePlanMetrics(item).warehouseTotal || 0)} у.е.* с доставкой на склад.
+                                В цене учитывается весь период хранения, а не только введённые выше дни.
+                            </div>
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
@@ -4443,14 +4593,37 @@
                         </div>
 
                         <div class="aggregate-final-box">
+                            <div class="aggregate-title text-sm font-bold mb-3">Запас денег, если что-то пойдёт не так</div>
+                            <div class="grid grid-cols-2 gap-3 items-center mb-4">
+                                <label class="text-sm font-semibold">Резерв, % от плановых расходов</label>
+                                <input type="number" min="0" max="1000" step="0.01" class="input-field" value="${esc(planning.reservePct ?? '')}" oninput="updateProductPlanning(${item.id}, 'reservePct', this.value)">
+                                <span class="text-sm">Расходы без резерва</span>
+                                <span class="font-bold text-right" data-aggregate-final="baseRequiredCapital">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts)} у.е.*</span>
+                                <span class="text-sm">Резерв денег, не расход и не налоговый вычет</span>
+                                <span class="font-bold text-right" data-aggregate-final="reserveAmount">${moneyInputValue(aggregatePlanMetrics(item).reserveAmount || 0)} у.е.*</span>
+                            </div>
                             <div class="aggregate-final-total">
-                                Чтобы сделать, как я придумал, и выйти в ноль, не считая налогов, мне нужно
+                                Чтобы выполнить весь цикл до последней продажи, без расчёта на поступления будущей выручки, с резервом денег мне нужно
                                 <span class="aggregate-final-value" data-aggregate-final="requiredCapital">${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
                                 у.е.* на
                                 <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
                                 дней.
                             </div>
 
+                            <div class="mt-4 rounded-xl border border-white/20 p-3 text-sm">
+                                <div class="font-black mb-2">Расходы и потребность в деньгах — от меньшего к большему</div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <span>Реклама и ведение за цикл</span>
+                                    <strong class="text-right" data-waterfall="ad">${moneyInputValue(aggregatePlanMetrics(item).adTotal || 0)} у.е.*</strong>
+                                    <span>Расходы на продажи (реклама + ведение + фиксированные продавцы)</span>
+                                    <strong class="text-right" data-waterfall="selling">${moneyInputValue((aggregatePlanMetrics(item).adTotal || 0) + (aggregatePlanMetrics(item).salesTotal || 0))} у.е.*</strong>
+                                    <span>Все плановые расходы цикла до резервирования</span>
+                                    <strong class="text-right" data-waterfall="costs">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts || 0)} у.е.*</strong>
+                                    <span class="font-black">Капитал, необходимый с резервом</span>
+                                    <strong class="text-right" data-waterfall="funding">${moneyInputValue(aggregatePlanMetrics(item).requiredCapital || 0)} у.е.*</strong>
+                                </div>
+                                <div class="text-xs mt-2 opacity-80">Процентные комиссии и штрафы с выручки оплачиваются при продажах: они рассчитаны отдельно в цене и в cash flow и не являются авансовым расходом этого перечня.</div>
+                            </div>
                             <div class="grid grid-cols-2 gap-3 mt-5">
                                 <button type="button"
                                     data-funding-choice="cash"
@@ -4468,7 +4641,7 @@
 
                             <div data-cash-pricing class="aggregate-pricing-panel hidden" hidden>
                                 <label class="block text-sm font-semibold mb-2">
-                                    Целевая маржинальность «${esc(item.name)}», %
+                                    Целевая маржинальность самого товара «${esc(item.name)}», %
                                 </label>
                                 <div class="flex items-center gap-2">
                                     <input type="number"
@@ -4525,6 +4698,7 @@
                                 </div>
 
                                 <div class="aggregate-price-card mt-4 text-sm">
+                                    <div class="aggregate-muted mb-2">Маржинальность выше — целевой показатель самого товара; ниже показаны отдельные результаты всего бизнеса, включая постоянные расходы и денежный поток.</div>
                                     <div class="grid grid-cols-2 gap-x-4 gap-y-2">
                                         <span class="aggregate-muted">Доля продаж «${esc(item.name)}» в моём магазине</span>
                                         <span class="font-bold text-right" data-aggregate-price="salesMixNormalized">${(aggregatePricingMetrics(item).salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 })}%</span>
@@ -4654,9 +4828,9 @@
 
                                 <div class="aggregate-price-card mt-4">
                                     <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                                        <span class="aggregate-muted">Обслуживание кредита / месяц</span>
+                                        <span class="aggregate-muted">Проценты по кредиту / месяц (без тела)</span>
                                         <span class="font-bold text-right"><span data-credit-monthly-service>—</span> у.е.*</span>
-                                        <span class="aggregate-muted">Нагрузка кредита на 1 ед. «${esc(item.name)}»</span>
+                                        <span class="aggregate-muted">Все проценты кредита на 1 ед. партии «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-credit-unit-load>—</span> у.е.*</span>
                                         <span class="aggregate-muted">Проценты за весь срок</span>
                                         <span class="font-bold text-right"><span data-credit-total-interest>—</span> у.е.*</span>
@@ -4731,6 +4905,7 @@
             materialCostMode = null;
             latestMaterialsLandedUnitCost = 0;
             latestProductionUnitCost = 0;
+            latestLogisticsUnitCost = 0;
 
             Object.keys(productOwnChoices).forEach(key => delete productOwnChoices[key]);
             Object.keys(productImportPayers).forEach(key => productImportPayers[key] = null);
@@ -5349,7 +5524,7 @@
                 if (country === 'RU') {
                     note.textContent = 'РФ: учтены страховые взносы по стандартной шкале 30% / 15,1% сверх предельной базы и базовый травматизм 0,2%.';
                 } else if (country === 'KZ') {
-                    note.textContent = 'Казахстан: учтены 11,5% начислений работодателя + 6% социального налога. Ставки справочные.';
+                    note.textContent = 'Казахстан, 2026: 5% соцотчисления + 3% ОСМС + 3,5% ОПВР + 6% соцналог (17,5% для применимых работников, без предельных баз); пенсионные и медицинские удержания работника не являются надбавкой к gross. ОПВР зависит от категории и возраста.';
                 } else {
                     note.textContent = 'Используются справочные ставки работодателя по выбранной стране. Проверяйте применимый режим со своим бухгалтером.';
                 }
@@ -5609,6 +5784,7 @@
             const selectedQty = Math.max(1, Math.floor(Number(document.getElementById('own-logistics-qty')?.value) || 1));
             const selectedTotal = total * selectedQty;
 
+            latestLogisticsUnitCost = total;
             const output = document.getElementById('own-logistics-unit-cost');
             if (output) output.textContent = moneyInputValue(total);
             const selectedOutput = document.getElementById('own-logistics-selected-total');
