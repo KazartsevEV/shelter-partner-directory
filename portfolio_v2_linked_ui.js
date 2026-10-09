@@ -12,7 +12,7 @@ const pools=[['none','Новый расход (не учитывался в V1)'
  ['unitCost','Уже в себестоимости SKU'],['salesFixed','Уже в расходах на продажи SKU'],
  ['marketingManagement','Уже в гонораре маркетолога SKU'],
  ['adBudget','Уже в рекламном бюджете SKU']];
-const money=v=>Number.isFinite(Number(v))?Number(v).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+const money=v=>Number.isFinite(Number(v))?Number(v).toLocaleString(root.Nomad360LocaleCore?.displayLocale?.()||'ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
 const safe=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const num=v=>v===''?0:Number(v)||0;
 let state=null,sequence=1;
