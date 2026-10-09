@@ -139,7 +139,7 @@ function render(){
  'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
  '<div class="rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
  '<div class="text-xs">Автоматическая цена прайса V2</div><div class="text-xl font-black" data-linked-price-list>'+money(byId.get(s.id)?.priceList)+'</div>'+
- '<div class="text-xs mt-2">Покупатель платит (скидка и НДС учтены)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
+ '<div class="text-xs mt-2">Покупатель платит за отдельную позицию (без скидки комбо)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
  '<div class="text-xs text-slate-700 mt-2" data-linked-unit-meta></div>'+
  '<p class="text-xs text-slate-500 mt-2">Цену рассчитывает V2 по продажам, денежному весу, рекламной и общей нагрузке. Диапазон цены V1 не меняется.</p>'+
  '</article>').join('');
@@ -217,7 +217,7 @@ function updateResult(){
   ['Общие расходы / мес.',t.monthlyResources],['EBITDA',t.ebitda],
   ['Налог бизнеса',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
  const priceTable='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Платит покупатель','Прогноз, ед.','Денежный вес','Реклама','Чистая маржа'].map(label=>
+  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Цена вне набора','Прогноз, ед.','Денежный вес','Реклама','Чистая маржа'].map(label=>
    '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
   out.items.map(s=>'<tr class="border-t border-white/20">'+
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
