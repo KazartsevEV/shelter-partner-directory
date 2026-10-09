@@ -22,6 +22,14 @@
         Math.abs(m.media.ownerPaid-m.media.allocated-m.media.unattributed)<.000001))
      throw Error('Не подтверждено сохранение общих рекламных платежей по каждому месяцу.');
    const byId=Object.fromEntries(items.map(s=>[s.id,s]));
+   const skuLedger=Object.fromEntries(items.map(s=>[s.id,Array.from(
+     {length:horizonMonths},(_,k)=>({month:k+1,revenue:0,cogs:0,
+       variableCommission:0,marketing:0,operatingShared:0,
+       serviceFixed:0,amort:0,interest:0,taxAccrued:0}))]));
+   const accrue=(id,day,key,value)=>{
+     const k=Math.floor(day/30);
+     if(skuLedger[id]?.[k]&&value>EPS)skuLedger[id][k][key]+=value;
+   };
    const supplyStart=s=>stock(s)?pos(s.supplyDays)+pos(s.productionDays):0;
    const horizon=Math.max(horizonMonths*30+
        Math.max(0,...items.filter(s=>s.source==='dropship'&&s.dropshipPayoutMode!=='before')
@@ -116,6 +124,7 @@
          const rent=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
          post(mStart,'stockPurchase',rent);
          post(mStart,'fixedAccrual',rent);
+         accrue(id,mStart,'serviceFixed',rent);
        }
        for(let day=Math.floor(start);day<Math.ceil(end);day++){
          const interval=Math.max(0,Math.min(day+1,end)-Math.max(day,start));
@@ -128,9 +137,14 @@
          const commission=revenue*pos(s.variableSalesPct)/100;
          post(day,'ad',advertising);
          post(day,'shared',overhead);
+         accrue(id,day,'operatingShared',overhead);
          post(day,'ordersRevenue',revenue);
+         accrue(id,day,'revenue',revenue);
          post(day,'cogsAccrual',units*accrualUnit);
+         accrue(id,day,'cogs',units*accrualUnit);
          post(day,'commissionAccrual',commission);
+         accrue(id,day,'variableCommission',commission);
+         if(!hasPooledMedia)accrue(id,day,'marketing',advertising);
          post(day,'operating',units*variableUnit);
          post(day+receiptLag,'receipt',revenue);
          post(day+receiptLag,'commission',commission);
@@ -139,6 +153,7 @@
            post(day+receiptLag,'onlineTax',revenue*pos(s.ownerTax?.pct)/100);
            const amort=pos(s.onlineAmortMonthly)/30*interval;
            post(day,'amortAccrual',amort);
+           accrue(id,day,'amort',amort);
            daily[day].onlineProfit+=revenue-units*variableUnit-
              commission-attributedAd-overhead-amort;
          }
@@ -156,6 +171,7 @@
          const cost=pos(s.warehouseDayCost)*hold;
          post(day,'operating',cost);
          post(day,'cogsAccrual',cost);
+         accrue(id,day,'cogs',cost);
          stockLeft=Math.max(0,stockLeft-used);
        }
      }
@@ -163,7 +179,8 @@
        post(0,'loanDraw',pos(s.creditPrincipal));
        const months=Math.max(1,Math.ceil(pos(s.creditMonths)||1));
        for(let month=1;month<=months;month++)
-         post(month*30-1,'interest',pos(s.creditServiceMonthly));
+         {post(month*30-1,'interest',pos(s.creditServiceMonthly));
+          accrue(id,month*30-1,'interest',pos(s.creditServiceMonthly));}
        post(months*30-1,'principal',pos(s.creditPrincipal));
      }
    }
@@ -188,7 +205,27 @@
          else end=Math.max(end,to);
        }
        if(start>=0)covered+=end-start;
-       post(day,'shared',pos(r.amount)/30*covered);
+       const real=pos(r.amount)/30*covered;
+       post(day,'shared',real);
+       if(real>EPS){
+         // Beneficiaries' direct occupied time determines allocation; revenue
+         // weights can shift with actual H-period discounts and prices.
+         const eligible=(r.skuIds||[]).filter(id=>byId[id]&&(
+           !stock(byId[id])||timeline[id].some(t=>t.start<day+1&&t.end>day)));
+         const weights=eligible.map(id=>{
+           if(r.allocation==='usage')return r.usageMode==='per-unit'?
+             pos(r.loadPerUnit?.[id])*sum(timeline[id].map(t=>
+               t.end>t.start&&t.start<day+1&&t.end>day?
+               t.orders*Math.max(0,Math.min(day+1,t.end)-Math.max(day,t.start))/(t.end-t.start):0)):
+             pos(r.usage?.[id]);
+           return sum(timeline[id].map(t=>t.end>t.start&&t.start<day+1&&t.end>day?
+             t.netRevenue*Math.max(0,Math.min(day+1,t.end)-Math.max(day,t.start))/(t.end-t.start):0));
+         });
+         const total=sum(weights);
+         const n=eligible.length;
+         eligible.forEach((id,i)=>accrue(id,day,'operatingShared',
+           real*(total>EPS?weights[i]/total:1/Math.max(1,n))));
+       }
      }
    }
    const months=Array.from({length:dayCount/30},(_,i)=>({
