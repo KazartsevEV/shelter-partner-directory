@@ -111,3 +111,36 @@ test('month, agent payer and unverified diagnostics keep numeric and payer contr
   'Месяц 2: Неизвестная ошибка.','unknown nested diagnostic not partially translated');
  A.equal(tr('Не удалось заполнить демо: Сбой API','en'),'Could not load demo: Сбой API');
 });
+
+test('product physical flow and salon capacity warnings translate amounts without changing the numeric tokens',()=>{
+ const cases=[
+  ['Прогноз клиентов 9.5 больше физической вместимости 8 услуг / месяц. Прайс нельзя подтвердить до изменения плана.',
+   'Customer forecast 9.5 exceeds the physical capacity of 8 services per month. The price list cannot be confirmed until the plan is revised.',
+   'Клиент болжамы 9.5, ал салонның нақты айлық қуаты 8 қызмет. Жоспар өзгермейінше прайсты растауға болмайды.'],
+  ['Закуплено 100 шт., но для склада указано 150 шт. Увеличьте закупку или уменьшите склад.',
+   'Purchased 100 units, but 150 units are assigned to inventory. Increase procurement or reduce inventory.',
+   '100 дана сатып алынған, бірақ қоймаға 150 дана көрсетілген. Сатып алуды көбейтіңіз немесе қойма санын азайтыңыз.'],
+  ['Нужно не менее 106 ед. материала для 100 годных изделий при браке 5%. Цена единицы материала не меняется.',
+   'At least 106 material units are needed for 100 good products with a 5% defect rate. Material unit price does not change.',
+   '5% ақау кезінде 100 жарамды өнім үшін кемінде 106 материал бірлігі қажет. Материалдың бірлік бағасы өзгермейді.'],
+  ['План продаж партии (1 500 шт.) превышает складские остатки (950 шт.). Уменьшите план либо увеличьте запас.',
+   'Planned batch sales (1 500 units) exceed available stock (950 units). Reduce the sales plan or increase stock.',
+   'Партияның жоспарлы сатылымы (1 500 дана) қойма қалдығынан (950 дана) асады. Сатылым жоспарын азайтыңыз немесе қорды көбейтіңіз.'],
+  ['Прогноз продаж за месяц (500 шт.) превышает запас партии (300 шт.). Скорректируйте рекламу или количество товара.',
+   'Monthly sales forecast (500 units) exceeds batch stock (300 units). Adjust advertising or the quantity of goods.',
+   'Айлық сатылым болжамы (500 дана) партия қорынан (300 дана) асады. Жарнаманы немесе тауар санын түзетіңіз.']
+ ];
+ for(const [ru,en,kk] of cases){
+  A.equal(tr(ru,'ru'),ru);
+  A.equal(tr(ru,'en'),en);
+  A.equal(tr(ru,'kk'),kk);
+ }
+ for(const original of [
+  'Для расчёта цены услуги заполните рекламную воронку и бюджет — нужен прогноз клиентов.',
+  'Укажите физическую вместимость салона: сколько услуг могут оказать мастера за месяц.',
+  'Укажите закупочную цену у поставщика.',
+  'Укажите срок доставки покупателю.',
+  'Заполните рекламную воронку и бюджет для прогноза заказов.',
+  'Себестоимость минимальной закупочной партии не заполнена. Вернитесь в закупку и введите сумму больше нуля.'
+ ])for(const lang of ['en','kk'])A.notEqual(tr(original,lang),original);
+});
