@@ -1078,6 +1078,16 @@ function lookup(raw,language){
  return m[1]+(translated||dynamicLookup(m[2],language))+m[3];
 }
 const localizedAttributes=['placeholder','title','aria-label','aria-description','aria-placeholder','aria-valuetext','alt'];
+function translateAttributes(node,language){
+ for(const attr of localizedAttributes){
+  if(!node.hasAttribute(attr))continue;
+  const oldValue=node.getAttribute(attr),history=attrOriginal.get(node)||{};
+  const baseline=history[attr]&&oldValue===history[attr].applied?history[attr].original:oldValue;
+  const output=lookup(baseline,language);
+  history[attr]={original:baseline,applied:output};attrOriginal.set(node,history);
+  if(output!==oldValue)node.setAttribute(attr,output);
+ }
+}
 function translateNode(node,language){
  if(!valid(node))return;
  if(node.nodeType===3){
@@ -1090,17 +1100,15 @@ function translateNode(node,language){
   return;
  }
  if(node.nodeType!==1)return;
- for(const attr of localizedAttributes){
-  if(!node.hasAttribute(attr))continue;
-  const oldValue=node.getAttribute(attr),history=attrOriginal.get(node)||{};
-  const baseline=history[attr]&&oldValue===history[attr].applied?history[attr].original:oldValue;
-  const output=lookup(baseline,language);
-  history[attr]={original:baseline,applied:output};attrOriginal.set(node,history);
-  if(output!==oldValue)node.setAttribute(attr,output);
- }
- const walk=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);
+ translateAttributes(node,language);
+ // A TreeWalker over text alone misses placeholder/title/aria on descendants.
+ // Walk descendants once (O(N)) and never descend recursively into elements.
+ const walk=document.createTreeWalker(node,NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);
  let current;
- while((current=walk.nextNode()))translateNode(current,language);
+ while((current=walk.nextNode())){
+  if(current.nodeType===3)translateNode(current,language);
+  else if(valid(current))translateAttributes(current,language);
+ }
 }
 function flush(){
  scheduled=false;
