@@ -1148,11 +1148,27 @@ function translateNode(node,language){
   else if(valid(current))translateAttributes(current,language);
  }
 }
+// Only explicitly marked presentation numbers are refreshed. Never parse
+// formatted text or touch input.value, finance records, source IDs or SKU names.
+function refreshDisplayNumbers(language){
+ const tag=language==='en'?'en-US':language==='kk'?'kk-KZ':'ru-RU';
+ const fmt=new Intl.NumberFormat(tag,{minimumFractionDigits:2,maximumFractionDigits:2});
+ for(const node of document.querySelectorAll('[data-nomad-display-number]')){
+  if(!valid(node))continue;
+  const raw=node.getAttribute('data-nomad-display-number');
+  if(raw===null||raw.trim()==='')continue;
+  const value=Number(raw);
+  if(!Number.isFinite(value))continue;
+  const output=fmt.format(value);
+  if(node.textContent!==output)node.textContent=output;
+ }
+}
 function flush(){
  scheduled=false;
  const roots=[...pending];pending=new Set();
  const language=locale();
  roots.forEach(node=>translateNode(node,language));
+ refreshDisplayNumbers(language);
 }
 function schedule(node){
  pending.add(node);
