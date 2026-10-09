@@ -1492,12 +1492,27 @@ function refreshDisplayNumbers(language){
   if(node.textContent!==output)node.textContent=output;
  }
 }
+// Date metadata is ISO-only and never writes to date inputs or MBA receipts.
+function refreshDisplayDates(language){
+ const tag=language==='en'?'en-US':language==='kk'?'kk-KZ':'ru-RU';
+ const fmt=new Intl.DateTimeFormat(tag,{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'UTC'});
+ for(const el of document.querySelectorAll('[data-nomad-display-date]')){
+  if(!valid(el))continue;
+  const iso=el.getAttribute('data-nomad-display-date');
+  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(iso||''))continue;
+  const date=new Date(iso+'T00:00:00Z');
+  if(!Number.isFinite(date.getTime())||date.toISOString().slice(0,10)!==iso)continue;
+  const next=fmt.format(date);
+  if(el.textContent!==next)el.textContent=next;
+ }
+}
 function flush(){
  scheduled=false;
  const roots=[...pending];pending=new Set();
  const language=locale();
  roots.forEach(node=>translateNode(node,language));
  refreshDisplayNumbers(language);
+ refreshDisplayDates(language);
 }
 function schedule(node){
  pending.add(node);
