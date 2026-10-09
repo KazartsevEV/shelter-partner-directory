@@ -32,16 +32,31 @@ function enter(){
 }
 function importFromV1(payload){
  const fresh=Engine.fromV1(payload),prior=read();
- // Explicit import: match exact source IDs; old mappings not silently discarded.
+ // Reimporting V1 after adding another item must not wipe the user's portfolio.
+ // Preserve settings only for the exact overlapping canonical IDs; never silently
+ // grant newly imported products access to old shared resources or offer tuples.
  if(prior){
-  const same=prior.skus.length===fresh.skus.length&&
-    prior.skus.every(s=>fresh.skus.some(x=>x.id===s.id));
-  if(same){
-   fresh.resources=(prior.resources||[]).map(r=>JSON.parse(JSON.stringify(r)));
-   fresh.offers=(prior.offers||[]).map(r=>JSON.parse(JSON.stringify(r)));
+  const allowed=new Set(fresh.skus.map(s=>s.id));
+  const shared=new Set((prior.skus||[]).filter(s=>allowed.has(s.id)).map(s=>s.id));
+  if(shared.size){
+   fresh.resources=(prior.resources||[]).filter(r=>
+     (r.skuIds||[]).some(id=>allowed.has(id))).map(r=>{
+      const keep=new Set((r.skuIds||[]).filter(id=>allowed.has(id)));
+      const copy=JSON.parse(JSON.stringify(r));
+      copy.skuIds=Array.from(keep);
+      for(const prop of ['includedBySku','usage'])
+       if(copy[prop])copy[prop]=Object.fromEntries(Object.entries(copy[prop])
+         .filter(([id])=>keep.has(id)));
+      return copy;
+     });
+   fresh.offers=(prior.offers||[]).filter(r=>
+      allowed.has(r.anchorSkuId)&&Array.isArray(r.items)&&
+      r.items.length>0&&r.items.every(item=>allowed.has(item.skuId)))
+      .map(r=>JSON.parse(JSON.stringify(r)));
    fresh.skus.forEach(s=>{
-    const old=prior.skus.find(x=>x.id===s.id);
-    s.discountSelected=Math.min(s.maxDiscountPct,Math.max(0,Number(old.discountSelected)||0));
+    const previous=prior.skus.find(x=>x.id===s.id);
+    if(previous)s.discountSelected=Math.min(s.maxDiscountPct,
+       Math.max(0,Number(previous.discountSelected)||0));
    });
   }
  }
