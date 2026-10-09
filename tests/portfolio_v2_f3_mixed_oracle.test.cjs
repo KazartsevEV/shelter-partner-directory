@@ -9,7 +9,7 @@ const units={own:15,resale:20,drop:13,salon:9.5,agent:6};
 const discount={own:.3,resale:.3,drop:0,salon:0,agent:0};
 const unitCost={own:20,resale:20,drop:12,salon:5,agent:0};
 const byMonth=Object.fromEntries(Object.keys(prices).map(id=>[
- id,(units[id]-discount[id])*prices[id]]);
+ id,(units[id]-discount[id])*prices[id]]));
 const regular=byMonth.own+byMonth.resale+byMonth.salon+byMonth.agent;
 const gross=regular+byMonth.drop;
 const taxAccrual=(gross-byMonth.agent)*.05+byMonth.agent*.10;
