@@ -39,7 +39,7 @@ async function examine(page,stage,locale) {
    }
   }
   const inputs=[...document.querySelectorAll('input,select,textarea')]
-   .filter(el=>!el.disabled&&el.type!=='file').map(el=>({
+   .filter(el=>!el.disabled&&el.type!=='file'&&el.id!=='nomad360-lang-select').map(el=>({
     path:el.id||el.name||el.getAttribute('data-linked-path')||
      el.getAttribute('data-p2-path')||el.getAttribute('data-key')||'anonymous',
     value:el.value
