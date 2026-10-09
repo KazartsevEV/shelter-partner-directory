@@ -352,6 +352,7 @@
             <div class="flex flex-wrap gap-2 mt-3 text-sm font-bold">
                 <button type="button" class="rounded-lg bg-blue-700 text-white px-3 py-2" onclick="document.getElementById('product-materials-block').scrollIntoView({behavior:'smooth',block:'start'})">↑ Все заполненные поля</button>
                 <button type="button" class="rounded-lg bg-emerald-700 text-white px-3 py-2" onclick="document.getElementById('product-portfolio-business-summary').scrollIntoView({behavior:'smooth',block:'start'})">↓ Cash flow по месяцам</button>
+                <button id="demo-edit-first" type="button" class="hidden rounded-lg border border-blue-300 bg-white px-3 py-2" onclick="editSavedProduct(1)">✎ Редактировать товар 1</button>
                 <a class="rounded-lg bg-white border border-blue-300 px-3 py-2" href="?demo=shopper&amp;finance=cash">Без кредита · 5 мес.</a>
                 <a class="rounded-lg bg-white border border-blue-300 px-3 py-2" href="?demo=shopper&amp;finance=credit">В кредит · 6 мес.</a>
             </div>
@@ -6175,6 +6176,17 @@
             refreshAllAggregatePricing();
         }
 
+        // A production field must update the entire unit-cost model immediately.
+        // Previously the electricity tariff/usage updated only its subtotal, while
+        // production quantity and rent could remain stale until another button was
+        // clicked. This silently corrupted a subsequently saved second SKU.
+        document.addEventListener('input', event => {
+            const target = event.target;
+            if (target?.matches?.('input') && target.closest('#product-production-block')) {
+                recalculateProductionUnitCost();
+            }
+        });
+
         // Native delegated click handling for all yes/no branches.
         // This does not depend on inline onclick handlers or Tailwind class ordering.
         document.addEventListener('click', function(event) {
@@ -6667,8 +6679,11 @@
                 el.dispatchEvent(new Event('input', { bubbles: true }));
             };
             const choose = selector => {
-                const el = document.querySelector(selector);
-                if (!el) throw new Error('Demo: choice not found: ' + selector);
+                // Frozen earlier SKUs contain disabled copies of their old controls.
+                const el = Array.from(document.querySelectorAll(selector)).find(
+                    element => !element.disabled && !element.closest('[data-completed-product-id]')
+                );
+                if (!el) throw new Error('Demo: active choice not found: ' + selector);
                 el.click();
             };
             showProductBranch();
@@ -6763,17 +6778,112 @@
             fillSelector('[data-tax-price-product-id="1"] input[oninput*="maxDiscountPct"]', 20);
             fillSelector('[data-tax-price-product-id="1"] input[oninput*="minimumMarginPct"]', 10);
 
+            const secondDemo = params.get('second') === 'shirt';
+            if (secondDemo) {
+                if (!addAnotherProduct()) throw new Error('Demo: cannot create second SKU');
+                choose('#product-source-block [data-product-source="own"]');
+                await new Promise(resolve => requestAnimationFrame(resolve));
+                fill('additional-product-name-input', 'Майка — второй товар');
+
+                // Distinct purchases: 54 raw units produce 50 finished shirts, defect 5%.
+                choose('[data-material-cost-mode="known"]');
+                fill('own-materials-cost', 150);
+                choose('[data-yn-group="vatIncluded"][data-yn-value="yes"]');
+                choose('[data-yn-group="inboundIncluded"][data-yn-value="yes"]');
+                choose('[data-yn-group="materialsImported"][data-yn-value="no"]');
+                fill('own-materials-batch-qty', 54);
+
+                // No SECOND room rent or additional sales staff is entered in this
+                // illustrative fixture. That is NOT proof of shared resource accounting:
+                // the current engine has no owned/shared expense selection per SKU.
+                choose('[data-yn-group="productionPremises"][data-yn-value="no"]');
+                choose('[data-yn-group="equipmentRental"][data-yn-value="no"]');
+                choose('[data-yn-group="equipmentPurchase"][data-yn-value="no"]');
+                choose('[data-production-labor-mode="self"]');
+                fill('own-production-defect-pct', 5);
+                choose('[data-yn-group="productionGas"][data-yn-value="no"]');
+                choose('[data-yn-group="productionElectricity"][data-yn-value="yes"]');
+                fill('own-production-electricity-tariff', 1);
+                fill('own-production-electricity-usage', 1);
+                choose('[data-yn-group="productionOverheads"][data-yn-value="no"]');
+                fill('own-production-monthly-qty', 50);
+                recalculateProductionUnitCost();
+
+                // Same provider tariff, but storage and shipment are paid for each SKU.
+                choose('[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="me"]');
+                fill('own-warehouse-inbound-unit-cost', 10);
+                choose('[data-logistics-payer-key="warehouse"][data-logistics-payer-value="me"]');
+                fill('own-warehouse-cost', 0.5);
+                fill('own-warehouse-days', 2);
+                choose('[data-logistics-payer-key="customerDelivery"][data-logistics-payer-value="me"]');
+                fill('own-customer-delivery-pct', 8);
+                fill('own-return-rate', 5);
+                fill('own-logistics-qty', 50);
+                recalculateLogisticsUnitCost();
+
+                // Second SKU pays own platform commission and media spend,
+                // but records zero EXTRA sellers' salary.
+                choose('[data-yn-group="salesCommission"][data-yn-value="yes"]');
+                fill('own-sales-commission-pct', 10);
+                choose('[data-yn-group="payroll"][data-yn-value="no"]');
+                choose('[data-yn-group="platformPenalties"][data-yn-value="yes"]');
+                fill('own-platform-penalties-pct', 1);
+                choose('[data-yn-group="employees"][data-yn-value="no"]');
+                fill('own-sales-monthly-qty', 50);
+
+                fill('own-product-ad-budget', 600);
+                fill('own-product-ad-cpc', 3);
+                fill('own-product-ad-ctr', 2);
+                fill('own-product-ad-click-lead', 20);
+                fill('own-product-ad-lead-sale', 40);
+                fill('own-product-ad-management', 60);
+                recalculateProductAdFunnel();
+
+                choose('#assortment-complete-button');
+                const second = '[data-business-product-id="2"]';
+                for (const [key, value] of [
+                    ['supplyDays', 7], ['advancePct', 50],
+                    ['advanceLeadDays', 3], ['productionDays', 10], ['reservePct', 10]
+                ]) fillSelector(second + ' input[oninput*="' + key + '"]', value);
+                choose(second + ' [data-funding-choice="' + (creditDemo ? 'credit' : 'cash') + '"]');
+                if (creditDemo) {
+                    fillSelector(second + ' input[oninput*="creditRatePct"]', 12);
+                    fillSelector(second + ' input[oninput*="creditTermMonths"]', 6);
+                }
+                fillSelector(second + ' input[oninput*="updateAggregateMargin"]', 30);
+                choose('[data-yn-group="salesVat"][data-yn-value="yes"]');
+                fill('own-sales-vat-pct', 12);
+                choose(second + ' [data-pricing-decision="tax"]');
+                choose('[data-business-tax-type="turnover"]');
+                fill('own-business-tax-pct', 6);
+                fillSelector('[data-tax-price-product-id="2"] input[oninput*="maxDiscountPct"]', 20);
+                fillSelector('[data-tax-price-product-id="2"] input[oninput*="minimumMarginPct"]', 10);
+            }
+
             const model = calculateProductPortfolio();
             const flow = calculateProductCashFlow(model);
             const demoBanner = document.getElementById('product-demo-banner');
-            if (!flow.ready || model.items.length !== 1 || flow.months.length !== (creditDemo ? 6 : 5)) {
+            if (!flow.ready || model.items.length !== (secondDemo ? 2 : 1) || flow.months.length !== (creditDemo ? 6 : 5)) {
                 throw new Error('Demo: incomplete model or wrong period');
             }
             if (demoBanner) {
                 demoBanner.hidden = false;
                 demoBanner.classList.remove('hidden');
+                if (secondDemo) {
+                    demoBanner.querySelector('.text-lg').textContent =
+                        'ДЕМО: два заполненных товара · шоппер + майка';
+                    demoBanner.querySelector('p').textContent =
+                        'Товар 1: 106 ед. сырья → 100 изделий, 24 продажи/мес. Товар 2: 54 ед. сырья → 50 изделий, 16 продаж/мес. Общее финансирование показано внизу. Разделение зарплат, помещения и сертификатов пока НЕ автоматизировано: в майке отдельные расходы на них введены как 0.';
+                    const editLink = document.getElementById('demo-edit-first');
+                    if (editLink) editLink.classList.remove('hidden');
+                    demoBanner.querySelectorAll('a[href*="finance="]').forEach(link => {
+                        const href = new URL(link.href);
+                        href.searchParams.set('second', 'shirt');
+                        link.href = href.toString();
+                    });
+                }
             }
-            document.title = 'ДЕМО · Хлопковый шоппер · Cash flow — ' + document.title;
+            document.title = 'ДЕМО · ' + (secondDemo ? 'шоппер + майка' : 'хлопковый шоппер') + ' · Cash flow — ' + document.title;
             await new Promise(resolve => requestAnimationFrame(resolve));
             const focus = params.get('focus') === 'inputs'
                 ? document.getElementById('product-materials-block')

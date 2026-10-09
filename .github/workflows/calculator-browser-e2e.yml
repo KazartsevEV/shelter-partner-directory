@@ -6,6 +6,7 @@ on:
       - "Marketing_calc.HTML"
       - "tests/marketing_calc_browser_e2e.cjs"
       - "tests/marketing_calc_prefilled_demo.test.cjs"
+      - "tests/marketing_calc_two_sku_demo.test.cjs"
       - ".github/workflows/calculator-browser-e2e.yml"
   workflow_dispatch:
 
@@ -29,3 +30,4 @@ jobs:
         run: |
           node tests/marketing_calc_browser_e2e.cjs
           node tests/marketing_calc_prefilled_demo.test.cjs
+          node tests/marketing_calc_two_sku_demo.test.cjs
