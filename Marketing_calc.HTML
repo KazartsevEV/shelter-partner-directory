@@ -3437,7 +3437,98 @@
             updateProductPortfolioBusinessSummary();
         }
 
+        function calculateDropshipCashFlow(model) {
+            // A single ad campaign is active for days 0-29. Orders are paid to the
+            // supplier on placement and settled by the customer at the declared time.
+            const items=productPortfolio.filter(item=>item.source==='dropship');
+            const schedules=items.map(item=>{
+                const row=model.items.find(r=>r.id===item.id);
+                const plan=dropshipCycleMetrics(item),loan=calculateAggregateCredit(item);
+                const usesCredit=item?.planning?.fundingMode==='credit';
+                return {item,row,plan,loan,usesCredit};
+            });
+            if(schedules.some(x=>!x.row||x.plan.requiredCapital===null||
+                (x.usesCredit&&x.loan.principal===null))){
+                return {ready:false,months:[],cumulativeEnd:null,freeCumulativeEnd:null};
+            }
+            const horizonDays=Math.max(30,...schedules.map(x=>
+                Math.max(x.plan.totalCycleDays||30,
+                    x.usesCredit?Math.max(1,Number(x.loan.termMonths)||1)*30:0)));
+            const monthCount=Math.max(1,Math.ceil(horizonDays/30));
+            const months=Array.from({length:monthCount},(_,index)=>({
+                month:index+1,inflow:0,outflow:0,cashFlow:0,cumulative:0,
+                taxPaid:0,interestPaid:0,principalRepaid:0,financedInflow:0,
+                taxableProfit:0,freeCumulative:0
+            }));
+            const idx=day=>Math.min(monthCount-1,Math.max(0,Math.floor(day/30)));
+            const sharedFixed=Math.max(0,...schedules.map(x=>Number(x.item.salesFixedMonthly)||0));
+            const reserveLocked=schedules.reduce((sum,x)=>sum+(x.plan.reserveAmount||0),0);
+            for(const x of schedules){
+                const {item,row,plan,loan,usesCredit}=x;
+                const capital=plan.requiredCapital||0;
+                months[0].inflow+=capital;months[0].financedInflow+=capital;
+                const perDayOrders=Math.max(0,Number(item.forecastUnitsPerMonth)||0)/30;
+                const supplierCost=Math.max(0,Number(item.materialsUnitCost)||0);
+                const deliveryCost=Math.max(0,Number(item.logisticsUnitCost)||0);
+                const promoDaily=(Math.max(0,Number(item.adBudget)||0)+
+                    Math.max(0,Number(item.adManagement)||0))/30;
+                const customerPayoutDelay=item.dropshipPayoutMode==='before'?0:
+                    Math.max(0,Number(item.dropshipDeliveryDays)||0)+
+                    Math.max(0,Number(item.dropshipPayoutLagDays)||0);
+                const variableRate=(Math.max(0,Number(item.salesVariablePct)||0)+
+                    Math.max(0,Number(item.penaltiesPct)||0))/100;
+                for(let day=0;day<30;day++){
+                    const outgoing=months[idx(day)];
+                    const fulfillment=perDayOrders*(supplierCost+deliveryCost);
+                    outgoing.outflow+=promoDaily+fulfillment;
+                    outgoing.taxableProfit-=promoDaily+fulfillment;
+                    const receipt=months[idx(day+customerPayoutDelay)];
+                    const revenue=perDayOrders*row.price*model.taxPriceMultiplier;
+                    receipt.inflow+=revenue;
+                    const commission=revenue*variableRate;
+                    receipt.outflow+=commission;
+                    receipt.taxableProfit+=revenue-commission;
+                }
+                if(usesCredit){
+                    const monthsOfLoan=Math.max(1,Number(loan.termMonths)||1);
+                    const interest=Math.max(0,Number(loan.monthlyServiceCost)||0);
+                    for(let month=0;month<Math.min(monthCount,monthsOfLoan);month++){
+                        months[month].outflow+=interest;
+                        months[month].interestPaid+=interest;
+                        months[month].taxableProfit-=interest;
+                    }
+                    const due=months[Math.min(monthCount-1,monthsOfLoan-1)];
+                    due.outflow+=Math.max(0,Number(loan.principal)||0);
+                    due.principalRepaid+=Math.max(0,Number(loan.principal)||0);
+                }
+            }
+            months[0].outflow+=sharedFixed;
+            months[0].taxableProfit-=sharedFixed;
+            const taxRate=Math.max(0,productNumber('own-business-tax-pct'))/100;
+            let cumulative=0;
+            for(const month of months){
+                const taxableTurnover=Math.max(0,month.inflow-month.financedInflow);
+                month.taxPaid=productBusinessTaxType==='turnover'?
+                    taxableTurnover*taxRate:Math.max(0,month.taxableProfit)*taxRate;
+                month.outflow+=month.taxPaid;
+                month.cashFlow=month.inflow-month.outflow;
+                cumulative+=month.cashFlow;
+                month.cumulative=cumulative;
+                month.freeCumulative=cumulative-reserveLocked;
+            }
+            return {
+                ready:true,months,horizonDays,saleEndDays:horizonDays,reserveLocked,
+                cumulativeEnd:cumulative,freeCumulativeEnd:cumulative-reserveLocked
+            };
+        }
+
         function calculateProductCashFlow(model) {
+            if (model?.pricingReady && productPortfolio.some(item=>item.source==='dropship')) {
+                // Mixed physical-stock and dropship cash schedules have different timing.
+                if(productPortfolio.some(item=>item.source!=='dropship'))return {ready:false,months:[],reason:'Для смешанного ассортимента нужен единый календарь платежей',cumulativeEnd:null,freeCumulativeEnd:null};
+                if(!productBusinessTaxType||model.taxPriceMultiplier===null)return {ready:false,months:[],cumulativeEnd:null,freeCumulativeEnd:null};
+                return calculateDropshipCashFlow(model);
+            }
             if (!model?.pricingReady || !model.items.length || !productBusinessTaxType || model.taxPriceMultiplier === null) {
                 return { ready: false, months: [], cumulativeEnd: null, freeCumulativeEnd: null };
             }
