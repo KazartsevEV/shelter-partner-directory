@@ -90,7 +90,8 @@ test('V1 visible placeholders and service validations have complete RU/EN/KK dis
   for(const issue of issues)A.notEqual(tr(issue,language),issue);
   const full='Нет корректного прогноза: '+issues.join(' ');
   const translated=tr(full,language);
-  A.ok(!/[А-Яа-яЁё]/.test(translated),'untranslated service input diagnostic: '+translated);
+  A.ok(!translated.startsWith('Нет корректного прогноза:') && issues.every(issue=>!translated.includes(issue)),
+   'untranslated service input diagnostic: '+translated);
   A.equal(tr(full+' Unknown','en'),full+' Unknown','unknown composite stays Russian and fail-closed');
  }
 });
