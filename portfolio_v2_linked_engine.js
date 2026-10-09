@@ -12,6 +12,7 @@
   const pos=v=>Math.max(0,finite(v));
   const sum=a=>a.reduce((v,x)=>v+x,0);
   const allowedPools=new Set(['none','unitCost','salesFixed','marketingManagement','adBudget']);
+  const cashBuckets=new Set(['materials','production','fulfillment']);
   const allowedKinds=new Set(['premises','workers','warehouse','equipment','certification','salesStaff','marketingManager','campaign','website','hosting','domain','content','other']);
   const sourceId=s=>String(s.id);
   function fromV1(payload){
@@ -71,6 +72,7 @@
       adBudget:pos(s.adBudget)
     }]));
     const offsets=Object.fromEntries(rows.map(s=>[s.id,{unitCost:0,salesFixed:0,marketingManagement:0,adBudget:0}]));
+    const cashOffsets=Object.fromEntries(rows.map(s=>[s.id,{materials:0,production:0,fulfillment:0}]));
     const ledger=[];
     for(let i=0;i<resources.length;i++){
       const r=resources[i],key='resources.'+i,beneficiaries=r.skuIds||[],pool=r.pool||'none';
@@ -83,6 +85,8 @@
       if(r.kind!=='campaign'&&pool==='adBudget')
         report(key+'.pool','Рекламный бюджет можно объединять только рекламной кампанией.');
       if(r.cadence!=='monthly'&&r.cadence!=='once')report(key+'.cadence','Укажите периодичность ресурса.');
+      if(pool==='unitCost'&&!cashBuckets.has(r.cashOrigin)&&sum(Object.values(r.includedBySku||{}).map(pos))>EPS)
+        report(key+'.cashOrigin','Выберите исходный денежный платёж V1: закупка, производство или исполнение заказа.');
       if(r.cadence==='once'&&pool!=='none')report(key+'.cadence','Нельзя перенести ежемесячный расход в разовый без графика амортизации.');
       const real=Number(r.amount);
       if(!Number.isFinite(real)||real<0)report(key+'.amount','Стоимость общего ресурса должна быть неотрицательной.');
@@ -104,6 +108,11 @@
         if(!Number.isFinite(Number(value))||Number(value)<0)
           report(key+'.includedBySku','Учтённая сумма должна быть неотрицательной.');
         if(pool!=='none'&&offsets[id])offsets[id][pool]+=pos(value);
+        if(pool==='unitCost'&&cashOffsets[id]&&cashBuckets.has(r.cashOrigin)){
+          const sku=rows.find(x=>x.id===id);
+          const multiplier=sku?.source==='dropship'?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
+          cashOffsets[id][r.cashOrigin]+=pos(value)*multiplier;
+        }
         if(pool==='none'&&pos(value)>EPS)report(key+'.pool','Для списания старой суммы укажите исходный блок.');
       }
       ledger.push({...r,skuIds:beneficiaries,amount:pos(r.amount),pool});
@@ -113,6 +122,13 @@
         if(offsets[s.id][pool]>caps[s.id][pool]+EPS)
           report('skus.'+rows.indexOf(s),'Из V1 списывается больше расходов, чем было учтено: '+pool+' для «'+s.name+'».');
       }
+      const o=cashOffsets[s.id];
+      if(s.source==='dropship'&&(o.materials>EPS||o.production>EPS))
+        report('skus.'+rows.indexOf(s),'Дропшиппинг оплачивается по заказу: используйте «Исполнение заказа».');
+      const qty=pos(s.inventoryQty),raw=pos(s.materialsBatchTotal),prod=pos(s.productionTotal),inbound=pos(s.warehouseInboundUnitCost)*qty;
+      const residual=Math.max(0,(pos(s.unitCost)-(raw+prod+inbound)/Math.max(qty,EPS))*qty);
+      if(s.source!=='dropship'&&(o.materials>raw+EPS||o.production>prod+EPS||o.fulfillment>residual+EPS))
+        report('skus.'+rows.indexOf(s),'Перенос общего расхода превышает сумму выбранного денежного блока V1 для «'+s.name+'».');
     }
     if(errors.length)return {ready:false,errors,fieldErrors};
 
@@ -196,7 +212,7 @@
         forecastOrders:orders,adBudgetEffective:media,revenue,cogs,commission,
         manager:monthlyManager,selling:monthlySelling,resourceShares:monthlyResources,
         ebitda,creditMonthly,preTaxProfit:ebitda-creditMonthly,
-        unitCostEffective:netUnitCost,unitLoad,revenueWeight:0,
+        unitCostEffective:netUnitCost,unitLoad,revenueWeight:0,cashOffsets:cashOffsets[s.id],
         actualAfterTaxMargin,minimumMarginFeasible:minOk,targetMarginMet:targetOk,
         status:!minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY'};
     });
@@ -230,7 +246,7 @@
         ', а предел V1 — '+item.priceMax+'.');
     if(!invariantMedia||Math.abs(allocated-resourcesTotal)>=EPS)
       report('resources','Не удалось распределить все расходы без потерь или повторного учёта.');
-    const base={ready:!errors.length,errors,fieldErrors,items,resources:scenario.allocation,offsets,
+    const base={ready:!errors.length,errors,fieldErrors,items,resources:scenario.allocation,offsets,cashOffsets,
       totals:{revenue:totalRevenue,media:fullMedia,cogs:sum(items.map(s=>s.cogs)),
         forecast:sum(items.map(s=>s.forecastOrders)),monthlyResources:monthlyCosts,
         onceResources:onceCosts,ebitda:totalEbitda,interest,tax,netProfit,
@@ -276,7 +292,8 @@
       const stock=pos(s.inventoryQty),orders=pos(s.forecastOrders);
       let residualPerUnit=pos(s.unitCostEffective);
       if(s.source!=='dropship'){
-        const input=pos(s.materialsBatchTotal),production=pos(s.productionTotal),
+        const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
+        const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production)),
           inbound=pos(s.warehouseInboundUnitCost)*stock;
         post(0,'stockPurchase',input);
         post(saleStart,'stockPurchase',production+inbound);
