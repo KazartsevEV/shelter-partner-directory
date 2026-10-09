@@ -248,6 +248,13 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       return node.textContent===Number(raw).toLocaleString(Nomad360LocaleCore.displayLocale(),
         {minimumFractionDigits:2,maximumFractionDigits:2});
     });
+    await page.waitForFunction(()=>{
+      const tableNumber=document.querySelector('#linked-results [data-nomad-display-number]');
+      if(!tableNumber)return false;
+      const raw=tableNumber.getAttribute('data-nomad-display-number');
+      return tableNumber.textContent===Number(raw).toLocaleString(Nomad360LocaleCore.displayLocale(),
+        {minimumFractionDigits:2,maximumFractionDigits:2});
+    });
     const beforeRerender=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       price:document.querySelector('[data-linked-sku="0"] [data-linked-price-list]')?.textContent
