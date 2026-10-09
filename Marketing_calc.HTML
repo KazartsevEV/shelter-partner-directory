@@ -3448,14 +3448,31 @@
                                 class="aggregate-action-confirm">
                                 Добавить продукт
                             </button>
-                            <a href="mailto:nomad260393@gmail.com?subject=%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82"
+                            <button type="button"
+                                onclick="toggleProjectSupport(this)"
                                 class="aggregate-action-recalc text-center flex items-center justify-center">
                                 Поддержать проект
-                            </a>
+                            </button>
                             <a href="mailto:nomad260393@gmail.com?subject=%D0%9A%D0%B0%D0%BB%D1%8C%D0%BA%D1%83%D0%BB%D1%8F%D1%82%D0%BE%D1%80%20%D1%8E%D0%BD%D0%B8%D1%82-%D1%8D%D0%BA%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D0%BA%D0%B8"
                                 class="aggregate-action-recalc text-center flex items-center justify-center">
                                 Связаться с разработчиком
                             </a>
+
+                            <div data-project-support
+                                class="hidden sm:col-span-3 rounded-xl border border-emerald-200/40 bg-white/10 p-4"
+                                hidden>
+                                <div class="aggregate-title font-bold">Поддержать проект</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                                    <div class="aggregate-price-card">
+                                        <div class="aggregate-muted text-xs">Kaspi KZ</div>
+                                        <div class="font-black text-lg mt-1">+7 777 129 56 93</div>
+                                    </div>
+                                    <div class="aggregate-price-card">
+                                        <div class="aggregate-muted text-xs">Ozon РФ</div>
+                                        <div class="font-black text-lg mt-1">+7 977 986 74 41</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -3612,6 +3629,16 @@
             }
 
             refreshAllAggregatePricing();
+        }
+
+        function toggleProjectSupport(button) {
+            const container = button?.closest('[data-tax-price-product-id]');
+            const panel = container?.querySelector('[data-project-support]');
+            if (!panel) return;
+
+            const show = panel.hidden || panel.classList.contains('hidden');
+            panel.hidden = !show;
+            panel.classList.toggle('hidden', !show);
         }
 
         function saveProductCalculationToBrowser() {
