@@ -903,7 +903,7 @@
             </div>
 
             <div id="logistics-unit-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
-                <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 3</div>
+                <div data-detail-step="logistics" class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 3</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     Минимальная стоимость хранения и доставки до покупателя 1 ед. <span class="product-name-live"></span> составляет
                     <span id="own-logistics-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
@@ -1118,7 +1118,7 @@
             </div>
 
             <div id="sales-cost-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
-                <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 4</div>
+                <div data-detail-step="sales" class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 4</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed" data-sales-unit-result-version="2">
                     Чтобы продать 1 ед. <span class="product-name-live"></span>, постоянные расходы на продажу составляют
                     <span id="own-sales-result-unit" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
@@ -1243,7 +1243,7 @@
             </div>
 
             <div id="product-ad-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
-                <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 5</div>
+                <div data-detail-step="ads" class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 5</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     Чтобы продать 1 ед. <span class="product-name-live"></span>, надо потратить
                     <span id="own-product-ad-cac-unit" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
@@ -5610,6 +5610,10 @@
                 ['materials-qty-entry-panel',!resale],['product-production-block',!resale]]){
                 const node=document.getElementById(id);if(node){node.hidden=!visible;node.classList.toggle('hidden',!visible);}
             }
+            const steps=resale?{logistics:2,sales:3,ads:4}:{logistics:3,sales:4,ads:5};
+            document.querySelectorAll('[data-detail-step]').forEach(el=>{
+                el.textContent='Итог блока '+(steps[el.dataset.detailStep]||'');
+            });
             const title=document.getElementById('materials-step-name');
             if(title)title.textContent=resale?'Закупка готового товара':'Из чего состоит себестоимость';
             const hint=document.getElementById('materials-step-help');
