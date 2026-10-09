@@ -191,3 +191,27 @@ test('INVALID INPUT: impossible conversions, zero CTR with spend, negatives & no
   A.deepEqual(errors,[]);
  }finally{await page.close();}
 });
+
+test('ALL HERO KPIs: CPA/CAC match displayed period totals, never the un-ramped old funnel',async()=>{
+ for(const mode of ['self','hired']){
+  for(const months of [1,3,6]){
+   const {page,errors}=await setup(mode,{months});
+   try{
+    const revenue=325+(months-1)*1600;
+    const deals=2.5+(months-1)*10;
+    const budget=400*months;
+    const acquiring=revenue*.10,contractor=mode==='hired'?revenue/1.25:0;
+    const costs=budget+acquiring+contractor;
+    const net=revenue-costs-revenue*.05;
+    eq(fmt(await page.locator('#res-cpa').textContent()),budget/deals,mode+'/'+months+' hero CPA');
+    eq(fmt(await page.locator('#res-cac').textContent()),costs/deals,mode+'/'+months+' hero CAC');
+    eq(await summary(page,'CPA (цена клиента реклама)'),budget/deals,mode+'/'+months+' table CPA');
+    eq(await summary(page,'CAC (цена клиента полная)'),costs/deals,mode+'/'+months+' table CAC');
+    eq(fmt(await page.locator('#res-profit').textContent()),net,mode+'/'+months+' profit');
+    eq(await cell(page,'monthly-table','Количество сделок'),deals,mode+'/'+months+' deals');
+    eq(await cell(page,'monthly-table','Денежный поток'),net,mode+'/'+months+' cash');
+    A.deepEqual(errors,[]);
+   }finally{await page.close();}
+  }
+ }
+});
