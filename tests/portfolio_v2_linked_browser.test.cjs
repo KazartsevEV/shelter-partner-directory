@@ -54,6 +54,15 @@ const path=require('node:path');
   assert.equal(await page.locator('[data-linked-sku]').count(),2);
   assert.equal(await page.locator('[data-linked-resource]').count(),1);
   assert.equal(await page.locator('[data-linked-path="skus.0.discountSelected"]').inputValue(),'15');
+  await page.goto(url+'?demo=shopper&finance=cash',{waitUntil:'domcontentloaded'});
+  await page.locator('#product-demo-banner').waitFor({state:'visible'});
+  const imported=await page.evaluate(()=>openLinkedPortfolioFromProducts());
+  assert.equal(imported,true,'Completed V1 demo must transfer exact computed SKU');
+  const transfer=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  assert.equal(transfer.skus.length,1);
+  assert.ok(transfer.skus[0].priceMax>transfer.skus[0].priceMin);
+  assert.ok(transfer.skus[0].baseCac>0);
+  assert.equal(transfer.tax.type,'turnover');
   assert.deepEqual(errors,[]);
   console.log('LINKED_V2_BROWSER_GREEN',JSON.stringify({skus:2,profit:current.totals.netProfit,
    price:current.items[0].priceList,paid:current.items[0].priceGross,capital:current.cashflow.startupCapital}));
