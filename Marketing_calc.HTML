@@ -5625,42 +5625,46 @@
             updateInboundDeliveryDefault();recalculateMaterialsLandedCost();renderResalePurchaseComposition();
         }
         function setResaleProductPanels(){
-            const resale=productSource==='resale';
-            for(const [id,visible] of [['resale-buy-panel',resale],['material-cost-entry-panel',!resale],
-                ['materials-qty-entry-panel',!resale],['product-production-block',!resale],['production-unit-result',!resale]]){
-                const node=document.getElementById(id);if(node){node.hidden=!visible;node.classList.toggle('hidden',!visible);}
+            const resale=productSource==='resale',drop=productSource==='dropship',ready=resale||drop;
+            const show={'resale-buy-panel':ready,'material-cost-entry-panel':!ready,
+                'materials-qty-entry-panel':!ready,'product-production-block':!ready,
+                'production-unit-result':!ready,'purchase-inbound-delivery-panel':!drop,
+                'warehouse-inbound-panel':!drop,'warehouse-storage-panel':!drop,
+                'logistics-quantity-panel':!drop,'logistics-total-stock-panel':!drop,'dropship-delivery-terms':drop};
+            Object.entries(show).forEach(([id,visible])=>{const el=document.getElementById(id);if(el){el.hidden=!visible;el.classList.toggle('hidden',!visible);}});
+            if(drop){
+                productOwnChoices.inboundIncluded='yes';setProductChoiceVisual('inboundIncluded','yes');
+                setProductHidden('own-inbound-cost-wrap',true);setProductFieldZero('own-inbound-delivery-cost');
+                productLogisticsPayers.warehouseInbound=null;productLogisticsPayers.warehouse=null;
+                ['own-warehouse-inbound-unit-cost','own-warehouse-cost','own-warehouse-days'].forEach(setProductFieldZero);
             }
-            const steps=resale?{logistics:2,sales:3,ads:4}:{logistics:3,sales:4,ads:5};
-            document.querySelectorAll('[data-detail-step]').forEach(el=>{
-                el.textContent='Итог блока '+(steps[el.dataset.detailStep]||'');
-            });
-            const title=document.getElementById('materials-step-name');
-            if(title)title.textContent=resale?'Закупка готового товара':'Из чего состоит себестоимость';
-            const hint=document.getElementById('materials-step-help');
-            if(hint)hint.textContent=resale?'Купленные готовые единицы сразу переходят на склад; дальше работают прежние логистика, продажи, кредит и налоги.':
-                'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.';
-            const label=document.getElementById('materials-step-result-label');
-            if(label)label.textContent=resale?'Для покупки и доставки 1 готовой единицы':'Для того, чтобы купить и привезти материалы для 1 ед.';
-            const own={vat:'НДС уже включён в себестоимость материалов?',rate:'Ставка НДС на материалы, %',
-                delivery:'Доставка материалов до меня уже включена в себестоимость?',deliveryAmount:'Стоимость доставки материалов до меня, у.е.*',
-                deliveryHint:'По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.',
-                import:'Материалы везут ко мне из-за границы?'};
-            const buy={vat:'НДС уже включён в цену готового товара?',rate:'Ставка НДС при закупке товара, %',
-                delivery:'Доставка готового товара до меня уже включена?',deliveryAmount:'Доставка готового товара до меня за 1 ед., у.е.*',
-                deliveryHint:'По умолчанию — 10% от закупочной цены единицы с НДС. Значение можно заменить вручную.',
-                import:'Товар везут ко мне из-за границы?'};
-            document.querySelectorAll('[data-buy-copy]').forEach(node=>{node.textContent=(resale?buy:own)[node.dataset.buyCopy];});
-            if(resale){for(const id of ['own-materials-known-wrap','own-materials-calc-wrap']){
-                const node=document.getElementById(id);if(node){node.hidden=true;node.classList.add('hidden');}}
-                updateResalePurchase();recalculateProductionUnitCost();
-            }
+            const steps=ready?{logistics:2,sales:3,ads:4}:{logistics:3,sales:4,ads:5};
+            document.querySelectorAll('[data-detail-step]').forEach(el=>el.textContent='Итог блока '+steps[el.dataset.detailStep]);
+            const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+            set('materials-step-name',drop?'Чем я буду торговать? Подобрать ассортимент':resale?'Закупка готового товара':'Из чего состоит себестоимость');
+            set('materials-step-help',drop?'Подберите ассортимент и поставщиков. Товар покупается под заказ и направляется покупателю без склада.':resale?'Закупка готовых товаров со складом.':'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
+            set('materials-step-result-label',drop?'Закупить и оформить 1 заказ на':resale?'Для покупки и доставки 1 готовой единицы':'Для того, чтобы купить и привезти материалы для 1 ед.');
+            set('resale-buy-heading',drop?'Где и почём куплю товар?':'Себестоимость минимальной партии готового товара');
+            set('resale-buy-help',drop?'Каждый товар и поставщик считаются отдельно. Закупка — только под оплачиваемый покупателем заказ.':'Каждый товар в закупочном заказе — отдельная позиция.');
+            set('resale-buy-qty-label',drop?'Единиц в одном заказе поставщику':'Количество готовых единиц в минимальной партии');
+            set('resale-buy-cost-label',drop?'Цена заказа у поставщика, у.е.*':'Себестоимость минимальной партии, у.е.*');
+            set('resale-composition-title',drop?'Мой ассортимент по отдельным товарам':'Состав моего заказа по отдельным товарам');
+            set('resale-buy-add-label',drop?'+ Добавить товар в ассортимент':'+ Добавить ещё один товар в заказ');
+            set('logistics-stage-heading',drop?'Доставка до покупателя':'Логистика и склад');
+            set('logistics-result-caption',drop?'Стоимость доставки покупателю 1 ед.':'Минимальная стоимость хранения и доставки до покупателя 1 ед.');
+            const own={vat:'НДС уже включён в себестоимость материалов?',rate:'Ставка НДС на материалы, %',delivery:'Доставка материалов до меня уже включена в себестоимость?',deliveryAmount:'Стоимость доставки материалов до меня, у.е.*',deliveryHint:'По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.',import:'Материалы везут ко мне из-за границы?'};
+            const buy={vat:'НДС уже включён в цену готового товара?',rate:'Ставка НДС при закупке товара, %',delivery:'Доставка готового товара до меня уже включена?',deliveryAmount:'Доставка готового товара до меня за 1 ед., у.е.*',deliveryHint:'По умолчанию — 10% от закупочной цены единицы с НДС. Значение можно заменить вручную.',import:'Товар везут ко мне из-за границы?'};
+            document.querySelectorAll('[data-buy-copy]').forEach(el=>el.textContent=(drop?{...buy,import:'Поставщик отправляет товар покупателю из-за границы?'}:resale?buy:own)[el.dataset.buyCopy]||el.textContent);
+            if(ready){['own-materials-known-wrap','own-materials-calc-wrap'].forEach(id=>{const el=document.getElementById(id);if(el){el.hidden=true;el.classList.add('hidden');}});updateResalePurchase();recalculateProductionUnitCost();}
+            if(drop)recalculateLogisticsUnitCost();
         }
         function addAnotherResaleProduct(){
+            const previousSource=productSource;
             if(!productName||!(productNumber('resale-buy-total')>0)){
                 updateResalePurchase();document.getElementById('resale-buy-total')?.focus();return false;
             }
             if(!addAnotherProduct())return false;
-            selectProductSource('resale');
+            selectProductSource(previousSource);
             document.getElementById('additional-product-name-input')?.focus({preventScroll:true});
             return true;
         }
