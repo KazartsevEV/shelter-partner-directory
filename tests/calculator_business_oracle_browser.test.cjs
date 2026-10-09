@@ -115,3 +115,47 @@ test('CAPEX: website & lead magnet are one-time cash outflows, amortized in P&L,
   A.deepEqual(errors,[]);
  }finally{await page.close();}
 });
+
+test('AGENT payer matrix: all 64 expense ownership combinations conserve partner+agent money',async()=>{
+ const {page,errors}=await setup('agent',{mgmt:30,site:120,hosting:12,dom:6,magnet:60});
+ const keys=['monthlyBudget','mgmt','site','hosting','dom','magnet'];
+ const amounts={monthlyBudget:1200,mgmt:30,site:120,hosting:12,dom:6,magnet:60};
+ const baseAgent=monthRevenue*.2,agentTax=baseAgent*.1;
+ const partnerTax=monthRevenue*.05,acq=monthRevenue*.1;
+ try{
+  for(let mask=0;mask<64;mask++){
+   const payers=Object.fromEntries(keys.map((key,i)=>[key,mask&(1<<i)?'me':'partner']));
+   const view=await page.evaluate(payers=>{
+      for(const [key,payer]of Object.entries(payers))
+        document.querySelector('input[name="payer-'+key+'"][value="'+payer+'"]').click();
+      const val=(table,label)=>{
+        const row=Array.from(document.querySelectorAll('#'+table+' tr'))
+          .find(tr=>tr.querySelector('td')?.textContent?.trim()===label);
+        return row?.querySelector('td:last-child')?.textContent||'NOT_FOUND';
+      };
+      return {
+        agent:val('summary-table','Мне остаётся после моих расходов и налога'),
+        profit:val('summary-table','Чистая прибыль партнёра после налогов'),
+        cash:val('monthly-table','Денежный поток партнёра'),
+        error:document.querySelector('#res-profit').textContent
+      };
+    },payers);
+   const mine=keys.filter(key=>payers[key]==='me').reduce((a,k)=>a+amounts[k],0);
+   const partnerBudget=payers.monthlyBudget==='partner'?1200:0;
+   const partnerOpex=['mgmt','hosting','dom']
+     .filter(k=>payers[k]==='partner').reduce((a,k)=>a+amounts[k],0);
+   const partnerCapex=['site','magnet']
+     .filter(k=>payers[k]==='partner').reduce((a,k)=>a+amounts[k],0);
+   const operating=monthRevenue-acq-baseAgent-partnerTax-partnerBudget-partnerOpex;
+   const pProfit=operating-partnerCapex*3/12,pCash=operating-partnerCapex;
+   const myNet=baseAgent-agentTax-mine;
+   eq(fmt(view.agent),myNet,'agent payer mask '+mask);
+   eq(fmt(view.profit),pProfit,'partner P&L mask '+mask);
+   eq(fmt(view.cash),pCash,'partner cash mask '+mask);
+   eq(fmt(view.agent)+fmt(view.cash),
+      monthRevenue-acq-partnerTax-agentTax-(1200+30+120+12+6+60),
+      'system cash conservation mask '+mask);
+  }
+  A.deepEqual(errors,[]);
+ }finally{await page.close();}
+});
