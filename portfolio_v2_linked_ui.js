@@ -279,7 +279,7 @@ function updateResult(){
   '<h3 class="font-bold mt-5">Общая реклама по месяцам · реальные платежи и спрос</h3>'+
   '<p class="text-xs text-slate-200 mt-2">При распродаже товара его доля прекращается. Нераспределённые деньги остаются фактическим расходом кампании. Маржа полного периода требует отдельного расчёта F2.</p>'+
   '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[550px] text-xs"><thead><tr>'+
-  ['Месяц','Оплачено','По SKU','Нераспределено','Кампании'].map(s=>
+  ['Месяц','Оплачено','По SKU','Нераспределено','Неисполненный спрос, ед.','Кампании'].map(s=>
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
   out.temporal.months.map(m=>'<tr class="border-t border-white/20">'+
     '<td class="p-2 text-right">'+m.month+'</td>'+
@@ -288,6 +288,8 @@ function updateResult(){
       safe(out.items.find(s=>s.id===id)?.name||id)+': '+
       money(num(m.media.allocatedBySku[id])+num(m.media.retainedBySku[id]))).join('; ')+'</td>'+
     '<td class="p-2 text-right">'+money(m.media.unattributed)+'</td>'+
+    '<td class="p-2 text-right">'+Object.entries(m.unservedIndependent||{}).filter(([,qty])=>num(qty)>.001).map(([id,qty])=>
+      safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(qty)).join('; ')+'</td>'+
     '<td class="p-2 text-right">'+Object.entries(m.media.paidByCampaign).map(([id,amount])=>
       safe(state.resources.find(r=>r.id===id)?.label||id)+': '+money(amount)).join('; ')+'</td>'+
    '</tr>').join('')+'</tbody></table></div>':'';
