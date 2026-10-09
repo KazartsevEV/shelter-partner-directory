@@ -83,3 +83,20 @@ test('#31E invalid horizon is rejected without cash estimates',()=>{
  const x=state();x.forecastMonths=121;x.recurringDemandApproved=true;
  const r=plan(x);A.equal(r.ready,false);A.equal(r.months.length,0);
 });
+
+test('#31E2 component cannot be bundled before its supply arrival',()=>{
+ const x=state(60,100);
+ x.forecastMonths=3;x.recurringDemandApproved=true;
+ x.skus[1].supplyDays=40;
+ x.offers=[basket()];
+ const result=plan(x);
+ A.equal(result.ready,false);
+ A.match(result.errors.join(' '),/Месяц 1.*ещё не поставлен/);
+});
+test('#31E2 reject deliveries entirely after selected forecast horizon',()=>{
+ const x=state(60,100);x.forecastMonths=2;x.recurringDemandApproved=true;
+ x.skus[0].supplyDays=80;
+ const r=plan(x);
+ A.equal(r.ready,false);
+ A.match(r.errors.join(' '),/поступит после выбранного горизонта/);
+});
