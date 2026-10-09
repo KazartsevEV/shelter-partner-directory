@@ -167,3 +167,15 @@ test('Monthly group resources and targeted campaigns stop when their beneficiary
  close(r.months[1].ad,1100,'A targeted campaign ended, B still running');
  close(r.months[2].ad,1100,'A campaign is not billed after its stock sells out');
 });
+
+test('Shared marketing cannot be redirected to unit/usage ratio against revenue weights',()=>{
+ const x=base();
+ x.marketing.budget=0;
+ x.resources=[{id:'global-media',kind:'campaign',amount:1000,cadence:'monthly',
+  allocation:'usage',usage:{a:90,b:10},skuIds:['a','b']}];
+ const r=calc.build(x);
+ assert.equal(r.ready,true,JSON.stringify(r.errors));
+ close(r.items[0].adBudget,r.items[0].revenueWeight*1000,'Revenue weighting overrides arbitrary ad usage');
+ close(r.items[1].adBudget,r.items[1].revenueWeight*1000,'Other SKU weighted correctly');
+ close(r.invariants.adDiff,0,'Full pool conserved');
+});
