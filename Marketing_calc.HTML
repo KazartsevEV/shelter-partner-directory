@@ -443,17 +443,17 @@
                 </button>
 
                 <button type="button" data-product-source="dropship" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
-                    <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Расчёт в разработке</div>
+                    <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Покупаю под заказ, поставщик доставляет покупателю</div>
                 </button>
             </div>
             <div id="product-source-unavailable" class="hidden mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900" role="status" hidden>
-                Дропшиппинг пока не реализован в подробном калькуляторе. Выберите «Делаю сам» или «Покупаю у других».
+                Для дропшиппинга выберите поставщика, стоимость исполнения заказа и срок доставки.
             </div>
         </div>
 
         <div id="product-draft-toolbar" class="hidden mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4" hidden>
             <div class="font-semibold text-slate-900">Ваш товар — сохраните черновик в любой момент</div>
-            <p class="text-xs text-slate-600 mt-1">Черновик производства или закупки готовых товаров можно сохранить и продолжить позже.</p>
+            <p class="text-xs text-slate-600 mt-1">Черновик производства, закупки или дропшиппинга можно сохранить и продолжить позже.</p>
             <button type="button" class="mt-3 w-full rounded-lg bg-blue-700 text-white font-bold px-4 py-3" onclick="saveProductCalculationToBrowser()">Сохранить мой товар и продолжить позже</button>
             <div id="product-draft-save-status" class="text-sm text-blue-800 mt-2" role="status"></div>
         </div>
@@ -484,12 +484,12 @@
 
                 <div class="mt-6 space-y-5">
                     <div id="resale-buy-panel" class="hidden rounded-xl border border-violet-200 bg-violet-50/50 p-4" hidden>
-<h3 class="font-bold text-lg text-slate-900">Себестоимость минимальной партии готового товара</h3>
-<p class="text-sm text-slate-600 mt-2">Каждый разный товар в заказе — самостоятельная позиция со своей себестоимостью, количеством, последующей логистикой и ценой продажи. Отдельные товары не усредняются.</p>
+<h3 id="resale-buy-heading" class="font-bold text-lg text-slate-900">Себестоимость минимальной партии готового товара</h3>
+<p id="resale-buy-help" class="text-sm text-slate-600 mt-2">Каждый разный товар в заказе — самостоятельная позиция со своей себестоимостью, количеством, последующей логистикой и ценой продажи. Отдельные товары не усредняются.</p>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-<label class="text-sm font-semibold text-slate-700">Количество готовых единиц в минимальной партии
+<label class="text-sm font-semibold text-slate-700"><span id="resale-buy-qty-label">Количество готовых единиц в минимальной партии</span>
 <input id="resale-buy-qty" type="number" min="1" step="1" value="1" class="input-field mt-2" oninput="updateResalePurchase()"></label>
-<label class="text-sm font-semibold text-slate-700">Себестоимость минимальной партии, у.е.*
+<label class="text-sm font-semibold text-slate-700"><span id="resale-buy-cost-label">Себестоимость минимальной партии, у.е.*</span>
 <input id="resale-buy-total" type="number" min="0" step="0.01" value="" class="input-field mt-2" placeholder="Вся закупка этого товара" oninput="updateResalePurchase()"></label>
 <label class="text-sm font-semibold text-slate-700">Поставщик (необязательно)
 <input id="resale-buy-supplier" type="text" class="input-field mt-2" placeholder="Поставщик" oninput="renderResalePurchaseComposition()"></label>
@@ -499,9 +499,9 @@
 <div class="mt-4 flex justify-between gap-3 text-sm"><span>Закупочная цена 1 ед.</span><strong id="resale-buy-unit">—</strong></div>
 <p id="resale-buy-warning" class="hidden text-red-700 text-sm mt-2" hidden>Укажите положительную стоимость минимальной партии.</p>
 <div class="border-t border-violet-200 mt-4 pt-4">
-<h3 class="font-bold text-slate-900">Состав моего заказа по отдельным товарам</h3>
+<h3 id="resale-composition-title" class="font-bold text-slate-900">Состав моего заказа по отдельным товарам</h3>
 <div id="resale-purchase-composition" class="mt-3 text-sm"></div>
-<button type="button" onclick="addAnotherResaleProduct()" class="mt-3 w-full rounded-lg bg-violet-700 text-white py-3 px-3 font-bold">+ Добавить ещё один товар в заказ</button>
+<button type="button" onclick="addAnotherResaleProduct()" class="mt-3 w-full rounded-lg bg-violet-700 text-white py-3 px-3 font-bold"><span id="resale-buy-add-label">+ Добавить ещё один товар в заказ</span></button>
 </div></div>
                     <div id="material-cost-entry-panel" class="rounded-xl border border-blue-100 bg-blue-50/30 p-4">
                         <div class="text-sm font-medium text-slate-800 mb-3">Как задаём себестоимость материалов?</div>
@@ -551,7 +551,7 @@
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4">
+                    <div id="purchase-inbound-delivery-panel" class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800"><span data-buy-copy="delivery">Доставка материалов до меня уже включена в себестоимость?</span></div>
                         <div class="flex gap-2 mt-3">
                             <button type="button" data-yn-group="inboundIncluded" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
@@ -833,13 +833,13 @@
             </div>
 
             <div id="product-logistics-block" class="card p-6 md:p-8 scroll-mt-4">
-                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Логистика и склад</div>
+                <div id="logistics-stage-heading" class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Логистика и склад</div>
                 <h2 class="text-2xl font-bold text-slate-900">
                     Логистика <span class="product-name-live"></span>
                 </h2>
 
                 <div class="mt-6 space-y-5">
-                    <div class="rounded-lg border border-slate-200 p-4">
+                    <div id="warehouse-inbound-panel" class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за доставку <span class="product-name-live"></span> до склада?
                         </div>
@@ -853,7 +853,7 @@
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4">
+                    <div id="warehouse-storage-panel" class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за хранение <span class="product-name-live"></span> на складе?
                         </div>
@@ -878,6 +878,22 @@
                         </div>
                     </div>
 
+                    <div id="dropship-delivery-terms" class="hidden rounded-lg border border-violet-200 bg-violet-50/50 p-4" hidden>
+                        <h3 class="font-bold text-slate-900">Срок доставки до покупателя</h3>
+                        <p class="text-xs text-slate-600 mt-1">От заказа до получения покупателем. Учитывается при расчёте потребности в оборотных деньгах.</p>
+                        <label class="block text-sm mt-3">Срок доставки, дней
+                            <input id="dropship-delivery-days" class="input-field mt-2" type="number" min="0" step="1" value="" placeholder="Например, 12" oninput="syncDropshipFinanceInputs()">
+                        </label>
+                        <h3 class="font-bold text-slate-900 mt-4">Когда деньги покупателя доступны для оплаты поставщику?</h3>
+                        <select id="dropship-payout-mode" class="input-field mt-2" onchange="syncDropshipFinanceInputs()">
+                            <option value="after">После доставки покупателю</option>
+                            <option value="before">До оплаты поставщику</option>
+                        </select>
+                        <label class="block text-sm mt-3">Дополнительная задержка выплаты после доставки, дней
+                            <input id="dropship-payout-lag" class="input-field mt-2" type="number" min="0" step="1" value="0" oninput="syncDropshipFinanceInputs()">
+                        </label>
+                        <p class="text-xs text-slate-600 mt-2">Поставщику платим при оформлении заказа; складских запасов нет. Если деньги покупателя ещё недоступны, расходы временно финансирует бизнес.</p>
+                    </div>
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за доставку <span class="product-name-live"></span> до покупателя?
@@ -905,12 +921,12 @@
             <div id="logistics-unit-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
                 <div data-detail-step="logistics" class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 3</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
-                    Минимальная стоимость хранения и доставки до покупателя 1 ед. <span class="product-name-live"></span> составляет
+                    <span id="logistics-result-caption">Минимальная стоимость хранения и доставки до покупателя 1 ед.</span> <span class="product-name-live"></span> составляет
                     <span id="own-logistics-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
                     у.е.*.
                 </div>
 
-                <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
+                <div id="logistics-quantity-panel" class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
                     <label class="block text-sm font-medium text-slate-700 mb-2">
                         Количество <span class="product-name-live"></span> для расчёта
                     </label>
@@ -922,7 +938,7 @@
 
                 <p id="own-logistics-minimum-note" class="mt-3 text-xs text-slate-500"></p>
                 <div id="own-logistics-unit-breakdown" class="mt-4 text-xs text-slate-600 leading-relaxed"></div>
-                <div class="mt-4 rounded-xl bg-white/80 border border-emerald-200 p-4 flex justify-between gap-4 text-sm">
+                <div id="logistics-total-stock-panel" class="mt-4 rounded-xl bg-white/80 border border-emerald-200 p-4 flex justify-between gap-4 text-sm">
                     <span class="font-semibold text-slate-800">Логистика для выбранного количества, у.е.*</span>
                     <span id="own-logistics-selected-total" class="font-bold text-emerald-800">0,00</span>
                 </div>
