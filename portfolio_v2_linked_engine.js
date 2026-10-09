@@ -416,7 +416,7 @@
     const tax=regularTax+onlineTax;
     const netProfit=totalEbitda-interest-tax;
     const originalMedia=sum(rows.map(s=>pos(s.adBudget)));
-    const addedMedia=sum(scenario.allocation.filter(r=>r.kind==='campaign').map(r=>r.amount));
+    const addedMedia=sum(scenario.allocation.filter(r=>r.kind==='campaign'&&r.cadence==='monthly').map(r=>r.amount));
     const replacedMedia=sum(rows.map(s=>offsets[s.id].adBudget));
     const invariantMedia=Math.abs(fullMedia-(originalMedia-replacedMedia+addedMedia))<EPS;
     const allocated=sum(scenario.allocation.map(r=>sum(Object.values(r.bySku))));
