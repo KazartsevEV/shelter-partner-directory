@@ -985,7 +985,7 @@
             <div id="product-sales-block" class="card p-6 md:p-8 scroll-mt-4">
                 <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Расходы на продажу</div>
                 <h2 class="text-2xl font-bold text-slate-900">
-                    Расходы при продаже <span class="product-name-live"></span>
+                    <span id="service-sales-heading">Расходы при продаже</span> <span class="product-name-live"></span>
                 </h2>
 
                 <div class="mt-6 space-y-5">
@@ -1237,9 +1237,9 @@
             <div id="product-ad-block" class="card p-6 md:p-8 scroll-mt-4">
                 <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Рекламные расходы</div>
                 <h2 class="text-2xl font-bold text-slate-900">
-                    Рекламные расходы на привлечение покупателей <span class="product-name-live"></span>
+                    <span id="service-ads-heading">Рекламные расходы на привлечение покупателей</span> <span class="product-name-live"></span>
                 </h2>
-                <p class="text-sm text-slate-500 mt-2">
+                <p class="text-sm text-slate-500 mt-2" id="service-ads-description">
                     Считаем воронку этого SKU: рекламный бюджет → клики → лиды → покупки → Base CAC товара.
                 </p>
 
@@ -1338,8 +1338,8 @@
             </div>
 
             <div id="product-assortment-gate" class="card p-6 md:p-8">
-                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Ассортимент</div>
-                <h2 class="text-2xl font-bold text-slate-900">Это весь ваш ассортимент?</h2>
+                <div id="service-assortment-kicker" class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Ассортимент</div>
+                <h2 id="service-assortment-heading" class="text-2xl font-bold text-slate-900">Это весь ваш ассортимент?</h2>
 
                 <div id="product-portfolio-list" class="hidden mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"></div>
 
@@ -1348,12 +1348,12 @@
                         Это мой единственный <span class="product-name-live"></span>
                     </button>
                     <button type="button" onclick="setProductAssortmentChoice('more')" class="rounded-xl border-2 border-violet-300 bg-violet-50 text-violet-800 px-4 py-3 font-bold text-left">
-                        У меня будут другие товары
+                        <span id="service-assortment-more">У меня будут другие товары</span>
                     </button>
                 </div>
 
                 <button id="add-product-button" type="button" onclick="addAnotherProduct()" class="hidden mt-4 w-full rounded-xl bg-violet-600 text-white px-5 py-3.5 font-bold shadow-md hover:bg-violet-700 transition">
-                    + Добавить товар
+                    <span id="service-assortment-add">+ Добавить товар</span>
                 </button>
 
                 <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
@@ -6060,6 +6060,13 @@
                 'Укажите расходники на одну процедуру — лак, база, пилки, перчатки и другое. Можно ввести одну сумму или состав по позициям. Без закупочной партии и складских остатков.':
                 'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
             if(service||productSource==='own')set('materials-step-result-label',service?'Расходники на 1 оказанную услугу':'Для того, чтобы купить и привезти материалы для 1 ед.');
+            set('service-sales-heading',service?'Расходы на оказание и продажу':'Расходы при продаже');
+            set('service-ads-heading',service?'Рекламные расходы на привлечение клиентов':'Рекламные расходы на привлечение покупателей');
+            set('service-ads-description',service?'Прогноз: рекламный бюджет → клики → обращения → записи → оказанные услуги. CAC — стоимость привлечения клиента.':'Считаем воронку этого SKU: рекламный бюджет → клики → лиды → покупки → Base CAC товара.');
+            set('service-assortment-kicker',service?'Мои услуги':'Ассортимент');
+            set('service-assortment-heading',service?'Это все ваши услуги?':'Это весь ваш ассортимент?');
+            set('service-assortment-more',service?'У меня будут другие услуги':'У меня будут другие товары');
+            set('service-assortment-add',service?'+ Добавить услугу':'+ Добавить товар');
             set('production-stage-heading',service?'Офлайн-услуга · рабочее место и персонал':'Производство');
             set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');
             set('production-worker-heading',service?'Кто оказывает услугу?':'Кто выполняет производство?');
