@@ -304,7 +304,7 @@ function updateResult(){
   period.months.map(m=>'<tr class="border-t border-white/20">'+
    [m.month,m.revenue,m.cogs,m.marketing,m.operatingShared,m.serviceFixed,
     m.ebitda,m.amort,m.interest,m.taxAccrued,m.netProfit].map((v,i)=>
-    '<td class="p-2 text-right">'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
+    '<td class="p-2 text-right"'+(i===0?'':' data-nomad-display-number="'+safe(v)+'"')+'>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>'+
   (periodOptimized?'<h4 class="font-semibold mt-4">Проверка цены и маржи SKU за весь период</h4>'+
     '<div class="overflow-x-auto mt-2"><table class="w-full min-w-[640px] text-xs"><thead><tr>'+
@@ -341,15 +341,15 @@ function updateResult(){
   ['Месяц','Поступления без НДС','Расходы','Налог бизнеса','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
   cf.months.map(m=>'<tr class="border-t border-white/20">'+
-   [m.month,money(m.receipt),money(m.operatingOutflow),money(m.tax),money(m.interest),
-    money(m.principalRepaid),money(m.ownerCapital),money(m.cashFlow+m.ownerCapital),
-    money(m.cumulative),money(m.freeCumulative)]
-    .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
+   [m.month,m.receipt,m.operatingOutflow,m.tax,m.interest,
+    m.principalRepaid,m.ownerCapital,m.cashFlow+m.ownerCapital,
+    m.cumulative,m.freeCumulative]
+    .map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+(i===0?'':' data-nomad-display-number="'+safe(v)+'"')+'>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
  el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
-  '<div class="text-xl font-black">'+money(value)+'</div></div>').join('')+'</div>'+
+  '<div class="text-xl font-black" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</div></div>').join('')+'</div>'+
  (period?.accountingCompleteness==='PROVISIONAL'?
    '<p class="text-amber-200 text-sm mt-3">ПРЕДВАРИТЕЛЬНЫЙ РАСЧЁТ. Разовые расходы или активы без подтверждённой амортизации: целевая маржа за весь период НЕ подтверждена, даже если численная оценка выше цели.</p>':
   t.targetMet?'<p class="text-emerald-200 text-sm mt-3">'+(period?'Целевая маржа подтверждена по фактическому плану всего периода.':'Целевая маржа достигнута для всех позиций.')+'</p>':
@@ -368,7 +368,7 @@ function updateResult(){
  [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
   ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]
  .map(([label,value])=>'<div class="bg-white/10 rounded-lg p-3"><div class="text-xs">'+label+'</div>'+
-  '<b class="text-lg">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
+  '<b class="text-lg" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
  '<p class="mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
  'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+
