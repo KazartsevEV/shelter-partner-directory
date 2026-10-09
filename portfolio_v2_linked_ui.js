@@ -152,14 +152,14 @@ function render(){
  '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b>'+value+'</b></div>').join('')+'</div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
  (s.onlineContract?
- '<div class="rounded-lg bg-blue-50 p-3 text-xs text-blue-900">Договорная сумма за сделку: '+money(s.priceMax)+
- (s.source==='online-agent'?' — моя комиссия, не оборот партнёра.':' — стоимость услуги V1.')+
- ' Это прогноз первого месяца с коэффициентами V1; цена фиксирована.</div>':
+ '<div class="rounded-lg bg-blue-50 p-3 text-xs text-blue-900">Эффективный доход на сделку первого месяца V1: '+money(s.priceMax)+
+ (s.source==='online-agent'?' — мой комиссионный доход, не оборот партнёра.':' — средний прогнозный доход, не цена консультации/пакета для клиента.')+
+ ' Это результат сценария V1 с учётом стартовых коэффициентов; сумма за расчётную сделку фиксирована только внутри V2.</div>':
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
  'max="'+safe(s.maxDiscountPct)+'"'))+'</div>'+
  '<div class="rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
  '<div class="text-xs">Автоматическая цена прайса V2</div><div class="text-xl font-black" data-linked-price-list>'+money(byId.get(s.id)?.priceList)+'</div>'+
- '<div class="text-xs mt-2">Покупатель платит (скидка и НДС учтены)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
+ '<div class="text-xs mt-2">'+(s.onlineContract?'Эффективный доход с одной прогнозной сделки':'Покупатель платит (скидка и НДС учтены)')+'</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
  '<div class="text-xs text-slate-700 mt-2" data-linked-unit-meta></div>'+
  '<p class="text-xs text-slate-500 mt-2">Цену рассчитывает V2 по продажам, денежному весу, рекламной и общей нагрузке. Диапазон цены V1 не меняется.</p>'+
  '</article>').join('');
@@ -198,7 +198,7 @@ function updateResult(){
   if(paid)paid.textContent=money(sku?.priceGross);
   const meta=node.closest('[data-linked-sku]')?.querySelector('[data-linked-unit-meta]');
   if(meta)meta.textContent=sku?.onlineContract?
-    'Договорная стоимость сделки V1; учитываются только мои доходы, расходы и налоги. Расчётная маржа: '+money(sku.actualAfterTaxMargin)+'%.':sku?
+    'Прогнозный доход на сделку первого месяца V1; учитываются мои доходы, расходы и налоги. Расчётная маржа: '+money(sku.actualAfterTaxMargin)+'%.':sku?
     'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
     '; для минимальной: '+money(sku.requiredFloorPrice)+
     '; денежная доля: '+money(sku.revenueWeight*100)+'%; '+
@@ -278,7 +278,7 @@ function updateResult(){
  (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Минимальные и целевые маржи товаров/офлайн-услуг соблюдены; договорные цены онлайн-услуг не меняются.</p>':
   '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
  (out.items.some(s=>s.onlineContract)?
-    '<p class="text-amber-200 text-xs mt-2">Онлайн-услуги имеют фиксированные тарифы V1: при дополнительных расходах возможна отрицательная маржа. Это сигнал убытка, а не автоматическое увеличение вознаграждения агента.</p>':'')+
+    '<p class="text-amber-200 text-xs mt-2">Для онлайн-услуг V2 использует эффективный доход на сделку из первого месяца V1 (не клиентский прайс). При дополнительных расходах возможна отрицательная маржа; доход не увеличивается автоматически.</p>':'')+
   '<h3 class="font-bold mt-5">Конечные цены покупателей / договорные комиссии онлайн-агента</h3>'+priceTable+
  partnerEconomics+'<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
