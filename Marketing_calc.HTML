@@ -2038,7 +2038,7 @@
                     productionDays: '',
                     targetMarginPct: '',
                     creditRatePct: '',
-                    creditTermDays: '',
+                    creditTermMonths: '',
                     maxDiscountPct: '',
                     minimumMarginPct: ''
                 },
@@ -2421,6 +2421,8 @@
                     totalEbitdaBeforeShared: null,
                     sharedBusinessCosts: 0,
                     businessEbitda: null,
+                    financingCostsMonthly: 0,
+                    profitBeforeTax: null,
                     tax: null,
                     netProfit: null,
                     taxPriceMultiplier: null,
@@ -2452,6 +2454,21 @@
                     Math.max(0, Number(item.productionUnitCost || 0)) +
                     Math.max(0, Number(item.logisticsUnitCost || 0));
 
+                const credit = calculateAggregateCredit(item);
+                const usesCredit = item?.planning?.fundingMode === 'credit';
+                const creditReady =
+                    !usesCredit ||
+                    (
+                        credit.monthlyServiceCost !== null &&
+                        orders > 0
+                    );
+                const creditServicePerUnit =
+                    usesCredit && creditReady
+                        ? credit.monthlyServiceCost / orders
+                        : 0;
+                const pricingUnitLoad =
+                    unitCost + creditServicePerUnit;
+
                 const rawMargin = item?.planning?.targetMarginPct;
                 const hasMargin =
                     rawMargin !== '' &&
@@ -2466,8 +2483,9 @@
                 const price =
                     baseCac !== null &&
                     marginRate !== null &&
+                    creditReady &&
                     1 - marginRate > 0
-                        ? (unitCost + baseCac) / (1 - marginRate)
+                        ? (pricingUnitLoad + baseCac) / (1 - marginRate)
                         : null;
 
                 return {
@@ -2484,6 +2502,9 @@
                     orders,
                     baseCac,
                     unitCost,
+                    usesCredit,
+                    creditServiceMonthly: usesCredit ? credit.monthlyServiceCost : 0,
+                    creditServicePerUnit,
                     marginPct,
                     marginRate,
                     price
@@ -2582,6 +2603,8 @@
                         orders: row.orders
                     },
                     unitCost: row.unitCost,
+                    creditServiceMonthly: row.creditServiceMonthly,
+                    creditServicePerUnit: row.creditServicePerUnit,
                     marginPct: row.marginPct,
                     salesMix: row.salesMix,
                     revenueWeight: row.revenueWeight,
@@ -2607,6 +2630,19 @@
             const sharedBusinessCosts =
                 totalManagement + salesFixedShared;
 
+            const financingCostsMonthly =
+                prepared.reduce(
+                    (sum, row) =>
+                        sum +
+                        (
+                            row.usesCredit &&
+                            Number.isFinite(Number(row.creditServiceMonthly))
+                                ? Number(row.creditServiceMonthly)
+                                : 0
+                        ),
+                    0
+                );
+
             const totalRevenue =
                 pricingReady
                     ? resultItems.reduce((sum, row) => sum + row.revenue, 0)
@@ -2622,6 +2658,11 @@
                     ? null
                     : totalEbitdaBeforeShared - sharedBusinessCosts;
 
+            const profitBeforeTax =
+                businessEbitda === null
+                    ? null
+                    : businessEbitda - financingCostsMonthly;
+
             const taxRate =
                 Math.max(0, productNumber('own-business-tax-pct')) / 100;
 
@@ -2635,7 +2676,7 @@
                 pricingReady &&
                 productBusinessTaxType === 'profit'
             ) {
-                tax = Math.max(0, businessEbitda) * taxRate;
+                tax = Math.max(0, profitBeforeTax) * taxRate;
             }
 
             const priceSensitiveRevenueNet =
@@ -2653,7 +2694,7 @@
                         (sum, row) =>
                             sum + row.cogs + row.adBudget,
                         0
-                      ) + sharedBusinessCosts
+                      ) + sharedBusinessCosts + financingCostsMonthly
                     : null;
 
             let taxPriceMultiplier = null;
@@ -2674,7 +2715,7 @@
                 pricingReady &&
                 productBusinessTaxType === 'profit'
             ) {
-                if (businessEbitda <= 0 || taxRate <= 0) {
+                if (profitBeforeTax <= 0 || taxRate <= 0) {
                     taxPriceMultiplier = 1;
                 } else {
                     const afterTaxRetained = 1 - taxRate;
@@ -2683,7 +2724,7 @@
                         priceSensitiveRevenueNet > 0
                             ? (
                                 priceIndependentCosts +
-                                businessEbitda / afterTaxRetained
+                                profitBeforeTax / afterTaxRetained
                               ) / priceSensitiveRevenueNet
                             : null;
                 }
@@ -2711,19 +2752,24 @@
                       adjustedTurnoverExpenses -
                       priceIndependentCosts;
 
+            const adjustedProfitBeforeTax =
+                adjustedEbitda === null
+                    ? null
+                    : adjustedEbitda - financingCostsMonthly;
+
             const adjustedTax =
                 taxPriceMultiplier === null
                     ? null
                     : (
                         productBusinessTaxType === 'turnover'
                             ? adjustedRevenue * taxRate
-                            : Math.max(0, adjustedEbitda) * taxRate
+                            : Math.max(0, adjustedProfitBeforeTax) * taxRate
                     );
 
             const adjustedNetProfit =
-                adjustedEbitda === null || adjustedTax === null
+                adjustedProfitBeforeTax === null || adjustedTax === null
                     ? null
-                    : adjustedEbitda - adjustedTax;
+                    : adjustedProfitBeforeTax - adjustedTax;
 
             return {
                 items: resultItems,
@@ -2734,14 +2780,17 @@
                 totalEbitdaBeforeShared,
                 sharedBusinessCosts,
                 businessEbitda,
+                financingCostsMonthly,
+                profitBeforeTax,
                 tax,
                 netProfit:
-                    businessEbitda === null || tax === null
+                    profitBeforeTax === null || tax === null
                         ? null
-                        : businessEbitda - tax,
+                        : profitBeforeTax - tax,
                 taxPriceMultiplier,
                 adjustedRevenue,
                 adjustedEbitda,
+                adjustedProfitBeforeTax,
                 adjustedTax,
                 adjustedNetProfit
             };
@@ -2766,6 +2815,8 @@
                     forecastSales: 0,
                     revenue: null,
                     cogs: 0,
+                    creditServiceMonthly: 0,
+                    creditServicePerUnit: 0,
                     ebitda: null,
                     roas: null
                 };
@@ -2811,6 +2862,8 @@
                 forecastSales: row.forecastSales,
                 revenue: row.revenue,
                 cogs: row.cogs,
+                creditServiceMonthly: row.creditServiceMonthly,
+                creditServicePerUnit: row.creditServicePerUnit,
                 ebitda: row.ebitda,
                 roas: row.roas
             };
@@ -3321,6 +3374,10 @@
                     <span class="font-bold text-right">${money(model.totalRevenue)}</span>
                     <span class="aggregate-muted">EBITDA всего бизнеса</span>
                     <span class="font-bold text-right">${money(model.businessEbitda)}</span>
+                    <span class="aggregate-muted">Обслуживание кредитов / месяц</span>
+                    <span class="font-bold text-right">${money(model.financingCostsMonthly)}</span>
+                    <span class="aggregate-muted">Результат после обслуживания кредитов</span>
+                    <span class="font-bold text-right">${money(model.profitBeforeTax)}</span>
                 </div>
 
                 ${cashFlowTable}
@@ -3685,26 +3742,50 @@
             const annualRatePct =
                 hasRate ? Math.max(0, Number(rawRate)) : null;
 
-            const rawTerm = item?.planning?.creditTermDays;
+            const rawMonths =
+                item?.planning?.creditTermMonths !== undefined
+                    ? item.planning.creditTermMonths
+                    : (
+                        item?.planning?.creditTermDays !== '' &&
+                        item?.planning?.creditTermDays !== null &&
+                        item?.planning?.creditTermDays !== undefined &&
+                        Number.isFinite(Number(item.planning.creditTermDays))
+                            ? Math.max(1, Math.ceil(Number(item.planning.creditTermDays) / 30))
+                            : ''
+                    );
             const hasTerm =
-                rawTerm !== '' &&
-                rawTerm !== null &&
-                rawTerm !== undefined &&
-                Number.isFinite(Number(rawTerm));
-            const termDays =
-                hasTerm ? Math.max(1, Math.ceil(Number(rawTerm))) : null;
+                rawMonths !== '' &&
+                rawMonths !== null &&
+                rawMonths !== undefined &&
+                Number.isFinite(Number(rawMonths));
+            const termMonths =
+                hasTerm ? Math.max(1, Math.ceil(Number(rawMonths))) : null;
 
-            const interest =
+            const monthlyServiceCost =
                 principal !== null &&
-                annualRatePct !== null &&
-                termDays !== null
-                    ? principal * annualRatePct / 100 * termDays / 365
+                annualRatePct !== null
+                    ? principal * annualRatePct / 100 / 12
                     : null;
 
-            const totalCost =
-                interest === null || principal === null
-                    ? null
-                    : principal + interest;
+            const totalInterest =
+                monthlyServiceCost !== null &&
+                termMonths !== null
+                    ? monthlyServiceCost * termMonths
+                    : null;
+
+            const totalRepayment =
+                principal !== null &&
+                totalInterest !== null
+                    ? principal + totalInterest
+                    : null;
+
+            const forecastSalesPerMonth =
+                Math.max(0, Number(item?.forecastUnitsPerMonth || 0));
+            const servicePerUnit =
+                monthlyServiceCost !== null &&
+                forecastSalesPerMonth > 0
+                    ? monthlyServiceCost / forecastSalesPerMonth
+                    : null;
 
             const marginPct =
                 item?.planning?.targetMarginPct !== '' &&
@@ -3717,9 +3798,11 @@
             return {
                 principal,
                 annualRatePct,
-                termDays,
-                interest,
-                totalCost,
+                termMonths,
+                monthlyServiceCost,
+                totalInterest,
+                totalRepayment,
+                servicePerUnit,
                 marginPct
             };
         }
@@ -3739,12 +3822,36 @@
                         : moneyInputValue(credit.principal);
             }
 
+            const monthly = section.querySelector('[data-credit-monthly-service]');
+            if (monthly) {
+                monthly.textContent =
+                    credit.monthlyServiceCost === null
+                        ? '—'
+                        : moneyInputValue(credit.monthlyServiceCost);
+            }
+
+            const totalInterest = section.querySelector('[data-credit-total-interest]');
+            if (totalInterest) {
+                totalInterest.textContent =
+                    credit.totalInterest === null
+                        ? '—'
+                        : moneyInputValue(credit.totalInterest);
+            }
+
             const total = section.querySelector('[data-credit-total]');
             if (total) {
                 total.textContent =
-                    credit.totalCost === null
+                    credit.totalRepayment === null
                         ? '—'
-                        : moneyInputValue(credit.totalCost);
+                        : moneyInputValue(credit.totalRepayment);
+            }
+
+            const unitLoad = section.querySelector('[data-credit-unit-load]');
+            if (unitLoad) {
+                unitLoad.textContent =
+                    credit.servicePerUnit === null
+                        ? '—'
+                        : moneyInputValue(credit.servicePerUnit);
             }
 
             const hint = section.querySelector('[data-credit-hint]');
@@ -3769,13 +3876,14 @@
                     String(value).trim() === ''
                         ? ''
                         : Math.max(0, Number(value) || 0);
-            } else if (key === 'creditTermDays') {
-                item.planning.creditTermDays =
+            } else if (key === 'creditTermMonths') {
+                item.planning.creditTermMonths =
                     String(value).trim() === ''
                         ? ''
                         : Math.max(1, Math.ceil(Number(value) || 1));
             }
 
+            refreshAllAggregatePricing();
             updateAggregateCredit(item);
         }
 
@@ -3831,14 +3939,11 @@
                 el.classList.toggle('is-accepted', selected);
             });
 
-            const cashPricing = section.querySelector('[data-cash-pricing]');
-            if (cashPricing) {
-                const showCash = item.planning.fundingMode === 'cash';
-                cashPricing.hidden = !showCash;
-                cashPricing.classList.toggle('hidden', !showCash);
-                if (showCash) {
-                    setProductChoiceVisual('salesVat', productOwnChoices.salesVat || null);
-                }
+            const pricingPanel = section.querySelector('[data-cash-pricing]');
+            if (pricingPanel) {
+                pricingPanel.hidden = false;
+                pricingPanel.classList.remove('hidden');
+                setProductChoiceVisual('salesVat', productOwnChoices.salesVat || null);
             }
 
             const creditResult = section.querySelector('[data-credit-result]');
@@ -3850,23 +3955,29 @@
                 if (showCredit) {
                     const cycle = aggregatePlanMetrics(item);
                     if (
-                        (item.planning.creditTermDays === '' ||
-                         item.planning.creditTermDays === null ||
-                         item.planning.creditTermDays === undefined) &&
+                        (item.planning.creditTermMonths === '' ||
+                         item.planning.creditTermMonths === null ||
+                         item.planning.creditTermMonths === undefined) &&
                         cycle.totalCycleDays !== null
                     ) {
-                        item.planning.creditTermDays = Math.max(
+                        item.planning.creditTermMonths = Math.max(
                             1,
-                            Math.ceil(cycle.totalCycleDays)
+                            Math.ceil(cycle.totalCycleDays / 30)
                         );
-                        const termInput = creditResult.querySelector('[data-credit-term-input]');
-                        if (termInput) termInput.value = item.planning.creditTermDays;
+                    }
+
+                    const termInput = creditResult.querySelector('[data-credit-term-input]');
+                    if (termInput) {
+                        termInput.value = Math.max(
+                            1,
+                            Number(item.planning.creditTermMonths) || 1
+                        );
                     }
                 }
             }
 
+            refreshAllAggregatePricing();
             updateAggregateFinalSummary(item);
-            updateAggregatePricing(item);
             updateAggregateCredit(item);
         }
 
@@ -4281,22 +4392,32 @@
                                             oninput="updateAggregateCreditField(${item.id}, 'creditRatePct', this.value)">
                                     </div>
                                     <div>
-                                        <label class="block text-xs mb-1">Срок кредита, дней</label>
+                                        <label class="block text-xs mb-1">Срок кредита, месяцев</label>
                                         <input
                                             type="number"
                                             min="1"
                                             step="1"
-                                            value="${esc(planning.creditTermDays ?? '')}"
+                                            value="${esc(planning.creditTermMonths ?? '')}"
                                             data-credit-term-input
                                             class="input-field"
-                                            oninput="updateAggregateCreditField(${item.id}, 'creditTermDays', this.value)">
+                                            oninput="updateAggregateCreditField(${item.id}, 'creditTermMonths', this.value)">
                                     </div>
                                 </div>
 
                                 <div class="aggregate-price-card mt-4">
-                                    <div class="aggregate-muted text-xs">Полная стоимость кредита</div>
-                                    <div class="aggregate-price-number mt-1">
-                                        <span data-credit-total>—</span> у.е.*
+                                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                                        <span class="aggregate-muted">Обслуживание кредита / месяц</span>
+                                        <span class="font-bold text-right"><span data-credit-monthly-service>—</span> у.е.*</span>
+                                        <span class="aggregate-muted">Нагрузка кредита на 1 ед. «${esc(item.name)}»</span>
+                                        <span class="font-bold text-right"><span data-credit-unit-load>—</span> у.е.*</span>
+                                        <span class="aggregate-muted">Проценты за весь срок</span>
+                                        <span class="font-bold text-right"><span data-credit-total-interest>—</span> у.е.*</span>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t aggregate-separator">
+                                        <div class="aggregate-muted text-xs">Полная сумма к возврату</div>
+                                        <div class="aggregate-price-number mt-1">
+                                            <span data-credit-total>—</span> у.е.*
+                                        </div>
                                     </div>
                                 </div>
 
