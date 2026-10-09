@@ -233,9 +233,25 @@ function addResource(kind){
 function handleEvent(event) {
  const t=event.target;
  if(t.dataset?.p2Path){
+   // Blur/change fires on every number/text input. Rebuilding the form on blur
+   // detaches the NEXT focused input and silently loses half the user fields.
+   // Rebuild only when structure changes (a select or a checkbox).
+   const structural=t.tagName==='SELECT'||t.type==='checkbox';
+   if(t.dataset.p2Path.endsWith('.source')&&event.type==='change'){
+     const skuId=t.dataset.p2Path.split('.')[1],sku=model.skus[Number(skuId)];
+     if(sku){
+       if(t.value==='dropship'&&sku.source!=='dropship'){
+         sku._inventoryDraft={batchUnits:sku.batchUnits,initialCashOut:sku.initialCashOut,
+           storagePerUnitDay:sku.storagePerUnitDay};
+         sku.batchUnits='';sku.initialCashOut='';sku.storagePerUnitDay='';
+       }else if(sku.source==='dropship'&&t.value!=='dropship'&&sku._inventoryDraft){
+         Object.assign(sku,sku._inventoryDraft);
+       }
+     }
+   }
    updatePath(t.dataset.p2Path,t.type==='checkbox'?t.checked:t.value);
    save();
-   if(event.type==='change')render();else updateResult();
+   if(event.type==='change'&&structural)render();else updateResult();
    return;
  }
  if(event.type!=='click'&&event.type!=='change')return;
