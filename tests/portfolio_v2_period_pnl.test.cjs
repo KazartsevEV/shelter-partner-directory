@@ -46,7 +46,8 @@ test('F2A campaign stays committed after sellout: month zero-revenue loss reduce
   cadence:'monthly',pool:'adBudget',allocation:'usage',usageMode:'fixed',
   usage:{a:1,b:1},skuIds:['a','b'],includedBySku:{a:100,b:100}}];
  const r=verified(s),p=r.cashflow.periodPnl;
- const price=r.items[0].standaloneNet;
+ const fixed=E.build({...s,__periodPriceCandidate:{a:35.72,b:35.72}});
+ A.equal(fixed.ready,true,JSON.stringify(fixed.errors));
  close(p.revenue,20*r.items.find(s=>s.id==='a').standaloneNet+
   100*r.items.find(s=>s.id==='b').standaloneNet,'only 20+100 actually sold at their respective prices');
  close(p.months[3].marketing,200,'month4 still-paid campaign');
@@ -54,9 +55,11 @@ test('F2A campaign stays committed after sellout: month zero-revenue loss reduce
  close(p.months[3].netProfit,-200,'month4 loss');
  A.equal(p.months[3].netMargin,null,'undefined margin without sales');
  close(p.months[4].netProfit,-200,'month5 loss');
- close(p.netProfit,120*price*.95-120*20-5*200,'full 5-month profit');
- A.ok(p.netMargin<r.items[0].targetMarginPct,
-  '30-day target does NOT prove 5-month target');
+ close(p.netProfit,p.revenue*.95-120*20-5*200,'full 5-month profit, independently of SKU price split');
+ A.ok(fixed.cashflow.periodPnl.netMargin<r.items[0].targetMarginPct,
+  'monthly-price counterfactual misses full H target');
+ A.ok(p.netMargin>=r.items[0].targetMarginPct,
+  'F2B optimized H price meets period target');
  close(sum(r.cashflow.months,'ad'),1000,'marketing cash conserved');
 });
 test('F2A offline salon rent is not embedded in COGS again',()=>{
