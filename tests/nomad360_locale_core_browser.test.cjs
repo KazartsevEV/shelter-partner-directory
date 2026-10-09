@@ -150,7 +150,9 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     A.ok(formattedMoney.endsWith(expected==='en'?'currency units*':expected==='kk'?'ш.б.*':'у.е.*'),
       'display currency unit localized without changing numeric value');
     if(expected==='en')console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'v1-product')));
-    if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(await localeA11yCensus(page,'v1-product')));
+    const a11y_v1_product=await localeA11yCensus(page,'v1-product');
+    A.equal(a11y_v1_product.unlabeled,0,JSON.stringify(a11y_v1_product.examples));
+    if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(a11y_v1_product));
     const payload=fixture();
     await page.evaluate(p=>{
       LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
@@ -168,7 +170,9 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     },payload);
     await afterTick(page);
     if(expected==='en')console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'v2-linked')));
-    if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(await localeA11yCensus(page,'v2-linked')));
+    const a11y_v2_linked=await localeA11yCensus(page,'v2-linked');
+    A.equal(a11y_v2_linked.unlabeled,0,JSON.stringify(a11y_v2_linked.examples));
+    if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(a11y_v2_linked));
     const baseline=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
