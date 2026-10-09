@@ -222,10 +222,13 @@ function updateResult(){
   return;
  }
  const t=out.totals,cf=out.cashflow;
- const cards=[['Продано позиций за 30 дней',t.forecast],['Выручка без НДС',t.revenue],
-  ['Рекламный бюджет',t.media],['Себестоимость',t.cogs],
-  ['Общие расходы / мес.',t.monthlyResources],['EBITDA',t.ebitda],
-  ['Налог бизнеса',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
+ const wholeStockCycle=out.items.length===1&&
+  ['own','resale'].includes(out.items[0].source)&&!out.resources.length&&
+  !(Array.isArray(state.offers)&&state.offers.length);
+ const cards=[['Продано позиций за 30 дней',t.forecast],['Выручка без НДС / 30 дней',t.revenue],
+  ['Рекламный бюджет / 30 дней',t.media],['Себестоимость / 30 дней',t.cogs],
+  ['Общие расходы / мес.',t.monthlyResources],['EBITDA / 30 дней',t.ebitda],
+  ['Налог бизнеса / 30 дней',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
  const priceTable='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
   ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Цена вне набора','Прогноз, ед.','Денежный вес','Реклама','Чистая маржа'].map(label=>
    '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
@@ -263,6 +266,10 @@ function updateResult(){
  '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
  '<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
+ '<p class="text-sm text-slate-200 mt-2">'+
+ (wholeStockCycle?'Cash flow показывает продажу всей закупленной партии по месячной скорости V1, включая хранение и полное обслуживание кредита. Показатели прибыли выше — только за первые 30 дней продаж.':
+  'Cash flow отражает первые 30 дней прогнозных продаж, плюс сроки поступлений и погашения кредита; закупка партии возможна целиком. Это не прогноз полной распродажи всего смешанного портфеля.')+
+ '</p>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
  [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
   ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]

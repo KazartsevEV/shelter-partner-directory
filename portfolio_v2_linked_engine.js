@@ -256,6 +256,12 @@
       if(retained<=0||s.discountSelected>=100)return Infinity;
       return unitLoad/retained*(1+pos(s.vatPct)/100)/(1-s.discountSelected/100);
     }
+    // Keep the established 30-day scenario contract for linked baskets and
+    // shared-resource portfolios. Whole-stock parity is rolled out first to
+    // a single unshared physical SKU with no basket offers.
+    const singleStockCycle=rows.length===1&&
+      ['own','resale'].includes(rows[0].source)&&!resources.length&&
+      !(Array.isArray(state.offers)&&state.offers.length);
     const initialPrices=Object.fromEntries(rows.map(s=>[s.id,pos(s.priceMax)]));
     const calculateScenario=(prices,projectedOrders)=>{
       const draftRows=rows.map(s=>({...s,priceSelected:prices[s.id],_projectedOrders:projectedOrders[s.id]}));
@@ -287,8 +293,18 @@
           pos(s.unitCost)-embeddedUnit;
         const bundleExposure=orders>0?pos(basket.discountedUnits[s.id])/orders:0;
         const priced={...s,_bundleDiscountFraction:bundleExposure};
-        const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
-          monthlyResources+pos(s.creditServiceMonthly))/orders:Infinity;
+        // V1 prices the entire contractual interest and liquidity reserve over
+        // sellable units, not only the first monthly installment.
+        const financedUnits=['own','resale'].includes(s.source)?
+          pos(s.inventoryQty):orders;
+        const loanMonths=Math.max(1,Math.ceil(pos(s.creditMonths)||1));
+        const financeLoad=singleStockCycle?
+          (pos(s.creditServiceMonthly)*loanMonths+pos(s.reserveAmount))/
+            Math.max(EPS,financedUnits):
+          pos(s.creditServiceMonthly)/Math.max(EPS,orders);
+        const unitLoad=orders>0?netUnitCost+
+          (media+monthlyManager+monthlySelling+monthlyResources)/orders+
+          financeLoad:Infinity;
         return {s,media,orders,monthlyResources,monthlyManager,monthlySelling,bundleExposure,
           netUnitCost,unitLoad,priceTarget:requiredListPrice(priced,unitLoad,s.targetMarginPct),
           priceFloor:requiredListPrice(priced,unitLoad,s.minimumMarginPct)};
@@ -445,16 +461,25 @@
   }
 
   function cashFlow(state,portfolio){
-    // A single 30-day campaign per SKU with its own supply lead and payout delay.
-    // Outlays and receipts are calculated daily: launch capital = worst daily deficit
-    // plus the V1 locked liquidity reserve (less available V1 loan draws).
+    // A single unshared goods SKU uses V1 complete-stock sell-through.
+    // Linked baskets and shared resources continue as first-30-day scenarios
+    // until their cross-SKU monthly continuation contract is reconciled.
+    // Launch capital = maximum daily deficit plus V1 liquidity reserve.
     const items=portfolio.items,resources=portfolio.resources;
-    const plan=items.map(s=>({
-      s,saleStart:['dropship','offline-service','online-service'].includes(s.source)?0:pos(s.supplyDays)+pos(s.productionDays),
-      receiptDelay:s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
-        pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0
-    }));
-    const horizon=Math.max(30,...plan.map(x=>x.saleStart+30+x.receiptDelay),
+    const singleStockCycle=items.length===1&&!resources.length&&
+      ['own','resale'].includes(items[0].source)&&
+      !(Array.isArray(state.offers)&&state.offers.length);
+    const plan=items.map(s=>{
+      const isStock=['own','resale'].includes(s.source);
+      const saleStart=isStock?pos(s.supplyDays)+pos(s.productionDays):0;
+      const rate=pos(s.forecastOrders)/30;
+      const saleDays=isStock&&singleStockCycle?
+        pos(s.inventoryQty)/Math.max(EPS,rate):30;
+      return {s,isStock,saleStart,saleDays,rate,
+        receiptDelay:s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
+          pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0};
+    });
+    const horizon=Math.max(30,...plan.map(x=>x.saleStart+x.saleDays+x.receiptDelay),
       ...items.map(s=>pos(s.creditMonths)*30));
     if(horizon>3650)throw Error('Горизонт cash flow превышает 120 месяцев.');
     const dayCount=Math.ceil(horizon/30)*30;
@@ -468,7 +493,7 @@
     }
     const totalOnce=sum(resources.filter(r=>r.cadence==='once').map(r=>pos(r.amount)));
     post(0,'shared',totalOnce);
-    for(const {s,saleStart,receiptDelay} of plan){
+    for(const {s,isStock,saleStart,saleDays,rate,receiptDelay} of plan){
       const stock=pos(s.inventoryQty),orders=pos(s.forecastOrders);
       let residualPerUnit=pos(s.unitCostEffective);
       if(s.source==='online-service'){
@@ -479,27 +504,61 @@
         const fixed=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
         post(0,'stockPurchase',fixed);
         residualPerUnit=Math.max(0,residualPerUnit-fixed/Math.max(EPS,orders));
-      }else if(s.source!=='dropship'){
+      }else if(isStock&&!singleStockCycle){
         const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
-        const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production)),
-          inbound=pos(s.warehouseInboundUnitCost)*stock;
+        const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production));
+        const inbound=pos(s.warehouseInboundUnitCost)*stock;
         post(0,'stockPurchase',input);
         post(saleStart,'stockPurchase',production+inbound);
         residualPerUnit=Math.max(0,residualPerUnit-
           (input+production+inbound)/Math.max(stock,EPS));
+      }else if(isStock){
+        const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
+        const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production));
+        const inbound=pos(s.warehouseInboundUnitCost)*stock;
+        const supply=pos(s.supplyDays);
+        const advancePct=Math.min(100,pos(s.advancePct));
+        const advance=input*advancePct/100;
+        if(advance>EPS)post(Math.max(0,supply-pos(s.advanceLeadDays)),'stockPurchase',advance);
+        post(supply,'stockPurchase',input-advance);
+        const productionDays=pos(s.productionDays);
+        if(productionDays>EPS){
+          for(let day=0;day<Math.ceil(productionDays);day++){
+            const portion=Math.min(1,productionDays-day);
+            post(supply+day,'stockPurchase',production*portion/productionDays);
+          }
+        }else post(supply,'stockPurchase',production);
+        post(saleStart,'stockPurchase',inbound);
+        // The V1 accrued unit cost includes projected whole-cycle storage.
+        // Pay that storage by the actual inventory integral, not again per sale.
+        const projectedStorageUnit=pos(s.warehouseDayCost)*saleDays/2;
+        residualPerUnit=Math.max(0,residualPerUnit-
+          (input+production+inbound)/Math.max(stock,EPS)-projectedStorageUnit);
       }
       const resourceDaily=sum(resources.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly')
         .map(r=>pos(r.bySku[s.id])))/30;
       const dailyAd=pos(s.adBudgetEffective)/30;
       const dailyFixed=(pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly))/30;
-      for(let day=0;day<30;day++){
-        const qty=orders/30,at=saleStart+day,netRevenue=qty*pos(s.priceNet);
-        // Expense ad/media, management and common assets once per beneficiary.
-        post(at,'ad',dailyAd);post(at,'shared',dailyFixed+resourceDaily);
+      let sold=0;
+      for(let day=0;day<Math.ceil(saleDays);day++){
+        const portion=Math.min(1,saleDays-day);
+        const qty=isStock?Math.min(Math.max(0,stock-sold),rate*portion):
+          orders/30;
+        const at=saleStart+day,netRevenue=qty*pos(s.priceNet);
+        if(singleStockCycle&&isStock&&pos(s.warehouseDayCost)>0){
+          const inventoryIntegral=(stock-sold)*portion-
+            rate*portion*portion/2;
+          post(at,'operating',pos(s.warehouseDayCost)*Math.max(0,inventoryIntegral));
+        }
+        sold+=qty;
+        // Time-based campaigns and fixed costs run throughout the sell-through.
+        post(at,'ad',dailyAd*portion);
+        post(at,'shared',(dailyFixed+resourceDaily)*portion);
         post(at,'ordersRevenue',netRevenue);
         if(s.source==='online-service'){
           const onlineProfit=netRevenue-qty*pos(s.unitCostEffective)-
-            netRevenue*pos(s.variableSalesPct)/100-dailyAd-dailyFixed-resourceDaily-
+            netRevenue*pos(s.variableSalesPct)/100-
+            (dailyAd+dailyFixed+resourceDaily)*portion-
             pos(s.onlineAmortMonthly)/30;
           daily[Math.min(dayCount-1,Math.max(0,Math.floor(at)))].onlineProfit+=onlineProfit;
           post(at,'amortAccrual',pos(s.onlineAmortMonthly)/30);
