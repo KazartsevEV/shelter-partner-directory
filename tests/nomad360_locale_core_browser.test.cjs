@@ -102,6 +102,27 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       for(const mode of ['self','hired','agent']){
         await page.evaluate(selected=>selectServiceMode(selected),mode);
         await afterTick(page);
+        if(mode==='self'){
+          const cellCount=await page.locator('#monthly-table [data-nomad-display-number]').count();
+          A.ok(cellCount>5,'monthly source cells must carry canonical raw display amounts');
+          if(expected==='en'){
+            const original=await page.locator('#monthly-table [data-nomad-display-number]').first().getAttribute('data-nomad-display-number');
+            await page.locator('#nomad360-lang-select').selectOption('kk');
+            await page.waitForFunction(()=>{
+              const cell=document.querySelector('#monthly-table [data-nomad-display-number]');
+              if(!cell||document.documentElement.lang!=='kk')return false;
+              const amount=Number(cell.dataset.nomadDisplayNumber);
+              const digits=cell.dataset.nomadDisplayFractions==='0'?0:2;
+              const formatted=amount.toLocaleString('kk-KZ',
+                {minimumFractionDigits:digits,maximumFractionDigits:digits});
+              const suffix=cell.hasAttribute('data-nomad-display-money')?' ш.б.*':'';
+              return cell.textContent===formatted+suffix;
+            });
+            A.equal(await page.locator('#monthly-table [data-nomad-display-number]').first().getAttribute('data-nomad-display-number'),original);
+            await page.locator('#nomad360-lang-select').selectOption('en');
+            await page.waitForFunction(()=>document.documentElement.lang==='en');
+          }
+        }
         await assertEnglishLocaleClean(page,'online-'+mode);
       }
       await page.evaluate(()=>openPortfolioV2(false));
