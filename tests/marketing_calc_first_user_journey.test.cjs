@@ -83,6 +83,7 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.evaluate(()=>currentProductSequence),2);
    await page.locator('#product-source-block [data-product-source="own"]').click();
    await page.locator('#additional-product-name-input').fill('Моя вторая майка');
+   await page.locator('[data-material-cost-mode="known"]').click();
    await page.locator('#own-materials-cost').fill('135');
    await page.locator('#product-draft-toolbar button').click();
    stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('marketingCalcProductResultV1')));
