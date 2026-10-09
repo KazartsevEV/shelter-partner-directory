@@ -1327,13 +1327,14 @@ function translateNode(node,language){
 // formatted text or touch input.value, finance records, source IDs or SKU names.
 function refreshDisplayNumbers(language){
  const tag=language==='en'?'en-US':language==='kk'?'kk-KZ':'ru-RU';
- const fmt=new Intl.NumberFormat(tag,{minimumFractionDigits:2,maximumFractionDigits:2});
  for(const node of document.querySelectorAll('[data-nomad-display-number]')){
   if(!valid(node))continue;
   const raw=node.getAttribute('data-nomad-display-number');
   if(raw===null||raw.trim()==='')continue;
   const value=Number(raw);
   if(!Number.isFinite(value))continue;
+  const digits=node.getAttribute('data-nomad-display-fractions')==='0'?0:2;
+  const fmt=new Intl.NumberFormat(tag,{minimumFractionDigits:digits,maximumFractionDigits:digits});
   const output=fmt.format(value)+(node.hasAttribute('data-nomad-display-money')?
    ' '+(language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'):'');
   if(node.textContent!==output)node.textContent=output;
