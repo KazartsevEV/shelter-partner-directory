@@ -35,9 +35,9 @@ const sku=(id,stock,source='resale')=>({
   await page.locator('#portfolio-v2-linked-resume-home button').click();
   A.equal(await page.locator('[data-linked-path="forecastMonths"]').inputValue(),'5');
   A.equal(await page.locator('[data-linked-path="recurringDemandApproved"]').isChecked(),true);
-  // Physical stock 20 cannot fund standalone 20 plus 50%-attach child.
+  // Child stock 45 funds month one (30), but not month two (another 30).
   await page.evaluate(p=>LinkedPortfolioV2UI.importFromV1(p),
-    {tax:{type:'turnover',pct:5},skus:[sku('a',60),sku('b',20)]});
+    {tax:{type:'turnover',pct:5},skus:[sku('a',60),sku('b',45)]});
   await page.locator('[data-linked-path="forecastMonths"]').fill('3');
   await page.locator('[data-linked-path="recurringDemandApproved"]').check();
   await page.locator('[data-basket-action="add"]').click();
@@ -45,7 +45,7 @@ const sku=(id,stock,source='resale')=>({
   await page.locator('[data-basket-field="attachPct"]').fill('50');
   const blocked=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(blocked.ready,false);
-  A.match(blocked.errors.join(' '),/Месяц 1.*превышает оставшийся запас/);
+  A.match(blocked.errors.join(' '),/Месяц 2.*превышает оставшийся запас/);
   A.equal(blocked.cashflow,undefined,'no misleading cashflow for impossible bundle');
   A.deepEqual(errors,[]);
   console.log('TEMPORAL_31E_BROWSER_GREEN',JSON.stringify({checked:5,blocked:true}));
