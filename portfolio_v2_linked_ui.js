@@ -200,7 +200,7 @@ function updateResult(){
     '<div class="overflow-x-auto mt-2"><table class="min-w-full text-xs"><thead><tr>'+
     '<th class="p-2">Месяц</th><th class="p-2">Количество</th><th class="p-2">Продажи</th>'+
     '<th class="p-2">Остатки</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
-    '<p class="mt-2 text-xs text-amber-800">Это проверка объёмов, а не многомесячный Cash Flow. Финансовый расчёт ниже пока не суммирует эти месяцы.</p>';
+    '<p class="mt-2 text-xs text-amber-800">Этот объёмный прогноз используется в Cash Flow ниже. Денежные потоки учитывают только выбранный горизонт и сроки фактического поступления денег.</p>';
   }else preview.textContent=Number(state.forecastMonths??1)>1?
    'Для многомесячного прогноза требуется подтверждение повторения спроса и проверка запасов.':
    'По умолчанию используется исходный 30-дневный прогноз V2.';
@@ -276,7 +276,7 @@ function updateResult(){
     '<div>'+safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(amount)+'</div>').join('')+
   '</div>').join('')+'</div>';
  const flow='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Месяц','Поступления','Расходы','Налог','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
+  ['Месяц','Поступления без НДС','Расходы','Налог бизнеса','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
   cf.months.map(m=>'<tr class="border-t border-white/20">'+
    [m.month,money(m.receipt),money(m.operatingOutflow),money(m.tax),money(m.interest),
