@@ -2276,6 +2276,10 @@
             if (sourceName) sourceName.textContent = item.name ? '«' + item.name + '»' : '';
 
             selectProductSource(item.source);
+            if(item.source==='offline-service'){
+                const src=document.getElementById('product-source-block');
+                if(src){src.hidden=true;src.classList.add('hidden');}
+            }
 
             if (['own','resale','dropship','offline-service'].includes(item.source)) {
                 restoreProductOwnUiState(item);
@@ -4580,8 +4584,8 @@
 
             const sourceBlock = document.getElementById('product-source-block');
             if (sourceBlock) {
-                sourceBlock.hidden = false;
-                sourceBlock.classList.remove('hidden');
+                sourceBlock.hidden = productSource==='offline-service';
+                sourceBlock.classList.toggle('hidden',productSource==='offline-service');
                 if (!productName) {
                     document.getElementById('product-source-name').textContent = 'следующий товар';
                 }
