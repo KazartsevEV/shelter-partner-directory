@@ -296,3 +296,26 @@ test('16 malformed MBA CSV/JSON variants are rejected and their exact diagnostic
   }
  }
 });
+
+test('complete locale catalog: no empty EN/KK keys, no conflicting duplicates, no Russian Cyrillic in English copy',()=>{
+ const marker='const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));';
+ A.ok(src.includes(marker),'source catalog shape should be explicit');
+ const sandbox={Nomad360UI:{getLanguage:()=> 'en'}};
+ new Function('window','document',src.replace(marker,'window.__testCatalog=rows;'+marker))(
+  sandbox,{readyState:'loading',addEventListener(){}});
+ const seen=new Map(),conflicts=[];
+ let russianInEnglish=0;
+ for(const row of sandbox.__testCatalog){
+  A.equal(row.length,3,'all locale rows must be RU/EN/KK');
+  const [ru,en,kk]=row;
+  A.ok([ru,en,kk].every(v=>typeof v==='string'&&v.trim()),
+   'no empty language keys: '+JSON.stringify(row));
+  if(/[А-ЯЁа-яё]/.test(en))russianInEnglish++;
+  if(seen.has(ru)&&JSON.stringify(seen.get(ru))!==JSON.stringify([en,kk]))
+   conflicts.push(ru);
+  seen.set(ru,[en,kk]);
+ }
+ A.equal(conflicts.length,0,'contradictory duplicate translation '+conflicts.join(', '));
+ A.equal(russianInEnglish,0,'English catalog must not contain unlocalized Russian text');
+ A.ok(seen.size>1000,'audit full RU/EN/KK catalog, not a tiny handpicked list');
+});
