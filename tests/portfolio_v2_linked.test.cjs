@@ -331,3 +331,67 @@ test('#31C two physical SKUs have different 1/3 month sell-through, no ghost adv
  eq(m.reduce((v,x)=>v+x.tax,0),receipt*.05);
  eq(m.reduce((v,x)=>v+x.cashFlow,0),receipt-1600-400-receipt*.05);
 });
+
+function twoGoods31D(){
+ return E.fromV1({tax:{type:'turnover',pct:5},skus:[
+  {id:'fast',name:'Fast',source:'resale',unitCost:20,
+   forecastUnitsPerMonth:20,adBudget:100,baseCac:5,priceMin:20,priceMax:150,
+   maxDiscountPct:0,minimumMarginPct:10,targetMarginPct:25,
+   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,
+   creditServiceMonthly:0,creditMonths:0,creditPrincipal:0,vatPct:0,
+   inventoryQty:20,materialsBatchTotal:400,productionTotal:0,reserveAmount:0},
+  {id:'slow',name:'Slow',source:'resale',unitCost:20,
+   forecastUnitsPerMonth:20,adBudget:100,baseCac:5,priceMin:20,priceMax:150,
+   maxDiscountPct:0,minimumMarginPct:10,targetMarginPct:25,
+   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,
+   creditServiceMonthly:0,creditMonths:0,creditPrincipal:0,vatPct:0,
+   inventoryQty:60,materialsBatchTotal:1200,productionTotal:0,reserveAmount:0}
+ ]});
+}
+test('#31D one shared monthly premises cost survives after SKU A inventory runs out',()=>{
+ const x=twoGoods31D();
+ x.resources.push({id:'rent',kind:'premises',label:'Workshop',
+  amount:300,cadence:'monthly',pool:'none',allocation:'usage',usageMode:'per-unit',
+  loadPerUnit:{fast:1,slow:1},skuIds:['fast','slow'],includedBySku:{}});
+ const r=E.build(x);
+ A.equal(r.ready,true,JSON.stringify(r.errors));
+ A.equal(r.cashflow.months.length,3);
+ for(const m of r.cashflow.months)eq(m.shared,300);
+ eq(r.cashflow.months.reduce((v,m)=>v+m.shared,0),900);
+ eq(r.items[0].requiredTargetPrice,32.5/.70);
+ eq(r.items[1].requiredTargetPrice,37.5/.70);
+ A.ok(r.items[1].priceList>r.items[0].priceList);
+ eq(r.resources[0].bySku.fast,150);
+ eq(r.resources[0].bySku.slow,150);
+ eq(r.cashflow.months[1].receipt,20*r.items[1].priceNet);
+ eq(r.cashflow.months[2].receipt,20*r.items[1].priceNet);
+});
+test('#31D shared resource only tied to sold-out SKU stops; second unrelated SKU continues',()=>{
+ const x=twoGoods31D();
+ x.resources.push({id:'shop',kind:'premises',label:'Fast-only premises',
+  amount:300,cadence:'monthly',pool:'none',allocation:'usage',
+  usage:{fast:1},skuIds:['fast'],includedBySku:{}});
+ const r=E.build(x);
+ A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.cashflow.months[0].shared,300);
+ eq(r.cashflow.months[1].shared,0);
+ eq(r.cashflow.months[2].shared,0);
+ eq(r.cashflow.months.reduce((v,m)=>v+m.shared,0),300);
+});
+test('#31D two shared resources are independent and one-off investment is paid once',()=>{
+ const x=twoGoods31D();
+ x.resources.push({id:'w',kind:'workers',label:'Shared team',
+  amount:180,cadence:'monthly',pool:'none',allocation:'usage',usageMode:'per-unit',
+  loadPerUnit:{fast:1,slow:1},skuIds:['fast','slow'],includedBySku:{}});
+ x.resources.push({id:'eq',kind:'equipment',label:'Machine',
+  amount:90,cadence:'monthly',pool:'none',allocation:'usage',
+  usage:{slow:1},skuIds:['slow'],includedBySku:{}});
+ x.resources.push({id:'setup',kind:'other',label:'Setup',
+  amount:1000,cadence:'once',pool:'none',allocation:'usage',
+  usage:{slow:1},skuIds:['slow'],includedBySku:{}});
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.cashflow.months[0].shared,180+90+1000);
+ eq(r.cashflow.months[1].shared,180+90);
+ eq(r.cashflow.months[2].shared,180+90);
+ eq(r.cashflow.months.reduce((v,m)=>v+m.shared,0),180*3+90*3+1000);
+});
