@@ -3523,6 +3523,55 @@
                 : moneyInputValue(value);
         }
 
+        // #47AU: source-backed price and discount displays (presentation only).
+        // This is deliberately separate from aggregatePriceText, which is used
+        // by legacy text-only consumers. Source, SKU state and price maths stay
+        // unchanged when the selected language changes.
+        function aggregatePriceNumber(value,kind='plain'){
+            if(value===null||value===undefined||!Number.isFinite(Number(value)))return '—';
+            const raw=Number(value);
+            if(kind==='money')return displayMoneyNode(raw);
+            if(kind==='percent'||kind==='ratio'){
+                const suffix=kind==='percent'?'%':'x';
+                return '<span data-nomad-display-number="'+raw+
+                    '" data-nomad-display-fractions="compact" data-nomad-display-suffix="'+suffix+'">'+
+                    raw.toLocaleString(nomadDisplayLocale(),{maximumFractionDigits:2})+suffix+'</span>';
+            }
+            return displayNumNode(raw);
+        }
+        function aggregatePriceRangeHTML(result){
+            return result?.ready
+                ? aggregatePriceNumber(result.minPrice)+' – '+aggregatePriceNumber(result.maxPrice,'money')
+                : '—';
+        }
+        function setAggregatePriceDisplay(node,value,kind='plain'){
+            if(!node)return;
+            if(value===null||value===undefined||!Number.isFinite(Number(value))){
+                node.removeAttribute('data-nomad-display-number');
+                node.removeAttribute('data-nomad-display-fractions');
+                node.removeAttribute('data-nomad-display-suffix');
+                node.removeAttribute('data-nomad-display-money');
+                node.textContent='—';
+                return;
+            }
+            const raw=Number(value);
+            node.setAttribute('data-nomad-display-number',String(raw));
+            node.setAttribute('data-nomad-display-fractions',
+                kind==='percent'||kind==='ratio'?'compact':'2');
+            const suffix=kind==='percent'?'%':kind==='ratio'?'x':'';
+            if(suffix)node.setAttribute('data-nomad-display-suffix',suffix);
+            else node.removeAttribute('data-nomad-display-suffix');
+            if(kind==='money')node.setAttribute('data-nomad-display-money','');
+            else node.removeAttribute('data-nomad-display-money');
+            const number=raw.toLocaleString(nomadDisplayLocale(),
+                {minimumFractionDigits:kind==='percent'||kind==='ratio'?0:2,
+                 maximumFractionDigits:2});
+            const language=window.Nomad360LocaleCore?.locale?.()||'ru';
+            const unit=kind==='money'?' '+(language==='en'?'currency units*':
+                language==='kk'?'ш.б.*':'у.е.*'):'';
+            node.textContent=number+suffix+unit;
+        }
+
         function updateAggregatePricing(item) {
             if (!item) return;
             const section = document.querySelector(`[data-business-product-id="${item.id}"]`);
@@ -3530,28 +3579,26 @@
 
             const p = aggregatePricingMetrics(item);
             const outputs = {
-                priceBeforeTax: aggregatePriceText(p.priceBeforeTax),
-                priceBeforeTaxWithVat: aggregatePriceText(p.priceBeforeTaxWithVat),
-                taxAdjustedPrice: aggregatePriceText(p.taxAdjustedPrice),
-                taxAdjustedPriceWithVat: aggregatePriceText(p.taxAdjustedPriceWithVat),
-                baseCac: aggregatePriceText(p.baseCac),
-                weightedCac: aggregatePriceText(p.weightedCac),
-                adBudgetPortfolio: aggregatePriceText(p.adBudget),
-                forecastSalesPortfolio: p.forecastSales.toLocaleString('ru-RU', { maximumFractionDigits: 2 }),
-                revenueWeight:
-                    p.revenueWeight === null
-                        ? '—'
-                        : (p.revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
-                salesMixNormalized: (p.salesMix * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%',
-                revenuePortfolio: aggregatePriceText(p.revenue),
-                cogsPortfolio: aggregatePriceText(p.cogs),
-                ebitdaPortfolio: aggregatePriceText(p.ebitda),
-                roasPortfolio: p.roas === null ? '—' : p.roas.toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + 'x'
+                priceBeforeTax: p.priceBeforeTax,
+                priceBeforeTaxWithVat: p.priceBeforeTaxWithVat,
+                taxAdjustedPrice: p.taxAdjustedPrice,
+                taxAdjustedPriceWithVat: p.taxAdjustedPriceWithVat,
+                baseCac: p.baseCac,
+                weightedCac: p.weightedCac,
+                adBudgetPortfolio: p.adBudget,
+                forecastSalesPortfolio: p.forecastSales,
+                revenueWeight: p.revenueWeight===null?null:p.revenueWeight*100,
+                salesMixNormalized: p.salesMix*100,
+                revenuePortfolio: p.revenue,
+                cogsPortfolio: p.cogs,
+                ebitdaPortfolio: p.ebitda,
+                roasPortfolio: p.roas
             };
-            Object.entries(outputs).forEach(([key, value]) => {
-                section.querySelectorAll(`[data-aggregate-price="${key}"]`).forEach(el => {
-                    el.textContent = value;
-                });
+            Object.entries(outputs).forEach(([key,value]) => {
+                const kind=key==='revenueWeight'||key==='salesMixNormalized'?'percent':
+                    key==='roasPortfolio'?'ratio':'plain';
+                section.querySelectorAll(`[data-aggregate-price="${key}"]`).forEach(el =>
+                    setAggregatePriceDisplay(el,value,kind));
             });
 
             const advicePrice = section.querySelector('[data-business-advice-price]');
@@ -3560,7 +3607,7 @@
                     p.priceBeforeTaxWithVat !== null
                         ? p.priceBeforeTaxWithVat
                         : p.priceBeforeTax;
-                advicePrice.textContent = aggregatePriceText(shownPrice);
+                setAggregatePriceDisplay(advicePrice,shownPrice);
             }
 
             const vatLabel = section.querySelector('[data-vat-price-label]');
@@ -3577,7 +3624,7 @@
                     vatValue.textContent = 'укажите ставку НДС';
                 } else {
                     vatLabel.textContent = 'Цена с НДС';
-                    vatValue.textContent = aggregatePriceText(p.priceBeforeTaxWithVat) + ' у.е.*';
+                    vatValue.innerHTML = aggregatePriceNumber(p.priceBeforeTaxWithVat,'money');
                 }
             }
         }
@@ -4242,10 +4289,7 @@
             const note = card.querySelector('[data-price-list-note]');
 
             if (value) {
-                value.textContent =
-                    result.ready
-                        ? moneyInputValue(result.minPrice) + ' – ' + moneyInputValue(result.maxPrice) + ' у.е.*'
-                        : '—';
+                value.innerHTML=aggregatePriceRangeHTML(result);
             }
 
             if (note) {
@@ -4462,14 +4506,14 @@
                         ${!productBusinessTaxType ? '<div class="text-sm aggregate-muted mb-3">Выберите выше налог «С оборота» или «С прибыли», чтобы получить числовую цену. Настройки скидки и прайса уже доступны ниже.</div>' : ''}
                         <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                             <span class="aggregate-muted">Цена товара</span>
-                            <span class="font-bold text-right">${withoutVat} у.е.*</span>
+                            <span class="font-bold text-right">${aggregatePriceNumber(p.taxAdjustedPrice,'money')}</span>
                             <span class="aggregate-muted">НДС</span>
-                            <span class="font-bold text-right">${vatEnabled ? vatRatePct.toLocaleString('ru-RU') + '% = ' + aggregatePriceText(vatAmount) + ' у.е.*' : 'не применяется'}</span>
+                            <span class="font-bold text-right">${vatEnabled ? aggregatePriceNumber(vatRatePct,'percent') + ' = ' + aggregatePriceNumber(vatAmount,'money') : 'не применяется'}</span>
                         </div>
 
                         <div class="mt-4 pt-4 border-t aggregate-separator">
                             <div class="aggregate-muted text-xs">${vatEnabled ? 'Итоговая цена для покупателя' : 'Итоговая цена продажи'}</div>
-                            <div class="final-buyer-price mt-1">${aggregatePriceText(finalBuyerPrice)} у.е.*</div>
+                            <div class="final-buyer-price mt-1">${aggregatePriceNumber(finalBuyerPrice,'money')}</div>
                         </div>
 
                         <div class="mt-5 pt-5 border-t aggregate-separator">
@@ -4516,7 +4560,7 @@
                             <div class="aggregate-price-card mt-4">
                                 <div class="aggregate-muted text-xs">Диапазон цены для прайс-листа</div>
                                 <div class="price-list-range mt-1" data-price-list-range>
-                                    ${range.ready ? moneyInputValue(range.minPrice) + ' – ' + moneyInputValue(range.maxPrice) + ' у.е.*' : '—'}
+                                    ${aggregatePriceRangeHTML(range)}
                                 </div>
                                 <div class="aggregate-muted text-xs mt-2" data-price-list-note>
                                     ${
