@@ -10,7 +10,7 @@ const slice=(start,end)=>{
   return html.slice(a,b);
 };
 const scripts=[
- slice('function aggregateQuantityIssues(item) {','function calculateProductPortfolio() {'),
+ slice('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
  slice('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
  slice('function calculateAggregateCredit(item) {','function updateAggregateCredit(item) {'),
  slice('function calculateProductCashFlow(model) {','function updatePriceListRange(item) {')
