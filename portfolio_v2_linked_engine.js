@@ -127,6 +127,13 @@
         report('skus.'+rows.indexOf(s),'Дропшиппинг оплачивается по заказу: используйте «Исполнение заказа».');
       const qty=pos(s.inventoryQty),raw=pos(s.materialsBatchTotal),prod=pos(s.productionTotal),inbound=pos(s.warehouseInboundUnitCost)*qty;
       const residual=Math.max(0,(pos(s.unitCost)-(raw+prod+inbound)/Math.max(qty,EPS))*qty);
+      if(s.source==='offline-service'){
+        const forecast=pos(s.forecastUnitsPerMonth);
+        if(o.materials>pos(s.serviceMaterialsUnit)*forecast+EPS||
+           o.production>pos(s.serviceFixedMonthly)+EPS||
+           o.fulfillment>pos(s.serviceElectricityUnit)*forecast+EPS)
+          report('skus.'+rows.indexOf(s),'Общий расход превышает первоначальную сумму соответствующей статьи офлайн-услуги V1.');
+      }
       if(!['dropship','offline-service'].includes(s.source)&&(o.materials>raw+EPS||o.production>prod+EPS||o.fulfillment>residual+EPS))
         report('skus.'+rows.indexOf(s),'Перенос общего расхода превышает сумму выбранного денежного блока V1 для «'+s.name+'».');
     }
@@ -161,8 +168,13 @@
         const monthlySelling=pos(s.salesFixedMonthly)-offsets[s.id].salesFixed;
         // A V1 SKU's embedded cost is removed once, then charged through one
         // common resource, without multiplying the shared payment by SKU count.
-        const embeddedUnit=pos(s.forecastUnitsPerMonth)>0?offsets[s.id].unitCost/pos(s.forecastUnitsPerMonth):0;
-        const netUnitCost=pos(s.unitCost)-embeddedUnit;
+        const baselineOrders=Math.max(EPS,pos(s.forecastUnitsPerMonth));
+        const embeddedUnit=offsets[s.id].unitCost/baselineOrders;
+        const netUnitCost=s.source==='offline-service'?
+          Math.max(0,pos(s.serviceMaterialsUnit)-(cashOffsets[s.id].materials/baselineOrders))+
+          Math.max(0,pos(s.serviceElectricityUnit)-(cashOffsets[s.id].fulfillment/baselineOrders))+
+          Math.max(0,pos(s.serviceFixedMonthly)-cashOffsets[s.id].production)/Math.max(EPS,orders):
+          pos(s.unitCost)-embeddedUnit;
         const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
           monthlyResources+pos(s.creditServiceMonthly))/orders:Infinity;
         return {s,media,orders,monthlyResources,monthlyManager,monthlySelling,
@@ -296,7 +308,13 @@
     for(const {s,saleStart,receiptDelay} of plan){
       const stock=pos(s.inventoryQty),orders=pos(s.forecastOrders);
       let residualPerUnit=pos(s.unitCostEffective);
-      if(s.source!=='dropship'){
+      if(s.source==='offline-service'){
+        // Rent and master payroll are paid at the start of the month, not
+        // lazily divided among daily customer receipts in the cash ledger.
+        const fixed=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
+        post(0,'stockPurchase',fixed);
+        residualPerUnit=Math.max(0,residualPerUnit-fixed/Math.max(EPS,orders));
+      }else if(s.source!=='dropship'){
         const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
         const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production)),
           inbound=pos(s.warehouseInboundUnitCost)*stock;
