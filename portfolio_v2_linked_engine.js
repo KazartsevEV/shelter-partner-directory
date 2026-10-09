@@ -261,10 +261,10 @@
     const horizon=Math.max(30,...plan.map(x=>x.saleStart+30+x.receiptDelay),
       ...items.map(s=>pos(s.creditMonths)*30));
     if(horizon>3650)throw Error('Горизонт cash flow превышает 120 месяцев.');
-    const dayCount=Math.ceil(horizon);
+    const dayCount=Math.ceil(horizon/30)*30;
     const daily=Array.from({length:dayCount},()=>({
       receipt:0,ordersRevenue:0,cogsAccrual:0,stockPurchase:0,operating:0,
-      ad:0,shared:0,commission:0,loanDraw:0,interest:0,principal:0,tax:0
+      ad:0,shared:0,commission:0,commissionAccrual:0,loanDraw:0,interest:0,principal:0,tax:0
     }));
     function post(day,key,amount){
       if(!(amount>0))return;
@@ -293,6 +293,7 @@
         post(at,'ad',dailyAd);post(at,'shared',dailyFixed+resourceDaily);
         post(at,'ordersRevenue',netRevenue);
         post(at,'cogsAccrual',qty*pos(s.unitCostEffective));
+        post(at,'commissionAccrual',netRevenue*pos(s.variableSalesPct)/100);
         // Supplier/fulfillment is funded on the order date.
         post(at,'operating',qty*residualPerUnit);
         post(at+receiptDelay,'receipt',netRevenue);
@@ -316,12 +317,9 @@
       const days=daily.slice(i*30,(i+1)*30);
       const total=key=>sum(days.map(d=>d[key]));
       const receipt=total('receipt');
-      const taxableProfit=total('ordersRevenue')-total('cogsAccrual')-
-        total('ordersRevenue')*0 + // variable commission is per SKU, accrued separately below
-        0 -total('ad')-total('interest')-
+      const accrualProfit=total('ordersRevenue')-total('cogsAccrual')-
+        total('commissionAccrual')-total('ad')-total('interest')-
         (total('shared')-(i===0?totalOnce:0));
-      const totalCommission=total('commission');
-      const accrualProfit=taxableProfit-totalCommission;
       const tax=state.tax?.type==='profit'?Math.max(0,accrualProfit)*rate:receipt*rate;
       // The tax settlement is at month's end, after daily trading movements.
       post(Math.min(dayCount-1,(i+1)*30-1),'tax',tax);
@@ -337,7 +335,7 @@
       m.principalRepaid+=d.principal;
       m.loanDraw+=d.loanDraw;
       m.operatingOutflow+=d.operating+d.commission+d.stockPurchase+d.ad+d.shared;
-      m.taxableProfit+=d.ordersRevenue-d.cogsAccrual-d.commission-d.ad-d.shared-d.interest;
+      m.taxableProfit+=d.ordersRevenue-d.cogsAccrual-d.commissionAccrual-d.ad-d.shared-d.interest;
     }
     let running=0,minimum=0;
     for(const d of daily){
