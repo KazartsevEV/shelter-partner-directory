@@ -2235,7 +2235,7 @@
 
             if (
                 productName &&
-                ['own','resale','dropship'].includes(productSource) &&
+                ['own','resale','dropship','offline-service'].includes(productSource) &&
                 Number(currentProductSequence) !== id
             ) {
                 saveCurrentProductToPortfolio();
@@ -2277,7 +2277,7 @@
 
             selectProductSource(item.source);
 
-            if (['own','resale','dropship'].includes(item.source)) {
+            if (['own','resale','dropship','offline-service'].includes(item.source)) {
                 restoreProductOwnUiState(item);
                 const ownForm = document.getElementById('product-own-form');
                 if (ownForm) {
@@ -2438,7 +2438,7 @@
         }
 
         function saveCurrentProductToPortfolio() {
-            if (!productName || !['own','resale','dropship'].includes(productSource)) return;
+            if (!productName || !['own','resale','dropship','offline-service'].includes(productSource)) return;
             if(['resale','dropship'].includes(productSource)) updateResalePurchase();
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
@@ -3989,7 +3989,7 @@
                 if(errorNode){errorNode.textContent=message;errorNode.hidden=!message;errorNode.classList.toggle('hidden',!message);}
             };
             report('');
-            if(productName&&['own','resale','dropship'].includes(productSource))saveCurrentProductToPortfolio();
+            if(productName&&['own','resale','dropship','offline-service'].includes(productSource))saveCurrentProductToPortfolio();
             const model=calculateProductPortfolio();
             if(!model.items.length){report('Сначала рассчитайте и сохраните хотя бы один товар.');return false;}
             if(!productBusinessTaxType||!model.pricingReady){
@@ -4480,7 +4480,7 @@
             }
 
             const ownForm = document.getElementById('product-own-form');
-            if (ownForm && ['own','resale','dropship'].includes(productSource)) {
+            if (ownForm && ['own','resale','dropship','offline-service'].includes(productSource)) {
                 ownForm.hidden = false;
                 ownForm.classList.remove('hidden');
             }
@@ -4491,7 +4491,7 @@
         }
 
         function returnToProductBusinessSummary() {
-            if (productName && ['own','resale','dropship'].includes(productSource)) {
+            if (productName && ['own','resale','dropship','offline-service'].includes(productSource)) {
                 saveCurrentProductToPortfolio();
                 freezeCurrentProductOnPage();
             }
@@ -4546,7 +4546,7 @@
                     parsed.productPortfolio.length > 100) return null;
                 const seen = new Set();
                 for (const item of parsed.productPortfolio) {
-                    if (!item || !['own','resale','dropship'].includes(item.source) ||
+                    if (!item || !['own','resale','dropship','offline-service'].includes(item.source) ||
                         !Number.isSafeInteger(Number(item.id)) || Number(item.id) <= 0 ||
                         seen.has(Number(item.id)) ||
                         typeof item.name !== 'string' || !item.name.trim() ||
@@ -4641,7 +4641,7 @@
                 report('Это учебный пример. Чтобы сохранять свои данные, начните собственный расчёт с нуля.');
                 return false;
             }
-            if (productName && ['own','resale','dropship'].includes(productSource)) {
+            if (productName && ['own','resale','dropship','offline-service'].includes(productSource)) {
                 saveCurrentProductToPortfolio();
             }
             if (!productPortfolio.length) {
@@ -5023,7 +5023,7 @@
         function syncVisibleAggregateFromCurrentProduct() {
             const aggregate = document.getElementById('product-tax-block');
             if (!aggregate || aggregate.hidden || aggregate.classList.contains('hidden')) return;
-            if (!productName || !['own','resale','dropship'].includes(productSource)) return;
+            if (!productName || !['own','resale','dropship','offline-service'].includes(productSource)) return;
 
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
@@ -5716,6 +5716,10 @@
             const sourceBlock = document.getElementById('product-source-block');
             sourceBlock.hidden = false;
             sourceBlock.classList.remove('hidden');
+            if (productSource === 'offline-service') {
+                selectProductSource('offline-service');
+                sourceBlock.hidden=true;sourceBlock.classList.add('hidden');
+            }
             updateProductAssortmentGate();
             renderProductPortfolio();
             const taxBlock = document.getElementById('product-tax-block');
@@ -6685,7 +6689,7 @@
             });
 
             const ownForm = document.getElementById('product-own-form');
-            const hideOwn = !['own','resale','dropship'].includes(source);
+            const hideOwn = !['own','resale','dropship','offline-service'].includes(source);
             ownForm.hidden = hideOwn;
             ownForm.classList.toggle('hidden', hideOwn);
             const unavailable = document.getElementById('product-source-unavailable');
@@ -6699,7 +6703,7 @@
                 draftToolbar.classList.toggle('hidden', hideOwn);
             }
 
-            if (['own','resale','dropship'].includes(source)) {
+            if (['own','resale','dropship','offline-service'].includes(source)) {
                 initProductOwnForm();
                 setResaleProductPanels();
 
