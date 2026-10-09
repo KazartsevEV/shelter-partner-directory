@@ -51,11 +51,14 @@ function render(state,onChange){
   '<td class="text-right p-2">'+pct(r.support)+'</td>'+
   '<td class="text-right p-2">'+pct(r.confidence)+'</td>'+
   '<td class="text-right p-2">'+money(r.lift)+'</td>'+
-  '<td class="p-2">'+(r.antecedent.length===1?'<button type="button" data-mba-transfer="'+i+'" class="text-emerald-800 underline">Перенести вручную</button>':'Кортеж · только анализ')+'</td></tr>').join('')+
+  '<td class="p-2">'+(r.antecedent.length===1?
+   '<label class="block text-xs">Пересечение с V1, % (введите вручную)<input type="number" min="0" max="100" step="any" class="input-field mt-1" data-mba-overlap="'+i+'" placeholder="0–100"></label>'+
+   '<button type="button" data-mba-transfer="'+i+'" class="text-emerald-800 underline mt-1">Утвердить сценарий</button>':
+   'Кортеж · только анализ')+'</td></tr>').join('')+
   '</tbody></table></div><p class="text-xs text-slate-500 mt-2">Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте '+money(data.rules.length)+' направленных правил; показано до 60. Для кортежей A+B → C не делается ложная конвертация в одноякорную связку.</p>':
   '<p class="text-sm text-slate-500 mt-3">Нет подтверждённых совместных покупок в этой выборке. Правила не создаются.</p>'):'')+
  '<button type="button" data-mba-clear class="text-xs text-rose-700 underline mt-4">Удалить загруженную историю из черновика</button>':'')+
- '<p class="text-xs text-slate-500 mt-3">Перенос правила добавляет cross-sell по наблюдаемой confidence, но процент уже самостоятельных продаж дополнения нужно ввести вручную. Без этого портфель помечается как неподтверждённый. История и прогноз V1 остаются разными источниками.</p>';
+ '<p class="text-xs text-slate-500 mt-3">Перенос правила добавляет cross-sell по наблюдаемой confidence, но процент уже самостоятельных продаж дополнения нужно ввести вручную. Пока вы не введёте её, перенос недоступен. История и прогноз V1 остаются разными источниками.</p>';
  const message=(text,bad=false)=>{const el=panel.querySelector('[data-mba-message]');if(el){el.textContent=text;el.className='mt-2 text-xs '+(bad?'text-rose-700':'text-emerald-700')}};
  panel.querySelector('[data-mba-file]').onchange=async e=>{
   const file=e.target.files?.[0];if(!file)return;
@@ -81,6 +84,11 @@ function render(state,onChange){
  panel.querySelectorAll('[data-mba-transfer]').forEach(button=>button.onclick=e=>{
   const rule=data?.rules[Number(e.target.dataset.mbaTransfer)];
   if(!rule||rule.antecedent.length!==1)return;
+  const input=panel.querySelector('[data-mba-overlap="'+e.target.dataset.mbaTransfer+'"]');
+  const entered=String(input?.value??'').trim(),overlap=Number(entered);
+  if(!entered||!Number.isFinite(overlap)||overlap<0||overlap>100){
+   message('Перед переносом укажите оценку пересечения 0–100% вручную. Из истории заказов нельзя вычислить причинный uplift.',true);return;
+  }
   const anchor=rule.antecedent[0],addon=rule.consequent;
   const offers=JSON.parse(JSON.stringify(state.offers||[]));
   if(offers.some(x=>x.anchorSkuId===anchor&&x.items?.some(p=>p.skuId===addon))){
@@ -88,7 +96,7 @@ function render(state,onChange){
   }
   const seq=1+Math.max(0,...offers.map(x=>Number(String(x.id).replace(/\D/g,''))||0));
   offers.push({id:'observed-'+seq,mode:'cross_sell',anchorSkuId:anchor,
-   attachPct:Number((rule.confidence*100).toFixed(4)),overlapPct:'',
+   attachPct:Number((rule.confidence*100).toFixed(4)),overlapPct:overlap,
    observedRuleId:JSON.stringify([rule.antecedent,rule.consequent]),
    observedSnapshot:{N:rule.N,count:rule.count,confidence:rule.confidence,lift:rule.lift,
      period:{...data.period},channels:[...data.channels]},
