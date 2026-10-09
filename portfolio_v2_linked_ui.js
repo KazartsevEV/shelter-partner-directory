@@ -76,6 +76,7 @@ function resourceCard(r,i){
  field('Один реальный платёж, у.е.','resources.'+i+'.amount',r.amount)+
  '<label class="text-xs font-semibold text-slate-700">Периодичность<select data-linked-path="resources.'+i+'.cadence" class="input-field mt-1">'+options([['monthly','Ежемесячно'],['once','Разово']],r.cadence)+'</select></label>'+
  '<label class="text-xs font-semibold text-slate-700">Что заменить в старых расчётах?<select data-linked-path="resources.'+i+'.pool" class="input-field mt-1">'+options(pools,r.pool)+'</select></label>'+
+ (r.pool==='unitCost'?'<label class="text-xs font-semibold text-slate-700">Из какого платежа V1 вычесть старый расход?<select data-linked-path="resources.'+i+'.cashOrigin" class="input-field mt-1">'+options([['','Выберите исходный платёж'],['materials','Закупка / материалы'],['production','Производство'],['fulfillment','Доставка / исполнение заказа']],r.cashOrigin||'')+'</select></label>':'')+
  '<label class="text-xs font-semibold text-slate-700">Распределять по<select data-linked-path="resources.'+i+'.allocation" class="input-field mt-1">'+options([['revenue','Прогнозной выручке V1'],['usage','Реальной загрузке']],r.allocation)+'</select></label>'+
  (r.allocation==='usage'?field('Максимальная мощность (0 — не ограничена)','resources.'+i+'.capacity',r.capacity):'')+
  '</div>'+
