@@ -403,7 +403,7 @@
     // plus the V1 locked liquidity reserve (less available V1 loan draws).
     const items=portfolio.items,resources=portfolio.resources;
     const plan=items.map(s=>({
-      s,saleStart:['dropship','offline-service'].includes(s.source)?0:pos(s.supplyDays)+pos(s.productionDays),
+      s,saleStart:(['dropship','offline-service'].includes(s.source)||isOnline(s))?0:pos(s.supplyDays)+pos(s.productionDays),
       receiptDelay:s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
         pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0
     }));
@@ -413,6 +413,7 @@
     const dayCount=Math.ceil(horizon/30)*30;
     const daily=Array.from({length:dayCount},()=>({
       receipt:0,ordersRevenue:0,cogsAccrual:0,stockPurchase:0,operating:0,
+      onlineReceipt:0,onlineTaxDue:0,onlineProfit:0,
       ad:0,shared:0,commission:0,commissionAccrual:0,loanDraw:0,interest:0,principal:0,tax:0
     }));
     function post(day,key,amount){
@@ -424,13 +425,14 @@
     for(const {s,saleStart,receiptDelay} of plan){
       const stock=pos(s.inventoryQty),orders=pos(s.forecastOrders);
       let residualPerUnit=pos(s.unitCostEffective);
+      if(isOnline(s))post(0,'stockPurchase',pos(s.onlineCapex));
       if(s.source==='offline-service'){
         // Rent and master payroll are paid at the start of the month, not
         // lazily divided among daily customer receipts in the cash ledger.
         const fixed=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
         post(0,'stockPurchase',fixed);
         residualPerUnit=Math.max(0,residualPerUnit-fixed/Math.max(EPS,orders));
-      }else if(s.source!=='dropship'){
+      }else if(s.source!=='dropship'&&!isOnline(s)){
         const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
         const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production)),
           inbound=pos(s.warehouseInboundUnitCost)*stock;
@@ -449,10 +451,18 @@
         post(at,'ad',dailyAd);post(at,'shared',dailyFixed+resourceDaily);
         post(at,'ordersRevenue',netRevenue);
         post(at,'cogsAccrual',qty*pos(s.unitCostEffective));
+        if(isOnline(s)){
+          post(at,'onlineTaxDue',netRevenue*pos(s.onlineTaxPct)/100);
+          const earnings=netRevenue-qty*pos(s.unitCostEffective)-
+            netRevenue*pos(s.variableSalesPct)/100-dailyAd-dailyFixed-
+            resourceDaily-pos(s.onlineAmortMonthly)/30;
+          post(at,'onlineProfit',earnings);
+        }
         post(at,'commissionAccrual',netRevenue*pos(s.variableSalesPct)/100);
         // Supplier/fulfillment is funded on the order date.
         post(at,'operating',qty*residualPerUnit);
         post(at+receiptDelay,'receipt',netRevenue);
+        if(isOnline(s))post(at+receiptDelay,'onlineReceipt',netRevenue);
         post(at+receiptDelay,'commission',netRevenue*pos(s.variableSalesPct)/100);
       }
       if(pos(s.creditPrincipal)>0){
@@ -476,7 +486,9 @@
       const accrualProfit=total('ordersRevenue')-total('cogsAccrual')-
         total('commissionAccrual')-total('ad')-total('interest')-
         (total('shared')-(i===0?totalOnce:0));
-      const tax=state.tax?.type==='profit'?Math.max(0,accrualProfit)*rate:receipt*rate;
+      const tax=total('onlineTaxDue')+(state.tax?.type==='profit'?
+         Math.max(0,accrualProfit-total('onlineProfit'))*rate:
+         Math.max(0,receipt-total('onlineReceipt'))*rate);
       // The tax settlement is at month's end, after daily trading movements.
       post(Math.min(dayCount-1,(i+1)*30-1),'tax',tax);
     }
