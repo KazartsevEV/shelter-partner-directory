@@ -212,7 +212,12 @@ function showPreview(){
 }
 function savePrint(mode){
  const context=readyOutput();
- if(!context){const label=document.getElementById('nomad360-export-feedback');if(label)label.textContent=tr('required');return false}
+ if(!context){
+  document.getElementById('nomad360-print-sheet')?.remove();
+  const label=document.getElementById('nomad360-export-feedback');
+  if(label)label.textContent=tr('required');
+  return false;
+ }
  let sheet=document.getElementById('nomad360-print-sheet');
  if(!sheet){sheet=document.createElement('section');sheet.id='nomad360-print-sheet';document.body.append(sheet)}
  sheet.innerHTML=printable(mode,context);
@@ -237,6 +242,15 @@ function syncPortfolioActions(out){
  '<p class="nomad-footnote" id="nomad360-export-feedback">'+(can?tr('pdfHint'):tr('onlyReady'))+'</p>'+
  '<div id="nomad360-price-preview" hidden></div></div>';
  if(!can)section.dataset.ready='false';else section.dataset.ready='true';
+ // Revoke invalid old print output and synchronize valid existing documents.
+ const sheet=document.getElementById('nomad360-print-sheet');
+ if(sheet){
+  if(!can)sheet.remove();
+  else if(['price','report'].includes(sheet.dataset.mode)){
+   const currentState=root.LinkedPortfolioV2UI?.getState?.();
+   if(currentState)sheet.innerHTML=printable(sheet.dataset.mode,{state:currentState,out});
+  }
+ }
  if(can&&keepPreview){
   const preview=section.querySelector('#nomad360-price-preview');
   preview.hidden=false;
