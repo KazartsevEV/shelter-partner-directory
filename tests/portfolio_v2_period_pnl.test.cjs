@@ -1,6 +1,7 @@
 const {test}=require('node:test');
 const A=require('node:assert/strict');
 const E=require('../portfolio_v2_linked_engine.js');
+const Adapter=require('../portfolio_v2_online_adapter.js');
 const close=(x,y,msg)=>A.ok(Number.isFinite(x)&&Math.abs(x-y)<.00001,
  msg+': actual '+x+', expected '+y);
 const sum=(rows,key)=>rows.reduce((v,m)=>v+m[key],0);
@@ -114,4 +115,24 @@ test('F2A period margin undefined if no sales, not falsely reported zero',()=>{
  const r=verified(s);
  close(r.cashflow.periodPnl.months[1].netProfit,-100,'contractual campaign loss');
  A.equal(r.cashflow.periodPnl.months[1].netMargin,null);
+});
+
+test('F2A owner-only agent revenue and tax never includes partner gross turnover',()=>{
+ const vals={months:3,monthlyBudget:400,cpc:4,ctr:2,cvrLead:20,cvrDeal:50,
+  costConsult:100,costPack:200,ltv:30,mgmt:0,site:0,hosting:0,dom:0,
+  magnet:0,acq:10,taxTurnover:5,agentPct:20,agentTaxTurnover:10,markup:25};
+ const online=Adapter.build({id:'agent',name:'Agency fee',mode:'agent',
+  values:vals,period:{deals:25,grossRevenue:3525,agentIncome:705,executorCost:2820},
+  payers:{monthlyBudget:'partner',mgmt:'me',site:'me',hosting:'me',dom:'me',magnet:'me'}});
+ const r=verified(scenario([goods('a',60),online],3,{type:'turnover',pct:3}));
+ const p=r.cashflow.periodPnl,good=r.items.find(s=>s.id==='a');
+ const agent=r.items.find(s=>s.id==='agent');
+ const ownAgencyRevenue=online.forecastUnitsPerMonth*agent.standaloneNet*3;
+ const goodsRevenue=20*good.standaloneNet*3;
+ close(p.revenue,ownAgencyRevenue+goodsRevenue,
+  'owner fee plus own physical revenue, not partner GMV');
+ close(p.taxAccrued,ownAgencyRevenue*.10+goodsRevenue*.03,
+  'agent separate turnover tax only on own fee');
+ close(sum(p.months,'marketing'),300,
+  'partner-funded acquisition not charged as owner OPEX');
 });
