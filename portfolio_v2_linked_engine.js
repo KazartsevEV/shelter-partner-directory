@@ -256,6 +256,12 @@
       if(retained<=0||s.discountSelected>=100)return Infinity;
       return unitLoad/retained*(1+pos(s.vatPct)/100)/(1-s.discountSelected/100);
     }
+    // Keep the established 30-day scenario contract for linked baskets and
+    // shared-resource portfolios. Whole-stock parity is rolled out first to
+    // a single unshared physical SKU with no basket offers.
+    const singleStockCycle=rows.length===1&&
+      ['own','resale'].includes(rows[0].source)&&!resources.length&&
+      !(Array.isArray(state.offers)&&state.offers.length);
     const initialPrices=Object.fromEntries(rows.map(s=>[s.id,pos(s.priceMax)]));
     const calculateScenario=(prices,projectedOrders)=>{
       const draftRows=rows.map(s=>({...s,priceSelected:prices[s.id],_projectedOrders:projectedOrders[s.id]}));
@@ -292,8 +298,10 @@
         const financedUnits=['own','resale'].includes(s.source)?
           pos(s.inventoryQty):orders;
         const loanMonths=Math.max(1,Math.ceil(pos(s.creditMonths)||1));
-        const financeLoad=(pos(s.creditServiceMonthly)*loanMonths+
-          pos(s.reserveAmount))/Math.max(EPS,financedUnits);
+        const financeLoad=singleStockCycle?
+          (pos(s.creditServiceMonthly)*loanMonths+pos(s.reserveAmount))/
+            Math.max(EPS,financedUnits):
+          pos(s.creditServiceMonthly)/Math.max(EPS,orders);
         const unitLoad=orders>0?netUnitCost+
           (media+monthlyManager+monthlySelling+monthlyResources)/orders+
           financeLoad:Infinity;
@@ -453,16 +461,20 @@
   }
 
   function cashFlow(state,portfolio){
-    // Goods sell through their complete purchased stock at the V1 monthly sales
-    // velocity. Services/dropshipping retain their contracted 30-day forecast.
-    // Daily ledgers preserve supply/advance, storage and repayment timing.
+    // A single unshared goods SKU uses V1 complete-stock sell-through.
+    // Linked baskets and shared resources continue as first-30-day scenarios
+    // until their cross-SKU monthly continuation contract is reconciled.
     // Launch capital = maximum daily deficit plus V1 liquidity reserve.
     const items=portfolio.items,resources=portfolio.resources;
+    const singleStockCycle=items.length===1&&!resources.length&&
+      ['own','resale'].includes(items[0].source)&&
+      !(Array.isArray(state.offers)&&state.offers.length);
     const plan=items.map(s=>{
       const isStock=['own','resale'].includes(s.source);
       const saleStart=isStock?pos(s.supplyDays)+pos(s.productionDays):0;
       const rate=pos(s.forecastOrders)/30;
-      const saleDays=isStock?pos(s.inventoryQty)/Math.max(EPS,rate):30;
+      const saleDays=isStock&&singleStockCycle?
+        pos(s.inventoryQty)/Math.max(EPS,rate):30;
       return {s,isStock,saleStart,saleDays,rate,
         receiptDelay:s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
           pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0};
@@ -492,6 +504,14 @@
         const fixed=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
         post(0,'stockPurchase',fixed);
         residualPerUnit=Math.max(0,residualPerUnit-fixed/Math.max(EPS,orders));
+      }else if(isStock&&!singleStockCycle){
+        const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
+        const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production));
+        const inbound=pos(s.warehouseInboundUnitCost)*stock;
+        post(0,'stockPurchase',input);
+        post(saleStart,'stockPurchase',production+inbound);
+        residualPerUnit=Math.max(0,residualPerUnit-
+          (input+production+inbound)/Math.max(stock,EPS));
       }else if(isStock){
         const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
         const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production));
@@ -525,7 +545,7 @@
         const qty=isStock?Math.min(Math.max(0,stock-sold),rate*portion):
           orders/30;
         const at=saleStart+day,netRevenue=qty*pos(s.priceNet);
-        if(isStock&&pos(s.warehouseDayCost)>0){
+        if(singleStockCycle&&isStock&&pos(s.warehouseDayCost)>0){
           const inventoryIntegral=(stock-sold)*portion-
             rate*portion*portion/2;
           post(at,'operating',pos(s.warehouseDayCost)*Math.max(0,inventoryIntegral));
