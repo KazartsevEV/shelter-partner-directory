@@ -1,0 +1,29 @@
+name: Marketing calculator regression checks
+
+on:
+  pull_request:
+    paths:
+      - "Marketing_calc.HTML"
+      - "tests/marketing_calc_regressions.test.cjs"
+      - ".github/workflows/calculator-tests.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "Marketing_calc.HTML"
+      - "tests/marketing_calc_regressions.test.cjs"
+      - ".github/workflows/calculator-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calculator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify price, discount, VAT and SKU navigation contracts
+        run: node --test tests/marketing_calc_regressions.test.cjs
