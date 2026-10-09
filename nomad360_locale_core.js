@@ -251,7 +251,7 @@ function lookup(raw,language){
  if(language==='ru')return raw;
  const m=/^(\s*)([\s\S]*?)(\s*)$/.exec(raw);
  if(!m)return raw;
- const translated=direct.get(m[2])?.[language];
+ const translated=(direct.get(m[2])||direct.get(m[2].replace(/\s+/g,' ').trim()))?.[language];
  return translated?m[1]+translated+m[3]:raw;
 }
 function translateNode(node,language){
