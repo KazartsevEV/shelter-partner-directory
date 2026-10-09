@@ -198,7 +198,7 @@ test('ALL HERO KPIs: CPA/CAC match displayed period totals, never the un-ramped 
    const {page,errors}=await setup(mode,{months});
    try{
     const revenue=325+(months-1)*1600;
-    const deals=2.5+(months-1)*10;
+    const deals=5+(months-1)*10; // first month: 10 base deals × 50% ramp; revenue has an additional 50% ramp
     const budget=400*months;
     const acquiring=revenue*.10,contractor=mode==='hired'?revenue/1.25:0;
     const costs=budget+acquiring+contractor;
