@@ -28,7 +28,10 @@ function render(state,onChange){
  (source?'<div class="rounded-lg bg-slate-50 p-3 mt-4 text-xs">'+
  'Исходных строк: <b>'+money(source.rawLines)+'</b>; точных дублей line_id: <b>'+money(source.deduplicated)+'</b>; '+
  'подтверждённых чеков в фильтре: <b>'+money(data.N)+'</b>; период: <b>'+esc(data.period.from||'—')+' — '+esc(data.period.to||'—')+
- '</b>; валюты: <b>'+esc(data.currencies.join(', ')||'—')+'</b>. Валюты не суммируются в одну сумму.</div>'+
+ '</b>; валюты: <b>'+esc(data.currencies.join(', ')||'—')+'</b>. Валюты не суммируются в одну сумму.'+
+ (data.ready&&data.aovByCurrency.length?'<br>Наблюдаемый средний чек по валютам (из цены файла, без предположений о НДС): '+
+ data.aovByCurrency.map(v=>esc(v.currency)+' '+money(v.averageOrderValue)+
+ ' / '+money(v.orders)+' чеков').join('; '):'')+'</div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3">'+
  '<label class="text-xs">Канал<select class="input-field mt-1" data-mba-filter="channel">'+
    [['all','Все'],...channels.map(c=>[c,c])].map(([v,t])=>'<option value="'+esc(v)+'" '+((history.filter?.channel||'all')===v?'selected':'')+'>'+esc(t)+'</option>').join('')+'</select></label>'+

@@ -30,7 +30,9 @@
     const values=beneficiaries.map(id=>{
       const sku=skus.find(s=>s.id===id);
       if(!sku)return 0;
-      if(resource.allocation==='usage')return pos(resource.usage?.[id]);
+      if(resource.allocation==='usage')return resource.usageMode==='per-unit'?
+         pos(resource.loadPerUnit?.[id])*pos(sku._projectedOrders??sku.forecastUnitsPerMonth):
+         pos(resource.usage?.[id]);
       return pos(sku.priceSelected)*(1-pos(sku.discountSelected)/100)*
         pos(sku._projectedOrders??sku.forecastUnitsPerMonth)/(1+pos(sku.vatPct)/100);
     });
@@ -173,10 +175,25 @@
       if(!beneficiaries.length||beneficiaries.some(id=>!ids.has(id))||new Set(beneficiaries).size!==beneficiaries.length)
         report(key+'.skuIds','Выберите уникальных получателей ресурса из импортированных товаров.');
       if(r.allocation!=='revenue'&&r.allocation!=='usage')report(key+'.allocation','Способ распределения неизвестен.');
-      if(r.allocation==='usage'&&sum(beneficiaries.map(id=>pos(r.usage?.[id])))<=0)
+      if(r.usageMode!==undefined&&!['fixed','per-unit'].includes(r.usageMode))
+        report(key+'.usageMode','Неизвестный тип учёта загрузки.');
+      const perUnit=r.usageMode==='per-unit';
+      if(perUnit&&r.allocation!=='usage')
+        report(key+'.usageMode','Помесячную загрузку по единице можно выбрать только при распределении по использованию.');
+      if(perUnit&&!['workers','premises','equipment','salesStaff'].includes(r.kind))
+        report(key+'.kind','Загрузка на единицу применяется к сотрудникам, помещению и оборудованию.');
+      if(perUnit){
+        for(const id of beneficiaries){
+          const rate=Number(r.loadPerUnit?.[id]??0);
+          if(!Number.isFinite(rate)||rate<0)
+            report(key+'.loadPerUnit.'+id,'Норма ресурса на единицу должна быть неотрицательной.');
+        }
+        if(sum(beneficiaries.map(id=>pos(r.loadPerUnit?.[id])))<=0)
+          report(key+'.loadPerUnit','Укажите расход времени/мощности на единицу хотя бы для одной позиции.');
+      }else if(r.allocation==='usage'&&sum(beneficiaries.map(id=>pos(r.usage?.[id])))<=0)
         report(key+'.allocation','Укажите положительную загрузку товарами.');
       if(r.capacity!==''&&r.capacity!==null&&r.capacity!==undefined&&Number(r.capacity)>0&&
-         sum(beneficiaries.map(id=>pos(r.usage?.[id])))>Number(r.capacity)+EPS)
+         r.usageMode!=='per-unit'&&sum(beneficiaries.map(id=>pos(r.usage?.[id])))>Number(r.capacity)+EPS)
         report(key+'.capacity','Загрузка общего ресурса превышает мощность.');
       if(r.kind==='certification'&&beneficiaries.length>1&&
         (!r.confirmedCoverage||!String(r.validFor||'').trim()||!r.validUntil))
@@ -360,6 +377,18 @@
           'Прогноз клиентов для «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
           ') больше доступных '+pos(item.serviceCapacity)+' посещений в месяц.');
       }
+    }
+    for(let i=0;i<scenario.allocation.length;i++){
+      const resource=scenario.allocation[i];
+      if(resource.usageMode!=='per-unit')continue;
+      const load=sum(resource.skuIds.map(id=>
+        pos(resource.loadPerUnit?.[id])*pos(items.find(s=>s.id===id)?.forecastOrders)));
+      resource.projectedLoad=load;
+      resource.remainingCapacity=pos(resource.capacity)>0?pos(resource.capacity)-load:null;
+      if(pos(resource.capacity)>0&&load>pos(resource.capacity)+EPS)
+        report('resources.'+i+'.capacity',
+          'Связанные покупки требуют '+load.toFixed(2)+' единиц ресурса «'+resource.label+
+          '», доступно '+pos(resource.capacity)+'. Уменьшите наборы или увеличьте мощность.');
     }
     const infeasible=items.filter(item=>!item.fixedPriceFromV1&&!item.minimumMarginFeasible);
     if(infeasible.length)for(const item of infeasible)

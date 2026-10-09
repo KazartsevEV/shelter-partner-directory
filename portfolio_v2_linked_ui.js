@@ -48,7 +48,7 @@ function importFromV1(payload){
       const keep=new Set((r.skuIds||[]).filter(id=>allowed.has(id)));
       const copy=JSON.parse(JSON.stringify(r));
       copy.skuIds=Array.from(keep);
-      for(const prop of ['includedBySku','usage'])
+      for(const prop of ['includedBySku','usage','loadPerUnit'])
        if(copy[prop])copy[prop]=Object.fromEntries(Object.entries(copy[prop])
          .filter(([id])=>keep.has(id)));
       return copy;
@@ -98,7 +98,9 @@ function resourceCard(r,i){
    (checked?'<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">'+
     (r.pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
       'resources.'+i+'.includedBySku.'+s.id,r.includedBySku?.[s.id]??0):'')+
-    (r.allocation==='usage'?field('Загрузка этого товара (ед.)','resources.'+i+'.usage.'+s.id,r.usage?.[s.id]??0):'')+
+    (r.allocation==='usage'?(r.usageMode==='per-unit'?
+      field('Ресурс на 1 продажу / посещение','resources.'+i+'.loadPerUnit.'+s.id,r.loadPerUnit?.[s.id]??0):
+      field('Загрузка этого товара (ед.)','resources.'+i+'.usage.'+s.id,r.usage?.[s.id]??0)):'')+
    '</div>':'')+'</div>';
  }).join('');
  return '<article class="rounded-xl border border-indigo-200 bg-indigo-50/40 p-4 mt-4" data-linked-resource="'+i+'">'+
@@ -112,7 +114,9 @@ function resourceCard(r,i){
  '<label class="text-xs font-semibold text-slate-700">Что заменить в старых расчётах?<select data-linked-path="resources.'+i+'.pool" class="input-field mt-1">'+options(pools,r.pool)+'</select></label>'+
  (r.pool==='unitCost'?'<label class="text-xs font-semibold text-slate-700">Из какого платежа V1 вычесть старый расход?<select data-linked-path="resources.'+i+'.cashOrigin" class="input-field mt-1">'+options([['','Выберите исходный платёж'],['materials','Закупка / материалы'],['production','Производство'],['fulfillment','Доставка / исполнение заказа']],r.cashOrigin||'')+'</select></label>':'')+
  '<label class="text-xs font-semibold text-slate-700">Распределять по<select data-linked-path="resources.'+i+'.allocation" class="input-field mt-1">'+options([['revenue','Прогнозной выручке V1'],['usage','Реальной загрузке']],r.allocation)+'</select></label>'+
- (r.allocation==='usage'?field('Максимальная мощность (0 — не ограничена)','resources.'+i+'.capacity',r.capacity):'')+
+ (r.allocation==='usage'?'<label class="block text-xs">Как считать загрузку<select data-linked-path="resources.'+i+'.usageMode" class="input-field mt-1">'+
+  options([['fixed','Вручную (старые черновики)'],['per-unit','На единицу продажи / посещения']],r.usageMode||'fixed')+'</select></label>'+
+  field('Максимальная месячная мощность (0 — не ограничена)','resources.'+i+'.capacity',r.capacity):'')+
  '</div>'+
  '<p class="text-xs text-slate-600 mt-3">Укажите, какими товарами используется ресурс. Если его стоимость уже была включена в V1, внесите первоначальные суммы по товарам — они будут заменены одним реальным платежом. Нулевые значения ничего не списывают.</p>'+
  '<div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">'+skuCards+'</div>'+
@@ -235,6 +239,9 @@ function updateResult(){
   '<div class="rounded-lg bg-white/10 p-3">'+
    '<b>'+safe(r.label)+' — '+money(r.amount)+(r.cadence==='once'?' разово':' / мес.')+'</b>'+
    '<div>Заменённые начисления из V1: '+money(r.previousTotal)+'</div>'+
+   (r.usageMode==='per-unit'?'<div>Мощность ресурса: '+money(r.projectedLoad)+
+     ' / '+(num(r.capacity)>0?money(r.capacity):'без лимита')+
+     ', остаток '+(r.remainingCapacity===null?'—':money(r.remainingCapacity))+'</div>':'')+
    Object.entries(r.bySku).map(([id,amount])=>
     '<div>'+safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(amount)+'</div>').join('')+
   '</div>').join('')+'</div>';
@@ -279,7 +286,7 @@ function onEvent(e){
  if(field.dataset?.linkedMember!==undefined&&e.type==='change'){
   const r=state.resources[Number(field.dataset.linkedMember)];
   if(field.checked&&!r.skuIds.includes(field.value))r.skuIds.push(field.value);
-  else if(!field.checked){r.skuIds=r.skuIds.filter(x=>x!==field.value);delete r.includedBySku[field.value];delete r.usage[field.value];}
+  else if(!field.checked){r.skuIds=r.skuIds.filter(x=>x!==field.value);delete r.includedBySku[field.value];delete r.usage[field.value];delete r.loadPerUnit?.[field.value];}
   save();render();return;
  }
  if(field.dataset?.linkedPath){
@@ -313,7 +320,7 @@ function onEvent(e){
  if(hit.hasAttribute('data-linked-add')){
   state.resources.push({id:'common-'+sequence++,kind:'premises',label:'Общий ресурс',
     amount:'',cadence:'monthly',pool:'none',allocation:'revenue',
-    skuIds:state.skus.map(s=>s.id),includedBySku:{},usage:{},capacity:''});
+    skuIds:state.skus.map(s=>s.id),includedBySku:{},usage:{},loadPerUnit:{},usageMode:'fixed',capacity:''});
   save();render();return;
  }
  if(hit.hasAttribute('data-linked-delete')){
