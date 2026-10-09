@@ -4702,6 +4702,7 @@
             currentProductSequence = 1;
             document.getElementById('completed-product-forms').innerHTML = '';
             resetCurrentProductForNext();
+            configureOfflineServiceView();
             const extra = document.getElementById('product-source-unavailable');
             if (extra) { extra.hidden = true; extra.classList.add('hidden'); }
             const intro = document.getElementById('product-name-input')?.closest('.card');
@@ -5585,9 +5586,9 @@
                     : productPortfolio.length + (productName ? 1 : 0);
 
             if (totalIncludingCurrent <= 1) {
-                completeButton.innerHTML = `Это мой единственный <span class="product-name-live">«${productName}»</span>`;
+                completeButton.innerHTML = `Это ${productSource==='offline-service'?'моя единственная услуга':'мой единственный товар'} <span class="product-name-live">«${productName}»</span>`;
             } else {
-                completeButton.textContent = 'Это весь мой ассортимент';
+                completeButton.textContent = productSource==='offline-service'?'Это все мои услуги':'Это весь мой ассортимент';
             }
         }
 
@@ -5773,6 +5774,7 @@
 
         function addAnotherProduct() {
             if (!requireAdditionalProductName()) return false;
+            const previousProductSource=productSource;
 
             const savedBusinessTaxType = productBusinessTaxType;
             const savedBusinessTaxPct = document.getElementById('own-business-tax-pct')?.value ?? '';
@@ -5808,6 +5810,11 @@
                 sourceBlock.classList.remove('hidden');
                 document.getElementById('product-source-name').textContent = 'следующий товар';
                 sourceBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if(previousProductSource==='offline-service'){
+                selectProductSource('offline-service');
+                if(sourceBlock){sourceBlock.hidden=true;sourceBlock.classList.add('hidden');}
+                document.getElementById('additional-product-name-input')?.focus({preventScroll:true});
             }
             return true;
         }
@@ -6668,9 +6675,9 @@
         }
 
         function recalculateLogisticsUnitCost() {
-            const warehouseInboundIsMine = productSource!=='dropship' && productLogisticsPayers.warehouseInbound === 'me';
-            const warehouseIsMine = productSource!=='dropship' && productLogisticsPayers.warehouse === 'me';
-            const deliveryIsMine = productLogisticsPayers.customerDelivery === 'me';
+            const warehouseInboundIsMine = !['dropship','offline-service'].includes(productSource) && productLogisticsPayers.warehouseInbound === 'me';
+            const warehouseIsMine = !['dropship','offline-service'].includes(productSource) && productLogisticsPayers.warehouse === 'me';
+            const deliveryIsMine = productSource!=='offline-service'&&productLogisticsPayers.customerDelivery === 'me';
 
             const warehouseInboundPerUnit = warehouseInboundIsMine
                 ? productNumber('own-warehouse-inbound-unit-cost')
