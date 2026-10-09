@@ -7192,7 +7192,49 @@
 
         function calculate() {
             const v = currentValues;
-            const months = Math.max(1, Math.floor(v.months || 1));
+            // Guard economic domain before producing any revenue/profit or million-column
+            // monthly tables. Invalid input never becomes a plausible-looking forecast.
+            document.querySelectorAll('[data-service-input-error]').forEach(node=>node.remove());
+            document.querySelectorAll('#inputs-container [aria-invalid]').forEach(node=>node.removeAttribute('aria-invalid'));
+            const serviceInputIssues=[];
+            const invalid=(key,message)=>serviceInputIssues.push({key,message});
+            const nonNegative=['monthlyBudget','cpc','costConsult','costPack','mgmt','site',
+              'hosting','dom','magnet','markup'];
+            const percentages=['ctr','cvrLead','cvrDeal','ltv','acq','taxTurnover',
+              'agentPct','agentTaxTurnover'];
+            for(const key of nonNegative)
+              if(!Number.isFinite(v[key])||v[key]<0)invalid(key,'Значение не может быть отрицательным.');
+            for(const key of percentages)
+              if(!Number.isFinite(v[key])||v[key]<0||v[key]>100)
+                invalid(key,'Процент должен быть от 0 до 100.');
+            if(!Number.isInteger(v.months)||v.months<1||v.months>120)
+              invalid('months','Период должен быть целым числом от 1 до 120 месяцев.');
+            if(v.monthlyBudget>0&&!(v.cpc>0))
+              invalid('cpc','При положительном рекламном бюджете CPC должен быть больше нуля.');
+            if(v.monthlyBudget>0&&!(v.ctr>0))
+              invalid('ctr','Без положительного CTR нельзя получить клики из показов.');
+            if(serviceInputIssues.length){
+              for(const issue of serviceInputIssues){
+                const input=document.getElementById('in-'+issue.key);
+                if(input){
+                  input.setAttribute('aria-invalid','true');
+                  const note=document.createElement('p');
+                  note.dataset.serviceInputError='yes';
+                  note.className='mt-1 text-xs text-rose-700';
+                  note.textContent=issue.message;
+                  input.after(note);
+                }
+              }
+              const msg=serviceInputIssues.map(issue=>issue.message).join(' ');
+              document.getElementById('summary-table').innerHTML=
+                '<tr><td colspan="2" class="p-3 text-rose-800 bg-rose-50">Исправьте параметры расчёта. Недопустимая модель не рассчитывается.</td></tr>';
+              document.getElementById('monthly-table').innerHTML=
+                '<tr><td class="p-3 text-rose-800">Нет корректного прогноза: '+msg+'</td></tr>';
+              for(const id of ['res-profit','res-romi','res-cpa','res-cac'])
+                document.getElementById(id).textContent='—';
+              return;
+            }
+            const months = v.months;
             const isHired = serviceMode === 'hired';
             const isAgent = serviceMode === 'agent';
             const markup = Math.max(0, v.markup || 0);
