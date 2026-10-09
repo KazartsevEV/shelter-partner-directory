@@ -63,7 +63,7 @@
   }:null;
   return {
     id:key(mode,name),name,source:'online-'+mode,onlineMode:mode,
-    onlineContract:true,onlineGrossPerDeal:partnerGrossPerDeal,
+    onlineContract:true,onlineCapacity:0,onlineGrossPerDeal:partnerGrossPerDeal,
     onlinePartner:counterpart,onlineTaxPct:taxPct,onlineCapex,
     onlineAmortMonthly:onlineCapex/12,
     onlineDemandBudget:spend,onlineExternalAdBudget:externalAdvertising,
