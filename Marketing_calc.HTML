@@ -7192,7 +7192,49 @@
 
         function calculate() {
             const v = currentValues;
-            const months = Math.max(1, Math.floor(v.months || 1));
+            // Guard economic domain before producing any revenue/profit or million-column
+            // monthly tables. Invalid input never becomes a plausible-looking forecast.
+            document.querySelectorAll('[data-service-input-error]').forEach(node=>node.remove());
+            document.querySelectorAll('#inputs-container [aria-invalid]').forEach(node=>node.removeAttribute('aria-invalid'));
+            const serviceInputIssues=[];
+            const invalid=(key,message)=>serviceInputIssues.push({key,message});
+            const nonNegative=['monthlyBudget','cpc','costConsult','costPack','mgmt','site',
+              'hosting','dom','magnet','markup'];
+            const percentages=['ctr','cvrLead','cvrDeal','ltv','acq','taxTurnover',
+              'agentPct','agentTaxTurnover'];
+            for(const key of nonNegative)
+              if(!Number.isFinite(v[key])||v[key]<0)invalid(key,'Значение не может быть отрицательным.');
+            for(const key of percentages)
+              if(!Number.isFinite(v[key])||v[key]<0||v[key]>100)
+                invalid(key,'Процент должен быть от 0 до 100.');
+            if(!Number.isInteger(v.months)||v.months<1||v.months>120)
+              invalid('months','Период должен быть целым числом от 1 до 120 месяцев.');
+            if(v.monthlyBudget>0&&!(v.cpc>0))
+              invalid('cpc','При положительном рекламном бюджете CPC должен быть больше нуля.');
+            if(v.monthlyBudget>0&&!(v.ctr>0))
+              invalid('ctr','Без положительного CTR нельзя получить клики из показов.');
+            if(serviceInputIssues.length){
+              for(const issue of serviceInputIssues){
+                const input=document.getElementById('in-'+issue.key);
+                if(input){
+                  input.setAttribute('aria-invalid','true');
+                  const note=document.createElement('p');
+                  note.dataset.serviceInputError='yes';
+                  note.className='mt-1 text-xs text-rose-700';
+                  note.textContent=issue.message;
+                  input.after(note);
+                }
+              }
+              const msg=serviceInputIssues.map(issue=>issue.message).join(' ');
+              document.getElementById('summary-table').innerHTML=
+                '<tr><td colspan="2" class="p-3 text-rose-800 bg-rose-50">Исправьте параметры расчёта. Недопустимая модель не рассчитывается.</td></tr>';
+              document.getElementById('monthly-table').innerHTML=
+                '<tr><td class="p-3 text-rose-800">Нет корректного прогноза: '+msg+'</td></tr>';
+              for(const id of ['res-profit','res-romi','res-cpa','res-cac'])
+                document.getElementById(id).textContent='—';
+              return;
+            }
+            const months = v.months;
             const isHired = serviceMode === 'hired';
             const isAgent = serviceMode === 'agent';
             const markup = Math.max(0, v.markup || 0);
@@ -7253,7 +7295,7 @@
             const clicks = v.cpc > 0 ? totalBudget / v.cpc : 0;
             const impressions = ctrDec > 0 ? Math.floor(clicks / ctrDec) : 0;
             const leads = clicks * (v.cvrLead / 100);
-            const deals = Math.max(leads * (v.cvrDeal / 100), 0.1);
+            const deals = Math.max(0, leads * (v.cvrDeal / 100));
             const packs = deals * (v.ltv / 100);
 
             const grossRevConsult = deals * v.costConsult;
@@ -7279,8 +7321,8 @@
             const partnerMgmt = isAgent ? (agentPayers.mgmt === 'partner' ? v.mgmt : 0) : v.mgmt;
             const partnerHosting = isAgent ? (agentPayers.hosting === 'partner' ? v.hosting : 0) : v.hosting;
             const partnerDom = isAgent ? (agentPayers.dom === 'partner' ? v.dom : 0) : v.dom;
-            const siteAmort = isAgent ? (agentPayers.site === 'partner' ? v.site * months / 12 : 0) : v.site * months / 12;
-            const magnetAmort = isAgent ? (agentPayers.magnet === 'partner' ? v.magnet * months / 12 : 0) : v.magnet * months / 12;
+            const siteAmort = isAgent ? (agentPayers.site === 'partner' ? v.site * Math.min(months,12) / 12 : 0) : v.site * Math.min(months,12) / 12;
+            const magnetAmort = isAgent ? (agentPayers.magnet === 'partner' ? v.magnet * Math.min(months,12) / 12 : 0) : v.magnet * Math.min(months,12) / 12;
 
             const agentCashExpenses = isAgent
                 ? (agentPayers.monthlyBudget === 'me' ? totalBudget : 0)
@@ -7294,7 +7336,7 @@
             const opex = partnerBudget + partnerMgmt + partnerHosting + partnerDom + acqAmount + executorCost + agentCost;
             const totalCosts = opex + siteAmort + magnetAmort;
 
-            const ebitda = netRevenue - opex;
+            const ebitda = revenue - opex; // acquiring is already included in OPEX
             const tax = revenue * (v.taxTurnover / 100);
             const netProfit = ebitda - tax;
 
@@ -7313,7 +7355,7 @@
                     const mBudgetPreview = v.monthlyBudget;
                     const mClicksPreview = v.cpc > 0 ? mBudgetPreview / v.cpc : 0;
                     const mLeadsPreview = mClicksPreview * (v.cvrLead / 100);
-                    const baseDealsPreview = Math.max(mLeadsPreview * (v.cvrDeal / 100), 0.1);
+                    const baseDealsPreview = Math.max(0, mLeadsPreview * (v.cvrDeal / 100));
                     const mDealsPreview = (m === 1) ? baseDealsPreview * 0.5 : baseDealsPreview;
                     const mPacksBasePreview = mDealsPreview * (v.ltv / 100);
                     const mPacksPreview = (m === 1) ? mPacksBasePreview * 0.5 : mPacksBasePreview;
@@ -7329,56 +7371,6 @@
             const agentIncomePerDealScenario = agentDealsScenario > 0 ? agentIncomeScenario / agentDealsScenario : 0;
             const agentTaxScenario = isAgent ? agentIncomeScenario * (Math.max(0, v.agentTaxTurnover || 0) / 100) : 0;
             const agentNetScenario = agentIncomeScenario - agentCashExpenses - agentTaxScenario;
-
-            // Update Summary Table
-            const summaryRows = [
-                ['Общий рекламный бюджет', formatMoney(totalBudget)],
-                ['Количество кликов', formatInt(clicks)],
-                ['Количество показов', formatInt(impressions)],
-                ['Количество лидов', formatNum(leads)],
-                ['Количество сделок', formatNum(deals)],
-                ['Продано пакетов', formatNum(packs)],
-                ...(isAgent ? [
-                    ['Объём продаж консультаций партнёра', formatMoney(grossRevConsult)],
-                    ['Объём продаж пакетов партнёра', formatMoney(grossRevPack)],
-                    ['Общий объём продаж партнёра', formatMoney(grossSales), 'text-blue-700 font-bold'],
-                    ['Мой процент от продаж', formatNum(agentPct) + '%'],
-                    ['Моё вознаграждение до моих расходов', formatMoney(agentIncomeScenario), 'text-green-700 font-bold'],
-                    ['Мои расходы (оплачиваю я)', formatMoney(agentCashExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
-                    ['Мой налог на оборот*', formatMoney(agentTaxScenario), agentTaxScenario > 0 ? 'text-red-700 font-bold' : ''],
-                    ['Мне остаётся после моих расходов и налога', formatMoney(agentNetScenario), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
-                    ['Моё вознаграждение с одной сделки', formatMoney(agentIncomePerDealScenario)],
-                    ['Выручка партнёра Revenue', formatMoney(revenue), 'text-blue-700 font-bold']
-                ] : [
-                    ['Выручка от консультаций', formatMoney(revConsult)],
-                    ['Выручка от пакетов', formatMoney(revPack)],
-                    ['Общая выручка Revenue', formatMoney(revenue), 'text-blue-700 font-bold']
-                ]),
-                [isAgent ? 'Средний чек партнёра' : 'Средний чек', formatMoney(avgCheck)],
-                [isAgent ? 'Комиссия эквайринга партнёра' : 'Комиссия эквайринга', formatMoney(acqAmount)],
-                [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', formatMoney(netRevenue)],
-                ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', formatMoney(agentIncome)]] : []),
-                ...(isHired ? [['Оплата исполнителю', formatMoney(executorCost)]] : []),
-                [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', formatMoney(opex)],
-                ['Амортизация сайта', formatMoney(siteAmort)],
-                ['Амортизация лид-магнита', formatMoney(magnetAmort)],
-                [isAgent ? 'Общие затраты партнёра Total Costs' : 'Общие затраты Total Costs', formatMoney(totalCosts), 'text-red-700 font-bold'],
-                [isAgent ? 'EBITDA партнёра (до налогов)' : 'EBITDA (прибыль до налогов)', formatMoney(ebitda)],
-                [isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', formatMoney(tax)],
-                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', formatMoney(netProfit), 'text-green-700 font-bold'],
-                [isAgent ? 'ROAS партнёра' : 'ROAS (возврат рекламы)', roas.toFixed(2) + 'x'],
-                ['CPA (цена клиента реклама)', formatMoney(cpa)],
-                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', formatMoney(cac)],
-                [isAgent ? 'ROMI партнёра' : 'ROMI (окупаемость инвестиций)', romi.toFixed(2) + 'x']
-            ];
-
-            const summaryTbody = document.getElementById('summary-table');
-            summaryTbody.innerHTML = summaryRows.map(([l, val, cls]) => `
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="p-3 text-slate-600 pl-5 border-l-4 ${l.includes('Прибыль') || l.includes('Выручка') ? 'border-blue-400' : (l.includes('Затрат') ? 'border-red-400' : 'border-transparent')}">${l}</td>
-                    <td class="p-3 text-right pr-5 font-mono font-medium ${cls || ''}">${val}</td>
-                </tr>
-            `).join('');
 
             // Monthly Breakdown
             const monthlyRows = isAgent ? [
@@ -7406,6 +7398,7 @@
                 { label: 'Общие расходы партнёра', key: 'mCosts', fmt: 'money' },
                 { label: 'EBITDA партнёра (до налога)', key: 'mEbitda', fmt: 'money' },
                 { label: 'Налог партнёра на оборот*', key: 'mTax', fmt: 'money' },
+                { label: 'Капитальные вложения: сайт / лид-магнит', key: 'mPartnerCapex', fmt: 'money' },
                 { label: 'Денежный поток партнёра', key: 'mCash', fmt: 'money' },
                 { label: 'Накопленный поток партнёра', key: 'mCum', fmt: 'money' },
             ] : [
@@ -7423,6 +7416,7 @@
                 { label: 'Расходы', key: 'mCosts', fmt: 'money' },
                 { label: 'EBITDA (до налога)', key: 'mEbitda', fmt: 'money' },
                 { label: 'Налог на оборот*', key: 'mTax', fmt: 'money' },
+                { label: 'Капитальные вложения: сайт / лид-магнит', key: 'mPartnerCapex', fmt: 'money' },
                 { label: 'Денежный поток', key: 'mCash', fmt: 'money' },
                 { label: 'Накопленный поток', key: 'mCum', fmt: 'money' },
             ];
@@ -7437,7 +7431,7 @@
                 let mClicks = v.cpc > 0 ? mBudget / v.cpc : 0;
                 let mLeads = mClicks * (v.cvrLead / 100);
                 
-                let baseDeals = Math.max(mLeads * (v.cvrDeal / 100), 0.1);
+                let baseDeals = Math.max(0, mLeads * (v.cvrDeal / 100));
                 let mDeals = (m === 1) ? baseDeals * 0.5 : baseDeals;
                 let mPacksBase = mDeals * (v.ltv / 100);
                 let mPacks = (m === 1) ? mPacksBase * 0.5 : mPacksBase; // Logic from Python script
@@ -7472,6 +7466,16 @@
                         : v.mgmt + v.site + v.hosting + v.dom + v.magnet)
                     : 0;
 
+                // Cash buys site/magnet once; EBITDA recognizes operations, not capital.
+                // Their depreciation belongs to the period P&L, never to cash payments.
+                const mPartnerCapex = m === 1
+                    ? (isAgent
+                        ? (agentPayers.site === 'partner' ? v.site : 0)
+                            + (agentPayers.magnet === 'partner' ? v.magnet : 0)
+                        : v.site + v.magnet)
+                    : 0;
+                const mPartnerOperatingExtras = firstMonthPartnerExtras - mPartnerCapex;
+
                 const firstMonthAgentExtras = isAgent && m === 1
                     ? (agentPayers.mgmt === 'me' ? v.mgmt : 0)
                         + (agentPayers.site === 'me' ? v.site : 0)
@@ -7486,15 +7490,15 @@
                 cumAgentNet += mAgentNet;
                 let mAgentCum = cumAgentNet;
 
-                let mPartnerDirect = mPartnerBudget + firstMonthPartnerExtras + mExecutor;
+                let mPartnerDirect = mPartnerBudget + mPartnerOperatingExtras + mExecutor;
                 let mCosts = mPartnerDirect + mAcq + mAgentIncome;
 
-                let mEbitda = mNetRev - mCosts;
+                let mEbitda = mRevTotal - mCosts; // acquiring is already in mCosts
                 let mTax = mRevTotal * (v.taxTurnover / 100);
-                let mCash = mEbitda - mTax;
+                let mCash = mEbitda - mTax - mPartnerCapex;
                 cumCash += mCash;
 
-                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentTax, mAgentNet, mAgentCum, mPartnerDirect, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
+                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentTax, mAgentNet, mAgentCum, mPartnerDirect, mPartnerCapex, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
                 monthData.push(row);
 
                 // Accumulate totals
@@ -7505,6 +7509,63 @@
             }
             totalMonth.mCum = cumCash;
             totalMonth.mAgentCum = cumAgentNet;
+
+            const accountingNetProfit = totalMonth.mEbitda - totalMonth.mTax - siteAmort - magnetAmort;
+            const accruedTotalCosts = totalMonth.mCosts + siteAmort + magnetAmort;
+            // An unamortized website or lead-magnet acquisition is not an operating loss.
+            // Monthly cash reflects full CAPEX, P&L reflects only period amortization.
+            // Update Summary Table
+            const summaryRows = [
+                ['Общий рекламный бюджет', formatMoney(totalBudget)],
+                ['Количество кликов', formatInt(totalMonth.mClicks)],
+                ['Количество показов', formatInt(impressions)],
+                ['Количество лидов', formatNum(totalMonth.mLeads)],
+                ['Количество сделок', formatNum(totalMonth.mDeals)],
+                ['Продано пакетов', formatNum(totalMonth.mPacks)],
+                ...(isAgent ? [
+                    ['Объём продаж консультаций партнёра', formatMoney(totalMonth.mGrossRevCons)],
+                    ['Объём продаж пакетов партнёра', formatMoney(totalMonth.mGrossRevPack)],
+                    ['Общий объём продаж партнёра', formatMoney(totalMonth.mGrossSales), 'text-blue-700 font-bold'],
+                    ['Мой процент от продаж', formatNum(agentPct) + '%'],
+                    ['Моё вознаграждение до моих расходов', formatMoney(totalMonth.mAgentIncome), 'text-green-700 font-bold'],
+                    ['Мои расходы (оплачиваю я)', formatMoney(totalMonth.mAgentExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
+                    ['Мой налог на оборот*', formatMoney(totalMonth.mAgentTax), agentTaxScenario > 0 ? 'text-red-700 font-bold' : ''],
+                    ['Мне остаётся после моих расходов и налога', formatMoney(totalMonth.mAgentNet), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
+                    ['Моё вознаграждение с одной сделки', formatMoney(totalMonth.mDeals?totalMonth.mAgentIncome/totalMonth.mDeals:0)],
+                    ['Выручка партнёра Revenue', formatMoney(totalMonth.mRevTotal), 'text-blue-700 font-bold']
+                ] : [
+                    ['Выручка от консультаций', formatMoney(totalMonth.mRevCons)],
+                    ['Выручка от пакетов', formatMoney(totalMonth.mRevPack)],
+                    ['Общая выручка Revenue', formatMoney(totalMonth.mRevTotal), 'text-blue-700 font-bold']
+                ]),
+                [isAgent ? 'Средний чек партнёра' : 'Средний чек', formatMoney(totalMonth.mDeals?totalMonth.mRevTotal/totalMonth.mDeals:0)],
+                [isAgent ? 'Комиссия эквайринга партнёра' : 'Комиссия эквайринга', formatMoney(totalMonth.mAcq)],
+                [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', formatMoney(totalMonth.mNetRev)],
+                ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', formatMoney(totalMonth.mAgentIncome)]] : []),
+                ...(isHired ? [['Оплата исполнителю', formatMoney(totalMonth.mExecutor)]] : []),
+                [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', formatMoney(totalMonth.mCosts)],
+                ['Амортизация сайта', formatMoney(siteAmort)],
+                ['Амортизация лид-магнита', formatMoney(magnetAmort)],
+                [isAgent ? 'Операционные расходы и амортизация партнёра' : 'Операционные расходы и амортизация', formatMoney(accruedTotalCosts), 'text-red-700 font-bold'],
+                ['Разовые капитальные выплаты (в денежном потоке)', formatMoney(totalMonth.mPartnerCapex)],
+                [isAgent ? 'EBITDA партнёра (до налогов)' : 'EBITDA (прибыль до налогов)', formatMoney(totalMonth.mEbitda)],
+                [isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', formatMoney(totalMonth.mTax)],
+                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', formatMoney(accountingNetProfit), 'text-green-700 font-bold'],
+                [isAgent ? 'ROAS партнёра' : 'ROAS (возврат рекламы)', (totalBudget?totalMonth.mNetRev/totalBudget:0).toFixed(2) + 'x'],
+                ['CPA (цена клиента реклама)', formatMoney(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
+                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', formatMoney(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
+                [isAgent ? 'ROMI партнёра' : 'ROMI (окупаемость инвестиций)', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x']
+            ];
+
+            const summaryTbody = document.getElementById('summary-table');
+            summaryTbody.innerHTML = summaryRows.map(([l, val, cls]) => `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="p-3 text-slate-600 pl-5 border-l-4 ${l.includes('Прибыль') || l.includes('Выручка') ? 'border-blue-400' : (l.includes('Затрат') ? 'border-red-400' : 'border-transparent')}">${l}</td>
+                    <td class="p-3 text-right pr-5 font-mono font-medium ${cls || ''}">${val}</td>
+                </tr>
+            `).join('');
+
+
 
             const profitLabel = document.getElementById('res-profit-label');
             const profitSub = document.getElementById('res-profit-sub');
@@ -7521,7 +7582,7 @@
 
                 romiLabel.textContent = 'Расчётная прибыль партнёра';
                 romiSub.textContent = 'P&L за период; помесячный cash flow показан отдельно';
-                document.getElementById('res-romi').textContent = formatMoney(netProfit);
+                document.getElementById('res-romi').textContent = formatMoney(accountingNetProfit);
 
                 thirdLabel.textContent = 'Накопленный cash flow партнёра';
                 thirdSub.textContent = 'По помесячному сценарию';
@@ -7531,11 +7592,11 @@
             } else {
                 profitLabel.textContent = 'Чистая прибыль';
                 profitSub.textContent = 'После всех налогов';
-                document.getElementById('res-profit').textContent = formatMoney(netProfit);
+                document.getElementById('res-profit').textContent = formatMoney(accountingNetProfit);
 
                 romiLabel.textContent = 'ROMI';
                 romiSub.textContent = 'Окупаемость всех вложений';
-                document.getElementById('res-romi').textContent = romi.toFixed(2) + 'x';
+                document.getElementById('res-romi').textContent = (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x';
 
                 thirdLabel.textContent = 'CPA / CAC';
                 thirdSub.textContent = 'Рекламный / Полный';

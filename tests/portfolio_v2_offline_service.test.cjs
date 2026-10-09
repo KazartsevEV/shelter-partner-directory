@@ -53,3 +53,18 @@ test('offline service can coexist with product SKU in linked V2 without stock re
  assert.equal(x.items.length,2);
  near(x.items.reduce((v,i)=>v+i.revenueWeight,0),1);
 });
+
+test('a shared warehouse cannot silently charge an offline-service SKU',()=>{
+ const s=state();s.skus.push({id:'v1-product',name:'Retail cream',source:'resale',
+  unitCost:10,forecastUnitsPerMonth:5,adBudget:50,baseCac:10,priceMin:40,priceMax:100,
+  maxDiscountPct:10,minimumMarginPct:10,targetMarginPct:30,salesFixedMonthly:0,
+  adManagement:0,variableSalesPct:0,creditServiceMonthly:0,vatPct:0,inventoryQty:5,
+  materialsBatchTotal:50,productionTotal:0,reserveAmount:0});
+ s.resources.push({id:'wh',kind:'warehouse',label:'Склад',amount:100,
+   cadence:'monthly',pool:'none',allocation:'usage',usage:{'v1-service':1,'v1-product':1},
+   skuIds:['v1-service','v1-product'],includedBySku:{}});
+ const bad=E.build(s);assert.equal(bad.ready,false);
+ assert.ok(bad.errors.some(x=>x.includes('Складской ресурс')),JSON.stringify(bad.errors));
+ s.resources[0].skuIds=['v1-product'];delete s.resources[0].usage['v1-service'];
+ const good=E.build(s);assert.equal(good.ready,true,JSON.stringify(good.errors));
+});
