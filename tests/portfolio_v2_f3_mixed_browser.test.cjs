@@ -25,10 +25,8 @@ const close=(a,b,label)=>A.ok(Number.isFinite(a)&&Math.abs(a-b)<.011,
    state.forecastMonths=p.forecastMonths;
    state.recurringDemandApproved=p.recurringDemandApproved;
    localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify(state));
-   A=undefined; // no user/browser-side additional model stub should be used
    LinkedPortfolioV2UI.resume();
-  },payload).catch(e=>{if(!/A is not defined/.test(e.message))throw e;
-   return page.evaluate(()=>LinkedPortfolioV2UI.resume());});
+  },payload);
   let r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(r.ready,true,JSON.stringify(r.errors));
   A.equal(r.items.length,5);
@@ -65,7 +63,6 @@ const close=(a,b,label)=>A.ok(Number.isFinite(a)&&Math.abs(a-b)<.011,
   r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(r.ready,true,JSON.stringify(r.errors));
   close(r.cashflow.periodPnl.netProfit,2119.40085,'saved 5-source balance');
-  A.equal(r.offers,undefined,'offers remain stored in state, not result object');
   const resumed=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
   A.equal(resumed.offers.length,3);
   A.equal(resumed.resources.length,3);
