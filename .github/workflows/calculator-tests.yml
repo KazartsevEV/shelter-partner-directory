@@ -11,6 +11,8 @@ on:
       - "tests/portfolio_v2_linked.test.cjs"
       - "tests/portfolio_v2_temporal.test.cjs"
       - "tests/portfolio_v2_temporal_cash.test.cjs"
+      - "tests/portfolio_v2_pooled_media.test.cjs"
+      - "portfolio_v2_pooled_media.js"
       - "portfolio_v2_temporal_cash.js"
       - "portfolio_v2_temporal.js"
       - "tests/marketing_calc_offline_service.test.cjs"
@@ -66,4 +68,4 @@ jobs:
         with:
           node-version: "22"
       - name: Verify price, discount, VAT and SKU navigation contracts
-        run: node --test tests/marketing_calc_regressions.test.cjs tests/marketing_calc_full_cycle.test.cjs tests/marketing_calc_resale.test.cjs tests/marketing_calc_dropship.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_temporal.test.cjs tests/portfolio_v2_temporal_cash.test.cjs tests/marketing_calc_offline_service.test.cjs tests/portfolio_v2_offline_service.test.cjs tests/calculator_business_oracle_v2.test.cjs tests/portfolio_v2_v1_parity.test.cjs tests/portfolio_v2_online_adapter.test.cjs tests/portfolio_v2_mba_observed.test.cjs tests/portfolio_v2_mba_capacity.test.cjs
+        run: node --test tests/marketing_calc_regressions.test.cjs tests/marketing_calc_full_cycle.test.cjs tests/marketing_calc_resale.test.cjs tests/marketing_calc_dropship.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_temporal.test.cjs tests/portfolio_v2_temporal_cash.test.cjs tests/portfolio_v2_pooled_media.test.cjs tests/marketing_calc_offline_service.test.cjs tests/portfolio_v2_offline_service.test.cjs tests/calculator_business_oracle_v2.test.cjs tests/portfolio_v2_v1_parity.test.cjs tests/portfolio_v2_online_adapter.test.cjs tests/portfolio_v2_mba_observed.test.cjs tests/portfolio_v2_mba_capacity.test.cjs
