@@ -1494,6 +1494,15 @@
                     </div>
                 </div>
 
+                <div class="card border-2 border-emerald-300 p-5" id="online-service-v2-entry">
+                    <h2 class="font-bold text-emerald-900">Включить эту онлайн-услугу в портфель V2</h2>
+                    <p class="text-xs text-slate-600 mt-2">Переносится экономика первых 30 дней: спрос, мои расходы и налоги. В агентском режиме оборот партнёра отделён от моего вознаграждения. Действующий расчёт V1 не меняется.</p>
+                    <label for="online-service-portfolio-name" class="text-sm font-semibold block mt-3">Название услуги в портфеле</label>
+                    <input id="online-service-portfolio-name" type="text" class="input-field mt-1" maxlength="100" value="Онлайн-услуга">
+                    <button id="online-service-v2-button" type="button" onclick="openOnlineServicePortfolio()"
+                        class="w-full rounded-lg bg-emerald-800 text-white font-bold p-3 mt-3">Добавить к товарам и услугам V2 →</button>
+                    <p id="online-service-v2-error" class="hidden text-sm text-rose-700 mt-2" role="alert"></p>
+                </div>
                 <!-- Monthly Breakdown Table -->
                 <div class="card overflow-hidden">
                     <div class="bg-slate-50 px-4 sm:px-5 py-3 border-b border-slate-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
@@ -7190,6 +7199,43 @@
             showOnly('calculator-screen');
         }
 
+        function openOnlineServicePortfolio(){
+            const error=document.getElementById('online-service-v2-error');
+            const report=msg=>{error.textContent=msg;error.classList.toggle('hidden',!msg);};
+            report('');
+            try{
+                if(document.querySelector('#inputs-container [aria-invalid="true"]'))
+                    throw Error('Исправьте некорректные поля V1, прежде чем переносить расчёт.');
+                if(serviceMode==='agent'&&unassignedAgentExpenseKeys().length)
+                    throw Error('Сначала укажите плательщика каждой ненулевой статьи агентских расходов.');
+                const name=document.getElementById('online-service-portfolio-name').value.trim();
+                const values=JSON.parse(JSON.stringify(currentValues));
+                const payers=JSON.parse(JSON.stringify(agentPayers));
+                const sku=window.LinkedPortfolioV2OnlineAdapter?.fromOnlineV1({
+                    mode:serviceMode,name,values,payers
+                });
+                if(!sku||!window.LinkedPortfolioV2UI?.mergeOnlineV1)
+                    throw Error('Модуль импорта V2 ещё не загружен.');
+                const onlineDraft={mode:serviceMode,name,values,payers};
+                window.LinkedPortfolioV2UI.mergeOnlineV1({
+                    skus:[sku],tax:{type:'turnover',pct:0},
+                    importedFrom:'online-service-v1',onlineDraft
+                });
+                return true;
+            }catch(err){report(err.message||String(err));return false;}
+        }
+        function restoreOnlineServiceFromV2(draft){
+            if(!draft||!['self','hired','agent'].includes(draft.mode)){
+                showServiceWorkChooser();return false;
+            }
+            serviceMode=draft.mode;
+            currentValues={...defaults,...draft.values};
+            agentPayers={...defaultAgentPayers,...(draft.payers||{})};
+            selectServiceMode(draft.mode);
+            document.getElementById('online-service-portfolio-name').value=draft.name||'Онлайн-услуга';
+            return true;
+        }
+        window.restoreOnlineServiceFromV2=restoreOnlineServiceFromV2;
         function calculate() {
             const v = currentValues;
             // Guard economic domain before producing any revenue/profit or million-column
@@ -7929,6 +7975,7 @@
 <script src="./portfolio_v2_engine.js"></script>
 <script src="./portfolio_v2_ui.js"></script>
 <script src="./portfolio_v2_linked_engine.js"></script>
+<script src="./portfolio_v2_online_adapter.js"></script>
 <script src="./portfolio_v2_basket_ui.js"></script>
 <script src="./portfolio_v2_linked_ui.js"></script>
 </body>
