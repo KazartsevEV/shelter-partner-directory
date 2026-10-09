@@ -981,10 +981,7 @@ const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
- [/^Экономика за (\d+) мес\. · (расчётная цена за весь период|по месячным ценам V2)$/,
-  'Economics over $1 months · $2',
-  '$1 айдағы экономика · $2'],
- [/^Плановая скидка покупателю, % \(макс\. ([\d.,\s\u00a0]+)%\)$/,
+[/^Плановая скидка покупателю, % \(макс\. ([\d.,\s\u00a0]+)%\)$/,
   'Planned customer discount, % (max. $1%)',
   'Сатып алушыға жоспарланған жеңілдік, % (ең көбі $1%)'],
  [/^Связь ([^\n]+)$/,'Offer $1','Ұсыныс $1'],
@@ -1004,9 +1001,6 @@ const patterns=[
  [/^Офлайн-услуга · ID ([^ ]+)$/, 'Offline service · ID $1','Офлайн қызмет · ID $1'],
  [/^Онлайн-услуга · ID ([^ ]+)$/, 'Online service · ID $1','Онлайн қызмет · ID $1'],
  [/^Дропшиппинг · ID ([^ ]+)$/, 'Dropshipping · ID $1','Дропшиппинг · ID $1'],
- [/^Цена для целевой маржи: ([\d.,\s\u00a0]+); для минимальной: ([\d.,\s\u00a0]+); денежная доля: ([\d.,\s\u00a0]+)%; (.+)$/,
-  'Price for target margin: $1; for minimum margin: $2; revenue weight: $3%; $4',
-  'Мақсатты маржа үшін баға: $1; ең аз маржа үшін: $2; түсім үлесі: $3%; $4'],
  [/^Прогноз клиентов ([\d.,\s\u00A0]+) больше физической вместимости ([\d.,\s\u00A0]+) услуг \/ месяц\. Прайс нельзя подтвердить до изменения плана\.$/,
   'Customer forecast $1 exceeds the physical capacity of $2 services per month. The price list cannot be confirmed until the plan is revised.',
   'Клиент болжамы $1, ал салонның нақты айлық қуаты $2 қызмет. Жоспар өзгермейінше прайсты растауға болмайды.'],
@@ -1098,6 +1092,21 @@ const patterns=[
   '$1 айда «$2»: ең аз $3% маржаға V1 $4–$5 аралығында жету мүмкін емес. $6 бағасында қалған пайызды ескерген маржа $7; қажет баға $8.']
 ];
 function dynamicLookup(source,language){
+ const priceMetric=/^Цена для целевой маржи: ([\d.,\s\u00a0]+); для минимальной: ([\d.,\s\u00a0]+); денежная доля: ([\d.,\s\u00a0]+)%; (.+)$/.exec(source);
+ if(priceMetric&&direct.has(priceMetric[4])){
+  return language==='en'?
+    'Price for target margin: '+priceMetric[1]+'; for minimum margin: '+priceMetric[2]+
+     '; revenue weight: '+priceMetric[3]+'%; '+direct.get(priceMetric[4]).en:
+    'Мақсатты маржа үшін баға: '+priceMetric[1]+'; ең аз маржа үшін: '+
+     priceMetric[2]+'; түсім үлесі: '+priceMetric[3]+'%; '+direct.get(priceMetric[4]).kk;
+ }
+ const pricePeriod=/^Экономика за (\d+) мес\. · (расчётная цена за весь период|по месячным ценам V2)$/.exec(source);
+ if(pricePeriod){
+  return language==='en'?'Economics over '+pricePeriod[1]+' months · '+
+   (pricePeriod[2]==='расчётная цена за весь период'?'calculated full-period price':'monthly V2 prices'):
+   pricePeriod[1]+' айдағы экономика · '+
+   (pricePeriod[2]==='расчётная цена за весь период'?'бүкіл кезеңге есептелген баға':'V2 айлық бағалары');
+ }
  const heading=/^Месяц (\d+)$/.exec(source);
  if(heading)return language==='en'?'Month '+heading[1]:heading[1]+'-ай';
  const badge=/^(\d+) (?:месяц|месяца|месяцев) \(по сценарию\)$/.exec(source);
