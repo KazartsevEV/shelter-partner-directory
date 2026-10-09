@@ -222,8 +222,8 @@ function updateResult(){
   return;
  }
  const t=out.totals,cf=out.cashflow;
- const wholeStockCycle=out.items.length===1&&
-  ['own','resale'].includes(out.items[0].source)&&!out.resources.length&&
+ const wholeStockCycle=out.items.length>0&&
+  out.items.every(s=>['own','resale'].includes(s.source))&&!out.resources.length&&
   !(Array.isArray(state.offers)&&state.offers.length);
  const cards=[['Продано позиций за 30 дней',t.forecast],['Выручка без НДС / 30 дней',t.revenue],
   ['Рекламный бюджет / 30 дней',t.media],['Себестоимость / 30 дней',t.cogs],
@@ -267,7 +267,7 @@ function updateResult(){
  '<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
  '<p class="text-sm text-slate-200 mt-2">'+
- (wholeStockCycle?'Cash flow показывает продажу всей закупленной партии по месячной скорости V1, включая хранение и полное обслуживание кредита. Показатели прибыли выше — только за первые 30 дней продаж.':
+ (wholeStockCycle?'Cash flow показывает реализацию всех закупленных партий по индивидуальной месячной скорости каждого товара V1, включая хранение и обслуживание кредитов. Показатели прибыли выше — только за первые 30 дней продаж.':
   'Cash flow отражает первые 30 дней прогнозных продаж, плюс сроки поступлений и погашения кредита; закупка партии возможна целиком. Это не прогноз полной распродажи всего смешанного портфеля.')+
  '</p>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
