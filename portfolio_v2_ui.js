@@ -60,7 +60,7 @@ function resourceCard(r,index){
  (r.kind==='campaign'?'<div class="col-span-2 text-xs rounded-lg bg-white p-3 text-blue-900">Рекламный бюджет распределяется строго по денежной доле выручки товаров, входящих в кампанию.</div>':
  selField('Как распределить по товарам','resources.'+index+'.allocation',r.allocation,[['revenue','По денежной выручке'],['usage','По фактической загрузке']]))+
  '</div>'+
- '<div class="mt-3"><span class="text-xs font-bold">Ресурс обслуживает товары</span><div class="flex flex-wrap gap-3 mt-2">'+all+'</div>'+
+ '<div class="mt-3" data-p2-resource-members><span class="text-xs font-bold">Ресурс обслуживает товары</span><div class="flex flex-wrap gap-3 mt-2">'+all+'</div>'+
  '<div class="text-xs mt-1 text-slate-600">'+(usable>1?'Один платёж на группу товаров, без повторного списания.':'Платёж относится только к выбранному товару.')+'</div></div>'+
  (r.allocation==='usage'?'<div class="mt-3 grid grid-cols-2 gap-2">'+
  model.skus.filter(s=>(r.skuIds||[]).includes(s.id)).map(s=>numberField('Загрузка: '+(s.name||s.id),'resources.'+index+'.usage.'+s.id,r.usage?.[s.id]||'', 'Часы, дни или доля — одинаковая единица')).join('')+
@@ -154,15 +154,81 @@ function render(){
  const status=document.getElementById('p2-draft-status');if(status)status.textContent='Изменения сохраняются в этом браузере';
  updateResult();
 }
+function displayInlineValidation(fieldErrors) {
+ const rootEl=document.getElementById('portfolio-v2-root');
+ if(!rootEl)return;
+ // Remove old messages and visual state before painting fresh errors.
+ rootEl.querySelectorAll('[data-p2-inline-error]').forEach(node=>node.remove());
+ rootEl.querySelectorAll('[data-p2-path][aria-invalid]').forEach(node=>{
+   node.removeAttribute('aria-invalid');
+   node.style.borderColor='';
+ });
+ const distinct=new Map();
+ for(const issue of fieldErrors||[]) {
+   if(!issue?.path||!issue.message)continue;
+   if(!distinct.has(issue.path))distinct.set(issue.path,[]);
+   if(!distinct.get(issue.path).includes(issue.message))
+     distinct.get(issue.path).push(issue.message);
+ }
+ const addNote=(holder,messages)=>{
+   if(!holder)return;
+   const note=document.createElement('div');
+   note.dataset.p2InlineError='true';
+   note.setAttribute('role','alert');
+   note.style.cssText='display:block;margin-top:6px;padding:8px 10px;border:1px solid #fda4af;border-radius:8px;background:#fff1f2;color:#9f1239;font-size:12px;font-weight:650;line-height:1.4;white-space:normal;overflow-wrap:anywhere';
+   note.textContent=messages.join(' ');
+   holder.appendChild(note);
+ };
+ for(const [path,messages] of distinct) {
+   if(path==='mix'){
+     const holder=rootEl.querySelector('#p2-mix-sum');
+     addNote(holder,messages);
+     continue;
+   }
+   const field=Array.from(rootEl.querySelectorAll('[data-p2-path]'))
+     .find(node=>node.dataset.p2Path===path);
+   if(field){
+     field.setAttribute('aria-invalid','true');
+     field.style.borderColor='#e11d48';
+     const details=field.closest('details');
+     if(details&&!details.open)details.open=true;
+     addNote(field.closest('label')||field.parentElement,messages);
+     continue;
+   }
+   const membership=/^resources\.(\d+)\.skuIds$/.exec(path);
+   if(membership){
+     const article=rootEl.querySelectorAll('[data-p2-resource]')[Number(membership[1])];
+     const container=article?.querySelector('[data-p2-resource-members]');
+     addNote(container||article,messages);
+     continue;
+   }
+   const unmatched=/^resources\.(\d+)\./.exec(path);
+   if(unmatched){
+     const article=rootEl.querySelectorAll('[data-p2-resource]')[Number(unmatched[1])];
+     addNote(article,messages);
+     continue;
+   }
+   if(path==='skus'||path==='resources'){
+     addNote(rootEl.querySelector(path==='skus'?'#p2-stage-skus':'#p2-stage-production'),messages);
+   }
+ }
+}
 function updateResult(){
  if(!model)return;const el=document.getElementById('p2-results');if(!el)return;
  const out=Engine.build(model);
+ displayInlineValidation(out.fieldErrors);
  const funnel=out.marketing;
  let intro='<h2 class="text-2xl font-black">Результат портфеля</h2><p class="mt-2 text-sm">Клики '+money(funnel?.clicks||0)+
  ', лиды '+money(funnel?.leads||0)+', заказы/месяц '+money(funnel?.orders||0)+
  ', базовый CAC '+money(funnel?.baseCAC||0)+'</p>';
- if(!out.ready){el.innerHTML=intro+'<div class="rounded-xl bg-white text-rose-800 p-4 mt-4"><strong>Для расчёта заполните или исправьте:</strong><ul class="list-disc pl-5 mt-2 text-sm">'+
- out.errors.map(e=>'<li>'+safe(e)+'</li>').join('')+'</ul></div>';return;}
+ if(!out.ready){
+   // The detailed reason now appears alongside the actual input. This summary
+   // does not repeat the error out of sight at the end of a long form.
+   el.innerHTML=intro+'<p class="rounded-xl bg-white text-rose-800 p-4 mt-4 text-sm">'+
+     'Исправьте поля, выделенные красным, рядом с местом ввода. '+
+     (out.errors.length?'Проверок осталось: '+out.errors.length+'.':'')+'</p>';
+   return;
+ }
  const r=out;
  const heads=['Товар','Цена без НДС','Себест.','Mix шт.','Mix выручки','Weighted CAC','Прогноз, шт/мес','Рекламный бюджет','EBITDA SKU','ROAS'];
  const skuRows=r.items.map(s=>'<tr class="border-t border-white/20">'+
