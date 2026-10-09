@@ -1,0 +1,39 @@
+name: Portfolio v2 independent model checks
+
+on:
+  pull_request:
+    paths:
+      - "portfolio_v2_engine.js"
+      - "portfolio_v2_ui.js"
+      - "Marketing_calc.HTML"
+      - "tests/portfolio_v2_engine.test.cjs"
+      - "tests/portfolio_v2_browser.test.cjs"
+      - ".github/workflows/portfolio-v2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: All deterministic cost and cash-flow rules
+        run: node --test tests/portfolio_v2_engine.test.cjs
+  ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-save --no-package-lock playwright@1.58.0
+      - run: npx playwright install --with-deps chromium
+      - name: Fill real first-party portfolio in mobile Chromium
+        run: node tests/portfolio_v2_browser.test.cjs

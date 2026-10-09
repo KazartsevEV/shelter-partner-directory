@@ -21,7 +21,8 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#product-own-form').isVisible(),false);
    await page.locator('summary').filter({hasText:'Посмотреть, что будет рассчитываться'}).click();
    assert.match(await page.locator('#home-screen').textContent(),/ЖИВЫЕ ДЕНЬГИ|денежный поток/);
-   await page.locator('#start-own-product').click();
+   // Advanced legacy calculation remains reachable as a separate entry.
+   await page.locator('#start-legacy-product').click();
    assert.equal(await page.locator('#product-screen').isVisible(),true);
    assert.equal(await page.locator('#product-name-input').inputValue(),'');
    assert.equal(await page.locator('#product-source-block').isVisible(),false);

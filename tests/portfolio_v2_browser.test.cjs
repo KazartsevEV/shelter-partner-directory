@@ -1,0 +1,82 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),path=require('node:path');
+const {pathToFileURL}=require('node:url');
+const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
+const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.route(/^https?:\/\//,r=>r.abort());
+ const fill=(p,n)=>page.locator('[data-p2-path="'+p+'"]').fill(String(n));
+ const choose=(p,v)=>page.locator('[data-p2-path="'+p+'"]').selectOption(v);
+ const calc=()=>page.evaluate(()=>PortfolioV2Engine.build(PortfolioV2UI.getState()));
+ try{
+ await page.goto(url,{waitUntil:'domcontentloaded'});
+ assert.equal(await page.locator('#home-screen').isVisible(),true);
+ await page.locator('#start-own-product').click();
+ assert.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
+ assert.equal(await page.locator('[data-p2-path="skus.0.name"]').inputValue(),'');
+ for(const [p,n] of [['marketing.budget',1000],['marketing.cpc',5],['marketing.ctrPct',2],
+ ['marketing.clickLeadPct',20],['marketing.leadOrderPct',25],['skus.0.name','Майка'],
+ ['skus.0.unitCost',20],['skus.0.marginPct',25]])await fill(p,n);
+ const initialResult=await calc();
+ console.log('PORTFOLIO_V2_INITIAL_BROWSER_STATE',JSON.stringify({errors:initialResult.errors,state:await page.evaluate(()=>PortfolioV2UI.getState())}));
+ assert.equal(initialResult.ready,true,JSON.stringify(initialResult.errors));
+ await page.locator('[data-p2-add-sku]').click();
+ await fill('skus.1.name','Рюкзак');await choose('skus.1.source','resale');
+ await page.locator('[data-p2-sku="sku-2"] details summary').click();
+ for(const [p,n] of [['skus.1.unitCost',60],['skus.1.marginPct',30],['skus.0.mixPct',50],
+ ['skus.1.mixPct',50],['skus.1.batchUnits',10],['skus.1.initialCashOut',120],
+ ['skus.1.storagePerUnitDay',.5]])await fill(p,n);
+ await page.locator('#p2-stage-production [data-p2-add-resource]').click();
+ await fill('resources.0.amount',400);
+ await page.locator('[data-p2-resource-member="0"][value="sku-2"]').check();
+ await choose('resources.0.allocation','usage');
+ await fill('resources.0.usage.sku-1',40);await fill('resources.0.usage.sku-2',60);
+ await fill('resources.0.capacity',100);
+ await page.locator('#p2-stage-production [data-p2-add-resource]').click();
+ await choose('resources.1.kind','workers');await fill('resources.1.amount',600);
+ await page.locator('[data-p2-resource-member="1"][value="sku-2"]').check();
+ await page.locator('#p2-stage-logistics [data-p2-add-resource]').click();
+ await fill('resources.2.amount',90);
+ await page.locator('[data-p2-resource-member="2"][value="sku-2"]').check();
+ await page.locator('#p2-stage-purchase [data-p2-add-resource]').click();
+ await fill('resources.3.amount',900);
+ await page.locator('[data-p2-resource-member="3"][value="sku-2"]').check();
+ assert.equal((await calc()).ready,false,'Certificate coverage needs validation');
+ await fill('resources.3.validFor','Kazakhstan: apparel and backpacks');
+ await page.locator('[data-p2-path="resources.3.validUntil"]').fill('2027-12-31');
+ await page.locator('[data-p2-path="resources.3.confirmedCoverage"]').check();
+ let r=await calc();assert.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.resourceMonthly,1090,'Shared overhead once');eq(r.resourceOnce,900,'Certification once');
+ eq(r.invariants.adDiff,0,'Advertising conserved');
+ assert.ok(r.invariants.resourceAllocated);
+ eq(r.items[0].weightedCAC*r.items[0].forecastOrders,r.items[0].adBudget,'SKU A ad');
+ eq(r.items[1].weightedCAC*r.items[1].forecastOrders,r.items[1].adBudget,'SKU B ad');
+ await page.locator('#p2-stage-advertising [data-p2-add-resource]').click();
+ await fill('resources.4.amount',200);
+ await page.locator('[data-p2-resource-member="4"][value="sku-1"]').uncheck();
+ await page.locator('[data-p2-resource-member="4"][value="sku-2"]').check();
+ r=await calc();assert.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.marketingBudget,1200,'Two campaign budgets paid once');
+ eq(r.items[1].adBudget,1000*r.items[1].revenueWeight+200,'Targeted SKU campaign');
+ await choose('skus.1.source','dropship');
+ r=await calc();assert.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.months[0].initialPurchase,0,'Dropship cannot prebuy stock');
+ assert.ok(r.months[0].supplierSettlement>0,'Supplier paid on order');
+ assert.equal(await page.locator('[data-p2-path="skus.1.initialCashOut"]').count(),0);
+ await choose('funding.kind','credit');
+ await fill('funding.annualRatePct',12);await fill('funding.months',6);
+ r=await calc();assert.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.months[5].principalRepayment,r.financing.principal,'Bullet repayment');
+ eq(r.months.reduce((a,m)=>a+m.loanDraw,0),r.financing.principal,'Single draw');
+ await page.locator('[data-p2-home]').click();
+ assert.equal(await page.locator('#portfolio-v2-resume-home').isVisible(),true);
+ await page.locator('#portfolio-v2-resume-home button').click();
+ assert.equal(await page.locator('[data-p2-path="skus.0.name"]').inputValue(),'Майка');
+ assert.equal(await page.locator('[data-p2-path="skus.1.name"]').inputValue(),'Рюкзак');
+ assert.equal(await page.locator('[data-p2-resource]').count(),5);
+ assert.deepEqual(errors,[]);
+ console.log('PORTFOLIO_V2_BROWSER_GREEN',JSON.stringify({skus:2,ad:r.marketingBudget,months:r.months.length,capital:r.financing.principal,freeCash:r.freeCash}));
+ }finally{await browser.close();}
+})().catch(e=>{console.error('PORTFOLIO_V2_BROWSER_RED',e.stack||e);process.exitCode=1});
