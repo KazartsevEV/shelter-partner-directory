@@ -130,3 +130,24 @@ test('#31E2 shared resource bills exact half-month intervals, including a late s
  close(total(m,'shared'),300,'shared rent paid once for total 30 active days');
  close(total(m,'stockPurchase'),400,'physical stock paid once');
 });
+
+test('#31E2 profit tax uses accrued sold units, not original batch cash purchase',()=>{
+ const x=scenario([goods('A',40)],2);
+ x.tax={type:'profit',pct:10};
+ const r=verified(x),m=r.cashflow.months,price=r.items[0].standaloneNet;
+ const accountingPerMonth=price*20-20*20-100;
+ const due=Math.max(0,accountingPerMonth)*.1;
+ for(const month of m)close(month.tax,due,'tax on monthly accrued operating profit');
+ close(total(m,'stockPurchase'),800,'purchase paid once, not monthly accounting expense');
+ close(total(m,'tax'),due*2,'tax period conserved');
+});
+test('#31E2 net-of-VAT cash basis is explicit; turnover tax excludes pass-through VAT',()=>{
+ const x=scenario([goods('A',40)],2);x.skus[0].vatPct=20;
+ const r=verified(x),m=r.cashflow.months;
+ const expected=20*r.items[0].priceGross/1.2;
+ for(const month of m){
+  close(month.receipt,expected,'VAT-exclusive operating receipts');
+  close(month.tax,expected*.05,'turnover tax without VAT');
+ }
+ A.equal(r.cashflow.vatCashBasis,'net-of-vat-operating');
+});
