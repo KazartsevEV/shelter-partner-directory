@@ -144,3 +144,44 @@ test('product physical flow and salon capacity warnings translate amounts withou
   'Себестоимость минимальной закупочной партии не заполнена. Вернитесь в закупку и введите сумму больше нуля.'
  ])for(const lang of ['en','kk'])A.notEqual(tr(original,lang),original);
 });
+
+test('online service three-mode financial labels, V2/MBA copy and legal notice cover both target languages',()=>{
+ const sources=[
+  'Месячный бюджет на рекламу, у.е.*','CTR (кликабельность)',
+  'Конверсия Клик → Лид','Конверсия Лид → Сделка',
+  'Стоимость консультации, у.е.*','Стоимость пакета консультаций, у.е.*',
+  'Торговая наценка к стоимости исполнителя','Моё вознаграждение с объёма продаж',
+  'Мой налог на оборот*','Налог партнёра на оборот*',
+  'Комиссия эквайринга — платит партнёр','Количество кликов',
+  'Выручка от консультаций','Общая выручка Revenue',
+  'Чистая выручка (после эквайринга)','Операционные затраты OPEX',
+  'Амортизация сайта','ROMI (окупаемость инвестиций)',
+  'Cash flow','Плановая скидка покупателю, % (макс.',
+  'Столбцы: order_id, date (YYYY-MM-DD), sku_id, quantity, unit_price, currency, channel. Дополнительно: status, line_id, returned_quantity, canceled, returned, buyer_id. Один заказ = один чек. Повторные покупки клиента считаются отдельными чеками. Отмены и возвраты исключаются.'
+ ];
+ for(const ru of sources){
+  for(const lang of ['en','kk'])A.notEqual(tr(ru,lang),ru,lang+': '+ru);
+ }
+});
+test('agent payer Hold and V2 period diagnostics remain fail-closed across languages',()=>{
+ const agent='Не выбран плательщик: рекламный бюджет, ведение рекламы, домен. После выбора расчёт построится автоматически.';
+ const en=tr(agent,'en'),kk=tr(agent,'kk');
+ A.match(en,/Payer not selected/);A.match(en,/advertising budget/);A.match(en,/Calculation will resume/);
+ A.match(kk,/Төлеуші таңдалмаған/);A.match(kk,/жарнама бюджеті/);
+ A.equal(tr(agent,'ru'),agent);
+ A.equal(tr('Не выбран плательщик: неизвестная статья. После выбора расчёт построится автоматически.','en'),
+  'Не выбран плательщик: неизвестная статья. После выбора расчёт построится автоматически.');
+ const scenarios=[
+  'У товара 1 нет названия.',
+  'Клики 0,00, лиды 0,00, заказы/месяц 0,00, базовый CAC 0,00',
+  'Исправьте поля, выделенные красным, рядом с местом ввода. Проверок осталось: 7.',
+  'Уже учтено в V1, у.е. / мес (доступно 100.00)',
+  'Экономика за 3 мес. · расчётная цена за весь период',
+  'Цена для целевой маржи: 48.27; для минимальной: 48.27; денежная доля: 28.31%; целевая маржа достигнута'
+ ];
+ for(const ru of scenarios)for(const lang of ['en','kk'])
+  A.notEqual(tr(ru,lang),ru,lang+' '+ru);
+ const protectedLabel='Товар · товар';
+ A.equal(tr(protectedLabel,'en'),'Товар · product');
+ A.equal(tr(protectedLabel,'kk'),'Товар · тауар');
+});
