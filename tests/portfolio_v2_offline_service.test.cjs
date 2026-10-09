@@ -14,14 +14,14 @@ test('salon V2 recomputes rent and master wage load when advertising changes boo
  assert.equal(baseline.ready,true,JSON.stringify(baseline.errors));
  near(baseline.items[0].forecastOrders,20);
  near(baseline.items[0].unitCostEffective,68);
- near(baseline.items[0].priceList,184.39);
+ near(baseline.items[0].priceList,184.38);
  s.resources.push({id:'campaign',kind:'campaign',label:'Реклама',
    amount:2000,cadence:'monthly',pool:'adBudget',allocation:'usage',
    skuIds:['v1-service'],includedBySku:{'v1-service':1000},usage:{'v1-service':1}});
  const doubled=E.build(s);assert.equal(doubled.ready,true,JSON.stringify(doubled.errors));
  near(doubled.items[0].forecastOrders,40);
  near(doubled.items[0].unitCostEffective,38);
- near(doubled.items[0].priceList,137.51);
+ near(doubled.items[0].priceList,137.50);
  assert.ok(doubled.cashflow.ownerCapital>0);
  assert.ok(doubled.invariants.mediaConserved);
 });

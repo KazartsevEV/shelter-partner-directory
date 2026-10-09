@@ -206,3 +206,21 @@ test('bundle discount fails closed if contract fixed, >100 or a price ceiling ca
  A.ok(r.errors.some(x=>x.includes('Фиксированное онлайн-вознаграждение')||
    x.includes('исходные условия')));
 });
+
+
+test('price from exact target, not a damped cent above the target',()=>{
+ const x=sample();
+ x.tax={type:'turnover',pct:5};
+ x.skus=[{...x.skus[0],unitCost:20,forecastUnitsPerMonth:20,adBudget:100,
+   baseCac:5,priceMin:20,priceMax:150,maxDiscountPct:0,
+   minimumMarginPct:10,targetMarginPct:25,salesFixedMonthly:0,adManagement:0,
+   variableSalesPct:0,creditServiceMonthly:0,creditPrincipal:0,creditMonths:0,
+   vatPct:0,inventoryQty:20,materialsBatchTotal:400,productionTotal:0,
+   reserveAmount:0}];
+ let r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.items[0].requiredTargetPrice,25/.7);
+ eq(r.items[0].priceList,35.72);
+ x.skus[0].priceMin=40;
+ r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.items[0].priceList,40);
+});
