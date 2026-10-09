@@ -31,7 +31,7 @@ const events=[];
    assert.equal(chosen,true);
    assert.equal(await page.evaluate(()=>currentProductSequence),2);
    for(const source of ['resale','dropship']){
-     await page.locator('[data-product-source="'+source+'"]').click();
+     await page.locator('#product-source-block [data-product-source="'+source+'"]').click();
      const status=await page.evaluate(()=>({
        source:productSource,ownFormVisible:!document.getElementById('product-own-form').hidden,
        savedCount:productPortfolio.length
@@ -41,10 +41,10 @@ const events=[];
      assert.equal(status.ownFormVisible,false,'No dedicated forms exist yet for '+source);
      assert.equal(status.savedCount,1,'No second product can yet be stored in those modes');
    }
-   await page.locator('[data-product-source="own"]').click();
+   await page.locator('#product-source-block [data-product-source="own"]').click();
    await page.locator('#additional-product-name-input').fill('Майка — второй товар');
    const fill=async(id,v)=>page.locator('#'+id).fill(String(v));
-   const choose=async(q)=>page.locator(q).first().click();
+   const choose=async(q)=>page.locator(q).last().click();
    await choose('[data-material-cost-mode="known"]');
    await fill('own-materials-cost',150);
    await choose('[data-yn-group="vatIncluded"][data-yn-value="yes"]');
