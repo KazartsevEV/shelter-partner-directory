@@ -2317,11 +2317,12 @@
         }
 
         function currentProductPortfolioSnapshot() {
-            const materialsBatchQty = Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
-            const productionQty = ['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
+            const expectedServiceUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const materialsBatchQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
+            const productionQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
             const forecastSales=Math.max(0,productNumberFromText('own-product-ad-units'));
-            const logisticsQty = productSource === 'dropship' ? Math.max(1,Math.ceil(forecastSales)) : Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
-            const salesQty = productSource === 'dropship' ? logisticsQty : Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
+            const logisticsQty = ['dropship','offline-service'].includes(productSource) ? Math.max(1,Math.ceil(forecastSales)) : Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
+            const salesQty = ['dropship','offline-service'].includes(productSource) ? logisticsQty : Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
 
             const warehouseInboundUnitCost =
                 productLogisticsPayers.warehouseInbound === 'me'
@@ -2380,24 +2381,25 @@
                 materialsVariableUnit,
                 materialsFixedBatch,
                 materialsBatchQty,
-                materialsBatchTotal: latestMaterialsLandedUnitCost * materialsBatchQty,
+                materialsBatchTotal: latestMaterialsLandedUnitCost * (productSource==='offline-service'?expectedServiceUnits:materialsBatchQty),
+                offlineServiceCapacity:productSource==='offline-service'?productNumber('offline-service-monthly-capacity'):0,
                 dropshipDeliveryDays:productSource==='dropship'?productNumber('dropship-delivery-days'):0,
                 dropshipPayoutLagDays:productSource==='dropship'?productNumber('dropship-payout-lag'):0,
                 dropshipPayoutMode:productSource==='dropship'?(document.getElementById('dropship-payout-mode')?.value||'after'):null,
                 productionUnitCost: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost,
-                productionFixedMonthly: ['resale','dropship'].includes(productSource) ? 0 : productionFixedMonthly,
+                productionFixedMonthly: ['resale','dropship'].includes(productSource) ? 0 : productSource==='offline-service'?Math.max(0,latestProductionUnitCost*expectedServiceUnits-(productOwnChoices.productionElectricity==='yes'?productNumber('own-production-electricity-tariff')*productNumber('own-production-electricity-usage')*expectedServiceUnits:0)):productionFixedMonthly,
                 productionElectricityPerUnit: ['resale','dropship'].includes(productSource) ? 0 : productionElectricityPerUnit,
                 productionDefectPct: ['resale','dropship'].includes(productSource) ? 0 : productionDefectPct,
                 productionQty,
-                productionTotal: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost * productionQty,
+                productionTotal: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost * (productSource==='offline-service'?expectedServiceUnits:productionQty),
                 logisticsUnitCost: latestLogisticsUnitCost,
                 logisticsQty,
-                warehouseInboundUnitCost:productSource==='dropship'?0:warehouseInboundUnitCost,
+                warehouseInboundUnitCost:['dropship','offline-service'].includes(productSource)?0:warehouseInboundUnitCost,
                 warehouseDayCost:
                     productLogisticsPayers.warehouse === 'me'
                         ? productNumber('own-warehouse-cost')
                         : 0,
-                warehouseStorageUnitCost:productSource==='dropship'?0:warehouseStorageUnitCost,
+                warehouseStorageUnitCost:['dropship','offline-service'].includes(productSource)?0:warehouseStorageUnitCost,
                 customerDeliveryPct:
                     productLogisticsPayers.customerDelivery === 'me'
                         ? productNumber('own-customer-delivery-pct')
@@ -2406,7 +2408,7 @@
                     productLogisticsPayers.customerDelivery === 'me'
                         ? productNumber('own-return-rate')
                         : 0,
-                warehouseStageTotal: productSource==='dropship'?0:(warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
+                warehouseStageTotal: ['dropship','offline-service'].includes(productSource)?0:(warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
                 salesFixedMonthly: productNumberFromText('own-sales-fixed-monthly'),
                 salesFixedPerUnit: productNumberFromText('own-sales-fixed-per-unit'),
                 salesQty,
@@ -2430,7 +2432,7 @@
                     reservePct: ''
                 },
                 inputs: Object.fromEntries(
-                    Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id]'))
+                    Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id], #offline-service-monthly-capacity'))
                         .map(el => [el.id, el.value])
                 ),
                 uiState: captureProductOwnUiState()
@@ -5924,11 +5926,11 @@
             show('materials-qty-entry-panel',!service&&productSource==='own');
             show('product-logistics-block',!service);
             show('logistics-unit-result',!service);
-            set('materials-step-name',service?'Расходные материалы на одну услугу':'Из чего состоит себестоимость');
-            set('materials-step-help',service?
+            if(service||productSource==='own')set('materials-step-name',service?'Расходные материалы на одну услугу':'Из чего состоит себестоимость');
+            if(service||productSource==='own')set('materials-step-help',service?
                 'Укажите расходники на одну процедуру — лак, база, пилки, перчатки и другое. Можно ввести одну сумму или состав по позициям. Без закупочной партии и складских остатков.':
                 'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
-            set('materials-step-result-label',service?'Расходники на 1 оказанную услугу':'Для того, чтобы купить и привезти материалы для 1 ед.');
+            if(service||productSource==='own')set('materials-step-result-label',service?'Расходники на 1 оказанную услугу':'Для того, чтобы купить и привезти материалы для 1 ед.');
             set('production-stage-heading',service?'Офлайн-услуга · рабочее место и персонал':'Производство');
             set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');
             set('production-worker-heading',service?'Кто оказывает услугу?':'Кто выполняет производство?');
@@ -6442,8 +6444,8 @@
                 const el=document.getElementById('own-production-unit-cost');if(el)el.textContent=moneyInputValue(0);
                 recalculateLogisticsUnitCost();return;
             }
-            const qty = Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
-            const defectPct = Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
+            const qty = productSource==='offline-service'?Math.max(1,productNumberFromText('own-product-ad-units')):Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
+            const defectPct = productSource==='offline-service'?0:Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
             const yieldFactor = Math.max(0.0001, 1 - defectPct / 100);
 
             const premisesMonthly =
@@ -6905,6 +6907,7 @@
             numOut('own-product-ad-leads', leads);
             numOut('own-product-ad-orders', orders);
             numOut('own-product-ad-units', units);
+            if(productSource==='offline-service')syncOfflineServiceForecast();
 
             moneyOut('own-product-ad-media-unit', mediaPerUnit);
             moneyOut('own-product-ad-management-unit', managementPerUnit);
