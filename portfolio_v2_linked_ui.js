@@ -228,7 +228,7 @@ function updateResult(){
    '<div class="mt-3 space-y-2">'+[...new Set(out.errors||[])].map(message=>
     '<div class="rounded-lg bg-rose-100 p-3 text-rose-900 text-sm">'+safe(message)+'</div>').join('')+'</div>'+
    (out.items?.length?'<div class="mt-3 space-y-2">'+out.items.map(item=>
-    '<div class="border border-white/25 rounded-lg p-3 text-sm"><b>'+safe(item.name)+'</b>: диапазон V1 '+
+    '<div class="border border-white/25 rounded-lg p-3 text-sm"><b data-nomad-no-translate>'+safe(item.name)+'</b>: диапазон V1 '+
     money(item.priceMin)+'–'+money(item.priceMax)+', цена для минимальной маржи '+
     money(item.requiredFloorPrice)+', максимально допустимая цена '+money(item.priceList)+
     ', итоговая маржа '+money(item.actualAfterTaxMargin)+'%</div>').join('')+'</div>':'');
