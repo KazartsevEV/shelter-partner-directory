@@ -6176,6 +6176,17 @@
             refreshAllAggregatePricing();
         }
 
+        // A production field must update the entire unit-cost model immediately.
+        // Previously the electricity tariff/usage updated only its subtotal, while
+        // production quantity and rent could remain stale until another button was
+        // clicked. This silently corrupted a subsequently saved second SKU.
+        document.addEventListener('input', event => {
+            const target = event.target;
+            if (target?.matches?.('input') && target.closest('#product-production-block')) {
+                recalculateProductionUnitCost();
+            }
+        });
+
         // Native delegated click handling for all yes/no branches.
         // This does not depend on inline onclick handlers or Tailwind class ordering.
         document.addEventListener('click', function(event) {
