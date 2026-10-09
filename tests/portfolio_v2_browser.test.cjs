@@ -24,6 +24,7 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  assert.equal(initialResult.ready,true,JSON.stringify(initialResult.errors));
  await page.locator('[data-p2-add-sku]').click();
  await fill('skus.1.name','Рюкзак');await choose('skus.1.source','resale');
+ await page.locator('[data-p2-sku="sku-2"] details summary').click();
  for(const [p,n] of [['skus.1.unitCost',60],['skus.1.marginPct',30],['skus.0.mixPct',50],
  ['skus.1.mixPct',50],['skus.1.batchUnits',10],['skus.1.initialCashOut',120],
  ['skus.1.storagePerUnitDay',.5]])await fill(p,n);
