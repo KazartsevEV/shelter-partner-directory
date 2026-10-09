@@ -140,3 +140,35 @@ test('Reject false source/corrupt taxpayer provenance and unchanged zero-convers
  const r=build(a);A.equal(r.ready,false);
  A.ok(r.errors.some(x=>x.includes('контур партнёра')));
 });
+
+test('Negative owner online earnings cannot shield unrelated profit-taxed goods',()=>{
+ const service=source('self'); // 325 gross - 400 media - 32.5 acquiring, 5% own turnover tax
+ const goods={id:'g',name:'Цифровой товар',source:'dropship',unitCost:10,
+   forecastUnitsPerMonth:5,adBudget:50,baseCac:10,priceMin:70,priceMax:150,
+   maxDiscountPct:0,minimumMarginPct:10,targetMarginPct:20,
+   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,creditServiceMonthly:0,
+   vatPct:0,inventoryQty:0,dropshipDeliveryDays:0,dropshipPayoutLagDays:0,
+   dropshipPayoutMode:'before',reserveAmount:0};
+ const portfolio=E.fromV1({skus:[service,goods],tax:{type:'profit',pct:20}});
+ const result=E.build(portfolio);
+ A.equal(result.ready,true,JSON.stringify(result.errors));
+ const realGoods=result.items.find(s=>s.id==='g');
+ const independentlyTaxedGoods=Math.max(0,realGoods.preTaxProfit)*.2;
+ close(result.totals.tax,16.25+independentlyTaxedGoods,'unrelated positive profits taxed independently');
+ close(result.cashflow.months.reduce((a,m)=>a+m.tax,0),
+   16.25+independentlyTaxedGoods,'cash tax not shielded by another entity loss');
+});
+test('Online service reallocation never converts partner-funded media to my costs',()=>{
+ const agent=source('agent',{},everyPayer('partner'));
+ const input=E.fromV1({skus:[agent],tax:{type:'turnover',pct:3}});
+ input.resources.push({id:'commonCampaign',kind:'campaign',label:'Моя дополнительная реклама',
+  amount:200,cadence:'monthly',pool:'none',allocation:'usage',usage:{[agent.id]:1},
+  skuIds:[agent.id],includedBySku:{}});
+ const result=E.build(input);
+ A.equal(result.ready,true,JSON.stringify(result.errors));
+ close(result.totals.media,200,'owner pays only incremental shared ad budget');
+ close(result.items[0].forecastOrders,7.5,'partner campaign 400 + my new 200 = 1.5× demand');
+ close(result.counterpart[0].gross,487.5,'partner GMV follows approved acquired deals');
+ close(result.counterpart[0].partnerOpex,400,'original partner spend remains owned by partner');
+ close(result.items[0].revenue,97.5,'my commission on new deals');
+});
