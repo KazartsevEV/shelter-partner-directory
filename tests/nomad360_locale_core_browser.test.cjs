@@ -9,6 +9,26 @@ const path=require('node:path');
 const {fixture}=require('./portfolio_v2_f3_fixture.cjs');
 const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
 const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
+
+const localeVisibleCensus=async(page,stage)=>page.evaluate(stage=>{
+ const skips='script,style,template,noscript,pre,code,textarea,[data-nomad-no-translate],#nomad360-hero,#nomad360-footer,#nomad360-portfolio-tools,#nomad360-print-sheet,#nomad360-language-chooser';
+ const nodes=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ const lines=new Map();
+ let node;
+ while((node=nodes.nextNode())){
+  const parent=node.parentElement;
+  if(!parent||parent.closest(skips)||!node.nodeValue?.trim())continue;
+  if(!parent.getClientRects().length||parent.closest('[hidden],.hidden'))continue;
+  const text=node.nodeValue.replace(/\s+/g,' ').trim();
+  if(!/[А-ЯЁа-яё]/.test(text))continue;
+  if(text.length<3)continue;
+  const context=parent.closest('[id]')?.id||parent.tagName.toLowerCase();
+  lines.set(context+'::'+text,{context,text:text.slice(0,200)});
+ }
+ return {stage,language:document.documentElement.lang,leaks:[...lines.values()].slice(0,160),
+  total:lines.size};
+},stage);
+
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
@@ -97,6 +117,7 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
     const formattedMoney=await page.evaluate(()=>formatMoney(1234.5));
     A.ok(formattedMoney.endsWith(expected==='en'?'currency units*':expected==='kk'?'ш.б.*':'у.е.*'),
       'display currency unit localized without changing numeric value');
+    if(expected==='en')console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'v1-product')));
     const payload=fixture();
     await page.evaluate(p=>{
       LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
@@ -113,6 +134,7 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
       LinkedPortfolioV2UI.resume();
     },payload);
     await afterTick(page);
+    if(expected==='en')console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'v2-linked')));
     const baseline=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
