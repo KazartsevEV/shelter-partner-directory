@@ -48,7 +48,7 @@
     for(let i=0;i<raw.length;i++){
       const s=raw[i],id=sourceId(s),key='skus.'+i;
       if(ids.has(id))report(key,'Повторяющийся ID товара.');ids.add(id);
-      if(!s.name||!['own','resale','dropship'].includes(s.source))report(key,'Товар не имеет корректного происхождения.');
+      if(!s.name||!['own','resale','dropship','offline-service'].includes(s.source))report(key,'Товар не имеет корректного происхождения.');
       for(const field of ['unitCost','forecastUnitsPerMonth','adBudget','priceMin','priceMax','baseCac']){
         if(!Number.isFinite(Number(s[field]))||!(Number(s[field])>=0))
           report(key+'.'+field,'Некорректное рассчитанное значение V1: '+field);
@@ -110,7 +110,7 @@
         if(pool!=='none'&&offsets[id])offsets[id][pool]+=pos(value);
         if(pool==='unitCost'&&cashOffsets[id]&&cashBuckets.has(r.cashOrigin)){
           const sku=rows.find(x=>x.id===id);
-          const multiplier=sku?.source==='dropship'?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
+          const multiplier=['dropship','offline-service'].includes(sku?.source)?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
           cashOffsets[id][r.cashOrigin]+=pos(value)*multiplier;
         }
         if(pool==='none'&&pos(value)>EPS)report(key+'.pool','Для списания старой суммы укажите исходный блок.');
@@ -127,7 +127,14 @@
         report('skus.'+rows.indexOf(s),'Дропшиппинг оплачивается по заказу: используйте «Исполнение заказа».');
       const qty=pos(s.inventoryQty),raw=pos(s.materialsBatchTotal),prod=pos(s.productionTotal),inbound=pos(s.warehouseInboundUnitCost)*qty;
       const residual=Math.max(0,(pos(s.unitCost)-(raw+prod+inbound)/Math.max(qty,EPS))*qty);
-      if(s.source!=='dropship'&&(o.materials>raw+EPS||o.production>prod+EPS||o.fulfillment>residual+EPS))
+      if(s.source==='offline-service'){
+        const forecast=pos(s.forecastUnitsPerMonth);
+        if(o.materials>pos(s.serviceMaterialsUnit)*forecast+EPS||
+           o.production>pos(s.serviceFixedMonthly)+EPS||
+           o.fulfillment>pos(s.serviceElectricityUnit)*forecast+EPS)
+          report('skus.'+rows.indexOf(s),'Общий расход превышает первоначальную сумму соответствующей статьи офлайн-услуги V1.');
+      }
+      if(!['dropship','offline-service'].includes(s.source)&&(o.materials>raw+EPS||o.production>prod+EPS||o.fulfillment>residual+EPS))
         report('skus.'+rows.indexOf(s),'Перенос общего расхода превышает сумму выбранного денежного блока V1 для «'+s.name+'».');
     }
     if(errors.length)return {ready:false,errors,fieldErrors};
@@ -161,8 +168,13 @@
         const monthlySelling=pos(s.salesFixedMonthly)-offsets[s.id].salesFixed;
         // A V1 SKU's embedded cost is removed once, then charged through one
         // common resource, without multiplying the shared payment by SKU count.
-        const embeddedUnit=pos(s.forecastUnitsPerMonth)>0?offsets[s.id].unitCost/pos(s.forecastUnitsPerMonth):0;
-        const netUnitCost=pos(s.unitCost)-embeddedUnit;
+        const baselineOrders=Math.max(EPS,pos(s.forecastUnitsPerMonth));
+        const embeddedUnit=offsets[s.id].unitCost/baselineOrders;
+        const netUnitCost=s.source==='offline-service'?
+          Math.max(0,pos(s.serviceMaterialsUnit)-(cashOffsets[s.id].materials/baselineOrders))+
+          Math.max(0,pos(s.serviceElectricityUnit)-(cashOffsets[s.id].fulfillment/baselineOrders))+
+          Math.max(0,pos(s.serviceFixedMonthly)-cashOffsets[s.id].production)/Math.max(EPS,orders):
+          pos(s.unitCost)-embeddedUnit;
         const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
           monthlyResources+pos(s.creditServiceMonthly))/orders:Infinity;
         return {s,media,orders,monthlyResources,monthlyManager,monthlySelling,
@@ -232,10 +244,15 @@
     const allocated=sum(scenario.allocation.map(r=>sum(Object.values(r.bySku))));
     const resourcesTotal=sum(scenario.allocation.map(r=>r.amount));
     for(const item of items){
-      if(item.source!=='dropship'&&pos(item.inventoryQty)+EPS<item.forecastOrders){
+      if(!['dropship','offline-service'].includes(item.source)&&pos(item.inventoryQty)+EPS<item.forecastOrders){
         report('skus.'+rows.findIndex(s=>s.id===item.id),
           'Прогноз по «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
           ' шт.) превышает запас V1 ('+pos(item.inventoryQty)+' шт.). Увеличьте складскую партию в V1 или скорректируйте распределение рекламы.');
+      }
+      if(item.source==='offline-service'&&(!(pos(item.serviceCapacity)>0)||item.forecastOrders>pos(item.serviceCapacity)+EPS)){
+        report('skus.'+rows.findIndex(s=>s.id===item.id),
+          'Прогноз клиентов для «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
+          ') больше доступных '+pos(item.serviceCapacity)+' посещений в месяц.');
       }
     }
     const infeasible=items.filter(item=>!item.minimumMarginFeasible);
@@ -270,7 +287,7 @@
     // plus the V1 locked liquidity reserve (less available V1 loan draws).
     const items=portfolio.items,resources=portfolio.resources;
     const plan=items.map(s=>({
-      s,saleStart:s.source==='dropship'?0:pos(s.supplyDays)+pos(s.productionDays),
+      s,saleStart:['dropship','offline-service'].includes(s.source)?0:pos(s.supplyDays)+pos(s.productionDays),
       receiptDelay:s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
         pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0
     }));
@@ -291,7 +308,13 @@
     for(const {s,saleStart,receiptDelay} of plan){
       const stock=pos(s.inventoryQty),orders=pos(s.forecastOrders);
       let residualPerUnit=pos(s.unitCostEffective);
-      if(s.source!=='dropship'){
+      if(s.source==='offline-service'){
+        // Rent and master payroll are paid at the start of the month, not
+        // lazily divided among daily customer receipts in the cash ledger.
+        const fixed=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
+        post(0,'stockPurchase',fixed);
+        residualPerUnit=Math.max(0,residualPerUnit-fixed/Math.max(EPS,orders));
+      }else if(s.source!=='dropship'){
         const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
         const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production)),
           inbound=pos(s.warehouseInboundUnitCost)*stock;

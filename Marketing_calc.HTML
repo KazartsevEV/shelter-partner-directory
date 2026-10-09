@@ -313,7 +313,7 @@
                 <a href="?demo=shopper&amp;finance=cash" class="inline-block mt-3 text-sm font-bold text-blue-700 underline">Посмотреть пример шоппера →</a>
             </div>
             <div class="mt-6 border-t border-slate-200 pt-4">
-                <button onclick="showServiceChooser()" class="text-sm text-blue-700 font-semibold underline">У меня услуга, не товар →</button>
+                <button id="start-service" onclick="showServiceWorkChooser()" class="text-sm text-blue-700 font-semibold underline">У меня услуга, не товар →</button>
             </div>
         </div>
     </section>
@@ -322,10 +322,28 @@
         <div id="portfolio-v2-root"></div>
     </section>
 
-    <section id="service-screen" class="max-w-5xl mx-auto hidden">
-        <button onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
+    <section id="service-work-screen" class="max-w-5xl mx-auto hidden" hidden>
+        <button type="button" onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
         <div class="card p-6 md:p-8">
-            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Услуга</div>
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар / услуга → Услуга</div>
+            <h1 class="text-3xl font-bold text-slate-900">Я работаю:</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                <button type="button" id="service-work-online" onclick="showServiceChooser()" class="card p-5 text-left hover:border-blue-400 transition">
+                    <div class="text-lg font-bold text-slate-900">Онлайн</div>
+                    <p class="text-sm text-slate-600 mt-2">Я сам · Нанимаю другого · Я агент. Существующий калькулятор без изменений.</p>
+                </button>
+                <button type="button" id="service-work-offline" onclick="startOfflineServiceCalculation()" class="card p-5 text-left hover:border-emerald-500 transition">
+                    <div class="text-lg font-bold text-slate-900">Офлайн</div>
+                    <p class="text-sm text-slate-600 mt-2">Например, ногтевой сервис: расходники, аренда, мастера, оборудование и реклама. Нет производства, склада и доставки.</p>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="service-screen" class="max-w-5xl mx-auto hidden">
+        <button onclick="showServiceWorkChooser()" class="text-sm text-blue-600 hover:underline mb-4">← Онлайн / офлайн</button>
+        <div class="card p-6 md:p-8">
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Услуга · Онлайн</div>
             <h1 class="text-3xl font-bold text-slate-900">Кто исполнитель услуги?</h1>
             <p class="text-sm text-slate-500 mt-2">Выберите, как устроены деньги между клиентом, вами и исполнителем.</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-7">
@@ -382,7 +400,7 @@
     </section>
 
     <section id="product-screen" class="max-w-4xl mx-auto hidden">
-        <button onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
+        <button id="product-main-back" onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
 
         <div id="product-demo-banner" class="hidden rounded-2xl border-2 border-blue-400 bg-blue-50 p-4 mb-5 text-slate-900" hidden>
             <div class="text-lg font-black">ДЕМО: калькулятор заполнен реальными тестовыми числами</div>
@@ -400,11 +418,11 @@
         <div id="completed-product-forms" class="space-y-5 mb-5"></div>
 
         <div class="card p-6 md:p-8">
-            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар</div>
-            <h1 class="text-3xl font-bold text-slate-900">Что продаёте?</h1>
+            <div id="product-intro-category" class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар</div>
+            <h1 id="product-intro-title" class="text-3xl font-bold text-slate-900">Что продаёте?</h1>
 
             <form class="mt-6" onsubmit="submitProductIntro(event)">
-                <label for="product-name-input" class="block text-sm font-medium text-slate-700 mb-2">Наименование товара</label>
+                <label id="product-name-label" for="product-name-input" class="block text-sm font-medium text-slate-700 mb-2">Наименование товара</label>
                 <input
                     id="product-name-input"
                     type="text"
@@ -413,13 +431,13 @@
                     autocomplete="off"
                 >
                 <p id="product-name-error" class="hidden text-xs text-red-600 mt-2">Введите наименование товара.</p>
-                <p class="mt-2 text-xs text-slate-500">Введите название своего товара. Сведения из учебных примеров сюда не переносятся.</p>
+                <p id="product-intro-help" class="mt-2 text-xs text-slate-500">Введите название своего товара. Сведения из учебных примеров сюда не переносятся.</p>
 
                 <button
                     type="submit"
                     class="mt-4 w-full sm:w-auto bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
                 >
-                    Рассчитать мой товар
+                    <span id="product-intro-submit-label">Рассчитать мой товар</span>
                 </button>
             </form>
         </div>
@@ -449,6 +467,9 @@
 
                 <button type="button" data-product-source="dropship" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
                     <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Покупаю под заказ, поставщик доставляет покупателю</div>
+                </button>
+                <button type="button" data-product-source="offline-service" class="product-source-choice card p-5 text-left hover:border-emerald-400 hover:shadow-md transition">
+                    <div class="font-semibold text-slate-900">Офлайн-услуга</div><div class="text-xs text-slate-500 mt-1">Маникюр, парикмахерская, массаж: аренда, расходники и мастера</div>
                 </button>
             </div>
             <div id="product-source-unavailable" class="hidden mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900" role="status" hidden>
@@ -571,7 +592,7 @@
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4">
+                    <div id="materials-import-prompt" class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800"><span data-buy-copy="import">Материалы везут ко мне из-за границы?</span></div>
                         <div class="flex gap-2 mt-3">
                             <button type="button" data-yn-group="materialsImported" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
@@ -661,9 +682,9 @@
             </div>
 
             <div id="product-production-block" class="card p-6 md:p-8 scroll-mt-4">
-                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Производство</div>
+                <div id="production-stage-heading" class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Производство</div>
                 <h2 class="text-2xl font-bold text-slate-900">
-                    Расходы на производство 1 единицы <span class="product-name-live"></span>
+                    <span id="production-stage-title">Расходы на производство 1 единицы</span> <span class="product-name-live"></span>
                 </h2>
 
                 <div class="mt-6 space-y-5">
@@ -709,10 +730,10 @@
                     </div>
 
                     <div class="rounded-lg border border-slate-200 p-4">
-                        <div class="text-sm font-medium text-slate-800">Кто выполняет производство?</div>
+                        <div id="production-worker-heading" class="text-sm font-medium text-slate-800">Кто выполняет производство?</div>
                         <div class="grid grid-cols-2 gap-2 mt-2">
-                            <button type="button" data-production-labor-mode="self" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Всё делаю сам</button>
-                            <button type="button" data-production-labor-mode="workers" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Плачу рабочим</button>
+                            <button type="button" id="production-self-button" data-production-labor-mode="self" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Всё делаю сам</button>
+                            <button type="button" id="production-workers-button" data-production-labor-mode="workers" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Плачу рабочим</button>
                         </div>
 
                         <div id="own-production-workers-wrap" class="hidden mt-4 space-y-4" hidden data-product-collapsible>
@@ -723,11 +744,11 @@
 
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Количество рабочих</label>
+                                    <label id="production-workers-count-label" class="block text-xs text-slate-500 mb-1">Количество рабочих</label>
                                     <input id="own-production-workers-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateProductionWorkersCost()">
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц, у.е.*</label>
+                                    <label id="production-worker-gross-label" class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц, у.е.*</label>
                                     <input id="own-production-worker-gross" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionWorkersCost()">
                                 </div>
                             </div>
@@ -750,7 +771,7 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div id="production-defect-panel">
                         <label class="block text-sm font-medium text-slate-700 mb-2">Доля брака производства, % от общего объёма</label>
                         <input id="own-production-defect-pct" type="number" min="0" max="100" step="0.01" value="0" class="input-field">
                     </div>
@@ -812,20 +833,28 @@
                 </div>
             </div>
 
+            <div id="offline-service-capacity" class="hidden card p-6 md:p-8" hidden>
+                <h3 class="text-lg font-bold text-slate-900">Сколько клиентов реально можете обслужить?</h3>
+                <p class="text-xs text-slate-600 mt-2">Места и рабочие часы мастеров определяют физический максимум услуг за месяц. Сопоставляем его с прогнозом из рекламы.</p>
+                <label class="block text-sm font-semibold text-slate-700 mt-3">Максимум услуг / месяц
+                    <input id="offline-service-monthly-capacity" type="number" min="1" step="1" value="" class="input-field mt-2" placeholder="Например, 150" oninput="syncOfflineServiceForecast()">
+                </label>
+                <p id="offline-service-capacity-warning" class="hidden mt-2 text-sm text-rose-700" hidden></p>
+            </div>
             <div id="production-unit-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
                 <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 2</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
-                    Стоимость производства 1 ед. <span class="product-name-live"></span> составляет
+                    <span id="production-result-caption">Стоимость производства 1 ед.</span> <span class="product-name-live"></span> составляет
                     <span id="own-production-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
                     у.е.*.
                 </div>
 
                 <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
                     <label class="block text-sm font-medium text-slate-700 mb-2">
-                        Сколько единиц <span class="product-name-live"></span> производите в месяц?
+                        <span id="production-qty-label">Сколько единиц</span> <span class="product-name-live"></span> <span id="production-qty-suffix">производите в месяц?</span>
                     </label>
                     <input id="own-production-monthly-qty" type="number" min="1" step="1" value="1" class="input-field">
-                    <p class="text-xs text-slate-500 mt-2">
+                    <p id="production-result-help" class="text-xs text-slate-500 mt-2">
                         Аренда помещения / месяц, аренда оборудования / месяц, амортизация оборудования / месяц, газ / месяц, рабочие / месяц и накладные организационные расходы / месяц распределяются на месячный объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.
                     </p>
                 </div>
@@ -1699,7 +1728,7 @@
         }
 
         function showOnly(id) {
-            ['home-screen', 'portfolio-v2-screen', 'service-screen', 'agent-screen', 'agent-complex-screen', 'product-screen', 'calculator-screen']
+            ['home-screen', 'portfolio-v2-screen', 'service-work-screen', 'service-screen', 'agent-screen', 'agent-complex-screen', 'product-screen', 'calculator-screen']
                 .forEach(screenId => {
                     const screen=document.getElementById(screenId);
                     screen.classList.toggle('hidden', screenId !== id);
@@ -1713,7 +1742,18 @@
             updateSavedProductEntry();
             window.LinkedPortfolioV2UI?.updateEntry();
         }
+        function showServiceWorkChooser() { showOnly('service-work-screen'); }
         function showServiceChooser() { showOnly('service-screen'); }
+        function startOfflineServiceCalculation() {
+            startFreshProductCalculation();
+            selectProductSource('offline-service');
+            const form=document.getElementById('product-own-form');
+            if(form){form.hidden=true;form.classList.add('hidden');}
+            const source=document.getElementById('product-source-block');
+            if(source){source.hidden=true;source.classList.add('hidden');}
+            configureOfflineServiceView();
+            document.getElementById('product-name-input')?.focus({preventScroll:true});
+        }
         function showAgentChooser() { showOnly('agent-screen'); }
         function showAgentComplex() { showOnly('agent-complex-screen'); }
         function showProductBranch() { showOnly('product-screen'); }
@@ -2198,7 +2238,7 @@
 
             if (
                 productName &&
-                ['own','resale','dropship'].includes(productSource) &&
+                ['own','resale','dropship','offline-service'].includes(productSource) &&
                 Number(currentProductSequence) !== id
             ) {
                 saveCurrentProductToPortfolio();
@@ -2239,8 +2279,12 @@
             if (sourceName) sourceName.textContent = item.name ? '«' + item.name + '»' : '';
 
             selectProductSource(item.source);
+            if(item.source==='offline-service'){
+                const src=document.getElementById('product-source-block');
+                if(src){src.hidden=true;src.classList.add('hidden');}
+            }
 
-            if (['own','resale','dropship'].includes(item.source)) {
+            if (['own','resale','dropship','offline-service'].includes(item.source)) {
                 restoreProductOwnUiState(item);
                 const ownForm = document.getElementById('product-own-form');
                 if (ownForm) {
@@ -2280,11 +2324,12 @@
         }
 
         function currentProductPortfolioSnapshot() {
-            const materialsBatchQty = Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
-            const productionQty = ['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
+            const expectedServiceUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const materialsBatchQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
+            const productionQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
             const forecastSales=Math.max(0,productNumberFromText('own-product-ad-units'));
-            const logisticsQty = productSource === 'dropship' ? Math.max(1,Math.ceil(forecastSales)) : Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
-            const salesQty = productSource === 'dropship' ? logisticsQty : Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
+            const logisticsQty = ['dropship','offline-service'].includes(productSource) ? Math.max(1,Math.ceil(forecastSales)) : Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
+            const salesQty = ['dropship','offline-service'].includes(productSource) ? logisticsQty : Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
 
             const warehouseInboundUnitCost =
                 productLogisticsPayers.warehouseInbound === 'me'
@@ -2343,24 +2388,25 @@
                 materialsVariableUnit,
                 materialsFixedBatch,
                 materialsBatchQty,
-                materialsBatchTotal: latestMaterialsLandedUnitCost * materialsBatchQty,
+                materialsBatchTotal: latestMaterialsLandedUnitCost * (productSource==='offline-service'?expectedServiceUnits:materialsBatchQty),
+                offlineServiceCapacity:productSource==='offline-service'?productNumber('offline-service-monthly-capacity'):0,
                 dropshipDeliveryDays:productSource==='dropship'?productNumber('dropship-delivery-days'):0,
                 dropshipPayoutLagDays:productSource==='dropship'?productNumber('dropship-payout-lag'):0,
                 dropshipPayoutMode:productSource==='dropship'?(document.getElementById('dropship-payout-mode')?.value||'after'):null,
                 productionUnitCost: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost,
-                productionFixedMonthly: ['resale','dropship'].includes(productSource) ? 0 : productionFixedMonthly,
+                productionFixedMonthly: ['resale','dropship'].includes(productSource) ? 0 : productSource==='offline-service'?Math.max(0,latestProductionUnitCost*expectedServiceUnits-(productOwnChoices.productionElectricity==='yes'?productNumber('own-production-electricity-tariff')*productNumber('own-production-electricity-usage')*expectedServiceUnits:0)):productionFixedMonthly,
                 productionElectricityPerUnit: ['resale','dropship'].includes(productSource) ? 0 : productionElectricityPerUnit,
                 productionDefectPct: ['resale','dropship'].includes(productSource) ? 0 : productionDefectPct,
                 productionQty,
-                productionTotal: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost * productionQty,
+                productionTotal: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost * (productSource==='offline-service'?expectedServiceUnits:productionQty),
                 logisticsUnitCost: latestLogisticsUnitCost,
                 logisticsQty,
-                warehouseInboundUnitCost:productSource==='dropship'?0:warehouseInboundUnitCost,
+                warehouseInboundUnitCost:['dropship','offline-service'].includes(productSource)?0:warehouseInboundUnitCost,
                 warehouseDayCost:
                     productLogisticsPayers.warehouse === 'me'
                         ? productNumber('own-warehouse-cost')
                         : 0,
-                warehouseStorageUnitCost:productSource==='dropship'?0:warehouseStorageUnitCost,
+                warehouseStorageUnitCost:['dropship','offline-service'].includes(productSource)?0:warehouseStorageUnitCost,
                 customerDeliveryPct:
                     productLogisticsPayers.customerDelivery === 'me'
                         ? productNumber('own-customer-delivery-pct')
@@ -2369,7 +2415,7 @@
                     productLogisticsPayers.customerDelivery === 'me'
                         ? productNumber('own-return-rate')
                         : 0,
-                warehouseStageTotal: productSource==='dropship'?0:(warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
+                warehouseStageTotal: ['dropship','offline-service'].includes(productSource)?0:(warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
                 salesFixedMonthly: productNumberFromText('own-sales-fixed-monthly'),
                 salesFixedPerUnit: productNumberFromText('own-sales-fixed-per-unit'),
                 salesQty,
@@ -2393,7 +2439,7 @@
                     reservePct: ''
                 },
                 inputs: Object.fromEntries(
-                    Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id]'))
+                    Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id], #offline-service-monthly-capacity'))
                         .map(el => [el.id, el.value])
                 ),
                 uiState: captureProductOwnUiState()
@@ -2401,7 +2447,7 @@
         }
 
         function saveCurrentProductToPortfolio() {
-            if (!productName || !['own','resale','dropship'].includes(productSource)) return;
+            if (!productName || !['own','resale','dropship','offline-service'].includes(productSource)) return;
             if(['resale','dropship'].includes(productSource)) updateResalePurchase();
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
@@ -2433,7 +2479,7 @@
 
             box.classList.remove('hidden');
             box.innerHTML =
-                '<div class="font-semibold text-slate-900 mb-3">Заполненные товары</div>' +
+                '<div class="font-semibold text-slate-900 mb-3">Мои товары и офлайн-услуги</div>' +
                 '<div class="space-y-3">' +
                 productPortfolio.map((item, index) => {
                     const unitCost =
@@ -2444,7 +2490,7 @@
                     return `<article class="rounded-xl border border-slate-200 bg-white p-4" data-portfolio-product-id="${item.id}">
                         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                             <div>
-                                <div class="text-xs uppercase tracking-[0.14em] text-slate-400">Товар ${index + 1}</div>
+                                <div class="text-xs uppercase tracking-[0.14em] text-slate-400">${item.source==='offline-service'?'Услуга':'Товар'} ${index + 1}</div>
                                 <div class="font-bold text-slate-900 text-base">«${esc(item.name)}»</div>
                             </div>
                             <button type="button"
@@ -2652,6 +2698,13 @@
             const rawNeeded = Math.ceil(made / Math.max(0.0001, 1 - defect / 100));
             const forecasts = Math.max(0, Number(item.forecastUnitsPerMonth) || 0);
             const details = [];
+            if(item.source==='offline-service'){
+                const capacity=Number(item.offlineServiceCapacity)||0;
+                if(!(forecasts>0))details.push({kind:'ads',message:'Для расчёта цены услуги заполните рекламную воронку и бюджет — нужен прогноз клиентов.'});
+                if(!(capacity>0))details.push({kind:'service-capacity',message:'Укажите физическую вместимость салона: сколько услуг могут оказать мастера за месяц.'});
+                else if(forecasts>capacity+0.000001)details.push({kind:'service-capacity',message:'Прогноз '+forecasts.toFixed(1)+' клиентов превышает доступные '+capacity+' процедур за месяц. Увеличьте количество рабочих мест / мастеров или скорректируйте рекламу.'});
+                return details;
+            }
             if(item.source==='dropship'){
                 if(!(Number(item.inputs?.['resale-buy-total'])>0))details.push({kind:'materials',message:'Укажите закупочную цену у поставщика.'});
                 if(item.inputs?.['dropship-delivery-days']===''||item.inputs?.['dropship-delivery-days']==null)details.push({kind:'logistics',message:'Укажите срок доставки покупателю.'});
@@ -2683,7 +2736,7 @@
         }
 
         function allocatedMaterialCostPerGood(item) {
-            if(['resale','dropship'].includes(item?.source))return Math.max(0,Number(item.materialsUnitCost)||0);
+            if(['resale','dropship','offline-service'].includes(item?.source))return Math.max(0,Number(item.materialsUnitCost)||0);
             const manufactured = Math.max(0, Number(item?.productionQty) || 0);
             const rawBought = Math.max(0, Number(item?.materialsBatchQty) || 0);
             if (!manufactured || !rawBought) return null;
@@ -2696,7 +2749,7 @@
         }
 
         function projectedStoragePerUnit(item) {
-            if(item?.source==='dropship')return 0;
+            if(['dropship','offline-service'].includes(item?.source))return 0;
             const stock = Math.max(0, Number(item?.logisticsQty) || 0);
             const velocity = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
             const dailyRate = Math.max(0, Number(item?.warehouseDayCost) || 0);
@@ -2745,7 +2798,37 @@
                 customerDeliveryDays:deliveryDays,payoutLagDays
             };
         }
+        function offlineServiceCycleMetrics(item) {
+            const count=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
+            const materialsPerService=Math.max(0,Number(item.materialsUnitCost)||0);
+            const fixedPremisesAndWorkers=Math.max(0,Number(item.productionFixedMonthly)||0);
+            const electricityPerService=Math.max(0,Number(item.productionElectricityPerUnit)||0);
+            const salesFixed=Math.max(0,Number(item.salesFixedMonthly)||0);
+            const ad=Math.max(0,Number(item.adBudget)||0)+Math.max(0,Number(item.adManagement)||0);
+            const serviceCost=count*(materialsPerService+electricityPerService)+fixedPremisesAndWorkers;
+            const nonRevenueCosts=serviceCost+salesFixed+ad;
+            const reservePct=Math.min(1000,Math.max(0,Number(item.planning?.reservePct)||0));
+            const reserveAmount=nonRevenueCosts*reservePct/100;
+            const salesRate=(Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100;
+            const zeroMarginRevenue=salesRate<1?nonRevenueCosts/(1-salesRate):null;
+            return {
+                requiredCapital:count>0?nonRevenueCosts+reserveAmount:null,
+                baseRequiredCapital:count>0?nonRevenueCosts:null,
+                reservePct,reserveAmount:count>0?reserveAmount:null,
+                quantityIssues:aggregateQuantityIssues(item),
+                totalCycleDays:count>0?30:null,
+                waitAfterAdvanceDays:0,productionDays:0,sellThroughDays:count>0?30:null,
+                salesSpeedPerMonth:count,advanceAmount:0,
+                zeroMarginRevenue,zeroMarginUnitPrice:count>0&&zeroMarginRevenue!==null?zeroMarginRevenue/count:null,
+                nonRevenueCosts:count>0?nonRevenueCosts:null,
+                variableSalesRate:salesRate,stockQty:count,
+                productionTotal:fixedPremisesAndWorkers+count*electricityPerService,warehouseTotal:0,salesTotal:salesFixed,adTotal:ad,
+                customerDeliveryTotal:0,consumablesTotal:materialsPerService*count,
+                premisesWorkersMonthly:fixedPremisesAndWorkers
+            };
+        }
         function aggregatePlanMetrics(item) {
+            if(item?.source==='offline-service')return offlineServiceCycleMetrics(item);
             if(item?.source==='dropship')return dropshipCycleMetrics(item);
             const planning = item?.planning || {};
             const materialsTotal = Math.max(0, Number(item?.materialsBatchTotal || 0));
@@ -2952,13 +3035,13 @@
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
                 const cycle = aggregatePlanMetrics(item);
-                const reserveUnits=item.source==='dropship'?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const reserveUnits=['dropship','offline-service'].includes(item.source)?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
                 const reservePerUnit = cycle.reserveAmount !== null && reserveUnits > 0
                     ? cycle.reserveAmount / reserveUnits : 0;
 
                 const credit = calculateAggregateCredit(item);
                 const usesCredit = item?.planning?.fundingMode === 'credit';
-                const creditUnits=item.source==='dropship'?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const creditUnits=['dropship','offline-service'].includes(item.source)?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
                 const creditReady =
                     !usesCredit ||
                     (
@@ -3535,7 +3618,76 @@
             };
         }
 
+        function calculateOfflineServiceCashFlow(model) {
+            const items=productPortfolio.filter(item=>item.source==='offline-service');
+            const schedules=items.map(item=>({
+                item,row:model.items.find(row=>row.id===item.id),
+                plan:offlineServiceCycleMetrics(item),credit:calculateAggregateCredit(item),
+                borrowed:item.planning?.fundingMode==='credit'
+            }));
+            if(!model?.pricingReady||!productBusinessTaxType||model.taxPriceMultiplier===null||
+                schedules.some(x=>!x.row||x.plan.requiredCapital===null||x.plan.quantityIssues?.length||
+                    (x.borrowed&&x.credit.principal===null)))
+                return {ready:false,months:[],cumulativeEnd:null,freeCumulativeEnd:null};
+            const n=Math.max(1,...schedules.map(x=>x.borrowed?Math.max(1,Number(x.credit.termMonths)||1):1));
+            const months=Array.from({length:n},(_,i)=>({
+                month:i+1,inflow:0,outflow:0,cashFlow:0,cumulative:0,
+                taxPaid:0,interestPaid:0,principalRepaid:0,financedInflow:0,
+                taxableProfit:0,freeCumulative:0
+            }));
+            const rate=Math.max(0,productNumber('own-business-tax-pct'))/100;
+            let reserveLocked=0;
+            for(const {item,row,plan,credit,borrowed} of schedules){
+                const qty=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
+                const revenue=qty*row.price*model.taxPriceMultiplier;
+                const materials=qty*Math.max(0,Number(item.materialsUnitCost)||0);
+                const electricity=qty*Math.max(0,Number(item.productionElectricityPerUnit)||0);
+                const operations=Math.max(0,Number(item.productionFixedMonthly)||0);
+                const salesFixed=Math.max(0,Number(item.salesFixedMonthly)||0);
+                const advertising=Math.max(0,Number(item.adBudget)||0)+Math.max(0,Number(item.adManagement)||0);
+                const commission=revenue*(Math.max(0,Number(item.salesVariablePct)||0)+
+                    Math.max(0,Number(item.penaltiesPct)||0))/100;
+                const operating=materials+electricity+operations+salesFixed+advertising+commission;
+                const start=borrowed?Math.max(0,Number(credit.principal)||0):plan.requiredCapital;
+                months[0].inflow+=start+revenue;
+                months[0].financedInflow+=start;
+                months[0].outflow+=operating;
+                months[0].taxableProfit+=revenue-operating;
+                reserveLocked+=plan.reserveAmount||0;
+                if(borrowed){
+                    const term=Math.max(1,Number(credit.termMonths)||1);
+                    const interest=Math.max(0,Number(credit.monthlyServiceCost)||0);
+                    for(let i=0;i<Math.min(n,term);i++){
+                        months[i].interestPaid+=interest;
+                        months[i].outflow+=interest;
+                        months[i].taxableProfit-=interest;
+                    }
+                    const last=months[Math.min(n-1,term-1)];
+                    last.outflow+=Math.max(0,Number(credit.principal)||0);
+                    last.principalRepaid+=Math.max(0,Number(credit.principal)||0);
+                }
+            }
+            let total=0;
+            for(const month of months){
+                const revenue=month.inflow-month.financedInflow;
+                month.taxPaid=productBusinessTaxType==='turnover'?Math.max(0,revenue)*rate:
+                    Math.max(0,month.taxableProfit)*rate;
+                month.outflow+=month.taxPaid;
+                month.cashFlow=month.inflow-month.outflow;
+                total+=month.cashFlow;
+                month.cumulative=total;
+                month.freeCumulative=total-reserveLocked;
+            }
+            return {ready:true,months,horizonDays:n*30,saleEndDays:30,reserveLocked,
+                cumulativeEnd:total,freeCumulativeEnd:total-reserveLocked};
+        }
+
         function calculateProductCashFlow(model) {
+            if(productPortfolio.some(item=>item.source==='offline-service')){
+                if(productPortfolio.some(item=>item.source!=='offline-service'))
+                    return {ready:false,months:[],reason:'Для смешанных товаров и офлайн-услуг используйте общий Cash flow V2.',cumulativeEnd:null,freeCumulativeEnd:null};
+                return calculateOfflineServiceCashFlow(model);
+            }
             if (model?.pricingReady && productPortfolio.some(item=>item.source==='dropship')) {
                 // Mixed physical-stock and dropship cash schedules have different timing.
                 if(productPortfolio.some(item=>item.source!=='dropship'))return {ready:false,months:[],reason:'Для смешанного ассортимента нужен единый календарь платежей',cumulativeEnd:null,freeCumulativeEnd:null};
@@ -3952,7 +4104,7 @@
                 if(errorNode){errorNode.textContent=message;errorNode.hidden=!message;errorNode.classList.toggle('hidden',!message);}
             };
             report('');
-            if(productName&&['own','resale','dropship'].includes(productSource))saveCurrentProductToPortfolio();
+            if(productName&&['own','resale','dropship','offline-service'].includes(productSource))saveCurrentProductToPortfolio();
             const model=calculateProductPortfolio();
             if(!model.items.length){report('Сначала рассчитайте и сохраните хотя бы один товар.');return false;}
             if(!productBusinessTaxType||!model.pricingReady){
@@ -3988,7 +4140,11 @@
                     creditPrincipal:item.planning?.fundingMode==='credit'?(Number(credit.principal)||0):0,
                     creditMonths:item.planning?.fundingMode==='credit'?(Number(credit.termMonths)||0):0,
                     reserveAmount:Number(cycle.reserveAmount)||0,
-                    inventoryQty:item.source==='dropship'?0:Number(item.logisticsQty)||0,
+                    inventoryQty:['dropship','offline-service'].includes(item.source)?0:Number(item.logisticsQty)||0,
+                    serviceCapacity:item.source==='offline-service'?(Number(item.offlineServiceCapacity)||0):0,
+                    serviceMaterialsUnit:item.source==='offline-service'?(Number(item.materialsUnitCost)||0):0,
+                    serviceElectricityUnit:item.source==='offline-service'?(Number(item.productionElectricityPerUnit)||0):0,
+                    serviceFixedMonthly:item.source==='offline-service'?(Number(item.productionFixedMonthly)||0):0,
                     materialsBatchTotal:Number(item.materialsBatchTotal)||0,
                     productionTotal:Number(item.productionTotal)||0,
                     warehouseInboundUnitCost:Number(item.warehouseInboundUnitCost)||0,
@@ -4435,15 +4591,15 @@
 
             const sourceBlock = document.getElementById('product-source-block');
             if (sourceBlock) {
-                sourceBlock.hidden = false;
-                sourceBlock.classList.remove('hidden');
+                sourceBlock.hidden = productSource==='offline-service';
+                sourceBlock.classList.toggle('hidden',productSource==='offline-service');
                 if (!productName) {
                     document.getElementById('product-source-name').textContent = 'следующий товар';
                 }
             }
 
             const ownForm = document.getElementById('product-own-form');
-            if (ownForm && ['own','resale','dropship'].includes(productSource)) {
+            if (ownForm && ['own','resale','dropship','offline-service'].includes(productSource)) {
                 ownForm.hidden = false;
                 ownForm.classList.remove('hidden');
             }
@@ -4454,7 +4610,7 @@
         }
 
         function returnToProductBusinessSummary() {
-            if (productName && ['own','resale','dropship'].includes(productSource)) {
+            if (productName && ['own','resale','dropship','offline-service'].includes(productSource)) {
                 saveCurrentProductToPortfolio();
                 freezeCurrentProductOnPage();
             }
@@ -4509,7 +4665,7 @@
                     parsed.productPortfolio.length > 100) return null;
                 const seen = new Set();
                 for (const item of parsed.productPortfolio) {
-                    if (!item || !['own','resale','dropship'].includes(item.source) ||
+                    if (!item || !['own','resale','dropship','offline-service'].includes(item.source) ||
                         !Number.isSafeInteger(Number(item.id)) || Number(item.id) <= 0 ||
                         seen.has(Number(item.id)) ||
                         typeof item.name !== 'string' || !item.name.trim() ||
@@ -4604,7 +4760,7 @@
                 report('Это учебный пример. Чтобы сохранять свои данные, начните собственный расчёт с нуля.');
                 return false;
             }
-            if (productName && ['own','resale','dropship'].includes(productSource)) {
+            if (productName && ['own','resale','dropship','offline-service'].includes(productSource)) {
                 saveCurrentProductToPortfolio();
             }
             if (!productPortfolio.length) {
@@ -4986,7 +5142,7 @@
         function syncVisibleAggregateFromCurrentProduct() {
             const aggregate = document.getElementById('product-tax-block');
             if (!aggregate || aggregate.hidden || aggregate.classList.contains('hidden')) return;
-            if (!productName || !['own','resale','dropship'].includes(productSource)) return;
+            if (!productName || !['own','resale','dropship','offline-service'].includes(productSource)) return;
 
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
@@ -5092,7 +5248,8 @@
             const sourceLabels = {
                 own: 'Делаю сам',
                 resale: 'Покупаю у других',
-                dropship: 'Дропшиппинг'
+                dropship: 'Дропшиппинг',
+                'offline-service': 'Офлайн-услуга'
             };
 
             box.innerHTML = productPortfolio.map((item, index) => {
@@ -5104,7 +5261,7 @@
                 const adUnits = Number(item.forecastUnitsPerMonth || 1);
 
                 return `<section class="${index ? 'mt-7 pt-7 border-t aggregate-separator' : ''}" data-business-product-id="${item.id}">
-                    <div class="aggregate-title text-lg font-semibold">Я буду продавать</div>
+                    <div class="aggregate-title text-lg font-semibold">${item.source==='offline-service'?'Я буду оказывать услугу':'Я буду продавать'}</div>
                     <div class="aggregate-title mt-1 text-2xl font-bold">
                         «${esc(item.name)}» <span class="text-base font-semibold text-emerald-200">· ${esc(sourceLabels[item.source] || item.source || '')}</span>
                     </div>
@@ -5112,7 +5269,8 @@
                     <!-- Validation belongs to the offending quantity, not the heading. -->
                     <div class="mt-6 space-y-5 text-sm">
                         ${item.source==='dropship' ? '<div class="aggregate-line font-semibold">Прогноз заказов от рекламы: ' + moneyInputValue(adUnits) + ' за 30 дней. Склад не закупается.</div>' : ''}
-                        <div class="aggregate-line ${item.source==='dropship'?'hidden':''}">
+                        ${item.source==='offline-service'?'<div class="aggregate-line font-semibold">Буду оказывать '+moneyInputValue(adUnits)+' услуг / месяц при вместимости '+moneyInputValue(item.offlineServiceCapacity)+' процедур. Расходники на процедуры — '+moneyInputValue(item.materialsBatchTotal)+' у.е.*, аренда, мастера и оборудование — '+moneyInputValue(item.productionTotal)+' у.е. / мес. Склада и производства нет.</div>':''}
+                        <div class="aggregate-line ${['dropship','offline-service'].includes(item.source)?'hidden':''}">
                             <div class="font-semibold">
                                 ${item.source==='resale'?'Куплю готовый товар в партии':'Привезу материал на'} ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью <span data-aggregate-output="materialsTotal">${moneyInputValue(item.materialsBatchTotal)}</span> у.е.*
                             </div>
@@ -5135,7 +5293,7 @@
                             </div>
                         </div>
 
-                        <div class="aggregate-line pt-4 border-t aggregate-separator ${['resale','dropship'].includes(item.source)?'hidden':''}">
+                        <div class="aggregate-line pt-4 border-t aggregate-separator ${['resale','dropship','offline-service'].includes(item.source)?'hidden':''}">
                             <div class="font-semibold">
                                 Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> у.е.*
                             </div>
@@ -5146,7 +5304,7 @@
                             </div>
                         </div>
 
-                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold ${item.source==='dropship'?'hidden':''}">
+                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold ${['dropship','offline-service'].includes(item.source)?'hidden':''}">
                             Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., доставка до склада и введённые дни хранения — <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
                             <div class="text-sm mt-2">
                                 Но товар хранится до полной распродажи: ${aggregatePlanMetrics(item).sellThroughDays === null ? 'укажите прогноз продаж' : aggregateDaysText(aggregatePlanMetrics(item).sellThroughDays) + ' дней'};
@@ -5156,11 +5314,11 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${item.source==='dropship'?moneyInputValue(adUnits)+' прогнозных заказов':aggregateQtyInput(item, 'sales', salesQty)+' шт.'}
+                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${item.source==='offline-service'?moneyInputValue(adUnits)+' ожидаемых посещений':item.source==='dropship'?moneyInputValue(adUnits)+' прогнозных заказов':aggregateQtyInput(item, 'sales', salesQty)+' шт.'}
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
+                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы ${item.source==='offline-service'?'привлечь '+moneyInputValue(adUnits)+' клиентов':'продать '+aggregateQtyInput(item, 'ads', adUnits)+' шт.'}
                         </div>
 
                         ${item.source==='dropship'?'<div class="aggregate-line pt-4 border-t aggregate-separator">Доставка покупателю: '+(item.dropshipDeliveryDays??0)+' дней, задержка выплаты: '+(item.dropshipPayoutLagDays??0)+' дней. Складских расходов нет.</div>':''}
@@ -5539,6 +5697,8 @@
             if (additionalNameError) additionalNameError.classList.add('hidden');
 
             document.getElementById('product-source-name').textContent = '';
+            const capacityField=document.getElementById('offline-service-monthly-capacity');
+            if(capacityField)capacityField.value='';
             productSource=null;
             setResaleProductPanels();
             document.querySelectorAll('.product-name-live').forEach(el => { el.textContent = ''; });
@@ -5679,6 +5839,10 @@
             const sourceBlock = document.getElementById('product-source-block');
             sourceBlock.hidden = false;
             sourceBlock.classList.remove('hidden');
+            if (productSource === 'offline-service') {
+                selectProductSource('offline-service');
+                sourceBlock.hidden=true;sourceBlock.classList.add('hidden');
+            }
             updateProductAssortmentGate();
             renderProductPortfolio();
             const taxBlock = document.getElementById('product-tax-block');
@@ -5860,6 +6024,82 @@
             if(lag&&lag.value!==''&&Number(lag.value)<0)lag.value='0';
             syncVisibleAggregateFromCurrentProduct();
         }
+        function configureOfflineServiceView() {
+            const service=productSource==='offline-service';
+            const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+            const show=(id,value)=>{const el=document.getElementById(id);if(el){el.hidden=!value;el.classList.toggle('hidden',!value);}};
+            set('product-intro-category',service?'Услуга · Офлайн':'Товар');
+            set('product-intro-title',service?'Какую услугу оказываете?':'Что продаёте?');
+            set('product-name-label',service?'Название услуги':'Наименование товара');
+            set('product-intro-help',service?'Например: маникюр с покрытием, стрижка, массаж. Одна единица = одна оказанная услуга.':'Введите название своего товара. Сведения из учебных примеров сюда не переносятся.');
+            set('product-intro-submit-label',service?'Рассчитать услугу':'Рассчитать мой товар');
+            const input=document.getElementById('product-name-input');
+            if(input)input.placeholder=service?'Например: маникюр с покрытием':'Например: кофемашина, футболка, набор свечей';
+            const back=document.getElementById('product-main-back');
+            if(back){back.textContent=service?'← Онлайн / офлайн':'← Главная';back.setAttribute('onclick',service?'showServiceWorkChooser()':'showHome()');}
+            show('product-production-block',service||productSource==='own');
+            show('production-unit-result',service||productSource==='own');
+            show('offline-service-capacity',service);
+            show('production-defect-panel',!service);
+            show('materials-import-prompt',!service);
+            show('purchase-inbound-delivery-panel',!service&&productSource!=='dropship');
+            show('own-import-details',!service&&productOwnChoices.materialsImported==='yes');
+            show('materials-qty-entry-panel',!service&&productSource==='own');
+            show('product-logistics-block',!service);
+            show('logistics-unit-result',!service);
+            if(service||productSource==='own')set('materials-step-name',service?'Расходные материалы на одну услугу':'Из чего состоит себестоимость');
+            if(service||productSource==='own')set('materials-step-help',service?
+                'Укажите расходники на одну процедуру — лак, база, пилки, перчатки и другое. Можно ввести одну сумму или состав по позициям. Без закупочной партии и складских остатков.':
+                'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
+            if(service||productSource==='own')set('materials-step-result-label',service?'Расходники на 1 оказанную услугу':'Для того, чтобы купить и привезти материалы для 1 ед.');
+            set('production-stage-heading',service?'Офлайн-услуга · рабочее место и персонал':'Производство');
+            set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');
+            set('production-worker-heading',service?'Кто оказывает услугу?':'Кто выполняет производство?');
+            set('production-self-button',service?'Я оказываю услуги сам':'Всё делаю сам');
+            set('production-workers-button',service?'Нанимаю мастеров':'Плачу рабочим');
+            set('production-workers-count-label',service?'Количество мастеров':'Количество рабочих');
+            set('production-worker-gross-label',service?'Gross 1 мастера / месяц, у.е.*':'Gross 1 рабочего / месяц, у.е.*');
+            set('production-result-caption',service?'Аренда, мастера и другие расходы на 1 услугу':'Стоимость производства 1 ед.');
+            set('production-qty-label',service?'Прогноз оказанных услуг':'Сколько единиц');
+            set('production-qty-suffix',service?'в месяц (из рекламной воронки)':'производите в месяц?');
+            set('production-result-help',service?
+                'Месячную аренду, зарплаты мастеров и начисления работодателя, оборудование, отопление и накладные расходы распределяем на прогноз фактически оказанных услуг из рекламы. Максимум клиентов проверяем отдельно.':
+                'Аренда помещения / месяц, аренда оборудования / месяц, амортизация оборудования / месяц, газ / месяц, рабочие / месяц и накладные организационные расходы / месяц распределяются на месячный объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.');
+            const qty=document.getElementById('own-production-monthly-qty');
+            if(qty){qty.readOnly=service;qty.classList.toggle('bg-slate-100',service);}
+            if(service){
+                productOwnChoices.inboundIncluded='yes';productOwnChoices.materialsImported='no';
+                setProductChoiceVisual('inboundIncluded','yes');
+                setProductChoiceVisual('materialsImported','no');
+                const inbound=document.getElementById('own-inbound-delivery-cost');if(inbound)inbound.value='0';
+                const defect=document.getElementById('own-production-defect-pct');if(defect)defect.value='0';
+                Object.keys(productImportPayers).forEach(key=>productImportPayers[key]=null);
+                productLogisticsPayers.warehouse=null;
+                productLogisticsPayers.warehouseInbound=null;
+                productLogisticsPayers.customerDelivery=null;
+                for(const id of ['own-warehouse-inbound-unit-cost','own-warehouse-cost','own-warehouse-days','own-customer-delivery-pct','own-return-rate']){
+                    const el=document.getElementById(id);if(el)el.value='0';
+                }
+                syncOfflineServiceForecast();
+            }
+        }
+        function syncOfflineServiceForecast() {
+            if(productSource!=='offline-service')return;
+            const forecast=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const qty=Math.max(1,Math.ceil(forecast));
+            for(const id of ['own-production-monthly-qty','own-materials-batch-qty','own-sales-monthly-qty']){
+                const el=document.getElementById(id);if(el)el.value=String(qty);
+            }
+            const capacityField=document.getElementById('offline-service-monthly-capacity');
+            const capacity=Number(capacityField?.value||0);
+            const warning=document.getElementById('offline-service-capacity-warning');
+            if(warning){
+                const message=capacity>0&&forecast>capacity?'Прогноз клиентов '+forecast.toFixed(1)+' больше физической вместимости '+capacity+' услуг / месяц. Прайс нельзя подтвердить до изменения плана.':'';
+                warning.textContent=message;warning.hidden=!message;warning.classList.toggle('hidden',!message);
+            }
+            recalculateProductionUnitCost();
+            recalculateSalesCostSummary();
+        }
         function setResaleProductPanels(){
             const resale=productSource==='resale',drop=productSource==='dropship',ready=resale||drop;
             const show={'resale-buy-panel':ready,'material-cost-entry-panel':!ready,
@@ -5893,6 +6133,7 @@
             document.querySelectorAll('[data-buy-copy]').forEach(el=>el.textContent=(drop?{...buy,import:'Поставщик отправляет товар покупателю из-за границы?'}:resale?buy:own)[el.dataset.buyCopy]||el.textContent);
             if(ready){['own-materials-known-wrap','own-materials-calc-wrap'].forEach(id=>{const el=document.getElementById(id);if(el){el.hidden=true;el.classList.add('hidden');}});updateResalePurchase();recalculateProductionUnitCost();}
             if(drop)recalculateLogisticsUnitCost();
+            configureOfflineServiceView();
         }
         function addAnotherResaleProduct(){
             const previousSource=productSource;
@@ -6328,8 +6569,8 @@
                 const el=document.getElementById('own-production-unit-cost');if(el)el.textContent=moneyInputValue(0);
                 recalculateLogisticsUnitCost();return;
             }
-            const qty = Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
-            const defectPct = Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
+            const qty = productSource==='offline-service'?Math.max(1,productNumberFromText('own-product-ad-units')):Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
+            const defectPct = productSource==='offline-service'?0:Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
             const yieldFactor = Math.max(0.0001, 1 - defectPct / 100);
 
             const premisesMonthly =
@@ -6575,7 +6816,8 @@
             });
 
             const ownForm = document.getElementById('product-own-form');
-            const hideOwn = !['own','resale','dropship'].includes(source);
+            const hideOwn = !['own','resale','dropship','offline-service'].includes(source);
+            if(source==='offline-service')configureOfflineServiceView();
             ownForm.hidden = hideOwn;
             ownForm.classList.toggle('hidden', hideOwn);
             const unavailable = document.getElementById('product-source-unavailable');
@@ -6589,7 +6831,7 @@
                 draftToolbar.classList.toggle('hidden', hideOwn);
             }
 
-            if (['own','resale','dropship'].includes(source)) {
+            if (['own','resale','dropship','offline-service'].includes(source)) {
                 initProductOwnForm();
                 setResaleProductPanels();
 
@@ -6791,6 +7033,7 @@
             numOut('own-product-ad-leads', leads);
             numOut('own-product-ad-orders', orders);
             numOut('own-product-ad-units', units);
+            if(productSource==='offline-service')syncOfflineServiceForecast();
 
             moneyOut('own-product-ad-media-unit', mediaPerUnit);
             moneyOut('own-product-ad-management-unit', managementPerUnit);
