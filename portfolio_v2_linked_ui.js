@@ -177,7 +177,7 @@ function render(){
  '<div class="grid grid-cols-1 xl:grid-cols-2 gap-3">'+skus+'</div></section>'+
  '<section class="rounded-2xl border border-slate-200 bg-white p-4 mb-5">'+
  '<h2 class="text-xl font-bold">2. Общие ресурсы</h2>'+
- '<p class="text-sm text-slate-600 mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
+ '<p class="text-sm text-slate-600 mt-2">Ресурсы в этом блоке оплачивает владелец портфеля. Не добавляйте сюда расходы, которые оплачивает партнёр агента: они отражены отдельно. Складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
  '<button type="button" data-linked-add class="w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
  '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
@@ -197,7 +197,8 @@ function updateResult(){
   if(list)list.textContent=money(sku?.priceList);
   if(paid)paid.textContent=money(sku?.priceGross);
   const meta=node.closest('[data-linked-sku]')?.querySelector('[data-linked-unit-meta]');
-  if(meta)meta.textContent=sku?
+  if(meta)meta.textContent=sku?.onlineContract?
+    'Договорная стоимость сделки V1; учитываются только мои доходы, расходы и налоги. Расчётная маржа: '+money(sku.actualAfterTaxMargin)+'%.':sku?
     'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
     '; для минимальной: '+money(sku.requiredFloorPrice)+
     '; денежная доля: '+money(sku.revenueWeight*100)+'%; '+
@@ -274,9 +275,11 @@ function updateResult(){
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
   '<div class="text-xl font-black">'+money(value)+'</div></div>').join('')+'</div>'+
- (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Целевая маржа достигнута для всех позиций.</p>':
+ (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Минимальные и целевые маржи товаров/офлайн-услуг соблюдены; договорные цены онлайн-услуг не меняются.</p>':
   '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
- '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
+ (out.items.some(s=>s.onlineContract)?
+    '<p class="text-amber-200 text-xs mt-2">Онлайн-услуги имеют фиксированные тарифы V1: при дополнительных расходах возможна отрицательная маржа. Это сигнал убытка, а не автоматическое увеличение вознаграждения агента.</p>':'')+
+  '<h3 class="font-bold mt-5">Тарифы и конечные суммы по единицам</h3>'+priceTable+
  partnerEconomics+'<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
