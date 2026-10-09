@@ -1176,7 +1176,7 @@ rows.push(
  ["Исходных строк:","Source rows:","Бастапқы жолдар:"],
  ["; подтверждённых чеков в фильтре:","; confirmed receipts in filter:","; сүзгідегі расталған чектер:"],
  [". Валюты не суммируются в одну сумму.",". Amounts in different currencies are not aggregated.",". Әртүрлі валюталардағы сомалар біріктірілмейді."],
- ["Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте","Confidence = co-purchased receipts / primary-item receipts; lift = confidence / share of receipts containing the add-on. Total directed rules in report:","Confidence = бірге сатып алынған чектер / негізгі позициясы бар чектер; lift = confidence / қосымша позициясы бар чектер үлесі. Есептегі бағытталған ережелер саны:"],
+ ["Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте","Confidence = co-purchased receipts / primary-item receipts; lift = confidence / share of receipts containing the add-on. Total:","Confidence = бірге сатып алынған чектер / негізгі позициясы бар чектер; lift = confidence / қосымша позициясы бар чектер үлесі. Есепте барлығы:"],
  ["направленных правил; показано до 60. Для кортежей A+B → C не делается ложная конвертация в одноякорную связку.","directed rules; up to 60 displayed. Tuples such as A+B → C are not incorrectly converted into single-anchor offers.","бағытталған ереже; ең көбі 60 көрсетілді. A+B → C кортеждері бір негізгі позициясы бар ұсынысқа қате түрлендірілмейді."]
 );
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
