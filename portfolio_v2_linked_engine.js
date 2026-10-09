@@ -259,8 +259,8 @@
     // Keep the established 30-day scenario contract for linked baskets and
     // shared-resource portfolios. Whole-stock parity is rolled out first to
     // a single unshared physical SKU with no basket offers.
-    const singleStockCycle=rows.length===1&&
-      ['own','resale'].includes(rows[0].source)&&!resources.length&&
+    const singleStockCycle=rows.length>0&&
+      rows.every(s=>['own','resale'].includes(s.source))&&!resources.length&&
       !(Array.isArray(state.offers)&&state.offers.length);
     const initialPrices=Object.fromEntries(rows.map(s=>[s.id,pos(s.priceMax)]));
     const calculateScenario=(prices,projectedOrders)=>{
@@ -461,13 +461,14 @@
   }
 
   function cashFlow(state,portfolio){
-    // A single unshared goods SKU uses V1 complete-stock sell-through.
+    // Unshared physical-goods SKUs each sell their full batch at V1 monthly
+    // rate, preserving independent end dates and monthly cost schedules.
     // Linked baskets and shared resources continue as first-30-day scenarios
     // until their cross-SKU monthly continuation contract is reconciled.
     // Launch capital = maximum daily deficit plus V1 liquidity reserve.
     const items=portfolio.items,resources=portfolio.resources;
-    const singleStockCycle=items.length===1&&!resources.length&&
-      ['own','resale'].includes(items[0].source)&&
+    const singleStockCycle=items.length>0&&!resources.length&&
+      items.every(s=>['own','resale'].includes(s.source))&&
       !(Array.isArray(state.offers)&&state.offers.length);
     const plan=items.map(s=>{
       const isStock=['own','resale'].includes(s.source);
