@@ -237,6 +237,9 @@ function handleEvent(event) {
    // detaches the NEXT focused input and silently loses half the user fields.
    // Rebuild only when structure changes (a select or a checkbox).
    const structural=t.tagName==='SELECT'||t.type==='checkbox';
+   // Selects fire input BEFORE change. Mutating a sourcing mode on both events
+   // loses the old inventory parameters before they can be stashed safely.
+   if(structural&&event.type==='input')return;
    if(t.dataset.p2Path.endsWith('.source')&&event.type==='change'){
      const skuId=t.dataset.p2Path.split('.')[1],sku=model.skus[Number(skuId)];
      if(sku){
