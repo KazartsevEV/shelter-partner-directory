@@ -194,6 +194,40 @@ const browserLog = [];
  approx(business.adjustedRevenue,monthlyRevenue*taxMultiplier,'Tax-adjusted revenue');
  approx(business.adjustedTax,monthlyRevenue*taxMultiplier*.06,'Adjusted turnover tax');
 
+ // Manually rebuild every month of the pre-tax cash-flow table from calendar days.
+ // Supply=7, production=10 => sell days [17,142), 0.8 items/day, inventory depletes linearly.
+ const cash=await page.evaluate(()=>calculateProductCashFlow(calculateProductPortfolio()));
+ assert.equal(cash.ready,true);
+ assert.equal(cash.months.length,5);
+ let cumulativeExpected=0;
+ for(let i=0;i<5;i++){
+   const monthStart=i*30,monthEnd=(i+1)*30;
+   const saleStart=17,saleEnd=142;
+   const from=Math.max(saleStart,monthStart),to=Math.min(saleEnd,monthEnd);
+   const activeDays=Math.max(0,to-from);
+   const soldUnits=activeDays*(24/30);
+   const independentlyInflow=soldUnits*basePrice;
+   let independentlyOutflow=independentlyInflow*.11+soldUnits*delivery+
+      (1020+1000)/30*activeDays;
+   if(activeDays){
+      const t0=from-saleStart,t1=to-saleStart;
+      independentlyOutflow+=.5*(100*(t1-t0)-(24/30)*(t1*t1-t0*t0)/2);
+   }
+   if(i===0)independentlyOutflow+=20000+production*100+1000;
+   const expectedCashFlow=independentlyInflow-independentlyOutflow;
+   cumulativeExpected+=expectedCashFlow;
+   const actual=cash.months[i];
+   approx(actual.inflow,independentlyInflow,'Month '+(i+1)+' cash inflow',0.011);
+   approx(actual.outflow,independentlyOutflow,'Month '+(i+1)+' cash outflow',0.011);
+   approx(actual.cashFlow,expectedCashFlow,'Month '+(i+1)+' net cash',0.011);
+   approx(actual.cumulative,cumulativeExpected,'Month '+(i+1)+' cumulative',0.011);
+ }
+ approx(cash.cumulativeEnd,cumulativeExpected,'Cash cycle cumulative ending',0.011);
+ approx(await shown(productSelector+' [data-aggregate-price="cogsPortfolio"]'),
+        cogs*orders,'Monthly cost of sold goods',0.011);
+ approx(await shown(productSelector+' [data-aggregate-price="roasPortfolio"]'),
+        monthlyRevenue/900,'Advertising ROAS',0.011);
+
  // Step 9: optional credit branch, 12% APR, 6 months; verify all financing outputs.
  await choose(productSelector+' [data-funding-choice="credit"]');
  await page.locator(productSelector+' input[oninput*="creditRatePct"]').fill('12');
