@@ -7,7 +7,6 @@ on:
       - "tests/marketing_calc_regressions.test.cjs"
       - "tests/marketing_calc_full_cycle.test.cjs"
       - "tests/marketing_calc_resale.test.cjs"
-      - "tests/marketing_calc_resale.test.cjs"
       - ".github/workflows/calculator-tests.yml"
   push:
     branches: ["main"]
@@ -16,6 +15,7 @@ on:
       - "tests/marketing_calc_regressions.test.cjs"
       - "tests/marketing_calc_full_cycle.test.cjs"
       - ".github/workflows/calculator-tests.yml"
+      - "tests/marketing_calc_resale.test.cjs"
   workflow_dispatch:
 
 permissions:
