@@ -66,6 +66,7 @@
      return {ready:false,errors,result:current};
    }
    const H=current.cashflow.periodPnl;
+   const provisional=H.accountingCompleteness==='PROVISIONAL';
    let actualInfeasible=false;
    const diagnostics=[];
    for(const s of skus){
@@ -94,9 +95,11 @@
      }
      const requiredTarget=targetOk?selected:required(target),
        requiredFloor=minOk?selected:required(minimum);
-     const status=s.fixedPriceFromV1?(margin===null||p.netProfit<0?'LOSS':'FIXED_V1'):
+     const status=provisional?'PROVISIONAL':
+       s.fixedPriceFromV1?(margin===null||p.netProfit<0?'LOSS':'FIXED_V1'):
        !minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY';
      const diagnostic={id:s.id,status,price:selected,margin,pricingMargin,
+       accountingCompleteness:H.accountingCompleteness,
        futureInterest:pos(p.futureInterest),minimumMet:minOk,targetMet:targetOk,
        priceMin:floor[s.id],priceMax:ceiling[s.id],
        requiredTargetPrice:requiredTarget,requiredFloorPrice:requiredFloor,
@@ -105,7 +108,7 @@
      item.requiredTargetPrice=requiredTarget;
      item.requiredFloorPrice=requiredFloor;
      item.minimumMarginFeasible=minOk;
-     item.targetMarginMet=targetOk;
+     item.targetMarginMet=targetOk&&!provisional;
      item.actualAfterTaxMargin=margin;
      item.status=status;
      item.periodMargin=margin;
@@ -120,14 +123,17 @@
          (Number.isFinite(requiredFloor)?requiredFloor:'выше достижимого предела')+'.');
      }
    }
-   current.totals.targetMet=diagnostics.every(d=>d.targetMet);
-   current.totals.minimumMet=diagnostics.every(d=>d.minimumMet);
+   current.totals.targetMet=!provisional&&diagnostics.every(d=>d.targetMet);
+   current.totals.minimumMet=!provisional&&diagnostics.every(d=>d.minimumMet);
    current.cashflow.periodPnl.pricePolicy='full-period-actual-sku-margin-pricing';
    current.cashflow.periodPnl.priceIncludesFinancingTail=true;
    current.cashflow.periodPnl.priceIterations=iterations;
    current.cashflow.periodPnl.priceDiagnostics=diagnostics;
-   current.cashflow.periodPnl.targetMet=diagnostics.every(d=>d.targetMet);
-   current.cashflow.periodPnl.minimumMet=diagnostics.every(d=>d.minimumMet);
+   current.cashflow.periodPnl.targetMet=!provisional&&diagnostics.every(d=>d.targetMet);
+   current.cashflow.periodPnl.minimumMet=!provisional&&diagnostics.every(d=>d.minimumMet);
+   if(provisional)current.warnings=[
+     ...(current.warnings||[]),
+     'Есть разовые расходы или активы без подтверждённого срока списания. Прибыль и цена ориентировочные; достижение целевой маржи не подтверждено.'];
    current.invariants.periodSkuProfitConserved=
      Math.abs(diagnostics.reduce((v,d)=>v+d.netProfit,0)-H.netProfit)<.00001;
    if(!current.invariants.periodSkuProfitConserved)errors.push('Не сошлась чистая прибыль SKU с портфелем.');
