@@ -144,6 +144,15 @@ const browserLog = [];
  const taxMultiplier=(1-.11)/(1-.11-.06);
  const taxAdjustedPrice=basePrice*taxMultiplier;
  approx(await shown(productSelector+' [data-aggregate-price="priceBeforeTax"]'),basePrice,'Target margin base price');
+ console.log('FINAL_DIAGNOSTIC',JSON.stringify(await page.evaluate(()=>({
+     taxType:productBusinessTaxType,
+     taxPct:document.getElementById('own-business-tax-pct').value,
+     vatChoice:productOwnChoices.salesVat,
+     vatPct:document.getElementById('own-sales-vat-pct').value,
+     priceListDom:document.getElementById('product-tax-price-list')?.textContent?.slice(0,400),
+     model:calculateProductPortfolio(),
+     pricing:aggregatePricingMetrics(productPortfolio[0])
+ }))));
  approx(await shown('[data-tax-price-product-id="1"] .final-buyer-price'),taxAdjustedPrice*1.12,'Final buyer price VAT+turnover tax');
 
  // Step 8: maximum discount 20%; minimum NET margin 10%, target NET margin 30%.
