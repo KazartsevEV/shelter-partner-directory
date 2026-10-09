@@ -48,7 +48,7 @@
     for(let i=0;i<raw.length;i++){
       const s=raw[i],id=sourceId(s),key='skus.'+i;
       if(ids.has(id))report(key,'Повторяющийся ID товара.');ids.add(id);
-      if(!s.name||!['own','resale','dropship'].includes(s.source))report(key,'Товар не имеет корректного происхождения.');
+      if(!s.name||!['own','resale','dropship','offline-service'].includes(s.source))report(key,'Товар не имеет корректного происхождения.');
       for(const field of ['unitCost','forecastUnitsPerMonth','adBudget','priceMin','priceMax','baseCac']){
         if(!Number.isFinite(Number(s[field]))||!(Number(s[field])>=0))
           report(key+'.'+field,'Некорректное рассчитанное значение V1: '+field);
@@ -110,7 +110,7 @@
         if(pool!=='none'&&offsets[id])offsets[id][pool]+=pos(value);
         if(pool==='unitCost'&&cashOffsets[id]&&cashBuckets.has(r.cashOrigin)){
           const sku=rows.find(x=>x.id===id);
-          const multiplier=sku?.source==='dropship'?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
+          const multiplier=['dropship','offline-service'].includes(sku?.source)?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
           cashOffsets[id][r.cashOrigin]+=pos(value)*multiplier;
         }
         if(pool==='none'&&pos(value)>EPS)report(key+'.pool','Для списания старой суммы укажите исходный блок.');
@@ -127,7 +127,7 @@
         report('skus.'+rows.indexOf(s),'Дропшиппинг оплачивается по заказу: используйте «Исполнение заказа».');
       const qty=pos(s.inventoryQty),raw=pos(s.materialsBatchTotal),prod=pos(s.productionTotal),inbound=pos(s.warehouseInboundUnitCost)*qty;
       const residual=Math.max(0,(pos(s.unitCost)-(raw+prod+inbound)/Math.max(qty,EPS))*qty);
-      if(s.source!=='dropship'&&(o.materials>raw+EPS||o.production>prod+EPS||o.fulfillment>residual+EPS))
+      if(!['dropship','offline-service'].includes(s.source)&&(o.materials>raw+EPS||o.production>prod+EPS||o.fulfillment>residual+EPS))
         report('skus.'+rows.indexOf(s),'Перенос общего расхода превышает сумму выбранного денежного блока V1 для «'+s.name+'».');
     }
     if(errors.length)return {ready:false,errors,fieldErrors};
@@ -232,10 +232,15 @@
     const allocated=sum(scenario.allocation.map(r=>sum(Object.values(r.bySku))));
     const resourcesTotal=sum(scenario.allocation.map(r=>r.amount));
     for(const item of items){
-      if(item.source!=='dropship'&&pos(item.inventoryQty)+EPS<item.forecastOrders){
+      if(!['dropship','offline-service'].includes(item.source)&&pos(item.inventoryQty)+EPS<item.forecastOrders){
         report('skus.'+rows.findIndex(s=>s.id===item.id),
           'Прогноз по «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
           ' шт.) превышает запас V1 ('+pos(item.inventoryQty)+' шт.). Увеличьте складскую партию в V1 или скорректируйте распределение рекламы.');
+      }
+      if(item.source==='offline-service'&&(!(pos(item.serviceCapacity)>0)||item.forecastOrders>pos(item.serviceCapacity)+EPS)){
+        report('skus.'+rows.findIndex(s=>s.id===item.id),
+          'Прогноз клиентов для «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
+          ') больше доступных '+pos(item.serviceCapacity)+' посещений в месяц.');
       }
     }
     const infeasible=items.filter(item=>!item.minimumMarginFeasible);
@@ -270,7 +275,7 @@
     // plus the V1 locked liquidity reserve (less available V1 loan draws).
     const items=portfolio.items,resources=portfolio.resources;
     const plan=items.map(s=>({
-      s,saleStart:s.source==='dropship'?0:pos(s.supplyDays)+pos(s.productionDays),
+      s,saleStart:['dropship','offline-service'].includes(s.source)?0:pos(s.supplyDays)+pos(s.productionDays),
       receiptDelay:s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
         pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0
     }));
