@@ -68,6 +68,14 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
     await page.waitForFunction(text=>document.querySelector('#locale-a11y-probe')?.getAttribute('aria-label')===text,
       expectedAria);
     A.equal(await page.locator('#locale-a11y-probe').inputValue(),'Товар');
+    const displayAmount=await page.evaluate(()=>({
+      locale:Nomad360LocaleCore.displayLocale(),
+      output:formatNum(1234.5),
+      expected:new Intl.NumberFormat(Nomad360LocaleCore.displayLocale(),
+        {minimumFractionDigits:2,maximumFractionDigits:2}).format(1234.5)
+    }));
+    A.equal(displayAmount.locale,expected==='en'?'en-US':expected==='kk'?'kk-KZ':'ru-RU');
+    A.equal(displayAmount.output,displayAmount.expected,'V1 output uses display-only locale');
     const expectedMeta=expected==='en'?'Nomad360 — free business calculator.':
       expected==='kk'?'Nomad360 — тегін бизнес-калькулятор.':
       'Nomad360 — бесплатный калькулятор бизнеса.';
@@ -106,6 +114,17 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
     const after=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
     A.equal(after.ready,true,JSON.stringify(after.errors));
     A.deepEqual(after.items.map(x=>x.priceList),itemPrice);
+    const displayV2=await page.evaluate(()=>{
+      const amount=LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()).items[0].priceList;
+      return {
+        shown:document.querySelector('[data-linked-sku="0"] [data-linked-price-list]')?.textContent,
+        expected:Number(amount).toLocaleString(Nomad360LocaleCore.displayLocale(),
+          {minimumFractionDigits:2,maximumFractionDigits:2}),
+        numberInput:document.querySelector('[data-linked-path="forecastMonths"]')?.value
+      };
+    });
+    A.equal(displayV2.shown,displayV2.expected,'V2 prices re-render in selected display locale');
+    A.equal(displayV2.numberInput,String(payload.forecastMonths),'forecast inputs stay canonical');
     A.equal(after.cashflow.periodPnl.netProfit,baseline.result.cashflow.periodPnl.netProfit);
     // Real dynamically generated engine validation with the same user-entered
     // product name and month, rendered through the unchanged finance engine.
