@@ -181,7 +181,7 @@ function updateResult(){
     'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
     '; для минимальной: '+money(sku.requiredFloorPrice)+
     '; денежная доля: '+money(sku.revenueWeight*100)+'%; '+
-    ({TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима'}[sku.status]||'ожидает проверки'):
+    ({TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима',LOSS:'Фиксированная цена V1 убыточна',FIXED_V1:'Фиксированная цена/комиссия V1 сохранена'}[sku.status]||'ожидает проверки'):
     'Заполните общие ресурсы.';
  }
  document.querySelectorAll('[data-linked-error]').forEach(x=>x.remove());
