@@ -95,6 +95,15 @@ const events=[];
    }
    await page.locator(sel+' input[oninput*="updateAggregateMargin"]').fill('30');
    await choose('[data-yn-group="salesVat"][data-yn-value="yes"]');
+   const vatNodes = await page.evaluate(()=>Array.from(document.querySelectorAll('#own-sales-vat-pct')).map(el=>({
+      outer:el.outerHTML.slice(0,250),
+      parent:el.parentElement?.outerHTML.slice(0,260),
+      inFrozen:!!el.closest('[data-completed-product-id]'),
+      inTaxBlock:!!el.closest('#product-tax-block'),
+      inSourceBlock:!!el.closest('#product-source-block'),
+      ancestors:Array.from((function*(v){while(v){yield {tag:v.tagName,id:v.id,cl:v.className,completedId:v.dataset?.completedProductId};v=v.parentElement}})(el)).slice(0,9)
+   })));
+   console.log('VAT_DOM_PROBE',JSON.stringify(vatNodes));
    await fill('own-sales-vat-pct',12);
    await choose(sel+' [data-pricing-decision="tax"]');
    await choose('[data-business-tax-type="turnover"]');
