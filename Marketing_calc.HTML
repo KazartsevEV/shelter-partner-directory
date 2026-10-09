@@ -2691,6 +2691,13 @@
             const rawNeeded = Math.ceil(made / Math.max(0.0001, 1 - defect / 100));
             const forecasts = Math.max(0, Number(item.forecastUnitsPerMonth) || 0);
             const details = [];
+            if(item.source==='offline-service'){
+                const capacity=Number(item.offlineServiceCapacity)||0;
+                if(!(forecasts>0))details.push({kind:'ads',message:'Для расчёта цены услуги заполните рекламную воронку и бюджет — нужен прогноз клиентов.'});
+                if(!(capacity>0))details.push({kind:'service-capacity',message:'Укажите физическую вместимость салона: сколько услуг могут оказать мастера за месяц.'});
+                else if(forecasts>capacity+0.000001)details.push({kind:'service-capacity',message:'Прогноз '+forecasts.toFixed(1)+' клиентов превышает доступные '+capacity+' процедур за месяц. Увеличьте количество рабочих мест / мастеров или скорректируйте рекламу.'});
+                return details;
+            }
             if(item.source==='dropship'){
                 if(!(Number(item.inputs?.['resale-buy-total'])>0))details.push({kind:'materials',message:'Укажите закупочную цену у поставщика.'});
                 if(item.inputs?.['dropship-delivery-days']===''||item.inputs?.['dropship-delivery-days']==null)details.push({kind:'logistics',message:'Укажите срок доставки покупателю.'});
@@ -2722,7 +2729,7 @@
         }
 
         function allocatedMaterialCostPerGood(item) {
-            if(['resale','dropship'].includes(item?.source))return Math.max(0,Number(item.materialsUnitCost)||0);
+            if(['resale','dropship','offline-service'].includes(item?.source))return Math.max(0,Number(item.materialsUnitCost)||0);
             const manufactured = Math.max(0, Number(item?.productionQty) || 0);
             const rawBought = Math.max(0, Number(item?.materialsBatchQty) || 0);
             if (!manufactured || !rawBought) return null;
@@ -2735,7 +2742,7 @@
         }
 
         function projectedStoragePerUnit(item) {
-            if(item?.source==='dropship')return 0;
+            if(['dropship','offline-service'].includes(item?.source))return 0;
             const stock = Math.max(0, Number(item?.logisticsQty) || 0);
             const velocity = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
             const dailyRate = Math.max(0, Number(item?.warehouseDayCost) || 0);
@@ -2784,7 +2791,37 @@
                 customerDeliveryDays:deliveryDays,payoutLagDays
             };
         }
+        function offlineServiceCycleMetrics(item) {
+            const count=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
+            const materialsPerService=Math.max(0,Number(item.materialsUnitCost)||0);
+            const fixedPremisesAndWorkers=Math.max(0,Number(item.productionFixedMonthly)||0);
+            const electricityPerService=Math.max(0,Number(item.productionElectricityPerUnit)||0);
+            const salesFixed=Math.max(0,Number(item.salesFixedMonthly)||0);
+            const ad=Math.max(0,Number(item.adBudget)||0)+Math.max(0,Number(item.adManagement)||0);
+            const serviceCost=count*(materialsPerService+electricityPerService)+fixedPremisesAndWorkers;
+            const nonRevenueCosts=serviceCost+salesFixed+ad;
+            const reservePct=Math.min(1000,Math.max(0,Number(item.planning?.reservePct)||0));
+            const reserveAmount=nonRevenueCosts*reservePct/100;
+            const salesRate=(Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100;
+            const zeroMarginRevenue=salesRate<1?nonRevenueCosts/(1-salesRate):null;
+            return {
+                requiredCapital:count>0?nonRevenueCosts+reserveAmount:null,
+                baseRequiredCapital:count>0?nonRevenueCosts:null,
+                reservePct,reserveAmount:count>0?reserveAmount:null,
+                quantityIssues:aggregateQuantityIssues(item),
+                totalCycleDays:count>0?30:null,
+                waitAfterAdvanceDays:0,productionDays:0,sellThroughDays:count>0?30:null,
+                salesSpeedPerMonth:count,advanceAmount:0,
+                zeroMarginRevenue,zeroMarginUnitPrice:count>0&&zeroMarginRevenue!==null?zeroMarginRevenue/count:null,
+                nonRevenueCosts:count>0?nonRevenueCosts:null,
+                variableSalesRate:salesRate,stockQty:count,
+                productionTotal:serviceCost,warehouseTotal:0,salesTotal:salesFixed,adTotal:ad,
+                customerDeliveryTotal:0,consumablesTotal:materialsPerService*count,
+                premisesWorkersMonthly:fixedPremisesAndWorkers
+            };
+        }
         function aggregatePlanMetrics(item) {
+            if(item?.source==='offline-service')return offlineServiceCycleMetrics(item);
             if(item?.source==='dropship')return dropshipCycleMetrics(item);
             const planning = item?.planning || {};
             const materialsTotal = Math.max(0, Number(item?.materialsBatchTotal || 0));
@@ -2991,13 +3028,13 @@
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
                 const cycle = aggregatePlanMetrics(item);
-                const reserveUnits=item.source==='dropship'?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const reserveUnits=['dropship','offline-service'].includes(item.source)?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
                 const reservePerUnit = cycle.reserveAmount !== null && reserveUnits > 0
                     ? cycle.reserveAmount / reserveUnits : 0;
 
                 const credit = calculateAggregateCredit(item);
                 const usesCredit = item?.planning?.fundingMode === 'credit';
-                const creditUnits=item.source==='dropship'?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const creditUnits=['dropship','offline-service'].includes(item.source)?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
                 const creditReady =
                     !usesCredit ||
                     (
