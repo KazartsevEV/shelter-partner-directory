@@ -619,7 +619,7 @@ function locale(){
 }
 function valid(node){
  let parent=node.nodeType===3?node.parentElement:node;
- return parent && !parent.closest('script,style,template,noscript,pre,code,textarea,[contenteditable="true"],#nomad360-hero,#nomad360-footer,#nomad360-portfolio-tools,#nomad360-print-sheet,#nomad360-language-chooser');
+ return parent && !parent.closest('script,style,template,noscript,pre,code,textarea,[contenteditable="true"],[data-nomad-no-translate],#nomad360-hero,#nomad360-footer,#nomad360-portfolio-tools,#nomad360-print-sheet,#nomad360-language-chooser');
 }
 function lookup(raw,language){
  if(language==='ru')return raw;
@@ -662,7 +662,11 @@ function schedule(node){
  pending.add(node);
  if(!scheduled){scheduled=true;Promise.resolve().then(flush)}
 }
-function localizeAll(){schedule(document.body)}
+function localizeAll(){
+ const lang=locale();
+ document.title=lang==='en'?'Nomad360 — Business Calculator & Cash Flow':lang==='kk'?'Nomad360 — Бизнес калькуляторы және ақша ағыны':'Nomad360 — калькулятор бизнеса, цен и Cash Flow';
+ schedule(document.body);
+}
 function boot(){
  if(observer)return;
  observer=new MutationObserver(records=>{
