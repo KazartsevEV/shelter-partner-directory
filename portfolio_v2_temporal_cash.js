@@ -28,7 +28,7 @@
    if(horizon>3650)throw Error('Горизонт cash flow превышает 120 месяцев.');
    const dayCount=Math.ceil(horizon/30)*30;
    const daily=Array.from({length:dayCount},()=>({
-     receipt:0,ordersRevenue:0,cogsAccrual:0,onlineReceipt:0,onlineTax:0,
+     receipt:0,ordersRevenue:0,cogsAccrual:0,onlineReceipt:0,onlineTax:0,onlineProfit:0,
      stockPurchase:0,operating:0,ad:0,shared:0,commission:0,
      commissionAccrual:0,loanDraw:0,interest:0,principal:0,tax:0,
      fixedAccrual:0,amortAccrual:0
@@ -118,7 +118,10 @@
          if(s.source==='online-service'){
            post(day+receiptLag,'onlineReceipt',revenue);
            post(day+receiptLag,'onlineTax',revenue*pos(s.ownerTax?.pct)/100);
-           post(day,'amortAccrual',pos(s.onlineAmortMonthly)/30*interval);
+           const amort=pos(s.onlineAmortMonthly)/30*interval;
+           post(day,'amortAccrual',amort);
+           daily[day].onlineProfit+=revenue-units*variableUnit-
+             commission-advertising-overhead-amort;
          }
        }
        if(isStock)remaining=Math.max(0,remaining-qty);
@@ -173,14 +176,7 @@
      const receipt=total('receipt'),onlineReceipt=total('onlineReceipt');
      // Online turnover taxes are owner-specific; never tax partner GMV.
      const regularRevenue=receipt-onlineReceipt;
-     const onlineAccounting=items.filter(s=>s.source==='online-service');
-     const onlineProfitApprox=sum(onlineAccounting.map(s=>{
-       const t=timeline[s.id]?.[m],net=pos(t?.netRevenue),units=pos(t?.orders);
-       return net-units*pos(s.unitCostEffective)-
-         net*pos(s.variableSalesPct)/100-
-         (pos(s.adBudgetEffective)+pos(s.manager)+pos(s.selling));
-     }));
-     const regularProfit=profit-onlineProfitApprox;
+     const regularProfit=profit-total('onlineProfit');
      const tax=(state.tax?.type==='profit'?
        Math.max(0,regularProfit)*taxPct:Math.max(0,regularRevenue)*taxPct)+
        total('onlineTax');
