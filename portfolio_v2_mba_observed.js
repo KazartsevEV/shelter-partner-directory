@@ -101,9 +101,10 @@
      if(existing&&(existing.currency!==l.currency||existing.channel!==l.channel||
          existing.date!==l.date))errors.push('Заказ '+l.orderId+' содержит разные даты, валюты или каналы.');
      if(!existing)grouped.set(l.orderId,{id:l.orderId,date:l.date,currency:l.currency,
-       channel:l.channel,buyerId:l.buyerId,items:{}});
+       channel:l.channel,buyerId:l.buyerId,items:{},recordedAmount:0});
      const g=grouped.get(l.orderId);
      g.items[canonical]=(g.items[canonical]||0)+l.quantity;
+     g.recordedAmount+=l.quantity*l.price;
    }
    if(unresolved.size)errors.push('Сопоставьте неизвестные SKU с позициями V1 перед расчётом ассоциаций.');
    const baskets=[...grouped.values()],N=baskets.length;
@@ -145,11 +146,17 @@
    rules.sort((a,b)=>b.lift-a.lift||b.count-a.count||
       a.antecedent.join('|').localeCompare(b.antecedent.join('|'))||
       a.consequent.localeCompare(b.consequent));
+   const aovByCurrency=[...new Set(baskets.map(b=>b.currency))].sort().map(currency=>{
+     const scoped=baskets.filter(b=>b.currency===currency);
+     const amount=scoped.reduce((v,b)=>v+b.recordedAmount,0);
+     return {currency,orders:scoped.length,recordedAmount:amount,
+       averageOrderValue:amount/scoped.length};
+   });
    const dates=baskets.map(b=>b.date).sort(),channels=[...new Set(baskets.map(b=>b.channel))].sort(),
      currencies=[...new Set(baskets.map(b=>b.currency))].sort();
    return {ready:!errors.length,errors,unresolved:[...unresolved].sort(),
      N,rules,sourceLines:dataset?.rawLines??0,retainedLines:selected.filter(l=>l.quantity>0).length,
-     period:{from:dates[0]||null,to:dates.at(-1)||null},channels,currencies,
+     period:{from:dates[0]||null,to:dates.at(-1)||null},channels,currencies,aovByCurrency,
      rejectedLines:(dataset?.lines?.length||0)-selected.filter(l=>l.quantity>0).length,
      duplicateLines:dataset?.deduplicated||0,
      items:Object.fromEntries(items),baskets};
