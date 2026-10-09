@@ -1132,12 +1132,36 @@ rows.push(
  ["Название своего товара","Your product name","Тауарыңыздың атауы"],
  ["ДЕМО ·","DEMO ·","ҮЛГІ ·"]
 );
+/* #47AA — empirical MBA CSV/JSON parser errors and observational notices. */
+rows.push(
+ ["Некорректное экранирование CSV.","Invalid CSV quoting.","CSV тырнақшалары қате жазылған."],
+ ["CSV содержит незакрытую кавычку.","CSV contains an unclosed quote.","CSV ішінде жабылмаған тырнақша бар."],
+ ["Файл чеков пуст.","Receipt file is empty.","Чектер файлы бос."],
+ ["Выберите непустой CSV или JSON с чеками.","Select a nonempty CSV or JSON receipt file.","Чектері бар бос емес CSV немесе JSON файлын таңдаңыз."],
+ ["Файл больше лимита 3,5 МБ. Разделите историю на периоды.","File exceeds the 3.5 MB limit. Split the history into periods.","Файл 3,5 МБ шегінен асады. Тарихты кезеңдерге бөліңіз."],
+ ["Поддерживается только CSV или JSON.","Only CSV or JSON is supported.","Тек CSV немесе JSON қолданылады."],
+ ["Некорректный JSON чеков.","Invalid receipt JSON.","Чектердің JSON пішімі қате."],
+ ["JSON должен содержать массив строк или поле lines.","JSON must contain an array of entries or a lines field.","JSON жазбалар массивін немесе lines өрісін қамтуы тиіс."],
+ ["Не больше 20 000 строк за один импорт.","Maximum 20,000 rows per import.","Бір импортта ең көбі 20 000 жол болуы тиіс."],
+ ["Сопоставьте неизвестные SKU с позициями V1 перед расчётом ассоциаций.","Map unknown SKU IDs to V1 items before calculating associations.","Байланыстарды есептемес бұрын белгісіз SKU кодтарын V1 позицияларымен сәйкестендіріңіз."]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^В CSV отсутствует столбец ([a-z_]+)\.$/,'CSV is missing the $1 column.','CSV файлында $1 бағаны жоқ.'],
+ [/^Повторяющийся заголовок CSV: (.+)$/,'Duplicate CSV column heading: $1','CSV баған атауы қайталанған: $1'],
+ [/^CSV строка (\d+): неверное число колонок\.$/,'CSV row $1: incorrect column count.','CSV $1-жол: баған саны қате.'],
+ [/^Строка (\d+) не является объектом\.$/,'Row $1 is not an object.','$1-жол объект емес.'],
+ [/^Строка (\d+): заполните order_id, sku_id, channel, currency\.$/,'Row $1: enter order_id, sku_id, channel and currency.','$1-жол: order_id, sku_id, channel және currency өрістерін толтырыңыз.'],
+ [/^Строка (\d+): дата должна быть YYYY-MM-DD\.$/,'Row $1: date must be YYYY-MM-DD.','$1-жол: күн YYYY-MM-DD пішімінде болуы тиіс.'],
+ [/^Строка (\d+): quantity — целое положительное, unit_price — неотрицательный\.$/,'Row $1: quantity must be a positive integer and unit_price must be nonnegative.','$1-жол: quantity оң бүтін сан, ал unit_price теріс емес сан болуы тиіс.'],
+ [/^Строка (\d+): неизвестный статус ([^.\n]+)$/,'Row $1: unknown status $2','$1-жол: белгісіз мәртебе $2'],
+ [/^Строка (\d+): возвращено больше единиц, чем куплено\.$/,'Row $1: returned quantity exceeds purchased quantity.','$1-жол: қайтарылған дана саны сатып алынғаннан артық.'],
+ [/^line_id (.+) противоречит предыдущей строке\.$/,'line_id $1 conflicts with a previous row.','line_id $1 алдыңғы жолға қайшы келеді.'],
+ [/^Заказ (.+) содержит разные даты, валюты или каналы\.$/,'Order $1 has inconsistent dates, currencies or channels.','$1-тапсырыста күндер, валюталар немесе арналар бірдей емес.'],
  [/^(\d+) шт\. · поставщик не указан$/,
   '$1 units · supplier not specified','$1 дана · жеткізуші көрсетілмеген'],
  [/^Всего позиций: (\d+)$/,
