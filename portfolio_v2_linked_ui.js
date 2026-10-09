@@ -132,7 +132,7 @@ function render(){
  const scenario=Engine.build(state);
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
- '<div class="font-bold text-slate-900 text-lg">'+safe(s.name)+'</div>'+
+ '<div class="font-bold text-slate-900 text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
  '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-700 mt-3">'+
  [['Себестоимость V1 / шт.',money(s.unitCost)],['Прогноз V1 / мес.',money(s.forecastUnitsPerMonth)],
@@ -265,7 +265,7 @@ function updateResult(){
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
     money(s.discountSelected)+'%',money(s.priceGross),money(s.forecastOrders),
     money(s.revenueWeight*100)+'%',money(s.adBudgetEffective),s.actualAfterTaxMargin===null?'нет продаж':money(s.actualAfterTaxMargin)+'%']
-   .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
+   .map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+(i===0?' data-nomad-no-translate':'')+'>'+v+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
  const resources='<div class="mt-2 space-y-2 text-xs">'+out.resources.map(r=>
   '<div class="rounded-lg bg-white/10 p-3">'+
