@@ -12,6 +12,8 @@ on:
       - "tests/portfolio_v2_linked_browser.test.cjs"
       - "tests/portfolio_v2_temporal_browser.test.cjs"
       - "tests/portfolio_v2_temporal_cash_browser.test.cjs"
+      - "tests/portfolio_v2_pooled_media_browser.test.cjs"
+      - "portfolio_v2_pooled_media.js"
       - "portfolio_v2_temporal_cash.js"
       - "portfolio_v2_temporal.js"
       - "tests/portfolio_v2_resource_lifecycle_browser.test.cjs"
@@ -58,6 +60,7 @@ jobs:
           node tests/portfolio_v2_linked_browser.test.cjs
           node tests/portfolio_v2_temporal_browser.test.cjs
           node tests/portfolio_v2_temporal_cash_browser.test.cjs
+          node tests/portfolio_v2_pooled_media_browser.test.cjs
           node tests/portfolio_v2_resource_lifecycle_browser.test.cjs
           node tests/portfolio_v2_mba_capacity_browser.test.cjs
           node tests/portfolio_v2_mba_browser.test.cjs

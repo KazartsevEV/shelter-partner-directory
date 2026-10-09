@@ -416,7 +416,7 @@
     const tax=regularTax+onlineTax;
     const netProfit=totalEbitda-interest-tax;
     const originalMedia=sum(rows.map(s=>pos(s.adBudget)));
-    const addedMedia=sum(scenario.allocation.filter(r=>r.kind==='campaign').map(r=>r.amount));
+    const addedMedia=sum(scenario.allocation.filter(r=>r.kind==='campaign'&&r.cadence==='monthly').map(r=>r.amount));
     const replacedMedia=sum(rows.map(s=>offsets[s.id].adBudget));
     const invariantMedia=Math.abs(fullMedia-(originalMedia-replacedMedia+addedMedia))<EPS;
     const allocated=sum(scenario.allocation.map(r=>sum(Object.values(r.bySku))));
@@ -497,7 +497,7 @@
       if(!planner?.plan){
         base.ready=false;base.errors.push('Не загружен многомесячный расчёт спроса.');
       }else{
-        base.temporal=planner.plan(state,scenario.basket.baseOrders,projectOffers);
+        base.temporal=planner.plan(state,scenario.basket.baseOrders,projectOffers,base.items);
         if(!base.temporal.ready){
           base.ready=false;
           base.errors.push(...base.temporal.errors);

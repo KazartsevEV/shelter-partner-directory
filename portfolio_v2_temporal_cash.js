@@ -17,8 +17,10 @@
      throw Error('Нужен утверждённый многомесячный план спроса.');
    const items=portfolio.items,resources=portfolio.resources||[],
      horizonMonths=forecast.forecastMonths;
-   if(resources.some(r=>r.kind==='campaign'))
-     throw Error('Распределение общего рекламного бюджета по месяцам не утверждено.');
+   if(resources.some(r=>r.kind==='campaign')&&
+      !forecast.months.every(m=>m.media?.source==='v1-paid-cac-daily'&&
+        Math.abs(m.media.ownerPaid-m.media.allocated-m.media.unattributed)<.000001))
+     throw Error('Не подтверждено сохранение общих рекламных платежей по каждому месяцу.');
    const byId=Object.fromEntries(items.map(s=>[s.id,s]));
    const supplyStart=s=>stock(s)?pos(s.supplyDays)+pos(s.productionDays):0;
    const horizon=Math.max(horizonMonths*30+
@@ -38,7 +40,13 @@
      daily[Math.max(0,Math.min(dayCount-1,Math.floor(day)))][key]+=value;
    };
    // One-time resources and startup equipment never recur as monthly OPEX.
-   const totalOnce=sum(resources.filter(r=>r.cadence==='once').map(r=>pos(r.amount)));
+   const hasPooledMedia=forecast.months.some(m=>m.media?.source==='v1-paid-cac-daily');
+   const totalOnce=sum(resources.filter(r=>r.cadence==='once'&&
+     !(hasPooledMedia&&r.kind==='campaign')).map(r=>pos(r.amount)));
+   if(hasPooledMedia)for(const period of forecast.months){
+     for(let day=0;day<30;day++)
+       post((period.month-1)*30+day,'ad',pos(period.media.dailyCashPaid[day]));
+   }
    post(0,'shared',totalOnce);
    const timeline=Object.fromEntries(items.map(s=>[s.id,[]]));
    const baseline=forecast.months[0]?.baseOrders||{};
@@ -109,7 +117,9 @@
          const interval=Math.max(0,Math.min(day+1,end)-Math.max(day,start));
          if(!(interval>0))continue;
          const units=salesRate*interval,revenue=revenueRate*interval;
-         const advertising=pos(s.adBudgetEffective)/30*interval;
+         const advertising=hasPooledMedia?0:pos(s.adBudgetEffective)/30*interval;
+         const attributedAd=hasPooledMedia?
+           pos(month.media?.dailyAllocated?.[id]?.[day-Math.floor(mStart)])/1:advertising;
          const overhead=(pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly))/30*interval;
          const commission=revenue*pos(s.variableSalesPct)/100;
          post(day,'ad',advertising);
@@ -126,7 +136,7 @@
            const amort=pos(s.onlineAmortMonthly)/30*interval;
            post(day,'amortAccrual',amort);
            daily[day].onlineProfit+=revenue-units*variableUnit-
-             commission-advertising-overhead-amort;
+             commission-attributedAd-overhead-amort;
          }
        }
        if(isStock)remaining=Math.max(0,remaining-qty);
