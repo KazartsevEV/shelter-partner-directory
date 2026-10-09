@@ -185,3 +185,22 @@ test('agent payer Hold and V2 period diagnostics remain fail-closed across langu
  A.equal(tr(protectedLabel,'en'),'Товар · product');
  A.equal(tr(protectedLabel,'kk'),'Товар · тауар');
 });
+
+test('Cyrillic placeholders, titles and accessibility strings across every calculator presentation source have RU/EN/KK mappings',()=>{
+ const root=path.join(__dirname,'..');
+ const paths=['Marketing_calc.HTML','portfolio_v2_ui.js','portfolio_v2_linked_ui.js',
+  'portfolio_v2_basket_ui.js','portfolio_v2_mba_observed_ui.js'];
+ let count=0;
+ for(const file of paths){
+  const source=fs.readFileSync(path.join(root,file),'utf8');
+  const attributes=source.matchAll(/\b(?:placeholder|title|aria-label|aria-description)\s*=\s*(['"])(.*?)\1/gs);
+  for(const match of attributes){
+   const ru=match[2].trim();
+   if(!/[А-ЯЁа-яё]/.test(ru))continue;
+   count++;
+   A.notEqual(tr(ru,'en'),ru,file+' EN '+ru);
+   A.notEqual(tr(ru,'kk'),ru,file+' KK '+ru);
+  }
+ }
+ A.ok(count>=20,'must cover source HTML and generated V2 inputs');
+});
