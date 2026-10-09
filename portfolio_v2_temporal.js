@@ -22,11 +22,21 @@
      report('recurringDemandApproved','Подтвердите предположение о повторении прогноза V1 каждый месяц.');
    if(typeof projectOffers!=='function')
      report('temporal','Не загружен расчёт связей товаров.');
+   if(monthsRequested>1&&(state.resources||[]).some(r=>r.kind==='campaign'))
+     report('resources','Для многомесячного прогноза общего рекламного бюджета требуется подтверждённое помесячное перераспределение. Пока этот договор не определён, расчёт заблокирован.');
+   if(monthsRequested>1&&state.tax?.type==='profit'&&
+      (state.skus||[]).some(s=>s.source==='online-service')&&
+      (state.resources||[]).some(r=>r.cadence==='monthly'))
+     report('resources','Совместное распределение прибыли онлайн-услуг и общих месячных ресурсов не подтверждено для налога на прибыль. Расчёт заблокирован, пока не определено разграничение расходов.');
    const skus=Array.isArray(state?.skus)?state.skus:[];
    const byId=Object.fromEntries(skus.map(s=>[String(s.id),s]));
    const ids=new Set(Object.keys(byId));
    if(!skus.length)report('skus','Пустой портфель.');
    for(const s of skus){
+     if(['own','resale'].includes(s.source)&&
+        pos(s.inventoryQty)>EPS&&
+        pos(s.supplyDays)+pos(s.productionDays)>=monthsRequested*30)
+       report('skus.'+s.id,'Товар «'+s.name+'» поступит после выбранного горизонта. Увеличьте число месяцев, чтобы не переносить платежи на неверные даты.');
      if(s.source==='online-service'){
        const months=Number(s.onlineProvenance?.periodMonths??s.sourcePeriodMonths);
        if(!Number.isInteger(months)||months<monthsRequested)
@@ -51,6 +61,9 @@
      for(const s of skus){
        const id=String(s.id),quantity=pos(orders[id]);
        if(stockSource(s)){
+         if(quantity>EPS&&availability[id]<=EPS)
+           report('skus.'+id,'Месяц '+(month+1)+': «'+s.name+
+             '» ещё не поставлен, но связь предполагает продажи.');
          if(quantity>pos(stock[id])+EPS)
            report('skus.'+id,'Месяц '+(month+1)+': спрос на «'+s.name+
              '» ('+quantity.toFixed(2)+') превышает оставшийся запас ('+

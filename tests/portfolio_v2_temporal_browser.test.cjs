@@ -29,6 +29,16 @@ const sku=(id,stock,source='resale')=>({
   A.equal(result.ready,true,JSON.stringify(result.errors));
   A.equal(result.temporal.months.length,5);
   A.deepEqual(result.temporal.months.map(m=>m.orders.a),[20,20,20,0,0]);
+  A.equal(result.cashflow.temporal,true);
+  A.equal(result.cashflow.months.length,5);
+  const expectedPrice=result.items[0].standaloneNet;
+  result.cashflow.months.forEach((m,i)=>{
+    const expectedSales=i<3?40:20;
+    A.ok(Math.abs(m.receipt-expectedPrice*expectedSales)<.012,
+      'Month '+(i+1)+' receipts must use only available goods');
+    A.ok(Math.abs(m.ad-(i<3?200:100))<.012);
+  });
+  A.match(await page.locator('#linked-results').textContent(),/Утверждённый сценарий 5 мес/);
   A.match(await page.locator('#linked-temporal-result').textContent(),/Остатки и мощности проверены/);
   await page.locator('[data-linked-save]').click();
   await page.locator('[data-linked-back]').click();await page.evaluate(()=>showHome());
