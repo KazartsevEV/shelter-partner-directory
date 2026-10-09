@@ -5,6 +5,7 @@ on:
     paths:
       - "Marketing_calc.HTML"
       - "tests/marketing_calc_browser_e2e.cjs"
+      - "tests/marketing_calc_prefilled_demo.test.cjs"
       - ".github/workflows/calculator-browser-e2e.yml"
   workflow_dispatch:
 
@@ -25,4 +26,6 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Run exact top-to-bottom numeric audit
-        run: node tests/marketing_calc_browser_e2e.cjs
+        run: |
+          node tests/marketing_calc_browser_e2e.cjs
+          node tests/marketing_calc_prefilled_demo.test.cjs
