@@ -39,12 +39,12 @@ test('#31E stock shortage blocks basket rather than inventing or silently overse
  const r=plan(x);A.equal(r.ready,false);
  A.match(r.errors.join(' '),/Месяц 1.*превышает оставшийся запас/);
 });
-test('#31E upsell anchored in sold-out stock stops, base cannot amplify recursively',()=>{
+test('#31E upsell releases anchor stock, but does not amplify downstream demand recursively',()=>{
  const x=state(20,100);x.forecastMonths=3;x.recurringDemandApproved=true;
  x.offers=[basket('upsell')];const r=plan(x);
  A.equal(r.ready,true,JSON.stringify(r.errors));
- A.deepEqual(r.months.map(m=>m.orders.A),[10,0,0]);
- A.deepEqual(r.months.map(m=>m.orders.B),[30,20,20]);
+ A.deepEqual(r.months.map(m=>m.orders.A),[10,5,2.5]);
+ A.deepEqual(r.months.map(m=>m.orders.B),[30,25,22.5]);
 });
 test('#31E offline service monthly capacity cannot be exceeded by cross-sell',()=>{
  const x=state(60,0);x.skus[1]=sku('B',0,'offline-service');
