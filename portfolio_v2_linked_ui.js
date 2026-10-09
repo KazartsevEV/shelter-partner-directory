@@ -279,7 +279,7 @@ function updateResult(){
  const period=cf.periodPnl;
  const periodPanel=period?.ready?
   '<section class="mt-5 rounded-lg border border-white/25 p-3">'+
-  '<h3 class="font-bold">Экономика за '+period.horizonMonths+' мес. · '+(periodOptimized?'расчётная цена за весь период':'по месячным ценам V2')</h3>'+
+  '<h3 class="font-bold">Экономика за '+period.horizonMonths+' мес. · '+(periodOptimized?'расчётная цена за весь период':'по месячным ценам V2')+'</h3>'+
   '<p class="text-xs text-slate-200 mt-2">Цена каждого SKU рассчитана по фактической марже за выбранный период, включая долю рекламы, расходов, проценты и налоги. Все цены в пределах V1. Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки / 30 дней выше — базовая месячная модель, а не сумма периода.</p>'+
   '<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">'+
   [['Выручка без НДС',money(period.revenue)],['EBITDA',money(period.ebitda)],
