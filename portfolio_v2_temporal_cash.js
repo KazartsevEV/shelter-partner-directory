@@ -21,7 +21,9 @@
      throw Error('Распределение общего рекламного бюджета по месяцам не утверждено.');
    const byId=Object.fromEntries(items.map(s=>[s.id,s]));
    const supplyStart=s=>stock(s)?pos(s.supplyDays)+pos(s.productionDays):0;
-   const horizon=Math.max(horizonMonths*30,
+   const horizon=Math.max(horizonMonths*30+
+       Math.max(0,...items.filter(s=>s.source==='dropship'&&s.dropshipPayoutMode!=='before')
+         .map(s=>pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays))),
      ...items.map(s=>pos(s.creditMonths)*30));
    if(horizon>3650)throw Error('Горизонт cash flow превышает 120 месяцев.');
    const dayCount=Math.ceil(horizon/30)*30;
