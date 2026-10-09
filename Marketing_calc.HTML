@@ -7356,6 +7356,7 @@
                 { label: 'Общие расходы партнёра', key: 'mCosts', fmt: 'money' },
                 { label: 'EBITDA партнёра (до налога)', key: 'mEbitda', fmt: 'money' },
                 { label: 'Налог партнёра на оборот*', key: 'mTax', fmt: 'money' },
+                { label: 'Капитальные вложения: сайт / лид-магнит', key: 'mPartnerCapex', fmt: 'money' },
                 { label: 'Денежный поток партнёра', key: 'mCash', fmt: 'money' },
                 { label: 'Накопленный поток партнёра', key: 'mCum', fmt: 'money' },
             ] : [
@@ -7373,6 +7374,7 @@
                 { label: 'Расходы', key: 'mCosts', fmt: 'money' },
                 { label: 'EBITDA (до налога)', key: 'mEbitda', fmt: 'money' },
                 { label: 'Налог на оборот*', key: 'mTax', fmt: 'money' },
+                { label: 'Капитальные вложения: сайт / лид-магнит', key: 'mPartnerCapex', fmt: 'money' },
                 { label: 'Денежный поток', key: 'mCash', fmt: 'money' },
                 { label: 'Накопленный поток', key: 'mCum', fmt: 'money' },
             ];
@@ -7422,6 +7424,16 @@
                         : v.mgmt + v.site + v.hosting + v.dom + v.magnet)
                     : 0;
 
+                // Cash buys site/magnet once; EBITDA recognizes operations, not capital.
+                // Their depreciation belongs to the period P&L, never to cash payments.
+                const mPartnerCapex = m === 1
+                    ? (isAgent
+                        ? (agentPayers.site === 'partner' ? v.site : 0)
+                            + (agentPayers.magnet === 'partner' ? v.magnet : 0)
+                        : v.site + v.magnet)
+                    : 0;
+                const mPartnerOperatingExtras = firstMonthPartnerExtras - mPartnerCapex;
+
                 const firstMonthAgentExtras = isAgent && m === 1
                     ? (agentPayers.mgmt === 'me' ? v.mgmt : 0)
                         + (agentPayers.site === 'me' ? v.site : 0)
@@ -7436,15 +7448,15 @@
                 cumAgentNet += mAgentNet;
                 let mAgentCum = cumAgentNet;
 
-                let mPartnerDirect = mPartnerBudget + firstMonthPartnerExtras + mExecutor;
+                let mPartnerDirect = mPartnerBudget + mPartnerOperatingExtras + mExecutor;
                 let mCosts = mPartnerDirect + mAcq + mAgentIncome;
 
                 let mEbitda = mRevTotal - mCosts; // acquiring is already in mCosts
                 let mTax = mRevTotal * (v.taxTurnover / 100);
-                let mCash = mEbitda - mTax;
+                let mCash = mEbitda - mTax - mPartnerCapex;
                 cumCash += mCash;
 
-                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentTax, mAgentNet, mAgentCum, mPartnerDirect, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
+                let row = { mBudget, mClicks, mLeads, mDeals, mPacks, mGrossRevCons, mGrossRevPack, mGrossSales, mAgentIncome, mAgentExpenses, mAgentTax, mAgentNet, mAgentCum, mPartnerDirect, mPartnerCapex, mRevCons, mRevPack, mRevTotal, mAcq, mNetRev, mExecutor, mCosts, mEbitda, mTax, mCash, mCum: cumCash };
                 monthData.push(row);
 
                 // Accumulate totals
@@ -7456,6 +7468,10 @@
             totalMonth.mCum = cumCash;
             totalMonth.mAgentCum = cumAgentNet;
 
+            const accountingNetProfit = totalMonth.mEbitda - totalMonth.mTax - siteAmort - magnetAmort;
+            const accruedTotalCosts = totalMonth.mCosts + siteAmort + magnetAmort;
+            // An unamortized website or lead-magnet acquisition is not an operating loss.
+            // Monthly cash reflects full CAPEX, P&L reflects only period amortization.
             // Update Summary Table
             const summaryRows = [
                 ['Общий рекламный бюджет', formatMoney(totalBudget)],
@@ -7488,14 +7504,15 @@
                 [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', formatMoney(totalMonth.mCosts)],
                 ['Амортизация сайта', formatMoney(siteAmort)],
                 ['Амортизация лид-магнита', formatMoney(magnetAmort)],
-                [isAgent ? 'Общие затраты партнёра Total Costs' : 'Общие затраты Total Costs', formatMoney(totalMonth.mCosts), 'text-red-700 font-bold'],
+                [isAgent ? 'Операционные расходы и амортизация партнёра' : 'Операционные расходы и амортизация', formatMoney(accruedTotalCosts), 'text-red-700 font-bold'],
+                ['Разовые капитальные выплаты (в денежном потоке)', formatMoney(totalMonth.mPartnerCapex)],
                 [isAgent ? 'EBITDA партнёра (до налогов)' : 'EBITDA (прибыль до налогов)', formatMoney(totalMonth.mEbitda)],
                 [isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', formatMoney(totalMonth.mTax)],
-                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', formatMoney(totalMonth.mCash), 'text-green-700 font-bold'],
+                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', formatMoney(accountingNetProfit), 'text-green-700 font-bold'],
                 [isAgent ? 'ROAS партнёра' : 'ROAS (возврат рекламы)', (totalBudget?totalMonth.mNetRev/totalBudget:0).toFixed(2) + 'x'],
                 ['CPA (цена клиента реклама)', formatMoney(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
-                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', formatMoney(totalMonth.mDeals?totalMonth.mCosts/totalMonth.mDeals:0)],
-                [isAgent ? 'ROMI партнёра' : 'ROMI (окупаемость инвестиций)', (totalMonth.mCosts?(totalMonth.mRevTotal-totalMonth.mCosts)/totalMonth.mCosts:0).toFixed(2) + 'x']
+                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', formatMoney(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
+                [isAgent ? 'ROMI партнёра' : 'ROMI (окупаемость инвестиций)', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x']
             ];
 
             const summaryTbody = document.getElementById('summary-table');
@@ -7523,7 +7540,7 @@
 
                 romiLabel.textContent = 'Расчётная прибыль партнёра';
                 romiSub.textContent = 'P&L за период; помесячный cash flow показан отдельно';
-                document.getElementById('res-romi').textContent = formatMoney(totalMonth.mCash);
+                document.getElementById('res-romi').textContent = formatMoney(accountingNetProfit);
 
                 thirdLabel.textContent = 'Накопленный cash flow партнёра';
                 thirdSub.textContent = 'По помесячному сценарию';
@@ -7533,11 +7550,11 @@
             } else {
                 profitLabel.textContent = 'Чистая прибыль';
                 profitSub.textContent = 'После всех налогов';
-                document.getElementById('res-profit').textContent = formatMoney(totalMonth.mCash);
+                document.getElementById('res-profit').textContent = formatMoney(accountingNetProfit);
 
                 romiLabel.textContent = 'ROMI';
                 romiSub.textContent = 'Окупаемость всех вложений';
-                document.getElementById('res-romi').textContent = (totalMonth.mCosts?(totalMonth.mRevTotal-totalMonth.mCosts)/totalMonth.mCosts:0).toFixed(2) + 'x';
+                document.getElementById('res-romi').textContent = (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x';
 
                 thirdLabel.textContent = 'CPA / CAC';
                 thirdSub.textContent = 'Рекламный / Полный';
