@@ -2639,6 +2639,12 @@
             const rawNeeded = Math.ceil(made / Math.max(0.0001, 1 - defect / 100));
             const forecasts = Math.max(0, Number(item.forecastUnitsPerMonth) || 0);
             const details = [];
+            if(item.source==='dropship'){
+                if(!(Number(item.inputs?.['resale-buy-total'])>0))details.push({kind:'materials',message:'Укажите закупочную цену у поставщика.'});
+                if(item.inputs?.['dropship-delivery-days']===''||item.inputs?.['dropship-delivery-days']==null)details.push({kind:'logistics',message:'Укажите срок доставки покупателю.'});
+                if(!(forecasts>0))details.push({kind:'ads',message:'Заполните рекламную воронку и бюджет для прогноза заказов.'});
+                return details;
+            }
             if(item.source==='resale'){
                 if(!(Number(item.inputs?.['resale-buy-total'])>0))details.push({kind:'materials',message:'Себестоимость минимальной закупочной партии не заполнена. Вернитесь в закупку и введите сумму больше нуля.'});
                 if(materials < stored)details.push({kind:'materials',message:'Закуплено '+materials+' шт., но для склада указано '+stored+' шт. Увеличьте закупку или уменьшите склад.'});
@@ -2664,7 +2670,7 @@
         }
 
         function allocatedMaterialCostPerGood(item) {
-            if(item?.source==='resale')return Math.max(0,Number(item.materialsUnitCost)||0);
+            if(['resale','dropship'].includes(item?.source))return Math.max(0,Number(item.materialsUnitCost)||0);
             const manufactured = Math.max(0, Number(item?.productionQty) || 0);
             const rawBought = Math.max(0, Number(item?.materialsBatchQty) || 0);
             if (!manufactured || !rawBought) return null;
@@ -2677,6 +2683,7 @@
         }
 
         function projectedStoragePerUnit(item) {
+            if(item?.source==='dropship')return 0;
             const stock = Math.max(0, Number(item?.logisticsQty) || 0);
             const velocity = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
             const dailyRate = Math.max(0, Number(item?.warehouseDayCost) || 0);
@@ -2686,7 +2693,47 @@
             return dailyRate * sellDays / 2;
         }
 
+        function dropshipCycleMetrics(item){
+            // One 30-day ad cycle: only orders not yet paid out need supplier financing.
+            const orders=Math.max(0,Number(item?.forecastUnitsPerMonth)||0);
+            const deliveryDays=Math.max(0,Number(item?.dropshipDeliveryDays)||0);
+            const payoutLagDays=Math.max(0,Number(item?.dropshipPayoutLagDays)||0);
+            const payoutBefore=item?.dropshipPayoutMode==='before';
+            const untilReceipt=payoutBefore?0:deliveryDays+payoutLagDays;
+            const unitPurchase=Math.max(0,Number(item?.materialsUnitCost)||0);
+            const unitDelivery=Math.max(0,Number(item?.logisticsUnitCost)||0);
+            const fulfilmentUnit=unitPurchase+unitDelivery;
+            const ad=Math.max(0,Number(item?.adBudget)||0);
+            const management=Math.max(0,Number(item?.adManagement)||0);
+            const salesFixed=Math.max(0,Number(item?.salesFixedMonthly)||0);
+            const advanceMarketing=ad+management+salesFixed;
+            const inFlightOrders=payoutBefore?0:Math.min(orders,Math.max(orders/30,orders*untilReceipt/30));
+            const supplierFloat=inFlightOrders*fulfilmentUnit;
+            const capitalBase=advanceMarketing+supplierFloat;
+            const reservePct=Math.min(1000,Math.max(0,Number(item?.planning?.reservePct)||0));
+            const reserveAmount=capitalBase*reservePct/100;
+            const fullOperatingCosts=orders*fulfilmentUnit+advanceMarketing;
+            const salesRate=(Math.max(0,Number(item?.salesVariablePct)||0)+Math.max(0,Number(item?.penaltiesPct)||0))/100;
+            const zeroMarginRevenue=1-salesRate>0?fullOperatingCosts/(1-salesRate):null;
+            return {
+                requiredCapital:orders>0?capitalBase+reserveAmount:null,
+                baseRequiredCapital:orders>0?capitalBase:null,
+                reservePct,reserveAmount:orders>0?reserveAmount:null,
+                quantityIssues:aggregateQuantityIssues(item),
+                totalCycleDays:orders>0?30+deliveryDays+(payoutBefore?0:payoutLagDays):null,
+                waitAfterAdvanceDays:0,productionDays:0,sellThroughDays:orders>0?30:null,
+                salesSpeedPerMonth:orders,advanceAmount:0,
+                zeroMarginRevenue,zeroMarginUnitPrice:orders>0&&zeroMarginRevenue!==null?zeroMarginRevenue/orders:null,
+                nonRevenueCosts:orders>0?fullOperatingCosts:null,
+                variableSalesRate:salesRate,stockQty:orders,
+                productionTotal:0,warehouseTotal:0,salesTotal:salesFixed,adTotal:ad+management,
+                customerDeliveryTotal:unitDelivery*orders,
+                supplierFloat,inFlightOrders,supplierFulfilmentTotal:unitPurchase*orders,
+                customerDeliveryDays:deliveryDays,payoutLagDays
+            };
+        }
         function aggregatePlanMetrics(item) {
+            if(item?.source==='dropship')return dropshipCycleMetrics(item);
             const planning = item?.planning || {};
             const materialsTotal = Math.max(0, Number(item?.materialsBatchTotal || 0));
             const stockQty = Math.max(0, Number(item?.logisticsQty || 0));
