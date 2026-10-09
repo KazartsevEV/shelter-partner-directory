@@ -950,6 +950,11 @@ rows.push(
  ["Заполните рекламную воронку и бюджет для прогноза заказов.","Complete the advertising funnel and budget to forecast orders.","Тапсырыс болжамы үшін жарнама воронкасы мен бюджетін толтырыңыз."],
  ["Себестоимость минимальной закупочной партии не заполнена. Вернитесь в закупку и введите сумму больше нуля.","The minimum purchase batch cost is missing. Return to procurement and enter an amount greater than zero.","Ең аз сатып алу партиясының өзіндік құны толтырылмаған. Сатып алу бөліміне оралып, нөлден жоғары сома енгізіңіз."]
 );
+/* #47F standalone assortment selector prefixes (SKU name excluded). */
+rows.push(
+ ["Это мой единственный товар","This is my only product","Бұл менің жалғыз тауарым"],
+ ["Это моя единственная услуга","This is my only service","Бұл менің жалғыз қызметім"]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
