@@ -322,7 +322,7 @@
     const items=scenario.projections.map(p=>{
       const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad,bundleExposure}=p;
       const priceList=Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
-        Math.ceil(prices[s.id]*100-1e-8)/100));
+        Math.ceil((Number.isFinite(p.priceTarget)?p.priceTarget:pos(s.priceMax))*100-1e-8)/100));
       const grossPrice=priceList*(1-s.discountSelected/100);
       const standaloneNet=grossPrice/(1+pos(s.vatPct)/100);
       const priceNet=standaloneNet*(1-bundleExposure);
