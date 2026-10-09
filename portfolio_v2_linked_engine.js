@@ -23,7 +23,8 @@
     }));
     return {version:3,source:'v1-calculated',importedAt:new Date().toISOString(),
       sourceSignature:JSON.stringify(payload),
-      skus,resources:[],offers:[],tax:{...payload.tax},currency:'у.е.*'};
+      skus,resources:[],offers:[],tax:{...payload.tax},currency:'у.е.*',
+      forecastMonths:1,recurringDemandApproved:false};
   }
   function shares(resource,skus){
     const beneficiaries=resource.skuIds||[];
@@ -489,6 +490,21 @@
         fixedPointConverged:converged}};
     // Do not claim that an impossible portfolio works: show the max feasible
     // retail price, its shortfall and a non-ready status instead.
+    if(base.ready&&Number(state.forecastMonths??1)>1){
+      const planner=typeof globalThis==='object'&&globalThis.LinkedPortfolioTemporal?
+        globalThis.LinkedPortfolioTemporal:
+        (typeof require==='function'?require('./portfolio_v2_temporal.js'):null);
+      if(!planner?.plan){
+        base.ready=false;base.errors.push('Не загружен многомесячный расчёт спроса.');
+      }else{
+        base.temporal=planner.plan(state,scenario.basket.baseOrders,projectOffers);
+        if(!base.temporal.ready){
+          base.ready=false;
+          base.errors.push(...base.temporal.errors);
+          base.fieldErrors.push(...base.temporal.fieldErrors);
+        }
+      }
+    }
     if(!base.ready)return base;
     base.cashflow=cashFlow(state,base);
     base.totals.startupCapital=base.cashflow.startupCapital;
