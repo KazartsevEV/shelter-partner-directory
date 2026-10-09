@@ -418,11 +418,11 @@
         <div id="completed-product-forms" class="space-y-5 mb-5"></div>
 
         <div class="card p-6 md:p-8">
-            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар</div>
-            <h1 class="text-3xl font-bold text-slate-900">Что продаёте?</h1>
+            <div id="product-intro-category" class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар</div>
+            <h1 id="product-intro-title" class="text-3xl font-bold text-slate-900">Что продаёте?</h1>
 
             <form class="mt-6" onsubmit="submitProductIntro(event)">
-                <label for="product-name-input" class="block text-sm font-medium text-slate-700 mb-2">Наименование товара</label>
+                <label id="product-name-label" for="product-name-input" class="block text-sm font-medium text-slate-700 mb-2">Наименование товара</label>
                 <input
                     id="product-name-input"
                     type="text"
@@ -431,13 +431,13 @@
                     autocomplete="off"
                 >
                 <p id="product-name-error" class="hidden text-xs text-red-600 mt-2">Введите наименование товара.</p>
-                <p class="mt-2 text-xs text-slate-500">Введите название своего товара. Сведения из учебных примеров сюда не переносятся.</p>
+                <p id="product-intro-help" class="mt-2 text-xs text-slate-500">Введите название своего товара. Сведения из учебных примеров сюда не переносятся.</p>
 
                 <button
                     type="submit"
                     class="mt-4 w-full sm:w-auto bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
                 >
-                    Рассчитать мой товар
+                    <span id="product-intro-submit-label">Рассчитать мой товар</span>
                 </button>
             </form>
         </div>
@@ -589,7 +589,7 @@
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4">
+                    <div id="materials-import-prompt" class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800"><span data-buy-copy="import">Материалы везут ко мне из-за границы?</span></div>
                         <div class="flex gap-2 mt-3">
                             <button type="button" data-yn-group="materialsImported" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
@@ -679,9 +679,9 @@
             </div>
 
             <div id="product-production-block" class="card p-6 md:p-8 scroll-mt-4">
-                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Производство</div>
+                <div id="production-stage-heading" class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Производство</div>
                 <h2 class="text-2xl font-bold text-slate-900">
-                    Расходы на производство 1 единицы <span class="product-name-live"></span>
+                    <span id="production-stage-title">Расходы на производство 1 единицы</span> <span class="product-name-live"></span>
                 </h2>
 
                 <div class="mt-6 space-y-5">
@@ -727,7 +727,7 @@
                     </div>
 
                     <div class="rounded-lg border border-slate-200 p-4">
-                        <div class="text-sm font-medium text-slate-800">Кто выполняет производство?</div>
+                        <div id="production-worker-heading" class="text-sm font-medium text-slate-800">Кто выполняет производство?</div>
                         <div class="grid grid-cols-2 gap-2 mt-2">
                             <button type="button" data-production-labor-mode="self" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Всё делаю сам</button>
                             <button type="button" data-production-labor-mode="workers" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Плачу рабочим</button>
@@ -768,7 +768,7 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div id="production-defect-panel">
                         <label class="block text-sm font-medium text-slate-700 mb-2">Доля брака производства, % от общего объёма</label>
                         <input id="own-production-defect-pct" type="number" min="0" max="100" step="0.01" value="0" class="input-field">
                     </div>
@@ -830,20 +830,28 @@
                 </div>
             </div>
 
+            <div id="offline-service-capacity" class="hidden card p-6 md:p-8" hidden>
+                <h3 class="text-lg font-bold text-slate-900">Сколько клиентов реально можете обслужить?</h3>
+                <p class="text-xs text-slate-600 mt-2">Места и рабочие часы мастеров определяют физический максимум услуг за месяц. Сопоставляем его с прогнозом из рекламы.</p>
+                <label class="block text-sm font-semibold text-slate-700 mt-3">Максимум услуг / месяц
+                    <input id="offline-service-monthly-capacity" type="number" min="1" step="1" value="" class="input-field mt-2" placeholder="Например, 150" oninput="syncOfflineServiceForecast()">
+                </label>
+                <p id="offline-service-capacity-warning" class="hidden mt-2 text-sm text-rose-700" hidden></p>
+            </div>
             <div id="production-unit-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
                 <div class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 2</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
-                    Стоимость производства 1 ед. <span class="product-name-live"></span> составляет
+                    <span id="production-result-caption">Стоимость производства 1 ед.</span> <span class="product-name-live"></span> составляет
                     <span id="own-production-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
                     у.е.*.
                 </div>
 
                 <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
                     <label class="block text-sm font-medium text-slate-700 mb-2">
-                        Сколько единиц <span class="product-name-live"></span> производите в месяц?
+                        <span id="production-qty-label">Сколько единиц</span> <span class="product-name-live"></span> <span id="production-qty-suffix">производите в месяц?</span>
                     </label>
                     <input id="own-production-monthly-qty" type="number" min="1" step="1" value="1" class="input-field">
-                    <p class="text-xs text-slate-500 mt-2">
+                    <p id="production-result-help" class="text-xs text-slate-500 mt-2">
                         Аренда помещения / месяц, аренда оборудования / месяц, амортизация оборудования / месяц, газ / месяц, рабочие / месяц и накладные организационные расходы / месяц распределяются на месячный объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.
                     </p>
                 </div>
