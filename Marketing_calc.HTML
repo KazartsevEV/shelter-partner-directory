@@ -2608,6 +2608,7 @@
             const forecasts = Math.max(0, Number(item.forecastUnitsPerMonth) || 0);
             const details = [];
             if(item.source==='resale'){
+                if(!(Number(item.inputs?.['resale-buy-total'])>0))details.push({kind:'materials',message:'Себестоимость минимальной закупочной партии не заполнена. Вернитесь в закупку и введите сумму больше нуля.'});
                 if(materials < stored)details.push({kind:'materials',message:'Закуплено '+materials+' шт., но для склада указано '+stored+' шт. Увеличьте закупку или уменьшите склад.'});
             }else{
             if (materials < rawNeeded) details.push({kind:'materials',
@@ -2890,6 +2891,7 @@
                 const marginRate = marginPct === null ? null : marginPct / 100;
 
                 const price =
+                    (item.source !== 'resale' || Math.max(0,Number(item.inputs?.['resale-buy-total'])||0)>0) &&
                     baseCac !== null &&
                     marginRate !== null &&
                     creditReady &&
@@ -5126,9 +5128,7 @@
                                         <a href="#product-logistics-block" onclick="scrollToProductBlock(event, 'product-logistics-block')" class="block underline underline-offset-2">
                                             Оптимизируйте логистику
                                         </a>
-                                        <a href="#product-production-block" onclick="scrollToProductBlock(event, 'product-production-block')" class="block underline underline-offset-2">
-                                            Пересмотрите мотивацию сотрудников, арендные ставки и оборудование
-                                        </a>
+                                        ${item.source === 'resale' ? '' : `<a href="#product-production-block" onclick="scrollToProductBlock(event, 'product-production-block')" class="block underline underline-offset-2">Пересмотрите мотивацию сотрудников, арендные ставки и оборудование</a>`}
                                         <a href="#product-ad-block" onclick="scrollToProductBlock(event, 'product-ad-block')" class="block underline underline-offset-2">
                                             Поищите новую аудиторию и способы рекламы с маркетологом
                                         </a>
@@ -6257,6 +6257,7 @@
             if (error && productName) error.classList.add('hidden');
 
             updateProductAssortmentGate();
+            renderResalePurchaseComposition();
         }
 
         function requireAdditionalProductName() {
