@@ -1687,6 +1687,26 @@
         const displayNumNode=value=>displayNumberSpan(value,'num');
         const displayIntNode=value=>displayNumberSpan(value,'int');
 
+        // Readonly product outputs carry canonical numeric values independent
+        // of their localized text. Some are reused as source for the V1 model.
+        function setProductReadonlyNumber(id,value,fractions='2',suffix='') {
+            const output=document.getElementById(id);
+            if(!output)return;
+            const numeric=Number(value);
+            if(!Number.isFinite(numeric)){
+                output.textContent='—';
+                output.removeAttribute('data-nomad-display-number');
+                return;
+            }
+            output.setAttribute('data-nomad-display-number',String(numeric));
+            output.setAttribute('data-nomad-display-fractions',fractions);
+            if(suffix)output.setAttribute('data-nomad-display-suffix',suffix);
+            else output.removeAttribute('data-nomad-display-suffix');
+            const min=fractions==='2'?2:0,max=fractions==='0'?0:2;
+            output.textContent=numeric.toLocaleString(nomadDisplayLocale(),
+                {minimumFractionDigits:min,maximumFractionDigits:max})+suffix;
+        }
+
         function setV1DisplayedMoney(id,value) {
             const element=document.getElementById(id);if(!element)return;
             element.textContent=formatMoney(value);
@@ -2129,12 +2149,7 @@
 
             Object.entries(values).forEach(([id, value]) => {
                 const output = document.getElementById(id);
-                if (output) {
-                    output.textContent = value.toLocaleString(nomadDisplayLocale(), {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+                if (output) setProductReadonlyNumber(id,value,'2');
             });
             recalculateSalesCostSummary();
         }
@@ -7032,33 +7047,27 @@
                     : 0;
             const variableTotalPct = commissionPct + penaltiesPct;
 
-            const fixedOut = document.getElementById('own-sales-fixed-monthly');
-            if (fixedOut) fixedOut.textContent = moneyInputValue(fixedMonthly);
-            const fixedPerUnitOut = document.getElementById('own-sales-fixed-per-unit');
-            if (fixedPerUnitOut) fixedPerUnitOut.textContent = moneyInputValue(fixedPerUnit);
-
-            const resultUnitOut = document.getElementById('own-sales-result-unit');
-            if (resultUnitOut) resultUnitOut.textContent = moneyInputValue(fixedPerUnit);
-
-            const variableOut = document.getElementById('own-sales-variable-pct');
-            if (variableOut) variableOut.textContent = commissionPct.toLocaleString('ru-RU') + '%';
-
-            const penaltiesOut = document.getElementById('own-sales-penalties-pct');
-            if (penaltiesOut) penaltiesOut.textContent = penaltiesPct.toLocaleString('ru-RU') + '%';
-
-            const totalOut = document.getElementById('own-sales-variable-total-pct');
-            if (totalOut) totalOut.textContent = variableTotalPct.toLocaleString('ru-RU') + '%';
+            setProductReadonlyNumber('own-sales-fixed-monthly',fixedMonthly,'2');
+            setProductReadonlyNumber('own-sales-fixed-per-unit',fixedPerUnit,'2');
+            setProductReadonlyNumber('own-sales-result-unit',fixedPerUnit,'2');
+            setProductReadonlyNumber('own-sales-variable-pct',commissionPct,'compact','%');
+            setProductReadonlyNumber('own-sales-penalties-pct',penaltiesPct,'compact','%');
+            setProductReadonlyNumber('own-sales-variable-total-pct',variableTotalPct,'compact','%');
 
             syncVisibleAggregateFromCurrentProduct();
         }
 
         function productNumberFromText(id) {
-            const text = document.getElementById(id)?.textContent || '0';
-            const normalized = text
-                .replace(/\s/g, '')
-                .replace(',', '.')
-                .replace(/[^0-9.-]/g, '');
-            return Math.max(0, Number(normalized) || 0);
+            const element=document.getElementById(id);
+            const raw=element?.getAttribute('data-nomad-display-number');
+            if(raw!==null&&raw!==undefined&&raw.trim()!==''){
+                const numeric=Number(raw);
+                return Number.isFinite(numeric)?Math.max(0,numeric):0;
+            }
+            // Backward-compatible fallback for unmarked Russian-only outputs.
+            const normalized=(element?.textContent||'0')
+                .replace(/\s/g,'').replace(',','.').replace(/[^0-9.-]/g,'');
+            return Math.max(0,Number(normalized)||0);
         }
 
         function recalculateProductAdFunnel() {
@@ -7080,18 +7089,9 @@
             const fullPerUnit = mediaPerUnit + managementPerUnit;
             const baseCac = mediaPerUnit;
 
-            const intOut = (id, value) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = Math.round(value).toLocaleString('ru-RU');
-            };
-            const numOut = (id, value) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = value.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
-            };
-            const moneyOut = (id, value) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = moneyInputValue(value);
-            };
+            const intOut=(id,value)=>setProductReadonlyNumber(id,Math.round(value),'0');
+            const numOut=(id,value)=>setProductReadonlyNumber(id,value,'compact');
+            const moneyOut=(id,value)=>setProductReadonlyNumber(id,value,'2');
 
             intOut('own-product-ad-impressions', impressions);
             numOut('own-product-ad-clicks', clicks);
