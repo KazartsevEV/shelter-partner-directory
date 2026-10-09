@@ -2169,7 +2169,7 @@
             productOwnInboundDeliveryManual = !!ui.inboundDeliveryManual;
             resaleWarehouseQtyManual = !!ui.resaleWarehouseQtyManual;
             setResaleProductPanels();
-            if(productSource==='resale')updateResalePurchase();
+            if(['resale','dropship'].includes(productSource))updateResalePurchase();
 
             recalculateMaterialsLandedCost();
             recalculateProductionUnitCost();
@@ -2185,7 +2185,7 @@
 
             if (
                 productName &&
-                ['own','resale'].includes(productSource) &&
+                ['own','resale','dropship'].includes(productSource) &&
                 Number(currentProductSequence) !== id
             ) {
                 saveCurrentProductToPortfolio();
@@ -2227,7 +2227,7 @@
 
             selectProductSource(item.source);
 
-            if (['own','resale'].includes(item.source)) {
+            if (['own','resale','dropship'].includes(item.source)) {
                 restoreProductOwnUiState(item);
                 const ownForm = document.getElementById('product-own-form');
                 if (ownForm) {
@@ -2268,9 +2268,10 @@
 
         function currentProductPortfolioSnapshot() {
             const materialsBatchQty = Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
-            const productionQty = productSource === 'resale' ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
-            const logisticsQty = Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
-            const salesQty = Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
+            const productionQty = ['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
+            const forecastSales=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const logisticsQty = productSource === 'dropship' ? Math.max(1,Math.ceil(forecastSales)) : Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
+            const salesQty = productSource === 'dropship' ? logisticsQty : Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
 
             const warehouseInboundUnitCost =
                 productLogisticsPayers.warehouseInbound === 'me'
@@ -2330,20 +2331,23 @@
                 materialsFixedBatch,
                 materialsBatchQty,
                 materialsBatchTotal: latestMaterialsLandedUnitCost * materialsBatchQty,
-                productionUnitCost: productSource === 'resale' ? 0 : latestProductionUnitCost,
-                productionFixedMonthly: productSource === 'resale' ? 0 : productionFixedMonthly,
-                productionElectricityPerUnit: productSource === 'resale' ? 0 : productionElectricityPerUnit,
-                productionDefectPct: productSource === 'resale' ? 0 : productionDefectPct,
+                dropshipDeliveryDays:productSource==='dropship'?productNumber('dropship-delivery-days'):0,
+                dropshipPayoutLagDays:productSource==='dropship'?productNumber('dropship-payout-lag'):0,
+                dropshipPayoutMode:productSource==='dropship'?(document.getElementById('dropship-payout-mode')?.value||'after'):null,
+                productionUnitCost: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost,
+                productionFixedMonthly: ['resale','dropship'].includes(productSource) ? 0 : productionFixedMonthly,
+                productionElectricityPerUnit: ['resale','dropship'].includes(productSource) ? 0 : productionElectricityPerUnit,
+                productionDefectPct: ['resale','dropship'].includes(productSource) ? 0 : productionDefectPct,
                 productionQty,
-                productionTotal: productSource === 'resale' ? 0 : latestProductionUnitCost * productionQty,
+                productionTotal: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost * productionQty,
                 logisticsUnitCost: latestLogisticsUnitCost,
                 logisticsQty,
-                warehouseInboundUnitCost,
+                warehouseInboundUnitCost:productSource==='dropship'?0:warehouseInboundUnitCost,
                 warehouseDayCost:
                     productLogisticsPayers.warehouse === 'me'
                         ? productNumber('own-warehouse-cost')
                         : 0,
-                warehouseStorageUnitCost,
+                warehouseStorageUnitCost:productSource==='dropship'?0:warehouseStorageUnitCost,
                 customerDeliveryPct:
                     productLogisticsPayers.customerDelivery === 'me'
                         ? productNumber('own-customer-delivery-pct')
@@ -2352,7 +2356,7 @@
                     productLogisticsPayers.customerDelivery === 'me'
                         ? productNumber('own-return-rate')
                         : 0,
-                warehouseStageTotal: (warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
+                warehouseStageTotal: productSource==='dropship'?0:(warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
                 salesFixedMonthly: productNumberFromText('own-sales-fixed-monthly'),
                 salesFixedPerUnit: productNumberFromText('own-sales-fixed-per-unit'),
                 salesQty,
@@ -2384,8 +2388,8 @@
         }
 
         function saveCurrentProductToPortfolio() {
-            if (!productName || !['own','resale'].includes(productSource)) return;
-            if(productSource === 'resale') updateResalePurchase();
+            if (!productName || !['own','resale','dropship'].includes(productSource)) return;
+            if(['resale','dropship'].includes(productSource)) updateResalePurchase();
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
             if (index >= 0) {
@@ -2554,7 +2558,7 @@
                 recalculatePortfolioLogistics(item);
             }
 
-            if (kind === 'production' && item.source !== 'resale') {
+            if (kind === 'production' && !['resale','dropship'].includes(item.source)) {
                 item.productionQty = n;
                 item.inputs['own-production-monthly-qty'] = String(n);
                 const yieldFactor = Math.max(0.0001, 1 - Number(item.productionDefectPct || 0) / 100);
@@ -4216,7 +4220,7 @@
             }
 
             const ownForm = document.getElementById('product-own-form');
-            if (ownForm && ['own','resale'].includes(productSource)) {
+            if (ownForm && ['own','resale','dropship'].includes(productSource)) {
                 ownForm.hidden = false;
                 ownForm.classList.remove('hidden');
             }
@@ -4227,7 +4231,7 @@
         }
 
         function returnToProductBusinessSummary() {
-            if (productName && ['own','resale'].includes(productSource)) {
+            if (productName && ['own','resale','dropship'].includes(productSource)) {
                 saveCurrentProductToPortfolio();
                 freezeCurrentProductOnPage();
             }
@@ -4282,7 +4286,7 @@
                     parsed.productPortfolio.length > 100) return null;
                 const seen = new Set();
                 for (const item of parsed.productPortfolio) {
-                    if (!item || !['own','resale'].includes(item.source) ||
+                    if (!item || !['own','resale','dropship'].includes(item.source) ||
                         !Number.isSafeInteger(Number(item.id)) || Number(item.id) <= 0 ||
                         seen.has(Number(item.id)) ||
                         typeof item.name !== 'string' || !item.name.trim() ||
@@ -4377,7 +4381,7 @@
                 report('Это учебный пример. Чтобы сохранять свои данные, начните собственный расчёт с нуля.');
                 return false;
             }
-            if (productName && ['own','resale'].includes(productSource)) {
+            if (productName && ['own','resale','dropship'].includes(productSource)) {
                 saveCurrentProductToPortfolio();
             }
             if (!productPortfolio.length) {
@@ -5587,8 +5591,8 @@
 
         function renderResalePurchaseComposition() {
             const box=document.getElementById('resale-purchase-composition');
-            if(!box||productSource!=='resale')return;
-            const goods=productPortfolio.filter(x=>x.source==='resale'&&Number(x.id)!==Number(currentProductSequence))
+            if(!box||!['resale','dropship'].includes(productSource))return;
+            const goods=productPortfolio.filter(x=>x.source===productSource&&Number(x.id)!==Number(currentProductSequence))
                 .map(x=>({id:Number(x.id),name:x.name,qty:Number(x.inputs?.['resale-buy-qty'])||Number(x.materialsBatchQty)||1,
                     price:Math.max(0,Number(x.inputs?.['resale-buy-total'])||0),supplier:x.inputs?.['resale-buy-supplier']||''}));
             if(productName)goods.push({id:Number(currentProductSequence),name:productName,qty:Math.max(1,Number(document.getElementById('resale-buy-qty')?.value)||1),
@@ -5605,7 +5609,7 @@
             if(productSource==='resale')resaleWarehouseQtyManual=true;
         }
         function updateResalePurchase(){
-            if(productSource!=='resale')return;
+            if(!['resale','dropship'].includes(productSource))return;
             const qty=Math.max(1,Math.floor(productNumber('resale-buy-qty')||1));
             const cost=productNumber('resale-buy-total');
             const raw=document.getElementById('resale-buy-total')?.value;
@@ -5613,7 +5617,7 @@
             const oldCost=document.getElementById('own-materials-cost');
             if(oldQty)oldQty.value=String(qty);
             if(oldCost)oldCost.value=String(cost/qty);
-            if(!resaleWarehouseQtyManual){const stock=document.getElementById('own-logistics-qty');if(stock)stock.value=String(qty);}
+            if(productSource==='resale'&&!resaleWarehouseQtyManual){const stock=document.getElementById('own-logistics-qty');if(stock)stock.value=String(qty);}
             const output=document.getElementById('resale-buy-unit');
             if(output)output.textContent=raw===''?'—':moneyInputValue(cost/qty)+' у.е.*';
             const warning=document.getElementById('resale-buy-warning');
@@ -6326,13 +6330,13 @@
             });
 
             const ownForm = document.getElementById('product-own-form');
-            const hideOwn = !['own','resale'].includes(source);
+            const hideOwn = !['own','resale','dropship'].includes(source);
             ownForm.hidden = hideOwn;
             ownForm.classList.toggle('hidden', hideOwn);
             const unavailable = document.getElementById('product-source-unavailable');
             if (unavailable) {
-                unavailable.hidden = source !== 'dropship';
-                unavailable.classList.toggle('hidden', source !== 'dropship');
+                unavailable.hidden = true;
+                unavailable.classList.add('hidden');
             }
             const draftToolbar = document.getElementById('product-draft-toolbar');
             if (draftToolbar) {
@@ -6340,7 +6344,7 @@
                 draftToolbar.classList.toggle('hidden', hideOwn);
             }
 
-            if (['own','resale'].includes(source)) {
+            if (['own','resale','dropship'].includes(source)) {
                 initProductOwnForm();
                 setResaleProductPanels();
 
