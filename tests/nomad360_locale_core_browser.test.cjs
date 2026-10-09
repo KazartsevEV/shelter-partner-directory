@@ -74,6 +74,27 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     A.equal(await page.locator('html').getAttribute('lang'),expected);
     A.ok(await page.evaluate(()=>Nomad360LocaleCore.translationCount)>170,
      'static localized source covers primary navigation and multiple business inputs');
+    // Direct presentation-only V1 probe: reformat existing money without
+    // triggering calculate(), and restore the selected language afterward.
+    await page.evaluate(()=>{
+      const value=document.createElement('output');
+      value.id='nomad-v1-money-locale-probe';
+      document.body.append(value);
+      setV1DisplayedMoney(value.id,1234.5);
+    });
+    const transient=expected==='en'?'kk':'en';
+    await page.locator('#nomad360-lang-select').selectOption(transient);
+    await page.waitForFunction(language=>{
+      const node=document.getElementById('nomad-v1-money-locale-probe');
+      if(!node||document.documentElement.lang!==language)return false;
+      const desired=new Intl.NumberFormat(Nomad360LocaleCore.displayLocale(),
+       {minimumFractionDigits:2,maximumFractionDigits:2}).format(1234.5);
+      const suffix=language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*';
+      return node.textContent===desired+' '+suffix;
+    },transient);
+    await page.locator('#nomad360-lang-select').selectOption(expected);
+    await page.waitForFunction(language=>document.documentElement.lang===language,expected);
+    A.equal(await page.locator('#nomad-v1-money-locale-probe').getAttribute('data-nomad-display-number'),'1234.5');
     await page.evaluate(()=>showServiceWorkChooser());
     await page.waitForFunction(code=>document.querySelector('#service-work-screen')?.textContent?.includes(code),
       expected==='kk'?'Қызмет':expected==='en'?'Service':'Услуга');
