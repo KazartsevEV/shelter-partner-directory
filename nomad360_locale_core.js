@@ -941,12 +941,45 @@ rows.push(
  ["ДЕМО: два заполненных товара · шоппер + майка","DEMO: two filled-in products · tote bag + T-shirt","ДЕМО: екі толтырылған тауар · шоппер + футболка"],
  ["Не удалось заполнить демо:","Could not load demo:","Демонстрацияны жүктеу мүмкін емес:"]
 );
+/* #47D: inline production, stock and service-capacity validations. */
+rows.push(
+ ["Для расчёта цены услуги заполните рекламную воронку и бюджет — нужен прогноз клиентов.","To calculate a service price, complete the advertising funnel and budget to forecast customers.","Қызмет бағасын есептеу үшін клиент болжамын алу мақсатында жарнама воронкасы мен бюджетін толтырыңыз."],
+ ["Укажите физическую вместимость салона: сколько услуг могут оказать мастера за месяц.","Enter the salon's physical capacity: how many appointments the specialists can provide per month.","Салонның нақты қуатын көрсетіңіз: шеберлер айына қанша қызмет көрсете алады."],
+ ["Укажите закупочную цену у поставщика.","Enter the supplier purchase price.","Жеткізушіден сатып алу бағасын енгізіңіз."],
+ ["Укажите срок доставки покупателю.","Enter the customer delivery time.","Сатып алушыға жеткізу мерзімін енгізіңіз."],
+ ["Заполните рекламную воронку и бюджет для прогноза заказов.","Complete the advertising funnel and budget to forecast orders.","Тапсырыс болжамы үшін жарнама воронкасы мен бюджетін толтырыңыз."],
+ ["Себестоимость минимальной закупочной партии не заполнена. Вернитесь в закупку и введите сумму больше нуля.","The minimum purchase batch cost is missing. Return to procurement and enter an amount greater than zero.","Ең аз сатып алу партиясының өзіндік құны толтырылмаған. Сатып алу бөліміне оралып, нөлден жоғары сома енгізіңіз."]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^Прогноз клиентов ([\d.,\s\u00A0]+) больше физической вместимости ([\d.,\s\u00A0]+) услуг \/ месяц\. Прайс нельзя подтвердить до изменения плана\.$/,
+  'Customer forecast $1 exceeds the physical capacity of $2 services per month. The price list cannot be confirmed until the plan is revised.',
+  'Клиент болжамы $1, ал салонның нақты айлық қуаты $2 қызмет. Жоспар өзгермейінше прайсты растауға болмайды.'],
+ [/^Прогноз ([\d.,\s\u00A0]+) клиентов превышает доступные ([\d.,\s\u00A0]+) процедур за месяц\. Увеличьте количество рабочих мест \/ мастеров или скорректируйте рекламу\.$/,
+  'Forecast demand of $1 customers exceeds $2 available monthly appointments. Add workstations or specialists, or adjust advertising.',
+  '$1 клиент болжамы айына қолжетімді $2 қабылдаудан асады. Жұмыс орындарын не шеберлер санын көбейтіңіз немесе жарнаманы түзетіңіз.'],
+ [/^Закуплено ([\d.,\s\u00A0]+) шт\., но для склада указано ([\d.,\s\u00A0]+) шт\. Увеличьте закупку или уменьшите склад\.$/,
+  'Purchased $1 units, but $2 units are assigned to inventory. Increase procurement or reduce inventory.',
+  '$1 дана сатып алынған, бірақ қоймаға $2 дана көрсетілген. Сатып алуды көбейтіңіз немесе қойма санын азайтыңыз.'],
+ [/^Нужно не менее ([\d.,\s\u00A0]+) ед\. материала для ([\d.,\s\u00A0]+) годных изделий при браке ([\d.,\s\u00A0]+)%\. Цена единицы материала не меняется\.$/,
+  'At least $1 material units are needed for $2 good products with a $3% defect rate. Material unit price does not change.',
+  '$3% ақау кезінде $2 жарамды өнім үшін кемінде $1 материал бірлігі қажет. Материалдың бірлік бағасы өзгермейді.'],
+ [/^Готового товара меньше, чем планируется положить на склад: ([\d.,\s\u00A0]+) шт\. при выпуске ([\d.,\s\u00A0]+)\. Уменьшите склад или увеличьте выпуск\.$/,
+  'Inventory plan is $1 units, but production is only $2. Reduce inventory or increase output.',
+  'Қойма жоспары $1 дана, ал өндіріс көлемі $2 ғана. Қойма санын азайтыңыз немесе өндірісті арттырыңыз.'],
+ [/^План продаж партии \(([\d.,\s\u00A0]+) шт\.\) превышает складские остатки \(([\d.,\s\u00A0]+) шт\.\)\. Уменьшите план либо увеличьте запас\.$/,
+  'Planned batch sales ($1 units) exceed available stock ($2 units). Reduce the sales plan or increase stock.',
+  'Партияның жоспарлы сатылымы ($1 дана) қойма қалдығынан ($2 дана) асады. Сатылым жоспарын азайтыңыз немесе қорды көбейтіңіз.'],
+ [/^Прогноз продаж за месяц \(([\d.,\s\u00A0]+) шт\.\) превышает запас партии \(([\d.,\s\u00A0]+) шт\.\)\. Скорректируйте рекламу или количество товара\.$/,
+  'Monthly sales forecast ($1 units) exceeds batch stock ($2 units). Adjust advertising or the quantity of goods.',
+  'Айлық сатылым болжамы ($1 дана) партия қорынан ($2 дана) асады. Жарнаманы немесе тауар санын түзетіңіз.'],
+ [/^Удорожание из-за брака \(([\d.,\s\u00A0]+)%\)$/,
+  'Defect-related cost increase ($1%)',
+  'Ақауға байланысты қымбаттау ($1%)'],
  [/^Прогноз клиентов для «([^»]*)» \(([\d.]+)\) больше доступных ([\d.]+) посещений в месяц\.$/,
   'Customer forecast for “$1” ($2) exceeds available $3 monthly appointments.',
   '«$1» клиент болжамы ($2) қолжетімді айлық $3 қабылдаудан асады.'],
