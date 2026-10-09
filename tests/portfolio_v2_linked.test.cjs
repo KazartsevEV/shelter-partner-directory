@@ -196,9 +196,11 @@ test('bundle discount fails closed if contract fixed, >100 or a price ceiling ca
  let r=E.build(x);A.equal(r.ready,false);
  A.ok(r.errors.some(x=>x.includes('Скидка комплекта')));
  x.offers[0].bundleDiscountPct=95;
+ x.offers[0].attachPct=100; // 95% off every anchor unit is economically impossible at V1 max
  r=E.build(x);A.equal(r.ready,false);
  A.ok(r.errors.some(x=>x.includes('минимум рентабельности')));
  x.offers[0].bundleDiscountPct=10;
+ x.offers[0].attachPct=20;
  x.skus[1].fixedPriceFromV1=true;
  r=E.build(x);A.equal(r.ready,false);
  A.ok(r.errors.some(x=>x.includes('Фиксированное онлайн-вознаграждение')||
