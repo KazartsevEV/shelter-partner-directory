@@ -29,6 +29,28 @@ const localeVisibleCensus=async(page,stage)=>page.evaluate(stage=>{
   total:lines.size};
 },stage);
 
+
+const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
+ const controls=[...document.querySelectorAll('button,input,select,textarea,[role="button"]')]
+  .filter(el=>!el.closest('[hidden],.hidden,[aria-hidden="true"]') &&
+    el.getClientRects().length>0 && el.getAttribute('type')!=='hidden');
+ const failures=[];
+ for(const el of controls){
+  const refs=(el.getAttribute('aria-labelledby')||'').split(/\s+/).filter(Boolean)
+    .map(id=>document.getElementById(id)?.textContent?.trim()||'').join(' ').trim();
+  const labels=[...el.labels||[]].map(node=>node.textContent?.trim()||'').join(' ').trim();
+  const name=el.getAttribute('aria-label')||refs||labels||el.getAttribute('title')||
+    (el.tagName==='BUTTON'?el.textContent?.trim():'');
+  if(!name){
+    failures.push({tag:el.tagName,id:el.id||null,type:el.type||null,
+      placeholder:el.getAttribute('placeholder')||null,
+      selector:el.getAttribute('data-linked-path')||el.getAttribute('data-key')||
+       el.getAttribute('data-p2-path')||el.getAttribute('data-mba-filter')||null});
+  }
+ }
+ return {stage,controls:controls.length,unlabeled:failures.length,examples:failures.slice(0,45)};
+},stage);
+
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
@@ -128,6 +150,7 @@ const localeVisibleCensus=async(page,stage)=>page.evaluate(stage=>{
     A.ok(formattedMoney.endsWith(expected==='en'?'currency units*':expected==='kk'?'ш.б.*':'у.е.*'),
       'display currency unit localized without changing numeric value');
     if(expected==='en')console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'v1-product')));
+    if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(await localeA11yCensus(page,'v1-product')));
     const payload=fixture();
     await page.evaluate(p=>{
       LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
@@ -145,6 +168,7 @@ const localeVisibleCensus=async(page,stage)=>page.evaluate(stage=>{
     },payload);
     await afterTick(page);
     if(expected==='en')console.log('NOMAD360_L47_CENSUS',JSON.stringify(await localeVisibleCensus(page,'v2-linked')));
+    if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(await localeA11yCensus(page,'v2-linked')));
     const baseline=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
