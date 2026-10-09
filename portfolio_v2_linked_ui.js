@@ -185,6 +185,26 @@ function render(){
 function updateResult(){
  const el=document.getElementById('linked-results');if(!el||!state)return;
  const out=Engine.build(state);
+ const preview=document.getElementById('linked-temporal-result');
+ if(preview){
+  const plan=out.temporal;
+  if(plan?.ready){
+   const names=Object.fromEntries(state.skus.map(s=>[s.id,s.name]));
+   const values=entries=>Object.entries(entries).map(([id,quantity])=>
+    safe(names[id]||id)+': '+money(quantity)).join('; ');
+   const rows=plan.months.map(m=>'<tr class="border-t border-slate-200">'+
+    '<td class="p-2">'+m.month+'</td><td class="p-2 text-right">'+money(m.units)+'</td>'+
+    '<td class="p-2">'+values(m.orders)+'</td>'+
+    '<td class="p-2">'+values(m.remainingStock)+'</td></tr>').join('');
+   preview.innerHTML='<p class="text-emerald-800 font-bold">Остатки и мощности проверены по месяцам.</p>'+
+    '<div class="overflow-x-auto mt-2"><table class="min-w-full text-xs"><thead><tr>'+
+    '<th class="p-2">Месяц</th><th class="p-2">Количество</th><th class="p-2">Продажи</th>'+
+    '<th class="p-2">Остатки</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<p class="mt-2 text-xs text-amber-800">Это проверка объёмов, а не многомесячный Cash Flow. Финансовый расчёт ниже пока не суммирует эти месяцы.</p>';
+  }else preview.textContent=Number(state.forecastMonths??1)>1?
+   'Для многомесячного прогноза требуется подтверждение повторения спроса и проверка запасов.':
+   'По умолчанию используется исходный 30-дневный прогноз V2.';
+ }
  root.LinkedPortfolioV2BasketUI?.updateResult(out);
  for(const node of document.querySelectorAll('[data-linked-live]')){
   const sku=out.items?.find(s=>s.id===node.dataset.linkedLive);
