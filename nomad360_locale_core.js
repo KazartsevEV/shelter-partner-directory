@@ -1126,6 +1126,12 @@ rows.push(
  ["Всего позиций:","Total line items:","Жалпы позициялар:"],
  ["поставщик не указан","supplier not specified","жеткізуші көрсетілмеген"]
 );
+/* #47X: dynamic V2 placeholders and demo title prefix. */
+rows.push(
+ ["Введите число","Enter a number","Санды енгізіңіз"],
+ ["Название своего товара","Your product name","Тауарыңыздың атауы"],
+ ["ДЕМО ·","DEMO ·","ҮЛГІ ·"]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
