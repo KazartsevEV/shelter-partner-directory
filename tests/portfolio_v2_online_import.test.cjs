@@ -172,3 +172,12 @@ test('Online service reallocation never converts partner-funded media to my cost
  close(result.counterpart[0].partnerOpex,400,'original partner spend remains owned by partner');
  close(result.items[0].revenue,97.5,'my commission on new deals');
 });
+
+test('Online CAPEX cannot create profit tax on company goods when online is a separate turnover taxpayer',()=>{
+ const svc=source('agent',{site:120,magnet:60},everyPayer('me'));
+ const state=E.fromV1({skus:[svc],tax:{type:'profit',pct:24}});
+ const r=E.build(state);A.equal(r.ready,true,JSON.stringify(r.errors));
+ close(r.totals.tax,6.5,'agent own turnover tax only, no artificial corporate profit tax');
+ close(r.cashflow.months.reduce((a,m)=>a+m.tax,0),6.5,
+   'cash tax includes agent tax but never taxes own depreciation');
+});
