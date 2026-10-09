@@ -3513,8 +3513,9 @@
             return {
                 ready: true,
                 error: '',
-                minPrice: Math.min(priceForMinimumMargin, priceForTargetMargin),
-                maxPrice: Math.max(priceForMinimumMargin, priceForTargetMargin)
+                // Customer-visible amounts are rounded UP to cents, never below the promised margin.
+                minPrice: Math.ceil(Math.min(priceForMinimumMargin, priceForTargetMargin) * 100) / 100,
+                maxPrice: Math.ceil(Math.max(priceForMinimumMargin, priceForTargetMargin) * 100) / 100
             };
         }
 
