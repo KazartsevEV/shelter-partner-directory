@@ -17,6 +17,8 @@ on:
       - "tests/portfolio_v2_f3_fixture.cjs"
       - "tests/portfolio_v2_f3_mixed_oracle.test.cjs"
       - "tests/portfolio_v2_f4_release.test.cjs"
+      - ".github/workflows/calculator-portfolio-probe.yml"
+      - ".github/workflows/portfolio-v2.yml"
       - "tests/calculator_release_pages_smoke.cjs"
       - "portfolio_v2_period_price.js"
       - "portfolio_v2_pooled_media.js"
@@ -39,6 +41,8 @@ on:
     branches: ["main"]
     paths:
       - "tests/portfolio_v2_f4_release.test.cjs"
+      - ".github/workflows/calculator-portfolio-probe.yml"
+      - ".github/workflows/portfolio-v2.yml"
       - "tests/calculator_release_pages_smoke.cjs"
       - "tests/portfolio_v2_f3_mixed_oracle.test.cjs"
       - "portfolio_v2_period_price.js"

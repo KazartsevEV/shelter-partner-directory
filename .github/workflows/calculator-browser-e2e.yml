@@ -18,6 +18,9 @@ on:
       - "tests/portfolio_v2_f3_fixture.cjs"
       - "tests/portfolio_v2_f3_mixed_browser.test.cjs"
       - "tests/portfolio_v2_f4_release_browser.test.cjs"
+      - ".github/workflows/calculator-portfolio-probe.yml"
+      - ".github/workflows/portfolio-v2.yml"
+      - ".github/workflows/calculator-tests.yml"
       - "portfolio_v2_period_price.js"
       - "portfolio_v2_temporal_cash.js"
       - "portfolio_v2_period_price.js"
@@ -47,6 +50,9 @@ on:
       - "portfolio_v2_period_price.js"
       - "portfolio_v2_temporal_cash.js"
       - "tests/portfolio_v2_f4_release_browser.test.cjs"
+      - ".github/workflows/calculator-portfolio-probe.yml"
+      - ".github/workflows/portfolio-v2.yml"
+      - ".github/workflows/calculator-tests.yml"
       - ".github/workflows/calculator-browser-e2e.yml"
   workflow_dispatch:
 
