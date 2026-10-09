@@ -55,6 +55,15 @@ async function checkText(page,id,raw,language){
     }
     await page.goto(base+'?demo=shopper&finance=cash',{waitUntil:'domcontentloaded'});
     await page.locator('#product-demo-banner').waitFor({state:'visible',timeout:10000});
+    // The banner appears before the demo finishes setting business tax/VAT.
+    // Wait for the canonical populated price-list gate, not for visual paint.
+    await page.waitForFunction(()=>{
+     if(!productPortfolio.length||productBusinessTaxType!=='turnover'||
+        productOwnChoices.salesVat!=='yes')return false;
+     if(Number(document.getElementById('own-sales-vat-pct')?.value)!==12||
+        Number(document.getElementById('own-business-tax-pct')?.value)!==6)return false;
+     return calculatePriceListRange(productPortfolio[0]).ready;
+    },null,{timeout:15000});
     const blocked=await page.evaluate(()=>({
      accepted:saveProductCalculationToBrowser(),
      state:JSON.stringify(productPortfolio),
