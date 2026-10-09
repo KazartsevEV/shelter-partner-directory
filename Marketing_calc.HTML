@@ -267,19 +267,38 @@
     <section id="home-screen" class="max-w-4xl mx-auto">
         <div class="card p-6 md:p-8">
             <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Юнит-экономика</div>
-            <h1 class="text-3xl font-bold text-slate-900">Что я продаю?</h1>
-            <p class="text-sm text-slate-500 mt-2">Выберите модель бизнеса. Дальше калькулятор покажет только релевантную ветку.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
-                <button onclick="showProductBranch()" class="card p-6 text-left hover:border-blue-400 hover:shadow-md transition">
-                    <div class="text-2xl mb-2">📦</div>
-                    <div class="text-xl font-semibold text-slate-900">Товар</div>
-                    <div class="text-sm text-slate-500 mt-1">Товарный бизнес</div>
-                </button>
-                <button onclick="showServiceChooser()" class="card p-6 text-left hover:border-blue-400 hover:shadow-md transition">
-                    <div class="text-2xl mb-2">🧩</div>
-                    <div class="text-xl font-semibold text-slate-900">Услуга</div>
-                    <div class="text-sm text-slate-500 mt-1">Консультации, подряд, агентская модель</div>
-                </button>
+            <h1 class="text-3xl font-bold text-slate-900">Калькулятор моего бизнеса</h1>
+            <p class="text-sm text-slate-600 mt-2">Заполните свои цифры с нуля. Калькулятор рассчитает расходы, цену товара, налоги и денежный поток по месяцам. Ни одного тестового товара в вашем расчёте.</p>
+            <button id="start-own-product" type="button" onclick="startFreshProductCalculation()"
+                class="w-full mt-6 px-5 py-4 text-lg font-black rounded-xl bg-blue-600 text-white shadow hover:bg-blue-700">
+                + Рассчитать СВОЙ товар
+            </button>
+            <div id="saved-product-entry" class="hidden mt-4 rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4" hidden>
+                <div class="font-bold text-emerald-900">Ваш расчёт сохранён в этом браузере</div>
+                <div class="text-sm text-emerald-800 mt-1" id="saved-product-summary"></div>
+                <button id="resume-own-product" type="button" onclick="resumeSavedProductCalculation()"
+                    class="mt-3 w-full rounded-lg bg-emerald-700 text-white px-4 py-3 font-bold">Продолжить и редактировать мои товары</button>
+                <p class="text-xs text-emerald-800 mt-2">Доступно в этом браузере и на этом устройстве. Другой телефон по этой ссылке не увидит ваш сохранённый расчёт.</p>
+            </div>
+            <details class="mt-6 rounded-xl border border-slate-200 p-4">
+                <summary class="font-bold text-slate-800 cursor-pointer">Посмотреть, что будет рассчитываться</summary>
+                <ol class="list-decimal pl-5 mt-3 text-sm text-slate-600 space-y-2">
+                    <li>Название и способ получения товара.</li>
+                    <li>Материалы или закупка, производство, работники, оборудование, документы.</li>
+                    <li>Логистика и хранение до продажи последнего товара.</li>
+                    <li>Продажи, комиссии, рекламная воронка и цена привлечения покупателя.</li>
+                    <li>Налоги, резерв денег, кредит и цена с желаемой маржинальностью.</li>
+                    <li>Рентабельность бизнеса, cash flow по месяцам и свободный денежный остаток.</li>
+                </ol>
+                <p class="text-xs text-amber-800 mt-3">Сейчас полностью рассчитывается собственное производство. Учёт перепродажи, дропшиппинга и совместных ресурсов разных товаров разрабатывается отдельно — эти ветки не будут выдавать условные результаты за готовые.</p>
+            </details>
+            <div class="mt-5 rounded-xl bg-slate-50 p-4">
+                <div class="font-bold text-slate-800">Или посмотреть заполненный учебный пример</div>
+                <p class="text-xs text-slate-500 mt-1">Пример открывается отдельно и не заменяет ваш товар.</p>
+                <a href="?demo=shopper&amp;finance=cash" class="inline-block mt-3 text-sm font-bold text-blue-700 underline">Посмотреть пример шоппера →</a>
+            </div>
+            <div class="mt-6 border-t border-slate-200 pt-4">
+                <button onclick="showServiceChooser()" class="text-sm text-blue-700 font-semibold underline">У меня услуга, не товар →</button>
             </div>
         </div>
     </section>
@@ -355,6 +374,7 @@
                 <button id="demo-edit-first" type="button" class="hidden rounded-lg border border-blue-300 bg-white px-3 py-2" onclick="editSavedProduct(1)">✎ Редактировать товар 1</button>
                 <a class="rounded-lg bg-white border border-blue-300 px-3 py-2" href="?demo=shopper&amp;finance=cash">Без кредита · 5 мес.</a>
                 <a class="rounded-lg bg-white border border-blue-300 px-3 py-2" href="?demo=shopper&amp;finance=credit">В кредит · 6 мес.</a>
+                <a id="demo-own-start" class="rounded-lg bg-blue-700 text-white px-3 py-2" href="?start=product">+ Рассчитать СВОЙ товар с нуля</a>
             </div>
         </div>
 
@@ -374,6 +394,7 @@
                     autocomplete="off"
                 >
                 <p id="product-name-error" class="hidden text-xs text-red-600 mt-2">Введите наименование товара.</p>
+                <p class="mt-2 text-xs text-slate-500">Введите название своего товара. Сведения из учебных примеров сюда не переносятся.</p>
 
                 <button
                     type="submit"
@@ -404,13 +425,23 @@
                 </button>
 
                 <button type="button" data-product-source="resale" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
-                    <div class="font-semibold text-slate-900">Покупаю у других</div>
+                    <div class="font-semibold text-slate-900">Покупаю для перепродажи</div><div class="text-xs text-slate-500 mt-1">Расчёт в разработке</div>
                 </button>
 
                 <button type="button" data-product-source="dropship" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
-                    <div class="font-semibold text-slate-900">Дропшиппинг</div>
+                    <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Расчёт в разработке</div>
                 </button>
             </div>
+            <div id="product-source-unavailable" class="hidden mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900" role="status" hidden>
+                Для этого способа продажи полноценная финансовая модель пока не реализована. Можно вернуться к выбору «Делаю сам». Чужие расходы или результат собственного производства подставлены не будут.
+            </div>
+        </div>
+
+        <div id="product-draft-toolbar" class="hidden mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4" hidden>
+            <div class="font-semibold text-slate-900">Ваш товар — сохраните черновик в любой момент</div>
+            <p class="text-xs text-slate-600 mt-1">Достаточно имени и выбранного собственного производства. Можно вернуться к незаполненным полям позже.</p>
+            <button type="button" class="mt-3 w-full rounded-lg bg-blue-700 text-white font-bold px-4 py-3" onclick="saveProductCalculationToBrowser()">Сохранить мой товар и продолжить позже</button>
+            <div id="product-draft-save-status" class="text-sm text-blue-800 mt-2" role="status"></div>
         </div>
 
         <div id="product-own-form" class="hidden mt-5 space-y-5" hidden>
@@ -1139,7 +1170,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Свой рекламный бюджет на месяц, у.е.*</label>
-                            <input id="own-product-ad-budget" type="number" min="0" step="0.01" value="150" class="input-field" oninput="recalculateProductAdFunnel()">
+                            <input id="own-product-ad-budget" type="number" min="0" step="0.01" value="" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
                     </div>
@@ -1152,22 +1183,22 @@
 
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Средняя цена клика CPC, у.е.*</label>
-                            <input id="own-product-ad-cpc" type="number" min="0" step="0.01" value="0.33" class="input-field" oninput="recalculateProductAdFunnel()">
+                            <input id="own-product-ad-cpc" type="number" min="0" step="0.01" value="" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">CTR — кликабельность рекламы, %</label>
-                            <input id="own-product-ad-ctr" type="number" min="0" step="0.01" value="1.4" class="input-field" oninput="recalculateProductAdFunnel()">
+                            <input id="own-product-ad-ctr" type="number" min="0" step="0.01" value="" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Конверсия клик → лид / обращение, %</label>
-                            <input id="own-product-ad-click-lead" type="number" min="0" step="0.01" value="3" class="input-field" oninput="recalculateProductAdFunnel()">
+                            <input id="own-product-ad-click-lead" type="number" min="0" step="0.01" value="" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Конверсия лид / обращение → покупка, %</label>
-                            <input id="own-product-ad-lead-sale" type="number" min="0" step="0.01" value="35" class="input-field" oninput="recalculateProductAdFunnel()">
+                            <input id="own-product-ad-lead-sale" type="number" min="0" step="0.01" value="" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
                         <div>
@@ -1612,7 +1643,10 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showHome() { showOnly('home-screen'); }
+        function showHome() {
+            showOnly('home-screen');
+            updateSavedProductEntry();
+        }
         function showServiceChooser() { showOnly('service-screen'); }
         function showAgentChooser() { showOnly('agent-screen'); }
         function showAgentComplex() { showOnly('agent-complex-screen'); }
@@ -4096,22 +4130,141 @@
             panel.classList.toggle('hidden', !show);
         }
 
+        // A blank first-run is always the default. Stored portfolios are opened
+        // ONLY with the explicit "Continue my products" control or ?resume=1.
+        const savedProductStorageKey = 'marketingCalcProductResultV1';
+
+        function readSavedProductCalculation() {
+            try {
+                const text = localStorage.getItem(savedProductStorageKey);
+                if (!text) return null;
+                const parsed = JSON.parse(text);
+                if (!Array.isArray(parsed.productPortfolio) || !parsed.productPortfolio.length ||
+                    parsed.productPortfolio.length > 100) return null;
+                const seen = new Set();
+                for (const item of parsed.productPortfolio) {
+                    if (!item || item.source !== 'own' ||
+                        !Number.isSafeInteger(Number(item.id)) || Number(item.id) <= 0 ||
+                        seen.has(Number(item.id)) ||
+                        typeof item.name !== 'string' || !item.name.trim() ||
+                        !item.inputs || typeof item.inputs !== 'object') return null;
+                    seen.add(Number(item.id));
+                }
+                return parsed;
+            } catch (_) {
+                return null;
+            }
+        }
+
+        function updateSavedProductEntry() {
+            const box = document.getElementById('saved-product-entry');
+            const summary = document.getElementById('saved-product-summary');
+            if (!box) return;
+            const saved = readSavedProductCalculation();
+            box.hidden = !saved;
+            box.classList.toggle('hidden', !saved);
+            if (saved && summary) {
+                const count = saved.productPortfolio.length;
+                const date = saved.savedAt ? new Date(saved.savedAt) : null;
+                const updated = date && Number.isFinite(date.getTime())
+                    ? ' · последнее сохранение ' + date.toLocaleString('ru-RU') : '';
+                summary.textContent = count + ' ' +
+                    (count === 1 ? 'товар' : 'товаров') + updated;
+            }
+        }
+
+        function startFreshProductCalculation() {
+            // Starting an empty calculation does NOT delete the prior local saved copy.
+            productPortfolio.length = 0;
+            currentProductSequence = 1;
+            document.getElementById('completed-product-forms').innerHTML = '';
+            resetCurrentProductForNext();
+            const extra = document.getElementById('product-source-unavailable');
+            if (extra) { extra.hidden = true; extra.classList.add('hidden'); }
+            const intro = document.getElementById('product-name-input')?.closest('.card');
+            if (intro) intro.classList.remove('hidden');
+            const box = document.getElementById('product-business-summary-list');
+            if (box) box.innerHTML = '';
+            const status = document.getElementById('product-browser-save-status');
+            if (status) status.textContent = '';
+            renderProductPortfolio();
+            showProductBranch();
+            document.getElementById('product-name-input')?.focus({ preventScroll: true });
+        }
+
+        function resumeSavedProductCalculation() {
+            const saved = readSavedProductCalculation();
+            if (!saved) {
+                updateSavedProductEntry();
+                showHome();
+                return false;
+            }
+            productPortfolio.length = 0;
+            currentProductSequence = 1;
+            document.getElementById('completed-product-forms').innerHTML = '';
+            resetCurrentProductForNext();
+            saved.productPortfolio.forEach(item => productPortfolio.push(item));
+            currentProductSequence = Math.max(...productPortfolio.map(item => Number(item.id))) + 1;
+
+            productBusinessTaxType =
+                saved.taxType === 'turnover' || saved.taxType === 'profit'
+                    ? saved.taxType : null;
+            const taxPct = document.getElementById('own-business-tax-pct');
+            if (taxPct) taxPct.value = String(saved.businessTaxPct ?? 0);
+            if (saved.salesVat === 'yes' || saved.salesVat === 'no') {
+                productOwnChoices.salesVat = saved.salesVat;
+            }
+            const vatPct = document.getElementById('own-sales-vat-pct');
+            if (vatPct) vatPct.value = String(saved.salesVatPct ?? 0);
+
+            showProductBranch();
+            renderProductPortfolio();
+            const lastId = Number(saved.activeProductId) ||
+                Number(productPortfolio[productPortfolio.length - 1].id);
+            const id = productPortfolio.some(item => Number(item.id) === lastId)
+                ? lastId : Number(productPortfolio[0].id);
+            editSavedProduct(id);
+            return true;
+        }
+
         function saveProductCalculationToBrowser() {
+            const status = document.getElementById('product-browser-save-status');
+            const draftStatus = document.getElementById('product-draft-save-status');
+            const report = message => {
+                if (status) status.textContent = message;
+                if (draftStatus) draftStatus.textContent = message;
+            };
+            if (new URLSearchParams(window.location.search).get('demo') === 'shopper') {
+                report('Это учебный пример. Чтобы сохранять свои данные, начните собственный расчёт с нуля.');
+                return false;
+            }
+            if (productName && productSource === 'own') {
+                saveCurrentProductToPortfolio();
+            }
+            if (!productPortfolio.length) {
+                report('Сначала введите название своего товара и выберите «Делаю сам».');
+                return false;
+            }
             try {
                 const payload = {
                     savedAt: new Date().toISOString(),
+                    activeProductId: currentProductSequence,
                     productPortfolio,
                     taxType: productBusinessTaxType,
                     businessTaxPct: productNumber('own-business-tax-pct'),
                     salesVat: productOwnChoices.salesVat || 'no',
                     salesVatPct: productNumber('own-sales-vat-pct')
                 };
-                localStorage.setItem('marketingCalcProductResultV1', JSON.stringify(payload));
-                const status = document.getElementById('product-browser-save-status');
-                if (status) status.textContent = 'Расчёт сохранён в этом браузере.';
+                localStorage.setItem(savedProductStorageKey, JSON.stringify(payload));
+                const savedHtml = 'Сохранено в этом браузере. ' +
+                    '<a class="underline font-bold" href="?resume=1">Открыть мои товары для редактирования</a>';
+                if (status) status.innerHTML = savedHtml;
+                if (draftStatus) draftStatus.innerHTML = savedHtml;
+                updateSavedProductEntry();
+                return true;
             } catch (error) {
-                const status = document.getElementById('product-browser-save-status');
-                if (status) status.textContent = 'Браузер не разрешил сохранить расчёт.';
+                report('Не удалось сохранить: браузер запретил локальное хранилище.');
+                return false;
             }
         }
 
@@ -4964,6 +5117,13 @@
             const sourceBlock = document.getElementById('product-source-block');
             sourceBlock.hidden = true;
             sourceBlock.classList.add('hidden');
+            const draftToolbar = document.getElementById('product-draft-toolbar');
+            if (draftToolbar) {
+                draftToolbar.hidden = true;
+                draftToolbar.classList.add('hidden');
+            }
+            const draftStatus = document.getElementById('product-draft-save-status');
+            if (draftStatus) draftStatus.textContent = '';
 
             const businessBackButton = document.getElementById('product-business-back-button');
             if (businessBackButton) businessBackButton.classList.add('hidden');
@@ -5929,6 +6089,16 @@
             const hideOwn = source !== 'own';
             ownForm.hidden = hideOwn;
             ownForm.classList.toggle('hidden', hideOwn);
+            const unavailable = document.getElementById('product-source-unavailable');
+            if (unavailable) {
+                unavailable.hidden = source === 'own';
+                unavailable.classList.toggle('hidden', source === 'own');
+            }
+            const draftToolbar = document.getElementById('product-draft-toolbar');
+            if (draftToolbar) {
+                draftToolbar.hidden = source !== 'own';
+                draftToolbar.classList.toggle('hidden', source !== 'own');
+            }
 
             if (source === 'own') {
                 initProductOwnForm();
@@ -6895,7 +7065,13 @@
             initInputs();
             calculate();
             showHome();
-            if (new URLSearchParams(window.location.search).get('demo') === 'shopper') {
+            const mode = new URLSearchParams(window.location.search);
+            if (mode.get('demo') !== 'shopper' && mode.get('resume') === '1') {
+                resumeSavedProductCalculation();
+            } else if (mode.get('demo') !== 'shopper' && mode.get('start') === 'product') {
+                startFreshProductCalculation();
+            }
+            if (mode.get('demo') === 'shopper') {
                 populateShopperDemonstration().catch(error => {
                     console.error('Calculator demonstration failed:', error);
                     const banner = document.getElementById('product-demo-banner');
