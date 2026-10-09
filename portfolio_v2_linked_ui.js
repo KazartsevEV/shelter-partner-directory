@@ -279,7 +279,7 @@ function updateResult(){
   '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
  (out.items.some(s=>s.onlineContract)?
     '<p class="text-amber-200 text-xs mt-2">Онлайн-услуги имеют фиксированные тарифы V1: при дополнительных расходах возможна отрицательная маржа. Это сигнал убытка, а не автоматическое увеличение вознаграждения агента.</p>':'')+
-  '<h3 class="font-bold mt-5">Тарифы и конечные суммы по единицам</h3>'+priceTable+
+  '<h3 class="font-bold mt-5">Конечные цены покупателей / договорные комиссии онлайн-агента</h3>'+priceTable+
  partnerEconomics+'<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
