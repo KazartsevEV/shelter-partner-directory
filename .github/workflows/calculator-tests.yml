@@ -18,6 +18,8 @@ on:
       - "tests/portfolio_v2_f3_mixed_oracle.test.cjs"
       - "tests/portfolio_v2_f4_release.test.cjs"
       - "nomad360_calculator_ui.js"
+      - "nomad360_locale_core.js"
+      - "tests/nomad360_locale_core_browser.test.cjs"
       - "nomad360_calculator_ui.css"
       - "tests/nomad360_calculator_ui_browser.test.cjs"
       - ".github/workflows/calculator-portfolio-probe.yml"
@@ -43,6 +45,7 @@ on:
   push:
     branches: ["main"]
     paths:
+      - "nomad360_locale_core.js"
       - "nomad360_calculator_ui.js"
       - "nomad360_calculator_ui.css"
       - "tests/portfolio_v2_f4_release.test.cjs"
