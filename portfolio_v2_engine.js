@@ -17,7 +17,10 @@
   const id = v=>String(v??'');
   const validKind=new Set(['own','resale','dropship']);
   const facilityKinds=new Set(['premises','workers','warehouse','salesStaff','marketingManager','website','hosting','domain','content','other','equipment','certification','campaign']);
-  const scope = (r,ids)=> r.skuIds?.length ? r.skuIds.map(id).filter(s=>ids.includes(s)) : ids.slice();
+  // Omitted beneficiary list means business-wide; an explicitly EMPTY list
+  // means an invalid, unassigned resource, never silently "all SKUs".
+  const scope = (r,ids)=> Array.isArray(r.skuIds) ?
+    r.skuIds.map(id).filter(s=>ids.includes(s)) : ids.slice();
   function marketingFunnel(marketing) {
     const budget=positive(marketing?.budget);
     const cpc=positive(marketing?.cpc);
