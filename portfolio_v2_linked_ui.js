@@ -31,7 +31,11 @@ function enter(){
  render();
 }
 function importFromV1(payload){
- const fresh=Engine.fromV1(payload),prior=read();
+ const fresh=Engine.fromV1(payload),prior=state||read();
+ // Preserve individually imported online services when the product portfolio
+ // is re-imported. Each online SKU retains its own owner-tax provenance.
+ if(prior)fresh.skus.push(...prior.skus.filter(s=>s.source==='online-service'&&
+   !fresh.skus.some(x=>x.id===s.id)).map(s=>JSON.parse(JSON.stringify(s))));
  // Reimporting V1 after adding another item must not wipe the user's portfolio.
  // Preserve settings only for the exact overlapping canonical IDs; never silently
  // grant newly imported products access to old shared resources or offer tuples.
@@ -60,40 +64,20 @@ function importFromV1(payload){
    });
   }
  }
- if(prior){
-  // Goods reimport never discards already approved online services.
-  for(const row of prior.skus.filter(s=>s.onlineContract))
-    if(!fresh.skus.some(s=>s.id===row.id))fresh.skus.push(JSON.parse(JSON.stringify(row)));
-  const allowed=new Set(fresh.skus.map(s=>s.id));
-  for(const r of prior.resources||[])if(!fresh.resources.some(x=>x.id===r.id)){
-   const kept=(r.skuIds||[]).filter(id=>allowed.has(id));
-   if(kept.length)fresh.resources.push({...JSON.parse(JSON.stringify(r)),skuIds:kept,
-    includedBySku:Object.fromEntries(Object.entries(r.includedBySku||{}).filter(([id])=>allowed.has(id))),
-    usage:Object.fromEntries(Object.entries(r.usage||{}).filter(([id])=>allowed.has(id)))});
-  }
-  for(const r of prior.offers||[])
-   if(!fresh.offers.some(x=>x.id===r.id)&&allowed.has(r.anchorSkuId)&&
-      r.items?.every(p=>allowed.has(p.skuId)))fresh.offers.push(JSON.parse(JSON.stringify(r)));
-  fresh.onlineDrafts=prior.onlineDrafts||{};
- }
- fresh.lastEntry='goods';
  state=fresh;resetSequence();save();enter();
 }
-function mergeOnlineV1(payload){
- const incoming=Engine.fromV1(payload),saved=read();
- if(!saved){
-  state=incoming;state.onlineDrafts={};
- }else{
-  state=JSON.parse(JSON.stringify(saved));
-  const sku=incoming.skus[0],index=state.skus.findIndex(s=>s.id===sku.id);
-  if(index>=0)state.skus[index]=sku;else state.skus.push(sku);
-  state.onlineDrafts=state.onlineDrafts||{};
-  state.importedAt=incoming.importedAt;
+function appendOnline(sku){
+ if(!sku||sku.source!=='online-service'||!sku.onlineProvenance)
+  throw Error('Ожидается проверенный расчёт онлайн-услуги V1.');
+ const previous=state||read();
+ const next=previous?JSON.parse(JSON.stringify(previous)):Engine.fromV1({
+   tax:sku.ownerTax,skus:[sku]});
+ if(previous){
+   if(next.skus.some(s=>s.id===sku.id))throw Error('Такой ID услуги уже включён в портфель.');
+   next.skus.push({...JSON.parse(JSON.stringify(sku)),priceSelected:sku.priceMax,discountSelected:0});
  }
- if(payload.onlineDraft)state.onlineDrafts[incoming.skus[0].id]=JSON.parse(JSON.stringify(payload.onlineDraft));
- state.lastEntry='online';
- resetSequence();save();enter();
- return state;
+ next.lastOrigin='online';
+ state=next;resetSequence();save();enter();
 }
 function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];resetSequence();enter();return true;}
 function options(items,value){return items.map(([v,label])=>'<option value="'+safe(v)+'" '+(v===value?'selected':'')+'>'+safe(label)+'</option>').join('');}
@@ -102,7 +86,7 @@ function field(label,path,value,extra=''){
  '<input data-linked-path="'+safe(path)+'" type="number" step="0.01" min="0" class="input-field mt-1" value="'+safe(value)+'" '+extra+'></label>';
 }
 function resourceCard(r,i){
- const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||!(['offline-service','online-self','online-hired','online-agent'].includes(s.source))).map(s=>{
+ const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||!['offline-service','online-service'].includes(s.source)).map(s=>{
   const checked=r.skuIds.includes(s.id);
   const baseline=r.pool==='unitCost'?num(s.unitCost)*num(s.forecastUnitsPerMonth):
    r.pool==='salesFixed'?num(s.salesFixedMonthly):
@@ -144,22 +128,18 @@ function render(){
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
  '<div class="font-bold text-slate-900 text-lg">'+safe(s.name)+'</div>'+
- '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-self':'Онлайн · я сам','online-hired':'Онлайн · нанимаю','online-agent':'Онлайн · агент'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
+ '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-700 mt-3">'+
  [['Себестоимость V1 / шт.',money(s.unitCost)],['Прогноз V1 / мес.',money(s.forecastUnitsPerMonth)],
  ['Реклама V1 / мес.',money(s.adBudget)],['CAC V1',money(s.baseCac)],['Цена от',money(s.priceMin)],
  ['Цена до',money(s.priceMax)],['Дельта цены',money(num(s.priceMax)-num(s.priceMin))]].map(([label,value])=>
  '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b>'+value+'</b></div>').join('')+'</div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
- (s.onlineContract?
- '<div class="rounded-lg bg-blue-50 p-3 text-xs text-blue-900">Эффективный доход на сделку первого месяца V1: '+money(s.priceMax)+
- (s.source==='online-agent'?' — мой комиссионный доход, не оборот партнёра.':' — средний прогнозный доход, не цена консультации/пакета для клиента.')+
- ' Это результат сценария V1 с учётом стартовых коэффициентов; сумма за расчётную сделку фиксирована только внутри V2.</div>'+field('Лимит онлайн-сделок в месяц (0 — мощность не указана)','skus.'+i+'.onlineCapacity',s.onlineCapacity??0,'min="0" step="1"'):
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
- 'max="'+safe(s.maxDiscountPct)+'"'))+'</div>'+
+ 'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
  '<div class="rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
  '<div class="text-xs">Автоматическая цена прайса V2</div><div class="text-xl font-black" data-linked-price-list>'+money(byId.get(s.id)?.priceList)+'</div>'+
- '<div class="text-xs mt-2">'+(s.onlineContract?'Эффективный доход с одной прогнозной сделки':'Покупатель платит (скидка и НДС учтены)')+'</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
+ '<div class="text-xs mt-2">Покупатель платит (скидка и НДС учтены)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
  '<div class="text-xs text-slate-700 mt-2" data-linked-unit-meta></div>'+
  '<p class="text-xs text-slate-500 mt-2">Цену рассчитывает V2 по продажам, денежному весу, рекламной и общей нагрузке. Диапазон цены V1 не меняется.</p>'+
  '</article>').join('');
@@ -177,7 +157,7 @@ function render(){
  '<div class="grid grid-cols-1 xl:grid-cols-2 gap-3">'+skus+'</div></section>'+
  '<section class="rounded-2xl border border-slate-200 bg-white p-4 mb-5">'+
  '<h2 class="text-xl font-bold">2. Общие ресурсы</h2>'+
- '<p class="text-sm text-slate-600 mt-2">Ресурсы в этом блоке оплачивает владелец портфеля. Не добавляйте сюда расходы, которые оплачивает партнёр агента: они отражены отдельно. Складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
+ '<p class="text-sm text-slate-600 mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
  '<button type="button" data-linked-add class="w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
  '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
@@ -197,12 +177,11 @@ function updateResult(){
   if(list)list.textContent=money(sku?.priceList);
   if(paid)paid.textContent=money(sku?.priceGross);
   const meta=node.closest('[data-linked-sku]')?.querySelector('[data-linked-unit-meta]');
-  if(meta)meta.textContent=sku?.onlineContract?
-    'Прогнозный доход на сделку первого месяца V1; учитываются мои доходы, расходы и налоги. Расчётная маржа: '+money(sku.actualAfterTaxMargin)+'%.':sku?
+  if(meta)meta.textContent=sku?
     'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
     '; для минимальной: '+money(sku.requiredFloorPrice)+
     '; денежная доля: '+money(sku.revenueWeight*100)+'%; '+
-    ({CONTRACT:'фиксированный контракт V1',TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима'}[sku.status]||'ожидает проверки'):
+    ({TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима',LOSS:'Фиксированная цена V1 убыточна',FIXED_V1:'Фиксированная цена/комиссия V1 сохранена'}[sku.status]||'ожидает проверки'):
     'Заполните общие ресурсы.';
  }
  document.querySelectorAll('[data-linked-error]').forEach(x=>x.remove());
@@ -236,9 +215,9 @@ function updateResult(){
  const cards=[['Продано позиций за 30 дней',t.forecast],['Выручка без НДС',t.revenue],
   ['Рекламный бюджет',t.media],['Себестоимость',t.cogs],
   ['Общие расходы / мес.',t.monthlyResources],['EBITDA',t.ebitda],
-  ['Налоги владельца / агента',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
+  ['Налог бизнеса',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
  const priceTable='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Товар / услуга','Диапазон V1','Прайс / контракт V2','Скидка','Доход за единицу','Прогноз, ед.','Денежный вес','Моя реклама','Чистая маржа'].map(label=>
+  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Платит покупатель','Прогноз, ед.','Денежный вес','Реклама','Чистая маржа'].map(label=>
    '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
   out.items.map(s=>'<tr class="border-t border-white/20">'+
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
@@ -262,25 +241,14 @@ function updateResult(){
     money(m.cumulative),money(m.freeCumulative)]
     .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
- const partnerEconomics=(out.counterpart||[]).length?
-   '<h3 class="font-bold mt-5">Оборот партнёра — отдельный учёт, не мой доход</h3>'+
-   '<div class="mt-2 space-y-2">'+out.counterpart.map(p=>
-    '<div class="rounded-lg border border-white/20 p-3 text-xs">'+safe(p.name)+
-    ': оборот '+money(p.gross)+', эквайринг '+money(p.acquiring)+
-    ', выплата мне '+money(p.commission)+', налог партнёра '+money(p.partnerTax)+
-    ', операционные расходы партнёра '+money(p.partnerOpex)+
-    ', прибыль партнёра '+money(p.profit)+', денежный поток партнёра '+money(p.cash)+
-    '</div>').join('')+'</div>':'';
  el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
   '<div class="text-xl font-black">'+money(value)+'</div></div>').join('')+'</div>'+
- (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Минимальные и целевые маржи товаров/офлайн-услуг соблюдены; договорные цены онлайн-услуг не меняются.</p>':
+ (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Целевая маржа достигнута для всех позиций.</p>':
   '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
- (out.items.some(s=>s.onlineContract)?
-    '<p class="text-amber-200 text-xs mt-2">Для онлайн-услуг V2 использует эффективный доход на сделку из первого месяца V1 (не клиентский прайс). При дополнительных расходах возможна отрицательная маржа; доход не увеличивается автоматически.</p>':'')+
-  '<h3 class="font-bold mt-5">Конечные цены покупателей / договорные комиссии онлайн-агента</h3>'+priceTable+
- partnerEconomics+'<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
+ '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
+ '<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
  [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
@@ -289,7 +257,7 @@ function updateResult(){
   '<b class="text-lg">'+money(value)+'</b></div>').join('')+'</div>'+flow+
  '<p class="mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
- 'Разовые вложения оплачиваются в Cash Flow; онлайн-активы амортизируются в прибыли, не в EBITDA. '+
+ 'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+
  'Месяц принят равным 30 дням; налоги моделируются помесячно, без переноса убытков.</p>';
 }
 function setPath(path,value){
@@ -314,7 +282,7 @@ function onEvent(e){
   setPath(field.dataset.linkedPath,field.type==='checkbox'?field.checked:field.value);
   if(/^resources\\.\\d+\\.kind$/.test(field.dataset.linkedPath)&&field.value==='warehouse'){
    const r=state.resources[Number(field.dataset.linkedPath.split('.')[1])];
-   r.skuIds=r.skuIds.filter(id=>!(['offline-service','online-self','online-hired','online-agent'].includes(state.skus.find(s=>s.id===id)?.source)));
+   r.skuIds=r.skuIds.filter(id=>!['offline-service','online-service'].includes(state.skus.find(s=>s.id===id)?.source));
    for(const key of Object.keys(r.includedBySku||{}))
     if(!r.skuIds.includes(key))delete r.includedBySku[key];
    for(const key of Object.keys(r.usage||{}))
@@ -327,12 +295,10 @@ function onEvent(e){
  if(e.type!=='click')return;
  const hit=field.closest('button');if(!hit)return;
  if(hit.hasAttribute('data-linked-back')){
-   if(state.lastEntry==='online'&&root.restoreOnlineServiceFromV2){
-    const sku=state.skus.filter(s=>s.onlineContract).at(-1);
-    root.restoreOnlineServiceFromV2(state.onlineDrafts?.[sku?.id]);
-   }else root.showProductBranch();
+   if(state.lastOrigin==='online')root.showOnly('calculator-screen');
+   else root.showProductBranch();
    return;
-  }
+ }
  if(hit.hasAttribute('data-linked-save')){
   const el=document.getElementById('linked-save-message');
   if(el)el.textContent=save()?'Сохранено в этом браузере':'Не удалось сохранить: хранилище недоступно';
@@ -353,6 +319,6 @@ function mount(){
  if(el){el.addEventListener('input',onEvent);el.addEventListener('change',onEvent);el.addEventListener('click',onEvent);}
  updateEntry();
 }
-root.LinkedPortfolioV2UI=Object.freeze({importFromV1,mergeOnlineV1,resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
+root.LinkedPortfolioV2UI=Object.freeze({importFromV1,appendOnline,resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })(window);
