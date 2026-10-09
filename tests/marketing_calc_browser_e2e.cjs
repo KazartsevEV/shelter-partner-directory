@@ -131,6 +131,14 @@ const browserLog = [];
  const sel='[data-business-product-id="1"]';
  for(const [key,v] of [['supplyDays',7],['advancePct',50],['advanceLeadDays',3],['productionDays',10],['reservePct',10]])
    await page.locator(sel+' input[oninput*="'+key+'"]').fill(String(v));
+ // Enter a physically impossible raw-material quantity; the warning and
+ // price gate must activate, and both must recover when quantity is corrected.
+ const rawInput=page.locator(sel+' input[data-aggregate-qty-kind="materials"]');
+ await rawInput.fill('105');
+ assert.equal(await page.locator(sel+' [data-quantity-warning]').isVisible(),true);
+ assert.match(await page.locator(sel+' [data-quantity-warning]').textContent(),/106/);
+ await rawInput.fill('106');
+ assert.equal(await page.locator(sel+' [data-quantity-warning]').isVisible(),false);
  const qty=100,days=125;
  const stockStorage=10*qty+.5*qty*days/2;
  const materialTotal=106*200,productionTotal=production*qty;
