@@ -50,6 +50,8 @@
     if(!(unitCost>0))errors.push('У '+sku.name+' должна быть указана себестоимость одной единицы.');
     if(kind==='dropship'&&advance>EPS)errors.push('Для дропшиппинга невозможна стартовая закупка.');
     if(kind==='dropship'&&batchUnits>EPS)errors.push('Дропшиппинг не формирует собственный складской запас.');
+    if(kind!=='dropship'&&positive(sku.storagePerUnitDay)>0&&!(batchUnits>0))
+      errors.push('Для расчёта хранения '+sku.name+' укажите размер складской партии.');
     if(kind!=='dropship'&&advance>EPS&&!(batchUnits>0))errors.push('Для стартовой закупки укажите размер партии.');
     if(batchUnits>EPS&&advance-unitCost*batchUnits>EPS)errors.push('Предоплата '+sku.name+' превышает стоимость партии.');
     const handling=positive(sku.fulfillmentPerOrder);
@@ -96,8 +98,10 @@
       if(!facilityKinds.has(kind))errors.push('Неизвестный ресурс '+label+'.');
       if(!skuIds.length)errors.push('Для ресурса '+label+' не выбран ни один товар.');
       if(skuIds.length!==new Set(skuIds).size)errors.push('Ресурс '+label+' повторяет товар.');
-      if(kind==='certification'&&skuIds.length>1&&!v.confirmedCoverage)
-        errors.push('Подтвердите, что сертификат «'+label+'» покрывает все выбранные товары, территорию и срок действия.');
+      if(kind==='certification'&&skuIds.length>1&&
+        (!v.confirmedCoverage||!String(v.validFor||'').trim()||!v.validUntil))
+        errors.push('Подтвердите область действия, страну и срок сертификата «'+label+'» для всех товаров.');
+      if(kind==='campaign'&&cadence!=='monthly')errors.push('Бюджет рекламной кампании задаётся за месяц, не разовой суммой.');
       if(basis==='usage') {
         r.totalUsage=sum(skuIds.map(s=>positive(r.usage[s])));
         if(r.totalUsage<=0)errors.push('Укажите загрузку ресурсов '+label+' по товарам.');
@@ -275,7 +279,12 @@
     const baseMonths=operatingPlan();
     // Required capital = maximum forecast cumulative liquidity deficit,
     // not sum of all expenses twice. Add reserve to initial funding only.
-    const deficit=Math.max(0,...baseMonths.map(m=>-m.cumulative));
+    // Month-end cash flow must never conceal an upfront funding need:
+    // the first materials advance, campaign prepayment and one-off purchases
+    // fall due before the first customer's money reaches the business.
+    const upfront=baseMonths[0].initialPurchase+baseMonths[0].oneOff+
+      baseMonths[0].ad+baseMonths[0].shared;
+    const deficit=Math.max(upfront,0,...baseMonths.map(m=>-m.cumulative));
     const reserve=deficit*funding.reservePct/100;
     const principal=deficit+reserve;
     const interestPerMonth=funding.kind==='credit'?principal*funding.annualRatePct/1200:0;
