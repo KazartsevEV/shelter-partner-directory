@@ -1447,11 +1447,38 @@ function boot(){
  document.addEventListener('nomad360:languagechange',localizeAll);
  localizeAll();
 }
+
+/* Independent RU-key coverage for both English and Kazakh: Cyrillic alone
+ * cannot classify an untranslated Kazakh UI. Inspect canonical render strings
+ * after the observer has translated them; avoid user-owned names and hidden
+ * states. Diagnostic-only; never changes text or model values. */
+function auditVisibleGaps(targetLanguage=locale()){
+ if(targetLanguage==='ru')return [];
+ const gaps=[],seen=new Set();
+ const skip=/^[\d.,\s%+₽—()-]+$/;
+ const walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ let node;
+ while((node=walk.nextNode())){
+  const parent=node.parentElement;
+  if(!parent||!valid(node)||!parent.getClientRects().length||
+     parent.closest('[hidden],.hidden,[aria-hidden="true"]'))continue;
+  const baseline=weak.get(node)?.original??node.nodeValue??'';
+  const raw=baseline.replace(/\s+/g,' ').trim();
+  if(!raw||raw.length<3||skip.test(raw)||!/[А-Яа-яЁё]/.test(raw))continue;
+  if(direct.has(raw))continue;
+  if(lookup(raw,targetLanguage)!==raw)continue;
+  const key=(parent.closest('[id]')?.id||parent.tagName)+': '+raw;
+  if(seen.has(key))continue;seen.add(key);
+  gaps.push({context:parent.closest('[id]')?.id||parent.tagName,
+   original:raw.slice(0,240)});
+ }
+ return gaps;
+}
 root.Nomad360LocaleCore=Object.freeze({
  locale,localizeAll,
  displayLocale:()=>locale()==='en'?'en-US':locale()==='kk'?'kk-KZ':'ru-RU',
  translationCount:rows.length,hasTranslation:key=>direct.has(key),
- translate:(source,language)=>lookup(source,language)
+ translate:(source,language)=>lookup(source,language),auditVisibleGaps
 });
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
 else boot();
