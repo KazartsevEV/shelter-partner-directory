@@ -164,6 +164,10 @@ function render(){
  root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{
    state.offers=offers;save();if(structural)render();else updateResult();
  });
+ root.LinkedPortfolioV2MBAUI?.render(state,offer=>{
+   (state.offers||(state.offers=[])).push(offer);
+   save();render();
+ });
  updateResult();
 }
 function updateResult(){
