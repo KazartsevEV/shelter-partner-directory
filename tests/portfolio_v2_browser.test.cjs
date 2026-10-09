@@ -4,7 +4,7 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
 const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
- const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];
+ const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}}),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,r=>r.abort());
  const fill=(p,n)=>page.locator('[data-p2-path="'+p+'"]').fill(String(n));
