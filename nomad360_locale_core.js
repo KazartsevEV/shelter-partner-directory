@@ -955,12 +955,58 @@ rows.push(
  ["Это мой единственный товар","This is my only product","Бұл менің жалғыз тауарым"],
  ["Это моя единственная услуга","This is my only service","Бұл менің жалғыз қызметім"]
 );
+/* #47G: observed English-leak census, V2/MBA terminology. */
+rows.push(
+ ["Разрешается копирование, изменение, распространение и использование этого калькулятора, в том числе в коммерческих целях, при обязательном указании источника и сохранении ссылки на оригинал:","You may copy, modify, distribute and use this calculator, including commercially, provided that you credit the source and retain a link to the original:","Бұл калькуляторды, соның ішінде коммерциялық мақсатта, бастапқы дереккөзді көрсетіп және түпнұсқа сілтемесін сақтай отырып, көшіруге, өзгертуге, таратуға және пайдалануға болады:"],
+ ["Cross-sell добавляет товар или услугу, upsell заменяет основную покупку, комбо продаёт несколько позиций одной корзиной. Каждая связь строится на отдельном прогнозе V1 — без второго рекламного CAC.","Cross-sell adds a product or service, upsell replaces the primary purchase, and a bundle sells several items together. Each link uses its V1 demand forecast without counting advertising CAC twice.","Cross-sell тауар не қызмет қосады, upsell негізгі сатып алуды алмастырады, ал жинақ бірнеше позицияны бір себетте сатады. Әр байланыс жарнамалық CAC-ты қайта қоспай, V1 сұраныс болжамына негізделеді."],
+ ["Доля привязки — сценарий, пока нет реальных чеков. Пересечение — процент присоединённых единиц, уже заложенных в самостоятельные продажи дополнения в V1. 0% = все новые, 100% = полностью перераспределённые.","Attachment share is an assumption until actual receipts exist. Overlap is the share of add-on units already included in independent V1 sales: 0% means all additional demand; 100% means fully reallocated.","Нақты чектер жоқ кезде қосылу үлесі — сценарийлік болжам. Қабаттасу — V1-дегі дербес сатылымға әлдеқашан кірген қосымша позициялар үлесі: 0% — толық жаңа сұраныс, 100% — түгел қайта бөлінген."],
+ ["Столбцы: order_id, date (YYYY-MM-DD), sku_id, quantity, unit_price, currency, channel. Дополнительно: status, line_id, returned_quantity, canceled, returned, buyer_id. Один заказ = один чек. Повторные покупки клиента считаются отдельными чеками. Отмены и возвраты исключаются.","Columns: order_id, date (YYYY-MM-DD), sku_id, quantity, unit_price, currency, channel. Optional: status, line_id, returned_quantity, canceled, returned, buyer_id. One order equals one receipt. Repeat purchases count as separate receipts. Cancellations and returns are excluded.","Бағандар: order_id, date (YYYY-MM-DD), sku_id, quantity, unit_price, currency, channel. Қосымша: status, line_id, returned_quantity, canceled, returned, buyer_id. Бір тапсырыс — бір чек. Қайталанған сатып алулар бөлек чектер болып есептеледі. Бас тартулар мен қайтарулар алынып тасталады."],
+ ["Перенос правила добавляет cross-sell по наблюдаемой confidence, но процент уже самостоятельных продаж дополнения нужно ввести вручную. Пока вы не введёте её, перенос недоступен. История и прогноз V1 остаются разными источниками.","Transferring a rule creates a cross-sell based on observed confidence, but you must manually enter the add-on demand overlap with independent sales. Transfer is blocked until then. Purchase history and the V1 forecast remain separate sources.","Ережені көшіру бақыланған confidence негізінде cross-sell жасайды, бірақ қосымша тауардың дербес сатылымымен қабаттасуын қолмен көрсету қажет. Оған дейін көшіру жабық. Сатып алу тарихы мен V1 болжамы бөлек дереккөздер болып қалады."],
+ ["Укажите, какими товарами используется ресурс. Если его стоимость уже была включена в V1, внесите первоначальные суммы по товарам — они будут заменены одним реальным платежом. Нулевые значения ничего не списывают.","Select the products using this resource. If its cost is already included in V1, enter the original amounts by item; these will be replaced by one actual payment. Zero values do not offset any cost.","Ресурсты пайдаланатын тауарларды таңдаңыз. Оның құны V1-де есептелген болса, бастапқы сомаларды позициялар бойынша енгізіңіз: олардың орнына бір нақты төлем есептеледі. Нөлдік мәндер шығынды шегермейді."],
+ ["Цена каждого SKU рассчитана по фактической марже за выбранный период, включая долю рекламы, расходов, проценты и налоги. Все цены в пределах V1. Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки / 30 дней выше — базовая месячная модель, а не сумма периода.","Each SKU price targets the actual margin for the selected period, including allocated marketing, expenses, interest and taxes. All prices stay within V1 bounds. Reserves and loan principal affect cash requirements, not accounting profit. The 30-day cards above show a baseline month, not the full period.","Әр SKU бағасы таңдалған кезеңдегі нақты маржаға, соның ішінде жарнама, шығындар, пайыздар мен салықтарға негізделген. Барлық баға V1 шегінде. Резерв пен несие негізі ақша қажеттілігіне әсер етеді, бірақ пайда шығыны емес. Жоғарыдағы 30 күндік карточкалар — толық кезең емес, базалық ай."],
+ ["При распродаже товара его доля прекращается. Нераспределённые деньги остаются фактическим расходом кампании. Нераспределённые платежи входят в прибыль и цену всего выбранного периода.","Once an item sells out, it no longer receives advertising allocation. Unallocated funds remain actual campaign costs. Unallocated payments are included in profit and prices across the selected period.","Тауар толық сатылғаннан кейін оның жарнама үлесі тоқтайды. Бөлінбеген ақша кампанияның нақты шығыны болып қалады. Бөлінбеген төлемдер таңдалған кезеңнің пайдасы мен бағасына кіреді."],
+ ["Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. Месяц принят равным 30 дням; налоги моделируются помесячно, без переноса убытков.","Calculation note: demand projections still use the original V1 CAC and conversions after a price change. One-off investments affect cash flow, but no depreciation is automatically added to EBITDA. One month equals 30 days; taxes are modelled monthly without loss carryforwards.","Есеп ескертпесі: баға өзгерсе де, сұраныс болжамы V1-дегі бастапқы CAC пен конверсияларды пайдаланады. Біржолғы инвестициялар ақша ағынына кіреді, бірақ EBITDA-да амортизация автоматты есептелмейді. Бір ай — 30 күн; салықтар шығындарды кейінге көшірмей ай сайын модельденеді."],
+ ["Выручка без НДС","Revenue excluding VAT","ҚҚС-сыз түсім"],
+ ["Общие расходы","Shared expenses","Ортақ шығындар"],
+ ["Резерв","Reserve","Резерв"],
+ ["Остаток","Balance","Қалдық"],
+ ["Заменённые начисления из V1:","Replaced V1 charges:","V1-дегі алмастырылған шығындар:"],
+ ["Мощность ресурса:","Resource capacity:","Ресурс қуаты:"],
+ ["Плановая скидка покупателю, % (макс.","Planned customer discount, % (max.","Сатып алушыға жоспарланған жеңілдік, % (ең көбі"],
+ ["Ссылка для связки","Linked offer","Байланысқан ұсыныс"]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^Экономика за (\d+) мес\. · (расчётная цена за весь период|по месячным ценам V2)$/,
+  'Economics over $1 months · $2',
+  '$1 айдағы экономика · $2'],
+ [/^Плановая скидка покупателю, % \(макс\. ([\d.,\s\u00a0]+)%\)$/,
+  'Planned customer discount, % (max. $1%)',
+  'Сатып алушыға жоспарланған жеңілдік, % (ең көбі $1%)'],
+ [/^Связь ([^\n]+)$/,'Offer $1','Ұсыныс $1'],
+ [/^Заменённые начисления из V1: ([\d.,\s\u00a0]+)$/,
+  'Replaced V1 charges: $1','V1-дегі алмастырылған шығындар: $1'],
+ [/^Мощность ресурса: ([\d.,\s\u00a0]+) \/ ([\d.,\s\u00a0]+), остаток ([\d.,\s\u00a0]+)$/,
+  'Resource utilization: $1 / $2, remaining $3',
+  'Ресурс жүктемесі: $1 / $2, қалдық $3'],
+ [/^Мощность ресурса: ([\d.,\s\u00a0]+) \/ без лимита, остаток ([\d.,\s\u00a0]+)$/,
+  'Resource utilization: $1 / unlimited, remaining $2',
+  'Ресурс жүктемесі: $1 / шектеусіз, қалдық $2'],
+ [/^Экономика за (\d+) мес\. · расчётная цена за весь период$/,
+  'Period economics for $1 months · full-period calculated price',
+  '$1 айлық экономика · бүкіл кезеңнің есептелген бағасы'],
+ [/^Делаю сам · ID ([^ ]+)$/, 'I produce it · ID $1','Өзім өндіремін · ID $1'],
+ [/^Покупаю у других · ID ([^ ]+)$/, 'I buy it from others · ID $1','Басқалардан сатып аламын · ID $1'],
+ [/^Офлайн-услуга · ID ([^ ]+)$/, 'Offline service · ID $1','Офлайн қызмет · ID $1'],
+ [/^Онлайн-услуга · ID ([^ ]+)$/, 'Online service · ID $1','Онлайн қызмет · ID $1'],
+ [/^Дропшиппинг · ID ([^ ]+)$/, 'Dropshipping · ID $1','Дропшиппинг · ID $1'],
+ [/^Цена для целевой маржи: ([\d.,\s\u00a0]+); для минимальной: ([\d.,\s\u00a0]+); денежная доля: ([\d.,\s\u00a0]+)%; (.+)$/,
+  'Price for target margin: $1; for minimum margin: $2; revenue weight: $3%; $4',
+  'Мақсатты маржа үшін баға: $1; ең аз маржа үшін: $2; түсім үлесі: $3%; $4'],
  [/^Прогноз клиентов ([\d.,\s\u00A0]+) больше физической вместимости ([\d.,\s\u00A0]+) услуг \/ месяц\. Прайс нельзя подтвердить до изменения плана\.$/,
   'Customer forecast $1 exceeds the physical capacity of $2 services per month. The price list cannot be confirmed until the plan is revised.',
   'Клиент болжамы $1, ал салонның нақты айлық қуаты $2 қызмет. Жоспар өзгермейінше прайсты растауға болмайды.'],
