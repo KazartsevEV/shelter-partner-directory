@@ -12,6 +12,7 @@ on:
       - "tests/marketing_calc_offline_service.test.cjs"
       - "tests/portfolio_v2_offline_service.test.cjs"
       - "portfolio_v2_linked_engine.js"
+      - "portfolio_v2_basket_ui.js"
       - ".github/workflows/calculator-tests.yml"
   push:
     branches: ["main"]
@@ -26,6 +27,7 @@ on:
       - "tests/marketing_calc_offline_service.test.cjs"
       - "tests/portfolio_v2_offline_service.test.cjs"
       - "portfolio_v2_linked_engine.js"
+      - "portfolio_v2_basket_ui.js"
   workflow_dispatch:
 
 permissions:

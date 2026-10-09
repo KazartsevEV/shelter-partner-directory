@@ -74,3 +74,79 @@ test('embedded V1 production wage is removed from original cash payment as well 
  z=E.build(bad);A.equal(z.ready,false);
  A.ok(z.errors.some(message=>message.includes('превышает сумму выбранного')));
 });
+
+test('MBA cross-sell adds only incremental units without charging a second advertising budget',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ const baseline=E.build(x);
+ x.offers=[{id:'offer-1',mode:'cross_sell',anchorSkuId:'a',attachPct:20,
+   overlapPct:0,items:[{skuId:'b',qty:2}]}];
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.basket.baseOrders.a,25);eq(r.basket.baseOrders.b,20);
+ eq(r.basket.events[0].transactions,5);
+ eq(r.basket.orders.a,25);eq(r.basket.orders.b,30);
+ eq(r.items.find(s=>s.id==='b').forecastOrders,30);
+ eq(r.totals.media,baseline.totals.media);
+ A.ok(r.totals.revenue>baseline.totals.revenue);
+ eq(r.cashflow.months.reduce((v,m)=>v+m.receipt,0),r.totals.revenue);
+});
+test('MBA overlap discounts previously projected standalone purchases exactly once',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.offers=[{id:'offer-1',mode:'cross_sell',anchorSkuId:'a',attachPct:20,
+   overlapPct:50,items:[{skuId:'b',qty:2}]}];
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.basket.events[0].items[0].grossUnits,10);
+ eq(r.basket.events[0].items[0].overlapUnits,5);
+ eq(r.basket.adjustments.b,5);
+ eq(r.basket.orders.b,25);
+});
+test('MBA upsell replaces anchor demand rather than charging both standalone purchases',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.offers=[{id:'upgrade',mode:'upsell',anchorSkuId:'a',attachPct:20,
+   overlapPct:0,items:[{skuId:'b',qty:1}]}];
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.basket.orders.a,20);eq(r.basket.orders.b,25);
+ eq(r.totals.forecast,45);
+ A.ok(r.basket.revenueLift!==0);
+});
+test('MBA bundle is a tuple with one anchor line and multiple goods/service components',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.skus.push({id:'service',name:'Nail design',source:'offline-service',
+   unitCost:20,serviceMaterialsUnit:8,serviceElectricityUnit:0,serviceFixedMonthly:120,
+   serviceCapacity:30,forecastUnitsPerMonth:10,adBudget:100,baseCac:10,
+   priceMin:80,priceMax:300,maxDiscountPct:10,minimumMarginPct:10,targetMarginPct:25,
+   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,creditServiceMonthly:0,vatPct:0,
+   inventoryQty:0,materialsBatchTotal:80,productionTotal:120,reserveAmount:0});
+ x.offers=[{id:'combo',mode:'bundle',anchorSkuId:'a',attachPct:20,
+   overlapPct:0,items:[{skuId:'b',qty:2},{skuId:'service',qty:1}]}];
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.basket.orders.a,25);eq(r.basket.orders.b,30);eq(r.basket.orders.service,15);
+ eq(r.basket.events[0].transactions,5);
+ A.ok(r.items.find(s=>s.id==='service').priceList<=300);
+ x.skus[2].serviceCapacity=14;
+ const over=E.build(x);A.equal(over.ready,false);
+ A.ok(over.errors.some(message=>message.includes('Прогноз клиентов')));
+});
+test('MBA validates exclusive offer shares, invalid tuples and overlapping existing demand',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.offers=[
+  {id:'one',mode:'upsell',anchorSkuId:'a',attachPct:60,overlapPct:0,items:[{skuId:'b',qty:1}]},
+  {id:'two',mode:'bundle',anchorSkuId:'a',attachPct:50,overlapPct:0,items:[{skuId:'b',qty:1}]}];
+ let r=E.build(x);A.equal(r.ready,false);A.ok(r.errors.some(s=>s.includes('100%')));
+ x.offers=[{id:'one',mode:'cross_sell',anchorSkuId:'a',attachPct:100,
+    overlapPct:100,items:[{skuId:'b',qty:2}]}];
+ r=E.build(x);A.equal(r.ready,false);A.ok(r.errors.some(s=>s.includes('независимый спрос')));
+ x.offers[0].items=[{skuId:'a',qty:1}];
+ r=E.build(x);A.equal(r.ready,false);A.ok(r.errors.some(s=>s.includes('не повторяться')));
+});
+test('MBA cycles do not recursively acquire customers or multiply attached units',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.offers=[
+  {id:'a-to-b',mode:'cross_sell',anchorSkuId:'a',attachPct:20,overlapPct:0,
+    items:[{skuId:'b',qty:1}]},
+  {id:'b-to-a',mode:'cross_sell',anchorSkuId:'b',attachPct:20,overlapPct:0,
+    items:[{skuId:'a',qty:1}]}];
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ eq(r.basket.orders.a,29);eq(r.basket.orders.b,25);
+ eq(r.basket.attributedTransactions,9);
+ eq(r.basket.adjustments.a+r.basket.adjustments.b,9);
+});

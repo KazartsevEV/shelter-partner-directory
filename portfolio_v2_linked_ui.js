@@ -37,7 +37,8 @@ function importFromV1(payload){
   const same=prior.skus.length===fresh.skus.length&&
     prior.skus.every(s=>fresh.skus.some(x=>x.id===s.id));
   if(same){
-   fresh.resources=prior.resources.map(r=>JSON.parse(JSON.stringify(r)));
+   fresh.resources=(prior.resources||[]).map(r=>JSON.parse(JSON.stringify(r)));
+   fresh.offers=(prior.offers||[]).map(r=>JSON.parse(JSON.stringify(r)));
    fresh.skus.forEach(s=>{
     const old=prior.skus.find(x=>x.id===s.id);
     s.discountSelected=Math.min(s.maxDiscountPct,Math.max(0,Number(old.discountSelected)||0));
@@ -46,7 +47,7 @@ function importFromV1(payload){
  }
  state=fresh;resetSequence();save();enter();
 }
-function resume(){const previous=read();if(!previous)return false;state=previous;resetSequence();enter();return true;}
+function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];resetSequence();enter();return true;}
 function options(items,value){return items.map(([v,label])=>'<option value="'+safe(v)+'" '+(v===value?'selected':'')+'>'+safe(label)+'</option>').join('');}
 function field(label,path,value,extra=''){
  return '<label class="block min-w-0 text-xs font-semibold text-slate-700">'+safe(label)+
@@ -113,26 +114,30 @@ function render(){
  host.innerHTML=
  '<div class="rounded-2xl bg-emerald-900 text-white p-5 mb-5">'+
  '<div class="text-xs font-semibold uppercase tracking-widest text-emerald-200">V2 · Связанный портфель</div>'+
- '<h1 class="text-2xl font-black mt-2">Портфель из рассчитанных товаров</h1>'+
+ '<h1 class="text-2xl font-black mt-2">Портфель товаров и услуг</h1>'+
  '<p class="text-sm text-emerald-100 mt-2">Цены, прогнозы, рекламные бюджеты, себестоимость и налоги взяты из V1. Повторно их заполнять не нужно.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4">'+
- '<button type="button" data-linked-back class="rounded-lg border border-white/40 p-2 text-sm font-bold">← К товарам V1</button>'+
+ '<button type="button" data-linked-back class="rounded-lg border border-white/40 p-2 text-sm font-bold">← К расчёту V1</button>'+
  '<button type="button" data-linked-save class="rounded-lg bg-white text-emerald-900 p-2 text-sm font-bold">Сохранить портфель</button></div>'+
  '<div id="linked-save-message" class="text-xs mt-2">Черновик хранится в этом браузере</div></div>'+
- '<section class="mb-5"><h2 class="text-xl font-bold mb-2">1. Готовая экономика товаров</h2>'+
- '<p class="text-xs text-slate-600 mb-3">Для каждого SKU — отдельный результат V1 и его допустимый диапазон цены после решения о скидках.</p>'+
+ '<section class="mb-5"><h2 class="text-xl font-bold mb-2">1. Экономика товаров и услуг V1</h2>'+
+ '<p class="text-xs text-slate-600 mb-3">Каждая позиция сохраняет ID, себестоимость, прогноз и ценовой диапазон из V1.</p>'+
  '<div class="grid grid-cols-1 xl:grid-cols-2 gap-3">'+skus+'</div></section>'+
  '<section class="rounded-2xl border border-slate-200 bg-white p-4 mb-5">'+
  '<h2 class="text-xl font-bold">2. Общие ресурсы</h2>'+
- '<p class="text-sm text-slate-600 mt-2">Помещение, сотрудники, сертификаты, реклама, склад и другие общие расходы могут работать на несколько товаров. Списывайте уже учтённые суммы по SKU, а реальную общую оплату указывайте один раз.</p>'+
+ '<p class="text-sm text-slate-600 mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
  '<button type="button" data-linked-add class="w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
  '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
+ root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{
+   state.offers=offers;save();if(structural)render();else updateResult();
+ });
  updateResult();
 }
 function updateResult(){
  const el=document.getElementById('linked-results');if(!el||!state)return;
  const out=Engine.build(state);
+ root.LinkedPortfolioV2BasketUI?.updateResult(out);
  for(const node of document.querySelectorAll('[data-linked-live]')){
   const sku=out.items?.find(s=>s.id===node.dataset.linkedLive);
   const list=node.querySelector('[data-linked-price-list]');
@@ -175,12 +180,12 @@ function updateResult(){
   return;
  }
  const t=out.totals,cf=out.cashflow;
- const cards=[['Заказы за 30 дней',t.forecast],['Выручка без НДС',t.revenue],
+ const cards=[['Продано позиций за 30 дней',t.forecast],['Выручка без НДС',t.revenue],
   ['Рекламный бюджет',t.media],['Себестоимость',t.cogs],
   ['Общие расходы / мес.',t.monthlyResources],['EBITDA',t.ebitda],
   ['Налог бизнеса',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
  const priceTable='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Товар','Диапазон V1','Прайс V2','Скидка','Платит покупатель','Прогноз','Денежный вес','Реклама','Чистая маржа'].map(label=>
+  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Платит покупатель','Прогноз, ед.','Денежный вес','Реклама','Чистая маржа'].map(label=>
    '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
   out.items.map(s=>'<tr class="border-t border-white/20">'+
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
@@ -204,15 +209,15 @@ function updateResult(){
     money(m.cumulative),money(m.freeCumulative)]
     .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
- el.innerHTML='<h2 class="text-xl font-black">3. Прайс и экономика портфеля</h2>'+
+ el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
   '<div class="text-xl font-black">'+money(value)+'</div></div>').join('')+'</div>'+
- (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Целевая маржа достигнута для всех товаров.</p>':
-  '<p class="text-amber-200 text-sm mt-3">Часть товаров обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
+ (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Целевая маржа достигнута для всех позиций.</p>':
+  '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
  '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
  '<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
- '<h3 class="font-bold mt-5">4. Стартовый капитал и Cash flow</h3>'+
+ '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
  [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
   ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]
