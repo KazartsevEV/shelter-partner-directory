@@ -2694,7 +2694,7 @@
                         (sum, row) =>
                             sum + row.cogs + row.adBudget,
                         0
-                      ) + sharedBusinessCosts + financingCostsMonthly
+                      ) + sharedBusinessCosts
                     : null;
 
             let taxPriceMultiplier = null;
@@ -2724,6 +2724,7 @@
                         priceSensitiveRevenueNet > 0
                             ? (
                                 priceIndependentCosts +
+                                financingCostsMonthly +
                                 profitBeforeTax / afterTaxRetained
                               ) / priceSensitiveRevenueNet
                             : null;
@@ -4019,6 +4020,13 @@
             refreshAllAggregatePricing();
             updateAggregateFinalSummary(item);
             updateAggregateCredit(item);
+
+            if (item.planning.fundingMode === 'credit') {
+                const creditResult = section.querySelector('[data-credit-result]');
+                if (creditResult) {
+                    creditResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
         }
 
         function updateAggregateAmounts(item) {
