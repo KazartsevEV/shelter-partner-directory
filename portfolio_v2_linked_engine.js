@@ -96,7 +96,7 @@
         'Пересечение продаж «'+sku+'» превышает его независимый спрос из V1.');
     for(const [sku,qty] of Object.entries(orders))
       if(qty<-1e-7)report('offers','Отрицательный прогноз для «'+sku+'».');
-    const adjustments=Object.fromEntries(knownIds.values().map(id=>[
+    const adjustments=Object.fromEntries(Array.from(knownIds,id=>[
       id,pos(orders[id])-pos(baseOrders[id])]));
     return {orders,baseOrders,adjustments,events,errors,fieldErrors,
       totalBaseUnits:sum(Object.values(baseOrders)),totalUnits:sum(Object.values(orders)),
