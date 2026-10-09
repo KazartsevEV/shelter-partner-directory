@@ -2730,11 +2730,12 @@
                     !usesCredit ||
                     (
                         credit.monthlyServiceCost !== null &&
-                        orders > 0
+                        credit.totalInterest !== null &&
+                        Math.max(0, Number(item.logisticsQty) || 0) > 0
                     );
                 const creditServicePerUnit =
                     usesCredit && creditReady
-                        ? credit.monthlyServiceCost / orders
+                        ? credit.totalInterest / Number(item.logisticsQty)
                         : 0;
                 const pricingUnitLoad =
                     unitCost + creditServicePerUnit + reservePerUnit;
@@ -3720,14 +3721,14 @@
 
             box.innerHTML = `
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                    <span class="aggregate-muted">Выручка всего бизнеса</span>
-                    <span class="font-bold text-right">${money(model.totalRevenue)}</span>
+                    <span class="aggregate-muted">Выручка всего бизнеса (после налоговой корректировки цены, без НДС)</span>
+                    <span class="font-bold text-right">${money(model.adjustedRevenue ?? model.totalRevenue)}</span>
                     <span class="aggregate-muted">EBITDA всего бизнеса</span>
-                    <span class="font-bold text-right">${money(model.businessEbitda)}</span>
+                    <span class="font-bold text-right">${money(model.adjustedEbitda ?? model.businessEbitda)}</span>
                     <span class="aggregate-muted">Обслуживание кредитов / месяц</span>
                     <span class="font-bold text-right">${money(model.financingCostsMonthly)}</span>
                     <span class="aggregate-muted">Результат после обслуживания кредитов</span>
-                    <span class="font-bold text-right">${money(model.profitBeforeTax)}</span>
+                    <span class="font-bold text-right">${money(model.adjustedProfitBeforeTax ?? model.profitBeforeTax)}</span>
                 </div>
 
                 <div class="mt-5 mb-2 p-4 rounded-xl border-2 border-emerald-300 bg-emerald-900 text-white">
@@ -3740,11 +3741,11 @@
 
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mt-4 pt-4 border-t aggregate-separator">
                     <span class="aggregate-muted">Рентабельность бизнеса (чистая прибыль / выручка, без НДС)</span>
-                    <span class="font-bold text-right">${model.totalRevenue > 0 && model.netProfit !== null ? (model.netProfit / model.totalRevenue * 100).toLocaleString('ru-RU', {maximumFractionDigits:2}) + '%' : '—'}</span>
+                    <span class="font-bold text-right">${(model.adjustedRevenue ?? model.totalRevenue) > 0 && (model.adjustedNetProfit ?? model.netProfit) !== null ? ((model.adjustedNetProfit ?? model.netProfit) / (model.adjustedRevenue ?? model.totalRevenue) * 100).toLocaleString('ru-RU', {maximumFractionDigits:2}) + '%' : '—'}</span>
                     <span class="aggregate-muted">Сумма налога</span>
-                    <span class="font-bold text-right">${money(model.tax)}</span>
+                    <span class="font-bold text-right">${money(model.adjustedTax ?? model.tax)}</span>
                     <span class="aggregate-muted">Чистая прибыль после налога</span>
-                    <span class="font-bold text-right">${money(model.netProfit)}</span>
+                    <span class="font-bold text-right">${money(model.adjustedNetProfit ?? model.netProfit)}</span>
                 </div>
             `;
 
@@ -4132,11 +4133,10 @@
 
             const forecastSalesPerMonth =
                 Math.max(0, Number(item?.forecastUnitsPerMonth || 0));
-            const servicePerUnit =
-                monthlyServiceCost !== null &&
-                forecastSalesPerMonth > 0
-                    ? monthlyServiceCost / forecastSalesPerMonth
-                    : null;
+            const stockQty = Math.max(0, Number(item?.logisticsQty) || 0);
+            const servicePerUnit = totalInterest !== null && stockQty > 0
+                ? totalInterest / stockQty
+                : null;
 
             const marginPct =
                 item?.planning?.targetMarginPct !== '' &&
@@ -4786,7 +4786,7 @@
                                     <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                                         <span class="aggregate-muted">Проценты по кредиту / месяц (без тела)</span>
                                         <span class="font-bold text-right"><span data-credit-monthly-service>—</span> у.е.*</span>
-                                        <span class="aggregate-muted">Нагрузка кредита на 1 ед. «${esc(item.name)}»</span>
+                                        <span class="aggregate-muted">Все проценты кредита на 1 ед. партии «${esc(item.name)}»</span>
                                         <span class="font-bold text-right"><span data-credit-unit-load>—</span> у.е.*</span>
                                         <span class="aggregate-muted">Проценты за весь срок</span>
                                         <span class="font-bold text-right"><span data-credit-total-interest>—</span> у.е.*</span>
