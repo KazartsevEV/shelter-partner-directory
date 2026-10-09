@@ -19,7 +19,7 @@ const scenario=(skus,months=2,tax={type:'turnover',pct:5})=>{
 const verified=s=>{
  const r=E.build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
  A.equal(r.cashflow.periodPnl.ready,true);
- A.equal(r.cashflow.periodPnl.pricePolicy,'current-V2-monthly-price-not-reoptimized-for-H');
+ A.equal(r.cashflow.periodPnl.pricePolicy,'full-period-actual-sku-margin-pricing');
  return r;
 };
 test('F2A physical COGS accrues on SOLD units; batch money paid once, never twice',()=>{
