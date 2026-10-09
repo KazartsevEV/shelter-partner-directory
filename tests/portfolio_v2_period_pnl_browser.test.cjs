@@ -37,30 +37,39 @@ const sku=(id,stock)=>({
   let p=r.cashflow.periodPnl;
   A.equal(p.months.length,3);
   const firstProfit=p.netProfit;
-  const firstRevenue=p.revenue;
-  close(p.netMargin,p.netProfit/p.revenue*100,'3-month margin');
-  A.ok(p.netMargin>24,'sales 3 months meet approximate 25% target');
+  const baseline={a:35.72,b:35.72};
+  const baselinePnl3=await page.evaluate(prices=>
+    LinkedPortfolioV2Engine.build({...LinkedPortfolioV2UI.getState(),
+      __periodPriceCandidate:prices}).cashflow.periodPnl,baseline);
+  close(p.netMargin,p.netProfit/p.revenue*100,'three-month margin');
+  A.ok(p.netMargin>=25,'period-target margin, not merely month 1');
   await page.locator('[data-linked-path="forecastMonths"]').fill('5');
   r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(r.ready,true,JSON.stringify(r.errors));
   p=r.cashflow.periodPnl;
   A.equal(p.months.length,5);
-  close(p.revenue,firstRevenue,'no invented revenue after sellout');
-  close(p.netProfit,firstProfit-400,'two idle campaign months reduce profits by 400');
-  A.ok(p.netMargin<16&&p.netMargin>15,'true full-period margin reflects idle cost');
-  close(p.months[3].netProfit,-200,'month4 cash-paid idle campaign operating loss');
-  close(p.months[4].netProfit,-200,'month5 cash-paid idle campaign operating loss');
+  const baselinePnl5=await page.evaluate(prices=>
+    LinkedPortfolioV2Engine.build({...LinkedPortfolioV2UI.getState(),
+      __periodPriceCandidate:prices}).cashflow.periodPnl,baseline);
+  close(baselinePnl5.netProfit,baselinePnl3.netProfit-400,
+    'identical-price counterfactual isolates idle ad expense');
+  close(p.months[3].netProfit,-200,'month4 actual idle campaign loss');
+  close(p.months[4].netProfit,-200,'month5 actual idle campaign loss');
+  close(r.items.find(s=>s.id==='a').priceList,50,'A full-H repriced with idle exposure');
+  close(r.items.find(s=>s.id==='b').priceList,38.58,'B full-H repriced');
+  A.ok(p.netMargin>=25,'actual period price solver restores target margin');
+  A.ok(p.netProfit>baselinePnl5.netProfit,'repricing covers additional campaign payments');
   A.equal(p.months[3].netMargin,null);
-  A.match(await page.locator('#linked-results').textContent(),/Реальная экономика за 5 мес/);
+  A.match(await page.locator('#linked-results').textContent(),/Экономика за 5 мес/);
   A.match(await page.locator('#linked-results').textContent(),/Маржа за период/);
-  A.match(await page.locator('#linked-results').textContent(),/за весь период ещё не доказана/);
+  A.match(await page.locator('#linked-results').textContent(),/Целевая маржа подтверждена/);
   await page.locator('[data-linked-save]').click();
   await page.locator('[data-linked-back]').click();
   await page.evaluate(()=>showHome());
   await page.locator('#portfolio-v2-linked-resume-home button').click();
   r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(r.ready,true,JSON.stringify(r.errors));
-  close(r.cashflow.periodPnl.netProfit,firstProfit-400,'period P&L survives back/resume');
+  close(r.cashflow.periodPnl.netProfit,p.netProfit,'repriced period profit survives resume');
   A.deepEqual(errors,[]);
   console.log('PERIOD_PNL_31F2A_BROWSER_GREEN',JSON.stringify({
    horizon:5,firstProfit,periodProfit:r.cashflow.periodPnl.netProfit,
