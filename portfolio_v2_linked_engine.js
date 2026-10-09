@@ -31,7 +31,7 @@
       if(!sku)return 0;
       if(resource.allocation==='usage')return pos(resource.usage?.[id]);
       return pos(sku.priceSelected)*(1-pos(sku.discountSelected)/100)*
-        pos(sku.forecastUnitsPerMonth)/(1+pos(sku.vatPct)/100);
+        pos(sku._projectedOrders??sku.forecastUnitsPerMonth)/(1+pos(sku.vatPct)/100);
     });
     const denominator=sum(values);
     return Object.fromEntries(beneficiaries.map((id,i)=>[id,denominator?values[i]/denominator:0]));
@@ -52,10 +52,10 @@
         if(!Number.isFinite(Number(s[field]))||!(Number(s[field])>=0))
           report(key+'.'+field,'Некорректное рассчитанное значение V1: '+field);
       }
-      const p=finite(s.priceSelected),min=finite(s.priceMin),max=finite(s.priceMax);
+      const min=finite(s.priceMin),max=finite(s.priceMax);
       if(!(min>0&&max>=min))report(key,'Для товара отсутствует подтверждённый диапазон цен V1.');
-      if(p+EPS<min||p-EPS>max)
-        report(key+'.priceSelected','Цена должна находиться внутри диапазона V1: '+min+' – '+max+'.');
+      if(!(pos(s.targetMarginPct)>0&&pos(s.minimumMarginPct)>0&&pos(s.targetMarginPct)>=pos(s.minimumMarginPct)))
+        report(key,'Не готовы минимальная и целевая маржинальность V1.');
       const disc=finite(s.discountSelected),limit=pos(s.maxDiscountPct);
       if(disc<0||disc>limit+EPS||limit>=100)
         report(key+'.discountSelected','Рабочая скидка превышает максимальную скидку из V1.');
@@ -128,8 +128,8 @@
       return unitLoad/retained*(1+pos(s.vatPct)/100)/(1-s.discountSelected/100);
     }
     const initialPrices=Object.fromEntries(rows.map(s=>[s.id,pos(s.priceMax)]));
-    const calculateScenario=(prices)=>{
-      const draftRows=rows.map(s=>({...s,priceSelected:prices[s.id]}));
+    const calculateScenario=(prices,projectedOrders)=>{
+      const draftRows=rows.map(s=>({...s,priceSelected:prices[s.id],_projectedOrders:projectedOrders[s.id]}));
       const allocation=ledger.map(r=>{
         const weights=shares(r,draftRows),bySku=Object.fromEntries(r.skuIds.map(id=>[id,r.amount*(weights[id]||0)]));
         return {...r,bySku,weights,previousTotal:sum(Object.values(r.includedBySku||{}).map(pos))};
@@ -145,7 +145,7 @@
         const monthlySelling=pos(s.salesFixedMonthly)-offsets[s.id].salesFixed;
         // A V1 SKU's embedded cost is removed once, then charged through one
         // common resource, without multiplying the shared payment by SKU count.
-        const embeddedUnit=orders>0?offsets[s.id].unitCost/orders:0;
+        const embeddedUnit=pos(s.forecastUnitsPerMonth)>0?offsets[s.id].unitCost/pos(s.forecastUnitsPerMonth):0;
         const netUnitCost=pos(s.unitCost)-embeddedUnit;
         const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
           monthlyResources+pos(s.creditServiceMonthly))/orders:Infinity;
@@ -158,21 +158,24 @@
     // Revenue-weighted attribution and SKU prices are mutually dependent.
     // Solve them as a damped fixed point, never silently substituting max price.
     let prices={...initialPrices},scenario=null,converged=false;
+    let projectedOrders=Object.fromEntries(rows.map(s=>[s.id,pos(s.forecastUnitsPerMonth)]));
     for(let iteration=0;iteration<300;iteration++){
-      scenario=calculateScenario(prices);
-      let maximumMove=0;const next={};
+      scenario=calculateScenario(prices,projectedOrders);
+      let maximumMove=0;const next={},nextOrders={};
       for(const p of scenario.projections){
         const min=pos(p.s.priceMin),max=pos(p.s.priceMax);
         const target=Number.isFinite(p.priceTarget)?p.priceTarget:max;
         const chosen=Math.min(max,Math.max(min,Math.ceil(target*100-1e-8)/100));
         next[p.s.id]=prices[p.s.id]*.55+chosen*.45;
-        maximumMove=Math.max(maximumMove,Math.abs(next[p.s.id]-prices[p.s.id]));
+        nextOrders[p.s.id]=projectedOrders[p.s.id]*.55+p.orders*.45;
+        maximumMove=Math.max(maximumMove,Math.abs(next[p.s.id]-prices[p.s.id]),
+          Math.abs(nextOrders[p.s.id]-projectedOrders[p.s.id]));
       }
-      prices=next;
-      if(maximumMove<1e-8){converged=true;break}
+      prices=next;projectedOrders=nextOrders;
+      if(maximumMove<1e-7){converged=true;break}
     }
     if(!converged)report('resources','Распределение рекламного бюджета и цен не сошлось; зафиксируйте загрузку кампаний по товарам.');
-    scenario=calculateScenario(prices);
+    scenario=calculateScenario(prices,projectedOrders);
     const items=scenario.projections.map(p=>{
       const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad}=p;
       const priceList=Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
