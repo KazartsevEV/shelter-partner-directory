@@ -2472,7 +2472,7 @@
 
             box.classList.remove('hidden');
             box.innerHTML =
-                '<div class="font-semibold text-slate-900 mb-3">Заполненные товары</div>' +
+                '<div class="font-semibold text-slate-900 mb-3">Мои товары и офлайн-услуги</div>' +
                 '<div class="space-y-3">' +
                 productPortfolio.map((item, index) => {
                     const unitCost =
@@ -2483,7 +2483,7 @@
                     return `<article class="rounded-xl border border-slate-200 bg-white p-4" data-portfolio-product-id="${item.id}">
                         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                             <div>
-                                <div class="text-xs uppercase tracking-[0.14em] text-slate-400">Товар ${index + 1}</div>
+                                <div class="text-xs uppercase tracking-[0.14em] text-slate-400">${item.source==='offline-service'?'Услуга':'Товар'} ${index + 1}</div>
                                 <div class="font-bold text-slate-900 text-base">«${esc(item.name)}»</div>
                             </div>
                             <button type="button"
@@ -5237,7 +5237,8 @@
             const sourceLabels = {
                 own: 'Делаю сам',
                 resale: 'Покупаю у других',
-                dropship: 'Дропшиппинг'
+                dropship: 'Дропшиппинг',
+                'offline-service': 'Офлайн-услуга'
             };
 
             box.innerHTML = productPortfolio.map((item, index) => {
@@ -5249,7 +5250,7 @@
                 const adUnits = Number(item.forecastUnitsPerMonth || 1);
 
                 return `<section class="${index ? 'mt-7 pt-7 border-t aggregate-separator' : ''}" data-business-product-id="${item.id}">
-                    <div class="aggregate-title text-lg font-semibold">Я буду продавать</div>
+                    <div class="aggregate-title text-lg font-semibold">${item.source==='offline-service'?'Я буду оказывать услугу':'Я буду продавать'}</div>
                     <div class="aggregate-title mt-1 text-2xl font-bold">
                         «${esc(item.name)}» <span class="text-base font-semibold text-emerald-200">· ${esc(sourceLabels[item.source] || item.source || '')}</span>
                     </div>
@@ -5257,7 +5258,8 @@
                     <!-- Validation belongs to the offending quantity, not the heading. -->
                     <div class="mt-6 space-y-5 text-sm">
                         ${item.source==='dropship' ? '<div class="aggregate-line font-semibold">Прогноз заказов от рекламы: ' + moneyInputValue(adUnits) + ' за 30 дней. Склад не закупается.</div>' : ''}
-                        <div class="aggregate-line ${item.source==='dropship'?'hidden':''}">
+                        ${item.source==='offline-service'?'<div class="aggregate-line font-semibold">Буду оказывать '+moneyInputValue(adUnits)+' услуг / месяц при вместимости '+moneyInputValue(item.offlineServiceCapacity)+' процедур. Расходники на процедуры — '+moneyInputValue(item.materialsBatchTotal)+' у.е.*, аренда, мастера и оборудование — '+moneyInputValue(item.productionTotal)+' у.е. / мес. Склада и производства нет.</div>':''}
+                        <div class="aggregate-line ${['dropship','offline-service'].includes(item.source)?'hidden':''}">
                             <div class="font-semibold">
                                 ${item.source==='resale'?'Куплю готовый товар в партии':'Привезу материал на'} ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью <span data-aggregate-output="materialsTotal">${moneyInputValue(item.materialsBatchTotal)}</span> у.е.*
                             </div>
@@ -5280,7 +5282,7 @@
                             </div>
                         </div>
 
-                        <div class="aggregate-line pt-4 border-t aggregate-separator ${['resale','dropship'].includes(item.source)?'hidden':''}">
+                        <div class="aggregate-line pt-4 border-t aggregate-separator ${['resale','dropship','offline-service'].includes(item.source)?'hidden':''}">
                             <div class="font-semibold">
                                 Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> у.е.*
                             </div>
@@ -5291,7 +5293,7 @@
                             </div>
                         </div>
 
-                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold ${item.source==='dropship'?'hidden':''}">
+                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold ${['dropship','offline-service'].includes(item.source)?'hidden':''}">
                             Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., доставка до склада и введённые дни хранения — <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
                             <div class="text-sm mt-2">
                                 Но товар хранится до полной распродажи: ${aggregatePlanMetrics(item).sellThroughDays === null ? 'укажите прогноз продаж' : aggregateDaysText(aggregatePlanMetrics(item).sellThroughDays) + ' дней'};
@@ -5301,11 +5303,11 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${item.source==='dropship'?moneyInputValue(adUnits)+' прогнозных заказов':aggregateQtyInput(item, 'sales', salesQty)+' шт.'}
+                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${item.source==='offline-service'?moneyInputValue(adUnits)+' ожидаемых посещений':item.source==='dropship'?moneyInputValue(adUnits)+' прогнозных заказов':aggregateQtyInput(item, 'sales', salesQty)+' шт.'}
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
+                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы ${item.source==='offline-service'?'привлечь '+moneyInputValue(adUnits)+' клиентов':'продать '+aggregateQtyInput(item, 'ads', adUnits)+' шт.'}
                         </div>
 
                         ${item.source==='dropship'?'<div class="aggregate-line pt-4 border-t aggregate-separator">Доставка покупателю: '+(item.dropshipDeliveryDays??0)+' дней, задержка выплаты: '+(item.dropshipPayoutLagDays??0)+' дней. Складских расходов нет.</div>':''}
