@@ -48,7 +48,16 @@ const near=(actual,match,msg)=>assert.ok(Math.abs(actual-match)<.015,msg+' got '
        taxType:productBusinessTaxType,
        vatInputs:document.querySelectorAll('#own-sales-vat-pct').length,
        frozen:document.querySelectorAll('[data-completed-product-id="1"]').length,
-       funding:productPortfolio.map(x=>x.planning.fundingMode)
+       funding:productPortfolio.map(x=>x.planning.fundingMode),
+       inputs:productPortfolio.map(x=>({
+         materialsUnitCost:x.materialsUnitCost,materialsBatchTotal:x.materialsBatchTotal,
+         productionUnitCost:x.productionUnitCost,productionTotal:x.productionTotal,
+         warehouseDayCost:x.warehouseDayCost,warehouseInboundUnitCost:x.warehouseInboundUnitCost,
+         customerDeliveryPct:x.customerDeliveryPct,customerReturnPct:x.customerReturnPct,
+         logisticsUnitCost:x.logisticsUnitCost,adBudget:x.adBudget,adManagement:x.adManagement,
+         defect:x.productionDefectPct,planning:x.planning
+       })),
+       baseCac:model.items.map(x=>x.baseCac)
      };
    });
    assert.equal(r.count,2);
@@ -67,6 +76,7 @@ const near=(actual,match,msg)=>assert.ok(Math.abs(actual-match)<.015,msg+' got '
    assert.equal(r.frozen,1,'Original filled form preserved exactly once');
    assert.deepEqual(r.funding,[finance,finance]);
    assert.equal(r.months,finance==='credit'?6:5);
+   console.log('TWO_SKU_DEMO_DIAGNOSTIC',JSON.stringify(r));
    const exp=expected[finance];
    near(r.prices[0],exp.first,'First SKU unit price');
    near(r.prices[1],exp.second,'Second SKU unit price');
