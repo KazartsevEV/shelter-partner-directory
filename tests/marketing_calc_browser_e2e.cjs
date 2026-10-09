@@ -5,9 +5,14 @@ const assert = require('node:assert/strict');
 const { pathToFileURL } = require('node:url');
 const path = require('node:path');
 
+const numericalFindings = [];
 const approx = (actual, expected, label, epsilon=0.011) => {
-    assert.ok(Number.isFinite(actual) && Math.abs(actual-expected)<=epsilon,
-      label+': observed '+actual+', independently expected '+expected);
+    if (!Number.isFinite(actual) || Math.abs(actual-expected)>epsilon) {
+       const diff = actual-expected;
+       numericalFindings.push({label,actual,expected,diff});
+       console.log('NUMERIC_DEFECT',label,'observed',actual,'expected',expected,'delta',diff);
+       return;
+    }
     console.log('PASS',label,'observed',actual.toFixed(4),'expected',expected.toFixed(4));
 };
 const number = txt => {
@@ -168,8 +173,10 @@ const browserLog = [];
  approx(priceList.minPrice,expectedFloor,'List minimum price',0.00000001);
  approx(priceList.maxPrice,expectedCeiling,'List maximum price',0.00000001);
  const shownRange=await page.locator('[data-tax-price-product-id="1"] [data-price-list-range]').textContent();
- assert.ok(shownRange.includes(expectedFloor.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})),'Displayed min price');
- assert.ok(shownRange.includes(expectedCeiling.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})),'Displayed max price');
+ const expectedFloorText=expectedFloor.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2});
+ const expectedCeilingText=expectedCeiling.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2});
+ if (!shownRange.includes(expectedFloorText)) numericalFindings.push({label:'Displayed lower price',actual:shownRange,expected:expectedFloorText});
+ if (!shownRange.includes(expectedCeilingText)) numericalFindings.push({label:'Displayed upper price',actual:shownRange,expected:expectedCeilingText});
 
  // Compare all core enterprise aggregate values against independent calculations.
  const monthlyRevenue=basePrice*orders;
@@ -215,7 +222,11 @@ const browserLog = [];
  assert.equal(afterSku.original,beforeSku.name);
 
  assert.deepEqual(browserLog,[],'No page JS errors');
- console.log('BROWSER_E2E_GREEN',JSON.stringify({sku:'Хлопковый шоппер',cogs,basePrice,taxAdjustedPrice,capital,expectedFloor,expectedCeiling,monthlyService}));
+ console.log('BROWSER_E2E_SUMMARY',JSON.stringify({sku:'Хлопковый шоппер',cogs,basePrice,taxAdjustedPrice,capital,expectedFloor,expectedCeiling,monthlyService,numericalFindings}));
+ if (numericalFindings.length) {
+     console.log('BROWSER_E2E_NUMERIC_RED_COUNT',numericalFindings.length);
+     process.exitCode=1;
+ } else console.log('BROWSER_E2E_GREEN');
  await browser.close();
  } catch(err){await browser.close();throw err}
 })().catch(err=>{console.error('BROWSER_E2E_RED',err.stack||err);process.exitCode=1});
