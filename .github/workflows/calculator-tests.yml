@@ -6,6 +6,8 @@ on:
       - "Marketing_calc.HTML"
       - "tests/marketing_calc_regressions.test.cjs"
       - "tests/marketing_calc_full_cycle.test.cjs"
+      - "tests/marketing_calc_resale.test.cjs"
+      - "tests/marketing_calc_resale.test.cjs"
       - ".github/workflows/calculator-tests.yml"
   push:
     branches: ["main"]
@@ -28,4 +30,4 @@ jobs:
         with:
           node-version: "22"
       - name: Verify price, discount, VAT and SKU navigation contracts
-        run: node --test tests/marketing_calc_regressions.test.cjs tests/marketing_calc_full_cycle.test.cjs
+        run: node --test tests/marketing_calc_regressions.test.cjs tests/marketing_calc_full_cycle.test.cjs tests/marketing_calc_resale.test.cjs
