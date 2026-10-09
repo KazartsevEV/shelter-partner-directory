@@ -16,7 +16,7 @@
   const round = (n,d=2)=>Math.round((n+Number.EPSILON)*10**d)/10**d;
   const id = v=>String(v??'');
   const validKind=new Set(['own','resale','dropship']);
-  const facilityKinds=new Set(['premises','workers','warehouse','salesStaff','marketingManager','website','hosting','domain','content','other','equipment','certification']);
+  const facilityKinds=new Set(['premises','workers','warehouse','salesStaff','marketingManager','website','hosting','domain','content','other','equipment','certification','campaign']);
   const scope = (r,ids)=> r.skuIds?.length ? r.skuIds.map(id).filter(s=>ids.includes(s)) : ids.slice();
   function marketingFunnel(marketing) {
     const budget=positive(marketing?.budget);
@@ -28,6 +28,7 @@
     if(!(budget>0))errors.push('Укажите общий месячный рекламный бюджет.');
     if(!(cpc>0))errors.push('CPC должен быть больше нуля.');
     if(ctr>1||cl>1||lo>1)errors.push('Конверсии не могут превышать 100%.');
+    if(!(ctr>0))errors.push('Укажите CTR, чтобы рассчитать число показов.');
     if(!(cl>0)||!(lo>0))errors.push('Укажите обе конверсии рекламной воронки.');
     const clicks=cpc>0 ? budget/cpc : 0;
     const leads=clicks*cl;
@@ -61,8 +62,7 @@
   }
   function normalize(state) {
     const errors=[];
-    const marketing=marketingFunnel(state?.marketing||{});
-    errors.push(...marketing.errors);
+    let marketing;
     const raw=Array.isArray(state?.skus)?state.skus:[];
     if(!raw.length)errors.push('Добавьте хотя бы один товар.');
     const ids=[];
@@ -108,6 +108,11 @@
         errors.push('Срок сертификата '+label+' истёк.');
       return r;
     });
+    // Separate media pools are additional, explicitly named campaigns.
+    // The top-level budget is the default shared campaign. Nothing is copied.
+    const extraMedia=sum(resources.filter(r=>r.kind==='campaign').map(r=>r.amount));
+    marketing=marketingFunnel({...state?.marketing,budget:positive(state?.marketing?.budget)+extraMedia});
+    errors.push(...marketing.errors);
     const resourceIds=resources.map(r=>r.id);
     if(new Set(resourceIds).size!==resourceIds.length)errors.push('ID общего ресурса должен быть уникальным.');
     const fund=state?.funding||{};
@@ -161,7 +166,17 @@
     const revenueBasis=Object.fromEntries(skus.map(s=>[s.id,basePrices[s.id]*orders[s.id]]));
     const totalBasis=sum(Object.values(revenueBasis));
     const weights=Object.fromEntries(skus.map(s=>[s.id,totalBasis>0?revenueBasis[s.id]/totalBasis:mix[s.id]]));
-    const adAllocation=Object.fromEntries(skus.map(s=>[s.id,marketing.budget*weights[s.id]]));
+    const baseSharedBudget=positive(state?.marketing?.budget);
+    const adAllocation=Object.fromEntries(skus.map(s=>[s.id,baseSharedBudget*weights[s.id]]));
+    const campaignLedger=resources.filter(r=>r.kind==='campaign').map(r=>{
+      const bySku=Object.fromEntries(r.skuIds.map(k=>[k,0]));
+      const shares=resourceShares(r,basePrices,orders);
+      for(const skuId of r.skuIds) {
+        bySku[skuId]=r.amount*(shares[skuId]||0);
+        adAllocation[skuId]+=bySku[skuId];
+      }
+      return {id:r.id,label:r.label,amount:r.amount,bySku};
+    });
     const baseCAC=marketing.baseCAC;
     const items=skus.map(s=>{
       const q=mix[s.id],order=orders[s.id],price=basePrices[s.id],cost=s.sourcing.unitCost;
@@ -177,7 +192,7 @@
         realizedMarginPct:realizedMargin};
     });
     const prices=Object.fromEntries(items.map(s=>[s.id,s.price]));
-    const resourceAllocation=allocateResources(resources,prices,orders);
+    const resourceAllocation=allocateResources(resources.filter(r=>r.kind!=='campaign'),prices,orders);
     const totalRevenue=sum(items.map(s=>s.revenue));
     const costOfGoods=sum(items.map(s=>s.cogs));
     const totalAcquiring=sum(items.map(s=>s.acquiring));
@@ -271,14 +286,14 @@
       const interest=funding.kind==='credit'&&i<funding.months?interestPerMonth:0;
       const repay=funding.kind==='credit'&&i===funding.months-1?principal:0;
       const inflow=m.receipt+loanDraw+ownerDraw;
-      const outflow=m.receipt-m.preFinancing+m.tax*0+interest+repay; // tax already in preFinancing
+      const outflow=m.receipt-m.preFinancing+interest+repay; // tax already in preFinancing
       const change=inflow-outflow;
       cumulative+=change;
       return {...m,loanDraw,ownerDraw,interest,principalRepayment:repay,inflow,outflow,
         cashFlow:change,cumulative,freeCumulative:cumulative-reserve};
     });
     const projectedNet=sum(months.map(m=>m.ebitda-m.tax-m.interest));
-    return {ready:true,errors:[],marketing,items,resources:resourceAllocation.ledger,
+    return {ready:true,errors:[],marketing,items,resources:resourceAllocation.ledger,campaigns:campaignLedger,
       marketingBudget:marketing.budget,skuEbitda,resourceMonthly:resourceAllocation.monthlyTotal,
       resourceOnce:resourceAllocation.onceTotal,totalRevenue,costOfGoods,
       acquiring:totalAcquiring,fulfillment:fulfillmentTotal,
