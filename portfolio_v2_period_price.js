@@ -35,7 +35,8 @@
        if(s.fixedPriceFromV1)continue;
        const p=current.cashflow.periodPnl.bySku[s.id];
        const target=pos(s.targetMarginPct)/100;
-       if(p.netMargin!==null&&p.netMargin+0.000001>=target*100)continue;
+       const margin=p.revenue>EPS?(p.netProfit-pos(p.futureInterest))/p.revenue*100:null;
+       if(margin!==null&&margin+0.000001>=target*100)continue;
        if(prices[s.id]>=ceiling[s.id]-EPS)continue;
        const discountedQty=current.temporal.months.reduce((acc,m)=>
          acc+pos(m.orders[s.id])-pos(m.discountedUnits[s.id]),0);
@@ -48,7 +49,7 @@
        const retained=taxType==='profit'?(1-variable)*(1-tax):
          1-variable-tax;
        const denominator=slope*(retained-target);
-       const shortfall=target*p.revenue-p.netProfit;
+       const shortfall=target*p.revenue-(p.netProfit-pos(p.futureInterest));
        if(!(denominator>EPS)){
          prices[s.id]=ceiling[s.id];moved=true;continue;
        }
@@ -69,10 +70,11 @@
    const diagnostics=[];
    for(const s of skus){
      const item=current.items.find(x=>x.id===s.id),p=H.bySku[s.id];
-     const margin=p.netMargin;
+     const margin=p.netMargin,pricingMargin=p.revenue>EPS?
+       (p.netProfit-pos(p.futureInterest))/p.revenue*100:null;
      const minimum=pos(s.minimumMarginPct),target=pos(s.targetMarginPct);
-     const targetOk=margin!==null&&margin+0.000001>=target;
-     const minOk=margin!==null&&margin+0.000001>=minimum;
+     const targetOk=pricingMargin!==null&&pricingMargin+0.000001>=target;
+     const minOk=pricingMargin!==null&&pricingMargin+0.000001>=minimum;
      const selected=prices[s.id],pct=pos(s.discountSelected)/100,
        vat=1+pos(s.vatPct)/100;
      const discountedQty=current.temporal.months.reduce((v,m)=>
@@ -88,14 +90,14 @@
        const denominator=slope*(retain-goal);
        if(denominator<=EPS)return Infinity;
        return centUp(Math.max(floor[s.id],selected+
-         Math.max(0,goal*p.revenue-p.netProfit)/denominator));
+         Math.max(0,goal*p.revenue-(p.netProfit-pos(p.futureInterest)))/denominator));
      }
      const requiredTarget=targetOk?selected:required(target),
        requiredFloor=minOk?selected:required(minimum);
      const status=s.fixedPriceFromV1?(margin===null||p.netProfit<0?'LOSS':'FIXED_V1'):
        !minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY';
-     const diagnostic={id:s.id,status,price:selected,margin,
-       minimumMet:minOk,targetMet:targetOk,
+     const diagnostic={id:s.id,status,price:selected,margin,pricingMargin,
+       futureInterest:pos(p.futureInterest),minimumMet:minOk,targetMet:targetOk,
        priceMin:floor[s.id],priceMax:ceiling[s.id],
        requiredTargetPrice:requiredTarget,requiredFloorPrice:requiredFloor,
        revenue:p.revenue,netProfit:p.netProfit};
@@ -107,12 +109,13 @@
      item.actualAfterTaxMargin=margin;
      item.status=status;
      item.periodMargin=margin;
+     item.periodPricingMargin=pricingMargin;
      if(!minOk&&!s.fixedPriceFromV1){
        actualInfeasible=true;
        errors.push('За '+H.horizonMonths+' мес. «'+s.name+
          '»: минимальная маржа '+minimum+'% недостижима в диапазоне V1 '+
          floor[s.id]+'–'+ceiling[s.id]+'. При цене '+selected+
-         ' маржа '+(margin===null?'не определена':margin.toFixed(2)+'%')+
+         ' маржа с учётом оставшихся процентов '+(pricingMargin===null?'не определена':pricingMargin.toFixed(2)+'%')+
          '; расчётная необходимая цена '+
          (Number.isFinite(requiredFloor)?requiredFloor:'выше достижимого предела')+'.');
      }
@@ -120,6 +123,7 @@
    current.totals.targetMet=diagnostics.every(d=>d.targetMet);
    current.totals.minimumMet=diagnostics.every(d=>d.minimumMet);
    current.cashflow.periodPnl.pricePolicy='full-period-actual-sku-margin-pricing';
+   current.cashflow.periodPnl.priceIncludesFinancingTail=true;
    current.cashflow.periodPnl.priceIterations=iterations;
    current.cashflow.periodPnl.priceDiagnostics=diagnostics;
    current.cashflow.periodPnl.targetMet=diagnostics.every(d=>d.targetMet);
