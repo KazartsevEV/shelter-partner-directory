@@ -5026,6 +5026,10 @@
             const introClone = introCard.cloneNode(true);
             const sourceClone = sourceBlock.cloneNode(true);
             [introClone, sourceClone].forEach(clone => {
+                // Remove live-only financial panels BEFORE removing IDs: otherwise
+                // the selectors below no longer match, cloning a hidden tax form
+                // with duplicate field IDs and dead pricing buttons.
+                clone.querySelectorAll('#product-assortment-gate, #product-tax-block').forEach(el => el.remove());
                 clone.removeAttribute('id');
                 clone.querySelectorAll('[id]').forEach(el => {
                     el.dataset.frozenOriginalId = el.id;
@@ -5044,7 +5048,6 @@
                 clone.querySelectorAll('input, select, textarea').forEach(field => {
                     field.disabled = true;
                 });
-                clone.querySelectorAll('#product-assortment-gate, #product-tax-block').forEach(el => el.remove());
                 clone.hidden = false;
                 clone.classList.remove('hidden');
                 frozen.appendChild(clone);
