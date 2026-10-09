@@ -1165,6 +1165,12 @@ rows.push(
  ["Налог или эквайринг превышает 100%.","Tax or payment-processing percentage exceeds 100%.","Салық немесе эквайринг мөлшерлемесі 100%-дан асады."],
  ["Неверная цена или количество продаж.","Invalid price or sales quantity.","Баға немесе сатылым саны қате."]
 );
+/* #47AG bilingual glossary distinctions: markup != margin != net profit. */
+rows.push(
+ ["Наценка","Markup","Үстеме баға"],
+ ["Прогноз продаж","Sales forecast","Сатылым болжамы"],
+ ["Эквайринг","Payment processing","Эквайринг"]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
