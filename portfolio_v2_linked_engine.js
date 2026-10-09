@@ -497,7 +497,7 @@
       if(!planner?.plan){
         base.ready=false;base.errors.push('Не загружен многомесячный расчёт спроса.');
       }else{
-        base.temporal=planner.plan(state,scenario.basket.baseOrders,projectOffers);
+        base.temporal=planner.plan(state,scenario.basket.baseOrders,projectOffers,base.items);
         if(!base.temporal.ready){
           base.ready=false;
           base.errors.push(...base.temporal.errors);
