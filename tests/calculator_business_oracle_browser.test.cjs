@@ -159,3 +159,15 @@ test('AGENT payer matrix: all 64 expense ownership combinations conserve partner
   A.deepEqual(errors,[]);
  }finally{await page.close();}
 });
+
+test('AMORTIZATION horizon 24 months never depreciates 12-month intangible twice',async()=>{
+ const {page,errors}=await setup('self',{months:24,site:120,magnet:60});
+ try{
+  const revenue=325+1600*23,acq=revenue*.10,tax=revenue*.05;
+  eq(await summary(page,'Амортизация сайта'),120,'12-month site cap');
+  eq(await summary(page,'Амортизация лид-магнита'),60,'12-month magnet cap');
+  eq(await summary(page,'Чистая прибыль после налогов'),
+     revenue-acq-400*24-tax-120-60,'year-two does not depreciate exhausted asset');
+  A.deepEqual(errors,[]);
+ }finally{await page.close();}
+});
