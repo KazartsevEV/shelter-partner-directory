@@ -389,7 +389,10 @@
    const bySku=Object.fromEntries(items.map(s=>{
      const rows=skuLedger[s.id],tot=k=>sum(rows.map(m=>m[k]));
      const revenue=tot('revenue'),netProfit=tot('netProfit');
-     return [s.id,{id:s.id,months:rows,revenue,netProfit,
+     const futureInterest=pos(s.creditPrincipal)>EPS?
+       Math.max(0,Math.max(1,Math.ceil(pos(s.creditMonths)||1))-horizonMonths)*
+         pos(s.creditServiceMonthly):0;
+     return [s.id,{id:s.id,months:rows,revenue,netProfit,futureInterest,
        marketing:tot('marketing'),cogs:tot('cogs'),
        amort:tot('amort'),interest:tot('interest'),
        taxAccrued:tot('taxAccrued'),operatingShared:tot('operatingShared'),
