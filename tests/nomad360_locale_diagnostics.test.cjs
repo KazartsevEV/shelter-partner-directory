@@ -259,3 +259,38 @@ test('English and Kazakh finance glossary distinguishes markup, margin, profit, 
  A.notEqual(tr('Чистая прибыль','kk'),tr('Выручка без НДС','kk'));
  A.notEqual(tr('Мой налог на оборот*','en'),tr('Налог партнёра на оборот*','en'));
 });
+
+test('16 malformed MBA CSV/JSON variants are rejected and their exact diagnostics covered in EN/KK',()=>{
+ const MBA=require('../portfolio_v2_mba_observed.js');
+ const mk=(extra={})=>({order_id:'order-1',date:'2026-09-01',sku_id:'A',
+  quantity:1,unit_price:100,currency:'GEL',channel:'web',...extra});
+ const cases=[
+  ['blank',''],
+  ['oversized','x'.repeat(3500001)],
+  ['unclosed quote','order_id,date,sku_id,quantity,unit_price,currency,channel\n"order-1'],
+  ['missing column','order_id,date\norder-1,2026-09-01'],
+  ['duplicate heading','order_id,date,sku_id,quantity,unit_price,currency,channel,sku_id\nO,2026-09-01,A,1,100,GEL,web,A'],
+  ['column mismatch','order_id,date,sku_id,quantity,unit_price,currency,channel\norder-1,2026-09-01,A,1,100'],
+  ['malformed JSON','{'],
+  ['wrong JSON root','{}'],
+  ['too many records',JSON.stringify(Array(20001).fill(mk()))],
+  ['null row',JSON.stringify([null])],
+  ['missing required identifier',JSON.stringify([mk({order_id:''})])],
+  ['invalid calendar day',JSON.stringify([mk({date:'2026-02-30'})])],
+  ['negative quantity',JSON.stringify([mk({quantity:-1})])],
+  ['unknown order status',JSON.stringify([mk({status:'draft'})])],
+  ['excess returns',JSON.stringify([mk({returned_quantity:2})])],
+  ['conflicting line_id',JSON.stringify([mk({line_id:'DUP'}),mk({line_id:'DUP',unit_price:101})])]
+ ];
+ A.equal(cases.length,16);
+ for(const [label,payload] of cases){
+  let failure;try{MBA.read(payload)}catch(err){failure=err.message}
+  A.ok(failure,'import unexpectedly accepted invalid '+label);
+  for(const language of ['en','kk']){
+   const localized=tr(failure,language);
+   A.notEqual(localized,failure,language+' missing '+label+': '+failure);
+   A.equal(tr(localized,'ru'),localized,
+     'display translation must not be reapplied to original source state');
+  }
+ }
+});
