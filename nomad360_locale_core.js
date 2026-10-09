@@ -881,6 +881,9 @@ const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^Прогноз клиентов для «([^»]*)» \(([\d.]+)\) больше доступных ([\d.]+) посещений в месяц\.$/,
+  'Customer forecast for “$1” ($2) exceeds available $3 monthly appointments.',
+  '«$1» клиент болжамы ($2) қолжетімді айлық $3 қабылдаудан асады.'],
  [/^Наборы и upsell для «([^»]*)» суммарно охватывают больше 100% самостоятельных покупателей\.$/,
   'Bundles and upsells for “$1” exceed 100% of independent buyers.',
   '«$1» үшін жинақтар мен upsell тәуелсіз сатып алушылардың 100%-ынан асады.'],
