@@ -19,7 +19,9 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  for(const [p,n] of [['marketing.budget',1000],['marketing.cpc',5],['marketing.ctrPct',2],
  ['marketing.clickLeadPct',20],['marketing.leadOrderPct',25],['skus.0.name','Майка'],
  ['skus.0.unitCost',20],['skus.0.marginPct',25]])await fill(p,n);
- assert.equal((await calc()).ready,true);
+ const initialResult=await calc();
+ console.log('PORTFOLIO_V2_INITIAL_BROWSER_STATE',JSON.stringify({errors:initialResult.errors,state:await page.evaluate(()=>PortfolioV2UI.getState())}));
+ assert.equal(initialResult.ready,true,JSON.stringify(initialResult.errors));
  await page.locator('[data-p2-add-sku]').click();
  await fill('skus.1.name','Рюкзак');await choose('skus.1.source','resale');
  for(const [p,n] of [['skus.1.unitCost',60],['skus.1.marginPct',30],['skus.0.mixPct',50],
