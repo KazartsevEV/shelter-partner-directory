@@ -1671,7 +1671,7 @@
         function nomadDisplayLocale() {
             return window.Nomad360LocaleCore?.displayLocale?.() || 'ru-RU';
         }
-        function formatMoney(val) { return `${formatNum(val)} у.е.*`; }
+        function formatMoney(val) { const language=window.Nomad360LocaleCore?.locale?.()||'ru'; return `${formatNum(val)} ${language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'}`; }
         function formatNum(val) { return new Intl.NumberFormat(nomadDisplayLocale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
         function formatInt(val) { return new Intl.NumberFormat(nomadDisplayLocale()).format(Math.round(val)); }
         function monthWord(n) {
@@ -5611,7 +5611,7 @@
                     : productPortfolio.length + (productName ? 1 : 0);
 
             if (totalIncludingCurrent <= 1) {
-                completeButton.innerHTML = `Это ${productSource==='offline-service'?'моя единственная услуга':'мой единственный товар'} <span class="product-name-live">«${productName}»</span>`;
+                completeButton.innerHTML = `Это ${productSource==='offline-service'?'моя единственная услуга':'мой единственный товар'} <span class="product-name-live" data-nomad-no-translate>«${productName}»</span>`;
             } else {
                 completeButton.textContent = productSource==='offline-service'?'Это все мои услуги':'Это весь мой ассортимент';
             }
