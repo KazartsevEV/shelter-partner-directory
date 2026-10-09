@@ -875,6 +875,72 @@ rows.push(
  ['EBITDA · базовый месяц','EBITDA · baseline month','EBITDA · базалық ай']
 );
 
+/* #47C visible runtime messages, V1 validations and accessible prompts. */
+rows.push(
+ ["Например: кофемашина, футболка, набор свечей","For example: coffee machine, T-shirt, candle set","Мысалы: кофе машинасы, футболка, шам жиынтығы"],
+ ["Введите название товара","Enter product name","Тауар атауын енгізіңіз"],
+ ["Вся закупка этого товара","Total purchase cost of this product","Осы тауардың жалпы сатып алу құны"],
+ ["Например, 150","For example, 150","Мысалы, 150"],
+ ["Например, 12","For example, 12","Мысалы, 12"],
+ ["Например, консультация по маркетингу","For example, marketing consultation","Мысалы, маркетинг бойынша кеңес"],
+ ["Например, 15","For example, 15","Мысалы, 15"],
+ ["Например, 5","For example, 5","Мысалы, 5"],
+ ["Например, 18","For example, 18","Мысалы, 18"],
+ ["Введите целевую маржу","Enter target margin","Мақсатты маржаны енгізіңіз"],
+ ["Например: ткань","For example: fabric","Мысалы: мата"],
+ ["Название поставщика","Supplier name","Жеткізуші атауы"],
+ ["Название","Name","Атауы"],
+ ["Ставка изменена вручную.","Rate changed manually.","Мөлшерлеме қолмен өзгертілді."],
+ ["Поля ниже можно редактировать под ваш фактический режим.","You can edit the fields below to reflect your actual tax regime.","Төмендегі өрістерді нақты салық режиміңізге сай өзгерте аласыз."],
+ ["Нет унифицированных данных по выбранной стране — заполните применимые ставки вручную.","No standardized data for the selected country. Enter the applicable rates manually.","Таңдалған ел бойынша бірыңғай деректер жоқ. Қолданылатын мөлшерлемелерді қолмен енгізіңіз."],
+ ["Автоподстановка использует справочные международные ставки. При необходимости замените их фактическими.","Automatic values use reference international rates. Replace them with actual rates where necessary.","Автоматты мәндер халықаралық анықтамалық мөлшерлемелерге негізделген. Қажет болса, нақты мөлшерлемелерге ауыстырыңыз."],
+ ["РФ: тариф зависит от класса профессионального риска — от 0,2% до 8,5%. По умолчанию установлен минимальный 0,2%; замените на свой тариф.","Russia: the occupational injury rate varies by risk class from 0.2% to 8.5%. The 0.2% minimum is prefilled; replace it with your actual rate.","Ресей: өндірістік жарақаттану жарнасы тәуекел сыныбына қарай 0,2%-дан 8,5%-ға дейін. Әдепкі 0,2% мөлшерлемесін нақты мәнге ауыстырыңыз."],
+ ["РФ: поле 30% — базовый тариф. Авторасчёт учитывает годовой предел базы 2 979 000 ₽ на сотрудника и ставку 15,1% сверх него. НДФЛ автоматически считается по прогрессивной шкале, пока вы не измените поле вручную.","Russia: 30% is the base contribution rate. The calculation accounts for the annual employee threshold of 2,979,000 ₽ and the 15.1% rate above it. Personal income tax uses the progressive schedule unless you override the field.","Ресей: 30% — негізгі жарна мөлшерлемесі. Есеп бір қызметкерге жылдық 2 979 000 ₽ шегін және одан жоғары 15,1% мөлшерлемені ескереді. Жеке табыс салығы өріс қолмен өзгертілмесе, прогрессивті шкаламен есептеледі."],
+ ["РФ: учтены страховые взносы по стандартной шкале 30% / 15,1% сверх предельной базы и базовый травматизм 0,2%.","Russia: payroll contributions use the 30% / 15.1% above-cap schedule and the 0.2% base occupational injury rate.","Ресей: жарналар шекті базаға дейін 30%, одан жоғары 15,1% және өндірістік жарақаттану үшін негізгі 0,2% мөлшерлемемен есептелген."],
+ ["Используются справочные ставки работодателя по выбранной стране. Проверяйте применимый режим со своим бухгалтером.","Reference employer rates for the selected country are used. Verify the applicable regime with your accountant.","Таңдалған елдің анықтамалық жұмыс беруші мөлшерлемелері қолданылды. Нақты режимді бухгалтеріңізбен тексеріңіз."],
+ ["Цена с НДС","Price including VAT","ҚҚС-пен баға"],
+ ["не применяется","Not applicable","Қолданылмайды"],
+ ["укажите ставку НДС","Enter the VAT rate","ҚҚС мөлшерлемесін енгізіңіз"],
+ ["следующий товар","next product","келесі тауар"],
+ ["Модель кредита: ежемесячно платятся проценты, всё тело возвращается в последнем месяце (bullet). Платёж по кредиту — не то же самое, что процентная ставка или маржа товара.","Loan model: interest is paid monthly and the entire principal is repaid in the final month (bullet loan). A loan payment is not the interest rate or product margin.","Несие моделі: пайыз ай сайын төленеді, негізгі қарыз соңғы айда толық қайтарылады (bullet). Несие төлемі пайыздық мөлшерлемемен де, тауар маржасымен де бірдей емес."],
+ ["Это все мои услуги","These are all my services","Бұл менің барлық қызметтерім"],
+ ["Это весь мой ассортимент","This is my full product range","Бұл менің барлық тауар ассортиментім"],
+ ["Нет склада: учтены только оплачиваемые вами доставка до покупателя и возвраты.","No warehouse: only customer delivery and returns paid by you are included.","Қойма жоқ: тек сіз төлейтін сатып алушыға жеткізу және қайтарулар есептеледі."],
+ ["Срок хранения пока не указан, поэтому хранение временно считается как 0. На следующих этапах срок можно будет рассчитать автоматически.","Storage duration is not specified, so storage is temporarily assumed to cost 0. It can be calculated automatically at later stages.","Сақтау мерзімі көрсетілмеген, сондықтан сақтау шығыны әзірге 0 деп алынады. Кейін мерзімді автоматты есептеуге болады."],
+ ["Учитываются только расходы, которые оплачиваете вы. Доставка рассчитана от текущей стоимости товара до логистики; возвраты увеличивают стоимость доставки.","Only expenses you pay are included. Shipping uses the current pre-logistics item cost; returns increase shipping costs.","Тек сіз төлейтін шығындар ескеріледі. Жеткізу құны логистикаға дейінгі ағымдағы тауар құнынан есептеледі; қайтарулар жеткізу құнын арттырады."],
+ ["Укажите CPC больше 0, чтобы построить воронку.","Enter a CPC greater than 0 to build the funnel.","Воронканы құру үшін CPC мәнін 0-ден жоғары енгізіңіз."],
+ ["Укажите обе конверсии больше 0, чтобы рассчитать стоимость продажи 1 ед.","Enter both conversion rates above 0 to calculate acquisition cost per item sold.","Бір дана сатудың тарту құнын есептеу үшін екі конверсияны да 0-ден жоғары енгізіңіз."],
+ ["Base CAC = рекламный бюджет ÷ покупки. Ведение рекламы показано отдельно и не входит в CAC SKU.","Base CAC = advertising budget ÷ purchases. Campaign management is shown separately and excluded from SKU CAC.","Негізгі CAC = жарнама бюджеті ÷ сатып алулар. Жарнаманы басқару бөлек көрсетіледі және SKU CAC құрамына кірмейді."],
+ ["Заполните воронку, чтобы получить рекламную стоимость продажи 1 единицы.","Complete the funnel to calculate advertising cost per sale.","Бір дана сатуға кететін жарнама құнын есептеу үшін воронканы толтырыңыз."],
+ ["Услуга · я сам","Service · delivered by me","Қызмет · өзім орындаймын"],
+ ["Услуга · нанимаю исполнителя","Service · hired provider","Қызмет · орындаушы жалдаймын"],
+ ["Услуга · агент","Service · agent","Қызмет · агент"],
+ ["Оплата исполнителю считается отдельной статьёй расходов. Налог исполнителя в вашу модель не включается.","Provider fees are a separate expense. The provider's own taxes are not part of your calculation.","Орындаушының ақысы бөлек шығын ретінде есептеледі. Орындаушының өз салығы сіздің есепке кірмейді."],
+ ["Для каждой ненулевой статьи расходов выберите «Кто платит»: Я или Партнёр. Нулевые расходы распределять не нужно. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса.","For each nonzero expense select Who pays: Me or Partner. Zero expenses need no allocation. If you pay, the amount reduces your agency fee; if the partner pays, it stays an expense of their business.","Нөлден жоғары әр шығын үшін «Кім төлейді» бөлімінде Мен немесе Серіктес таңдаңыз. Нөлдік шығындарды бөлудің қажеті жоқ. Сіз төлесеңіз, сома агенттік сыйақыңыздан шегеріледі; серіктес төлесе, оның бизнес шығыны болып қалады."],
+ ["Значение не может быть отрицательным.","Value cannot be negative.","Мән теріс болмауы тиіс."],
+ ["Процент должен быть от 0 до 100.","Percentage must be between 0 and 100.","Пайыз 0 мен 100 аралығында болуы тиіс."],
+ ["Период должен быть целым числом от 1 до 120 месяцев.","Period must be a whole number of months between 1 and 120.","Мерзім 1–120 аралығындағы бүтін ай саны болуы тиіс."],
+ ["При положительном рекламном бюджете CPC должен быть больше нуля.","With a positive advertising budget, CPC must be greater than zero.","Жарнама бюджеті оң болса, CPC нөлден жоғары болуы тиіс."],
+ ["Без положительного CTR нельзя получить клики из показов.","Clicks cannot be derived from impressions without a positive CTR.","CTR оң болмаса, көрсетілімдерден клик есептелмейді."],
+ ["Нет корректного прогноза:","No valid forecast:","Дұрыс болжам жоқ:"],
+ ["Мне остаётся за период","My net amount for the period","Кезеңде маған қалатыны"],
+ ["Расчётная прибыль партнёра","Partner's calculated profit","Серіктестің есептелген пайдасы"],
+ ["Накопленный cash flow партнёра","Partner's cumulative cash flow","Серіктестің жинақталған ақша ағыны"],
+ ["Расчёт включится автоматически после последнего выбора","Calculation resumes automatically after the final selection","Соңғы таңдау жасалғаннан кейін есеп автоматты түрде жалғасады"],
+ ["Вознаграждение минус мои расходы и мой налог на оборот","Fee minus my expenses and my turnover tax","Сыйақыдан менің шығындарым мен айналым салығым шегеріледі"],
+ ["P&L за период; помесячный cash flow показан отдельно","Period P&L; monthly cash flow is shown separately","Кезеңнің P&L есебі; айлық ақша ағыны бөлек көрсетіледі"],
+ ["По помесячному сценарию","Based on the monthly scenario","Айлық сценарий бойынша"],
+ ["Не выбран плательщик:","Payer not selected:","Төлеуші таңдалмаған:"],
+ ["Не распределены:","Unallocated:","Бөлінбеген:"],
+ ["рекламный бюджет","advertising budget","жарнама бюджеті"],
+ ["ведение рекламы","campaign management","жарнаманы басқару"],
+ ["разработка сайта","website development","сайт әзірлеу"],
+ ["хостинг / конструктор","hosting / site builder","хостинг / сайт конструкторы"],
+ ["домен","domain","домен"],
+ ["лид-магнит","lead magnet","лид-магнит"],
+ ["ДЕМО: два заполненных товара · шоппер + майка","DEMO: two filled-in products · tote bag + T-shirt","ДЕМО: екі толтырылған тауар · шоппер + футболка"],
+ ["Не удалось заполнить демо:","Could not load demo:","Демонстрацияны жүктеу мүмкін емес:"]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
@@ -948,18 +1014,52 @@ const patterns=[
   '$1 айда «$2»: ең аз $3% маржаға V1 $4–$5 аралығында жету мүмкін емес. $6 бағасында қалған пайызды ескерген маржа $7; қажет баға $8.']
 ];
 function dynamicLookup(source,language){
+ const heading=/^Месяц (\d+)$/.exec(source);
+ if(heading)return language==='en'?'Month '+heading[1]:heading[1]+'-ай';
+ const badge=/^(\d+) (?:месяц|месяца|месяцев) \(по сценарию\)$/.exec(source);
+ if(badge)return language==='en'?badge[1]+' months (scenario)':badge[1]+' ай (сценарий бойынша)';
  const month=/^Месяц (\d+)(?:, день (\d+))?: (.*)$/.exec(source);
  if(month){
+  const translated=direct.get(month[3])?.[language]||dynamicLookup(month[3],language);
+  if(translated===month[3])return source;
   const prefix=language==='en'?'Month '+month[1]+(month[2]?', day '+month[2]:''):
    month[1]+'-ай'+(month[2]?', '+month[2]+'-күн':'');
-  const translated=dynamicLookup(month[3],language);
   return prefix+': '+translated;
  }
+ const invalidPrefix='Нет корректного прогноза: ';
+ if(source.startsWith(invalidPrefix)){
+  let remaining=source.slice(invalidPrefix.length),output=[];
+  const messages=[
+   'Значение не может быть отрицательным.',
+   'Процент должен быть от 0 до 100.',
+   'Период должен быть целым числом от 1 до 120 месяцев.',
+   'При положительном рекламном бюджете CPC должен быть больше нуля.',
+   'Без положительного CTR нельзя получить клики из показов.'
+  ];
+  while(remaining){
+   const item=messages.find(message=>remaining.startsWith(message));
+   if(!item)return source;
+   output.push(direct.get(item)[language]);
+   remaining=remaining.slice(item.length).trimStart();
+  }
+  return direct.get('Нет корректного прогноза:')[language]+' '+output.join(' ');
+ }
+ const payer=/^(Не выбран плательщик|Не распределены): (.+)$/.exec(source);
+ if(payer){
+  const punctuation=payer[2].endsWith('.')?'.':'';
+  const labels=(punctuation?payer[2].slice(0,-1):payer[2]).split(', ');
+  if(labels.every(label=>direct.has(label))){
+   const prefix=direct.get(payer[1]+':')[language];
+   return prefix+' '+labels.map(label=>direct.get(label)[language]).join(', ')+punctuation;
+  }
+  return source;
+ }
+ const demo=/^Не удалось заполнить демо: (.+)$/.exec(source);
+ if(demo)return direct.get('Не удалось заполнить демо:')[language]+' '+demo[1];
  for(const [matcher,en,kk] of patterns)if(matcher.test(source))
   return source.replace(matcher,language==='en'?en:kk);
  return source;
 }
-
 const weak=new WeakMap(), attrOriginal=new WeakMap();
 let pending=new Set(),scheduled=false,observer;
 function locale(){
@@ -977,6 +1077,7 @@ function lookup(raw,language){
  const translated=(direct.get(m[2])||direct.get(m[2].replace(/\s+/g,' ').trim()))?.[language];
  return m[1]+(translated||dynamicLookup(m[2],language))+m[3];
 }
+const localizedAttributes=['placeholder','title','aria-label','aria-description','aria-placeholder','aria-valuetext','alt'];
 function translateNode(node,language){
  if(!valid(node))return;
  if(node.nodeType===3){
@@ -989,7 +1090,7 @@ function translateNode(node,language){
   return;
  }
  if(node.nodeType!==1)return;
- for(const attr of ['placeholder','title','aria-label']){
+ for(const attr of localizedAttributes){
   if(!node.hasAttribute(attr))continue;
   const oldValue=node.getAttribute(attr),history=attrOriginal.get(node)||{};
   const baseline=history[attr]&&oldValue===history[attr].applied?history[attr].original:oldValue;
@@ -1014,17 +1115,22 @@ function schedule(node){
 function localizeAll(){
  const lang=locale();
  document.title=lang==='en'?'Nomad360 — Business Calculator & Cash Flow':lang==='kk'?'Nomad360 — Бизнес калькуляторы және ақша ағыны':'Nomad360 — калькулятор бизнеса, цен и Cash Flow';
+ const description=document.querySelector('meta[name="description"]');
+ if(description)description.content=lang==='en'?'Nomad360 — free business calculator. Check prices, costs, profit and cash flow privately in your browser.':
+  lang==='kk'?'Nomad360 — тегін бизнес-калькулятор. Баға, өзіндік құн, пайда және ақша ағынын браузерде тексеріңіз.':
+  'Nomad360 — бесплатный калькулятор бизнеса. Проверьте цены, себестоимость, прибыль и денежный поток в вашем браузере.';
  schedule(document.body);
 }
 function boot(){
  if(observer)return;
  observer=new MutationObserver(records=>{
   for(const record of records){
-   if(record.type==='characterData')schedule(record.target);
-   else for(const node of record.addedNodes)if(node.nodeType===1||node.nodeType===3)schedule(node);
+   if(record.type==='characterData'||record.type==='attributes')schedule(record.target);
+   else if(record.type==='childList')for(const node of record.addedNodes)
+    if(node.nodeType===1||node.nodeType===3)schedule(node);
   }
  });
- observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+ observer.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:localizedAttributes});
  document.addEventListener('nomad360:languagechange',localizeAll);
  localizeAll();
 }
