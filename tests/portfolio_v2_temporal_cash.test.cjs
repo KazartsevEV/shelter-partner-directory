@@ -115,3 +115,18 @@ test('#31E2 agent recognizes only its commission + owner tax; partner GMV exclud
  close(total(m,'ad'),300,'partner-funded advertising excluded');
  A.equal(r.cashflow.vatCashBasis,'net-of-vat-operating');
 });
+
+test('#31E2 shared resource bills exact half-month intervals, including a late supply',()=>{
+ const x=scenario([goods('A',20)],2);
+ x.skus[0].supplyDays=15;
+ x.resources.push({id:'room',kind:'premises',label:'Room',amount:300,
+  cadence:'monthly',pool:'none',allocation:'usage',
+  usageMode:'per-unit',loadPerUnit:{A:1},skuIds:['A'],includedBySku:{}});
+ const r=verified(x),m=r.cashflow.months;
+ A.equal(m.length,2);
+ A.deepEqual(r.temporal.months.map(z=>z.orders.A),[10,10]);
+ close(m[0].shared,150,'15 active days first month');
+ close(m[1].shared,150,'15 active days second month');
+ close(total(m,'shared'),300,'shared rent paid once for total 30 active days');
+ close(total(m,'stockPurchase'),400,'physical stock paid once');
+});
