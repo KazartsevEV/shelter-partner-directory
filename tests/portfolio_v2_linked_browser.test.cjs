@@ -65,6 +65,17 @@ const path=require('node:path');
   assert.equal(basket.ready,true,JSON.stringify(basket.errors));
   assert.equal(basket.basket.events[0].mode,'cross_sell');
   assert.ok(basket.basket.orders['v1-2']>basket.basket.baseOrders['v1-2']);
+  // Reimporting V1 with an additional item retains linked offers and shared expenses.
+  const expanded={...payload,skus:[...payload.skus,
+    {...payload.skus[1],id:'v1-3',name:'Товар В'}]};
+  await page.evaluate(next=>LinkedPortfolioV2UI.importFromV1(next),expanded);
+  const afterExpansion=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  assert.equal(afterExpansion.skus.length,3);
+  assert.equal(afterExpansion.offers.length,1);
+  assert.equal(afterExpansion.resources.length,1);
+  assert.deepEqual(afterExpansion.resources[0].skuIds,['v1-1','v1-2']);
+  assert.equal(await page.locator('[data-linked-sku]').count(),3);
+  assert.equal(await page.locator('[data-basket-offer]').count(),1);
   await page.locator('[data-linked-save]').click();
   await page.locator('[data-linked-back]').click();
   await page.evaluate(()=>showHome());
