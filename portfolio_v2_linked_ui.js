@@ -15,6 +15,11 @@ const pools=[['none','Новый расход (не учитывался в V1)'
 const money=v=>Number.isFinite(Number(v))?Number(v).toLocaleString(root.Nomad360LocaleCore?.displayLocale?.()||'ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
 const safe=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const num=v=>v===''?0:Number(v)||0;
+// Canonical display value for already rendered finance-advertising subtables;
+ // never parse printed locale strings back into business data.
+const shown=(v,suffix='')=>Number.isFinite(Number(v))?
+ '<span data-nomad-display-number="'+Number(v)+'"'+
+ (suffix?' data-nomad-display-suffix="'+suffix+'"':'')+'>'+money(v)+suffix+'</span>':'—';
 let state=null,sequence=1;
 function read(){try{const x=JSON.parse(localStorage.getItem(storageKey));return x?.version===3&&x.source==='v1-calculated'&&Array.isArray(x.skus)?x:null}catch(_){return null}}
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(state));updateEntry();return true}catch(_){return false}}
@@ -310,10 +315,10 @@ function updateResult(){
     '<div class="overflow-x-auto mt-2"><table class="w-full min-w-[640px] text-xs"><thead><tr>'+
     ['Товар / услуга','Цена за период','Маржа за период','Статус','Для минимума','Для цели'].map(x=>'<th class="p-2 text-right">'+x+'</th>').join('')+'</tr></thead><tbody>'+
     (period.priceDiagnostics||[]).map(d=>'<tr class="border-t border-white/20">'+
-      [safe(out.items.find(x=>x.id===d.id)?.name||d.id),money(d.price),
-       d.margin===null?'нет продаж':money(d.margin)+'%',safe(d.status),
-       Number.isFinite(d.requiredFloorPrice)?money(d.requiredFloorPrice):'недостижима',
-       Number.isFinite(d.requiredTargetPrice)?money(d.requiredTargetPrice):'недостижима'].map((x,i)=>
+      [safe(out.items.find(x=>x.id===d.id)?.name||d.id),shown(d.price),
+       d.margin===null?'нет продаж':shown(d.margin,'%'),safe(d.status),
+       Number.isFinite(d.requiredFloorPrice)?shown(d.requiredFloorPrice):'недостижима',
+       Number.isFinite(d.requiredTargetPrice)?shown(d.requiredTargetPrice):'недостижима'].map((x,i)=>
          '<td class="p-2 text-right whitespace-nowrap"'+(i===0?' data-nomad-no-translate':'')+'>'+x+'</td>').join('')+'</tr>').join('')+
     '</tbody></table></div>':'')+
   (period.onceAssetAmortizationUnverified?
@@ -327,15 +332,15 @@ function updateResult(){
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
   out.temporal.months.map(m=>'<tr class="border-t border-white/20">'+
     '<td class="p-2 text-right">'+m.month+'</td>'+
-    '<td class="p-2 text-right">'+money(m.media.ownerPaid)+'</td>'+
+    '<td class="p-2 text-right">'+shown(m.media.ownerPaid)+'</td>'+
     '<td class="p-2 text-right">'+Object.keys(m.media.allocatedBySku).map(id=>
       '<span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+
-      money(num(m.media.allocatedBySku[id])+num(m.media.retainedBySku[id]))).join('; ')+'</td>'+
-    '<td class="p-2 text-right">'+money(m.media.unattributed)+'</td>'+
+      shown(num(m.media.allocatedBySku[id])+num(m.media.retainedBySku[id]))).join('; ')+'</td>'+
+    '<td class="p-2 text-right">'+shown(m.media.unattributed)+'</td>'+
     '<td class="p-2 text-right">'+Object.entries(m.unservedIndependent||{}).filter(([,qty])=>num(qty)>.001).map(([id,qty])=>
-      '<span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(qty)).join('; ')+'</td>'+
+      '<span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+shown(qty)).join('; ')+'</td>'+
     '<td class="p-2 text-right">'+Object.entries(m.media.paidByCampaign).map(([id,amount])=>
-      safe(state.resources.find(r=>r.id===id)?.label||id)+': '+money(amount)).join('; ')+'</td>'+
+      '<span data-nomad-no-translate>'+safe(state.resources.find(r=>r.id===id)?.label||id)+'</span>: '+shown(amount)).join('; ')+'</td>'+
    '</tr>').join('')+'</tbody></table></div>':'';
  const flow='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
   ['Месяц','Поступления без НДС','Расходы','Налог бизнеса','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
