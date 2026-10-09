@@ -914,7 +914,7 @@
                     <label class="block text-sm font-medium text-slate-700 mb-2">
                         Количество <span class="product-name-live"></span> для расчёта
                     </label>
-                    <input id="own-logistics-qty" type="number" min="1" step="1" value="1" class="input-field">
+                    <input id="own-logistics-qty" type="number" min="1" step="1" value="1" class="input-field" oninput="markResaleWarehouseQtyManual(); recalculateLogisticsUnitCost()">
                     <p class="text-xs text-slate-500 mt-2">
                         Стоимость 1 ед. не меняется от количества; ниже дополнительно считается общая логистика для выбранного количества.
                     </p>
@@ -1693,6 +1693,7 @@
         let productSource = null;
         let productOwnInitialized = false;
         let productOwnInboundDeliveryManual = false;
+        let resaleWarehouseQtyManual = false;
         const productOwnChoices = {};
         let productBusinessTaxType = null;
         let productionLaborMode = 'self';
@@ -2075,6 +2076,7 @@
                 productionLaborMode,
                 materialCostMode,
                 inboundDeliveryManual: productOwnInboundDeliveryManual,
+                resaleWarehouseQtyManual,
                 dynamic: {
                     materials: captureDynamicProductContainer('own-material-rows'),
                     equipmentRental: captureDynamicProductContainer('own-equipment-rental-rows'),
@@ -2149,6 +2151,7 @@
             });
 
             productOwnInboundDeliveryManual = !!ui.inboundDeliveryManual;
+            resaleWarehouseQtyManual = !!ui.resaleWarehouseQtyManual;
             setResaleProductPanels();
             if(productSource==='resale')updateResalePurchase();
 
@@ -2516,6 +2519,10 @@
                     item.productionQty=n;
                     item.inputs['resale-buy-qty']=String(n);
                     item.inputs['resale-buy-total']=String((Math.max(0,Number(item.inputs['resale-buy-total'])||0)/previousQty)*n);
+                    if(item.uiState?.resaleWarehouseQtyManual!==true){
+                        item.logisticsQty=n;
+                        item.inputs['own-logistics-qty']=String(n);
+                    }
                 }
                 item.materialsUnitCost =
                     Number(item.materialsVariableUnit || 0) +
@@ -2548,6 +2555,11 @@
             if (kind === 'logistics') {
                 item.logisticsQty = n;
                 item.inputs['own-logistics-qty'] = String(n);
+                if(item.source==='resale'){
+                    if(!item.uiState)item.uiState={};
+                    item.uiState.resaleWarehouseQtyManual=true;
+                    if(Number(item.id)===Number(currentProductSequence))resaleWarehouseQtyManual=true;
+                }
                 item.warehouseStageTotal =
                     (Number(item.warehouseInboundUnitCost || 0) +
                      Number(item.warehouseStorageUnitCost || 0)) * n;
@@ -5203,6 +5215,7 @@
             productSource = null;
             productOwnInitialized = false;
             productOwnInboundDeliveryManual = false;
+            resaleWarehouseQtyManual = false;
             productBusinessTaxType = null;
             productionLaborMode = 'self';
             materialCostMode = null;
@@ -5560,17 +5573,20 @@
             const box=document.getElementById('resale-purchase-composition');
             if(!box||productSource!=='resale')return;
             const goods=productPortfolio.filter(x=>x.source==='resale'&&Number(x.id)!==Number(currentProductSequence))
-                .map(x=>({name:x.name,qty:Number(x.inputs?.['resale-buy-qty'])||Number(x.materialsBatchQty)||1,
+                .map(x=>({id:Number(x.id),name:x.name,qty:Number(x.inputs?.['resale-buy-qty'])||Number(x.materialsBatchQty)||1,
                     price:Math.max(0,Number(x.inputs?.['resale-buy-total'])||0),supplier:x.inputs?.['resale-buy-supplier']||''}));
-            if(productName)goods.push({name:productName,qty:Math.max(1,Number(document.getElementById('resale-buy-qty')?.value)||1),
+            if(productName)goods.push({id:Number(currentProductSequence),name:productName,qty:Math.max(1,Number(document.getElementById('resale-buy-qty')?.value)||1),
                 price:productNumber('resale-buy-total'),supplier:document.getElementById('resale-buy-supplier')?.value||''});
             const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
             box.innerHTML=goods.length?goods.map(g=>
                 '<div class="grid grid-cols-[1fr_auto] gap-3 py-2 border-b border-violet-200"><span><b>'+esc(g.name)+'</b><span class="block text-xs text-slate-500">'+
-                g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span></span><b>'+moneyInputValue(g.price)+' у.е.*</b></div>').join('')+
+                g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span>'+ (g.id===Number(currentProductSequence)?'': '<button type="button" onclick="editSavedProduct('+g.id+')" class="text-xs underline text-blue-800 mt-1">Редактировать товар</button>') + '</span><b>'+moneyInputValue(g.price)+' у.е.*</b></div>').join('')+
                 '<div class="flex justify-between font-bold mt-3"><span>Всего позиций: '+goods.length+'</span><span>'+
-                moneyInputValue(goods.reduce((s,g)=>s+g.price,0))+' у.е.*</span></div>':
+                moneyInputValue(goods.reduce((s,g)=>s+g.price,0))+' у.е.* закупки, без доставки</span></div>':
                 '<p class="text-xs text-slate-500">Сначала укажите закупаемый товар и стоимость партии.</p>';
+        }
+        function markResaleWarehouseQtyManual(){
+            if(productSource==='resale')resaleWarehouseQtyManual=true;
         }
         function updateResalePurchase(){
             if(productSource!=='resale')return;
@@ -5581,6 +5597,7 @@
             const oldCost=document.getElementById('own-materials-cost');
             if(oldQty)oldQty.value=String(qty);
             if(oldCost)oldCost.value=String(cost/qty);
+            if(!resaleWarehouseQtyManual){const stock=document.getElementById('own-logistics-qty');if(stock)stock.value=String(qty);}
             const output=document.getElementById('resale-buy-unit');
             if(output)output.textContent=raw===''?'—':moneyInputValue(cost/qty)+' у.е.*';
             const warning=document.getElementById('resale-buy-warning');
