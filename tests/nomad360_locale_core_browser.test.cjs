@@ -51,6 +51,7 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
       // Deliberately use a Russian UI phrase as the user-entered product name.
       // It must stay verbatim, even in English and Kazakh result tables.
       state.skus[0].name='Товар';
+      state.skus.find(s=>s.id==='salon').name='Маникюр';
       state.forecastMonths=p.forecastMonths;
       state.recurringDemandApproved=p.recurringDemandApproved;
       localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify(state));
