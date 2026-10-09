@@ -108,7 +108,7 @@
         if(r.capacity>0&&r.totalUsage-r.capacity>EPS)
           errors.push('Нагрузка на «'+label+'» превышает доступную мощность.');
       }
-      if(kind==='certification'&&v.validUntil&&Date.parse(v.validUntil)<Date.parse(state.asOf||'2026-10-09'))
+      if(kind==='certification'&&v.validUntil&&Date.parse(v.validUntil)<Date.parse(state.asOf||new Date().toISOString().slice(0,10)))
         errors.push('Срок сертификата '+label+' истёк.');
       return r;
     });
