@@ -134,6 +134,8 @@ const browserLog = [];
  await page.locator(productSelector+' input[oninput*="updateAggregateMargin"]').fill('30');
  await choose('[data-yn-group="salesVat"][data-yn-value="yes"]');
  await put('own-sales-vat-pct',12);
+ // The tax selector is gated by the explicit "calculate with tax" decision.
+ await choose(productSelector+' [data-pricing-decision="tax"]');
  await choose('[data-business-tax-type="turnover"]');
  await put('own-business-tax-pct',6);
 
