@@ -181,3 +181,14 @@ test('Online CAPEX cannot create profit tax on company goods when online is a se
  close(r.cashflow.months.reduce((a,m)=>a+m.tax,0),6.5,
    'cash tax includes agent tax but never taxes own depreciation');
 });
+
+test('Online executor capacity: unknown is not invented; explicit limit cannot be exceeded',()=>{
+ const s=source('hired');
+ close(s.onlineCapacity,0,'V1 has no online capacity field');
+ let r=build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
+ s.onlineCapacity=4;r=build(s);A.equal(r.ready,false);
+ A.ok(r.errors.some(msg=>msg.includes('Прогноз сделок')));
+ s.onlineCapacity=5;r=build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
+ s.onlineCapacity=-1;r=build(s);A.equal(r.ready,false);
+ A.ok(r.errors.some(msg=>msg.includes('Мощность онлайн-услуги')));
+});
