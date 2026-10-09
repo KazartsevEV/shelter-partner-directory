@@ -2822,7 +2822,7 @@
                 zeroMarginRevenue,zeroMarginUnitPrice:count>0&&zeroMarginRevenue!==null?zeroMarginRevenue/count:null,
                 nonRevenueCosts:count>0?nonRevenueCosts:null,
                 variableSalesRate:salesRate,stockQty:count,
-                productionTotal:serviceCost,warehouseTotal:0,salesTotal:salesFixed,adTotal:ad,
+                productionTotal:fixedPremisesAndWorkers+count*electricityPerService,warehouseTotal:0,salesTotal:salesFixed,adTotal:ad,
                 customerDeliveryTotal:0,consumablesTotal:materialsPerService*count,
                 premisesWorkersMonthly:fixedPremisesAndWorkers
             };
