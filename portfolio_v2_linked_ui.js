@@ -94,7 +94,7 @@ function resourceCard(r,i){
    r.pool==='marketingManagement'?num(s.adManagement):
    r.pool==='adBudget'?num(s.adBudget):0;
   return '<div class="rounded-lg border border-slate-200 p-3 min-w-0">'+
-   '<label class="flex gap-2 items-center text-sm"><input type="checkbox" data-linked-member="'+i+'" value="'+safe(s.id)+'" '+(checked?'checked':'')+'><b>'+safe(s.name)+'</b></label>'+
+   '<label class="flex gap-2 items-center text-sm"><input type="checkbox" data-linked-member="'+i+'" value="'+safe(s.id)+'" '+(checked?'checked':'')+'><b data-nomad-no-translate>'+safe(s.name)+'</b></label>'+
    (checked?'<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">'+
     (r.pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
       'resources.'+i+'.includedBySku.'+s.id,r.includedBySku?.[s.id]??0):'')+
@@ -191,7 +191,7 @@ function updateResult(){
   if(plan?.ready){
    const names=Object.fromEntries(state.skus.map(s=>[s.id,s.name]));
    const values=entries=>Object.entries(entries).map(([id,quantity])=>
-    safe(names[id]||id)+': '+money(quantity)).join('; ');
+    '<span data-nomad-no-translate>'+safe(names[id]||id)+'</span>: '+money(quantity)).join('; ');
    const rows=plan.months.map(m=>'<tr class="border-t border-slate-200">'+
     '<td class="p-2">'+m.month+'</td><td class="p-2 text-right">'+money(m.units)+'</td>'+
     '<td class="p-2">'+values(m.orders)+'</td>'+
@@ -283,7 +283,7 @@ function updateResult(){
      ' / '+(num(r.capacity)>0?money(r.capacity):'без лимита')+
      ', остаток '+(r.remainingCapacity===null?'—':money(r.remainingCapacity))+'</div>':'')+
    Object.entries(r.bySku).map(([id,amount])=>
-    '<div>'+safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(amount)+'</div>').join('')+
+    '<div><span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(amount)+'</div>').join('')+
   '</div>').join('')+'</div>';
  const period=cf.periodPnl;
  const periodPanel=period?.ready?
@@ -329,11 +329,11 @@ function updateResult(){
     '<td class="p-2 text-right">'+m.month+'</td>'+
     '<td class="p-2 text-right">'+money(m.media.ownerPaid)+'</td>'+
     '<td class="p-2 text-right">'+Object.keys(m.media.allocatedBySku).map(id=>
-      safe(out.items.find(s=>s.id===id)?.name||id)+': '+
+      '<span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+
       money(num(m.media.allocatedBySku[id])+num(m.media.retainedBySku[id]))).join('; ')+'</td>'+
     '<td class="p-2 text-right">'+money(m.media.unattributed)+'</td>'+
     '<td class="p-2 text-right">'+Object.entries(m.unservedIndependent||{}).filter(([,qty])=>num(qty)>.001).map(([id,qty])=>
-      safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(qty)).join('; ')+'</td>'+
+      '<span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(qty)).join('; ')+'</td>'+
     '<td class="p-2 text-right">'+Object.entries(m.media.paidByCampaign).map(([id,amount])=>
       safe(state.resources.find(r=>r.id===id)?.label||id)+': '+money(amount)).join('; ')+'</td>'+
    '</tr>').join('')+'</tbody></table></div>':'';
