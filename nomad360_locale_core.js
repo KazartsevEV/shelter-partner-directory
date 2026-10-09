@@ -1171,12 +1171,23 @@ rows.push(
  ["Прогноз продаж","Sales forecast","Сатылым болжамы"],
  ["Эквайринг","Payment processing","Эквайринг"]
 );
+/* #47AP: observed MBA populated view, validated EN and KK source fragments. */
+rows.push(
+ ["Исходных строк:","Source rows:","Бастапқы жолдар:"],
+ ["; подтверждённых чеков в фильтре:","; confirmed receipts in filter:","; сүзгідегі расталған чектер:"],
+ [". Валюты не суммируются в одну сумму.",". Amounts in different currencies are not aggregated.",". Әртүрлі валюталардағы сомалар біріктірілмейді."],
+ ["Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте","Confidence = co-purchased receipts / primary-item receipts; lift = confidence / share of receipts containing the add-on. Total directed rules in report:","Confidence = бірге сатып алынған чектер / негізгі позициясы бар чектер; lift = confidence / қосымша позициясы бар чектер үлесі. Есептегі бағытталған ережелер саны:"],
+ ["направленных правил; показано до 60. Для кортежей A+B → C не делается ложная конвертация в одноякорную связку.","directed rules; up to 60 displayed. Tuples such as A+B → C are not incorrectly converted into single-anchor offers.","бағытталған ереже; ең көбі 60 көрсетілді. A+B → C кортеждері бір негізгі позициясы бар ұсынысқа қате түрлендірілмейді."]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^Наблюдаемый средний чек по валютам \(из цены файла, без предположений о НДС\): (.+)$/,
+  'Observed average order value by currency (based on file prices, without VAT assumptions): $1',
+  'Валюталар бойынша бақыланған орташа чек (файл бағалары бойынша, ҚҚС болжамынсыз): $1'],
  [/^Некорректное значение V1: ([A-Za-z0-9_.-]+)$/,
   'Invalid V1 value: $1','V1 мәні жарамсыз: $1'],
  [/^Процент V1 выше 100: ([A-Za-z0-9_.-]+)$/,
