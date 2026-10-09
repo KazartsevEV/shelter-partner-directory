@@ -7600,9 +7600,9 @@
 
                 thirdLabel.textContent = 'CPA / CAC';
                 thirdSub.textContent = 'Рекламный / Полный';
-                document.getElementById('res-cpa').textContent = formatMoney(cpa);
+                document.getElementById('res-cpa').textContent = formatMoney(totalMonth.mDeals > 0 ? totalBudget / totalMonth.mDeals : 0);
                 cpaSep.textContent = ' / ';
-                document.getElementById('res-cac').textContent = formatMoney(cac);
+                document.getElementById('res-cac').textContent = formatMoney(totalMonth.mDeals > 0 ? accruedTotalCosts / totalMonth.mDeals : 0);
             }
 
             const monthlyTbody = document.getElementById('monthly-table');
