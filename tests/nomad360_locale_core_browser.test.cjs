@@ -48,6 +48,9 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
       LinkedPortfolioV2UI.appendOnline(p.skus.find(x=>x.source==='online-service'));
       const state=LinkedPortfolioV2UI.getState();
       state.resources=p.resources;state.offers=p.offers;
+      // Deliberately use a Russian UI phrase as the user-entered product name.
+      // It must stay verbatim, even in English and Kazakh result tables.
+      state.skus[0].name='Товар';
       state.forecastMonths=p.forecastMonths;
       state.recurringDemandApproved=p.recurringDemandApproved;
       localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify(state));
@@ -66,6 +69,7 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
     await page.waitForFunction(code=>document.documentElement.lang===code,changed);
     await page.evaluate(()=>LinkedPortfolioV2UI.resume());
     await afterTick(page);
+    A.equal((await page.locator('[data-linked-sku="0"] [data-nomad-no-translate]').textContent()).trim(),'Товар','user-entered SKU name may not be localized');
     A.equal(await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState())),baseline.state,
      'locale selector may not mutate or overwrite business data');
     const after=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
