@@ -81,7 +81,7 @@ test('F1 A21 one-off campaign actual cash payment only once; V1 individual media
 });
 test('F1 A07 revenue-weighted allocation uses net discounted basket, deterministic under row reorder',()=>{
  const s=scenario(100,100,2);
- s.resources=[campaign({allocation:'revenue',usage:{}})];
+ s.resources=[campaign({allocation:'revenue',usage:{},pool:'none',amount:100,includedBySku:{}})];
  s.offers=[{id:'kit',mode:'bundle',anchorSkuId:'a',attachPct:20,
    overlapPct:0,bundleDiscountPct:10,items:[{skuId:'b',qty:1}]}];
  const prices=s.skus.map(v=>({...v,standaloneNet:100}));
