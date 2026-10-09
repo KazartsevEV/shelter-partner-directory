@@ -62,7 +62,7 @@
       if(!(pos(s.forecastUnitsPerMonth)>0)||!(pos(s.baseCac)>0))
         report(key,'Отсутствует рассчитанный прогноз продаж и CAC.');
       if(pos(s.variableSalesPct)>=100)report(key,'Сумма переменных комиссий превышает 100%.');
-      rows.push({...s,id,priceSelected:p,discountSelected:disc});
+      rows.push({...s,id,priceSelected:max,discountSelected:disc});
     }
     const resources=Array.isArray(state.resources)?state.resources:[];
     const usedResourceIds=new Set(),caps=Object.fromEntries(rows.map(s=>[s.id,{
