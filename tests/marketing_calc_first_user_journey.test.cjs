@@ -21,8 +21,8 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#product-own-form').isVisible(),false);
    await page.locator('summary').filter({hasText:'Посмотреть, что будет рассчитываться'}).click();
    assert.match(await page.locator('#home-screen').textContent(),/ЖИВЫЕ ДЕНЬГИ|денежный поток/);
-   // Advanced legacy calculation remains reachable as a separate entry.
-   await page.locator('#start-legacy-product').click();
+   // Detailed production and resale both use the primary, legible calculator.
+   await page.locator('#start-own-product').click();
    assert.equal(await page.locator('#product-screen').isVisible(),true);
    assert.equal(await page.locator('#product-name-input').inputValue(),'');
    assert.equal(await page.locator('#product-source-block').isVisible(),false);
@@ -30,13 +30,28 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    await page.getByRole('button',{name:'Рассчитать мой товар'}).click();
    assert.equal(await page.locator('#product-source-block').isVisible(),true);
 
-   // Missing models are honestly named: no fake resale/dropship forecast.
-   for(const model of ['resale','dropship']){
-      await page.locator('#product-source-block [data-product-source="'+model+'"]').click();
-      assert.equal(await page.locator('#product-source-unavailable').isVisible(),true);
-      assert.equal(await page.locator('#product-own-form').isVisible(),false);
-   }
+   // Wholesale purchase uses finished goods, not a manufactured-material BOM.
+   await page.locator('#product-source-block [data-product-source="resale"]').click();
+   assert.equal(await page.locator('#product-source-unavailable').isVisible(),false);
+   assert.equal(await page.locator('#product-own-form').isVisible(),true);
+   assert.equal(await page.locator('#resale-buy-panel').isVisible(),true);
+   assert.equal(await page.locator('#product-production-block').isVisible(),false);
+   await page.locator('#resale-buy-qty').fill('15');
+   await page.locator('#resale-buy-total').fill('450');
+   const purchase=await page.evaluate(()=>currentProductPortfolioSnapshot());
+   assert.equal(purchase.source,'resale');
+   assert.equal(purchase.materialsBatchQty,15);
+   assert.equal(purchase.productionUnitCost,0);
+   assert.equal(purchase.productionTotal,0);
+   assert.equal(purchase.materialsUnitCost,30);
+   assert.equal(await page.locator('#resale-buy-unit').textContent(),'30,00 у.е.*');
+
+   // Dropshipping remains unavailable, without a fabricated calculation.
+   await page.locator('#product-source-block [data-product-source="dropship"]').click();
+   assert.equal(await page.locator('#product-source-unavailable').isVisible(),true);
+   assert.equal(await page.locator('#product-own-form').isVisible(),false);
    await page.locator('#product-source-block [data-product-source="own"]').click();
+   assert.equal(await page.locator('#product-production-block').isVisible(),true);
    assert.equal(await page.locator('#product-own-form').isVisible(),true);
    assert.equal(await page.locator('#product-draft-toolbar').isVisible(),true);
    assert.equal(await page.locator('#product-source-unavailable').isVisible(),false);
@@ -109,6 +124,6 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.evaluate(()=>productPortfolio.length),0);
    assert.equal((await page.evaluate(()=>JSON.parse(localStorage.getItem('marketingCalcProductResultV1')))).productPortfolio.length,2);
    assert.deepEqual(errors,[]);
-   console.log('CLEAN_USER_JOURNEY_GREEN',JSON.stringify({firstVisit:'blank',ownName:'Моя первая футболка',resume:'PASS',draftSaved:true,twoSkuSaved:true,originalRestored:true,disabledModes:'explained'}));
+   console.log('CLEAN_USER_JOURNEY_GREEN',JSON.stringify({firstVisit:'blank',ownName:'Моя первая футболка',resume:'PASS',draftSaved:true,twoSkuSaved:true,originalRestored:true,dropship:'explained',resale:'tested'}));
  }finally{await browser.close();}
 })().catch(e=>{console.error('CLEAN_USER_JOURNEY_RED',e.stack||e);process.exitCode=1});
