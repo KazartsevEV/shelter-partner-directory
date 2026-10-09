@@ -7279,8 +7279,8 @@
             const partnerMgmt = isAgent ? (agentPayers.mgmt === 'partner' ? v.mgmt : 0) : v.mgmt;
             const partnerHosting = isAgent ? (agentPayers.hosting === 'partner' ? v.hosting : 0) : v.hosting;
             const partnerDom = isAgent ? (agentPayers.dom === 'partner' ? v.dom : 0) : v.dom;
-            const siteAmort = isAgent ? (agentPayers.site === 'partner' ? v.site * months / 12 : 0) : v.site * months / 12;
-            const magnetAmort = isAgent ? (agentPayers.magnet === 'partner' ? v.magnet * months / 12 : 0) : v.magnet * months / 12;
+            const siteAmort = isAgent ? (agentPayers.site === 'partner' ? v.site * Math.min(months,12) / 12 : 0) : v.site * Math.min(months,12) / 12;
+            const magnetAmort = isAgent ? (agentPayers.magnet === 'partner' ? v.magnet * Math.min(months,12) / 12 : 0) : v.magnet * Math.min(months,12) / 12;
 
             const agentCashExpenses = isAgent
                 ? (agentPayers.monthlyBudget === 'me' ? totalBudget : 0)
