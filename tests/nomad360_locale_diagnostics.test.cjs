@@ -319,3 +319,22 @@ test('complete locale catalog: no empty EN/KK keys, no conflicting duplicates, n
  A.equal(russianInEnglish,0,'English catalog must not contain unlocalized Russian text');
  A.ok(seen.size>1000,'audit full RU/EN/KK catalog, not a tiny handpicked list');
 });
+
+test('populated MBA source captions and runtime currency prefix have exact RU/EN/KK ownership',()=>{
+ const originals=[
+  'Исходных строк:',
+  '; подтверждённых чеков в фильтре:',
+  '. Валюты не суммируются в одну сумму.',
+  'Наблюдаемый средний чек по валютам (из цены файла, без предположений о НДС): GEL',
+  'Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте',
+  'направленных правил; показано до 60. Для кортежей A+B → C не делается ложная конвертация в одноякорную связку.'
+ ];
+ for(const ru of originals){
+  A.equal(tr(ru,'ru'),ru);
+  for(const lang of ['en','kk']){
+   A.notEqual(tr(ru,lang),ru,lang+' populated report misses '+ru);
+   if(ru.includes('GEL'))A.ok(tr(ru,lang).includes('GEL'),'source currency code must survive');
+   if(ru.includes('A+B'))A.ok(tr(ru,lang).includes('A+B → C'),'tuple relationship preserved');
+  }
+ }
+});
