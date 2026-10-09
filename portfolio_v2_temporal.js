@@ -24,6 +24,10 @@
      report('temporal','Не загружен расчёт связей товаров.');
    if(monthsRequested>1&&(state.resources||[]).some(r=>r.kind==='campaign'))
      report('resources','Для многомесячного прогноза общего рекламного бюджета требуется подтверждённое помесячное перераспределение. Пока этот договор не определён, расчёт заблокирован.');
+   if(monthsRequested>1&&state.tax?.type==='profit'&&
+      (state.skus||[]).some(s=>s.source==='online-service')&&
+      (state.resources||[]).some(r=>r.cadence==='monthly'))
+     report('resources','Совместное распределение прибыли онлайн-услуг и общих месячных ресурсов не подтверждено для налога на прибыль. Расчёт заблокирован, пока не определено разграничение расходов.');
    const skus=Array.isArray(state?.skus)?state.skus:[];
    const byId=Object.fromEntries(skus.map(s=>[String(s.id),s]));
    const ids=new Set(Object.keys(byId));
