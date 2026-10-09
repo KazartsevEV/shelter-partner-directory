@@ -5607,7 +5607,7 @@
         function setResaleProductPanels(){
             const resale=productSource==='resale';
             for(const [id,visible] of [['resale-buy-panel',resale],['material-cost-entry-panel',!resale],
-                ['materials-qty-entry-panel',!resale],['product-production-block',!resale]]){
+                ['materials-qty-entry-panel',!resale],['product-production-block',!resale],['production-unit-result',!resale]]){
                 const node=document.getElementById(id);if(node){node.hidden=!visible;node.classList.toggle('hidden',!visible);}
             }
             const steps=resale?{logistics:2,sales:3,ads:4}:{logistics:3,sales:4,ads:5};
