@@ -269,8 +269,6 @@
           Math.max(0,pos(s.serviceFixedMonthly)-cashOffsets[s.id].production)/Math.max(EPS,orders):
           pos(s.unitCost)-embeddedUnit;
         const bundleExposure=orders>0?pos(basket.discountedUnits[s.id])/orders:0;
-        if(s.fixedPriceFromV1&&bundleExposure>EPS)
-          report('offers','Фиксированное онлайн-вознаграждение нельзя снижать скидкой без указания плательщика.');
         const priced={...s,_bundleDiscountFraction:bundleExposure};
         const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
           monthlyResources+pos(s.creditServiceMonthly))/orders:Infinity;
@@ -302,6 +300,8 @@
     if(!converged)report('resources','Распределение рекламного бюджета и цен не сошлось; зафиксируйте загрузку кампаний по товарам.');
     scenario=calculateScenario(prices,projectedOrders);
     for(const e of scenario.basket.fieldErrors)report(e.path,e.message);
+    if(rows.some(s=>s.fixedPriceFromV1&&pos(scenario.basket.discountedUnits[s.id])>EPS))
+      report('offers','Фиксированное онлайн-вознаграждение нельзя снижать скидкой без указания плательщика.');
     const items=scenario.projections.map(p=>{
       const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad,bundleExposure}=p;
       const priceList=Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
