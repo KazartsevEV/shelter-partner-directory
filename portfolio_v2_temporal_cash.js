@@ -409,6 +409,7 @@
      postHorizonInterest:sum(months.slice(horizonMonths).map(m=>m.interest)),
      pricePolicy:'current-V2-monthly-price-not-reoptimized-for-H',
      onceAssetAmortizationUnverified:totalOnce>EPS,
+     accountingCompleteness:totalOnce>EPS?'PROVISIONAL':'COMPLETE',
      ready:true,
      invariants:{revenueConserved,marketingConserved,
        profitMonthsConserved:Math.abs(ps('netProfit')-periodProfit)<EPS}};
