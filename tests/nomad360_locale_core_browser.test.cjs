@@ -98,7 +98,7 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     await page.evaluate(()=>showServiceWorkChooser());
     await page.waitForFunction(code=>document.querySelector('#service-work-screen')?.textContent?.includes(code),
       expected==='kk'?'Қызмет':expected==='en'?'Service':'Услуга');
-    if(expected==='en'){
+    if(expected!=='ru'){
       for(const mode of ['self','hired','agent']){
         await page.evaluate(selected=>selectServiceMode(selected),mode);
         await afterTick(page);
@@ -123,11 +123,19 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
             await page.waitForFunction(()=>document.documentElement.lang==='en');
           }
         }
-        await assertEnglishLocaleClean(page,'online-'+mode);
+        if(expected==='en')await assertEnglishLocaleClean(page,'online-'+mode);
+        else console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
+          stage:'online-'+mode,locale:expected,
+          gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
+        }));
       }
       await page.evaluate(()=>openPortfolioV2(false));
       await afterTick(page);
-      await assertEnglishLocaleClean(page,'experimental-v2');
+      if(expected==='en')await assertEnglishLocaleClean(page,'experimental-v2');
+      else console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
+        stage:'experimental-v2',locale:expected,
+        gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
+      }));
     }
     // Representative V1 form, including dynamic strings, remains translated.
     await page.evaluate(()=>showProductBranch());
@@ -200,12 +208,15 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     const a11y_v1_product=await localeA11yCensus(page,'v1-product');
     A.equal(a11y_v1_product.unlabeled,0,JSON.stringify(a11y_v1_product.examples));
     if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(a11y_v1_product));
-    if(expected==='en'){
+    if(expected!=='ru'){
       for(const source of ['own','resale','dropship','offline-service']){
         await page.evaluate(branch=>selectProductSource(branch),source);
         await afterTick(page);
-        const inventory=await localeVisibleCensus(page,'product-'+source);
-        console.log('NOMAD360_L47_CENSUS',JSON.stringify(inventory));
+        if(expected==='en')await assertEnglishLocaleClean(page,'product-'+source);
+        else console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
+          stage:'product-'+source,locale:expected,
+          gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
+        }));
       }
     }
     if(expected!=='ru')console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
