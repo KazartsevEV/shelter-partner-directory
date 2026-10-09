@@ -80,6 +80,23 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
       expected==='kk'?'Nomad360 — тегін бизнес-калькулятор.':
       'Nomad360 — бесплатный калькулятор бизнеса.';
     A.ok((await page.locator('meta[name="description"]').getAttribute('content')).startsWith(expectedMeta));
+    await page.evaluate(()=>{
+      productName='Товар';
+      updateProductAssortmentGate();
+    });
+    await page.waitForFunction(locale=>{
+      const button=document.getElementById('assortment-complete-button');
+      if(!button)return false;
+      const label=button.textContent||'';
+      return locale==='en'?label.includes('This is my only product'):
+       locale==='kk'?label.includes('Бұл менің жалғыз тауарым'):
+       label.includes('Это мой единственный товар');
+    },expected);
+    A.equal((await page.locator('#assortment-complete-button [data-nomad-no-translate]').textContent()).trim(),
+      '«Товар»','user-entered V1 product name never translates');
+    const formattedMoney=await page.evaluate(()=>formatMoney(1234.5));
+    A.ok(formattedMoney.endsWith(expected==='en'?'currency units*':expected==='kk'?'ш.б.*':'у.е.*'),
+      'display currency unit localized without changing numeric value');
     const payload=fixture();
     await page.evaluate(p=>{
       LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
