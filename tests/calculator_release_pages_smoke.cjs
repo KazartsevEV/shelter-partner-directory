@@ -18,7 +18,9 @@ const files=[
  'portfolio_v2_linked_ui.js',
  'portfolio_v2_basket_ui.js',
  'portfolio_v2_mba_observed.js',
- 'portfolio_v2_mba_observed_ui.js'
+ 'portfolio_v2_mba_observed_ui.js',
+ 'nomad360_calculator_ui.js',
+ 'nomad360_calculator_ui.css'
 ];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -43,8 +45,11 @@ function fetchFile(url,redirects=0){
 async function verify(mode){
  const source=fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
  for(const file of files.slice(1)){
-  A.ok(source.includes('<script src="./'+file+'"></script>'),
-   'HTML must load canonical linked script: '+file);
+  const inclusion=file.endsWith('.css')?
+   '<link rel="stylesheet" href="./'+file+'">':
+   '<script src="./'+file+'"></script>';
+  A.ok(source.includes(inclusion),
+   'HTML must reference canonical asset: '+file);
   A.ok(fs.existsSync(path.join(__dirname,'..',file)),
    'HTML references missing local script: '+file);
  }
