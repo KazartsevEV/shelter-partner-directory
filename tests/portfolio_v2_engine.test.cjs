@@ -145,3 +145,25 @@ test('Validation gates non-100% quantity mix, overbooked workers and invalid sou
  x.resources=[];x.skus[0].source='unsupported';
  assert.equal(calc.build(x).ready,false);
 });
+
+test('Monthly group resources and targeted campaigns stop when their beneficiary sells out',()=>{
+ const x=base();
+ x.marketing.periodMonths=1;
+ x.skus[0].batchUnits=5;
+ x.skus[1].batchUnits=15;
+ x.resources=[
+  {id:'a-team',kind:'workers',label:'A team',amount:100,cadence:'monthly',skuIds:['a']},
+  {id:'b-team',kind:'workers',label:'B team',amount:200,cadence:'monthly',skuIds:['b']},
+  {id:'a-ad',kind:'campaign',label:'A media',amount:50,cadence:'monthly',skuIds:['a']},
+  {id:'b-ad',kind:'campaign',label:'B media',amount:100,cadence:'monthly',skuIds:['b']}
+ ];
+ const r=calc.build(x);
+ assert.equal(r.ready,true,JSON.stringify(r.errors));
+ assert.equal(r.months.length,3);
+ close(r.months[0].shared,300,'both teams month1');
+ close(r.months[1].shared,200,'only B team month2');
+ close(r.months[2].shared,200,'only B team month3');
+ close(r.months[0].ad,1150,'global and two campaign budgets month1');
+ close(r.months[1].ad,1100,'A targeted campaign ended, B still running');
+ close(r.months[2].ad,1100,'A campaign is not billed after its stock sells out');
+});
