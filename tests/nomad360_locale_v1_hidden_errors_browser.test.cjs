@@ -64,11 +64,14 @@ async function checkText(page,id,raw,language){
         Number(document.getElementById('own-business-tax-pct')?.value)!==6)return false;
      return calculatePriceListRange(productPortfolio[0]).ready;
     },null,{timeout:15000});
-    const blocked=await page.evaluate(()=>({
-     accepted:saveProductCalculationToBrowser(),
-     state:JSON.stringify(productPortfolio),
-     payroll:(updateProductionWorkersCost(),document.getElementById('own-production-workers-note').textContent)
-    }));
+    const blocked=await page.evaluate(()=>{
+     // This recalculation synchronizes the active SKU's tax and VAT snapshot.
+     // Capture the invariant only after the explicit action has completed.
+     updateProductionWorkersCost();
+     const accepted=saveProductCalculationToBrowser();
+     return {accepted,state:JSON.stringify(productPortfolio),
+      payroll:document.getElementById('own-production-workers-note').textContent};
+    });
     A.equal(blocked.accepted,false,'sample must not overwrite own draft');
     A.equal(blocked.payroll,errorTexts.payroll,'KZ payroll note path not exercised');
     for(const language of ['en','kk','ru']){
