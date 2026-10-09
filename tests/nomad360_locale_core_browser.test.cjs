@@ -76,6 +76,31 @@ const afterTick=page=>page.evaluate(()=>new Promise(done=>setTimeout(done,40)));
     A.equal(after.ready,true,JSON.stringify(after.errors));
     A.deepEqual(after.items.map(x=>x.priceList),itemPrice);
     A.equal(after.cashflow.periodPnl.netProfit,baseline.result.cashflow.periodPnl.netProfit);
+    // Real dynamically generated engine validation with the same user-entered
+    // product name and month, rendered through the unchanged finance engine.
+    const invalid=await page.evaluate(()=>{
+      const key='marketingCalcLinkedPortfolioV2';
+      const draft=JSON.parse(localStorage.getItem(key));
+      draft.skus.find(s=>s.id==='salon').serviceCapacity=8;
+      localStorage.setItem(key,JSON.stringify(draft));
+      LinkedPortfolioV2UI.resume();
+      return LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState());
+    });
+    A.equal(invalid.ready,false,'over-capacity service must fail closed');
+    await page.waitForFunction(code=>{
+      const text=[...document.querySelectorAll('[data-linked-error]')].map(e=>e.textContent).join(' ');
+      return code==='en'?/Month \d+: Service “/.test(text):
+       /\d+-ай: «/.test(text);
+    },changed);
+    const displayErrors=await page.locator('[data-linked-error]').allTextContents();
+    A.ok(displayErrors.some(s=>s.includes('Маникюр')),'product name must survive translation in an error');
+    await page.evaluate(source=>{
+      localStorage.setItem('marketingCalcLinkedPortfolioV2',source);
+      LinkedPortfolioV2UI.resume();
+    },baseline.state);
+    const restored=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
+    A.equal(restored.ready,true,JSON.stringify(restored.errors));
+    A.equal(restored.cashflow.periodPnl.netProfit,baseline.result.cashflow.periodPnl.netProfit);
     await page.reload({waitUntil:'domcontentloaded'});
     await page.waitForFunction(code=>document.documentElement.lang===code,changed);
     A.equal(await page.locator('#nomad360-lang-select').inputValue(),changed,
