@@ -90,7 +90,9 @@
       const kind=String(v.kind||'other');
       const amount=positive(v.amount);
       const cadence=v.cadence==='once'?'once':'monthly';
-      const basis=v.allocation==='usage'?'usage':'revenue';
+      // Media never uses arbitrary unit/usage weights: the governing contract
+      // is forecast monetary revenue share among the campaign beneficiaries.
+      const basis=kind==='campaign'?'revenue':v.allocation==='usage'?'usage':'revenue';
       const r={id:id(v.id||'r-'+i),kind,label,amount,cadence,skuIds,basis,
         usage:(v.usage&&typeof v.usage==='object')?v.usage:{},
         capacity:positive(v.capacity),totalUsage:0,validFor:v.validFor||'',
