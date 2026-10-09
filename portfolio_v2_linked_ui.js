@@ -60,7 +60,40 @@ function importFromV1(payload){
    });
   }
  }
+ if(prior){
+  // Goods reimport never discards already approved online services.
+  for(const row of prior.skus.filter(s=>s.onlineContract))
+    if(!fresh.skus.some(s=>s.id===row.id))fresh.skus.push(JSON.parse(JSON.stringify(row)));
+  const allowed=new Set(fresh.skus.map(s=>s.id));
+  for(const r of prior.resources||[])if(!fresh.resources.some(x=>x.id===r.id)){
+   const kept=(r.skuIds||[]).filter(id=>allowed.has(id));
+   if(kept.length)fresh.resources.push({...JSON.parse(JSON.stringify(r)),skuIds:kept,
+    includedBySku:Object.fromEntries(Object.entries(r.includedBySku||{}).filter(([id])=>allowed.has(id))),
+    usage:Object.fromEntries(Object.entries(r.usage||{}).filter(([id])=>allowed.has(id)))});
+  }
+  for(const r of prior.offers||[])
+   if(!fresh.offers.some(x=>x.id===r.id)&&allowed.has(r.anchorSkuId)&&
+      r.items?.every(p=>allowed.has(p.skuId)))fresh.offers.push(JSON.parse(JSON.stringify(r)));
+  fresh.onlineDrafts=prior.onlineDrafts||{};
+ }
+ fresh.lastEntry='goods';
  state=fresh;resetSequence();save();enter();
+}
+function mergeOnlineV1(payload){
+ const incoming=Engine.fromV1(payload),saved=read();
+ if(!saved){
+  state=incoming;state.onlineDrafts={};
+ }else{
+  state=JSON.parse(JSON.stringify(saved));
+  const sku=incoming.skus[0],index=state.skus.findIndex(s=>s.id===sku.id);
+  if(index>=0)state.skus[index]=sku;else state.skus.push(sku);
+  state.onlineDrafts=state.onlineDrafts||{};
+  state.importedAt=incoming.importedAt;
+ }
+ if(payload.onlineDraft)state.onlineDrafts[incoming.skus[0].id]=JSON.parse(JSON.stringify(payload.onlineDraft));
+ state.lastEntry='online';
+ resetSequence();save();enter();
+ return state;
 }
 function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];resetSequence();enter();return true;}
 function options(items,value){return items.map(([v,label])=>'<option value="'+safe(v)+'" '+(v===value?'selected':'')+'>'+safe(label)+'</option>').join('');}
@@ -69,7 +102,7 @@ function field(label,path,value,extra=''){
  '<input data-linked-path="'+safe(path)+'" type="number" step="0.01" min="0" class="input-field mt-1" value="'+safe(value)+'" '+extra+'></label>';
 }
 function resourceCard(r,i){
- const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||s.source!=='offline-service').map(s=>{
+ const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||!(['offline-service','online-self','online-hired','online-agent'].includes(s.source))).map(s=>{
   const checked=r.skuIds.includes(s.id);
   const baseline=r.pool==='unitCost'?num(s.unitCost)*num(s.forecastUnitsPerMonth):
    r.pool==='salesFixed'?num(s.salesFixedMonthly):
@@ -111,15 +144,19 @@ function render(){
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
  '<div class="font-bold text-slate-900 text-lg">'+safe(s.name)+'</div>'+
- '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
+ '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-self':'Онлайн · я сам','online-hired':'Онлайн · нанимаю','online-agent':'Онлайн · агент'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-700 mt-3">'+
  [['Себестоимость V1 / шт.',money(s.unitCost)],['Прогноз V1 / мес.',money(s.forecastUnitsPerMonth)],
  ['Реклама V1 / мес.',money(s.adBudget)],['CAC V1',money(s.baseCac)],['Цена от',money(s.priceMin)],
  ['Цена до',money(s.priceMax)],['Дельта цены',money(num(s.priceMax)-num(s.priceMin))]].map(([label,value])=>
  '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b>'+value+'</b></div>').join('')+'</div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
+ (s.onlineContract?
+ '<div class="rounded-lg bg-blue-50 p-3 text-xs text-blue-900">Договорная сумма за сделку: '+money(s.priceMax)+
+ (s.source==='online-agent'?' — моя комиссия, не оборот партнёра.':' — стоимость услуги V1.')+
+ ' Это прогноз первого месяца с коэффициентами V1; цена фиксирована.</div>':
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
- 'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
+ 'max="'+safe(s.maxDiscountPct)+'"'))+'</div>'+
  '<div class="rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
  '<div class="text-xs">Автоматическая цена прайса V2</div><div class="text-xl font-black" data-linked-price-list>'+money(byId.get(s.id)?.priceList)+'</div>'+
  '<div class="text-xs mt-2">Покупатель платит (скидка и НДС учтены)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
@@ -277,7 +314,13 @@ function onEvent(e){
  }
  if(e.type!=='click')return;
  const hit=field.closest('button');if(!hit)return;
- if(hit.hasAttribute('data-linked-back')){root.showProductBranch();return;}
+ if(hit.hasAttribute('data-linked-back')){
+   if(state.lastEntry==='online'&&root.restoreOnlineServiceFromV2){
+    const sku=state.skus.filter(s=>s.onlineContract).at(-1);
+    root.restoreOnlineServiceFromV2(state.onlineDrafts?.[sku?.id]);
+   }else root.showProductBranch();
+   return;
+  }
  if(hit.hasAttribute('data-linked-save')){
   const el=document.getElementById('linked-save-message');
   if(el)el.textContent=save()?'Сохранено в этом браузере':'Не удалось сохранить: хранилище недоступно';
@@ -298,6 +341,6 @@ function mount(){
  if(el){el.addEventListener('input',onEvent);el.addEventListener('change',onEvent);el.addEventListener('click',onEvent);}
  updateEntry();
 }
-root.LinkedPortfolioV2UI=Object.freeze({importFromV1,resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
+root.LinkedPortfolioV2UI=Object.freeze({importFromV1,mergeOnlineV1,resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })(window);
