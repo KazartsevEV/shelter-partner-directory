@@ -107,7 +107,7 @@ test('F3 independent 5-source cash oracle: delayed dropship, one batch payment, 
  close(r.cashflow.periodPnl.taxTimingDifference,hTax-hPaid,
   'tax accrual differs from bank-cash tax because 35-day payout');
 });
-test('F3 independently reconstruct day-by-day max deficit and owner's required capital',()=>{
+test('F3 independently reconstruct day-by-day max deficit and required owner capital',()=>{
  const r=good();let balance=0,peak=0;
  for(let d=0;d<150;d++){
   const month=Math.floor(d/30);
