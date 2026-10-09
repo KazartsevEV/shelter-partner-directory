@@ -4867,6 +4867,59 @@
                                 </button>
                             </div>
 
+                            <div data-credit-result class="hidden mt-4 pt-4 border-t aggregate-separator" hidden>
+                                <div class="aggregate-line font-semibold">
+                                    Сумма кредита:
+                                    <span class="aggregate-final-value" data-credit-amount>${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
+                                    у.е.*
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                                    <div>
+                                        <label class="block text-xs mb-1">Ставка по кредиту, % годовых</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            step="0.01"
+                                            value="${esc(planning.creditRatePct ?? '')}"
+                                            class="input-field"
+                                            placeholder="Например, 18"
+                                            oninput="updateAggregateCreditField(${item.id}, 'creditRatePct', this.value)">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs mb-1">Срок кредита, месяцев</label>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            step="1"
+                                            value="${esc(planning.creditTermMonths ?? '')}"
+                                            data-credit-term-input
+                                            class="input-field"
+                                            oninput="updateAggregateCreditField(${item.id}, 'creditTermMonths', this.value)">
+                                    </div>
+                                </div>
+
+                                <div class="aggregate-price-card mt-4">
+                                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                                        <span class="aggregate-muted">Проценты по кредиту / месяц (без тела)</span>
+                                        <span class="font-bold text-right"><span data-credit-monthly-service>—</span> у.е.*</span>
+                                        <span class="aggregate-muted">Все проценты кредита на 1 ед. партии «${esc(item.name)}»</span>
+                                        <span class="font-bold text-right"><span data-credit-unit-load>—</span> у.е.*</span>
+                                        <span class="aggregate-muted">Проценты за весь срок</span>
+                                        <span class="font-bold text-right"><span data-credit-total-interest>—</span> у.е.*</span>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t aggregate-separator">
+                                        <div class="aggregate-muted text-xs">Полная сумма к возврату</div>
+                                        <div class="aggregate-price-number mt-1">
+                                            <span data-credit-total>—</span> у.е.*
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div data-credit-hint class="aggregate-muted text-xs mt-3">
+                                    Ставка по кредиту должна быть ниже вашей маржинальности.
+                                </div>
+                            </div>
                             <div data-cash-pricing class="aggregate-pricing-panel hidden" hidden>
                                 <label class="block text-sm font-semibold mb-2">
                                     Целевая маржинальность самого товара «${esc(item.name)}», %
@@ -5014,59 +5067,6 @@
 
                             </div>
 
-                            <div data-credit-result class="hidden mt-4 pt-4 border-t aggregate-separator" hidden>
-                                <div class="aggregate-line font-semibold">
-                                    Сумма кредита:
-                                    <span class="aggregate-final-value" data-credit-amount>${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
-                                    у.е.*
-                                </div>
-
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                                    <div>
-                                        <label class="block text-xs mb-1">Ставка по кредиту, % годовых</label>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            step="0.01"
-                                            value="${esc(planning.creditRatePct ?? '')}"
-                                            class="input-field"
-                                            placeholder="Например, 18"
-                                            oninput="updateAggregateCreditField(${item.id}, 'creditRatePct', this.value)">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs mb-1">Срок кредита, месяцев</label>
-                                        <input
-                                            type="number"
-                                            min="1"
-                                            step="1"
-                                            value="${esc(planning.creditTermMonths ?? '')}"
-                                            data-credit-term-input
-                                            class="input-field"
-                                            oninput="updateAggregateCreditField(${item.id}, 'creditTermMonths', this.value)">
-                                    </div>
-                                </div>
-
-                                <div class="aggregate-price-card mt-4">
-                                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                                        <span class="aggregate-muted">Проценты по кредиту / месяц (без тела)</span>
-                                        <span class="font-bold text-right"><span data-credit-monthly-service>—</span> у.е.*</span>
-                                        <span class="aggregate-muted">Все проценты кредита на 1 ед. партии «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right"><span data-credit-unit-load>—</span> у.е.*</span>
-                                        <span class="aggregate-muted">Проценты за весь срок</span>
-                                        <span class="font-bold text-right"><span data-credit-total-interest>—</span> у.е.*</span>
-                                    </div>
-                                    <div class="mt-3 pt-3 border-t aggregate-separator">
-                                        <div class="aggregate-muted text-xs">Полная сумма к возврату</div>
-                                        <div class="aggregate-price-number mt-1">
-                                            <span data-credit-total>—</span> у.е.*
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div data-credit-hint class="aggregate-muted text-xs mt-3">
-                                    Ставка по кредиту должна быть ниже вашей маржинальности.
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </section>`;
