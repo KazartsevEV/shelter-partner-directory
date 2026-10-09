@@ -1,0 +1,28 @@
+name: Calculator numeric Chromium audit
+
+on:
+  pull_request:
+    paths:
+      - "Marketing_calc.HTML"
+      - "tests/marketing_calc_browser_e2e.cjs"
+      - ".github/workflows/calculator-browser-e2e.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install browser test runner
+        run: npm install --no-save --no-package-lock playwright@1.58.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run exact top-to-bottom numeric audit
+        run: node tests/marketing_calc_browser_e2e.cjs
