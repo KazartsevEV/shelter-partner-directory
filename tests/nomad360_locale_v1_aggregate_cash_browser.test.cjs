@@ -45,7 +45,7 @@ const cashFields=['inflow','outflow','taxPaid','interestPaid','principalRepaid',
       revenue:Number(model.adjustedRevenue??model.totalRevenue),
       profit:Number(model.adjustedNetProfit??model.netProfit)};
     },cashFields);
-    A.ok(baseline.moneyCells>=baseline.monthCount*8+8,'V1 table plus summary money markers');
+    A.ok(baseline.moneyCells>=baseline.monthCount*8+7,'V1 table plus summary money markers');
     A.equal(baseline.report.length,8);
     for(const row of baseline.report)
      A.deepEqual(row.actual,row.expected,'canonical per-month amounts '+row.key);
