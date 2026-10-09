@@ -296,8 +296,8 @@
       const actualAfterTaxMargin=revenue>0?
         (ebitda-creditMonthly-((s.ownerTax?.type||taxType)==='turnover'?revenue*(pos(s.ownerTax?.pct??state.tax?.pct)/100):
            Math.max(0,ebitda-creditMonthly)*(pos(s.ownerTax?.pct??state.tax?.pct)/100)))/revenue*100:0;
-      const minOk=Number.isFinite(p.priceFloor)&&p.priceFloor<=pos(s.priceMax)+.005&&
-        actualAfterTaxMargin+.00001>=pos(s.minimumMarginPct);
+      const minOk=s.fixedPriceFromV1||(Number.isFinite(p.priceFloor)&&p.priceFloor<=pos(s.priceMax)+.005&&
+        actualAfterTaxMargin+.00001>=pos(s.minimumMarginPct));
       const targetOk=Number.isFinite(p.priceTarget)&&p.priceTarget<=pos(s.priceMax)+.005&&
         actualAfterTaxMargin+.00001>=pos(s.targetMarginPct);
       return {...s,priceSelected:priceList,priceList,priceGross:grossPrice,priceNet,
@@ -307,7 +307,7 @@
         ebitda,creditMonthly,preTaxProfit:ebitda-creditMonthly,
         unitCostEffective:netUnitCost,unitLoad,revenueWeight:0,cashOffsets:cashOffsets[s.id],
         actualAfterTaxMargin,minimumMarginFeasible:minOk,targetMarginMet:targetOk,
-        status:!minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY'};
+        status:s.fixedPriceFromV1?(actualAfterTaxMargin<0?'LOSS':'FIXED_V1'):(!minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY')};
     });
     const totalRevenue=sum(items.map(s=>s.revenue));
     items.forEach(item=>item.revenueWeight=totalRevenue>0?item.revenue/totalRevenue:0);
@@ -342,7 +342,7 @@
           ') больше доступных '+pos(item.serviceCapacity)+' посещений в месяц.');
       }
     }
-    const infeasible=items.filter(item=>!item.minimumMarginFeasible);
+    const infeasible=items.filter(item=>!item.fixedPriceFromV1&&!item.minimumMarginFeasible);
     if(infeasible.length)for(const item of infeasible)
       report('skus.'+rows.findIndex(s=>s.id===item.id)+'.priceMax',
         'Для «'+item.name+'» минимум рентабельности требует цены '+
