@@ -24,7 +24,9 @@ async function demo(browser, financing) {
     const page = await browser.newPage({viewport: {width: 390,height:844}});
     const faults = [];
     page.on('pageerror', e=>faults.push(e.message));
-    page.on('console', m=>{if(m.type()==='error')faults.push(m.text())});
+    // External CSS/font assets are deliberately blocked for this offline file test;
+    // only genuine JS errors and non-network console errors are defects.
+    page.on('console', m=>{if(m.type()==='error' && !/Failed to load resource: net::ERR_FAILED/.test(m.text()))faults.push(m.text())});
     await page.route(/^https?:\/\//, route=>route.abort());
     await page.goto(htmlUrl+'?demo=shopper&finance='+financing,
         {waitUntil:'domcontentloaded'});
