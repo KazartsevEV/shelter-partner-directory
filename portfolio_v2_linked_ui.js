@@ -313,8 +313,8 @@ function updateResult(){
       [safe(out.items.find(x=>x.id===d.id)?.name||d.id),money(d.price),
        d.margin===null?'нет продаж':money(d.margin)+'%',safe(d.status),
        Number.isFinite(d.requiredFloorPrice)?money(d.requiredFloorPrice):'недостижима',
-       Number.isFinite(d.requiredTargetPrice)?money(d.requiredTargetPrice):'недостижима'].map(x=>
-         '<td class="p-2 text-right whitespace-nowrap">'+x+'</td>').join('')+'</tr>').join('')+
+       Number.isFinite(d.requiredTargetPrice)?money(d.requiredTargetPrice):'недостижима'].map((x,i)=>
+         '<td class="p-2 text-right whitespace-nowrap"'+(i===0?' data-nomad-no-translate':'')+'>'+x+'</td>').join('')+'</tr>').join('')+
     '</tbody></table></div>':'')+
   (period.onceAssetAmortizationUnverified?
    '<p class="mt-2 text-xs text-amber-200">Есть разовые активы без подтверждённой амортизации; полная бухгалтерская прибыль пока не подтверждена.</p>':'')+
