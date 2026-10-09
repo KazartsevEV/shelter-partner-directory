@@ -217,7 +217,7 @@ function updateResult(){
     'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
     '; для минимальной: '+money(sku.requiredFloorPrice)+
     '; денежная доля: '+money(sku.revenueWeight*100)+'%; '+
-    ({TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима',LOSS:'Фиксированная цена V1 убыточна',FIXED_V1:'Фиксированная цена/комиссия V1 сохранена'}[sku.status]||'ожидает проверки'):
+    ({TARGET_MET:'целевая маржа достигнута',MINIMUM_ONLY:'минимальная маржа достигнута',INFEASIBLE:'минимальная маржа недостижима',LOSS:'Фиксированная цена V1 убыточна',FIXED_V1:'Фиксированная цена/комиссия V1 сохранена',PROVISIONAL:'предварительно: амортизация не подтверждена'}[sku.status]||'ожидает проверки'):
     'Заполните общие ресурсы.';
  }
  document.querySelectorAll('[data-linked-error]').forEach(x=>x.remove());
@@ -245,6 +245,7 @@ function updateResult(){
     note.textContent=issue.message;parent.append(note);
    }
   }
+  root.Nomad360UI?.syncPortfolioActions(out);
   return;
  }
  const t=out.totals,cf=out.cashflow;
@@ -364,6 +365,7 @@ function updateResult(){
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
  'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+
  'Месяц принят равным 30 дням; налоги моделируются помесячно, без переноса убытков.</p>';
+ root.Nomad360UI?.syncPortfolioActions(out);
 }
 function setPath(path,value){
  const parts=path.split('.');let current=state;
