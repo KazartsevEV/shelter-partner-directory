@@ -47,6 +47,7 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    await page.locator('[data-material-cost-mode="known"]').click();
    await page.locator('#own-materials-cost').fill('235');
    await page.locator('#own-materials-batch-qty').fill('50');
+   await page.locator('[data-yn-group="productionPremises"][data-yn-value="yes"]').click();
    await page.locator('#own-production-premises-monthly').fill('750');
    await page.locator('#own-production-defect-pct').fill('3');
    await page.locator('#own-product-ad-budget').fill('1800');
