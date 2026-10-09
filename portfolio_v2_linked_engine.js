@@ -15,9 +15,6 @@
   const cashBuckets=new Set(['materials','production','fulfillment']);
   const allowedKinds=new Set(['premises','workers','warehouse','equipment','certification','salesStaff','marketingManager','campaign','website','hosting','domain','content','other']);
   const sourceId=s=>String(s.id);
-  const isOnline=s=>!!s&&['online-self','online-hired','online-agent'].includes(s.source);
-  const effectiveTaxRate=(s,rate)=>isOnline(s)?pos(s.onlineTaxPct)/100:rate;
-  const effectiveTaxType=(s,type)=>isOnline(s)?'turnover':type;
   function fromV1(payload){
     if(!payload||!Array.isArray(payload.skus)||!payload.skus.length)throw Error('Нет подтверждённых позиций V1 (товаров или услуг).');
     const skus=payload.skus.map(v=>({
@@ -116,28 +113,19 @@
     for(let i=0;i<raw.length;i++){
       const s=raw[i],id=sourceId(s),key='skus.'+i;
       if(ids.has(id))report(key,'Повторяющийся ID товара.');ids.add(id);
-      if(!s.name||!['own','resale','dropship','offline-service','online-self','online-hired','online-agent'].includes(s.source))report(key,'Товар не имеет корректного происхождения.');
+      if(!s.name||!['own','resale','dropship','offline-service','online-service'].includes(s.source))report(key,'Товар не имеет корректного происхождения.');
       for(const field of ['unitCost','forecastUnitsPerMonth','adBudget','priceMin','priceMax','baseCac']){
         if(!Number.isFinite(Number(s[field]))||!(Number(s[field])>=0))
           report(key+'.'+field,'Некорректное рассчитанное значение V1: '+field);
       }
       const min=finite(s.priceMin),max=finite(s.priceMax);
-      if(isOnline(s)&&(!s.onlineContract||!(pos(s.onlineDemandBudget)>0)||
-          !(pos(s.onlineGrossPerDeal)>0)||!Number.isFinite(Number(s.onlineTaxPct))||
-          Number(s.onlineTaxPct)<0||Number(s.onlineTaxPct)>100))
-        report(key,'Нет подтверждённой воронки и налогового контракта V1.');
-      if(isOnline(s)&&(!Number.isFinite(Number(s.onlineCapacity??0))||
-          Number(s.onlineCapacity??0)<0||!Number.isInteger(Number(s.onlineCapacity??0))))
-        report(key+'.onlineCapacity','Мощность онлайн-услуги — целое неотрицательное количество сделок.');
-      if(s.source==='online-agent'&&(!s.onlinePartner||!(pos(s.onlinePartner.agentCommissionPerDeal)>0)))
-        report(key,'Отсутствует отделённый денежный контур партнёра.');
       if(!(min>0&&max>=min))report(key,'Для товара отсутствует подтверждённый диапазон цен V1.');
-      if(!isOnline(s)&&!(pos(s.targetMarginPct)>0&&pos(s.minimumMarginPct)>0&&pos(s.targetMarginPct)>=pos(s.minimumMarginPct)))
+      if(!s.fixedPriceFromV1&&!(pos(s.targetMarginPct)>0&&pos(s.minimumMarginPct)>0&&pos(s.targetMarginPct)>=pos(s.minimumMarginPct))
         report(key,'Не готовы минимальная и целевая маржинальность V1.');
       const disc=finite(s.discountSelected),limit=pos(s.maxDiscountPct);
       if(disc<0||disc>limit+EPS||limit>=100)
         report(key+'.discountSelected','Рабочая скидка превышает максимальную скидку из V1.');
-      if(!(pos(s.forecastUnitsPerMonth)>0)||!(pos(s.baseCac)>0))
+      if(!(pos(s.forecastUnitsPerMonth)>0)||(!s.fixedPriceFromV1&&!(pos(s.baseCac)>0)))
         report(key,'Отсутствует рассчитанный прогноз продаж и CAC.');
       if(pos(s.variableSalesPct)>=100)report(key,'Сумма переменных комиссий превышает 100%.');
       rows.push({...s,id,priceSelected:max,discountSelected:disc});
@@ -156,7 +144,7 @@
       if(usedResourceIds.has(String(r.id)))report(key,'Повторяющийся ID ресурса.');
       usedResourceIds.add(String(r.id));
       if(!allowedKinds.has(r.kind))report(key+'.kind','Неизвестный тип общего ресурса.');
-      if(r.kind==='warehouse'&&beneficiaries.some(id=>(['offline-service','online-self','online-hired','online-agent'].includes(rows.find(s=>s.id===id)?.source))))
+      if(r.kind==='warehouse'&&beneficiaries.some(id=>['offline-service','online-service'].includes(rows.find(s=>s.id===id)?.source)))
         report(key+'.skuIds','Складской ресурс нельзя распределять на офлайн-услугу: услуга не хранится на складе.');
       if(!allowedPools.has(pool))report(key+'.pool','Неизвестный исходный блок расхода.');
       if(r.kind==='campaign'&&pool!=='adBudget'&&pool!=='none')
@@ -189,7 +177,7 @@
         if(pool!=='none'&&offsets[id])offsets[id][pool]+=pos(value);
         if(pool==='unitCost'&&cashOffsets[id]&&cashBuckets.has(r.cashOrigin)){
           const sku=rows.find(x=>x.id===id);
-          const multiplier=(['dropship','offline-service'].includes(sku?.source)||isOnline(sku))?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
+          const multiplier=['dropship','offline-service','online-service'].includes(sku?.source)?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
           cashOffsets[id][r.cashOrigin]+=pos(value)*multiplier;
         }
         if(pool==='none'&&pos(value)>EPS)report(key+'.pool','Для списания старой суммы укажите исходный блок.');
@@ -202,7 +190,7 @@
           report('skus.'+rows.indexOf(s),'Из V1 списывается больше расходов, чем было учтено: '+pool+' для «'+s.name+'».');
       }
       const o=cashOffsets[s.id];
-      if((s.source==='dropship'||isOnline(s))&&(o.materials>EPS||o.production>EPS))
+      if(['dropship','online-service'].includes(s.source)&&(o.materials>EPS||o.production>EPS))
         report('skus.'+rows.indexOf(s),'Дропшиппинг оплачивается по заказу: используйте «Исполнение заказа».');
       const qty=pos(s.inventoryQty),raw=pos(s.materialsBatchTotal),prod=pos(s.productionTotal),inbound=pos(s.warehouseInboundUnitCost)*qty;
       const residual=Math.max(0,(pos(s.unitCost)-(raw+prod+inbound)/Math.max(qty,EPS))*qty);
@@ -213,20 +201,27 @@
            o.fulfillment>pos(s.serviceElectricityUnit)*forecast+EPS)
           report('skus.'+rows.indexOf(s),'Общий расход превышает первоначальную сумму соответствующей статьи офлайн-услуги V1.');
       }
-      if(!['dropship','offline-service'].includes(s.source)&&!isOnline(s)&&(o.materials>raw+EPS||o.production>prod+EPS||o.fulfillment>residual+EPS))
+      if(!['dropship','offline-service','online-service'].includes(s.source)&&(o.materials>raw+EPS||o.production>prod+EPS||o.fulfillment>residual+EPS))
         report('skus.'+rows.indexOf(s),'Перенос общего расхода превышает сумму выбранного денежного блока V1 для «'+s.name+'».');
     }
     if(errors.length)return {ready:false,errors,fieldErrors};
 
+    for(const v of rows.filter(s=>s.source==='online-service')){
+      if(!v.fixedPriceFromV1||!v.onlineProvenance||!v.ownerTax||
+         v.ownerTax.type!=='turnover'||v.discountSelected>EPS)
+        report('skus.'+rows.indexOf(v),'Онлайн-услуга должна сохранять исходные условия, налог и подтверждённую цену V1.');
+    }
+    if(errors.length)return {ready:false,errors,fieldErrors};
     const marginRate=(s,m)=>Math.max(0,Math.min(.999,pos(m)/100));
     const taxRate=pos(state.tax?.pct)/100,taxType=state.tax?.type==='profit'?'profit':'turnover';
     // Required customer-facing LIST price. The selected discount is applied at checkout;
     // VAT is pass-through, and the target is after the turnover/profit tax.
     function requiredListPrice(s,unitLoad,marginPct){
-      if(isOnline(s))return pos(s.priceMax); // Contract fixed at exact V1 fee, no invented price.
       const variable=pos(s.variableSalesPct)/100,goal=marginRate(s,marginPct);
-      const retained=1-variable-(taxType==='turnover'?taxRate:0)-
-        goal/(taxType==='profit'?1-taxRate:1);
+      const localTax=pos(s.ownerTax?.pct??state.tax?.pct)/100;
+      const localType=s.ownerTax?.type||taxType;
+      const retained=1-variable-(localType==='turnover'?localTax:0)-
+        goal/(localType==='profit'?1-localTax:1);
       if(retained<=0||s.discountSelected>=100)return Infinity;
       return unitLoad/retained*(1+pos(s.vatPct)/100)/(1-s.discountSelected/100);
     }
@@ -241,9 +236,8 @@
       for(const r of allocation)if(r.kind==='campaign'&&r.cadence==='monthly')
         for(const [id,amount]of Object.entries(r.bySku))mediaBySku[id]+=amount;
       const baselineOrders=Object.fromEntries(rows.map(s=>[s.id,
-        pos(s.forecastUnitsPerMonth)*(isOnline(s)?
-          (mediaBySku[s.id]+pos(s.onlineExternalAdBudget))/Math.max(EPS,pos(s.onlineDemandBudget)):
-          mediaBySku[s.id]/Math.max(EPS,pos(s.adBudget)))]));
+        s.source==='online-service'&&pos(s.adBudget)<=EPS?pos(s.forecastUnitsPerMonth):
+         pos(s.forecastUnitsPerMonth)*mediaBySku[s.id]/Math.max(EPS,pos(s.adBudget))]));
       const basket=projectOffers(state.offers,baselineOrders,ids);
       const projections=rows.map(s=>{
         const media=mediaBySku[s.id],orders=pos(basket.orders[s.id]);
@@ -299,24 +293,21 @@
       const revenue=priceNet*orders,commission=revenue*pos(s.variableSalesPct)/100;
       const cogs=netUnitCost*orders,creditMonthly=pos(s.creditServiceMonthly);
       const ebitda=revenue-cogs-commission-media-monthlyManager-monthlySelling-monthlyResources;
-      const depreciation=isOnline(s)?pos(s.onlineAmortMonthly):0;
-       const personalTaxRate=effectiveTaxRate(s,taxRate);
-       const incomeTax=effectiveTaxType(s,taxType)==='turnover'?
-         revenue*personalTaxRate:Math.max(0,ebitda-creditMonthly-depreciation)*personalTaxRate;
-       const actualAfterTaxMargin=revenue>0?
-        (ebitda-creditMonthly-depreciation-incomeTax)/revenue*100:0;
-      const minOk=isOnline(s)||Number.isFinite(p.priceFloor)&&p.priceFloor<=pos(s.priceMax)+.005&&
-        actualAfterTaxMargin+.00001>=pos(s.minimumMarginPct);
-      const targetOk=isOnline(s)||Number.isFinite(p.priceTarget)&&p.priceTarget<=pos(s.priceMax)+.005&&
+      const actualAfterTaxMargin=revenue>0?
+        (ebitda-creditMonthly-((s.ownerTax?.type||taxType)==='turnover'?revenue*(pos(s.ownerTax?.pct??state.tax?.pct)/100):
+           Math.max(0,ebitda-creditMonthly)*(pos(s.ownerTax?.pct??state.tax?.pct)/100)))/revenue*100:0;
+      const minOk=s.fixedPriceFromV1||(Number.isFinite(p.priceFloor)&&p.priceFloor<=pos(s.priceMax)+.005&&
+        actualAfterTaxMargin+.00001>=pos(s.minimumMarginPct));
+      const targetOk=Number.isFinite(p.priceTarget)&&p.priceTarget<=pos(s.priceMax)+.005&&
         actualAfterTaxMargin+.00001>=pos(s.targetMarginPct);
       return {...s,priceSelected:priceList,priceList,priceGross:grossPrice,priceNet,
         requiredTargetPrice:p.priceTarget,requiredFloorPrice:p.priceFloor,
         forecastOrders:orders,adBudgetEffective:media,revenue,cogs,commission,
         manager:monthlyManager,selling:monthlySelling,resourceShares:monthlyResources,
-        ebitda,creditMonthly,depreciation,incomeTax,preTaxProfit:ebitda-creditMonthly-depreciation,
+        ebitda,creditMonthly,preTaxProfit:ebitda-creditMonthly,
         unitCostEffective:netUnitCost,unitLoad,revenueWeight:0,cashOffsets:cashOffsets[s.id],
         actualAfterTaxMargin,minimumMarginFeasible:minOk,targetMarginMet:targetOk,
-        status:isOnline(s)?'CONTRACT':!minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY'};
+        status:s.fixedPriceFromV1?(actualAfterTaxMargin<0?'LOSS':'FIXED_V1'):(!minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY')};
     });
     const totalRevenue=sum(items.map(s=>s.revenue));
     items.forEach(item=>item.revenueWeight=totalRevenue>0?item.revenue/totalRevenue:0);
@@ -325,13 +316,14 @@
     const onceCosts=sum(scenario.allocation.filter(r=>r.cadence==='once').map(r=>r.amount));
     const totalEbitda=sum(items.map(s=>s.ebitda));
     const interest=sum(items.map(s=>s.creditMonthly));
-    const regular=items.filter(s=>!isOnline(s)),online=items.filter(isOnline);
-     const regularRevenue=sum(regular.map(s=>s.revenue));
-     const regularProfit=sum(regular.map(s=>s.preTaxProfit));
-     const tax=(taxType==='turnover'?regularRevenue*taxRate:Math.max(0,regularProfit)*taxRate)+
-       sum(online.map(s=>s.incomeTax));
-     const depreciation=sum(items.map(s=>pos(s.depreciation)));
-    const netProfit=totalEbitda-interest-depreciation-tax;
+    const regular=items.filter(item=>item.source!=='online-service');
+    const online=items.filter(item=>item.source==='online-service');
+    const regularRevenue=sum(regular.map(item=>item.revenue));
+    const regularProfit=sum(regular.map(item=>item.preTaxProfit));
+    const regularTax=taxType==='turnover'?regularRevenue*taxRate:Math.max(0,regularProfit)*taxRate;
+    const onlineTax=sum(online.map(item=>item.revenue*pos(item.ownerTax?.pct)/100));
+    const tax=regularTax+onlineTax;
+    const netProfit=totalEbitda-interest-tax;
     const originalMedia=sum(rows.map(s=>pos(s.adBudget)));
     const addedMedia=sum(scenario.allocation.filter(r=>r.kind==='campaign').map(r=>r.amount));
     const replacedMedia=sum(rows.map(s=>offsets[s.id].adBudget));
@@ -339,22 +331,18 @@
     const allocated=sum(scenario.allocation.map(r=>sum(Object.values(r.bySku))));
     const resourcesTotal=sum(scenario.allocation.map(r=>r.amount));
     for(const item of items){
-      if(!['dropship','offline-service'].includes(item.source)&&!isOnline(item)&&pos(item.inventoryQty)+EPS<item.forecastOrders){
+      if(!['dropship','offline-service','online-service'].includes(item.source)&&pos(item.inventoryQty)+EPS<item.forecastOrders){
         report('skus.'+rows.findIndex(s=>s.id===item.id),
           'Прогноз по «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
           ' шт.) превышает запас V1 ('+pos(item.inventoryQty)+' шт.). Увеличьте складскую партию в V1 или скорректируйте распределение рекламы.');
       }
-      if(isOnline(item)&&pos(item.onlineCapacity)>0&&item.forecastOrders>pos(item.onlineCapacity)+EPS)
-        report('skus.'+rows.findIndex(s=>s.id===item.id)+'.onlineCapacity',
-          'Прогноз сделок для «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
-          ') превышает доступную мощность '+pos(item.onlineCapacity)+' в месяц.');
       if(item.source==='offline-service'&&(!(pos(item.serviceCapacity)>0)||item.forecastOrders>pos(item.serviceCapacity)+EPS)){
         report('skus.'+rows.findIndex(s=>s.id===item.id),
           'Прогноз клиентов для «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
           ') больше доступных '+pos(item.serviceCapacity)+' посещений в месяц.');
       }
     }
-    const infeasible=items.filter(item=>!item.minimumMarginFeasible);
+    const infeasible=items.filter(item=>!item.fixedPriceFromV1&&!item.minimumMarginFeasible);
     if(infeasible.length)for(const item of infeasible)
       report('skus.'+rows.findIndex(s=>s.id===item.id)+'.priceMax',
         'Для «'+item.name+'» минимум рентабельности требует цены '+
@@ -375,21 +363,11 @@
       return (basket.adjustments[s.id]||0)*
         (s.priceNet*(1-pos(s.variableSalesPct)/100)-unitVariable);
     }));
-    const counterpart=items.filter(s=>s.source==='online-agent').map(s=>{
-       const p=s.onlinePartner,orders=s.forecastOrders,gross=orders*pos(p.customerGrossPerDeal),
-         commission=s.revenue,acquiring=gross*pos(p.acquiringPct)/100,
-         partnerTax=gross*pos(p.taxTurnoverPct)/100,
-         partnerOpex=pos(p.adBudget)+pos(p.management)+pos(p.hosting)+pos(p.domain),
-         capex=pos(p.capex),amort=capex/12;
-       return {id:s.id,name:s.name,orders,gross,commission,acquiring,partnerTax,
-         partnerOpex,capex,amort,profit:gross-commission-acquiring-partnerTax-partnerOpex-amort,
-         cash:gross-commission-acquiring-partnerTax-partnerOpex-capex};
-     });
-     const base={ready:!errors.length,errors,fieldErrors,items,basket,counterpart,
+    const base={ready:!errors.length,errors,fieldErrors,items,basket,
       resources:scenario.allocation,offsets,cashOffsets,
       totals:{revenue:totalRevenue,media:fullMedia,cogs:sum(items.map(s=>s.cogs)),
         forecast:sum(items.map(s=>s.forecastOrders)),monthlyResources:monthlyCosts,
-        onceResources:onceCosts,ebitda:totalEbitda,interest,depreciation,tax,netProfit,
+        onceResources:onceCosts,ebitda:totalEbitda,interest,tax,netProfit,
         targetMet:items.every(s=>s.targetMarginMet),minimumMet:items.every(s=>s.minimumMarginFeasible)},
       invariants:{mediaConserved:invariantMedia,resourcesConserved:Math.abs(allocated-resourcesTotal)<EPS,
         fixedPointConverged:converged}};
@@ -410,7 +388,7 @@
     // plus the V1 locked liquidity reserve (less available V1 loan draws).
     const items=portfolio.items,resources=portfolio.resources;
     const plan=items.map(s=>({
-      s,saleStart:(['dropship','offline-service'].includes(s.source)||isOnline(s))?0:pos(s.supplyDays)+pos(s.productionDays),
+      s,saleStart:['dropship','offline-service','online-service'].includes(s.source)?0:pos(s.supplyDays)+pos(s.productionDays),
       receiptDelay:s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
         pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0
     }));
@@ -419,12 +397,11 @@
     if(horizon>3650)throw Error('Горизонт cash flow превышает 120 месяцев.');
     const dayCount=Math.ceil(horizon/30)*30;
     const daily=Array.from({length:dayCount},()=>({
-      receipt:0,ordersRevenue:0,cogsAccrual:0,stockPurchase:0,operating:0,
-      onlineReceipt:0,onlineTaxDue:0,onlineProfit:0,
+      receipt:0,ordersRevenue:0,cogsAccrual:0,onlineReceipt:0,onlineProfit:0,onlineTax:0,amortAccrual:0,stockPurchase:0,operating:0,
       ad:0,shared:0,commission:0,commissionAccrual:0,loanDraw:0,interest:0,principal:0,tax:0
     }));
     function post(day,key,amount){
-      if(!(amount>0)&&!(key==='onlineProfit'&&Number.isFinite(amount)&&amount<0))return;
+      if(!(amount>0))return;
       daily[Math.min(dayCount-1,Math.max(0,Math.floor(day)))][key]+=amount;
     }
     const totalOnce=sum(resources.filter(r=>r.cadence==='once').map(r=>pos(r.amount)));
@@ -432,14 +409,15 @@
     for(const {s,saleStart,receiptDelay} of plan){
       const stock=pos(s.inventoryQty),orders=pos(s.forecastOrders);
       let residualPerUnit=pos(s.unitCostEffective);
-      if(isOnline(s))post(0,'stockPurchase',pos(s.onlineCapex));
-      if(s.source==='offline-service'){
+      if(s.source==='online-service'){
+        post(0,'stockPurchase',pos(s.onlineCapex));
+      }else if(s.source==='offline-service'){
         // Rent and master payroll are paid at the start of the month, not
         // lazily divided among daily customer receipts in the cash ledger.
         const fixed=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
         post(0,'stockPurchase',fixed);
         residualPerUnit=Math.max(0,residualPerUnit-fixed/Math.max(EPS,orders));
-      }else if(s.source!=='dropship'&&!isOnline(s)){
+      }else if(s.source!=='dropship'){
         const input=Math.max(0,pos(s.materialsBatchTotal)-pos(s.cashOffsets?.materials));
         const production=Math.max(0,pos(s.productionTotal)-pos(s.cashOffsets?.production)),
           inbound=pos(s.warehouseInboundUnitCost)*stock;
@@ -451,25 +429,28 @@
       const resourceDaily=sum(resources.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly')
         .map(r=>pos(r.bySku[s.id])))/30;
       const dailyAd=pos(s.adBudgetEffective)/30;
-      const dailyFixed=(pos(s.manager)+pos(s.selling))/30;
+      const dailyFixed=(pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly))/30;
       for(let day=0;day<30;day++){
         const qty=orders/30,at=saleStart+day,netRevenue=qty*pos(s.priceNet);
         // Expense ad/media, management and common assets once per beneficiary.
         post(at,'ad',dailyAd);post(at,'shared',dailyFixed+resourceDaily);
         post(at,'ordersRevenue',netRevenue);
-        post(at,'cogsAccrual',qty*pos(s.unitCostEffective));
-        if(isOnline(s)){
-          post(at,'onlineTaxDue',netRevenue*pos(s.onlineTaxPct)/100);
-          const earnings=netRevenue-qty*pos(s.unitCostEffective)-
-            netRevenue*pos(s.variableSalesPct)/100-dailyAd-dailyFixed-
-            resourceDaily; // Only operating accrual; depreciation is not in the generic cash-tax accrual base.
-          post(at,'onlineProfit',earnings);
+        if(s.source==='online-service'){
+          const onlineProfit=netRevenue-qty*pos(s.unitCostEffective)-
+            netRevenue*pos(s.variableSalesPct)/100-dailyAd-dailyFixed-resourceDaily-
+            pos(s.onlineAmortMonthly)/30;
+          daily[Math.min(dayCount-1,Math.max(0,Math.floor(at)))].onlineProfit+=onlineProfit;
+          post(at,'amortAccrual',pos(s.onlineAmortMonthly)/30);
         }
+        post(at,'cogsAccrual',qty*pos(s.unitCostEffective));
         post(at,'commissionAccrual',netRevenue*pos(s.variableSalesPct)/100);
         // Supplier/fulfillment is funded on the order date.
         post(at,'operating',qty*residualPerUnit);
         post(at+receiptDelay,'receipt',netRevenue);
-        if(isOnline(s))post(at+receiptDelay,'onlineReceipt',netRevenue);
+        if(s.source==='online-service'){
+          post(at+receiptDelay,'onlineReceipt',netRevenue);
+          post(at+receiptDelay,'onlineTax',netRevenue*pos(s.ownerTax?.pct)/100);
+        }
         post(at+receiptDelay,'commission',netRevenue*pos(s.variableSalesPct)/100);
       }
       if(pos(s.creditPrincipal)>0){
@@ -493,9 +474,10 @@
       const accrualProfit=total('ordersRevenue')-total('cogsAccrual')-
         total('commissionAccrual')-total('ad')-total('interest')-
         (total('shared')-(i===0?totalOnce:0));
-      const tax=total('onlineTaxDue')+(state.tax?.type==='profit'?
-         Math.max(0,accrualProfit-total('onlineProfit'))*rate:
-         Math.max(0,receipt-total('onlineReceipt'))*rate);
+      const onlineReceipt=total('onlineReceipt');
+      const regularAccrual=accrualProfit-total('onlineProfit')-total('amortAccrual');
+      const tax=(state.tax?.type==='profit'?Math.max(0,regularAccrual)*rate:
+        Math.max(0,receipt-onlineReceipt)*rate)+total('onlineTax');
       // The tax settlement is at month's end, after daily trading movements.
       post(Math.min(dayCount-1,(i+1)*30-1),'tax',tax);
     }
@@ -510,7 +492,7 @@
       m.principalRepaid+=d.principal;
       m.loanDraw+=d.loanDraw;
       m.operatingOutflow+=d.operating+d.commission+d.stockPurchase+d.ad+d.shared;
-      m.taxableProfit+=d.ordersRevenue-d.cogsAccrual-d.commissionAccrual-d.ad-d.shared-d.interest;
+      m.taxableProfit+=d.ordersRevenue-d.cogsAccrual-d.commissionAccrual-d.ad-d.shared-d.amortAccrual-d.interest;
     }
     let running=0,minimum=0;
     for(const d of daily){
