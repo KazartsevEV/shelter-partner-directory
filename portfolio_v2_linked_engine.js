@@ -126,6 +126,9 @@
           !(pos(s.onlineGrossPerDeal)>0)||!Number.isFinite(Number(s.onlineTaxPct))||
           Number(s.onlineTaxPct)<0||Number(s.onlineTaxPct)>100))
         report(key,'Нет подтверждённой воронки и налогового контракта V1.');
+      if(isOnline(s)&&(!Number.isFinite(Number(s.onlineCapacity??0))||
+          Number(s.onlineCapacity??0)<0||!Number.isInteger(Number(s.onlineCapacity??0))))
+        report(key+'.onlineCapacity','Мощность онлайн-услуги — целое неотрицательное количество сделок.');
       if(s.source==='online-agent'&&(!s.onlinePartner||!(pos(s.onlinePartner.agentCommissionPerDeal)>0)))
         report(key,'Отсутствует отделённый денежный контур партнёра.');
       if(!(min>0&&max>=min))report(key,'Для товара отсутствует подтверждённый диапазон цен V1.');
@@ -341,6 +344,10 @@
           'Прогноз по «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
           ' шт.) превышает запас V1 ('+pos(item.inventoryQty)+' шт.). Увеличьте складскую партию в V1 или скорректируйте распределение рекламы.');
       }
+      if(isOnline(item)&&pos(item.onlineCapacity)>0&&item.forecastOrders>pos(item.onlineCapacity)+EPS)
+        report('skus.'+rows.findIndex(s=>s.id===item.id)+'.onlineCapacity',
+          'Прогноз сделок для «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
+          ') превышает доступную мощность '+pos(item.onlineCapacity)+' в месяц.');
       if(item.source==='offline-service'&&(!(pos(item.serviceCapacity)>0)||item.forecastOrders>pos(item.serviceCapacity)+EPS)){
         report('skus.'+rows.findIndex(s=>s.id===item.id),
           'Прогноз клиентов для «'+item.name+'» ('+item.forecastOrders.toFixed(2)+
