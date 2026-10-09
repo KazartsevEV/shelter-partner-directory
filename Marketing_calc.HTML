@@ -3428,6 +3428,22 @@
             };
         }
 
+        // Prices below are customer-facing and include VAT when applicable.
+        // Net margin is measured after variable selling costs, business tax,
+        // allocated shared monthly costs, advertising and loan servicing.
+        function priceListRequiredCustomerPrice(unitLoad, netMargin, variableRate, turnoverTaxRate, profitTaxRate, vatRate, discountRate) {
+            const profitRetention = 1 - profitTaxRate;
+            if (profitRetention <= 0 || discountRate < 0 || discountRate >= 1) return null;
+
+            const retainedRevenueRate =
+                1 - variableRate - turnoverTaxRate - netMargin / profitRetention;
+            if (retainedRevenueRate <= 0) return null;
+
+            const price = unitLoad / retainedRevenueRate *
+                (1 + vatRate) / (1 - discountRate);
+            return Number.isFinite(price) && price >= 0 ? price : null;
+        }
+
         function calculatePriceListRange(item) {
             const model = calculateProductPortfolio();
             const row = model.items.find(entry => entry.id === item?.id) || null;
@@ -3437,90 +3453,63 @@
             const rawMinimumMargin = item?.planning?.minimumMarginPct;
             const rawTargetMargin = item?.planning?.targetMarginPct;
 
-            const hasDiscount =
-                rawDiscount !== '' &&
-                rawDiscount !== null &&
-                rawDiscount !== undefined &&
-                Number.isFinite(Number(rawDiscount));
-            const hasMinimumMargin =
-                rawMinimumMargin !== '' &&
-                rawMinimumMargin !== null &&
-                rawMinimumMargin !== undefined &&
-                Number.isFinite(Number(rawMinimumMargin));
-            const hasTargetMargin =
-                rawTargetMargin !== '' &&
-                rawTargetMargin !== null &&
-                rawTargetMargin !== undefined &&
-                Number.isFinite(Number(rawTargetMargin));
+            const hasValue = value =>
+                value !== '' && value !== null && value !== undefined &&
+                Number.isFinite(Number(value));
 
-            if (
-                !row ||
-                !hasDiscount ||
-                !hasMinimumMargin ||
-                !hasTargetMargin ||
-                row.baseCac === null ||
-                model.taxPriceMultiplier === null
-            ) {
-                return { ready: false, error: '', minPrice: null, maxPrice: null };
+            if (!hasValue(rawDiscount) || !hasValue(rawMinimumMargin) || !hasValue(rawTargetMargin)) {
+                return { ready: false, error: 'Введите максимальную скидку, минимальную и целевую маржинальность.', minPrice: null, maxPrice: null };
+            }
+            if (!row || !model.pricingReady || row.baseCac === null ||
+                model.totalForecastOrders <= 0 || !productBusinessTaxType) {
+                return { ready: false, error: 'Сначала завершите расчёт товара, продаж и налога бизнеса.', minPrice: null, maxPrice: null };
             }
 
-            const discountPct = Math.min(99.99, Math.max(0, Number(rawDiscount)));
-            const minimumMarginPct = Math.min(99.99, Math.max(0, Number(rawMinimumMargin)));
-            const targetMarginPct = Math.min(99.99, Math.max(0, Number(rawTargetMargin)));
+            const discountPct = Number(rawDiscount);
+            const minimumMarginPct = Number(rawMinimumMargin);
+            const targetMarginPct = Number(rawTargetMargin);
 
+            if (discountPct < 0 || discountPct >= 100 ||
+                minimumMarginPct <= 0 || minimumMarginPct >= 100 ||
+                targetMarginPct <= 0 || targetMarginPct >= 100) {
+                return { ready: false, error: 'Скидка — от 0 до менее 100%; маржинальность — строго больше 0% и меньше 100%.', minPrice: null, maxPrice: null };
+            }
             if (minimumMarginPct > targetMarginPct) {
-                return {
-                    ready: false,
-                    error: 'Минимальная маржинальность не должна быть выше вашей целевой маржинальности.',
-                    minPrice: null,
-                    maxPrice: null
-                };
+                return { ready: false, error: 'Минимальная маржинальность не должна быть выше вашей целевой маржинальности.', minPrice: null, maxPrice: null };
+            }
+            if (!pricing.salesVatChoice || (pricing.salesVatChoice === 'yes' && !pricing.vatReady)) {
+                return { ready: false, error: 'Укажите, применяется ли НДС, и его ставку.', minPrice: null, maxPrice: null };
             }
 
-            const discountFactor = 1 - discountPct / 100;
-            const minimumMarginFactor = 1 - minimumMarginPct / 100;
-            const targetMarginFactor = 1 - targetMarginPct / 100;
+            const taxRate = Math.max(0, productNumber('own-business-tax-pct')) / 100;
+            const turnoverTaxRate = productBusinessTaxType === 'turnover' ? taxRate : 0;
+            const profitTaxRate = productBusinessTaxType === 'profit' ? taxRate : 0;
+            const variableRate = (
+                Math.max(0, Number(item.salesVariablePct) || 0) +
+                Math.max(0, Number(item.penaltiesPct) || 0)
+            ) / 100;
+            const vatRate = pricing.salesVatChoice === 'yes' ? pricing.vatPct / 100 : 0;
 
-            if (
-                discountFactor <= 0 ||
-                minimumMarginFactor <= 0 ||
-                targetMarginFactor <= 0
-            ) {
-                return {
-                    ready: false,
-                    error: 'Скидка и маржинальность должны быть меньше 100%.',
-                    minPrice: null,
-                    maxPrice: null
-                };
+            // Shared fixed costs are a monthly business obligation, allocated across
+            // all forecast sold units; loan interest is already SKU-specific.
+            const sharedCostPerUnit = model.sharedBusinessCosts / model.totalForecastOrders;
+            const unitLoad =
+                Math.max(0, Number(row.unitCost) || 0) +
+                Math.max(0, Number(row.baseCac) || 0) +
+                Math.max(0, Number(row.creditServicePerUnit) || 0) +
+                Math.max(0, sharedCostPerUnit);
+            const priceForMinimumMargin = priceListRequiredCustomerPrice(
+                unitLoad, minimumMarginPct / 100, variableRate,
+                turnoverTaxRate, profitTaxRate, vatRate, discountPct / 100
+            );
+            const priceForTargetMargin = priceListRequiredCustomerPrice(
+                unitLoad, targetMarginPct / 100, variableRate,
+                turnoverTaxRate, profitTaxRate, vatRate, discountPct / 100
+            );
+
+            if (priceForMinimumMargin === null || priceForTargetMargin === null) {
+                return { ready: false, error: 'При этих ставках налогов, комиссий и маржинальности прибыльная цена невозможна. Снизьте нагрузку или маржу.', minPrice: null, maxPrice: null };
             }
-
-            const vatFactor =
-                pricing.salesVatChoice === 'yes' && pricing.vatReady
-                    ? 1 + pricing.vatPct / 100
-                    : 1;
-
-            const economicBase =
-                Math.max(0, Number(row.unitCost || 0)) +
-                Math.max(0, Number(row.baseCac || 0)) +
-                Math.max(0, Number(row.creditServicePerUnit || 0));
-
-            const minimumSalePrice =
-                economicBase /
-                minimumMarginFactor *
-                model.taxPriceMultiplier *
-                vatFactor;
-
-            const targetSalePrice =
-                economicBase /
-                targetMarginFactor *
-                model.taxPriceMultiplier *
-                vatFactor;
-
-            const priceForMinimumMargin =
-                minimumSalePrice / discountFactor;
-            const priceForTargetMargin =
-                targetSalePrice / discountFactor;
-
             return {
                 ready: true,
                 error: '',
@@ -3549,7 +3538,7 @@
                 note.textContent =
                     result.error ||
                     (result.ready
-                        ? 'Нижняя граница сохраняет минимальную маржинальность после максимальной скидки. Верхняя — вашу текущую целевую маржинальность.'
+                        ? 'Нижняя граница сохраняет минимальную чистую маржу после максимальной скидки, комиссий, налогов и распределённых расходов бизнеса. Верхняя — целевую чистую маржу.'
                         : 'Введите максимальную скидку и минимальную маржинальность.');
             }
         }
@@ -3559,10 +3548,7 @@
             if (!item) return;
             if (!item.planning) item.planning = {};
 
-            const normalized =
-                String(value).trim() === ''
-                    ? ''
-                    : Math.min(99.99, Math.max(0, Number(value) || 0));
+            const normalized = String(value).trim() === '' ? '' : Number(value);
 
             if (key === 'maxDiscountPct') item.planning.maxDiscountPct = normalized;
             if (key === 'minimumMarginPct') item.planning.minimumMarginPct = normalized;
@@ -3753,7 +3739,7 @@
                                     ${
                                         range.error ||
                                         (range.ready
-                                            ? 'Нижняя граница сохраняет минимальную маржинальность после максимальной скидки. Верхняя — вашу текущую целевую маржинальность.'
+                                            ? 'Нижняя граница сохраняет минимальную чистую маржу после максимальной скидки, комиссий, налогов и распределённых расходов бизнеса. Верхняя — целевую чистую маржу.'
                                             : 'Введите максимальную скидку и минимальную маржинальность.')
                                     }
                                 </div>
@@ -3875,22 +3861,10 @@
         }
 
         function addProductFromBusinessAdvice() {
-            const maxSavedId = productPortfolio.reduce(
-                (max, item) => Math.max(max, Number(item.id) || 0),
-                0
+            const hasOpenDraft = !productPortfolio.some(
+                item => Number(item.id) === Number(currentProductSequence)
             );
-            const hasOpenDraft = currentProductSequence > maxSavedId;
-
-            const previousTaxType = productBusinessTaxType;
-            const previousSalesVat = productOwnChoices.salesVat || null;
-
-            if (!hasOpenDraft) {
-                addAnotherProduct();
-                productBusinessTaxType = previousTaxType;
-                if (previousSalesVat !== null) {
-                    productOwnChoices.salesVat = previousSalesVat;
-                }
-            }
+            if (!hasOpenDraft && !addAnotherProduct()) return;
 
             const taxBlock = document.getElementById('product-tax-block');
             if (taxBlock) {
@@ -4885,11 +4859,31 @@
         }
 
         function addAnotherProduct() {
-            if (!requireAdditionalProductName()) return;
+            if (!requireAdditionalProductName()) return false;
+
+            const savedBusinessTaxType = productBusinessTaxType;
+            const savedBusinessTaxPct = document.getElementById('own-business-tax-pct')?.value ?? '';
+            const savedSalesVat = productOwnChoices.salesVat || null;
+            const savedSalesVatPct = document.getElementById('own-sales-vat-pct')?.value ?? '';
+
             saveCurrentProductToPortfolio();
             freezeCurrentProductOnPage();
-            currentProductSequence += 1;
+            const maxSavedId = productPortfolio.reduce(
+                (max, item) => Math.max(max, Number(item.id) || 0), 0
+            );
+            // Reopening SKU #1 must never cause the next SKU to overwrite #2.
+            currentProductSequence = Math.max(Number(currentProductSequence) || 0, maxSavedId) + 1;
             resetCurrentProductForNext();
+
+            // Taxes/VAT belong to business pricing and must not disappear on SKU navigation.
+            productBusinessTaxType = savedBusinessTaxType;
+            if (savedBusinessTaxPct !== '') {
+                document.getElementById('own-business-tax-pct').value = savedBusinessTaxPct;
+            }
+            if (savedSalesVat !== null) productOwnChoices.salesVat = savedSalesVat;
+            if (savedSalesVatPct !== '') {
+                document.getElementById('own-sales-vat-pct').value = savedSalesVatPct;
+            }
 
             const sourceBlock = document.getElementById('product-source-block');
             const nameInput = document.getElementById('product-name-input');
@@ -4902,6 +4896,7 @@
                 document.getElementById('product-source-name').textContent = 'следующий товар';
                 sourceBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+            return true;
         }
 
         function submitProductIntro(event) {
@@ -5644,14 +5639,26 @@
 
         function initProductOwnForm() {
             if (productOwnInitialized) return;
+            const inheritedTaxType = productBusinessTaxType;
+            const inheritedTaxPct = document.getElementById('own-business-tax-pct')?.value ?? '';
+            const inheritedVatChoice = productOwnChoices.salesVat || null;
+            const inheritedVatPct = document.getElementById('own-sales-vat-pct')?.value ?? '';
             Object.entries(productOwnDefaults).forEach(([group, value]) => {
-                productOwnChoices[group] = value;
-                setProductChoiceVisual(group, value);
+                const choice = group === 'salesVat' && inheritedVatChoice !== null
+                    ? inheritedVatChoice : value;
+                productOwnChoices[group] = choice;
+                setProductChoiceVisual(group, choice);
             });
             productOwnInitialized = true;
             initInsuranceCountryDirectory();
             initProductionWorkersCountryDirectory();
-            setProductBusinessTaxType(null);
+            setProductBusinessTaxType(inheritedTaxType);
+            if (inheritedTaxType && inheritedTaxPct !== '') {
+                document.getElementById('own-business-tax-pct').value = inheritedTaxPct;
+            }
+            if (inheritedVatChoice === 'yes' && inheritedVatPct !== '') {
+                document.getElementById('own-sales-vat-pct').value = inheritedVatPct;
+            }
             setProductionLaborMode('self');
             setMaterialCostMode(null);
 
