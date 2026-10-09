@@ -6134,7 +6134,7 @@
         }
 
         function recalculateProductionUnitCost() {
-            if(productSource==='resale'){
+            if(['resale','dropship'].includes(productSource)){
                 latestProductionUnitCost=0;
                 const el=document.getElementById('own-production-unit-cost');if(el)el.textContent=moneyInputValue(0);
                 recalculateLogisticsUnitCost();return;
@@ -6237,8 +6237,8 @@
         }
 
         function recalculateLogisticsUnitCost() {
-            const warehouseInboundIsMine = productLogisticsPayers.warehouseInbound === 'me';
-            const warehouseIsMine = productLogisticsPayers.warehouse === 'me';
+            const warehouseInboundIsMine = productSource!=='dropship' && productLogisticsPayers.warehouseInbound === 'me';
+            const warehouseIsMine = productSource!=='dropship' && productLogisticsPayers.warehouse === 'me';
             const deliveryIsMine = productLogisticsPayers.customerDelivery === 'me';
 
             const warehouseInboundPerUnit = warehouseInboundIsMine
@@ -6273,19 +6273,24 @@
 
             const breakdown = document.getElementById('own-logistics-unit-breakdown');
             if (breakdown) {
-                breakdown.innerHTML = [
+                breakdown.innerHTML = (productSource==='dropship' ? [
+                    ['Доставка до покупателя', baseDelivery],
+                    ['Доп. доставка из-за возвратов', returnDeliveryUplift]
+                ] : [
                     ['Доставка 1 ед. до склада', warehouseInboundPerUnit],
                     ['Хранение 1 ед.', warehousePerUnit],
                     ['Доставка до покупателя', baseDelivery],
                     ['Доп. доставка из-за возвратов', returnDeliveryUplift]
-                ].map(([label, value]) =>
+                ]).map(([label, value]) =>
                     `<div class="flex justify-between gap-3 py-0.5"><span>${label}</span><span class="font-semibold text-slate-800">${moneyInputValue(value)}</span></div>`
                 ).join('');
             }
 
             const note = document.getElementById('own-logistics-minimum-note');
             if (note) {
-                if (warehouseIsMine && !hasWarehouseDays) {
+                if (productSource==='dropship') {
+                    note.textContent='Нет склада: учтены только оплачиваемые вами доставка до покупателя и возвраты.';
+                } else if (warehouseIsMine && !hasWarehouseDays) {
                     note.textContent = 'Срок хранения пока не указан, поэтому хранение временно считается как 0. На следующих этапах срок можно будет рассчитать автоматически.';
                 } else {
                     note.textContent = 'Учитываются только расходы, которые оплачиваете вы. Доставка рассчитана от текущей стоимости товара до логистики; возвраты увеличивают стоимость доставки.';
