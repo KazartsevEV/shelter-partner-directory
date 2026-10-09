@@ -506,7 +506,17 @@
       }
     }
     if(!base.ready)return base;
-    base.cashflow=cashFlow(state,base);
+    if(base.temporal?.ready){
+      const finance=typeof globalThis==='object'&&globalThis.LinkedPortfolioTemporalCash?
+        globalThis.LinkedPortfolioTemporalCash:
+        (typeof require==='function'?require('./portfolio_v2_temporal_cash.js'):null);
+      if(!finance?.calculate){
+        base.ready=false;
+        base.errors.push('Нет финансового движка для многомесячного сценария.');
+        return base;
+      }
+      base.cashflow=finance.calculate(state,base);
+    }else base.cashflow=cashFlow(state,base);
     base.totals.startupCapital=base.cashflow.startupCapital;
     base.totals.reserve=base.cashflow.reserve;
     base.totals.finalCash=base.cashflow.finalCash;
