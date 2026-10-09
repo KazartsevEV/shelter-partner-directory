@@ -200,6 +200,14 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     const a11y_v1_product=await localeA11yCensus(page,'v1-product');
     A.equal(a11y_v1_product.unlabeled,0,JSON.stringify(a11y_v1_product.examples));
     if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(a11y_v1_product));
+    if(expected==='en'){
+      for(const source of ['own','resale','dropship','offline-service']){
+        await page.evaluate(branch=>selectProductSource(branch),source);
+        await afterTick(page);
+        const inventory=await localeVisibleCensus(page,'product-'+source);
+        console.log('NOMAD360_L47_CENSUS',JSON.stringify(inventory));
+      }
+    }
     const payload=fixture();
     await page.evaluate(p=>{
       LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
