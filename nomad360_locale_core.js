@@ -1200,6 +1200,8 @@ rows.push(
  ["Не удалось сохранить: браузер запретил локальное хранилище.","Could not save: the browser blocked local storage.","Сақтау мүмкін болмады: браузер жергілікті сақтауға тыйым салды."],
  ["Казахстан, 2026: 5% соцотчисления + 3% ОСМС + 3,5% ОПВР + 6% соцналог (17,5% для применимых работников, без предельных баз); пенсионные и медицинские удержания работника не являются надбавкой к gross. ОПВР зависит от категории и возраста.","Kazakhstan, 2026: 5% social contributions + 3% compulsory social health insurance + 3.5% employer mandatory pension contributions + 6% social tax (17.5% for applicable employees, excluding contribution caps). Employee pension and health deductions are not added to employer gross payroll costs. Employer mandatory pension contributions depend on employee category and age.","Қазақстан, 2026: 5% әлеуметтік аударым + 3% МӘМС + 3,5% ЖМЗЖ + 6% әлеуметтік салық (қолданылатын қызметкерлер үшін 17,5%, шекті базалар есепке алынбайды). Қызметкердің зейнетақы және медициналық ұсталымдары жұмыс берушінің жалпы жалақы шығынына үстеме болып қосылмайды. ЖМЗЖ қызметкердің санаты мен жасына байланысты."]
 );
+/* #47AX: dynamically assigned placeholder in offline service branch. */
+rows.push(["Например: маникюр с покрытием","For example: manicure with polish","Мысалы: жабындысы бар маникюр"]);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
