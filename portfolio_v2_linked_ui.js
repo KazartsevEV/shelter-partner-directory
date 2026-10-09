@@ -31,7 +31,11 @@ function enter(){
  render();
 }
 function importFromV1(payload){
- const fresh=Engine.fromV1(payload),prior=read();
+ const fresh=Engine.fromV1(payload),prior=state||read();
+ // Preserve individually imported online services when the product portfolio
+ // is re-imported. Each online SKU retains its own owner-tax provenance.
+ if(prior)fresh.skus.push(...prior.skus.filter(s=>s.source==='online-service'&&
+   !fresh.skus.some(x=>x.id===s.id)).map(s=>JSON.parse(JSON.stringify(s))));
  // Reimporting V1 after adding another item must not wipe the user's portfolio.
  // Preserve settings only for the exact overlapping canonical IDs; never silently
  // grant newly imported products access to old shared resources or offer tuples.
@@ -62,6 +66,19 @@ function importFromV1(payload){
  }
  state=fresh;resetSequence();save();enter();
 }
+function appendOnline(sku){
+ if(!sku||sku.source!=='online-service'||!sku.onlineProvenance)
+  throw Error('Ожидается проверенный расчёт онлайн-услуги V1.');
+ const previous=state||read();
+ const next=previous?JSON.parse(JSON.stringify(previous)):Engine.fromV1({
+   tax:sku.ownerTax,skus:[sku]});
+ if(previous){
+   if(next.skus.some(s=>s.id===sku.id))throw Error('Такой ID услуги уже включён в портфель.');
+   next.skus.push({...JSON.parse(JSON.stringify(sku)),priceSelected:sku.priceMax,discountSelected:0});
+ }
+ next.lastOrigin='online';
+ state=next;resetSequence();save();enter();
+}
 function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];resetSequence();enter();return true;}
 function options(items,value){return items.map(([v,label])=>'<option value="'+safe(v)+'" '+(v===value?'selected':'')+'>'+safe(label)+'</option>').join('');}
 function field(label,path,value,extra=''){
@@ -69,7 +86,7 @@ function field(label,path,value,extra=''){
  '<input data-linked-path="'+safe(path)+'" type="number" step="0.01" min="0" class="input-field mt-1" value="'+safe(value)+'" '+extra+'></label>';
 }
 function resourceCard(r,i){
- const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||s.source!=='offline-service').map(s=>{
+ const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||!['offline-service','online-service'].includes(s.source)).map(s=>{
   const checked=r.skuIds.includes(s.id);
   const baseline=r.pool==='unitCost'?num(s.unitCost)*num(s.forecastUnitsPerMonth):
    r.pool==='salesFixed'?num(s.salesFixedMonthly):
@@ -111,7 +128,7 @@ function render(){
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
  '<div class="font-bold text-slate-900 text-lg">'+safe(s.name)+'</div>'+
- '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
+ '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-700 mt-3">'+
  [['Себестоимость V1 / шт.',money(s.unitCost)],['Прогноз V1 / мес.',money(s.forecastUnitsPerMonth)],
  ['Реклама V1 / мес.',money(s.adBudget)],['CAC V1',money(s.baseCac)],['Цена от',money(s.priceMin)],
@@ -265,7 +282,7 @@ function onEvent(e){
   setPath(field.dataset.linkedPath,field.type==='checkbox'?field.checked:field.value);
   if(/^resources\\.\\d+\\.kind$/.test(field.dataset.linkedPath)&&field.value==='warehouse'){
    const r=state.resources[Number(field.dataset.linkedPath.split('.')[1])];
-   r.skuIds=r.skuIds.filter(id=>state.skus.find(s=>s.id===id)?.source!=='offline-service');
+   r.skuIds=r.skuIds.filter(id=>!['offline-service','online-service'].includes(state.skus.find(s=>s.id===id)?.source));
    for(const key of Object.keys(r.includedBySku||{}))
     if(!r.skuIds.includes(key))delete r.includedBySku[key];
    for(const key of Object.keys(r.usage||{}))
@@ -277,7 +294,11 @@ function onEvent(e){
  }
  if(e.type!=='click')return;
  const hit=field.closest('button');if(!hit)return;
- if(hit.hasAttribute('data-linked-back')){root.showProductBranch();return;}
+ if(hit.hasAttribute('data-linked-back')){
+   if(state.lastOrigin==='online')root.showOnly('calculator-screen');
+   else root.showProductBranch();
+   return;
+ }
  if(hit.hasAttribute('data-linked-save')){
   const el=document.getElementById('linked-save-message');
   if(el)el.textContent=save()?'Сохранено в этом браузере':'Не удалось сохранить: хранилище недоступно';
@@ -298,6 +319,6 @@ function mount(){
  if(el){el.addEventListener('input',onEvent);el.addEventListener('change',onEvent);el.addEventListener('click',onEvent);}
  updateEntry();
 }
-root.LinkedPortfolioV2UI=Object.freeze({importFromV1,resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
+root.LinkedPortfolioV2UI=Object.freeze({importFromV1,appendOnline,resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })(window);
