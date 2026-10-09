@@ -1325,8 +1325,9 @@
                         </div>
                     </div>
 
-                    <div id="product-portfolio-business-summary" class="aggregate-price-card mt-5"></div>
-                    <div id="product-tax-price-list" class="mt-4 space-y-3"></div>
+                    <div id="product-tax-price-list" class="mt-5 space-y-3"></div>
+                    <div class="mt-6 pt-5 border-t aggregate-separator"><div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
+                    <div id="product-portfolio-business-summary" class="aggregate-price-card mt-4"></div></div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 pt-5 border-t aggregate-separator">
                         <button type="button" onclick="saveProductCalculationToBrowser()" class="aggregate-action-confirm">
@@ -3747,6 +3748,37 @@
             }
         }
 
+        function setPriceListDiscountChoice(productId, choice, button) {
+            const item = productPortfolio.find(product => product.id === Number(productId));
+            if (!item) return;
+            if (!item.planning) item.planning = {};
+            const selected = choice === 'yes' ? 'yes' : 'no';
+            item.planning.discountChoice = selected;
+            if (selected === 'no') {
+                item.planning.maxDiscountPct = 0;
+            } else if (item.planning.maxDiscountPct === 0 || item.planning.maxDiscountPct === '0') {
+                item.planning.maxDiscountPct = '';
+            }
+
+            const card = button?.closest('[data-tax-price-product-id]') ||
+                document.querySelector(`[data-tax-price-product-id="${item.id}"]`);
+            if (card) {
+                card.querySelectorAll('[data-discount-choice]').forEach(el => {
+                    const active = el.dataset.discountChoice === selected;
+                    el.classList.toggle('yn-choice-selected', active);
+                    el.setAttribute('aria-pressed', active ? 'true' : 'false');
+                });
+                const wrap = card.querySelector('[data-discount-input-wrap]');
+                if (wrap) {
+                    wrap.hidden = selected !== 'yes';
+                    wrap.classList.toggle('hidden', selected !== 'yes');
+                    const input = wrap.querySelector('input');
+                    if (input) input.value = item.planning.maxDiscountPct ?? '';
+                }
+            }
+            updatePriceListRange(item);
+        }
+
         function updatePriceListField(productId, key, value) {
             const item = productPortfolio.find(product => product.id === Number(productId));
             if (!item) return;
@@ -3754,7 +3786,10 @@
 
             const normalized = String(value).trim() === '' ? '' : Number(value);
 
-            if (key === 'maxDiscountPct') item.planning.maxDiscountPct = normalized;
+            if (key === 'maxDiscountPct') {
+                item.planning.maxDiscountPct = normalized;
+                item.planning.discountChoice = 'yes';
+            }
             if (key === 'minimumMarginPct') item.planning.minimumMarginPct = normalized;
 
             updatePriceListRange(item);
@@ -3861,18 +3896,17 @@
 
             if (!priceBox) return;
 
-            if (!productBusinessTaxType) {
-                priceBox.innerHTML = `
-                    <div class="aggregate-muted text-sm">
-                        Выберите «С оборота» или «С прибыли» и укажите ставку — после этого здесь появится цена товара с учётом налога бизнеса.
-                    </div>
-                `;
-                return;
-            }
-
+            // The price/discount/list-price tail must remain visible even before
+            // the tax type is chosen. Only numeric results require completed inputs.
             const vatEnabled = productOwnChoices.salesVat === 'yes';
             priceBox.innerHTML = productPortfolio.map(item => {
                 const p = aggregatePricingMetrics(item);
+                const savedDiscountChoice = item?.planning?.discountChoice;
+                const rawDiscountChoice = item?.planning?.maxDiscountPct;
+                const discountChoice = savedDiscountChoice === 'yes' || savedDiscountChoice === 'no'
+                    ? savedDiscountChoice
+                    : rawDiscountChoice === '' || rawDiscountChoice === null || rawDiscountChoice === undefined
+                        ? null : Number(rawDiscountChoice) > 0 ? 'yes' : 'no';
                 const withoutVat = aggregatePriceText(p.taxAdjustedPrice);
                 const withVat = aggregatePriceText(p.taxAdjustedPriceWithVat);
                 const name = String(item.name ?? '')
@@ -3906,7 +3940,8 @@
 
                 return `
                     <div class="aggregate-price-card final-tax-price-highlight" data-tax-price-product-id="${item.id}">
-                        <div class="font-bold aggregate-title mb-3">«${name}» — цена после учёта налога бизнеса</div>
+                        <div class="font-bold aggregate-title mb-3">«${name}» — итоговая цена с учётом кредита и налогов</div>
+                        ${!productBusinessTaxType ? '<div class="text-sm aggregate-muted mb-3">Выберите выше налог «С оборота» или «С прибыли», чтобы получить числовую цену. Настройки скидки и прайса уже доступны ниже.</div>' : ''}
                         <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                             <span class="aggregate-muted">Цена товара</span>
                             <span class="font-bold text-right">${withoutVat} у.е.*</span>
@@ -3922,11 +3957,19 @@
                         <div class="mt-5 pt-5 border-t aggregate-separator">
                             <div class="aggregate-title text-lg font-black">Будете давать скидки?</div>
                             <div class="aggregate-muted text-sm mt-1">
-                                Плановая цена с учётом скидки, длительности хранения, запаса денег и расходов. При изменении реальных продаж пересчитайте прогноз.
+                                Выберите, планируются ли скидки. Диапазон прайса сохраняет минимальную и целевую маржу после расходов, кредита и налогов.
+                            </div>
+                            <div class="flex gap-2 mt-3" role="group" aria-label="Будете давать скидки?">
+                                <button type="button" data-discount-choice="yes" aria-pressed="${discountChoice === 'yes'}"
+                                    onclick="setPriceListDiscountChoice(${item.id}, 'yes', this)"
+                                    class="yn-choice px-4 py-2 rounded-lg border border-emerald-200 text-sm ${discountChoice === 'yes' ? 'yn-choice-selected' : ''}">Да</button>
+                                <button type="button" data-discount-choice="no" aria-pressed="${discountChoice === 'no'}"
+                                    onclick="setPriceListDiscountChoice(${item.id}, 'no', this)"
+                                    class="yn-choice px-4 py-2 rounded-lg border border-emerald-200 text-sm ${discountChoice === 'no' ? 'yn-choice-selected' : ''}">Нет</button>
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                                <div>
+                                <div data-discount-input-wrap class="${discountChoice === 'yes' ? '' : 'hidden'}" ${discountChoice === 'yes' ? '' : 'hidden'}>
                                     <label class="block text-xs mb-1">Максимальная скидка, %</label>
                                     <input
                                         type="number"
