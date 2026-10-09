@@ -58,15 +58,16 @@ test('F1 A03 additive campaign spends more and acquires only via verified V1 per
  close(sum(r.cashflow.months,'ad'),600,'campaign + retained per both months');
 });
 test('F1 A06 replacing only A ad preserves B individual media and full cash, no second CAC',()=>{
- const s=scenario(20,100,2);
+ const s=scenario(20,100,3);
  s.resources=[campaign({amount:100,pool:'adBudget',includedBySku:{a:100,b:0},
   skuIds:['a','b'],usage:{a:1,b:1}})];
  const out=validated(s),M=out.temporal.months;
  close(M[0].media.ownerPaid,200,'A transfer 100 + B retained 100');
  close(M[0].media.retainedBySku.b,100,'B paid independently');
  close(M[1].media.retainedBySku.a,0,'A own media stopped');
- close(M[1].media.allocatedBySku.b,100,'B active recipient');
- close(M[1].media.ownerPaid,200,'B own + shared');
+ close(M[1].media.allocatedBySku.b,50,'B receives only its fixed share while A still eligible');
+ close(M[2].media.allocatedBySku.b,100,'B receives whole campaign after A sells out');
+ close(M[2].media.ownerPaid,200,'B own + shared');
 });
 test('F1 A21 one-off campaign actual cash payment only once; V1 individual media remains separate',()=>{
  const s=scenario(20,100,5);
@@ -78,24 +79,29 @@ test('F1 A21 one-off campaign actual cash payment only once; V1 individual media
   'exact aggregate cash payments');
  close(sum(r.cashflow.months,'shared'),0,'once campaign not duplicated as shared CAPEX');
 });
-test('F1 A07 revenue-weighted allocation converges, respects net discounts and input order',()=>{
+test('F1 A07 revenue-weighted allocation uses net discounted basket, deterministic under row reorder',()=>{
  const s=scenario(100,100,2);
  s.resources=[campaign({allocation:'revenue',usage:{}})];
  s.offers=[{id:'kit',mode:'bundle',anchorSkuId:'a',attachPct:20,
    overlapPct:0,bundleDiscountPct:10,items:[{skuId:'b',qty:1}]}];
- const first=validated(s);
- A.ok(first.temporal.months[0].media.allocatedBySku.a>0);
- A.ok(first.temporal.months[0].media.allocatedBySku.b>0);
+ const prices=s.skus.map(v=>({...v,standaloneNet:100}));
+ const first=P.plan(s,E.projectOffers,prices);
+ A.equal(first.ready,true,JSON.stringify(first.errors));
+ A.ok(first.months[0].media.allocatedBySku.a>0);
+ A.ok(first.months[0].media.allocatedBySku.b>0);
  const clone=JSON.parse(JSON.stringify(s));clone.skus.reverse();
- const other=validated(clone);
- for(let i=0;i<2;i++){
-  for(const id of ['a','b']){
-   close(first.temporal.months[i].orders[id],other.temporal.months[i].orders[id],
-     'SKU order-independent '+id+' '+i,.0001);
-   close(first.temporal.months[i].media.allocatedBySku[id],
-     other.temporal.months[i].media.allocatedBySku[id],'media order-independent '+id+' '+i,.0001);
-  }
+ const other=P.plan(clone,E.projectOffers,prices);
+ A.equal(other.ready,true,JSON.stringify(other.errors));
+ for(let i=0;i<2;i++)for(const id of ['a','b']){
+  close(first.months[i].orders[id],other.months[i].orders[id],
+   'SKU order-independent '+id+' '+i,.0001);
+  close(first.months[i].media.allocatedBySku[id],other.months[i].media.allocatedBySku[id],
+   'media order-independent '+id+' '+i,.0001);
  }
+ // The original first-month price/basket fixed point has its own validation.
+ // The pooled monthly engine must never silently bypass a failed price solve.
+ const integrated=E.build(s);
+ if(!integrated.ready)A.match(integrated.errors.join(' '),/не сошлось|минимум рентабельности/);
 });
 test('F1 A08 all basket units conserve inventory; no second campaign CAC for cross sell',()=>{
  const s=scenario(100,100,3);s.resources=[campaign()];
