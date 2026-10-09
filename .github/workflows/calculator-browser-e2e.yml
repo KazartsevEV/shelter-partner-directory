@@ -51,6 +51,7 @@ jobs:
           node tests/marketing_calc_inline_errors.test.cjs
           node tests/marketing_calc_dropship_browser.test.cjs
           node tests/portfolio_v2_linked_browser.test.cjs
+          node tests/portfolio_v2_mba_browser.test.cjs
           node tests/portfolio_v2_online_import_browser.test.cjs
           node tests/marketing_calc_offline_service_browser.test.cjs
           node --test tests/calculator_business_oracle_browser.test.cjs
