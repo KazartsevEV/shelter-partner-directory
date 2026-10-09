@@ -102,6 +102,10 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       for(const mode of ['self','hired','agent']){
         await page.evaluate(selected=>selectServiceMode(selected),mode);
         await afterTick(page);
+        if(mode==='self'||mode==='hired'){
+          const rows=await page.locator('#summary-table [data-nomad-display-number]').count();
+          A.ok(rows>10,'V1 summary numeric values must expose canonical raw amounts');
+        }
         if(mode==='self'){
           const cellCount=await page.locator('#monthly-table [data-nomad-display-number]').count();
           A.ok(cellCount>5,'monthly source cells must carry canonical raw display amounts');
@@ -124,18 +128,18 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
           }
         }
         if(expected==='en')await assertEnglishLocaleClean(page,'online-'+mode);
-        else console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
-          stage:'online-'+mode,locale:expected,
-          gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
-        }));
+        else {
+          const gaps=await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps());
+          A.equal(gaps.length,0,'KK online '+mode+' missing keys: '+JSON.stringify(gaps));
+        }
       }
       await page.evaluate(()=>openPortfolioV2(false));
       await afterTick(page);
       if(expected==='en')await assertEnglishLocaleClean(page,'experimental-v2');
-      else console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
-        stage:'experimental-v2',locale:expected,
-        gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
-      }));
+      else {
+        const gaps=await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps());
+        A.equal(gaps.length,0,'KK experimental V2 gaps: '+JSON.stringify(gaps));
+      }
     }
     // Representative V1 form, including dynamic strings, remains translated.
     await page.evaluate(()=>showProductBranch());
@@ -213,16 +217,16 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
         await page.evaluate(branch=>selectProductSource(branch),source);
         await afterTick(page);
         if(expected==='en')await assertEnglishLocaleClean(page,'product-'+source);
-        else console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
-          stage:'product-'+source,locale:expected,
-          gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
-        }));
+        else {
+          const gaps=await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps());
+          A.equal(gaps.length,0,'KK product '+source+' gaps: '+JSON.stringify(gaps));
+        }
       }
     }
-    if(expected!=='ru')console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
-      stage:'product-last-source',locale:expected,
-      gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
-    }));
+    if(expected!=='ru'){
+      const gaps=await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps());
+      A.equal(gaps.length,0,expected+' product gaps: '+JSON.stringify(gaps));
+    }
     const payload=fixture();
     await page.evaluate(p=>{
       LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
@@ -243,10 +247,10 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     const a11y_v2_linked=await localeA11yCensus(page,'v2-linked');
     A.equal(a11y_v2_linked.unlabeled,0,JSON.stringify(a11y_v2_linked.examples));
     if(expected==='en')console.log('NOMAD360_L47_A11Y',JSON.stringify(a11y_v2_linked));
-    if(expected!=='ru')console.log('NOMAD360_L47_KEY_AUDIT',JSON.stringify({
-      stage:'v2-linked',locale:expected,
-      gaps:await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),
-    }));
+    if(expected!=='ru'){
+      const gaps=await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps());
+      A.equal(gaps.length,0,expected+' linked V2 gaps: '+JSON.stringify(gaps));
+    }
     const baseline=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
