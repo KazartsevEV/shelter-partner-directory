@@ -443,17 +443,17 @@
                 </button>
 
                 <button type="button" data-product-source="dropship" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
-                    <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Расчёт в разработке</div>
+                    <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Покупаю под заказ, поставщик доставляет покупателю</div>
                 </button>
             </div>
             <div id="product-source-unavailable" class="hidden mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900" role="status" hidden>
-                Дропшиппинг пока не реализован в подробном калькуляторе. Выберите «Делаю сам» или «Покупаю у других».
+                Для дропшиппинга выберите поставщика, стоимость исполнения заказа и срок доставки.
             </div>
         </div>
 
         <div id="product-draft-toolbar" class="hidden mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4" hidden>
             <div class="font-semibold text-slate-900">Ваш товар — сохраните черновик в любой момент</div>
-            <p class="text-xs text-slate-600 mt-1">Черновик производства или закупки готовых товаров можно сохранить и продолжить позже.</p>
+            <p class="text-xs text-slate-600 mt-1">Черновик производства, закупки или дропшиппинга можно сохранить и продолжить позже.</p>
             <button type="button" class="mt-3 w-full rounded-lg bg-blue-700 text-white font-bold px-4 py-3" onclick="saveProductCalculationToBrowser()">Сохранить мой товар и продолжить позже</button>
             <div id="product-draft-save-status" class="text-sm text-blue-800 mt-2" role="status"></div>
         </div>
@@ -484,12 +484,12 @@
 
                 <div class="mt-6 space-y-5">
                     <div id="resale-buy-panel" class="hidden rounded-xl border border-violet-200 bg-violet-50/50 p-4" hidden>
-<h3 class="font-bold text-lg text-slate-900">Себестоимость минимальной партии готового товара</h3>
-<p class="text-sm text-slate-600 mt-2">Каждый разный товар в заказе — самостоятельная позиция со своей себестоимостью, количеством, последующей логистикой и ценой продажи. Отдельные товары не усредняются.</p>
+<h3 id="resale-buy-heading" class="font-bold text-lg text-slate-900">Себестоимость минимальной партии готового товара</h3>
+<p id="resale-buy-help" class="text-sm text-slate-600 mt-2">Каждый разный товар в заказе — самостоятельная позиция со своей себестоимостью, количеством, последующей логистикой и ценой продажи. Отдельные товары не усредняются.</p>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-<label class="text-sm font-semibold text-slate-700">Количество готовых единиц в минимальной партии
+<label class="text-sm font-semibold text-slate-700"><span id="resale-buy-qty-label">Количество готовых единиц в минимальной партии</span>
 <input id="resale-buy-qty" type="number" min="1" step="1" value="1" class="input-field mt-2" oninput="updateResalePurchase()"></label>
-<label class="text-sm font-semibold text-slate-700">Себестоимость минимальной партии, у.е.*
+<label class="text-sm font-semibold text-slate-700"><span id="resale-buy-cost-label">Себестоимость минимальной партии, у.е.*</span>
 <input id="resale-buy-total" type="number" min="0" step="0.01" value="" class="input-field mt-2" placeholder="Вся закупка этого товара" oninput="updateResalePurchase()"></label>
 <label class="text-sm font-semibold text-slate-700">Поставщик (необязательно)
 <input id="resale-buy-supplier" type="text" class="input-field mt-2" placeholder="Поставщик" oninput="renderResalePurchaseComposition()"></label>
@@ -499,9 +499,9 @@
 <div class="mt-4 flex justify-between gap-3 text-sm"><span>Закупочная цена 1 ед.</span><strong id="resale-buy-unit">—</strong></div>
 <p id="resale-buy-warning" class="hidden text-red-700 text-sm mt-2" hidden>Укажите положительную стоимость минимальной партии.</p>
 <div class="border-t border-violet-200 mt-4 pt-4">
-<h3 class="font-bold text-slate-900">Состав моего заказа по отдельным товарам</h3>
+<h3 id="resale-composition-title" class="font-bold text-slate-900">Состав моего заказа по отдельным товарам</h3>
 <div id="resale-purchase-composition" class="mt-3 text-sm"></div>
-<button type="button" onclick="addAnotherResaleProduct()" class="mt-3 w-full rounded-lg bg-violet-700 text-white py-3 px-3 font-bold">+ Добавить ещё один товар в заказ</button>
+<button type="button" onclick="addAnotherResaleProduct()" class="mt-3 w-full rounded-lg bg-violet-700 text-white py-3 px-3 font-bold"><span id="resale-buy-add-label">+ Добавить ещё один товар в заказ</span></button>
 </div></div>
                     <div id="material-cost-entry-panel" class="rounded-xl border border-blue-100 bg-blue-50/30 p-4">
                         <div class="text-sm font-medium text-slate-800 mb-3">Как задаём себестоимость материалов?</div>
@@ -551,7 +551,7 @@
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4">
+                    <div id="purchase-inbound-delivery-panel" class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800"><span data-buy-copy="delivery">Доставка материалов до меня уже включена в себестоимость?</span></div>
                         <div class="flex gap-2 mt-3">
                             <button type="button" data-yn-group="inboundIncluded" data-yn-value="yes" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Да</button>
@@ -833,13 +833,13 @@
             </div>
 
             <div id="product-logistics-block" class="card p-6 md:p-8 scroll-mt-4">
-                <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Логистика и склад</div>
+                <div id="logistics-stage-heading" class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Логистика и склад</div>
                 <h2 class="text-2xl font-bold text-slate-900">
                     Логистика <span class="product-name-live"></span>
                 </h2>
 
                 <div class="mt-6 space-y-5">
-                    <div class="rounded-lg border border-slate-200 p-4">
+                    <div id="warehouse-inbound-panel" class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за доставку <span class="product-name-live"></span> до склада?
                         </div>
@@ -853,7 +853,7 @@
                         </div>
                     </div>
 
-                    <div class="rounded-lg border border-slate-200 p-4">
+                    <div id="warehouse-storage-panel" class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за хранение <span class="product-name-live"></span> на складе?
                         </div>
@@ -878,6 +878,22 @@
                         </div>
                     </div>
 
+                    <div id="dropship-delivery-terms" class="hidden rounded-lg border border-violet-200 bg-violet-50/50 p-4" hidden>
+                        <h3 class="font-bold text-slate-900">Срок доставки до покупателя</h3>
+                        <p class="text-xs text-slate-600 mt-1">От заказа до получения покупателем. Учитывается при расчёте потребности в оборотных деньгах.</p>
+                        <label class="block text-sm mt-3">Срок доставки, дней
+                            <input id="dropship-delivery-days" class="input-field mt-2" type="number" min="0" step="1" value="" placeholder="Например, 12" oninput="syncDropshipFinanceInputs()">
+                        </label>
+                        <h3 class="font-bold text-slate-900 mt-4">Когда деньги покупателя доступны для оплаты поставщику?</h3>
+                        <select id="dropship-payout-mode" class="input-field mt-2" onchange="syncDropshipFinanceInputs()">
+                            <option value="after">После доставки покупателю</option>
+                            <option value="before">До оплаты поставщику</option>
+                        </select>
+                        <label class="block text-sm mt-3">Дополнительная задержка выплаты после доставки, дней
+                            <input id="dropship-payout-lag" class="input-field mt-2" type="number" min="0" step="1" value="0" oninput="syncDropshipFinanceInputs()">
+                        </label>
+                        <p class="text-xs text-slate-600 mt-2">Поставщику платим при оформлении заказа; складских запасов нет. Если деньги покупателя ещё недоступны, расходы временно финансирует бизнес.</p>
+                    </div>
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за доставку <span class="product-name-live"></span> до покупателя?
@@ -905,12 +921,12 @@
             <div id="logistics-unit-result" class="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-5 md:p-6 shadow-sm">
                 <div data-detail-step="logistics" class="text-xs uppercase tracking-[0.18em] text-emerald-700 font-bold mb-2">Итог блока 3</div>
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
-                    Минимальная стоимость хранения и доставки до покупателя 1 ед. <span class="product-name-live"></span> составляет
+                    <span id="logistics-result-caption">Минимальная стоимость хранения и доставки до покупателя 1 ед.</span> <span class="product-name-live"></span> составляет
                     <span id="own-logistics-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
                     у.е.*.
                 </div>
 
-                <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
+                <div id="logistics-quantity-panel" class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
                     <label class="block text-sm font-medium text-slate-700 mb-2">
                         Количество <span class="product-name-live"></span> для расчёта
                     </label>
@@ -922,7 +938,7 @@
 
                 <p id="own-logistics-minimum-note" class="mt-3 text-xs text-slate-500"></p>
                 <div id="own-logistics-unit-breakdown" class="mt-4 text-xs text-slate-600 leading-relaxed"></div>
-                <div class="mt-4 rounded-xl bg-white/80 border border-emerald-200 p-4 flex justify-between gap-4 text-sm">
+                <div id="logistics-total-stock-panel" class="mt-4 rounded-xl bg-white/80 border border-emerald-200 p-4 flex justify-between gap-4 text-sm">
                     <span class="font-semibold text-slate-800">Логистика для выбранного количества, у.е.*</span>
                     <span id="own-logistics-selected-total" class="font-bold text-emerald-800">0,00</span>
                 </div>
@@ -2153,7 +2169,7 @@
             productOwnInboundDeliveryManual = !!ui.inboundDeliveryManual;
             resaleWarehouseQtyManual = !!ui.resaleWarehouseQtyManual;
             setResaleProductPanels();
-            if(productSource==='resale')updateResalePurchase();
+            if(['resale','dropship'].includes(productSource))updateResalePurchase();
 
             recalculateMaterialsLandedCost();
             recalculateProductionUnitCost();
@@ -2169,7 +2185,7 @@
 
             if (
                 productName &&
-                ['own','resale'].includes(productSource) &&
+                ['own','resale','dropship'].includes(productSource) &&
                 Number(currentProductSequence) !== id
             ) {
                 saveCurrentProductToPortfolio();
@@ -2211,7 +2227,7 @@
 
             selectProductSource(item.source);
 
-            if (['own','resale'].includes(item.source)) {
+            if (['own','resale','dropship'].includes(item.source)) {
                 restoreProductOwnUiState(item);
                 const ownForm = document.getElementById('product-own-form');
                 if (ownForm) {
@@ -2252,9 +2268,10 @@
 
         function currentProductPortfolioSnapshot() {
             const materialsBatchQty = Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
-            const productionQty = productSource === 'resale' ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
-            const logisticsQty = Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
-            const salesQty = Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
+            const productionQty = ['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
+            const forecastSales=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const logisticsQty = productSource === 'dropship' ? Math.max(1,Math.ceil(forecastSales)) : Math.max(1, Math.floor(productNumber('own-logistics-qty') || 1));
+            const salesQty = productSource === 'dropship' ? logisticsQty : Math.max(1, Math.floor(productNumber('own-sales-monthly-qty') || 1));
 
             const warehouseInboundUnitCost =
                 productLogisticsPayers.warehouseInbound === 'me'
@@ -2314,20 +2331,23 @@
                 materialsFixedBatch,
                 materialsBatchQty,
                 materialsBatchTotal: latestMaterialsLandedUnitCost * materialsBatchQty,
-                productionUnitCost: productSource === 'resale' ? 0 : latestProductionUnitCost,
-                productionFixedMonthly: productSource === 'resale' ? 0 : productionFixedMonthly,
-                productionElectricityPerUnit: productSource === 'resale' ? 0 : productionElectricityPerUnit,
-                productionDefectPct: productSource === 'resale' ? 0 : productionDefectPct,
+                dropshipDeliveryDays:productSource==='dropship'?productNumber('dropship-delivery-days'):0,
+                dropshipPayoutLagDays:productSource==='dropship'?productNumber('dropship-payout-lag'):0,
+                dropshipPayoutMode:productSource==='dropship'?(document.getElementById('dropship-payout-mode')?.value||'after'):null,
+                productionUnitCost: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost,
+                productionFixedMonthly: ['resale','dropship'].includes(productSource) ? 0 : productionFixedMonthly,
+                productionElectricityPerUnit: ['resale','dropship'].includes(productSource) ? 0 : productionElectricityPerUnit,
+                productionDefectPct: ['resale','dropship'].includes(productSource) ? 0 : productionDefectPct,
                 productionQty,
-                productionTotal: productSource === 'resale' ? 0 : latestProductionUnitCost * productionQty,
+                productionTotal: ['resale','dropship'].includes(productSource) ? 0 : latestProductionUnitCost * productionQty,
                 logisticsUnitCost: latestLogisticsUnitCost,
                 logisticsQty,
-                warehouseInboundUnitCost,
+                warehouseInboundUnitCost:productSource==='dropship'?0:warehouseInboundUnitCost,
                 warehouseDayCost:
                     productLogisticsPayers.warehouse === 'me'
                         ? productNumber('own-warehouse-cost')
                         : 0,
-                warehouseStorageUnitCost,
+                warehouseStorageUnitCost:productSource==='dropship'?0:warehouseStorageUnitCost,
                 customerDeliveryPct:
                     productLogisticsPayers.customerDelivery === 'me'
                         ? productNumber('own-customer-delivery-pct')
@@ -2336,7 +2356,7 @@
                     productLogisticsPayers.customerDelivery === 'me'
                         ? productNumber('own-return-rate')
                         : 0,
-                warehouseStageTotal: (warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
+                warehouseStageTotal: productSource==='dropship'?0:(warehouseInboundUnitCost + warehouseStorageUnitCost) * logisticsQty,
                 salesFixedMonthly: productNumberFromText('own-sales-fixed-monthly'),
                 salesFixedPerUnit: productNumberFromText('own-sales-fixed-per-unit'),
                 salesQty,
@@ -2368,8 +2388,8 @@
         }
 
         function saveCurrentProductToPortfolio() {
-            if (!productName || !['own','resale'].includes(productSource)) return;
-            if(productSource === 'resale') updateResalePurchase();
+            if (!productName || !['own','resale','dropship'].includes(productSource)) return;
+            if(['resale','dropship'].includes(productSource)) updateResalePurchase();
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
             if (index >= 0) {
@@ -2422,15 +2442,15 @@
                         </div>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-3 text-sm">
                             <div class="rounded-lg bg-slate-50 p-2">
-                                <div class="text-xs text-slate-500">Материалы / 1 ед.</div>
+                                <div class="text-xs text-slate-500">${item.source==='own'?'Материалы':'Закупка товара'} / 1 ед.</div>
                                 <div class="font-semibold text-slate-900">${moneyInputValue(item.materialsUnitCost)} у.е.*</div>
                             </div>
-                            <div class="rounded-lg bg-slate-50 p-2">
+                            <div class="${item.source==='own'?'rounded-lg bg-slate-50 p-2':'hidden'}">
                                 <div class="text-xs text-slate-500">Производство / 1 ед.</div>
                                 <div class="font-semibold text-slate-900">${moneyInputValue(item.productionUnitCost)} у.е.*</div>
                             </div>
                             <div class="rounded-lg bg-slate-50 p-2">
-                                <div class="text-xs text-slate-500">Логистика / 1 ед.</div>
+                                <div class="text-xs text-slate-500">${item.source==='dropship'?'Доставка покупателю':'Логистика'} / 1 ед.</div>
                                 <div class="font-semibold text-slate-900">${moneyInputValue(item.logisticsUnitCost)} у.е.*</div>
                             </div>
                             <div class="rounded-lg bg-slate-50 p-2">
@@ -2538,7 +2558,7 @@
                 recalculatePortfolioLogistics(item);
             }
 
-            if (kind === 'production' && item.source !== 'resale') {
+            if (kind === 'production' && !['resale','dropship'].includes(item.source)) {
                 item.productionQty = n;
                 item.inputs['own-production-monthly-qty'] = String(n);
                 const yieldFactor = Math.max(0.0001, 1 - Number(item.productionDefectPct || 0) / 100);
@@ -2619,6 +2639,12 @@
             const rawNeeded = Math.ceil(made / Math.max(0.0001, 1 - defect / 100));
             const forecasts = Math.max(0, Number(item.forecastUnitsPerMonth) || 0);
             const details = [];
+            if(item.source==='dropship'){
+                if(!(Number(item.inputs?.['resale-buy-total'])>0))details.push({kind:'materials',message:'Укажите закупочную цену у поставщика.'});
+                if(item.inputs?.['dropship-delivery-days']===''||item.inputs?.['dropship-delivery-days']==null)details.push({kind:'logistics',message:'Укажите срок доставки покупателю.'});
+                if(!(forecasts>0))details.push({kind:'ads',message:'Заполните рекламную воронку и бюджет для прогноза заказов.'});
+                return details;
+            }
             if(item.source==='resale'){
                 if(!(Number(item.inputs?.['resale-buy-total'])>0))details.push({kind:'materials',message:'Себестоимость минимальной закупочной партии не заполнена. Вернитесь в закупку и введите сумму больше нуля.'});
                 if(materials < stored)details.push({kind:'materials',message:'Закуплено '+materials+' шт., но для склада указано '+stored+' шт. Увеличьте закупку или уменьшите склад.'});
@@ -2644,7 +2670,7 @@
         }
 
         function allocatedMaterialCostPerGood(item) {
-            if(item?.source==='resale')return Math.max(0,Number(item.materialsUnitCost)||0);
+            if(['resale','dropship'].includes(item?.source))return Math.max(0,Number(item.materialsUnitCost)||0);
             const manufactured = Math.max(0, Number(item?.productionQty) || 0);
             const rawBought = Math.max(0, Number(item?.materialsBatchQty) || 0);
             if (!manufactured || !rawBought) return null;
@@ -2657,6 +2683,7 @@
         }
 
         function projectedStoragePerUnit(item) {
+            if(item?.source==='dropship')return 0;
             const stock = Math.max(0, Number(item?.logisticsQty) || 0);
             const velocity = Math.max(0, Number(item?.forecastUnitsPerMonth) || 0);
             const dailyRate = Math.max(0, Number(item?.warehouseDayCost) || 0);
@@ -2666,7 +2693,47 @@
             return dailyRate * sellDays / 2;
         }
 
+        function dropshipCycleMetrics(item){
+            // One 30-day ad cycle: only orders not yet paid out need supplier financing.
+            const orders=Math.max(0,Number(item?.forecastUnitsPerMonth)||0);
+            const deliveryDays=Math.max(0,Number(item?.dropshipDeliveryDays)||0);
+            const payoutLagDays=Math.max(0,Number(item?.dropshipPayoutLagDays)||0);
+            const payoutBefore=item?.dropshipPayoutMode==='before';
+            const untilReceipt=payoutBefore?0:deliveryDays+payoutLagDays;
+            const unitPurchase=Math.max(0,Number(item?.materialsUnitCost)||0);
+            const unitDelivery=Math.max(0,Number(item?.logisticsUnitCost)||0);
+            const fulfilmentUnit=unitPurchase+unitDelivery;
+            const ad=Math.max(0,Number(item?.adBudget)||0);
+            const management=Math.max(0,Number(item?.adManagement)||0);
+            const salesFixed=Math.max(0,Number(item?.salesFixedMonthly)||0);
+            const advanceMarketing=ad+management+salesFixed;
+            const inFlightOrders=payoutBefore?0:Math.min(orders,Math.max(orders/30,orders*untilReceipt/30));
+            const supplierFloat=inFlightOrders*fulfilmentUnit;
+            const capitalBase=advanceMarketing+supplierFloat;
+            const reservePct=Math.min(1000,Math.max(0,Number(item?.planning?.reservePct)||0));
+            const reserveAmount=capitalBase*reservePct/100;
+            const fullOperatingCosts=orders*fulfilmentUnit+advanceMarketing;
+            const salesRate=(Math.max(0,Number(item?.salesVariablePct)||0)+Math.max(0,Number(item?.penaltiesPct)||0))/100;
+            const zeroMarginRevenue=1-salesRate>0?fullOperatingCosts/(1-salesRate):null;
+            return {
+                requiredCapital:orders>0?capitalBase+reserveAmount:null,
+                baseRequiredCapital:orders>0?capitalBase:null,
+                reservePct,reserveAmount:orders>0?reserveAmount:null,
+                quantityIssues:aggregateQuantityIssues(item),
+                totalCycleDays:orders>0?30+deliveryDays+(payoutBefore?0:payoutLagDays):null,
+                waitAfterAdvanceDays:0,productionDays:0,sellThroughDays:orders>0?30:null,
+                salesSpeedPerMonth:orders,advanceAmount:0,
+                zeroMarginRevenue,zeroMarginUnitPrice:orders>0&&zeroMarginRevenue!==null?zeroMarginRevenue/orders:null,
+                nonRevenueCosts:orders>0?fullOperatingCosts:null,
+                variableSalesRate:salesRate,stockQty:orders,
+                productionTotal:0,warehouseTotal:0,salesTotal:salesFixed,adTotal:ad+management,
+                customerDeliveryTotal:unitDelivery*orders,
+                supplierFloat,inFlightOrders,supplierFulfilmentTotal:unitPurchase*orders,
+                customerDeliveryDays:deliveryDays,payoutLagDays
+            };
+        }
         function aggregatePlanMetrics(item) {
+            if(item?.source==='dropship')return dropshipCycleMetrics(item);
             const planning = item?.planning || {};
             const materialsTotal = Math.max(0, Number(item?.materialsBatchTotal || 0));
             const stockQty = Math.max(0, Number(item?.logisticsQty || 0));
@@ -2872,21 +2939,23 @@
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
                 const cycle = aggregatePlanMetrics(item);
-                const reservePerUnit = cycle.reserveAmount !== null && item.logisticsQty > 0
-                    ? cycle.reserveAmount / Number(item.logisticsQty) : 0;
+                const reserveUnits=item.source==='dropship'?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const reservePerUnit = cycle.reserveAmount !== null && reserveUnits > 0
+                    ? cycle.reserveAmount / reserveUnits : 0;
 
                 const credit = calculateAggregateCredit(item);
                 const usesCredit = item?.planning?.fundingMode === 'credit';
+                const creditUnits=item.source==='dropship'?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
                 const creditReady =
                     !usesCredit ||
                     (
                         credit.monthlyServiceCost !== null &&
                         credit.totalInterest !== null &&
-                        Math.max(0, Number(item.logisticsQty) || 0) > 0
+                        Math.max(0, Number(creditUnits) || 0) > 0
                     );
                 const creditServicePerUnit =
                     usesCredit && creditReady
-                        ? credit.totalInterest / Number(item.logisticsQty)
+                        ? credit.totalInterest / creditUnits
                         : 0;
                 const pricingUnitLoad =
                     unitCost + creditServicePerUnit + reservePerUnit;
@@ -2903,7 +2972,7 @@
                 const marginRate = marginPct === null ? null : marginPct / 100;
 
                 const price =
-                    (item.source !== 'resale' || Math.max(0,Number(item.inputs?.['resale-buy-total'])||0)>0) &&
+                    (!['resale','dropship'].includes(item.source) || Math.max(0,Number(item.inputs?.['resale-buy-total'])||0)>0) &&
                     baseCac !== null &&
                     marginRate !== null &&
                     creditReady &&
@@ -3368,7 +3437,98 @@
             updateProductPortfolioBusinessSummary();
         }
 
+        function calculateDropshipCashFlow(model) {
+            // A single ad campaign is active for days 0-29. Orders are paid to the
+            // supplier on placement and settled by the customer at the declared time.
+            const items=productPortfolio.filter(item=>item.source==='dropship');
+            const schedules=items.map(item=>{
+                const row=model.items.find(r=>r.id===item.id);
+                const plan=dropshipCycleMetrics(item),loan=calculateAggregateCredit(item);
+                const usesCredit=item?.planning?.fundingMode==='credit';
+                return {item,row,plan,loan,usesCredit};
+            });
+            if(schedules.some(x=>!x.row||x.plan.requiredCapital===null||
+                (x.usesCredit&&x.loan.principal===null))){
+                return {ready:false,months:[],cumulativeEnd:null,freeCumulativeEnd:null};
+            }
+            const horizonDays=Math.max(30,...schedules.map(x=>
+                Math.max(x.plan.totalCycleDays||30,
+                    x.usesCredit?Math.max(1,Number(x.loan.termMonths)||1)*30:0)));
+            const monthCount=Math.max(1,Math.ceil(horizonDays/30));
+            const months=Array.from({length:monthCount},(_,index)=>({
+                month:index+1,inflow:0,outflow:0,cashFlow:0,cumulative:0,
+                taxPaid:0,interestPaid:0,principalRepaid:0,financedInflow:0,
+                taxableProfit:0,freeCumulative:0
+            }));
+            const idx=day=>Math.min(monthCount-1,Math.max(0,Math.floor(day/30)));
+            const sharedFixed=Math.max(0,...schedules.map(x=>Number(x.item.salesFixedMonthly)||0));
+            const reserveLocked=schedules.reduce((sum,x)=>sum+(x.plan.reserveAmount||0),0);
+            for(const x of schedules){
+                const {item,row,plan,loan,usesCredit}=x;
+                const capital=plan.requiredCapital||0;
+                months[0].inflow+=capital;months[0].financedInflow+=capital;
+                const perDayOrders=Math.max(0,Number(item.forecastUnitsPerMonth)||0)/30;
+                const supplierCost=Math.max(0,Number(item.materialsUnitCost)||0);
+                const deliveryCost=Math.max(0,Number(item.logisticsUnitCost)||0);
+                const promoDaily=(Math.max(0,Number(item.adBudget)||0)+
+                    Math.max(0,Number(item.adManagement)||0))/30;
+                const customerPayoutDelay=item.dropshipPayoutMode==='before'?0:
+                    Math.max(0,Number(item.dropshipDeliveryDays)||0)+
+                    Math.max(0,Number(item.dropshipPayoutLagDays)||0);
+                const variableRate=(Math.max(0,Number(item.salesVariablePct)||0)+
+                    Math.max(0,Number(item.penaltiesPct)||0))/100;
+                for(let day=0;day<30;day++){
+                    const outgoing=months[idx(day)];
+                    const fulfillment=perDayOrders*(supplierCost+deliveryCost);
+                    outgoing.outflow+=promoDaily+fulfillment;
+                    outgoing.taxableProfit-=promoDaily+fulfillment;
+                    const receipt=months[idx(day+customerPayoutDelay)];
+                    const revenue=perDayOrders*row.price*model.taxPriceMultiplier;
+                    receipt.inflow+=revenue;
+                    const commission=revenue*variableRate;
+                    receipt.outflow+=commission;
+                    receipt.taxableProfit+=revenue-commission;
+                }
+                if(usesCredit){
+                    const monthsOfLoan=Math.max(1,Number(loan.termMonths)||1);
+                    const interest=Math.max(0,Number(loan.monthlyServiceCost)||0);
+                    for(let month=0;month<Math.min(monthCount,monthsOfLoan);month++){
+                        months[month].outflow+=interest;
+                        months[month].interestPaid+=interest;
+                        months[month].taxableProfit-=interest;
+                    }
+                    const due=months[Math.min(monthCount-1,monthsOfLoan-1)];
+                    due.outflow+=Math.max(0,Number(loan.principal)||0);
+                    due.principalRepaid+=Math.max(0,Number(loan.principal)||0);
+                }
+            }
+            months[0].outflow+=sharedFixed;
+            months[0].taxableProfit-=sharedFixed;
+            const taxRate=Math.max(0,productNumber('own-business-tax-pct'))/100;
+            let cumulative=0;
+            for(const month of months){
+                const taxableTurnover=Math.max(0,month.inflow-month.financedInflow);
+                month.taxPaid=productBusinessTaxType==='turnover'?
+                    taxableTurnover*taxRate:Math.max(0,month.taxableProfit)*taxRate;
+                month.outflow+=month.taxPaid;
+                month.cashFlow=month.inflow-month.outflow;
+                cumulative+=month.cashFlow;
+                month.cumulative=cumulative;
+                month.freeCumulative=cumulative-reserveLocked;
+            }
+            return {
+                ready:true,months,horizonDays,saleEndDays:horizonDays,reserveLocked,
+                cumulativeEnd:cumulative,freeCumulativeEnd:cumulative-reserveLocked
+            };
+        }
+
         function calculateProductCashFlow(model) {
+            if (model?.pricingReady && productPortfolio.some(item=>item.source==='dropship')) {
+                // Mixed physical-stock and dropship cash schedules have different timing.
+                if(productPortfolio.some(item=>item.source!=='dropship'))return {ready:false,months:[],reason:'Для смешанного ассортимента нужен единый календарь платежей',cumulativeEnd:null,freeCumulativeEnd:null};
+                if(!productBusinessTaxType||model.taxPriceMultiplier===null)return {ready:false,months:[],cumulativeEnd:null,freeCumulativeEnd:null};
+                return calculateDropshipCashFlow(model);
+            }
             if (!model?.pricingReady || !model.items.length || !productBusinessTaxType || model.taxPriceMultiplier === null) {
                 return { ready: false, months: [], cumulativeEnd: null, freeCumulativeEnd: null };
             }
@@ -4200,7 +4360,7 @@
             }
 
             const ownForm = document.getElementById('product-own-form');
-            if (ownForm && ['own','resale'].includes(productSource)) {
+            if (ownForm && ['own','resale','dropship'].includes(productSource)) {
                 ownForm.hidden = false;
                 ownForm.classList.remove('hidden');
             }
@@ -4211,7 +4371,7 @@
         }
 
         function returnToProductBusinessSummary() {
-            if (productName && ['own','resale'].includes(productSource)) {
+            if (productName && ['own','resale','dropship'].includes(productSource)) {
                 saveCurrentProductToPortfolio();
                 freezeCurrentProductOnPage();
             }
@@ -4266,7 +4426,7 @@
                     parsed.productPortfolio.length > 100) return null;
                 const seen = new Set();
                 for (const item of parsed.productPortfolio) {
-                    if (!item || !['own','resale'].includes(item.source) ||
+                    if (!item || !['own','resale','dropship'].includes(item.source) ||
                         !Number.isSafeInteger(Number(item.id)) || Number(item.id) <= 0 ||
                         seen.has(Number(item.id)) ||
                         typeof item.name !== 'string' || !item.name.trim() ||
@@ -4361,7 +4521,7 @@
                 report('Это учебный пример. Чтобы сохранять свои данные, начните собственный расчёт с нуля.');
                 return false;
             }
-            if (productName && ['own','resale'].includes(productSource)) {
+            if (productName && ['own','resale','dropship'].includes(productSource)) {
                 saveCurrentProductToPortfolio();
             }
             if (!productPortfolio.length) {
@@ -4576,7 +4736,9 @@
             if (capitalEl) capitalEl.textContent = requiredCapitalText;
             if (termEl) termEl.textContent = cycleText;
             const baseEl = section.querySelector('[data-aggregate-final="baseRequiredCapital"]');
-            if (baseEl) baseEl.textContent = moneyInputValue(m.nonRevenueCosts || 0) + ' у.е.*';
+            if (baseEl) baseEl.textContent = moneyInputValue(item.source==='dropship'?m.baseRequiredCapital||0:m.nonRevenueCosts||0) + ' у.е.*';
+            const floatEl=section.querySelector('[data-drop-supplier-float]');
+            if(floatEl)floatEl.textContent=moneyInputValue(m.supplierFloat||0)+' у.е.*';
             const reserveEl = section.querySelector('[data-aggregate-final="reserveAmount"]');
             if (reserveEl) reserveEl.textContent = moneyInputValue(m.reserveAmount || 0) + ' у.е.*';
             const waterfall = {
@@ -4741,7 +4903,7 @@
         function syncVisibleAggregateFromCurrentProduct() {
             const aggregate = document.getElementById('product-tax-block');
             if (!aggregate || aggregate.hidden || aggregate.classList.contains('hidden')) return;
-            if (!productName || productSource !== 'own') return;
+            if (!productName || !['own','resale','dropship'].includes(productSource)) return;
 
             const snapshot = currentProductPortfolioSnapshot();
             const index = productPortfolio.findIndex(item => item.id === snapshot.id);
@@ -4866,7 +5028,8 @@
 
                     <!-- Validation belongs to the offending quantity, not the heading. -->
                     <div class="mt-6 space-y-5 text-sm">
-                        <div class="aggregate-line">
+                        ${item.source==='dropship' ? '<div class="aggregate-line font-semibold">Прогноз заказов от рекламы: ' + moneyInputValue(adUnits) + ' за 30 дней. Склад не закупается.</div>' : ''}
+                        <div class="aggregate-line ${item.source==='dropship'?'hidden':''}">
                             <div class="font-semibold">
                                 ${item.source==='resale'?'Куплю готовый товар в партии':'Привезу материал на'} ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью <span data-aggregate-output="materialsTotal">${moneyInputValue(item.materialsBatchTotal)}</span> у.е.*
                             </div>
@@ -4889,7 +5052,7 @@
                             </div>
                         </div>
 
-                        <div class="aggregate-line pt-4 border-t aggregate-separator ${item.source==='resale'?'hidden':''}">
+                        <div class="aggregate-line pt-4 border-t aggregate-separator ${['resale','dropship'].includes(item.source)?'hidden':''}">
                             <div class="font-semibold">
                                 Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> у.е.*
                             </div>
@@ -4900,7 +5063,7 @@
                             </div>
                         </div>
 
-                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
+                        <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold ${item.source==='dropship'?'hidden':''}">
                             Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., доставка до склада и введённые дни хранения — <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
                             <div class="text-sm mt-2">
                                 Но товар хранится до полной распродажи: ${aggregatePlanMetrics(item).sellThroughDays === null ? 'укажите прогноз продаж' : aggregateDaysText(aggregatePlanMetrics(item).sellThroughDays) + ' дней'};
@@ -4910,25 +5073,26 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${aggregateQtyInput(item, 'sales', salesQty)} шт.
+                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${item.source==='dropship'?moneyInputValue(adUnits)+' прогнозных заказов':aggregateQtyInput(item, 'sales', salesQty)+' шт.'}
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
                             Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы продать ${aggregateQtyInput(item, 'ads', adUnits)} шт.
                         </div>
 
+                        ${item.source==='dropship'?'<div class="aggregate-line pt-4 border-t aggregate-separator">Доставка покупателю: '+(item.dropshipDeliveryDays??0)+' дней, задержка выплаты: '+(item.dropshipPayoutLagDays??0)+' дней. Складских расходов нет.</div>':''}
                         <div class="aggregate-final-box">
                             <div class="aggregate-title text-sm font-bold mb-3">Запас денег, если что-то пойдёт не так</div>
                             <div class="grid grid-cols-2 gap-3 items-center mb-4">
                                 <label class="text-sm font-semibold">Резерв, % от плановых расходов</label>
                                 <input type="number" min="0" max="1000" step="0.01" class="input-field" value="${esc(planning.reservePct ?? '')}" oninput="updateProductPlanning(${item.id}, 'reservePct', this.value)">
-                                <span class="text-sm">Расходы без резерва</span>
-                                <span class="font-bold text-right" data-aggregate-final="baseRequiredCapital">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts)} у.е.*</span>
+                                <span class="text-sm">${item.source==='dropship'?'Стартовые деньги без резерва':'Расходы без резерва'}</span>
+                                <span class="font-bold text-right" data-aggregate-final="baseRequiredCapital">${moneyInputValue(item.source==='dropship'?aggregatePlanMetrics(item).baseRequiredCapital:aggregatePlanMetrics(item).nonRevenueCosts)} у.е.*</span>
                                 <span class="text-sm">Резерв денег, не расход и не налоговый вычет</span>
                                 <span class="font-bold text-right" data-aggregate-final="reserveAmount">${moneyInputValue(aggregatePlanMetrics(item).reserveAmount || 0)} у.е.*</span>
                             </div>
                             <div class="aggregate-final-total">
-                                Чтобы выполнить весь цикл до последней продажи, без расчёта на поступления будущей выручки, с резервом денег мне нужно
+                                ${item.source==='dropship'?'На рекламный запуск и исполнение заказов до доступности денег покупателя мне нужно':'Чтобы выполнить весь цикл до последней продажи, без расчёта на поступления будущей выручки, с резервом денег мне нужно'}
                                 <span class="aggregate-final-value" data-aggregate-final="requiredCapital">${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
                                 у.е.* на
                                 <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
@@ -4944,6 +5108,7 @@
                                     <strong class="text-right" data-waterfall="selling">${moneyInputValue((aggregatePlanMetrics(item).adTotal || 0) + (aggregatePlanMetrics(item).salesTotal || 0))} у.е.*</strong>
                                     <span>Все плановые расходы цикла до резервирования</span>
                                     <strong class="text-right" data-waterfall="costs">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts || 0)} у.е.*</strong>
+                                    ${item.source==='dropship'?'<span>Финансирование заказов в доставке</span><strong class="text-right" data-drop-supplier-float>'+moneyInputValue(aggregatePlanMetrics(item).supplierFloat||0)+' у.е.*</strong>':''}
                                     <span class="font-black">Капитал, необходимый с резервом</span>
                                     <strong class="text-right" data-waterfall="funding">${moneyInputValue(aggregatePlanMetrics(item).requiredCapital || 0)} у.е.*</strong>
                                 </div>
@@ -5095,7 +5260,7 @@
                                     Это рыночная цена за «${esc(item.name)}»?
                                 </div>
                                 <div class="aggregate-muted mt-2 text-sm leading-relaxed">
-                                    Проведите анализ рынка и получите мнение своего маркетолога: сможет ли он привлечь клиентов на ваш товар с учётом этой стоимости, или лучше ${item.source === 'resale' ? 'торговать другим товаром' : 'производить другой товар'} либо построить бизнес иначе.
+                                    Проведите анализ рынка и получите мнение своего маркетолога: сможет ли он привлечь клиентов на ваш товар с учётом этой стоимости, или лучше ${['resale','dropship'].includes(item.source) ? 'торговать другим товаром' : 'производить другой товар'} либо построить бизнес иначе.
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-3 mt-5">
@@ -5140,7 +5305,7 @@
                                         <a href="#product-logistics-block" onclick="scrollToProductBlock(event, 'product-logistics-block')" class="block underline underline-offset-2">
                                             Оптимизируйте логистику
                                         </a>
-                                        ${item.source === 'resale' ? '' : `<a href="#product-production-block" onclick="scrollToProductBlock(event, 'product-production-block')" class="block underline underline-offset-2">Пересмотрите мотивацию сотрудников, арендные ставки и оборудование</a>`}
+                                        ${['resale','dropship'].includes(item.source) ? '' : `<a href="#product-production-block" onclick="scrollToProductBlock(event, 'product-production-block')" class="block underline underline-offset-2">Пересмотрите мотивацию сотрудников, арендные ставки и оборудование</a>`}
                                         <a href="#product-ad-block" onclick="scrollToProductBlock(event, 'product-ad-block')" class="block underline underline-offset-2">
                                             Поищите новую аудиторию и способы рекламы с маркетологом
                                         </a>
@@ -5571,8 +5736,8 @@
 
         function renderResalePurchaseComposition() {
             const box=document.getElementById('resale-purchase-composition');
-            if(!box||productSource!=='resale')return;
-            const goods=productPortfolio.filter(x=>x.source==='resale'&&Number(x.id)!==Number(currentProductSequence))
+            if(!box||!['resale','dropship'].includes(productSource))return;
+            const goods=productPortfolio.filter(x=>x.source===productSource&&Number(x.id)!==Number(currentProductSequence))
                 .map(x=>({id:Number(x.id),name:x.name,qty:Number(x.inputs?.['resale-buy-qty'])||Number(x.materialsBatchQty)||1,
                     price:Math.max(0,Number(x.inputs?.['resale-buy-total'])||0),supplier:x.inputs?.['resale-buy-supplier']||''}));
             if(productName)goods.push({id:Number(currentProductSequence),name:productName,qty:Math.max(1,Number(document.getElementById('resale-buy-qty')?.value)||1),
@@ -5589,7 +5754,7 @@
             if(productSource==='resale')resaleWarehouseQtyManual=true;
         }
         function updateResalePurchase(){
-            if(productSource!=='resale')return;
+            if(!['resale','dropship'].includes(productSource))return;
             const qty=Math.max(1,Math.floor(productNumber('resale-buy-qty')||1));
             const cost=productNumber('resale-buy-total');
             const raw=document.getElementById('resale-buy-total')?.value;
@@ -5597,50 +5762,62 @@
             const oldCost=document.getElementById('own-materials-cost');
             if(oldQty)oldQty.value=String(qty);
             if(oldCost)oldCost.value=String(cost/qty);
-            if(!resaleWarehouseQtyManual){const stock=document.getElementById('own-logistics-qty');if(stock)stock.value=String(qty);}
+            if(productSource==='resale'&&!resaleWarehouseQtyManual){const stock=document.getElementById('own-logistics-qty');if(stock)stock.value=String(qty);}
             const output=document.getElementById('resale-buy-unit');
             if(output)output.textContent=raw===''?'—':moneyInputValue(cost/qty)+' у.е.*';
             const warning=document.getElementById('resale-buy-warning');
             if(warning){warning.hidden=cost>0;warning.classList.toggle('hidden',cost>0);}
             updateInboundDeliveryDefault();recalculateMaterialsLandedCost();renderResalePurchaseComposition();
         }
+        function syncDropshipFinanceInputs(){
+            if(productSource!=='dropship')return;
+            const delivery=document.getElementById('dropship-delivery-days');
+            const lag=document.getElementById('dropship-payout-lag');
+            if(delivery&&delivery.value!==''&&Number(delivery.value)<0)delivery.value='0';
+            if(lag&&lag.value!==''&&Number(lag.value)<0)lag.value='0';
+            syncVisibleAggregateFromCurrentProduct();
+        }
         function setResaleProductPanels(){
-            const resale=productSource==='resale';
-            for(const [id,visible] of [['resale-buy-panel',resale],['material-cost-entry-panel',!resale],
-                ['materials-qty-entry-panel',!resale],['product-production-block',!resale],['production-unit-result',!resale]]){
-                const node=document.getElementById(id);if(node){node.hidden=!visible;node.classList.toggle('hidden',!visible);}
+            const resale=productSource==='resale',drop=productSource==='dropship',ready=resale||drop;
+            const show={'resale-buy-panel':ready,'material-cost-entry-panel':!ready,
+                'materials-qty-entry-panel':!ready,'product-production-block':!ready,
+                'production-unit-result':!ready,'purchase-inbound-delivery-panel':!drop,
+                'warehouse-inbound-panel':!drop,'warehouse-storage-panel':!drop,
+                'logistics-quantity-panel':!drop,'logistics-total-stock-panel':!drop,'dropship-delivery-terms':drop};
+            Object.entries(show).forEach(([id,visible])=>{const el=document.getElementById(id);if(el){el.hidden=!visible;el.classList.toggle('hidden',!visible);}});
+            if(drop){
+                productOwnChoices.inboundIncluded='yes';setProductChoiceVisual('inboundIncluded','yes');
+                setProductHidden('own-inbound-cost-wrap',true);setProductFieldZero('own-inbound-delivery-cost');
+                productLogisticsPayers.warehouseInbound=null;productLogisticsPayers.warehouse=null;
+                ['own-warehouse-inbound-unit-cost','own-warehouse-cost','own-warehouse-days'].forEach(setProductFieldZero);
             }
-            const steps=resale?{logistics:2,sales:3,ads:4}:{logistics:3,sales:4,ads:5};
-            document.querySelectorAll('[data-detail-step]').forEach(el=>{
-                el.textContent='Итог блока '+(steps[el.dataset.detailStep]||'');
-            });
-            const title=document.getElementById('materials-step-name');
-            if(title)title.textContent=resale?'Закупка готового товара':'Из чего состоит себестоимость';
-            const hint=document.getElementById('materials-step-help');
-            if(hint)hint.textContent=resale?'Купленные готовые единицы сразу переходят на склад; дальше работают прежние логистика, продажи, кредит и налоги.':
-                'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.';
-            const label=document.getElementById('materials-step-result-label');
-            if(label)label.textContent=resale?'Для покупки и доставки 1 готовой единицы':'Для того, чтобы купить и привезти материалы для 1 ед.';
-            const own={vat:'НДС уже включён в себестоимость материалов?',rate:'Ставка НДС на материалы, %',
-                delivery:'Доставка материалов до меня уже включена в себестоимость?',deliveryAmount:'Стоимость доставки материалов до меня, у.е.*',
-                deliveryHint:'По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.',
-                import:'Материалы везут ко мне из-за границы?'};
-            const buy={vat:'НДС уже включён в цену готового товара?',rate:'Ставка НДС при закупке товара, %',
-                delivery:'Доставка готового товара до меня уже включена?',deliveryAmount:'Доставка готового товара до меня за 1 ед., у.е.*',
-                deliveryHint:'По умолчанию — 10% от закупочной цены единицы с НДС. Значение можно заменить вручную.',
-                import:'Товар везут ко мне из-за границы?'};
-            document.querySelectorAll('[data-buy-copy]').forEach(node=>{node.textContent=(resale?buy:own)[node.dataset.buyCopy];});
-            if(resale){for(const id of ['own-materials-known-wrap','own-materials-calc-wrap']){
-                const node=document.getElementById(id);if(node){node.hidden=true;node.classList.add('hidden');}}
-                updateResalePurchase();recalculateProductionUnitCost();
-            }
+            const steps=ready?{logistics:2,sales:3,ads:4}:{logistics:3,sales:4,ads:5};
+            document.querySelectorAll('[data-detail-step]').forEach(el=>el.textContent='Итог блока '+steps[el.dataset.detailStep]);
+            const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+            set('materials-step-name',drop?'Чем я буду торговать? Подобрать ассортимент':resale?'Закупка готового товара':'Из чего состоит себестоимость');
+            set('materials-step-help',drop?'Подберите ассортимент и поставщиков. Товар покупается под заказ и направляется покупателю без склада.':resale?'Закупка готовых товаров со складом.':'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
+            set('materials-step-result-label',drop?'Закупить и оформить 1 заказ на':resale?'Для покупки и доставки 1 готовой единицы':'Для того, чтобы купить и привезти материалы для 1 ед.');
+            set('resale-buy-heading',drop?'Где и почём куплю товар?':'Себестоимость минимальной партии готового товара');
+            set('resale-buy-help',drop?'Каждый товар и поставщик считаются отдельно. Закупка — только под оплачиваемый покупателем заказ.':'Каждый товар в закупочном заказе — отдельная позиция.');
+            set('resale-buy-qty-label',drop?'Единиц в одном заказе поставщику':'Количество готовых единиц в минимальной партии');
+            set('resale-buy-cost-label',drop?'Цена заказа у поставщика, у.е.*':'Себестоимость минимальной партии, у.е.*');
+            set('resale-composition-title',drop?'Мой ассортимент по отдельным товарам':'Состав моего заказа по отдельным товарам');
+            set('resale-buy-add-label',drop?'+ Добавить товар в ассортимент':'+ Добавить ещё один товар в заказ');
+            set('logistics-stage-heading',drop?'Доставка до покупателя':'Логистика и склад');
+            set('logistics-result-caption',drop?'Стоимость доставки покупателю 1 ед.':'Минимальная стоимость хранения и доставки до покупателя 1 ед.');
+            const own={vat:'НДС уже включён в себестоимость материалов?',rate:'Ставка НДС на материалы, %',delivery:'Доставка материалов до меня уже включена в себестоимость?',deliveryAmount:'Стоимость доставки материалов до меня, у.е.*',deliveryHint:'По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.',import:'Материалы везут ко мне из-за границы?'};
+            const buy={vat:'НДС уже включён в цену готового товара?',rate:'Ставка НДС при закупке товара, %',delivery:'Доставка готового товара до меня уже включена?',deliveryAmount:'Доставка готового товара до меня за 1 ед., у.е.*',deliveryHint:'По умолчанию — 10% от закупочной цены единицы с НДС. Значение можно заменить вручную.',import:'Товар везут ко мне из-за границы?'};
+            document.querySelectorAll('[data-buy-copy]').forEach(el=>el.textContent=(drop?{...buy,import:'Поставщик отправляет товар покупателю из-за границы?'}:resale?buy:own)[el.dataset.buyCopy]||el.textContent);
+            if(ready){['own-materials-known-wrap','own-materials-calc-wrap'].forEach(id=>{const el=document.getElementById(id);if(el){el.hidden=true;el.classList.add('hidden');}});updateResalePurchase();recalculateProductionUnitCost();}
+            if(drop)recalculateLogisticsUnitCost();
         }
         function addAnotherResaleProduct(){
+            const previousSource=productSource;
             if(!productName||!(productNumber('resale-buy-total')>0)){
                 updateResalePurchase();document.getElementById('resale-buy-total')?.focus();return false;
             }
             if(!addAnotherProduct())return false;
-            selectProductSource('resale');
+            selectProductSource(previousSource);
             document.getElementById('additional-product-name-input')?.focus({preventScroll:true});
             return true;
         }
@@ -6063,7 +6240,7 @@
         }
 
         function recalculateProductionUnitCost() {
-            if(productSource==='resale'){
+            if(['resale','dropship'].includes(productSource)){
                 latestProductionUnitCost=0;
                 const el=document.getElementById('own-production-unit-cost');if(el)el.textContent=moneyInputValue(0);
                 recalculateLogisticsUnitCost();return;
@@ -6166,8 +6343,8 @@
         }
 
         function recalculateLogisticsUnitCost() {
-            const warehouseInboundIsMine = productLogisticsPayers.warehouseInbound === 'me';
-            const warehouseIsMine = productLogisticsPayers.warehouse === 'me';
+            const warehouseInboundIsMine = productSource!=='dropship' && productLogisticsPayers.warehouseInbound === 'me';
+            const warehouseIsMine = productSource!=='dropship' && productLogisticsPayers.warehouse === 'me';
             const deliveryIsMine = productLogisticsPayers.customerDelivery === 'me';
 
             const warehouseInboundPerUnit = warehouseInboundIsMine
@@ -6202,19 +6379,24 @@
 
             const breakdown = document.getElementById('own-logistics-unit-breakdown');
             if (breakdown) {
-                breakdown.innerHTML = [
+                breakdown.innerHTML = (productSource==='dropship' ? [
+                    ['Доставка до покупателя', baseDelivery],
+                    ['Доп. доставка из-за возвратов', returnDeliveryUplift]
+                ] : [
                     ['Доставка 1 ед. до склада', warehouseInboundPerUnit],
                     ['Хранение 1 ед.', warehousePerUnit],
                     ['Доставка до покупателя', baseDelivery],
                     ['Доп. доставка из-за возвратов', returnDeliveryUplift]
-                ].map(([label, value]) =>
+                ]).map(([label, value]) =>
                     `<div class="flex justify-between gap-3 py-0.5"><span>${label}</span><span class="font-semibold text-slate-800">${moneyInputValue(value)}</span></div>`
                 ).join('');
             }
 
             const note = document.getElementById('own-logistics-minimum-note');
             if (note) {
-                if (warehouseIsMine && !hasWarehouseDays) {
+                if (productSource==='dropship') {
+                    note.textContent='Нет склада: учтены только оплачиваемые вами доставка до покупателя и возвраты.';
+                } else if (warehouseIsMine && !hasWarehouseDays) {
                     note.textContent = 'Срок хранения пока не указан, поэтому хранение временно считается как 0. На следующих этапах срок можно будет рассчитать автоматически.';
                 } else {
                     note.textContent = 'Учитываются только расходы, которые оплачиваете вы. Доставка рассчитана от текущей стоимости товара до логистики; возвраты увеличивают стоимость доставки.';
@@ -6310,13 +6492,13 @@
             });
 
             const ownForm = document.getElementById('product-own-form');
-            const hideOwn = !['own','resale'].includes(source);
+            const hideOwn = !['own','resale','dropship'].includes(source);
             ownForm.hidden = hideOwn;
             ownForm.classList.toggle('hidden', hideOwn);
             const unavailable = document.getElementById('product-source-unavailable');
             if (unavailable) {
-                unavailable.hidden = source !== 'dropship';
-                unavailable.classList.toggle('hidden', source !== 'dropship');
+                unavailable.hidden = true;
+                unavailable.classList.add('hidden');
             }
             const draftToolbar = document.getElementById('product-draft-toolbar');
             if (draftToolbar) {
@@ -6324,7 +6506,7 @@
                 draftToolbar.classList.toggle('hidden', hideOwn);
             }
 
-            if (['own','resale'].includes(source)) {
+            if (['own','resale','dropship'].includes(source)) {
                 initProductOwnForm();
                 setResaleProductPanels();
 

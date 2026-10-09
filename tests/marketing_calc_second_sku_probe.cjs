@@ -38,8 +38,8 @@ const events=[];
      }));
      events.push({finance,probe:source,status});
      assert.equal(status.source,source);
-     assert.equal(status.ownFormVisible,false,'No dedicated forms exist yet for '+source);
-     assert.equal(status.savedCount,1,'No second product can yet be stored in those modes');
+     assert.equal(status.ownFormVisible,true,'Detailed form should be available for '+source);
+     assert.equal(status.savedCount,1,'Choosing a branch never creates an unwanted product');
    }
    await page.locator('#product-source-block [data-product-source="own"]').click();
    await page.locator('#additional-product-name-input').fill('Майка — второй товар');
@@ -108,6 +108,7 @@ const events=[];
    await choose(sel+' [data-pricing-decision="tax"]');
    await choose('[data-business-tax-type="turnover"]');
    await fill('own-business-tax-pct',6);
+   await page.locator('[data-tax-price-product-id="2"] [data-discount-choice="yes"]').click();
    await page.locator('[data-tax-price-product-id="2"] input[oninput*="maxDiscountPct"]').fill('20');
    await page.locator('[data-tax-price-product-id="2"] input[oninput*="minimumMarginPct"]').fill('10');
    const after=await page.evaluate(()=>{

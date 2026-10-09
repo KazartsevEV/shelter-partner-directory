@@ -8,6 +8,7 @@ on:
       - "tests/marketing_calc_prefilled_demo.test.cjs"
       - "tests/marketing_calc_two_sku_demo.test.cjs"
       - "tests/marketing_calc_first_user_journey.test.cjs"
+      - "tests/marketing_calc_dropship_browser.test.cjs"
       - "tests/marketing_calc_inline_errors.test.cjs"
       - ".github/workflows/calculator-browser-e2e.yml"
   workflow_dispatch:
@@ -35,3 +36,4 @@ jobs:
           node tests/marketing_calc_two_sku_demo.test.cjs
           node tests/marketing_calc_first_user_journey.test.cjs
           node tests/marketing_calc_inline_errors.test.cjs
+          node tests/marketing_calc_dropship_browser.test.cjs

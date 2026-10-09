@@ -49,10 +49,13 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(purchase.logisticsQty,15);
    assert.equal(await page.locator('#resale-buy-unit').textContent(),'30,00 у.е.*');
 
-   // Dropshipping remains unavailable, without a fabricated calculation.
+   // Dropshipping now has direct supplier and delivery fields, no production.
    await page.locator('#product-source-block [data-product-source="dropship"]').click();
-   assert.equal(await page.locator('#product-source-unavailable').isVisible(),true);
-   assert.equal(await page.locator('#product-own-form').isVisible(),false);
+   assert.equal(await page.locator('#product-source-unavailable').isVisible(),false);
+   assert.equal(await page.locator('#product-own-form').isVisible(),true);
+   assert.equal(await page.locator('#dropship-delivery-terms').isVisible(),true);
+   assert.equal(await page.locator('#production-unit-result').isVisible(),false);
+   assert.equal(await page.locator('#warehouse-storage-panel').isVisible(),false);
    await page.locator('#product-source-block [data-product-source="own"]').click();
    assert.equal(await page.locator('#product-production-block').isVisible(),true);
    assert.equal(await page.locator('#production-unit-result').isVisible(),true);

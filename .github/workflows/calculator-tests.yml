@@ -7,6 +7,7 @@ on:
       - "tests/marketing_calc_regressions.test.cjs"
       - "tests/marketing_calc_full_cycle.test.cjs"
       - "tests/marketing_calc_resale.test.cjs"
+      - "tests/marketing_calc_dropship.test.cjs"
       - ".github/workflows/calculator-tests.yml"
   push:
     branches: ["main"]
@@ -16,6 +17,7 @@ on:
       - "tests/marketing_calc_full_cycle.test.cjs"
       - ".github/workflows/calculator-tests.yml"
       - "tests/marketing_calc_resale.test.cjs"
+      - "tests/marketing_calc_dropship.test.cjs"
   workflow_dispatch:
 
 permissions:
@@ -30,4 +32,4 @@ jobs:
         with:
           node-version: "22"
       - name: Verify price, discount, VAT and SKU navigation contracts
-        run: node --test tests/marketing_calc_regressions.test.cjs tests/marketing_calc_full_cycle.test.cjs tests/marketing_calc_resale.test.cjs
+        run: node --test tests/marketing_calc_regressions.test.cjs tests/marketing_calc_full_cycle.test.cjs tests/marketing_calc_resale.test.cjs tests/marketing_calc_dropship.test.cjs

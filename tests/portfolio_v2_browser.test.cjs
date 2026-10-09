@@ -13,7 +13,8 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  try{
  await page.goto(url,{waitUntil:'domcontentloaded'});
  assert.equal(await page.locator('#home-screen').isVisible(),true);
- await page.locator('#start-own-product').click();
+ await page.locator('summary').filter({hasText:'Экспериментальная портфельная модель v2'}).click();
+ await page.getByRole('button',{name:'Открыть экспериментальную модель v2'}).click();
  assert.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
  assert.equal(await page.locator('[data-p2-path="skus.0.name"]').inputValue(),'');
  for(const [p,n] of [['marketing.budget',1000],['marketing.cpc',5],['marketing.ctrPct',2],
@@ -71,6 +72,7 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  eq(r.months[5].principalRepayment,r.financing.principal,'Bullet repayment');
  eq(r.months.reduce((a,m)=>a+m.loanDraw,0),r.financing.principal,'Single draw');
  await page.locator('[data-p2-home]').click();
+ await page.locator('details').filter({hasText:'Экспериментальная портфельная модель v2'}).evaluate(node=>{node.open=true;});
  assert.equal(await page.locator('#portfolio-v2-resume-home').isVisible(),true);
  await page.locator('#portfolio-v2-resume-home button').click();
  assert.equal(await page.locator('[data-p2-path="skus.0.name"]').inputValue(),'Майка');
