@@ -275,6 +275,30 @@ function updateResult(){
    Object.entries(r.bySku).map(([id,amount])=>
     '<div>'+safe(out.items.find(s=>s.id===id)?.name||id)+': '+money(amount)+'</div>').join('')+
   '</div>').join('')+'</div>';
+ const period=cf.periodPnl;
+ const periodPanel=period?.ready?
+  '<section class="mt-5 rounded-lg border border-white/25 p-3">'+
+  '<h3 class="font-bold">Реальная экономика за '+period.horizonMonths+' мес. · при текущих ценах V2</h3>'+
+  '<p class="text-xs text-slate-200 mt-2">Прибыль рассчитана по продажам и затратам каждого месяца, а не умножением первого месяца. Налог начислен на реализованную выручку/прибыль и может отличаться по сроку от платежа в Cash Flow. Автоматический прайс для целевой маржи всего периода ещё не реализован (F2B).</p>'+
+  '<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">'+
+  [['Выручка без НДС',money(period.revenue)],['EBITDA',money(period.ebitda)],
+   ['Налог начислен',money(period.taxAccrued)],['Чистая прибыль',money(period.netProfit)],
+   ['Маржа за период',period.netMargin===null?'не определена':money(period.netMargin)+'%'],
+   ['Налог начислен − уплачен',money(period.taxTimingDifference)],
+   ['Проценты после горизонта',money(period.postHorizonInterest)]].map(([label,value])=>
+    '<div class="bg-white/10 p-2 rounded text-xs">'+safe(label)+': <b>'+safe(value)+'</b></div>').join('')+'</div>'+
+  '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[750px] text-xs"><thead><tr>'+
+  ['Месяц','Выручка','Себестоимость','Реклама','Общие расходы','Фикс. услуги','EBITDA',
+   'Амортизация','Проценты','Налог начислен','Прибыль'].map(s=>
+   '<th class="p-2 text-right">'+s+'</th>').join('')+'</tr></thead><tbody>'+
+  period.months.map(m=>'<tr class="border-t border-white/20">'+
+   [m.month,m.revenue,m.cogs,m.marketing,m.operatingShared,m.serviceFixed,
+    m.ebitda,m.amort,m.interest,m.taxAccrued,m.netProfit].map((v,i)=>
+    '<td class="p-2 text-right">'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
+  '</tbody></table></div>'+
+  (period.onceAssetAmortizationUnverified?
+   '<p class="mt-2 text-xs text-amber-200">Есть разовые активы без подтверждённой амортизации; полная бухгалтерская прибыль пока не подтверждена.</p>':'')+
+  '</section>':'';
  const advertising=out.temporal?.months?.some(m=>m.media)?
   '<h3 class="font-bold mt-5">Общая реклама по месяцам · реальные платежи и спрос</h3>'+
   '<p class="text-xs text-slate-200 mt-2">При распродаже товара его доля прекращается. Нераспределённые деньги остаются фактическим расходом кампании. Маржа полного периода требует отдельного расчёта F2.</p>'+
@@ -306,8 +330,9 @@ function updateResult(){
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
   '<div class="text-xl font-black">'+money(value)+'</div></div>').join('')+'</div>'+
- (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">Целевая маржа достигнута для всех позиций.</p>':
+ (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">'+(period?'По месячной модели V2 целевая маржа достигнута; за весь период ещё не доказана.':'Целевая маржа достигнута для всех позиций.')+'</p>':
   '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
+ periodPanel+
  '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
  '<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
