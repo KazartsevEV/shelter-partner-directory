@@ -346,6 +346,17 @@
     <section id="product-screen" class="max-w-4xl mx-auto hidden">
         <button onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
 
+        <div id="product-demo-banner" class="hidden rounded-2xl border-2 border-blue-400 bg-blue-50 p-4 mb-5 text-slate-900" hidden>
+            <div class="text-lg font-black">ДЕМО: калькулятор заполнен реальными тестовыми числами</div>
+            <p class="text-sm mt-1">Шоппер: 106 ед. материалов → 100 готовых штук → 24 продажи в месяц. Казахстан, 2 рабочих. Это демонстрация, не ваши сохранённые данные.</p>
+            <div class="flex flex-wrap gap-2 mt-3 text-sm font-bold">
+                <button type="button" class="rounded-lg bg-blue-700 text-white px-3 py-2" onclick="document.getElementById('product-materials-block').scrollIntoView({behavior:'smooth',block:'start'})">↑ Все заполненные поля</button>
+                <button type="button" class="rounded-lg bg-emerald-700 text-white px-3 py-2" onclick="document.getElementById('product-portfolio-business-summary').scrollIntoView({behavior:'smooth',block:'start'})">↓ Cash flow по месяцам</button>
+                <a class="rounded-lg bg-white border border-blue-300 px-3 py-2" href="?demo=shopper&amp;finance=cash">Без кредита · 5 мес.</a>
+                <a class="rounded-lg bg-white border border-blue-300 px-3 py-2" href="?demo=shopper&amp;finance=credit">В кредит · 6 мес.</a>
+            </div>
+        </div>
+
         <div id="completed-product-forms" class="space-y-5 mb-5"></div>
 
         <div class="card p-6 md:p-8">
@@ -3534,6 +3545,8 @@
             return {
                 ready: true,
                 months,
+                horizonDays,
+                saleEndDays: Math.max(...schedules.map(schedule => schedule.saleEnd)),
                 reserveLocked,
                 cumulativeEnd: cumulative,
                 freeCumulativeEnd: cumulative - reserveLocked
@@ -3685,7 +3698,12 @@
             const cashFlowTable = cashFlow.ready
                 ? `
                     <div class="mt-4 pt-4 border-t aggregate-separator">
-                        <div class="aggregate-title font-bold mb-2">Cash flow по месяцам за период</div>
+                        <div class="aggregate-title font-bold mb-2">Cash flow по месяцам — ${cashFlow.months.length} месяцев</div>
+                        <div class="aggregate-muted text-xs mb-3">
+                            <strong>Период: со дня 0 до дня ${Math.ceil(cashFlow.horizonDays)}. Распродажа заканчивается на ${Math.ceil(cashFlow.saleEndDays)}-й день.</strong>
+                            Один месяц = 30 дней. Первый месяц — дни 0–29, второй — 30–59. Последний может быть неполным.
+                            При кредите срок продлевается до последнего платежа, даже если весь товар уже продан.
+                        </div>
                         <div class="aggregate-muted text-xs mb-3">
                             После бизнес-налогов и кредитных платежей. При кредите: получение тела кредита в первый месяц, выплата тела в конце срока (bullet), проценты ежемесячно; тело кредита не уменьшает прибыль. НДС транзитный и в свободный остаток не включён.
                         </div>
@@ -3728,7 +3746,8 @@
                     <div class="mt-4 pt-4 border-t aggregate-separator">
                         <div class="aggregate-title font-bold">Cash flow по месяцам за период</div>
                         <div class="aggregate-muted text-xs mt-2">
-                            Появится после того, как рассчитаны цена товара, сроки и прогноз продаж.
+                            Расчёт начнётся с 0-го дня (закупка/финансирование) и закончится после продажи последней единицы либо возврата кредита — что позже.
+                            Один месяц = 30 дней. Заполните цену товара, сроки, прогноз продаж и налог, чтобы увидеть числовую таблицу.
                         </div>
                     </div>
                 `;
@@ -6620,10 +6639,156 @@
             }).join('');
         }
 
+
+        // Opt-in, nonpersistent demonstration. Never runs on the normal calculator URL.
+        // The same public form and event handlers are exercised as in manual entry.
+        async function populateShopperDemonstration() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('demo') !== 'shopper') return;
+            const creditDemo = params.get('finance') === 'credit';
+            const fill = (id, value) => {
+                const el = document.getElementById(id);
+                if (!el) throw new Error('Demo: field not found: ' + id);
+                el.value = String(value);
+                el.dispatchEvent(new Event('input', { bubbles: true }));
+                el.dispatchEvent(new Event('change', { bubbles: true }));
+            };
+            const fillSelector = (selector, value) => {
+                const el = document.querySelector(selector);
+                if (!el) throw new Error('Demo: field not found: ' + selector);
+                el.value = String(value);
+                el.dispatchEvent(new Event('input', { bubbles: true }));
+            };
+            const choose = selector => {
+                const el = document.querySelector(selector);
+                if (!el) throw new Error('Demo: choice not found: ' + selector);
+                el.click();
+            };
+            showProductBranch();
+            fill('product-name-input', 'Хлопковый шоппер — заполненный пример');
+            submitProductIntro({preventDefault() {}});
+            choose('[data-product-source="own"]');
+            // The source selector updates the dynamic UI on the next frame.
+            await new Promise(resolve => requestAnimationFrame(resolve));
+
+            // 1. Materials: 106 attempts allow 100 saleable units with 5% scrap.
+            choose('[data-material-cost-mode="known"]');
+            fill('own-materials-cost', 200);
+            choose('[data-yn-group="vatIncluded"][data-yn-value="yes"]');
+            choose('[data-yn-group="inboundIncluded"][data-yn-value="yes"]');
+            choose('[data-yn-group="materialsImported"][data-yn-value="no"]');
+            fill('own-materials-batch-qty', 106);
+            recalculateMaterialsLandedCost();
+
+            // 2. Manufacturing in Kazakhstan: two workers with gross 200 each.
+            choose('[data-yn-group="productionPremises"][data-yn-value="yes"]');
+            fill('own-production-premises-monthly', 1000);
+            choose('[data-yn-group="equipmentRental"][data-yn-value="no"]');
+            choose('[data-yn-group="equipmentPurchase"][data-yn-value="no"]');
+            choose('[data-production-labor-mode="workers"]');
+            const country = document.getElementById('own-production-workers-country');
+            if (country) {
+                country.value = 'KZ';
+                country.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            fill('own-production-workers-count', 2);
+            fill('own-production-worker-gross', 200);
+            fill('own-production-defect-pct', 5);
+            choose('[data-yn-group="productionGas"][data-yn-value="no"]');
+            choose('[data-yn-group="productionElectricity"][data-yn-value="yes"]');
+            fill('own-production-electricity-tariff', 2);
+            fill('own-production-electricity-usage', 1);
+            choose('[data-yn-group="productionOverheads"][data-yn-value="no"]');
+            fill('own-production-monthly-qty', 100);
+            recalculateProductionUnitCost();
+
+            // 3. Warehouse: 0.5 per stocked unit/day until sell-through.
+            choose('[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="me"]');
+            fill('own-warehouse-inbound-unit-cost', 10);
+            choose('[data-logistics-payer-key="warehouse"][data-logistics-payer-value="me"]');
+            fill('own-warehouse-cost', 0.5);
+            fill('own-warehouse-days', 2);
+            choose('[data-logistics-payer-key="customerDelivery"][data-logistics-payer-value="me"]');
+            fill('own-customer-delivery-pct', 8);
+            fill('own-return-rate', 5);
+            fill('own-logistics-qty', 100);
+            recalculateLogisticsUnitCost();
+
+            // 4. Sales: monthly fixed cost 1000; variable fee 10%, penalties 1%.
+            choose('[data-yn-group="salesCommission"][data-yn-value="yes"]');
+            fill('own-sales-commission-pct', 10);
+            choose('[data-yn-group="payroll"][data-yn-value="yes"]');
+            fill('own-payroll-rewards', 1000);
+            choose('[data-yn-group="platformPenalties"][data-yn-value="yes"]');
+            fill('own-platform-penalties-pct', 1);
+            choose('[data-yn-group="employees"][data-yn-value="no"]');
+            fill('own-sales-monthly-qty', 100);
+            recalculateSalesCostSummary();
+
+            // 5. Advertising: 900 budget, CPC 3, CTR 2%, 20% leads, 40% sales.
+            fill('own-product-ad-budget', 900);
+            fill('own-product-ad-cpc', 3);
+            fill('own-product-ad-ctr', 2);
+            fill('own-product-ad-click-lead', 20);
+            fill('own-product-ad-lead-sale', 40);
+            fill('own-product-ad-management', 120);
+            recalculateProductAdFunnel();
+
+            // 6. Business plan, 10% liquidity buffer, VAT and turnover tax.
+            choose('#assortment-complete-button');
+            const sku = '[data-business-product-id="1"]';
+            for (const [key, value] of [
+                ['supplyDays', 7], ['advancePct', 50],
+                ['advanceLeadDays', 3], ['productionDays', 10], ['reservePct', 10]
+            ]) fillSelector(sku + ' input[oninput*="' + key + '"]', value);
+
+            choose(sku + ' [data-funding-choice="' + (creditDemo ? 'credit' : 'cash') + '"]');
+            if (creditDemo) {
+                fillSelector(sku + ' input[oninput*="creditRatePct"]', 12);
+                fillSelector(sku + ' input[oninput*="creditTermMonths"]', 6);
+            }
+            fillSelector(sku + ' input[oninput*="updateAggregateMargin"]', 30);
+            choose('[data-yn-group="salesVat"][data-yn-value="yes"]');
+            fill('own-sales-vat-pct', 12);
+            choose(sku + ' [data-pricing-decision="tax"]');
+            choose('[data-business-tax-type="turnover"]');
+            fill('own-business-tax-pct', 6);
+            fillSelector('[data-tax-price-product-id="1"] input[oninput*="maxDiscountPct"]', 20);
+            fillSelector('[data-tax-price-product-id="1"] input[oninput*="minimumMarginPct"]', 10);
+
+            const model = calculateProductPortfolio();
+            const flow = calculateProductCashFlow(model);
+            const demoBanner = document.getElementById('product-demo-banner');
+            if (!flow.ready || model.items.length !== 1 || flow.months.length !== (creditDemo ? 6 : 5)) {
+                throw new Error('Demo: incomplete model or wrong period');
+            }
+            if (demoBanner) {
+                demoBanner.hidden = false;
+                demoBanner.classList.remove('hidden');
+            }
+            document.title = 'ДЕМО · Хлопковый шоппер · Cash flow — ' + document.title;
+            await new Promise(resolve => requestAnimationFrame(resolve));
+            const focus = params.get('focus') === 'inputs'
+                ? document.getElementById('product-materials-block')
+                : document.getElementById('product-portfolio-business-summary');
+            focus?.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             initInputs();
             calculate();
             showHome();
+            if (new URLSearchParams(window.location.search).get('demo') === 'shopper') {
+                populateShopperDemonstration().catch(error => {
+                    console.error('Calculator demonstration failed:', error);
+                    const banner = document.getElementById('product-demo-banner');
+                    if (banner) {
+                        banner.hidden = false;
+                        banner.classList.remove('hidden');
+                        banner.textContent = 'Не удалось заполнить демо: ' + error.message;
+                    }
+                });
+            }
         });
 
         window.addEventListener('resize', () => {
