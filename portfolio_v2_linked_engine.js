@@ -115,56 +115,219 @@
       }
     }
     if(errors.length)return {ready:false,errors,fieldErrors};
-    const allocation=ledger.map(r=>{
-      const weights=shares(r,rows),bySku=Object.fromEntries(r.skuIds.map(id=>[id,r.amount*(weights[id]||0)]));
-      return {...r,bySku,weights,previousTotal:sum(Object.values(r.includedBySku||{}).map(pos))};
-    });
-    const mediaBySku=Object.fromEntries(rows.map(s=>[s.id,pos(s.adBudget)-offsets[s.id].adBudget]));
-    for(const r of allocation)if(r.kind==='campaign'&&r.cadence==='monthly')
-      for(const [id,amount] of Object.entries(r.bySku))mediaBySku[id]+=amount;
-    const items=rows.map(s=>{
-      const media=mediaBySku[s.id],orders=pos(s.forecastUnitsPerMonth)*media/pos(s.adBudget);
-      const vat=pos(s.vatPct)/100,priceGross=s.priceSelected*(1-s.discountSelected/100);
-      const priceNet=priceGross/(1+vat),revenue=priceNet*orders;
-      const embeddedUnitReduction=offsets[s.id].unitCost/pos(s.forecastUnitsPerMonth);
-      const costPerUnit=pos(s.unitCost)-embeddedUnitReduction;
-      const cogs=costPerUnit*orders;
-      const commission=revenue*pos(s.variableSalesPct)/100;
-      const manager=pos(s.adManagement)-offsets[s.id].marketingManagement;
-      const selling=pos(s.salesFixedMonthly)-offsets[s.id].salesFixed;
-      const ebitdaBeforeShared=revenue-cogs-commission-media-manager-selling;
-      const creditMonthly=pos(s.creditServiceMonthly);
-      const resourceShares=allocation.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly')
-        .reduce((v,r)=>v+pos(r.bySku[s.id]),0);
-      const ebitda=ebitdaBeforeShared-resourceShares;
-      return {...s,adBudgetEffective:media,forecastOrders:orders,priceGross,priceNet,
-        revenue,cogs,commission,manager,selling,ebitdaBeforeShared,resourceShares,
+
+    const marginRate=(s,m)=>Math.max(0,Math.min(.999,pos(m)/100));
+    const taxRate=pos(state.tax?.pct)/100,taxType=state.tax?.type==='profit'?'profit':'turnover';
+    // Required customer-facing LIST price. The selected discount is applied at checkout;
+    // VAT is pass-through, and the target is after the turnover/profit tax.
+    function requiredListPrice(s,unitLoad,marginPct){
+      const variable=pos(s.variableSalesPct)/100,goal=marginRate(s,marginPct);
+      const retained=1-variable-(taxType==='turnover'?taxRate:0)-
+        goal/(taxType==='profit'?1-taxRate:1);
+      if(retained<=0||s.discountSelected>=100)return Infinity;
+      return unitLoad/retained*(1+pos(s.vatPct)/100)/(1-s.discountSelected/100);
+    }
+    const initialPrices=Object.fromEntries(rows.map(s=>[s.id,pos(s.priceMax)]));
+    const calculateScenario=(prices)=>{
+      const draftRows=rows.map(s=>({...s,priceSelected:prices[s.id]}));
+      const allocation=ledger.map(r=>{
+        const weights=shares(r,draftRows),bySku=Object.fromEntries(r.skuIds.map(id=>[id,r.amount*(weights[id]||0)]));
+        return {...r,bySku,weights,previousTotal:sum(Object.values(r.includedBySku||{}).map(pos))};
+      });
+      const mediaBySku=Object.fromEntries(rows.map(s=>[s.id,pos(s.adBudget)-offsets[s.id].adBudget]));
+      for(const r of allocation)if(r.kind==='campaign'&&r.cadence==='monthly')
+        for(const [id,amount]of Object.entries(r.bySku))mediaBySku[id]+=amount;
+      const projections=rows.map(s=>{
+        const media=mediaBySku[s.id],orders=pos(s.forecastUnitsPerMonth)*media/pos(s.adBudget);
+        const monthlyResources=allocation.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly')
+          .reduce((v,r)=>v+pos(r.bySku[s.id]),0);
+        const monthlyManager=pos(s.adManagement)-offsets[s.id].marketingManagement;
+        const monthlySelling=pos(s.salesFixedMonthly)-offsets[s.id].salesFixed;
+        // A V1 SKU's embedded cost is removed once, then charged through one
+        // common resource, without multiplying the shared payment by SKU count.
+        const embeddedUnit=orders>0?offsets[s.id].unitCost/orders:0;
+        const netUnitCost=pos(s.unitCost)-embeddedUnit;
+        const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
+          monthlyResources+pos(s.creditServiceMonthly))/orders:Infinity;
+        return {s,media,orders,monthlyResources,monthlyManager,monthlySelling,
+          netUnitCost,unitLoad,priceTarget:requiredListPrice(s,unitLoad,s.targetMarginPct),
+          priceFloor:requiredListPrice(s,unitLoad,s.minimumMarginPct)};
+      });
+      return {allocation,mediaBySku,projections};
+    };
+    // Revenue-weighted attribution and SKU prices are mutually dependent.
+    // Solve them as a damped fixed point, never silently substituting max price.
+    let prices={...initialPrices},scenario=null,converged=false;
+    for(let iteration=0;iteration<300;iteration++){
+      scenario=calculateScenario(prices);
+      let maximumMove=0;const next={};
+      for(const p of scenario.projections){
+        const min=pos(p.s.priceMin),max=pos(p.s.priceMax);
+        const target=Number.isFinite(p.priceTarget)?p.priceTarget:max;
+        const chosen=Math.min(max,Math.max(min,Math.ceil(target*100-1e-8)/100));
+        next[p.s.id]=prices[p.s.id]*.55+chosen*.45;
+        maximumMove=Math.max(maximumMove,Math.abs(next[p.s.id]-prices[p.s.id]));
+      }
+      prices=next;
+      if(maximumMove<1e-8){converged=true;break}
+    }
+    if(!converged)report('resources','Распределение рекламного бюджета и цен не сошлось; зафиксируйте загрузку кампаний по товарам.');
+    scenario=calculateScenario(prices);
+    const items=scenario.projections.map(p=>{
+      const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad}=p;
+      const priceList=Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
+        Math.ceil(prices[s.id]*100-1e-8)/100));
+      const grossPrice=priceList*(1-s.discountSelected/100);
+      const priceNet=grossPrice/(1+pos(s.vatPct)/100);
+      const revenue=priceNet*orders,commission=revenue*pos(s.variableSalesPct)/100;
+      const cogs=netUnitCost*orders,creditMonthly=pos(s.creditServiceMonthly);
+      const ebitda=revenue-cogs-commission-media-monthlyManager-monthlySelling-monthlyResources;
+      const actualAfterTaxMargin=revenue>0?
+        (ebitda-creditMonthly-(taxType==='turnover'?revenue*taxRate:Math.max(0,ebitda-creditMonthly)*taxRate))/revenue*100:0;
+      const minOk=Number.isFinite(p.priceFloor)&&p.priceFloor<=pos(s.priceMax)+.005&&
+        actualAfterTaxMargin+.00001>=pos(s.minimumMarginPct);
+      const targetOk=Number.isFinite(p.priceTarget)&&p.priceTarget<=pos(s.priceMax)+.005&&
+        actualAfterTaxMargin+.00001>=pos(s.targetMarginPct);
+      return {...s,priceSelected:priceList,priceList,priceGross:grossPrice,priceNet,
+        requiredTargetPrice:p.priceTarget,requiredFloorPrice:p.priceFloor,
+        forecastOrders:orders,adBudgetEffective:media,revenue,cogs,commission,
+        manager:monthlyManager,selling:monthlySelling,resourceShares:monthlyResources,
         ebitda,creditMonthly,preTaxProfit:ebitda-creditMonthly,
-        revenueWeight:0,marginPct:revenue>0?ebitda/revenue*100:0};
+        unitCostEffective:netUnitCost,unitLoad,revenueWeight:0,
+        actualAfterTaxMargin,minimumMarginFeasible:minOk,targetMarginMet:targetOk,
+        status:!minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY'};
     });
     const totalRevenue=sum(items.map(s=>s.revenue));
-    for(const item of items)item.revenueWeight=totalRevenue>0?item.revenue/totalRevenue:0;
+    items.forEach(item=>item.revenueWeight=totalRevenue>0?item.revenue/totalRevenue:0);
     const fullMedia=sum(items.map(s=>s.adBudgetEffective));
-    const monthlyCosts=sum(allocation.filter(r=>r.cadence==='monthly'&&r.kind!=='campaign').map(r=>r.amount));
-    const oneOff=sum(allocation.filter(r=>r.cadence==='once').map(r=>r.amount));
+    const monthlyCosts=sum(scenario.allocation.filter(r=>r.cadence==='monthly'&&r.kind!=='campaign').map(r=>r.amount));
+    const onceCosts=sum(scenario.allocation.filter(r=>r.cadence==='once').map(r=>r.amount));
     const totalEbitda=sum(items.map(s=>s.ebitda));
     const interest=sum(items.map(s=>s.creditMonthly));
-    const type=state.tax?.type==='profit'?'profit':'turnover',rate=pos(state.tax?.pct)/100;
-    const tax=type==='turnover'?totalRevenue*rate:Math.max(0,totalEbitda-interest)*rate;
+    const tax=taxType==='turnover'?totalRevenue*taxRate:Math.max(0,totalEbitda-interest)*taxRate;
     const netProfit=totalEbitda-interest-tax;
     const originalMedia=sum(rows.map(s=>pos(s.adBudget)));
-    const addedMedia=sum(allocation.filter(r=>r.kind==='campaign').map(r=>r.amount));
+    const addedMedia=sum(scenario.allocation.filter(r=>r.kind==='campaign').map(r=>r.amount));
     const replacedMedia=sum(rows.map(s=>offsets[s.id].adBudget));
     const invariantMedia=Math.abs(fullMedia-(originalMedia-replacedMedia+addedMedia))<EPS;
-    const allocated=sum(allocation.map(r=>sum(Object.values(r.bySku))));
-    const resourcesTotal=sum(allocation.map(r=>r.amount));
-    return {ready:invariantMedia&&Math.abs(allocated-resourcesTotal)<EPS,
-      errors:[],fieldErrors:[],items,resources:allocation,offsets,
+    const allocated=sum(scenario.allocation.map(r=>sum(Object.values(r.bySku))));
+    const resourcesTotal=sum(scenario.allocation.map(r=>r.amount));
+    const infeasible=items.filter(item=>!item.minimumMarginFeasible);
+    if(infeasible.length)for(const item of infeasible)
+      report('skus.'+rows.findIndex(s=>s.id===item.id)+'.priceMax',
+        'Для «'+item.name+'» минимум рентабельности требует цены '+
+        (Number.isFinite(item.requiredFloorPrice)?item.requiredFloorPrice.toFixed(2):'выше расчётного предела')+
+        ', а предел V1 — '+item.priceMax+'.');
+    if(!invariantMedia||Math.abs(allocated-resourcesTotal)>=EPS)
+      report('resources','Не удалось распределить все расходы без потерь или повторного учёта.');
+    const base={ready:!errors.length,errors,fieldErrors,items,resources:scenario.allocation,offsets,
       totals:{revenue:totalRevenue,media:fullMedia,cogs:sum(items.map(s=>s.cogs)),
         forecast:sum(items.map(s=>s.forecastOrders)),monthlyResources:monthlyCosts,
-        onceResources:oneOff,ebitda:totalEbitda,interest,tax,netProfit,
-        originalRevenue:sum(rows.map(s=>pos(s.forecastUnitsPerMonth)*s.priceMax/(1+pos(s.vatPct)/100)) )},
-      invariants:{mediaConserved:invariantMedia,resourcesConserved:Math.abs(allocated-resourcesTotal)<EPS}};
+        onceResources:onceCosts,ebitda:totalEbitda,interest,tax,netProfit,
+        targetMet:items.every(s=>s.targetMarginMet),minimumMet:items.every(s=>s.minimumMarginFeasible)},
+      invariants:{mediaConserved:invariantMedia,resourcesConserved:Math.abs(allocated-resourcesTotal)<EPS,
+        fixedPointConverged:converged}};
+    // Do not claim that an impossible portfolio works: show the max feasible
+    // retail price, its shortfall and a non-ready status instead.
+    if(!base.ready)return base;
+    base.cashflow=cashFlow(state,base);
+    base.totals.startupCapital=base.cashflow.startupCapital;
+    base.totals.reserve=base.cashflow.reserve;
+    base.totals.finalCash=base.cashflow.finalCash;
+    base.totals.freeCash=base.cashflow.freeCash;
+    return base;
+  }
+
+  function cashFlow(state,portfolio){
+    // Source-specific single-plan schedule. Each V1 SKU retains its own purchase
+    // quantity, supply days, delivery lag and original loan terms.
+    const items=portfolio.items,resources=portfolio.resources;
+    const durations=items.map(s=>{
+      const stock=s.source==='dropship'?Infinity:pos(s.inventoryQty);
+      const speed=pos(s.forecastOrders);
+      const saleDays=s.source==='dropship'?30:Math.max(30,30*stock/Math.max(speed,EPS));
+      const sellStart=s.source==='dropship'?0:pos(s.supplyDays)+pos(s.productionDays);
+      const receiptDelay=s.source==='dropship'&&s.dropshipPayoutMode!=='before'?
+        pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0;
+      return {s,stock,speed,saleDays,sellStart,receiptDelay,endDay:sellStart+saleDays+receiptDelay};
+    });
+    const horizon=Math.min(120,Math.max(1,Math.ceil(Math.max(30,
+      ...durations.map(d=>d.endDay),
+      ...items.map(s=>pos(s.creditMonths)*30))/30)));
+    const months=Array.from({length:horizon},(_,i)=>({
+      month:i+1,receipt:0,operatingOutflow:0,tax:0,interest:0,principalRepaid:0,
+      loanDraw:0,ownerCapital:0,cashFlow:0,cumulative:0,freeCumulative:0,
+      taxableProfit:0,stockPurchase:0,ad:0,shared:0
+    }));
+    const add=(day,key,amount)=>{
+      if(!(amount>0))return;
+      const month=Math.min(horizon-1,Math.floor(Math.max(0,day)/30));
+      months[month][key]+=amount;
+    };
+    const overlap=(a,b,c,d)=>Math.max(0,Math.min(b,d)-Math.max(a,c));
+    for(const d of durations){
+      const {s,stock,speed,saleDays,sellStart,receiptDelay}=d;
+      if(s.source!=='dropship'){
+        const material=pos(s.materialsBatchTotal),production=pos(s.productionTotal);
+        const warehouseInbound=pos(s.warehouseInboundUnitCost)*stock;
+        add(0,'stockPurchase',material);
+        add(sellStart,'stockPurchase',production+warehouseInbound);
+      }
+      const unitEffective=pos(s.unitCostEffective);
+      const physicalPerUnit=s.source==='dropship'?unitEffective:
+        Math.max(0,unitEffective-(pos(s.materialsBatchTotal)+pos(s.productionTotal)+pos(s.warehouseInboundUnitCost)*stock)/Math.max(stock,EPS));
+      for(let day=0;day<Math.ceil(saleDays);day++){
+        const sold=Math.max(0,Math.min(speed/30,s.source==='dropship'?speed/30:
+          stock-speed*day/30));
+        if(sold<=0)continue;
+        const dayOfSale=sellStart+day;
+        const grossReceipt=sold*s.priceNet;
+        // Supplier payments for dropship occur at order placement, whereas
+        // customer settlements use the explicit payout delay.
+        add(dayOfSale,'operatingOutflow',sold*physicalPerUnit);
+        add(dayOfSale+receiptDelay,'receipt',grossReceipt);
+        add(dayOfSale+receiptDelay,'operatingOutflow',grossReceipt*pos(s.variableSalesPct)/100);
+      }
+      for(let month=0;month<horizon;month++){
+        const activeDays=overlap(month*30,(month+1)*30,sellStart,sellStart+saleDays);
+        if(activeDays<=0)continue;
+        months[month].ad+=pos(s.adBudgetEffective)*activeDays/30;
+        months[month].shared+=(pos(s.manager)+pos(s.selling))*activeDays/30;
+        const allocs=resources.filter(r=>r.kind!=='campaign'&&r.cadence==='monthly');
+        months[month].shared+=sum(allocs.map(r=>pos(r.bySku[s.id])))*activeDays/30;
+      }
+      if(pos(s.creditPrincipal)>0){
+        months[0].loanDraw+=pos(s.creditPrincipal);
+        const monthsOfCredit=Math.max(1,Math.ceil(pos(s.creditMonths)||1));
+        for(let m=0;m<Math.min(horizon,monthsOfCredit);m++)months[m].interest+=pos(s.creditMonthly);
+        months[Math.min(horizon-1,monthsOfCredit-1)].principalRepaid+=pos(s.creditPrincipal);
+      }
+    }
+    // Shared campaign budgets are already contained in each SKU's ad allocation.
+    // One-time resources are a cash outlay, not a monthly EBITDA charge.
+    months[0].shared+=sum(resources.filter(r=>r.cadence==='once').map(r=>r.amount));
+    const rate=pos(state.tax?.pct)/100;
+    for(const month of months){
+      month.operatingOutflow+=month.stockPurchase+month.ad+month.shared;
+      month.taxableProfit=month.receipt-
+        month.operatingOutflow-month.interest;
+      month.tax=state.tax?.type==='profit'?Math.max(0,month.taxableProfit)*rate:month.receipt*rate;
+      month.cashFlow=month.receipt-month.operatingOutflow-month.tax-month.interest-month.principalRepaid+month.loanDraw;
+    }
+    let running=0,lowest=0;
+    for(const month of months){running+=month.cashFlow;lowest=Math.min(lowest,running);}
+    const reserve=sum(items.map(s=>pos(s.reserveAmount)));
+    const ownerCapital=Math.max(0,-lowest)+reserve;
+    months[0].ownerCapital=ownerCapital;
+    running=0;
+    for(const month of months){
+      running+=month.cashFlow+month.ownerCapital;
+      month.cumulative=running;
+      month.freeCumulative=running-reserve;
+    }
+    return {months,reserve,startupCapital:ownerCapital+sum(items.map(s=>pos(s.creditPrincipal))),
+      ownerCapital,borrowedCapital:sum(items.map(s=>pos(s.creditPrincipal))),
+      finalCash:running,freeCash:running-reserve};
   }
   return Object.freeze({fromV1,build});
 });
