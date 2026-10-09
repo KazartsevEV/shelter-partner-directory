@@ -310,6 +310,37 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     A.equal(observed.N,2,'canceled receipts excluded from denominator');
     A.equal(observed.rules,2,'two opposite observed rules');
     A.deepEqual(observed.mapping,{'raw-own':'own','raw-salon':'salon'});
+    // MBA observed-rule and basket forecast secondary tables must reformat
+    // on the existing DOM, without changing the imported history or forecasts.
+    const tableBefore=await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState()));
+    const mbaCount=await page.locator('#linked-mba-panel [data-nomad-display-number]').count();
+    const mbaPercentCount=await page.locator('#linked-mba-panel [data-nomad-display-suffix="%"]').count();
+    const basketCount=await page.locator('#linked-basket-projection [data-nomad-display-number]').count();
+    A.ok(mbaCount>=8,'observed MBA amount/count/lift cells must carry source values');
+    A.ok(mbaPercentCount>=4,'support and confidence must be locale-formatted');
+    A.ok(basketCount>=3,'linked basket forecast must expose secondary numeric values');
+    const nextLocale=expected==='en'?'kk':'en';
+    await page.locator('#nomad360-lang-select').selectOption(nextLocale);
+    await page.waitForFunction(code=>document.documentElement.lang===code,nextLocale);
+    await page.waitForFunction(()=>{
+      const spans=[...document.querySelectorAll('#linked-mba-panel [data-nomad-display-number],#linked-basket-projection [data-nomad-display-number]')];
+      if(spans.length<11)return false;
+      const lang=Nomad360LocaleCore.displayLocale();
+      return spans.every(node=>{
+        const value=Number(node.dataset.nomadDisplayNumber);
+        const precision=node.getAttribute('data-nomad-display-fractions');
+        const options=precision==='compact'?{minimumFractionDigits:0,maximumFractionDigits:2}:
+          precision==='0'?{minimumFractionDigits:0,maximumFractionDigits:0}:
+          {minimumFractionDigits:2,maximumFractionDigits:2};
+        const rendered=new Intl.NumberFormat(lang,options).format(value)+
+          (node.dataset.nomadDisplaySuffix||'');
+        return node.textContent===rendered;
+      });
+    });
+    A.equal(await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState())),tableBefore,
+      'locale switch must not change MBA receipt history, association confidence, or basket model');
+    await page.locator('#nomad360-lang-select').selectOption(expected);
+    await page.waitForFunction(code=>document.documentElement.lang===code,expected);
     const beforeBlocked=await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState().offers));
     await page.locator('[data-mba-transfer]').first().click();
     A.equal(await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState().offers)),beforeBlocked,
