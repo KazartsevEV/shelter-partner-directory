@@ -34,9 +34,9 @@ A.equal(y.ready,true,JSON.stringify(y.errors));eq(y.items[0].priceGross,y.items[
 x.skus[0].discountSelected=21;A.equal(E.build(x).ready,false);
 });
 test('price impossible inside range and stock shortage are explicit, not fake green',()=>{
-const x=sample();x.skus[0].priceMax=40;let y=E.build(x);A.equal(y.ready,false);
+const x=sample();x.skus[0].priceMin=35;x.skus[0].priceMax=40;let y=E.build(x);A.equal(y.ready,false);
 A.ok(y.errors.some(e=>e.includes('минимум рентабельности')));A.equal(y.cashflow,undefined);
-x.skus[0].priceMax=180;x.skus[0].inventoryQty=5;y=E.build(x);
+x.skus[0].priceMin=90;x.skus[0].priceMax=180;x.skus[0].inventoryQty=5;y=E.build(x);
 A.equal(y.ready,false);A.ok(y.errors.some(e=>e.includes('превышает запас V1')));
 });
 test('certificate cannot cover several SKUs without coverage and capacity',()=>{
