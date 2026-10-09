@@ -1667,9 +1667,13 @@
             return baseInputsConfig;
         }
 
+        // Display formatting only: numeric input values and model state remain canonical.
+        function nomadDisplayLocale() {
+            return window.Nomad360LocaleCore?.displayLocale?.() || 'ru-RU';
+        }
         function formatMoney(val) { return `${formatNum(val)} у.е.*`; }
-        function formatNum(val) { return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
-        function formatInt(val) { return new Intl.NumberFormat('ru-RU').format(Math.round(val)); }
+        function formatNum(val) { return new Intl.NumberFormat(nomadDisplayLocale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
+        function formatInt(val) { return new Intl.NumberFormat(nomadDisplayLocale()).format(Math.round(val)); }
         function monthWord(n) {
             const mod10 = n % 10;
             const mod100 = n % 100;
@@ -1934,7 +1938,7 @@
         }
 
         function formatReferencePct(value) {
-            return Number.isFinite(value) ? value.toLocaleString('ru-RU') + '%' : 'нет данных';
+            return Number.isFinite(value) ? value.toLocaleString(nomadDisplayLocale()) + '%' : 'нет данных';
         }
 
         function updatePayrollCountryReference(code) {
@@ -2102,7 +2106,7 @@
             Object.entries(values).forEach(([id, value]) => {
                 const output = document.getElementById(id);
                 if (output) {
-                    output.textContent = value.toLocaleString('ru-RU', {
+                    output.textContent = value.toLocaleString(nomadDisplayLocale(), {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2
                     });
@@ -4706,10 +4710,14 @@
             if (saved && summary) {
                 const count = saved.productPortfolio.length;
                 const date = saved.savedAt ? new Date(saved.savedAt) : null;
+                const language = window.Nomad360UI?.getLanguage?.() || 'ru';
+                const countLabel = language === 'en' ? (count === 1 ? 'product' : 'products') :
+                    language === 'kk' ? 'тауар' : (count === 1 ? 'товар' : 'товаров');
+                const savedLabel = language === 'en' ? ' · last saved ' :
+                    language === 'kk' ? ' · соңғы сақталуы ' : ' · последнее сохранение ';
                 const updated = date && Number.isFinite(date.getTime())
-                    ? ' · последнее сохранение ' + date.toLocaleString('ru-RU') : '';
-                summary.textContent = count + ' ' +
-                    (count === 1 ? 'товар' : 'товаров') + updated;
+                    ? savedLabel + date.toLocaleString(nomadDisplayLocale()) : '';
+                summary.textContent = count + ' ' + countLabel + updated;
             }
         }
 
@@ -7920,6 +7928,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('nomad360:languagechange', updateSavedProductEntry);
             initInputs();
             calculate();
             showHome();
