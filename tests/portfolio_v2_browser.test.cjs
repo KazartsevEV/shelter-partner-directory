@@ -72,7 +72,7 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  eq(r.months[5].principalRepayment,r.financing.principal,'Bullet repayment');
  eq(r.months.reduce((a,m)=>a+m.loanDraw,0),r.financing.principal,'Single draw');
  await page.locator('[data-p2-home]').click();
- await page.locator('summary').filter({hasText:'Экспериментальная портфельная модель v2'}).click();
+ await page.locator('details').filter({hasText:'Экспериментальная портфельная модель v2'}).evaluate(node=>{node.open=true;});
  assert.equal(await page.locator('#portfolio-v2-resume-home').isVisible(),true);
  await page.locator('#portfolio-v2-resume-home button').click();
  assert.equal(await page.locator('[data-p2-path="skus.0.name"]').inputValue(),'Майка');
