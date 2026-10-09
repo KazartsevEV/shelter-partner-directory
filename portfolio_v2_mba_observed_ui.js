@@ -94,6 +94,9 @@ function render(state,onChange){
   if(offers.some(x=>x.anchorSkuId===anchor&&x.items?.some(p=>p.skuId===addon))){
    message('Такая направленная связь уже есть в прогнозе. Нельзя учесть покупку дважды.',true);return;
   }
+  if(offers.some(x=>x.anchorSkuId===anchor)){
+   message('Для этой основной позиции уже существует связка. Одни и те же покупатели могут одновременно купить несколько дополнений: объедините их в один кортеж вручную, чтобы не посчитать одну корзину дважды.',true);return;
+  }
   const seq=1+Math.max(0,...offers.map(x=>Number(String(x.id).replace(/\D/g,''))||0));
   offers.push({id:'observed-'+seq,mode:'cross_sell',anchorSkuId:anchor,
    attachPct:Number((rule.confidence*100).toFixed(4)),overlapPct:overlap,
