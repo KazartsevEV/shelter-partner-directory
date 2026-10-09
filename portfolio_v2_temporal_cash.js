@@ -152,12 +152,24 @@
    // operating in a day. It cannot be multiplied by number of SKU users.
    for(const r of resources.filter(x=>x.kind!=='campaign'&&x.cadence==='monthly')){
      for(let day=0;day<horizonMonths*30;day++){
-       const active=(r.skuIds||[]).some(id=>{
-         const s=byId[id];if(!s)return false;
-         if(!stock(s))return true; // recurring service/dropship stays operating
-         return timeline[id].some(t=>t.start<=day+.5&&t.end>day+.5);
-       });
-       if(active)post(day,'shared',pos(r.amount)/30);
+       const windows=[];
+       for(const id of r.skuIds||[]){
+         const s=byId[id];if(!s)continue;
+         if(!stock(s)){windows.push([day,day+1]);continue;}
+         for(const t of timeline[id]){
+           const from=Math.max(day,t.start),to=Math.min(day+1,t.end);
+           if(to>from)windows.push([from,to]);
+         }
+       }
+       windows.sort((x,y)=>x[0]-y[0]);
+       let covered=0,start=-1,end=-1;
+       for(const [from,to] of windows){
+         if(start<0){start=from;end=to;}
+         else if(from>end){covered+=end-start;start=from;end=to;}
+         else end=Math.max(end,to);
+       }
+       if(start>=0)covered+=end-start;
+       post(day,'shared',pos(r.amount)/30*covered);
      }
    }
    const months=Array.from({length:dayCount/30},(_,i)=>({
