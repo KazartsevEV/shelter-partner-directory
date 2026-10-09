@@ -24,7 +24,7 @@ const browserLog = [];
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try {
- const page=await browser.newPage({viewport:{width:1280,height:900}});
+ const page=await browser.newPage({locale:'ru-RU',viewport:{width:1280,height:900}});
  page.on('pageerror',e=>browserLog.push(String(e.message)));
  await page.route(/^https?:\/\//,route=>route.abort()); // offline local HTML; no CDN required for logic
  await page.goto(pathToFileURL(path.resolve(__dirname,'..','Marketing_calc.HTML')).href,{waitUntil:'domcontentloaded'});
