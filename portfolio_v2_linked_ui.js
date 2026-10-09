@@ -135,10 +135,10 @@ function render(){
  '<div class="font-bold text-slate-900 text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
  '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-700 mt-3">'+
- [['Себестоимость V1 / шт.',money(s.unitCost)],['Прогноз V1 / мес.',money(s.forecastUnitsPerMonth)],
- ['Реклама V1 / мес.',money(s.adBudget)],['CAC V1',money(s.baseCac)],['Цена от',money(s.priceMin)],
- ['Цена до',money(s.priceMax)],['Дельта цены',money(num(s.priceMax)-num(s.priceMin))]].map(([label,value])=>
- '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b>'+value+'</b></div>').join('')+'</div>'+
+ [['Себестоимость V1 / шт.',s.unitCost],['Прогноз V1 / мес.',s.forecastUnitsPerMonth],
+ ['Реклама V1 / мес.',s.adBudget],['CAC V1',s.baseCac],['Цена от',s.priceMin],
+ ['Цена до',s.priceMax],['Дельта цены',num(s.priceMax)-num(s.priceMin)]].map(([label,value])=>
+ '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
  'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
@@ -210,8 +210,16 @@ function updateResult(){
   const sku=out.items?.find(s=>s.id===node.dataset.linkedLive);
   const list=node.querySelector('[data-linked-price-list]');
   const paid=node.querySelector('[data-linked-price-paid]');
-  if(list)list.textContent=money(sku?.priceList);
-  if(paid)paid.textContent=money(sku?.priceGross);
+  if(list){list.textContent=money(sku?.priceList);
+   if(Number.isFinite(Number(sku?.priceList))&&sku?.priceList!==undefined&&sku?.priceList!==null)
+    list.setAttribute('data-nomad-display-number',String(sku.priceList));
+   else list.removeAttribute('data-nomad-display-number');
+  }
+  if(paid){paid.textContent=money(sku?.priceGross);
+   if(Number.isFinite(Number(sku?.priceGross))&&sku?.priceGross!==undefined&&sku?.priceGross!==null)
+    paid.setAttribute('data-nomad-display-number',String(sku.priceGross));
+   else paid.removeAttribute('data-nomad-display-number');
+  }
   const meta=node.closest('[data-linked-sku]')?.querySelector('[data-linked-unit-meta]');
   if(meta)meta.textContent=sku?
     'Цена для целевой маржи: '+money(sku.requiredTargetPrice)+
