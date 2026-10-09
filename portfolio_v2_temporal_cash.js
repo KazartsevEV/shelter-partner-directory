@@ -22,6 +22,14 @@
         Math.abs(m.media.ownerPaid-m.media.allocated-m.media.unattributed)<.000001))
      throw Error('Не подтверждено сохранение общих рекламных платежей по каждому месяцу.');
    const byId=Object.fromEntries(items.map(s=>[s.id,s]));
+   const skuLedger=Object.fromEntries(items.map(s=>[s.id,Array.from(
+     {length:horizonMonths},(_,k)=>({month:k+1,revenue:0,cogs:0,
+       variableCommission:0,marketing:0,operatingShared:0,
+       serviceFixed:0,amort:0,interest:0,taxAccrued:0}))]));
+   const accrue=(id,day,key,value)=>{
+     const k=Math.floor(day/30);
+     if(skuLedger[id]?.[k]&&value>EPS)skuLedger[id][k][key]+=value;
+   };
    const supplyStart=s=>stock(s)?pos(s.supplyDays)+pos(s.productionDays):0;
    const horizon=Math.max(horizonMonths*30+
        Math.max(0,...items.filter(s=>s.source==='dropship'&&s.dropshipPayoutMode!=='before')
@@ -116,6 +124,7 @@
          const rent=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
          post(mStart,'stockPurchase',rent);
          post(mStart,'fixedAccrual',rent);
+         accrue(id,mStart,'serviceFixed',rent);
        }
        for(let day=Math.floor(start);day<Math.ceil(end);day++){
          const interval=Math.max(0,Math.min(day+1,end)-Math.max(day,start));
@@ -128,9 +137,14 @@
          const commission=revenue*pos(s.variableSalesPct)/100;
          post(day,'ad',advertising);
          post(day,'shared',overhead);
+         accrue(id,day,'operatingShared',overhead);
          post(day,'ordersRevenue',revenue);
+         accrue(id,day,'revenue',revenue);
          post(day,'cogsAccrual',units*accrualUnit);
+         accrue(id,day,'cogs',units*accrualUnit);
          post(day,'commissionAccrual',commission);
+         accrue(id,day,'variableCommission',commission);
+         if(!hasPooledMedia)accrue(id,day,'marketing',advertising);
          post(day,'operating',units*variableUnit);
          post(day+receiptLag,'receipt',revenue);
          post(day+receiptLag,'commission',commission);
@@ -139,6 +153,7 @@
            post(day+receiptLag,'onlineTax',revenue*pos(s.ownerTax?.pct)/100);
            const amort=pos(s.onlineAmortMonthly)/30*interval;
            post(day,'amortAccrual',amort);
+           accrue(id,day,'amort',amort);
            daily[day].onlineProfit+=revenue-units*variableUnit-
              commission-attributedAd-overhead-amort;
          }
@@ -156,6 +171,7 @@
          const cost=pos(s.warehouseDayCost)*hold;
          post(day,'operating',cost);
          post(day,'cogsAccrual',cost);
+         accrue(id,day,'cogs',cost);
          stockLeft=Math.max(0,stockLeft-used);
        }
      }
@@ -163,7 +179,8 @@
        post(0,'loanDraw',pos(s.creditPrincipal));
        const months=Math.max(1,Math.ceil(pos(s.creditMonths)||1));
        for(let month=1;month<=months;month++)
-         post(month*30-1,'interest',pos(s.creditServiceMonthly));
+         {post(month*30-1,'interest',pos(s.creditServiceMonthly));
+          accrue(id,month*30-1,'interest',pos(s.creditServiceMonthly));}
        post(months*30-1,'principal',pos(s.creditPrincipal));
      }
    }
@@ -188,7 +205,27 @@
          else end=Math.max(end,to);
        }
        if(start>=0)covered+=end-start;
-       post(day,'shared',pos(r.amount)/30*covered);
+       const real=pos(r.amount)/30*covered;
+       post(day,'shared',real);
+       if(real>EPS){
+         // Beneficiaries' direct occupied time determines allocation; revenue
+         // weights can shift with actual H-period discounts and prices.
+         const eligible=(r.skuIds||[]).filter(id=>byId[id]&&(
+           !stock(byId[id])||timeline[id].some(t=>t.start<day+1&&t.end>day)));
+         const weights=eligible.map(id=>{
+           if(r.allocation==='usage')return r.usageMode==='per-unit'?
+             pos(r.loadPerUnit?.[id])*sum(timeline[id].map(t=>
+               t.end>t.start&&t.start<day+1&&t.end>day?
+               t.orders*Math.max(0,Math.min(day+1,t.end)-Math.max(day,t.start))/(t.end-t.start):0)):
+             pos(r.usage?.[id]);
+           return sum(timeline[id].map(t=>t.end>t.start&&t.start<day+1&&t.end>day?
+             t.netRevenue*Math.max(0,Math.min(day+1,t.end)-Math.max(day,t.start))/(t.end-t.start):0));
+         });
+         const total=sum(weights);
+         const n=eligible.length;
+         eligible.forEach((id,i)=>accrue(id,day,'operatingShared',
+           real*(total>EPS?weights[i]/total:1/Math.max(1,n))));
+       }
      }
    }
    const months=Array.from({length:dayCount/30},(_,i)=>({
@@ -268,6 +305,79 @@
        taxCashPaid:months[k].tax,
        taxTimingDifference:taxAccrued-months[k].tax});
    }
+   // Attribute actual owner-paid pooled advertising, including committed
+   // payments after inventory is sold out. An idle campaign belongs to its
+   // original named beneficiaries, not to phantom newly acquired customers.
+   if(hasPooledMedia)for(const month of forecast.months){
+     const k=month.month-1;
+     for(const s of items)skuLedger[s.id][k].marketing+=
+       pos(month.media.allocatedBySku[s.id])+
+       pos(month.media.retainedBySku[s.id]);
+     for(const r of resources.filter(r=>r.kind==='campaign')){
+       const idle=pos(month.media.idleByCampaign?.[r.id]);
+       if(idle<=EPS)continue;
+       const members=(r.skuIds||[]).filter(id=>byId[id]);
+       const weights=members.map(id=>
+         r.allocation==='usage'?(
+           r.usageMode==='per-unit'?
+            pos(r.loadPerUnit?.[id])*pos(byId[id].forecastUnitsPerMonth):
+            pos(r.usage?.[id])):
+         pos(byId[id].forecastUnitsPerMonth)*pos(
+           skuLedger[id][k].revenue||byId[id].priceMax));
+       const total=sum(weights);
+       members.forEach((id,i)=>skuLedger[id][k].marketing+=
+         idle*(total>EPS?weights[i]/total:1/Math.max(1,members.length)));
+     }
+   }
+   for(let k=0;k<horizonMonths;k++){
+     const rows=items.map(s=>skuLedger[s.id][k]);
+     // Tax follows the portfolio's authoritative regime; VAT pass-through
+     // and agent partner GMV never become this owner's recognized income.
+     const online=items.filter(s=>s.source==='online-service');
+     const onlineTax=sum(online.map(s=>
+       skuLedger[s.id][k].revenue*pos(s.ownerTax?.pct)/100));
+     for(const s of online)skuLedger[s.id][k].taxAccrued+=
+       skuLedger[s.id][k].revenue*pos(s.ownerTax?.pct)/100;
+     const others=items.filter(s=>s.source!=='online-service');
+     if(state.tax?.type!=='profit'){
+       others.forEach(s=>skuLedger[s.id][k].taxAccrued+=
+         skuLedger[s.id][k].revenue*taxPct);
+     }else{
+       // Profit tax on multiple regular activities is assessed at enterprise
+       // level, then explained by positive pretax contribution. Negative
+       // lines remain negative. This is an attribution, not double taxation.
+       const due=profitMonths[k].taxAccrued-onlineTax;
+       const positive=others.map(s=>{
+         const v=skuLedger[s.id][k];
+         return Math.max(0,v.revenue-v.cogs-v.variableCommission-
+           v.marketing-v.operatingShared-v.serviceFixed-v.amort-v.interest);
+       });
+       const denominator=sum(positive);
+       if(due>EPS&&!denominator)
+         throw Error('Налог на прибыль нельзя распределить без положительной налоговой базы.');
+       others.forEach((s,i)=>skuLedger[s.id][k].taxAccrued+=
+         denominator?due*positive[i]/denominator:0);
+     }
+     for(const s of items){
+       const v=skuLedger[s.id][k];
+       v.ebitda=v.revenue-v.cogs-v.variableCommission-v.marketing-
+         v.operatingShared-v.serviceFixed;
+       v.pretax=v.ebitda-v.amort-v.interest;
+       v.netProfit=v.pretax-v.taxAccrued;
+       v.netMargin=v.revenue>EPS?v.netProfit/v.revenue*100:null;
+     }
+     for(const key of ['revenue','cogs','variableCommission','marketing',
+       'operatingShared','serviceFixed','ebitda','amort','interest','taxAccrued','netProfit']){
+       const difference=Math.abs(sum(rows.map(row=>row[key]))-
+         (key==='ebitda'?profitMonths[k].ebitda:
+          key==='netProfit'?profitMonths[k].netProfit:
+          key==='taxAccrued'?profitMonths[k].taxAccrued:
+          key==='revenue'?profitMonths[k].revenue:
+          profitMonths[k][key]));
+       if(difference>.00001)throw Error('Помесячная сверка SKU с портфелем не прошла: '+key+
+         ', месяц '+(k+1)+', разница '+difference+'.');
+     }
+   }
    const ps=key=>sum(profitMonths.map(m=>m[key]));
    const periodRevenue=ps('revenue'),periodProfit=ps('netProfit');
    const invoices=sum(items.map(s=>sum(timeline[s.id].map(t=>t.netRevenue))));
@@ -276,7 +386,19 @@
      sum(months.slice(0,horizonMonths).map(m=>m.ad)))<.000001;
    if(!revenueConserved||!marketingConserved)
      throw Error('Нарушена сверка периодной прибыли с продажами или рекламными платежами.');
-   const periodPnl={months:profitMonths,horizonMonths,
+   const bySku=Object.fromEntries(items.map(s=>{
+     const rows=skuLedger[s.id],tot=k=>sum(rows.map(m=>m[k]));
+     const revenue=tot('revenue'),netProfit=tot('netProfit');
+     const futureInterest=pos(s.creditPrincipal)>EPS?
+       Math.max(0,Math.max(1,Math.ceil(pos(s.creditMonths)||1))-horizonMonths)*
+         pos(s.creditServiceMonthly):0;
+     return [s.id,{id:s.id,months:rows,revenue,netProfit,futureInterest,
+       marketing:tot('marketing'),cogs:tot('cogs'),
+       amort:tot('amort'),interest:tot('interest'),
+       taxAccrued:tot('taxAccrued'),operatingShared:tot('operatingShared'),
+       netMargin:revenue>EPS?netProfit/revenue*100:null}];
+   }));
+   const periodPnl={bySku,months:profitMonths,horizonMonths,
      revenue:periodRevenue,ebitda:ps('ebitda'),amort:ps('amort'),
      interest:ps('interest'),taxAccrued:ps('taxAccrued'),
      netProfit:periodProfit,

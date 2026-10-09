@@ -252,17 +252,18 @@ function updateResult(){
   out.items.every(s=>['own','resale'].includes(s.source))&&
   out.resources.every(r=>r.kind!=='campaign')&&
   !(Array.isArray(state.offers)&&state.offers.length);
+ const periodOptimized=out.cashflow?.periodPnl?.pricePolicy==='full-period-actual-sku-margin-pricing';
  const cards=[['Продано позиций за 30 дней',t.forecast],['Выручка без НДС / 30 дней',t.revenue],
   ['Рекламный бюджет / 30 дней',t.media],['Себестоимость / 30 дней',t.cogs],
   ['Общие расходы / мес.',t.monthlyResources],['EBITDA / 30 дней',t.ebitda],
   ['Налог бизнеса / 30 дней',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
  const priceTable='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Цена вне набора','Прогноз, ед.','Денежный вес','Реклама','Чистая маржа'].map(label=>
+  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Цена вне набора','Прогноз, ед.','Денежный вес','Реклама',periodOptimized?'Маржа за период':'Маржа / 30 дней'].map(label=>
    '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
   out.items.map(s=>'<tr class="border-t border-white/20">'+
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
     money(s.discountSelected)+'%',money(s.priceGross),money(s.forecastOrders),
-    money(s.revenueWeight*100)+'%',money(s.adBudgetEffective),money(s.actualAfterTaxMargin)+'%']
+    money(s.revenueWeight*100)+'%',money(s.adBudgetEffective),s.actualAfterTaxMargin===null?'нет продаж':money(s.actualAfterTaxMargin)+'%']
    .map(v=>'<td class="p-2 text-right whitespace-nowrap">'+v+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
  const resources='<div class="mt-2 space-y-2 text-xs">'+out.resources.map(r=>
@@ -278,8 +279,8 @@ function updateResult(){
  const period=cf.periodPnl;
  const periodPanel=period?.ready?
   '<section class="mt-5 rounded-lg border border-white/25 p-3">'+
-  '<h3 class="font-bold">Реальная экономика за '+period.horizonMonths+' мес. · при текущих ценах V2</h3>'+
-  '<p class="text-xs text-slate-200 mt-2">Прибыль рассчитана по продажам и затратам каждого месяца, а не умножением первого месяца. Налог начислен на реализованную выручку/прибыль и может отличаться по сроку от платежа в Cash Flow. Автоматический прайс для целевой маржи всего периода ещё не реализован (F2B).</p>'+
+  '<h3 class="font-bold">Экономика за '+period.horizonMonths+' мес. · '+(periodOptimized?'расчётная цена за весь период':'по месячным ценам V2')+'</h3>'+
+  '<p class="text-xs text-slate-200 mt-2">Цена каждого SKU рассчитана по фактической марже за выбранный период, включая долю рекламы, расходов, проценты и налоги. Все цены в пределах V1. Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки / 30 дней выше — базовая месячная модель, а не сумма периода.</p>'+
   '<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">'+
   [['Выручка без НДС',money(period.revenue)],['EBITDA',money(period.ebitda)],
    ['Налог начислен',money(period.taxAccrued)],['Чистая прибыль',money(period.netProfit)],
@@ -296,12 +297,22 @@ function updateResult(){
     m.ebitda,m.amort,m.interest,m.taxAccrued,m.netProfit].map((v,i)=>
     '<td class="p-2 text-right">'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>'+
+  (periodOptimized?'<h4 class="font-semibold mt-4">Проверка цены и маржи SKU за весь период</h4>'+
+    '<div class="overflow-x-auto mt-2"><table class="w-full min-w-[640px] text-xs"><thead><tr>'+
+    ['Товар / услуга','Цена за период','Маржа за период','Статус','Для минимума','Для цели'].map(x=>'<th class="p-2 text-right">'+x+'</th>').join('')+'</tr></thead><tbody>'+
+    (period.priceDiagnostics||[]).map(d=>'<tr class="border-t border-white/20">'+
+      [safe(out.items.find(x=>x.id===d.id)?.name||d.id),money(d.price),
+       d.margin===null?'нет продаж':money(d.margin)+'%',safe(d.status),
+       Number.isFinite(d.requiredFloorPrice)?money(d.requiredFloorPrice):'недостижима',
+       Number.isFinite(d.requiredTargetPrice)?money(d.requiredTargetPrice):'недостижима'].map(x=>
+         '<td class="p-2 text-right whitespace-nowrap">'+x+'</td>').join('')+'</tr>').join('')+
+    '</tbody></table></div>':'')+
   (period.onceAssetAmortizationUnverified?
    '<p class="mt-2 text-xs text-amber-200">Есть разовые активы без подтверждённой амортизации; полная бухгалтерская прибыль пока не подтверждена.</p>':'')+
   '</section>':'';
  const advertising=out.temporal?.months?.some(m=>m.media)?
   '<h3 class="font-bold mt-5">Общая реклама по месяцам · реальные платежи и спрос</h3>'+
-  '<p class="text-xs text-slate-200 mt-2">При распродаже товара его доля прекращается. Нераспределённые деньги остаются фактическим расходом кампании. Маржа полного периода требует отдельного расчёта F2.</p>'+
+  '<p class="text-xs text-slate-200 mt-2">При распродаже товара его доля прекращается. Нераспределённые деньги остаются фактическим расходом кампании. Нераспределённые платежи входят в прибыль и цену всего выбранного периода.</p>'+
   '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[550px] text-xs"><thead><tr>'+
   ['Месяц','Оплачено','По SKU','Нераспределено','Неисполненный спрос, ед.','Кампании'].map(s=>
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
@@ -330,7 +341,7 @@ function updateResult(){
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
   '<div class="text-xl font-black">'+money(value)+'</div></div>').join('')+'</div>'+
- (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">'+(period?'По месячной модели V2 целевая маржа достигнута; за весь период ещё не доказана.':'Целевая маржа достигнута для всех позиций.')+'</p>':
+ (t.targetMet?'<p class="text-emerald-200 text-sm mt-3">'+(period?'Целевая маржа подтверждена по фактическому плану всего периода.':'Целевая маржа достигнута для всех позиций.')+'</p>':
   '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
  periodPanel+
  '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
@@ -338,7 +349,7 @@ function updateResult(){
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
  '<p class="text-sm text-slate-200 mt-2">'+
  (cf.temporal?
-  'Утверждённый сценарий '+cf.scenarioHorizonMonths+' мес.: помесячные денежные поступления без НДС, физические закупки, исполнение услуг, скидки комплектов, регулярные расходы и сроки кредитов. Цены и прибыль в блоке выше рассчитаны на месячной модели V2 и не являются совокупной прибылью периода.':
+  'Утверждённый сценарий '+cf.scenarioHorizonMonths+' мес.: помесячные денежные поступления без НДС, физические закупки, исполнение услуг, скидки комплектов, регулярные расходы и сроки кредитов. Цена SKU рассчитывается по полному периоду, а прибыль и Cash Flow сверяются по каждому месяцу отдельно.':
   wholeStockCycle?'Cash flow показывает реализацию всех закупленных партий по индивидуальной месячной скорости каждого товара V1. Общие ресурсы оплачиваются один раз за фактические дни использования, в том числе после распродажи одной позиции. В цене товара учтена его доля общих расходов за цикл; показатели прибыли выше — прогноз за первые 30 дней продаж.':
   'Cash flow отражает первые 30 дней прогнозных продаж, плюс сроки поступлений и погашения кредита; закупка партии возможна целиком. Это не прогноз полной распродажи всего смешанного портфеля.')+
  '</p>'+

@@ -376,8 +376,11 @@
       report('offers','Фиксированное онлайн-вознаграждение нельзя снижать скидкой без указания плательщика.');
     const items=scenario.projections.map(p=>{
       const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad,bundleExposure}=p;
-      const priceList=Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
-        Math.ceil((Number.isFinite(p.priceTarget)?p.priceTarget:pos(s.priceMax))*100-1e-8)/100));
+      const candidate=state.__periodPriceCandidate?.[s.id];
+      const priceList=candidate===undefined?
+        Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
+          Math.ceil((Number.isFinite(p.priceTarget)?p.priceTarget:pos(s.priceMax))*100-1e-8)/100)):
+        Math.min(pos(s.priceMax),Math.max(pos(s.priceMin),Number(candidate)));
       const grossPrice=priceList*(1-s.discountSelected/100);
       const standaloneNet=grossPrice/(1+pos(s.vatPct)/100);
       const priceNet=standaloneNet*(1-bundleExposure);
@@ -446,7 +449,7 @@
           '», доступно '+pos(resource.capacity)+'. Уменьшите наборы или увеличьте мощность.');
     }
     const infeasible=items.filter(item=>!item.fixedPriceFromV1&&!item.minimumMarginFeasible);
-    if(infeasible.length)for(const item of infeasible)
+    if(infeasible.length&&Number(state.forecastMonths??1)<=1)for(const item of infeasible)
       report('skus.'+rows.findIndex(s=>s.id===item.id)+'.priceMax',
         'Для «'+item.name+'» минимум рентабельности требует цены '+
         (Number.isFinite(item.requiredFloorPrice)?item.requiredFloorPrice.toFixed(2):'выше расчётного предела')+
@@ -521,6 +524,22 @@
     base.totals.reserve=base.cashflow.reserve;
     base.totals.finalCash=base.cashflow.finalCash;
     base.totals.freeCash=base.cashflow.freeCash;
+    if(base.temporal?.ready&&!state.__periodPriceCandidate){
+      const optimizer=typeof globalThis==='object'&&globalThis.LinkedPortfolioPeriodPrice?
+        globalThis.LinkedPortfolioPeriodPrice:
+        (typeof require==='function'?require('./portfolio_v2_period_price.js'):null);
+      if(!optimizer?.optimize){
+        base.ready=false;
+        base.errors.push('Модель полной периодной цены не загружена.');
+        base.fieldErrors.push({path:'skus',message:'Модель полной периодной цены не загружена.'});
+        return base;
+      }
+      const solved=optimizer.optimize(state,priceCandidate=>
+        build({...state,__periodPriceCandidate:priceCandidate}));
+      if(solved.result)return solved.result;
+      base.ready=false;base.errors.push(...solved.errors);
+      base.fieldErrors.push(...solved.errors.map(message=>({path:'skus',message})));
+    }
     return base;
   }
 

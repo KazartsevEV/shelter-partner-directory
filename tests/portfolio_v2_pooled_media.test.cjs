@@ -42,8 +42,10 @@ test('F1 A02/A04/A05 replaced V1 media paid once; share follows eligible SKU; pa
  close(M[4].media.unattributed,200,'month 5 unassigned committed spend');
  close(sum(M.map(m=>({v:m.media.ownerPaid})),'v'),1000,'5 committed campaign payments');
  close(sum(r.cashflow.months,'ad'),1000,'no duplicate campaign cash charge');
- close(sum(r.cashflow.months,'receipt'),120*r.items[0].standaloneNet,
-  'sold goods conserved at same prices',.02);
+ close(sum(r.cashflow.months,'receipt'),
+  20*r.items.find(s=>s.id==='a').standaloneNet+
+  100*r.items.find(s=>s.id==='b').standaloneNet,
+  'sold goods conserved at independently optimized prices',.02);
 });
 test('F1 A03 additive campaign spends more and acquires only via verified V1 per-unit CAC',()=>{
  const s=scenario(100,100,2);
