@@ -1190,6 +1190,16 @@ rows.push(
  ["Нижняя граница сохраняет минимальную чистую маржу после максимальной скидки, комиссий, налогов и распределённых расходов бизнеса. Верхняя — целевую чистую маржу.","The lower bound preserves the minimum net margin after the maximum discount, fees, taxes and allocated business expenses. The upper bound targets your desired net margin.","Төменгі шек ең жоғары жеңілдік, комиссиялар, салықтар және бөлінген бизнес шығындарынан кейін ең төменгі таза маржаны сақтайды. Жоғарғы шек мақсатты таза маржаға сәйкес келеді."],
  ["Введите максимальную скидку и минимальную маржинальность.","Enter the maximum discount and minimum margin.","Ең жоғары жеңілдікті және ең төменгі маржаны енгізіңіз."]
 );
+/* #47AV: V1 save/resume and V1-to-V2 blocked/error UI, payroll reference. */
+rows.push(
+ ["Сначала рассчитайте и сохраните хотя бы один товар.","Calculate and save at least one product first.","Алдымен кемінде бір тауарды есептеп, сақтаңыз."],
+ ["Завершите цены, рекламу, объёмы продаж и налог бизнеса для всех товаров — без готовых расчётов портфель V2 не строится.","Complete pricing, advertising, sales volumes and business tax for all products. V2 cannot be built without validated calculations.","Барлық тауардың бағасын, жарнамасын, сату көлемін және бизнес салығын есептеп аяқтаңыз. Дайын есептеулерсіз V2 портфелін құру мүмкін емес."],
+ ["Модуль V2 ещё не загружен. Обновите страницу.","The V2 module has not loaded. Refresh the page.","V2 модулі әлі жүктелмеді. Бетті жаңартыңыз."],
+ ["Это учебный пример. Чтобы сохранять свои данные, начните собственный расчёт с нуля.","This is a sample calculation. To save your own data, start a new calculation.","Бұл оқу үлгісі. Өз деректеріңізді сақтау үшін жаңа есептеуді бастаңыз."],
+ ["Сначала выберите ветку и укажите название товара или услуги.","Select a business branch and enter a product or service name first.","Алдымен бизнес бағытын таңдап, тауардың немесе қызметтің атауын енгізіңіз."],
+ ["Не удалось сохранить: браузер запретил локальное хранилище.","Could not save: the browser blocked local storage.","Сақтау мүмкін болмады: браузер жергілікті сақтауға тыйым салды."],
+ ["Казахстан, 2026: 5% соцотчисления + 3% ОСМС + 3,5% ОПВР + 6% соцналог (17,5% для применимых работников, без предельных баз); пенсионные и медицинские удержания работника не являются надбавкой к gross. ОПВР зависит от категории и возраста.","Kazakhstan, 2026: 5% social contributions + 3% compulsory social health insurance + 3.5% employer mandatory pension contributions + 6% social tax (17.5% for applicable employees, excluding contribution caps). Employee pension and health deductions are not added to employer gross payroll costs. Employer mandatory pension contributions depend on employee category and age.","Қазақстан, 2026: 5% әлеуметтік аударым + 3% МӘМС + 3,5% ЖМЗЖ + 6% әлеуметтік салық (қолданылатын қызметкерлер үшін 17,5%, шекті базалар есепке алынбайды). Қызметкердің зейнетақы және медициналық ұсталымдары жұмыс берушінің жалпы жалақы шығынына үстеме болып қосылмайды. ЖМЗЖ қызметкердің санаты мен жасына байланысты."]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
