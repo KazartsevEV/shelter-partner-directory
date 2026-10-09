@@ -60,7 +60,7 @@
    creditServiceMonthly:0,vatPct:0,
    ownerTax:{type:'turnover',pct:ownerTaxPct,entity:mode==='agent'?'agent':'business'},
    // Cash payment of capex is real but is not an EBITDA expense.
-   onlineCapex:capex,inventoryQty:0,reserveAmount:0,
+   onlineCapex:capex,onlineAmortMonthly:amortPeriod/months,inventoryQty:0,reserveAmount:0,
    serviceCapacity:0,materialsBatchTotal:0,productionTotal:0
   };
  }
