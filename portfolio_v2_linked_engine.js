@@ -417,7 +417,7 @@
       ad:0,shared:0,commission:0,commissionAccrual:0,loanDraw:0,interest:0,principal:0,tax:0
     }));
     function post(day,key,amount){
-      if(!(amount>0))return;
+      if(!(amount>0)&&!(key==='onlineProfit'&&Number.isFinite(amount)&&amount<0))return;
       daily[Math.min(dayCount-1,Math.max(0,Math.floor(day)))][key]+=amount;
     }
     const totalOnce=sum(resources.filter(r=>r.cadence==='once').map(r=>pos(r.amount)));
