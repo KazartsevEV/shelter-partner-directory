@@ -144,6 +144,8 @@
       if(usedResourceIds.has(String(r.id)))report(key,'Повторяющийся ID ресурса.');
       usedResourceIds.add(String(r.id));
       if(!allowedKinds.has(r.kind))report(key+'.kind','Неизвестный тип общего ресурса.');
+      if(r.kind==='warehouse'&&beneficiaries.some(id=>rows.find(s=>s.id===id)?.source==='offline-service'))
+        report(key+'.skuIds','Складской ресурс нельзя распределять на офлайн-услугу: услуга не хранится на складе.');
       if(!allowedPools.has(pool))report(key+'.pool','Неизвестный исходный блок расхода.');
       if(r.kind==='campaign'&&pool!=='adBudget'&&pool!=='none')
         report(key+'.pool','Общую кампанию можно заменить только из рекламного бюджета.');
