@@ -1044,12 +1044,38 @@ rows.push(
  ["После выбора расчёт построится автоматически.","Calculation resumes automatically after selection.","Таңдаудан кейін есеп автоматты түрде жасалады."],
  ["нет данных","no data","деректер жоқ"]
 );
+/* #47M: experimental V2 diagnostics and periodic P&L caption inventory. */
+rows.push(
+ ["Укажите общий месячный рекламный бюджет.","Enter the total monthly advertising budget.","Жалпы айлық жарнама бюджетін енгізіңіз."],
+ ["CPC должен быть больше нуля.","CPC must be greater than zero.","CPC нөлден жоғары болуы тиіс."],
+ ["Укажите CTR, чтобы рассчитать число показов.","Enter CTR to calculate impressions.","Көрсетілімдер санын есептеу үшін CTR енгізіңіз."],
+ ["Укажите конверсию клик → лид.","Enter click-to-lead conversion.","Клик → лид конверсиясын енгізіңіз."],
+ ["Укажите конверсию лид → заказ.","Enter lead-to-order conversion.","Лид → тапсырыс конверсиясын енгізіңіз."],
+ ["У должна быть указана себестоимость одной единицы.","Unit cost must be entered.","Бір дананың өзіндік құнын енгізу қажет."],
+ ["Выручка без НДС:","Revenue excluding VAT:","ҚҚС-сыз түсім:"],
+ ["Налог начислен:","Tax accrued:","Есептелген салық:"],
+ ["Чистая прибыль:","Net profit:","Таза пайда:"],
+ ["Маржа за период:","Period margin:","Кезең маржасы:"],
+ ["Налог начислен − уплачен:","Tax accrued minus paid:","Есептелген салық пен төленген салық айырмасы:"],
+ ["Проценты после горизонта:","Interest beyond forecast horizon:","Болжам мерзімінен кейінгі пайыздар:"],
+ ["Уже учтено в V1, у.е. / мес (доступно","Already included in V1, currency units/month (available","V1-де есептелген, ш.б./ай (қолжетімді"]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^У товара (\d+) нет названия\.$/,
+  'Product $1 has no name.','$1-тауардың атауы жоқ.'],
+ [/^Исправьте поля, выделенные красным, рядом с местом ввода\. Проверок осталось: (\d+)\.$/,
+  'Fix the red-highlighted fields beside their inputs. Remaining checks: $1.',
+  'Енгізу өрістерінің жанындағы қызыл өрістерді түзетіңіз. Қалған тексерулер: $1.'],
+ [/^Уже учтено в V1, у\.е\. \/ мес \(доступно ([\d.,\s\u00a0]+)\)$/,
+  'Already included in V1, currency units/month (available $1)',
+  'V1-де есептелген, ш.б./ай (қолжетімді $1)'],
+ [/^(.+) — ([\d.,\s\u00a0]+) \/ мес\.$/,
+  '$1 — $2 / month','$1 — $2 / ай'],
  [/^(.+) · услуга$/,'$1 · service','$1 · қызмет'],
  [/^(.+) · товар$/,'$1 · product','$1 · тауар'],
  [/^Товар (\d+)$/,'Product $1','$1-тауар'],
@@ -1166,6 +1192,26 @@ const patterns=[
   '$1 айда «$2»: ең аз $3% маржаға V1 $4–$5 аралығында жету мүмкін емес. $6 бағасында қалған пайызды ескерген маржа $7; қажет баға $8.']
 ];
 function dynamicLookup(source,language){
+ const agentPending=/^Не выбран плательщик: (.+)\. После выбора расчёт построится автоматически\.$/.exec(source);
+ if(agentPending){
+  const labels=agentPending[1].split(', ');
+  if(labels.every(label=>direct.has(label))){
+   const translated=labels.map(label=>direct.get(label)[language]).join(', ');
+   return (language==='en'?'Payer not selected: ':'Төлеуші таңдалмаған: ')+translated+
+     (language==='en'?'. Calculation will resume automatically after selection.':
+       '. Таңдаудан кейін есеп автоматты түрде жасалады.');
+  }
+  return source;
+ }
+ const experimental=/^Клики ([\d.,\s\u00a0]+), лиды ([\d.,\s\u00a0]+), заказы\/месяц ([\d.,\s\u00a0]+), базовый CAC ([\d.,\s\u00a0]+)$/.exec(source);
+ if(experimental)return language==='en'?
+  'Clicks '+experimental[1]+', leads '+experimental[2]+', orders/month '+experimental[3]+', baseline CAC '+experimental[4]:
+  'Клик '+experimental[1]+', лид '+experimental[2]+', тапсырыс/ай '+experimental[3]+', бастапқы CAC '+experimental[4];
+ const approved=/^Утверждённый сценарий (\d+) мес\.: (.+)$/.exec(source);
+ if(approved&&approved[2]==='помесячные денежные поступления без НДС, физические закупки, исполнение услуг, скидки комплектов, регулярные расходы и сроки кредитов. Цена SKU рассчитывается по полному периоду, а прибыль и Cash Flow сверяются по каждому месяцу отдельно.'){
+  return language==='en'?'Approved '+approved[1]+'-month scenario: monthly VAT-exclusive receipts, physical procurement, service delivery, bundle discounts, recurring costs and loan schedules. SKU prices are calculated over the full period; profit and cash flow are reconciled month by month.':
+   approved[1]+' айға бекітілген сценарий: ҚҚС-сыз айлық түсімдер, нақты сатып алу, қызмет көрсету, жинақ жеңілдіктері, тұрақты шығындар және несие кестелері. SKU бағалары бүкіл кезеңге есептеледі; пайда мен ақша ағыны әр ай бойынша жеке салыстырылады.';
+ }
  const priceMetric=/^Цена для целевой маржи: ([\d.,\s\u00a0]+); для минимальной: ([\d.,\s\u00a0]+); денежная доля: ([\d.,\s\u00a0]+)%; (.+)$/.exec(source);
  if(priceMetric&&direct.has(priceMetric[4])){
   return language==='en'?
