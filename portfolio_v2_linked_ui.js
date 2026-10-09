@@ -69,7 +69,7 @@ function field(label,path,value,extra=''){
  '<input data-linked-path="'+safe(path)+'" type="number" step="0.01" min="0" class="input-field mt-1" value="'+safe(value)+'" '+extra+'></label>';
 }
 function resourceCard(r,i){
- const skuCards=state.skus.map(s=>{
+ const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||s.source!=='offline-service').map(s=>{
   const checked=r.skuIds.includes(s.id);
   const baseline=r.pool==='unitCost'?num(s.unitCost)*num(s.forecastUnitsPerMonth):
    r.pool==='salesFixed'?num(s.salesFixedMonthly):
@@ -263,6 +263,14 @@ function onEvent(e){
   const structural=field.tagName==='SELECT'||field.type==='checkbox';
   if(structural&&e.type==='input')return;
   setPath(field.dataset.linkedPath,field.type==='checkbox'?field.checked:field.value);
+  if(/^resources\\.\\d+\\.kind$/.test(field.dataset.linkedPath)&&field.value==='warehouse'){
+   const r=state.resources[Number(field.dataset.linkedPath.split('.')[1])];
+   r.skuIds=r.skuIds.filter(id=>state.skus.find(s=>s.id===id)?.source!=='offline-service');
+   for(const key of Object.keys(r.includedBySku||{}))
+    if(!r.skuIds.includes(key))delete r.includedBySku[key];
+   for(const key of Object.keys(r.usage||{}))
+    if(!r.skuIds.includes(key))delete r.usage[key];
+  }
   save();
   if(structural&&e.type==='change')render();else updateResult();
   return;
