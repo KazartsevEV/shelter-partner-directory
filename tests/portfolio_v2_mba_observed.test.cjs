@@ -29,6 +29,8 @@ test('empirical support, joint denominator, directed confidence and lift, no fab
  close(tuple.support,1/6);close(tuple.confidence,1/3);close(tuple.lift,2/3);
  A.deepEqual(result.period,{from:'2026-09-01',to:'2026-09-06'});
  A.deepEqual(result.channels,['web']);
+ close(result.aovByCurrency[0].averageOrderValue,200);
+ A.equal(result.aovByCurrency[0].orders,6);
 });
 test('CSV quoted separators and line_id duplicates, partial returns, canceled and refunds never create baskets',()=>{
  const csv=[
