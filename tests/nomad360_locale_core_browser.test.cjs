@@ -378,6 +378,26 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       return tableNumber.textContent===Number(raw).toLocaleString(Nomad360LocaleCore.displayLocale(),
         {minimumFractionDigits:2,maximumFractionDigits:2});
     });
+    // Exercise ALL numeric cells already present in the linked V2 output:
+    // period P&L, per-SKU margin %, shared media ledger, funding and CF.
+    // The locale core must update these without re-running the business model.
+    await page.waitForFunction(()=>{
+      const values=[...document.querySelectorAll('#linked-results [data-nomad-display-number]')];
+      if(values.length<12)return false;
+      const locale=Nomad360LocaleCore.displayLocale();
+      return values.every(node=>{
+        const num=Number(node.getAttribute('data-nomad-display-number'));
+        if(!Number.isFinite(num))return false;
+        const precision=node.getAttribute('data-nomad-display-fractions');
+        const digits=precision==='0'?{minimumFractionDigits:0,maximumFractionDigits:0}:
+          precision==='compact'?{minimumFractionDigits:0,maximumFractionDigits:2}:
+          {minimumFractionDigits:2,maximumFractionDigits:2};
+        return node.textContent===new Intl.NumberFormat(locale,digits).format(num)+
+          (node.dataset.nomadDisplaySuffix||'');
+      });
+    });
+    const percentCells=await page.locator('#linked-results [data-nomad-display-suffix="%"]').count();
+    A.ok(percentCells>0,'SKU margin percentage must use an explicit numeric display source');
     const beforeRerender=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       price:document.querySelector('[data-linked-sku="0"] [data-linked-price-list]')?.textContent
