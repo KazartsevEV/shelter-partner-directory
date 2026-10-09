@@ -58,6 +58,22 @@ async function browserCase(browser,locale,expected){
   A.equal(pdf.subarray(0,4).toString(),'%PDF');
   A.ok(pdf.length>6000,'nontrivial PDF report');
   await page.emulateMedia({media:'screen'});
+  // Changing locale must retranslate the already OPEN price preview and the
+  // previously generated report sheet without rerunning window.print().
+  for(const chosen of ['en','kk','ru']){
+   await page.locator('#nomad360-lang-select').selectOption(chosen);
+   A.equal(await page.locator('html').getAttribute('lang'),chosen);
+   A.equal(await page.evaluate(()=>window.__nomadPrintCount),2,'locale change must not open another print dialog');
+   A.equal(await preview.isVisible(),true,'price preview must remain open after locale change');
+   A.equal(await preview.locator('tbody tr').count(),5);
+   A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'report');
+   const heading={en:'Financial summary',kk:'Қаржылық қорытынды',ru:'Финансовый итог'}[chosen];
+   A.ok((await page.locator('#nomad360-print-sheet').textContent()).includes(heading),'print sheet must use selected '+chosen+' language');
+   const cadence={en:/Monthly|One-time/,kk:/Ай сайын|Бір рет/,ru:/Ежемесячно|Разово/}[chosen];
+   A.match(await page.locator('#nomad360-print-sheet').textContent(),cadence,'report resource cadence translated to '+chosen);
+   const previewAction={en:'Create price list',kk:'Прайс-парақ жасау',ru:'Сформировать прайс-лист'}[chosen];
+   A.match(await preview.locator('h3').textContent(),new RegExp(previewAction),'open price preview translated to '+chosen);
+  }
   await page.locator('#nomad360-lang-select').selectOption('en');
   A.equal(await page.locator('html').getAttribute('lang'),'en');
   A.match(await page.locator('#nomad360-hero h2').textContent(),/Stop guessing/);
