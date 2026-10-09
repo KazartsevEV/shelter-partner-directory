@@ -57,7 +57,8 @@ function resourceCard(r,index){
  selField('Тип ресурса','resources.'+index+'.kind',r.kind,Object.entries(labels))+
  numberField(r.kind==='campaign'?'Дополнительный рекламный бюджет, /мес.':'Сумма, у.е.','resources.'+index+'.amount',r.amount)+
  selField('Платёж','resources.'+index+'.cadence',r.cadence,[['monthly','Ежемесячно'],['once','Один раз']])+
- selField('Как распределить по товарам','resources.'+index+'.allocation',r.allocation,[['revenue','По денежной выручке'],['usage','По фактической загрузке']])+
+ (r.kind==='campaign'?'<div class="col-span-2 text-xs rounded-lg bg-white p-3 text-blue-900">Рекламный бюджет распределяется строго по денежной доле выручки товаров, входящих в кампанию.</div>':
+ selField('Как распределить по товарам','resources.'+index+'.allocation',r.allocation,[['revenue','По денежной выручке'],['usage','По фактической загрузке']]))+
  '</div>'+
  '<div class="mt-3"><span class="text-xs font-bold">Ресурс обслуживает товары</span><div class="flex flex-wrap gap-3 mt-2">'+all+'</div>'+
  '<div class="text-xs mt-1 text-slate-600">'+(usable>1?'Один платёж на группу товаров, без повторного списания.':'Платёж относится только к выбранному товару.')+'</div></div>'+
