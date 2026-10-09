@@ -204,3 +204,34 @@ test('Cyrillic placeholders, titles and accessibility strings across every calcu
  }
  A.ok(count>=20,'must cover source HTML and generated V2 inputs');
 });
+
+test('V1 to V2 online adapter, empirical MBA, and period-pricing rejection messages are localized without changing source IDs or numbers',()=>{
+ const cases=[
+  'Нет подтверждённых позиций V1 (товаров или услуг).',
+  'Неизвестная онлайн-ветка V1.',
+  'Назовите услугу перед передачей в V2.',
+  'Нужна рассчитанная рекламная воронка с положительным бюджетом, CPC и конверсиями.',
+  'В агентской ветке нужен положительный процент вознаграждения.',
+  'Налог или эквайринг превышает 100%.',
+  'Некорректный JSON чеков.',
+  'CSV строка 19: неверное число колонок.',
+  'Строка 2: дата должна быть YYYY-MM-DD.',
+  'Строка 5: quantity — целое положительное, unit_price — неотрицательный.',
+  'Заказ ORDER-35 содержит разные даты, валюты или каналы.',
+  'Для mgmt укажите, кто платит: я или партнёр.',
+  'За 3 мес. «Маникюр»: минимальная маржа 10% недостижима в диапазоне V1 50–70. При цене 68 маржа с учётом оставшихся процентов 8.40%; расчётная необходимая цена выше достижимого предела.'
+ ];
+ for(const ru of cases){
+  A.equal(tr(ru,'ru'),ru);
+  for(const lang of ['en','kk']){
+   const result=tr(ru,lang);
+   A.notEqual(result,ru,lang+': untranslated '+ru);
+   for(const token of /ORDER-35|mgmt|Маникюр/.test(ru)?
+    [ru.includes('ORDER-35')?'ORDER-35':null,ru.includes('mgmt')?'mgmt':null,
+     ru.includes('Маникюр')?'Маникюр':null].filter(Boolean):[])
+    A.ok(result.includes(token),lang+': source ID/name changed '+token);
+  }
+ }
+ const unknown='Строка 5: неизвестная финансовая ошибка.';
+ for(const lang of ['en','kk'])A.equal(tr(unknown,lang),unknown,'unknown diagnostic must fail closed');
+});
