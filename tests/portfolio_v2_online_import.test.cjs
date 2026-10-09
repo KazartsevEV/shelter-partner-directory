@@ -138,5 +138,5 @@ test('Reject false source/corrupt taxpayer provenance and unchanged zero-convers
  A.throws(()=>adapter.fromOnlineV1({mode:'self',name:'bad',values:v}),/воронк/);
  const a=source('agent',{},everyPayer('partner'));delete a.onlinePartner;
  const r=build(a);A.equal(r.ready,false);
- A.ok(r.errors.some(x=>x.includes('контура партнёра')));
+ A.ok(r.errors.some(x=>x.includes('контур партнёра')));
 });
