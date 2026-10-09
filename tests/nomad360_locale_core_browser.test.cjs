@@ -279,6 +279,47 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       A.equal(await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState())),initialDraft,
         'invalid CSV/JSON upload must never mutate the draft');
     }
+    // Valid observed purchases: unknown CSV/JSON identifiers are user source
+    // identifiers, not language keys. Mapping and history must stay canonical.
+    const realOrders=[
+      ...['order-1','order-2'].flatMap(id=>['raw-own','raw-salon'].map(sku=>({
+        order_id:id,sku_id:sku,date:'2026-09-02',quantity:1,
+        unit_price:110,currency:'GEL',channel:'web',status:'completed'
+      }))),
+      {order_id:'void',sku_id:'raw-own',date:'2026-09-02',quantity:1,
+       unit_price:110,currency:'GEL',channel:'web',status:'canceled'}
+    ];
+    await page.locator('[data-mba-file]').setInputFiles({
+      name:'real-history.json',mimeType:'application/json',
+      buffer:Buffer.from(JSON.stringify(realOrders))
+    });
+    await page.waitForFunction(()=>document.querySelectorAll('#linked-mba-panel [data-mba-map]').length===2);
+    A.equal(await page.locator('[data-mba-transfer]').count(),0,'unmapped source SKU must not generate association rules');
+    await page.locator('[data-mba-map="raw-own"]').selectOption('own');
+    await page.locator('[data-mba-map="raw-salon"]').selectOption('salon');
+    await page.waitForFunction(()=>document.querySelectorAll('#linked-mba-panel [data-mba-transfer]').length===2);
+    const observed=await page.evaluate(()=>{
+      const state=LinkedPortfolioV2UI.getState();
+      const result=LinkedPortfolioMBAObserved.analyze(state.mbaHistory.source,
+        new Set(state.skus.map(s=>s.id)),state.mbaHistory.mapping);
+      return {rawLines:state.mbaHistory.source.rawLines,N:result.N,
+        mapping:state.mbaHistory.mapping,rules:result.rules.length,
+        source:JSON.stringify(state.mbaHistory.source)};
+    });
+    A.equal(observed.rawLines,5);
+    A.equal(observed.N,2,'canceled receipts excluded from denominator');
+    A.equal(observed.rules,2,'two opposite observed rules');
+    A.deepEqual(observed.mapping,{'raw-own':'own','raw-salon':'salon'});
+    const beforeBlocked=await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState().offers));
+    await page.locator('[data-mba-transfer]').first().click();
+    A.equal(await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState().offers)),beforeBlocked,
+      'missing manual overlap must block rule transfer in every locale');
+    // Reset only the test draft. No source history is submitted to a server.
+    await page.evaluate(saved=>{
+      localStorage.setItem('marketingCalcLinkedPortfolioV2',saved);
+      LinkedPortfolioV2UI.resume();
+    },initialDraft);
+    await page.waitForFunction(()=>!LinkedPortfolioV2UI.getState().mbaHistory);
     const baseline=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
