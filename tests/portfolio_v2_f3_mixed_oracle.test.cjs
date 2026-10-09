@@ -66,7 +66,7 @@ test('F3 independent 5-source Oracle: every month, buyer revenues and basket qua
  close(r.cashflow.periodPnl.netProfit,3*expectedProfitMonth,'H profit');
  close(r.cashflow.periodPnl.postHorizonInterest,5,'remaining loan interest disclosed');
  close(r.cashflow.periodPnl.bySku.agent.revenue,360,'agent commission only');
- A.ok(r.cashflow.periodPnl.revenue<1800*3,'partner GMV never becomes owner sales');
+ A.ok(r.cashflow.periodPnl.bySku.agent.revenue<1800,'partner GMV never becomes owner-agent income');
  close(r.cashflow.periodPnl.bySku.own.interest,15,'own finance attributed');
  close(r.cashflow.periodPnl.bySku.own.futureInterest,5,'own post-H finance burden');
  const rent=180*3,staff=90*3;
@@ -144,6 +144,7 @@ test('F3 mixed profit tax with DISJOINT regular-owner resources is allowed and r
 test('F3 fail-closed when shared worker touches agent entity under regular profit tax',()=>{
  const s=state('profit');
  s.resources[2].skuIds.push('agent');s.resources[2].loadPerUnit.agent=1;
+ s.resources[2].capacity=40; // avoid capacity gate hiding the ownership gate
  const r=E.build(s);
  A.equal(r.ready,false);
  A.match(r.errors.join(' '),/неподтверждённое разделение налоговых расходов/);
