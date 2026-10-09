@@ -39,7 +39,7 @@ const browserLog = [];
  await choose('[data-material-cost-mode="known"]');
  await put('own-materials-cost',200);
  await choose('[data-yn-group="vatIncluded"][data-yn-value="yes"]');
- await put('own-vat-rate',0);
+ // The materials price already includes VAT: the VAT-rate control is intentionally hidden.
  await choose('[data-yn-group="inboundIncluded"][data-yn-value="yes"]');
  await choose('[data-yn-group="materialsImported"][data-yn-value="no"]');
  await put('own-materials-batch-qty',100);
