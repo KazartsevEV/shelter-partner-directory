@@ -1674,6 +1674,19 @@
         function formatMoney(val) { const language=window.Nomad360LocaleCore?.locale?.()||'ru'; return `${formatNum(val)} ${language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'}`; }
         function formatNum(val) { return new Intl.NumberFormat(nomadDisplayLocale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
         function formatInt(val) { return new Intl.NumberFormat(nomadDisplayLocale()).format(Math.round(val)); }
+        // Presentation-only wrappers for already-calculated period totals.
+        function displayNumberSpan(value,kind) {
+            const numeric=Number(value);
+            const text=kind==='money'?formatMoney(value):kind==='int'?formatInt(value):formatNum(value);
+            if(!Number.isFinite(numeric))return text;
+            const digits=kind==='int'?0:2;
+            return '<span data-nomad-display-number="'+numeric+'" data-nomad-display-fractions="'+digits+'"'+
+                (kind==='money'?' data-nomad-display-money':'')+'>'+text+'</span>';
+        }
+        const displayMoneyNode=value=>displayNumberSpan(value,'money');
+        const displayNumNode=value=>displayNumberSpan(value,'num');
+        const displayIntNode=value=>displayNumberSpan(value,'int');
+
         function setV1DisplayedMoney(id,value) {
             const element=document.getElementById(id);if(!element)return;
             element.textContent=formatMoney(value);
@@ -7590,44 +7603,44 @@
             // Monthly cash reflects full CAPEX, P&L reflects only period amortization.
             // Update Summary Table
             const summaryRows = [
-                ['Общий рекламный бюджет', formatMoney(totalBudget)],
-                ['Количество кликов', formatInt(totalMonth.mClicks)],
-                ['Количество показов', formatInt(impressions)],
-                ['Количество лидов', formatNum(totalMonth.mLeads)],
-                ['Количество сделок', formatNum(totalMonth.mDeals)],
-                ['Продано пакетов', formatNum(totalMonth.mPacks)],
+                ['Общий рекламный бюджет', displayMoneyNode(totalBudget)],
+                ['Количество кликов', displayIntNode(totalMonth.mClicks)],
+                ['Количество показов', displayIntNode(impressions)],
+                ['Количество лидов', displayNumNode(totalMonth.mLeads)],
+                ['Количество сделок', displayNumNode(totalMonth.mDeals)],
+                ['Продано пакетов', displayNumNode(totalMonth.mPacks)],
                 ...(isAgent ? [
-                    ['Объём продаж консультаций партнёра', formatMoney(totalMonth.mGrossRevCons)],
-                    ['Объём продаж пакетов партнёра', formatMoney(totalMonth.mGrossRevPack)],
-                    ['Общий объём продаж партнёра', formatMoney(totalMonth.mGrossSales), 'text-blue-700 font-bold'],
-                    ['Мой процент от продаж', formatNum(agentPct) + '%'],
-                    ['Моё вознаграждение до моих расходов', formatMoney(totalMonth.mAgentIncome), 'text-green-700 font-bold'],
-                    ['Мои расходы (оплачиваю я)', formatMoney(totalMonth.mAgentExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
-                    ['Мой налог на оборот*', formatMoney(totalMonth.mAgentTax), agentTaxScenario > 0 ? 'text-red-700 font-bold' : ''],
-                    ['Мне остаётся после моих расходов и налога', formatMoney(totalMonth.mAgentNet), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
-                    ['Моё вознаграждение с одной сделки', formatMoney(totalMonth.mDeals?totalMonth.mAgentIncome/totalMonth.mDeals:0)],
-                    ['Выручка партнёра Revenue', formatMoney(totalMonth.mRevTotal), 'text-blue-700 font-bold']
+                    ['Объём продаж консультаций партнёра', displayMoneyNode(totalMonth.mGrossRevCons)],
+                    ['Объём продаж пакетов партнёра', displayMoneyNode(totalMonth.mGrossRevPack)],
+                    ['Общий объём продаж партнёра', displayMoneyNode(totalMonth.mGrossSales), 'text-blue-700 font-bold'],
+                    ['Мой процент от продаж', displayNumNode(agentPct) + '%'],
+                    ['Моё вознаграждение до моих расходов', displayMoneyNode(totalMonth.mAgentIncome), 'text-green-700 font-bold'],
+                    ['Мои расходы (оплачиваю я)', displayMoneyNode(totalMonth.mAgentExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
+                    ['Мой налог на оборот*', displayMoneyNode(totalMonth.mAgentTax), agentTaxScenario > 0 ? 'text-red-700 font-bold' : ''],
+                    ['Мне остаётся после моих расходов и налога', displayMoneyNode(totalMonth.mAgentNet), agentNetScenario >= 0 ? 'text-green-700 font-bold' : 'text-red-700 font-bold'],
+                    ['Моё вознаграждение с одной сделки', displayMoneyNode(totalMonth.mDeals?totalMonth.mAgentIncome/totalMonth.mDeals:0)],
+                    ['Выручка партнёра Revenue', displayMoneyNode(totalMonth.mRevTotal), 'text-blue-700 font-bold']
                 ] : [
-                    ['Выручка от консультаций', formatMoney(totalMonth.mRevCons)],
-                    ['Выручка от пакетов', formatMoney(totalMonth.mRevPack)],
-                    ['Общая выручка Revenue', formatMoney(totalMonth.mRevTotal), 'text-blue-700 font-bold']
+                    ['Выручка от консультаций', displayMoneyNode(totalMonth.mRevCons)],
+                    ['Выручка от пакетов', displayMoneyNode(totalMonth.mRevPack)],
+                    ['Общая выручка Revenue', displayMoneyNode(totalMonth.mRevTotal), 'text-blue-700 font-bold']
                 ]),
-                [isAgent ? 'Средний чек партнёра' : 'Средний чек', formatMoney(totalMonth.mDeals?totalMonth.mRevTotal/totalMonth.mDeals:0)],
-                [isAgent ? 'Комиссия эквайринга партнёра' : 'Комиссия эквайринга', formatMoney(totalMonth.mAcq)],
-                [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', formatMoney(totalMonth.mNetRev)],
-                ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', formatMoney(totalMonth.mAgentIncome)]] : []),
-                ...(isHired ? [['Оплата исполнителю', formatMoney(totalMonth.mExecutor)]] : []),
-                [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', formatMoney(totalMonth.mCosts)],
-                ['Амортизация сайта', formatMoney(siteAmort)],
-                ['Амортизация лид-магнита', formatMoney(magnetAmort)],
-                [isAgent ? 'Операционные расходы и амортизация партнёра' : 'Операционные расходы и амортизация', formatMoney(accruedTotalCosts), 'text-red-700 font-bold'],
-                ['Разовые капитальные выплаты (в денежном потоке)', formatMoney(totalMonth.mPartnerCapex)],
-                [isAgent ? 'EBITDA партнёра (до налогов)' : 'EBITDA (прибыль до налогов)', formatMoney(totalMonth.mEbitda)],
-                [isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', formatMoney(totalMonth.mTax)],
-                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', formatMoney(accountingNetProfit), 'text-green-700 font-bold'],
+                [isAgent ? 'Средний чек партнёра' : 'Средний чек', displayMoneyNode(totalMonth.mDeals?totalMonth.mRevTotal/totalMonth.mDeals:0)],
+                [isAgent ? 'Комиссия эквайринга партнёра' : 'Комиссия эквайринга', displayMoneyNode(totalMonth.mAcq)],
+                [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', displayMoneyNode(totalMonth.mNetRev)],
+                ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', displayMoneyNode(totalMonth.mAgentIncome)]] : []),
+                ...(isHired ? [['Оплата исполнителю', displayMoneyNode(totalMonth.mExecutor)]] : []),
+                [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', displayMoneyNode(totalMonth.mCosts)],
+                ['Амортизация сайта', displayMoneyNode(siteAmort)],
+                ['Амортизация лид-магнита', displayMoneyNode(magnetAmort)],
+                [isAgent ? 'Операционные расходы и амортизация партнёра' : 'Операционные расходы и амортизация', displayMoneyNode(accruedTotalCosts), 'text-red-700 font-bold'],
+                ['Разовые капитальные выплаты (в денежном потоке)', displayMoneyNode(totalMonth.mPartnerCapex)],
+                [isAgent ? 'EBITDA партнёра (до налогов)' : 'EBITDA (прибыль до налогов)', displayMoneyNode(totalMonth.mEbitda)],
+                [isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', displayMoneyNode(totalMonth.mTax)],
+                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', displayMoneyNode(accountingNetProfit), 'text-green-700 font-bold'],
                 [isAgent ? 'ROAS партнёра' : 'ROAS (возврат рекламы)', (totalBudget?totalMonth.mNetRev/totalBudget:0).toFixed(2) + 'x'],
-                ['CPA (цена клиента реклама)', formatMoney(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
-                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', formatMoney(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
+                ['CPA (цена клиента реклама)', displayMoneyNode(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
+                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', displayMoneyNode(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
                 [isAgent ? 'ROMI партнёра' : 'ROMI (окупаемость инвестиций)', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x']
             ];
 
