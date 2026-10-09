@@ -135,10 +135,12 @@ const browserLog = [];
  // price gate must activate, and both must recover when quantity is corrected.
  const rawInput=page.locator(sel+' input[data-aggregate-qty-kind="materials"]');
  await rawInput.fill('105');
- assert.equal(await page.locator(sel+' [data-quantity-warning]').isVisible(),true);
- assert.match(await page.locator(sel+' [data-quantity-warning]').textContent(),/106/);
+ assert.equal(await page.locator(sel+' [data-aggregate-qty-error="materials"]').isVisible(),true);
+ assert.match(await page.locator(sel+' [data-aggregate-qty-error="materials"]').textContent(),/106/);
+ assert.equal(await rawInput.getAttribute('aria-invalid'),'true');
  await rawInput.fill('106');
- assert.equal(await page.locator(sel+' [data-quantity-warning]').isVisible(),false);
+ assert.equal(await page.locator(sel+' [data-aggregate-qty-error="materials"]').isVisible(),false);
+ assert.equal(await rawInput.getAttribute('aria-invalid'),'false');
  const qty=100,days=125;
  const stockStorage=10*qty+.5*qty*days/2;
  const materialTotal=106*200,productionTotal=production*qty;
