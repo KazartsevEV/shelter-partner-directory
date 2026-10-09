@@ -455,7 +455,7 @@
           post(at,'onlineTaxDue',netRevenue*pos(s.onlineTaxPct)/100);
           const earnings=netRevenue-qty*pos(s.unitCostEffective)-
             netRevenue*pos(s.variableSalesPct)/100-dailyAd-dailyFixed-
-            resourceDaily-pos(s.onlineAmortMonthly)/30;
+            resourceDaily; // Only operating accrual; depreciation is not in the generic cash-tax accrual base.
           post(at,'onlineProfit',earnings);
         }
         post(at,'commissionAccrual',netRevenue*pos(s.variableSalesPct)/100);
