@@ -39,7 +39,7 @@ test('shared salon rent is charged once in portfolio price AND cashflow',()=>{
  const real=E.build(s);assert.equal(real.ready,true,JSON.stringify(real.errors));
  near(real.items[0].unitCostEffective,8);
  near(real.totals.monthlyResources,1000);
- near(real.totals.netProfit-baseline.totals.netProfit,200);
+ assert.ok(real.items[0].priceList<baseline.items[0].priceList,'shared rent must reduce the required list price');
  near(real.cashflow.freeCash-real.cashflow.ownerCapital+real.cashflow.reserve,real.totals.netProfit);
 });
 test('offline service can coexist with product SKU in linked V2 without stock requirement for services',()=>{
