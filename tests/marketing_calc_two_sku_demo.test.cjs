@@ -36,7 +36,7 @@ const near=(actual,match,msg)=>assert.ok(Math.abs(actual-match)<.015,msg+' got '
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
   for(const finance of ['cash','credit']){
-   const page=await browser.newPage({viewport:{width:390,height:844}});
+   const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
    const faults=[];page.on('pageerror',e=>faults.push(e.message));
    await page.route(/^https?:\/\//,r=>r.abort());
    await page.goto(url+'?demo=shopper&second=shirt&finance='+finance,{waitUntil:'domcontentloaded'});
