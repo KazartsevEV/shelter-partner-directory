@@ -975,12 +975,28 @@ rows.push(
  ["Плановая скидка покупателю, % (макс.","Planned customer discount, % (max.","Сатып алушыға жоспарланған жеңілдік, % (ең көбі"],
  ["Ссылка для связки","Linked offer","Байланысқан ұсыныс"]
 );
+/* #47I: experimental V2, basket and observed-MBA business copy. */
+rows.push(
+ ["Часы, дни или доля — одинаковая единица","Use the same unit: hours, days or a proportion","Бірдей өлшемді қолданыңыз: сағат, күн немесе үлес"],
+ ["Укажите точный охват","Specify the exact coverage","Нақты қамтуды көрсетіңіз"],
+ ["Сумма долей по штукам:","Unit-share total:","Дана бойынша үлестер жиыны:"],
+ ["Кредит: ежемесячные проценты и возврат всего тела в последний месяц (bullet). Тело кредита — выплата денежных средств, а не налоговый расход. Внесённые собственные деньги — тоже не прибыль.","Loan: interest is paid monthly and all principal in the final month (bullet). Principal repayment is a cash outflow, not a deductible operating expense. Owner-contributed funds are not profit.","Несие: пайыздар ай сайын, негізгі қарыз соңғы айда толық өтеледі (bullet). Негізгі қарызды өтеу — ақша шығысы, салықтық шығын емес. Иесінің салған ақшасы да пайда емес."],
+ ["Цена без НДС рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.","The VAT-exclusive price uses baseline CAC and target margin. Actual SKU margin after weighted CAC may differ. Initial purchases are cash advances; COGS is recognized on sale without double counting.","ҚҚС-сыз баға бастапқы CAC пен мақсатты маржа бойынша есептеледі. Салмақталған CAC-тан кейін нақты SKU маржасы өзгеше болуы мүмкін. Бастапқы сатып алу — ақша авансы, ал COGS тауар сатылғанда ғана есепке алынады; екі рет есептелмейді."],
+ ["«Живые деньги» = накопленный денежный остаток с учётом начального собственного взноса или кредита, минус защищённый резерв. Это не прибыль. Проценты уплачиваются ежемесячно, тело кредита — в последний месяц. Месяц = 30 дней.","Available cash equals cumulative cash balance including owner funding or loan, minus protected reserve. It is not profit. Interest is paid monthly, principal in the final month. A month is 30 days.","Қолжетімді ақша — иесінің салымы немесе несиені ескерген жинақталған ақша қалдығынан қорғалған резервті шегергендегі сома. Бұл пайда емес. Пайыз ай сайын, негізгі қарыз соңғы айда төленеді. Ай — 30 күн."],
+ ["Для этой основной позиции уже существует связка. Одни и те же покупатели могут одновременно купить несколько дополнений: объедините их в один кортеж вручную, чтобы не посчитать одну корзину дважды.","A linked offer already exists for this primary item. Customers may buy multiple add-ons together; manually combine them into one tuple to avoid counting the same basket twice.","Осы негізгі позицияға байланысқан ұсыныс бар. Клиент бірнеше қосымша позицияны бірге алуы мүмкін; бір себетті екі рет санамау үшін оларды қолмен бір кортежге біріктіріңіз."],
+ ["Связанных продаж пока нет. Обычные расчёты V2 остаются неизменными.","There are no linked sales yet. Regular V2 calculations stay unchanged.","Әзірге байланысқан сатылым жоқ. Қалыпты V2 есептері өзгермейді."]
+);
 const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
 /* Anchored, context-specific variable diagnostics. Captured item names,
  * amounts, periods and source-field IDs are inserted unchanged: user-entered
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^(.+) · услуга$/,'$1 · service','$1 · қызмет'],
+ [/^(.+) · товар$/,'$1 · product','$1 · тауар'],
+ [/^Товар (\d+)$/,'Product $1','$1-тауар'],
+ [/^Сумма долей по штукам: (.+)$/,'Unit-share total: $1','Дана бойынша үлестер жиыны: $1'],
+ [/^Помесячный cash flow · (\d+) месяцев$/,'Monthly cash flow · $1 months','Айлық ақша ағыны · $1 ай'],
 [/^Плановая скидка покупателю, % \(макс\. ([\d.,\s\u00a0]+)%\)$/,
   'Planned customer discount, % (max. $1%)',
   'Сатып алушыға жоспарланған жеңілдік, % (ең көбі $1%)'],
