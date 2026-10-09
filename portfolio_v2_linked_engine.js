@@ -45,7 +45,7 @@
     const report=(path,message)=>{errors.push(message);fieldErrors.push({path,message})};
     const rows=Array.isArray(offers)?offers:[];
     const allowed=new Set(['cross_sell','upsell','bundle']);
-    const exclusive={},overlaps={};
+    const exclusive={},overlaps={},discountedUnits={};
     const orders={...baseOrders};
     rows.forEach((r,i)=>{
       const key='offers.'+i,identifier=String(r?.id||'');
@@ -58,6 +58,11 @@
       if(r?.attachPct===''||!Number.isFinite(rawPct)||rawPct<=0||rawPct>100)
         report(key+'.attachPct','Доля покупателей должна быть больше 0% и не выше 100%.');
       const overlapPct=Number(r?.overlapPct??0);
+      const promo=Number(r?.bundleDiscountPct??0);
+      if(!Number.isFinite(promo)||promo<0||promo>=100)
+        report(key+'.bundleDiscountPct','Скидка комплекта должна быть от 0% до менее 100%.');
+      if(r?.mode!=='bundle'&&promo>0)
+        report(key+'.bundleDiscountPct','Скидка набора применима только к комбо.');
       if(!Number.isFinite(overlapPct)||overlapPct<0||overlapPct>100)
         report(key+'.overlapPct','Пересечение с самостоятельными продажами — от 0 до 100%.');
       const parts=Array.isArray(r?.items)?r.items:[];
@@ -73,10 +78,13 @@
         components.push({skuId:target,qty:quantity});
       });
       if(!allowed.has(r?.mode)||!knownIds.has(anchor)||!(rawPct>0&&rawPct<=100)||
-         !(overlapPct>=0&&overlapPct<=100)||!parts.length||
+         !(overlapPct>=0&&overlapPct<=100)||!(promo>=0&&promo<100)||!parts.length||
          components.some(p=>!knownIds.has(p.skuId)||p.skuId===anchor||
            !Number.isInteger(p.qty)||p.qty<1||p.qty>100)||local.size!==parts.length)return;
       const attach=pos(baseOrders[anchor])*rawPct/100;
+      if(r.mode==='bundle'){
+        discountedUnits[anchor]=(discountedUnits[anchor]||0)+attach*promo/100;
+      }
       if(r.mode==='upsell'||r.mode==='bundle')exclusive[anchor]=(exclusive[anchor]||0)+rawPct;
       if(r.mode==='upsell')orders[anchor]-=attach;
       const detail=components.map(p=>{
@@ -84,10 +92,12 @@
         const overlap=gross*overlapPct/100;
         overlaps[p.skuId]=(overlaps[p.skuId]||0)+overlap;
         orders[p.skuId]+=gross-overlap;
+        if(r.mode==='bundle')
+          discountedUnits[p.skuId]=(discountedUnits[p.skuId]||0)+gross*promo/100;
         return {...p,grossUnits:gross,overlapUnits:overlap,netAddedUnits:gross-overlap};
       });
       events.push({id:identifier,mode:r.mode,anchorSkuId:anchor,
-        attachPct:rawPct,overlapPct,transactions:attach,items:detail});
+        attachPct:rawPct,overlapPct,bundleDiscountPct:promo,transactions:attach,items:detail});
     });
     for(const [sku,pct] of Object.entries(exclusive))
       if(pct>100+1e-8)report('offers','Наборы и upsell для «'+sku+'» суммарно охватывают больше 100% самостоятельных покупателей.');
@@ -96,9 +106,12 @@
         'Пересечение продаж «'+sku+'» превышает его независимый спрос из V1.');
     for(const [sku,qty] of Object.entries(orders))
       if(qty<-1e-7)report('offers','Отрицательный прогноз для «'+sku+'».');
+    for(const [sku,qty] of Object.entries(discountedUnits))
+      if(qty>pos(orders[sku])+1e-7)report('offers',
+        'Несколько наборов используют больше единиц «'+sku+'», чем продано в портфеле.');
     const adjustments=Object.fromEntries(Array.from(knownIds,id=>[
       id,pos(orders[id])-pos(baseOrders[id])]));
-    return {orders,baseOrders,adjustments,events,errors,fieldErrors,
+    return {orders,baseOrders,adjustments,events,discountedUnits,errors,fieldErrors,
       totalBaseUnits:sum(Object.values(baseOrders)),totalUnits:sum(Object.values(orders)),
       attributedTransactions:sum(events.map(e=>e.transactions))};
   }
@@ -220,8 +233,9 @@
       const variable=pos(s.variableSalesPct)/100,goal=marginRate(s,marginPct);
       const localTax=pos(s.ownerTax?.pct??state.tax?.pct)/100;
       const localType=s.ownerTax?.type||taxType;
-      const retained=1-variable-(localType==='turnover'?localTax:0)-
-        goal/(localType==='profit'?1-localTax:1);
+      const realizedFraction=1-pos(s._bundleDiscountFraction);
+      const retained=realizedFraction*(1-variable-(localType==='turnover'?localTax:0)-
+        goal/(localType==='profit'?1-localTax:1));
       if(retained<=0||s.discountSelected>=100)return Infinity;
       return unitLoad/retained*(1+pos(s.vatPct)/100)/(1-s.discountSelected/100);
     }
@@ -254,11 +268,13 @@
           Math.max(0,pos(s.serviceElectricityUnit)-(cashOffsets[s.id].fulfillment/baselineOrders))+
           Math.max(0,pos(s.serviceFixedMonthly)-cashOffsets[s.id].production)/Math.max(EPS,orders):
           pos(s.unitCost)-embeddedUnit;
+        const bundleExposure=orders>0?pos(basket.discountedUnits[s.id])/orders:0;
+        const priced={...s,_bundleDiscountFraction:bundleExposure};
         const unitLoad=orders>0?netUnitCost+(media+monthlyManager+monthlySelling+
           monthlyResources+pos(s.creditServiceMonthly))/orders:Infinity;
-        return {s,media,orders,monthlyResources,monthlyManager,monthlySelling,
-          netUnitCost,unitLoad,priceTarget:requiredListPrice(s,unitLoad,s.targetMarginPct),
-          priceFloor:requiredListPrice(s,unitLoad,s.minimumMarginPct)};
+        return {s,media,orders,monthlyResources,monthlyManager,monthlySelling,bundleExposure,
+          netUnitCost,unitLoad,priceTarget:requiredListPrice(priced,unitLoad,s.targetMarginPct),
+          priceFloor:requiredListPrice(priced,unitLoad,s.minimumMarginPct)};
       });
       return {allocation,mediaBySku,projections,basket};
     };
@@ -284,12 +300,15 @@
     if(!converged)report('resources','Распределение рекламного бюджета и цен не сошлось; зафиксируйте загрузку кампаний по товарам.');
     scenario=calculateScenario(prices,projectedOrders);
     for(const e of scenario.basket.fieldErrors)report(e.path,e.message);
+    if(rows.some(s=>s.fixedPriceFromV1&&pos(scenario.basket.discountedUnits[s.id])>EPS))
+      report('offers','Фиксированное онлайн-вознаграждение нельзя снижать скидкой без указания плательщика.');
     const items=scenario.projections.map(p=>{
-      const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad}=p;
+      const {s,media,orders,monthlyResources,monthlyManager,monthlySelling,netUnitCost,unitLoad,bundleExposure}=p;
       const priceList=Math.max(pos(s.priceMin),Math.min(pos(s.priceMax),
         Math.ceil(prices[s.id]*100-1e-8)/100));
       const grossPrice=priceList*(1-s.discountSelected/100);
-      const priceNet=grossPrice/(1+pos(s.vatPct)/100);
+      const standaloneNet=grossPrice/(1+pos(s.vatPct)/100);
+      const priceNet=standaloneNet*(1-bundleExposure);
       const revenue=priceNet*orders,commission=revenue*pos(s.variableSalesPct)/100;
       const cogs=netUnitCost*orders,creditMonthly=pos(s.creditServiceMonthly);
       const ebitda=revenue-cogs-commission-media-monthlyManager-monthlySelling-monthlyResources;
@@ -300,7 +319,7 @@
         actualAfterTaxMargin+.00001>=pos(s.minimumMarginPct));
       const targetOk=Number.isFinite(p.priceTarget)&&p.priceTarget<=pos(s.priceMax)+.005&&
         actualAfterTaxMargin+.00001>=pos(s.targetMarginPct);
-      return {...s,priceSelected:priceList,priceList,priceGross:grossPrice,priceNet,
+      return {...s,priceSelected:priceList,priceList,priceGross:grossPrice,priceNet,standaloneNet,bundleExposure,
         requiredTargetPrice:p.priceTarget,requiredFloorPrice:p.priceFloor,
         forecastOrders:orders,adBudgetEffective:media,revenue,cogs,commission,
         manager:monthlyManager,selling:monthlySelling,resourceShares:monthlyResources,
@@ -350,18 +369,32 @@
         ', а предел V1 — '+item.priceMax+'.');
     if(!invariantMedia||Math.abs(allocated-resourcesTotal)>=EPS)
       report('resources','Не удалось распределить все расходы без потерь или повторного учёта.');
-    const basket={...scenario.basket,transactions:scenario.basket.events.map(event=>({
-      ...event,anchorName:items.find(s=>s.id===event.anchorSkuId)?.name||event.anchorSkuId,
-      items:event.items.map(p=>({...p,name:items.find(s=>s.id===p.skuId)?.name||p.skuId}))
-    }))};
+    const basket={...scenario.basket,transactions:scenario.basket.events.map(event=>{
+      const anchor=items.find(s=>s.id===event.anchorSkuId);
+      const ordinaryGross=(event.mode==='upsell'?0:pos(anchor?.priceGross))+
+        sum(event.items.map(p=>pos(items.find(s=>s.id===p.skuId)?.priceGross)*p.qty));
+      return {...event,anchorName:anchor?.name||event.anchorSkuId,
+        buyerPriceBefore:ordinaryGross,
+        buyerPriceAfter:ordinaryGross*(1-(event.mode==='bundle'?event.bundleDiscountPct:0)/100),
+        items:event.items.map(p=>({...p,name:items.find(s=>s.id===p.skuId)?.name||p.skuId}))};
+    })};
     // Lift is measured at the same calculated portfolio prices, not against
     // a separately repriced standalone scenario (which would mix two effects).
-    basket.revenueLift=sum(items.map(s=>(basket.adjustments[s.id]||0)*s.priceNet));
+    basket.revenueLift=sum(items.map(s=>s.revenue-
+      pos(basket.baseOrders[s.id])*s.standaloneNet));
+    basket.bundleSavingsGross=sum(basket.events.filter(e=>e.mode==='bundle').map(e=>{
+      const before=items.find(s=>s.id===e.anchorSkuId).priceGross+
+        sum(e.items.map(p=>items.find(s=>s.id===p.skuId).priceGross*p.qty));
+      return before*e.transactions*e.bundleDiscountPct/100;
+    }));
+    basket.bundleSavingsNet=sum(items.map(s=>
+      s.standaloneNet*pos(basket.discountedUnits[s.id])));
     basket.variableContributionLift=sum(items.map(s=>{
       const unitVariable=s.source==='offline-service'?
         pos(s.serviceMaterialsUnit)+pos(s.serviceElectricityUnit):pos(s.unitCostEffective);
-      return (basket.adjustments[s.id]||0)*
-        (s.priceNet*(1-pos(s.variableSalesPct)/100)-unitVariable);
+      const revDelta=s.revenue-pos(basket.baseOrders[s.id])*s.standaloneNet;
+      return revDelta*(1-pos(s.variableSalesPct)/100)-
+        (basket.adjustments[s.id]||0)*unitVariable;
     }));
     const base={ready:!errors.length,errors,fieldErrors,items,basket,
       resources:scenario.allocation,offsets,cashOffsets,

@@ -150,3 +150,59 @@ test('MBA cycles do not recursively acquire customers or multiply attached units
  eq(r.basket.attributedTransactions,9);
  eq(r.basket.adjustments.a+r.basket.adjustments.b,9);
 });
+
+test('bundle-level 10% discount is applied across all sold components without duplicate CAC',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.offers=[{id:'combo',mode:'bundle',anchorSkuId:'a',attachPct:20,
+   overlapPct:0,bundleDiscountPct:10,items:[{skuId:'b',qty:1}]}];
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ const a=r.items.find(s=>s.id==='a'),b=r.items.find(s=>s.id==='b');
+ const normal=a.standaloneNet*25+b.standaloneNet*25;
+ const savings=5*.1*(a.standaloneNet+b.standaloneNet);
+ eq(a.forecastOrders,25);eq(b.forecastOrders,25);
+ eq(r.totals.revenue,normal-savings);
+ eq(r.basket.bundleSavingsNet,savings);
+ eq(r.basket.bundleSavingsGross,5*.1*(a.priceGross+b.priceGross));
+ eq(r.basket.revenueLift,r.totals.revenue-(a.standaloneNet*25+b.standaloneNet*20));
+ eq(r.cashflow.months.reduce((v,m)=>v+m.receipt,0),r.totals.revenue);
+ eq(r.totals.media,450);
+});
+test('discount counterfactual remains negative for all-existing purchases and does not invent uplift',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.offers=[{id:'combo',mode:'bundle',anchorSkuId:'a',attachPct:20,
+   overlapPct:100,bundleDiscountPct:10,items:[{skuId:'b',qty:1}]}];
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ A.ok(r.basket.revenueLift<0);
+ A.ok(r.basket.variableContributionLift<0);
+ eq(r.basket.adjustments.a,0);eq(r.basket.adjustments.b,0);
+});
+test('bundle discount VAT gross, net and turnover tax are based on actual discounted receipts',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.skus[0].vatPct=20;x.skus[1].vatPct=10;
+ x.offers=[{id:'combo',mode:'bundle',anchorSkuId:'a',attachPct:20,
+   overlapPct:0,bundleDiscountPct:15,items:[{skuId:'b',qty:2}]}];
+ const r=E.build(x);A.equal(r.ready,true,JSON.stringify(r.errors));
+ const a=r.items[0],b=r.items[1];
+ eq(a.priceNet,a.priceGross/1.2*(1-5*.15/25));
+ eq(b.priceNet,b.priceGross/1.1*(1-10*.15/30));
+ eq(r.totals.tax,r.totals.revenue*.03);
+ eq(r.cashflow.months.reduce((v,m)=>v+m.tax,0),r.totals.tax);
+ eq(r.basket.bundleSavingsGross,5*.15*(a.priceGross+2*b.priceGross));
+});
+test('bundle discount fails closed if contract fixed, >100 or a price ceiling cannot fund it',()=>{
+ const x=sample();x.skus[0].inventoryQty=100;
+ x.offers=[{id:'combo',mode:'bundle',anchorSkuId:'a',attachPct:20,
+   overlapPct:0,bundleDiscountPct:120,items:[{skuId:'b',qty:1}]}];
+ let r=E.build(x);A.equal(r.ready,false);
+ A.ok(r.errors.some(x=>x.includes('Скидка комплекта')));
+ x.offers[0].bundleDiscountPct=95;
+ x.offers[0].attachPct=100; // 95% off every anchor unit is economically impossible at V1 max
+ r=E.build(x);A.equal(r.ready,false);
+ A.ok(r.errors.some(x=>x.includes('минимум рентабельности')));
+ x.offers[0].bundleDiscountPct=10;
+ x.offers[0].attachPct=20;
+ x.skus[1].fixedPriceFromV1=true;
+ r=E.build(x);A.equal(r.ready,false);
+ A.ok(r.errors.some(x=>x.includes('Фиксированное онлайн-вознаграждение')||
+   x.includes('исходные условия')));
+});

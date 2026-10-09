@@ -14,7 +14,7 @@ function render(state,onChange){
  const skus=state.skus||[],offers=state.offers||[];
  const select=(current,exclude=[])=>'<option value="">Выберите позицию</option>'+
    skus.filter(s=>!exclude.includes(s.id)).map(s=>
-     option(s.id,s.name+(s.source==='offline-service'?' · услуга':' · товар'),current)).join('');
+     option(s.id,s.name+(['offline-service','online-service'].includes(s.source)?' · услуга':' · товар'),current)).join('');
  panel.className='rounded-2xl border border-slate-200 bg-white p-4 mb-5';
  panel.innerHTML='<h2 class="text-xl font-bold">3. Связанные продажи · Market Basket Analysis</h2>'+
    '<p class="text-sm text-slate-600 mt-2">Cross-sell добавляет товар или услугу, upsell заменяет основную покупку, комбо продаёт несколько позиций одной корзиной. Каждая связь строится на отдельном прогнозе V1 — без второго рекламного CAC.</p>'+
@@ -30,7 +30,9 @@ function render(state,onChange){
       select(r.anchorSkuId)+'</select></label>'+
     '<label class="text-xs font-semibold">Доля покупателей, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="attachPct" data-i="'+i+'" value="'+safe(r.attachPct)+'"></label>'+
     '<label class="text-xs font-semibold">Пересечение с самостоятельным спросом, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="overlapPct" data-i="'+i+'" value="'+safe(r.overlapPct)+'"></label>'+
-    '</div><p class="text-xs text-slate-600 mt-2">'+
+    '</div>'+
+    (r.mode==='bundle'?'<label class="block text-xs font-semibold mt-2">Скидка на весь комплект, % (всем позициям пропорционально цене)<input type="number" min="0" max="99.99" step="any" class="input-field mt-1" data-basket-field="bundleDiscountPct" data-i="'+i+'" value="'+safe(r.bundleDiscountPct??0)+'"></label>':'')+
+    '<p class="text-xs text-slate-600 mt-2">'+
       (r.mode==='upsell'?'Исходная позиция исключается из чека; новая занимает её место.':
        r.mode==='bundle'?'Базовая позиция входит в набор один раз, дополнения перечислены ниже.':
        'Базовая позиция сохраняется в чеке, дополнения покупаются вместе с ней.')+
@@ -55,7 +57,7 @@ function render(state,onChange){
      const anchor=skus[0].id,targetSku=skus.find(s=>s.id!==anchor).id;
      offerSequence=1+Math.max(offerSequence,...next.map(x=>Number(String(x.id).replace(/\D/g,''))||0));
      next.push({id:'offer-'+offerSequence++,mode:'cross_sell',anchorSkuId:anchor,attachPct:10,
-       overlapPct:0,items:[{skuId:targetSku,qty:1}]});
+       overlapPct:0,bundleDiscountPct:0,items:[{skuId:targetSku,qty:1}]});
    }else if(hit.dataset.basketAction==='remove')next.splice(i,1);
    else if(hit.dataset.basketAction==='add-item'){
      const r=next[i];if(!r)return;
@@ -75,6 +77,8 @@ function render(state,onChange){
    if(!next[i])return;
    if(field.dataset.j!==undefined)next[i].items[j][field.dataset.basketField]=field.value;
    else next[i][field.dataset.basketField]=field.value;
+   if(field.dataset.basketField==='mode'&&field.value!=='bundle')
+      next[i].bundleDiscountPct=0;
    commit(next,field.tagName==='SELECT');
  }
  panel.oninput=edit;panel.onchange=edit;
@@ -88,15 +92,18 @@ function updateResult(out){
  }
  if(!basket?.events?.length){host.innerHTML='<p class="text-xs text-slate-500">Связей пока нет. Обычные расчёты V2 остаются неизменными.</p>';return;}
  host.innerHTML='<h3 class="font-bold mt-3">Прогноз привязанных покупок</h3>'+
+  (basket.bundleSavingsGross>0?
+    '<p class="text-sm mt-2 text-emerald-800">Скидки по комплектам за месяц: <b>'+money(basket.bundleSavingsGross)+
+    '</b> с НДС; уменьшение выручки без НДС: <b>'+money(basket.bundleSavingsNet)+'</b>. Пересчёт включён в цену, налог, маржу и Cash Flow.</p>':'')+
   '<div class="overflow-x-auto mt-2"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Вариант','Основная позиция','Чеков со связкой','Дополнения (шт. в чеке)','Дополнительно, ед.','Пересечение, ед.']
+  ['Вариант','Основная позиция','Чеков со связкой','Дополнения (шт. в чеке)','Дополнительно, ед.','Пересечение, ед.','Скидка комплекта','Цена чека до','Покупатель платит']
   .map(h=>'<th class="p-2 text-right">'+h+'</th>').join('')+'</tr></thead><tbody>'+
-  basket.events.map(e=>{
+  (basket.transactions||basket.events).map(e=>{
     const main=out.items.find(s=>s.id===e.anchorSkuId)?.name||e.anchorSkuId;
     const extra=e.items.map(p=>(out.items.find(s=>s.id===p.skuId)?.name||p.skuId)+' × '+p.qty).join('; ');
     const values=[e.mode==='bundle'?'Набор':e.mode==='upsell'?'Upsell':'Cross-sell',
        main,money(e.transactions),extra,money(e.items.reduce((v,p)=>v+p.netAddedUnits,0)),
-       money(e.items.reduce((v,p)=>v+p.overlapUnits,0))];
+       money(e.items.reduce((v,p)=>v+p.overlapUnits,0)),e.mode==='bundle'?money(e.bundleDiscountPct)+'%':'—',money(e.buyerPriceBefore),money(e.buyerPriceAfter)];
     return '<tr class="border-t border-slate-200">'+values.map(v=>'<td class="p-2 text-right whitespace-nowrap">'+safe(v)+'</td>').join('')+'</tr>';
   }).join('')+'</tbody></table></div>'+
   '<p class="text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+money(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+money(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
