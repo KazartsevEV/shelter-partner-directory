@@ -251,6 +251,34 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       const gaps=await page.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps());
       A.equal(gaps.length,0,expected+' linked V2 gaps: '+JSON.stringify(gaps));
     }
+    // Actual file-input failure states on all RU/KK/EN browsers. An invalid
+    // import must remain a read-only rejection, never replace saved history.
+    const initialDraft=await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState()));
+    const rejectedUploads=[
+      {name:'corrupt.json',source:'{',pattern:{
+        ru:/Некорректный JSON чеков/,en:/Invalid receipt JSON/,kk:/Чектердің JSON пішімі қате/}},
+      {name:'missing.csv',source:'order_id,date\nA,2026-09-01',pattern:{
+        ru:/В CSV отсутствует столбец sku_id/,en:/CSV is missing the sku_id column/,kk:/CSV файлында sku_id бағаны жоқ/}},
+      {name:'date.json',source:JSON.stringify([{
+        order_id:'invalid',date:'2026-02-30',sku_id:'own',quantity:1,
+        unit_price:100,currency:'GEL',channel:'online'}]),pattern:{
+        ru:/Строка 1: дата должна быть YYYY-MM-DD/,en:/Row 1: date must be YYYY-MM-DD/,kk:/1-жол: күн YYYY-MM-DD/}}
+    ];
+    for(const spec of rejectedUploads){
+      await page.locator('[data-mba-file]').setInputFiles({
+        name:spec.name,mimeType:spec.name.endsWith('.csv')?'text/csv':'application/json',
+        buffer:Buffer.from(spec.source)
+      });
+      await page.waitForFunction(({fragment})=>{
+        const n=document.querySelector('#linked-mba-panel [data-mba-message]');
+        return n&&n.textContent.includes(fragment);
+      },{fragment:expected==='en'?(spec.name==='corrupt.json'?'Invalid receipt JSON':spec.name==='missing.csv'?'CSV is missing':'Row 1: date'):
+        expected==='kk'?(spec.name==='corrupt.json'?'Чектердің JSON':spec.name==='missing.csv'?'CSV файлында':'1-жол'):
+        spec.name==='corrupt.json'?'Некорректный JSON':spec.name==='missing.csv'?'В CSV отсутствует':'Строка 1:'});
+      A.match(await page.locator('#linked-mba-panel [data-mba-message]').textContent(),spec.pattern[expected]);
+      A.equal(await page.evaluate(()=>JSON.stringify(LinkedPortfolioV2UI.getState())),initialDraft,
+        'invalid CSV/JSON upload must never mutate the draft');
+    }
     const baseline=await page.evaluate(()=>({
       state:JSON.stringify(LinkedPortfolioV2UI.getState()),
       result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
