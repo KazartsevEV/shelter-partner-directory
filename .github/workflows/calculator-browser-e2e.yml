@@ -17,6 +17,9 @@ on:
       - "tests/portfolio_v2_period_price_browser.test.cjs"
       - "tests/portfolio_v2_f3_fixture.cjs"
       - "tests/portfolio_v2_f3_mixed_browser.test.cjs"
+      - "tests/portfolio_v2_f4_release_browser.test.cjs"
+      - "portfolio_v2_period_price.js"
+      - "portfolio_v2_temporal_cash.js"
       - "portfolio_v2_period_price.js"
       - "portfolio_v2_pooled_media.js"
       - "portfolio_v2_temporal_cash.js"
@@ -35,6 +38,15 @@ on:
       - "tests/portfolio_v2_mba_observed.test.cjs"
       - "tests/portfolio_v2_mba_browser.test.cjs"
       - "tests/marketing_calc_inline_errors.test.cjs"
+      - ".github/workflows/calculator-browser-e2e.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "Marketing_calc.HTML"
+      - "portfolio_v2_linked_ui.js"
+      - "portfolio_v2_period_price.js"
+      - "portfolio_v2_temporal_cash.js"
+      - "tests/portfolio_v2_f4_release_browser.test.cjs"
       - ".github/workflows/calculator-browser-e2e.yml"
   workflow_dispatch:
 
@@ -69,6 +81,7 @@ jobs:
           node tests/portfolio_v2_period_pnl_browser.test.cjs
           node tests/portfolio_v2_period_price_browser.test.cjs
           node tests/portfolio_v2_f3_mixed_browser.test.cjs
+          node tests/portfolio_v2_f4_release_browser.test.cjs
           node tests/portfolio_v2_resource_lifecycle_browser.test.cjs
           node tests/portfolio_v2_mba_capacity_browser.test.cjs
           node tests/portfolio_v2_mba_browser.test.cjs
