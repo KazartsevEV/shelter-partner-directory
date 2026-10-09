@@ -248,7 +248,9 @@ test('English and Kazakh finance glossary distinguishes markup, margin, profit, 
   ['Налог партнёра на оборот*','Partner turnover tax*','Серіктестің айналым салығы*'],
   ['Тело кредита','Loan principal','Несиенің негізгі борышы'],
   ['Прогноз продаж','Sales forecast','Сатылым болжамы'],
-  ['Эквайринг','Payment processing','Эквайринг']
+  ['Эквайринг','Payment processing','Эквайринг'],
+  ['EBITDA (прибыль до налогов)','EBITDA (before interest, taxes, depreciation and amortization)','EBITDA (пайыздар, салықтар, тозу мен амортизацияға дейінгі пайда)'],
+  ['EBITDA (до налога)','EBITDA (before interest, tax, D&A)','EBITDA (пайыз, салық, тозу мен амортизацияға дейін)']
  ];
  for(const [ru,en,kk] of glossary){
   A.equal(tr(ru,'ru'),ru);
