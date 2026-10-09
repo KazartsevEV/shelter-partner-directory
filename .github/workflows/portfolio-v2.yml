@@ -9,6 +9,15 @@ on:
       - "tests/portfolio_v2_engine.test.cjs"
       - "tests/portfolio_v2_browser.test.cjs"
       - ".github/workflows/portfolio-v2.yml"
+      - "tests/portfolio_v2_f4_release.test.cjs"
+      - "portfolio_v2_period_price.js"
+      - "portfolio_v2_linked_ui.js"
+      - ".github/workflows/calculator-tests.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/portfolio-v2.yml"
+      - ".github/workflows/calculator-tests.yml"
   workflow_dispatch:
 
 permissions:
