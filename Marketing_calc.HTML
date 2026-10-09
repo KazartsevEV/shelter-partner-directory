@@ -729,8 +729,8 @@
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div id="production-worker-heading" class="text-sm font-medium text-slate-800">Кто выполняет производство?</div>
                         <div class="grid grid-cols-2 gap-2 mt-2">
-                            <button type="button" data-production-labor-mode="self" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Всё делаю сам</button>
-                            <button type="button" data-production-labor-mode="workers" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Плачу рабочим</button>
+                            <button type="button" id="production-self-button" data-production-labor-mode="self" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Всё делаю сам</button>
+                            <button type="button" id="production-workers-button" data-production-labor-mode="workers" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Плачу рабочим</button>
                         </div>
 
                         <div id="own-production-workers-wrap" class="hidden mt-4 space-y-4" hidden data-product-collapsible>
@@ -741,11 +741,11 @@
 
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Количество рабочих</label>
+                                    <label id="production-workers-count-label" class="block text-xs text-slate-500 mb-1">Количество рабочих</label>
                                     <input id="own-production-workers-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateProductionWorkersCost()">
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц, у.е.*</label>
+                                    <label id="production-worker-gross-label" class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц, у.е.*</label>
                                     <input id="own-production-worker-gross" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionWorkersCost()">
                                 </div>
                             </div>
@@ -5694,6 +5694,8 @@
             if (additionalNameError) additionalNameError.classList.add('hidden');
 
             document.getElementById('product-source-name').textContent = '';
+            const capacityField=document.getElementById('offline-service-monthly-capacity');
+            if(capacityField)capacityField.value='';
             productSource=null;
             setResaleProductPanels();
             document.querySelectorAll('.product-name-live').forEach(el => { el.textContent = ''; });
@@ -6050,6 +6052,10 @@
             set('production-stage-heading',service?'Офлайн-услуга · рабочее место и персонал':'Производство');
             set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');
             set('production-worker-heading',service?'Кто оказывает услугу?':'Кто выполняет производство?');
+            set('production-self-button',service?'Я оказываю услуги сам':'Всё делаю сам');
+            set('production-workers-button',service?'Нанимаю мастеров':'Плачу рабочим');
+            set('production-workers-count-label',service?'Количество мастеров':'Количество рабочих');
+            set('production-worker-gross-label',service?'Gross 1 мастера / месяц, у.е.*':'Gross 1 рабочего / месяц, у.е.*');
             set('production-result-caption',service?'Аренда, мастера и другие расходы на 1 услугу':'Стоимость производства 1 ед.');
             set('production-qty-label',service?'Прогноз оказанных услуг':'Сколько единиц');
             set('production-qty-suffix',service?'в месяц (из рекламной воронки)':'производите в месяц?');
