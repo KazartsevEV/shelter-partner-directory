@@ -67,3 +67,46 @@ test('no financial code is patched with presentation locale metadata',()=>{
   A.ok(!finance.includes('Nomad360LocaleCore'),source+' must remain independent of UI language');
  }
 });
+
+test('V1 visible placeholders and service validations have complete RU/EN/KK display translations',()=>{
+ const html=fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
+ const placeholders=[...html.matchAll(/\bplaceholder=(["'])(.*?)\1/g)]
+  .map(m=>m[2]).filter(value=>/[А-Яа-яЁё]/.test(value));
+ A.ok(placeholders.length>=12,'real static placeholder audit must run');
+ for(const value of placeholders){
+  A.ok(win.Nomad360LocaleCore.hasTranslation(value),'missing localized placeholder: '+value);
+  for(const language of ['en','kk']){
+   A.notEqual(tr(value,language),value,'untranslated '+language+' placeholder: '+value);
+  }
+ }
+ const issues=[
+  'Значение не может быть отрицательным.',
+  'Процент должен быть от 0 до 100.',
+  'Период должен быть целым числом от 1 до 120 месяцев.',
+  'При положительном рекламном бюджете CPC должен быть больше нуля.',
+  'Без положительного CTR нельзя получить клики из показов.'
+ ];
+ for(const language of ['en','kk']){
+  for(const issue of issues)A.notEqual(tr(issue,language),issue);
+  const full='Нет корректного прогноза: '+issues.join(' ');
+  const translated=tr(full,language);
+  A.ok(!/[А-Яа-яЁё]/.test(translated),'untranslated service input diagnostic: '+translated);
+  A.equal(tr(full+' Unknown','en'),full+' Unknown','unknown composite stays Russian and fail-closed');
+ }
+});
+test('month, agent payer and unverified diagnostics keep numeric and payer contracts',()=>{
+ A.equal(tr('Месяц 12','en'),'Month 12');
+ A.equal(tr('Месяц 12','kk'),'12-ай');
+ A.equal(tr('3 месяца (по сценарию)','en'),'3 months (scenario)');
+ A.equal(tr('3 месяца (по сценарию)','kk'),'3 ай (сценарий бойынша)');
+ A.equal(tr('Не выбран плательщик: рекламный бюджет, домен.','en'),
+  'Payer not selected: advertising budget, domain.');
+ A.equal(tr('Не распределены: ведение рекламы, лид-магнит','kk'),
+  'Бөлінбеген: жарнаманы басқару, лид-магнит');
+ A.equal(tr('Не выбран плательщик: неизвестное поле.','en'),
+  'Не выбран плательщик: неизвестное поле.','unrecognized payer never transformed');
+ A.equal(tr('Месяц 2: Пустой портфель.','en'),'Month 2: Portfolio is empty.');
+ A.equal(tr('Месяц 2: Неизвестная ошибка.','en'),
+  'Месяц 2: Неизвестная ошибка.','unknown nested diagnostic not partially translated');
+ A.equal(tr('Не удалось заполнить демо: Сбой API','en'),'Could not load demo: Сбой API');
+});
