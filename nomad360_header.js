@@ -6,41 +6,47 @@
     ru: {
       nav: ['Калькулятор','AI-маркетолог','Контент-фабрика','О проекте','Контакты'],
       support:'Поддержать',license:'Лицензия',data:'Данные',menu:'Открыть меню',close:'Закрыть меню',
-      brand:'Nomad360',goal:'Цель проекта',about:'О проекте',
-      mission:'Освобождение личного времени от рутины путём автоматизации процессов — для того, что действительно важно.',
-      project:'Nomad360 — амбициозный проект по развитию сервисов для предпринимателей и бизнеса. Цель — дать ясную картину инвестиционного ландшафта и бизнес-климата здесь и сейчас для принятия управленческих решений.',
-      calculator:'Калькулятор — гибкая бизнес-модель. За 20 минут при наличии исходных данных помогает разобраться, из чего состоит бизнес и чем и как выгодно заниматься. Для ведения бизнеса рекомендуем достроить модель под себя.',
-      ai:'Анализ рынка и аудитории, планирование маркетинга, подготовка материалов и оценка результатов.',
-      factory:'Производство цифрового контента, обработка, оформление, контроль качества и подготовка к публикации.',
-      development:'В разработке',contact:'Контакты разработчика',dataTitle:'Данные и конфиденциальность',
-      dataCopy:'Расчёты выполняются в браузере. Черновики сохраняются на этом устройстве. PDF формируется средствами браузера.',
-      licenseTitle:'Условия использования',licenseCopy:'Копирование, изменение и встраивание калькулятора регулируются лицензией. Атрибуция автора и ссылка на оригинал обязательны.',licenseLink:'Читать лицензию'
+      about:'О проекте',goal:'Цель проекта',
+      mission:'Освободить личное время от рутины с помощью автоматизации процессов, чтобы это время работало на главное.',
+      project:'Nomad360 — проект по развитию сервисов для предпринимателей и бизнеса. Инструменты для принятия управленческих решений на основе ясной картины инвестиционного ландшафта и бизнес-климата здесь и сейчас. Сегодня работает бизнес-калькулятор.',
+      ai:'Исследует рынок и целевую аудиторию, формирует и проверяет маркетинговые гипотезы, готовит рекламные материалы, планирует кампании и анализирует результаты.',
+      factory:'Автоматизирует производство цифрового контента: обработку и оформление материалов, контроль качества, подготовку публикаций и учёт себестоимости.',
+      development:'В разработке',contact:'Контакты',
+      dataTitle:'Данные и конфиденциальность',
+      dataCopy:'Расчёты выполняются в браузере. Финансовые данные остаются на вашем устройстве, черновики сохраняются в хранилище браузера, PDF формируется средствами браузера. Для удаления сохранённых данных очистите данные сайта. При загрузке используются Tailwind CDN и Google Fonts: они получают технические данные запроса, включая IP-адрес и сведения о браузере. Финансовые данные расчётов им не передаются.',
+      licenseTitle:'Лицензия и использование',
+      licenseCopy:'Использование, копирование, изменение и встраивание калькулятора разрешены при сохранении названия калькулятора и ссылки на оригинал согласно действующей лицензии.',
+      licenseLink:'Читать лицензию'
     },
     en: {
       nav:['Calculator','AI Marketer','Content Factory','About','Contacts'],
       support:'Support',license:'License',data:'Data',menu:'Open menu',close:'Close menu',
-      brand:'Nomad360',goal:'Project objective',about:'About Nomad360',
-      mission:'Free up personal time through workflow automation — for what matters most.',
-      project:'Nomad360 is an ambitious project developing services for entrepreneurs and businesses. Its goal is to provide a clear, up-to-date picture of the investment landscape and business climate for management decisions.',
-      calculator:'The calculator is a flexible business model. With source data ready, an initial 20-minute calculation shows how a business works and which activities can be profitable. Adapt the model to your own business operations.',
-      ai:'Market and audience research, marketing planning, campaign materials and performance analysis.',
-      factory:'Digital content production, processing, formatting, quality control and publication preparation.',
-      development:'In development',contact:'Developer contacts',dataTitle:'Data and privacy',
-      dataCopy:'Calculations run in your browser. Drafts remain on this device. Your browser creates the PDF.',
-      licenseTitle:'Terms of use',licenseCopy:'The calculator license governs reuse, modification and embedding. Author attribution and the original source link are required.',licenseLink:'Read license'
+      about:'About Nomad360',goal:'Project objective',
+      mission:'Free up personal time for what matters by automating routine processes.',
+      project:'Nomad360 develops services for entrepreneurs and businesses. Tools for management decisions based on a clear view of the investment landscape and business climate here and now. The business calculator is available today.',
+      ai:'Researches markets and target audiences, develops and tests marketing hypotheses, prepares campaign materials, plans campaigns and evaluates results.',
+      factory:'Automates digital content production, editing and formatting, quality control, publication preparation and cost tracking.',
+      development:'In development',contact:'Contacts',
+      dataTitle:'Data and privacy',
+      dataCopy:'Calculations run in your browser. Financial data stays on your device; drafts are saved in browser storage and PDFs are created by the browser. Clear site data to remove saved calculations. The page loads Tailwind CDN and Google Fonts, which receive technical request data including IP address and browser information. Your financial calculations are not sent to these providers.',
+      licenseTitle:'License and usage',
+      licenseCopy:'You may use, copy, modify and embed the calculator while preserving its name and a link to the original under the current license.',
+      licenseLink:'Read license'
     },
     kk: {
       nav:['Калькулятор','AI-маркетолог','Контент фабрикасы','Жоба туралы','Байланыс'],
       support:'Қолдау',license:'Лицензия',data:'Деректер',menu:'Мәзірді ашу',close:'Мәзірді жабу',
-      brand:'Nomad360',goal:'Жобаның мақсаты',about:'Nomad360 жобасы туралы',
-      mission:'Күнделікті үдерістерді автоматтандыру арқылы адамның уақытын маңызды істерге босату.',
-      project:'Nomad360 — кәсіпкерлер мен бизнеске арналған сервистерді дамытуға бағытталған ауқымды жоба. Мақсат — басқарушылық шешімдер үшін инвестициялық ахуал мен бизнес ортаның қазіргі жағдайын айқын көрсету.',
-      calculator:'Калькулятор — икемді бизнес-модель. Бастапқы деректер дайын болса, 20 минут ішінде бизнестің құрылымын және қай бағыттың тиімді болуы мүмкін екенін бағалауға көмектеседі. Модельді өз бизнесіңіздің ерекшеліктеріне бейімдеңіз.',
-      ai:'Нарық пен аудиторияны зерттеу, маркетингті жоспарлау, материалдар дайындау және нәтижені талдау.',
-      factory:'Цифрлық контент өндіру, өңдеу, рәсімдеу, сапасын тексеру және жариялауға дайындау.',
-      development:'Әзірленуде',contact:'Әзірлеушімен байланыс',dataTitle:'Деректер және құпиялық',
-      dataCopy:'Есептеулер браузеріңізде орындалады. Сақталған нобайлар осы құрылғыда қалады. PDF браузер арқылы жасалады.',
-      licenseTitle:'Пайдалану шарттары',licenseCopy:'Калькуляторды көшіру, өзгерту және ендіру лицензиямен реттеледі. Авторды көрсету және түпнұсқаға сілтеме беру міндетті.',licenseLink:'Лицензияны оқу'
+      about:'Nomad360 жобасы туралы',goal:'Жобаның мақсаты',
+      mission:'Күнделікті үдерістерді автоматтандыру арқылы жеке уақытты маңызды істерге босату.',
+      project:'Nomad360 кәсіпкерлер мен бизнеске арналған сервистерді дамытады. Мақсат — инвестициялық ахуал мен бизнес ортаның қазіргі жағдайын айқын көрсетіп, басқарушылық шешімдер қабылдауға көмектесу. Қазір бизнес-калькулятор жұмыс істейді.',
+      ai:'Нарық пен мақсатты аудиторияны зерттейді, маркетингтік болжамдарды әзірлеп тексереді, жарнама материалдарын дайындайды, науқандарды жоспарлап, нәтижелерін талдайды.',
+      factory:'Цифрлық контент өндіруді, өңдеуді, рәсімдеуді, сапаны тексеруді, жариялауға дайындауды және өзіндік құнын есептеуді автоматтандырады.',
+      development:'Әзірленуде',contact:'Байланыс',
+      dataTitle:'Деректер және құпиялық',
+      dataCopy:'Есептеулер браузеріңізде орындалады. Қаржылық деректер құрылғыңызда қалады, нобайлар браузерде сақталады, PDF браузер арқылы жасалады. Сақталған есептерді жою үшін сайт деректерін тазалаңыз. Бетті жүктегенде Tailwind CDN және Google Fonts техникалық сұрау деректерін, соның ішінде IP мекенжайы мен браузер мәліметтерін алады. Қаржылық есеп деректері оларға берілмейді.',
+      licenseTitle:'Лицензия және пайдалану',
+      licenseCopy:'Қолданыстағы лицензия бойынша калькуляторды пайдалану, көшіру, өзгерту және енгізу кезінде оның атауын және түпнұсқаға сілтемені сақтау қажет.',
+      licenseLink:'Лицензияны оқу'
     }
   };
   const TARGETS = ['home-screen','nomad360-ai','nomad360-factory','nomad360-about','nomad360-contacts'];
@@ -54,7 +60,7 @@
   function infoMarkup(t) {
     return '<section id="nomad360-about" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.about)+'</h2><h3>'+esc(t.goal)+'</h3><p>'+esc(t.mission)+'</p><p>'+esc(t.project)+'</p>'+
-      '<p>'+esc(t.calculator)+'</p></section>'+
+      '</section>'+
       '<section id="nomad360-ai" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.nav[1])+'</h2><span class="nomad-status">'+esc(t.development)+'</span><p>'+esc(t.ai)+'</p></section>'+
       '<section id="nomad360-factory" class="nomad-info-block" tabindex="-1">'+
