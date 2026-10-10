@@ -755,6 +755,21 @@ async function sourceChoiceCase(browser) {
    A.match((await page.locator('#product-materials-block h2').innerText()).replace(/\s+/g,' '),
      /Закупки готового товара.*Футболка/,
      'Resale heading includes the current product name');
+    await page.locator('#product-source-block [data-product-source="dropship"]').click();
+    A.equal((await page.locator('#materials-step-name').textContent()).trim(),
+      'Дропшиппинг товара');
+    A.equal((await page.locator('#materials-step-help').textContent()).trim(),
+      'С расчётом оборотных средств');
+    A.equal(await page.locator('#materials-step-question').isVisible(),false,
+      'Dropshipping heading is a label rather than a question');
+    A.match((await page.locator('#product-materials-block h2').innerText()).replace(/\s+/g,' '),
+      /Дропшиппинг товара.*Футболка/,
+      'Dropshipping cost title names the current SKU');
+    A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('Дропшиппинг товара','en')),
+      'Product dropshipping');
+    A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('С расчётом оборотных средств','kk')),
+      'Айналым қаражатын есептеумен');
+    console.log('NOMAD360_DROPSHIP_COST_HEADING_GREEN');
 
   A.deepEqual(errors,[],'Source routing should not throw');
   console.log('NOMAD360_LABEL_ONLY_ROUTE_CHOICES_GREEN');
