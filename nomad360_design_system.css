@@ -1284,3 +1284,34 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
   :is(.aggregate-final-value,.final-buyer-price){
   color:var(--nd-v1-focus-orange);
 }
+
+/* PAYER-WIDTH-01: "Я" takes a narrow column; the longer counterparty label
+   gets the available width in every V1 logistics/import payer group.
+   Geometry only — selected states and payer calculations remain unchanged. */
+body #product-screen.nd-v1-product :is(
+  .grid.grid-cols-2:has(> button.logistics-payer-choice),
+  .grid.grid-cols-2:has(> button.import-payer-choice)
+){
+  grid-template-columns:minmax(56px,0.43fr) minmax(0,1.57fr);
+  gap:clamp(7px,2vw,12px);
+  min-width:0;
+  max-width:100%;
+}
+body #product-screen.nd-v1-product :is(
+  button.logistics-payer-choice,
+  button.import-payer-choice
+){
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  padding:10px clamp(5px,1.8vw,12px);
+  font-size:clamp(15px,3.9vw,17px);
+  line-height:1.3;
+  text-align:center;
+  white-space:normal;
+  overflow-wrap:break-word;
+  text-wrap:balance;
+}
