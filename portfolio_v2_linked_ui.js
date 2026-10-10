@@ -30,6 +30,7 @@ function updateEntry(){
 function resetSequence(){sequence=1+Math.max(0,...(state.resources||[]).map(r=>Number(String(r.id).replace(/\D/g,''))||0));}
 function enter(){
  root.showOnly('portfolio-v2-screen');
+ document.getElementById('portfolio-v2-screen')?.classList.add('nd-v2-linked-active');
  const host=document.getElementById('portfolio-v2-root');
  if(!host)return;
  host.replaceChildren();
