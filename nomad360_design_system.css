@@ -930,6 +930,20 @@ body .nd-v1-service .nd-v1-report-table :is(.overflow-x-auto,#monthly-scroll){
   min-width:0;
   overflow-x:auto;
 }
+/* Legacy generated service inputs fill the vertical-scroll container past its
+   scrollbar gutter. Reserve 12px so the page, not the fields, stays bounded. */
+body .nd-v1-service .nd-v1-input-panel #inputs-container{
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+  overflow-x:clip;
+}
+body .nd-v1-service .nd-v1-input-panel #inputs-container input.input-field{
+  box-sizing:border-box;
+  display:block;
+  width:calc(100% - 12px);
+  min-width:0;
+}
 /* Data entry: same fields, numeric alignment, focus/hover and action hierarchy. */
 body .nd-v1-screen :is(.input-field,input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea){
   background:#fff;
