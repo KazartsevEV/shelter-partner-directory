@@ -176,7 +176,8 @@ async function browserCase(browser,locale,expected){
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
   A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
-  await page.evaluate(()=>showHome());
+  await page.evaluate(()=>{showHome();window.scrollTo({top:0,behavior:'instant'});});
+  await page.waitForTimeout(250);
   await page.evaluate(()=>{
     const el=document.getElementById('start-multi-portfolio');
     window.__nomadV2Trace=[];
@@ -189,6 +190,7 @@ async function browserCase(browser,locale,expected){
       return result;
     };
   });
+  await choice.locator('#start-multi-portfolio').scrollIntoViewIfNeeded();
   await choice.locator('#start-multi-portfolio').click();
   await page.waitForTimeout(120);
   const v2Visible=await page.locator('#portfolio-v2-screen').isVisible();
