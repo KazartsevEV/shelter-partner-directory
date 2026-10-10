@@ -136,3 +136,38 @@ test('TZ02 daily financing ledger reconciles to monthly cash and principal matur
  near(short.daily[59].cashOnHand,short.cashOnHand,'short horizon cash');
  near(short.outstandingPrincipal,short.capital,'outstanding principal');
 });
+
+test('TZ02 matrix: independent accrual and cash oracles across VAT/tax/funding/horizon',()=>{
+ for(const vatPct of [0,12,20])for(const taxType of ['turnover','profit'])
+ for(const funding of ['own','credit'])for(const months of [1,3,5]){
+   const x=build({...base,vatPct,taxType,funding,months,
+     annualRatePct:18,creditMonths:4,commissionPct:3,
+     equipmentPurchase:1800,equipmentAmortMonthly:150,discountPct:7});
+   const sale=200*100*(1-.07)/(1+vatPct/100);
+   const variable=1600+sale*.03;
+   const interest=funding==='credit'?x.capital*.18/12:0;
+   near(x.reserve,(variable+10000)*.1,'reserve '+vatPct+taxType+funding+months);
+   for(const m of x.months){
+     const accrualInterest=funding==='credit'&&m.month<=4?interest:0;
+     const ebt=sale-variable-10000-150-accrualInterest;
+     const tax=taxType==='turnover'?sale*.1:Math.max(0,ebt)*.1;
+     const cash=sale-variable-10000-tax-accrualInterest;
+     near(m.revenue,sale,'independent net-VAT revenue');
+     near(m.variable,variable,'independent variable including commission');
+     near(m.ebt,ebt,'independent pretax profit');
+     near(m.tax,tax,'independent '+taxType+' tax');
+     near(m.profit,ebt-tax,'independent after-tax accounting profit');
+     near(m.operatingCash,cash,'independent operating cash');
+     near(m.principalDue,funding==='credit'&&m.month===4?x.capital:0,
+       'only contractual maturity repays principal');
+     const days=x.daily.slice((m.month-1)*30,m.month*30);
+     near(days.reduce((acc,d)=>acc+d.netCashFlow,0),m.netCashFlow,
+       'bank daily/monthly reconciliation');
+   }
+   near(x.daily[x.daily.length-1].cashOnHand,x.cashOnHand,'closing bank cash');
+   near(x.daily[x.daily.length-1].freeCash,x.freeCash,'closing available cash');
+   near(Math.max(0,-Math.min(0,...x.daily.map(d=>d.operatingCumulative))),
+     x.peakDeficit,'operational peak independent of funding');
+   near(x.totalDepreciation,150*months,'depreciation accrual over selected months');
+ }
+});
