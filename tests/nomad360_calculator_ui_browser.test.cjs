@@ -625,6 +625,69 @@ async function unifiedV1Case(browser) {
   console.log('NOMAD360_UNIFIED_V1_VISUAL_GREEN',JSON.stringify({theme,productTax}));
  }finally{await context.close()}
 }
+
+async function v1AccentsCase(browser){
+ const ctx=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ const page=await ctx.newPage();
+ const errors=[];page.on('pageerror',err=>errors.push(err.message));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ try{
+  await page.goto(entry,{waitUntil:'domcontentloaded'});
+  await page.locator('#start-own-product').click();
+  await page.locator('#product-name-input').fill('Майка');
+  await page.locator('#product-screen button[type="submit"]').click();
+  await page.locator('[data-product-source="own"]').click();
+  A.equal(await page.locator('#product-own-form').isVisible(),true);
+  const orange='rgb(237, 142, 99)',navy='rgb(22, 55, 90)',white='rgb(255, 255, 255)';
+  const results=await page.locator('#materials-landed-result,#production-unit-result,#logistics-unit-result,#sales-cost-result,#product-ad-result')
+    .evaluateAll(nodes=>nodes.map(node=>{
+      const css=getComputedStyle(node),num=node.querySelector('[id$="-unit-cost"],#own-sales-result-unit,#own-product-ad-cac-unit');
+      const kicker=node.querySelector('[data-detail-step],.text-emerald-700');
+      return {border:css.borderTopColor,bg:css.backgroundColor,
+        number:num&&getComputedStyle(num).color,kicker:kicker&&getComputedStyle(kicker).color};
+    }));
+  A.equal(results.length,5,'Five product cost summaries must exist');
+  A.ok(results.every(x=>x.border===orange&&x.number===orange&&x.kicker===orange),
+    'All five product V1 result boxes have orange numbers, kickers and borders: '+JSON.stringify(results));
+  A.ok(results.every(x=>x.bg!=='rgb(22, 55, 90)'),
+    'Cost summaries stay light, rather than turning into alert cards');
+  const appearance=async selector=>page.locator(selector).evaluate(el=>{
+    const css=getComputedStyle(el);return {background:css.backgroundColor,color:css.color,border:css.borderColor,pressed:el.getAttribute('aria-pressed')};
+  });
+  const known='[data-material-cost-mode="known"]',calculated='[data-material-cost-mode="calculate"]';
+  await page.locator(known).click();
+  A.equal(await page.locator('#own-materials-known-wrap').isVisible(),true,
+    'Choosing known costs must reveal its input, preserving business behavior');
+  A.deepEqual(await appearance(known),{background:orange,color:navy,border:orange,pressed:'true'});
+  A.equal((await appearance(calculated)).background,white,'Unselected alternative stays white');
+  await page.locator(calculated).click();
+  A.equal(await page.locator('#own-materials-calc-wrap').isVisible(),true,
+    'Switching option reveals alternate input fields');
+  A.equal(await page.locator('#own-materials-known-wrap').isVisible(),false);
+  A.deepEqual(await appearance(calculated),{background:orange,color:navy,border:orange,pressed:'true'});
+  A.equal((await appearance(known)).background,white,'Orange follows actual selection; never stays on the first choice');
+  const mine='[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="me"]',
+    other='[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="counterparty"]';
+  await page.locator(mine).click();
+  A.equal(await page.locator('#own-warehouse-inbound-details').isVisible(),true,
+    'Payer selection must still control logistics subform');
+  A.equal((await appearance(mine)).background,orange);
+  await page.locator(other).click();
+  A.equal(await page.locator('#own-warehouse-inbound-details').isVisible(),false);
+  A.equal((await appearance(other)).background,orange);
+  A.equal((await appearance(mine)).background,white);
+  const hints=await page.locator('#product-source-unavailable,#product-assortment-gate .bg-amber-50')
+    .evaluateAll(nodes=>nodes.map(n=>({bg:getComputedStyle(n).backgroundColor,
+      color:getComputedStyle(n).color,strong:getComputedStyle(n.querySelector('strong')||n).color})));
+  A.equal(hints.length,2);
+  A.ok(hints.every(x=>x.bg===navy&&x.color===orange&&x.strong===orange),
+    'V1 informational tips use navy background and orange copy: '+JSON.stringify(hints));
+  A.equal(await page.locator('#product-screen .text-red-600').first().evaluate(el=>getComputedStyle(el).color),
+    'rgb(220, 38, 38)','Validation errors remain red');
+  A.deepEqual(errors,[]);
+  console.log('NOMAD360_V1_ORANGE_ACCENTS_GREEN',JSON.stringify({results,hints,selection:'transferred'}));
+ }finally{await ctx.close()}
+}
 async function sourceChoiceCase(browser) {
  const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
  const page=await context.newPage();
@@ -669,5 +732,6 @@ async function sourceChoiceCase(browser) {
   await browserCase(browser,'en-US',{lang:'en',tagline:/Which business would be most profitable/});
   await sourceChoiceCase(browser);
   await unifiedV1Case(browser);
+  await v1AccentsCase(browser);
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_UI_PACKAGING_BROWSER_RED',e.stack||e);process.exitCode=1});
