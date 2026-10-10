@@ -1270,6 +1270,14 @@ body .nd-v1-product [data-business-advice] a{
   text-decoration-color:var(--nd-v1-focus-orange);
   text-underline-offset:4px;
 }
+/* Separate semantic validation from informational tips. Legacy Tailwind colors
+   can be absent in offline/mobile builds, so give errors an explicit red ink. */
+body .nd-v1-screen :is(
+  .text-red-500,.text-red-600,.text-red-700,
+  .text-rose-600,.text-rose-700,.text-rose-900
+){
+  color:#dc2626 !important;
+}
 /* The last V1 totals/price panels are light; any former emerald highlight
    follows the same orange accent, without altering negative money colors. */
 body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
