@@ -174,7 +174,7 @@
   const t=labels(),h=help();
   renderFunding();
   const next={...input,vatPct:el('full-service-vat').value,
-   taxType:el('full-service-tax').value,taxPct:el('full-service-tax-pct').value,
+   taxType:el('full-service-tax').value,taxPct:Number(el('full-service-tax-pct').value),
    months:Number(el('full-service-horizon').value),
    funding:el('full-service-funding').value,
    annualRatePct:el('full-service-rate').value,
