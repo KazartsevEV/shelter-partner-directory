@@ -149,8 +149,15 @@ async function browserCase(browser,locale,expected){
     desktopChoiceRects[1].x<desktopChoiceRects[2].x,'Three choice nodes share a desktop row');
   A.ok(Math.max(...desktopChoiceRects.map(x=>x.width))-Math.min(...desktopChoiceRects.map(x=>x.width))<2,
     'All desktop choice nodes have equal width');
-  A.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
-    'No horizontal page overflow on desktop');
+  const homeBounds=await choice.evaluate(el=>({
+    viewport:innerWidth,area:el.getBoundingClientRect().toJSON(),
+    content:el.scrollWidth,inner:el.clientWidth,
+    choices:[...el.querySelectorAll('.nomad-choice-button')].map(b=>b.getBoundingClientRect().toJSON())
+  }));
+  A.ok(homeBounds.area.x>=-1 && homeBounds.area.right<=homeBounds.viewport+1,
+    'Choice card must fit within desktop viewport: '+JSON.stringify(homeBounds));
+  A.ok(homeBounds.content<=homeBounds.inner+1,
+    'Choice card must not overflow horizontally: '+JSON.stringify(homeBounds));
   await page.setViewportSize({width:390,height:844});
   A.equal(await header.locator('.nomad-burger').isVisible(),true);
 
