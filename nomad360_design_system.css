@@ -1319,3 +1319,26 @@ body .nd-v1-product .nd-payer-choice-grid > :is(.logistics-payer-choice,.import-
     grid-template-columns:minmax(48px,1fr) minmax(0,2.65fr);
   }
 }
+
+/* SERVICE-ROMI-01: fourth card for classical ROMI; agent mode still has only
+   three partner/agent cash flow cards. Reuse V1 white-and-navy panel styles. */
+body #calculator-screen .nd-v1-metrics {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:16px;
+  min-width:0;
+}
+body #res-marketing-romi-card[hidden] { display:none !important; }
+@media(min-width:640px){
+  body #calculator-screen .nd-v1-metrics {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(min-width:1100px){
+  body #calculator-screen .nd-v1-metrics:not(.nd-v1-metrics-agent) {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  body #calculator-screen .nd-v1-metrics.nd-v1-metrics-agent {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
