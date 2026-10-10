@@ -170,7 +170,17 @@ const {pathToFileURL}=require('node:url');
   A.equal(mixed.pools[offlineId],'unitCost');
   A.equal(mixed.pools['extra-online'],'salesFixed');
   A.equal(mixed.ready,true,JSON.stringify(mixed.errors));
-  A.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  const overflows=await page.evaluate(()=>({
+    viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
+    elements:[...document.querySelectorAll('#portfolio-v2-screen *')].filter(e=>{
+      const r=e.getBoundingClientRect(),cs=getComputedStyle(e);
+      return r.right>innerWidth+2&&r.width>0&&cs.position!=='fixed'&&cs.display!=='none';
+    }).slice(0,15).map(e=>({tag:e.tagName,cls:String(e.className).slice(0,75),
+      id:e.id,right:Math.round(e.getBoundingClientRect().right),
+      width:Math.round(e.getBoundingClientRect().width)}))
+  }));
+  console.log('TZ02_MOBILE_OVERFLOW_DIAG',JSON.stringify(overflows));
+  A.equal(overflows.scrollWidth>overflows.viewport+1,false);
   A.deepEqual(errors,[]);
   console.log('TZ02_FULL_SERVICE_BROWSER_GREEN',{capital:seed.fixedCashMonthly+1160,rows:r.months.length});
  }finally{await browser.close()}
