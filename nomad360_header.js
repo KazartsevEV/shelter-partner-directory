@@ -63,6 +63,12 @@
       licenseTitle:'Лицензия и использование',
       licenseCopy:'Использование, копирование, изменение и встраивание калькулятора разрешены при сохранении названия калькулятора и ссылки на оригинал согласно действующей лицензии.',
       licenseLink:'Читать лицензию',
+      embedTitle:'Встроить калькулятор на мой сайт',
+      embedButton:'Скачать HTML калькулятора',
+      embedHint:'Опубликуйте код в редакторе сайта как кастомный HTML-блок с поддержкой JavaScript. Автоматическое обновление не поддерживается.',
+      customButton:'Заказать кастомную разработку',
+      embedWorking:'Подготавливаем HTML…',embedReady:'HTML готов к скачиванию',
+      embedError:'Не удалось собрать HTML. Проверьте подключение и попробуйте ещё раз.',
       officialTitle:'Официальный контакт',officialCopy:'Почта проекта для вопросов, сотрудничества и обращений по лицензии.',
       unitNote:'* у.е. — деньги в вашей валюте.',rights:'© 2026 Nomad360'
     },
@@ -112,6 +118,12 @@
       licenseTitle:'License and usage',
       licenseCopy:'You may use, copy, modify and embed the calculator while preserving its name and a link to the original under the current license.',
       licenseLink:'Read license',
+      embedTitle:'Embed the calculator on my website',
+      embedButton:'Download calculator HTML',
+      embedHint:'Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.',
+      customButton:'Request custom development',
+      embedWorking:'Preparing HTML…',embedReady:'HTML download ready',
+      embedError:'Could not prepare HTML. Check your connection and try again.',
       officialTitle:'Official contact',officialCopy:'Project email for questions, cooperation and licence enquiries.',
       unitNote:'* currency units — amounts are shown in your chosen currency.',rights:'© 2026 Nomad360'
     },
@@ -161,6 +173,12 @@
       licenseTitle:'Лицензия және пайдалану',
       licenseCopy:'Қолданыстағы лицензия бойынша калькуляторды пайдалану, көшіру, өзгерту және енгізу кезінде оның атауын және түпнұсқаға сілтемені сақтау қажет.',
       licenseLink:'Лицензияны оқу',
+      embedTitle:'Калькуляторды өз сайтыма енгізу',
+      embedButton:'Калькулятордың HTML файлын жүктеу',
+      embedHint:'Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.',
+      customButton:'Жеке әзірлеуге тапсырыс беру',
+      embedWorking:'HTML дайындалуда…',embedReady:'HTML жүктеуге дайын',
+      embedError:'HTML жасау мүмкін болмады. Интернетті тексеріп, қайта көріңіз.',
       officialTitle:'Ресми байланыс',officialCopy:'Сұрақтар, ынтымақтастық және лицензия бойынша өтініштерге арналған жоба поштасы.',
       unitNote:'* ш.б. — сіздің валютаңыздағы ақша.',rights:'© 2026 Nomad360'
     }
@@ -237,7 +255,12 @@
       t.products.map(p=>productMarkup(t,p)).join('')+'</div></section>'+
       '<div class="nomad-footer-meta">'+
       '<section id="nomad360-license" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.licenseTitle)+'</h3><p>'+esc(t.licenseCopy)+'</p>'+
-      '<p><a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p></section>'+
+      '<p><a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p>'+
+      '<div class="nomad-embed-actions"><p class="nomad-embed-title">'+esc(t.embedTitle)+'</p>'+
+      '<button type="button" class="nomad-embed-download" data-nomad-download-html>'+esc(t.embedButton)+'</button>'+
+      '<p class="nomad-embed-hint">'+esc(t.embedHint)+'</p>'+
+      '<a class="nomad-embed-contact" href="mailto:'+PAY.email+'?subject='+encodeURIComponent('Nomad360 — '+t.customButton)+'">'+esc(t.customButton)+'</a>'+
+      '<span class="nomad-embed-status" data-nomad-embed-status role="status" aria-live="polite"></span></div></section>'+
       '<section id="nomad360-data" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.dataTitle)+'</h3><p>'+esc(t.dataCopy)+'</p></section>'+
       '<section id="nomad360-official" class="nomad-meta-block"><h3>'+esc(t.officialTitle)+'</h3><p>'+esc(t.officialCopy)+'</p>'+
       '<p><a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
@@ -268,6 +291,72 @@
     }
     footer.setAttribute('data-nomad-no-translate','');
     footer.innerHTML=footerMarkup(COPY[language()]);
+  }
+  /* Export the currently deployed HTML, not a live iframe. Inline every
+     local script and stylesheet so that moving the HTML does not break relative
+     dependencies. Tailwind CDN / Google Fonts stay external network assets.
+     Local calculations and storage remain on the visitor's own origin. */
+  async function downloadEmbedHtml(button) {
+    if(button.disabled)return;
+    const t=COPY[language()];
+    const status=document.querySelector('[data-nomad-embed-status]');
+    const message=value=>{if(status)status.textContent=value;};
+    button.disabled=true;
+    button.setAttribute('aria-busy','true');
+    message(t.embedWorking);
+    try {
+      const base=new URL('./',root.location.href);
+      const get=async path=>{
+        const response=await root.fetch(new URL(path,base),{cache:'no-store'});
+        if(!response.ok)throw new Error('Unable to fetch '+path+': '+response.status);
+        return response;
+      };
+      const html=await (await get('Marketing_calc.HTML')).text();
+      const doc=new root.DOMParser().parseFromString(html,'text/html');
+      if(!doc.querySelector('#home-screen')||!doc.querySelector('#portfolio-v2-screen'))
+        throw new Error('Calculator HTML is incomplete');
+      const binary=await (await get('nomad360_wolf_open_circle.png')).blob();
+      const logo=await new Promise((resolve,reject)=>{
+        const reader=new root.FileReader();
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=()=>reject(reader.error);
+        reader.readAsDataURL(binary);
+      });
+      for(const link of Array.from(doc.querySelectorAll('link[rel="stylesheet"][href^="./"]'))){
+        const filename=link.getAttribute('href');
+        const css=await (await get(filename)).text();
+        const inline=doc.createElement('style');
+        inline.setAttribute('data-nomad-bundled',filename);
+        inline.textContent=css.replace(/<\\/style/gi,'<\\\\/style');
+        link.replaceWith(inline);
+      }
+      for(const old of Array.from(doc.querySelectorAll('script[src^="./"]'))){
+        const filename=old.getAttribute('src');
+        let code=await (await get(filename)).text();
+        if(filename==='./nomad360_header.js')
+          code=code.replaceAll('./nomad360_wolf_open_circle.png',logo);
+        const inline=doc.createElement('script');
+        inline.setAttribute('data-nomad-bundled',filename);
+        inline.textContent=code.replace(/<\\/script/gi,'<\\\\/script');
+        old.replaceWith(inline);
+      }
+      // A downloadable HTML snapshot freezes this edition of the calculator.
+      // The embedded version has no auto-sync and may depend on public CDN
+      // resources allowed by the host page's Content Security Policy.
+      const blob=new Blob(['<!DOCTYPE html>\\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;a.download='Nomad360-calculator-embed.html';
+      document.body.append(a);a.click();a.remove();
+      root.setTimeout(()=>URL.revokeObjectURL(url),60000);
+      message(t.embedReady);
+    }catch(error){
+      root.console?.error?.('Nomad360: HTML embed export failed',error);
+      message(t.embedError);
+    }finally{
+      button.disabled=false;
+      button.removeAttribute('aria-busy');
+    }
   }
   function copyText(value) {
     if(root.navigator.clipboard&&root.isSecureContext)return root.navigator.clipboard.writeText(value);
@@ -361,6 +450,8 @@
       });
     });
     document.addEventListener('click',event=>{
+      const download=event.target.closest('[data-nomad-download-html]');
+      if(download){downloadEmbedHtml(download);return;}
       const copy=event.target.closest('[data-nomad-copy]');
       if(copy){onCopy(copy);return;}
       if(!header.contains(event.target))closeMenu(false);
