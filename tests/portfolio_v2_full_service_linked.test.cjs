@@ -60,6 +60,7 @@ test('TZ02 full bullet loan leaves principal OUTSIDE 2-month horizon, matches in
  close(r.cashflow.months[1].interest,model.months[1].interest,'interest 2');
  A.equal(r.cashflow.months.reduce((n,m)=>n+m.principalRepaid,0),0);
  A.equal(r.cashflow.ownerCapital,0,'loan already finances its reserve');
+ close(r.cashflow.periodPnl.postHorizonInterest,10*model.months[0].interest,'future interest disclosed, not paid early');
 });
 test('TZ02 shared premises paid once, replacing embedded offline fixed cost',()=>{
  const x={...base,vatPct:0},s=state([sku(x),product()]);
