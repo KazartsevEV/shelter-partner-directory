@@ -13,10 +13,28 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#start-service').click();
   A.equal(await page.locator('#service-work-screen').isVisible(),true);
   A.equal(await page.locator('#service-mode-simple').getAttribute('aria-pressed'),'true');
+  // Simple mode must remain the original V1 route.
+  await page.locator('#service-work-online').click();
+  await page.locator('#service-screen button[onclick="selectServiceMode(\'self\')"]').click();
+  A.equal(await page.locator('#full-service-online-route').isVisible(),false);
+  A.equal(await page.locator('#online-v2-add').isVisible(),true);
+  await page.evaluate(()=>showServiceWorkChooser());
   await page.locator('#service-mode-full').click();
   A.equal(await page.locator('#service-mode-full').getAttribute('aria-pressed'),'true');
+  await page.locator('#service-work-online').click();
+  await page.locator('#service-screen button[onclick="selectServiceMode(\'self\')"]').click();
+  A.equal(await page.locator('#full-service-online-route').isVisible(),true,
+    'Full online mode must be clearly visible before V1 data entry');
+  A.equal(await page.locator('#online-v2-add').isVisible(),false,
+    'Full online route must not offer the simplified V1-to-portfolio action');
+  A.equal(await page.locator('#full-service-online-action').isVisible(),true);
+  A.match(await page.locator('#service-v1-heading').textContent(),/Полная денежная модель/);
+  await page.evaluate(()=>showServiceWorkChooser());
   await page.locator('#service-work-offline').click();
   A.equal(await page.locator('#full-service-offline-entry').isVisible(),true);
+  A.equal(await page.locator('#full-service-offline-route').isVisible(),true,
+    'Full offline mode must show a distinct beginning-of-form V2 path');
+  A.match(await page.locator('#product-intro-category').textContent(),/Полный расчёт/);
   A.equal(await page.locator('#product-screen').isVisible(),true);
   // Integration: read actual V1 service field values and equipment rows.
   await page.locator('#product-name-input').fill('Массаж');
@@ -44,8 +62,9 @@ const {pathToFileURL}=require('node:url');
     return {forecast:item.forecastUnitsPerMonth,fixed:item.productionFixedMonthly};
   });
   A.equal(original.forecast,20,'Actual V1 ad funnel determines monthly service demand');
-  const entered=await page.evaluate(()=>openFullServiceFromOffline());
-  A.equal(entered,true,'Full branch imports the populated V1 service form');
+  await page.locator('#full-service-offline-top-action').click();
+  A.equal(await page.locator('#full-service-screen').isVisible(),true,
+    'Real click on prominently placed full-mode CTA reaches the V2 finance screen');
   const adapted=await page.evaluate(()=>Nomad360FullServiceUI.getInput());
   A.equal(adapted.monthlyForecast,20);
   A.equal(adapted.capacity,250);

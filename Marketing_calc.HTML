@@ -411,6 +411,12 @@
 
     <section id="product-screen" class="max-w-4xl mx-auto hidden nd-v1-screen nd-v1-product">
         <button id="product-main-back" onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
+        <div id="full-service-offline-route" class="nd-full-service-route-banner rounded-2xl border border-slate-200 bg-white p-5 mb-5 hidden" hidden>
+            <h2 id="full-service-offline-route-heading" class="font-bold text-xl text-slate-900">Полный расчёт офлайн-услуги</h2>
+            <p id="full-service-offline-route-help" class="text-sm text-slate-600 mt-2">Шаг 1 из 2. Укажите услугу, расходы, прогноз клиентов и налоги. После этого откройте полный денежный календарь.</p>
+            <button type="button" id="full-service-offline-top-action" onclick="openFullServiceFromOffline()" class="nd-cta-primary p-3 mt-4 w-full">Перейти к полному денежному потоку →</button>
+            <p id="full-service-offline-route-error" class="text-sm text-rose-700 mt-2" role="alert"></p>
+        </div>
 
         <div id="product-demo-banner" class="hidden rounded-2xl border-2 border-blue-400 bg-blue-50 p-4 mb-5 text-slate-900" hidden>
             <div class="text-lg font-black">ДЕМО: калькулятор заполнен реальными тестовыми числами</div>
@@ -1449,6 +1455,12 @@
         <button onclick="showServiceChooser()" class="text-sm text-blue-600 hover:underline">← Услуги</button>
         <span id="mode-badge" class="text-xs bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full font-semibold"></span>
     </div>
+    <div id="full-service-online-route" class="max-w-7xl mx-auto nd-full-service-route-banner rounded-2xl border border-slate-200 bg-white p-5 mb-5 hidden" hidden>
+        <h2 id="full-service-online-route-heading" class="font-bold text-xl text-slate-900">Полный расчёт онлайн-услуги</h2>
+        <p id="full-service-online-route-help" class="text-sm text-slate-600 mt-2">Шаг 1 из 2. Укажите воронку, клиентов и расходы. Шаг 2 — НДС, налог с прибыли или оборота, кредит и денежный поток по месяцам.</p>
+        <button type="button" id="full-service-online-top-action" onclick="openFullServiceFromOnline()" class="nd-cta-primary p-3 mt-4 w-full">Перейти к полному денежному потоку →</button>
+        <p id="full-service-online-route-error" class="text-sm text-rose-700 mt-2" role="alert"></p>
+    </div>
 
     <div class="max-w-7xl mx-auto">
         <header class="mb-8 flex justify-between items-center nd-v1-header">
@@ -1840,22 +1852,73 @@
             window.LinkedPortfolioV2UI?.updateEntry();
         }
         let serviceFinancialMode='simple';
+        function syncServiceFinancialRoute() {
+            // The full route reuses V1 input fields, not the V1 result: show
+            // an explicit full-V2 journey at the BEGINNING of each form.
+            const full=serviceFinancialMode==='full';
+            const offline=full&&productSource==='offline-service';
+            const toggle=(id,visible)=>{
+                const node=document.getElementById(id);
+                if(node){node.hidden=!visible;node.classList.toggle('hidden',!visible);}
+            };
+            toggle('full-service-offline-route',offline);
+            toggle('full-service-offline-entry',offline);
+            toggle('full-service-online-route',full);
+            toggle('full-service-online-action',full);
+            toggle('online-v2-add',!full);
+            const heading=document.getElementById('online-v2-entry-heading');
+            const language=window.Nomad360UI?.getLanguage?.()||'ru';
+            const names={
+              ru:['Полный расчёт офлайн-услуги','Шаг 1 из 2. Укажите услугу, расходы, прогноз клиентов и налоги. Затем откройте полный денежный календарь.',
+                'Полный расчёт онлайн-услуги','Шаг 1 из 2. Укажите воронку, клиентов и расходы. Шаг 2 — НДС, налоги, кредит и денежный поток.',
+                'Перейти к полному денежному потоку →','Полная денежная модель онлайн-услуги','Данные услуги → полная модель V2 с НДС, налогами и кредитом.'],
+              en:['Full offline service calculation','Step 1 of 2. Enter service costs, customer forecast and taxes. Then open the full cash calendar.',
+                'Full online service calculation','Step 1 of 2. Enter funnel, customers and expenses. Step 2 covers VAT, taxes, credit and cash flow.',
+                'Open full cash flow →','Full online service cash flow','Service inputs → complete V2 model including VAT, taxes and credit.'],
+              kk:['Офлайн қызметтің толық есебі','1/2 қадам. Қызмет шығындарын, клиент болжамын және салықтарды енгізіңіз. Содан кейін толық ақша күнтізбесін ашыңыз.',
+                'Онлайн қызметтің толық есебі','1/2 қадам. Сату жолын, клиенттер мен шығындарды енгізіңіз. 2-қадам: ҚҚС, салық, несие және ақша ағыны.',
+                'Толық ақша ағынын ашу →','Онлайн қызметтің толық ақша ағыны','Қызмет деректері → ҚҚС, салық және несие бар толық V2 үлгісі.']
+            };
+            const t=names[language]||names.ru;
+            const set=(id,label)=>{const node=document.getElementById(id);if(node)node.textContent=label;};
+            set('full-service-offline-route-heading',t[0]);
+            set('full-service-offline-route-help',t[1]);
+            set('full-service-online-route-heading',t[2]);
+            set('full-service-online-route-help',t[3]);
+            set('full-service-offline-top-action',t[4]);
+            set('full-service-online-top-action',t[4]);
+            if(full){
+                set('service-v1-heading',t[5]);
+                set('service-v1-description',t[6]);
+                set('online-v2-entry-heading',t[5]);
+                set('full-service-online-action',t[4]);
+                set('product-intro-category',language==='en'?'Full calculation · offline service':
+                    language==='kk'?'Толық есеп · офлайн қызмет':'Полный расчёт · офлайн-услуга');
+                set('product-intro-submit-label',language==='en'?'Enter service costs':
+                    language==='kk'?'Қызмет шығындарын енгізу':'Заполнить расходы услуги');
+            }else if(productSource==='offline-service'){
+                set('product-intro-category','Офлайн-услуга');
+                set('product-intro-submit-label','Рассчитать услугу');
+            }
+            if(!full&&heading){
+                heading.textContent=typeof serviceMode!=='undefined'&&serviceMode==='agent'?
+                    'Добавить модель агента в портфель V2':'Добавить онлайн-услугу в общий портфель V2';
+            }
+        }
         function selectServiceFinancialMode(mode) {
             if (!['simple','full'].includes(mode))return;
             serviceFinancialMode=mode;
             document.querySelectorAll('.nd-service-mode-choice').forEach(b=>
               b.setAttribute('aria-pressed',b.id==='service-mode-'+mode?'true':'false'));
-            const full=mode==='full';
-            const offline=document.getElementById('full-service-offline-entry');
-            if(offline){offline.hidden=!full;offline.classList.toggle('hidden',!full);}
-            const online=document.getElementById('full-service-online-action');
-            if(online){online.hidden=!full;online.classList.toggle('hidden',!full);}
+            syncServiceFinancialRoute();
             document.getElementById('service-work-type-heading')?.scrollIntoView({block:'nearest'});
         }
         function openFullServiceFromOffline() {
             const error=document.getElementById('full-service-offline-error');
-            const fail=message=>{if(error)error.textContent=message;return false;};
+            const topError=document.getElementById('full-service-offline-route-error');
+            const fail=message=>{if(error)error.textContent=message;if(topError)topError.textContent=message;return false;};
             if(error)error.textContent='';
+            if(topError)topError.textContent='';
             try {
                 if(productSource!=='offline-service'||!productName)
                   throw Error('Сначала заполните название и расчёт офлайн-услуги.');
@@ -1905,7 +1968,9 @@
         }
         function openFullServiceFromOnline() {
             const error=document.getElementById('full-service-online-error');
+            const topError=document.getElementById('full-service-online-route-error');
             if(error)error.textContent='';
+            if(topError)topError.textContent='';
             try{
                 if(!onlineV1PortfolioSnapshot)throw Error('Сначала завершите онлайн-расчёт V1.');
                 const sku=window.LinkedPortfolioOnlineAdapter.build({...onlineV1PortfolioSnapshot,
@@ -1926,10 +1991,11 @@
                   commissionPct:sku.variableSalesPct,reservePct:0,funding:'own',
                   annualRatePct:0,creditMonths:1};
                 return window.Nomad360FullServiceUI.open(data,{kind:'online',name:sku.name,id:sku.id,role:sku.onlineRole});
-            }catch(err){if(error)error.textContent=err.message;return false;}
+            }catch(err){if(error)error.textContent=err.message;if(topError)topError.textContent=err.message;return false;}
         }
+        document.addEventListener('nomad360:languagechange',syncServiceFinancialRoute);
         function showServiceWorkChooser() { showOnly('service-work-screen'); }
-        function showServiceChooser() { showOnly('service-screen'); }
+        function showServiceChooser() { showOnly('service-screen');syncServiceFinancialRoute(); }
         function startOfflineServiceCalculation() {
             startFreshProductCalculation();
             selectProductSource('offline-service');
@@ -1938,6 +2004,7 @@
             const source=document.getElementById('product-source-block');
             if(source){source.hidden=true;source.classList.add('hidden');}
             configureOfflineServiceView();
+            syncServiceFinancialRoute();
             document.getElementById('product-name-input')?.focus({preventScroll:true});
         }
         function showAgentChooser() { showOnly('agent-screen'); }
@@ -7626,6 +7693,7 @@
             initInputs();
             calculate();
             showOnly('calculator-screen');
+            syncServiceFinancialRoute();
         }
 
         function calculate() {
