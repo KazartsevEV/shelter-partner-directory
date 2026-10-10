@@ -29,9 +29,13 @@ function render(state,onChange){
  if(!panel){panel=document.createElement('section');panel.id='linked-mba-panel';target.before(panel);}
  const history=state.mbaHistory||null,source=history?.source||null;
  const skus=state.skus||[],name=id=>skus.find(s=>s.id===id)?.name||id;
- const data=source?Engine.analyze(source,new Set(skus.map(s=>s.id)),history.mapping||{},
+ // Raw import is retained for traceability. MBA works only over current SKUs:
+ // an explicitly removed SKU must not poison recomputation as an unmapped ID.
+ const excluded=new Set(history?.excludedRawSkuIds||[]);
+ const activeSource=source?{...source,lines:source.lines.filter(l=>!excluded.has(l.rawSku))}:null;
+ const data=activeSource?Engine.analyze(activeSource,new Set(skus.map(s=>s.id)),history.mapping||{},
    history.filter||{}):null;
- const raws=source?[...new Set(source.lines.filter(l=>l.quantity>0).map(l=>l.rawSku))].sort():[];
+ const raws=activeSource?[...new Set(activeSource.lines.filter(l=>l.quantity>0).map(l=>l.rawSku))].sort():[];
  const unresolved=raws.filter(raw=>!skus.some(s=>s.id===((history.mapping||{})[raw]||raw)));
  const channels=source?[...new Set(source.lines.map(x=>x.channel))].sort():[];
  panel.className='rounded-2xl border border-slate-200 bg-white p-4 mb-5';
