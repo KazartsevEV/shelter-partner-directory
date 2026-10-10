@@ -66,16 +66,32 @@ async function browserCase(browser,locale,expected){
 
   const choice=page.locator('#nomad360-selling-choice');
   const choiceTexts={
-    ru:['Что я думаю продавать?','Товар','Услугу','У меня уже много разного →'],
-    en:['What am I planning to sell?','Product','A service','I already sell several different things →'],
-    kk:['Мен не сатуды жоспарлап отырмын?','Тауар','Қызмет','Менде әртүрлі тауарлар мен қызметтер бар →']
+    ru:['Что вы продаете?','Товар','Услугу','У меня уже много разного'],
+    en:['What do you sell?','Product','A service','I already sell several different things'],
+    kk:['Не сатасыз?','Тауар','Қызмет','Менде әртүрлі тауарлар мен қызметтер бар']
   }[expected.lang];
   await page.waitForFunction(text=>document.querySelector('#nomad360-selling-heading')?.textContent?.trim()===text,
     choiceTexts[0]);
   A.equal(await choice.locator('h4').count(),1);
-  A.equal(await choice.locator('button').count(),2,'Selection block must have exactly two buttons');
-  A.deepEqual((await choice.locator('button').allTextContents()).map(x=>x.trim()),choiceTexts.slice(1,3));
-  A.equal((await choice.locator('a').textContent()).trim(),choiceTexts[3]);
+  A.equal(await choice.locator('button').count(),3,'Selection block must have three equivalent buttons');
+  A.deepEqual((await choice.locator('button').allTextContents()).map(x=>x.trim()),choiceTexts.slice(1,4));
+  A.equal(await choice.locator('a').count(),0,'Third item must be a real button, not a text link');
+  A.equal(await page.locator('link[href="./nomad360_design_system.css"]').count(),1);
+  const mobileGeometry=await choice.locator('button').evaluateAll(buttons=>buttons.map(button=>{
+    const rect=button.getBoundingClientRect(),style=getComputedStyle(button);
+    return {width:Math.round(rect.width),height:Math.round(rect.height),
+      radius:style.borderTopLeftRadius,borderColor:style.borderTopColor,
+      font:style.fontFamily,background:style.backgroundColor};
+  }));
+  A.equal(new Set(mobileGeometry.map(x=>x.width)).size,1,'Three choices must have identical mobile widths');
+  A.equal(new Set(mobileGeometry.map(x=>x.height)).size,1,'Three choices must have identical mobile heights');
+  A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
+  A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
+  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=82),'All three are proper tap targets');
+  A.equal(await page.locator('#nomad360-home-secondary').evaluate(e=>getComputedStyle(e).boxShadow),'none',
+    'No legacy floating/nested homepage card shadow');
+  A.equal(await page.locator('#nomad360-calculation-list li').first().evaluate(
+    e=>getComputedStyle(e,'::before').content),'"01"','Outcomes use a visible numbered grid');
   await choice.locator('#start-service').click();
   A.equal(await page.locator('#service-work-screen').isVisible(),true,'Service must open online/offline branch');
   await page.evaluate(()=>showHome());
@@ -83,7 +99,7 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.locator('#product-screen').isVisible(),true,'Product must open product branch');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
-  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Multi-item link must open V2');
+  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
   A.ok(await page.evaluate(()=>PortfolioV2UI.load()),'V2 should create a draft on first visit');
   await page.evaluate(()=>{
     const draft=PortfolioV2UI.load();
@@ -93,7 +109,7 @@ async function browserCase(browser,locale,expected){
   });
   await choice.locator('#start-multi-portfolio').click();
   A.equal((await page.evaluate(()=>PortfolioV2UI.getState())).skus[0].name,'retained-v2-item',
-    'Multi-item entry must resume an existing V2 draft, not overwrite it');
+    'Third choice must resume an existing V2 draft, not overwrite it');
   await page.evaluate(()=>showHome());
 
 
@@ -126,6 +142,15 @@ async function browserCase(browser,locale,expected){
     'desktop must show horizontal menu instead of mobile toggle');
   A.equal(await header.locator('.nomad-nav').isVisible(),true);
   A.equal(await header.locator('.nomad-cta').isVisible(),true);
+  const desktopChoiceRects=await choice.locator('button').evaluateAll(buttons=>buttons.map(b=>{
+    const r=b.getBoundingClientRect();return {x:r.x,width:r.width,height:r.height};
+  }));
+  A.ok(desktopChoiceRects[0].x<desktopChoiceRects[1].x &&
+    desktopChoiceRects[1].x<desktopChoiceRects[2].x,'Three choice nodes share a desktop row');
+  A.ok(Math.max(...desktopChoiceRects.map(x=>x.width))-Math.min(...desktopChoiceRects.map(x=>x.width))<2,
+    'All desktop choice nodes have equal width');
+  A.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
+    'No horizontal page overflow on desktop');
   await page.setViewportSize({width:390,height:844});
   A.equal(await header.locator('.nomad-burger').isVisible(),true);
 
