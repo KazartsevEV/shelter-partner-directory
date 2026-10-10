@@ -31,6 +31,31 @@ const server=createServer(async(req,res)=>{
   page.on('pageerror',e=>errors.push(e.message));
   await page.route(/^https?:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
   await page.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+  const header=page.locator('#nomad360-header');
+  async function verifyBrand(width,minLogo,minWordmark){
+    await page.setViewportSize({width,height:844});
+    const layout=await header.evaluate(el=>{
+      const logo=el.querySelector('.nomad-logo');
+      const mark=el.querySelector('.nomad-wordmark');
+      const brand=el.querySelector('.nomad-brand').getBoundingClientRect();
+      const lang=el.querySelector('#nomad360-lang-select').getBoundingClientRect();
+      const burger=el.querySelector('.nomad-burger').getBoundingClientRect();
+      const box=el.getBoundingClientRect();
+      return {logo:getComputedStyle(logo).width,word:parseFloat(getComputedStyle(mark).fontSize),
+        bounds:{left:brand.left,right:brand.right,langLeft:lang.left,
+                langRight:lang.right,burgerLeft:burger.left,burgerRight:burger.right},
+        width:box.width,viewport:innerWidth};
+    });
+    A.ok(parseFloat(layout.logo)>=minLogo,'Logo must be enlarged at '+width+'px: '+JSON.stringify(layout));
+    A.ok(layout.word>=minWordmark,'Nomad360 wordmark must be readable at '+width+'px');
+    A.ok(layout.bounds.right<=layout.bounds.langLeft+2,'Brand and locale selector must not overlap at '+width+'px');
+    A.ok(layout.bounds.langRight<=layout.bounds.burgerLeft+2,'Locale and menu must not overlap at '+width+'px');
+    A.ok(layout.bounds.burgerRight<=layout.viewport+1,'Header must fit mobile viewport at '+width+'px');
+    return layout;
+  }
+  await verifyBrand(390,46,24);
+  await verifyBrand(320,40,21);
+  await page.setViewportSize({width:390,height:844});
   const license=page.locator('#nomad360-license');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
   A.match(await license.textContent(),/Встроить калькулятор на мой сайт/);
@@ -65,6 +90,39 @@ const server=createServer(async(req,res)=>{
   A.doesNotMatch(snapshot,/<link[^>]*href="\.\//i,'No broken relative CSS');
   A.ok(snapshot.includes('function deleteCalculatedProduct('),'Full current V1 must be bundled');
   A.equal(await license.locator('[data-nomad-embed-status]').textContent(),'HTML готов к скачиванию');
+  const fallback=license.locator('[data-nomad-embed-manual]');
+  const retry=license.locator('[data-nomad-embed-retry]');
+  A.equal(await fallback.isVisible(),true,'Manual recovery must become visible only after HTML assembly');
+  A.match(await fallback.textContent(),/Если загрузка не началась,\s*нажмите здесь/);
+  const preparedHref=await retry.getAttribute('href');
+  A.match(preparedHref,/^blob:/,'Fallback needs an actual persistent Blob URL');
+  A.equal(await retry.getAttribute('download'),'Nomad360-calculator-embed.html');
+  const retryColors=await retry.evaluate(el=>({
+    bg:getComputedStyle(el).backgroundColor,fg:getComputedStyle(el).color,
+    width:el.getBoundingClientRect().width, height:el.getBoundingClientRect().height
+  }));
+  A.equal(retryColors.bg,'rgb(237, 142, 99)','Retry must be orange');
+  A.equal(retryColors.fg,'rgb(22, 55, 90)','Retry must have navy text');
+  A.ok(retryColors.height>=48&&retryColors.width>200,'Manual download is a full-sized mobile tap target');
+  const secondDownload=page.waitForEvent('download',{timeout:10000});
+  await retry.click();
+  A.equal((await secondDownload).suggestedFilename(),'Nomad360-calculator-embed.html',
+    'A manual retry must trigger a real browser download without rebuilding the file');
+  await page.locator('#nomad360-lang-select').selectOption('en');
+  A.equal(await retry.isVisible(),true,'Language switch must preserve the prepared fallback link');
+  A.equal(await retry.getAttribute('href'),preparedHref,'Locale switch cannot invalidate the prepared Blob URL');
+  A.match(await fallback.textContent(),/If the download did not start,\s*click here/);
+  await page.locator('#nomad360-lang-select').selectOption('ru');
+  A.match(await fallback.textContent(),/Если загрузка не началась,\s*нажмите здесь/);
+
+
+  await page.setViewportSize({width:1440,height:900});
+  A.equal(await header.locator('.nomad-burger').isVisible(),false,'Desktop navigation remains horizontal');
+  const desktopBrand=await header.locator('.nomad-logo').evaluate(el=>({
+    logo:parseFloat(getComputedStyle(el).width),
+    word:parseFloat(getComputedStyle(el.nextElementSibling).fontSize)
+  }));
+  A.ok(desktopBrand.logo>=56&&desktopBrand.word>=29,'Desktop brand should be larger');
   A.deepEqual(errors,[],'Export click must not introduce script errors');
   await page.close();
   const embed=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
