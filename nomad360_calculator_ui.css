@@ -235,9 +235,18 @@ a.nomad-pay-value{text-decoration:underline}
 
 
 /* B2B hosting CTA and one 14-day unique visitor counter. */
-.nomad-embed-actions .nomad-embed-b2b-title{
-  color:#fff;font:700 clamp(18px,3.6vw,23px)/1.3 'IBM Plex Sans',system-ui,sans-serif;
-  margin:12px 0 16px;max-width:600px
+.nomad-embed-actions .nomad-embed-b2b{
+  display:flex;flex-direction:column;align-items:flex-start;gap:3px;
+  margin:12px 0 20px;max-width:660px
+}
+.nomad-embed-b2b-question{
+  margin:0 0 5px;color:#fff;font:700 clamp(18px,3.6vw,23px)/1.25 'IBM Plex Sans',system-ui,sans-serif
+}
+.nomad-embed-b2b-offer{
+  margin:0;color:#ed8e63;font:800 clamp(22px,4.4vw,31px)/1.2 'IBM Plex Sans',system-ui,sans-serif
+}
+.nomad-embed-b2b-answer{
+  margin:0;color:#fff;font:700 clamp(18px,3.6vw,23px)/1.25 'IBM Plex Sans',system-ui,sans-serif
 }
 .nomad-embed-actions .nomad-traffic-stats{
   margin:14px 0 9px;
