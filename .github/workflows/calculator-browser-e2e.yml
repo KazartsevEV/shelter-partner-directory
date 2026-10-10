@@ -19,6 +19,8 @@ on:
       - "tests/portfolio_v2_f3_mixed_browser.test.cjs"
       - "tests/portfolio_v2_f4_release_browser.test.cjs"
       - "tests/nomad360_calculator_ui_browser.test.cjs"
+      - "tests/nomad360_embed_footer_browser.test.cjs"
+      - "nomad360_header.js"
       - "nomad360_calculator_ui.js"
       - "nomad360_locale_core.js"
       - "tests/nomad360_locale_core_browser.test.cjs"
@@ -109,6 +111,7 @@ jobs:
           node tests/portfolio_v2_f3_mixed_browser.test.cjs
           node tests/portfolio_v2_f4_release_browser.test.cjs
           node tests/nomad360_calculator_ui_browser.test.cjs
+          node tests/nomad360_embed_footer_browser.test.cjs
           node tests/portfolio_v2_resource_lifecycle_browser.test.cjs
           node tests/portfolio_v2_mba_capacity_browser.test.cjs
           node tests/portfolio_v2_mba_browser.test.cjs

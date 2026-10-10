@@ -184,3 +184,17 @@ a.nomad-pay-value{text-decoration:underline}
  .nomad-pay-crypto .nomad-pay{flex-direction:column}
  .nomad-qr{width:168px;height:168px}
 }
+
+/* License download/contact actions: same navy/terracotta geometry as Nomad360.
+   The downloadable HTML is a fixed snapshot of this edition of the calculator. */
+.nomad-embed-actions{display:grid;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid var(--nf-line);max-width:460px}
+.nomad-embed-title{margin:0;color:#fff;font:700 17px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif}
+.nomad-embed-download,.nomad-embed-contact{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;padding:11px 14px;border:1px solid #f4f7fc;background:#f4f7fc;color:#16375a;font:700 15px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif;text-decoration:none;text-align:center;cursor:pointer}
+.nomad-embed-download:hover:not(:disabled){background:#fff;border-color:#fff}
+.nomad-embed-download:disabled{opacity:.65;cursor:wait}
+.nomad-embed-contact{background:transparent;border-color:#f4f7fc;color:#fff}
+.nomad-embed-contact:hover{background:rgba(255,255,255,.12)}
+.nomad-embed-hint{margin:0;color:#d7e2ec;font-size:14px;line-height:1.5;font-weight:500}
+.nomad-embed-status{display:block;color:#fff;font-size:14px;font-weight:600;line-height:1.4}
+.nomad-embed-status:empty{display:none}
+.nomad-embed-download:focus-visible,.nomad-embed-contact:focus-visible{outline:3px solid #f0b9a5;outline-offset:3px}
