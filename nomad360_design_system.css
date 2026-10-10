@@ -5,7 +5,7 @@
   --nd-ink:#16375a;
   --nd-ink-deep:#11283f;
   --nd-text:#24384c;
-  --nd-muted:#637488;
+  --nd-muted:#40546a;
   --nd-accent:#b8573a;
   --nd-line:#cbd5de;
   --nd-line-strong:#94a5b7;
@@ -13,11 +13,21 @@
   --nd-panel:#ffffff;
   --nd-surface:#f0f3f6;
   --nd-radius:3px;
+  --nd-font:'IBM Plex Sans',Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --nd-type-body:17px;
+  --nd-type-field:17px;
+  --nd-type-label:16px;
+  --nd-type-note:15px;
+  --nd-type-action:18px;
+  --nd-type-section:clamp(22px,2.4vw,29px);
 }
 body {
   background:var(--nd-canvas);
   color:var(--nd-text);
-  font-family:'IBM Plex Sans',Inter,system-ui,-apple-system,sans-serif;
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-body);
+  font-weight:500;
+  line-height:1.55;
   -webkit-font-smoothing:antialiased;
 }
 /* Components shared by the actual calculator screens. Neutral geometry and
@@ -346,7 +356,7 @@ body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
   body #nomad360-home-secondary .nomad-example-link {margin-top:0}
 }
 @media (max-width:480px) {
-  body {font-size:15px}
+  body {font-size:var(--nd-type-body)}
   body #nomad360-hero{padding:24px 0 24px}
   body #nomad360-hero h2{font-size:clamp(30px,9.1vw,39px)}
   body #nomad360-calculation-list {padding:22px 18px}
@@ -357,4 +367,153 @@ body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
 }
 @media (prefers-reduced-motion:reduce) {
   body > section :is(button,[role="button"]) {transition:none}
+}
+
+
+/* TYPOGRAPHY CONTRACT / NOMAD360 TYPE-01.
+   One typeface (IBM Plex Sans), separate semantic roles by weight/size.
+   Scoped to application screens; approved header/footer are unaffected.
+   Legacy utility classes inherit these roles until their markup is migrated.
+   Normal copy is 17px; labels 16px; secondary notes 15px.
+   Dense numeric tables remain scrollable rather than shrinking to 11px. */
+.nd-type-body {
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-body);
+  font-weight:500;
+  line-height:1.6;
+  color:var(--nd-text);
+}
+.nd-type-section {
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-section);
+  font-weight:700;
+  line-height:1.22;
+  letter-spacing:-.025em;
+  color:var(--nd-ink-deep);
+}
+.nd-type-label {
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-label);
+  font-weight:600;
+  line-height:1.45;
+  color:var(--nd-ink);
+}
+.nd-type-note {
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-note);
+  font-weight:500;
+  line-height:1.55;
+  color:var(--nd-muted);
+}
+.nd-type-action {
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-action);
+  font-weight:700;
+  line-height:1.35;
+}
+.nd-type-number {
+  font-family:var(--nd-font);
+  font-variant-numeric:tabular-nums;
+  font-weight:700;
+  letter-spacing:0;
+}
+/* Never apply these to the approved header/footer; these selectors are scoped
+   to calculator entry and calculation screens, including dynamic V2 markup. */
+body > section :is(.text-xs,.text-sm) {
+  font-size:var(--nd-type-label) !important;
+  line-height:1.52;
+}
+body > section .text-xs {
+  font-size:var(--nd-type-note) !important;
+  font-weight:500;
+}
+body > section :is(p,li,label,legend,summary,dd,dt) {
+  line-height:1.55;
+}
+body > section :is(label,legend,.font-semibold) {
+  font-weight:600;
+}
+body > section :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea,.input-field) {
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-field) !important;
+  font-weight:500;
+  line-height:1.45;
+  color:var(--nd-ink-deep);
+}
+body > section :is(button,[role="button"]) {
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-action);
+  font-weight:600;
+  line-height:1.35;
+}
+body > section :is(button.text-xs,button.text-sm,[role="button"].text-xs,[role="button"].text-sm) {
+  font-size:var(--nd-type-label) !important;
+  font-weight:600;
+}
+body > section :is(.text-slate-400,.text-slate-500,.text-slate-600,.text-gray-400,.text-gray-500,.text-gray-600):not(.bg-slate-900 *):not(.bg-emerald-900 *):not(.bg-amber-900 *):not(.bg-blue-700 *):not(.product-business-aggregate *):not(.bg-indigo-900 *) {
+  color:var(--nd-muted);
+}
+body > section :is(h2,h3,h4,.text-xl,.text-2xl):not(#nomad360-hero h2):not(#nomad360-hero h3) {
+  font-family:var(--nd-font);
+  font-weight:700;
+  letter-spacing:-.02em;
+}
+body > section :is(.td-val,[data-nomad-display-number],.aggregate-price-number) {
+  font-family:var(--nd-font);
+  font-variant-numeric:tabular-nums;
+  font-weight:700;
+}
+/* Sections with high-density data get a legible compact grid, not microprint. */
+body > section :is(.th,.td-label,.td-val,table th,table td) {
+  font-size:14px;
+  line-height:1.45;
+}
+body > section .th {
+  color:var(--nd-ink);
+  font-weight:700;
+  letter-spacing:.025em;
+}
+body > section #monthly-breakdown-table {
+  font-family:var(--nd-font);
+}
+body > section #monthly-breakdown-table :is(.monthly-label-col,.monthly-value-col,.td-label,.td-val,.th) {
+  font-family:var(--nd-font);
+  font-size:14px !important;
+  line-height:1.4;
+}
+body > section #monthly-breakdown-table .monthly-label-col {
+  min-width:165px;
+  max-width:200px;
+  width:165px;
+  white-space:normal;
+}
+body > section #monthly-breakdown-table .monthly-value-col {
+  min-width:95px;
+  max-width:115px;
+  width:95px;
+}
+/* Home — keep the existing hierarchy but remove any pharmacy-label feeling. */
+body #nomad360-hero h1 { font-size:15px; font-weight:700; }
+body #nomad360-hero h3 { font-size:clamp(17px,2vw,21px);font-weight:500;color:var(--nd-text); }
+body #nomad360-calculation-list li {
+  font-size:var(--nd-type-body);
+  font-weight:500;
+  line-height:1.57;
+  color:var(--nd-text);
+}
+body #nomad360-calculation-list li::before {font-size:14px;font-weight:700;}
+body #nomad360-home-secondary .nomad-recovery-title {font-weight:700;}
+body #nomad360-home-secondary .nomad-recovery-detail {
+  font-size:var(--nd-type-body);
+  color:var(--nd-text);
+  line-height:1.52;
+}
+body #nomad360-home-secondary .nomad-recovery-note,
+body #nomad360-home-secondary .nomad-example-copy p {font-size:var(--nd-type-note);color:var(--nd-muted);}
+body #nomad360-home-secondary .nomad-example-title {font-size:var(--nd-type-label);}
+body #nomad360-home-secondary .nomad-example-link {font-size:var(--nd-type-label);}
+body #nomad360-home-secondary .nomad-recovery-action {font-size:var(--nd-type-action);font-weight:700;}
+@media(max-width:480px){
+  body #nomad360-calculation-list li {font-size:var(--nd-type-body);line-height:1.56}
+  body #nomad360-calculation-list li::before {font-size:14px}
 }
