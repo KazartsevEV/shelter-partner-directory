@@ -127,8 +127,8 @@ const {pathToFileURL}=require('node:url');
   // Audit the full-service PRINT payload, not merely the print() click.
   const screenLines=await page.locator('#full-service-report .nd-full-service-table tbody tr').allTextContents();
   const printLines=await page.locator('#nomad360-print-sheet .nomad-export-table:last-of-type tbody tr').allTextContents();
-  A.deepEqual(printLines.map(x=>x.replace(/\\s+/g,' ').trim()),
-    screenLines.map(x=>x.replace(/\\s+/g,' ').trim()),
+  A.deepEqual(printLines.map(x=>x.replace(/\s+/g,' ').trim()),
+    screenLines.map(x=>x.replace(/\s+/g,' ').trim()),
     'Printed month-by-month numbers must match the on-screen financial report');
   A.equal(printLines.length,6,'Full-service export retains all selected months');
   const pdf=await page.pdf({format:'A4',printBackground:true});
