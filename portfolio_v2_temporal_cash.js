@@ -457,7 +457,9 @@
      cashTaxPaid:sum(months.slice(0,horizonMonths).map(m=>m.tax)),
      taxTimingDifference:ps('taxAccrued')-
        sum(months.slice(0,horizonMonths).map(m=>m.tax)),
-     postHorizonInterest:sum(months.slice(horizonMonths).map(m=>m.interest)),
+     postHorizonInterest:sum(months.slice(horizonMonths).map(m=>m.interest))+
+       sum(items.filter(s=>s.fullServiceV2&&pos(s.creditMonths)>horizonMonths)
+         .map(s=>(pos(s.creditMonths)-horizonMonths)*pos(s.creditServiceMonthly))),
      pricePolicy:'current-V2-monthly-price-not-reoptimized-for-H',
      onceAssetAmortizationUnverified:totalOnce>EPS,
      accountingCompleteness:totalOnce>EPS?'PROVISIONAL':'COMPLETE',
