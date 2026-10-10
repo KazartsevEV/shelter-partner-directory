@@ -4883,8 +4883,22 @@
                 const count = saved.productPortfolio.length;
                 const date = saved.savedAt ? new Date(saved.savedAt) : null;
                 const language = window.Nomad360UI?.getLanguage?.() || 'ru';
-                const countLabel = language === 'en' ? (count === 1 ? 'product' : 'products') :
-                    language === 'kk' ? 'тауар' : (count === 1 ? 'товар' : 'товаров');
+                const serviceCount=saved.productPortfolio.filter(item=>item.source==='offline-service').length;
+                const kind=serviceCount===count?'service':serviceCount===0?'product':'mixed';
+                const ruPlural=(one,few,many)=>{
+                    const n10=count%10,n100=count%100;
+                    return n10===1&&n100!==11?one:
+                      n10>=2&&n10<=4&&(n100<12||n100>14)?few:many;
+                };
+                const countLabel=language==='en'
+                    ?(kind==='service'?(count===1?'service':'services'):
+                      kind==='product'?(count===1?'product':'products'):
+                      count===1?'item':'items')
+                    :language==='kk'
+                      ?(kind==='service'?'қызмет':kind==='product'?'тауар':'позиция')
+                      :kind==='service'?ruPlural('услуга','услуги','услуг')
+                      :kind==='product'?ruPlural('товар','товара','товаров')
+                      :ruPlural('позиция','позиции','позиций');
                 const savedLabel = language === 'en' ? ' · last saved ' :
                     language === 'kk' ? ' · соңғы сақталуы ' : ' · последнее сохранение ';
                 const updated = date && Number.isFinite(date.getTime())
