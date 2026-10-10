@@ -134,11 +134,11 @@ async function browserCase(browser,locale,expected){
   A.equal(new Set(mobileGeometry.map(x=>x.height)).size,1,'Three choices must have identical mobile heights');
   A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
   A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
-  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=84&&x.height<=110),'Choice buttons keep proportionate 84–110px tap targets');
+  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=98&&x.height<=165),'Large CTA typography has unclipped mobile touch targets');
   A.ok(mobileGeometry.every(x=>x.background==='rgb(237, 142, 99)' && x.color==='rgb(22, 55, 90)'),
     'All three primary routes must use warm orange with navy text');
-  A.ok(mobileGeometry.every(x=>x.fontSize>=19&&x.fontSize<=22),
-    'Mobile choice text remains readable but proportional to each tap target');
+  A.ok(mobileGeometry.every(x=>x.fontSize>=25&&x.fontSize<=29),
+    'Large primary CTA uses legible 25–29px on phones');
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
     'Remove the small 01/02/03 labels from the decision buttons');
   const savedTreatment=await page.locator('#saved-product-entry').evaluate(el=>{
@@ -164,6 +164,35 @@ async function browserCase(browser,locale,expected){
   A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
   A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(17, 40, 63)'),
     'Service path choices must share orange surface and navy readable labels');
+  const serviceLabel={ru:'Услуга',en:'Service',kk:'Қызмет'}[expected.lang];
+  const linkVisual=async selector=>page.locator(selector).evaluate(el=>{
+    const css=getComputedStyle(el);
+    return {color:css.color,underline:css.textDecorationColor,
+      line:css.textDecorationLine,size:parseFloat(css.fontSize),
+      transform:css.textTransform,href:el.getAttribute('href')};
+  });
+  const serviceLink=page.locator('#service-work-screen a.nd-context-link');
+  A.equal((await serviceLink.textContent()).trim(),serviceLabel,
+    'Service category is shown once, not doubled');
+  const serviceVisual=await linkVisual('#service-work-screen a.nd-context-link');
+  A.equal(serviceVisual.color,'rgb(22, 55, 90)');
+  A.equal(serviceVisual.underline,'rgb(184, 87, 58)');
+  A.match(serviceVisual.line,/underline/);
+  A.equal(serviceVisual.transform,'none');
+  A.ok(serviceVisual.size>=16);
+  A.equal(serviceVisual.href,'#home-screen');
+  const routeFont=await page.locator('#service-work-online > div').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+  A.ok(routeFont>=25&&routeFont<=29,'Online/offline choices have larger type');
+  await serviceLink.click();
+  A.equal(await page.locator('#home-screen').isVisible(),true,'Service breadcrumb leads home');
+  await choice.locator('#start-service').click();
+  await page.locator('#service-work-online').click();
+  A.equal(await page.locator('#service-screen').isVisible(),true);
+  const onlineTitle={ru:'Онлайн',en:'Online',kk:'Онлайн'}[expected.lang];
+  A.equal((await page.locator('#service-screen a.nd-context-link').textContent()).trim(),onlineTitle);
+  await page.locator('#service-screen a.nd-context-link').click();
+  A.equal(await page.locator('#service-work-screen').isVisible(),true,'Online link returns to mode chooser');
+
   await page.evaluate(()=>showHome());
   await choice.locator('#start-own-product').click();
   A.equal(await page.locator('#product-screen').isVisible(),true,'Product must open product branch');
@@ -172,6 +201,19 @@ async function browserCase(browser,locale,expected){
   });
   A.equal(productCta.background,'rgb(237, 142, 99)','V1 calculate CTA is orange');
   A.equal(productCta.color,'rgb(22, 55, 90)','V1 CTA label is navy');
+  const productLink=page.locator('#product-intro-category.nd-context-link');
+  A.equal((await productLink.textContent()).trim(),{ru:'Товар',en:'Product',kk:'Тауар'}[expected.lang]);
+  const productVisual=await linkVisual('#product-intro-category');
+  A.deepEqual({color:productVisual.color,underline:productVisual.underline,size:productVisual.size},
+    {color:serviceVisual.color,underline:serviceVisual.underline,size:serviceVisual.size},
+    'Product and service links share brand CSS');
+  const calculateSize=await page.locator('#product-screen button[type="submit"].nd-cta-primary')
+    .evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+  A.ok(calculateSize>=20&&calculateSize<=24,'Calculate CTA font uses prominent 20–24px');
+  await productLink.click();
+  A.equal(await page.locator('#home-screen').isVisible(),true,'Product breadcrumb leads home');
+  await choice.locator('#start-own-product').click();
+
   const typeField=await page.locator('#product-name-input').evaluate(el=>({
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
@@ -441,7 +483,7 @@ async function sourceChoiceCase(browser) {
    A.equal(routeCards.length,10,'All ten buying/service/agency path options remain available');
    A.ok(routeCards.every(x=>x.parts===1&&!x.hasNote),
      'Orange path cards contain only the choice label, with no explanatory copy: '+JSON.stringify(routeCards));
-   A.ok(routeCards.every(x=>x.titleSize>=18&&x.titleSize<=21),
+   A.ok(routeCards.every(x=>x.titleSize>=25&&x.titleSize<=29),
      'Sourcing, service and agency labels remain proportional to card geometry');
    A.ok(routeCards.every(x=>x.balance==='balance'),
      'Path labels balance lines without orphan words');
