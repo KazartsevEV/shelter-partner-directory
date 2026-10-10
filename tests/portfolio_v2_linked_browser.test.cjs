@@ -39,8 +39,9 @@ const path=require('node:path');
       primaryText:color('[data-linked-save]'),
       basketBg:bg('#linked-basket-panel'),
       mbaBg:bg('#linked-mba-panel'),
-      mobileOverflow:document.getElementById('portfolio-v2-root').scrollWidth >
-        document.getElementById('portfolio-v2-root').clientWidth+1
+      mobileOverflow:document.documentElement.scrollWidth > window.innerWidth+1,
+      independentTableScroll:Array.from(document.querySelectorAll('#portfolio-v2-screen .overflow-x-auto'))
+        .every(node=>getComputedStyle(node).overflowX==='auto')
     };
   });
   assert.deepEqual(visual,{
@@ -49,7 +50,7 @@ const path=require('node:path');
     fieldBg:'rgb(255, 255, 255)',fieldText:'rgb(22, 55, 90)',
     primaryBg:'rgb(237, 142, 99)',primaryText:'rgb(22, 55, 90)',
     basketBg:'rgb(35, 74, 112)',mbaBg:'rgb(35, 74, 112)',
-    mobileOverflow:false
+    mobileOverflow:false,independentTableScroll:true
   },'V2 uses one dark-blue palette, white text and orange CTA, including MBA');
   assert.equal(await page.locator('[data-linked-path*="priceSelected"]').count(),0);
   assert.equal(await page.locator('[data-linked-price-list]').count(),2);
