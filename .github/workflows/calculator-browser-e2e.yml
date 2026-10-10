@@ -45,10 +45,16 @@ on:
       - "nomad360_traffic.js"
       - "tests/marketing_calc_add_next_service_browser.test.cjs"
       - "tests/calculator_business_oracle_browser.test.cjs"
+      - "portfolio_v2_full_service.js"
+      - "portfolio_v2_full_service_ui.js"
+      - "tests/portfolio_v2_full_service_browser.test.cjs"
       - "portfolio_v2_linked_ui.js"
       - "tests/portfolio_v2_mba_capacity_browser.test.cjs"
       - "tests/portfolio_v2_online_browser.test.cjs"
       - "portfolio_v2_online_adapter.js"
+      - "portfolio_v2_full_service.js"
+      - "portfolio_v2_full_service_ui.js"
+      - "tests/portfolio_v2_full_service.test.cjs"
       - "portfolio_v2_linked_engine.js"
       - "portfolio_v2_basket_ui.js"
       - "portfolio_v2_mba_observed.js"
@@ -65,6 +71,9 @@ on:
       - "nomad360_calculator_ui.css"
       - "tests/nomad360_calculator_ui_browser.test.cjs"
       - "Marketing_calc.HTML"
+      - "portfolio_v2_full_service.js"
+      - "portfolio_v2_full_service_ui.js"
+      - "tests/portfolio_v2_full_service_browser.test.cjs"
       - "portfolio_v2_linked_ui.js"
       - "portfolio_v2_period_price.js"
       - "portfolio_v2_temporal_cash.js"
@@ -122,4 +131,5 @@ jobs:
           node tests/marketing_calc_offline_service_browser.test.cjs
           node tests/nomad360_units_browser.test.cjs
           node tests/marketing_calc_add_next_service_browser.test.cjs
+          node tests/portfolio_v2_full_service_browser.test.cjs
           node --test tests/calculator_business_oracle_browser.test.cjs

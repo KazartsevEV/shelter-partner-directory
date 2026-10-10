@@ -335,7 +335,15 @@
         <button type="button" onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
         <div class="card p-6 md:p-8">
             <a class="nd-context-link" href="#home-screen" onclick="showHome();return false;">Услуга</a>
-            <h1 class="text-3xl font-bold text-slate-900">Я работаю:</h1>
+            <div class="nd-service-money-chooser" aria-labelledby="service-financial-heading">
+              <h1 id="service-financial-heading" class="text-3xl font-bold text-slate-900">Как рассчитать деньги?</h1>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                <button type="button" id="service-mode-simple" aria-pressed="true" class="nd-service-mode-choice" onclick="selectServiceFinancialMode('simple')"><b>Упрощённый расчёт</b><small>Для микробизнеса</small></button>
+                <button type="button" id="service-mode-full" aria-pressed="false" class="nd-service-mode-choice" onclick="selectServiceFinancialMode('full')"><b>Полный расчёт</b><small>НДС, налоги, кредит, денежный поток</small></button>
+              </div>
+              <button type="button" id="service-full-saved-entry" class="nd-full-service-secondary mt-4 hidden" hidden onclick="window.Nomad360FullServiceUI?.openSaved()">Продолжить сохранённый расчёт</button>
+            </div>
+            <h2 id="service-work-type-heading" class="text-2xl font-bold text-slate-900 mt-6">Я работаю:</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                 <button type="button" id="service-work-online" onclick="showServiceChooser()" class="card nd-path-card p-5 text-left transition">
                     <div class="text-lg font-bold text-slate-900">Онлайн</div>
@@ -1426,7 +1434,15 @@
                 </div>
             </div>
         </div>
+        <div id="full-service-offline-entry" class="card p-5 my-5 hidden" hidden>
+          <h2 class="font-bold text-xl">Полная денежная модель</h2>
+          <p class="text-sm mt-2">Заполните расчёт V1, себестоимость, рекламу и налог. Данные перейдут в денежный календарь без повторного ввода.</p>
+          <button type="button" class="nd-cta-primary p-3 w-full mt-3" onclick="openFullServiceFromOffline()">Рассчитать денежный поток →</button>
+          <p id="full-service-offline-error" role="alert" class="text-sm text-rose-700 mt-2"></p>
+        </div>
     </section>
+
+    <section id="full-service-screen" class="max-w-5xl mx-auto hidden" hidden></section>
 
     <div id="calculator-screen" class="hidden nd-v1-screen nd-v1-service">
     <div class="max-w-7xl mx-auto mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -1517,6 +1533,8 @@
                     <input id="online-v2-name" class="input-field mt-1" type="text" placeholder="Например, консультация по маркетингу">
                   </label>
                   <button type="button" id="online-v2-add" onclick="openLinkedPortfolioFromOnline()" class="nd-cta-primary mt-3 w-full p-3 font-bold">Добавить рассчитанную услугу в V2 →</button>
+                  <button type="button" id="full-service-online-action" class="nd-cta-primary mt-3 w-full p-3 font-bold hidden" hidden onclick="openFullServiceFromOnline()">Рассчитать полный денежный поток →</button>
+                  <p id="full-service-online-error" role="alert" class="text-sm mt-2 text-rose-700"></p>
                   <p id="online-v2-error" role="alert" class="text-sm mt-2 text-rose-700 hidden" hidden></p>
                 </section>
                 <!-- Monthly Breakdown Table -->
@@ -1805,7 +1823,7 @@
         }
 
         function showOnly(id) {
-            ['home-screen', 'portfolio-v2-screen', 'service-work-screen', 'service-screen', 'agent-screen', 'agent-complex-screen', 'product-screen', 'calculator-screen']
+            ['home-screen', 'portfolio-v2-screen', 'full-service-screen', 'service-work-screen', 'service-screen', 'agent-screen', 'agent-complex-screen', 'product-screen', 'calculator-screen']
                 .forEach(screenId => {
                     const screen=document.getElementById(screenId);
                     screen.classList.toggle('hidden', screenId !== id);
@@ -1820,6 +1838,89 @@
             showOnly('home-screen');
             updateSavedProductEntry();
             window.LinkedPortfolioV2UI?.updateEntry();
+        }
+        let serviceFinancialMode='simple';
+        function selectServiceFinancialMode(mode) {
+            if (!['simple','full'].includes(mode))return;
+            serviceFinancialMode=mode;
+            document.querySelectorAll('.nd-service-mode-choice').forEach(b=>
+              b.setAttribute('aria-pressed',b.id==='service-mode-'+mode?'true':'false'));
+            const full=mode==='full';
+            const offline=document.getElementById('full-service-offline-entry');
+            if(offline){offline.hidden=!full;offline.classList.toggle('hidden',!full);}
+            const online=document.getElementById('full-service-online-action');
+            if(online){online.hidden=!full;online.classList.toggle('hidden',!full);}
+            document.getElementById('service-work-type-heading')?.scrollIntoView({block:'nearest'});
+        }
+        function openFullServiceFromOffline() {
+            const error=document.getElementById('full-service-offline-error');
+            const fail=message=>{if(error)error.textContent=message;return false;};
+            if(error)error.textContent='';
+            try {
+                if(productSource!=='offline-service'||!productName)
+                  throw Error('Сначала заполните название и расчёт офлайн-услуги.');
+                saveCurrentProductToPortfolio();
+                const item=productPortfolio.find(x=>x.id===currentProductSequence);
+                if(!item)throw Error('Нет рассчитанной услуги.');
+                const v1Model=calculateProductPortfolio();
+                const v1Price=v1Model.items.find(row=>row.id===item.id)?.price;
+                if(!v1Model.pricingReady||!Number.isFinite(v1Price)||
+                   !Number.isFinite(v1Model.taxPriceMultiplier))
+                  throw Error('Завершите расчёт цены и налога в V1 услуги.');
+                // Match the actual V1 customer price, not the separate upper
+                // marketing price-range bound. VAT only changes net receipts.
+                const v1Vat=item.uiState?.choices?.salesVat==='yes'?
+                    productNumber('own-sales-vat-pct'):0;
+                const customerGross=v1Price*v1Model.taxPriceMultiplier*(1+v1Vat/100);
+                const qty=Number(item.forecastUnitsPerMonth);
+                const capacity=Number(item.offlineServiceCapacity);
+                if(!(qty>0&&capacity>0))throw Error('Заполните прогноз рекламы и мощность услуги.');
+                if(qty>capacity)throw Error('Прогноз услуг превышает доступную мощность.');
+                let capex=0,amort=0;
+                if(item.uiState?.choices?.equipmentPurchase==='yes'){
+                  for(const row of document.querySelectorAll('.equipment-purchase-row')){
+                    const n=Math.max(1,Math.floor(Number(row.querySelector('.equipment-purchase-qty')?.value)||1));
+                    const cost=Math.max(0,Number(row.querySelector('.equipment-purchase-cost')?.value)||0);
+                    const life=Math.max(1,Number(row.querySelector('.equipment-useful-life')?.value)||1);
+                    capex+=n*cost;amort+=n*cost/life;
+                  }
+                }
+                const p=item.planning||{};
+                const data={monthlyForecast:qty,capacity,priceGross:customerGross,
+                  vatPct:v1Vat,
+                  taxType:productBusinessTaxType||'turnover',
+                  taxPct:productNumber('own-business-tax-pct'),
+                  months:1,unitCashCost:Number(item.materialsUnitCost||0)+Number(item.productionElectricityPerUnit||0),
+                  fixedCashMonthly:Math.max(0,Number(item.productionFixedMonthly||0)-amort)+
+                    Number(item.salesFixedMonthly||0)+Number(item.adBudget||0)+Number(item.adManagement||0),
+                  equipmentPurchase:capex,equipmentAmortMonthly:amort,
+                  commissionPct:Number(item.salesVariablePct||0)+Number(item.penaltiesPct||0),
+                  reservePct:Number(p.reservePct||0),funding:p.fundingMode==='credit'?'credit':'own',
+                  annualRatePct:Number(p.creditRatePct||0),creditMonths:Number(p.creditTermMonths||1)};
+                return window.Nomad360FullServiceUI.open(data,{kind:'offline',name:item.name});
+            }catch(err){return fail(err.message);}
+        }
+        function openFullServiceFromOnline() {
+            const error=document.getElementById('full-service-online-error');
+            if(error)error.textContent='';
+            try{
+                if(!onlineV1PortfolioSnapshot)throw Error('Сначала завершите онлайн-расчёт V1.');
+                const sku=window.LinkedPortfolioOnlineAdapter.build({...onlineV1PortfolioSnapshot,
+                  name:document.getElementById('online-v2-name')?.value.trim()||'Онлайн-услуга',
+                  id:'v1-online-full-service'});
+                const monthlyDeals=onlineV1PortfolioSnapshot.period?.monthlyDeals;
+                const data={monthlyForecast:Array.isArray(monthlyDeals)&&monthlyDeals.length?
+                    monthlyDeals:sku.forecastUnitsPerMonth,
+                  capacity:Number.MAX_SAFE_INTEGER,priceGross:sku.priceMax,
+                  vatPct:0,taxType:'turnover',taxPct:sku.ownerTax.pct,
+                  months:Number(onlineV1PortfolioSnapshot.values?.months||1),
+                  unitCashCost:sku.unitCost,
+                  fixedCashMonthly:Math.max(0,sku.adBudget+sku.salesFixedMonthly-sku.onlineAmortMonthly),
+                  equipmentPurchase:sku.onlineCapex,equipmentAmortMonthly:sku.onlineAmortMonthly,
+                  commissionPct:sku.variableSalesPct,reservePct:0,funding:'own',
+                  annualRatePct:0,creditMonths:1};
+                return window.Nomad360FullServiceUI.open(data,{kind:'online',name:sku.name});
+            }catch(err){if(error)error.textContent=err.message;return false;}
         }
         function showServiceWorkChooser() { showOnly('service-work-screen'); }
         function showServiceChooser() { showOnly('service-screen'); }
@@ -7852,7 +7953,8 @@
               onlineV1PortfolioSnapshot={
                 mode:serviceMode,values:{...v},payers:{...agentPayers},
                 period:{deals:totalMonth.mDeals,grossRevenue:totalMonth.mGrossSales,
-                  agentIncome:totalMonth.mAgentIncome,executorCost:totalMonth.mExecutor}
+                  agentIncome:totalMonth.mAgentIncome,executorCost:totalMonth.mExecutor,
+                  monthlyDeals:monthData.map(month=>month.mDeals)}
               };
             }
 
@@ -8270,6 +8372,8 @@
 <script src="./portfolio_v2_engine.js"></script>
 <script src="./portfolio_v2_ui.js"></script>
 <script src="./portfolio_v2_linked_engine.js"></script>
+<script src="./portfolio_v2_full_service.js"></script>
+<script src="./portfolio_v2_full_service_ui.js"></script>
 <script src="./portfolio_v2_pooled_media.js"></script>
 <script src="./portfolio_v2_temporal.js"></script>
 <script src="./portfolio_v2_temporal_cash.js"></script>
