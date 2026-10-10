@@ -48,7 +48,7 @@
 .nomad-hero h2{position:relative;z-index:1;max-width:800px;margin:0 0 16px;font-weight:650;letter-spacing:-.02em;line-height:1.24;font-size:clamp(21px,2.7vw,30px)}
 .nomad-hero h3{position:relative;z-index:1;max-width:800px;margin:0;font-weight:500;color:#344c63;line-height:1.45;font-size:clamp(16px,1.8vw,20px)}
 #nomad360-calculation-list ol{margin-top:0}
-.nomad-footer{max-width:1152px;margin:32px auto 15px;background:#fff;color:#16375a;border:1px solid #d5dbe3;border-radius:0;padding:clamp(18px,3vw,30px);box-shadow:none}
+.nomad-footer{max-width:1152px;margin:32px auto 15px;background:transparent;color:#16375a;border:0;border-radius:0;padding:16px 0;box-shadow:none}
 .nomad-footer-kicker{color:#64748b;letter-spacing:.08em;font-size:11px;font-weight:600}
 .nomad-support{display:grid;grid-template-columns:minmax(200px,.9fr) minmax(260px,1.35fr);align-items:center;gap:18px;border-top:0;margin-top:16px;padding-top:0}
 .nomad-support h3{font-size:19px;font-weight:850;margin:0 0 6px}
@@ -76,7 +76,7 @@
 #nomad360-print-sheet{display:none}
 @media(max-width:660px){
  .nomad-hero{border-radius:0;padding:8px 0 20px}
- .nomad-footer{border-radius:0;margin-top:26px;padding:22px 16px}
+ .nomad-footer{border-radius:0;margin-top:26px;padding:16px 0}
  .nomad-support{grid-template-columns:1fr}
  .nomad-contact-grid{grid-template-columns:1fr}
  .nomad-bottom{align-items:flex-start;flex-direction:column}
