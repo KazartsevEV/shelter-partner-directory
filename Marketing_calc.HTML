@@ -1426,8 +1426,8 @@
     <div class="max-w-7xl mx-auto">
         <header class="mb-8 flex justify-between items-center nd-v1-header">
             <div>
-                <h1 class="text-2xl font-bold text-slate-900">Калькулятор Юнит-Экономики (CPC-модель)</h1>
-                <p class="text-sm text-slate-500 mt-1">Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов</p>
+                <h1 id="service-v1-heading" class="text-2xl font-bold text-slate-900">Калькулятор Юнит-Экономики (CPC-модель)</h1>
+                <p id="service-v1-description" class="text-sm text-slate-500 mt-1">Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов</p>
             </div>
             <button onclick="resetDefaults()" class="text-sm bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-50 transition">
                 ↺ Сбросить значения
@@ -1500,7 +1500,7 @@
                 </div>
 
                 <section class="card p-4 nd-v1-transition-panel" id="online-v2-entry">
-                  <h2 class="font-bold text-slate-800">Добавить онлайн-услугу в общий портфель V2</h2>
+                  <h2 id="online-v2-entry-heading" class="font-bold text-slate-800">Добавить онлайн-услугу в общий портфель V2</h2>
                   <p class="text-xs text-slate-600 mt-2">Переносим рассчитанную экономику именно вашего бизнеса. В агентской ветке учитываем ваше вознаграждение, а оборот партнёра не записываем как вашу выручку.</p>
                   <label class="block text-xs mt-3">Название услуги
                     <input id="online-v2-name" class="input-field mt-1" type="text" placeholder="Например, консультация по маркетингу">
@@ -7420,6 +7420,20 @@
                 context.textContent = 'Для каждой ненулевой статьи расходов выберите «Кто платит»: Я или Партнёр. Нулевые расходы распределять не нужно. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса.';
             }
 
+            const v1Heading=document.getElementById('service-v1-heading');
+            const v1Description=document.getElementById('service-v1-description');
+            const v2EntryHeading=document.getElementById('online-v2-entry-heading');
+            const v2EntryButton=document.getElementById('online-v2-add');
+            if(v1Heading)v1Heading.textContent=mode==='agent'?'Я — агент':'Калькулятор Юнит-Экономики (CPC-модель)';
+            if(v1Description)v1Description.textContent=mode==='agent'
+                ?'Как зарабатываю я: комиссия, мои расходы и налоги.'
+                :'Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов';
+            if(v2EntryHeading)v2EntryHeading.textContent=mode==='agent'
+                ?'Добавить модель агента в общий портфель V2'
+                :'Добавить онлайн-услугу в общий портфель V2';
+            if(v2EntryButton)v2EntryButton.textContent=mode==='agent'
+                ?'Перенести экономику агента в V2 →'
+                :'Добавить рассчитанную услугу в V2 →';
             document.getElementById('summary-title').textContent =
                 mode === 'agent' ? 'Экономика агента — итог за период' : 'Расчётные показатели (Итого за период)';
             for (const id of ['agent-owner-summary','agent-principal-context']) {
