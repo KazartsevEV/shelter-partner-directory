@@ -97,13 +97,13 @@ async function browserCase(browser,locale,expected){
     };
   });
   A.match(typography.font,/IBM Plex Sans/,'Nomad360 must declare one coherent brand typeface');
-  A.equal(typography.body,'16px');
-  A.equal(typography.note,'14px');
-  A.ok(typography.outcome.px>=16&&typography.outcome.weight>=500,'Result explanations cannot be fine print');
-  A.ok(typography.noteCopy.px>=14,'Secondary notes remain readable on a phone');
+  A.equal(typography.body,'17px');
+  A.equal(typography.note,'15px');
+  A.ok(typography.outcome.px>=17&&typography.outcome.weight>=500,'Result explanations cannot be fine print');
+  A.ok(typography.noteCopy.px>=15,'Secondary notes remain readable on a phone');
   A.ok(typography.hero.px>=17,'Subtitle remains legible on mobile');
   A.ok(typography.recoveryTitle.weight>=700,'Saved work gets a visible text hierarchy');
-  A.ok(typography.example.px>=15,'Auxiliary links stay tappable and legible');
+  A.ok(typography.example.px>=16,'Auxiliary links stay tappable and legible');
   A.equal(typography.noteCopy.color,'rgb(64, 84, 106)','Muted copy must use legible dark blue-gray');
 
   const mobileGeometry=await choice.locator('button').evaluateAll(buttons=>buttons.map(button=>{
@@ -146,7 +146,7 @@ async function browserCase(browser,locale,expected){
   const typeField=await page.locator('#product-name-input').evaluate(el=>({
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
-  A.ok(typeField.size>=16&&typeField.weight>=500,'Product form fields use standard readable type');
+  A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
@@ -154,7 +154,7 @@ async function browserCase(browser,locale,expected){
     size:parseFloat(getComputedStyle(el).fontSize),
     labelSize:parseFloat(getComputedStyle(el.closest('label').querySelector('span')).fontSize)
   }));
-  A.ok(v2Type.size>=16&&v2Type.labelSize>=14,'V2 data-entry typography must match V1');
+  A.ok(v2Type.size>=17&&v2Type.labelSize>=15,'V2 data-entry typography must match V1');
   A.ok(await page.evaluate(()=>PortfolioV2UI.load()),'V2 should create a draft on first visit');
   await page.evaluate(()=>{
     const draft=PortfolioV2UI.load();
