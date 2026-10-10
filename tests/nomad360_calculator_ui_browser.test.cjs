@@ -181,7 +181,11 @@ async function browserCase(browser,locale,expected){
   await page.evaluate(()=>{
     const el=document.getElementById('start-multi-portfolio');
     window.__nomadV2Trace=[];
-    el.addEventListener('click',e=>window.__nomadV2Trace.push({phase:'capture',isTrusted:e.isTrusted}),{capture:true,once:true});
+    const traceEvent=e=>window.__nomadV2Trace.push({phase:e.type,id:e.target.id,tag:e.target.tagName,
+      text:e.target.textContent.slice(0,65), trusted:e.isTrusted});
+    document.addEventListener('pointerdown',traceEvent,true);
+    document.addEventListener('click',traceEvent,true);
+    el.addEventListener('click',e=>window.__nomadV2Trace.push({phase:'target',isTrusted:e.isTrusted}),{capture:true,once:true});
     const f=window.openPortfolioV2;
     window.openPortfolioV2=function(...args){
       window.__nomadV2Trace.push({phase:'handler',args});
@@ -204,7 +208,13 @@ async function browserCase(browser,locale,expected){
     handler:document.getElementById('start-multi-portfolio').getAttribute('onclick'),
     errors:window.__test_errors||[],
     formState:document.getElementById('product-screen').hidden,
-    trace:window.__nomadV2Trace||[]
+    trace:window.__nomadV2Trace||[],
+    target:document.querySelector('#start-multi-portfolio').getBoundingClientRect().toJSON(),
+    atCenter:(()=>{
+      const r=document.querySelector('#start-multi-portfolio').getBoundingClientRect();
+      const el=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
+      return {id:el?.id,tag:el?.tagName,text:el?.textContent.slice(0,70)}
+    })()
   }));
   A.equal(v2Visible,true,'Third choice button must open V2 '+locale+': '+JSON.stringify({...v2Diagnostics,pageErrors:errors}));
   await page.mouse.move(0,0);
