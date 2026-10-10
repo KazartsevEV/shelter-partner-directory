@@ -172,18 +172,29 @@
    const qty=first.quantity,amort=Number(input.equipmentAmortMonthly||0),
      fixed=Number(input.fixedCashMonthly||0),variable=Number(input.unitCashCost||0);
    const offline=source==='offline-service',vatPct=Number(input.vatPct||0);
+   const advertising=Number(input.adBudget||0),management=Number(input.adManagement||0),
+     sales=Number(input.salesFixedMonthly||0);
+   if([advertising,management,sales].some(v=>!Number.isFinite(v)||v<0)||
+      advertising+management+sales>fixed+EPS)
+     throw Error('Расшифровка постоянных расходов услуги превышает общую сумму.');
+   const productionFixed=fixed-advertising-management-sales;
+   const paidGross=model.priceGross*(1-Number(input.discountPct||0)/100);
    const commission=Number(input.commissionPct||0);
    const loan=input.funding==='credit',taxPct=Number(input.taxPct);
    const common={id,name,source,fullServiceV2:true,
      fullServiceForecast:forecast,fullServiceHorizon:model.horizonMonths,
      fullServiceMonthlyAmort:amort,fullServiceCapex:offline?first.assetCash:0,
      fullServiceReserveFunded:loan?model.reserve:0,
-     unitCost:offline?variable+fixed/qty:variable,
-     forecastUnitsPerMonth:qty,adBudget:0,baseCac:0,
-     priceMin:model.priceGross,priceMax:model.priceGross,
+     unitCost:offline?variable+productionFixed/qty:variable,
+     forecastUnitsPerMonth:qty,adBudget:advertising,
+     baseCac:advertising>0?advertising/qty:0,
+     priceMin:paidGross,priceMax:paidGross,
+     fullServiceOriginalPrice:model.priceGross,
+     fullServiceOriginalDiscountPct:Number(input.discountPct||0),
      fixedPriceFromV1:true,discountSelected:0,maxDiscountPct:0,
      minimumMarginPct:0,targetMarginPct:0,
-     salesFixedMonthly:offline?0:fixed+amort,adManagement:0,
+     salesFixedMonthly:offline?sales:(fixed-advertising-management)+amort,
+     adManagement:management,
      variableSalesPct:commission,creditPrincipal:loan?model.capital:0,
      creditServiceMonthly:loan?model.capital*Number(input.annualRatePct)/1200:0,
      creditMonths:loan?Number(input.creditMonths):0,vatPct,
@@ -193,7 +204,7 @@
      ownerTax:{type:input.taxType,pct:taxPct,entity:'business'}};
    if(offline)Object.assign(common,{
      serviceMaterialsUnit:variable,serviceElectricityUnit:0,
-     serviceFixedMonthly:fixed,serviceCapacity:Number(input.capacity)
+     serviceFixedMonthly:productionFixed,serviceCapacity:Number(input.capacity)
    });
    else common.onlineProvenance={
      periodMonths:model.horizonMonths,fullServiceCalculated:true,
