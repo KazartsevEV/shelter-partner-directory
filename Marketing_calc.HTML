@@ -367,11 +367,11 @@
         </div>
     </section>
 
-    <section id="agent-screen" class="max-w-4xl mx-auto hidden">
+    <section id="agent-screen" class="max-w-4xl mx-auto hidden nd-agent-screen">
         <button onclick="showServiceChooser()" class="text-sm text-blue-600 hover:underline mb-4">← К выбору исполнителя</button>
         <div class="card p-6 md:p-8">
-            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Агентская модель</div>
-            <h1 class="text-3xl font-bold text-slate-900">Как мне платят?</h1>
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Я — агент</div>
+            <h1 class="text-3xl font-bold text-slate-900">Как зарабатываю я?</h1>
             <p class="text-sm text-slate-500 mt-2">В расчёте по каждому прямому расходу можно выбрать плательщика: <strong>Я</strong> или <strong>Партнёр</strong>.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
                 <button onclick="selectServiceMode('agent')" class="card nd-path-card p-5 text-left transition">
@@ -384,7 +384,7 @@
         </div>
     </section>
 
-    <section id="agent-complex-screen" class="max-w-3xl mx-auto hidden">
+    <section id="agent-complex-screen" class="max-w-3xl mx-auto hidden nd-agent-screen nd-custom-screen">
         <button onclick="showAgentChooser()" class="text-sm text-blue-600 hover:underline mb-4">← Назад</button>
         <div class="card p-6 md:p-8">
             <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Кастомная модель</div>
@@ -394,7 +394,7 @@
                 лучше сначала формализовать схему, а потом встраивать её в калькулятор.
             </p>
             <a href="mailto:nomad260393@gmail.com?subject=%D0%9A%D0%B0%D1%81%D1%82%D0%BE%D0%BC%D0%BD%D0%B0%D1%8F%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%20%D0%BA%D0%B0%D0%BB%D1%8C%D0%BA%D1%83%D0%BB%D1%8F%D1%82%D0%BE%D1%80%D0%B0"
-               class="inline-flex mt-6 bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+               class="nd-agent-contact-link inline-flex mt-6 px-5 py-3 rounded-lg font-semibold transition">
                 Связаться с разработчиком
             </a>
             <p class="text-sm text-slate-500 mt-3">nomad260393@gmail.com</p>
@@ -526,7 +526,7 @@
 <div class="border-t border-violet-200 mt-4 pt-4">
 <h3 id="resale-composition-title" class="font-bold text-slate-900">Состав моего заказа по отдельным товарам</h3>
 <div id="resale-purchase-composition" class="mt-3 text-sm"></div>
-<button type="button" onclick="addAnotherResaleProduct()" class="mt-3 w-full rounded-lg bg-violet-700 text-white py-3 px-3 font-bold"><span id="resale-buy-add-label">+ Добавить ещё один товар в заказ</span></button>
+<button type="button" onclick="addAnotherResaleProduct()" class="nd-secondary-action mt-3 w-full rounded-lg py-3 px-3 font-bold"><span id="resale-buy-add-label">+ Добавить ещё один товар в заказ</span></button>
 </div></div>
                     <div id="material-cost-entry-panel" class="rounded-xl border border-blue-100 bg-blue-50/30 p-4">
                         <div class="text-sm font-medium text-slate-800 mb-3">Как задаём себестоимость материалов?</div>
@@ -552,7 +552,7 @@
 
                             <div id="own-material-rows" class="space-y-3"></div>
 
-                            <button type="button" onclick="addMaterialRow()" class="w-full rounded-lg border border-dashed border-violet-300 bg-violet-50 text-violet-700 px-3 py-2.5 font-semibold">
+                            <button type="button" onclick="addMaterialRow()" class="nd-secondary-action w-full rounded-lg border border-dashed px-3 py-2.5 font-semibold">
                                 + Добавить материал
                             </button>
 
@@ -1346,13 +1346,13 @@
                     <button id="assortment-complete-button" type="button" onclick="setProductAssortmentChoice('complete')" class="rounded-xl border-2 border-emerald-300 bg-emerald-50 text-emerald-800 px-4 py-3 font-bold text-left">
                         Это мой единственный <span class="product-name-live"></span>
                     </button>
-                    <button type="button" onclick="setProductAssortmentChoice('more')" class="rounded-xl border-2 border-violet-300 bg-violet-50 text-violet-800 px-4 py-3 font-bold text-left">
+                    <button type="button" onclick="setProductAssortmentChoice('more')" class="nd-secondary-action rounded-xl border-2 px-4 py-3 font-bold text-left">
                         <span id="service-assortment-more">У меня будут другие товары</span>
                     </button>
                 </div>
 
-                <button id="add-product-button" type="button" onclick="addAnotherProduct()" class="hidden mt-4 w-full rounded-xl bg-violet-600 text-white px-5 py-3.5 font-bold shadow-md hover:bg-violet-700 transition">
-                    <span id="service-assortment-add">+ Добавить товар</span>
+                <button id="add-product-button" type="button" onclick="saveAndChooseNextPortfolioItem()" class="nd-secondary-action hidden mt-4 w-full rounded-xl px-5 py-3.5 font-bold transition">
+                    <span id="service-assortment-add">+ Добавить товар или услугу</span>
                 </button>
 
                 <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
@@ -1459,16 +1459,21 @@
             <div class="lg:col-span-8 space-y-6">
                 
                 <!-- Summary Metrics -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 nd-v1-metrics">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 nd-v1-metrics">
                     <div class="card p-4 result-card green">
                         <div class="text-xs text-slate-500 mb-1" id="res-profit-label">Чистая прибыль</div>
                         <div class="text-2xl font-bold text-slate-900" id="res-profit">$0.00</div>
                         <div class="text-xs text-slate-400 mt-1" id="res-profit-sub">После всех налогов</div>
                     </div>
                     <div class="card p-4 result-card">
-                        <div class="text-xs text-slate-500 mb-1" id="res-romi-label">ROMI</div>
+                        <div class="text-xs text-slate-500 mb-1" id="res-romi-label">Рентабельность вложений</div>
                         <div class="text-2xl font-bold text-slate-900" id="res-romi">0.00x</div>
-                        <div class="text-xs text-slate-400 mt-1" id="res-romi-sub">Окупаемость всех вложений</div>
+                        <div class="text-xs text-slate-400 mt-1" id="res-romi-sub">Доходность относительно всех расходов</div>
+                    </div>
+                    <div class="card p-4 result-card" id="res-marketing-romi-card">
+                        <div class="text-xs text-slate-500 mb-1">ROMI рекламы</div>
+                        <div class="text-2xl font-bold text-slate-900" id="res-marketing-romi">—</div>
+                        <div class="text-xs text-slate-400 mt-1">Маржинальный доход от рекламы относительно рекламных расходов, %</div>
                     </div>
                     <div class="card p-4 result-card orange">
                         <div class="text-xs text-slate-500 mb-1" id="res-third-label">CPA / CAC</div>
@@ -1481,6 +1486,7 @@
 
                 <!-- Summary Table -->
                 <div class="card overflow-hidden nd-v1-report-table">
+                    <div id="agent-owner-summary" class="hidden nd-agent-heading" hidden>Экономика агента</div>
                     <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
                         <h2 class="font-semibold text-slate-700" id="summary-title">Расчётные показатели (Итого за период)</h2>
                     </div>
@@ -1503,6 +1509,10 @@
                   <p id="online-v2-error" role="alert" class="text-sm mt-2 text-rose-700 hidden" hidden></p>
                 </section>
                 <!-- Monthly Breakdown Table -->
+                <div id="agent-principal-context" class="hidden nd-agent-principal" hidden>
+                    <h2>Как зарабатывает принципал</h2>
+                    <p>Если его бизнес эффективен, он сможет оплачивать ваши услуги.</p>
+                </div>
                 <div class="card overflow-hidden nd-v1-report-table">
                     <div class="bg-slate-50 px-4 sm:px-5 py-3 border-b border-slate-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                         <h2 class="font-semibold text-slate-700">Помесячная разбивка</h2>
