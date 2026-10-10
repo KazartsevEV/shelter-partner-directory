@@ -1175,3 +1175,112 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
     overflow:visible;
   }
 }
+
+
+/* V1-ACCENT-02 — product economics: white cards, orange calculations/edges,
+   orange selected controls, navy/orange advisory panels. Pure CSS: calculations,
+   expanded-field conditions, disabled states and losses retain their logic. */
+:root{
+  --nd-v1-focus-orange:#ed8e63;
+  --nd-v1-hint-navy:#16375a;
+}
+/* Five numbered result summaries. The paper stays light; borders and numeric
+   highlights use the same orange as the main CTA, never unrelated green. */
+body .nd-v1-product :is(
+  #materials-landed-result,#production-unit-result,#logistics-unit-result,
+  #sales-cost-result,#product-ad-result
+){
+  background:var(--nd-v1-soft);
+  border:2px solid var(--nd-v1-focus-orange);
+  box-shadow:none;
+}
+body .nd-v1-product :is(
+  #materials-landed-result,#production-unit-result,#logistics-unit-result,
+  #sales-cost-result,#product-ad-result
+) :is(
+  [data-detail-step],.text-emerald-700,.text-emerald-800,
+  .text-green-700,.text-green-800
+){
+  color:var(--nd-v1-focus-orange) !important;
+}
+body .nd-v1-product :is(
+  #own-materials-landed-unit-cost,#own-production-unit-cost,
+  #own-logistics-unit-cost,#own-logistics-selected-total,
+  #own-sales-result-unit,#own-sales-fixed-per-unit,
+  #own-sales-variable-total-pct,#own-product-ad-cac-unit,#own-product-ad-full-unit
+){
+  color:var(--nd-v1-focus-orange) !important;
+}
+body .nd-v1-product :is(
+  #materials-landed-result,#production-unit-result,#logistics-unit-result,
+  #sales-cost-result,#product-ad-result
+) :is(.border-emerald-200,.border-emerald-300,.border-green-200,.border-green-300){
+  border-color:var(--nd-v1-focus-orange) !important;
+}
+/* V1 also contains green border utilities in material and inventory panels:
+   unify their purely visual edges with orange. */
+body .nd-v1-product :is(.border-emerald-200,.border-emerald-300,.border-green-200,.border-green-300){
+  border-color:var(--nd-v1-focus-orange);
+}
+/* User choice — only the control that actually owns the selected state gets
+   the orange fill. Pressed attributes and .yn-choice-selected are authored by
+   the existing calculator handlers; the CSS never guesses a default. */
+body .nd-v1-product :is(
+  button.material-cost-mode-choice,button.yn-choice,
+  button.production-labor-choice,button.import-payer-choice,
+  button.logistics-payer-choice,button.business-tax-choice
+):is(.yn-choice-selected,[aria-pressed="true"]):not(:disabled),
+body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
+  :is(button.business-tax-choice.yn-choice-selected,button.yn-choice.yn-choice-selected){
+  background:var(--nd-v1-focus-orange) !important;
+  color:var(--nd-v1-navy) !important;
+  border-color:var(--nd-v1-focus-orange) !important;
+  box-shadow:inset 0 0 0 1px var(--nd-v1-navy);
+}
+body .nd-v1-product :is(
+  button.material-cost-mode-choice,button.yn-choice,
+  button.production-labor-choice,button.import-payer-choice,
+  button.logistics-payer-choice,button.business-tax-choice
+):is(.yn-choice-selected,[aria-pressed="true"]) :is(span,strong){
+  color:var(--nd-v1-navy);
+}
+/* Informational tips, rather than validation errors: consistent dark-navy
+   panels with orange type and links. Keep red warnings/error elements intact. */
+body .nd-v1-product :is(
+  #product-source-unavailable,
+  #product-assortment-gate .bg-amber-50,
+  [data-business-advice]
+),
+body .nd-v1-service #mode-context{
+  background:var(--nd-v1-hint-navy) !important;
+  border:1px solid var(--nd-v1-focus-orange) !important;
+  color:var(--nd-v1-focus-orange) !important;
+  box-shadow:none;
+}
+body .nd-v1-product :is(
+  #product-source-unavailable,
+  #product-assortment-gate .bg-amber-50,
+  [data-business-advice]
+) :is(strong,span,div,p,a,h2,h3),
+body .nd-v1-service #mode-context :is(strong,span,div,p,a,h2,h3){
+  color:var(--nd-v1-focus-orange) !important;
+}
+body .nd-v1-product [data-business-advice] a{
+  text-decoration:underline;
+  text-decoration-color:var(--nd-v1-focus-orange);
+  text-underline-offset:4px;
+}
+/* Separate semantic validation from informational tips. Legacy Tailwind colors
+   can be absent in offline/mobile builds, so give errors an explicit red ink. */
+body .nd-v1-screen :is(
+  .text-red-500,.text-red-600,.text-red-700,
+  .text-rose-600,.text-rose-700,.text-rose-900
+){
+  color:#dc2626 !important;
+}
+/* The last V1 totals/price panels are light; any former emerald highlight
+   follows the same orange accent, without altering negative money colors. */
+body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
+  :is(.aggregate-final-value,.final-buyer-price){
+  color:var(--nd-v1-focus-orange);
+}
