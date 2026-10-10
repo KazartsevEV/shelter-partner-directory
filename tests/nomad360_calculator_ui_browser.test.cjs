@@ -590,11 +590,34 @@ async function unifiedV1Case(browser) {
   A.equal(theme.headline,'rgb(255, 255, 255)','Service V1 headline on canvas is white');
   for(const k of ['inputPanel','input','report'])A.equal(theme[k],'rgb(255, 255, 255)',k+' is paper-white');
   for(const k of ['inputTitle','reportTitle'])A.equal(theme[k],'rgb(22, 55, 90)',k+' is brand navy');
-  A.equal(theme.metrics.length,3);
+  A.equal(theme.metrics.length,4,'Direct online V1 shows profit, total-cost return, CPA/CAC and classic ROMI');
   A.ok(theme.metrics.every(x=>x.bg==='rgb(255, 255, 255)'&&
     x.border==='rgb(22, 55, 90)'&&x.value==='rgb(22, 55, 90)'),
-    'Profit, ROMI and CAC metric cards must share one white-and-navy style: '+JSON.stringify(theme.metrics));
+    'Profit, investment profitability, CPA/CAC and ROMI use identical white and navy cards: '+JSON.stringify(theme.metrics));
   A.equal(theme.scrollPane,'auto','Monthly table scrolls within a bounded viewport');
+  A.equal((await page.locator('#res-romi-label').textContent()).trim(),
+    'Рентабельность вложений','Former all-cost metric must no longer be called ROMI');
+  const market=await page.evaluate(()=>{
+    const rows=[...document.querySelectorAll('#summary-table tr')].map(tr=>({
+      label:tr.querySelector('td:first-child')?.textContent.trim()||'',
+      val:tr.querySelector('td:nth-child(2)')?.textContent.trim()||''
+    }));
+    const number=text=>Number(text.replace(/\s/g,'').replace(/[^0-9,.-]/g,'').replace(',','.'));
+    const get=name=>number(rows.find(r=>r.label.startsWith(name))?.val||'');
+    const spend=get('Общий рекламный бюджет')+currentValues.mgmt;
+    const contribution=get('Общая выручка Revenue')-get('Комиссия эквайринга')-get('Налог на оборот');
+    const expected=spend>0?100*(contribution-spend)/spend:null;
+    const actual=Number(document.getElementById('res-marketing-romi').textContent.replace('%','').replace(',','.'));
+    return {expected,actual,spend,label:document.getElementById('res-marketing-romi-card').textContent.trim()};
+  });
+  A.ok(market.spend>0&&Number.isFinite(market.actual));
+  A.ok(Math.abs(market.actual-market.expected)<0.2,
+    'Classical ROMI must use attributable consulting+package contribution minus ad and management, divided by marketing spend: '+JSON.stringify(market));
+  A.equal(await page.locator('#res-marketing-romi-card').isVisible(),true);
+  await page.evaluate(()=>selectServiceMode('agent'));
+  A.equal(await page.locator('#res-marketing-romi-card').isVisible(),false,
+    'Agent pathway must not display partner marketing ROMI as an agent result');
+
   if(theme.overflow){
     const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(el=>{
       const r=el.getBoundingClientRect(),css=getComputedStyle(el);
