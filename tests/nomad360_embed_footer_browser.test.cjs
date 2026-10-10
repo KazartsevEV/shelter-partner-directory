@@ -1,0 +1,77 @@
+const A=require('node:assert/strict');
+const {chromium}=require('playwright');
+const {createServer}=require('node:http');
+const fs=require('node:fs/promises');
+const path=require('node:path');
+
+const ROOT=path.resolve(__dirname,'..');
+let snapshot=null;
+const types={'.html':'text/html;charset=utf-8','.js':'text/javascript;charset=utf-8',
+ '.css':'text/css;charset=utf-8','.png':'image/png','.HTML':'text/html;charset=utf-8'};
+const server=createServer(async(req,res)=>{
+ try{
+  const name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+  const target=path.resolve(ROOT,'.'+name);
+  if(name==='/Nomad360-calculator-embed.html'&&snapshot){
+   res.writeHead(200,{'Content-Type':'text/html;charset=utf-8'});res.end(snapshot);return;
+  }
+  if(!target.startsWith(ROOT+path.sep)){res.writeHead(403);res.end();return;}
+  const bytes=await fs.readFile(target);
+  res.writeHead(200,{'Content-Type':types[path.extname(target)]||'application/octet-stream'});
+  res.end(bytes);
+ }catch(e){res.writeHead(404);res.end('Not found');}
+});
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ try{
+  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const url='http://127.0.0.1:'+server.address().port+'/';
+  const page=await browser.newPage({acceptDownloads:true,locale:'ru-RU',viewport:{width:390,height:844}});
+  const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.route(/^https?:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
+  await page.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+  const license=page.locator('#nomad360-license');
+  A.equal(await license.locator('[data-nomad-download-html]').count(),1);
+  A.match(await license.textContent(),/Встроить калькулятор на мой сайт/);
+  A.match(await license.textContent(),/Автоматическое обновление не поддерживается/);
+  const mail=await license.locator('.nomad-embed-contact').getAttribute('href');
+  A.ok(mail.startsWith('mailto:nomad260393@gmail.com?subject='));
+  A.match(decodeURIComponent(mail),/Заказать кастомную разработку/);
+  const wait=page.waitForEvent('download',{timeout:45000});
+  await license.locator('[data-nomad-download-html]').click();
+  const download=await wait;
+  A.equal(download.suggestedFilename(),'Nomad360-calculator-embed.html');
+  snapshot=await fs.readFile(await download.path(),'utf8');
+  A.ok(snapshot.length>500000,'Export must contain the actual calculator and all modules');
+  A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_design_system\.css"/);
+  A.match(snapshot,/data-nomad-bundled="\.\u002fportfolio_v2_linked_ui\.js"/);
+  A.match(snapshot,/data:image\/png;base64,/);
+  A.doesNotMatch(snapshot,/<script[^>]*src="\.\//i,'No broken relative JS');
+  A.doesNotMatch(snapshot,/<link[^>]*href="\.\//i,'No broken relative CSS');
+  A.ok(snapshot.includes('function deleteCalculatedProduct('),'Full current V1 must be bundled');
+  A.equal(await license.locator('[data-nomad-embed-status]').textContent(),'HTML готов к скачиванию');
+  A.deepEqual(errors,[],'Export click must not introduce script errors');
+  await page.close();
+  const embed=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+  const embeddedErrors=[];
+  embed.on('pageerror',e=>embeddedErrors.push(e.message));
+  await embed.route(/^https?:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
+  await embed.goto(url+'Nomad360-calculator-embed.html',{waitUntil:'domcontentloaded'});
+  A.equal(await embed.locator('#nomad360-header').count(),1);
+  A.equal(await embed.locator('#nomad360-footer').count(),1);
+  A.equal(await embed.locator('#start-own-product').count(),1);
+  A.ok(await embed.evaluate(()=>!!window.LinkedPortfolioV2UI&&!!window.PortfolioV2UI));
+  await embed.locator('#start-own-product').click();
+  A.equal(await embed.locator('#product-screen').isVisible(),true);
+  A.deepEqual(embeddedErrors,[],'Exported HTML must execute in its new context');
+  const font=await embed.locator('#product-name-input').evaluate(x=>getComputedStyle(x).fontFamily);
+  A.match(font,/IBM Plex Sans/);
+  console.log('NOMAD360_EMBED_DOWNLOAD_GREEN',JSON.stringify({bytes:snapshot.length,
+    logoBundled:true,scriptsBundled:true,standaloneCalculator:true}));
+  await embed.close();
+ }finally{
+  await browser.close();
+  await new Promise(resolve=>server.close(resolve));
+ }
+})().catch(e=>{console.error('NOMAD360_EMBED_DOWNLOAD_RED',e.stack||e);process.exitCode=1;});
