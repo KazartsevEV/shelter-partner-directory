@@ -53,7 +53,7 @@ function importFromV1(payload){
       const keep=new Set((r.skuIds||[]).filter(id=>allowed.has(id)));
       const copy=JSON.parse(JSON.stringify(r));
       copy.skuIds=Array.from(keep);
-      for(const prop of ['includedBySku','usage','loadPerUnit'])
+      for(const prop of ['includedBySku','usage','loadPerUnit','poolBySku','cashOriginBySku'])
        if(copy[prop])copy[prop]=Object.fromEntries(Object.entries(copy[prop])
          .filter(([id])=>keep.has(id)));
       return copy;
@@ -115,7 +115,7 @@ function deleteLinkedSku(skuId){
  next.skus=next.skus.filter(s=>s.id!==skuId);
  next.resources=(next.resources||[]).map(r=>{
   r.skuIds=(r.skuIds||[]).filter(id=>id!==skuId);
-  for(const name of ['includedBySku','usage','loadPerUnit']){
+  for(const name of ['includedBySku','usage','loadPerUnit','poolBySku','cashOriginBySku']){
    if(r[name])delete r[name][skuId];
   }
   return r;
@@ -146,16 +146,22 @@ function field(label,path,value,extra=''){
  '<input data-linked-path="'+safe(path)+'" type="number" step="0.01" min="0" class="input-field mt-1" value="'+safe(value)+'" '+extra+'></label>';
 }
 function resourceCard(r,i){
+ const splitPools=state.skus.some(s=>s.fullServiceV2)&&
+   r.skuIds.some(id=>state.skus.find(s=>s.id===id)?.fullServiceV2);
  const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||!['offline-service','online-service'].includes(s.source)).map(s=>{
   const checked=r.skuIds.includes(s.id);
-  const baseline=r.pool==='unitCost'?num(s.unitCost)*num(s.forecastUnitsPerMonth):
-   r.pool==='salesFixed'?num(s.salesFixedMonthly):
-   r.pool==='marketingManagement'?num(s.adManagement):
-   r.pool==='adBudget'?num(s.adBudget):0;
+  const pool=r.poolBySku?.[s.id]??r.pool;
+  const origin=r.cashOriginBySku?.[s.id]??r.cashOrigin??'';
+  const baseline=pool==='unitCost'?num(s.unitCost)*num(s.forecastUnitsPerMonth):
+   pool==='salesFixed'?num(s.salesFixedMonthly):
+   pool==='marketingManagement'?num(s.adManagement):
+   pool==='adBudget'?num(s.adBudget):0;
   return '<div class="rounded-lg border border-slate-200 p-3 min-w-0">'+
    '<label class="flex gap-2 items-center text-sm"><input type="checkbox" data-linked-member="'+i+'" value="'+safe(s.id)+'" '+(checked?'checked':'')+'><b data-nomad-no-translate>'+safe(s.name)+'</b></label>'+
    (checked?'<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">'+
-    (r.pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
+    (splitPools?'<label class="text-xs font-semibold text-slate-700">Где учтена сумма у этой позиции?<select data-linked-path="resources.'+i+'.poolBySku.'+safe(s.id)+'" class="input-field mt-1">'+options(pools,pool)+'</select></label>':'')+
+    (splitPools&&pool==='unitCost'?'<label class="text-xs font-semibold text-slate-700">Исходный денежный платёж<select data-linked-path="resources.'+i+'.cashOriginBySku.'+safe(s.id)+'" class="input-field mt-1">'+options([['','Выберите'],['materials','Материалы'],['production','Производство / аренда'],['fulfillment','Исполнение']],origin)+'</select></label>':'')+
+    (pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
       'resources.'+i+'.includedBySku.'+s.id,r.includedBySku?.[s.id]??0):'')+
     (r.allocation==='usage'?(r.usageMode==='per-unit'?
       field('Ресурс на 1 продажу / посещение','resources.'+i+'.loadPerUnit.'+s.id,r.loadPerUnit?.[s.id]??0):
@@ -448,7 +454,7 @@ function onEvent(e){
  if(field.dataset?.linkedMember!==undefined&&e.type==='change'){
   const r=state.resources[Number(field.dataset.linkedMember)];
   if(field.checked&&!r.skuIds.includes(field.value))r.skuIds.push(field.value);
-  else if(!field.checked){r.skuIds=r.skuIds.filter(x=>x!==field.value);delete r.includedBySku[field.value];delete r.usage[field.value];delete r.loadPerUnit?.[field.value];}
+  else if(!field.checked){r.skuIds=r.skuIds.filter(x=>x!==field.value);delete r.includedBySku[field.value];delete r.usage[field.value];delete r.loadPerUnit?.[field.value];delete r.poolBySku?.[field.value];delete r.cashOriginBySku?.[field.value];}
   save();render();return;
  }
  if(field.dataset?.linkedPath){
