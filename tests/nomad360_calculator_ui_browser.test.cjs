@@ -91,7 +91,7 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.locator('#nomad360-home-secondary').evaluate(e=>getComputedStyle(e).boxShadow),'none',
     'No legacy floating/nested homepage card shadow');
   A.match(await page.locator('#nomad360-calculation-list li').first().evaluate(
-    e=>getComputedStyle(e,'::before').content),/counter\\(deliverable/,'Outcomes use a numbered CSS counter');
+    e=>getComputedStyle(e,'::before').content),/counter\(deliverable/,'Outcomes use a numbered CSS counter');
   await choice.locator('#start-service').click();
   A.equal(await page.locator('#service-work-screen').isVisible(),true,'Service must open online/offline branch');
   await page.evaluate(()=>showHome());
