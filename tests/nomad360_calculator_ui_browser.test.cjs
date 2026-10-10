@@ -603,7 +603,7 @@ async function unifiedV1Case(browser) {
     const wasHidden=el.hidden;
     el.hidden=false;el.classList.remove('hidden');
     const appearance={bg:getComputedStyle(el).backgroundColor,
-      inner:getComputedStyle(el.querySelector('.aggregate-final-box')).backgroundColor,
+      inner:getComputedStyle(el.querySelector('.aggregate-price-card')).backgroundColor,
       title:getComputedStyle(el.querySelector('.aggregate-tax-title')).color,
       next:getComputedStyle(el.querySelector('.bg-emerald-950')).backgroundColor};
     el.hidden=wasHidden;el.classList.add('hidden');
