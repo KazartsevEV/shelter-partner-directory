@@ -1907,7 +1907,9 @@
                 const sku=window.LinkedPortfolioOnlineAdapter.build({...onlineV1PortfolioSnapshot,
                   name:document.getElementById('online-v2-name')?.value.trim()||'Онлайн-услуга',
                   id:'v1-online-full-service'});
-                const data={monthlyForecast:sku.forecastUnitsPerMonth,
+                const monthlyDeals=onlineV1PortfolioSnapshot.period?.monthlyDeals;
+                const data={monthlyForecast:Array.isArray(monthlyDeals)&&monthlyDeals.length?
+                    monthlyDeals:sku.forecastUnitsPerMonth,
                   capacity:Number.MAX_SAFE_INTEGER,priceGross:sku.priceMax,
                   vatPct:0,taxType:'turnover',taxPct:sku.ownerTax.pct,
                   months:Number(onlineV1PortfolioSnapshot.values?.months||1),
