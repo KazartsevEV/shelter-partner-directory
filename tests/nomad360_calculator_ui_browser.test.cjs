@@ -178,7 +178,17 @@ async function browserCase(browser,locale,expected){
   A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
-  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
+  await page.waitForTimeout(120);
+  const v2Visible=await page.locator('#portfolio-v2-screen').isVisible();
+  const v2Diagnostics=await page.evaluate(()=>({
+    active:document.querySelectorAll('body > section:not([hidden])').length,
+    portfolioHidden:document.getElementById('portfolio-v2-screen').hidden,
+    portfolioClass:document.getElementById('portfolio-v2-screen').className,
+    homeHidden:document.getElementById('home-screen').hidden,
+    portfolioFn:typeof window.openPortfolioV2,
+    screenStyle:getComputedStyle(document.getElementById('portfolio-v2-screen')).display
+  }));
+  A.equal(v2Visible,true,'Third choice button must open V2 '+locale+': '+JSON.stringify(v2Diagnostics));
   await page.mouse.move(0,0);
   await page.waitForTimeout(220); // let hover/transition settle before measuring normal state
   const v2Action=await page.locator('[data-p2-save]').evaluate(e=>{
