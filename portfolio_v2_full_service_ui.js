@@ -234,6 +234,7 @@
      m.interest,m.tax,m.depreciation,m.profit,m.operatingCash,m.assetCash,m.financeIn,m.principalDue,m.netCashFlow,m.cashOnHand].map((v,i)=>
      '<td>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   target.append(wrap);
+  if(next.funding==='own') trimLoanColumns(wrap.querySelector('table'));
  }
  function print(){
   if(!result)return;
