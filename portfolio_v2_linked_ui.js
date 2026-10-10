@@ -39,7 +39,7 @@ function importFromV1(payload){
  const fresh=Engine.fromV1(payload),prior=state||read();
  // Preserve individually imported online services when the product portfolio
  // is re-imported. Each online SKU retains its own owner-tax provenance.
- if(prior)fresh.skus.push(...prior.skus.filter(s=>s.source==='online-service'&&
+ if(prior)fresh.skus.push(...prior.skus.filter(s=>(s.source==='online-service'||s.fullServiceV2)&&
    !fresh.skus.some(x=>x.id===s.id)).map(s=>JSON.parse(JSON.stringify(s))));
  // Reimporting V1 after adding another item must not wipe the user's portfolio.
  // Preserve settings only for the exact overlapping canonical IDs; never silently
@@ -84,6 +84,28 @@ function appendOnline(sku){
  }
  next.lastOrigin='online';
  state=next;resetSequence();save();enter();
+}
+// Full-service owner tax must match the enterprise; legacy agent turnover
+// remains an independently identified source and is not silently reclassified.
+function appendFullService(sku){
+ if(!sku?.fullServiceV2||!['online-service','offline-service'].includes(sku.source))
+   throw Error('Требуется проверенная полная денежная модель услуги.');
+ const previous=state||read();
+ if(previous&&(previous.tax?.type!==sku.ownerTax?.type||
+    Math.abs(Number(previous.tax?.pct)-Number(sku.ownerTax?.pct))>.0000001))
+   throw Error('Налог предприятия в портфеле отличается от налога полной услуги. Укажите единый налоговый режим.');
+ const next=previous?JSON.parse(JSON.stringify(previous)):Engine.fromV1({
+   tax:{type:sku.ownerTax.type,pct:sku.ownerTax.pct},skus:[sku]});
+ if(previous){
+   if(next.skus.some(s=>s.id===sku.id))
+     throw Error('Расчёт этой услуги уже есть в портфеле. Удалите старую версию перед заменой.');
+   next.skus.push({...JSON.parse(JSON.stringify(sku)),priceSelected:sku.priceMax,discountSelected:0});
+ }
+ next.forecastMonths=Math.max(Number(next.forecastMonths||1),Number(sku.fullServiceHorizon||1));
+ if(!previous)next.recurringDemandApproved=true;
+ next.lastOrigin='full-service';
+ state=next;resetSequence();save();enter();
+ return true;
 }
 function deleteLinkedSku(skuId){
  if(!state||!state.skus.some(s=>s.id===skuId))return false;
@@ -476,6 +498,7 @@ function mount(){
  if(el){el.addEventListener('input',onEvent);el.addEventListener('change',onEvent);el.addEventListener('click',onEvent);}
  updateEntry();
 }
-root.LinkedPortfolioV2UI=Object.freeze({importFromV1,appendOnline,resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
+root.LinkedPortfolioV2UI=Object.freeze({importFromV1,appendOnline,appendFullService,
+ resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })(window);
