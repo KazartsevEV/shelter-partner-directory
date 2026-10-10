@@ -220,8 +220,26 @@
       if(r.kind!=='campaign'&&pool==='adBudget')
         report(key+'.pool','Рекламный бюджет можно объединять только рекламной кампанией.');
       if(r.cadence!=='monthly'&&r.cadence!=='once')report(key+'.cadence','Укажите периодичность ресурса.');
-      if(pool==='unitCost'&&!cashBuckets.has(r.cashOrigin)&&sum(Object.values(r.includedBySku||{}).map(pos))>EPS)
-        report(key+'.cashOrigin','Выберите исходный денежный платёж V1: закупка, производство или исполнение заказа.');
+      const perSkuPool=r.poolBySku||{},perSkuOrigin=r.cashOriginBySku||{};
+      const hasOverrides=Object.keys(perSkuPool).length>0||Object.keys(perSkuOrigin).length>0;
+      if(hasOverrides&&!beneficiaries.some(id=>rows.find(s=>s.id===id)?.fullServiceV2))
+        report(key+'.poolBySku','Раздельные исходные статьи допустимы для общей полной услуги V2.');
+      for(const id of Object.keys({...perSkuPool,...perSkuOrigin}))
+        if(!beneficiaries.includes(id))
+          report(key+'.poolBySku','Источник указан для неизвестной позиции.');
+      for(const id of beneficiaries){
+        const sourcePool=perSkuPool[id]??pool,sourceOrigin=perSkuOrigin[id]??r.cashOrigin;
+        if(!allowedPools.has(sourcePool))
+          report(key+'.poolBySku.'+id,'Неизвестный блок затрат.');
+        if(sourcePool==='unitCost'&&!cashBuckets.has(sourceOrigin)&&pos(r.includedBySku?.[id])>EPS)
+          report(key+'.cashOriginBySku.'+id,'Укажите исходный денежный платёж.');
+        if(r.kind==='campaign'&&sourcePool!=='none'&&sourcePool!=='adBudget')
+          report(key+'.poolBySku.'+id,'Общую рекламу можно заменить только из рекламного бюджета.');
+        if(r.kind!=='campaign'&&sourcePool==='adBudget')
+          report(key+'.poolBySku.'+id,'Рекламный бюджет учитывается общей кампанией.');
+        if(r.cadence==='once'&&sourcePool!=='none')
+          report(key+'.cadence','Разовый ресурс нельзя вычитать из ежемесячного расхода.');
+      }
       if(r.cadence==='once'&&pool!=='none')report(key+'.cadence','Нельзя перенести ежемесячный расход в разовый без графика амортизации.');
       const real=Number(r.amount);
       if(!Number.isFinite(real)||real<0)report(key+'.amount','Стоимость общего ресурса должна быть неотрицательной.');
@@ -257,13 +275,14 @@
         if(!ids.has(id)||!beneficiaries.includes(id))report(key+'.skuIds','Списание уже учтённого расхода допускается только для получателя.');
         if(!Number.isFinite(Number(value))||Number(value)<0)
           report(key+'.includedBySku','Учтённая сумма должна быть неотрицательной.');
-        if(pool!=='none'&&offsets[id])offsets[id][pool]+=pos(value);
-        if(pool==='unitCost'&&cashOffsets[id]&&cashBuckets.has(r.cashOrigin)){
+        const sourcePool=perSkuPool[id]??pool,sourceOrigin=perSkuOrigin[id]??r.cashOrigin;
+        if(sourcePool!=='none'&&offsets[id])offsets[id][sourcePool]+=pos(value);
+        if(sourcePool==='unitCost'&&cashOffsets[id]&&cashBuckets.has(sourceOrigin)){
           const sku=rows.find(x=>x.id===id);
           const multiplier=['dropship','offline-service','online-service'].includes(sku?.source)?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
-          cashOffsets[id][r.cashOrigin]+=pos(value)*multiplier;
+          cashOffsets[id][sourceOrigin]+=pos(value)*multiplier;
         }
-        if(pool==='none'&&pos(value)>EPS)report(key+'.pool','Для списания старой суммы укажите исходный блок.');
+        if(sourcePool==='none'&&pos(value)>EPS)report(key+'.pool','Для списания старой суммы укажите исходный блок.');
       }
       ledger.push({...r,skuIds:beneficiaries,amount:pos(r.amount),pool});
     }
