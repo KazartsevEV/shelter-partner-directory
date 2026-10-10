@@ -223,3 +223,70 @@ a.nomad-pay-value{text-decoration:underline}
   outline:3px solid #f3a17a;
   outline-offset:3px;
 }
+
+/* EMBED-RETRY: visible after a complete HTML snapshot has been prepared.
+   Keep the Blob URL alive so Android browsers can retry via a real download link. */
+.nomad-footer .nomad-embed-manual[hidden]{display:none!important}
+.nomad-footer .nomad-embed-manual{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px;
+  padding:14px 0 4px;
+  margin-top:2px;
+  border-top:1px solid rgba(255,255,255,.3);
+}
+.nomad-footer .nomad-embed-manual .nomad-embed-retry-prompt{
+  margin:0;
+  font-size:16px;
+  font-weight:600;
+  line-height:1.45;
+  color:#fff;
+}
+.nomad-footer .nomad-embed-retry{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:52px;
+  padding:12px 18px;
+  background:#ed8e63;
+  border:1px solid #ed8e63;
+  color:#16375a;
+  text-align:center;
+  text-decoration:none;
+  font:700 18px/1.3 'IBM Plex Sans',system-ui,sans-serif;
+}
+.nomad-footer .nomad-embed-retry:hover{
+  background:#f3a17a;
+  border-color:#f3a17a;
+  color:#16375a;
+}
+.nomad-footer .nomad-embed-retry:focus-visible{outline:3px solid #fff;outline-offset:3px}
+/* Larger Nomad360 brand, including mobile. Preserve the three header controls
+   and allow the nav to take the extra vertical space without overflow. */
+.nomad-header .nomad-bar{height:80px}
+.nomad-header .nomad-brand{gap:10px;min-width:0;flex:0 1 auto}
+.nomad-header .nomad-logo{width:52px;height:52px;flex:0 0 52px}
+.nomad-header .nomad-wordmark{font-size:27px;font-weight:700;letter-spacing:-.028em;white-space:nowrap}
+.nomad-header .nomad-panel{max-height:calc(100vh - 80px)}
+@media(min-width:1200px){
+ .nomad-header .nomad-bar{height:84px}
+ .nomad-header .nomad-logo{width:56px;height:56px;flex-basis:56px}
+ .nomad-header .nomad-wordmark{font-size:29px}
+ .nomad-header .nomad-nav a{height:84px}
+}
+@media(max-width:660px){
+ .nomad-header .nomad-bar{height:76px;gap:4px}
+ .nomad-header .nomad-brand{gap:8px}
+ .nomad-header .nomad-logo{width:46px;height:46px;flex-basis:46px}
+ .nomad-header .nomad-wordmark{font-size:24px}
+ .nomad-header .nomad-lang{margin-left:auto;margin-right:6px}
+}
+@media(max-width:360px){
+ .nomad-header .nomad-brand{gap:6px}
+ .nomad-header .nomad-logo{width:40px;height:40px;flex-basis:40px}
+ .nomad-header .nomad-wordmark{font-size:21px}
+ .nomad-header .nomad-bar{padding:0 10px}
+ .nomad-header .nomad-lang{margin-right:4px}
+}
