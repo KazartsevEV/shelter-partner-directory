@@ -682,6 +682,25 @@ async function v1AccentsCase(browser){
   A.equal(await page.locator('#own-warehouse-inbound-details').isVisible(),false);
   A.equal((await appearance(other)).background,orange);
   A.equal((await appearance(mine)).background,white);
+  // Responsive payer pairs: the short label is narrower; long names fit inside.
+  await page.locator('[data-yn-group="materialsImported"][data-yn-value="yes"]').click();
+  A.equal(await page.locator('#own-import-details').isVisible(),true,
+    'Import payer options are visible after the existing Yes choice');
+  for(const width of [390,320]){
+    await page.setViewportSize({width,height:844});
+    const rows=await page.locator('#product-screen .nd-payer-choice-grid').evaluateAll(nodes=>nodes.map(grid=>{
+      const btns=[...grid.querySelectorAll(':scope > button')],p=grid.getBoundingClientRect();
+      const rs=btns.map(btn=>btn.getBoundingClientRect());
+      return {visible:p.width>0,key:btns[0]?.dataset.logisticsPayerKey||btns[0]?.dataset.importPayerKey,
+        ratio:rs[1]?.width/rs[0]?.width,within:rs.every(r=>r.left>=p.left-1&&r.right<=p.right+1),
+        textFits:btns.every(btn=>btn.scrollWidth<=btn.clientWidth+2),
+        rows:rs.map(r=>({width:Math.round(r.width),height:Math.round(r.height)}))};
+    }));
+    A.equal(rows.length,7,'Four import + three logistics payer pairs have shared grid styling');
+    A.ok(rows.every(x=>x.visible&&x.ratio>=2.2&&x.within&&x.textFits),
+      'Other counterparty must be wider and fit within its button at '+width+'px: '+JSON.stringify(rows));
+  }
+  await page.setViewportSize({width:390,height:844});
   const hints=await page.locator('#product-source-unavailable,#product-assortment-gate .bg-amber-50')
     .evaluateAll(nodes=>nodes.map(n=>({bg:getComputedStyle(n).backgroundColor,
       color:getComputedStyle(n).color,strong:getComputedStyle(n.querySelector('strong')||n).color})));
