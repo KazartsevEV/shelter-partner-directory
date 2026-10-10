@@ -71,7 +71,6 @@ const {pathToFileURL}=require('node:url');
     // inventory, capacity, amortization or the service funnel.
     productBusinessTaxType='turnover';
     document.getElementById('own-business-tax-pct').value='10';
-    calculateProductPortfolio=()=>({pricingReady:true,items:[{id:currentProductSequence,price:100}],taxPriceMultiplier:1});
     return {forecast:item.forecastUnitsPerMonth,fixed:item.productionFixedMonthly};
   });
   A.equal(original.forecast,20,'Actual V1 ad funnel determines monthly service demand');
@@ -81,6 +80,12 @@ const {pathToFileURL}=require('node:url');
     parent:document.getElementById('full-service-offline-entry').parentElement?.id
   }));
   await page.locator('#assortment-complete-button').click();
+  // Only the V1 approved price is stubbed; original V1 tax/pricing rendering
+  // must execute before that stub is installed or it would corrupt the gate.
+  await page.evaluate(()=>{
+    calculateProductPortfolio=()=>({pricingReady:true,items:[{id:currentProductSequence,price:100}],taxPriceMultiplier:1});
+  });
+  console.log('TZ02_SINGLE_V1_GATE_ERRORS',JSON.stringify(errors));
   const afterAssortment=await page.evaluate(()=>{
     const tax=document.getElementById('product-tax-block'),a=document.getElementById('full-service-offline-entry');
     return {mode:serviceFinancialMode,source:productSource,taxHidden:tax.hidden,taxCls:tax.className,
