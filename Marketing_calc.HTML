@@ -2458,6 +2458,7 @@
                 id: currentProductSequence,
                 name: productName,
                 source: productSource,
+                unit: document.getElementById('product-sales-unit')?.value || (productSource==='offline-service'?'услуга':'шт'),
                 materialsUnitCost: latestMaterialsLandedUnitCost,
                 materialsVariableUnit,
                 materialsFixedBatch,
@@ -2629,7 +2630,7 @@
                         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                             <div>
                                 <div class="text-xs uppercase tracking-[0.14em] text-slate-400">${item.source==='offline-service'?'Услуга':'Товар'} ${index + 1}</div>
-                                <div class="font-bold text-slate-900 text-base">«${esc(item.name)}»</div>
+                                <div class="font-bold text-slate-900 text-base">«${esc(item.name)}» · ${esc(item.unit||(item.source==='offline-service'?'услуга':'шт'))}</div>
                             </div>
                             <div class="flex flex-wrap gap-x-4 gap-y-3 items-center">
                               <button type="button"
@@ -6310,6 +6311,8 @@
             set('product-name-label',service?'Название услуги':'Наименование товара');
             set('product-intro-help',service?'Например: маникюр с покрытием, стрижка, массаж. Одна единица = одна оказанная услуга.':'Введите название своего товара. Сведения из учебных примеров сюда не переносятся.');
             set('product-intro-submit-label',service?'Рассчитать услугу':'Рассчитать мой товар');
+            const salesUnit=document.getElementById('product-sales-unit');
+            if(salesUnit && service)salesUnit.value='услуга';
             const input=document.getElementById('product-name-input');
             if(input)input.placeholder=service?'Например: маникюр с покрытием':'Например: кофемашина, футболка, набор свечей';
             const back=document.getElementById('product-main-back');
@@ -6957,10 +6960,13 @@
 
             latestProductionUnitCost = unitCost;
             const output = document.getElementById('own-production-unit-cost');
-            if (output) output.textContent = moneyInputValue(unitCost);
+            const hasForecast=productSource!=='offline-service'||offlineForecast>0;
+            if (output) output.textContent = hasForecast?moneyInputValue(unitCost):'—';
 
             const breakdown = document.getElementById('own-production-unit-breakdown');
-            if (breakdown) {
+            if (breakdown && !hasForecast) {
+                breakdown.textContent='Расходы на одну услугу появятся после расчёта рекламной воронки.';
+            } else if (breakdown) {
                 const rows = [
                     ['Аренда помещения / 1 ед.', premisesMonthly / qty],
                     ['Аренда оборудования / 1 ед.', equipmentRentalMonthly / qty],
