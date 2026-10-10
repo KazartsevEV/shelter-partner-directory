@@ -16,7 +16,8 @@ const path=require('node:path');
   await page.getByRole('button',{name:'Рассчитать мой товар'}).click();
   await page.locator('[data-product-source="dropship"]').click();
   assert.equal(await page.locator('#resale-buy-panel').isVisible(),true);
-  assert.match(await page.locator('#materials-step-name').textContent(),/Чем я буду торговать/);
+  assert.equal((await page.locator('#materials-step-name').textContent()).trim(),'Ассортимент и поставщики');
+   assert.equal((await page.locator('#materials-step-help').textContent()).trim(),'С расчётом оборотных средств.');
   for(const id of ['#product-production-block','#production-unit-result','#warehouse-inbound-panel',
     '#warehouse-storage-panel','#purchase-inbound-delivery-panel','#logistics-quantity-panel']){
    assert.equal(await page.locator(id).isVisible(),false,'Unexpected '+id);
