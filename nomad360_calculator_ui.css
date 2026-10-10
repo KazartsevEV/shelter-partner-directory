@@ -41,36 +41,22 @@
  .nomad-cta{order:3;height:44px;margin:0 0 0 24px;padding:0 22px;font-size:15px}
 }
 /* Presentation only. Does not change existing calculator styles or finance. */
-.nomad-marketing{font-family:Inter,system-ui,-apple-system,sans-serif}
-.nomad-hero{position:relative;overflow:hidden;color:#f3fcf8;background:linear-gradient(124deg,#052f2a 0%,#075347 72%,#096b56 100%);border-radius:24px;padding:clamp(24px,5vw,43px);margin-bottom:16px;box-shadow:0 16px 35px -25px rgba(0,55,45,.5)}
-.nomad-hero:after{content:'✦';position:absolute;right:-19px;top:-90px;color:rgba(210,255,226,.06);font-size:min(55vw,320px);pointer-events:none}
-.nomad-overline{position:relative;z-index:1;color:#a9dfc7;font-size:11px;font-weight:800;letter-spacing:.14em}
-.nomad-dot{padding:0 6px;color:#f6d69c}
+.nomad-marketing{font-family:'IBM Plex Sans',Inter,system-ui,-apple-system,sans-serif}
+.nomad-hero{position:relative;color:#16375a;background:transparent;border:0;border-radius:0;padding:8px 0 24px;margin-bottom:16px;box-shadow:none}
+.nomad-hero:after{content:none}
 .nomad-hero h1{position:relative;z-index:1;max-width:800px;margin:0 0 14px;font-weight:800;letter-spacing:-.025em;line-height:1.14;font-size:clamp(30px,4.1vw,44px)}
 .nomad-hero h2{position:relative;z-index:1;max-width:800px;margin:0 0 16px;font-weight:650;letter-spacing:-.02em;line-height:1.24;font-size:clamp(21px,2.7vw,30px)}
-.nomad-hero h3{position:relative;z-index:1;max-width:800px;margin:0;font-weight:550;color:#d9f5e7;line-height:1.45;font-size:clamp(16px,1.8vw,20px)}
+.nomad-hero h3{position:relative;z-index:1;max-width:800px;margin:0;font-weight:500;color:#344c63;line-height:1.45;font-size:clamp(16px,1.8vw,20px)}
 #nomad360-calculation-list ol{margin-top:0}
-.nomad-lead{color:#b9f5d8;font-weight:700;font-size:clamp(15px,2vw,20px);margin:14px 0}
-.nomad-hero p{max-width:730px;color:#edf8f3;line-height:1.65;font-size:14px;margin:14px 0}
-.nomad-emphasis{position:relative;z-index:1;max-width:750px;font-weight:700;color:#fef3c7;border-left:3px solid #f3cb83;padding:5px 0 5px 14px;margin:18px 0}
-.nomad-privacy{margin-top:18px;padding-top:15px;border-top:1px solid #ffffff38;font-size:12px;line-height:1.65;color:#ccf1e3}
-.nomad-footer{max-width:1152px;margin:50px auto 15px;background:#052f2a;color:#f9fff9;border-radius:24px;padding:clamp(22px,4vw,40px);box-shadow:0 14px 40px -25px #123e31}
-.nomad-footer-kicker{color:#a6ead0;letter-spacing:.12em;font-size:11px;font-weight:800}
-.nomad-footer h2{font-size:clamp(23px,3.5vw,34px);letter-spacing:-.035em;line-height:1.15;font-weight:900;max-width:720px;margin:14px 0}
-.nomad-footer>p{max-width:735px;line-height:1.6;color:#d2ebe3;font-size:14px}
-.nomad-action{display:inline-flex;text-decoration:none;align-items:center;justify-content:center;font-weight:800;border-radius:12px;padding:13px 18px;min-height:46px}
-.nomad-action-main{background:#f5d7a3;color:#15362e;margin-top:19px}
-.nomad-action-main:hover{background:#ffe9c4}
-.nomad-support{display:grid;grid-template-columns:minmax(200px,.9fr) minmax(260px,1.35fr);align-items:center;gap:18px;border-top:1px solid #ffffff36;margin-top:25px;padding-top:22px}
+.nomad-footer{max-width:1152px;margin:32px auto 15px;background:#fff;color:#16375a;border:1px solid #d5dbe3;border-radius:0;padding:clamp(18px,3vw,30px);box-shadow:none}
+.nomad-footer-kicker{color:#64748b;letter-spacing:.08em;font-size:11px;font-weight:600}
+.nomad-support{display:grid;grid-template-columns:minmax(200px,.9fr) minmax(260px,1.35fr);align-items:center;gap:18px;border-top:0;margin-top:16px;padding-top:0}
 .nomad-support h3{font-size:19px;font-weight:850;margin:0 0 6px}
-.nomad-support p{font-size:12px;color:#c3e2d8;line-height:1.55}
+.nomad-support p{font-size:12px;color:#475569;line-height:1.55}
 .nomad-contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.nomad-contact-grid a{display:block;padding:15px 13px;border:1px solid #81b7a07e;background:#ffffff12;border-radius:12px;color:#f6fff8;text-decoration:none;min-width:0}
-.nomad-contact-grid small{display:block;color:#a6dfbe;font-size:11px;margin-bottom:4px}
+.nomad-contact-grid a{display:block;padding:15px 13px;border:1px solid #d5dbe3;background:#fff;border-radius:0;color:#16375a;text-decoration:none;min-width:0}
+.nomad-contact-grid small{display:block;color:#64748b;font-size:11px;margin-bottom:4px}
 .nomad-contact-grid strong{font-size:clamp(13px,1.5vw,16px);white-space:nowrap}
-.nomad-bottom{border-top:1px solid #ffffff29;margin-top:22px;padding-top:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;font-size:13px}
-.nomad-bottom a{color:#f8d29e;text-decoration:underline;text-underline-offset:3px}
-.nomad-blessing{text-align:center;color:#bbefcf;font-size:14px;font-weight:800;letter-spacing:.015em;margin-top:20px}
 .nomad-export-callout{background:#f3faf6;border:1px solid #97d4ad;border-left:5px solid #127657;border-radius:15px;padding:17px 19px;margin:16px 0 30px;font-family:Inter,system-ui,sans-serif;color:#15382f}
 .nomad-export-title{font-size:22px;font-weight:850;line-height:1.2;color:#085a44}
 .nomad-export-callout p{color:#375b51;font-size:13px;margin:7px 0}
@@ -89,8 +75,8 @@
 .nomad-alert{background:#fff5de;color:#765000;padding:10px 12px;border-left:3px solid #d48a0c;margin:8px 0;font-weight:650;font-size:12px}
 #nomad360-print-sheet{display:none}
 @media(max-width:660px){
- .nomad-hero{border-radius:16px;padding:22px 18px}
- .nomad-footer{border-radius:15px;margin-top:26px;padding:22px 16px}
+ .nomad-hero{border-radius:0;padding:8px 0 20px}
+ .nomad-footer{border-radius:0;margin-top:26px;padding:22px 16px}
  .nomad-support{grid-template-columns:1fr}
  .nomad-contact-grid{grid-template-columns:1fr}
  .nomad-bottom{align-items:flex-start;flex-direction:column}
