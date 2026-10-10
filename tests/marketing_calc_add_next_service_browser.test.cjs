@@ -34,11 +34,13 @@ const {pathToFileURL}=require('node:url');
    await page.goto(url,{waitUntil:'domcontentloaded'});
    await enterOffline('Массаж',8);
    await next();
+   A.match(await page.locator('#saved-product-summary').innerText(),/1 услуга/);
    A.deepEqual((await saved()).map(x=>[x.id,x.name,x.source]),[[1,'Массаж','offline-service']]);
    await enterOffline('Маникюр',12);
    A.equal(await page.evaluate(()=>currentProductSequence),2);
    A.equal(await page.evaluate(()=>productPortfolio.length),1);
    await next();
+   A.match(await page.locator('#saved-product-summary').innerText(),/2 услуги/);
    A.deepEqual((await saved()).map(x=>[x.id,x.name,x.source]),
      [[1,'Массаж','offline-service'],[2,'Маникюр','offline-service']]);
    // The same "add next" branch can accept a goods product, not only another service.
