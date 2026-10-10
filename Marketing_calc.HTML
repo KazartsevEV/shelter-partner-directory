@@ -1878,9 +1878,9 @@
                 }
                 const p=item.planning||{};
                 const data={monthlyForecast:qty,capacity,priceGross:range.maxPrice,
-                  vatPct:item.uiState?.choices?.salesVat==='yes'?Number(item.inputs?.['own-sales-vat-pct']||0):0,
+                  vatPct:item.uiState?.choices?.salesVat==='yes'?productNumber('own-sales-vat-pct'):0,
                   taxType:productBusinessTaxType||'turnover',
-                  taxPct:Number(item.inputs?.['own-business-tax-pct']||0),
+                  taxPct:productNumber('own-business-tax-pct'),
                   months:1,unitCashCost:Number(item.materialsUnitCost||0)+Number(item.productionElectricityPerUnit||0),
                   fixedCashMonthly:Math.max(0,Number(item.productionFixedMonthly||0)-amort)+
                     Number(item.salesFixedMonthly||0)+Number(item.adBudget||0)+Number(item.adManagement||0),
