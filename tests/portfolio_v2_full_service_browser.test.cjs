@@ -192,6 +192,16 @@ const {pathToFileURL}=require('node:url');
     commissionPct:0,reservePct:10,funding:'own',annualRatePct:24,creditMonths:3};
   await page.evaluate(data=>Nomad360FullServiceUI.open(data,{kind:'offline',name:'Массаж'}),seed);
   A.equal(await page.locator('#full-service-screen').isVisible(),true);
+  A.equal(await page.locator('.nd-full-service-month-card').count(),3,
+    'One readable cash reconciliation per month');
+  const month1=await page.locator('.nd-full-service-month-card').first().innerText();
+  A.match(month1,/Выручка без НДС/);
+  A.ok(month1.includes('17')&&month1.includes('857,14'));
+  A.match(month1,/Вложено своих денег/);
+  A.match(month1,/Осталось на конец месяца/);
+  A.doesNotMatch(month1,/Кредит|Проценты|Тело кредита/);
+  A.equal(await page.locator('.nd-full-service-technical').getAttribute('open'),null,
+    'Technical ledger is collapsed by default');
   A.equal(await page.locator('#full-service-report table tbody tr').count(),3);
   let r=await page.evaluate(()=>Nomad360FullServiceUI.getResult());
   A.ok(Math.abs(r.capital-11160)<.01);
@@ -224,6 +234,13 @@ const {pathToFileURL}=require('node:url');
   r=await page.evaluate(()=>Nomad360FullServiceUI.getResult());
   A.equal(r.outstandingPrincipal,0);
   A.ok(r.creditRepaid>0);
+  const creditCard=await page.locator('.nd-full-service-month-card').first().innerText();
+  A.match(creditCard,/Получен кредит/);
+  A.doesNotMatch(creditCard,/Вложено своих денег/);
+  A.ok(Math.abs(r.months[0].netCashFlow-
+    (r.months[0].revenue-r.months[0].variable-r.months[0].fixed-r.months[0].tax-
+     r.months[0].interest-r.months[0].assetCash-r.months[0].principalDue+r.months[0].financeIn))<.01,
+     'Month card reconciliation must agree with financing ledger');
   A.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,
     'Mobile financial results must not overflow the viewport');
   await page.locator('#full-service-save').click();

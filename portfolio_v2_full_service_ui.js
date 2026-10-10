@@ -26,7 +26,8 @@
     capitalNote:'Сколько денег потребуется для старта, включая резерв',profitNote:'Прибыль за весь выбранный период после налогов',freeNote:'Деньги к концу периода за вычетом резерва',
     peakNote:'Максимальная потребность в деньгах',firstNote:'Первый месяц с положительным операционным потоком',paybackNote:'Когда накопленные поступления возместят затраты',
     monthsUnit:'мес.',monthShort:'мес.',noPositive:'Нет за выбранный период',ownFunding:'Свои вложения',portfolioHelp:'Есть несколько товаров или услуг? Соберите общий портфель V2 с общими расходами.',
-    actions:'Сохранение и следующий шаг',firstPrefix:'Первый месяц',forecastCaveat:'Дробное число означает ожидаемое количество клиентов, а не часть человека.'},
+    ledgerIn:'Выручка без НДС',ledgerOut:'Платежи месяца',ledgerDelta:'Разница поступлений и платежей',ledgerBalance:'Осталось на конец месяца',ledgerOwn:'Вложено своих денег',ledgerLoan:'Получен кредит',ledgerHintOwn:'Стартовые собственные средства входят в остаток отдельно. Платежи включают расходы, налоги и покупку оборудования.',ledgerHintLoan:'Кредит входит в остаток отдельно. Проценты и погашение долга входят в платежи соответствующих месяцев.',technical:'Показать полную таблицу расходов, налогов и денежных потоков',
+     actions:'Сохранение и следующий шаг',firstPrefix:'Первый месяц',forecastCaveat:'Дробное число означает ожидаемое количество клиентов, а не часть человека.'},
   en:{step:'Calculation settings',stepHint:'Review taxes, time horizon and funding. Results update whenever you change an input.',
     summary:'Results for the selected period',summaryHint:'Amounts are in the calculation currency. Fractional clients reflect expected demand.',
     months:'Monthly cash flow',monthsHint:'Scroll the table horizontally. Revenue excludes VAT; cash flow includes expenses and taxes.',
@@ -35,7 +36,8 @@
     capitalNote:'Money needed to start, including the reserve',profitNote:'Net profit for the whole selected period',freeNote:'End-of-period money after the reserve',
     peakNote:'Largest temporary funding need',firstNote:'First month with positive operating cash flow',paybackNote:'When cumulative inflows cover investment',
     monthsUnit:'months',monthShort:'month',noPositive:'None in the selected period',ownFunding:'Owner funding',portfolioHelp:'Several goods or services? Build a V2 portfolio to share business costs.',
-    actions:'Save and continue',firstPrefix:'First month',forecastCaveat:'Fractional customers represent expected demand, not part of a person.'},
+    ledgerIn:'Revenue excl. VAT',ledgerOut:'Payments this month',ledgerDelta:'Receipts minus payments',ledgerBalance:'End-of-month cash',ledgerOwn:'Own funds invested',ledgerLoan:'Loan received',ledgerHintOwn:'Initial owner funds are included in the closing balance separately. Payments include costs, taxes and equipment purchases.',ledgerHintLoan:'Loan funding is included in the closing balance separately. Interest and principal repayments appear in the corresponding months.',technical:'Show full expense, tax and cash-flow table',
+     actions:'Save and continue',firstPrefix:'First month',forecastCaveat:'Fractional customers represent expected demand, not part of a person.'},
   kk:{step:'Есептеу шарттары',stepHint:'Салықты, кезеңді және қаржыландыруды тексеріңіз. Өрістер өзгерсе, нәтиже дереу жаңарады.',
     summary:'Таңдалған кезеңнің нәтижесі',summaryHint:'Барлық сома есептеу валютасымен берілген. Бөлшек клиент саны — күтілетін сұраныс.',
     months:'Айлық ақша ағыны',monthsHint:'Кестені көлденең айналдырыңыз. Кіріс ҚҚС-сыз, ақша ағыны шығындар мен салықтарды ескереді.',
@@ -44,7 +46,8 @@
     capitalNote:'Резервпен бірге іске қосуға қажет ақша',profitNote:'Таңдалған кезеңдегі салықтан кейінгі пайда',freeNote:'Кезең соңындағы резервтен тыс ақша',
     peakNote:'Ең жоғары ақша қажеттілігі',firstNote:'Операциялық ақша ағыны оң болған алғашқы ай',paybackNote:'Жинақталған түсімдер шығындарды жапқан кезең',
     monthsUnit:'ай',monthShort:'ай',noPositive:'Таңдалған кезеңде жоқ',ownFunding:'Өз қаражаты',portfolioHelp:'Бірнеше тауар немесе қызмет бар ма? Ортақ шығындар үшін V2 портфелін жинаңыз.',
-    actions:'Сақтау және жалғастыру',firstPrefix:'Бірінші ай',forecastCaveat:'Бөлшек клиент саны — нақты адамның бөлігі емес, орташа болжам.'}
+    ledgerIn:'ҚҚС-сыз кіріс',ledgerOut:'Айдағы төлемдер',ledgerDelta:'Кірістер мен төлемдер айырмасы',ledgerBalance:'Ай соңындағы ақша',ledgerOwn:'Өз қаражаты салынды',ledgerLoan:'Несие алынды',ledgerHintOwn:'Бастапқы өз қаражаты соңғы қалдыққа бөлек қосылады. Төлемдерге шығындар, салықтар мен жабдық кіреді.',ledgerHintLoan:'Несие соңғы қалдыққа бөлек қосылады. Пайыздар мен қарызды өтеу тиісті айларда көрсетіледі.',technical:'Шығындар, салықтар және ақша ағынының толық кестесін көрсету',
+     actions:'Сақтау және жалғастыру',firstPrefix:'Бірінші ай',forecastCaveat:'Бөлшек клиент саны — нақты адамның бөлігі емес, орташа болжам.'}
  };
  function help(){return guide[lang()]||guide.ru;}
  const amount=x=>Number.isFinite(Number(x))?Number(x).toLocaleString(lang()==='en'?'en-US':lang()==='kk'?'kk-KZ':'ru-RU',{maximumFractionDigits:2,minimumFractionDigits:0}):'—';
@@ -224,9 +227,27 @@
   target.append(node);
   const wrap=document.createElement('section');
   wrap.className='nd-full-service-months';
+  // Show an accessible cash reconciliation before the technical ledger.
+  // This is presentation-only: the underlying monthly values are unchanged.
+  const ledgerRows=m=>{
+    const paid=m.variable+m.fixed+m.tax+m.interest+m.assetCash+m.principalDue;
+    const fundingName=next.funding==='credit'?h.ledgerLoan:h.ledgerOwn;
+    return [[h.ledgerIn,m.revenue],[h.ledgerOut,paid],
+      ...(m.financeIn>0?[[fundingName,m.financeIn]]:[]),
+      [h.ledgerDelta,m.revenue-paid],[h.ledgerBalance,m.cashOnHand]];
+  };
+  const readableRow=([label,value])=>
+    '<div class="nd-full-service-ledger-row"><span>'+escaped(label)+'</span>'+
+    '<strong>'+escaped(money(value))+'</strong></div>';
   wrap.innerHTML='<h2>3. '+escaped(h.months)+'</h2>'+
+    '<p class="nd-full-service-intro">'+escaped(next.funding==='credit'?h.ledgerHintLoan:h.ledgerHintOwn)+'</p>'+
+    '<div class="nd-full-service-ledger">'+data.months.map(m=>
+      '<article class="nd-full-service-month-card" aria-label="'+escaped(t.month+' '+m.month)+'">'+
+      '<h3>'+escaped(t.month+' '+m.month)+'</h3>'+
+      ledgerRows(m).map(readableRow).join('')+'</article>').join('')+'</div>'+
+    '<details class="nd-full-service-technical"><summary>'+escaped(h.technical)+'</summary>'+
     '<p class="nd-full-service-intro">'+escaped(h.monthsHint)+'</p>'+
-    '<div class="nd-full-service-table"></div>';
+    '<div class="nd-full-service-table"></div></details>';
   const cols=[t.month,t.revenue,t.cost,t.interest,t.taxCol,t.amortCol,t.profitCol,t.flow,t.capex,t.fundingIn,t.principal,t.netFlow,t.balance];
   const table=wrap.querySelector('.nd-full-service-table');
   table.innerHTML='<table><thead><tr>'+cols.map(c=>'<th>'+escaped(c)+'</th>').join('')+'</tr></thead><tbody>'+
