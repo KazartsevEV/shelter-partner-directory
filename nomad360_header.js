@@ -64,7 +64,7 @@
       licenseCopy:'Использование, копирование, изменение и встраивание калькулятора разрешены при сохранении названия калькулятора и ссылки на оригинал согласно действующей лицензии.',
       licenseLink:'Читать лицензию',
       officialTitle:'Официальный контакт',officialCopy:'Почта проекта для вопросов, сотрудничества и обращений по лицензии.',
-      rights:'© 2026 Nomad360'
+      unitNote:'* у.е. — деньги в вашей валюте.',rights:'© 2026 Nomad360'
     },
     en: {
       nav:['Calculator','AI Marketer','Content Factory','About','Contacts'],
@@ -113,7 +113,7 @@
       licenseCopy:'You may use, copy, modify and embed the calculator while preserving its name and a link to the original under the current license.',
       licenseLink:'Read license',
       officialTitle:'Official contact',officialCopy:'Project email for questions, cooperation and licence enquiries.',
-      rights:'© 2026 Nomad360'
+      unitNote:'* currency units — amounts are shown in your chosen currency.',rights:'© 2026 Nomad360'
     },
     kk: {
       nav:['Калькулятор','AI-маркетолог','Контент фабрикасы','Жоба туралы','Байланыс'],
@@ -162,7 +162,7 @@
       licenseCopy:'Қолданыстағы лицензия бойынша калькуляторды пайдалану, көшіру, өзгерту және енгізу кезінде оның атауын және түпнұсқаға сілтемені сақтау қажет.',
       licenseLink:'Лицензияны оқу',
       officialTitle:'Ресми байланыс',officialCopy:'Сұрақтар, ынтымақтастық және лицензия бойынша өтініштерге арналған жоба поштасы.',
-      rights:'© 2026 Nomad360'
+      unitNote:'* ш.б. — сіздің валютаңыздағы ақша.',rights:'© 2026 Nomad360'
     }
   };
   const TARGETS = ['home-screen','nomad360-ai','nomad360-factory','nomad360-about','nomad360-contacts'];
@@ -241,7 +241,7 @@
       '<section id="nomad360-data" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.dataTitle)+'</h3><p>'+esc(t.dataCopy)+'</p></section>'+
       '<section id="nomad360-official" class="nomad-meta-block"><h3>'+esc(t.officialTitle)+'</h3><p>'+esc(t.officialCopy)+'</p>'+
       '<p><a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
-      '<div class="nomad-footer-bottom"><span>'+esc(t.rights)+'</span></div>'+
+      '<div class="nomad-footer-bottom"><p class="nomad-unit-note">'+esc(t.unitNote)+'</p><span>'+esc(t.rights)+'</span></div>'+
       '<div class="nomad-sr" id="nomad360-copy-status" role="status" aria-live="polite"></div></div>';
   }
   function renderInformation() {
