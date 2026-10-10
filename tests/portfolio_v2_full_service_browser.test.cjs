@@ -124,6 +124,36 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#full-service-pdf').click();
   A.equal(await page.evaluate(()=>window.__printInvoked),true);
   A.equal(await page.locator('#nomad360-print-sheet table').count(),2);
+  // Audit the full-service PRINT payload, not merely the print() click.
+  const screenLines=await page.locator('#full-service-report .nd-full-service-table tbody tr').allTextContents();
+  const printLines=await page.locator('#nomad360-print-sheet .nomad-export-table:last-of-type tbody tr').allTextContents();
+  A.deepEqual(printLines.map(x=>x.replace(/\\s+/g,' ').trim()),
+    screenLines.map(x=>x.replace(/\\s+/g,' ').trim()),
+    'Printed month-by-month numbers must match the on-screen financial report');
+  A.equal(printLines.length,6,'Full-service export retains all selected months');
+  const pdf=await page.pdf({format:'A4',printBackground:true});
+  A.equal(pdf.subarray(0,4).toString('ascii'),'%PDF','A real PDF is produced by Chromium');
+  A.ok(pdf.byteLength>3500,'Full-service PDF must have meaningful contents');
+  console.log('TZ02_FULL_SERVICE_PDF_GREEN',JSON.stringify({bytes:pdf.byteLength,
+    reportRows:screenLines.length,printRows:printLines.length}));
+  // Switching RU -> EN -> KK -> RU may relabel the document, never recalculate
+  // cash flows differently or discard the prepared complete service scenario.
+  const beforeLocale=await page.evaluate(()=>({
+    ...Nomad360FullServiceUI.getResult(),
+    input:Nomad360FullServiceUI.getInput()
+  }));
+  await page.evaluate(()=>Nomad360UI.setLanguage('en'));
+  A.equal(await page.locator('#full-service-save').textContent(),'Save calculation');
+  A.equal(await page.locator('#full-service-add-portfolio').textContent(),'Add to V2 portfolio');
+  await page.evaluate(()=>Nomad360UI.setLanguage('kk'));
+  A.equal(await page.locator('#full-service-save').textContent(),'Есепті сақтау');
+  await page.evaluate(()=>Nomad360UI.setLanguage('ru'));
+  A.equal(await page.locator('#full-service-save').textContent(),'Сохранить расчёт');
+  const afterLocale=await page.evaluate(()=>({
+    ...Nomad360FullServiceUI.getResult(),
+    input:Nomad360FullServiceUI.getInput()
+  }));
+  A.deepEqual(afterLocale,beforeLocale,'Language cycle preserves model and input exactly');
   // Real user route: full finance result -> saved linked portfolio -> identical
   // V2 enterprise tax and confirmed recurring horizon.
   await page.locator('#full-service-add-portfolio').click();
