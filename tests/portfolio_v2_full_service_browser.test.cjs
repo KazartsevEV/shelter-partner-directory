@@ -56,6 +56,24 @@ const {pathToFileURL}=require('node:url');
   A.ok(Math.abs(adapted.fixedCashMonthly-original.fixed+250-900)<.01,
     'CAPEX depreciation excluded from monthly cash expenses, ad spend included');
   A.equal(await page.locator('#full-service-screen').isVisible(),true);
+  const v1Parity=await page.evaluate(()=>{
+    const item=productPortfolio.find(x=>x.source==='offline-service');
+    const fixed=item.productionFixedMonthly;
+    item.productionFixedMonthly=fixed-250; // V1 simplified oracle without purchased equipment.
+    const cash=calculateOfflineServiceCashFlow(calculateProductPortfolio());
+    item.productionFixedMonthly=fixed;
+    return {ready:cash.ready,tax:cash.months[0]?.taxPaid,
+      operatingCash:cash.months[0]?.cashFlow-cash.months[0]?.financedInflow};
+  });
+  A.equal(v1Parity.ready,true);
+  const fullParity=await page.evaluate(data=>Nomad360FullServiceV2.build({
+    ...data,vatPct:0,months:1,funding:'own',equipmentPurchase:0,
+    equipmentAmortMonthly:0,taxType:'turnover'
+  }),adapted);
+  A.ok(Math.abs(fullParity.months[0].tax-v1Parity.tax)<.01,
+    'N=1, VAT 0, turnover tax: full service matches unchanged V1 tax');
+  A.ok(Math.abs(fullParity.months[0].operatingCash-v1Parity.operatingCash)<.01,
+    'N=1, VAT 0, equity: full service matches V1 operating cash before startup capital');
   await page.locator('#full-service-back').click();
   A.equal(await page.locator('#product-screen').isVisible(),true);
   // Real API through the same V2 module used by the user-facing full-finance screen.
