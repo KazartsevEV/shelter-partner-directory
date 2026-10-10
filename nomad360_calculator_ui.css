@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 /* Header: flat, 1px borders, navy and terracotta. Mobile first; desktop from 1200px. */
 .nomad-header{--nh-navy:#16375a;--nh-accent:#b8573a;--nh-line:#d5dbe3;position:relative;z-index:100;margin-bottom:1.5rem;background:#fff;border-bottom:1px solid var(--nh-line);color:var(--nh-navy);font-family:'IBM Plex Sans',Inter,system-ui,sans-serif}
 .nomad-header,.nomad-header *{box-sizing:border-box}
