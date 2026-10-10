@@ -1794,7 +1794,9 @@
                     screen.classList.toggle('hidden', screenId !== id);
                     screen.hidden = screenId !== id;
                 });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Screen changes must not leave a mobile scroll animation in flight:
+            // a moving CTA can receive pointerdown on an adjacent action.
+            window.scrollTo({ top: 0, behavior: 'instant' });
         }
 
         function showHome() {
