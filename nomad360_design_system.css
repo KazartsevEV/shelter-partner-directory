@@ -778,9 +778,7 @@ body > section :is(
   .text-gray-800,.text-gray-900,.text-gray-950,
   .text-zinc-800,.text-zinc-900,.text-zinc-950,
   .text-neutral-800,.text-neutral-900,.text-neutral-950
-):not(.bg-slate-900 *):not(.bg-emerald-900 *):not(.bg-amber-900 *)
- :not(.bg-blue-700 *):not(.bg-blue-800 *):not(.bg-indigo-900 *)
- :not(.product-business-aggregate *) {
+):not(.bg-slate-900 *):not(.bg-emerald-900 *):not(.bg-amber-900 *):not(.bg-blue-700 *):not(.bg-blue-800 *):not(.bg-indigo-900 *):not(.product-business-aggregate *) {
   color:var(--nd-ink) !important;
 }
 body > section :is(.td-total,.nd-type-section) {
