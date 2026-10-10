@@ -28,7 +28,8 @@
      .map(s=>String(s.id)));
    if(monthsRequested>1&&state.tax?.type==='profit'&&
       (state.resources||[]).some(r=>r.cadence==='monthly'&&
-        (r.skuIds||[]).some(id=>onlineIds.has(String(id)))))
+        (r.skuIds||[]).some(id=>onlineIds.has(String(id))&&
+          !(state.skus||[]).find(s=>String(s.id)===String(id))?.fullServiceV2)))
      report('resources','Общий месячный ресурс онлайн-услуги при налоге на прибыль имеет неподтверждённое разделение налоговых расходов. Нужен проверенный договор распределения.');
    const skus=Array.isArray(state?.skus)?state.skus:[];
    const byId=Object.fromEntries(skus.map(s=>[String(s.id),s]));
@@ -44,6 +45,12 @@
        if(!Number.isInteger(months)||months<monthsRequested)
          report('skus.'+s.id,'У онлайн-услуги «'+s.name+'» период V1 не подтверждает '+monthsRequested+' месяцев. Нужен расчёт V1 на этот период.');
      }
+     if(s.fullServiceV2&&monthsRequested>Number(s.fullServiceHorizon))
+       report('skus.'+s.id,'Горизонт полной услуги меньше горизонта портфеля. Пересчитайте исходную услугу.');
+     if(s.fullServiceV2&&Array.isArray(s.fullServiceForecast)&&
+       (!s.fullServiceForecast.length||s.fullServiceForecast.some(v=>
+         !Number.isFinite(Number(v))||Number(v)<0)))
+       report('skus.'+s.id,'Неверный месячный прогноз полной услуги.');
    }
    if(errors.length)return {ready:false,errors,fieldErrors,months:[],forecastMonths:monthsRequested};
    if(monthsRequested>1&&(state.resources||[]).some(r=>r.kind==='campaign')){
@@ -63,7 +70,12 @@
        const id=String(s.id),start=stockSource(s)?pos(s.supplyDays)+pos(s.productionDays):0;
        const fraction=stockSource(s)?Math.max(0,Math.min(to,to-Math.max(from,start)))/30:1;
        availability[id]=fraction;
-       independent[id]=stockSource(s)?Math.min(pos(stock[id]),base[id]*fraction):base[id];
+       const entered=s.fullServiceV2?
+         (Array.isArray(s.fullServiceForecast)?
+           s.fullServiceForecast[Math.min(month,s.fullServiceForecast.length-1)]:
+           s.fullServiceForecast):undefined;
+       const demand=entered===undefined?base[id]:pos(entered);
+       independent[id]=stockSource(s)?Math.min(pos(stock[id]),base[id]*fraction):demand;
      }
      const basket=projectOffers(state.offers||[],independent,ids);
      basket.fieldErrors.forEach(e=>report(e.path,'Месяц '+(month+1)+': '+e.message));
