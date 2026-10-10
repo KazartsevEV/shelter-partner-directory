@@ -14,6 +14,29 @@ async function browserCase(browser,locale,expected){
   await page.waitForSelector('#nomad360-hero h2');
   A.equal(await page.locator('html').getAttribute('lang'),expected.lang);
   A.match(await page.locator('#nomad360-hero').textContent(),expected.tagline);
+
+  // Recovered Claude header: mobile drawer and all valid local anchors.
+  const header=page.locator('#nomad360-header');
+  A.equal(await header.count(),1);
+  A.equal(await header.locator('.nomad-logo').getAttribute('src'),'./nomad360_wolf_open_circle.png');
+  A.equal(await header.locator('.nomad-nav a').count(),5);
+  A.equal(await header.locator('#nomad360-lang-select').count(),1);
+  A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
+  await header.locator('.nomad-burger').click();
+  A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'true');
+  A.equal(await header.locator('.nomad-nav').isVisible(),true);
+  const targets=await header.locator('[data-nomad-go]').evaluateAll(links=>links.map(x=>
+    ({target:x.dataset.nomadGo,exists:!!document.getElementById(x.dataset.nomadGo)})));
+  A.ok(targets.every(x=>x.exists),'header destination missing: '+JSON.stringify(targets));
+  await page.keyboard.press('Escape');
+  A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
+  A.equal(await header.locator('.nomad-nav').isVisible(),false);
+  await header.locator('.nomad-burger').click();
+  await header.locator('a[data-nomad-go="nomad360-about"]').click();
+  A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
+  A.equal(await page.locator('#nomad360-information .nomad-info-block').count(),6);
+  A.equal(await page.locator('#nomad360-contacts a[href="https://t.me/Kazartsev_EV"]').count(),1);
+
   A.match(await page.locator('#nomad360-hero').textContent(),/MBA/);
   A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI marketer|AI-маркетолог/);
   const footer=await page.locator('#nomad360-footer').textContent();
@@ -89,6 +112,11 @@ async function browserCase(browser,locale,expected){
    A.match(await preview.locator('h3').textContent(),new RegExp(previewAction),'open price preview translated to '+chosen);
   }
   await page.locator('#nomad360-lang-select').selectOption('en');
+  A.equal(await page.locator('#nomad360-header #nomad360-lang-select').count(),1,
+    'header should keep one live language selector after retranslation');
+  A.equal(await page.locator('#nomad360-header .nomad-nav a').first().textContent(),'Calculator');
+  A.equal(await page.locator('#nomad360-information #nomad360-about h2').textContent(),'About Nomad360');
+
   A.equal(await page.locator('html').getAttribute('lang'),'en');
   A.match(await page.locator('#nomad360-hero h2').textContent(),/Stop guessing/);
   const after=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
