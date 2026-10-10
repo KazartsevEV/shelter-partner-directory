@@ -41,6 +41,14 @@ const {pathToFileURL}=require('node:url');
   }));
   A.ok(onlineOrder.action>onlineOrder.inputs,
     'Complete-service calculation follows the input fields, never precedes them');
+  await page.locator('#full-service-online-name').fill('Онлайн-консультация');
+  await page.locator('#full-service-online-action').click();
+  A.equal(await page.locator('#full-service-screen').isVisible(),true,
+    'Real online click must open the full financial model of ONE service');
+  A.match(await page.locator('.nd-full-service-header > p').first().textContent(),
+    /V1 · Онлайн-консультация/,'A full V1 service retains its own name');
+  await page.locator('#full-service-back').click();
+  A.equal(await page.locator('#calculator-screen').isVisible(),true);
   await page.evaluate(()=>showServiceWorkChooser());
   await page.locator('#service-work-offline').click();
   A.equal(await page.locator('#full-service-offline-route').count(),0,
@@ -105,7 +113,7 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#full-service-offline-action').click();
   A.equal(await page.locator('#full-service-screen').isVisible(),true,
     'Real user click computes full V1 finance for ONE service');
-  A.match(await page.locator('.nd-full-service-header > p').textContent(),/^V1 ·/);
+  A.match(await page.locator('.nd-full-service-header > p').first().textContent(),/^V1 ·/);
   const adapted=await page.evaluate(()=>Nomad360FullServiceUI.getInput());
   A.equal(adapted.monthlyForecast,20);
   A.equal(adapted.capacity,250);
