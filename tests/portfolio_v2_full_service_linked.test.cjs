@@ -44,8 +44,9 @@ test('TZ02 full online joins enterprise profit-tax base, not legacy turnover buc
   close(r.cashflow.periodPnl.months[i].amort,250,'online accrued amort');
   close(r.cashflow.periodPnl.months[i].netProfit,model.months[i].profit,'online accounting');
  }
- close(r.cashflow.months[0].stockPurchase,3000,'only initial CAPEX');
- close(r.cashflow.months[1].stockPurchase,0,'no further equipment cash');
+ close(r.cashflow.months[0].capex,3000,'only initial CAPEX on its own cash line');
+ close(r.cashflow.months[1].capex,0,'no further equipment cash');
+ close(r.cashflow.months[0].stockPurchase,0,'equipment cannot be counted as inventory');
  close(r.cashflow.finalCash,model.cashOnHand,'end cash online');
 });
 test('TZ02 full bullet loan leaves principal OUTSIDE 2-month horizon, matches interest',()=>{
