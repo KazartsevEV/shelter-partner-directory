@@ -177,6 +177,18 @@ async function browserCase(browser,locale,expected){
   }));
   A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
   await page.evaluate(()=>showHome());
+  await page.evaluate(()=>{
+    const el=document.getElementById('start-multi-portfolio');
+    window.__nomadV2Trace=[];
+    el.addEventListener('click',e=>window.__nomadV2Trace.push({phase:'capture',isTrusted:e.isTrusted}),{capture:true,once:true});
+    const f=window.openPortfolioV2;
+    window.openPortfolioV2=function(...args){
+      window.__nomadV2Trace.push({phase:'handler',args});
+      const result=f.apply(this,args);
+      window.__nomadV2Trace.push({phase:'after',hidden:document.getElementById('portfolio-v2-screen').hidden});
+      return result;
+    };
+  });
   await choice.locator('#start-multi-portfolio').click();
   await page.waitForTimeout(120);
   const v2Visible=await page.locator('#portfolio-v2-screen').isVisible();
@@ -189,7 +201,8 @@ async function browserCase(browser,locale,expected){
     screenStyle:getComputedStyle(document.getElementById('portfolio-v2-screen')).display,
     handler:document.getElementById('start-multi-portfolio').getAttribute('onclick'),
     errors:window.__test_errors||[],
-    formState:document.getElementById('product-screen').hidden
+    formState:document.getElementById('product-screen').hidden,
+    trace:window.__nomadV2Trace||[]
   }));
   A.equal(v2Visible,true,'Third choice button must open V2 '+locale+': '+JSON.stringify({...v2Diagnostics,pageErrors:errors}));
   await page.mouse.move(0,0);
