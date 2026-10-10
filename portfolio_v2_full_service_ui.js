@@ -9,9 +9,9 @@
  const escaped=x=>String(x??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
  const money=x=>Number.isFinite(x)?x.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
  const title={
-  ru:{head:'Полная денежная модель услуги',price:'Цена с НДС',vat:'НДС, %',tax:'Налог',turnover:'С оборота',profit:'С прибыли',horizon:'Горизонт, месяцев',funding:'Финансирование',own:'Свои деньги',credit:'Кредит',reserve:'Резерв',capital:'Стартовый капитал',peak:'Пик дефицита',first:'Первый положительный CF',payback:'Окупаемость',noPayback:'Не окупится за выбранный горизонт',net:'Чистая прибыль',taxes:'Налоги',cash:'Деньги на руках',free:'Свободный остаток',debt:'Непогашенный кредит',rate:'Кредит, % годовых',term:'Срок кредита, мес.',month:'Месяц',revenue:'Выручка без НДС',cost:'Расходы',interest:'Проценты',taxCol:'Налог',profitCol:'Прибыль',flow:'Операционный CF',balance:'Остаток денег',save:'Сохранить расчёт',report:'Сохранить расчёт в PDF',back:'← К услуге',error:'Для расчёта завершите заполнение V1-услуги.'},
-  en:{head:'Full service cash flow',price:'VAT-inclusive price',vat:'VAT, %',tax:'Business tax',turnover:'Turnover',profit:'Profit',horizon:'Horizon (months)',funding:'Funding',own:'Own funds',credit:'Credit',reserve:'Reserve',capital:'Startup capital',peak:'Peak deficit',first:'First positive CF',payback:'Payback',noPayback:'No payback within horizon',net:'Net profit',taxes:'Taxes',cash:'Cash on hand',free:'Available cash',debt:'Outstanding debt',rate:'Annual loan rate, %',term:'Loan term (months)',month:'Month',revenue:'Net-of-VAT revenue',cost:'Expenses',interest:'Interest',taxCol:'Tax',profitCol:'Profit',flow:'Operating CF',balance:'Cash balance',save:'Save calculation',report:'Save PDF',back:'← Service',error:'Complete V1 service inputs first.'},
-  kk:{head:'Қызметтің толық ақша ағыны',price:'ҚҚС-пен баға',vat:'ҚҚС, %',tax:'Салық',turnover:'Айналымнан',profit:'Пайдадан',horizon:'Кезең, ай',funding:'Қаржыландыру',own:'Өз қаражаты',credit:'Несие',reserve:'Резерв',capital:'Бастапқы капитал',peak:'Ең үлкен тапшылық',first:'Алғашқы оң CF',payback:'Өтелу мерзімі',noPayback:'Кезең ішінде өтелмейді',net:'Таза пайда',taxes:'Салықтар',cash:'Қолдағы ақша',free:'Бос қаражат',debt:'Несие қалдығы',rate:'Жылдық несие мөлшерлемесі, %',term:'Несие мерзімі, ай',month:'Ай',revenue:'ҚҚС-сыз кіріс',cost:'Шығындар',interest:'Пайыздар',taxCol:'Салық',profitCol:'Пайда',flow:'Операциялық CF',balance:'Ақша қалдығы',save:'Есепті сақтау',report:'PDF сақтау',back:'← Қызмет',error:'Алдымен V1 деректерін толтырыңыз.'}
+  ru:{head:'Полная денежная модель услуги',price:'Цена с НДС',vat:'НДС, %',tax:'Налог',turnover:'С оборота',profit:'С прибыли',horizon:'Горизонт, месяцев',funding:'Финансирование',own:'Свои деньги',credit:'Кредит',reserve:'Резерв',capital:'Стартовый капитал',peak:'Пик дефицита',first:'Первый положительный CF',payback:'Окупаемость',noPayback:'Не окупится за выбранный горизонт',net:'Чистая прибыль',taxes:'Налоги',cash:'Деньги на руках',free:'Свободный остаток',debt:'Непогашенный кредит',rate:'Кредит, % годовых',term:'Срок кредита, мес.',month:'Месяц',revenue:'Выручка без НДС',cost:'Расходы',interest:'Проценты',taxCol:'Налог',profitCol:'Прибыль',flow:'Операционный CF',capex:'Оборудование',fundingIn:'Вложено / кредит',principal:'Тело кредита',netFlow:'Денежный поток',balance:'Остаток денег',save:'Сохранить расчёт',report:'Сохранить расчёт в PDF',back:'← К услуге',error:'Для расчёта завершите заполнение V1-услуги.'},
+  en:{head:'Full service cash flow',price:'VAT-inclusive price',vat:'VAT, %',tax:'Business tax',turnover:'Turnover',profit:'Profit',horizon:'Horizon (months)',funding:'Funding',own:'Own funds',credit:'Credit',reserve:'Reserve',capital:'Startup capital',peak:'Peak deficit',first:'First positive CF',payback:'Payback',noPayback:'No payback within horizon',net:'Net profit',taxes:'Taxes',cash:'Cash on hand',free:'Available cash',debt:'Outstanding debt',rate:'Annual loan rate, %',term:'Loan term (months)',month:'Month',revenue:'Net-of-VAT revenue',cost:'Expenses',interest:'Interest',taxCol:'Tax',profitCol:'Profit',flow:'Operating CF',capex:'Equipment',fundingIn:'Owner / loan funding',principal:'Loan principal',netFlow:'Net cash flow',balance:'Cash balance',save:'Save calculation',report:'Save PDF',back:'← Service',error:'Complete V1 service inputs first.'},
+  kk:{head:'Қызметтің толық ақша ағыны',price:'ҚҚС-пен баға',vat:'ҚҚС, %',tax:'Салық',turnover:'Айналымнан',profit:'Пайдадан',horizon:'Кезең, ай',funding:'Қаржыландыру',own:'Өз қаражаты',credit:'Несие',reserve:'Резерв',capital:'Бастапқы капитал',peak:'Ең үлкен тапшылық',first:'Алғашқы оң CF',payback:'Өтелу мерзімі',noPayback:'Кезең ішінде өтелмейді',net:'Таза пайда',taxes:'Салықтар',cash:'Қолдағы ақша',free:'Бос қаражат',debt:'Несие қалдығы',rate:'Жылдық несие мөлшерлемесі, %',term:'Несие мерзімі, ай',month:'Ай',revenue:'ҚҚС-сыз кіріс',cost:'Шығындар',interest:'Пайыздар',taxCol:'Салық',profitCol:'Пайда',flow:'Операциялық CF',capex:'Жабдық',fundingIn:'Қаржыландыру',principal:'Несие сомасы',netFlow:'Ақша ағыны',balance:'Ақша қалдығы',save:'Есепті сақтау',report:'PDF сақтау',back:'← Қызмет',error:'Алдымен V1 деректерін толтырыңыз.'}
  };
  function lang(){return root.Nomad360UI?.getLanguage?.()||'ru';}
  function labels(){return title[lang()]||title.ru;}
@@ -76,10 +76,10 @@
     '<strong>'+ (typeof value==='number'?money(value):escaped(value))+'</strong></div>').join('');
   target.append(node);
   const wrap=document.createElement('div');wrap.className='nd-full-service-table';
-  const cols=[t.month,t.revenue,t.cost,t.interest,t.taxCol,t.profitCol,t.flow,t.balance];
+  const cols=[t.month,t.revenue,t.cost,t.interest,t.taxCol,t.profitCol,t.flow,t.capex,t.fundingIn,t.principal,t.netFlow,t.balance];
   wrap.innerHTML='<table><thead><tr>'+cols.map(c=>'<th>'+escaped(c)+'</th>').join('')+'</tr></thead><tbody>'+
    data.months.map(m=>'<tr>'+[m.month,m.revenue,m.variable+m.fixed,
-     m.interest,m.tax,m.profit,m.operatingCash,m.cashOnHand].map((v,i)=>
+     m.interest,m.tax,m.profit,m.operatingCash,m.assetCash,m.financeIn,m.principalDue,m.netCashFlow,m.cashOnHand].map((v,i)=>
      '<td>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   target.append(wrap);
  }
@@ -96,9 +96,9 @@
     [t.debt,result.outstandingPrincipal]].map(([k,v])=>
     '<tr><td>'+escaped(k)+'</td><td>'+money(v)+'</td></tr>').join('')+
    '</tbody></table><table class="nomad-export-table"><thead><tr>'+
-   [t.month,t.revenue,t.cost,t.interest,t.taxCol,t.profitCol,t.flow,t.balance].map(x=>'<th>'+escaped(x)+'</th>').join('')+
+   [t.month,t.revenue,t.cost,t.interest,t.taxCol,t.profitCol,t.flow,t.capex,t.fundingIn,t.principal,t.netFlow,t.balance].map(x=>'<th>'+escaped(x)+'</th>').join('')+
    '</tr></thead><tbody>'+result.months.map(m=>'<tr>'+
-    [m.month,m.revenue,m.variable+m.fixed,m.interest,m.tax,m.profit,m.operatingCash,m.cashOnHand]
+    [m.month,m.revenue,m.variable+m.fixed,m.interest,m.tax,m.profit,m.operatingCash,m.assetCash,m.financeIn,m.principalDue,m.netCashFlow,m.cashOnHand]
      .map((v,i)=>'<td>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   root.print();
  }
