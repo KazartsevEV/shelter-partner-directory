@@ -76,3 +76,12 @@ test('TZ02 handles initially unprofitable service and 10-pass convergence rule',
  A.equal(x.firstPositiveMonth,null);
  near(x.outstandingPrincipal,x.capital,'outstanding debt');
 });
+
+test('TZ02 V1 online month-by-month demand is preserved, later horizon extends last observed month',()=>{
+ const projected=build({...base,months:5,monthlyForecast:[5,9,12]});
+ A.deepEqual(projected.months.map(m=>m.quantity),[5,9,12,12,12]);
+ const first=build({...base,months:3,monthlyForecast:[5,9,12]});
+ for(let i=0;i<3;i++){
+   near(first.months[i].revenue,projected.months[i].revenue,'V1 demand month '+(i+1));
+ }
+});
