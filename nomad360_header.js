@@ -64,7 +64,9 @@
       licenseCopy:'Использование, копирование, изменение и встраивание калькулятора разрешены при сохранении названия калькулятора и ссылки на оригинал согласно действующей лицензии.',
       licenseLink:'Читать лицензию',
       embedTitle:'Калькулятор для вашего сайта',
-      embedB2BTitle:'Работаете в B2B? Привлеките полезный трафик бесплатно.',
+      embedB2BQuestion:'Работаете в B2B?',
+      embedB2BOffer:'Привлеките полезный трафик',
+      embedB2BAnswer:'Бесплатно.'
       trafficTitle:'За последние 14 дней уникальных посетителей:',
       embedButton:'Встроить калькулятор на мой сайт',
       embedHint:'Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.',
@@ -122,7 +124,9 @@
       licenseCopy:'You may use, copy, modify and embed the calculator while preserving its name and a link to the original under the current license.',
       licenseLink:'Read license',
       embedTitle:'Calculator for your website',
-      embedB2BTitle:'Work in B2B? Attract relevant traffic for free.',
+      embedB2BQuestion:'Work in B2B?',
+      embedB2BOffer:'Attract relevant traffic',
+      embedB2BAnswer:'For free.'
       trafficTitle:'Unique visitors in the last 14 days:',
       embedButton:'Embed the calculator on my website',
       embedHint:'Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.',
@@ -180,7 +184,9 @@
       licenseCopy:'Қолданыстағы лицензия бойынша калькуляторды пайдалану, көшіру, өзгерту және енгізу кезінде оның атауын және түпнұсқаға сілтемені сақтау қажет.',
       licenseLink:'Лицензияны оқу',
       embedTitle:'Сайтыңызға арналған калькулятор',
-      embedB2BTitle:'B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз.',
+      embedB2BQuestion:'B2B саласында жұмыс істейсіз бе?',
+      embedB2BOffer:'Пайдалы трафикті тартыңыз',
+      embedB2BAnswer:'Тегін.'
       trafficTitle:'Соңғы 14 күндегі бірегей келушілер:',
       embedButton:'Калькуляторды өз сайтыма енгізу',
       embedHint:'Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.',
@@ -279,7 +285,11 @@
       '<section id="nomad360-license" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.licenseTitle)+'</h3><p>'+esc(t.licenseCopy)+'</p>'+
       '<p><a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p>'+
       '<div class="nomad-embed-actions"><p class="nomad-embed-title">'+esc(t.embedTitle)+'</p>'+ 
-      '<h4 class="nomad-embed-b2b-title">'+esc(t.embedB2BTitle)+'</h4>'+
+      '<div class="nomad-embed-b2b">'+
+      '<h4 class="nomad-embed-b2b-question">'+esc(t.embedB2BQuestion)+'</h4>'+
+      '<p class="nomad-embed-b2b-offer">'+esc(t.embedB2BOffer)+'</p>'+
+      '<p class="nomad-embed-b2b-answer">'+esc(t.embedB2BAnswer)+'</p>'+
+      '</div>'+
       '<button type="button" class="nomad-embed-download" data-nomad-download-html>'+esc(t.embedButton)+'</button>'+
       '<div class="nomad-traffic-stats" data-nomad-traffic-stats aria-live="polite">'+
       '<p class="nomad-traffic-counter"><span class="nomad-traffic-title">'+esc(t.trafficTitle)+'</span> '+
