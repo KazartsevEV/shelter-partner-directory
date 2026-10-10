@@ -60,14 +60,14 @@
   if(n===null||n===undefined)return help().noPositive;
   return amount(n)+' '+help().monthShort;
  }
- function monthColumns(t,credit){
-  const c=[[t.month,m=>m.month],[t.revenue,m=>m.revenue],[t.cost,m=>m.variable+m.fixed]];
-  if(credit)c.push([t.interest,m=>m.interest]);
-  c.push([t.taxCol,m=>m.tax],[t.amortCol,m=>m.depreciation],[t.profitCol,m=>m.profit],[t.flow,m=>m.operatingCash],
-   [t.capex,m=>m.assetCash],[credit?t.fundingIn:help().ownFunding,m=>m.financeIn]);
-  if(credit)c.push([t.principal,m=>m.principalDue]);
-  c.push([t.netFlow,m=>m.netCashFlow],[t.balance,m=>m.cashOnHand]);
-  return c;
+ function trimLoanColumns(table){
+  if(!table)return;
+  Array.from(table.rows).forEach(row=>{
+    row.children[10]?.remove();
+    row.children[3]?.remove();
+  });
+  const own=table.tHead?.rows[0]?.children[8];
+  if(own)own.textContent=help().ownFunding;
  }
  function renderFunding(){
   const block=el('full-service-credit-fields');
