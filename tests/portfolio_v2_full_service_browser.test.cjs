@@ -144,6 +144,47 @@ const {pathToFileURL}=require('node:url');
     'N=1, VAT 0, equity: full service matches V1 operating cash before startup capital');
   await page.locator('#full-service-back').click();
   A.equal(await page.locator('#product-screen').isVisible(),true);
+  // Production screenshot regression: a forecast array is formatted for humans,
+  // never pasted into the heading as a long comma-separated float dump.
+  await page.evaluate(()=>Nomad360FullServiceUI.open({
+    monthlyForecast:[2.386363636363636,4.772727272727272,4.772727272727272],
+    capacity:30,priceGross:63.30,vatPct:0,taxType:'turnover',taxPct:6,
+    months:3,unitCashCost:8,fixedCashMonthly:150,commissionPct:0,
+    reservePct:0,funding:'own',annualRatePct:0,creditMonths:0
+  },{kind:'online',name:'Психолог'}));
+  const forecastLabel=await page.locator('.nd-full-service-overview strong').nth(1).textContent();
+  A.match(forecastLabel,/2,39/);
+  A.match(forecastLabel,/4,77/);
+  A.doesNotMatch(forecastLabel,/2,3863636|4,7727272/);
+  A.ok(forecastLabel.length<75,'Forecast must be brief even with per-month demand series');
+  A.equal(await page.locator('#full-service-credit-fields').isVisible(),false,
+    'Own money hides the entire loan section, even for restored loan values');
+  A.equal(await page.locator('.nd-full-service-metrics .nd-full-service-metric').count(),3,
+    'Primary result has only the three core financial indicators');
+  A.equal(await page.locator('.nd-full-service-details').isVisible(),true);
+  A.equal(await page.locator('#full-service-settings-title').textContent(),'1. Условия расчёта');
+  A.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,
+    'A mobile viewport must not expand from forecast text or the wide monthly table');
+  await page.locator('#full-service-funding').selectOption('credit');
+  A.equal(await page.locator('#full-service-credit-fields').isVisible(),true);
+  A.equal(await page.locator('#full-service-term').inputValue(),'1',
+    'Only selecting credit normalizes an unset loan term');
+  await page.locator('#full-service-term').fill('3');
+  await page.locator('#full-service-rate').fill('12');
+  A.equal(await page.evaluate(()=>Nomad360FullServiceUI.getInput().funding),'credit');
+  await page.locator('#full-service-funding').selectOption('own');
+  A.equal(await page.locator('#full-service-credit-fields').isVisible(),false);
+  A.equal(await page.locator('.nd-full-service-details').textContent().then(v=>v.includes('Непогашенный кредит')),false,
+    'No debt metric is displayed for own-funds financing');
+  const ownHeaders=await page.locator('#full-service-report .nd-full-service-table th').allTextContents();
+  A.equal(ownHeaders.some(x=>/Проценты|Тело кредита/.test(x)),false,
+    'Own funds report has neither interest nor loan principal columns');
+  A.ok(ownHeaders.some(x=>x.includes('Свои вложения')));
+  await page.evaluate(()=>window.print=()=>{});
+  await page.locator('#full-service-pdf').click();
+  const ownPdf=await page.locator('#nomad360-print-sheet').textContent();
+  A.equal(/Проценты|Тело кредита|Непогашенный кредит/.test(ownPdf),false,
+    'Own funds PDF excludes all loan-only information');
   // Real API through the same V2 module used by the user-facing full-finance screen.
   const seed={monthlyForecast:200,capacity:250,priceGross:100,vatPct:12,
     taxType:'profit',taxPct:10,months:3,unitCashCost:8,
@@ -157,6 +198,14 @@ const {pathToFileURL}=require('node:url');
   A.ok(Math.abs(r.months[0].revenue-17857.142857)<.01);
   A.equal(r.firstPositiveMonth,1);
   A.equal(r.paybackMonth,2);
+  A.equal(await page.locator('#full-service-credit-fields').isVisible(),false,
+    'Own-funds scenario has no loan fields');
+  const originalTax=r.tax;
+  await page.locator('#full-service-tax-pct').fill('20');
+  A.ok((await page.evaluate(()=>Nomad360FullServiceUI.getResult().tax))>originalTax,
+    'Tax-rate input must affect the real financial engine');
+  await page.locator('#full-service-tax-pct').fill('10');
+  A.ok(Math.abs((await page.evaluate(()=>Nomad360FullServiceUI.getResult().tax))-originalTax)<.01);
   await page.locator('#full-service-vat').fill('0');
   const larger=await page.evaluate(()=>Nomad360FullServiceUI.getResult().revenue);
   A.ok(larger>r.revenue);
@@ -164,7 +213,10 @@ const {pathToFileURL}=require('node:url');
   r=await page.evaluate(()=>Nomad360FullServiceUI.getResult());
   A.ok(Math.abs(r.months[0].tax-r.months[0].revenue*.1)<.01);
   await page.locator('#full-service-funding').selectOption('credit');
+  A.equal(await page.locator('#full-service-credit-fields').isVisible(),true);
   await page.locator('#full-service-term').fill('5');
+  A.ok((await page.locator('#full-service-report .nd-full-service-table').textContent()).includes('Тело кредита'),
+    'Loan principal column returns when credit is selected');
   r=await page.evaluate(()=>Nomad360FullServiceUI.getResult());
   A.ok(r.outstandingPrincipal>0);
   A.equal(r.creditRepaid,0);
