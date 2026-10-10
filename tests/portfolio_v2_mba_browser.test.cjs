@@ -90,6 +90,38 @@ const {pathToFileURL}=require('node:url'),path=require('node:path');
   assert.equal(Number(state.offers[0].bundleDiscountPct),10,'kit discount survived navigation');
   assert.equal(state.resources[0].usageMode,'per-unit','worker workload survived navigation');
   assert.equal(await page.locator('[data-mba-transfer]').count(),2);
+  // Deleting an active linked SKU invalidates its bundle, removes its share
+  // of pooled costs, and recomputes empirical MBA without erasing raw orders.
+  page.on('dialog',dialog=>dialog.accept());
+  const before=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
+  await page.locator('[data-linked-delete-sku="b"]').click();
+  let after=await page.evaluate(()=>({
+    state:LinkedPortfolioV2UI.getState(),
+    calculation:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
+  }));
+  assert.deepEqual(after.state.skus.map(x=>x.id),['a']);
+  assert.equal(after.state.offers.length,0,'Bundle with deleted service must disappear');
+  assert.equal(after.state.resources.length,1,'Shared worker resource retained for survivor');
+  assert.deepEqual(after.state.resources[0].skuIds,['a']);
+  assert.equal(Object.hasOwn(after.state.resources[0].loadPerUnit,'b'),false);
+  assert.equal(after.state.mbaHistory.source.rawLines,7,'Original purchase history preserved');
+  assert.ok(after.state.mbaHistory.excludedRawSkuIds.includes('raw-nails'),
+    'Raw orders for deleted service must not block MBA recalculation');
+  assert.equal(await page.locator('[data-mba-transfer]').count(),0,'Deleted service cannot be used in new basket rules');
+  assert.equal(after.calculation.ready,true,JSON.stringify(after.calculation.errors));
+  assert.equal(after.calculation.items.length,1);
+  assert.equal(after.calculation.basket.events.length,0);
+  assert.notEqual(after.calculation.totals.revenue,before.totals.revenue);
+  await page.locator('[data-linked-save]').click();
+  await page.locator('[data-linked-back]').click();
+  await page.evaluate(()=>showHome());
+  await page.locator('#portfolio-v2-linked-resume-home button').click();
+  after=await page.evaluate(()=>({
+    state:LinkedPortfolioV2UI.getState(),
+    calculation:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())
+  }));
+  assert.deepEqual(after.state.skus.map(x=>x.id),['a'],'Linked V2 deletion persists after resume');
+  assert.equal(after.calculation.ready,true);
   await page.locator('[data-mba-clear]').click();
   assert.equal((await page.evaluate(()=>LinkedPortfolioV2UI.getState())).mbaHistory,null);
   assert.deepEqual(errors,[]);
