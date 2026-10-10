@@ -119,7 +119,6 @@ const server=createServer(async(req,res)=>{
       updatedAt:new Date().toISOString(),visitors14:63
     })
   }));
-  await stats.route(/^https?:\\/\\/(?!127\\.0\\.0\\.1)/,route=>route.abort());
   await stats.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
   await stats.waitForFunction(()=>document.querySelector('[data-nomad-traffic-value]')?.textContent==='63');
   A.match(await stats.locator('[data-nomad-traffic-stats]').textContent(),
