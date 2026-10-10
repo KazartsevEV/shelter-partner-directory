@@ -352,21 +352,29 @@ function updateResult(){
     '<div><span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(amount)+'</div>').join('')+
   '</div>').join('')+'</div>';
  const period=cf.periodPnl,fullServicePresent=out.items.some(s=>s.fullServiceV2);
+ const fullLanguage=root.Nomad360UI?.getLanguage?.()||'ru';
+ const fullWords=({
+   ru:{capex:'Оборудование / CAPEX',debt:'Долг на конец горизонта',
+     note:'Цены полных услуг сохранены из V1, выручка показана без НДС. Амортизация и тело кредита учитываются раздельно. Общие расходы оплачиваются один раз. Резерв не является расходом прибыли.'},
+   en:{capex:'Equipment / CAPEX',debt:'Outstanding debt at horizon',
+     note:'Full-service prices follow V1. Revenue excludes VAT. Depreciation, principal and shared expenses are accounted for separately. Reserves do not reduce profit.'},
+   kk:{capex:'Жабдық / CAPEX',debt:'Кезең соңындағы қарыз',
+     note:'Толық қызмет бағалары V1 есебінен алынды. Кіріс ҚҚС-сыз көрсетілді. Амортизация, несие сомасы және ортақ шығындар бөлек есептеледі. Резерв пайдадан шегерілмейді.'}
+ })[fullLanguage]||null;
  const periodPanel=period?.ready?
   '<section class="mt-5 rounded-lg border border-white/25 p-3">'+
   '<h3 class="font-bold">Экономика за '+period.horizonMonths+' мес. · '+(periodOptimized?'расчётная цена за весь период':'по месячным ценам V2')+'</h3>'+
   '<p class="text-xs text-slate-200 mt-2">'+
-  (fullServicePresent?'Цены полных услуг сохранены из V1, выручка показана без НДС. Амортизация и тело кредита учитываются раздельно. Общие расходы оплачиваются один раз.':
-  'Цены рассчитаны в пределах V1 по выбранному горизонту, включая расходы, проценты и налоги.')+
-  ' Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки / 30 дней выше — базовая месячная модель.</p>'+
+  (fullServicePresent?fullWords.note:
+   'Цена каждого SKU рассчитана по фактической марже за выбранный период, включая долю рекламы, расходов, проценты и налоги. Все цены в пределах V1. Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки / 30 дней выше — базовая месячная модель, а не сумма периода.')+'</p>'+
   '<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">'+
   [['Выручка без НДС',money(period.revenue)],['EBITDA',money(period.ebitda)],
    ['Налог начислен',money(period.taxAccrued)],['Чистая прибыль',money(period.netProfit)],
    ['Маржа за период',period.netMargin===null?'не определена':money(period.netMargin)+'%'],
    ['Налог начислен − уплачен',money(period.taxTimingDifference)],
    ['Проценты после горизонта',money(period.postHorizonInterest)],
-   ...(fullServicePresent?[['Оборудование / CAPEX',money(cf.capitalExpenditure)],
-    ['Долг на конец горизонта',money(cf.outstandingPrincipal)]]:[])].map(([label,value])=>
+   ...(fullServicePresent?[[fullWords.capex,money(cf.capitalExpenditure)],
+    [fullWords.debt,money(cf.outstandingPrincipal)]]:[])].map(([label,value])=>
     '<div class="bg-white/10 p-2 rounded text-xs">'+safe(label)+': <b>'+safe(value)+'</b></div>').join('')+'</div>'+
   '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[750px] text-xs"><thead><tr>'+
   ['Месяц','Выручка','Себестоимость','Реклама','Общие расходы','Фикс. услуги','EBITDA',
@@ -410,7 +418,7 @@ function updateResult(){
    '</tr>').join('')+'</tbody></table></div>':'';
  const flow='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
   ['Месяц','Поступления без НДС','Расходы',
-   ...(fullServicePresent?['Оборудование / CAPEX']:[]),
+   ...(fullServicePresent?[fullWords.capex]:[]),
    'Налог бизнеса','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
   cf.months.map(m=>'<tr class="border-t border-white/20">'+
