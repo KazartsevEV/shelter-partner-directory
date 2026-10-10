@@ -124,6 +124,23 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#full-service-pdf').click();
   A.equal(await page.evaluate(()=>window.__printInvoked),true);
   A.equal(await page.locator('#nomad360-print-sheet table').count(),2);
+  // Real user route: full finance result -> saved linked portfolio -> identical
+  // V2 enterprise tax and confirmed recurring horizon.
+  await page.locator('#full-service-add-portfolio').click();
+  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
+  const linked=await page.evaluate(()=>{
+    const state=LinkedPortfolioV2UI.getState();
+    const model=LinkedPortfolioV2Engine.build(state);
+    return {state,ready:model.ready,errors:model.errors,
+      months:model.cashflow?.periodPnl?.months.length,kind:model.items?.[0]?.source};
+  });
+  A.equal(linked.state.skus.length,1);
+  A.equal(linked.state.skus[0].fullServiceV2,true);
+  A.equal(linked.state.tax.type,'turnover');
+  A.equal(linked.state.forecastMonths,6);
+  A.equal(linked.ready,true,JSON.stringify(linked.errors));
+  A.equal(linked.months,6);
+  A.equal(linked.kind,'offline-service');
   A.deepEqual(errors,[]);
   console.log('TZ02_FULL_SERVICE_BROWSER_GREEN',{capital:seed.fixedCashMonthly+1160,rows:r.months.length});
  }finally{await browser.close()}
