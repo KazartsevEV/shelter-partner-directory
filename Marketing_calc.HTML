@@ -508,7 +508,7 @@
                 <p id="materials-step-help" class="text-sm text-slate-500 mt-2">Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.</p>
 
                 <div class="mt-6 space-y-5">
-                    <div id="resale-buy-panel" class="hidden rounded-xl border border-violet-200 bg-violet-50/50 p-4" hidden>
+                    <div id="resale-buy-panel" class="nd-v1-soft-panel hidden rounded-xl border border-slate-200 bg-slate-50 p-4" hidden>
 <h3 id="resale-buy-heading" class="font-bold text-lg text-slate-900">Минимальная партия</h3>
 <p id="resale-buy-help" class="text-sm text-slate-600 mt-2">Каждый разный товар в заказе — самостоятельная позиция со своей себестоимостью, количеством, последующей логистикой и ценой продажи. Отдельные товары не усредняются.</p>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
@@ -523,10 +523,10 @@
 </div>
 <div class="mt-4 flex justify-between gap-3 text-sm"><span>Закупочная цена 1 ед.</span><strong id="resale-buy-unit">—</strong></div>
 <p id="resale-buy-warning" class="hidden text-red-700 text-sm mt-2" hidden>Укажите положительную стоимость минимальной партии.</p>
-<div class="border-t border-violet-200 mt-4 pt-4">
+<div class="border-t border-slate-200 mt-4 pt-4">
 <h3 id="resale-composition-title" class="font-bold text-slate-900">Состав моего заказа по отдельным товарам</h3>
 <div id="resale-purchase-composition" class="mt-3 text-sm"></div>
-<button type="button" onclick="addAnotherResaleProduct()" class="mt-3 w-full rounded-lg bg-violet-700 text-white py-3 px-3 font-bold"><span id="resale-buy-add-label">+ Добавить ещё один товар в заказ</span></button>
+<button type="button" onclick="addAnotherResaleProduct()" class="nd-secondary-action mt-3 w-full rounded-lg bg-blue-700 text-white py-3 px-3 font-bold"><span id="resale-buy-add-label">+ Добавить ещё один товар в заказ</span></button>
 </div></div>
                     <div id="material-cost-entry-panel" class="rounded-xl border border-blue-100 bg-blue-50/30 p-4">
                         <div class="text-sm font-medium text-slate-800 mb-3">Как задаём себестоимость материалов?</div>
@@ -535,7 +535,7 @@
                             <button type="button" data-material-cost-mode="known" class="material-cost-mode-choice rounded-xl border-2 border-emerald-300 bg-emerald-50 text-emerald-800 px-3 py-3 text-sm font-bold">
                                 Точно знаю, почём купить
                             </button>
-                            <button type="button" data-material-cost-mode="calculate" class="material-cost-mode-choice rounded-xl border-2 border-violet-300 bg-violet-50 text-violet-800 px-3 py-3 text-sm font-bold">
+                            <button type="button" data-material-cost-mode="calculate" class="material-cost-mode-choice rounded-xl border-2 border-slate-300 bg-slate-50 text-blue-800 px-3 py-3 text-sm font-bold">
                                 Надо считать
                             </button>
                         </div>
@@ -552,11 +552,11 @@
 
                             <div id="own-material-rows" class="space-y-3"></div>
 
-                            <button type="button" onclick="addMaterialRow()" class="w-full rounded-lg border border-dashed border-violet-300 bg-violet-50 text-violet-700 px-3 py-2.5 font-semibold">
+                            <button type="button" onclick="addMaterialRow()" class="nd-secondary-action w-full rounded-lg border border-dashed border-slate-300 bg-slate-50 text-blue-700 px-3 py-2.5 font-semibold">
                                 + Добавить материал
                             </button>
 
-                            <div class="rounded-lg bg-white border border-violet-100 p-3 flex justify-between gap-4 text-sm">
+                            <div class="rounded-lg bg-white border border-slate-200 p-3 flex justify-between gap-4 text-sm">
                                 <span class="text-slate-600">Материалы на 1 единицу, у.е.*</span>
                                 <span id="own-materials-calculated-total" class="font-bold text-slate-900">0,00</span>
                             </div>
@@ -911,7 +911,7 @@
                         </div>
                     </div>
 
-                    <div id="dropship-delivery-terms" class="hidden rounded-lg border border-violet-200 bg-violet-50/50 p-4" hidden>
+                    <div id="dropship-delivery-terms" class="nd-v1-soft-panel hidden rounded-lg border border-slate-200 bg-slate-50 p-4" hidden>
                         <h3 class="font-bold text-slate-900">Срок доставки до покупателя</h3>
                         <p class="text-xs text-slate-600 mt-1">От заказа до получения покупателем. Учитывается при расчёте потребности в оборотных деньгах.</p>
                         <label class="block text-sm mt-3">Срок доставки, дней
@@ -1256,9 +1256,9 @@
 
                     </div>
 
-                    <div class="rounded-xl border border-violet-200 bg-violet-50 p-4 space-y-4">
+                    <div class="nd-v1-soft-panel rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-4">
                         <div>
-                            <div class="text-xs uppercase tracking-[0.16em] text-violet-700 font-bold">Впишите обещания вашего маркетолога</div>
+                            <div class="text-xs uppercase tracking-[0.16em] text-blue-700 font-bold">Впишите обещания вашего маркетолога</div>
                             <p class="text-xs text-slate-500 mt-1">Плановые показатели рекламной воронки.</p>
                         </div>
 
@@ -1346,12 +1346,12 @@
                     <button id="assortment-complete-button" type="button" onclick="setProductAssortmentChoice('complete')" class="rounded-xl border-2 border-emerald-300 bg-emerald-50 text-emerald-800 px-4 py-3 font-bold text-left">
                         Это мой единственный <span class="product-name-live"></span>
                     </button>
-                    <button type="button" onclick="setProductAssortmentChoice('more')" class="rounded-xl border-2 border-violet-300 bg-violet-50 text-violet-800 px-4 py-3 font-bold text-left">
+                    <button type="button" onclick="setProductAssortmentChoice('more')" class="nd-assortment-more rounded-xl border-2 border-slate-300 bg-slate-50 text-blue-800 px-4 py-3 font-bold text-left">
                         <span id="service-assortment-more">У меня будут другие товары</span>
                     </button>
                 </div>
 
-                <button id="add-product-button" type="button" onclick="addAnotherProduct()" class="hidden mt-4 w-full rounded-xl bg-violet-600 text-white px-5 py-3.5 font-bold shadow-md hover:bg-violet-700 transition">
+                <button id="add-product-button" type="button" onclick="addAnotherProduct()" class="nd-cta-primary hidden mt-4 w-full rounded-xl bg-blue-700 text-white px-5 py-3.5 font-bold shadow-md hover:bg-blue-800 transition">
                     <span id="service-assortment-add">+ Добавить товар</span>
                 </button>
 
@@ -6206,7 +6206,7 @@
                 price:productNumber('resale-buy-total'),supplier:document.getElementById('resale-buy-supplier')?.value||''});
             const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
             box.innerHTML=goods.length?goods.map(g=>
-                '<div class="grid grid-cols-[1fr_auto] gap-3 py-2 border-b border-violet-200"><span><b>'+esc(g.name)+'</b><span class="block text-xs text-slate-500">'+
+                '<div class="grid grid-cols-[1fr_auto] gap-3 py-2 border-b border-slate-200"><span><b>'+esc(g.name)+'</b><span class="block text-xs text-slate-500">'+
                 g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span>'+ (g.id===Number(currentProductSequence)?'': '<button type="button" onclick="editSavedProduct('+g.id+')" class="text-xs underline text-blue-800 mt-1">Редактировать товар</button>') + '</span><b>'+moneyInputValue(g.price)+' у.е.*</b></div>').join('')+
                 '<div class="flex justify-between font-bold mt-3"><span>Всего позиций: '+goods.length+'</span><span>'+
                 moneyInputValue(goods.reduce((s,g)=>s+g.price,0))+' у.е.* закупки, без доставки</span></div>':
