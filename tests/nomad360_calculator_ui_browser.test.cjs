@@ -201,7 +201,7 @@ async function browserCase(browser,locale,expected){
     el=>getComputedStyle(el).color),'rgb(255, 255, 255)');
   A.equal(await page.locator('#service-work-screen > button').evaluate(
     el=>getComputedStyle(el).color),'rgb(255, 255, 255)','Back links outside white blocks stay white');
-  A.equal(await page.locator('#service-work-screen .card').evaluate(
+  A.equal(await page.locator('#service-work-screen > .card').evaluate(
     el=>getComputedStyle(el).backgroundColor),'rgb(255, 255, 255)','Service panels stay white');
   await breadcrumb.click();
   A.equal(await page.locator('#home-screen').isVisible(),true,'Breadcrumb returns to start');
