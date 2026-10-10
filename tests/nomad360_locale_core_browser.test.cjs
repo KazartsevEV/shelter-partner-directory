@@ -96,8 +96,8 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     await page.waitForFunction(language=>document.documentElement.lang===language,expected);
     A.equal(await page.locator('#nomad-v1-money-locale-probe').getAttribute('data-nomad-display-number'),'1234.5');
     await page.evaluate(()=>showServiceWorkChooser());
-    await page.waitForFunction(code=>document.querySelector('#service-work-screen')?.textContent?.includes(code),
-      expected==='kk'?'Қызмет':expected==='en'?'Service':'Услуга');
+    await page.waitForFunction(code=>document.querySelector('#service-work-screen .nd-route-current')?.textContent?.includes(code),
+      expected==='kk'?'Жұмыс форматы':expected==='en'?'Work format':'Формат работы');
     if(expected!=='ru'){
       for(const mode of ['self','hired','agent']){
         await page.evaluate(selected=>selectServiceMode(selected),mode);
