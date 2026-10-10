@@ -48,15 +48,6 @@
 .nomad-hero h2{position:relative;z-index:1;max-width:800px;margin:0 0 16px;font-weight:650;letter-spacing:-.02em;line-height:1.24;font-size:clamp(21px,2.7vw,30px)}
 .nomad-hero h3{position:relative;z-index:1;max-width:800px;margin:0;font-weight:500;color:#344c63;line-height:1.45;font-size:clamp(16px,1.8vw,20px)}
 #nomad360-calculation-list ol{margin-top:0}
-.nomad-footer{max-width:1152px;margin:32px auto 15px;background:transparent;color:#16375a;border:0;border-radius:0;padding:16px 0;box-shadow:none}
-.nomad-footer-kicker{color:#64748b;letter-spacing:.08em;font-size:11px;font-weight:600}
-.nomad-support{display:grid;grid-template-columns:minmax(200px,.9fr) minmax(260px,1.35fr);align-items:center;gap:18px;border-top:0;margin-top:16px;padding-top:0}
-.nomad-support h3{font-size:19px;font-weight:850;margin:0 0 6px}
-.nomad-support p{font-size:12px;color:#475569;line-height:1.55}
-.nomad-contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.nomad-contact-grid a{display:block;padding:15px 13px;border:1px solid #d5dbe3;background:#fff;border-radius:0;color:#16375a;text-decoration:none;min-width:0}
-.nomad-contact-grid small{display:block;color:#64748b;font-size:11px;margin-bottom:4px}
-.nomad-contact-grid strong{font-size:clamp(13px,1.5vw,16px);white-space:nowrap}
 .nomad-export-callout{background:#f3faf6;border:1px solid #97d4ad;border-left:5px solid #127657;border-radius:15px;padding:17px 19px;margin:16px 0 30px;font-family:Inter,system-ui,sans-serif;color:#15382f}
 .nomad-export-title{font-size:22px;font-weight:850;line-height:1.2;color:#085a44}
 .nomad-export-callout p{color:#375b51;font-size:13px;margin:7px 0}
@@ -76,10 +67,6 @@
 #nomad360-print-sheet{display:none}
 @media(max-width:660px){
  .nomad-hero{border-radius:0;padding:8px 0 20px}
- .nomad-footer{border-radius:0;margin-top:26px;padding:16px 0}
- .nomad-support{grid-template-columns:1fr}
- .nomad-contact-grid{grid-template-columns:1fr}
- .nomad-bottom{align-items:flex-start;flex-direction:column}
  .nomad-export-table{min-width:480px}
  #nomad360-price-preview{overflow-x:auto;padding:10px}
 }
@@ -119,7 +106,6 @@
 .nomad-links{display:flex;flex-direction:column;gap:12px}
 .nomad-links a,.nomad-info-block>a{color:#16375a;text-decoration:underline;text-underline-offset:3px}
 .nomad-links a:hover,.nomad-info-block>a:hover{color:#b8573a}
-#nomad360-support{scroll-margin-top:28px}
 @media(min-width:768px){.nomad-header{margin:-32px -32px 24px;width:calc(100% + 64px)}}
 @media(max-width:1199px){
  .nomad-header.is-open .nomad-panel{box-shadow:0 8px 18px -18px #16375a}
@@ -143,4 +129,58 @@
  .nomad-header .nomad-bar{padding:0 10px}
  .nomad-header .nomad-lang{margin-right:4px}
 }
-@media print{#nomad360-header,#nomad360-information{display:none!important}}
+@media print{#nomad360-header,#nomad360-information,#nomad360-footer{display:none!important}}
+
+/* Footer: navy, white text. Support, product references, license, data and official contact. */
+.nomad-footer{--nf-line:rgba(255,255,255,.28);position:relative;margin:48px -16px -16px;width:calc(100% + 32px);background:#16375a;color:#fff;border:0;border-radius:0;box-shadow:none;font-family:'IBM Plex Sans',Inter,system-ui,sans-serif}
+@media(min-width:768px){.nomad-footer{margin:56px -32px -32px;width:calc(100% + 64px)}}
+.nomad-footer,.nomad-footer *{box-sizing:border-box}
+.nomad-footer-inner{max-width:1152px;margin:0 auto;padding:48px 16px 28px}
+@media(min-width:768px){.nomad-footer-inner{padding:56px 32px 32px}}
+.nomad-footer h2{margin:0 0 12px;font-size:clamp(24px,3vw,32px);font-weight:600;line-height:1.2;color:#fff}
+.nomad-footer h3{margin:0 0 8px;font-size:18px;font-weight:600;line-height:1.3;color:#fff}
+.nomad-footer h4{margin:0 0 8px;font-size:20px;font-weight:600;line-height:1.3;color:#fff}
+.nomad-footer p{margin:0;font-size:15px;line-height:1.6;color:#dbe4ee}
+.nomad-footer p+p{margin-top:10px}
+.nomad-footer a{color:#fff;text-underline-offset:3px}
+.nomad-footer a:hover{color:#f0b9a5}
+.nomad-footer a:focus-visible,.nomad-footer button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.nomad-donate{scroll-margin-top:28px}
+.nomad-donate-lead{max-width:720px}
+.nomad-pay-fiat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:28px}
+.nomad-pay-crypto{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.nomad-pay{display:flex;flex-direction:column;gap:6px;padding:18px;border:1px solid var(--nf-line);background:rgba(255,255,255,.05)}
+.nomad-pay-label{font-size:13px;font-weight:600;letter-spacing:.02em;color:#f0b9a5}
+.nomad-pay-value{font-size:20px;font-weight:600;line-height:1.3;color:#fff;overflow-wrap:anywhere;text-decoration:none}
+a.nomad-pay-value{text-decoration:underline}
+.nomad-pay-hint{font-size:13px;line-height:1.5;color:#c3d0de}
+.nomad-copy{align-self:flex-start;margin-top:8px;min-height:40px;padding:0 16px;border:1px solid #fff;border-radius:0;background:transparent;color:#fff;font:600 14px 'IBM Plex Sans',Inter,system-ui,sans-serif;cursor:pointer}
+.nomad-copy:hover{background:#fff;color:#16375a}
+.nomad-copy.is-done{background:#b8573a;border-color:#b8573a;color:#fff}
+.nomad-pay-crypto .nomad-pay{flex-direction:row;align-items:flex-start;gap:18px}
+.nomad-pay-body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.nomad-pay-address{font:500 14px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow-wrap:anywhere;color:#fff}
+.nomad-qr{flex:none;display:block;width:136px;height:136px;background:#fff}
+.nomad-pay-note{margin-top:16px;font-size:13px;color:#c3d0de}
+.nomad-footer-products,.nomad-footer-meta{margin-top:48px;padding-top:32px;border-top:1px solid var(--nf-line)}
+.nomad-products-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.nomad-product{padding:22px;border:1px solid var(--nf-line);scroll-margin-top:28px}
+.nomad-footer .nomad-status{display:inline-block;margin:0 0 12px;padding:3px 9px;border:1px solid rgba(255,255,255,.45);color:#fff;font-size:12px}
+.nomad-product ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+.nomad-product li{font-size:14px;line-height:1.5;color:#dbe4ee}
+.nomad-product li b{color:#fff;font-weight:600}
+.nomad-footer .nomad-product-goal{margin-top:14px}
+.nomad-footer .nomad-slogan{margin-top:14px;font-size:16px;font-weight:600;color:#fff}
+.nomad-footer-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.nomad-meta-block{scroll-margin-top:28px}
+.nomad-footer-bottom{margin-top:36px;padding-top:18px;border-top:1px solid var(--nf-line);font-size:13px;color:#c3d0de}
+.nomad-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.nomad-list{margin:0 0 12px;padding-left:20px;list-style:disc;font-size:14px;line-height:1.6;color:#344c63}
+.nomad-info-block .nomad-topics{margin-top:14px}
+@media(max-width:900px){
+ .nomad-pay-fiat,.nomad-pay-crypto,.nomad-products-grid,.nomad-footer-meta{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:480px){
+ .nomad-pay-crypto .nomad-pay{flex-direction:column}
+ .nomad-qr{width:168px;height:168px}
+}

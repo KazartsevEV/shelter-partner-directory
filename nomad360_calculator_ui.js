@@ -110,15 +110,9 @@ function hero(){
  '<h2>'+tr('sub')+'</h2>'+
  '<h3>'+tr('narrative')+'</h3></div>';
 }
+// Footer content (support, products, license, data, official contact) is rendered by nomad360_header.js.
 function footer(){
- return '<footer id="nomad360-footer" class="nomad-marketing nomad-footer" aria-label="Nomad360">'+
- '<div class="nomad-footer-kicker">NOMAD360</div>'+
- '<div class="nomad-support">'+
- '<div class="nomad-support-lead"><h3>'+tr('support')+'</h3><p>'+tr('supportSub')+'</p></div>'+
- '<div class="nomad-contact-grid">'+
- '<a href="tel:+77771295693"><small>Kaspi KZ</small><strong>+7 777 129 56 93</strong></a>'+
- '<a href="tel:+79779867441"><small>Ozon РФ</small><strong>+7 977 986 74 41</strong></a>'+
- '</div></div></footer>';
+ return '<footer id="nomad360-footer" class="nomad-marketing nomad-footer" aria-label="Nomad360" data-nomad-no-translate></footer>';
 }
 function buildShell(){
  const home=document.getElementById('home-screen');
