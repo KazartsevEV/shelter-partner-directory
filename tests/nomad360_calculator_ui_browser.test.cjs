@@ -35,6 +35,7 @@ async function browserCase(browser,locale,expected){
   await header.locator('a[data-nomad-go="nomad360-about"]').click();
   A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
   A.equal(await page.locator('#nomad360-information .nomad-info-block').count(),6);
+  A.doesNotMatch(await page.locator('#nomad360-about').textContent(),/20 минут|20 minutes|20 минут/,'calculator figures belong only in hero');
   A.equal(await page.locator('#nomad360-contacts a[href="https://t.me/Kazartsev_EV"]').count(),1);
 
   await page.setViewportSize({width:1440,height:900});
@@ -45,12 +46,12 @@ async function browserCase(browser,locale,expected){
   await page.setViewportSize({width:390,height:844});
   A.equal(await header.locator('.nomad-burger').isVisible(),true);
 
-  A.match(await page.locator('#nomad360-hero').textContent(),/MBA/);
+  A.doesNotMatch(await page.locator('#nomad360-hero').textContent(),/MBA|дорогие консультанты|expensive consulting/);
   A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI marketer|AI-маркетолог/);
   const footer=await page.locator('#nomad360-footer').textContent();
   A.ok(footer.includes('+7 777 129 56 93')&&footer.includes('+7 977 986 74 41'));
-  A.equal(await page.locator('#nomad360-footer a[href^="mailto:"]').count(),2);
-  A.ok(await page.locator('#nomad360-footer a[href*="threads.com/@nomad260393"]').count());
+  A.equal(await page.locator('#nomad360-contacts a[href^="mailto:"]').count(),1);
+  A.ok(await page.locator('#nomad360-contacts a[href*="threads.com/@nomad260393"]').count());
   const payload=fixture();
   await page.evaluate(p=>{
     LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
@@ -126,7 +127,7 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.locator('#nomad360-information #nomad360-about h2').textContent(),'About Nomad360');
 
   A.equal(await page.locator('html').getAttribute('lang'),'en');
-  A.match(await page.locator('#nomad360-hero h2').textContent(),/Stop guessing/);
+  A.match(await page.locator('#nomad360-hero h2').textContent(),/How does your business/);
   const after=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(after.cashflow.periodPnl.netProfit,before.cashflow.periodPnl.netProfit,'language cannot touch financial model');
   A.equal(after.items.length,5);
@@ -169,8 +170,8 @@ async function browserCase(browser,locale,expected){
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
-  await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Не гадайте/});
-  await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Болжамаңыз/});
-  await browserCase(browser,'en-US',{lang:'en',tagline:/Stop guessing/});
+  await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Из чего состоит бизнес/});
+  await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Бизнес қалай жұмыс істейді/});
+  await browserCase(browser,'en-US',{lang:'en',tagline:/How does your business/});
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_UI_PACKAGING_BROWSER_RED',e.stack||e);process.exitCode=1});
