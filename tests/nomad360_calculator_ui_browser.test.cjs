@@ -186,9 +186,12 @@ async function browserCase(browser,locale,expected){
     portfolioClass:document.getElementById('portfolio-v2-screen').className,
     homeHidden:document.getElementById('home-screen').hidden,
     portfolioFn:typeof window.openPortfolioV2,
-    screenStyle:getComputedStyle(document.getElementById('portfolio-v2-screen')).display
+    screenStyle:getComputedStyle(document.getElementById('portfolio-v2-screen')).display,
+    handler:document.getElementById('start-multi-portfolio').getAttribute('onclick'),
+    errors:window.__test_errors||[],
+    formState:document.getElementById('product-screen').hidden
   }));
-  A.equal(v2Visible,true,'Third choice button must open V2 '+locale+': '+JSON.stringify(v2Diagnostics));
+  A.equal(v2Visible,true,'Third choice button must open V2 '+locale+': '+JSON.stringify({...v2Diagnostics,pageErrors:errors}));
   await page.mouse.move(0,0);
   await page.waitForTimeout(220); // let hover/transition settle before measuring normal state
   const v2Action=await page.locator('[data-p2-save]').evaluate(e=>{
