@@ -26,7 +26,10 @@
  function mount(){const node=el('full-service-screen');if(!node||!input)return;const t=labels();
   node.innerHTML='<div class="nd-full-service-shell">'+
    '<button type="button" id="full-service-back" class="nd-full-service-secondary">'+t.back+'</button>'+
-   '<div class="nd-full-service-header"><p>V2 · '+escaped(source?.name||'')+'</p><h1>'+t.head+'</h1></div>'+
+   '<div class="nd-full-service-header"><p>V2 · '+escaped(source?.name||'')+'</p><h1>'+t.head+'</h1>'+
+   '<p class="nd-full-service-v1-info">'+escaped(t.price)+': <b>'+money(Number(input.priceGross))+'</b> · '+
+   escaped(lang()==='ru'?'Прогноз / месяц':lang()==='en'?'Forecast / month':'Болжам / ай')+': '+
+   escaped(String(input.monthlyForecast))+'</p></div>'+
    '<div class="nd-full-service-inputs">'+
    field(t.vat,'full-service-vat',input.vatPct??0,'number','min="0" max="1000" step="0.01"')+
    choice(t.tax,'full-service-tax',input.taxType||'turnover',[['turnover',t.turnover],['profit',t.profit]])+
