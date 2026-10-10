@@ -1004,7 +1004,7 @@ body .nd-v1-product :is(
   button.production-labor-choice,button.import-payer-choice,
   button.logistics-payer-choice,button.business-tax-choice,
   #assortment-complete-button,
-  #product-assortment-gate button.bg-violet-50
+  #product-assortment-gate .nd-assortment-more
 ){
   background:#fff;
   color:var(--nd-v1-navy);
@@ -1283,6 +1283,34 @@ body .nd-v1-screen :is(
 body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
   :is(.aggregate-final-value,.final-buyer-price){
   color:var(--nd-v1-focus-orange);
+}
+
+
+/* VIOLET-08: normalize legacy side panels and additional-item actions in V1.
+   Inputs, selected-state logic, validation and warnings remain untouched. */
+body #product-screen.nd-v1-product .nd-v1-soft-panel{
+  background:var(--nd-v1-soft);border:1px solid var(--nd-v1-rule);
+  border-radius:var(--nd-radius);color:var(--nd-v1-navy);box-shadow:none
+}
+body #product-screen.nd-v1-product .nd-secondary-action:is(button,a){
+  background:var(--nd-v1-navy);border-color:var(--nd-v1-navy);
+  color:#fff;box-shadow:none;border-radius:var(--nd-radius);
+  font-family:var(--nd-font);font-weight:700
+}
+body #product-screen.nd-v1-product .nd-secondary-action:is(button,a):hover:not(:disabled){
+  background:#24517f;color:#fff;border-color:#24517f
+}
+body #product-screen.nd-v1-product #add-product-button.nd-cta-primary{
+  background:var(--nd-v1-cta);color:var(--nd-v1-navy);
+  border:1px solid var(--nd-v1-cta);box-shadow:none;
+  border-radius:var(--nd-radius);min-height:54px
+}
+body #product-screen.nd-v1-product #add-product-button.nd-cta-primary:hover:not(:disabled){
+  background:var(--nd-v1-cta);color:var(--nd-v1-navy)
+}
+body #product-screen.nd-v1-product .nd-assortment-more{
+  background:#fff;color:var(--nd-v1-navy);
+  border:1px solid #9bacbc;box-shadow:none;border-radius:var(--nd-radius)
 }
 
 /* PAYER-WIDTH-01: short "Я" option never consumes half the card width.

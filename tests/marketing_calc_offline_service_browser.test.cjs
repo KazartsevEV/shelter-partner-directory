@@ -22,6 +22,8 @@ const path=require('node:path');
   await page.evaluate(()=>showServiceWorkChooser());
   await page.locator('#service-work-offline').click();
   assert.equal(await page.locator('#product-screen').isVisible(),true);
+  assert.equal(await page.locator('#product-screen [class*="violet-"]').count(),0,'legacy violet CSS utilities remain in V1');
+  assert.equal(await page.locator('#add-product-button').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(237, 142, 99)');
   assert.equal(await page.locator('#product-intro-title').textContent(),'Какую услугу оказываете?');
   await page.locator('#product-name-input').fill('Маникюр с покрытием');
   await page.locator('#product-intro-submit-label').click();
