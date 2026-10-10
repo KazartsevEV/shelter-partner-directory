@@ -56,8 +56,8 @@ async function browserCase(browser,locale,expected){
     'Homepage hero must be transparent, not a banner');
   A.equal(presentation.heroShadow,'none','Homepage hero must not cast a card shadow');
   A.equal(presentation.heroDecoration,'none','Remove green banner ornament');
-  A.ok(presentation.footerBackground==='rgba(0, 0, 0, 0)'||presentation.footerBackground==='transparent',
-    'Support section should have no banner background');
+  A.equal(presentation.footerBackground,'rgb(22, 55, 90)',
+    'Claude footer must retain approved navy background');
   A.equal(presentation.footerShadow,'none','Support footer should not look like a colored banner');
   for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
     A.equal(await page.locator('#'+id).evaluate(e=>e.className.includes('emerald')),false,
@@ -116,7 +116,8 @@ async function browserCase(browser,locale,expected){
   await header.locator('.nomad-burger').click();
   await header.locator('a[data-nomad-go="nomad360-about"]').click();
   A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
-  A.equal(await page.locator('#nomad360-information .nomad-info-block').count(),6);
+  A.equal(await page.locator('#nomad360-information .nomad-info-block').count(),2,
+    'About and Contacts stay above the unified navy footer');
   A.doesNotMatch(await page.locator('#nomad360-about').textContent(),/20 минут|20 minutes|20 минут/,'calculator figures belong only in hero');
   A.equal(await page.locator('#nomad360-contacts a[href="https://t.me/Kazartsev_EV"]').count(),1);
 
@@ -132,6 +133,17 @@ async function browserCase(browser,locale,expected){
   A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI marketer|AI-маркетолог/);
   const footer=await page.locator('#nomad360-footer').textContent();
   A.ok(footer.includes('+7 777 129 56 93')&&footer.includes('+7 977 986 74 41'));
+  A.equal(await page.locator('#nomad360-footer').count(),1,'Exactly one new footer');
+  A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
+  A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),2,'Crypto QR codes preserved');
+  A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),5,'All five payment methods must retain copy actions');
+  A.equal(await page.locator('#nomad360-footer #nomad360-license').count(),1,'License is in new footer');
+  A.equal(await page.locator('#nomad360-footer #nomad360-data').count(),1,'Data statement is in new footer');
+  A.equal(await page.locator('#nomad360-footer #nomad360-official').count(),1,'Official contact is in new footer');
+  A.equal(await page.locator('#nomad360-footer a.nomad-official-mail').getAttribute('href'),
+    'mailto:nomad260393@gmail.com');
+  A.ok(footer.includes('Платите за то, что покупаете.')||footer.includes('Pay for what you buy.')||
+    footer.includes('Сатып алғаныңызға ғана төлеңіз.'),'AI Marketer copy survived');
   A.equal(await page.locator('#nomad360-contacts a[href^="mailto:"]').count(),1);
   A.ok(await page.locator('#nomad360-contacts a[href*="threads.com/@nomad260393"]').count());
   const payload=fixture();
