@@ -74,8 +74,9 @@ async function browserCase(browser,locale,expected){
     };
   });
   A.equal(canvasColors.page,'rgb(22, 55, 90)','Canvas matches the navy footer');
-  A.ok(['hero1','hero2','hero3','note','example'].every(k=>
+  A.ok(['hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
+   A.equal(canvasColors.hero1,'rgb(237, 142, 99)','Business calculator eyebrow must be orange');
   A.ok(['calcBackground','primaryCardBackground','headerBackground'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
 
@@ -386,9 +387,9 @@ async function browserCase(browser,locale,expected){
        color:getComputedStyle(el).color})));
    A.equal(slogans.length,2,'Both products should have a final bold slogan');
    A.equal(slogans[1].text,{
-     ru:'Делайте то, что приносит деньги.',
-     en:'Make what sells.',
-     kk:'Табыс әкелетін нәрсені жасаңыз.'
+     ru:'Покупайте то, что продается.',
+     en:'Buy what sells.',
+     kk:'Өтімді тауарды сатып алыңыз.'
    }[expected.lang]);
    A.deepEqual({size:slogans[1].size,weight:slogans[1].weight,color:slogans[1].color},
      {size:slogans[0].size,weight:slogans[0].weight,color:slogans[0].color},
