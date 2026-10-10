@@ -286,9 +286,36 @@
        d.stockPurchase-d.ad-d.shared-d.tax-d.interest-d.principal;
      peak=Math.min(peak,running);
    }
-   const reserve=sum(items.map(s=>pos(s.reserveAmount)));
+   // Reserve is recalculated against the actual pooled first-month operating
+   // burden. In V1 the same rent/ad may have appeared in several service cards.
+   // Their replaced amounts do not remain phantom liquidity requirements.
+   const first=forecast.months[0],reserve=sum(items.map(s=>{
+     if(!s.fullServiceV2)return pos(s.reserveAmount);
+     const qty=pos(first.orders[s.id]),sourceQty=Math.max(EPS,pos(s.forecastUnitsPerMonth));
+     const material=s.source==='offline-service'?
+       Math.max(0,pos(s.serviceMaterialsUnit)-pos(s.cashOffsets?.materials)/sourceQty)+
+       Math.max(0,pos(s.serviceElectricityUnit)-pos(s.cashOffsets?.fulfillment)/sourceQty):
+       pos(s.unitCostEffective);
+     const commission=pos(timeline[s.id]?.[0]?.netRevenue)*pos(s.variableSalesPct)/100;
+     const fixed=s.source==='offline-service'?
+       Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production)):0;
+     const sales=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
+     const pooled=pos(s.resourceShares);
+     const advertising=pos(s.adBudgetEffective);
+     return (qty*material+commission+fixed+sales+pooled+advertising)*
+       pos(s.fullServiceReservePct)/100;
+   }));
    const fundedReserve=sum(items.filter(s=>s.fullServiceV2&&pos(s.creditPrincipal)>0)
-     .map(s=>Math.min(pos(s.reserveAmount),pos(s.fullServiceReserveFunded))));
+     .map(s=>Math.min(pos(s.fullServiceReserveFunded),Math.max(0,
+       pos(s.fullServiceReservePct)/100*(
+        pos(first.orders[s.id])*(
+         s.source==='offline-service'?pos(s.serviceMaterialsUnit)+pos(s.serviceElectricityUnit):
+         pos(s.unitCostEffective))+
+        pos(s.resourceShares)+pos(s.adBudgetEffective)+
+        Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly))+
+        (s.source==='offline-service'?Math.max(0,pos(s.serviceFixedMonthly)-
+          pos(s.cashOffsets?.production)):0)
+       )))));
    const ownerCapital=Math.max(0,-peak)+Math.max(0,reserve-fundedReserve);
    let balance=0;
    for(let day=0;day<daily.length;day++){
