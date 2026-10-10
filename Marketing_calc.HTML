@@ -360,15 +360,15 @@
             <h1 class="text-3xl font-bold text-slate-900">Кто исполнитель услуги?</h1>
             <p class="text-sm text-slate-500 mt-2">Выберите, как устроены деньги между клиентом, вами и исполнителем.</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-7">
-                <button onclick="selectServiceMode('self')" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button onclick="selectServiceMode('self')" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Я сам</div>
                     <div class="text-sm text-slate-500 mt-1">Старый калькулятор без изменений бизнес-логики.</div>
                 </button>
-                <button onclick="selectServiceMode('hired')" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button onclick="selectServiceMode('hired')" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Нанимаю другого</div>
                     <div class="text-sm text-slate-500 mt-1">Добавляем оплату исполнителю как расход.</div>
                 </button>
-                <button onclick="showAgentChooser()" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button onclick="showAgentChooser()" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Я агент</div>
                     <div class="text-sm text-slate-500 mt-1">Привлекаю клиентов другим и получаю вознаграждение.</div>
                 </button>
@@ -383,11 +383,11 @@
             <h1 class="text-3xl font-bold text-slate-900">Как мне платят?</h1>
             <p class="text-sm text-slate-500 mt-2">В расчёте по каждому прямому расходу можно выбрать плательщика: <strong>Я</strong> или <strong>Партнёр</strong>.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
-                <button onclick="selectServiceMode('agent')" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button onclick="selectServiceMode('agent')" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Мне платят % с объёма продаж</div>
                     <div class="text-sm text-slate-500 mt-1">Калькулятор вычислит ваш доход из общего объёма продаж.</div>
                 </button>
-                <button onclick="showAgentComplex()" class="card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button onclick="showAgentComplex()" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">У меня сложная система мотивации</div>
                     <div class="text-sm text-slate-500 mt-1">Обсудить отдельную модель расчёта.</div>
                 </button>
@@ -470,15 +470,15 @@
             </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                <button type="button" data-product-source="own" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button type="button" data-product-source="own" class="product-source-choice card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Делаю сам</div>
                 </button>
 
-                <button type="button" data-product-source="resale" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button type="button" data-product-source="resale" class="product-source-choice card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Покупаю у других</div><div class="text-xs text-slate-500 mt-1">Закупка готового товара без производства</div>
                 </button>
 
-                <button type="button" data-product-source="dropship" class="product-source-choice card p-5 text-left hover:border-blue-400 hover:shadow-md transition">
+                <button type="button" data-product-source="dropship" class="product-source-choice card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Покупаю под заказ, поставщик доставляет покупателю</div>
                 </button>
                 <button type="button" data-product-source="offline-service" class="product-source-choice card p-5 text-left hover:border-emerald-400 hover:shadow-md transition">
