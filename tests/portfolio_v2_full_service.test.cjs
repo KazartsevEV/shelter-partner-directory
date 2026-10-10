@@ -1,0 +1,78 @@
+'use strict';
+const {test}=require('node:test');
+const A=require('node:assert/strict');
+const {build}=require('../portfolio_v2_full_service.js');
+const near=(a,b,label,eps=.012)=>A.ok(Math.abs(a-b)<eps,label+': '+a+' vs '+b);
+const base={months:3,monthlyForecast:200,capacity:250,priceGross:100,vatPct:12,
+ discountPct:0,unitCashCost:8,commissionPct:0,fixedCashMonthly:10000,
+ equipmentPurchase:0,equipmentAmortMonthly:0,taxType:'profit',taxPct:10,
+ reservePct:10,funding:'own'};
+test('TZ02 corrected control oracle: own capital, day-0 deficit, N=3',()=>{
+ const r=build(base);
+ near(r.netUnitPrice,89.285714,'net price');
+ near(r.months[0].revenue,17857.142857,'revenue');
+ near(r.months[0].variable,1600,'variable cost');
+ near(r.preTaxPeakDeficit,10000,'day-0 deficit');
+ near(r.reserve,1160,'locked reserve');
+ near(r.capital,11160,'initial capital');
+ near(r.months[0].ebt,6257.142857,'pre-tax income');
+ near(r.months[0].tax,625.7142857,'profit tax');
+ near(r.months[0].operatingCash,5631.42857,'month op cash');
+ near(r.months[2].operatingCumulative,16894.285714,'three-month op cash');
+ A.equal(r.paybackMonth,2);A.equal(r.firstPositiveMonth,1);
+ A.equal(r.outstandingPrincipal,0);
+ A.equal(r.daily[0].fixed,10000);
+});
+test('TZ02 credit interest monthly, bullet principal only at term, remainder outside horizon',()=>{
+ const full=build({...base,funding:'credit',annualRatePct:24,creditMonths:3});
+ near(full.capital,11160,'borrowed principal');
+ near(full.months[0].interest,223.2,'month one interest');
+ near(full.months[0].tax,603.3942857,'profit tax with interest');
+ near(full.months[0].operatingCash,5430.54857,'month CF with interest');
+ near(full.months[2].operatingCumulative,16291.645714,'three-month CF');
+ A.deepEqual(full.months.map(m=>m.principalDue),[0,0,11160]);
+ A.equal(full.outstandingPrincipal,0);
+ const short=build({...base,months:2,funding:'credit',annualRatePct:24,creditMonths:12});
+ A.equal(short.creditRepaid,0);near(short.outstandingPrincipal,short.capital,'debt held');
+ A.ok(short.months.every(m=>m.principalDue===0));
+});
+test('TZ02 VAT pass-through and both tax types',()=>{
+ const v0=build({...base,vatPct:0});
+ const v12=build(base);
+ A.ok(v0.months[0].revenue>v12.months[0].revenue);
+ near(v12.months[0].revenue,200*100/1.12,'VAT excluded from CF');
+ const turnover=build({...base,taxType:'turnover'});
+ near(turnover.months[0].tax,turnover.months[0].revenue*.1,'turnover tax');
+ near(turnover.months[0].operatingCash,4471.42857,'turnover CF');
+ const profit=build({...base,fixedCashMonthly:25000});
+ A.equal(profit.months[0].tax,0,'no negative profit tax');
+});
+test('TZ02 capacity rejects excess even without UI, no implicit capping',()=>{
+ A.throws(()=>build({...base,monthlyForecast:251}),/превышает мощность/);
+ A.throws(()=>build({...base,monthlyForecast:[200,260,200]}),/Прогноз месяца 2/);
+});
+test('TZ02 CAPEX day 0; depreciation accrual not paid twice',()=>{
+ const x=build({...base,equipmentPurchase:3000,equipmentAmortMonthly:250});
+ near(x.preTaxPeakDeficit,13000,'CAPEX in required cash at day zero');
+ near(x.months[0].assetCash,3000,'one-time equipment payment');
+ near(x.months[1].assetCash,0,'no repeat CAPEX');
+ near(x.months[0].depreciation,250,'monthly accrual');
+ near(x.months[0].ebt,6007.142857,'depreciation in EBT');
+ const baseline=build({...base,equipmentPurchase:3000,equipmentAmortMonthly:0});
+ near(x.months[0].operatingCash-baseline.months[0].operatingCash,25,
+   'profit tax shield, not repeated depreciation cash outflow');
+});
+test('TZ02 horizon changes do not alter earlier month rows with own funds',()=>{
+ const n1=build({...base,months:1}),n6=build({...base,months:6});
+ for(const field of ['quantity','revenue','variable','fixed','tax','interest','operatingCash','profit']){
+   near(n1.months[0][field],n6.months[0][field],'first month '+field,1e-9);
+ }
+});
+test('TZ02 handles initially unprofitable service and 10-pass convergence rule',()=>{
+ const x=build({...base,fixedCashMonthly:20000,months:3,funding:'credit',annualRatePct:20,creditMonths:12});
+ A.ok(x.capital>x.preTaxPeakDeficit);
+ A.ok(x.months[0].operatingCash<0);
+ A.equal(x.paybackMonth,null);
+ A.equal(x.firstPositiveMonth,null);
+ near(x.outstandingPrincipal,x.capital,'outstanding debt');
+});
