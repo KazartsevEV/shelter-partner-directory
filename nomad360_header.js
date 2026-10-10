@@ -58,13 +58,12 @@
     return COPY[lang] ? lang : 'ru';
   }
   function infoMarkup(t) {
-    return '<section id="nomad360-about" class="nomad-info-block" tabindex="-1">'+
-      '<h2>'+esc(t.about)+'</h2><h3>'+esc(t.goal)+'</h3><p>'+esc(t.mission)+'</p><p>'+esc(t.project)+'</p>'+
-      '</section>'+
-      '<section id="nomad360-ai" class="nomad-info-block" tabindex="-1">'+
+    return '<section id="nomad360-ai" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.nav[1])+'</h2><span class="nomad-status">'+esc(t.development)+'</span><p>'+esc(t.ai)+'</p></section>'+
       '<section id="nomad360-factory" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.nav[2])+'</h2><span class="nomad-status">'+esc(t.development)+'</span><p>'+esc(t.factory)+'</p></section>'+
+      '<section id="nomad360-about" class="nomad-info-block" tabindex="-1">'+
+      '<h2>'+esc(t.about)+'</h2><h3>'+esc(t.goal)+'</h3><p>'+esc(t.mission)+'</p><p>'+esc(t.project)+'</p></section>'+
       '<section id="nomad360-contacts" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.contact)+'</h2><div class="nomad-links">'+
       '<a href="https://t.me/Kazartsev_EV" target="_blank" rel="noopener noreferrer">Telegram · @Kazartsev_EV</a>'+
@@ -72,11 +71,11 @@
       '<a href="mailto:nomad260393@gmail.com">nomad260393@gmail.com</a>'+
       '<a href="https://www.threads.com/@nomad260393" target="_blank" rel="noopener noreferrer">Threads · @nomad260393</a>'+
       '</div></section>'+
-      '<section id="nomad360-data" class="nomad-info-block" tabindex="-1">'+
-      '<h2>'+esc(t.dataTitle)+'</h2><p>'+esc(t.dataCopy)+'</p></section>'+
       '<section id="nomad360-license" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.licenseTitle)+'</h2><p>'+esc(t.licenseCopy)+'</p>'+
-      '<a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></section>';
+      '<a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></section>'+
+      '<section id="nomad360-data" class="nomad-info-block" tabindex="-1">'+
+      '<h2>'+esc(t.dataTitle)+'</h2><p>'+esc(t.dataCopy)+'</p></section>';
   }
   function renderInformation() {
     let sections=document.getElementById('nomad360-information');
