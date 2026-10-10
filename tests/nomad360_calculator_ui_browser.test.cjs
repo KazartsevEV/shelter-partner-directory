@@ -165,6 +165,8 @@ async function browserCase(browser,locale,expected){
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
+  await page.mouse.move(0,0);
+  await page.waitForTimeout(220); // let hover/transition settle before measuring normal state
   const v2Action=await page.locator('[data-p2-save]').evaluate(e=>{
     const x=getComputedStyle(e);return {background:x.backgroundColor,color:x.color};
   });
