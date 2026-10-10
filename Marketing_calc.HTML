@@ -335,8 +335,8 @@
         <button type="button" onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
         <div class="card p-6 md:p-8">
             <a class="nd-context-link" href="#home-screen" onclick="showHome();return false;">Услуга</a>
-            <div class="nd-service-money-chooser" aria-label="Режим расчёта услуги">
-              <h1 class="text-3xl font-bold text-slate-900">Как рассчитать деньги?</h1>
+            <div class="nd-service-money-chooser" aria-labelledby="service-financial-heading">
+              <h1 id="service-financial-heading" class="text-3xl font-bold text-slate-900">Как рассчитать деньги?</h1>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                 <button type="button" id="service-mode-simple" aria-pressed="true" class="nd-service-mode-choice" onclick="selectServiceFinancialMode('simple')"><b>Упрощённый расчёт</b><small>Для микробизнеса</small></button>
                 <button type="button" id="service-mode-full" aria-pressed="false" class="nd-service-mode-choice" onclick="selectServiceFinancialMode('full')"><b>Полный расчёт</b><small>НДС, налоги, кредит, денежный поток</small></button>
