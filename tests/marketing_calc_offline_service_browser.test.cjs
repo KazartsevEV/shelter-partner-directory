@@ -27,6 +27,11 @@ const path=require('node:path');
   assert.equal(await page.locator('#product-intro-title').textContent(),'Какую услугу оказываете?');
   await page.locator('#product-name-input').fill('Маникюр с покрытием');
   await page.locator('#product-intro-submit-label').click();
+  assert.equal(await page.locator('#product-sales-unit').inputValue(),'услуга');
+  assert.equal(await page.locator('#own-production-monthly-qty').inputValue(),'',
+    'Offline service forecast must start empty, not with a fabricated 1');
+  assert.equal(await page.locator('#own-production-monthly-qty').getAttribute('readonly'),'',
+    'The forecast comes from advertising, not manual input');
   assert.equal(await page.locator('#product-source-block').isVisible(),false);
   assert.equal(await page.locator('#product-own-form').isVisible(),true);
   for(const id of ['#product-logistics-block','#logistics-unit-result','#production-defect-panel',
@@ -50,6 +55,8 @@ const path=require('node:path');
   await page.locator('#own-product-ad-ctr').fill('2');
   await page.locator('#own-product-ad-click-lead').fill('20');
   await page.locator('#own-product-ad-lead-sale').fill('50');
+  assert.equal(await page.locator('#own-production-monthly-qty').inputValue(),'20');
+  assert.match(await page.locator('#offline-service-forecast-state').innerText(),/рекламной воронки/);
   const check=await page.evaluate(()=>{
    const item=currentProductPortfolioSnapshot();
    return {source:item.source,capacity:item.offlineServiceCapacity,forecast:item.forecastUnitsPerMonth,
@@ -59,6 +66,7 @@ const path=require('node:path');
     capital:aggregatePlanMetrics(item).requiredCapital};
   });
   assert.equal(check.source,'offline-service');
+  assert.equal(await page.evaluate(()=>currentProductPortfolioSnapshot().unit),'услуга');
   assert.equal(check.capacity,30);
   assert.equal(check.forecast,20);
   assert.equal(check.material,8);
