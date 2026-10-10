@@ -771,6 +771,12 @@ async function sourceChoiceCase(browser) {
    await page.locator('#product-source-block [data-product-source="resale"]').click();
    A.equal((await page.locator('#materials-step-name').textContent()).trim(),
      'Закупки готового товара','Resale title describes purchases without duplicate cost wording');
+   A.equal((await page.locator('#product-materials-block > div:first-child').textContent()).trim(),
+     'Себестоимость','Cost eyebrow is unchanged');
+   A.equal((await page.locator('#resale-buy-heading').textContent()).trim(),
+     'Минимальная партия','Nested purchase panel has a short non-repeating title');
+   A.equal(await page.locator('#resale-buy-panel').isVisible(),true,
+     'Procurement batch inputs are still present');
    A.equal((await page.locator('#materials-step-help').textContent()).trim(),
      'Включая логистику и хранение','Resale subtitle is concise and exact');
    A.equal(await page.locator('#materials-step-question').isVisible(),false,
