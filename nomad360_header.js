@@ -69,6 +69,7 @@
       customButton:'Заказать кастомную разработку',
       embedWorking:'Подготавливаем HTML…',embedReady:'HTML готов к скачиванию',
       embedError:'Не удалось собрать HTML. Проверьте подключение и попробуйте ещё раз.',
+      embedRetryPrompt:'Если загрузка не началась,',embedRetryLink:'нажмите здесь', 
       officialTitle:'Официальный контакт',officialCopy:'Почта проекта для вопросов, сотрудничества и обращений по лицензии.',
       unitNote:'* у.е. — деньги в вашей валюте.',rights:'© 2026 Nomad360'
     },
@@ -124,6 +125,7 @@
       customButton:'Request custom development',
       embedWorking:'Preparing HTML…',embedReady:'HTML download ready',
       embedError:'Could not prepare HTML. Check your connection and try again.',
+      embedRetryPrompt:'If the download did not start,',embedRetryLink:'click here', 
       officialTitle:'Official contact',officialCopy:'Project email for questions, cooperation and licence enquiries.',
       unitNote:'* currency units — amounts are shown in your chosen currency.',rights:'© 2026 Nomad360'
     },
@@ -179,6 +181,7 @@
       customButton:'Жеке әзірлеуге тапсырыс беру',
       embedWorking:'HTML дайындалуда…',embedReady:'HTML жүктеуге дайын',
       embedError:'HTML жасау мүмкін болмады. Интернетті тексеріп, қайта көріңіз.',
+      embedRetryPrompt:'Жүктеу басталмаса,',embedRetryLink:'осы жерді басыңыз', 
       officialTitle:'Ресми байланыс',officialCopy:'Сұрақтар, ынтымақтастық және лицензия бойынша өтініштерге арналған жоба поштасы.',
       unitNote:'* ш.б. — сіздің валютаңыздағы ақша.',rights:'© 2026 Nomad360'
     }
@@ -260,7 +263,11 @@
       '<button type="button" class="nomad-embed-download" data-nomad-download-html>'+esc(t.embedButton)+'</button>'+
       '<p class="nomad-embed-hint">'+esc(t.embedHint)+'</p>'+
       '<a class="nomad-embed-contact" href="mailto:'+PAY.email+'?subject='+encodeURIComponent('Nomad360 — '+t.customButton)+'">'+esc(t.customButton)+'</a>'+
-      '<span class="nomad-embed-status" data-nomad-embed-status role="status" aria-live="polite"></span></div></section>'+
+      '<span class="nomad-embed-status" data-nomad-embed-status role="status" aria-live="polite"></span>'+
+      '<div class="nomad-embed-manual" data-nomad-embed-manual hidden>'+
+      '<p class="nomad-embed-retry-prompt">'+esc(t.embedRetryPrompt)+'</p>'+
+      '<a class="nomad-embed-retry" data-nomad-embed-retry href="#" download="Nomad360-calculator-embed.html">'+esc(t.embedRetryLink)+'</a>'+
+      '</div></div></section>'+
       '<section id="nomad360-data" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.dataTitle)+'</h3><p>'+esc(t.dataCopy)+'</p></section>'+
       '<section id="nomad360-official" class="nomad-meta-block"><h3>'+esc(t.officialTitle)+'</h3><p>'+esc(t.officialCopy)+'</p>'+
       '<p><a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
@@ -291,6 +298,23 @@
     }
     footer.setAttribute('data-nomad-no-translate','');
     footer.innerHTML=footerMarkup(COPY[language()]);
+    showEmbedRetry(footer);
+  }
+  let preparedEmbedUrl=null;
+  function showEmbedRetry(scope=document) {
+    const manual=scope.querySelector('[data-nomad-embed-manual]');
+    const link=scope.querySelector('[data-nomad-embed-retry]');
+    if(!manual||!link)return;
+    if(preparedEmbedUrl){
+      link.href=preparedEmbedUrl;
+      link.download='Nomad360-calculator-embed.html';
+      manual.hidden=false;
+      const status=scope.querySelector('[data-nomad-embed-status]');
+      if(status)status.textContent=COPY[language()].embedReady;
+    }else{
+      manual.hidden=true;
+      link.removeAttribute('href');
+    }
   }
   /* Export the currently deployed HTML, not a live iframe. Inline every
      local script and stylesheet so that moving the HTML does not break relative
@@ -344,11 +368,16 @@
       // The embedded version has no auto-sync and may depend on public CDN
       // resources allowed by the host page's Content Security Policy.
       const blob=new Blob(['<!DOCTYPE html>\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
-      const url=URL.createObjectURL(blob);
+      const url=root.URL.createObjectURL(blob);
+      const oldUrl=preparedEmbedUrl;
+      preparedEmbedUrl=url;
+      showEmbedRetry();
+      if(oldUrl)root.URL.revokeObjectURL(oldUrl);
       const a=document.createElement('a');
       a.href=url;a.download='Nomad360-calculator-embed.html';
       document.body.append(a);a.click();a.remove();
-      root.setTimeout(()=>URL.revokeObjectURL(url),60000);
+      // Keep the same Blob URL for the user's explicit retry. Revoke only
+      // when another version is prepared or this document is unloaded.
       message(t.embedReady);
     }catch(error){
       root.console?.error?.('Nomad360: HTML embed export failed',error);
@@ -396,7 +425,7 @@
     const chooser=document.getElementById('nomad360-language-chooser');
     header.innerHTML='<div class="nomad-bar">'+
       '<a class="nomad-brand" href="#home-screen" data-nomad-go="home-screen" aria-label="Nomad360">'+
-      '<img class="nomad-logo" src="./nomad360_wolf_open_circle.png" alt="" width="44" height="44">'+
+      '<img class="nomad-logo" src="./nomad360_wolf_open_circle.png" alt="" width="56" height="56">'+
       '<span class="nomad-wordmark">Nomad<span>360</span></span></a>'+
       '<div class="nomad-lang" id="nomad360-header-lang"></div>'+
       '<button type="button" class="nomad-burger" aria-label="'+esc(isOpen?t.close:t.menu)+'" aria-controls="nomad360-header-panel" aria-expanded="'+isOpen+'">'+
@@ -458,6 +487,9 @@
     });
     document.addEventListener('keydown',event=>{
       if(event.key==='Escape')closeMenu(true);
+    });
+    root.addEventListener('pagehide',()=>{
+      if(preparedEmbedUrl){root.URL.revokeObjectURL(preparedEmbedUrl);preparedEmbedUrl=null;}
     });
     document.addEventListener('nomad360:languagechange',()=>{
       // Nomad360UI rebuilds its select before dispatching languagechange.
