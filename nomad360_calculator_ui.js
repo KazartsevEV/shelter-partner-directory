@@ -4,9 +4,9 @@
 const L={
  ru:{
   brand:'NOMAD360',eyebrow:'БИЗНЕС-КАЛЬКУЛЯТОР',
-  headline:'Из чего состоит бизнес и чем выгодно заниматься?',
-  sub:'Калькулятор Nomad360 — гибкая бизнес-модель. Первый расчёт занимает около 20 минут при наличии исходных данных.',
-  narrative:'Структура доходов и расходов, цена, прибыль и денежный поток по месяцам. Расчёт товаров, услуг и портфеля с возможностью сравнения сценариев.',
+  headline:'Бизнес-калькулятор',
+  sub:'Из чего состоит этот бизнес и чем и как выгодно заниматься?',
+  narrative:'Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что приносит живые деньги.',
   mba:'Оценка перспектив бизнес-идеи и возможностей повысить эффективность действующего бизнеса.',
   privacy:'',
   print:'Сохранить расчёт в PDF',listTitle:'Сформировать прайс-лист?',listDesc:'Все товары и услуги портфеля с рассчитанными ценами V2 — в одном документе.',
@@ -33,9 +33,9 @@ const L={
  },
  en:{
   brand:'NOMAD360',eyebrow:'BUSINESS CALCULATOR',
-  headline:'How does your business work, and what is profitable?',
-  sub:'The Nomad360 calculator is a flexible business model. With the source data ready, the first calculation takes about 20 minutes.',
-  narrative:'Income and expenses, pricing, profit and monthly cash flow. Calculations for products, services and portfolios, with scenarios to compare.',
+  headline:'Business calculator',
+  sub:'What makes up this business, and which activities are profitable?',
+  narrative:'Calculate your business idea or existing business in 20 minutes and see what generates actual cash.',
   mba:'Assess the financial outlook of a business idea or identify ways to improve an existing business.',
   privacy:'',
   print:'Save calculation as PDF',listTitle:'Create a price list?',listDesc:'All products and services with calculated V2 prices, together.',
@@ -62,9 +62,9 @@ const L={
  },
  kk:{
   brand:'NOMAD360',eyebrow:'БИЗНЕС-КАЛЬКУЛЯТОР',
-  headline:'Бизнес қалай жұмыс істейді және қай бағыт тиімді?',
-  sub:'Nomad360 калькуляторы — икемді бизнес-модель. Бастапқы деректер дайын болса, алғашқы есеп шамамен 20 минут алады.',
-  narrative:'Кірістер мен шығыстар құрылымы, баға, пайда және ай сайынғы ақша ағыны. Тауарлар, қызметтер және портфель бойынша есеп пен сценарийлерді салыстыру.',
+  headline:'Бизнес-калькулятор',
+  sub:'Бұл бизнес неден тұрады және қай бағыт тиімді?',
+  narrative:'Бизнес-идеяңызды немесе жұмыс істеп тұрған бизнесіңізді 20 минутта есептеп, нақты ақшаны қай бағыт әкелетінін біліңіз.',
   mba:'Бизнес-идеяның қаржылық келешегін бағалау және қолданыстағы бизнестің тиімділігін арттыру жолдарын анықтау.',
   privacy:'',
   print:'Есепті PDF ретінде сақтау',listTitle:'Прайс-парақ жасаймыз ба?',listDesc:'Портфельдегі барлық тауар мен қызметтің есептелген V2 бағасы бір құжатта.',
@@ -106,10 +106,9 @@ const sourceType={own:'own',resale:'rub',dropship:'drop','offline-service':'offl
 const contact='mailto:nomad260393@gmail.com';
 function hero(){
  return '<div class="nomad-marketing nomad-hero">'+
- '<div class="nomad-overline">'+tr('brand')+' <span class="nomad-dot">✦</span> '+tr('eyebrow')+'</div>'+
- '<h2>'+tr('headline')+'</h2><div class="nomad-lead">'+tr('sub')+'</div>'+
- '<p>'+tr('narrative')+'</p>'+
- '<div class="nomad-emphasis">'+tr('mba')+'</div></div>';
+ '<h1>'+tr('headline')+'</h1>'+
+ '<h2>'+tr('sub')+'</h2>'+
+ '<h3>'+tr('narrative')+'</h3></div>';
 }
 function footer(){
  return '<footer id="nomad360-footer" class="nomad-marketing nomad-footer" aria-label="Nomad360">'+
