@@ -50,100 +50,55 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#full-service-back').click();
   A.equal(await page.locator('#calculator-screen').isVisible(),true);
   await page.evaluate(()=>showServiceWorkChooser());
+  // New V1 architecture: online/offline x role, then the SAME product V1.
+  // Full offline must never ask for a secondary standalone finance screen.
   await page.locator('#service-work-offline').click();
-  A.equal(await page.locator('#full-service-offline-route').count(),0,
-    'No duplicate heading or premature CTA in one offline V1 service');
-  A.equal(await page.locator('#full-service-offline-entry').isVisible(),false,
-    'Full result action appears only after the business tax/price stage');
-  A.match(await page.locator('#product-intro-category').textContent(),/Полный расчёт/);
+  A.equal(await page.locator('#service-screen').isVisible(),true,
+    'Full offline asks for self/hired/agent before the V1 economics');
+  A.equal(await page.evaluate(()=>serviceChannel),'offline');
+  A.match(await page.locator('#service-screen h1').textContent(),/офлайн-услугу/);
+  await page.locator('#service-screen button[onclick="selectServiceMode(\'hired\')"]').click();
+  A.equal(await page.locator('#product-screen').isVisible(),true,
+    'Full offline hired should open the native product V1');
+  A.equal(await page.evaluate(()=>productionLaborMode),'workers');
+  A.equal(await page.evaluate(()=>productSource),'offline-service');
+  A.equal(await page.locator('#full-service-screen').isVisible(),false);
+  A.equal(await page.locator('#full-service-offline-entry').isVisible(),false);
+  A.equal(await page.locator('#product-screen').evaluate(e=>e.classList.contains('nd-full-single-offline')),false,
+    'Do not hide the product V1 financial report and V2 handoff');
+  await page.locator('#product-main-back').click();
+  A.equal(await page.locator('#service-screen').isVisible(),true,
+    'Back returns to chosen role, not a reset microbusiness screen');
+  await page.locator('#service-screen button[onclick="selectServiceMode(\'self\')"]').click();
+  A.equal(await page.evaluate(()=>productionLaborMode),'self');
   A.equal(await page.locator('#product-screen').isVisible(),true);
-  // Integration: read actual V1 service field values and equipment rows.
   await page.locator('#product-name-input').fill('Массаж');
   await page.locator('#product-intro-submit-label').click();
+  A.equal(await page.locator('#product-own-form').isVisible(),true,
+    'Service cost form is the actual product V1 form');
   await page.locator('[data-material-cost-mode="known"]').click();
   await page.locator('#own-materials-cost').fill('8');
-  await page.locator('[data-yn-group="productionPremises"][data-yn-value="yes"]').click();
-  await page.locator('#own-production-premises-monthly').fill('10000');
   await page.locator('#offline-service-monthly-capacity').fill('250');
   await page.locator('#own-product-ad-budget').fill('900');
   await page.locator('#own-product-ad-cpc').fill('4.5');
   await page.locator('#own-product-ad-ctr').fill('2');
   await page.locator('#own-product-ad-click-lead').fill('20');
   await page.locator('#own-product-ad-lead-sale').fill('50');
-  await page.locator('[data-yn-group="equipmentPurchase"][data-yn-value="yes"]').click();
-  await page.locator('#own-equipment-purchase-rows .equipment-purchase-cost').first().fill('3000');
-  await page.locator('#own-equipment-purchase-rows .equipment-useful-life').first().fill('12');
-  const original=await page.evaluate(()=>{
-    const item=currentProductPortfolioSnapshot();
-    // V1 prices remain the authority: stub only the approved V1 quote, not costs,
-    // inventory, capacity, amortization or the service funnel.
-    productBusinessTaxType='turnover';
-    document.getElementById('own-business-tax-pct').value='10';
-    return {forecast:item.forecastUnitsPerMonth,fixed:item.productionFixedMonthly};
-  });
-  A.equal(original.forecast,20,'Actual V1 ad funnel determines monthly service demand');
-  const beforeAssortment=await page.evaluate(()=>({
-    mode:serviceFinancialMode,source:productSource,taxHidden:document.getElementById('product-tax-block').hidden,
-    actionHidden:document.getElementById('full-service-offline-entry').hidden,
-    parent:document.getElementById('full-service-offline-entry').parentElement?.id
-  }));
+  const snapshot=await page.evaluate(()=>currentProductPortfolioSnapshot());
+  A.equal(snapshot.source,'offline-service');
+  A.equal(snapshot.forecastUnitsPerMonth,20);
+  A.equal(snapshot.offlineServiceCapacity,250);
+  A.equal(snapshot.materialsUnitCost,8);
   await page.locator('#assortment-complete-button').click();
-  // Only the V1 approved price is stubbed; original V1 tax/pricing rendering
-  // must execute before that stub is installed or it would corrupt the gate.
-  await page.evaluate(()=>{
-    calculateProductPortfolio=()=>({pricingReady:true,items:[{id:currentProductSequence,price:100}],taxPriceMultiplier:1});
-  });
-  console.log('TZ02_SINGLE_V1_GATE_ERRORS',JSON.stringify(errors));
-  const afterAssortment=await page.evaluate(()=>{
-    const tax=document.getElementById('product-tax-block'),a=document.getElementById('full-service-offline-entry');
-    return {mode:serviceFinancialMode,source:productSource,taxHidden:tax.hidden,taxCls:tax.className,
-      actionHidden:a.hidden,actionCls:a.className,parent:a.parentElement?.id,
-      actionCss:getComputedStyle(a).display,taxCss:getComputedStyle(tax).display,
-      ownHidden:document.getElementById('product-own-form').hidden,
-      ancestorIds:[a,a.parentElement,a.parentElement?.parentElement,a.parentElement?.parentElement?.parentElement].map(x=>[x?.id,x?.hidden,x?.className])
-    };
-  });
-  console.log('TZ02_SINGLE_V1_OFFLINE_GATE_DIAG',JSON.stringify({before:beforeAssortment,after:afterAssortment}));
-  A.equal(await page.locator('#full-service-offline-entry').isVisible(),true,
-    'Single-service result action is only available after confirming the service');
-  A.equal(await page.locator('#product-v2-portfolio-gateway').isVisible(),false,
-    'V2 is a separate portfolio, not the full calculation of one service');
-  A.equal(await page.locator('#product-v1-aggregate-report').isVisible(),false,
-    'Hide obsolete simplified V1 monthly results in full mode');
-  await page.locator('#full-service-offline-action').click();
-  A.equal(await page.locator('#full-service-screen').isVisible(),true,
-    'Real user click computes full V1 finance for ONE service');
-  A.match(await page.locator('.nd-full-service-header > p').first().textContent(),/^V1 ·/);
-  const adapted=await page.evaluate(()=>Nomad360FullServiceUI.getInput());
-  A.equal(adapted.monthlyForecast,20);
-  A.equal(adapted.capacity,250);
-  A.equal(adapted.unitCashCost,8);
-  A.equal(adapted.equipmentPurchase,3000);
-  A.ok(Math.abs(adapted.equipmentAmortMonthly-250)<.001);
-  A.equal(adapted.taxPct,10);
-  A.ok(Math.abs(adapted.fixedCashMonthly-original.fixed+250-900)<.01,
-    'CAPEX depreciation excluded from monthly cash expenses, ad spend included');
-  A.equal(await page.locator('#full-service-screen').isVisible(),true);
-  const v1Parity=await page.evaluate(()=>{
-    const item=productPortfolio.find(x=>x.source==='offline-service');
-    const fixed=item.productionFixedMonthly;
-    item.productionFixedMonthly=fixed-250; // V1 simplified oracle without purchased equipment.
-    const cash=calculateOfflineServiceCashFlow(calculateProductPortfolio());
-    item.productionFixedMonthly=fixed;
-    return {ready:cash.ready,tax:cash.months[0]?.taxPaid,
-      operatingCash:cash.months[0]?.cashFlow-cash.months[0]?.financedInflow};
-  });
-  A.equal(v1Parity.ready,true);
-  const fullParity=await page.evaluate(data=>Nomad360FullServiceV2.build({
-    ...data,vatPct:0,months:1,funding:'own',equipmentPurchase:0,
-    equipmentAmortMonthly:0,taxType:'turnover'
-  }),adapted);
-  A.ok(Math.abs(fullParity.months[0].tax-v1Parity.tax)<.01,
-    'N=1, VAT 0, turnover tax: full service matches unchanged V1 tax');
-  A.ok(Math.abs(fullParity.months[0].operatingCash-v1Parity.operatingCash)<.01,
-    'N=1, VAT 0, equity: full service matches V1 operating cash before startup capital');
-  await page.locator('#full-service-back').click();
-  A.equal(await page.locator('#product-screen').isVisible(),true);
+  A.equal(await page.locator('#product-tax-block').isVisible(),true,
+    'Native V1 business tax stage follows completed single service');
+  A.equal(await page.locator('#full-service-offline-entry').isVisible(),false);
+  A.equal(await page.locator('#full-service-screen').isVisible(),false);
+  A.equal(await page.locator('#product-v1-aggregate-report').count(),1);
+  A.equal(await page.locator('#product-v1-export-buttons').count(),1);
+  A.equal(await page.locator('#product-v2-portfolio-gateway').count(),1);
+  // Legacy full-service engine remains tested below for compatibility only,
+  // never as the full offline customer route.
   // Production screenshot regression: a forecast array is formatted for humans,
   // never pasted into the heading as a long comma-separated float dump.
   await page.evaluate(()=>Nomad360FullServiceUI.open({
