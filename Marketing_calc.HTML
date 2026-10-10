@@ -503,7 +503,7 @@
             <div id="product-materials-block" class="card p-6 md:p-8 scroll-mt-4">
                 <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Себестоимость</div>
                 <h2 class="text-2xl font-bold text-slate-900">
-                    <span id="materials-step-name">Из чего состоит себестоимость</span> <span class="product-name-live"></span>?
+                    <span id="materials-step-name">Из чего состоит себестоимость</span> <span class="product-name-live"></span><span id="materials-title-question">?</span>
                 </h2>
                 <p id="materials-step-help" class="text-sm text-slate-500 mt-2">Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.</p>
 
@@ -4894,10 +4894,20 @@
         }
 
         function startFreshProductCalculation() {
-            // Starting an empty calculation does NOT delete the prior local saved copy.
-            productPortfolio.length = 0;
-            currentProductSequence = 1;
-            document.getElementById('completed-product-forms').innerHTML = '';
+            // Explicit "add another" returns home but retains the saved V1
+            // product/service portfolio. The ordinary first-run remains blank.
+            const appendExisting=nextPortfolioItemRequested;
+            nextPortfolioItemRequested=false;
+            if (!appendExisting) {
+                productPortfolio.length = 0;
+                currentProductSequence = 1;
+                document.getElementById('completed-product-forms').innerHTML = '';
+            } else {
+                const saved=readSavedProductCalculation();
+                if (saved && !productPortfolio.length)
+                    saved.productPortfolio.forEach(item=>productPortfolio.push(item));
+                currentProductSequence=Math.max(0,...productPortfolio.map(item=>Number(item.id)||0))+1;
+            }
             resetCurrentProductForNext();
             configureOfflineServiceView();
             const extra = document.getElementById('product-source-unavailable');
@@ -5979,6 +5989,18 @@
             host.appendChild(frozen);
         }
 
+        // Preserve the active portfolio entry and return to the product/service
+        // branching screen. Do not reset its offline-service form in place:
+        // the next kind may be online, offline, physical goods or agency work.
+        let nextPortfolioItemRequested=false;
+        function saveAndChooseNextPortfolioItem() {
+            if (!requireAdditionalProductName()) return false;
+            if (!saveProductCalculationToBrowser()) return false;
+            nextPortfolioItemRequested=true;
+            showHome();
+            return true;
+        }
+
         function addAnotherProduct() {
             if (!requireAdditionalProductName()) return false;
             const previousProductSource=productSource;
@@ -6264,7 +6286,7 @@
             show('logistics-unit-result',!service);
             if(service||productSource==='own')set('materials-step-name',service?'Расходные материалы на одну услугу':'Из чего состоит себестоимость');
             if(service||productSource==='own')set('materials-step-help',service?
-                'Укажите расходники на одну процедуру — лак, база, пилки, перчатки и другое. Можно ввести одну сумму или состав по позициям. Без закупочной партии и складских остатков.':
+                'Например: для маникюра — лак, база и пилки; для массажа — масло, простыни и перчатки. Укажите расходники на одну процедуру общей суммой или по позициям.':
                 'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
             if(service||productSource==='own')set('materials-step-result-label',service?'Расходники на 1 оказанную услугу':'Для того, чтобы купить и привезти материалы для 1 ед.');
             set('service-sales-heading',service?'Расходы на оказание и продажу':'Расходы при продаже');
@@ -6273,7 +6295,7 @@
             set('service-assortment-kicker',service?'Мои услуги':'Ассортимент');
             set('service-assortment-heading',service?'Это все ваши услуги?':'Это весь ваш ассортимент?');
             set('service-assortment-more',service?'У меня будут другие услуги':'У меня будут другие товары');
-            set('service-assortment-add',service?'+ Добавить услугу':'+ Добавить товар');
+            set('service-assortment-add','+ Добавить товар или услугу');
             set('production-stage-heading',service?'Офлайн-услуга · рабочее место и персонал':'Производство');
             set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');
             set('production-worker-heading',service?'Кто оказывает услугу?':'Кто выполняет производство?');
@@ -6339,8 +6361,9 @@
             const steps=ready?{logistics:2,sales:3,ads:4}:{logistics:3,sales:4,ads:5};
             document.querySelectorAll('[data-detail-step]').forEach(el=>el.textContent='Итог блока '+steps[el.dataset.detailStep]);
             const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
-            set('materials-step-name',drop?'Чем я буду торговать? Подобрать ассортимент':resale?'Закупка готового товара':'Из чего состоит себестоимость');
-            set('materials-step-help',drop?'Подберите ассортимент и поставщиков. Товар покупается под заказ и направляется покупателю без склада.':resale?'Закупка готовых товаров со складом.':'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
+            set('materials-step-name',drop?'Ассортимент и поставщики':resale?'Закупки готового товара':'Из чего состоит себестоимость');
+            set('materials-title-question',ready?'':'?');
+            set('materials-step-help',drop?'С расчётом оборотных средств.':resale?'Включая логистику и хранение.':'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
             set('materials-step-result-label',drop?'Закупить и оформить 1 заказ на':resale?'Для покупки и доставки 1 готовой единицы':'Для того, чтобы купить и привезти материалы для 1 ед.');
             set('resale-buy-heading',drop?'Где и почём куплю товар?':'Себестоимость минимальной партии готового товара');
             set('resale-buy-help',drop?'Каждый товар и поставщик считаются отдельно. Закупка — только под оплачиваемый покупателем заказ.':'Каждый товар в закупочном заказе — отдельная позиция.');
@@ -7398,7 +7421,13 @@
             }
 
             document.getElementById('summary-title').textContent =
-                mode === 'agent' ? 'Экономика агента и партнёра (Итого за период)' : 'Расчётные показатели (Итого за период)';
+                mode === 'agent' ? 'Экономика агента — итог за период' : 'Расчётные показатели (Итого за период)';
+            for (const id of ['agent-owner-summary','agent-principal-context']) {
+                const node=document.getElementById(id);
+                if(node){node.hidden=mode!=='agent';node.classList.toggle('hidden',mode!=='agent');}
+            }
+            const marketingRomi=document.getElementById('res-marketing-romi-card');
+            if(marketingRomi){marketingRomi.hidden=mode==='agent';marketingRomi.classList.toggle('hidden',mode==='agent');}
 
             initInputs();
             calculate();
@@ -7784,7 +7813,8 @@
                 [isAgent ? 'ROAS партнёра' : 'ROAS (возврат рекламы)', (totalBudget?totalMonth.mNetRev/totalBudget:0).toFixed(2) + 'x'],
                 ['CPA (цена клиента реклама)', displayMoneyNode(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
                 [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', displayMoneyNode(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
-                [isAgent ? 'ROMI партнёра' : 'ROMI (окупаемость инвестиций)', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x']
+                [isAgent ? 'Рентабельность вложений принципала' : 'Рентабельность вложений', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x'],
+                ...(!isAgent ? [['ROMI рекламы', (totalBudget>0?(totalMonth.mRevTotal-totalMonth.mAcq-totalMonth.mExecutor-totalBudget)/totalBudget*100:0).toFixed(2)+'%']] : [])
             ];
 
             const summaryTbody = document.getElementById('summary-table');
@@ -7824,10 +7854,18 @@
                 profitSub.textContent = 'После всех налогов';
                 setV1DisplayedMoney('res-profit',accountingNetProfit);
 
-                romiLabel.textContent = 'ROMI';
-                romiSub.textContent = 'Окупаемость всех вложений';
+                romiLabel.textContent = 'Рентабельность вложений';
+                romiSub.textContent = 'Доходность относительно всех расходов';
                 document.getElementById('res-romi').textContent = (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x';
 
+                // Classic marketing-only return: contribution from ad-attributed
+                // sales after acquiring/direct executor costs, net of ad spend.
+                // This is separate from the existing all-expenses ratio.
+                const marketingReturn=totalBudget>0
+                    ? (totalMonth.mRevTotal-totalMonth.mAcq-totalMonth.mExecutor-totalBudget)/totalBudget*100
+                    : null;
+                document.getElementById('res-marketing-romi').textContent=
+                    marketingReturn===null?'—':marketingReturn.toFixed(2)+'%';
                 thirdLabel.textContent = 'CPA / CAC';
                 thirdSub.textContent = 'Рекламный / Полный';
                 setV1DisplayedMoney('res-cpa',totalMonth.mDeals > 0 ? totalBudget / totalMonth.mDeals : 0);
