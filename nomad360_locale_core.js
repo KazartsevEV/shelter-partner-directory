@@ -1099,6 +1099,8 @@ rows.push(
  ["Товар везут ко мне из-за границы?","Is the product imported to you from abroad?","Тауар сізге шетелден жеткізіле ме?"],
  ["Для покупки и доставки 1 готовой единицы","To buy and receive one finished unit","Бір дайын тауарды сатып алып, жеткізу үшін"],
  ["Чем я буду торговать? Подобрать ассортимент","What will I sell? Select product range","Не сатамын? Ассортиментті таңдау"],
+ ["Подбор ассортимента","Assortment selection","Ассортиментті таңдау"],
+ ["С расчётом оборотных средств","Including working capital requirements","Айналым қаражатын есепке ала отырып"],
  ["Подберите ассортимент и поставщиков. Товар покупается под заказ и направляется покупателю без склада.","Select products and suppliers. Items are purchased to order and delivered directly to customers without warehousing.","Ассортимент пен жеткізушілерді таңдаңыз. Тауар тапсырыс бойынша сатып алынып, қоймасыз тікелей сатып алушыға жіберіледі."],
  ["Где и почём куплю товар?","Where and at what price will I source goods?","Тауарды қайдан және қандай бағаға аламын?"],
  ["Каждый товар и поставщик считаются отдельно. Закупка — только под оплачиваемый покупателем заказ.","Each item and supplier is costed separately. Procurement occurs only for a customer-paid order.","Әр тауар мен жеткізуші бөлек есептеледі. Сатып алу тек сатып алушы төлеген тапсырысқа жасалады."],
