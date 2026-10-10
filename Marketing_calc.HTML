@@ -7950,7 +7950,8 @@
               onlineV1PortfolioSnapshot={
                 mode:serviceMode,values:{...v},payers:{...agentPayers},
                 period:{deals:totalMonth.mDeals,grossRevenue:totalMonth.mGrossSales,
-                  agentIncome:totalMonth.mAgentIncome,executorCost:totalMonth.mExecutor}
+                  agentIncome:totalMonth.mAgentIncome,executorCost:totalMonth.mExecutor,
+                  monthlyDeals:monthData.map(month=>month.mDeals)}
               };
             }
 
