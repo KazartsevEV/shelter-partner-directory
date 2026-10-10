@@ -2,10 +2,10 @@
 /* Header: flat, 1px borders, navy and terracotta. Mobile first; desktop from 1200px. */
 .nomad-header{--nh-navy:#16375a;--nh-accent:#b8573a;--nh-line:#d5dbe3;position:relative;z-index:100;margin-bottom:1.5rem;background:#fff;border-bottom:1px solid var(--nh-line);color:var(--nh-navy);font-family:'IBM Plex Sans',Inter,system-ui,sans-serif}
 .nomad-header,.nomad-header *{box-sizing:border-box}
-.nomad-bar{display:flex;align-items:center;height:72px;padding:0 16px}
+.nomad-bar{display:flex;align-items:center;height:80px;padding:0 16px}
 .nomad-brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none}
-.nomad-logo{width:40px;height:40px;display:block}
-.nomad-wordmark{font-size:20px;font-weight:600;letter-spacing:-.01em;line-height:1}
+.nomad-logo{width:50px;height:50px;display:block;flex-shrink:0}
+.nomad-wordmark{font-size:25px;font-weight:700;letter-spacing:-.01em;line-height:1}
 .nomad-wordmark span{color:var(--nh-accent)}
 .nomad-lang{margin-left:auto;margin-right:12px}
 .nomad-lang select{height:40px;padding:0 10px;border:1px solid var(--nh-line);border-radius:0;background:#fff;color:var(--nh-navy);font:600 14px 'IBM Plex Sans',Inter,system-ui,sans-serif;cursor:pointer}
@@ -13,7 +13,7 @@
 .nomad-burger[aria-expanded="true"]{background:var(--nh-navy);color:#fff}
 .nomad-burger .i-close,.nomad-burger[aria-expanded="true"] .i-open{display:none}
 .nomad-burger[aria-expanded="true"] .i-close{display:block}
-.nomad-panel{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;max-height:calc(100vh - 72px);overflow:auto;padding:0 16px 24px;background:#fff;border-bottom:1px solid var(--nh-line)}
+.nomad-panel{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;max-height:calc(100vh - 80px);overflow:auto;padding:0 16px 24px;background:#fff;border-bottom:1px solid var(--nh-line)}
 .nomad-header.is-open .nomad-panel{display:flex}
 .nomad-nav{display:flex;flex-direction:column}
 .nomad-nav a{display:flex;align-items:center;justify-content:space-between;height:56px;border-bottom:1px solid var(--nh-line);font-size:18px;font-weight:500;color:var(--nh-navy);text-decoration:none}
@@ -27,13 +27,13 @@
 .nomad-header a:focus-visible,.nomad-header button:focus-visible,.nomad-header select:focus-visible{outline:2px solid var(--nh-accent);outline-offset:3px}
 @media(min-width:1200px){
  .nomad-bar{padding:0 40px}
- .nomad-logo{width:44px;height:44px}
+ .nomad-logo{width:58px;height:58px}
  .nomad-brand{gap:12px}
- .nomad-wordmark{font-size:22px}
+ .nomad-wordmark{font-size:29px}
  .nomad-burger,.nomad-sec{display:none}
  .nomad-header .nomad-panel,.nomad-header.is-open .nomad-panel{display:contents}
  .nomad-nav{order:1;flex-direction:row;align-items:stretch;gap:32px;margin-left:auto;padding-right:32px}
- .nomad-nav a{height:72px;border-bottom:3px solid transparent;font-size:15px}
+ .nomad-nav a{height:80px;border-bottom:3px solid transparent;font-size:15px}
  .nomad-nav a[aria-current="page"]{border-bottom-color:var(--nh-accent)}
  .nomad-nav a[aria-current="page"]:after{display:none}
  .nomad-lang{order:2;align-self:stretch;display:flex;align-items:center;margin:0;padding:0 24px;border-left:1px solid var(--nh-line);border-right:1px solid var(--nh-line)}
@@ -115,17 +115,18 @@
 @media(max-width:660px){
  .nomad-information{grid-template-columns:minmax(0,1fr);margin-top:24px}
  .nomad-info-block{padding:20px 18px}
- .nomad-header .nomad-bar{gap:4px}
+ .nomad-header .nomad-bar{height:72px;gap:4px}
+ .nomad-header .nomad-panel{max-height:calc(100vh - 72px)}
  .nomad-header .nomad-brand{gap:7px}
- .nomad-header .nomad-logo{width:34px;height:34px}
- .nomad-header .nomad-wordmark{font-size:18px}
+ .nomad-header .nomad-logo{width:42px;height:42px}
+ .nomad-header .nomad-wordmark{font-size:21px}
  .nomad-header .nomad-lang{margin-right:7px}
  .nomad-header .nomad-lang select{padding:0 5px;font-size:12px}
 }
 @media(max-width:360px){
- .nomad-header .nomad-wordmark{font-size:16px}
+ .nomad-header .nomad-wordmark{font-size:19px}
  .nomad-header .nomad-brand{gap:5px}
- .nomad-header .nomad-logo{width:30px;height:30px}
+ .nomad-header .nomad-logo{width:38px;height:38px}
  .nomad-header .nomad-bar{padding:0 10px}
  .nomad-header .nomad-lang{margin-right:4px}
 }
@@ -223,3 +224,10 @@ a.nomad-pay-value{text-decoration:underline}
   outline:3px solid #f3a17a;
   outline-offset:3px;
 }
+
+/* Fallback link stays valid while the export page is open. */
+.nomad-embed-retry{padding:13px 15px;background:#ed8e63;border:1px solid #ed8e63;color:#16375a;font:600 15px/1.45 'IBM Plex Sans',Inter,system-ui,sans-serif}
+.nomad-embed-retry[hidden]{display:none}
+.nomad-footer .nomad-embed-retry-link{color:#16375a;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.nomad-footer .nomad-embed-retry-link:hover{color:#0d2945}
+.nomad-footer .nomad-embed-retry-link:focus-visible{outline:3px solid #16375a;outline-offset:3px}
