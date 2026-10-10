@@ -327,7 +327,7 @@
         </div>
     </section>
 
-    <section id="portfolio-v2-screen" class="max-w-5xl mx-auto hidden" hidden>
+    <section id="portfolio-v2-screen" class="max-w-5xl mx-auto hidden nd-v2-linked-screen" hidden>
         <div id="portfolio-v2-root"></div>
     </section>
 
@@ -1820,6 +1820,18 @@
             showOnly('home-screen');
             updateSavedProductEntry();
             window.LinkedPortfolioV2UI?.updateEntry();
+        }
+        // One destination for all "add another product/service" CTA flows.
+        // The intro cards and saved drafts stay in Home, but users land at the
+        // actual product/service choice instead of the top hero.
+        function showHomeAtSellingChoice() {
+            showHome();
+            const choice=document.getElementById('nomad360-selling-choice');
+            if(!choice)return;
+            const header=document.getElementById('nomad360-header');
+            const offset=(header?.getBoundingClientRect().height||0)+16;
+            const top=Math.max(0,choice.getBoundingClientRect().top+window.scrollY-offset);
+            window.scrollTo({top,behavior:'instant'});
         }
         function showServiceWorkChooser() { showOnly('service-work-screen'); }
         function showServiceChooser() { showOnly('service-screen'); }
@@ -6030,7 +6042,7 @@
             if (!requireAdditionalProductName()) return false;
             if (!saveProductCalculationToBrowser()) return false;
             nextPortfolioItemRequested=true;
-            showHome();
+            showHomeAtSellingChoice();
             return true;
         }
 
