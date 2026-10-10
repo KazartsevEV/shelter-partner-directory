@@ -15,18 +15,23 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.locator('html').getAttribute('lang'),expected.lang);
   A.match(await page.locator('#nomad360-hero').textContent(),expected.tagline);
   const approved={
-   ru:['Бизнес-калькулятор','Из чего состоит этот бизнес и чем и как выгодно заниматься?',
+   ru:['Бизнес-калькулятор','Каким бизнесом мне выгодно заниматься?',
      'Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что приносит живые деньги.'],
-   en:['Business calculator','What makes up this business, and which activities are profitable?',
+   en:['Business calculator','Which business would be most profitable for me?',
      'Calculate your business idea or existing business in 20 minutes and see what generates actual cash.'],
-   kk:['Бизнес-калькулятор','Бұл бизнес неден тұрады және қай бағыт тиімді?',
+   kk:['Бизнес-калькулятор','Маған қандай бизнеспен айналысқан тиімді?',
      'Бизнес-идеяңызды немесе жұмыс істеп тұрған бизнесіңізді 20 минутта есептеп, нақты ақшаны қай бағыт әкелетінін біліңіз.']
   };
   A.deepEqual(await page.locator('#nomad360-hero h1, #nomad360-hero h2, #nomad360-hero h3').allTextContents(),approved[expected.lang],
     'Approved H1 → H2 → H3 must have exact text and order');
-  A.equal(await page.locator('#nomad360-calculation-list ol > li').count(),6,
+  A.equal(await page.locator('#nomad360-calculation-list ul > li').count(),6,
     'Original six-point calculation list must remain visible');
-  A.equal(await page.locator('#nomad360-calculation-list ol').isVisible(),true);
+  A.equal(await page.locator('#nomad360-calculation-list ul').isVisible(),true);
+  const lead={ru:'После расчёта вы получите:',en:'After the calculation, you get:',kk:'Есеп нәтижесінде аласыз:'}[expected.lang];
+  await page.waitForFunction(v=>document.querySelector('#nomad360-calculation-list p')?.textContent?.trim()===v,lead);
+  const bullets=await page.locator('#nomad360-calculation-list ul li').allTextContents();
+  A.match(bullets[0],{ru:/Себестоимость/,en:/Cost per product/,kk:/өзіндік құны/}[expected.lang]);
+  A.match(bullets[5],{ru:/Денежный поток/,en:/Monthly cash flow/,kk:/Ай сайынғы ақша ағыны/}[expected.lang]);
   A.equal(await page.locator('#home-screen').evaluate(el=>
     [...el.children].findIndex(child=>child.id==='nomad360-hero')+1===
     [...el.children].findIndex(child=>child.id==='nomad360-calculation-list')),true,
@@ -146,7 +151,7 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.locator('#nomad360-information #nomad360-about h2').textContent(),'About Nomad360');
 
   A.equal(await page.locator('html').getAttribute('lang'),'en');
-  A.match(await page.locator('#nomad360-hero h2').textContent(),/What makes up this business/);
+  A.match(await page.locator('#nomad360-hero h2').textContent(),/Which business would be most profitable/);
   const after=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(after.cashflow.periodPnl.netProfit,before.cashflow.periodPnl.netProfit,'language cannot touch financial model');
   A.equal(after.items.length,5);
@@ -189,8 +194,8 @@ async function browserCase(browser,locale,expected){
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
-  await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Из чего состоит этот бизнес/});
-  await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Бұл бизнес неден тұрады/});
-  await browserCase(browser,'en-US',{lang:'en',tagline:/What makes up this business/});
+  await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Каким бизнесом мне выгодно заниматься/});
+  await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Маған қандай бизнеспен айналысқан тиімді/});
+  await browserCase(browser,'en-US',{lang:'en',tagline:/Which business would be most profitable/});
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_UI_PACKAGING_BROWSER_RED',e.stack||e);process.exitCode=1});
