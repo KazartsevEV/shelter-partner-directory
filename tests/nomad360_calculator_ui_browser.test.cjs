@@ -657,6 +657,62 @@ async function sourceChoiceCase(browser) {
      'Path labels balance lines without orphan words');
    A.equal(await page.locator('#product-source-block [data-product-source="offline-service"]').count(),0,
      'Offline service is not a product procurement route');
+
+  await page.locator('#product-source-block [data-product-source="own"]').click();
+  await page.locator('#material-cost-entry-panel').waitFor({state:'visible'});
+  const getAppearance=async selector=>page.locator(selector).evaluate(el=>{
+    const c=getComputedStyle(el);
+    return {bg:c.backgroundColor,color:c.color,border:c.borderTopColor};
+  });
+  const bright='rgb(237, 142, 99)',navy='rgb(22, 55, 90)',vermilion='rgb(184, 87, 58)';
+  const advice=await getAppearance('#product-assortment-gate .bg-amber-50');
+  A.deepEqual(advice,{bg:navy,color:bright,border:bright},
+    'Важно! and informational guidance uses navy card with bright orange copy');
+  A.equal(await page.locator('#product-assortment-gate .bg-amber-50 strong')
+    .evaluate(el=>getComputedStyle(el).color),bright,'Nested emphasis inherits orange advice text');
+  const resultIds=[
+    ['#materials-landed-result','#own-materials-landed-unit-cost'],
+    ['#production-unit-result','#own-production-unit-cost'],
+    ['#logistics-unit-result','#own-logistics-unit-cost'],
+    ['#sales-cost-result','#own-sales-result-unit'],
+    ['#product-ad-result','#own-product-ad-cac-unit']
+  ];
+  for(const [panel,amount] of resultIds){
+    A.equal((await getAppearance(panel)).border,bright,panel+' summary outline is orange');
+    A.equal(await page.locator(amount).evaluate(el=>getComputedStyle(el).color),
+      vermilion,amount+' readable branded orange instead of green');
+  }
+  A.equal(await page.locator('#materials-qty-entry-panel')
+    .evaluate(el=>getComputedStyle(el).borderTopColor),bright,
+    'Former green quantity-entry borders are orange');
+  const known=page.locator('[data-material-cost-mode="known"]');
+  const calculate=page.locator('[data-material-cost-mode="calculate"]');
+  await known.click();
+  A.equal((await getAppearance('[data-material-cost-mode="known"]')).bg,bright);
+  await calculate.click();
+  A.equal((await getAppearance('[data-material-cost-mode="calculate"]')).bg,bright,
+    'Revealed cost breakdown trigger is orange');
+  A.equal((await getAppearance('[data-material-cost-mode="calculate"]')).color,navy);
+  A.equal((await getAppearance('[data-material-cost-mode="known"]')).bg,
+    'rgb(255, 255, 255)','Inactive material option returns to neutral white');
+  A.equal(await page.locator('#own-materials-calc-wrap').isVisible(),true,
+    'Selecting alternate option still reveals the detailed materials form');
+  const importedYes=page.locator('[data-yn-group="materialsImported"][data-yn-value="yes"]');
+  const importedNo=page.locator('[data-yn-group="materialsImported"][data-yn-value="no"]');
+  await importedYes.click();
+  A.equal((await getAppearance('[data-yn-group="materialsImported"][data-yn-value="yes"]')).bg,bright);
+  A.equal((await getAppearance('[data-yn-group="materialsImported"][data-yn-value="yes"]')).color,navy);
+  A.equal((await getAppearance('[data-yn-group="materialsImported"][data-yn-value="no"]')).bg,
+    'rgb(255, 255, 255)');
+  A.equal(await page.locator('#own-import-details').isVisible(),true,
+    'Pressed orange variant opens the dependent import fields');
+  await importedNo.click();
+  A.equal((await getAppearance('[data-yn-group="materialsImported"][data-yn-value="no"]')).bg,bright);
+  A.equal((await getAppearance('[data-yn-group="materialsImported"][data-yn-value="yes"]')).bg,
+    'rgb(255, 255, 255)');
+  A.equal(await page.locator('#own-import-details').isVisible(),false,
+    'Collapsed import fields retain the original business interaction');
+  console.log('NOMAD360_V1_ORANGE_STATE_BROWSER_GREEN');
   A.deepEqual(errors,[],'Source routing should not throw');
   console.log('NOMAD360_LABEL_ONLY_ROUTE_CHOICES_GREEN');
  }finally{await context.close()}
