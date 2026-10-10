@@ -1175,3 +1175,96 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
     overflow:visible;
   }
 }
+
+
+/* V1-ORANGE-02 — state/color contract for both V1 goods and services.
+   Bright brand orange identifies the active revealed-field option, while the
+   darker brand vermilion keeps numbers readable over white result panels.
+   Error/red colors and accounting logic are intentionally left untouched. */
+body .nd-v1-screen :is(
+  .text-emerald-700,.text-emerald-800,
+  .text-green-700,.text-green-800
+):not([role="alert"]):not(.text-red-700){
+  color:var(--nd-brand-vermillion,#b8573a) !important;
+}
+/* Legacy green summary boundaries become a single orange outline. This
+   excludes choice buttons (selected state is handled separately below). */
+body .nd-v1-screen :is(
+  [class*="border-emerald-"],[class*="border-green-"]
+):not(button):not([role="alert"]){
+  border-color:var(--nd-v1-cta) !important;
+}
+body .nd-v1-product :is(
+  #materials-landed-result,
+  #production-unit-result,
+  #logistics-unit-result,
+  #sales-cost-result,
+  #product-ad-result
+){
+  border:2px solid var(--nd-v1-cta) !important;
+  background:var(--nd-v1-soft);
+  box-shadow:none;
+}
+body .nd-v1-product :is(
+  #own-materials-landed-unit-cost,
+  #own-production-unit-cost,
+  #own-logistics-unit-cost,
+  #own-sales-result-unit,
+  #own-product-ad-cac-unit,
+  #own-logistics-selected-total,
+  #own-sales-fixed-per-unit,
+  #own-sales-variable-total-pct,
+  #own-product-ad-full-unit
+){
+  color:var(--nd-brand-vermillion,#b8573a) !important;
+}
+/* The controller already maintains aria-pressed and/or .yn-choice-selected.
+   Reuse those live states; an inactive alternative remains white/navy.
+   Hover and keyboard focus preserve the active highlight. */
+body .nd-v1-product button:is(
+  .material-cost-mode-choice,
+  .yn-choice,
+  .production-labor-choice,
+  .import-payer-choice,
+  .logistics-payer-choice,
+  .business-tax-choice
+):is([aria-pressed="true"],.yn-choice-selected),
+body .nd-v1-product button:is(
+  .material-cost-mode-choice,
+  .yn-choice,
+  .production-labor-choice,
+  .import-payer-choice,
+  .logistics-payer-choice,
+  .business-tax-choice
+):is([aria-pressed="true"],.yn-choice-selected):is(:hover,:focus-visible){
+  background:var(--nd-v1-cta) !important;
+  border-color:var(--nd-v1-cta) !important;
+  color:var(--nd-v1-navy) !important;
+  box-shadow:inset 0 0 0 1px var(--nd-v1-cta);
+}
+body .nd-v1-product button:is(
+  .material-cost-mode-choice,
+  .yn-choice,
+  .production-labor-choice,
+  .import-payer-choice,
+  .logistics-payer-choice,
+  .business-tax-choice
+):not([aria-pressed="true"]):not(.yn-choice-selected){
+  background:#fff;
+  color:var(--nd-v1-navy);
+  border-color:#9bacbc;
+}
+/* Advice/info notices use a navy block with orange type rather than the
+   unrelated yellow warning palette. Actual role=alert/error stays red. */
+body #product-screen.nd-v1-product :is(.bg-amber-50,.bg-yellow-50):not([role="alert"]),
+body #product-screen.nd-v1-product #product-source-unavailable{
+  background:var(--nd-v1-navy) !important;
+  border:1px solid var(--nd-v1-cta) !important;
+  color:var(--nd-v1-cta) !important;
+  box-shadow:none;
+}
+body #product-screen.nd-v1-product :is(.bg-amber-50,.bg-yellow-50):not([role="alert"])
+  :is(strong,b,span,p,em,a),
+body #product-screen.nd-v1-product #product-source-unavailable :is(strong,b,span,p,em,a){
+  color:var(--nd-v1-cta) !important;
+}
