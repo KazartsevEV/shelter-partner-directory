@@ -19,8 +19,8 @@
 .nomad-nav a{display:flex;align-items:center;justify-content:space-between;height:56px;border-bottom:1px solid var(--nh-line);font-size:18px;font-weight:500;color:var(--nh-navy);text-decoration:none}
 .nomad-nav a[aria-current="page"]{font-weight:600}
 .nomad-nav a[aria-current="page"]:after{content:'';width:10px;height:10px;border-radius:50%;background:var(--nh-accent)}
-.nomad-cta{display:flex;align-items:center;justify-content:center;height:52px;margin-top:24px;background:var(--nh-navy);border:1px solid var(--nh-navy);color:#fff;font-size:16px;font-weight:600;text-decoration:none}
-.nomad-cta:hover{background:#0f2a46}
+.nomad-cta{display:flex;align-items:center;justify-content:center;height:52px;margin-top:24px;background:#ed8e63;border:1px solid #ed8e63;color:#16375a;font-size:16px;font-weight:700;text-decoration:none}
+.nomad-cta:hover{background:#f3a17a;border-color:#f3a17a;color:#16375a}
 .nomad-sec{display:flex;justify-content:flex-end;gap:16px;margin-top:20px;font-size:14px}
 .nomad-sec a{color:var(--nh-navy);text-decoration:none}
 .nomad-sec a:hover,.nomad-nav a:hover{color:var(--nh-accent)}
@@ -190,7 +190,7 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-embed-actions{display:grid;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid var(--nf-line);max-width:460px}
 .nomad-embed-title{margin:0;color:#fff;font:700 17px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif}
 .nomad-embed-download,.nomad-embed-contact{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;padding:11px 14px;border:1px solid #f4f7fc;background:#f4f7fc;color:#16375a;font:700 15px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif;text-decoration:none;text-align:center;cursor:pointer}
-.nomad-embed-download:hover:not(:disabled){background:#fff;border-color:#fff}
+.nomad-embed-download:hover:not(:disabled){background:#f3a17a;border-color:#f3a17a;color:#16375a}
 .nomad-embed-download:disabled{opacity:.65;cursor:wait}
 .nomad-embed-contact{background:transparent;border-color:#f4f7fc;color:#fff}
 .nomad-embed-contact:hover{background:rgba(255,255,255,.12)}
@@ -198,3 +198,28 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-embed-status{display:block;color:#fff;font-size:14px;font-weight:600;line-height:1.4}
 .nomad-embed-status:empty{display:none}
 .nomad-embed-download:focus-visible,.nomad-embed-contact:focus-visible{outline:3px solid #f0b9a5;outline-offset:3px}
+
+/* CTA-01: only the conversion-oriented action is vermilion/orange.
+   Brand vermilion #b8573a is lightened for navy-label readability.
+   The custom-development link remains a white secondary action. */
+.nomad-embed-download {
+  background:#ed8e63;
+  border-color:#ed8e63;
+  color:#16375a;
+  font-size:17px;
+  font-weight:700;
+}
+.nomad-footer .nomad-embed-contact {
+  background:transparent;
+  border-color:#f4f7fc;
+  color:#fff;
+  font-weight:600;
+}
+.nomad-footer .nomad-embed-contact:hover {
+  background:rgba(255,255,255,.12);
+  color:#fff;
+}
+.nomad-header .nomad-cta:focus-visible,.nomad-footer .nomad-embed-download:focus-visible {
+  outline:3px solid #f3a17a;
+  outline-offset:3px;
+}
