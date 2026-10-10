@@ -35,6 +35,20 @@ const server=createServer(async(req,res)=>{
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
   A.match(await license.textContent(),/Встроить калькулятор на мой сайт/);
   A.match(await license.textContent(),/Автоматическое обновление не поддерживается/);
+  const visual=await license.evaluate(el=>{
+    const download=getComputedStyle(el.querySelector('.nomad-embed-download'));
+    const secondary=getComputedStyle(el.querySelector('.nomad-embed-contact'));
+    return {
+      downloadBackground:download.backgroundColor,downloadColor:download.color,
+      secondaryBackground:secondary.backgroundColor,secondaryColor:secondary.color,
+      hintFont:parseFloat(getComputedStyle(el.querySelector('.nomad-embed-hint')).fontSize)
+    };
+  });
+  A.equal(visual.downloadBackground,'rgb(237, 142, 99)','Embed is the orange primary footer CTA');
+  A.equal(visual.downloadColor,'rgb(22, 55, 90)','Primary CTA label uses navy');
+  A.equal(visual.secondaryBackground,'rgba(0, 0, 0, 0)','Custom request is not a second orange CTA');
+  A.equal(visual.secondaryColor,'rgb(255, 255, 255)','Footer secondary action stays white');
+  A.ok(visual.hintFont>=14,'Embed instruction must remain legible');
   const mail=await license.locator('.nomad-embed-contact').getAttribute('href');
   A.ok(mail.startsWith('mailto:nomad260393@gmail.com?subject='));
   A.match(decodeURIComponent(mail),/Заказать кастомную разработку/);
