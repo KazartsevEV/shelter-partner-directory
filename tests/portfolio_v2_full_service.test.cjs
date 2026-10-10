@@ -85,3 +85,24 @@ test('TZ02 V1 online month-by-month demand is preserved, later horizon extends l
    near(first.months[i].revenue,projected.months[i].revenue,'V1 demand month '+(i+1));
  }
 });
+
+test('TZ02 equivalent one-SKU goods and service share VAT, tax and interest bases',()=>{
+ const Goods=require('../portfolio_v2_linked_engine.js');
+ const own=Goods.fromV1({tax:{type:'profit',pct:10},skus:[{
+   id:'sku-test',name:'Equivalent sale',source:'own',fixedPriceFromV1:true,
+   unitCost:8,forecastUnitsPerMonth:200,adBudget:0,baseCac:0,
+   priceMin:100,priceMax:100,maxDiscountPct:0,minimumMarginPct:0,
+   targetMarginPct:0,salesFixedMonthly:10000,adManagement:0,
+   variableSalesPct:0,creditPrincipal:11160,creditServiceMonthly:223.2,
+   creditMonths:3,vatPct:12,inventoryQty:200,materialsBatchTotal:1600,
+   productionTotal:0,reserveAmount:1160
+ }]});
+ const product=Goods.build(own);
+ A.equal(product.ready,true,JSON.stringify(product.errors));
+ const service=build({...base,funding:'credit',annualRatePct:24,creditMonths:3});
+ near(product.items[0].revenue,service.months[0].revenue,'item net VAT revenue',.01);
+ near(product.items[0].creditMonthly,service.months[0].interest,'item monthly interest');
+ near(product.items[0].actualAfterTaxMargin,
+   service.months[0].revenue>0?service.months[0].profit/service.months[0].revenue*100:0,
+   'item after tax profit margin',.05);
+});
