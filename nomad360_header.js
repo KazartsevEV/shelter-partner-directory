@@ -93,6 +93,9 @@
       document.body.prepend(header);
     }
     const isOpen=header.classList.contains('is-open');
+    // Keep the live language select attached while rebuilding the header.
+    // Nomad360UI owns this control; re-creating it here would lose locale wiring.
+    const chooser=document.getElementById('nomad360-language-chooser');
     header.innerHTML='<div class="nomad-bar">'+
       '<a class="nomad-brand" href="#home-screen" data-nomad-go="home-screen" aria-label="Nomad360">'+
       '<img class="nomad-logo" src="./nomad360_wolf_open_circle.png" alt="" width="44" height="44">'+
@@ -110,7 +113,6 @@
       '<div class="nomad-sec"><a href="#nomad360-license" data-nomad-go="nomad360-license">'+esc(t.license)+'</a>'+
       '<a href="#nomad360-data" data-nomad-go="nomad360-data">'+esc(t.data)+'</a></div>'+
       '</div></div>';
-    const chooser=document.getElementById('nomad360-language-chooser');
     if(chooser) header.querySelector('#nomad360-header-lang').append(chooser);
     header.classList.toggle('is-open',isOpen);
   }
