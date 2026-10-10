@@ -130,7 +130,7 @@ async function browserCase(browser,locale,expected){
   A.equal(await header.locator('.nomad-burger').isVisible(),true);
 
   A.doesNotMatch(await page.locator('#nomad360-hero').textContent(),/MBA|дорогие консультанты|expensive consulting/);
-  A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI marketer|AI-маркетолог/);
+  A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI Marketer/i);
   const footer=await page.locator('#nomad360-footer').textContent();
   A.ok(footer.includes('+7 777 129 56 93')&&footer.includes('+7 977 986 74 41'));
   A.equal(await page.locator('#nomad360-footer').count(),1,'Exactly one new footer');
