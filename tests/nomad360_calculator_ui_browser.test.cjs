@@ -59,6 +59,27 @@ async function browserCase(browser,locale,expected){
   A.equal(presentation.footerBackground,'rgb(22, 55, 90)',
     'Claude footer must retain approved navy background');
   A.equal(presentation.footerShadow,'none','Support footer should not look like a colored banner');
+  const canvasColors=await page.evaluate(()=>{
+    const computed=sel=>getComputedStyle(document.querySelector(sel));
+    return {
+      page:computed('body').backgroundColor,
+      hero1:computed('#nomad360-hero h1').color,
+      hero2:computed('#nomad360-hero h2').color,
+      hero3:computed('#nomad360-hero h3').color,
+      calcBackground:computed('#nomad360-calculation-list').backgroundColor,
+      primaryCardBackground:computed('#nomad360-selling-choice').backgroundColor,
+      headerBackground:computed('#nomad360-header').backgroundColor,
+      note:computed('#product-screen .nd-canvas-note').color,
+      exampleTitle:computed('#nomad360-home-secondary .nomad-example-title').color,
+      exampleCopy:computed('#nomad360-home-secondary .nomad-example-copy p').color
+    };
+  });
+  A.equal(canvasColors.page,'rgb(22, 55, 90)','Canvas matches the navy footer');
+  A.ok(['hero1','hero2','hero3','note','exampleTitle','exampleCopy'].every(k=>
+    canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
+  A.ok(['calcBackground','primaryCardBackground','headerBackground'].every(k=>
+    canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
+
   for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
     A.equal(await page.locator('#'+id).evaluate(e=>e.className.includes('emerald')),false,
       'Home saved-state UI should use neutral colors: '+id);
@@ -114,7 +135,7 @@ async function browserCase(browser,locale,expected){
        thickness:css.textDecorationThickness
      };
    });
-   A.equal(exampleLink.color,'rgb(22, 55, 90)','Secondary link stays on-brand navy');
+   A.equal(exampleLink.color,'rgb(255, 255, 255)','Example link on navy canvas must be white');
    A.equal(exampleLink.underline,'rgb(184, 87, 58)','Secondary link underline stays terracotta');
    A.match(exampleLink.style,/underline/,'Link should have a real underline, not a bar border');
    A.equal(exampleLink.thickness,'2px','Underline is conspicuous without becoming a CTA');
@@ -171,6 +192,14 @@ async function browserCase(browser,locale,expected){
       line:css.textDecorationLine,size:parseFloat(css.fontSize),
       transform:css.textTransform,href:el.getAttribute('href')};
   });
+
+  const outsideLink=await page.locator('#service-work-screen > button').evaluate(el=>{
+    const c=getComputedStyle(el);return {
+      color:c.color,underline:c.textDecorationColor,line:c.textDecorationLine};
+  });
+  A.equal(outsideLink.color,'rgb(255, 255, 255)','Navigation outside white cards stays white');
+  A.equal(outsideLink.underline,'rgb(184, 87, 58)','Outdoor nav keeps orange underline');
+  A.match(outsideLink.line,/underline/);
   const serviceLink=page.locator('#service-work-screen a.nd-context-link');
   A.equal((await serviceLink.textContent()).trim(),serviceLabel,
     'Service category is shown once, not doubled');
