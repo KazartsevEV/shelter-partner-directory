@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="./nomad360_calculator_ui.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+        /* Typeface is loaded once in nomad360_calculator_ui.css. */
+        body { font-family: 'IBM Plex Sans', system-ui, sans-serif; background-color: #f8fafc; color: #334155; }
         .card { background: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .input-field { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-weight: 500; outline: none; transition: all 0.2s; }
         .input-field:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
@@ -22,7 +22,7 @@
         .result-card.red { border-left-color: #ef4444; background: #fef2f2; }
         .th { background-color: #f1f5f9; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; color: #64748b; padding: 0.75rem; }
         .td-label { font-weight: 500; color: #475569; padding: 0.75rem; background-color: #fff; text-align: left; vertical-align: middle; }
-        .td-val { text-align: right; padding: 0.75rem; font-family: monospace; font-weight: 500; }
+        .td-val { text-align: right; padding: 0.75rem; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-weight: 600; }
         .td-total { background-color: #f8fafc; font-weight: 700; color: #0f172a; }
         .product-source-choice.product-source-selected {
             border-color: #2563eb;
@@ -43,7 +43,7 @@
             width: 100%;
             min-width: 0;
             white-space: nowrap;
-            font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'IBM Plex Sans', system-ui, sans-serif;
             font-stretch: condensed;
             font-weight: 600;
             letter-spacing: -0.02em;
@@ -219,7 +219,7 @@
             table-layout: fixed;
             width: max-content;
             min-width: 100%;
-            font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'IBM Plex Sans', system-ui, sans-serif;
             font-stretch: condensed;
         }
         .monthly-label-col {
@@ -250,7 +250,7 @@
             }
             #monthly-breakdown-table .td-val {
                 padding: 0.5rem 0.3rem;
-                font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+                font-family: 'IBM Plex Sans', system-ui, sans-serif;
                 font-variant-numeric: tabular-nums;
                 letter-spacing: -0.02em;
             }
