@@ -654,13 +654,17 @@ async function v1AccentsCase(browser){
   const appearance=async selector=>page.locator(selector).evaluate(el=>{
     const css=getComputedStyle(el);return {background:css.backgroundColor,color:css.color,border:css.borderColor,pressed:el.getAttribute('aria-pressed')};
   });
+  const waitOrange=selector=>page.waitForFunction(sel=>
+    getComputedStyle(document.querySelector(sel)).backgroundColor==='rgb(237, 142, 99)',selector);
   const known='[data-material-cost-mode="known"]',calculated='[data-material-cost-mode="calculate"]';
   await page.locator(known).click();
+  await waitOrange(known);
   A.equal(await page.locator('#own-materials-known-wrap').isVisible(),true,
     'Choosing known costs must reveal its input, preserving business behavior');
   A.deepEqual(await appearance(known),{background:orange,color:navy,border:orange,pressed:'true'});
   A.equal((await appearance(calculated)).background,white,'Unselected alternative stays white');
   await page.locator(calculated).click();
+  await waitOrange(calculated);
   A.equal(await page.locator('#own-materials-calc-wrap').isVisible(),true,
     'Switching option reveals alternate input fields');
   A.equal(await page.locator('#own-materials-known-wrap').isVisible(),false);
@@ -669,10 +673,12 @@ async function v1AccentsCase(browser){
   const mine='[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="me"]',
     other='[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="counterparty"]';
   await page.locator(mine).click();
+  await waitOrange(mine);
   A.equal(await page.locator('#own-warehouse-inbound-details').isVisible(),true,
     'Payer selection must still control logistics subform');
   A.equal((await appearance(mine)).background,orange);
   await page.locator(other).click();
+  await waitOrange(other);
   A.equal(await page.locator('#own-warehouse-inbound-details').isVisible(),false);
   A.equal((await appearance(other)).background,orange);
   A.equal((await appearance(mine)).background,white);
