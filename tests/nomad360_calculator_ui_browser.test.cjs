@@ -212,7 +212,7 @@ async function browserCase(browser,locale,expected){
     label:getComputedStyle(b.querySelector('div')).color
   })));
   A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
-  A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(17, 40, 63)'),
+  A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(22, 55, 90)'),
     'Service path choices must share orange surface and navy readable labels');
   const serviceLabel={ru:'Услуга',en:'Service',kk:'Қызмет'}[expected.lang];
   const linkVisual=async selector=>page.locator(selector).evaluate(el=>{
