@@ -729,8 +729,9 @@ body #nomad360-hero h3 {
   color:#fff;
 }
 body > section > p.nd-canvas-note,
-body > section > p.nd-canvas-note.text-slate-500 {
-  color:#fff;
+body #product-screen > p.nd-canvas-note.text-slate-500 {
+  /* Explicitly override the legacy text-slate utility on the open canvas. */
+  color:#fff !important;
 }
 /* Navigation on the navy canvas: white with the existing orange underline. */
 body > section > button:is(.text-blue-600,.text-blue-700):not(.bg-blue-600):not(.bg-blue-700),
