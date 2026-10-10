@@ -41,6 +41,7 @@ on:
       - "portfolio_v2_temporal.js"
       - "tests/portfolio_v2_resource_lifecycle_browser.test.cjs"
       - "tests/marketing_calc_offline_service_browser.test.cjs"
+      - "tests/marketing_calc_add_next_service_browser.test.cjs"
       - "tests/calculator_business_oracle_browser.test.cjs"
       - "portfolio_v2_linked_ui.js"
       - "tests/portfolio_v2_mba_capacity_browser.test.cjs"
@@ -117,4 +118,5 @@ jobs:
           node tests/portfolio_v2_mba_browser.test.cjs
           node tests/portfolio_v2_online_browser.test.cjs
           node tests/marketing_calc_offline_service_browser.test.cjs
+          node tests/marketing_calc_add_next_service_browser.test.cjs
           node --test tests/calculator_business_oracle_browser.test.cjs
