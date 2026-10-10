@@ -64,6 +64,9 @@
       licenseCopy:'Использование, копирование, изменение и встраивание калькулятора разрешены при сохранении названия калькулятора и ссылки на оригинал согласно действующей лицензии.',
       licenseLink:'Читать лицензию',
       embedTitle:'Калькулятор для вашего сайта',
+      embedB2BTitle:'Работаете в B2B? Привлеките полезный трафик бесплатно.',
+      trafficTitle:'Посетители калькулятора: IP и сессии',
+      trafficUnavailable:'Статистика пока недоступна',
       embedButton:'Встроить калькулятор на мой сайт',
       embedHint:'Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.',
       customButton:'Заказать кастомную разработку',
@@ -120,6 +123,9 @@
       licenseCopy:'You may use, copy, modify and embed the calculator while preserving its name and a link to the original under the current license.',
       licenseLink:'Read license',
       embedTitle:'Calculator for your website',
+      embedB2BTitle:'Work in B2B? Attract relevant traffic for free.',
+      trafficTitle:'Calculator visitors: IPs and sessions',
+      trafficUnavailable:'Statistics are not available yet',
       embedButton:'Embed the calculator on my website',
       embedHint:'Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.',
       customButton:'Request custom development',
@@ -176,6 +182,9 @@
       licenseCopy:'Қолданыстағы лицензия бойынша калькуляторды пайдалану, көшіру, өзгерту және енгізу кезінде оның атауын және түпнұсқаға сілтемені сақтау қажет.',
       licenseLink:'Лицензияны оқу',
       embedTitle:'Сайтыңызға арналған калькулятор',
+      embedB2BTitle:'B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз.',
+      trafficTitle:'Калькулятор келушілері: IP және сессиялар',
+      trafficUnavailable:'Статистика әзірше қолжетімсіз',
       embedButton:'Калькуляторды өз сайтыма енгізу',
       embedHint:'Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.',
       customButton:'Жеке әзірлеуге тапсырыс беру',
@@ -272,8 +281,13 @@
       '<div class="nomad-footer-meta">'+
       '<section id="nomad360-license" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.licenseTitle)+'</h3><p>'+esc(t.licenseCopy)+'</p>'+
       '<p><a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p>'+
-      '<div class="nomad-embed-actions"><p class="nomad-embed-title">'+esc(t.embedTitle)+'</p>'+
+      '<div class="nomad-embed-actions"><p class="nomad-embed-title">'+esc(t.embedTitle)+'</p>'+ 
+      '<h4 class="nomad-embed-b2b-title">'+esc(t.embedB2BTitle)+'</h4>'+
       '<button type="button" class="nomad-embed-download" data-nomad-download-html>'+esc(t.embedButton)+'</button>'+
+      '<div class="nomad-traffic-stats" data-nomad-traffic-stats aria-live="polite">'+
+      '<p class="nomad-traffic-title">'+esc(t.trafficTitle)+'</p>'+
+      '<p class="nomad-traffic-unavailable" data-nomad-traffic-status>'+esc(t.trafficUnavailable)+'</p>'+
+      '<div class="nomad-traffic-grid" data-nomad-traffic-grid hidden></div></div>'+
       '<span class="nomad-embed-status" data-nomad-embed-status role="status" aria-live="polite"></span>'+
       '<div class="nomad-embed-retry" data-nomad-embed-retry hidden>'+esc(t.embedRetryLead)+' '+
       '<a class="nomad-embed-retry-link" data-nomad-retry-download download="'+embedFilename+'" href="#">'+esc(t.embedRetryAction)+'</a></div>'+
@@ -310,6 +324,7 @@
     }
     footer.setAttribute('data-nomad-no-translate','');
     footer.innerHTML=footerMarkup(COPY[language()]);
+    root.Nomad360Traffic?.render?.(footer,language());
     restoreEmbedDownloadLink();
     if(embedDownloadUrl){
       const status=footer.querySelector('[data-nomad-embed-status]');
