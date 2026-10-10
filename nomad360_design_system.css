@@ -623,3 +623,71 @@ body #product-tax-block .aggregate-action-confirm.nd-cta-primary:hover:not(:disa
 @media(max-width:760px) {
   body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary {min-height:96px}
 }
+
+/* MOBILE-CTA-02: type scales with the action surface; balance complete phrases
+   rather than leaving single-word tails on narrow screens. */
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary,
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled) {
+  min-height:88px;
+  padding:16px clamp(16px,2vw,22px);
+  font-size:clamp(19px,1.85vw,23px);
+  line-height:1.23;
+  text-wrap:balance;
+  overflow-wrap:normal;
+}
+body #nomad360-home-secondary .nomad-recovery-action {
+  min-height:52px;
+  padding:12px 14px;
+  font-size:clamp(15px,1.4vw,17px);
+  line-height:1.32;
+  text-wrap:balance;
+  overflow-wrap:normal;
+}
+body > section button.nd-path-card {
+  min-height:72px;
+  padding:clamp(14px,1.7vw,20px);
+  font-size:16px;
+  line-height:1.35;
+  text-wrap:pretty;
+}
+body > section button.nd-path-card > div:first-child {
+  font-size:clamp(18px,1.6vw,21px);
+  font-weight:700;
+  line-height:1.24;
+  text-wrap:balance;
+}
+body > section button.nd-path-card > :is(p,div.text-xs) {
+  font-size:clamp(14px,1.25vw,16px) !important;
+  line-height:1.45;
+  text-wrap:pretty;
+}
+/* Secondary reading links stay navy; a terracotta underline signals action. */
+body #nomad360-home-secondary .nomad-example-link {
+  color:var(--nd-ink);
+  border-bottom:0;
+  text-decoration-line:underline;
+  text-decoration-color:var(--nd-accent);
+  text-decoration-thickness:2px;
+  text-underline-offset:5px;
+  text-wrap:pretty;
+}
+body #nomad360-home-secondary .nomad-example-link:hover,
+body #nomad360-home-secondary .nomad-example-link:focus-visible {
+  color:var(--nd-ink-deep);
+  text-decoration-color:var(--nd-accent);
+}
+@media(max-width:760px) {
+  body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary,
+  body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled) {
+    min-height:88px;
+    font-size:clamp(19px,5vw,21px);
+  }
+  body #product-source-block .grid {gap:10px}
+  body > section button.nd-path-card {padding:15px 18px}
+}
+@media(max-width:480px) {
+  body > section button.nd-cta-primary:not(.nomad-choice-button) {
+    font-size:clamp(16px,4.4vw,18px);
+    text-wrap:balance;
+  }
+}

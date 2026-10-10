@@ -108,6 +108,20 @@ async function browserCase(browser,locale,expected){
   A.ok(typography.recoveryTitle.weight>=700,'Saved work gets a visible text hierarchy');
   A.ok(typography.example.px>=16,'Auxiliary links stay tappable and legible');
   A.equal(typography.noteCopy.color,'rgb(64, 84, 106)','Muted copy must use legible dark blue-gray');
+   const exampleLink=await page.locator('#nomad360-home-secondary .nomad-example-link').evaluate(node=>{
+     const css=getComputedStyle(node);return {
+       color:css.color,underline:css.textDecorationColor,style:css.textDecorationLine,
+       thickness:css.textDecorationThickness
+     };
+   });
+   A.equal(exampleLink.color,'rgb(22, 55, 90)','Secondary link stays on-brand navy');
+   A.equal(exampleLink.underline,'rgb(184, 87, 58)','Secondary link underline stays terracotta');
+   A.match(exampleLink.style,/underline/,'Link should have a real underline, not a bar border');
+   A.equal(exampleLink.thickness,'2px','Underline is conspicuous without becoming a CTA');
+   const recoveryText=await page.locator('#resume-own-product').textContent();
+   A.equal(recoveryText.trim(),{ru:'Продолжить работу с товарами',
+     en:'Continue working on my products',kk:'Тауарлармен жұмысты жалғастыру'}[expected.lang],
+     'Short saved-work action remains localized');
 
   const mobileGeometry=await choice.locator('button').evaluateAll(buttons=>buttons.map(button=>{
     const rect=button.getBoundingClientRect(),style=getComputedStyle(button);
@@ -120,11 +134,11 @@ async function browserCase(browser,locale,expected){
   A.equal(new Set(mobileGeometry.map(x=>x.height)).size,1,'Three choices must have identical mobile heights');
   A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
   A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
-  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=96),'All three are proper tap targets');
+  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=84&&x.height<=110),'Choice buttons keep proportionate 84–110px tap targets');
   A.ok(mobileGeometry.every(x=>x.background==='rgb(237, 142, 99)' && x.color==='rgb(22, 55, 90)'),
     'All three primary routes must use warm orange with navy text');
-  A.ok(mobileGeometry.every(x=>x.fontSize>=21),
-    'All choices must have large visible typography on a mobile viewport');
+  A.ok(mobileGeometry.every(x=>x.fontSize>=19&&x.fontSize<=22),
+    'Mobile choice text remains readable but proportional to each tap target');
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
     'Remove the small 01/02/03 labels from the decision buttons');
   const savedTreatment=await page.locator('#saved-product-entry').evaluate(el=>{
@@ -163,8 +177,22 @@ async function browserCase(browser,locale,expected){
   }));
   A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
   await page.evaluate(()=>showHome());
-  await choice.locator('#start-multi-portfolio').click();
-  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
+  const multi=choice.locator('#start-multi-portfolio');
+  const normal=await multi.evaluate(el=>{
+    const s=getComputedStyle(el),r=el.getBoundingClientRect();
+    return {height:r.height,font:s.fontSize,padding:s.padding};
+  });
+  await multi.hover();
+  await page.waitForTimeout(180);
+  const hover=await multi.evaluate(el=>{
+    const s=getComputedStyle(el),r=el.getBoundingClientRect();
+    return {height:r.height,font:s.fontSize,padding:s.padding};
+  });
+  A.deepEqual(hover,normal,
+    'Hover must not resize mobile route labels or move adjacent touch targets: '+locale);
+  await multi.click();
+  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,
+    'Third choice button must open V2');
   await page.mouse.move(0,0);
   await page.waitForTimeout(220); // let hover/transition settle before measuring normal state
   const v2Action=await page.locator('[data-p2-save]').evaluate(e=>{
@@ -387,11 +415,48 @@ async function browserCase(browser,locale,expected){
     printActions:2,financialChanges:0}));
  }finally{await context.close()}
 }
+async function sourceChoiceCase(browser) {
+ const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ const errors=[];
+ page.on('pageerror',err=>errors.push(err.message));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ try {
+  await page.goto(entry,{waitUntil:'domcontentloaded'});
+  await page.locator('#start-own-product').click();
+   await page.locator('#product-name-input').fill('Футболка');
+   await page.locator('#product-screen button[type="submit"]').click();
+   A.equal(await page.locator('#product-source-block').isVisible(),true,
+     'Product entry should display product sourcing choices');
+   A.deepEqual(await page.locator('#product-source-block [data-product-source]').evaluateAll(
+     nodes=>nodes.map(n=>n.dataset.productSource)),['own','resale','dropship'],
+     'Offline service is accessible only through Service → Offline, never from Product sourcing');
+   const routeCards=await page.locator('button.nd-path-card').evaluateAll(nodes=>nodes.map(el=>{
+     const label=el.querySelector('div:first-child');
+     const css=getComputedStyle(label);
+     return {label:el.textContent.trim(),parts:el.children.length,
+       hasNote:!!el.querySelector('p,.text-xs,.text-sm'),
+       titleSize:parseFloat(css.fontSize),balance:css.textWrap};
+   }));
+   A.equal(routeCards.length,10,'All ten buying/service/agency path options remain available');
+   A.ok(routeCards.every(x=>x.parts===1&&!x.hasNote),
+     'Orange path cards contain only the choice label, with no explanatory copy: '+JSON.stringify(routeCards));
+   A.ok(routeCards.every(x=>x.titleSize>=18&&x.titleSize<=21),
+     'Sourcing, service and agency labels remain proportional to card geometry');
+   A.ok(routeCards.every(x=>x.balance==='balance'),
+     'Path labels balance lines without orphan words');
+   A.equal(await page.locator('#product-source-block [data-product-source="offline-service"]').count(),0,
+     'Offline service is not a product procurement route');
+  A.deepEqual(errors,[],'Source routing should not throw');
+  console.log('NOMAD360_LABEL_ONLY_ROUTE_CHOICES_GREEN');
+ }finally{await context.close()}
+}
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
   await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Каким бизнесом мне выгодно заниматься/});
   await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Маған қандай бизнеспен айналысқан тиімді/});
   await browserCase(browser,'en-US',{lang:'en',tagline:/Which business would be most profitable/});
+  await sourceChoiceCase(browser);
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_UI_PACKAGING_BROWSER_RED',e.stack||e);process.exitCode=1});

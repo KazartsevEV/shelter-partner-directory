@@ -300,7 +300,7 @@
                     <p class="nomad-recovery-note nd-type-note">Доступно в этом браузере и на этом устройстве. Другой телефон по этой ссылке не увидит ваш сохранённый расчёт.</p>
                 </div>
                 <button id="resume-own-product" type="button" class="nomad-recovery-action nd-type-action"
-                    onclick="resumeSavedProductCalculation()">Продолжить и редактировать мои товары</button>
+                    onclick="resumeSavedProductCalculation()">Продолжить работу с товарами</button>
             </div>
 
             <div id="portfolio-v2-linked-resume-home" class="nomad-recovery-card hidden" hidden>
@@ -343,11 +343,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                 <button type="button" id="service-work-online" onclick="showServiceChooser()" class="card nd-path-card p-5 text-left transition">
                     <div class="text-lg font-bold text-slate-900">Онлайн</div>
-                    <p class="text-sm text-slate-600 mt-2">Я сам · Нанимаю другого · Я агент. Существующий калькулятор без изменений.</p>
                 </button>
                 <button type="button" id="service-work-offline" onclick="startOfflineServiceCalculation()" class="card nd-path-card p-5 text-left transition">
                     <div class="text-lg font-bold text-slate-900">Офлайн</div>
-                    <p class="text-sm text-slate-600 mt-2">Например, ногтевой сервис: расходники, аренда, мастера, оборудование и реклама. Нет производства, склада и доставки.</p>
                 </button>
             </div>
         </div>
@@ -362,15 +360,12 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-7">
                 <button onclick="selectServiceMode('self')" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Я сам</div>
-                    <div class="text-sm text-slate-500 mt-1">Старый калькулятор без изменений бизнес-логики.</div>
                 </button>
                 <button onclick="selectServiceMode('hired')" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Нанимаю другого</div>
-                    <div class="text-sm text-slate-500 mt-1">Добавляем оплату исполнителю как расход.</div>
                 </button>
                 <button onclick="showAgentChooser()" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Я агент</div>
-                    <div class="text-sm text-slate-500 mt-1">Привлекаю клиентов другим и получаю вознаграждение.</div>
                 </button>
             </div>
         </div>
@@ -385,11 +380,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
                 <button onclick="selectServiceMode('agent')" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Мне платят % с объёма продаж</div>
-                    <div class="text-sm text-slate-500 mt-1">Калькулятор вычислит ваш доход из общего объёма продаж.</div>
                 </button>
                 <button onclick="showAgentComplex()" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">У меня сложная система мотивации</div>
-                    <div class="text-sm text-slate-500 mt-1">Обсудить отдельную модель расчёта.</div>
                 </button>
             </div>
         </div>
@@ -475,16 +468,13 @@
                 </button>
 
                 <button type="button" data-product-source="resale" class="product-source-choice card nd-path-card p-5 text-left transition">
-                    <div class="font-semibold text-slate-900">Покупаю у других</div><div class="text-xs text-slate-500 mt-1">Закупка готового товара без производства</div>
+                    <div class="font-semibold text-slate-900">Покупаю у других</div>
                 </button>
 
                 <button type="button" data-product-source="dropship" class="product-source-choice card nd-path-card p-5 text-left transition">
-                    <div class="font-semibold text-slate-900">Дропшиппинг</div><div class="text-xs text-slate-500 mt-1">Покупаю под заказ, поставщик доставляет покупателю</div>
+                    <div class="font-semibold text-slate-900">Дропшиппинг</div>
                 </button>
-                <button type="button" data-product-source="offline-service" class="product-source-choice card p-5 text-left hover:border-emerald-400 hover:shadow-md transition">
-                    <div class="font-semibold text-slate-900">Офлайн-услуга</div><div class="text-xs text-slate-500 mt-1">Маникюр, парикмахерская, массаж: аренда, расходники и мастера</div>
-                </button>
-            </div>
+             </div>
             <div id="product-source-unavailable" class="hidden mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900" role="status" hidden>
                 Для дропшиппинга выберите поставщика, стоимость исполнения заказа и срок доставки.
             </div>
@@ -1804,7 +1794,9 @@
                     screen.classList.toggle('hidden', screenId !== id);
                     screen.hidden = screenId !== id;
                 });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Screen changes must not leave a mobile scroll animation in flight:
+            // a moving CTA can receive pointerdown on an adjacent action.
+            window.scrollTo({ top: 0, behavior: 'instant' });
         }
 
         function showHome() {
