@@ -752,7 +752,7 @@ async function sourceChoiceCase(browser) {
      'Включая логистику и хранение','Resale subtitle is concise and exact');
    A.equal(await page.locator('#materials-step-question').isVisible(),false,
      'Resale heading is a label, not a question');
-   A.match((await page.locator('#product-materials-block h2').innerText()).replace(/\\s+/g,' '),
+   A.match((await page.locator('#product-materials-block h2').innerText()).replace(/\s+/g,' '),
      /Закупки готового товара.*Футболка/,
      'Resale heading includes the current product name');
 
