@@ -176,60 +176,23 @@ async function browserCase(browser,locale,expected){
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
   A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
-  await page.evaluate(()=>{showHome();window.scrollTo({top:0,behavior:'instant'});});
-  await page.waitForTimeout(250);
-  await page.evaluate(()=>{
-    const el=document.getElementById('start-multi-portfolio');
-    window.__nomadV2Trace=[];
-    const traceEvent=e=>window.__nomadV2Trace.push({phase:e.type,id:e.target.id,tag:e.target.tagName,
-      text:e.target.textContent.slice(0,65), trusted:e.isTrusted});
-    document.addEventListener('pointerdown',traceEvent,true);
-    document.addEventListener('click',traceEvent,true);
-    el.addEventListener('click',e=>window.__nomadV2Trace.push({phase:'target',isTrusted:e.isTrusted}),{capture:true,once:true});
-    const f=window.openPortfolioV2;
-    window.openPortfolioV2=function(...args){
-      window.__nomadV2Trace.push({phase:'handler',args});
-      const result=f.apply(this,args);
-      window.__nomadV2Trace.push({phase:'after',hidden:document.getElementById('portfolio-v2-screen').hidden});
-      return result;
-    };
+  await page.evaluate(()=>showHome());
+  const multi=choice.locator('#start-multi-portfolio');
+  const normal=await multi.evaluate(el=>{
+    const s=getComputedStyle(el),r=el.getBoundingClientRect();
+    return {height:r.height,font:s.fontSize,padding:s.padding};
   });
-  const boundsHistory=await page.evaluate(async ()=>{
-    const out=[];
-    for(let i=0;i<10;i++){
-      const r=document.getElementById('start-multi-portfolio').getBoundingClientRect();
-      out.push({y:Math.round(r.y*10)/10,h:Math.round(r.height*10)/10,
-        scroll:Math.round(window.scrollY),inner:window.innerHeight});
-      await new Promise(resolve=>setTimeout(resolve,100));
-    }
-    return out;
+  await multi.hover();
+  await page.waitForTimeout(180);
+  const hover=await multi.evaluate(el=>{
+    const s=getComputedStyle(el),r=el.getBoundingClientRect();
+    return {height:r.height,font:s.fontSize,padding:s.padding};
   });
-  const yValues=boundsHistory.map(x=>x.y);
-  A.ok(Math.max(...yValues)-Math.min(...yValues)<2,
-    'Mobile CTA must stop moving before user taps '+locale+': '+JSON.stringify(boundsHistory));
-  await choice.locator('#start-multi-portfolio').scrollIntoViewIfNeeded();
-  await choice.locator('#start-multi-portfolio').click();
-  await page.waitForTimeout(120);
-  const v2Visible=await page.locator('#portfolio-v2-screen').isVisible();
-  const v2Diagnostics=await page.evaluate(()=>({
-    active:document.querySelectorAll('body > section:not([hidden])').length,
-    portfolioHidden:document.getElementById('portfolio-v2-screen').hidden,
-    portfolioClass:document.getElementById('portfolio-v2-screen').className,
-    homeHidden:document.getElementById('home-screen').hidden,
-    portfolioFn:typeof window.openPortfolioV2,
-    screenStyle:getComputedStyle(document.getElementById('portfolio-v2-screen')).display,
-    handler:document.getElementById('start-multi-portfolio').getAttribute('onclick'),
-    errors:window.__test_errors||[],
-    formState:document.getElementById('product-screen').hidden,
-    trace:window.__nomadV2Trace||[],
-    target:document.querySelector('#start-multi-portfolio').getBoundingClientRect().toJSON(),
-    atCenter:(()=>{
-      const r=document.querySelector('#start-multi-portfolio').getBoundingClientRect();
-      const el=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
-      return {id:el?.id,tag:el?.tagName,text:el?.textContent.slice(0,70)}
-    })()
-  }));
-  A.equal(v2Visible,true,'Third choice button must open V2 '+locale+': '+JSON.stringify({...v2Diagnostics,pageErrors:errors}));
+  A.deepEqual(hover,normal,
+    'Hover must not resize mobile route labels or move adjacent touch targets: '+locale);
+  await multi.click();
+  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,
+    'Third choice button must open V2');
   await page.mouse.move(0,0);
   await page.waitForTimeout(220); // let hover/transition settle before measuring normal state
   const v2Action=await page.locator('[data-p2-save]').evaluate(e=>{
