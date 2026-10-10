@@ -1439,3 +1439,101 @@ body #agent-complex-screen.nd-custom-screen .nd-agent-contact-link:hover{
 body #agent-complex-screen.nd-custom-screen .nd-agent-contact-link:focus-visible{
   outline:2px solid var(--nd-accent);outline-offset:3px
 }
+
+
+/* TZ02: opt-in full service. V1 simplified colors, fields and formulas untouched. */
+body #service-work-screen .nd-service-money-chooser{margin:0 0 24px}
+body #service-work-screen .nd-service-mode-choice{
+  display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  min-width:0;padding:18px 20px;min-height:108px;
+  border:1px solid #16375a;background:#fff;color:#16375a;
+  text-align:left;border-radius:var(--nd-radius);box-shadow:none
+}
+body #service-work-screen .nd-service-mode-choice b{
+  font:700 clamp(18px,3.6vw,22px)/1.25 var(--nd-font);color:inherit
+}
+body #service-work-screen .nd-service-mode-choice small{
+  color:inherit;font:500 14px/1.4 var(--nd-font)
+}
+body #service-work-screen .nd-service-mode-choice[aria-pressed="true"]{
+  background:#16375a;color:#fff
+}
+body #service-work-screen .nd-service-mode-choice[aria-pressed="false"]:hover{
+  background:#e9eff5
+}
+body #full-service-screen{font-family:var(--nd-font);color:#fff}
+body #full-service-screen .nd-full-service-shell{
+  box-sizing:border-box;background:#102c49;border:1px solid #557a99;
+  border-radius:var(--nd-radius);padding:clamp(16px,3.5vw,28px);
+  max-width:1100px;margin:0 auto;min-width:0
+}
+body #full-service-screen .nd-full-service-header{
+  margin:18px 0 25px;padding:22px;background:#16375a;border:1px solid #557a99
+}
+body #full-service-screen h1{
+  font:700 clamp(25px,4vw,34px)/1.2 var(--nd-font);color:#fff
+}
+body #full-service-screen .nd-full-service-inputs{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px
+}
+body #full-service-screen .nd-full-service-label{font:600 15px/1.4 var(--nd-font);color:#fff}
+body #full-service-screen .nd-full-service-label :is(input,select){
+  display:block;width:100%;max-width:100%;min-height:48px;margin-top:7px;
+  padding:9px 12px;border-radius:var(--nd-radius);color:#16375a;
+  background:#fff;border:1px solid #adc3d4;font:500 17px/1.4 var(--nd-font)
+}
+body #full-service-screen :is(input,select,button):focus-visible{
+  outline:3px solid #ed8e63;outline-offset:2px
+}
+body #full-service-screen .nd-full-service-metrics{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;margin-top:24px
+}
+body #full-service-screen .nd-full-service-metrics>div{
+  padding:16px;background:#16375a;border:1px solid #557a99;min-width:0;
+  display:flex;flex-direction:column;gap:7px
+}
+body #full-service-screen .nd-full-service-metrics span{
+  color:#d0e1ee;font:500 14px/1.4 var(--nd-font)
+}
+body #full-service-screen .nd-full-service-metrics strong{
+  color:#fff;font:700 clamp(19px,3.4vw,24px)/1.35 var(--nd-font);
+  font-variant-numeric:tabular-nums;overflow-wrap:anywhere
+}
+body #full-service-screen .nd-full-service-table{
+  overflow-x:auto;max-width:100%;min-width:0;margin-top:18px;
+  -webkit-overflow-scrolling:touch
+}
+body #full-service-screen .nd-full-service-table table{
+  width:100%;min-width:760px;border-collapse:collapse;
+  font:500 13px/1.5 var(--nd-font);color:#fff;font-variant-numeric:tabular-nums
+}
+body #full-service-screen .nd-full-service-table :is(td,th){
+  padding:12px;text-align:right;border-bottom:1px solid #557a99;white-space:nowrap
+}
+body #full-service-screen .nd-full-service-table th{
+  color:#d0e1ee;font-weight:700
+}
+body #full-service-screen .nd-full-service-actions{
+  display:flex;flex-wrap:wrap;gap:12px;margin-top:26px
+}
+body #full-service-screen .nd-full-service-actions button,
+body #full-service-screen .nd-full-service-secondary{
+  min-height:48px;padding:10px 16px;
+  font:700 16px/1.35 var(--nd-font);
+  border-radius:var(--nd-radius)
+}
+body #full-service-screen .nd-full-service-secondary{
+  border:1px solid #9abbd4;background:#234a70;color:#fff
+}
+body #full-service-screen .nd-full-service-actions button.nd-cta-primary{
+  background:#ed8e63;color:#16375a;border:1px solid #ed8e63
+}
+body #full-service-screen #full-service-message{
+  color:#ffd5c7;font:600 14px/1.4 var(--nd-font);margin-top:12px
+}
+@media(max-width:560px){
+  body #full-service-screen .nd-full-service-inputs,
+  body #full-service-screen .nd-full-service-metrics{grid-template-columns:minmax(0,1fr)}
+  body #full-service-screen .nd-full-service-actions>*{width:100%}
+}
