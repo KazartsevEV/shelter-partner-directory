@@ -606,7 +606,7 @@
                         <div class="space-y-4">
                             <div class="rounded-lg border border-slate-200 bg-white p-4">
                                 <div class="text-sm font-medium text-slate-800">Услуги брокера</div>
-                                <div class="grid grid-cols-2 gap-2 mt-3 items-end">
+                                <div class="grid grid-cols-2 gap-2 mt-3 items-end nd-payer-choice-grid">
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-broker-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
@@ -618,7 +618,7 @@
 
                             <div class="rounded-lg border border-slate-200 bg-white p-4">
                                 <div class="text-sm font-medium text-slate-800">Страхование груза</div>
-                                <div class="grid grid-cols-2 gap-2 mt-3 items-end">
+                                <div class="grid grid-cols-2 gap-2 mt-3 items-end nd-payer-choice-grid">
                                     <button type="button" data-import-payer-key="cargoInsurance" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="cargoInsurance" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-cargo-insurance-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
@@ -630,7 +630,7 @@
 
                             <div class="rounded-lg border border-slate-200 bg-white p-4">
                                 <div class="text-sm font-medium text-slate-800">Пошлины и сборы</div>
-                                <div class="grid grid-cols-2 gap-2 mt-3 items-end">
+                                <div class="grid grid-cols-2 gap-2 mt-3 items-end nd-payer-choice-grid">
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-duties-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
@@ -642,7 +642,7 @@
 
                             <div class="rounded-lg border border-slate-200 bg-white p-4">
                                 <div class="text-sm font-medium text-slate-800">Сертификация и разрешительная документация</div>
-                                <div class="grid grid-cols-2 gap-2 mt-3 items-end">
+                                <div class="grid grid-cols-2 gap-2 mt-3 items-end nd-payer-choice-grid">
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-certification-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
@@ -876,7 +876,7 @@
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за доставку <span class="product-name-live"></span> до склада?
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-3 items-end">
+                        <div class="grid grid-cols-2 gap-2 mt-3 items-end nd-payer-choice-grid">
                             <button type="button" data-logistics-payer-key="warehouseInbound" data-logistics-payer-value="me" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                             <button type="button" data-logistics-payer-key="warehouseInbound" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
                             <div id="own-warehouse-inbound-details" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
@@ -890,7 +890,7 @@
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за хранение <span class="product-name-live"></span> на складе?
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-3 items-end">
+                        <div class="grid grid-cols-2 gap-2 mt-3 items-end nd-payer-choice-grid">
                             <button type="button" data-logistics-payer-key="warehouse" data-logistics-payer-value="me" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                             <button type="button" data-logistics-payer-key="warehouse" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
                             <div id="own-warehouse-cost-wrap" class="col-span-2 mt-1 hidden space-y-4" hidden data-product-collapsible>
@@ -931,7 +931,7 @@
                         <div class="text-sm font-medium text-slate-800">
                             Кто платит за доставку <span class="product-name-live"></span> до покупателя?
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-3 items-end">
+                        <div class="grid grid-cols-2 gap-2 mt-3 items-end nd-payer-choice-grid">
                             <button type="button" data-logistics-payer-key="customerDelivery" data-logistics-payer-value="me" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                             <button type="button" data-logistics-payer-key="customerDelivery" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
                             <div id="own-customer-delivery-details" class="col-span-2 mt-1 hidden space-y-4" hidden data-product-collapsible>
