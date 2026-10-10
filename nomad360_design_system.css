@@ -1537,3 +1537,28 @@ body #full-service-screen #full-service-message{
   body #full-service-screen .nd-full-service-metrics{grid-template-columns:minmax(0,1fr)}
   body #full-service-screen .nd-full-service-actions>*{width:100%}
 }
+
+
+/* TZ02: V2 report tables scroll inside their own pane, including offline
+   Chromium runs where optional utility stylesheets are not loaded. */
+#portfolio-v2-screen,
+#portfolio-v2-root{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+#portfolio-v2-root .overflow-x-auto{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+}
+#portfolio-v2-root .input-field{
+  box-sizing:border-box;
+  min-width:0;
+  max-width:100%;
+}
