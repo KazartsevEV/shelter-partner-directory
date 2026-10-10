@@ -1378,3 +1378,36 @@ body #calculator-screen.nd-v1-service .nd-agent-principal p{
 body #calculator-screen.nd-v1-service :is(#agent-owner-summary,#agent-principal-context)[hidden]{
   display:none !important
 }
+
+
+/* CUSTOM-06: match the same V1 geometry, label scale and secondary-action color. */
+body #agent-complex-screen.nd-custom-screen{
+  color:var(--nd-v1-navy);font-family:var(--nd-font);min-width:0
+}
+body #agent-complex-screen.nd-custom-screen > .card{
+  background:var(--nd-panel);color:var(--nd-v1-navy);
+  border:1px solid var(--nd-v1-rule);border-radius:var(--nd-radius);
+  box-shadow:none;min-width:0
+}
+body #agent-complex-screen.nd-custom-screen h1{
+  color:var(--nd-v1-navy);
+  font:700 clamp(27px,5vw,38px)/1.2 var(--nd-font);overflow-wrap:anywhere
+}
+body #agent-complex-screen.nd-custom-screen p{
+  color:var(--nd-v1-muted);font:500 clamp(16px,3vw,18px)/1.5 var(--nd-font)
+}
+body #agent-complex-screen.nd-custom-screen .nd-agent-contact-link{
+  box-sizing:border-box;max-width:100%;min-height:48px;
+  background:var(--nd-v1-navy);border:1px solid var(--nd-v1-navy);
+  color:#fff;text-align:center;text-decoration:none;
+  align-items:center;justify-content:center;
+  border-radius:var(--nd-radius);
+  font:700 clamp(16px,3.5vw,18px)/1.3 var(--nd-font);
+  overflow-wrap:anywhere
+}
+body #agent-complex-screen.nd-custom-screen .nd-agent-contact-link:hover{
+  background:#24517f;color:#fff
+}
+body #agent-complex-screen.nd-custom-screen .nd-agent-contact-link:focus-visible{
+  outline:2px solid var(--nd-accent);outline-offset:3px
+}
