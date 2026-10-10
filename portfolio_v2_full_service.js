@@ -16,8 +16,11 @@
    const months=numeric(data.months,'Горизонт',1);
    if(!Number.isInteger(months)||months>120)throw Error('Горизонт должен быть от 1 до 120 месяцев.');
    const forecast=data.monthlyForecast;
-   const counts=Array.isArray(forecast)?forecast:Array.from({length:months},()=>forecast);
-   if(counts.length<months)throw Error('Для каждого месяца нужен прогноз оказанных услуг.');
+   const counts=Array.isArray(forecast)?
+     Array.from({length:months},(_,m)=>forecast[m]??forecast[forecast.length-1]):
+     Array.from({length:months},()=>forecast);
+   if(Array.isArray(forecast)&&!forecast.length)
+     throw Error('Нужен хотя бы один рассчитанный месяц спроса V1.');
    const capacity=numeric(data.capacity,'Мощность',1);
    const quantity=counts.slice(0,months).map((q,i)=>{
      const value=numeric(q,'Прогноз месяца '+(i+1));
