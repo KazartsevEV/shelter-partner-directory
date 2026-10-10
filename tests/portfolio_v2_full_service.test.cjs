@@ -106,3 +106,33 @@ test('TZ02 equivalent one-SKU goods and service share VAT, tax and interest base
    service.months[0].revenue>0?service.months[0].profit/service.months[0].revenue*100:0,
    'item after tax profit margin',.05);
 });
+
+test('TZ02 reserve covers ALL monthly variable cash including commission, not just consumables',()=>{
+ const x=build({...base,commissionPct:5});
+ const commission=200*(100/1.12)*.05;
+ near(x.months[0].commission,commission,'commission cash');
+ near(x.reserve,(1600+commission+10000)*.1,'first-month variable plus fixed reserve');
+ near(x.capital,10000+x.reserve,'startup working liquidity');
+});
+
+test('TZ02 daily financing ledger reconciles to monthly cash and principal maturity',()=>{
+ for(const funding of ['own','credit']){
+   const x=build({...base,funding,annualRatePct:24,creditMonths:3});
+   near(x.daily[0].financingIn,x.capital,'day-zero funding');
+   near(x.daily[0].netCashFlow,x.daily[0].financingIn+x.daily[0].revenue-
+     x.daily[0].variable-x.daily[0].fixed-x.daily[0].asset-
+     x.daily[0].interest-x.daily[0].tax,'day-zero cash ordering');
+   for(const m of x.months){
+     const days=x.daily.slice((m.month-1)*30,m.month*30);
+     near(days.reduce((sum,d)=>sum+d.netCashFlow,0),m.netCashFlow,'month '+m.month+' net CF');
+     near(days[29].cashOnHand,m.cashOnHand,'month '+m.month+' closing cash');
+     near(days[29].freeCash,m.freeCash,'month '+m.month+' free cash');
+   }
+   near(x.daily[89].principalDue,funding==='credit'?x.capital:0,'principal only at maturity');
+   A.equal(x.daily[88].principalDue,0);
+ }
+ const short=build({...base,months:2,funding:'credit',annualRatePct:24,creditMonths:12});
+ A.ok(short.daily.every(day=>day.principalDue===0),'future bullet excluded from visible period');
+ near(short.daily[59].cashOnHand,short.cashOnHand,'short horizon cash');
+ near(short.outstandingPrincipal,short.capital,'outstanding principal');
+});
