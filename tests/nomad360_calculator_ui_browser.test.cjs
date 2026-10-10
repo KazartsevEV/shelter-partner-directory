@@ -134,6 +134,11 @@ async function browserCase(browser,locale,expected){
   const footer=await page.locator('#nomad360-footer').textContent();
   A.ok(footer.includes('+7 777 129 56 93')&&footer.includes('+7 977 986 74 41'));
   A.equal(await page.locator('#nomad360-footer').count(),1,'Exactly one new footer');
+  A.equal(await page.locator('body > footer').count(),1,'Remove the old duplicate legal footer');
+  A.equal(await page.locator('#nomad360-footer .nomad-unit-note').textContent(),
+    {ru:'* у.е. — деньги в вашей валюте.',
+     en:'* currency units — amounts are shown in your chosen currency.',
+     kk:'* ш.б. — сіздің валютаңыздағы ақша.'}[expected.lang]);
   A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
   A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),2,'Crypto QR codes preserved');
   A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),5,'All five payment methods must retain copy actions');
@@ -189,6 +194,11 @@ async function browserCase(browser,locale,expected){
   for(const chosen of ['en','kk','ru']){
    await page.locator('#nomad360-lang-select').selectOption(chosen);
    A.equal(await page.locator('html').getAttribute('lang'),chosen);
+   A.equal(await page.locator('#nomad360-footer .nomad-unit-note').textContent(),
+     {ru:'* у.е. — деньги в вашей валюте.',
+      en:'* currency units — amounts are shown in your chosen currency.',
+      kk:'* ш.б. — сіздің валютаңыздағы ақша.'}[chosen],
+     'Footer currency note must track language switches');
    A.equal(await page.evaluate(()=>window.__nomadPrintCount),2,'locale change must not open another print dialog');
    A.equal(await preview.isVisible(),true,'price preview must remain open after locale change');
    A.equal(await preview.locator('tbody tr').count(),5);
