@@ -180,6 +180,19 @@ const {pathToFileURL}=require('node:url');
       width:Math.round(e.getBoundingClientRect().width)}))
   }));
   console.log('TZ02_MOBILE_OVERFLOW_DIAG',JSON.stringify(overflows));
+  const trail=await page.evaluate(()=>{
+    const candidates=[...document.querySelectorAll('#portfolio-v2-screen table')];
+    let e=candidates.find(e=>e.getBoundingClientRect().width>innerWidth);
+    const nodes=[];
+    for(let i=0;i<10&&e;i++,e=e.parentElement){
+      const r=e.getBoundingClientRect(),cs=getComputedStyle(e);
+      nodes.push({tag:e.tagName,id:e.id,cls:String(e.className).slice(0,90),
+        left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),
+        client:e.clientWidth,scroll:e.scrollWidth,overflowX:cs.overflowX});
+    }
+    return nodes;
+  });
+  console.log('TZ02_MOBILE_ANCESTRY',JSON.stringify(trail));
   A.equal(overflows.scrollWidth>overflows.viewport+1,false);
   A.deepEqual(errors,[]);
   console.log('TZ02_FULL_SERVICE_BROWSER_GREEN',{capital:seed.fixedCashMonthly+1160,rows:r.months.length});
