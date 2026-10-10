@@ -688,7 +688,12 @@ async function sourceChoiceCase(browser) {
   const known=page.locator('[data-material-cost-mode="known"]');
   const calculate=page.locator('[data-material-cost-mode="calculate"]');
   await known.click();
-  A.equal((await getAppearance('[data-material-cost-mode="known"]')).bg,bright);
+  A.equal((await getAppearance('[data-material-cost-mode="known"]')).bg,bright,
+    'Material known active state: '+JSON.stringify(await known.evaluate(el=>({
+      pressed:el.getAttribute('aria-pressed'),class:el.className,
+      matched:el.matches('body .nd-v1-product button.material-cost-mode-choice[aria-pressed="true"]'),
+      bg:getComputedStyle(el).backgroundColor,ownScreen:document.querySelector('#product-screen')?.className
+    }))));
   await calculate.click();
   A.equal((await getAppearance('[data-material-cost-mode="calculate"]')).bg,bright,
     'Revealed cost breakdown trigger is orange');
