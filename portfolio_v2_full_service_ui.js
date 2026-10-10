@@ -16,6 +16,63 @@
  function lang(){return root.Nomad360UI?.getLanguage?.()||'ru';}
  function labels(){return title[lang()]||title.ru;}
  const STORAGE_KEY='nomad360-full-service-v2';
+
+ const guide={
+  ru:{step:'Условия расчёта',stepHint:'Проверьте налог, период и источник денег. Итог обновляется сразу после изменения поля.',
+    summary:'Итог за выбранный период',summaryHint:'Все суммы указаны в денежных единицах расчёта. Прогноз может содержать дробные значения: это ожидаемое число клиентов.',
+    months:'Деньги по месяцам',monthsHint:'Таблицу можно прокручивать горизонтально. Выручка указана без НДС, денежный поток — после расходов и налогов.',
+    details:'Показать остальные показатели',priceOne:'Цена одной услуги с НДС',forecast:'Прогноз клиентов',foreFirst:'в первый месяц',foreMax:'максимум в месяц',foreEach:'в месяц',
+    taxRate:'Ставка налога, %',creditOnly:'Параметры кредита',creditHint:'Появляются только при выборе финансирования «Кредит».',
+    capitalNote:'Сколько денег потребуется для старта, включая резерв',profitNote:'Прибыль за весь выбранный период после налогов',freeNote:'Деньги к концу периода за вычетом резерва',
+    peakNote:'Максимальная потребность в деньгах',firstNote:'Первый месяц с положительным операционным потоком',paybackNote:'Когда накопленные поступления возместят затраты',
+    monthsUnit:'мес.',monthShort:'мес.',noPositive:'Нет за выбранный период',portfolioHelp:'Есть несколько товаров или услуг? Соберите общий портфель V2 с общими расходами.',
+    actions:'Сохранение и следующий шаг',firstPrefix:'Первый месяц',forecastCaveat:'Дробное число означает ожидаемое количество клиентов, а не часть человека.'},
+  en:{step:'Calculation settings',stepHint:'Review taxes, time horizon and funding. Results update whenever you change an input.',
+    summary:'Results for the selected period',summaryHint:'Amounts are in the calculation currency. Fractional clients reflect expected demand.',
+    months:'Monthly cash flow',monthsHint:'Scroll the table horizontally. Revenue excludes VAT; cash flow includes expenses and taxes.',
+    details:'Show additional indicators',priceOne:'Price per service incl. VAT',forecast:'Expected customers',foreFirst:'first month',foreMax:'highest month',foreEach:'per month',
+    taxRate:'Tax rate, %',creditOnly:'Loan details',creditHint:'These fields appear only when you select loan funding.',
+    capitalNote:'Money needed to start, including the reserve',profitNote:'Net profit for the whole selected period',freeNote:'End-of-period money after the reserve',
+    peakNote:'Largest temporary funding need',firstNote:'First month with positive operating cash flow',paybackNote:'When cumulative inflows cover investment',
+    monthsUnit:'months',monthShort:'month',noPositive:'None in the selected period',portfolioHelp:'Several goods or services? Build a V2 portfolio to share business costs.',
+    actions:'Save and continue',firstPrefix:'First month',forecastCaveat:'Fractional customers represent expected demand, not part of a person.'},
+  kk:{step:'Есептеу шарттары',stepHint:'Салықты, кезеңді және қаржыландыруды тексеріңіз. Өрістер өзгерсе, нәтиже дереу жаңарады.',
+    summary:'Таңдалған кезеңнің нәтижесі',summaryHint:'Барлық сома есептеу валютасымен берілген. Бөлшек клиент саны — күтілетін сұраныс.',
+    months:'Айлық ақша ағыны',monthsHint:'Кестені көлденең айналдырыңыз. Кіріс ҚҚС-сыз, ақша ағыны шығындар мен салықтарды ескереді.',
+    details:'Қосымша көрсеткіштерді көрсету',priceOne:'ҚҚС-пен бір қызметтің бағасы',forecast:'Клиенттер болжамы',foreFirst:'бірінші айда',foreMax:'айлық ең көбі',foreEach:'айына',
+    taxRate:'Салық мөлшерлемесі, %',creditOnly:'Несие шарттары',creditHint:'Тек «Несие» таңдалғанда көрсетіледі.',
+    capitalNote:'Резервпен бірге іске қосуға қажет ақша',profitNote:'Таңдалған кезеңдегі салықтан кейінгі пайда',freeNote:'Кезең соңындағы резервтен тыс ақша',
+    peakNote:'Ең жоғары ақша қажеттілігі',firstNote:'Операциялық ақша ағыны оң болған алғашқы ай',paybackNote:'Жинақталған түсімдер шығындарды жапқан кезең',
+    monthsUnit:'ай',monthShort:'ай',noPositive:'Таңдалған кезеңде жоқ',portfolioHelp:'Бірнеше тауар немесе қызмет бар ма? Ортақ шығындар үшін V2 портфелін жинаңыз.',
+    actions:'Сақтау және жалғастыру',firstPrefix:'Бірінші ай',forecastCaveat:'Бөлшек клиент саны — нақты адамның бөлігі емес, орташа болжам.'}
+ };
+ function help(){return guide[lang()]||guide.ru;}
+ const amount=x=>Number.isFinite(Number(x))?Number(x).toLocaleString(lang()==='en'?'en-US':lang()==='kk'?'kk-KZ':'ru-RU',{maximumFractionDigits:2,minimumFractionDigits:0}):'—';
+ function forecastText(value){
+  const t=help();
+  const list=(Array.isArray(value)?value:[value]).map(Number).filter(Number.isFinite);
+  if(!list.length)return '—';
+  const first=list[0],max=Math.max(...list),min=Math.min(...list);
+  if(Math.abs(max-min)<0.005)return amount(first)+' '+t.foreEach;
+  return amount(first)+' '+t.foreFirst+' · '+t.foreMax+' '+amount(max);
+ }
+ function monthValue(n){
+  if(n===null||n===undefined)return help().noPositive;
+  return amount(n)+' '+help().monthShort;
+ }
+ function renderFunding(){
+  const block=el('full-service-credit-fields');
+  if(!block)return;
+  const active=el('full-service-funding')?.value==='credit';
+  block.hidden=!active;
+  block.classList.toggle('hidden',!active);
+  if(active){
+    const term=el('full-service-term');
+    if(term && (!Number.isInteger(Number(term.value))||Number(term.value)<1))
+      term.value='1';
+  }
+ }
+
  function savedDraft(){
   try{
    const data=JSON.parse(root.localStorage.getItem(STORAGE_KEY)||'null');
@@ -37,36 +94,60 @@
   return '<label class="nd-full-service-label">'+escaped(label)+'<select id="'+id+'">'+
    opts.map(([k,v])=>'<option value="'+escaped(k)+'"'+(selected===k?' selected':'')+'>'+escaped(v)+'</option>').join('')+'</select></label>';
  }
- function mount(){const node=el('full-service-screen');if(!node||!input)return;const t=labels();
+
+ function mount(){
+  const node=el('full-service-screen');if(!node||!input)return;
+  const t=labels(),h=help();
+  const price=money(Number(input.priceGross)),forecast=forecastText(input.monthlyForecast);
   node.innerHTML='<div class="nd-full-service-shell">'+
    '<button type="button" id="full-service-back" class="nd-full-service-secondary">'+t.back+'</button>'+
-   '<div class="nd-full-service-header"><p>V1 · '+escaped(source?.name||'')+'</p><h1>'+t.head+'</h1>'+
-   '<p class="nd-full-service-v1-info">'+escaped(t.price)+': <b>'+money(Number(input.priceGross))+'</b> · '+
-   escaped(lang()==='ru'?'Прогноз / месяц':lang()==='en'?'Forecast / month':'Болжам / ай')+': '+
-   escaped(String(input.monthlyForecast))+'</p></div>'+
-   '<div class="nd-full-service-inputs">'+
-   field(t.vat,'full-service-vat',input.vatPct??0,'number','min="0" max="1000" step="0.01"')+
-   choice(t.tax,'full-service-tax',input.taxType||'turnover',[['turnover',t.turnover],['profit',t.profit]])+
-   field(t.horizon,'full-service-horizon',input.months||1,'number','min="1" max="120" step="1"')+
-   choice(t.funding,'full-service-funding',input.funding||'own',[['own',t.own],['credit',t.credit]])+
-   field(t.rate,'full-service-rate',input.annualRatePct??0,'number','min="0" step="0.01"')+
-   field(t.term,'full-service-term',input.creditMonths||1,'number','min="1" step="1"')+
-   '</div><div id="full-service-message" role="alert" aria-live="polite"></div>'+
+   '<header class="nd-full-service-header">'+
+    '<p class="nd-full-service-eyebrow">V1 · '+escaped(source?.name||'')+'</p>'+
+    '<h1>'+escaped(t.head)+'</h1>'+
+    '<div class="nd-full-service-overview">'+
+     '<div><span>'+escaped(h.priceOne)+'</span><strong>'+price+'</strong></div>'+
+     '<div><span>'+escaped(h.forecast)+'</span><strong>'+escaped(forecast)+'</strong></div>'+
+    '</div><p class="nd-full-service-forecast-note">'+escaped(h.forecastCaveat)+'</p>'+
+   '</header>'+
+   '<section class="nd-full-service-settings" aria-labelledby="full-service-settings-title">'+
+    '<h2 id="full-service-settings-title">1. '+escaped(h.step)+'</h2>'+
+    '<p class="nd-full-service-intro">'+escaped(h.stepHint)+'</p>'+
+    '<div class="nd-full-service-inputs">'+
+     field(t.vat,'full-service-vat',input.vatPct??0,'number','min="0" max="1000" step="0.01"')+
+     choice(t.tax,'full-service-tax',input.taxType||'turnover',[['turnover',t.turnover],['profit',t.profit]])+
+     field(h.taxRate,'full-service-tax-pct',input.taxPct??0,'number','min="0" max="100" step="0.01"')+
+     field(t.horizon,'full-service-horizon',input.months||1,'number','min="1" max="120" step="1"')+
+     choice(t.funding,'full-service-funding',input.funding||'own',[['own',t.own],['credit',t.credit]])+
+    '</div>'+
+    '<div id="full-service-credit-fields" class="nd-full-service-credit hidden" hidden>'+
+     '<h3>'+escaped(h.creditOnly)+'</h3><p>'+escaped(h.creditHint)+'</p>'+
+     '<div class="nd-full-service-inputs">'+
+       field(t.rate,'full-service-rate',input.annualRatePct??0,'number','min="0" step="0.01"')+
+       field(t.term,'full-service-term',Number(input.creditMonths)>0?input.creditMonths:1,'number','min="1" step="1"')+
+     '</div>'+
+    '</div>'+
+   '</section>'+
+   '<div id="full-service-message" role="alert" aria-live="polite"></div>'+
    '<div id="full-service-report" aria-live="polite"></div>'+
-   '<div class="nd-full-service-actions"><button type="button" id="full-service-save" class="nd-full-service-secondary">'+t.save+'</button>'+
-   '<button type="button" id="full-service-add-portfolio" class="nd-full-service-secondary">'+t.portfolio+'</button>'+
-   '<button type="button" id="full-service-pdf" class="nd-cta-primary">'+t.report+'</button></div></div>';
-  ['vat','tax','horizon','funding','rate','term'].forEach(k=>{
+   '<section class="nd-full-service-action-section">'+
+    '<h2>'+escaped(h.actions)+'</h2>'+
+    '<div class="nd-full-service-actions">'+
+     '<button type="button" id="full-service-save" class="nd-full-service-secondary">'+t.save+'</button>'+
+     '<button type="button" id="full-service-pdf" class="nd-cta-primary">'+t.report+'</button>'+
+    '</div>'+
+    '<p class="nd-full-service-portfolio-help">'+escaped(h.portfolioHelp)+'</p>'+
+    '<button type="button" id="full-service-add-portfolio" class="nd-full-service-secondary">'+t.portfolio+'</button>'+
+   '</section></div>';
+  ['vat','tax','tax-pct','horizon','funding','rate','term'].forEach(k=>{
    const field=el('full-service-'+k);
    field.addEventListener('input',calculate);
    field.addEventListener('change',calculate);
   });
+  renderFunding();
   el('full-service-back').addEventListener('click',()=>root.showOnly(source?.fromSaved?'service-work-screen':source?.kind==='online'?'calculator-screen':'product-screen'));
   el('full-service-save').addEventListener('click',()=>{
     if(!result)return;
     try{
-      // Only the source inputs are persisted: derived daily rows are rebuilt
-      // from the current engine on resume rather than consuming storage quota.
       root.localStorage.setItem(STORAGE_KEY,JSON.stringify({
         schema:2,input,source:{name:source.name,kind:source.kind,id:source.id,role:source.role},
         savedAt:new Date().toISOString()
@@ -90,31 +171,56 @@
  }
  function calculate(){
   if(!input)return;
-  const t=labels();
+  const t=labels(),h=help();
+  renderFunding();
   const next={...input,vatPct:el('full-service-vat').value,
-   taxType:el('full-service-tax').value,months:Number(el('full-service-horizon').value),
+   taxType:el('full-service-tax').value,taxPct:el('full-service-tax-pct').value,
+   months:Number(el('full-service-horizon').value),
    funding:el('full-service-funding').value,
-   annualRatePct:el('full-service-rate').value,creditMonths:Number(el('full-service-term').value)};
+   annualRatePct:el('full-service-rate').value,
+   creditMonths:Number(el('full-service-term').value)};
   const msg=el('full-service-message'),target=el('full-service-report');
   input=next;msg.textContent='';target.replaceChildren();
   try{result=Engine.build(next);}
-  catch(err){result=null;msg.textContent=err.message;el('full-service-pdf').disabled=true;el('full-service-add-portfolio').disabled=true;return;}
-  el('full-service-pdf').disabled=false;
+  catch(err){result=null;msg.textContent=err.message;el('full-service-pdf').disabled=true;el('full-service-save').disabled=true;el('full-service-add-portfolio').disabled=true;return;}
+  el('full-service-pdf').disabled=false;el('full-service-save').disabled=false;
   el('full-service-add-portfolio').disabled=false;
   const data=result;
-  const metrics=[[t.capital,data.capital],[t.reserve,data.reserve],[t.peak,
-    money(data.peakDeficit)+' · '+data.peakMonth],[t.first,
-    data.firstPositiveMonth??'—'],[t.payback,data.paybackMonth??t.noPayback],
-    [t.net,data.profit],[t.taxes,data.tax],[t.cash,data.cashOnHand],
-    [t.free,data.freeCash],[t.debt,data.outstandingPrincipal]];
-  const node=document.createElement('div');
-  node.className='nd-full-service-metrics';
-  node.innerHTML=metrics.map(([name,value])=>'<div><span>'+escaped(name)+'</span>'+
-    '<strong>'+ (typeof value==='number'?money(value):escaped(value))+'</strong></div>').join('');
+  const card=(name,value,description,featured=false)=>
+    '<div class="nd-full-service-metric'+(featured?' nd-full-service-metric-featured':'')+'">'+
+    '<span>'+escaped(name)+'</span><strong>'+escaped(value)+'</strong>'+
+    '<small>'+escaped(description)+'</small></div>';
+  const cashMetrics=[
+    [t.capital,money(data.capital),h.capitalNote],
+    [t.net,money(data.profit),h.profitNote],
+    [t.free,money(data.freeCash),h.freeNote]
+  ];
+  const additional=[
+    [t.reserve,money(data.reserve),''],
+    [t.peak,money(data.peakDeficit)+' · '+h.monthShort+' '+amount(data.peakMonth),h.peakNote],
+    [t.first,monthValue(data.firstPositiveMonth),h.firstNote],
+    [t.payback,data.paybackMonth===null?t.noPayback:monthValue(data.paybackMonth),h.paybackNote],
+    [t.taxes,money(data.tax),''],
+    [t.cash,money(data.cashOnHand),'']
+  ];
+  if(next.funding==='credit')
+   additional.push([t.debt,money(data.outstandingPrincipal),'']);
+  const node=document.createElement('section');
+  node.className='nd-full-service-results';
+  node.innerHTML='<h2>2. '+escaped(h.summary)+'</h2>'+
+   '<p class="nd-full-service-intro">'+escaped(h.summaryHint)+'</p>'+
+   '<div class="nd-full-service-metrics">'+cashMetrics.map(x=>card(...x,true)).join('')+'</div>'+
+   '<details class="nd-full-service-details"><summary>'+escaped(h.details)+'</summary>'+
+   '<div class="nd-full-service-details-grid">'+additional.map(x=>card(...x)).join('')+'</div></details>';
   target.append(node);
-  const wrap=document.createElement('div');wrap.className='nd-full-service-table';
+  const wrap=document.createElement('section');
+  wrap.className='nd-full-service-months';
+  wrap.innerHTML='<h2>3. '+escaped(h.months)+'</h2>'+
+    '<p class="nd-full-service-intro">'+escaped(h.monthsHint)+'</p>'+
+    '<div class="nd-full-service-table"></div>';
   const cols=[t.month,t.revenue,t.cost,t.interest,t.taxCol,t.amortCol,t.profitCol,t.flow,t.capex,t.fundingIn,t.principal,t.netFlow,t.balance];
-  wrap.innerHTML='<table><thead><tr>'+cols.map(c=>'<th>'+escaped(c)+'</th>').join('')+'</tr></thead><tbody>'+
+  const table=wrap.querySelector('.nd-full-service-table');
+  table.innerHTML='<table><thead><tr>'+cols.map(c=>'<th>'+escaped(c)+'</th>').join('')+'</tr></thead><tbody>'+
    data.months.map(m=>'<tr>'+[m.month,m.revenue,m.variable+m.fixed,
      m.interest,m.tax,m.depreciation,m.profit,m.operatingCash,m.assetCash,m.financeIn,m.principalDue,m.netCashFlow,m.cashOnHand].map((v,i)=>
      '<td>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
