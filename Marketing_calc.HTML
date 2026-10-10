@@ -1351,8 +1351,8 @@
                     </button>
                 </div>
 
-                <button id="add-product-button" type="button" onclick="addAnotherProduct()" class="nd-cta-primary hidden mt-4 w-full rounded-xl bg-blue-700 text-white px-5 py-3.5 font-bold shadow-md hover:bg-blue-800 transition">
-                    <span id="service-assortment-add">+ Добавить товар</span>
+                <button id="add-product-button" type="button" onclick="saveAndChooseNextPortfolioItem()" class="nd-cta-primary hidden mt-4 w-full rounded-xl bg-blue-700 text-white px-5 py-3.5 font-bold shadow-md hover:bg-blue-800 transition">
+                    <span id="service-assortment-add">+ Добавить товар или услугу</span>
                 </button>
 
                 <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
@@ -4894,11 +4894,28 @@
         }
 
         function startFreshProductCalculation() {
-            // Starting an empty calculation does NOT delete the prior local saved copy.
+            // The explicit "add next product or service" action is an append,
+            // while a normal new calculation starts empty. The saved browser
+            // draft is the source of truth after returning through Home.
+            const appendSavedPortfolio=nextPortfolioItemRequested;
+            nextPortfolioItemRequested=false;
+            const saved=appendSavedPortfolio?readSavedProductCalculation():null;
             productPortfolio.length = 0;
             currentProductSequence = 1;
             document.getElementById('completed-product-forms').innerHTML = '';
             resetCurrentProductForNext();
+            if(saved) {
+                saved.productPortfolio.forEach(item=>productPortfolio.push(item));
+                currentProductSequence=Math.max(0,...productPortfolio.map(item=>Number(item.id)||0))+1;
+                productBusinessTaxType =
+                    ['turnover','profit'].includes(saved.taxType)?saved.taxType:null;
+                const taxPct=document.getElementById('own-business-tax-pct');
+                if(taxPct)taxPct.value=String(saved.businessTaxPct??0);
+                if(['yes','no'].includes(saved.salesVat))
+                    productOwnChoices.salesVat=saved.salesVat;
+                const vatPct=document.getElementById('own-sales-vat-pct');
+                if(vatPct)vatPct.value=String(saved.salesVatPct??0);
+            }
             configureOfflineServiceView();
             const extra = document.getElementById('product-source-unavailable');
             if (extra) { extra.hidden = true; extra.classList.add('hidden'); }
@@ -5979,6 +5996,18 @@
             host.appendChild(frozen);
         }
 
+        // The primary assortment button saves before returning to the first
+        // product/service choice. Keep addAnotherProduct for internal resale
+        // batch composition flows that deliberately stay in the current form.
+        let nextPortfolioItemRequested=false;
+        function saveAndChooseNextPortfolioItem() {
+            if (!requireAdditionalProductName()) return false;
+            if (!saveProductCalculationToBrowser()) return false;
+            nextPortfolioItemRequested=true;
+            showHome();
+            return true;
+        }
+
         function addAnotherProduct() {
             if (!requireAdditionalProductName()) return false;
             const previousProductSource=productSource;
@@ -6273,7 +6302,7 @@
             set('service-assortment-kicker',service?'Мои услуги':'Ассортимент');
             set('service-assortment-heading',service?'Это все ваши услуги?':'Это весь ваш ассортимент?');
             set('service-assortment-more',service?'У меня будут другие услуги':'У меня будут другие товары');
-            set('service-assortment-add',service?'+ Добавить услугу':'+ Добавить товар');
+            set('service-assortment-add','+ Добавить товар или услугу');
             set('production-stage-heading',service?'Офлайн-услуга · рабочее место и персонал':'Производство');
             set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');
             set('production-worker-heading',service?'Кто оказывает услугу?':'Кто выполняет производство?');
