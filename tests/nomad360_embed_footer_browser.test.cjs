@@ -43,6 +43,15 @@ const server=createServer(async(req,res)=>{
    A.equal(await page.locator('.nomad-bar').evaluate(el=>el.scrollWidth<=el.clientWidth),true,
      'Branding must fit the mobile header');
   A.match(await license.textContent(),/Встроить калькулятор на мой сайт/);
+  A.match(await license.textContent(),/Работаете в B2B\? Привлеките полезный трафик бесплатно/);
+  A.equal(await license.locator('[data-nomad-traffic-grid]').isVisible(),false,
+    'Never show fake 0 counts until the server is configured');
+  A.match(await license.locator('[data-nomad-traffic-status]').textContent(),/Статистика пока недоступна/);
+  A.equal(await license.evaluate(el=>{
+    const button=el.querySelector('[data-nomad-download-html]');
+    const stats=el.querySelector('[data-nomad-traffic-stats]');
+    return !!button&&!!stats&&!!(button.compareDocumentPosition(stats)&Node.DOCUMENT_POSITION_FOLLOWING);
+  }),true,'Traffic widget must sit below the embed button');
   A.match(await license.textContent(),/Автоматическое обновление не поддерживается/);
   const visual=await license.evaluate(el=>{
     const download=getComputedStyle(el.querySelector('.nomad-embed-download'));

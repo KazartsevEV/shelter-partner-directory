@@ -1,0 +1,15 @@
+name = "nomad360-traffic"
+main = "worker.js"
+compatibility_date = "2026-10-10"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGIN = "https://kazartsevev.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nomad360-traffic"
+database_id = "REPLACE_WITH_REAL_CLOUDFLARE_D1_DATABASE_ID"
+
+[triggers]
+crons = ["0 2 * * *"]

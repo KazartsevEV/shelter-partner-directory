@@ -484,6 +484,16 @@
         </div>
 
         <div id="product-own-form" class="hidden mt-5 space-y-5" hidden>
+            <div id="product-sales-unit-panel" class="card p-4">
+                <label for="product-sales-unit" class="block text-sm font-semibold text-slate-700 mb-2">Единица измерения товара или услуги</label>
+                <select id="product-sales-unit" class="input-field" aria-label="Единица измерения товара или услуги">
+                    <option value="шт">шт</option><option value="кг">кг</option><option value="г">г</option>
+                    <option value="л">л</option><option value="мл">мл</option><option value="м">м</option>
+                    <option value="м²">м²</option><option value="м³">м³</option><option value="упак">упак</option>
+                    <option value="компл">компл</option><option value="услуга">услуга</option><option value="час">час</option>
+                </select>
+                <p class="text-sm text-slate-500 mt-2">Используется для подписей количества и цены. Расчёт ведётся в выбранной единице.</p>
+            </div>
             <div id="additional-product-name-wrap" class="card p-6 md:p-8 hidden" hidden>
                 <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Новый товар</div>
                 <label for="additional-product-name-input" class="block text-sm font-medium text-slate-700 mb-2">
@@ -852,7 +862,8 @@
                     <label class="block text-sm font-medium text-slate-700 mb-2">
                         <span id="production-qty-label">Сколько единиц</span> <span class="product-name-live"></span> <span id="production-qty-suffix">производите в месяц?</span>
                     </label>
-                    <input id="own-production-monthly-qty" type="number" min="1" step="1" value="1" class="input-field">
+                    <input id="own-production-monthly-qty" type="number" min="0" step="any" value="1" class="input-field" aria-describedby="offline-service-forecast-state">
+                    <p id="offline-service-forecast-state" class="hidden text-sm text-slate-600 mt-2" hidden>Прогноз появится после расчёта рекламной воронки.</p>
                     <p id="production-result-help" class="text-xs text-slate-500 mt-2">
                         Аренда помещения / месяц, аренда оборудования / месяц, амортизация оборудования / месяц, газ / месяц, рабочие / месяц и накладные организационные расходы / месяц распределяются на месячный объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.
                     </p>
@@ -2447,6 +2458,7 @@
                 id: currentProductSequence,
                 name: productName,
                 source: productSource,
+                unit: document.getElementById('product-sales-unit')?.value || (productSource==='offline-service'?'услуга':'шт'),
                 materialsUnitCost: latestMaterialsLandedUnitCost,
                 materialsVariableUnit,
                 materialsFixedBatch,
@@ -2618,7 +2630,7 @@
                         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                             <div>
                                 <div class="text-xs uppercase tracking-[0.14em] text-slate-400">${item.source==='offline-service'?'Услуга':'Товар'} ${index + 1}</div>
-                                <div class="font-bold text-slate-900 text-base">«${esc(item.name)}»</div>
+                                <div class="font-bold text-slate-900 text-base">«${esc(item.name)}» · ${esc(item.unit||(item.source==='offline-service'?'услуга':'шт'))}</div>
                             </div>
                             <div class="flex flex-wrap gap-x-4 gap-y-3 items-center">
                               <button type="button"
@@ -6190,8 +6202,16 @@
                         <input type="number" min="0" step="0.01" value="0" class="material-cost-price input-field" oninput="updateCalculatedMaterialsCost()">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Сколько нужно на 1 товар</label>
+                        <label class="block text-xs text-slate-500 mb-1">Количество на 1 товар/услугу</label>
                         <input type="number" min="0" step="0.0001" value="1" class="material-cost-qty input-field" oninput="updateCalculatedMaterialsCost()">
+                        <label class="block text-xs text-slate-500 mt-2">Ед. изм.
+                            <select class="material-cost-unit input-field mt-1" aria-label="Единица измерения материала">
+                                <option value="шт">шт</option><option value="г">г</option><option value="кг">кг</option>
+                                <option value="мл">мл</option><option value="л">л</option><option value="м">м</option>
+                                <option value="м²">м²</option><option value="м³">м³</option>
+                                <option value="упак">упак</option><option value="компл">компл</option>
+                            </select>
+                        </label>
                     </div>
                 </div>
 
@@ -6291,6 +6311,8 @@
             set('product-name-label',service?'Название услуги':'Наименование товара');
             set('product-intro-help',service?'Например: маникюр с покрытием, стрижка, массаж. Одна единица = одна оказанная услуга.':'Введите название своего товара. Сведения из учебных примеров сюда не переносятся.');
             set('product-intro-submit-label',service?'Рассчитать услугу':'Рассчитать мой товар');
+            const salesUnit=document.getElementById('product-sales-unit');
+            if(salesUnit && service)salesUnit.value='услуга';
             const input=document.getElementById('product-name-input');
             if(input)input.placeholder=service?'Например: маникюр с покрытием':'Например: кофемашина, футболка, набор свечей';
             const back=document.getElementById('product-main-back');
@@ -6331,7 +6353,14 @@
                 'Месячную аренду, зарплаты мастеров и начисления работодателя, оборудование, отопление и накладные расходы распределяем на прогноз фактически оказанных услуг из рекламы. Максимум клиентов проверяем отдельно.':
                 'Аренда помещения / месяц, аренда оборудования / месяц, амортизация оборудования / месяц, газ / месяц, рабочие / месяц и накладные организационные расходы / месяц распределяются на месячный объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.');
             const qty=document.getElementById('own-production-monthly-qty');
-            if(qty){qty.readOnly=service;qty.classList.toggle('bg-slate-100',service);}
+            if(qty){
+                qty.readOnly=service;
+                qty.classList.toggle('bg-slate-100',service);
+                if(service){qty.value='';qty.placeholder='Результат рекламной воронки';}
+                else qty.placeholder='';
+            }
+            const forecastState=document.getElementById('offline-service-forecast-state');
+            if(forecastState){forecastState.hidden=!service;forecastState.classList.toggle('hidden',!service);}
             if(service){
                 productOwnChoices.inboundIncluded='yes';productOwnChoices.materialsImported='no';
                 setProductChoiceVisual('inboundIncluded','yes');
@@ -6351,9 +6380,16 @@
         function syncOfflineServiceForecast() {
             if(productSource!=='offline-service')return;
             const forecast=Math.max(0,productNumberFromText('own-product-ad-units'));
-            const qty=Math.max(1,Math.ceil(forecast));
+            const qty=Math.ceil(forecast);
             for(const id of ['own-production-monthly-qty','own-materials-batch-qty','own-sales-monthly-qty']){
-                const el=document.getElementById(id);if(el)el.value=String(qty);
+                const el=document.getElementById(id);
+                if(el)el.value=forecast>0?String(id==='own-production-monthly-qty'?Number(forecast.toFixed(4)):qty):'';
+            }
+            const forecastState=document.getElementById('offline-service-forecast-state');
+            if(forecastState){
+                forecastState.textContent=forecast>0
+                    ?'Автоматически рассчитано из рекламной воронки: '+forecast.toLocaleString(nomadDisplayLocale(),{maximumFractionDigits:2})+' услуг/мес.'
+                    :'Прогноз появится после расчёта рекламной воронки. Сначала укажите бюджет, CPC и конверсии в разделе «Реклама».';
             }
             const capacityField=document.getElementById('offline-service-monthly-capacity');
             const capacity=Number(capacityField?.value||0);
@@ -6732,6 +6768,12 @@
                     <div>
                         <label class="block text-xs text-slate-500 mb-1">Ед.</label>
                         <input type="number" min="1" step="1" value="1" class="equipment-rental-qty input-field" oninput="updateEquipmentRentalTotal()">
+                        <label class="block text-xs text-slate-500 mt-2">Ед. изм.
+                            <select class="equipment-rental-unit input-field mt-1" aria-label="Единица измерения оборудования">
+                                <option value="шт">шт</option><option value="компл">компл</option>
+                                <option value="ед">ед</option><option value="упак">упак</option>
+                            </select>
+                        </label>
                     </div>
                 </div>
                 <div class="grid grid-cols-[1fr_auto] gap-2 items-end mt-2">
@@ -6774,6 +6816,12 @@
                     <div>
                         <label class="block text-xs text-slate-500 mb-1">Ед.</label>
                         <input type="number" min="1" step="1" value="1" class="equipment-purchase-qty input-field" oninput="updateEquipmentDepreciationTotal()">
+                        <label class="block text-xs text-slate-500 mt-2">Ед. изм.
+                            <select class="equipment-purchase-unit input-field mt-1" aria-label="Единица измерения оборудования">
+                                <option value="шт">шт</option><option value="компл">компл</option>
+                                <option value="ед">ед</option><option value="упак">упак</option>
+                            </select>
+                        </label>
                     </div>
                 </div>
                 <div class="grid grid-cols-[1fr_auto] gap-2 items-end mt-2">
@@ -6836,7 +6884,8 @@
                 const el=document.getElementById('own-production-unit-cost');if(el)el.textContent=moneyInputValue(0);
                 recalculateLogisticsUnitCost();return;
             }
-            const qty = productSource==='offline-service'?Math.max(1,productNumberFromText('own-product-ad-units')):Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
+            const offlineForecast=productNumberFromText('own-product-ad-units');
+            const qty = productSource==='offline-service'?Math.max(1,offlineForecast):Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
             const defectPct = productSource==='offline-service'?0:Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
             const yieldFactor = Math.max(0.0001, 1 - defectPct / 100);
 
@@ -6911,10 +6960,13 @@
 
             latestProductionUnitCost = unitCost;
             const output = document.getElementById('own-production-unit-cost');
-            if (output) output.textContent = moneyInputValue(unitCost);
+            const hasForecast=productSource!=='offline-service'||offlineForecast>0;
+            if (output) output.textContent = hasForecast?moneyInputValue(unitCost):'—';
 
             const breakdown = document.getElementById('own-production-unit-breakdown');
-            if (breakdown) {
+            if (breakdown && !hasForecast) {
+                breakdown.textContent='Расходы на одну услугу появятся после расчёта рекламной воронки.';
+            } else if (breakdown) {
                 const rows = [
                     ['Аренда помещения / 1 ед.', premisesMonthly / qty],
                     ['Аренда оборудования / 1 ед.', equipmentRentalMonthly / qty],
@@ -8229,6 +8281,7 @@
 <script src="./portfolio_v2_linked_ui.js"></script>
 <script src="./nomad360_calculator_ui.js"></script>
 <script src="./nomad360_locale_core.js"></script>
+<script src="./nomad360_traffic.js"></script>
 <script src="./nomad360_header.js"></script>
 </body>
 </html>
