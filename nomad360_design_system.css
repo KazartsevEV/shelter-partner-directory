@@ -56,6 +56,28 @@ body > section :is(.input-field,input:not([type="checkbox"]):not([type="radio"])
   box-shadow:0 0 0 2px rgba(22,55,90,.10);
 }
 body > section :is(h1,h2,h3,h4) { letter-spacing:-.025em; }
+/* Harmonize primary actions and input surfaces across V1/V2 without
+   flattening selected, warning, invalid or disabled states. */
+body > section .input-field {
+  border-color:var(--nd-line-strong);
+  background:#fff;
+  color:var(--nd-ink-deep);
+  font-weight:500;
+}
+body > section :is(button.bg-blue-600,button.bg-blue-700,button.bg-emerald-600,button.bg-emerald-700,button.bg-emerald-800,button.bg-violet-600,button.bg-violet-700) {
+  background:var(--nd-ink);
+  border-color:var(--nd-ink);
+  color:#fff;
+}
+body > section :is(button.bg-blue-600,button.bg-blue-700,button.bg-emerald-600,button.bg-emerald-700,button.bg-emerald-800,button.bg-violet-600,button.bg-violet-700):hover:not(:disabled) {
+  background:var(--nd-ink-deep);
+  border-color:var(--nd-ink-deep);
+}
+body > section button:is(.text-blue-600,.text-blue-700):not(.bg-blue-600):not(.bg-blue-700) {
+  color:var(--nd-ink);
+}
+body > section .card :is(label,legend) {text-wrap:pretty;}
+body > section :is(.result-card,.th,.td-total) {border-radius:var(--nd-radius);}
 /* Layout: generous white space, separate task nodes, lines instead of shadows. */
 body #home-screen {
   max-width:1100px;
@@ -320,7 +342,7 @@ body #nomad360-home-secondary .nomad-example-link:hover { color:var(--nd-accent)
 body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
 @media (max-width:760px) {
   body #nomad360-calculation-list ul { grid-template-columns:minmax(0,1fr); }
-  body #nomad360-selling-choice .nomad-choice-grid {grid-template-columns:minmax(0,1fr);gap:9px}
+  body #nomad360-selling-choice .nomad-choice-grid {grid-template-columns:minmax(0,1fr);grid-auto-rows:1fr;gap:9px}
   body #nomad360-selling-choice .nomad-choice-button {
     min-height:88px;
     padding:17px 19px;
