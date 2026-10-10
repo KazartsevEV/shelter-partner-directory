@@ -134,11 +134,11 @@ async function browserCase(browser,locale,expected){
   A.equal(new Set(mobileGeometry.map(x=>x.height)).size,1,'Three choices must have identical mobile heights');
   A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
   A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
-  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=84&&x.height<=110),'Choice buttons keep proportionate 84–110px tap targets');
+  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=104&&x.height<=170),'Large readable orange choices remain equal-sized mobile tap targets');
   A.ok(mobileGeometry.every(x=>x.background==='rgb(237, 142, 99)' && x.color==='rgb(22, 55, 90)'),
     'All three primary routes must use warm orange with navy text');
-  A.ok(mobileGeometry.every(x=>x.fontSize>=19&&x.fontSize<=22),
-    'Mobile choice text remains readable but proportional to each tap target');
+  A.ok(mobileGeometry.every(x=>x.fontSize>=24&&x.fontSize<=26),
+    'Main orange choice text is visibly sized for the large mobile cards');
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
     'Remove the small 01/02/03 labels from the decision buttons');
   const savedTreatment=await page.locator('#saved-product-entry').evaluate(el=>{
@@ -164,6 +164,35 @@ async function browserCase(browser,locale,expected){
   A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
   A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(17, 40, 63)'),
     'Service path choices must share orange surface and navy readable labels');
+  const trail=page.locator('#service-work-screen .nd-route-trail');
+  A.equal(await trail.locator('.nd-route-current').textContent(),{
+    ru:'Формат работы',en:'Work format',kk:'Жұмыс форматы'}[expected.lang],
+    'Service route shows a distinct current step, not duplicated "Услуга → Услуга"');
+  const breadcrumb=trail.locator('button.nd-route-link');
+  A.equal(await breadcrumb.textContent(),{ru:'Товар / услуга',en:'Product / service',
+    kk:'Тауар / қызмет'}[expected.lang]);
+  const breadcrumbCss=await breadcrumb.evaluate(el=>{
+    const x=getComputedStyle(el),current=getComputedStyle(el.parentElement.querySelector('.nd-route-current'));
+    return {color:x.color,underline:x.textDecorationColor,decoration:x.textDecorationLine,
+      fontSize:x.fontSize,currentFont:current.fontSize,letterSpacing:x.letterSpacing};
+  });
+  A.equal(breadcrumbCss.color,'rgb(22, 55, 90)');
+  A.equal(breadcrumbCss.underline,'rgb(184, 87, 58)');
+  A.match(breadcrumbCss.decoration,/underline/);
+  A.equal(breadcrumbCss.fontSize,breadcrumbCss.currentFont,'Breadcrumb and current step use the same font size');
+  A.ok(parseFloat(breadcrumbCss.fontSize)>=18);
+  await breadcrumb.click();
+  A.equal(await page.locator('#home-screen').isVisible(),true,'Breadcrumb returns to start');
+  await choice.locator('#start-service').click();
+  await page.locator('#service-work-online').click();
+  A.equal(await page.locator('#service-screen').isVisible(),true);
+  const onlineTrail=page.locator('#service-screen .nd-route-trail');
+  A.equal(await onlineTrail.locator('button.nd-route-link').textContent(),{
+    ru:'Услуга',en:'Service',kk:'Қызмет'}[expected.lang]);
+  A.equal(await onlineTrail.locator('.nd-route-current').textContent(),{
+    ru:'Онлайн',en:'Online',kk:'Онлайн'}[expected.lang]);
+  await onlineTrail.locator('button').click();
+  A.equal(await page.locator('#service-work-screen').isVisible(),true);
   await page.evaluate(()=>showHome());
   await choice.locator('#start-own-product').click();
   A.equal(await page.locator('#product-screen').isVisible(),true,'Product must open product branch');
@@ -172,11 +201,26 @@ async function browserCase(browser,locale,expected){
   });
   A.equal(productCta.background,'rgb(237, 142, 99)','V1 calculate CTA is orange');
   A.equal(productCta.color,'rgb(22, 55, 90)','V1 CTA label is navy');
+  A.ok(await page.locator('#product-screen button[type="submit"]').evaluate(
+    el=>parseFloat(getComputedStyle(el).fontSize)>=21),
+    'Product calculation primary button typography is at least 21px on mobile');
+  const productRoute=page.locator('#product-intro-category');
+  A.equal(await productRoute.evaluate(el=>el.tagName),'BUTTON',
+    'Product route label is a working navigation control');
+  const productRouteStyle=await productRoute.evaluate(el=>{
+    const x=getComputedStyle(el);return {color:x.color,underline:x.textDecorationColor,
+      decoration:x.textDecorationLine,size:parseFloat(x.fontSize)};
+  });
+  A.deepEqual({color:productRouteStyle.color,underline:productRouteStyle.underline},
+    {color:'rgb(22, 55, 90)',underline:'rgb(184, 87, 58)'});
+  A.match(productRouteStyle.decoration,/underline/);
+  A.ok(productRouteStyle.size>=18);
   const typeField=await page.locator('#product-name-input').evaluate(el=>({
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
   A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
-  await page.evaluate(()=>showHome());
+  await productRoute.click();
+  A.equal(await page.locator('#home-screen').isVisible(),true,'Product route link returns to product/service selection');
   const multi=choice.locator('#start-multi-portfolio');
   const normal=await multi.evaluate(el=>{
     const s=getComputedStyle(el),r=el.getBoundingClientRect();
@@ -441,7 +485,7 @@ async function sourceChoiceCase(browser) {
    A.equal(routeCards.length,10,'All ten buying/service/agency path options remain available');
    A.ok(routeCards.every(x=>x.parts===1&&!x.hasNote),
      'Orange path cards contain only the choice label, with no explanatory copy: '+JSON.stringify(routeCards));
-   A.ok(routeCards.every(x=>x.titleSize>=18&&x.titleSize<=21),
+   A.ok(routeCards.every(x=>x.titleSize>=23&&x.titleSize<=27),
      'Sourcing, service and agency labels remain proportional to card geometry');
    A.ok(routeCards.every(x=>x.balance==='balance'),
      'Path labels balance lines without orphan words');
