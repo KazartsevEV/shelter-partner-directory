@@ -9,9 +9,9 @@
  const escaped=x=>String(x??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
  const money=x=>Number.isFinite(x)?x.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
  const title={
-  ru:{head:'Полная денежная модель услуги',price:'Цена с НДС',vat:'НДС, %',tax:'Налог',turnover:'С оборота',profit:'С прибыли',horizon:'Горизонт, месяцев',funding:'Финансирование',own:'Свои деньги',credit:'Кредит',reserve:'Резерв',capital:'Стартовый капитал',peak:'Пик дефицита',first:'Первый положительный CF',payback:'Окупаемость',noPayback:'Не окупится за выбранный горизонт',net:'Чистая прибыль',taxes:'Налоги',cash:'Деньги на руках',free:'Свободный остаток',debt:'Непогашенный кредит',rate:'Кредит, % годовых',term:'Срок кредита, мес.',month:'Месяц',revenue:'Выручка без НДС',cost:'Расходы',interest:'Проценты',taxCol:'Налог',amortCol:'Амортизация',profitCol:'Прибыль',flow:'Операционный CF',capex:'Оборудование',fundingIn:'Вложено / кредит',principal:'Тело кредита',netFlow:'Денежный поток',balance:'Остаток денег',save:'Сохранить расчёт',report:'Сохранить расчёт в PDF',back:'← К услуге',error:'Для расчёта завершите заполнение V1-услуги.',resume:'Продолжить сохранённый расчёт',saved:'Расчёт сохранён'},
-  en:{head:'Full service cash flow',price:'VAT-inclusive price',vat:'VAT, %',tax:'Business tax',turnover:'Turnover',profit:'Profit',horizon:'Horizon (months)',funding:'Funding',own:'Own funds',credit:'Credit',reserve:'Reserve',capital:'Startup capital',peak:'Peak deficit',first:'First positive CF',payback:'Payback',noPayback:'No payback within horizon',net:'Net profit',taxes:'Taxes',cash:'Cash on hand',free:'Available cash',debt:'Outstanding debt',rate:'Annual loan rate, %',term:'Loan term (months)',month:'Month',revenue:'Net-of-VAT revenue',cost:'Expenses',interest:'Interest',taxCol:'Tax',amortCol:'Depreciation',profitCol:'Profit',flow:'Operating CF',capex:'Equipment',fundingIn:'Owner / loan funding',principal:'Loan principal',netFlow:'Net cash flow',balance:'Cash balance',save:'Save calculation',report:'Save PDF',back:'← Service',error:'Complete V1 service inputs first.',resume:'Continue saved calculation',saved:'Calculation saved'},
-  kk:{head:'Қызметтің толық ақша ағыны',price:'ҚҚС-пен баға',vat:'ҚҚС, %',tax:'Салық',turnover:'Айналымнан',profit:'Пайдадан',horizon:'Кезең, ай',funding:'Қаржыландыру',own:'Өз қаражаты',credit:'Несие',reserve:'Резерв',capital:'Бастапқы капитал',peak:'Ең үлкен тапшылық',first:'Алғашқы оң CF',payback:'Өтелу мерзімі',noPayback:'Кезең ішінде өтелмейді',net:'Таза пайда',taxes:'Салықтар',cash:'Қолдағы ақша',free:'Бос қаражат',debt:'Несие қалдығы',rate:'Жылдық несие мөлшерлемесі, %',term:'Несие мерзімі, ай',month:'Ай',revenue:'ҚҚС-сыз кіріс',cost:'Шығындар',interest:'Пайыздар',taxCol:'Салық',amortCol:'Амортизация',profitCol:'Пайда',flow:'Операциялық CF',capex:'Жабдық',fundingIn:'Қаржыландыру',principal:'Несие сомасы',netFlow:'Ақша ағыны',balance:'Ақша қалдығы',save:'Есепті сақтау',report:'PDF сақтау',back:'← Қызмет',error:'Алдымен V1 деректерін толтырыңыз.',resume:'Сақталған есепті жалғастыру',saved:'Есеп сақталды'}
+  ru:{head:'Полная денежная модель услуги',price:'Цена с НДС',vat:'НДС, %',tax:'Налог',turnover:'С оборота',profit:'С прибыли',horizon:'Горизонт, месяцев',funding:'Финансирование',own:'Свои деньги',credit:'Кредит',reserve:'Резерв',capital:'Стартовый капитал',peak:'Пик дефицита',first:'Первый положительный CF',payback:'Окупаемость',noPayback:'Не окупится за выбранный горизонт',net:'Чистая прибыль',taxes:'Налоги',cash:'Деньги на руках',free:'Свободный остаток',debt:'Непогашенный кредит',rate:'Кредит, % годовых',term:'Срок кредита, мес.',month:'Месяц',revenue:'Выручка без НДС',cost:'Расходы',interest:'Проценты',taxCol:'Налог',amortCol:'Амортизация',profitCol:'Прибыль',flow:'Операционный CF',capex:'Оборудование',fundingIn:'Вложено / кредит',principal:'Тело кредита',netFlow:'Денежный поток',balance:'Остаток денег',save:'Сохранить расчёт',report:'Сохранить расчёт в PDF',back:'← К услуге',error:'Для расчёта завершите заполнение V1-услуги.',resume:'Продолжить сохранённый расчёт',saved:'Расчёт сохранён',portfolio:'Добавить в портфель V2'},
+  en:{head:'Full service cash flow',price:'VAT-inclusive price',vat:'VAT, %',tax:'Business tax',turnover:'Turnover',profit:'Profit',horizon:'Horizon (months)',funding:'Funding',own:'Own funds',credit:'Credit',reserve:'Reserve',capital:'Startup capital',peak:'Peak deficit',first:'First positive CF',payback:'Payback',noPayback:'No payback within horizon',net:'Net profit',taxes:'Taxes',cash:'Cash on hand',free:'Available cash',debt:'Outstanding debt',rate:'Annual loan rate, %',term:'Loan term (months)',month:'Month',revenue:'Net-of-VAT revenue',cost:'Expenses',interest:'Interest',taxCol:'Tax',amortCol:'Depreciation',profitCol:'Profit',flow:'Operating CF',capex:'Equipment',fundingIn:'Owner / loan funding',principal:'Loan principal',netFlow:'Net cash flow',balance:'Cash balance',save:'Save calculation',report:'Save PDF',back:'← Service',error:'Complete V1 service inputs first.',resume:'Continue saved calculation',saved:'Calculation saved',portfolio:'Add to V2 portfolio'},
+  kk:{head:'Қызметтің толық ақша ағыны',price:'ҚҚС-пен баға',vat:'ҚҚС, %',tax:'Салық',turnover:'Айналымнан',profit:'Пайдадан',horizon:'Кезең, ай',funding:'Қаржыландыру',own:'Өз қаражаты',credit:'Несие',reserve:'Резерв',capital:'Бастапқы капитал',peak:'Ең үлкен тапшылық',first:'Алғашқы оң CF',payback:'Өтелу мерзімі',noPayback:'Кезең ішінде өтелмейді',net:'Таза пайда',taxes:'Салықтар',cash:'Қолдағы ақша',free:'Бос қаражат',debt:'Несие қалдығы',rate:'Жылдық несие мөлшерлемесі, %',term:'Несие мерзімі, ай',month:'Ай',revenue:'ҚҚС-сыз кіріс',cost:'Шығындар',interest:'Пайыздар',taxCol:'Салық',amortCol:'Амортизация',profitCol:'Пайда',flow:'Операциялық CF',capex:'Жабдық',fundingIn:'Қаржыландыру',principal:'Несие сомасы',netFlow:'Ақша ағыны',balance:'Ақша қалдығы',save:'Есепті сақтау',report:'PDF сақтау',back:'← Қызмет',error:'Алдымен V1 деректерін толтырыңыз.',resume:'Сақталған есепті жалғастыру',saved:'Есеп сақталды',portfolio:'V2 портфеліне қосу'}
  };
  function lang(){return root.Nomad360UI?.getLanguage?.()||'ru';}
  function labels(){return title[lang()]||title.ru;}
@@ -54,6 +54,7 @@
    '</div><div id="full-service-message" role="alert" aria-live="polite"></div>'+
    '<div id="full-service-report" aria-live="polite"></div>'+
    '<div class="nd-full-service-actions"><button type="button" id="full-service-save" class="nd-full-service-secondary">'+t.save+'</button>'+
+   '<button type="button" id="full-service-add-portfolio" class="nd-full-service-secondary">'+t.portfolio+'</button>'+
    '<button type="button" id="full-service-pdf" class="nd-cta-primary">'+t.report+'</button></div></div>';
   ['vat','tax','horizon','funding','rate','term'].forEach(k=>{
    const field=el('full-service-'+k);
@@ -67,11 +68,21 @@
       // Only the source inputs are persisted: derived daily rows are rebuilt
       // from the current engine on resume rather than consuming storage quota.
       root.localStorage.setItem(STORAGE_KEY,JSON.stringify({
-        schema:2,input,source:{name:source.name,kind:source.kind},
+        schema:2,input,source:{name:source.name,kind:source.kind,id:source.id,role:source.role},
         savedAt:new Date().toISOString()
       }));
       el('full-service-message').textContent=labels().saved;
       updateResume();
+    }catch(err){el('full-service-message').textContent=err.message;}
+  });
+  el('full-service-add-portfolio').addEventListener('click',()=>{
+    if(!result)return;
+    try{
+      const id=String(source?.id||('full-'+source.kind+'-'+source.name));
+      const sku=Engine.toPortfolioSku(input,{...source,id});
+      const ui=root.LinkedPortfolioV2UI;
+      if(!ui?.appendFullService)throw Error('Портфель V2 ещё не загружен.');
+      ui.appendFullService(sku);
     }catch(err){el('full-service-message').textContent=err.message;}
   });
   el('full-service-pdf').addEventListener('click',print);
@@ -87,8 +98,9 @@
   const msg=el('full-service-message'),target=el('full-service-report');
   input=next;msg.textContent='';target.replaceChildren();
   try{result=Engine.build(next);}
-  catch(err){result=null;msg.textContent=err.message;el('full-service-pdf').disabled=true;return;}
+  catch(err){result=null;msg.textContent=err.message;el('full-service-pdf').disabled=true;el('full-service-add-portfolio').disabled=true;return;}
   el('full-service-pdf').disabled=false;
+  el('full-service-add-portfolio').disabled=false;
   const data=result;
   const metrics=[[t.capital,data.capital],[t.reserve,data.reserve],[t.peak,
     money(data.peakDeficit)+' · '+data.peakMonth],[t.first,
