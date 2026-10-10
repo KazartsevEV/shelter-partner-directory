@@ -43,7 +43,24 @@ const server=createServer(async(req,res)=>{
    A.equal(await page.locator('.nomad-bar').evaluate(el=>el.scrollWidth<=el.clientWidth),true,
      'Branding must fit the mobile header');
   A.match(await license.textContent(),/Встроить калькулятор на мой сайт/);
-  A.match(await license.textContent(),/Работаете в B2B\? Привлеките полезный трафик бесплатно/);
+  const b2b=await license.evaluate(el=>{
+    const offer=el.querySelector('.nomad-embed-b2b-offer');
+    const question=el.querySelector('.nomad-embed-b2b-question');
+    const answer=el.querySelector('.nomad-embed-b2b-answer');
+    const pos=node=>node.getBoundingClientRect().top;
+    return {
+      question:question?.textContent,offer:offer?.textContent,answer:answer?.textContent,
+      color:getComputedStyle(offer).color,
+      separateLines:pos(question)<pos(offer)&&pos(offer)<pos(answer)
+    };
+  });
+  A.deepEqual(b2b,{
+    question:'Работаете в B2B?',
+    offer:'Привлеките полезный трафик',
+    answer:'Бесплатно.',
+    color:'rgb(237, 142, 99)',
+    separateLines:true
+  },'B2B question, orange offer and free answer occupy distinct lines');
   A.match(await license.textContent(),/За последние 14 дней уникальных посетителей:/);
   A.equal(await license.locator('[data-nomad-traffic-value]').textContent(),'—',
     'Before a real GitHub Insights snapshot exists the number is unavailable');

@@ -29,6 +29,16 @@ const {pathToFileURL}=require('node:url');
    await b.click();
    A.equal(await page.locator('#home-screen').isVisible(),true);
    A.equal(await page.locator('#saved-product-entry').isVisible(),true);
+   const landing=await page.evaluate(()=>{
+     const node=document.getElementById('nomad360-selling-choice');
+     const header=document.getElementById('nomad360-header');
+     return {top:node.getBoundingClientRect().top,
+       headerHeight:header?.getBoundingClientRect().height||0,
+       scrollY:window.scrollY,visible:node.getBoundingClientRect().bottom>0};
+   });
+   A.ok(landing.scrollY>90,'Append item must scroll past the hero, not return to page top');
+   A.ok(landing.top>=0&&landing.top<=landing.headerHeight+40&&landing.visible,
+     'The What do you sell decision must be directly visible');
  };
  try{
    await page.goto(url,{waitUntil:'domcontentloaded'});
@@ -51,6 +61,9 @@ const {pathToFileURL}=require('node:url');
    await page.locator('#product-intro-submit-label').click();
    await page.evaluate(()=>selectProductSource('resale'));
    A.equal(await page.evaluate(()=>saveProductCalculationToBrowser()),true);
+   A.deepEqual((await saved()).map(x=>[x.id,x.name,x.source]),
+     [[1,'Массаж','offline-service'],[2,'Маникюр','offline-service'],[3,'Крем','resale']]);
+   await next(); // The exact same CTA also routes from a finished goods form.
    A.deepEqual((await saved()).map(x=>[x.id,x.name,x.source]),
      [[1,'Массаж','offline-service'],[2,'Маникюр','offline-service'],[3,'Крем','resale']]);
    await page.goto(url+'?resume=1',{waitUntil:'domcontentloaded'});
