@@ -16,11 +16,11 @@ async function browserCase(browser,locale,expected){
   A.match(await page.locator('#nomad360-hero').textContent(),expected.tagline);
   const approved={
    ru:['Бизнес-калькулятор','Каким бизнесом мне выгодно заниматься?',
-     'Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что приносит живые деньги.'],
+     'Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что принесет живые деньги.'],
    en:['Business calculator','Which business would be most profitable for me?',
-     'Calculate your business idea or existing business in 20 minutes and see what generates actual cash.'],
+     'Calculate your business idea or existing business in 20 minutes and see what will generate actual cash.'],
    kk:['Бизнес-калькулятор','Маған қандай бизнеспен айналысқан тиімді?',
-     'Бизнес-идеяңызды немесе жұмыс істеп тұрған бизнесіңізді 20 минутта есептеп, нақты ақшаны қай бағыт әкелетінін біліңіз.']
+     'Бизнес-идеяңызды немесе жұмыс істеп тұрған бизнесіңізді 20 минутта есептеп, нақты ақшаны қай бағыт әкелетінін анықтаңыз.']
   };
   A.deepEqual(await page.locator('#nomad360-hero h1, #nomad360-hero h2, #nomad360-hero h3').allTextContents(),approved[expected.lang],
     'Approved H1 → H2 → H3 must have exact text and order');
@@ -38,6 +38,38 @@ async function browserCase(browser,locale,expected){
     'Calculation list must directly follow heading block');
   A.equal(await page.locator('#home-screen > .card > h1').count(),0,
     'Do not duplicate a second homepage H1');
+  const choice=page.locator('#nomad360-selling-choice');
+  const choiceTexts={
+    ru:['Что я думаю продавать?','Товар','Услугу','У меня уже много разного →'],
+    en:['What am I planning to sell?','Product','A service','I already sell several different things →'],
+    kk:['Мен не сатуды жоспарлап отырмын?','Тауар','Қызмет','Менде әртүрлі тауарлар мен қызметтер бар →']
+  }[expected.lang];
+  await page.waitForFunction(text=>document.querySelector('#nomad360-selling-heading')?.textContent?.trim()===text,
+    choiceTexts[0]);
+  A.equal(await choice.locator('h4').count(),1);
+  A.equal(await choice.locator('button').count(),2,'Selection block must have exactly two buttons');
+  A.deepEqual((await choice.locator('button').allTextContents()).map(x=>x.trim()),choiceTexts.slice(1,3));
+  A.equal((await choice.locator('a').textContent()).trim(),choiceTexts[3]);
+  await choice.locator('#start-service').click();
+  A.equal(await page.locator('#service-work-screen').isVisible(),true,'Service must open online/offline branch');
+  await page.evaluate(()=>showHome());
+  await choice.locator('#start-own-product').click();
+  A.equal(await page.locator('#product-screen').isVisible(),true,'Product must open product branch');
+  await page.evaluate(()=>showHome());
+  await choice.locator('#start-multi-portfolio').click();
+  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Multi-item link must open V2');
+  A.ok(await page.evaluate(()=>PortfolioV2UI.load()),'V2 should create a draft on first visit');
+  await page.evaluate(()=>{
+    const draft=PortfolioV2UI.load();
+    draft.skus[0].name='retained-v2-item';
+    localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(draft));
+    showHome();
+  });
+  await choice.locator('#start-multi-portfolio').click();
+  A.equal((await page.evaluate(()=>PortfolioV2UI.getState())).skus[0].name,'retained-v2-item',
+    'Multi-item entry must resume an existing V2 draft, not overwrite it');
+  await page.evaluate(()=>showHome());
+
 
   // Recovered Claude header: mobile drawer and all valid local anchors.
   const header=page.locator('#nomad360-header');
