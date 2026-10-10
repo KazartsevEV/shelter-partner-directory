@@ -48,7 +48,12 @@ async function browserCase(browser,locale,expected){
       heroShadow:heroStyle.boxShadow,
       heroDecoration:getComputedStyle(hero,'::after').content,
       footerBackground:footerStyle.backgroundColor,
-      footerShadow:footerStyle.boxShadow
+      footerShadow:footerStyle.boxShadow,
+      bodyBackground:getComputedStyle(document.body).backgroundColor,
+      headerBackground:getComputedStyle(document.getElementById('nomad360-header')).backgroundColor,
+      contentCard:getComputedStyle(document.getElementById('nomad360-selling-choice')).backgroundColor,
+      aboutCard:getComputedStyle(document.querySelector('#nomad360-information .nomad-info-block')).backgroundColor,
+      heroHeading:getComputedStyle(hero.querySelector('h2')).color
     };
   });
   A.equal(presentation.heroBackground,'none','No green gradient behind homepage H1-H3');
@@ -59,6 +64,11 @@ async function browserCase(browser,locale,expected){
   A.equal(presentation.footerBackground,'rgb(22, 55, 90)',
     'Claude footer must retain approved navy background');
   A.equal(presentation.footerShadow,'none','Support footer should not look like a colored banner');
+  A.equal(presentation.bodyBackground,presentation.footerBackground,'Page background matches navy footer');
+  A.equal(presentation.headerBackground,'rgb(255, 255, 255)','Header stays white');
+  A.equal(presentation.contentCard,'rgb(255, 255, 255)','Calculation panels stay white');
+  A.equal(presentation.aboutCard,'rgb(255, 255, 255)','About panels stay white');
+  A.equal(presentation.heroHeading,'rgb(255, 255, 255)','Main heading must be white over navy');
   for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
     A.equal(await page.locator('#'+id).evaluate(e=>e.className.includes('emerald')),false,
       'Home saved-state UI should use neutral colors: '+id);
@@ -114,7 +124,7 @@ async function browserCase(browser,locale,expected){
        thickness:css.textDecorationThickness
      };
    });
-   A.equal(exampleLink.color,'rgb(22, 55, 90)','Secondary link stays on-brand navy');
+   A.equal(exampleLink.color,'rgb(255, 255, 255)','Link on navy canvas must be white');
    A.equal(exampleLink.underline,'rgb(184, 87, 58)','Secondary link underline stays terracotta');
    A.match(exampleLink.style,/underline/,'Link should have a real underline, not a bar border');
    A.equal(exampleLink.thickness,'2px','Underline is conspicuous without becoming a CTA');
@@ -141,6 +151,12 @@ async function browserCase(browser,locale,expected){
     'Main orange choice text is visibly sized for the large mobile cards');
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
     'Remove the small 01/02/03 labels from the decision buttons');
+  const demoCanvasColors=await page.locator('#nomad360-home-secondary .nomad-example-row').evaluate(el=>({
+    title:getComputedStyle(el.querySelector('.nomad-example-title')).color,
+    note:getComputedStyle(el.querySelector('p')).color
+  }));
+  A.deepEqual(demoCanvasColors,{title:'rgb(255, 255, 255)',note:'rgb(255, 255, 255)'},
+    'Home example description on dark canvas is white');
   const savedTreatment=await page.locator('#saved-product-entry').evaluate(el=>{
     const card=getComputedStyle(el),action=getComputedStyle(el.querySelector('button'));
     return {border:card.borderLeftWidth,bg:card.backgroundColor,
@@ -176,11 +192,17 @@ async function browserCase(browser,locale,expected){
     return {color:x.color,underline:x.textDecorationColor,decoration:x.textDecorationLine,
       fontSize:x.fontSize,currentFont:current.fontSize,letterSpacing:x.letterSpacing};
   });
-  A.equal(breadcrumbCss.color,'rgb(22, 55, 90)');
+  A.equal(breadcrumbCss.color,'rgb(255, 255, 255)');
   A.equal(breadcrumbCss.underline,'rgb(184, 87, 58)');
   A.match(breadcrumbCss.decoration,/underline/);
   A.equal(breadcrumbCss.fontSize,breadcrumbCss.currentFont,'Breadcrumb and current step use the same font size');
   A.ok(parseFloat(breadcrumbCss.fontSize)>=18);
+  A.equal(await page.locator('#service-work-screen .nd-route-current').evaluate(
+    el=>getComputedStyle(el).color),'rgb(255, 255, 255)');
+  A.equal(await page.locator('#service-work-screen > button').evaluate(
+    el=>getComputedStyle(el).color),'rgb(255, 255, 255)','Back links outside white blocks stay white');
+  A.equal(await page.locator('#service-work-screen .card').evaluate(
+    el=>getComputedStyle(el).backgroundColor),'rgb(255, 255, 255)','Service panels stay white');
   await breadcrumb.click();
   A.equal(await page.locator('#home-screen').isVisible(),true,'Breadcrumb returns to start');
   await choice.locator('#start-service').click();
@@ -204,6 +226,11 @@ async function browserCase(browser,locale,expected){
   A.ok(await page.locator('#product-screen button[type="submit"]').evaluate(
     el=>parseFloat(getComputedStyle(el).fontSize)>=21),
     'Product calculation primary button typography is at least 21px on mobile');
+  const note=await page.locator('#product-screen > .nd-canvas-currency-note').evaluate(el=>{
+    const css=getComputedStyle(el);return {color:css.color,fontSize:parseFloat(css.fontSize)};
+  });
+  A.equal(note.color,'rgb(255, 255, 255)','Outside currency note must be white');
+  A.ok(note.fontSize>=16);
   const productRoute=page.locator('#product-intro-category');
   A.equal(await productRoute.evaluate(el=>el.tagName),'BUTTON',
     'Product route label is a working navigation control');
