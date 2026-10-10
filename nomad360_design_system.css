@@ -1045,6 +1045,19 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
   border-color:#9bacbc;
 }
 body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
+  .bg-emerald-950 :is(h2,p,.text-emerald-100,.text-emerald-300){
+  color:var(--nd-v1-navy) !important;
+}
+body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
+  :is(.aggregate-action-confirm.is-accepted,.aggregate-action-recalc.is-accepted){
+  background:#e1ebfa;
+  border-color:var(--nd-v1-navy);
+  color:var(--nd-v1-navy);
+}
+body .nd-v1-screen .nd-v1-metrics #res-profit:is(.text-red-600,.text-red-700,.text-rose-700){
+  color:#b91c1c !important;
+}
+body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
   :is(.business-tax-choice,.yn-choice){
   background:#fff;
   border-color:#96a8b9;
@@ -1063,10 +1076,7 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
   color:var(--nd-v1-navy);
   border-radius:8px;
 }
-/* Explicitly preserve semantic loss / error / validation colors. */
-body .nd-v1-screen :is(.text-red-600,.text-red-700,.text-rose-700,.text-rose-900,[role="alert"]){
-  /* Status colors are authored by the calculator itself. */
-}
+/* Warning and loss classes retain their controller-defined semantic colors. */
 @media(max-width:640px){
   body #nomad360-selling-choice h4.nd-main-choice-heading{
     font-size:clamp(34px,8.7vw,38px);
