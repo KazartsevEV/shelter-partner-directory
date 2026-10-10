@@ -111,7 +111,8 @@ test('TZ02 two FULL services pool one premises payment exactly once across 3 mon
  close(month.netProfit,16020,'portfolio profit after tax');
  close(cash.stockPurchase,18000,'both fixed cash paid day zero');
  close(cash.shared,1000,'shared room paid just once');
- close(r.cashflow.ownerCapital,21320,'start capital reflects pooling and reserve');
+ close(r.cashflow.reserve,2220,'10% reserve against REAL pooled expenses');
+ close(r.cashflow.ownerCapital,21220,'pooled reserve reduces required startup capital');
  for(let m=0;m<3;m++)
    close(r.cashflow.months[m].shared,1000,'no extra rent month '+m);
 });
