@@ -3,12 +3,12 @@
 'use strict';
 const L={
  ru:{
-  brand:'NOMAD360 · КАЗАХСТАНСКИЙ SAAS',eyebrow:'ПЕРВЫЙ ИНСТРУМЕНТ ЭКОСИСТЕМЫ',
-  headline:'Не гадайте. Считайте. Решайте.',
-  sub:'Сначала проверьте бизнес на цифрах. Потом вкладывайте деньги.',
-  narrative:'Nomad360 освобождает время от рутины ради того, что действительно важно. Калькулятор для бизнеса — первый бесплатный инструмент семейства сервисов для людей, которые видят возможности и умеют распоряжаться своим временем.',
-  mba:'Проверяйте идеи, цены, прибыль и денежный поток самостоятельно. MBA и дорогие консультанты для первого расчёта не нужны.',
-  privacy:'Бесплатно. Без регистрации. Вычисления происходят в вашем браузере, данные расчёта не отправляются на сервер. Сохранённые черновики остаются только в браузере этого устройства.',
+  brand:'NOMAD360',eyebrow:'БИЗНЕС-КАЛЬКУЛЯТОР',
+  headline:'Из чего состоит бизнес и чем выгодно заниматься?',
+  sub:'Калькулятор Nomad360 — гибкая бизнес-модель. Первый расчёт занимает около 20 минут при наличии исходных данных.',
+  narrative:'Структура доходов и расходов, цена, прибыль и денежный поток по месяцам. Расчёт товаров, услуг и портфеля с возможностью сравнения сценариев.',
+  mba:'Оценка перспектив бизнес-идеи и возможностей повысить эффективность действующего бизнеса.',
+  privacy:'',
   print:'Сохранить расчёт в PDF',listTitle:'Сформировать прайс-лист?',listDesc:'Все товары и услуги портфеля с рассчитанными ценами V2 — в одном документе.',
   listAction:'Сформировать прайс-лист',listPrint:'Сохранить прайс-лист в PDF',listClose:'Скрыть прайс-лист',
   onlyReady:'Прайс-лист можно сформировать после подтверждения расчёта V2.',
@@ -20,7 +20,7 @@ const L={
   profit:'Чистая прибыль',margin:'Маржа',cash:'Cash Flow',stock:'Продажи и остатки',resources:'Общие ресурсы',
   noTax:'НДС: Cash Flow показан без транзитного НДС, не как банковская выписка.',
   source:'Источник: локальный расчёт Nomad360. Цены и суммы ориентировочные, зависят от введённых данных и допущений.', 
-  support:'Поддержать проект',supportSub:'Калькулятор бесплатен. Поддержка помогает развивать следующие инструменты Nomad360.',
+  support:'Поддержать проект',supportSub:'Доступ к калькулятору бесплатный. Добровольная поддержка идёт на развитие калькулятора, AI-маркетолога и контент-фабрики.',
   email:'Связаться с разработчиком',feedback:'Заметили ошибку или есть предложение?',ctaTitle:'Следующий поход — AI-маркетолог и фабрика креативов.',
   ctaSub:'Готовим инструменты, которые помогают брендам находить клиентов и превращать идеи в контент без конвейера ручной рутины.',
   ctaMail:'Обсудить AI-маркетолога',threads:'Наш Threads',well:'Жолыңыз ашық, ісіңіз берекелі болсын!',
@@ -32,12 +32,12 @@ const L={
   reportName:'Бизнес-калькулятор Nomad360',language:'Язык',cadenceMonthly:'Ежемесячно',cadenceOnce:'Разово'
  },
  en:{
-  brand:'NOMAD360 · KAZAKHSTAN SaaS',eyebrow:'THE FIRST TOOL IN OUR ECOSYSTEM',
-  headline:'Stop guessing. Run the numbers. Decide.',
-  sub:'Test your business in numbers before you invest your money.',
-  narrative:'Nomad360 gives you back time for what matters by automating the routine. Our business calculator is the first free product in a family of tools for people who spot opportunities and value their time.',
-  mba:'Test ideas, prices, profitability and cash flow yourself. You do not need an MBA or expensive consulting just to run the first numbers.',
-  privacy:'Free. No sign-up. Calculations happen in your browser; calculation data is not sent to our server. Saved drafts stay in this browser on this device.',
+  brand:'NOMAD360',eyebrow:'BUSINESS CALCULATOR',
+  headline:'How does your business work, and what is profitable?',
+  sub:'The Nomad360 calculator is a flexible business model. With the source data ready, the first calculation takes about 20 minutes.',
+  narrative:'Income and expenses, pricing, profit and monthly cash flow. Calculations for products, services and portfolios, with scenarios to compare.',
+  mba:'Assess the financial outlook of a business idea or identify ways to improve an existing business.',
+  privacy:'',
   print:'Save calculation as PDF',listTitle:'Create a price list?',listDesc:'All products and services with calculated V2 prices, together.',
   listAction:'Create price list',listPrint:'Save price list as PDF',listClose:'Hide price list',
   onlyReady:'Complete a valid V2 calculation before creating a price list.',
@@ -49,7 +49,7 @@ const L={
   profit:'Net profit',margin:'Margin',cash:'Cash flow',stock:'Sales and stock',resources:'Shared resources',
   noTax:'VAT: cash flow is presented excluding pass-through VAT; it is not a VAT-inclusive bank statement.',
   source:'Source: your local Nomad360 calculation. Figures depend on your inputs and scenario assumptions.',
-  support:'Support this project',supportSub:'The calculator is free. Your support helps build the next Nomad360 tools.',
+  support:'Support this project',supportSub:'The calculator is free. Voluntary support funds development of the calculator, AI marketer and content factory.',
   email:'Contact the developer',feedback:'Found a bug or have an idea?',ctaTitle:'Next on the horizon: AI marketer & creative factory.',
   ctaSub:'We are building tools to help brands find customers and turn ideas into content without manual busywork.',
   ctaMail:'Ask about AI marketing',threads:'Our Threads',well:'Жолыңыз ашық, ісіңіз берекелі болсын!',
@@ -61,12 +61,12 @@ const L={
   reportName:'Nomad360 Business Calculator',language:'Language',cadenceMonthly:'Monthly',cadenceOnce:'One-time'
  },
  kk:{
-  brand:'NOMAD360 · ҚАЗАҚСТАНДЫҚ SaaS',eyebrow:'ЭКОЖҮЙЕНІҢ АЛҒАШҚЫ ҚҰРАЛЫ',
-  headline:'Болжамаңыз. Есептеңіз. Шешіңіз.',
-  sub:'Қаржы салмай тұрып, бизнес идеяңызды сандармен тексеріңіз.',
-  narrative:'Nomad360 күнделікті жұмысты автоматтандырып, ең маңызды істерге уақыт босатады. Бизнес-калькулятор — мүмкіндікті бағалайтын және өз уақытын қадірлейтін адамдарға арналған сервистер отбасының алғашқы тегін өнімі.',
-  mba:'Идеяны, бағаны, табыстылықты және ақша ағынын өзіңіз есептеңіз. Алғашқы шешім үшін MBA дипломы да, қымбат кеңесші де қажет емес.',
-  privacy:'Тегін. Тіркеусіз. Барлық есептеу браузеріңізде орындалады; деректер серверге жіберілмейді. Сақталған нобайлар тек осы құрылғының браузерінде қалады.',
+  brand:'NOMAD360',eyebrow:'БИЗНЕС-КАЛЬКУЛЯТОР',
+  headline:'Бизнес қалай жұмыс істейді және қай бағыт тиімді?',
+  sub:'Nomad360 калькуляторы — икемді бизнес-модель. Бастапқы деректер дайын болса, алғашқы есеп шамамен 20 минут алады.',
+  narrative:'Кірістер мен шығыстар құрылымы, баға, пайда және ай сайынғы ақша ағыны. Тауарлар, қызметтер және портфель бойынша есеп пен сценарийлерді салыстыру.',
+  mba:'Бизнес-идеяның қаржылық келешегін бағалау және қолданыстағы бизнестің тиімділігін арттыру жолдарын анықтау.',
+  privacy:'',
   print:'Есепті PDF ретінде сақтау',listTitle:'Прайс-парақ жасаймыз ба?',listDesc:'Портфельдегі барлық тауар мен қызметтің есептелген V2 бағасы бір құжатта.',
   listAction:'Прайс-парақ жасау',listPrint:'Прайс-парақты PDF-ке сақтау',listClose:'Прайс-парақты жасыру',
   onlyReady:'Алдымен V2 есебін растаңыз.',provisional:'Алдын ала баға: біржолғы шығындардың амортизациясы расталмаған.',
@@ -77,7 +77,7 @@ const L={
   revenue:'ҚҚС-сыз түсім',profit:'Таза пайда',margin:'Маржа',cash:'Ақша ағыны',stock:'Сатылым және қалдық',
   resources:'Ортақ ресурстар',noTax:'ҚҚС: ақша ағыны транзиттік ҚҚС-сыз көрсетілген, бұл банк көшірмесі емес.',
   source:'Дереккөз: браузеріңіздегі Nomad360 есебі. Нәтиже енгізілген мәліметтер мен болжамдарға байланысты.',
-  support:'Жобаны қолдау',supportSub:'Калькулятор тегін. Қолдауыңыз Nomad360-тың жаңа құралдарын дамытуға көмектеседі.',
+  support:'Жобаны қолдау',supportSub:'Калькулятор тегін. Ерікті қолдау калькуляторды, AI-маркетологты және контент фабрикасын дамытуға жұмсалады.',
   email:'Әзірлеушімен байланысу',feedback:'Қате таптыңыз ба, әлде ұсынысыңыз бар ма?',
   ctaTitle:'Келесі бағыт — AI-маркетолог пен креатив фабрикасы.',
   ctaSub:'Брендтерге клиент табуға және идеяларды артық қол еңбегінсіз контентке айналдыруға көмектесетін құралдар әзірлеп жатырмыз.',
@@ -109,23 +109,17 @@ function hero(){
  '<div class="nomad-overline">'+tr('brand')+' <span class="nomad-dot">✦</span> '+tr('eyebrow')+'</div>'+
  '<h2>'+tr('headline')+'</h2><div class="nomad-lead">'+tr('sub')+'</div>'+
  '<p>'+tr('narrative')+'</p>'+
- '<div class="nomad-emphasis">'+tr('mba')+'</div>'+
- '<div class="nomad-privacy">◎ '+tr('privacy')+'</div></div>';
+ '<div class="nomad-emphasis">'+tr('mba')+'</div></div>';
 }
 function footer(){
  return '<footer id="nomad360-footer" class="nomad-marketing nomad-footer" aria-label="Nomad360">'+
- '<div class="nomad-footer-kicker">'+tr('brand')+'</div>'+
- '<h2>'+tr('ctaTitle')+'</h2><p>'+tr('ctaSub')+'</p>'+
- '<a class="nomad-action nomad-action-main" href="'+contact+'?subject='+encodeURIComponent('Nomad360 — AI marketer / creative factory')+'">'+tr('ctaMail')+'</a>'+
+ '<div class="nomad-footer-kicker">NOMAD360</div>'+
  '<div class="nomad-support">'+
  '<div class="nomad-support-lead"><h3>'+tr('support')+'</h3><p>'+tr('supportSub')+'</p></div>'+
  '<div class="nomad-contact-grid">'+
  '<a href="tel:+77771295693"><small>Kaspi KZ</small><strong>+7 777 129 56 93</strong></a>'+
  '<a href="tel:+79779867441"><small>Ozon РФ</small><strong>+7 977 986 74 41</strong></a>'+
- '</div></div>'+
- '<div class="nomad-bottom"><span>'+tr('feedback')+' <a href="'+contact+'?subject='+encodeURIComponent('Nomad360 — feedback')+'">'+tr('email')+'</a></span>'+
- '<a href="https://www.threads.com/@nomad260393" target="_blank" rel="noopener noreferrer">Threads · @nomad260393 ↗</a></div>'+
- '<div class="nomad-blessing" lang="kk">'+tr('well')+'</div></footer>';
+ '</div></div></footer>';
 }
 function buildShell(){
  const home=document.getElementById('home-screen');
