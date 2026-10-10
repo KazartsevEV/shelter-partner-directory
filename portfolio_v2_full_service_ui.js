@@ -253,6 +253,11 @@
    '</tr></thead><tbody>'+result.months.map(m=>'<tr>'+
     [m.month,m.revenue,m.variable+m.fixed,m.interest,m.tax,m.depreciation,m.profit,m.operatingCash,m.assetCash,m.financeIn,m.principalDue,m.netCashFlow,m.cashOnHand]
      .map((v,i)=>'<td>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+  if(input.funding==='own'){
+    const tables=node.querySelectorAll('.nomad-export-table');
+    trimLoanColumns(tables[1]);
+    tables[0]?.querySelector('tbody tr:last-child')?.remove();
+  }
   root.print();
  }
  function open(data,metadata){
