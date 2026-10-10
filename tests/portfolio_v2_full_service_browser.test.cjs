@@ -141,6 +141,36 @@ const {pathToFileURL}=require('node:url');
   A.equal(linked.ready,true,JSON.stringify(linked.errors));
   A.equal(linked.months,6);
   A.equal(linked.kind,'offline-service');
+  // Multi-source UI: one payment can replace offline cost of service AND
+  // an online service's selling fixed cost, with separate source-pool selectors.
+  await page.evaluate(()=>{
+    const current=Nomad360FullServiceUI.getInput();
+    const extra=Nomad360FullServiceV2.toPortfolioSku(
+      {...current,equipmentPurchase:0,equipmentAmortMonthly:0},
+      {id:'extra-online',name:'Онлайн консультация',kind:'online'});
+    LinkedPortfolioV2UI.appendFullService(extra);
+  });
+  await page.locator('[data-linked-add]').click();
+  await page.locator('[data-linked-path="resources.0.amount"]').fill('1000');
+  const members=await page.evaluate(()=>LinkedPortfolioV2UI.getState().skus.map(s=>s.id));
+  const offlineId=members.find(id=>id!=='extra-online');
+  A.ok(offlineId);
+  await page.locator('[data-linked-path="resources.0.poolBySku.'+offlineId+'"]').selectOption('unitCost');
+  await page.locator('[data-linked-path="resources.0.cashOriginBySku.'+offlineId+'"]').selectOption('production');
+  await page.locator('[data-linked-path="resources.0.poolBySku.extra-online"]').selectOption('salesFixed');
+  await page.locator('[data-linked-path="resources.0.includedBySku.'+offlineId+'"]').fill('1000');
+  await page.locator('[data-linked-path="resources.0.includedBySku.extra-online"]').fill('1000');
+  const mixed=await page.evaluate(()=>{
+    const x=LinkedPortfolioV2UI.getState(),r=LinkedPortfolioV2Engine.build(x);
+    return {ready:r.ready,errors:r.errors,
+      shared:r.cashflow?.months[0]?.shared,
+      pools:x.resources[0].poolBySku,sourceCount:x.skus.length};
+  });
+  A.equal(mixed.sourceCount,2);
+  A.equal(mixed.pools[offlineId],'unitCost');
+  A.equal(mixed.pools['extra-online'],'salesFixed');
+  A.equal(mixed.ready,true,JSON.stringify(mixed.errors));
+  A.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
   A.deepEqual(errors,[]);
   console.log('TZ02_FULL_SERVICE_BROWSER_GREEN',{capital:seed.fixedCashMonthly+1160,rows:r.months.length});
  }finally{await browser.close()}
