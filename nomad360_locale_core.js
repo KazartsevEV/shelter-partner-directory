@@ -84,6 +84,7 @@ const rows=[
  ['Рентабельность вложений принципала','Principal’s return on total spending','Принципалдың барлық шығыстарының табыстылығы'],
  ['ROMI рекламы','Advertising ROMI','Жарнама ROMI'],
  ['Маржинальный доход от рекламы относительно рекламных расходов, %','Advertising contribution net of marketing spend, relative to marketing spend, %','Жарнама шығыстарын шегергеннен кейінгі маржиналды табыс, %'],
+ ['После эквайринга, исполнения и рекламных расходов, включая ведение, %','After acquiring, fulfilment and marketing spend, including management, %','Эквайринг, орындау және жарнама мен оны жүргізу шығыстарынан кейін, %'],
  ['Ассортимент и поставщики','Assortment and suppliers','Ассортимент және жеткізушілер'],
  ['Закупки готового товара','Purchases of finished products','Дайын тауарды сатып алу'],
  ['Включая логистику и хранение.','Including logistics and storage.','Логистика мен сақтауды қоса алғанда.'],
