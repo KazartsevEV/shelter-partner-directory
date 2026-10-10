@@ -201,6 +201,8 @@
    // A monthly shared resource is paid once whenever ANY beneficiary is
    // operating in a day. It cannot be multiplied by number of SKU users.
    for(const r of resources.filter(x=>x.kind!=='campaign'&&x.cadence==='monthly')){
+     const upfront=(r.skuIds||[]).some(id=>byId[id]?.fullServiceV2);
+     const dueByMonth=Array.from({length:horizonMonths},()=>0);
      for(let day=0;day<horizonMonths*30;day++){
        const windows=[];
        for(const id of r.skuIds||[]){
@@ -220,7 +222,8 @@
        }
        if(start>=0)covered+=end-start;
        const real=pos(r.amount)/30*covered;
-       post(day,'shared',real);
+       if(upfront)dueByMonth[Math.floor(day/30)]+=real;
+       else post(day,'shared',real);
        if(real>EPS){
          // Beneficiaries' direct occupied time determines allocation; revenue
          // weights can shift with actual H-period discounts and prices.
@@ -241,6 +244,7 @@
            real*(total>EPS?weights[i]/total:1/Math.max(1,n))));
        }
      }
+     if(upfront)dueByMonth.forEach((amount,k)=>post(k*30,'shared',amount));
    }
    const months=Array.from({length:dayCount/30},(_,i)=>({
      month:i+1,receipt:0,operatingOutflow:0,tax:0,interest:0,
@@ -265,13 +269,20 @@
      post(m*30+29,'tax',tax);
    }
    let running=0,peak=0;
+   const fullActive=items.some(s=>s.fullServiceV2);
    for(const d of daily){
+     if(fullActive){
+       const preClient=running+d.loanDraw-d.stockPurchase-d.shared;
+       peak=Math.min(peak,preClient);
+     }
      running+=d.receipt+d.loanDraw-d.operating-d.commission-
        d.stockPurchase-d.ad-d.shared-d.tax-d.interest-d.principal;
      peak=Math.min(peak,running);
    }
    const reserve=sum(items.map(s=>pos(s.reserveAmount)));
-   const ownerCapital=Math.max(0,-peak)+reserve;
+   const fundedReserve=sum(items.filter(s=>s.fullServiceV2&&pos(s.creditPrincipal)>0)
+     .map(s=>Math.min(pos(s.reserveAmount),pos(s.fullServiceReserveFunded))));
+   const ownerCapital=Math.max(0,-peak)+Math.max(0,reserve-fundedReserve);
    let balance=0;
    for(let day=0;day<daily.length;day++){
      const d=daily[day],m=months[Math.floor(day/30)];
@@ -303,9 +314,9 @@
        operatingShared-serviceFixed;
      const amort=t('amortAccrual'),interest=t('interest');
      const preTaxProfit=ebitda-amort-interest;
-     const onlineRevenue=sum(items.filter(s=>s.source==='online-service')
+     const onlineRevenue=sum(items.filter(s=>s.source==='online-service'&&!s.fullServiceV2)
        .map(s=>pos(timeline[s.id]?.[k]?.netRevenue)));
-     const onlineTurnoverTax=sum(items.filter(s=>s.source==='online-service')
+     const onlineTurnoverTax=sum(items.filter(s=>s.source==='online-service'&&!s.fullServiceV2)
        .map(s=>pos(timeline[s.id]?.[k]?.netRevenue)*pos(s.ownerTax?.pct)/100));
      const regularProfit=preTaxProfit-t('onlineProfit');
      const taxAccrued=(state.tax?.type==='profit'?
@@ -347,12 +358,12 @@
      const rows=items.map(s=>skuLedger[s.id][k]);
      // Tax follows the portfolio's authoritative regime; VAT pass-through
      // and agent partner GMV never become this owner's recognized income.
-     const online=items.filter(s=>s.source==='online-service');
+     const online=items.filter(s=>s.source==='online-service'&&!s.fullServiceV2);
      const onlineTax=sum(online.map(s=>
        skuLedger[s.id][k].revenue*pos(s.ownerTax?.pct)/100));
      for(const s of online)skuLedger[s.id][k].taxAccrued+=
        skuLedger[s.id][k].revenue*pos(s.ownerTax?.pct)/100;
-     const others=items.filter(s=>s.source!=='online-service');
+     const others=items.filter(s=>s.source!=='online-service'||s.fullServiceV2);
      if(state.tax?.type!=='profit'){
        others.forEach(s=>skuLedger[s.id][k].taxAccrued+=
          skuLedger[s.id][k].revenue*taxPct);
@@ -428,7 +439,9 @@
      invariants:{revenueConserved,marketingConserved,
        profitMonthsConserved:Math.abs(ps('netProfit')-periodProfit)<EPS}};
    const borrowedCapital=sum(items.map(s=>pos(s.creditPrincipal)));
-   return {periodPnl,months,reserve,ownerCapital,borrowedCapital,
+   const outstandingPrincipal=sum(items.filter(s=>s.fullServiceV2&&
+     pos(s.creditMonths)>horizonMonths).map(s=>pos(s.creditPrincipal)));
+   return {periodPnl,months,reserve,ownerCapital,borrowedCapital,outstandingPrincipal,
      startupCapital:ownerCapital+borrowedCapital,finalCash:balance,
      freeCash:balance-reserve,peakOperatingDeficit:-peak,
      scenarioHorizonMonths:horizonMonths,vatCashBasis:'net-of-vat-operating',
