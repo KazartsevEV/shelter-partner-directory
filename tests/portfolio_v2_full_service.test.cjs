@@ -90,9 +90,9 @@ test('TZ02 equivalent one-SKU goods and service share VAT, tax and interest base
  const Goods=require('../portfolio_v2_linked_engine.js');
  const own=Goods.fromV1({tax:{type:'profit',pct:10},skus:[{
    id:'sku-test',name:'Equivalent sale',source:'own',fixedPriceFromV1:true,
-   unitCost:8,forecastUnitsPerMonth:200,adBudget:0,baseCac:0,
+   unitCost:8,forecastUnitsPerMonth:200,adBudget:100,baseCac:.5,
    priceMin:100,priceMax:100,maxDiscountPct:0,minimumMarginPct:0,
-   targetMarginPct:0,salesFixedMonthly:10000,adManagement:0,
+   targetMarginPct:0,salesFixedMonthly:9900,adManagement:0,
    variableSalesPct:0,creditPrincipal:11160,creditServiceMonthly:223.2,
    creditMonths:3,vatPct:12,inventoryQty:200,materialsBatchTotal:1600,
    productionTotal:0,reserveAmount:1160
