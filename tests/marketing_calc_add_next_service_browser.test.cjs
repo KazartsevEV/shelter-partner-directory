@@ -9,7 +9,7 @@ const {pathToFileURL}=require('node:url');
  const ctx=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
  const page=await ctx.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
- await page.route(/^https?:\\/\\//,route=>route.abort());
+ await page.route(new RegExp('^https?://'),route=>route.abort());
  const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
  const names=()=>page.evaluate(()=>productPortfolio.map(p=>({id:p.id,name:p.name,source:p.source,cost:p.materialsUnitCost})));
  const saved=()=>page.evaluate(()=>readSavedProductCalculation()?.productPortfolio.map(p=>({id:p.id,name:p.name,source:p.source,cost:p.materialsUnitCost})));
