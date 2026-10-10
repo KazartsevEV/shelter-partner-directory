@@ -143,6 +143,13 @@ async function browserCase(browser,locale,expected){
     e=>getComputedStyle(e,'::before').content),/counter\(deliverable/,'Outcomes use a numbered CSS counter');
   await choice.locator('#start-service').click();
   A.equal(await page.locator('#service-work-screen').isVisible(),true,'Service must open online/offline branch');
+  const pathColors=await page.locator('#service-work-screen .nd-path-card').evaluateAll(buttons=>buttons.map(b=>({
+    background:getComputedStyle(b).backgroundColor,
+    label:getComputedStyle(b.querySelector('div')).color
+  })));
+  A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
+  A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(17, 40, 63)'),
+    'Service path choices must share orange surface and navy readable labels');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-own-product').click();
   A.equal(await page.locator('#product-screen').isVisible(),true,'Product must open product branch');
