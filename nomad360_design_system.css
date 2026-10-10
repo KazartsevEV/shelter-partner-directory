@@ -1268,3 +1268,17 @@ body #product-screen.nd-v1-product :is(.bg-amber-50,.bg-yellow-50):not([role="al
 body #product-screen.nd-v1-product #product-source-unavailable :is(strong,b,span,p,em,a){
   color:var(--nd-v1-cta) !important;
 }
+
+/* Instant selection feedback: the global 150ms button background transition
+   otherwise briefly paints a pressed button white after the controller updates
+   aria-pressed=true. The active orange must be immediate. */
+body .nd-v1-product button:is(
+  .material-cost-mode-choice,
+  .yn-choice,
+  .production-labor-choice,
+  .import-payer-choice,
+  .logistics-payer-choice,
+  .business-tax-choice
+){
+  transition:none !important;
+}
