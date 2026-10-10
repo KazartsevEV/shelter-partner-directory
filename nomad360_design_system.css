@@ -1284,3 +1284,130 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
   :is(.aggregate-final-value,.final-buyer-price){
   color:var(--nd-v1-focus-orange);
 }
+
+
+/* V1-ROLES-07: one responsive visual vocabulary across agent/custom, SKU costs
+   and product/offline-service portfolio navigation. Scoped, no header/footer. */
+body .nd-v1-product .grid.grid-cols-2:has(> .logistics-payer-choice),
+body .nd-v1-product .grid.grid-cols-2:has(> .import-payer-choice),
+body .nd-v1-product .flex:has(> .logistics-payer-choice),
+body .nd-v1-product .flex:has(> .import-payer-choice){
+  display:grid;
+  grid-template-columns:minmax(0,.48fr) minmax(0,1.52fr);
+  gap:10px;
+  width:100%;
+}
+body .nd-v1-product .logistics-payer-choice,
+body .nd-v1-product .import-payer-choice{
+  min-width:0;
+  width:100%;
+  overflow-wrap:normal;
+  text-wrap:balance;
+  padding-inline:clamp(6px,2vw,14px);
+  font-size:clamp(14px,3.8vw,17px);
+  line-height:1.25;
+  box-sizing:border-box;
+  text-align:center;
+}
+body .nd-v1-product :is(
+ .nd-secondary-action,
+ button.bg-violet-50,button.bg-violet-600,button.bg-violet-700,
+ button.bg-purple-50,button.bg-purple-600,button.bg-purple-700
+):not(.nd-cta-primary){
+  background:#fff !important;
+  color:var(--nd-v1-navy) !important;
+  border:1px solid var(--nd-v1-navy) !important;
+  box-shadow:none;
+  font-weight:700;
+  text-wrap:balance;
+}
+body .nd-v1-product :is(.nd-secondary-action,button.bg-violet-50,button.bg-violet-700):not(.nd-cta-primary):hover{
+  background:#e5eef8 !important;
+}
+body .nd-v1-product :is(.nd-secondary-action,button.bg-violet-50,button.bg-violet-700):focus-visible{
+  outline:2px solid var(--nd-accent);
+  outline-offset:3px;
+}
+body .nd-agent-screen{
+  color:var(--nd-v1-navy);
+  font-family:var(--nd-font);
+  min-width:0;
+}
+body .nd-agent-screen > .card{
+  background:#fff;
+  color:var(--nd-v1-navy);
+  border:1px solid var(--nd-v1-rule);
+  border-radius:var(--nd-radius);
+  box-shadow:none;
+}
+body .nd-agent-screen > .card h1{
+  font:700 clamp(30px,7.5vw,39px)/1.18 var(--nd-font);
+  color:var(--nd-v1-navy);
+  text-wrap:balance;
+}
+body .nd-agent-screen > .card > .text-blue-600{
+  color:#2c6cc5;
+  font-size:clamp(17px,4vw,20px);
+}
+body .nd-agent-screen > .card p{font-size:clamp(16px,3.8vw,19px);line-height:1.48}
+body .nd-agent-screen .nd-path-card{border-radius:var(--nd-radius);color:var(--nd-v1-navy)}
+body .nd-agent-screen .nd-path-card :is(.font-semibold,.font-bold){
+  color:var(--nd-v1-navy);
+  font-size:clamp(23px,6.1vw,27px);
+  line-height:1.25;
+  text-wrap:balance;
+}
+body .nd-agent-screen .nd-agent-contact-link{
+  background:var(--nd-v1-navy) !important;
+  color:#fff !important;
+  border:1px solid var(--nd-v1-navy);
+  font:700 clamp(18px,4vw,21px)/1.3 var(--nd-font);
+  text-wrap:balance;
+}
+body .nd-agent-screen .nd-agent-contact-link:hover{background:#24517f !important}
+body .nd-agent-screen .nd-agent-contact-link:focus-visible{
+  outline:2px solid var(--nd-accent);
+  outline-offset:3px;
+}
+body .nd-v1-service .nd-agent-heading{
+  padding:16px 20px 0;
+  background:#fff;
+  color:var(--nd-v1-navy);
+  font-size:clamp(20px,5vw,25px);
+  font-weight:750;
+}
+body .nd-v1-service .nd-agent-principal{
+  background:#fff;
+  color:var(--nd-v1-navy);
+  padding:18px 20px;
+  border:1px solid var(--nd-v1-rule);
+  border-radius:var(--nd-radius);
+}
+body .nd-v1-service .nd-agent-principal h2{
+  font:700 clamp(22px,5.6vw,27px)/1.25 var(--nd-font);
+  color:var(--nd-v1-navy);
+}
+body .nd-v1-service .nd-agent-principal p{
+  color:var(--nd-v1-muted);
+  margin-top:8px;
+  font-size:clamp(15px,3.8vw,18px);
+}
+body .nd-v1-service .nd-v1-metrics:has(#res-marketing-romi-card:not(.hidden)){
+  grid-template-columns:repeat(1,minmax(0,1fr));
+}
+@media(min-width:680px){
+  body .nd-v1-service .nd-v1-metrics:has(#res-marketing-romi-card:not(.hidden)){
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(min-width:1250px){
+  body .nd-v1-service .nd-v1-metrics:has(#res-marketing-romi-card:not(.hidden)){
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+body .nd-v1-service #res-marketing-romi-card .text-2xl{
+  color:var(--nd-v1-navy);
+  font-variant-numeric:tabular-nums;
+}
+body .nd-v1-service :is(.nd-agent-heading,.nd-agent-principal)[hidden],
+body .nd-v1-service #res-marketing-romi-card[hidden]{display:none !important}
