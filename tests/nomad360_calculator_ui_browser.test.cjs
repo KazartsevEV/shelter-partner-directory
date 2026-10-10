@@ -745,6 +745,21 @@ async function sourceChoiceCase(browser) {
      'Path labels balance lines without orphan words');
    A.equal(await page.locator('#product-source-block [data-product-source="offline-service"]').count(),0,
      'Offline service is not a product procurement route');
+   await page.locator('[data-product-source="resale"]').click();
+   A.equal(await page.locator('#product-materials-block').isVisible(),true);
+   A.equal((await page.locator('#materials-step-name').textContent()).trim(),
+     'Закупки готового товара');
+   A.equal((await page.locator('#product-materials-block h2').textContent()).trim(),
+     'Закупки готового товара «Футболка»',
+     'Finished-goods title must name the item only once, with no question mark');
+   A.equal((await page.locator('#materials-step-help').textContent()).trim(),
+     'Включая логистику и хранение');
+   A.equal(await page.locator('#materials-step-punctuation').textContent(),'');
+   A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('Закупки готового товара','en')),
+     'Finished-goods purchasing');
+   A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('Включая логистику и хранение','kk')),
+     'Логистика мен сақтауды қоса алғанда');
+   console.log('NOMAD360_RESALE_COST_HEADING_GREEN');
   A.deepEqual(errors,[],'Source routing should not throw');
   console.log('NOMAD360_LABEL_ONLY_ROUTE_CHOICES_GREEN');
  }finally{await context.close()}
