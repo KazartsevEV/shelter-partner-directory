@@ -85,6 +85,38 @@ function appendOnline(sku){
  next.lastOrigin='online';
  state=next;resetSequence();save();enter();
 }
+function deleteLinkedSku(skuId){
+ if(!state||!state.skus.some(s=>s.id===skuId))return false;
+ const current=state.skus.find(s=>s.id===skuId);
+ if(!root.confirm('Удалить «'+current.name+'» из портфеля V2? Цены, общие расходы, Cash Flow и связи MBA будут пересчитаны. Исходный расчёт V1 сохранится.'))return false;
+ const next=JSON.parse(JSON.stringify(state));
+ next.skus=next.skus.filter(s=>s.id!==skuId);
+ next.resources=(next.resources||[]).map(r=>{
+  r.skuIds=(r.skuIds||[]).filter(id=>id!==skuId);
+  for(const name of ['includedBySku','usage','loadPerUnit']){
+   if(r[name])delete r[name][skuId];
+  }
+  return r;
+ }).filter(r=>r.skuIds.length>0);
+ next.offers=(next.offers||[]).filter(o=>o.anchorSkuId!==skuId&&
+  Array.isArray(o.items)&&o.items.length>0&&!o.items.some(item=>item.skuId===skuId));
+ if(next.mbaHistory?.source){
+  // Preserve the uploaded order history, but exclude the removed SKU from
+  // the CURRENT MBA universe. Otherwise unknown old orders block statistics.
+  const h=next.mbaHistory,excluded=new Set(h.excludedRawSkuIds||[]);
+  for(const line of h.source.lines||[]){
+   const canonical=Object.prototype.hasOwnProperty.call(h.mapping||{},line.rawSku)?
+    h.mapping[line.rawSku]:line.rawSku;
+   if(canonical===skuId)excluded.add(line.rawSku);
+  }
+  h.excludedRawSkuIds=[...excluded];
+  for(const raw of excluded)if(h.mapping)delete h.mapping[raw];
+ }
+ state=next;
+ save();
+ render(); // Re-run entire linked engine, shared allocations, cash flow & MBA.
+ return true;
+}
 function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];resetSequence();enter();return true;}
 function options(items,value){return items.map(([v,label])=>'<option value="'+safe(v)+'" '+(v===value?'selected':'')+'>'+safe(label)+'</option>').join('');}
 function field(label,path,value,extra=''){
@@ -137,7 +169,8 @@ function render(){
  const scenario=Engine.build(state);
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
- '<div class="font-bold text-slate-900 text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
+ '<div class="flex items-start justify-between gap-3"><div class="font-bold text-slate-900 text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+ 
+ '<button type="button" data-linked-delete-sku="'+safe(s.id)+'" class="border border-rose-300 text-rose-800 px-3 py-2 text-sm font-semibold rounded-sm">Удалить</button></div>'+
  '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-700 mt-3">'+
  [['Себестоимость V1 / шт.',s.unitCost],['Прогноз V1 / мес.',s.forecastUnitsPerMonth],
@@ -429,6 +462,10 @@ function onEvent(e){
     amount:'',cadence:'monthly',pool:'none',allocation:'revenue',
     skuIds:state.skus.map(s=>s.id),includedBySku:{},usage:{},loadPerUnit:{},usageMode:'fixed',capacity:''});
   save();render();return;
+ }
+ if(hit.hasAttribute('data-linked-delete-sku')){
+  deleteLinkedSku(hit.dataset.linkedDeleteSku);
+  return;
  }
  if(hit.hasAttribute('data-linked-delete')){
   state.resources.splice(Number(hit.dataset.linkedDelete),1);save();render();
