@@ -56,7 +56,8 @@ async function browserCase(browser,locale,expected){
     'Homepage hero must be transparent, not a banner');
   A.equal(presentation.heroShadow,'none','Homepage hero must not cast a card shadow');
   A.equal(presentation.heroDecoration,'none','Remove green banner ornament');
-  A.equal(presentation.footerBackground,'rgb(255, 255, 255)','Support footer should be white');
+  A.ok(presentation.footerBackground==='rgba(0, 0, 0, 0)'||presentation.footerBackground==='transparent',
+    'Support section should have no banner background');
   A.equal(presentation.footerShadow,'none','Support footer should not look like a colored banner');
   for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
     A.equal(await page.locator('#'+id).evaluate(e=>e.className.includes('emerald')),false,
