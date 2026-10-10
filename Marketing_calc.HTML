@@ -477,9 +477,9 @@
         </div>
 
         <div id="product-draft-toolbar" class="hidden mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4" hidden>
-            <div class="font-semibold text-slate-900">Ваш товар — сохраните черновик в любой момент</div>
-            <p class="text-xs text-slate-600 mt-1">Черновик производства, закупки или дропшиппинга можно сохранить и продолжить позже.</p>
-            <button type="button" class="mt-3 w-full rounded-lg bg-blue-700 text-white font-bold px-4 py-3" onclick="saveProductCalculationToBrowser()">Сохранить мой товар и продолжить позже</button>
+            <div id="product-draft-heading" class="font-semibold text-slate-900">Ваш товар — сохраните черновик в любой момент</div>
+            <p id="product-draft-description" class="text-xs text-slate-600 mt-1">Черновик производства, закупки или дропшиппинга можно сохранить и продолжить позже.</p>
+            <button id="product-draft-save-action" type="button" class="mt-3 w-full rounded-lg bg-blue-700 text-white font-bold px-4 py-3" onclick="saveProductCalculationToBrowser()">Сохранить мой товар и продолжить позже</button>
             <div id="product-draft-save-status" class="text-sm text-blue-800 mt-2" role="status"></div>
         </div>
 
@@ -4883,8 +4883,10 @@
                 const count = saved.productPortfolio.length;
                 const date = saved.savedAt ? new Date(saved.savedAt) : null;
                 const language = window.Nomad360UI?.getLanguage?.() || 'ru';
-                const countLabel = language === 'en' ? (count === 1 ? 'product' : 'products') :
-                    language === 'kk' ? 'тауар' : (count === 1 ? 'товар' : 'товаров');
+                const allServices=saved.productPortfolio.every(item=>item.source==='offline-service');
+                const countLabel = language === 'en' ? (allServices ? (count===1?'service':'services') : (count===1?'item':'items')) :
+                    language === 'kk' ? (allServices?'қызмет': 'тауар / қызмет') :
+                    (allServices?(count===1?'услуга':'услуг'):(count===1?'товар / услуга':'товаров и услуг'));
                 const savedLabel = language === 'en' ? ' · last saved ' :
                     language === 'kk' ? ' · соңғы сақталуы ' : ' · последнее сохранение ';
                 const updated = date && Number.isFinite(date.getTime())
@@ -4988,7 +4990,7 @@
                 };
                 localStorage.setItem(savedProductStorageKey, JSON.stringify(payload));
                 const savedHtml = 'Сохранено в этом браузере. ' +
-                    '<a class="underline font-bold" href="?resume=1">Открыть мои товары для редактирования</a>';
+                    '<a class="underline font-bold" href="?resume=1">Открыть мои товары и услуги для редактирования</a>';
                 if (status) status.innerHTML = savedHtml;
                 if (draftStatus) draftStatus.innerHTML = savedHtml;
                 updateSavedProductEntry();
@@ -5941,10 +5943,10 @@
             heading.className = 'mb-3 px-1 flex items-start justify-between gap-3';
             heading.innerHTML =
                 '<div>' +
-                    '<div class="text-xs uppercase tracking-[0.16em] text-blue-600 font-semibold">Заполненный товар</div>' +
+                    '<div class="text-xs uppercase tracking-[0.16em] text-blue-600 font-semibold">' + (productSource==='offline-service'?'Заполненная услуга':'Заполненный товар') + '</div>' +
                     '<div class="text-xl font-bold text-slate-900 mt-1"></div>' +
                 '</div>' +
-                '<button type="button" class="text-sm font-bold text-blue-700 underline underline-offset-2 whitespace-nowrap">Редактировать товар</button>';
+                '<button type="button" class="text-sm font-bold text-blue-700 underline underline-offset-2 whitespace-nowrap">' + (productSource==='offline-service'?'Редактировать услугу':'Редактировать товар') + '</button>';
             heading.querySelector('.text-xl').textContent = '«' + productName + '»';
             heading.querySelector('button').onclick = () => editSavedProduct(frozenProductId);
             const del = document.createElement('button');
@@ -6266,6 +6268,9 @@
             const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
             const show=(id,value)=>{const el=document.getElementById(id);if(el){el.hidden=!value;el.classList.toggle('hidden',!value);}};
             set('product-intro-category',service?'Офлайн-услуга':'Товар');
+            set('product-draft-heading',service?'Ваша услуга — сохраните черновик в любой момент':'Ваш товар — сохраните черновик в любой момент');
+            set('product-draft-description',service?'Черновик офлайн-услуги можно сохранить и продолжить позже.':'Черновик производства, закупки или дропшиппинга можно сохранить и продолжить позже.');
+            set('product-draft-save-action',service?'Сохранить мою услугу и продолжить позже':'Сохранить мой товар и продолжить позже');
             set('product-intro-title',service?'Какую услугу оказываете?':'Что продаёте?');
             set('product-name-label',service?'Название услуги':'Наименование товара');
             set('product-intro-help',service?'Например: маникюр с покрытием, стрижка, массаж. Одна единица = одна оказанная услуга.':'Введите название своего товара. Сведения из учебных примеров сюда не переносятся.');
