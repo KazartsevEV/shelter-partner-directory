@@ -1,3 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+/* Header: flat, 1px borders, navy and terracotta. Mobile first; desktop from 1200px. */
+.nomad-header{--nh-navy:#16375a;--nh-accent:#b8573a;--nh-line:#d5dbe3;position:relative;z-index:100;margin-bottom:1.5rem;background:#fff;border-bottom:1px solid var(--nh-line);color:var(--nh-navy);font-family:'IBM Plex Sans',Inter,system-ui,sans-serif}
+.nomad-header,.nomad-header *{box-sizing:border-box}
+.nomad-bar{display:flex;align-items:center;height:72px;padding:0 16px}
+.nomad-brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none}
+.nomad-logo{width:40px;height:40px;display:block}
+.nomad-wordmark{font-size:20px;font-weight:600;letter-spacing:-.01em;line-height:1}
+.nomad-wordmark span{color:var(--nh-accent)}
+.nomad-lang{margin-left:auto;margin-right:12px}
+.nomad-lang select{height:40px;padding:0 10px;border:1px solid var(--nh-line);border-radius:0;background:#fff;color:var(--nh-navy);font:600 14px 'IBM Plex Sans',Inter,system-ui,sans-serif;cursor:pointer}
+.nomad-burger{width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--nh-navy);background:#fff;color:var(--nh-navy);cursor:pointer}
+.nomad-burger[aria-expanded="true"]{background:var(--nh-navy);color:#fff}
+.nomad-burger .i-close,.nomad-burger[aria-expanded="true"] .i-open{display:none}
+.nomad-burger[aria-expanded="true"] .i-close{display:block}
+.nomad-panel{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;max-height:calc(100vh - 72px);overflow:auto;padding:0 16px 24px;background:#fff;border-bottom:1px solid var(--nh-line)}
+.nomad-header.is-open .nomad-panel{display:flex}
+.nomad-nav{display:flex;flex-direction:column}
+.nomad-nav a{display:flex;align-items:center;justify-content:space-between;height:56px;border-bottom:1px solid var(--nh-line);font-size:18px;font-weight:500;color:var(--nh-navy);text-decoration:none}
+.nomad-nav a[aria-current="page"]{font-weight:600}
+.nomad-nav a[aria-current="page"]:after{content:'';width:10px;height:10px;border-radius:50%;background:var(--nh-accent)}
+.nomad-cta{display:flex;align-items:center;justify-content:center;height:52px;margin-top:24px;background:var(--nh-navy);border:1px solid var(--nh-navy);color:#fff;font-size:16px;font-weight:600;text-decoration:none}
+.nomad-cta:hover{background:#0f2a46}
+.nomad-sec{display:flex;justify-content:flex-end;gap:16px;margin-top:20px;font-size:14px}
+.nomad-sec a{color:var(--nh-navy);text-decoration:none}
+.nomad-sec a:hover,.nomad-nav a:hover{color:var(--nh-accent)}
+.nomad-header a:focus-visible,.nomad-header button:focus-visible,.nomad-header select:focus-visible{outline:2px solid var(--nh-accent);outline-offset:3px}
+@media(min-width:1200px){
+ .nomad-bar{padding:0 40px}
+ .nomad-logo{width:44px;height:44px}
+ .nomad-brand{gap:12px}
+ .nomad-wordmark{font-size:22px}
+ .nomad-burger,.nomad-sec{display:none}
+ .nomad-header .nomad-panel,.nomad-header.is-open .nomad-panel{display:contents}
+ .nomad-nav{order:1;flex-direction:row;align-items:stretch;gap:32px;margin-left:auto;padding-right:32px}
+ .nomad-nav a{height:72px;border-bottom:3px solid transparent;font-size:15px}
+ .nomad-nav a[aria-current="page"]{border-bottom-color:var(--nh-accent)}
+ .nomad-nav a[aria-current="page"]:after{display:none}
+ .nomad-lang{order:2;align-self:stretch;display:flex;align-items:center;margin:0;padding:0 24px;border-left:1px solid var(--nh-line);border-right:1px solid var(--nh-line)}
+ .nomad-lang select{height:34px;font-size:13px}
+ .nomad-cta{order:3;height:44px;margin:0 0 0 24px;padding:0 22px;font-size:15px}
+}
 /* Presentation only. Does not change existing calculator styles or finance. */
 .nomad-marketing{font-family:Inter,system-ui,-apple-system,sans-serif}
 .nomad-hero{position:relative;overflow:hidden;color:#f3fcf8;background:linear-gradient(124deg,#052f2a 0%,#075347 72%,#096b56 100%);border-radius:24px;padding:clamp(24px,5vw,43px);margin-bottom:16px;box-shadow:0 16px 35px -25px rgba(0,55,45,.5)}
@@ -9,9 +51,6 @@
 .nomad-hero p{max-width:730px;color:#edf8f3;line-height:1.65;font-size:14px;margin:14px 0}
 .nomad-emphasis{position:relative;z-index:1;max-width:750px;font-weight:700;color:#fef3c7;border-left:3px solid #f3cb83;padding:5px 0 5px 14px;margin:18px 0}
 .nomad-privacy{margin-top:18px;padding-top:15px;border-top:1px solid #ffffff38;font-size:12px;line-height:1.65;color:#ccf1e3}
-.nomad-language{position:fixed;right:10px;top:9px;z-index:120;display:flex;gap:7px;align-items:center;background:#fffef9ed;box-shadow:0 3px 14px #10342c24;border:1px solid #dce7e2;border-radius:12px;padding:6px 8px;max-width:calc(100vw - 20px);color:#174738}
-.nomad-language label{font-size:11px;font-weight:700}
-.nomad-language select{font:600 12px Inter,system-ui,sans-serif;color:#174738;max-width:100px;border-radius:6px;padding:2px;background:transparent}
 .nomad-footer{max-width:1152px;margin:50px auto 15px;background:#052f2a;color:#f9fff9;border-radius:24px;padding:clamp(22px,4vw,40px);box-shadow:0 14px 40px -25px #123e31}
 .nomad-footer-kicker{color:#a6ead0;letter-spacing:.12em;font-size:11px;font-weight:800}
 .nomad-footer h2{font-size:clamp(23px,3.5vw,34px);letter-spacing:-.035em;line-height:1.15;font-weight:900;max-width:720px;margin:14px 0}
@@ -47,14 +86,13 @@
 .nomad-alert{background:#fff5de;color:#765000;padding:10px 12px;border-left:3px solid #d48a0c;margin:8px 0;font-weight:650;font-size:12px}
 #nomad360-print-sheet{display:none}
 @media(max-width:660px){
- .nomad-hero{border-radius:16px;padding:22px 18px;margin-top:29px}
+ .nomad-hero{border-radius:16px;padding:22px 18px}
  .nomad-footer{border-radius:15px;margin-top:26px;padding:22px 16px}
  .nomad-support{grid-template-columns:1fr}
  .nomad-contact-grid{grid-template-columns:1fr}
  .nomad-bottom{align-items:flex-start;flex-direction:column}
  .nomad-export-table{min-width:480px}
  #nomad360-price-preview{overflow-x:auto;padding:10px}
- .nomad-language{top:4px}
 }
 @media print{
  @page{size:A4;margin:13mm}
