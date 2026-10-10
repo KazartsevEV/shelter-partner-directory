@@ -176,29 +176,6 @@ async function browserCase(browser,locale,expected){
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
   A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
-   await page.locator('#product-name-input').fill('Футболка');
-   await page.locator('#product-screen button[type="submit"]').click();
-   A.equal(await page.locator('#product-source-block').isVisible(),true,
-     'Product entry should display product sourcing choices');
-   A.deepEqual(await page.locator('#product-source-block [data-product-source]').evaluateAll(
-     nodes=>nodes.map(n=>n.dataset.productSource)),['own','resale','dropship'],
-     'Offline service is accessible only through Service → Offline, never from Product sourcing');
-   const routeCards=await page.locator('button.nd-path-card').evaluateAll(nodes=>nodes.map(el=>{
-     const label=el.querySelector('div:first-child');
-     const css=getComputedStyle(label);
-     return {label:el.textContent.trim(),parts:el.children.length,
-       hasNote:!!el.querySelector('p,.text-xs,.text-sm'),
-       titleSize:parseFloat(css.fontSize),balance:css.textWrap};
-   }));
-   A.equal(routeCards.length,10,'All ten buying/service/agency path options remain available');
-   A.ok(routeCards.every(x=>x.parts===1&&!x.hasNote),
-     'Orange path cards contain only the choice label, with no explanatory copy: '+JSON.stringify(routeCards));
-   A.ok(routeCards.every(x=>x.titleSize>=18&&x.titleSize<=21),
-     'Sourcing, service and agency labels remain proportional to card geometry');
-   A.ok(routeCards.every(x=>x.balance==='balance'),
-     'Path labels balance lines without orphan words');
-   A.equal(await page.locator('#product-source-block [data-product-source="offline-service"]').count(),0,
-     'Offline service is not a product procurement route');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
@@ -424,11 +401,48 @@ async function browserCase(browser,locale,expected){
     printActions:2,financialChanges:0}));
  }finally{await context.close()}
 }
+async function sourceChoiceCase(browser) {
+ const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ const errors=[];
+ page.on('pageerror',err=>errors.push(err.message));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ try {
+  await page.goto(entry,{waitUntil:'domcontentloaded'});
+  await page.locator('#start-own-product').click();
+   await page.locator('#product-name-input').fill('Футболка');
+   await page.locator('#product-screen button[type="submit"]').click();
+   A.equal(await page.locator('#product-source-block').isVisible(),true,
+     'Product entry should display product sourcing choices');
+   A.deepEqual(await page.locator('#product-source-block [data-product-source]').evaluateAll(
+     nodes=>nodes.map(n=>n.dataset.productSource)),['own','resale','dropship'],
+     'Offline service is accessible only through Service → Offline, never from Product sourcing');
+   const routeCards=await page.locator('button.nd-path-card').evaluateAll(nodes=>nodes.map(el=>{
+     const label=el.querySelector('div:first-child');
+     const css=getComputedStyle(label);
+     return {label:el.textContent.trim(),parts:el.children.length,
+       hasNote:!!el.querySelector('p,.text-xs,.text-sm'),
+       titleSize:parseFloat(css.fontSize),balance:css.textWrap};
+   }));
+   A.equal(routeCards.length,10,'All ten buying/service/agency path options remain available');
+   A.ok(routeCards.every(x=>x.parts===1&&!x.hasNote),
+     'Orange path cards contain only the choice label, with no explanatory copy: '+JSON.stringify(routeCards));
+   A.ok(routeCards.every(x=>x.titleSize>=18&&x.titleSize<=21),
+     'Sourcing, service and agency labels remain proportional to card geometry');
+   A.ok(routeCards.every(x=>x.balance==='balance'),
+     'Path labels balance lines without orphan words');
+   A.equal(await page.locator('#product-source-block [data-product-source="offline-service"]').count(),0,
+     'Offline service is not a product procurement route');
+  A.deepEqual(errors,[],'Source routing should not throw');
+  console.log('NOMAD360_LABEL_ONLY_ROUTE_CHOICES_GREEN');
+ }finally{await context.close()}
+}
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
   await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Каким бизнесом мне выгодно заниматься/});
   await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Маған қандай бизнеспен айналысқан тиімді/});
   await browserCase(browser,'en-US',{lang:'en',tagline:/Which business would be most profitable/});
+  await sourceChoiceCase(browser);
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_UI_PACKAGING_BROWSER_RED',e.stack||e);process.exitCode=1});
