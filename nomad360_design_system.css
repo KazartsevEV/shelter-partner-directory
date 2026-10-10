@@ -626,7 +626,8 @@ body #product-tax-block .aggregate-action-confirm.nd-cta-primary:hover:not(:disa
 
 /* MOBILE-CTA-02: type scales with the action surface; balance complete phrases
    rather than leaving single-word tails on narrow screens. */
-body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary {
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary,
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled) {
   min-height:88px;
   padding:16px clamp(16px,2vw,22px);
   font-size:clamp(19px,1.85vw,23px);
@@ -676,7 +677,8 @@ body #nomad360-home-secondary .nomad-example-link:focus-visible {
   text-decoration-color:var(--nd-accent);
 }
 @media(max-width:760px) {
-  body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary {
+  body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary,
+  body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled) {
     min-height:88px;
     font-size:clamp(19px,5vw,21px);
   }
