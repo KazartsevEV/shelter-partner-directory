@@ -595,6 +595,15 @@ async function unifiedV1Case(browser) {
     x.border==='rgb(22, 55, 90)'&&x.value==='rgb(22, 55, 90)'),
     'Profit, ROMI and CAC metric cards must share one white-and-navy style: '+JSON.stringify(theme.metrics));
   A.equal(theme.scrollPane,'auto','Monthly table scrolls within a bounded viewport');
+  if(theme.overflow){
+    const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(el=>{
+      const r=el.getBoundingClientRect(),css=getComputedStyle(el);
+      return css.display!=='none'&&r.width>0&&r.right>window.innerWidth+3;
+    }).slice(0,12).map(el=>({tag:el.tagName,id:el.id,cls:String(el.className).slice(0,90),
+      right:Math.round(el.getBoundingClientRect().right),
+      scrollWidth:el.scrollWidth,clientWidth:el.clientWidth})));
+    A.fail('Service V1 document overflow: '+JSON.stringify({theme,offenders}));
+  }
   A.equal(theme.overflow,false,'Service V1 cannot overflow the phone viewport horizontally');
   await page.evaluate(()=>showHome());
   await page.locator('#start-own-product').click();
