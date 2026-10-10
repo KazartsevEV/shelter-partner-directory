@@ -158,5 +158,47 @@
      // Internal daily ledger for invariant testing and calendar interoperability.
      daily:period.daily,iterations:iteration+1};
  }
- return Object.freeze({build});
+ // Explicit bridge to the shared V2 resource and multi-SKU finance ledger.
+ // V1 source inputs remain unchanged; this is an opt-in calculated SKU.
+ function toPortfolioSku(input,metadata){
+   const model=build(input);
+   const meta=metadata||{},source=meta.kind==='online'?'online-service':
+     meta.kind==='offline'?'offline-service':null;
+   if(!source)throw Error('Для портфеля выберите онлайн- или офлайн-услугу.');
+   const id=String(meta.id||'').trim(),name=String(meta.name||'').trim();
+   if(!id||!name)throw Error('У услуги должен быть стабильный ID и название.');
+   const first=model.months[0],forecast=Array.isArray(input.monthlyForecast)?
+     input.monthlyForecast.slice():input.monthlyForecast;
+   const qty=first.quantity,amort=Number(input.equipmentAmortMonthly||0),
+     fixed=Number(input.fixedCashMonthly||0),variable=Number(input.unitCashCost||0);
+   const offline=source==='offline-service',vatPct=Number(input.vatPct||0);
+   const commission=Number(input.commissionPct||0);
+   const loan=input.funding==='credit',taxPct=Number(input.taxPct);
+   const common={id,name,source,fullServiceV2:true,
+     fullServiceForecast:forecast,fullServiceHorizon:model.horizonMonths,
+     fullServiceMonthlyAmort:amort,fullServiceCapex:offline?first.assetCash:0,
+     fullServiceReserveFunded:loan?model.reserve:0,
+     unitCost:offline?variable+fixed/qty:variable,
+     forecastUnitsPerMonth:qty,adBudget:0,baseCac:0,
+     priceMin:model.priceGross,priceMax:model.priceGross,
+     fixedPriceFromV1:true,discountSelected:0,maxDiscountPct:0,
+     minimumMarginPct:0,targetMarginPct:0,
+     salesFixedMonthly:offline?0:fixed+amort,adManagement:0,
+     variableSalesPct:commission,creditPrincipal:loan?model.capital:0,
+     creditServiceMonthly:loan?model.capital*Number(input.annualRatePct)/1200:0,
+     creditMonths:loan?Number(input.creditMonths):0,vatPct,
+     reserveAmount:model.reserve,inventoryQty:0,materialsBatchTotal:0,
+     productionTotal:0,onlineCapex:offline?0:first.assetCash,
+     onlineAmortMonthly:offline?0:amort,
+     ownerTax:{type:input.taxType,pct:taxPct,entity:'business'}};
+   if(offline)Object.assign(common,{
+     serviceMaterialsUnit:variable,serviceElectricityUnit:0,
+     serviceFixedMonthly:fixed,serviceCapacity:Number(input.capacity)
+   });
+   else common.onlineProvenance={
+     periodMonths:model.horizonMonths,fullServiceCalculated:true,
+     ownerRevenueInPeriod:model.revenue,sourceRole:meta.role||'self'};
+   return common;
+ }
+ return Object.freeze({build,toPortfolioSku});
 });
