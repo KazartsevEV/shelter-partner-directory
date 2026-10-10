@@ -1555,6 +1555,16 @@ body #portfolio-v2-screen [data-linked-error]{
 body #portfolio-v2-screen :is(table,th,td){color:#fff}
 body #portfolio-v2-screen tr{border-color:var(--nd-v2-line)!important}
 body #portfolio-v2-screen table{font-variant-numeric:tabular-nums}
+/* Keep mobile V2 tables independently scrollable even when Tailwind CDN is unavailable. */
+body #portfolio-v2-screen .overflow-x-auto{
+  display:block;max-width:100%;min-width:0;
+  overflow-x:auto;overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch
+}
+body #portfolio-v2-screen :is(.grid,.flex)>*{min-width:0}
+body #portfolio-v2-screen table{border-collapse:collapse}
+body #portfolio-v2-screen :is(th,td){overflow-wrap:normal}
+
 body #portfolio-v2-screen :is([data-linked-live],#linked-basket-projection){
   color:#fff
 }
