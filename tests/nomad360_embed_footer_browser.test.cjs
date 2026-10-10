@@ -44,9 +44,13 @@ const server=createServer(async(req,res)=>{
      'Branding must fit the mobile header');
   A.match(await license.textContent(),/Встроить калькулятор на мой сайт/);
   A.match(await license.textContent(),/Работаете в B2B\? Привлеките полезный трафик бесплатно/);
-  A.equal(await license.locator('[data-nomad-traffic-grid]').isVisible(),false,
-    'Never show fake 0 counts until the server is configured');
-  A.match(await license.locator('[data-nomad-traffic-status]').textContent(),/Статистика пока недоступна/);
+  A.match(await license.textContent(),/За последние 14 дней уникальных посетителей:/);
+  A.equal(await license.locator('[data-nomad-traffic-value]').textContent(),'—',
+    'Before a real GitHub Insights snapshot exists the number is unavailable');
+  A.equal(await license.locator('[data-nomad-traffic-stats] a').count(),0,
+    'Do not add a GitHub link to the visitor label');
+  A.doesNotMatch(await license.locator('[data-nomad-traffic-stats]').textContent(),
+    /GitHub|просмотры|за 7 дней/i,'Only one visitor metric in the footer');
   A.equal(await license.evaluate(el=>{
     const button=el.querySelector('[data-nomad-download-html]');
     const stats=el.querySelector('[data-nomad-traffic-stats]');
@@ -107,6 +111,21 @@ const server=createServer(async(req,res)=>{
    A.deepEqual(desktopBrand,{logo:'58px',word:'29px'},'Desktop header branding enlarged');
   A.deepEqual(errors,[],'Export click must not introduce script errors');
   await page.close();
+  const stats=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+  await stats.route('**/nomad360_repo_traffic.json',route=>route.fulfill({
+    status:200,contentType:'application/json',body:JSON.stringify({
+      status:'ok',source:'github-repository-traffic',
+      repository:'KazartsevEV/shelter-partner-directory',
+      updatedAt:new Date().toISOString(),visitors14:63
+    })
+  }));
+  await stats.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+  await stats.waitForFunction(()=>document.querySelector('[data-nomad-traffic-value]')?.textContent==='63');
+  A.match(await stats.locator('[data-nomad-traffic-stats]').textContent(),
+    /За последние 14 дней уникальных посетителей:.*63/);
+  A.equal(await stats.locator('[data-nomad-traffic-stats] a').count(),0,
+    'One statistic without a GitHub link');
+  await stats.close();
   const embed=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
   const embeddedErrors=[];
   embed.on('pageerror',e=>embeddedErrors.push(e.message));

@@ -233,22 +233,22 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-footer .nomad-embed-retry-link:focus-visible{outline:3px solid #16375a;outline-offset:3px}
 
 
-/* B2B embed offer + real, server-backed traffic counter. */
+
+/* B2B hosting CTA and one 14-day unique visitor counter. */
 .nomad-embed-actions .nomad-embed-b2b-title{
   color:#fff;font:700 clamp(18px,3.6vw,23px)/1.3 'IBM Plex Sans',system-ui,sans-serif;
   margin:12px 0 16px;max-width:600px
 }
 .nomad-embed-actions .nomad-traffic-stats{
-  margin:16px 0 10px;border:1px solid rgba(255,255,255,.23);
-  padding:15px 16px;border-radius:4px;max-width:680px;
-  color:#f4f7fc;background:rgba(255,255,255,.055)
+  margin:14px 0 9px;
+  color:#f4f7fc
 }
-.nomad-traffic-title{font-size:15px;font-weight:700;margin:0 0 9px}
-.nomad-traffic-unavailable{font-size:14px;color:#d9e5f2;margin:0}
-.nomad-traffic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.nomad-traffic-grid[hidden]{display:none}
-.nomad-traffic-period{min-width:0;font-size:13px;line-height:1.55}
-.nomad-traffic-period>strong{display:block;color:#fff;font-weight:700;margin-bottom:7px}
-.nomad-traffic-line{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:3px 10px}
-.nomad-traffic-line b{color:#fff;font-variant-numeric:tabular-nums}
-@media(max-width:590px){.nomad-traffic-grid{grid-template-columns:minmax(0,1fr)}}
+.nomad-traffic-counter{
+  display:flex;align-items:baseline;flex-wrap:wrap;
+  gap:6px 10px;margin:0;font-size:14px
+}
+.nomad-traffic-title{font-weight:600}
+.nomad-traffic-value{
+  font-size:22px;font-weight:800;color:#fff;
+  font-variant-numeric:tabular-nums
+}

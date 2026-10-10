@@ -65,8 +65,7 @@
       licenseLink:'Читать лицензию',
       embedTitle:'Калькулятор для вашего сайта',
       embedB2BTitle:'Работаете в B2B? Привлеките полезный трафик бесплатно.',
-      trafficTitle:'Посетители калькулятора: IP и сессии',
-      trafficUnavailable:'Статистика пока недоступна',
+      trafficTitle:'За последние 14 дней уникальных посетителей:',
       embedButton:'Встроить калькулятор на мой сайт',
       embedHint:'Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.',
       customButton:'Заказать кастомную разработку',
@@ -124,8 +123,7 @@
       licenseLink:'Read license',
       embedTitle:'Calculator for your website',
       embedB2BTitle:'Work in B2B? Attract relevant traffic for free.',
-      trafficTitle:'Calculator visitors: IPs and sessions',
-      trafficUnavailable:'Statistics are not available yet',
+      trafficTitle:'Unique visitors in the last 14 days:',
       embedButton:'Embed the calculator on my website',
       embedHint:'Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.',
       customButton:'Request custom development',
@@ -183,8 +181,7 @@
       licenseLink:'Лицензияны оқу',
       embedTitle:'Сайтыңызға арналған калькулятор',
       embedB2BTitle:'B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз.',
-      trafficTitle:'Калькулятор келушілері: IP және сессиялар',
-      trafficUnavailable:'Статистика әзірше қолжетімсіз',
+      trafficTitle:'Соңғы 14 күндегі бірегей келушілер:',
       embedButton:'Калькуляторды өз сайтыма енгізу',
       embedHint:'Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.',
       customButton:'Жеке әзірлеуге тапсырыс беру',
@@ -285,9 +282,8 @@
       '<h4 class="nomad-embed-b2b-title">'+esc(t.embedB2BTitle)+'</h4>'+
       '<button type="button" class="nomad-embed-download" data-nomad-download-html>'+esc(t.embedButton)+'</button>'+
       '<div class="nomad-traffic-stats" data-nomad-traffic-stats aria-live="polite">'+
-      '<p class="nomad-traffic-title">'+esc(t.trafficTitle)+'</p>'+
-      '<p class="nomad-traffic-unavailable" data-nomad-traffic-status>'+esc(t.trafficUnavailable)+'</p>'+
-      '<div class="nomad-traffic-grid" data-nomad-traffic-grid hidden></div></div>'+
+      '<p class="nomad-traffic-counter"><span class="nomad-traffic-title">'+esc(t.trafficTitle)+'</span> '+
+      '<strong class="nomad-traffic-value" data-nomad-traffic-value>—</strong></p></div>'+
       '<span class="nomad-embed-status" data-nomad-embed-status role="status" aria-live="polite"></span>'+
       '<div class="nomad-embed-retry" data-nomad-embed-retry hidden>'+esc(t.embedRetryLead)+' '+
       '<a class="nomad-embed-retry-link" data-nomad-retry-download download="'+embedFilename+'" href="#">'+esc(t.embedRetryAction)+'</a></div>'+
