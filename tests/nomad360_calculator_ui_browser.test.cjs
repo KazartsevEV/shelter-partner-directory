@@ -38,6 +38,31 @@ async function browserCase(browser,locale,expected){
     'Calculation list must directly follow heading block');
   A.equal(await page.locator('#home-screen > .card > h1').count(),0,
     'Do not duplicate a second homepage H1');
+  const presentation=await page.evaluate(()=>{
+    const hero=document.getElementById('nomad360-hero');
+    const footer=document.getElementById('nomad360-footer');
+    const heroStyle=getComputedStyle(hero),footerStyle=getComputedStyle(footer);
+    return {
+      heroBackground:heroStyle.backgroundImage,
+      heroFill:heroStyle.backgroundColor,
+      heroShadow:heroStyle.boxShadow,
+      heroDecoration:getComputedStyle(hero,'::after').content,
+      footerBackground:footerStyle.backgroundColor,
+      footerShadow:footerStyle.boxShadow
+    };
+  });
+  A.equal(presentation.heroBackground,'none','No green gradient behind homepage H1-H3');
+  A.ok(presentation.heroFill==='rgba(0, 0, 0, 0)'||presentation.heroFill==='transparent',
+    'Homepage hero must be transparent, not a banner');
+  A.equal(presentation.heroShadow,'none','Homepage hero must not cast a card shadow');
+  A.equal(presentation.heroDecoration,'none','Remove green banner ornament');
+  A.equal(presentation.footerBackground,'rgb(255, 255, 255)','Support footer should be white');
+  A.equal(presentation.footerShadow,'none','Support footer should not look like a colored banner');
+  for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
+    A.equal(await page.locator('#'+id).evaluate(e=>e.className.includes('emerald')),false,
+      'Home saved-state UI should use neutral colors: '+id);
+  }
+
   const choice=page.locator('#nomad360-selling-choice');
   const choiceTexts={
     ru:['Что я думаю продавать?','Товар','Услугу','У меня уже много разного →'],
