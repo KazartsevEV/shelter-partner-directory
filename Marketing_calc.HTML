@@ -278,11 +278,19 @@
                 <li>Денежный поток по месяцам и свободный остаток денег.</li>
             </ul>
         </div>
-        <div class="card p-6 md:p-8">
-            <button id="start-own-product" type="button" onclick="startFreshProductCalculation()"
-                class="w-full mt-6 px-5 py-4 text-lg font-black rounded-xl bg-blue-600 text-white shadow hover:bg-blue-700">
-                + Рассчитать СВОИ товары
-            </button>
+        <section id="nomad360-selling-choice" class="card p-6 md:p-8" aria-labelledby="nomad360-selling-heading">
+            <h4 id="nomad360-selling-heading" class="text-xl font-semibold text-slate-900">Что я думаю продавать?</h4>
+            <div class="grid grid-cols-2 gap-3 mt-5">
+                <button id="start-own-product" type="button" onclick="startFreshProductCalculation()"
+                    class="px-4 py-4 font-semibold rounded-lg bg-blue-600 text-white hover:bg-blue-700">Товар</button>
+                <button id="start-service" type="button" onclick="showServiceWorkChooser()"
+                    class="px-4 py-4 font-semibold rounded-lg border border-blue-600 text-blue-700 hover:bg-blue-50">Услугу</button>
+            </div>
+            <a id="start-multi-portfolio" href="#portfolio-v2-screen"
+                onclick="openPortfolioV2(Boolean(window.PortfolioV2UI?.load?.())); return false;"
+                class="inline-block mt-5 text-sm text-blue-700 underline underline-offset-4">У меня уже много разного →</a>
+        </section>
+        <div id="nomad360-home-secondary" class="card p-6 md:p-8 mt-4">
             <div id="saved-product-entry" class="hidden mt-4 rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4" hidden>
                 <div class="font-bold text-emerald-900">Ваш расчёт сохранён в этом браузере</div>
                 <div class="text-sm text-emerald-800 mt-1" id="saved-product-summary"></div>
@@ -296,24 +304,18 @@
                 <p class="text-xs text-emerald-800 mt-1">Связанный портфель использует значения и диапазоны цен из завершённых карточек V1.</p>
                 <button type="button" onclick="LinkedPortfolioV2UI.resume()" class="mt-3 w-full rounded-lg bg-emerald-800 text-white px-4 py-3 font-bold">Продолжить мой портфель V2</button>
             </div>
-            <details class="mt-3 rounded-xl border border-slate-200 p-4">
-                <summary class="font-bold text-slate-700 cursor-pointer">Экспериментальная портфельная модель v2 (отдельный режим)</summary>
-                <p class="text-xs text-slate-600 mt-3">Основная пошаговая форма находится выше. Экспериментальную модель можно открыть отдельно; её сохранения не заменяют расчёты основной формы.</p>
-                <button type="button" onclick="openPortfolioV2(false)" class="text-sm text-blue-700 font-semibold underline mt-3">Открыть экспериментальную модель v2 →</button>
+
             <div id="portfolio-v2-resume-home" class="hidden mt-4 rounded-xl border-2 border-blue-200 bg-blue-50 p-4" hidden>
                 <div class="font-bold text-blue-900">Сохранённый черновик экспериментальной модели v2</div>
                 <p class="text-xs text-blue-800 mt-1">Отдельная экспериментальная форма. Она не заменяет основной пошаговый расчёт.</p>
                 <button type="button" onclick="openPortfolioV2(true)" class="mt-3 rounded-lg bg-blue-700 text-white px-4 py-3 font-bold w-full">Продолжить черновик v2</button>
             </div>
-            </details>
             <div class="mt-5 rounded-xl bg-slate-50 p-4">
                 <div class="font-bold text-slate-800">Или посмотреть заполненный учебный пример</div>
                 <p class="text-xs text-slate-500 mt-1">Пример открывается отдельно и не заменяет ваш товар.</p>
                 <a href="?demo=shopper&amp;finance=cash" class="inline-block mt-3 text-sm font-bold text-blue-700 underline">Посмотреть пример шоппера →</a>
             </div>
-            <div class="mt-6 border-t border-slate-200 pt-4">
-                <button id="start-service" onclick="showServiceWorkChooser()" class="text-sm text-blue-700 font-semibold underline">У меня услуга, не товар →</button>
-            </div>
+
         </div>
     </section>
 
