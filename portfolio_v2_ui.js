@@ -114,7 +114,7 @@ function render(){
  '<h1 class="text-2xl font-black mt-2">Мои товары и реальные деньги</h1>'+
  '<p class="text-sm mt-2 text-slate-200">Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз. Здесь нет подставленных примеров.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4"><button class="bg-white text-slate-900 px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-home>← Главная</button>'+
- '<button class="bg-sky-600 text-white px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-save>Сохранить расчёт</button>'+
+ '<button class="nd-cta-primary px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-save>Сохранить расчёт</button>'+
  '<button class="border border-white/40 px-3 py-2 rounded-lg text-sm" type="button" data-p2-new>+ Новый портфель</button></div>'+
  '<div id="p2-draft-status" class="mt-2 text-xs text-emerald-200">Черновик сохраняется только в этом браузере</div></div>'+
  box('1. Общий маркетинговый двигатель',

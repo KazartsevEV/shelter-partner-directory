@@ -193,7 +193,7 @@ function render(){
  '<p class="text-sm text-emerald-100 mt-2">Цены, прогнозы, рекламные бюджеты, себестоимость и налоги взяты из V1. Повторно их заполнять не нужно.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4">'+
  '<button type="button" data-linked-back class="rounded-lg border border-white/40 p-2 text-sm font-bold">← К расчёту V1</button>'+
- '<button type="button" data-linked-save class="rounded-lg bg-white text-emerald-900 p-2 text-sm font-bold">Сохранить портфель</button></div>'+
+ '<button type="button" data-linked-save class="nd-cta-primary rounded-lg p-2 text-sm font-bold">Сохранить портфель</button></div>'+
  '<div id="linked-save-message" class="text-xs mt-2">Черновик хранится в этом браузере</div></div>'+
  '<section class="mb-5"><h2 class="text-xl font-bold mb-2">1. Экономика товаров и услуг V1</h2>'+
  '<p class="text-xs text-slate-600 mb-3">Каждая позиция сохраняет ID, себестоимость, прогноз и ценовой диапазон из V1.</p>'+

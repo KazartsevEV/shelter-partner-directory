@@ -76,6 +76,9 @@ async function browserCase(browser,locale,expected){
   A.equal(await choice.locator('button').count(),3,'Selection block must have three equivalent buttons');
   A.deepEqual((await choice.locator('button').allTextContents()).map(x=>x.trim()),choiceTexts.slice(1,4));
   A.equal(await choice.locator('a').count(),0,'Third item must be a real button, not a text link');
+  A.equal(await choice.locator('.nd-cta-primary').count(),3,'Primary routes use semantic CTA roles');
+  A.equal(await page.locator('#nomad360-license .nomad-embed-download').count(),1,
+    'CTA-01 preserves the real embed-download button');
   A.equal(await page.locator('link[href="./nomad360_design_system.css"]').count(),1);
   // TYPE-01: one brand font with an explicit readable type scale and high
   // contrast, even at 390px outdoors. The footer/header have separate owners.
@@ -118,8 +121,8 @@ async function browserCase(browser,locale,expected){
   A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
   A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
   A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=96),'All three are proper tap targets');
-  A.ok(mobileGeometry.every(x=>x.background==='rgb(22, 55, 90)' && x.color==='rgb(255, 255, 255)'),
-    'All three choices must use the same solid brand-navy fill and white text');
+  A.ok(mobileGeometry.every(x=>x.background==='rgb(237, 142, 99)' && x.color==='rgb(22, 55, 90)'),
+    'All three primary routes must use warm orange with navy text');
   A.ok(mobileGeometry.every(x=>x.fontSize>=21),
     'All choices must have large visible typography on a mobile viewport');
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
@@ -140,9 +143,21 @@ async function browserCase(browser,locale,expected){
     e=>getComputedStyle(e,'::before').content),/counter\(deliverable/,'Outcomes use a numbered CSS counter');
   await choice.locator('#start-service').click();
   A.equal(await page.locator('#service-work-screen').isVisible(),true,'Service must open online/offline branch');
+  const pathColors=await page.locator('#service-work-screen .nd-path-card').evaluateAll(buttons=>buttons.map(b=>({
+    background:getComputedStyle(b).backgroundColor,
+    label:getComputedStyle(b.querySelector('div')).color
+  })));
+  A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
+  A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(17, 40, 63)'),
+    'Service path choices must share orange surface and navy readable labels');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-own-product').click();
   A.equal(await page.locator('#product-screen').isVisible(),true,'Product must open product branch');
+  const productCta=await page.locator('#product-screen button[type="submit"].nd-cta-primary').evaluate(e=>{
+    const x=getComputedStyle(e);return {background:x.backgroundColor,color:x.color};
+  });
+  A.equal(productCta.background,'rgb(237, 142, 99)','V1 calculate CTA is orange');
+  A.equal(productCta.color,'rgb(22, 55, 90)','V1 CTA label is navy');
   const typeField=await page.locator('#product-name-input').evaluate(el=>({
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
@@ -150,6 +165,15 @@ async function browserCase(browser,locale,expected){
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
+  await page.mouse.move(0,0);
+  await page.waitForTimeout(220); // let hover/transition settle before measuring normal state
+  const v2Action=await page.locator('[data-p2-save]').evaluate(e=>{
+    const x=getComputedStyle(e);return {background:x.backgroundColor,color:x.color};
+  });
+  A.equal(v2Action.background,'rgb(237, 142, 99)','V2 primary save CTA is orange');
+  A.equal(v2Action.color,'rgb(22, 55, 90)','V2 CTA label is navy');
+  A.equal(await page.locator('[data-p2-add-sku]').evaluate(e=>getComputedStyle(e).backgroundColor),
+    'rgb(22, 55, 90)','Add a SKU stays a blue operational action');
   const v2Type=await page.locator('[data-p2-path="marketing.budget"]').evaluate(el=>({
     size:parseFloat(getComputedStyle(el).fontSize),
     labelSize:parseFloat(getComputedStyle(el.closest('label').querySelector('span')).fontSize)
@@ -197,6 +221,11 @@ async function browserCase(browser,locale,expected){
     'desktop must show horizontal menu instead of mobile toggle');
   A.equal(await header.locator('.nomad-nav').isVisible(),true);
   A.equal(await header.locator('.nomad-cta').isVisible(),true);
+  const supportStyle=await header.locator('.nomad-cta').evaluate(e=>{
+    const x=getComputedStyle(e);return {background:x.backgroundColor,color:x.color};
+  });
+  A.equal(supportStyle.background,'rgb(237, 142, 99)');
+  A.equal(supportStyle.color,'rgb(22, 55, 90)');
   const desktopChoiceRects=await choice.locator('button').evaluateAll(buttons=>buttons.map(b=>{
     const r=b.getBoundingClientRect();return {x:r.x,width:r.width,height:r.height};
   }));

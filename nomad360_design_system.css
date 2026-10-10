@@ -517,3 +517,109 @@ body #nomad360-home-secondary .nomad-recovery-action {font-size:var(--nd-type-ac
   body #nomad360-calculation-list li {font-size:var(--nd-type-body);line-height:1.56}
   body #nomad360-calculation-list li::before {font-size:14px}
 }
+
+
+/* NOMAD360 ACTION HIERARCHY / CTA-01
+   Vermilion is the attention trigger. Navy is for reading and operations.
+   --nd-brand-vermillion is the logo colour; --nd-cta-orange is its brighter
+   interaction tint so navy labels retain >=4.5:1 contrast outdoors.
+   Control meaning comes from explicit semantic classes, not by recolouring
+   every blue, violet or green button (many are selection/state controls). */
+:root {
+  --nd-brand-vermillion:#b8573a;
+  --nd-cta-orange:#ed8e63;
+  --nd-cta-hover:#f3a17a;
+  --nd-cta-text:#16375a;
+}
+body > section :is(button.nd-cta-primary,a.nd-cta-primary,[role="button"].nd-cta-primary) {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:52px;
+  border:1px solid var(--nd-cta-orange);
+  border-radius:var(--nd-radius) !important;
+  background:var(--nd-cta-orange);
+  color:var(--nd-cta-text);
+  font:700 clamp(17px,2vw,20px)/1.3 var(--nd-font);
+  letter-spacing:-.014em;
+  text-decoration:none;
+  cursor:pointer;
+  box-shadow:none;
+}
+body > section :is(button.nd-cta-primary,a.nd-cta-primary,[role="button"].nd-cta-primary):hover:not(:disabled) {
+  color:var(--nd-cta-text);
+  background:var(--nd-cta-hover);
+  border-color:var(--nd-cta-hover);
+  box-shadow:none;
+}
+body > section :is(button.nd-cta-primary,a.nd-cta-primary,[role="button"].nd-cta-primary):focus-visible {
+  outline:3px solid var(--nd-ink);
+  outline-offset:3px;
+}
+body > section :is(button.nd-cta-secondary,a.nd-cta-secondary) {
+  color:var(--nd-ink);
+  border-color:var(--nd-ink);
+  background:#fff;
+  font-weight:600;
+}
+body > section :is(button.nd-cta-secondary,a.nd-cta-secondary):hover:not(:disabled) {
+  color:var(--nd-ink-deep);
+  border-color:var(--nd-ink-deep);
+  background:var(--nd-surface);
+}
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary,
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled) {
+  justify-content:flex-start;
+  min-height:104px;
+  padding:20px 25px;
+  text-align:left;
+  font-size:clamp(22px,2.05vw,27px);
+  font-weight:700;
+  line-height:1.23;
+  color:var(--nd-cta-text);
+}
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary {
+  background:var(--nd-cta-orange);
+  border-color:var(--nd-cta-orange);
+}
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled){
+  background:var(--nd-cta-hover);
+  border-color:var(--nd-cta-hover);
+}
+body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:active:not(:disabled) {
+  background:var(--nd-cta-hover);
+  border-color:var(--nd-cta-hover);
+  box-shadow:inset 0 0 0 2px var(--nd-ink);
+}
+body > section .nd-path-card {
+  border:1px solid var(--nd-cta-orange);
+  background:var(--nd-cta-orange);
+  color:var(--nd-ink);
+  font-weight:600;
+  box-shadow:none;
+}
+body > section .nd-path-card:hover:not(:disabled) {
+  border-color:var(--nd-cta-hover);
+  background:var(--nd-cta-hover);
+  box-shadow:none;
+}
+body > section .nd-path-card :is(div,p,span) {
+  color:var(--nd-ink-deep);
+}
+/* Result confirmation in a dark portfolio panel remains the sole amber action;
+   destructive buttons, alternate choices, edit, back and add-resource stay blue
+   or clearly marked red for destruction. */
+body #product-tax-block .aggregate-action-confirm.nd-cta-primary {
+  background:var(--nd-cta-orange);
+  border:1px solid var(--nd-cta-orange);
+  color:var(--nd-ink);
+}
+body #product-tax-block .aggregate-action-confirm.nd-cta-primary:hover:not(:disabled){
+  background:var(--nd-cta-hover);
+  border-color:var(--nd-cta-hover);
+  color:var(--nd-ink);
+}
+@media(max-width:760px) {
+  body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary {min-height:96px}
+}
