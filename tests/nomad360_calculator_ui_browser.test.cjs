@@ -771,6 +771,7 @@ async function v1RolePortfolioCase(browser){
   A.equal(await page.locator('#res-marketing-romi-card').isVisible(),false);
   for(const key of ['monthlyBudget','mgmt','site','hosting','dom','magnet'])
    await page.locator('input[name="payer-'+key+'"][value="'+(key==='monthlyBudget'?'me':'partner')+'"]').check();
+  await page.locator('#in-agentPct').fill('15');
   await page.locator('#online-v2-name').fill('Агентская комиссия');
   await page.locator('#online-v2-add').click();
   const imported=await page.evaluate(()=>(LinkedPortfolioV2UI.getState()?.skus||[]).find(s=>s.name==='Агентская комиссия'));
