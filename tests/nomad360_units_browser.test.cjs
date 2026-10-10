@@ -1,0 +1,39 @@
+const A=require('node:assert/strict');
+const {chromium}=require('playwright');
+const path=require('node:path');
+const {pathToFileURL}=require('node:url');
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
+ try {
+   await page.goto(url,{waitUntil:'domcontentloaded'});
+   await page.locator('#start-own-product').click();
+   await page.locator('#product-name-input').fill('Ткань');
+   await page.locator('#product-intro-submit-label').click();
+   await page.evaluate(()=>selectProductSource('own'));
+   await page.locator('#product-sales-unit').selectOption('м²');
+   await page.evaluate(()=>addMaterialRow());
+   await page.locator('.material-cost-unit').selectOption('м');
+   await page.locator('.material-cost-price').fill('8');
+   await page.locator('.material-cost-qty').fill('2');
+   await page.evaluate(()=>addEquipmentRentalRow());
+   await page.locator('.equipment-rental-unit').selectOption('компл');
+   await page.evaluate(()=>addEquipmentPurchaseRow());
+   await page.locator('.equipment-purchase-unit').selectOption('шт');
+   await page.evaluate(()=>saveProductCalculationToBrowser());
+   let saved=await page.evaluate(()=>readSavedProductCalculation());
+   A.equal(saved.productPortfolio[0].unit,'м²');
+   A.equal(saved.productPortfolio[0].uiState.dynamic.materials.fields.some(x=>x.value==='м'),true);
+   await page.goto(url+'?resume=1',{waitUntil:'domcontentloaded'});
+   A.equal(await page.locator('#product-sales-unit').inputValue(),'м²');
+   A.equal(await page.locator('.material-cost-unit').inputValue(),'м');
+   A.equal(await page.locator('.equipment-rental-unit').inputValue(),'компл');
+   A.equal(await page.locator('.equipment-purchase-unit').inputValue(),'шт');
+   A.match(await page.locator('#product-portfolio-list').textContent(),/Ткань.*м²/s);
+   A.deepEqual(errors,[]);
+   console.log('V1_UNIT_SELECTORS_BROWSER_GREEN');
+ }finally{await browser.close()}
+})().catch(e=>{console.error('V1_UNIT_SELECTORS_BROWSER_RED',e.stack||e);process.exitCode=1});
