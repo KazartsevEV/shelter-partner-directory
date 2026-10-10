@@ -1476,6 +1476,8 @@
                         они зависят от налогового режима каждого участника.
                     </p>
                     <div id="full-service-online-entry" class="mt-5 hidden" hidden>
+                        <label for="full-service-online-name" id="full-service-online-name-label" class="block text-sm font-medium text-slate-700 mb-2">Название услуги</label>
+                        <input id="full-service-online-name" type="text" class="input-field w-full mb-4" autocomplete="off" placeholder="Например, консультация">
                         <button type="button" id="full-service-online-action" onclick="openFullServiceFromOnline()" class="nd-cta-primary w-full p-4 font-bold">Рассчитать полную экономику услуги →</button>
                         <p id="full-service-online-error" class="text-sm text-rose-700 mt-2" role="alert"></p>
                     </div>
@@ -1874,6 +1876,8 @@
                 set('service-v1-heading',t.online);
                 set('service-v1-description',t.desc);
                 set('full-service-online-action',t.button);
+                set('full-service-online-name-label',language==='en'?'Service name':
+                    language==='kk'?'Қызмет атауы':'Название услуги');
                 set('full-service-offline-action',t.button);
                 if(offline){
                     set('product-intro-category',t.offline);
@@ -1950,7 +1954,9 @@
             try{
                 if(!onlineV1PortfolioSnapshot)throw Error('Сначала завершите онлайн-расчёт V1.');
                 const sku=window.LinkedPortfolioOnlineAdapter.build({...onlineV1PortfolioSnapshot,
-                  name:document.getElementById('online-v2-name')?.value.trim()||'Онлайн-услуга',
+                  name:(serviceFinancialMode==='full'?
+                      document.getElementById('full-service-online-name')?.value.trim():null)||
+                    document.getElementById('online-v2-name')?.value.trim()||'Онлайн-услуга',
                   id:'v1-online-full-service'});
                 const monthlyDeals=onlineV1PortfolioSnapshot.period?.monthlyDeals;
                 const data={monthlyForecast:Array.isArray(monthlyDeals)&&monthlyDeals.length?
