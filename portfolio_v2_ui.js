@@ -91,7 +91,7 @@ function skuCard(s,i) {
  numberField('Хранение 1 ед. за день, у.е. (по фактическим остаткам)',path+'storagePerUnitDay',s.storagePerUnitDay));
  return '<article class="mb-4 rounded-2xl border-2 border-blue-200 bg-white p-4" data-p2-sku="'+safe(s.id)+'">'+
  '<div class="flex justify-between gap-3 mb-3"><h3 class="text-xl font-extrabold text-blue-950">Товар '+(i+1)+'</h3>'+
- (model.skus.length>1?'<button class="text-rose-700 text-sm underline" type="button" data-p2-remove-sku="'+safe(s.id)+'">Удалить</button>':'')+'</div>'+
+ '<button class="text-rose-700 text-sm underline" type="button" data-p2-remove-sku="'+safe(s.id)+'">Удалить</button></div>'+
  '<label class="block mb-3"><span class="text-xs font-bold text-slate-700 block mb-1">Название</span><input class="input-field w-full" data-p2-path="'+path+'name" value="'+safe(s.name)+'" placeholder="Название своего товара"></label>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">'+variant+
  numberField(from,path+'unitCost',s.unitCost,'Это основное поле себестоимости для выбранной ветки')+
@@ -274,14 +274,29 @@ function updatePath(path,value){
 }
 function removeItem(which,skuId){
  if(which==='sku'){
-  if(model.skus.length<=1)return;
+  const entry=model.skus.find(s=>s.id===skuId);
+  if(!entry)return false;
+  if(!root.confirm('Удалить «'+(entry.name||'эту позицию')+'» из V2? Распределение общих расходов и финансовые результаты изменятся.'))return false;
   model.skus=model.skus.filter(s=>s.id!==skuId);
-  model.resources.forEach(r=>{r.skuIds=(r.skuIds||[]).filter(s=>s!==skuId);if(r.usage)delete r.usage[skuId];});
+  model.resources.forEach(r=>{
+   r.skuIds=(r.skuIds||[]).filter(id=>id!==skuId);
+   if(r.usage)delete r.usage[skuId];
+  });
   model.resources=model.resources.filter(r=>r.skuIds.length);
-  const total=model.skus.reduce((a,s)=>a+Number(s.mixPct||0),0);
-  if(total>0)model.skus.forEach(s=>s.mixPct=100*Number(s.mixPct||0)/total);
-  else model.skus.forEach(s=>s.mixPct=100/model.skus.length);
- } else model.resources=model.resources.filter(r=>r.id!==skuId);
+  if(!model.skus.length){
+   // A draft requires one editable blank slot. Remove the calculated item,
+   // its expenses and all values instead of keeping it as a fake survivor.
+   model.skus=[{...initial().skus[0],id:'sku-'+sequence++}];
+  }else{
+   const total=model.skus.reduce((a,s)=>a+Number(s.mixPct||0),0);
+   if(total>0)model.skus.forEach(s=>s.mixPct=100*Number(s.mixPct||0)/total);
+   else model.skus.forEach(s=>s.mixPct=100/model.skus.length);
+  }
+ } else {
+  if(!model.resources.some(r=>r.id===skuId))return false;
+  model.resources=model.resources.filter(r=>r.id!==skuId);
+ }
+ return true;
 }
 function addSku(){
  const n=20;
@@ -340,7 +355,7 @@ function handleEvent(event) {
  if('p2Save'in hit.dataset){save();return;}
  if('p2New'in hit.dataset){model=initial();save();render();return;}
  if('p2AddSku'in hit.dataset){addSku();save();render();return;}
- if('p2RemoveSku'in hit.dataset){removeItem('sku',hit.dataset.p2RemoveSku);save();render();return;}
+ if('p2RemoveSku'in hit.dataset){if(removeItem('sku',hit.dataset.p2RemoveSku)){save();render();}return;}
  if('p2AddResource'in hit.dataset){addResource(hit.dataset.p2AddResource);save();render();return;}
  if('p2DeleteResource'in hit.dataset){removeItem('resource',hit.dataset.p2DeleteResource);save();render();}
 }

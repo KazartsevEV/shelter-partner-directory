@@ -2525,6 +2525,70 @@
             renderProductPortfolio();
         }
 
+        function deleteCalculatedProduct(productId) {
+            const id=Number(productId);
+            const item=productPortfolio.find(x=>Number(x.id)===id);
+            if(!item)return false;
+            if(!window.confirm('Удалить «'+item.name+'» из расчёта? Экономика оставшихся товаров и услуг будет пересчитана.'))return false;
+            const active=Number(currentProductSequence)===id;
+            // Save unswitched edits to OTHER SKUs before pruning; never save
+            // the selected deleted SKU back into productPortfolio.
+            if(!active&&productName&&['own','resale','dropship','offline-service'].includes(productSource))
+                saveCurrentProductToPortfolio();
+            const taxType=productBusinessTaxType;
+            const taxPct=document.getElementById('own-business-tax-pct')?.value??'';
+            const vatChoice=productOwnChoices.salesVat;
+            const vatPct=document.getElementById('own-sales-vat-pct')?.value??'';
+            const index=productPortfolio.findIndex(x=>Number(x.id)===id);
+            if(index<0)return false;
+            productPortfolio.splice(index,1);
+            document.querySelectorAll('[data-completed-product-id="'+id+'"]').forEach(el=>el.remove());
+            if(active){
+                resetCurrentProductForNext();
+                productBusinessTaxType=taxType;
+                if(taxPct!=='')document.getElementById('own-business-tax-pct').value=taxPct;
+                if(vatChoice)productOwnChoices.salesVat=vatChoice;
+                if(vatPct!=='')document.getElementById('own-sales-vat-pct').value=vatPct;
+                if(productPortfolio.length){
+                    editSavedProduct(Number(productPortfolio[0].id));
+                } else {
+                    currentProductSequence=id+1;
+                    const intro=document.getElementById('product-name-input')?.closest('.card');
+                    if(intro)intro.classList.remove('hidden');
+                    showProductBranch();
+                }
+            }
+            renderProductPortfolio();
+            renderProductBusinessSummary();
+            if(productPortfolio.length)refreshAllAggregatePricing();
+            else {
+                for(const key of ['product-portfolio-business-summary','product-tax-price-list'])
+                    {const box=document.getElementById(key);if(box)box.innerHTML='';}
+                const tax=document.getElementById('product-tax-block');
+                if(tax){tax.hidden=true;tax.classList.add('hidden');}
+            }
+            // An explicitly removed item must also disappear from an already
+            // persisted V1 draft. Keep unsaved first-run states unsaved.
+            const saved=readSavedProductCalculation();
+            if(saved&&new URLSearchParams(window.location.search).get('demo')!=='shopper'){
+                try {
+                    if(!productPortfolio.length)localStorage.removeItem(savedProductStorageKey);
+                    else localStorage.setItem(savedProductStorageKey,JSON.stringify({
+                        ...saved,savedAt:new Date().toISOString(),
+                        productPortfolio:productPortfolio.map(x=>JSON.parse(JSON.stringify(x))),
+                        activeProductId:productPortfolio.some(x=>Number(x.id)===Number(currentProductSequence))?
+                          currentProductSequence:productPortfolio[0].id,
+                        taxType:productBusinessTaxType,
+                        businessTaxPct:Number(document.getElementById('own-business-tax-pct')?.value)||0,
+                        salesVat:productOwnChoices.salesVat||'no',
+                        salesVatPct:Number(document.getElementById('own-sales-vat-pct')?.value)||0
+                    }));
+                } catch(e){console.warn('Nomad360: unable to persist V1 removal',e);}
+            }
+            updateSavedProductEntry();
+            return true;
+        }
+
         function renderProductPortfolio() {
             const box = document.getElementById('product-portfolio-list');
             if (!box) return;
@@ -2558,11 +2622,18 @@
                                 <div class="text-xs uppercase tracking-[0.14em] text-slate-400">${item.source==='offline-service'?'Услуга':'Товар'} ${index + 1}</div>
                                 <div class="font-bold text-slate-900 text-base">«${esc(item.name)}»</div>
                             </div>
-                            <button type="button"
+                            <div class="flex flex-wrap gap-x-4 gap-y-3 items-center">
+                              <button type="button"
                                 onclick="editSavedProduct(${item.id})"
                                 class="text-sm font-bold text-blue-700 underline underline-offset-2">
-                                Редактировать товар
-                            </button>
+                                Редактировать
+                              </button>
+                              <button type="button" data-delete-v1-sku="${item.id}"
+                                onclick="deleteCalculatedProduct(${item.id})"
+                                class="text-sm font-semibold text-rose-700 underline underline-offset-2">
+                                Удалить
+                              </button>
+                            </div>
                         </div>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-3 text-sm">
                             <div class="rounded-lg bg-slate-50 p-2">
@@ -5395,6 +5466,9 @@
                     <div class="aggregate-title mt-1 text-2xl font-bold">
                         «${esc(item.name)}» <span class="text-base font-semibold text-emerald-200">· ${esc(sourceLabels[item.source] || item.source || '')}</span>
                     </div>
+                    <button type="button" onclick="deleteCalculatedProduct(${item.id})"
+                        data-delete-v1-summary="${item.id}"
+                        class="text-sm underline underline-offset-2 mt-2 aggregate-line">Удалить эту позицию из расчёта</button>
 
                     <!-- Validation belongs to the offending quantity, not the heading. -->
                     <div class="mt-6 space-y-5 text-sm">
@@ -5865,6 +5939,13 @@
                 '<button type="button" class="text-sm font-bold text-blue-700 underline underline-offset-2 whitespace-nowrap">Редактировать товар</button>';
             heading.querySelector('.text-xl').textContent = '«' + productName + '»';
             heading.querySelector('button').onclick = () => editSavedProduct(frozenProductId);
+            const del = document.createElement('button');
+            del.type = 'button';
+            del.className = 'text-sm font-semibold text-rose-700 underline underline-offset-2';
+            del.textContent = 'Удалить';
+            del.dataset.deleteFrozenProductId = String(frozenProductId);
+            del.onclick = () => deleteCalculatedProduct(frozenProductId);
+            heading.appendChild(del);
             frozen.appendChild(heading);
 
             const introClone = introCard.cloneNode(true);

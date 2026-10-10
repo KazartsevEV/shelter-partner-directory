@@ -76,6 +76,36 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  assert.equal(await page.locator('[data-p2-path="skus.0.name"]').inputValue(),'Майка');
  assert.equal(await page.locator('[data-p2-path="skus.1.name"]').inputValue(),'Рюкзак');
  assert.equal(await page.locator('[data-p2-resource]').count(),5);
+ // Deleting a calculated SKU reweights the marketing mix and reallocates
+ // resources on the surviving portfolio. The last item resets to blank.
+ page.on('dialog',dialog=>dialog.accept());
+ const beforeRemoval=await calc();
+ await page.locator('[data-p2-remove-sku="sku-2"]').click();
+ let pruned=await page.evaluate(()=>PortfolioV2UI.getState());
+ assert.equal(pruned.skus.length,1);
+ assert.equal(pruned.skus[0].id,'sku-1');
+ eq(pruned.skus[0].mixPct,100,'Remaining SKU receives 100% of forecast mix');
+ assert.ok(pruned.resources.every(x=>!x.skuIds.includes('sku-2')));
+ assert.ok(pruned.resources.every(x=>!Object.hasOwn(x.usage||{},'sku-2')));
+ assert.equal(pruned.resources.some(x=>x.kind==='campaign'),false,
+   'Exclusive campaign for removed SKU is not charged to survivor');
+ const afterRemoval=await calc();
+ assert.equal(afterRemoval.ready,true,JSON.stringify(afterRemoval.errors));
+ assert.equal(afterRemoval.items.length,1);
+ assert.ok(afterRemoval.marketingBudget<beforeRemoval.marketingBudget,
+   'Marketing spending recalculated after deleted campaign');
+ await page.locator('[data-p2-home]').click();
+ await page.locator('#portfolio-v2-resume-home button').click();
+ pruned=await page.evaluate(()=>PortfolioV2UI.getState());
+ assert.equal(pruned.skus.length,1,'Deletion must survive draft reload');
+ await page.locator('[data-p2-remove-sku="sku-1"]').click();
+ pruned=await page.evaluate(()=>PortfolioV2UI.getState());
+ assert.equal(pruned.skus.length,1,'Last deletion leaves an editable empty draft slot');
+ assert.equal(pruned.skus[0].name,'','Last calculated product data must be erased');
+ assert.equal(pruned.skus[0].unitCost,'');
+ assert.equal(pruned.resources.length,0);
+ assert.equal(await page.locator('[data-p2-remove-sku]').count(),1);
+
  assert.deepEqual(errors,[]);
  console.log('PORTFOLIO_V2_BROWSER_GREEN',JSON.stringify({skus:2,ad:r.marketingBudget,months:r.months.length,capital:r.financing.principal,freeCash:r.freeCash}));
  }finally{await browser.close();}
