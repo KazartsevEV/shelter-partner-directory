@@ -177,6 +177,25 @@
       if(!(pos(s.forecastUnitsPerMonth)>0)||(!s.fixedPriceFromV1&&!(pos(s.baseCac)>0)))
         report(key,'Отсутствует рассчитанный прогноз продаж и CAC.');
       if(pos(s.variableSalesPct)>=100)report(key,'Сумма переменных комиссий превышает 100%.');
+      if(s.fullServiceV2){
+        if(!['offline-service','online-service'].includes(s.source)||!s.fixedPriceFromV1||
+          Math.abs(pos(s.priceMin)-pos(s.priceMax))>EPS||pos(s.maxDiscountPct)>EPS||
+          pos(s.discountSelected)>EPS)
+          report(key,'Полная услуга V2 требует исходной фиксированной цены без скидки.');
+        const owner=s.ownerTax||{};
+        if(!['turnover','profit'].includes(owner.type)||!Number.isFinite(Number(owner.pct))||
+          Number(owner.pct)<0||Number(owner.pct)>100||owner.entity!=='business')
+          report(key+'.ownerTax','Полная услуга требует подтверждённый налог собственника.');
+        if(owner.type!==state.tax?.type||Math.abs(Number(owner.pct)-Number(state.tax?.pct))>EPS)
+          report(key+'.ownerTax','У одного предприятия должен быть единый налоговый режим и ставка.');
+        for(const field of ['fullServiceMonthlyAmort','fullServiceCapex','fullServiceReserveFunded']){
+          if(!Number.isFinite(Number(s[field]??0))||Number(s[field]??0)<0)
+            report(key+'.'+field,'Некорректная денежная модель полной услуги.');
+        }
+        if(s.source==='online-service'&&pos(s.onlineCapex)>EPS&&
+          pos(s.fullServiceCapex)>EPS)
+          report(key,'Оборудование онлайн-услуги задвоено в CAPEX.');
+      }
       rows.push({...s,id,priceSelected:max,discountSelected:disc});
     }
     const resources=Array.isArray(state.resources)?state.resources:[];
@@ -201,8 +220,26 @@
       if(r.kind!=='campaign'&&pool==='adBudget')
         report(key+'.pool','Рекламный бюджет можно объединять только рекламной кампанией.');
       if(r.cadence!=='monthly'&&r.cadence!=='once')report(key+'.cadence','Укажите периодичность ресурса.');
-      if(pool==='unitCost'&&!cashBuckets.has(r.cashOrigin)&&sum(Object.values(r.includedBySku||{}).map(pos))>EPS)
-        report(key+'.cashOrigin','Выберите исходный денежный платёж V1: закупка, производство или исполнение заказа.');
+      const perSkuPool=r.poolBySku||{},perSkuOrigin=r.cashOriginBySku||{};
+      const hasOverrides=Object.keys(perSkuPool).length>0||Object.keys(perSkuOrigin).length>0;
+      if(hasOverrides&&!beneficiaries.some(id=>rows.find(s=>s.id===id)?.fullServiceV2))
+        report(key+'.poolBySku','Раздельные исходные статьи допустимы для общей полной услуги V2.');
+      for(const id of Object.keys({...perSkuPool,...perSkuOrigin}))
+        if(!beneficiaries.includes(id))
+          report(key+'.poolBySku','Источник указан для неизвестной позиции.');
+      for(const id of beneficiaries){
+        const sourcePool=perSkuPool[id]??pool,sourceOrigin=perSkuOrigin[id]??r.cashOrigin;
+        if(!allowedPools.has(sourcePool))
+          report(key+'.poolBySku.'+id,'Неизвестный блок затрат.');
+        if(sourcePool==='unitCost'&&!cashBuckets.has(sourceOrigin)&&pos(r.includedBySku?.[id])>EPS)
+          report(key+'.cashOriginBySku.'+id,'Укажите исходный денежный платёж.');
+        if(r.kind==='campaign'&&sourcePool!=='none'&&sourcePool!=='adBudget')
+          report(key+'.poolBySku.'+id,'Общую рекламу можно заменить только из рекламного бюджета.');
+        if(r.kind!=='campaign'&&sourcePool==='adBudget')
+          report(key+'.poolBySku.'+id,'Рекламный бюджет учитывается общей кампанией.');
+        if(r.cadence==='once'&&sourcePool!=='none')
+          report(key+'.cadence','Разовый ресурс нельзя вычитать из ежемесячного расхода.');
+      }
       if(r.cadence==='once'&&pool!=='none')report(key+'.cadence','Нельзя перенести ежемесячный расход в разовый без графика амортизации.');
       const real=Number(r.amount);
       if(!Number.isFinite(real)||real<0)report(key+'.amount','Стоимость общего ресурса должна быть неотрицательной.');
@@ -238,13 +275,14 @@
         if(!ids.has(id)||!beneficiaries.includes(id))report(key+'.skuIds','Списание уже учтённого расхода допускается только для получателя.');
         if(!Number.isFinite(Number(value))||Number(value)<0)
           report(key+'.includedBySku','Учтённая сумма должна быть неотрицательной.');
-        if(pool!=='none'&&offsets[id])offsets[id][pool]+=pos(value);
-        if(pool==='unitCost'&&cashOffsets[id]&&cashBuckets.has(r.cashOrigin)){
+        const sourcePool=perSkuPool[id]??pool,sourceOrigin=perSkuOrigin[id]??r.cashOrigin;
+        if(sourcePool!=='none'&&offsets[id])offsets[id][sourcePool]+=pos(value);
+        if(sourcePool==='unitCost'&&cashOffsets[id]&&cashBuckets.has(sourceOrigin)){
           const sku=rows.find(x=>x.id===id);
           const multiplier=['dropship','offline-service','online-service'].includes(sku?.source)?1:pos(sku?.inventoryQty)/Math.max(pos(sku?.forecastUnitsPerMonth),EPS);
-          cashOffsets[id][r.cashOrigin]+=pos(value)*multiplier;
+          cashOffsets[id][sourceOrigin]+=pos(value)*multiplier;
         }
-        if(pool==='none'&&pos(value)>EPS)report(key+'.pool','Для списания старой суммы укажите исходный блок.');
+        if(sourcePool==='none'&&pos(value)>EPS)report(key+'.pool','Для списания старой суммы укажите исходный блок.');
       }
       ledger.push({...r,skuIds:beneficiaries,amount:pos(r.amount),pool});
     }
@@ -272,7 +310,7 @@
 
     for(const v of rows.filter(s=>s.source==='online-service')){
       if(!v.fixedPriceFromV1||!v.onlineProvenance||!v.ownerTax||
-         v.ownerTax.type!=='turnover'||v.discountSelected>EPS)
+         (!v.fullServiceV2&&v.ownerTax.type!=='turnover')||v.discountSelected>EPS)
         report('skus.'+rows.indexOf(v),'Онлайн-услуга должна сохранять исходные условия, налог и подтверждённую цену V1.');
     }
     if(errors.length)return {ready:false,errors,fieldErrors};
@@ -386,10 +424,14 @@
       const priceNet=standaloneNet*(1-bundleExposure);
       const revenue=priceNet*orders,commission=revenue*pos(s.variableSalesPct)/100;
       const cogs=netUnitCost*orders,creditMonthly=pos(s.creditServiceMonthly);
-      const ebitda=revenue-cogs-commission-media-monthlyManager-monthlySelling-monthlyResources;
+      const fullAmort=s.fullServiceV2?pos(s.fullServiceMonthlyAmort):0;
+      // Full online V1 fixed costs carry amortization: reclassify to accrual.
+      const ebitda=revenue-cogs-commission-media-monthlyManager-monthlySelling-monthlyResources+
+        (s.fullServiceV2&&s.source==='online-service'?fullAmort:0);
+      const preTax=ebitda-creditMonthly-fullAmort;
       const actualAfterTaxMargin=revenue>0?
-        (ebitda-creditMonthly-((s.ownerTax?.type||taxType)==='turnover'?revenue*(pos(s.ownerTax?.pct??state.tax?.pct)/100):
-           Math.max(0,ebitda-creditMonthly)*(pos(s.ownerTax?.pct??state.tax?.pct)/100)))/revenue*100:0;
+        (preTax-((s.ownerTax?.type||taxType)==='turnover'?revenue*(pos(s.ownerTax?.pct??state.tax?.pct)/100):
+           Math.max(0,preTax)*(pos(s.ownerTax?.pct??state.tax?.pct)/100)))/revenue*100:0;
       const minOk=s.fixedPriceFromV1||(Number.isFinite(p.priceFloor)&&p.priceFloor<=pos(s.priceMax)+.005&&
         actualAfterTaxMargin+.00001>=pos(s.minimumMarginPct));
       const targetOk=Number.isFinite(p.priceTarget)&&p.priceTarget<=pos(s.priceMax)+.005&&
@@ -398,7 +440,7 @@
         requiredTargetPrice:p.priceTarget,requiredFloorPrice:p.priceFloor,
         forecastOrders:orders,adBudgetEffective:media,revenue,cogs,commission,
         manager:monthlyManager,selling:monthlySelling,resourceShares:monthlyResources,
-        ebitda,creditMonthly,preTaxProfit:ebitda-creditMonthly,
+        ebitda,creditMonthly,preTaxProfit:preTax,fullServiceMonthlyAmort:fullAmort,
         unitCostEffective:netUnitCost,unitLoad,revenueWeight:0,cashOffsets:cashOffsets[s.id],
         actualAfterTaxMargin,minimumMarginFeasible:minOk,targetMarginMet:targetOk,
         status:s.fixedPriceFromV1?(actualAfterTaxMargin<0?'LOSS':'FIXED_V1'):(!minOk?'INFEASIBLE':targetOk?'TARGET_MET':'MINIMUM_ONLY')};
@@ -410,14 +452,15 @@
     const onceCosts=sum(scenario.allocation.filter(r=>r.cadence==='once').map(r=>r.amount));
     const totalEbitda=sum(items.map(s=>s.ebitda));
     const interest=sum(items.map(s=>s.creditMonthly));
-    const regular=items.filter(item=>item.source!=='online-service');
-    const online=items.filter(item=>item.source==='online-service');
+    const regular=items.filter(item=>item.source!=='online-service'||item.fullServiceV2);
+    const online=items.filter(item=>item.source==='online-service'&&!item.fullServiceV2);
     const regularRevenue=sum(regular.map(item=>item.revenue));
     const regularProfit=sum(regular.map(item=>item.preTaxProfit));
     const regularTax=taxType==='turnover'?regularRevenue*taxRate:Math.max(0,regularProfit)*taxRate;
     const onlineTax=sum(online.map(item=>item.revenue*pos(item.ownerTax?.pct)/100));
     const tax=regularTax+onlineTax;
-    const netProfit=totalEbitda-interest-tax;
+    const netProfit=totalEbitda-interest-
+      sum(items.map(item=>pos(item.fullServiceMonthlyAmort)))-tax;
     const originalMedia=sum(rows.map(s=>pos(s.adBudget)));
     const addedMedia=sum(scenario.allocation.filter(r=>r.kind==='campaign'&&r.cadence==='monthly').map(r=>r.amount));
     const replacedMedia=sum(rows.map(s=>offsets[s.id].adBudget));
@@ -493,7 +536,7 @@
         fixedPointConverged:converged}};
     // Do not claim that an impossible portfolio works: show the max feasible
     // retail price, its shortfall and a non-ready status instead.
-    if(base.ready&&Number(state.forecastMonths??1)>1){
+    if(base.ready&&(Number(state.forecastMonths??1)>1||rows.some(s=>s.fullServiceV2))){
       const planner=typeof globalThis==='object'&&globalThis.LinkedPortfolioTemporal?
         globalThis.LinkedPortfolioTemporal:
         (typeof require==='function'?require('./portfolio_v2_temporal.js'):null);
@@ -524,7 +567,8 @@
     base.totals.reserve=base.cashflow.reserve;
     base.totals.finalCash=base.cashflow.finalCash;
     base.totals.freeCash=base.cashflow.freeCash;
-    if(base.temporal?.ready&&!state.__periodPriceCandidate){
+    if(base.temporal?.ready&&!state.__periodPriceCandidate&&
+       !rows.some(s=>s.fullServiceV2)){
       const optimizer=typeof globalThis==='object'&&globalThis.LinkedPortfolioPeriodPrice?
         globalThis.LinkedPortfolioPeriodPrice:
         (typeof require==='function'?require('./portfolio_v2_period_price.js'):null);

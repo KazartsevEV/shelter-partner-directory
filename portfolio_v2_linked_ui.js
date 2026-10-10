@@ -39,7 +39,7 @@ function importFromV1(payload){
  const fresh=Engine.fromV1(payload),prior=state||read();
  // Preserve individually imported online services when the product portfolio
  // is re-imported. Each online SKU retains its own owner-tax provenance.
- if(prior)fresh.skus.push(...prior.skus.filter(s=>s.source==='online-service'&&
+ if(prior)fresh.skus.push(...prior.skus.filter(s=>(s.source==='online-service'||s.fullServiceV2)&&
    !fresh.skus.some(x=>x.id===s.id)).map(s=>JSON.parse(JSON.stringify(s))));
  // Reimporting V1 after adding another item must not wipe the user's portfolio.
  // Preserve settings only for the exact overlapping canonical IDs; never silently
@@ -53,7 +53,7 @@ function importFromV1(payload){
       const keep=new Set((r.skuIds||[]).filter(id=>allowed.has(id)));
       const copy=JSON.parse(JSON.stringify(r));
       copy.skuIds=Array.from(keep);
-      for(const prop of ['includedBySku','usage','loadPerUnit'])
+      for(const prop of ['includedBySku','usage','loadPerUnit','poolBySku','cashOriginBySku'])
        if(copy[prop])copy[prop]=Object.fromEntries(Object.entries(copy[prop])
          .filter(([id])=>keep.has(id)));
       return copy;
@@ -85,6 +85,28 @@ function appendOnline(sku){
  next.lastOrigin='online';
  state=next;resetSequence();save();enter();
 }
+// Full-service owner tax must match the enterprise; legacy agent turnover
+// remains an independently identified source and is not silently reclassified.
+function appendFullService(sku){
+ if(!sku?.fullServiceV2||!['online-service','offline-service'].includes(sku.source))
+   throw Error('Требуется проверенная полная денежная модель услуги.');
+ const previous=state||read();
+ if(previous&&(previous.tax?.type!==sku.ownerTax?.type||
+    Math.abs(Number(previous.tax?.pct)-Number(sku.ownerTax?.pct))>.0000001))
+   throw Error('Налог предприятия в портфеле отличается от налога полной услуги. Укажите единый налоговый режим.');
+ const next=previous?JSON.parse(JSON.stringify(previous)):Engine.fromV1({
+   tax:{type:sku.ownerTax.type,pct:sku.ownerTax.pct},skus:[sku]});
+ if(previous){
+   if(next.skus.some(s=>s.id===sku.id))
+     throw Error('Расчёт этой услуги уже есть в портфеле. Удалите старую версию перед заменой.');
+   next.skus.push({...JSON.parse(JSON.stringify(sku)),priceSelected:sku.priceMax,discountSelected:0});
+ }
+ next.forecastMonths=Math.max(Number(next.forecastMonths||1),Number(sku.fullServiceHorizon||1));
+ if(!previous)next.recurringDemandApproved=true;
+ next.lastOrigin='full-service';
+ state=next;resetSequence();save();enter();
+ return true;
+}
 function deleteLinkedSku(skuId){
  if(!state||!state.skus.some(s=>s.id===skuId))return false;
  const current=state.skus.find(s=>s.id===skuId);
@@ -93,7 +115,7 @@ function deleteLinkedSku(skuId){
  next.skus=next.skus.filter(s=>s.id!==skuId);
  next.resources=(next.resources||[]).map(r=>{
   r.skuIds=(r.skuIds||[]).filter(id=>id!==skuId);
-  for(const name of ['includedBySku','usage','loadPerUnit']){
+  for(const name of ['includedBySku','usage','loadPerUnit','poolBySku','cashOriginBySku']){
    if(r[name])delete r[name][skuId];
   }
   return r;
@@ -124,16 +146,22 @@ function field(label,path,value,extra=''){
  '<input data-linked-path="'+safe(path)+'" type="number" step="0.01" min="0" class="input-field mt-1" value="'+safe(value)+'" '+extra+'></label>';
 }
 function resourceCard(r,i){
+ const splitPools=state.skus.some(s=>s.fullServiceV2)&&
+   r.skuIds.some(id=>state.skus.find(s=>s.id===id)?.fullServiceV2);
  const skuCards=state.skus.filter(s=>r.kind!=='warehouse'||!['offline-service','online-service'].includes(s.source)).map(s=>{
   const checked=r.skuIds.includes(s.id);
-  const baseline=r.pool==='unitCost'?num(s.unitCost)*num(s.forecastUnitsPerMonth):
-   r.pool==='salesFixed'?num(s.salesFixedMonthly):
-   r.pool==='marketingManagement'?num(s.adManagement):
-   r.pool==='adBudget'?num(s.adBudget):0;
+  const pool=r.poolBySku?.[s.id]??r.pool;
+  const origin=r.cashOriginBySku?.[s.id]??r.cashOrigin??'';
+  const baseline=pool==='unitCost'?num(s.unitCost)*num(s.forecastUnitsPerMonth):
+   pool==='salesFixed'?num(s.salesFixedMonthly):
+   pool==='marketingManagement'?num(s.adManagement):
+   pool==='adBudget'?num(s.adBudget):0;
   return '<div class="rounded-lg border border-slate-200 p-3 min-w-0">'+
    '<label class="flex gap-2 items-center text-sm"><input type="checkbox" data-linked-member="'+i+'" value="'+safe(s.id)+'" '+(checked?'checked':'')+'><b data-nomad-no-translate>'+safe(s.name)+'</b></label>'+
    (checked?'<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">'+
-    (r.pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
+    (splitPools?'<label class="text-xs font-semibold text-slate-700">Где учтена сумма у этой позиции?<select data-linked-path="resources.'+i+'.poolBySku.'+safe(s.id)+'" class="input-field mt-1">'+options(pools,pool)+'</select></label>':'')+
+    (splitPools&&pool==='unitCost'?'<label class="text-xs font-semibold text-slate-700">Исходный денежный платёж<select data-linked-path="resources.'+i+'.cashOriginBySku.'+safe(s.id)+'" class="input-field mt-1">'+options([['','Выберите'],['materials','Материалы'],['production','Производство / аренда'],['fulfillment','Исполнение']],origin)+'</select></label>':'')+
+    (pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
       'resources.'+i+'.includedBySku.'+s.id,r.includedBySku?.[s.id]??0):'')+
     (r.allocation==='usage'?(r.usageMode==='per-unit'?
       field('Ресурс на 1 продажу / посещение','resources.'+i+'.loadPerUnit.'+s.id,r.loadPerUnit?.[s.id]??0):
@@ -323,17 +351,30 @@ function updateResult(){
    Object.entries(r.bySku).map(([id,amount])=>
     '<div><span data-nomad-no-translate>'+safe(out.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(amount)+'</div>').join('')+
   '</div>').join('')+'</div>';
- const period=cf.periodPnl;
+ const period=cf.periodPnl,fullServicePresent=out.items.some(s=>s.fullServiceV2);
+ const fullLanguage=root.Nomad360UI?.getLanguage?.()||'ru';
+ const fullWords=({
+   ru:{capex:'Оборудование / CAPEX',debt:'Долг на конец горизонта',
+     note:'Цены полных услуг сохранены из V1, выручка показана без НДС. Амортизация и тело кредита учитываются раздельно. Общие расходы оплачиваются один раз. Резерв не является расходом прибыли.'},
+   en:{capex:'Equipment / CAPEX',debt:'Outstanding debt at horizon',
+     note:'Full-service prices follow V1. Revenue excludes VAT. Depreciation, principal and shared expenses are accounted for separately. Reserves do not reduce profit.'},
+   kk:{capex:'Жабдық / CAPEX',debt:'Кезең соңындағы қарыз',
+     note:'Толық қызмет бағалары V1 есебінен алынды. Кіріс ҚҚС-сыз көрсетілді. Амортизация, несие сомасы және ортақ шығындар бөлек есептеледі. Резерв пайдадан шегерілмейді.'}
+ })[fullLanguage]||null;
  const periodPanel=period?.ready?
   '<section class="mt-5 rounded-lg border border-white/25 p-3">'+
   '<h3 class="font-bold">Экономика за '+period.horizonMonths+' мес. · '+(periodOptimized?'расчётная цена за весь период':'по месячным ценам V2')+'</h3>'+
-  '<p class="text-xs text-slate-200 mt-2">Цена каждого SKU рассчитана по фактической марже за выбранный период, включая долю рекламы, расходов, проценты и налоги. Все цены в пределах V1. Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки / 30 дней выше — базовая месячная модель, а не сумма периода.</p>'+
+  '<p class="text-xs text-slate-200 mt-2">'+
+  (fullServicePresent?fullWords.note:
+   'Цена каждого SKU рассчитана по фактической марже за выбранный период, включая долю рекламы, расходов, проценты и налоги. Все цены в пределах V1. Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки / 30 дней выше — базовая месячная модель, а не сумма периода.')+'</p>'+
   '<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">'+
   [['Выручка без НДС',money(period.revenue)],['EBITDA',money(period.ebitda)],
    ['Налог начислен',money(period.taxAccrued)],['Чистая прибыль',money(period.netProfit)],
    ['Маржа за период',period.netMargin===null?'не определена':money(period.netMargin)+'%'],
    ['Налог начислен − уплачен',money(period.taxTimingDifference)],
-   ['Проценты после горизонта',money(period.postHorizonInterest)]].map(([label,value])=>
+   ['Проценты после горизонта',money(period.postHorizonInterest)],
+   ...(fullServicePresent?[[fullWords.capex,money(cf.capitalExpenditure)],
+    [fullWords.debt,money(cf.outstandingPrincipal)]]:[])].map(([label,value])=>
     '<div class="bg-white/10 p-2 rounded text-xs">'+safe(label)+': <b>'+safe(value)+'</b></div>').join('')+'</div>'+
   '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[750px] text-xs"><thead><tr>'+
   ['Месяц','Выручка','Себестоимость','Реклама','Общие расходы','Фикс. услуги','EBITDA',
@@ -376,10 +417,13 @@ function updateResult(){
       '<span data-nomad-no-translate>'+safe(state.resources.find(r=>r.id===id)?.label||id)+'</span>: '+shown(amount)).join('; ')+'</td>'+
    '</tr>').join('')+'</tbody></table></div>':'';
  const flow='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Месяц','Поступления без НДС','Расходы','Налог бизнеса','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
+  ['Месяц','Поступления без НДС','Расходы',
+   ...(fullServicePresent?[fullWords.capex]:[]),
+   'Налог бизнеса','Проценты','Тело кредита','Деньги владельца','CF','Остаток','Живые деньги'].map(s=>
    '<th class="text-right p-2">'+s+'</th>').join('')+'</tr></thead><tbody>'+
   cf.months.map(m=>'<tr class="border-t border-white/20">'+
-   [m.month,m.receipt,m.operatingOutflow,m.tax,m.interest,
+   [m.month,m.receipt,m.operatingOutflow,
+    ...(fullServicePresent?[m.capex]:[]),m.tax,m.interest,
     m.principalRepaid,m.ownerCapital,m.cashFlow+m.ownerCapital,
     m.cumulative,m.freeCumulative]
     .map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+(i===0?'':' data-nomad-display-number="'+safe(v)+'"')+'>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
@@ -426,7 +470,7 @@ function onEvent(e){
  if(field.dataset?.linkedMember!==undefined&&e.type==='change'){
   const r=state.resources[Number(field.dataset.linkedMember)];
   if(field.checked&&!r.skuIds.includes(field.value))r.skuIds.push(field.value);
-  else if(!field.checked){r.skuIds=r.skuIds.filter(x=>x!==field.value);delete r.includedBySku[field.value];delete r.usage[field.value];delete r.loadPerUnit?.[field.value];}
+  else if(!field.checked){r.skuIds=r.skuIds.filter(x=>x!==field.value);delete r.includedBySku[field.value];delete r.usage[field.value];delete r.loadPerUnit?.[field.value];delete r.poolBySku?.[field.value];delete r.cashOriginBySku?.[field.value];}
   save();render();return;
  }
  if(field.dataset?.linkedPath){
@@ -476,6 +520,7 @@ function mount(){
  if(el){el.addEventListener('input',onEvent);el.addEventListener('change',onEvent);el.addEventListener('click',onEvent);}
  updateEntry();
 }
-root.LinkedPortfolioV2UI=Object.freeze({importFromV1,appendOnline,resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
+root.LinkedPortfolioV2UI=Object.freeze({importFromV1,appendOnline,appendFullService,
+ resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })(window);
