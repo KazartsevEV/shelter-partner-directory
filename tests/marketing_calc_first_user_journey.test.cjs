@@ -121,7 +121,7 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#product-screen').isVisible(),true);
    assert.equal(await page.locator('#own-materials-cost').inputValue(),'135');
    assert.equal(await page.locator('#product-portfolio-list [data-portfolio-product-id]').count(),2);
-   await page.locator('#product-portfolio-list [data-portfolio-product-id="1"] button').click();
+   await page.locator('#product-portfolio-list [data-portfolio-product-id="1"] button:not([data-delete-v1-sku])').click();
    assert.equal(await page.locator('#own-materials-cost').inputValue(),'245');
    assert.equal(await page.locator('#product-portfolio-list [data-portfolio-product-id]').count(),2);
 
