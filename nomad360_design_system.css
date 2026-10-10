@@ -1284,3 +1284,31 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
   :is(.aggregate-final-value,.final-buyer-price){
   color:var(--nd-v1-focus-orange);
 }
+
+/* PAYER-WIDTH-01: short "Я" option never consumes half the card width.
+   Shared between import and logistics questions; keep choice state unchanged. */
+body .nd-v1-product .nd-payer-choice-grid {
+  grid-template-columns:minmax(56px, 1fr) minmax(0, 2.45fr);
+  width:100%;
+  min-width:0;
+}
+body .nd-v1-product .nd-payer-choice-grid > :is(.logistics-payer-choice,.import-payer-choice) {
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  width:100%;
+  min-height:52px;
+  padding:10px clamp(7px,1.6vw,12px) !important;
+  font:600 clamp(14px,3.65vw,17px)/1.25 var(--nd-font);
+  letter-spacing:0;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  text-align:center;
+}
+@media(max-width:350px){
+  body .nd-v1-product .nd-payer-choice-grid {
+    grid-template-columns:minmax(48px,1fr) minmax(0,2.65fr);
+  }
+}
