@@ -11,7 +11,7 @@
       project:'Nomad360 — проект по развитию сервисов для предпринимателей и бизнеса. Инструменты для принятия управленческих решений на основе ясной картины инвестиционного ландшафта и бизнес-климата здесь и сейчас. Сегодня работает бизнес-калькулятор.',
       ai:'Исследует рынок и целевую аудиторию, формирует и проверяет маркетинговые гипотезы, готовит рекламные материалы, планирует кампании и анализирует результаты.',
       factory:'Автоматизирует производство цифрового контента: обработку и оформление материалов, контроль качества, подготовку публикаций и учёт себестоимости.',
-      development:'В разработке',contact:'Контакты',
+      development:'В разработке',contact:'Контакты',whatsappPending:'номер для связи уточняется',
       dataTitle:'Данные и конфиденциальность',
       dataCopy:'Расчёты выполняются в браузере. Финансовые данные остаются на вашем устройстве, черновики сохраняются в хранилище браузера, PDF формируется средствами браузера. Для удаления сохранённых данных очистите данные сайта. При загрузке используются Tailwind CDN и Google Fonts: они получают технические данные запроса, включая IP-адрес и сведения о браузере. Финансовые данные расчётов им не передаются.',
       licenseTitle:'Лицензия и использование',
@@ -26,7 +26,7 @@
       project:'Nomad360 develops services for entrepreneurs and businesses. Tools for management decisions based on a clear view of the investment landscape and business climate here and now. The business calculator is available today.',
       ai:'Researches markets and target audiences, develops and tests marketing hypotheses, prepares campaign materials, plans campaigns and evaluates results.',
       factory:'Automates digital content production, editing and formatting, quality control, publication preparation and cost tracking.',
-      development:'In development',contact:'Contacts',
+      development:'In development',contact:'Contacts',whatsappPending:'contact number pending',
       dataTitle:'Data and privacy',
       dataCopy:'Calculations run in your browser. Financial data stays on your device; drafts are saved in browser storage and PDFs are created by the browser. Clear site data to remove saved calculations. The page loads Tailwind CDN and Google Fonts, which receive technical request data including IP address and browser information. Your financial calculations are not sent to these providers.',
       licenseTitle:'License and usage',
@@ -41,7 +41,7 @@
       project:'Nomad360 кәсіпкерлер мен бизнеске арналған сервистерді дамытады. Мақсат — инвестициялық ахуал мен бизнес ортаның қазіргі жағдайын айқын көрсетіп, басқарушылық шешімдер қабылдауға көмектесу. Қазір бизнес-калькулятор жұмыс істейді.',
       ai:'Нарық пен мақсатты аудиторияны зерттейді, маркетингтік болжамдарды әзірлеп тексереді, жарнама материалдарын дайындайды, науқандарды жоспарлап, нәтижелерін талдайды.',
       factory:'Цифрлық контент өндіруді, өңдеуді, рәсімдеуді, сапаны тексеруді, жариялауға дайындауды және өзіндік құнын есептеуді автоматтандырады.',
-      development:'Әзірленуде',contact:'Байланыс',
+      development:'Әзірленуде',contact:'Байланыс',whatsappPending:'нөмір нақтылануда',
       dataTitle:'Деректер және құпиялық',
       dataCopy:'Есептеулер браузеріңізде орындалады. Қаржылық деректер құрылғыңызда қалады, нобайлар браузерде сақталады, PDF браузер арқылы жасалады. Сақталған есептерді жою үшін сайт деректерін тазалаңыз. Бетті жүктегенде Tailwind CDN және Google Fonts техникалық сұрау деректерін, соның ішінде IP мекенжайы мен браузер мәліметтерін алады. Қаржылық есеп деректері оларға берілмейді.',
       licenseTitle:'Лицензия және пайдалану',
@@ -68,7 +68,7 @@
       '<section id="nomad360-contacts" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.contact)+'</h2><div class="nomad-links">'+
       '<a href="https://t.me/Kazartsev_EV" target="_blank" rel="noopener noreferrer">Telegram · @Kazartsev_EV</a>'+
-      '<a href="https://wa.me/77771295693" target="_blank" rel="noopener noreferrer">WhatsApp</a>'+
+      '<span>WhatsApp · '+esc(t.whatsappPending)+'</span>'+
       '<a href="mailto:nomad260393@gmail.com">nomad260393@gmail.com</a>'+
       '<a href="https://www.threads.com/@nomad260393" target="_blank" rel="noopener noreferrer">Threads · @nomad260393</a>'+
       '</div></section>'+
