@@ -176,6 +176,15 @@ const {pathToFileURL}=require('node:url');
   A.equal(await page.locator('#full-service-credit-fields').isVisible(),false);
   A.equal(await page.locator('.nd-full-service-details').textContent().then(v=>v.includes('Непогашенный кредит')),false,
     'No debt metric is displayed for own-funds financing');
+  const ownHeaders=await page.locator('#full-service-report .nd-full-service-table th').allTextContents();
+  A.equal(ownHeaders.some(x=>/Проценты|Тело кредита/.test(x)),false,
+    'Own funds report has neither interest nor loan principal columns');
+  A.ok(ownHeaders.some(x=>x.includes('Свои вложения')));
+  await page.evaluate(()=>window.print=()=>{});
+  await page.locator('#full-service-pdf').click();
+  const ownPdf=await page.locator('#nomad360-print-sheet').textContent();
+  A.equal(/Проценты|Тело кредита|Непогашенный кредит/.test(ownPdf),false,
+    'Own funds PDF excludes all loan-only information');
   // Real API through the same V2 module used by the user-facing full-finance screen.
   const seed={monthlyForecast:200,capacity:250,priceGross:100,vatPct:12,
     taxType:'profit',taxPct:10,months:3,unitCashCost:8,
@@ -206,6 +215,8 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#full-service-funding').selectOption('credit');
   A.equal(await page.locator('#full-service-credit-fields').isVisible(),true);
   await page.locator('#full-service-term').fill('5');
+  A.ok((await page.locator('#full-service-report .nd-full-service-table').textContent()).includes('Тело кредита'),
+    'Loan principal column returns when credit is selected');
   r=await page.evaluate(()=>Nomad360FullServiceUI.getResult());
   A.ok(r.outstandingPrincipal>0);
   A.equal(r.creditRepaid,0);
