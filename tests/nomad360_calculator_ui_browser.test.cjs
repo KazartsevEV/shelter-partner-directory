@@ -638,6 +638,23 @@ async function v1AccentsCase(browser){
   await page.locator('#product-screen button[type="submit"]').click();
   await page.locator('[data-product-source="own"]').click();
   A.equal(await page.locator('#product-own-form').isVisible(),true);
+  // Mobile layout contract: narrow payer ("Я") and wide counterparty,
+  // including multiple logistics steps; no clipped or overflowing labels.
+  for (const viewportWidth of [360,390,430]) {
+    await page.setViewportSize({width:viewportWidth,height:844});
+    const groups=await page.locator('#product-logistics-block .grid.grid-cols-2:has(> button.logistics-payer-choice)')
+      .evaluateAll(nodes=>nodes.filter(el=>el.getBoundingClientRect().width>0)
+        .map(el=>{
+          const [mine,other]=el.querySelectorAll(':scope > button.logistics-payer-choice');
+          const m=mine.getBoundingClientRect(),o=other.getBoundingClientRect();
+          return {mine:m.width,other:o.width,otherFits:other.scrollWidth<=other.clientWidth+1,
+            inViewport:o.right<=window.innerWidth+1};
+        }));
+    A.equal(groups.length,3,'All three warehouse/delivery payer groups are visible on goods V1');
+    A.ok(groups.every(g=>g.other>g.mine*2&&g.otherFits&&g.inViewport),
+      'Payer labels must fit a wide counterparty column at '+viewportWidth+'px: '+JSON.stringify(groups));
+  }
+  await page.setViewportSize({width:390,height:844});
   const orange='rgb(237, 142, 99)',navy='rgb(22, 55, 90)',white='rgb(255, 255, 255)';
   const results=await page.locator('#materials-landed-result,#production-unit-result,#logistics-unit-result,#sales-cost-result,#product-ad-result')
     .evaluateAll(nodes=>nodes.map(node=>{
