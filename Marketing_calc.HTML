@@ -1893,6 +1893,9 @@
                   months:1,unitCashCost:Number(item.materialsUnitCost||0)+Number(item.productionElectricityPerUnit||0),
                   fixedCashMonthly:Math.max(0,Number(item.productionFixedMonthly||0)-amort)+
                     Number(item.salesFixedMonthly||0)+Number(item.adBudget||0)+Number(item.adManagement||0),
+                  adBudget:Number(item.adBudget||0),
+                  adManagement:Number(item.adManagement||0),
+                  salesFixedMonthly:Number(item.salesFixedMonthly||0),
                   equipmentPurchase:capex,equipmentAmortMonthly:amort,
                   commissionPct:Number(item.salesVariablePct||0)+Number(item.penaltiesPct||0),
                   reservePct:Number(p.reservePct||0),funding:p.fundingMode==='credit'?'credit':'own',
@@ -1915,7 +1918,10 @@
                   vatPct:0,taxType:'turnover',taxPct:sku.ownerTax.pct,
                   months:Number(onlineV1PortfolioSnapshot.values?.months||1),
                   unitCashCost:sku.unitCost,
-                  fixedCashMonthly:Math.max(0,sku.adBudget+sku.salesFixedMonthly-sku.onlineAmortMonthly),
+                  fixedCashMonthly:Math.max(0,sku.adBudget+sku.adManagement+
+                    sku.salesFixedMonthly-sku.onlineAmortMonthly),
+                  adBudget:sku.adBudget,adManagement:sku.adManagement,
+                  salesFixedMonthly:Math.max(0,sku.salesFixedMonthly-sku.onlineAmortMonthly),
                   equipmentPurchase:sku.onlineCapex,equipmentAmortMonthly:sku.onlineAmortMonthly,
                   commissionPct:sku.variableSalesPct,reservePct:0,funding:'own',
                   annualRatePct:0,creditMonths:1};
