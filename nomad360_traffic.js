@@ -20,7 +20,7 @@
       value.textContent=snapshot.visitors14.toLocaleString(
         language==='en'?'en-US':language==='kk'?'kk-KZ':'ru-RU');
     }
-    if(loading)return;
+    if(loading||root.location?.protocol==='file:')return;
     loading=true;
     root.fetch(dataUrl,{cache:'no-store',credentials:'omit'})
       .then(response=>{
