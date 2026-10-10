@@ -39,7 +39,7 @@
    const dayCount=Math.ceil(horizon/30)*30;
    const daily=Array.from({length:dayCount},()=>({
      receipt:0,ordersRevenue:0,cogsAccrual:0,onlineReceipt:0,onlineTax:0,onlineProfit:0,
-     stockPurchase:0,operating:0,ad:0,shared:0,commission:0,
+     stockPurchase:0,capex:0,operating:0,ad:0,shared:0,commission:0,
      commissionAccrual:0,loanDraw:0,interest:0,principal:0,tax:0,
      fixedAccrual:0,amortAccrual:0
    }));
@@ -89,9 +89,9 @@
        accrualUnit=Math.max(0,accrualUnit-embeddedStorage);
        variableUnit=Math.max(0,variableUnit-(input+prod+inbound)/Math.max(EPS,qty)-embeddedStorage);
      }else if(s.source==='online-service'){
-       post(0,'stockPurchase',pos(s.onlineCapex));
+       post(0,'capex',pos(s.onlineCapex));
      }else if(s.source==='offline-service'){
-       if(s.fullServiceV2)post(0,'stockPurchase',pos(s.fullServiceCapex));
+       if(s.fullServiceV2)post(0,'capex',pos(s.fullServiceCapex));
        const original=Math.max(EPS,pos(s.forecastUnitsPerMonth));
        variableUnit=Math.max(0,pos(s.serviceMaterialsUnit)-pos(s.cashOffsets?.materials)/original)+
          Math.max(0,pos(s.serviceElectricityUnit)-pos(s.cashOffsets?.fulfillment)/original);
@@ -256,7 +256,7 @@
    const months=Array.from({length:dayCount/30},(_,i)=>({
      month:i+1,receipt:0,operatingOutflow:0,tax:0,interest:0,
      principalRepaid:0,loanDraw:0,ownerCapital:0,cashFlow:0,
-     cumulative:0,freeCumulative:0,stockPurchase:0,ad:0,shared:0,
+     cumulative:0,freeCumulative:0,stockPurchase:0,capex:0,ad:0,shared:0,
      taxableProfit:0
    }));
    const taxPct=pos(state.tax?.pct)/100;
@@ -279,11 +279,11 @@
    const fullActive=items.some(s=>s.fullServiceV2);
    for(const d of daily){
      if(fullActive){
-       const preClient=running+d.loanDraw-d.stockPurchase-d.shared;
+       const preClient=running+d.loanDraw-d.stockPurchase-d.capex-d.shared;
        peak=Math.min(peak,preClient);
      }
      running+=d.receipt+d.loanDraw-d.operating-d.commission-
-       d.stockPurchase-d.ad-d.shared-d.tax-d.interest-d.principal;
+       d.stockPurchase-d.capex-d.ad-d.shared-d.tax-d.interest-d.principal;
      peak=Math.min(peak,running);
    }
    // Reserve is recalculated against the actual pooled first-month operating
@@ -312,7 +312,7 @@
    let balance=0;
    for(let day=0;day<daily.length;day++){
      const d=daily[day],m=months[Math.floor(day/30)];
-     m.receipt+=d.receipt;m.stockPurchase+=d.stockPurchase;
+     m.receipt+=d.receipt;m.stockPurchase+=d.stockPurchase;m.capex+=d.capex;
      m.ad+=d.ad;m.shared+=d.shared;m.tax+=d.tax;
      m.interest+=d.interest;m.principalRepaid+=d.principal;m.loanDraw+=d.loanDraw;
      m.operatingOutflow+=d.operating+d.commission+d.stockPurchase+d.ad+d.shared;
@@ -321,7 +321,7 @@
    }
    months[0].ownerCapital=ownerCapital;
    for(const m of months){
-     m.cashFlow=m.receipt+m.loanDraw-m.operatingOutflow-m.tax-m.interest-m.principalRepaid;
+     m.cashFlow=m.receipt+m.loanDraw-m.operatingOutflow-m.capex-m.tax-m.interest-m.principalRepaid;
      balance+=m.cashFlow+m.ownerCapital;
      m.cumulative=balance;m.freeCumulative=balance-reserve;
    }
@@ -468,6 +468,7 @@
    const outstandingPrincipal=sum(items.filter(s=>s.fullServiceV2&&
      pos(s.creditMonths)>horizonMonths).map(s=>pos(s.creditPrincipal)));
    return {periodPnl,months,reserve,ownerCapital,borrowedCapital,outstandingPrincipal,
+     capitalExpenditure:sum(months.map(m=>m.capex)),
      startupCapital:ownerCapital+borrowedCapital,finalCash:balance,
      freeCash:balance-reserve,peakOperatingDeficit:-peak,
      scenarioHorizonMonths:horizonMonths,vatCashBasis:'net-of-vat-operating',
