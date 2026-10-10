@@ -746,3 +746,65 @@ body > section .nd-route-separator {
     font-size:clamp(23px,6vw,25px);
   }
 }
+
+/* CANVAS-01: continuous navy canvas matching the existing footer. Preserve
+   individual white content panels and the white header exactly as they are. */
+:root { --nd-canvas:#16375a; }
+body { background:var(--nd-canvas); color:#fff; }
+body > section .card { color:var(--nd-text); }
+body #nomad360-hero,
+body #nomad360-hero .nomad-hero { color:#fff; }
+body #nomad360-hero :is(h1,h2,h3),
+body #nomad360-hero .nomad-hero :is(h1,h2,h3) {
+  color:#fff;
+}
+body #nomad360-home-secondary .nomad-example-row {
+  border-top-color:rgba(255,255,255,.36);
+}
+body #nomad360-home-secondary .nomad-example-title,
+body #nomad360-home-secondary .nomad-example-copy p {
+  color:#fff;
+}
+body #nomad360-home-secondary .nomad-example-link,
+body #nomad360-home-secondary .nomad-example-link:hover,
+body #nomad360-home-secondary .nomad-example-link:focus-visible {
+  color:#fff;
+  text-decoration-line:underline;
+  text-decoration-color:var(--nd-accent);
+  text-decoration-thickness:2px;
+  text-underline-offset:5px;
+}
+body > section > button.text-blue-600,
+body > section > button.text-blue-600:hover:not(:disabled),
+body > section > button.text-blue-600:focus-visible {
+  color:#fff;
+  background:transparent;
+  text-decoration-line:underline;
+  text-decoration-color:var(--nd-accent);
+  text-decoration-thickness:2px;
+  text-underline-offset:5px;
+  font-size:18px !important;
+  font-weight:600;
+}
+body > section > .nd-route-trail { color:#fff; }
+body > section > .nd-route-trail button.nd-route-link,
+body > section > .nd-route-trail button.nd-route-link:hover:not(:disabled),
+body > section > .nd-route-trail button.nd-route-link:focus-visible,
+body > section > .nd-route-trail .nd-route-current {
+  color:#fff;
+}
+body > section > .nd-route-trail button.nd-route-link,
+body > section > .nd-route-trail button.nd-route-link:hover:not(:disabled),
+body > section > .nd-route-trail button.nd-route-link:focus-visible {
+  text-decoration-color:var(--nd-accent);
+}
+body > section > .nd-route-trail .nd-route-separator { color:#fff; }
+body #product-screen > .nd-canvas-currency-note {
+  color:#fff;
+  font-size:16px !important;
+  font-weight:600;
+  line-height:1.5;
+}
+@media print {
+  body { background:#fff; color:#172b24; }
+}
