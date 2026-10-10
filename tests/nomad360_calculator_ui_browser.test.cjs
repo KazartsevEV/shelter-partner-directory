@@ -194,6 +194,19 @@ async function browserCase(browser,locale,expected){
       return result;
     };
   });
+  const boundsHistory=await page.evaluate(async ()=>{
+    const out=[];
+    for(let i=0;i<10;i++){
+      const r=document.getElementById('start-multi-portfolio').getBoundingClientRect();
+      out.push({y:Math.round(r.y*10)/10,h:Math.round(r.height*10)/10,
+        scroll:Math.round(window.scrollY),inner:window.innerHeight});
+      await new Promise(resolve=>setTimeout(resolve,100));
+    }
+    return out;
+  });
+  const yValues=boundsHistory.map(x=>x.y);
+  A.ok(Math.max(...yValues)-Math.min(...yValues)<2,
+    'Mobile CTA must stop moving before user taps '+locale+': '+JSON.stringify(boundsHistory));
   await choice.locator('#start-multi-portfolio').scrollIntoViewIfNeeded();
   await choice.locator('#start-multi-portfolio').click();
   await page.waitForTimeout(120);
