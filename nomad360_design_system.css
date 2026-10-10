@@ -1288,8 +1288,15 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
 /* PAYER-WIDTH-01: short "Я" option never consumes half the card width.
    Shared between import and logistics questions; keep choice state unchanged. */
 body .nd-v1-product .nd-payer-choice-grid {
+  display:grid;
   grid-template-columns:minmax(56px, 1fr) minmax(0, 2.45fr);
+  gap:8px;
+  align-items:end;
   width:100%;
+  min-width:0;
+}
+body .nd-v1-product .nd-payer-choice-grid > [data-product-collapsible] {
+  grid-column:1 / -1;
   min-width:0;
 }
 body .nd-v1-product .nd-payer-choice-grid > :is(.logistics-payer-choice,.import-payer-choice) {
