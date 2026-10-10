@@ -77,6 +77,35 @@ async function browserCase(browser,locale,expected){
   A.deepEqual((await choice.locator('button').allTextContents()).map(x=>x.trim()),choiceTexts.slice(1,4));
   A.equal(await choice.locator('a').count(),0,'Third item must be a real button, not a text link');
   A.equal(await page.locator('link[href="./nomad360_design_system.css"]').count(),1);
+  // TYPE-01: one brand font with an explicit readable type scale and high
+  // contrast, even at 390px outdoors. The footer/header have separate owners.
+  const typography=await page.evaluate(()=>{
+    const root=getComputedStyle(document.documentElement),at=selector=>{
+      const node=document.querySelector(selector),css=getComputedStyle(node);
+      return {font:css.fontFamily,px:parseFloat(css.fontSize),weight:Number(css.fontWeight),
+        color:css.color,lineHeight:parseFloat(css.lineHeight)};
+    };
+    return {
+      font:root.getPropertyValue('--nd-font').trim(),
+      body:root.getPropertyValue('--nd-type-body').trim(),
+      note:root.getPropertyValue('--nd-type-note').trim(),
+      outcome:at('#nomad360-calculation-list li'),
+      noteCopy:at('#nomad360-home-secondary .nomad-recovery-note'),
+      hero:at('#nomad360-hero h3'),
+      recoveryTitle:at('#nomad360-home-secondary .nomad-recovery-title'),
+      example:at('#nomad360-home-secondary .nomad-example-link')
+    };
+  });
+  A.match(typography.font,/IBM Plex Sans/,'Nomad360 must declare one coherent brand typeface');
+  A.equal(typography.body,'16px');
+  A.equal(typography.note,'14px');
+  A.ok(typography.outcome.px>=16&&typography.outcome.weight>=500,'Result explanations cannot be fine print');
+  A.ok(typography.noteCopy.px>=14,'Secondary notes remain readable on a phone');
+  A.ok(typography.hero.px>=17,'Subtitle remains legible on mobile');
+  A.ok(typography.recoveryTitle.weight>=700,'Saved work gets a visible text hierarchy');
+  A.ok(typography.example.px>=15,'Auxiliary links stay tappable and legible');
+  A.equal(typography.noteCopy.color,'rgb(64, 84, 106)','Muted copy must use legible dark blue-gray');
+
   const mobileGeometry=await choice.locator('button').evaluateAll(buttons=>buttons.map(button=>{
     const rect=button.getBoundingClientRect(),style=getComputedStyle(button);
     return {width:Math.round(rect.width),height:Math.round(rect.height),
@@ -114,9 +143,18 @@ async function browserCase(browser,locale,expected){
   await page.evaluate(()=>showHome());
   await choice.locator('#start-own-product').click();
   A.equal(await page.locator('#product-screen').isVisible(),true,'Product must open product branch');
+  const typeField=await page.locator('#product-name-input').evaluate(el=>({
+    size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
+  }));
+  A.ok(typeField.size>=16&&typeField.weight>=500,'Product form fields use standard readable type');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
+  const v2Type=await page.locator('[data-p2-path="marketing.budget"]').evaluate(el=>({
+    size:parseFloat(getComputedStyle(el).fontSize),
+    labelSize:parseFloat(getComputedStyle(el.closest('label').querySelector('span')).fontSize)
+  }));
+  A.ok(v2Type.size>=16&&v2Type.labelSize>=14,'V2 data-entry typography must match V1');
   A.ok(await page.evaluate(()=>PortfolioV2UI.load()),'V2 should create a draft on first visit');
   await page.evaluate(()=>{
     const draft=PortfolioV2UI.load();
