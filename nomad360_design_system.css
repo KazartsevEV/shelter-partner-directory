@@ -946,6 +946,8 @@ body .nd-v1-service .nd-v1-input-panel #inputs-container input.input-field{
 }
 /* Data entry: same fields, numeric alignment, focus/hover and action hierarchy. */
 body .nd-v1-screen :is(.input-field,input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea){
+  box-sizing:border-box;
+  min-width:0;
   background:#fff;
   border:1px solid #9bacbc;
   border-radius:8px !important;
