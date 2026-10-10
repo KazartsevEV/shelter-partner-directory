@@ -70,12 +70,11 @@ async function browserCase(browser,locale,expected){
       primaryCardBackground:computed('#nomad360-selling-choice').backgroundColor,
       headerBackground:computed('#nomad360-header').backgroundColor,
       note:computed('#product-screen .nd-canvas-note').color,
-      exampleTitle:computed('#nomad360-home-secondary .nomad-example-title').color,
-      exampleCopy:computed('#nomad360-home-secondary .nomad-example-copy p').color
+      example:computed('#nomad360-home-secondary .nomad-example-link').color
     };
   });
   A.equal(canvasColors.page,'rgb(22, 55, 90)','Canvas matches the navy footer');
-  A.ok(['hero1','hero2','hero3','note','exampleTitle','exampleCopy'].every(k=>
+  A.ok(['hero1','hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
   A.ok(['calcBackground','primaryCardBackground','headerBackground'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
@@ -126,9 +125,33 @@ async function browserCase(browser,locale,expected){
   A.ok(typography.outcome.px>=17&&typography.outcome.weight>=500,'Result explanations cannot be fine print');
   A.ok(typography.noteCopy.px>=15,'Secondary notes remain readable on a phone');
   A.ok(typography.hero.px>=17,'Subtitle remains legible on mobile');
+   A.equal(await page.locator('#nomad360-hero h3').evaluate(el=>getComputedStyle(el).textWrap),
+     'balance','Subtitle uses balanced line wraps');
+   if(expected.lang==='ru'||expected.lang==='en'){
+     const lastWords=await page.locator('#nomad360-hero h3').evaluate((el,lang)=>{
+       const node=el.firstChild,text=node.textContent,
+         words=lang==='ru'?['живые','деньги.']:['actual','cash.'];
+       const i=text.lastIndexOf(words[1]),j=text.lastIndexOf(words[0],i);
+       if(i<0||j<0)return {valid:false};
+       const top=(a,b)=>{const range=document.createRange();range.setStart(node,a);range.setEnd(node,b);
+         return range.getBoundingClientRect().top;};
+       return {valid:true,sameLine:Math.abs(top(j,j+words[0].length)-top(i,i+words[1].length))<1};
+     },expected.lang);
+     A.deepEqual(lastWords,{valid:true,sameLine:true},'Subtitle must end without an orphaned word');
+   }
+
   A.ok(typography.recoveryTitle.weight>=700,'Saved work gets a visible text hierarchy');
   A.ok(typography.example.px>=16,'Auxiliary links stay tappable and legible');
   A.equal(typography.noteCopy.color,'rgb(64, 84, 106)','Muted copy must use legible dark blue-gray');
+   const exampleRow=page.locator('#nomad360-home-secondary .nomad-example-row');
+   A.equal(await exampleRow.locator('a').count(),1,'Cotton shopper example is a single link');
+   A.equal(await exampleRow.locator('.nomad-example-title, .nomad-example-copy').count(),0);
+   A.equal((await exampleRow.locator('a').textContent()).trim(),{
+     ru:'Посмотреть пример расчёта хлопкового шоппера',
+     en:'View a sample calculation for a cotton tote bag',
+     kk:'Мақта шопперінің есептеу мысалын қарау'
+   }[expected.lang]);
+   A.match(await exampleRow.locator('a').getAttribute('href'),/demo=shopper/);
    const exampleLink=await page.locator('#nomad360-home-secondary .nomad-example-link').evaluate(node=>{
      const css=getComputedStyle(node);return {
        color:css.color,underline:css.textDecorationColor,style:css.textDecorationLine,
@@ -139,6 +162,12 @@ async function browserCase(browser,locale,expected){
    A.equal(exampleLink.underline,'rgb(184, 87, 58)','Secondary link underline stays terracotta');
    A.match(exampleLink.style,/underline/,'Link should have a real underline, not a bar border');
    A.equal(exampleLink.thickness,'2px','Underline is conspicuous without becoming a CTA');
+      const draftTitle=await page.locator('#portfolio-v2-resume-home .nomad-recovery-title').textContent();
+   A.equal(draftTitle.trim(),{
+     ru:'Сохранённый черновик агрегированной модели V2',
+     en:'Saved aggregated V2 draft',
+     kk:'Агрегатталған V2 моделінің сақталған нобайы'
+   }[expected.lang]);
    const recoveryText=await page.locator('#resume-own-product').textContent();
    A.equal(recoveryText.trim(),{ru:'Продолжить работу с товарами',
      en:'Continue working on my products',kk:'Тауарлармен жұмысты жалғастыру'}[expected.lang],
@@ -183,7 +212,7 @@ async function browserCase(browser,locale,expected){
     label:getComputedStyle(b.querySelector('div')).color
   })));
   A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
-  A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(17, 40, 63)'),
+  A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(22, 55, 90)'),
     'Service path choices must share orange surface and navy readable labels');
   const serviceLabel={ru:'Услуга',en:'Service',kk:'Қызмет'}[expected.lang];
   const linkVisual=async selector=>page.locator(selector).evaluate(el=>{
@@ -230,6 +259,11 @@ async function browserCase(browser,locale,expected){
   });
   A.equal(productCta.background,'rgb(237, 142, 99)','V1 calculate CTA is orange');
   A.equal(productCta.color,'rgb(22, 55, 90)','V1 CTA label is navy');
+   A.equal(await page.locator('#product-intro-title').evaluate(el=>getComputedStyle(el).color),
+     'rgb(22, 55, 90)','Former near-black V1 heading is brand navy');
+   A.equal(await page.locator('#product-screen .text-slate-900').first().evaluate(el=>getComputedStyle(el).color),
+     'rgb(22, 55, 90)','Former black utility text is brand navy');
+
   const productLink=page.locator('#product-intro-category.nd-context-link');
   A.equal((await productLink.textContent()).trim(),{ru:'Товар',en:'Product',kk:'Тауар'}[expected.lang]);
   const productVisual=await linkVisual('#product-intro-category');
@@ -346,7 +380,21 @@ async function browserCase(browser,locale,expected){
 
   A.doesNotMatch(await page.locator('#nomad360-hero').textContent(),/MBA|дорогие консультанты|expensive consulting/);
   A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI Marketer/i);
-  const footer=await page.locator('#nomad360-footer').textContent();
+     const slogans=await page.locator('#nomad360-ai .nomad-slogan, #nomad360-factory .nomad-slogan')
+     .evaluateAll(nodes=>nodes.map(el=>({text:el.textContent.trim(),
+       size:getComputedStyle(el).fontSize,weight:getComputedStyle(el).fontWeight,
+       color:getComputedStyle(el).color})));
+   A.equal(slogans.length,2,'Both products should have a final bold slogan');
+   A.equal(slogans[1].text,{
+     ru:'Делайте то, что приносит деньги.',
+     en:'Make what sells.',
+     kk:'Табыс әкелетін нәрсені жасаңыз.'
+   }[expected.lang]);
+   A.deepEqual({size:slogans[1].size,weight:slogans[1].weight,color:slogans[1].color},
+     {size:slogans[0].size,weight:slogans[0].weight,color:slogans[0].color},
+     'Content Factory finale must match the AI Marketer slogan style');
+   A.equal(await page.locator('#nomad360-factory .nomad-product-goal').count(),0);
+   const footer=await page.locator('#nomad360-footer').textContent();
   A.ok(footer.includes('+7 777 129 56 93')&&footer.includes('+7 977 986 74 41'));
   A.equal(await page.locator('#nomad360-footer').count(),1,'Exactly one new footer');
   A.equal(await page.locator('body > footer').count(),1,'Remove the old duplicate legal footer');

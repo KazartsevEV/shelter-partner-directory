@@ -56,7 +56,7 @@
            ['Публикует','Товары проходят модерацию и выходят на маркетплейс'],
            ['Отслеживает','просмотры, скачивания и продажи'],
            ['Корректирует','По рыночным сигналам меняет ассортимент, производственный план и стратегию развития']],
-         goal:'Принцип: производство ориентируется на реальный спрос и фактические результаты продаж.',slogan:''}
+         goal:'',slogan:'Делайте то, что приносит деньги.'}
       ],
       dataTitle:'Данные и конфиденциальность',
       dataCopy:'Расчёты выполняются в браузере. Финансовые данные остаются на вашем устройстве, черновики сохраняются в хранилище браузера, PDF формируется средствами браузера. Для удаления сохранённых данных очистите данные сайта. При загрузке используются Tailwind CDN и Google Fonts: они получают технические данные запроса, включая IP-адрес и сведения о браузере. Финансовые данные расчётов им не передаются.',
@@ -112,7 +112,7 @@
            ['Publishes','Goods pass moderation and go live on the marketplace'],
            ['Tracks','views, downloads and sales'],
            ['Adjusts','Market signals change the assortment, the production plan and the development strategy']],
-         goal:'Principle: production follows real demand and actual sales results.',slogan:''}
+         goal:'',slogan:'Make what sells.'}
       ],
       dataTitle:'Data and privacy',
       dataCopy:'Calculations run in your browser. Financial data stays on your device; drafts are saved in browser storage and PDFs are created by the browser. Clear site data to remove saved calculations. The page loads Tailwind CDN and Google Fonts, which receive technical request data including IP address and browser information. Your financial calculations are not sent to these providers.',
@@ -168,7 +168,7 @@
            ['Жариялайды','Тауарлар модерациядан өтіп, маркетплейсте жарияланады'],
            ['Бақылайды','қаралымдар, жүктеулер және сатылымдар'],
            ['Түзетеді','Нарық сигналдары бойынша ассортиментті, өндіріс жоспарын және даму стратегиясын өзгертеді']],
-         goal:'Қағида: өндіріс нақты сұраныс пен сатылым нәтижелеріне бағытталған.',slogan:''}
+         goal:'',slogan:'Табыс әкелетін нәрсені жасаңыз.'}
       ],
       dataTitle:'Деректер және құпиялық',
       dataCopy:'Есептеулер браузеріңізде орындалады. Қаржылық деректер құрылғыңызда қалады, нобайлар браузерде сақталады, PDF браузер арқылы жасалады. Сақталған есептерді жою үшін сайт деректерін тазалаңыз. Бетті жүктегенде Tailwind CDN және Google Fonts техникалық сұрау деректерін, соның ішінде IP мекенжайы мен браузер мәліметтерін алады. Қаржылық есеп деректері оларға берілмейді.',
@@ -246,7 +246,7 @@
     const items=p.items.map(i=>'<li><b>'+esc(i[0])+'.</b> '+esc(i[1])+'</li>').join('');
     return '<article id="'+p.id+'" class="nomad-product" tabindex="-1">'+
       '<span class="nomad-status">'+esc(t.development)+'</span><h4>'+esc(p.title)+'</h4>'+
-      '<p>'+esc(p.lead)+'</p><ul>'+items+'</ul><p class="nomad-product-goal">'+esc(p.goal)+'</p>'+
+      '<p>'+esc(p.lead)+'</p><ul>'+items+'</ul>'+ (p.goal?'<p class="nomad-product-goal">'+esc(p.goal)+'</p>':'')+
       (p.slogan?'<p class="nomad-slogan">'+esc(p.slogan)+'</p>':'')+'</article>';
   }
   let embedDownloadUrl=null;

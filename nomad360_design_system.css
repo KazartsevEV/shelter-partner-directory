@@ -3,7 +3,7 @@
    No calculation, persistence or PDF contracts are modified. */
 :root {
   --nd-ink:#16375a;
-  --nd-ink-deep:#11283f;
+  --nd-ink-deep:#16375a;
   --nd-text:#24384c;
   --nd-muted:#40546a;
   --nd-accent:#b8573a;
@@ -767,4 +767,35 @@ body > section .card a.nd-context-link:hover,
 body > section .card a.nd-context-link:focus-visible {
   color:var(--nd-ink);
   text-decoration-color:var(--nd-brand-vermillion);
+}
+
+/* INK-05: normalize near-black labels and totals on the calculator's light
+   surfaces to the single Nomad360 navy. Keep light-on-dark messages, semantic
+   validation colors, header/footer and orange primary action colors intact. */
+body > section :is(
+  .text-black,
+  .text-slate-800,.text-slate-900,.text-slate-950,
+  .text-gray-800,.text-gray-900,.text-gray-950,
+  .text-zinc-800,.text-zinc-900,.text-zinc-950,
+  .text-neutral-800,.text-neutral-900,.text-neutral-950
+):not(.bg-slate-900 *):not(.bg-emerald-900 *):not(.bg-amber-900 *):not(.bg-blue-700 *):not(.bg-blue-800 *):not(.bg-indigo-900 *):not(.product-business-aggregate *) {
+  color:var(--nd-ink) !important;
+}
+body > section :is(.td-total,.nd-type-section) {
+  color:var(--nd-ink);
+}
+/* Balance the copy across its existing lines, so the final Russian
+   "живые деньги" (and corresponding translations) stays together visually. */
+body #nomad360-hero h3 {
+  text-wrap:balance;
+  overflow-wrap:normal;
+}
+/* A single lightweight demo link on the navy canvas; no repeated explanation. */
+body #nomad360-home-secondary .nomad-example-row {
+  justify-content:flex-start;
+}
+body #nomad360-home-secondary .nomad-example-row .nomad-example-link {
+  font-size:var(--nd-type-body);
+  line-height:1.45;
+  text-wrap:balance;
 }
