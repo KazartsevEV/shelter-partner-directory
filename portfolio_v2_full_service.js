@@ -185,6 +185,7 @@
      fullServiceForecast:forecast,fullServiceHorizon:model.horizonMonths,
      fullServiceMonthlyAmort:amort,fullServiceCapex:offline?first.assetCash:0,
      fullServiceReserveFunded:loan?model.reserve:0,
+     fullServiceReservePct:Number(input.reservePct||0),
      unitCost:offline?variable+productionFixed/qty:variable,
      forecastUnitsPerMonth:qty,adBudget:advertising,
      baseCac:advertising>0?advertising/qty:0,
