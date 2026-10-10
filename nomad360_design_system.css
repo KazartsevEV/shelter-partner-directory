@@ -193,47 +193,39 @@ body #nomad360-selling-choice .nomad-choice-grid {
 }
 body #nomad360-selling-choice .nomad-choice-button {
   display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:18px;
+  align-items:center;
+  justify-content:flex-start;
   min-width:0;
-  min-height:140px;
+  min-height:110px;
   width:100%;
-  padding:20px 21px;
   margin:0;
+  padding:20px 26px;
   border:1px solid var(--nd-ink);
   border-radius:var(--nd-radius) !important;
-  background:#fff;
-  color:var(--nd-ink);
+  background:var(--nd-ink);
+  color:#fff;
   text-align:left;
   font-family:inherit;
-  font-size:clamp(17px,1.65vw,20px);
+  font-size:clamp(22px,2.05vw,27px);
   font-weight:600;
-  line-height:1.27;
-  letter-spacing:-.025em;
+  line-height:1.2;
+  letter-spacing:-.03em;
   cursor:pointer;
   box-shadow:none;
 }
 body #nomad360-selling-choice .nomad-choice-button::before {
-  color:var(--nd-accent);
-  font-size:12px;
-  font-weight:600;
-  letter-spacing:.07em;
-  line-height:1;
+  content:none !important;
+  display:none !important;
 }
-body #nomad360-selling-choice .nomad-choice-button:nth-child(1)::before{content:"01 /"}
-body #nomad360-selling-choice .nomad-choice-button:nth-child(2)::before{content:"02 /"}
-body #nomad360-selling-choice .nomad-choice-button:nth-child(3)::before{content:"03 /"}
-body #nomad360-selling-choice .nomad-choice-button:hover {
-  background:var(--nd-ink);
-  color:#fff;
-  border-color:var(--nd-ink);
-  box-shadow:0 6px 0 -3px var(--nd-accent);
-}
-body #nomad360-selling-choice .nomad-choice-button:hover::before { color:#f0b9a5; }
-body #nomad360-selling-choice .nomad-choice-button:active {
+body #nomad360-selling-choice .nomad-choice-button:hover:not(:disabled) {
   background:var(--nd-ink-deep);
+  border-color:var(--nd-ink-deep);
+  color:#fff;
+  box-shadow:none;
+}
+body #nomad360-selling-choice .nomad-choice-button:active:not(:disabled) {
+  background:#0d2033;
+  border-color:#0d2033;
   box-shadow:none;
 }
 /* Saved work is a quiet workspace state below the primary decision, not
@@ -255,10 +247,10 @@ body #nomad360-home-secondary .nomad-recovery-card {
   min-width:0;
   margin:0 0 12px;
   padding:clamp(20px,2.5vw,28px);
-  border:1px solid var(--nd-line);
-  border-left:3px solid var(--nd-accent);
+  border:1px solid #dbe3ea;
+  border-left:1px solid #dbe3ea;
   border-radius:var(--nd-radius);
-  background:var(--nd-panel);
+  background:#fafbfc;
   box-shadow:none;
 }
 body #nomad360-home-secondary .nomad-recovery-card.hidden,
@@ -285,22 +277,23 @@ body #nomad360-home-secondary .nomad-recovery-action {
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:54px;
-  padding:14px 18px;
+  min-height:52px;
+  padding:12px 17px;
   width:100%;
-  border:1px solid var(--nd-ink);
+  border:1px solid var(--nd-line-strong);
   border-radius:var(--nd-radius) !important;
-  background:var(--nd-ink);
-  color:#fff;
+  background:#fff;
+  color:var(--nd-ink);
   font-size:15px;
   font-weight:600;
   line-height:1.3;
   text-align:center;
   cursor:pointer;
 }
-body #nomad360-home-secondary .nomad-recovery-action:hover {
-  background:var(--nd-ink-deep);
-  border-color:var(--nd-ink-deep);
+body #nomad360-home-secondary .nomad-recovery-action:hover:not(:disabled) {
+  background:var(--nd-surface);
+  border-color:var(--nd-ink);
+  color:var(--nd-ink-deep);
 }
 body #nomad360-home-secondary .nomad-example-row {
   display:flex;
@@ -344,15 +337,10 @@ body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
   body #nomad360-calculation-list ul { grid-template-columns:minmax(0,1fr); }
   body #nomad360-selling-choice .nomad-choice-grid {grid-template-columns:minmax(0,1fr);grid-auto-rows:1fr;gap:9px}
   body #nomad360-selling-choice .nomad-choice-button {
-    min-height:88px;
-    padding:17px 19px;
-    flex-direction:row;
-    align-items:center;
-    justify-content:flex-start;
-    gap:22px;
-    font-size:18px;
+    min-height:96px;
+    padding:18px 22px;
+    font-size:clamp(22px,4vw,26px);
   }
-  body #nomad360-selling-choice .nomad-choice-button::before { flex:0 0 38px; }
   body #nomad360-home-secondary .nomad-recovery-card { grid-template-columns:minmax(0,1fr);gap:17px; }
   body #nomad360-home-secondary .nomad-example-row {align-items:flex-start;flex-direction:column;gap:8px}
   body #nomad360-home-secondary .nomad-example-link {margin-top:0}
@@ -365,7 +353,7 @@ body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
   body #nomad360-calculation-list li{grid-template-columns:23px minmax(0,1fr);gap:10px;font-size:14px;padding:13px 0}
   body #nomad360-selling-choice{padding:23px 17px}
   body #nomad360-selling-choice h4{font-size:26px}
-  body #nomad360-selling-choice .nomad-choice-button{font-size:17px}
+  body #nomad360-selling-choice .nomad-choice-button{font-size:clamp(21px,5.5vw,24px)}
 }
 @media (prefers-reduced-motion:reduce) {
   body > section :is(button,[role="button"]) {transition:none}

@@ -81,13 +81,30 @@ async function browserCase(browser,locale,expected){
     const rect=button.getBoundingClientRect(),style=getComputedStyle(button);
     return {width:Math.round(rect.width),height:Math.round(rect.height),
       radius:style.borderTopLeftRadius,borderColor:style.borderTopColor,
-      font:style.fontFamily,background:style.backgroundColor};
+      font:style.fontFamily,background:style.backgroundColor,color:style.color,
+      fontSize:parseFloat(style.fontSize),labelContent:getComputedStyle(button,'::before').content};
   }));
   A.equal(new Set(mobileGeometry.map(x=>x.width)).size,1,'Three choices must have identical mobile widths');
   A.equal(new Set(mobileGeometry.map(x=>x.height)).size,1,'Three choices must have identical mobile heights');
   A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
   A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
-  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=82),'All three are proper tap targets');
+  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=96),'All three are proper tap targets');
+  A.ok(mobileGeometry.every(x=>x.background==='rgb(22, 55, 90)' && x.color==='rgb(255, 255, 255)'),
+    'All three choices must use the same solid brand-navy fill and white text');
+  A.ok(mobileGeometry.every(x=>x.fontSize>=21),
+    'All choices must have large visible typography on a mobile viewport');
+  A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
+    'Remove the small 01/02/03 labels from the decision buttons');
+  const savedTreatment=await page.locator('#saved-product-entry').evaluate(el=>{
+    const card=getComputedStyle(el),action=getComputedStyle(el.querySelector('button'));
+    return {border:card.borderLeftWidth,bg:card.backgroundColor,
+      actionBg:action.backgroundColor,actionText:action.color};
+  });
+  A.equal(savedTreatment.border,'1px','Saved work uses a restrained single-pixel border');
+  A.equal(savedTreatment.actionBg,'rgb(255, 255, 255)',
+    'Resume calculation should remain secondary to main selling choices');
+  A.equal(savedTreatment.actionText,'rgb(22, 55, 90)',
+    'Resume calculation keeps sufficient contrast and a clear action label');
   A.equal(await page.locator('#nomad360-home-secondary').evaluate(e=>getComputedStyle(e).boxShadow),'none',
     'No legacy floating/nested homepage card shadow');
   A.match(await page.locator('#nomad360-calculation-list li').first().evaluate(
