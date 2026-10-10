@@ -190,6 +190,14 @@ async function browserCase(browser,locale,expected){
     'All three primary routes must use warm orange with navy text');
   A.ok(mobileGeometry.every(x=>x.fontSize>=25&&x.fontSize<=29),
     'Large primary CTA uses legible 25–29px on phones');
+  const homeTitle=await page.locator('#nomad360-selling-heading').evaluate(el=>{
+    const st=getComputedStyle(el),r=el.getBoundingClientRect();
+    return {size:parseFloat(st.fontSize),color:st.color,width:r.width};
+  });
+  A.ok(homeTitle.size>=34&&homeTitle.size>Math.max(...mobileGeometry.map(x=>x.fontSize))+5,
+    'What do you sell? must read as a responsive heading, at least 5px larger than each main button');
+  A.equal(homeTitle.color,'rgb(22, 55, 90)','Home choice heading uses navy ink');
+
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
     'Remove the small 01/02/03 labels from the decision buttons');
   const savedTreatment=await page.locator('#saved-product-entry').evaluate(el=>{
@@ -260,6 +268,16 @@ async function browserCase(browser,locale,expected){
   });
   A.equal(productCta.background,'rgb(237, 142, 99)','V1 calculate CTA is orange');
   A.equal(productCta.color,'rgb(22, 55, 90)','V1 CTA label is navy');
+  A.ok(await page.locator('#product-screen').evaluate(el=>el.classList.contains('nd-v1-screen')),
+    'Goods V1 must use the shared visual screen class');
+  const goodsAppearance=await page.locator('#product-screen .card').first().evaluate(el=>({
+    paper:getComputedStyle(el).backgroundColor,
+    heading:getComputedStyle(el.querySelector('h1')).color,
+    border:getComputedStyle(el).borderColor
+  }));
+  A.deepEqual(goodsAppearance,{paper:'rgb(255, 255, 255)',heading:'rgb(22, 55, 90)',
+    border:'rgb(215, 224, 232)'},'Goods V1 has white paper, navy heading and neutral border');
+
    A.equal(await page.locator('#product-intro-title').evaluate(el=>getComputedStyle(el).color),
      'rgb(22, 55, 90)','Former near-black V1 heading is brand navy');
    A.equal(await page.locator('#product-screen .text-slate-900').first().evaluate(el=>getComputedStyle(el).color),
@@ -535,6 +553,69 @@ async function browserCase(browser,locale,expected){
     printActions:2,financialChanges:0}));
  }finally{await context.close()}
 }
+
+async function unifiedV1Case(browser) {
+ const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ const errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.route(/^https?:\/\//,r=>r.abort());
+ try{
+  await page.goto(entry,{waitUntil:'domcontentloaded'});
+  await page.locator('#start-service').click();
+  await page.locator('#service-work-online').click();
+  await page.locator('#service-screen button').filter({hasText:'Я сам'}).first().click();
+  A.equal(await page.locator('#calculator-screen').isVisible(),true);
+  const theme=await page.evaluate(()=>{
+    const st=sel=>getComputedStyle(document.querySelector(sel));
+    return {
+      common:document.querySelector('#calculator-screen').classList.contains('nd-v1-screen'),
+      headline:st('#calculator-screen .nd-v1-header h1').color,
+      description:st('#calculator-screen .nd-v1-header p').color,
+      inputPanel:st('#calculator-screen .nd-v1-input-panel').backgroundColor,
+      inputTitle:st('#calculator-screen .nd-v1-input-panel h2').color,
+      input:st('#calculator-screen .nd-v1-input-panel .input-field').backgroundColor,
+      report:st('#calculator-screen .nd-v1-report-table').backgroundColor,
+      reportTitle:st('#calculator-screen .nd-v1-report-table h2').color,
+      metrics:[...document.querySelectorAll('#calculator-screen .nd-v1-metrics .result-card')]
+        .map(el=>({bg:getComputedStyle(el).backgroundColor,
+          border:getComputedStyle(el).borderTopColor,
+          value:getComputedStyle(el.querySelector('.text-2xl')).color})),
+      viewport:window.innerWidth,
+      overflow:document.documentElement.scrollWidth>window.innerWidth+2,
+      scrollPane:getComputedStyle(document.querySelector('#monthly-scroll')).overflowX
+    };
+  });
+  A.equal(theme.common,true,'Service V1 uses the same common V1 CSS contract as goods');
+  A.equal(theme.headline,'rgb(255, 255, 255)','Service V1 headline on canvas is white');
+  for(const k of ['inputPanel','input','report'])A.equal(theme[k],'rgb(255, 255, 255)',k+' is paper-white');
+  for(const k of ['inputTitle','reportTitle'])A.equal(theme[k],'rgb(22, 55, 90)',k+' is brand navy');
+  A.equal(theme.metrics.length,3);
+  A.ok(theme.metrics.every(x=>x.bg==='rgb(255, 255, 255)'&&
+    x.border==='rgb(22, 55, 90)'&&x.value==='rgb(22, 55, 90)'),
+    'Profit, ROMI and CAC metric cards must share one white-and-navy style: '+JSON.stringify(theme.metrics));
+  A.equal(theme.scrollPane,'auto','Monthly table scrolls within a bounded viewport');
+  A.equal(theme.overflow,false,'Service V1 cannot overflow the phone viewport horizontally');
+  await page.evaluate(()=>showHome());
+  await page.locator('#start-own-product').click();
+  const productTax=await page.locator('#product-tax-block').evaluate(el=>{
+    const st=getComputedStyle(el);
+    const wasHidden=el.hidden;
+    el.hidden=false;el.classList.remove('hidden');
+    const appearance={bg:getComputedStyle(el).backgroundColor,
+      inner:getComputedStyle(el.querySelector('.aggregate-final-box')).backgroundColor,
+      title:getComputedStyle(el.querySelector('.aggregate-tax-title')).color,
+      next:getComputedStyle(el.querySelector('.bg-emerald-950')).backgroundColor};
+    el.hidden=wasHidden;el.classList.add('hidden');
+    return appearance;
+  });
+  A.deepEqual(productTax,{bg:'rgb(255, 255, 255)',inner:'rgb(245, 247, 249)',
+    title:'rgb(22, 55, 90)',next:'rgb(245, 247, 249)'},
+    'Goods business taxes and V2 transition use the same light panels');
+  A.deepEqual(errors,[],'Unified V1 visual rules cannot throw runtime errors');
+  console.log('NOMAD360_UNIFIED_V1_VISUAL_GREEN',JSON.stringify({theme,productTax}));
+ }finally{await context.close()}
+}
 async function sourceChoiceCase(browser) {
  const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
  const page=await context.newPage();
@@ -578,5 +659,6 @@ async function sourceChoiceCase(browser) {
   await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Маған қандай бизнеспен айналысқан тиімді/});
   await browserCase(browser,'en-US',{lang:'en',tagline:/Which business would be most profitable/});
   await sourceChoiceCase(browser);
+  await unifiedV1Case(browser);
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_UI_PACKAGING_BROWSER_RED',e.stack||e);process.exitCode=1});
