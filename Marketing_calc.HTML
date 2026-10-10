@@ -6329,10 +6329,10 @@
             const steps=ready?{logistics:2,sales:3,ads:4}:{logistics:3,sales:4,ads:5};
             document.querySelectorAll('[data-detail-step]').forEach(el=>el.textContent='Итог блока '+steps[el.dataset.detailStep]);
             const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
-            set('materials-step-name',drop?'Чем я буду торговать? Подобрать ассортимент':resale?'Закупки готового товара':'Из чего состоит себестоимость');
+            set('materials-step-name',drop?'Подбор ассортимента':resale?'Закупки готового товара':'Из чего состоит себестоимость');
             const trailingQuestion=document.getElementById('materials-step-question');
-            if(trailingQuestion)trailingQuestion.hidden=resale;
-            set('materials-step-help',drop?'Подберите ассортимент и поставщиков. Товар покупается под заказ и направляется покупателю без склада.':resale?'Включая логистику и хранение':'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
+            if(trailingQuestion)trailingQuestion.hidden=resale||drop;
+            set('materials-step-help',drop?'С расчётом оборотных средств':resale?'Включая логистику и хранение':'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
             set('materials-step-result-label',drop?'Закупить и оформить 1 заказ на':resale?'Для покупки и доставки 1 готовой единицы':'Для того, чтобы купить и привезти материалы для 1 ед.');
             set('resale-buy-heading',drop?'Где и почём куплю товар?':'Себестоимость минимальной партии готового товара');
             set('resale-buy-help',drop?'Каждый товар и поставщик считаются отдельно. Закупка — только под оплачиваемый покупателем заказ.':'Каждый товар в закупочном заказе — отдельная позиция.');
