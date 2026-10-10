@@ -33,6 +33,15 @@ const server=createServer(async(req,res)=>{
   await page.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
   const license=page.locator('#nomad360-license');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
+   A.equal(await license.locator('[data-nomad-embed-retry]').isVisible(),false,
+     'Manual fallback is hidden until the HTML has been prepared');
+   const mobileBrand=await page.locator('.nomad-brand').evaluate(el=>({
+     logo:getComputedStyle(el.querySelector('.nomad-logo')).width,
+     word:getComputedStyle(el.querySelector('.nomad-wordmark')).fontSize
+   }));
+   A.deepEqual(mobileBrand,{logo:'42px',word:'21px'},'Mobile header branding enlarged');
+   A.equal(await page.locator('.nomad-bar').evaluate(el=>el.scrollWidth<=el.clientWidth),true,
+     'Branding must fit the mobile header');
   A.match(await license.textContent(),/Встроить калькулятор на мой сайт/);
   A.match(await license.textContent(),/Автоматическое обновление не поддерживается/);
   const visual=await license.evaluate(el=>{
@@ -65,6 +74,28 @@ const server=createServer(async(req,res)=>{
   A.doesNotMatch(snapshot,/<link[^>]*href="\.\//i,'No broken relative CSS');
   A.ok(snapshot.includes('function deleteCalculatedProduct('),'Full current V1 must be bundled');
   A.equal(await license.locator('[data-nomad-embed-status]').textContent(),'HTML готов к скачиванию');
+   const retry=license.locator('[data-nomad-embed-retry]');
+   A.equal(await retry.isVisible(),true,'Recovery CTA appears after preparation');
+   A.match(await retry.textContent(),/Если загрузка не началась, нажмите здесь/);
+   const fallback=retry.locator('[data-nomad-retry-download]');
+   A.match(await fallback.getAttribute('href'),/^blob:/);
+   A.equal(await fallback.getAttribute('download'),'Nomad360-calculator-embed.html');
+   const retryColors=await retry.evaluate(el=>({
+     background:getComputedStyle(el).backgroundColor,
+     text:getComputedStyle(el.querySelector('a')).color
+   }));
+   A.deepEqual(retryColors,{background:'rgb(237, 142, 99)',text:'rgb(22, 55, 90)'},
+     'Fallback CTA uses orange background and navy action text');
+   const repeated=page.waitForEvent('download',{timeout:10000});
+   await fallback.click();
+   A.equal((await repeated).suggestedFilename(),'Nomad360-calculator-embed.html',
+     'Manual fallback downloads the already-prepared file');
+   await page.setViewportSize({width:1280,height:900});
+   const desktopBrand=await page.locator('.nomad-brand').evaluate(el=>({
+     logo:getComputedStyle(el.querySelector('.nomad-logo')).width,
+     word:getComputedStyle(el.querySelector('.nomad-wordmark')).fontSize
+   }));
+   A.deepEqual(desktopBrand,{logo:'58px',word:'29px'},'Desktop header branding enlarged');
   A.deepEqual(errors,[],'Export click must not introduce script errors');
   await page.close();
   const embed=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});

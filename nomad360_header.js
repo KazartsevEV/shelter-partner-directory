@@ -68,6 +68,7 @@
       embedHint:'Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.',
       customButton:'Заказать кастомную разработку',
       embedWorking:'Подготавливаем HTML…',embedReady:'HTML готов к скачиванию',
+      embedRetryLead:'Если загрузка не началась,',embedRetryAction:'нажмите здесь',
       embedError:'Не удалось собрать HTML. Проверьте подключение и попробуйте ещё раз.',
       officialTitle:'Официальный контакт',officialCopy:'Почта проекта для вопросов, сотрудничества и обращений по лицензии.',
       unitNote:'* у.е. — деньги в вашей валюте.',rights:'© 2026 Nomad360'
@@ -123,6 +124,7 @@
       embedHint:'Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.',
       customButton:'Request custom development',
       embedWorking:'Preparing HTML…',embedReady:'HTML download ready',
+      embedRetryLead:'If the download did not start,',embedRetryAction:'click here',
       embedError:'Could not prepare HTML. Check your connection and try again.',
       officialTitle:'Official contact',officialCopy:'Project email for questions, cooperation and licence enquiries.',
       unitNote:'* currency units — amounts are shown in your chosen currency.',rights:'© 2026 Nomad360'
@@ -178,6 +180,7 @@
       embedHint:'Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.',
       customButton:'Жеке әзірлеуге тапсырыс беру',
       embedWorking:'HTML дайындалуда…',embedReady:'HTML жүктеуге дайын',
+      embedRetryLead:'Егер жүктеу басталмаса,',embedRetryAction:'осы жерді басыңыз',
       embedError:'HTML жасау мүмкін болмады. Интернетті тексеріп, қайта көріңіз.',
       officialTitle:'Ресми байланыс',officialCopy:'Сұрақтар, ынтымақтастық және лицензия бойынша өтініштерге арналған жоба поштасы.',
       unitNote:'* ш.б. — сіздің валютаңыздағы ақша.',rights:'© 2026 Nomad360'
@@ -246,6 +249,19 @@
       '<p>'+esc(p.lead)+'</p><ul>'+items+'</ul><p class="nomad-product-goal">'+esc(p.goal)+'</p>'+
       (p.slogan?'<p class="nomad-slogan">'+esc(p.slogan)+'</p>':'')+'</article>';
   }
+  let embedDownloadUrl=null;
+  const embedFilename='Nomad360-calculator-embed.html';
+  function restoreEmbedDownloadLink() {
+    const retry=document.querySelector('[data-nomad-embed-retry]');
+    const link=document.querySelector('[data-nomad-retry-download]');
+    if(!retry||!link||!embedDownloadUrl)return;
+    link.href=embedDownloadUrl;
+    retry.hidden=false;
+  }
+  root.addEventListener('pagehide',()=>{
+    if(embedDownloadUrl)root.URL.revokeObjectURL(embedDownloadUrl);
+    embedDownloadUrl=null;
+  });
   function footerMarkup(t) {
     return '<div class="nomad-footer-inner">'+
       '<section id="nomad360-support" class="nomad-donate" tabindex="-1">'+
@@ -258,9 +274,12 @@
       '<p><a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p>'+
       '<div class="nomad-embed-actions"><p class="nomad-embed-title">'+esc(t.embedTitle)+'</p>'+
       '<button type="button" class="nomad-embed-download" data-nomad-download-html>'+esc(t.embedButton)+'</button>'+
+      '<span class="nomad-embed-status" data-nomad-embed-status role="status" aria-live="polite"></span>'+
+      '<div class="nomad-embed-retry" data-nomad-embed-retry hidden>'+esc(t.embedRetryLead)+' '+
+      '<a class="nomad-embed-retry-link" data-nomad-retry-download download="'+embedFilename+'" href="#">'+esc(t.embedRetryAction)+'</a></div>'+
       '<p class="nomad-embed-hint">'+esc(t.embedHint)+'</p>'+
       '<a class="nomad-embed-contact" href="mailto:'+PAY.email+'?subject='+encodeURIComponent('Nomad360 — '+t.customButton)+'">'+esc(t.customButton)+'</a>'+
-      '<span class="nomad-embed-status" data-nomad-embed-status role="status" aria-live="polite"></span></div></section>'+
+      '</div></section>'+
       '<section id="nomad360-data" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.dataTitle)+'</h3><p>'+esc(t.dataCopy)+'</p></section>'+
       '<section id="nomad360-official" class="nomad-meta-block"><h3>'+esc(t.officialTitle)+'</h3><p>'+esc(t.officialCopy)+'</p>'+
       '<p><a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
@@ -291,6 +310,11 @@
     }
     footer.setAttribute('data-nomad-no-translate','');
     footer.innerHTML=footerMarkup(COPY[language()]);
+    restoreEmbedDownloadLink();
+    if(embedDownloadUrl){
+      const status=footer.querySelector('[data-nomad-embed-status]');
+      if(status)status.textContent=COPY[language()].embedReady;
+    }
   }
   /* Export the currently deployed HTML, not a live iframe. Inline every
      local script and stylesheet so that moving the HTML does not break relative
@@ -346,9 +370,13 @@
       const blob=new Blob(['<!DOCTYPE html>\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
-      a.href=url;a.download='Nomad360-calculator-embed.html';
+      const oldUrl=embedDownloadUrl;
+      embedDownloadUrl=url;
+      restoreEmbedDownloadLink();
+      if(oldUrl)URL.revokeObjectURL(oldUrl);
+      a.href=url;a.download=embedFilename;
       document.body.append(a);a.click();a.remove();
-      root.setTimeout(()=>URL.revokeObjectURL(url),60000);
+      
       message(t.embedReady);
     }catch(error){
       root.console?.error?.('Nomad360: HTML embed export failed',error);
@@ -396,7 +424,7 @@
     const chooser=document.getElementById('nomad360-language-chooser');
     header.innerHTML='<div class="nomad-bar">'+
       '<a class="nomad-brand" href="#home-screen" data-nomad-go="home-screen" aria-label="Nomad360">'+
-      '<img class="nomad-logo" src="./nomad360_wolf_open_circle.png" alt="" width="44" height="44">'+
+      '<img class="nomad-logo" src="./nomad360_wolf_open_circle.png" alt="" width="58" height="58">'+
       '<span class="nomad-wordmark">Nomad<span>360</span></span></a>'+
       '<div class="nomad-lang" id="nomad360-header-lang"></div>'+
       '<button type="button" class="nomad-burger" aria-label="'+esc(isOpen?t.close:t.menu)+'" aria-controls="nomad360-header-panel" aria-expanded="'+isOpen+'">'+
