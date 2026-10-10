@@ -694,6 +694,102 @@ async function v1AccentsCase(browser){
   console.log('NOMAD360_V1_ORANGE_ACCENTS_GREEN',JSON.stringify({results,hints,selection:'transferred'}));
  }finally{await ctx.close()}
 }
+
+async function v1RolePortfolioCase(browser){
+ const ctx=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ const page=await ctx.newPage(),errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ const load=()=>page.goto(entry,{waitUntil:'domcontentloaded'});
+ const service=async offline=>{
+   await page.locator('#start-service').click();
+   await page.locator('#service-work-'+(offline?'offline':'online')).click();
+ };
+ try{
+  for(const [mode,title,help] of [
+   ['resale','Закупки готового товара','Включая логистику и хранение.'],
+   ['dropship','Ассортимент и поставщики','С расчётом оборотных средств.']]){
+   await load();
+   await page.locator('#start-own-product').click();
+   await page.locator('#product-name-input').fill('Майка');
+   await page.locator('#product-screen button[type="submit"]').click();
+   await page.locator('[data-product-source="'+mode+'"]').click();
+   A.equal((await page.locator('#materials-step-name').textContent()).trim(),title);
+   A.equal((await page.locator('#materials-step-help').textContent()).trim(),help);
+   A.equal((await page.locator('#materials-title-question').textContent()),'');
+  }
+  await load();await service(true);
+  await page.locator('#product-name-input').fill('Массаж');
+  await page.locator('#product-screen button[type="submit"]').click();
+  A.match(await page.locator('#materials-step-help').textContent(),/^Например:/);
+  A.match(await page.locator('#product-draft-heading').textContent(),/Ваша услуга/);
+  const dimensions=await page.locator('#warehouse-inbound-panel .grid').first().evaluate(el=>{
+   const [a,b]=el.querySelectorAll('button');
+   return {small:a.getBoundingClientRect().width,wide:b.getBoundingClientRect().width,
+    fits:b.scrollWidth<=b.clientWidth+1};
+  });
+  A.ok(dimensions.wide>dimensions.small*2&&dimensions.fits,
+    'Counterparty must have a wider button without label overflow: '+JSON.stringify(dimensions));
+  await page.locator('[data-assortment-choice="more"]').click();
+  A.equal(await page.locator('[data-assortment-choice="more"]').getAttribute('aria-pressed'),'true');
+  await page.locator('#add-product-button').click();
+  A.equal(await page.locator('#home-screen').isVisible(),true);
+  let saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('marketingCalcProductResultV1')));
+  A.equal(saved.productPortfolio.length,1);
+  A.equal(saved.productPortfolio[0].name,'Массаж');
+  A.equal(saved.productPortfolio[0].source,'offline-service');
+  await service(true);
+  await page.locator('#product-name-input').fill('Стрижка');
+  await page.locator('#product-screen button[type="submit"]').click();
+  await page.locator('[data-assortment-choice="complete"]').click();
+  A.deepEqual(await page.evaluate(()=>productPortfolio.map(p=>p.name)),['Массаж','Стрижка']);
+  A.equal(await page.evaluate(()=>new Set(productPortfolio.map(p=>p.id)).size),2);
+  await page.evaluate(()=>saveProductCalculationToBrowser());
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.evaluate(()=>resumeSavedProductCalculation());
+  A.deepEqual(await page.evaluate(()=>productPortfolio.map(p=>p.name)),['Массаж','Стрижка']);
+  // Marketing ROI is independent of the renamed all-cost ratio.
+  await load();await service(false);
+  await page.locator('#service-screen button.nd-path-card').first().click();
+  A.equal((await page.locator('#res-romi-label').textContent()).trim(),'Рентабельность вложений');
+  A.equal(await page.locator('#res-marketing-romi-card').isVisible(),true);
+  const report=await page.locator('#summary-table tr').evaluateAll(nodes=>Object.fromEntries(nodes.map(tr=>{
+   const [label,amount]=tr.querySelectorAll('td');
+   return [label.textContent.trim(),{n:Number(amount.querySelector('[data-nomad-display-number]')?.dataset.nomadDisplayNumber),t:amount.textContent.trim()}];
+  })));
+  const spend=report['Общий рекламный бюджет'].n+150;
+  const marketingROMI=(report['Общая выручка Revenue'].n-report['Комиссия эквайринга'].n-spend)/spend*100;
+  A.equal((await page.locator('#res-marketing-romi').textContent()).trim(),marketingROMI.toFixed(2)+'%');
+  A.equal(report['ROMI рекламы'].t,marketingROMI.toFixed(2)+'%');
+  // Agent commission, not principal turnover, goes into the V2 adapter.
+  await load();await service(false);
+  await page.locator('#service-screen button.nd-path-card').last().click();
+  A.equal((await page.locator('#agent-screen h1').textContent()).trim(),'Как зарабатываю я?');
+  await page.locator('#agent-screen button.nd-path-card').first().click();
+  A.equal((await page.locator('#service-v1-heading').textContent()).trim(),'Я — агент');
+  A.match(await page.locator('#agent-principal-context').textContent(),/Как зарабатывает принципал/);
+  A.equal(await page.locator('#res-marketing-romi-card').isVisible(),false);
+  for(const key of ['monthlyBudget','mgmt','site','hosting','dom','magnet'])
+   await page.locator('input[name="payer-'+key+'"][value="'+(key==='monthlyBudget'?'me':'partner')+'"]').check();
+  await page.locator('#online-v2-name').fill('Агентская комиссия');
+  await page.locator('#online-v2-add').click();
+  const imported=await page.evaluate(()=>(LinkedPortfolioV2UI.getState()?.skus||[]).find(s=>s.name==='Агентская комиссия'));
+  A.ok(imported,'Agent SKU must be imported to V2');
+  A.equal(imported.onlineRole,'agent');
+  A.equal(imported.ownerTax.entity,'agent');
+  A.ok(imported.onlineProvenance.ownerRevenueInPeriod>0);
+  A.ok(imported.onlineProvenance.partnerGrossRevenue>imported.onlineProvenance.ownerRevenueInPeriod);
+  // The custom branch shares V1 styling instead of its historical blue button.
+  await load();await service(false);
+  await page.locator('#service-screen button.nd-path-card').last().click();
+  await page.locator('#agent-screen button.nd-path-card').last().click();
+  A.equal(await page.locator('#agent-complex-screen').isVisible(),true);
+  const color=await page.locator('#agent-complex-screen h1').evaluate(n=>getComputedStyle(n).color);
+  A.equal(color,'rgb(22, 55, 90)');
+  A.deepEqual(errors,[]);
+  console.log('NOMAD360_V1_ROLE_PORTFOLIO_GREEN',JSON.stringify({marketingROMI,dimensions,agentRevenue:imported.onlineProvenance.ownerRevenueInPeriod}));
+ }finally{await ctx.close()}
+}
 async function sourceChoiceCase(browser) {
  const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
  const page=await context.newPage();
@@ -739,5 +835,6 @@ async function sourceChoiceCase(browser) {
   await sourceChoiceCase(browser);
   await unifiedV1Case(browser);
   await v1AccentsCase(browser);
+  await v1RolePortfolioCase(browser);
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_UI_PACKAGING_BROWSER_RED',e.stack||e);process.exitCode=1});
