@@ -1,0 +1,350 @@
+/* Nomad360 / UI system v1 — visual layer only.
+   Header and footer remain owned by nomad360_calculator_ui.css.
+   No calculation, persistence or PDF contracts are modified. */
+:root {
+  --nd-ink:#16375a;
+  --nd-ink-deep:#11283f;
+  --nd-text:#24384c;
+  --nd-muted:#637488;
+  --nd-accent:#b8573a;
+  --nd-line:#cbd5de;
+  --nd-line-strong:#94a5b7;
+  --nd-canvas:#f5f7f9;
+  --nd-panel:#ffffff;
+  --nd-surface:#f0f3f6;
+  --nd-radius:3px;
+}
+body {
+  background:var(--nd-canvas);
+  color:var(--nd-text);
+  font-family:'IBM Plex Sans',Inter,system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+/* Components shared by the actual calculator screens. Neutral geometry and
+   focus treatment only: state colors, disabled logic and numerical feedback stay
+   under the existing calculator controllers. */
+body > section .card,
+body > section .input-field,
+body > section .result-card {
+  border-radius:var(--nd-radius);
+}
+body > section .card {
+  border-color:var(--nd-line);
+  box-shadow:none;
+}
+body > section :is(button,[role="button"]) {
+  font-family:inherit;
+  letter-spacing:-.015em;
+  border-radius:var(--nd-radius) !important;
+  transition:background-color .15s ease,color .15s ease,border-color .15s ease,box-shadow .15s ease;
+}
+body > section :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea) {
+  border-radius:var(--nd-radius) !important;
+  font-family:inherit;
+  font-variant-numeric:tabular-nums;
+}
+body > section :is(button,a,input,select,textarea,[role="button"]):focus-visible {
+  outline:2px solid var(--nd-accent);
+  outline-offset:3px;
+}
+body > section :is(button,[role="button"]):disabled {
+  cursor:not-allowed;
+  opacity:.54;
+}
+body > section :is(.input-field,input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea):focus-visible {
+  border-color:var(--nd-ink);
+  box-shadow:0 0 0 2px rgba(22,55,90,.10);
+}
+body > section :is(h1,h2,h3,h4) { letter-spacing:-.025em; }
+/* Layout: generous white space, separate task nodes, lines instead of shadows. */
+body #home-screen {
+  max-width:1100px;
+  padding-bottom:26px;
+}
+body #nomad360-hero {
+  position:relative;
+  padding:clamp(24px,5vw,56px) 0 clamp(22px,4vw,42px);
+  margin:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+body #nomad360-hero h1 {
+  font-size:clamp(13px,1.35vw,16px);
+  font-weight:600;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  line-height:1.4;
+  color:var(--nd-accent);
+  margin:0 0 clamp(14px,2vw,22px);
+}
+body #nomad360-hero h2 {
+  max-width:890px;
+  margin:0 0 18px;
+  font-size:clamp(32px,4.75vw,55px);
+  line-height:1.075;
+  letter-spacing:-.043em;
+  font-weight:600;
+  color:var(--nd-ink-deep);
+}
+body #nomad360-hero h3 {
+  max-width:730px;
+  margin:0;
+  font-size:clamp(16px,1.6vw,19px);
+  font-weight:400;
+  line-height:1.55;
+  color:var(--nd-muted);
+}
+/* Deliverables = a compact, numbered grid rather than an unstructured card. */
+body #nomad360-calculation-list {
+  padding:clamp(23px,3vw,36px);
+  margin:0 0 clamp(20px,3vw,32px);
+  border:1px solid var(--nd-line);
+  border-radius:var(--nd-radius);
+  background:var(--nd-panel);
+  box-shadow:none;
+}
+body #nomad360-calculation-list > p {
+  font-size:clamp(18px,2vw,22px);
+  font-weight:600;
+  letter-spacing:-.025em;
+  color:var(--nd-ink-deep);
+  margin:0 0 20px;
+}
+body #nomad360-calculation-list ul {
+  list-style:none;
+  counter-reset:deliverable;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:clamp(22px,5vw,64px);
+  row-gap:0;
+  margin:0;
+  padding:0;
+}
+body #nomad360-calculation-list li {
+  counter-increment:deliverable;
+  display:grid;
+  grid-template-columns:26px minmax(0,1fr);
+  gap:12px;
+  margin:0;
+  min-width:0;
+  padding:16px 0;
+  border-top:1px solid #e2e7ec;
+  font-size:15px;
+  line-height:1.5;
+  font-weight:400;
+  color:var(--nd-text);
+}
+body #nomad360-calculation-list li::before {
+  content:counter(deliverable,decimal-leading-zero);
+  color:var(--nd-accent);
+  font-family:'IBM Plex Sans',Inter,system-ui,sans-serif;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.035em;
+  line-height:1.85;
+  font-variant-numeric:tabular-nums;
+}
+/* The decision node: three choices, same size, treatment and affordance. */
+body #nomad360-selling-choice {
+  position:relative;
+  padding:clamp(24px,3.5vw,42px);
+  border:1px solid var(--nd-line-strong);
+  border-top:3px solid var(--nd-ink);
+  border-radius:var(--nd-radius);
+  background:var(--nd-panel);
+  box-shadow:none;
+}
+body #nomad360-selling-choice h4 {
+  margin:0 0 clamp(24px,3vw,32px);
+  color:var(--nd-ink-deep);
+  font-size:clamp(25px,3vw,35px);
+  font-weight:600;
+  letter-spacing:-.035em;
+  line-height:1.2;
+}
+body #nomad360-selling-choice .nomad-choice-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
+  gap:12px;
+}
+body #nomad360-selling-choice .nomad-choice-button {
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  min-width:0;
+  min-height:140px;
+  width:100%;
+  padding:20px 21px;
+  margin:0;
+  border:1px solid var(--nd-ink);
+  border-radius:var(--nd-radius) !important;
+  background:#fff;
+  color:var(--nd-ink);
+  text-align:left;
+  font-family:inherit;
+  font-size:clamp(17px,1.65vw,20px);
+  font-weight:600;
+  line-height:1.27;
+  letter-spacing:-.025em;
+  cursor:pointer;
+  box-shadow:none;
+}
+body #nomad360-selling-choice .nomad-choice-button::before {
+  color:var(--nd-accent);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.07em;
+  line-height:1;
+}
+body #nomad360-selling-choice .nomad-choice-button:nth-child(1)::before{content:"01 /"}
+body #nomad360-selling-choice .nomad-choice-button:nth-child(2)::before{content:"02 /"}
+body #nomad360-selling-choice .nomad-choice-button:nth-child(3)::before{content:"03 /"}
+body #nomad360-selling-choice .nomad-choice-button:hover {
+  background:var(--nd-ink);
+  color:#fff;
+  border-color:var(--nd-ink);
+  box-shadow:0 6px 0 -3px var(--nd-accent);
+}
+body #nomad360-selling-choice .nomad-choice-button:hover::before { color:#f0b9a5; }
+body #nomad360-selling-choice .nomad-choice-button:active {
+  background:var(--nd-ink-deep);
+  box-shadow:none;
+}
+/* Saved work is a quiet workspace state below the primary decision, not
+   another large nested card. Preserve all known IDs for resume contracts. */
+body #nomad360-home-secondary {
+  display:grid;
+  gap:0;
+  margin:clamp(20px,3vw,32px) 0 0;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+body #nomad360-home-secondary .nomad-recovery-card {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(190px,290px);
+  align-items:center;
+  gap:24px;
+  min-width:0;
+  margin:0 0 12px;
+  padding:clamp(20px,2.5vw,28px);
+  border:1px solid var(--nd-line);
+  border-left:3px solid var(--nd-accent);
+  border-radius:var(--nd-radius);
+  background:var(--nd-panel);
+  box-shadow:none;
+}
+body #nomad360-home-secondary .nomad-recovery-card.hidden,
+body #nomad360-home-secondary .nomad-recovery-card[hidden] { display:none !important; }
+body #nomad360-home-secondary .nomad-recovery-title {
+  color:var(--nd-ink-deep);
+  font-size:clamp(17px,1.8vw,21px);
+  line-height:1.32;
+  font-weight:600;
+}
+body #nomad360-home-secondary .nomad-recovery-detail {
+  color:var(--nd-muted);
+  margin:8px 0 0;
+  font-size:15px;
+  line-height:1.4;
+}
+body #nomad360-home-secondary .nomad-recovery-note {
+  margin:12px 0 0;
+  color:var(--nd-muted);
+  font-size:12px;
+  line-height:1.5;
+}
+body #nomad360-home-secondary .nomad-recovery-action {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:54px;
+  padding:14px 18px;
+  width:100%;
+  border:1px solid var(--nd-ink);
+  border-radius:var(--nd-radius) !important;
+  background:var(--nd-ink);
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  line-height:1.3;
+  text-align:center;
+  cursor:pointer;
+}
+body #nomad360-home-secondary .nomad-recovery-action:hover {
+  background:var(--nd-ink-deep);
+  border-color:var(--nd-ink-deep);
+}
+body #nomad360-home-secondary .nomad-example-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:19px 4px 8px;
+  border-top:1px solid var(--nd-line);
+  background:transparent;
+}
+body #nomad360-home-secondary .nomad-example-title {
+  color:var(--nd-ink);
+  font-size:14px;
+  font-weight:600;
+  line-height:1.4;
+}
+body #nomad360-home-secondary .nomad-example-copy p {
+  margin:4px 0 0;
+  color:var(--nd-muted);
+  font-size:12px;
+  line-height:1.5;
+}
+body #nomad360-home-secondary .nomad-example-link {
+  display:inline-flex;
+  align-items:center;
+  min-height:42px;
+  flex-shrink:0;
+  padding:10px 0;
+  color:var(--nd-ink);
+  border-bottom:1px solid var(--nd-accent);
+  text-decoration:none;
+  font-weight:600;
+  font-size:13px;
+  line-height:1.3;
+  white-space:normal;
+}
+body #nomad360-home-secondary .nomad-example-link:hover { color:var(--nd-accent); }
+/* Visually connect the last home node to the lower About/Contacts grid. */
+body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
+@media (max-width:760px) {
+  body #nomad360-calculation-list ul { grid-template-columns:minmax(0,1fr); }
+  body #nomad360-selling-choice .nomad-choice-grid {grid-template-columns:minmax(0,1fr);gap:9px}
+  body #nomad360-selling-choice .nomad-choice-button {
+    min-height:88px;
+    padding:17px 19px;
+    flex-direction:row;
+    align-items:center;
+    justify-content:flex-start;
+    gap:22px;
+    font-size:18px;
+  }
+  body #nomad360-selling-choice .nomad-choice-button::before { flex:0 0 38px; }
+  body #nomad360-home-secondary .nomad-recovery-card { grid-template-columns:minmax(0,1fr);gap:17px; }
+  body #nomad360-home-secondary .nomad-example-row {align-items:flex-start;flex-direction:column;gap:8px}
+  body #nomad360-home-secondary .nomad-example-link {margin-top:0}
+}
+@media (max-width:480px) {
+  body {font-size:15px}
+  body #nomad360-hero{padding:24px 0 24px}
+  body #nomad360-hero h2{font-size:clamp(30px,9.1vw,39px)}
+  body #nomad360-calculation-list {padding:22px 18px}
+  body #nomad360-calculation-list li{grid-template-columns:23px minmax(0,1fr);gap:10px;font-size:14px;padding:13px 0}
+  body #nomad360-selling-choice{padding:23px 17px}
+  body #nomad360-selling-choice h4{font-size:26px}
+  body #nomad360-selling-choice .nomad-choice-button{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce) {
+  body > section :is(button,[role="button"]) {transition:none}
+}
