@@ -166,8 +166,9 @@ test('TZ02 matrix: independent accrual and cash oracles across VAT/tax/funding/h
    }
    near(x.daily[x.daily.length-1].cashOnHand,x.cashOnHand,'closing bank cash');
    near(x.daily[x.daily.length-1].freeCash,x.freeCash,'closing available cash');
-   near(Math.max(0,-Math.min(0,...x.daily.map(d=>d.operatingCumulative))),
-     x.peakDeficit,'operational peak independent of funding');
+   const auditedPeak=-Math.min(0,...x.daily.flatMap(d=>
+     [d.beforeServiceOperatingCumulative,d.operatingCumulative]));
+   near(auditedPeak,x.peakDeficit,'intra-day operational peak before customer receipts');
    near(x.totalDepreciation,150*months,'depreciation accrual over selected months');
  }
 });
