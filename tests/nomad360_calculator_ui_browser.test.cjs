@@ -718,11 +718,13 @@ async function v1RolePortfolioCase(browser){
    A.equal((await page.locator('#materials-step-help').textContent()).trim(),help);
    A.equal((await page.locator('#materials-title-question').textContent()),'');
   }
-  await load();await service(true);
-  await page.locator('#product-name-input').fill('Массаж');
+  // Payer button widths are meaningful only in the physical-good branch:
+  // the offline-service form correctly hides all warehousing controls.
+  await load();
+  await page.locator('#start-own-product').click();
+  await page.locator('#product-name-input').fill('Майка');
   await page.locator('#product-screen button[type="submit"]').click();
-  A.match(await page.locator('#materials-step-help').textContent(),/^Например:/);
-  A.match(await page.locator('#product-draft-heading').textContent(),/Ваша услуга/);
+  await page.locator('[data-product-source="own"]').click();
   const dimensions=await page.locator('#warehouse-inbound-panel .grid').first().evaluate(el=>{
    const [a,b]=el.querySelectorAll('button');
    return {small:a.getBoundingClientRect().width,wide:b.getBoundingClientRect().width,
@@ -730,6 +732,11 @@ async function v1RolePortfolioCase(browser){
   });
   A.ok(dimensions.wide>dimensions.small*2&&dimensions.fits,
     'Counterparty must have a wider button without label overflow: '+JSON.stringify(dimensions));
+  await load();await service(true);
+  await page.locator('#product-name-input').fill('Массаж');
+  await page.locator('#product-screen button[type="submit"]').click();
+  A.match(await page.locator('#materials-step-help').textContent(),/^Например:/);
+  A.match(await page.locator('#product-draft-heading').textContent(),/Ваша услуга/);
   await page.locator('[data-assortment-choice="more"]').click();
   A.equal(await page.locator('[data-assortment-choice="more"]').getAttribute('aria-pressed'),'true');
   await page.locator('#add-product-button').click();
