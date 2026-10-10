@@ -46,7 +46,10 @@
 .nomad-hero:after{content:'✦';position:absolute;right:-19px;top:-90px;color:rgba(210,255,226,.06);font-size:min(55vw,320px);pointer-events:none}
 .nomad-overline{position:relative;z-index:1;color:#a9dfc7;font-size:11px;font-weight:800;letter-spacing:.14em}
 .nomad-dot{padding:0 6px;color:#f6d69c}
-.nomad-hero h2{position:relative;z-index:1;max-width:800px;margin:22px 0 6px;font-weight:900;letter-spacing:-.045em;line-height:1.06;font-size:clamp(32px,6vw,55px)}
+.nomad-hero h1{position:relative;z-index:1;max-width:800px;margin:0 0 14px;font-weight:800;letter-spacing:-.025em;line-height:1.14;font-size:clamp(30px,4.1vw,44px)}
+.nomad-hero h2{position:relative;z-index:1;max-width:800px;margin:0 0 16px;font-weight:650;letter-spacing:-.02em;line-height:1.24;font-size:clamp(21px,2.7vw,30px)}
+.nomad-hero h3{position:relative;z-index:1;max-width:800px;margin:0;font-weight:550;color:#d9f5e7;line-height:1.45;font-size:clamp(16px,1.8vw,20px)}
+#nomad360-calculation-list ol{margin-top:0}
 .nomad-lead{color:#b9f5d8;font-weight:700;font-size:clamp(15px,2vw,20px);margin:14px 0}
 .nomad-hero p{max-width:730px;color:#edf8f3;line-height:1.65;font-size:14px;margin:14px 0}
 .nomad-emphasis{position:relative;z-index:1;max-width:750px;font-weight:700;color:#fef3c7;border-left:3px solid #f3cb83;padding:5px 0 5px 14px;margin:18px 0}
