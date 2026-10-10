@@ -281,7 +281,7 @@
         </div>
 
         <section id="nomad360-selling-choice" class="card p-6 md:p-8" aria-labelledby="nomad360-selling-heading">
-            <h4 id="nomad360-selling-heading" class="nd-type-section">Что вы продаете?</h4>
+            <h4 id="nomad360-selling-heading" class="nd-type-section nd-main-choice-heading">Что вы продаете?</h4>
             <div class="nomad-choice-grid">
                 <button id="start-own-product" class="nomad-choice-button nd-type-action nd-cta-primary" type="button"
                     onclick="startFreshProductCalculation()">Товар</button>
@@ -401,7 +401,7 @@
         </div>
     </section>
 
-    <section id="product-screen" class="max-w-4xl mx-auto hidden">
+    <section id="product-screen" class="max-w-4xl mx-auto hidden nd-v1-screen nd-v1-product">
         <button id="product-main-back" onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
 
         <div id="product-demo-banner" class="hidden rounded-2xl border-2 border-blue-400 bg-blue-50 p-4 mb-5 text-slate-900" hidden>
@@ -1417,14 +1417,14 @@
         </div>
     </section>
 
-    <div id="calculator-screen" class="hidden">
+    <div id="calculator-screen" class="hidden nd-v1-screen nd-v1-service">
     <div class="max-w-7xl mx-auto mb-4 flex flex-wrap items-center justify-between gap-3">
         <button onclick="showServiceChooser()" class="text-sm text-blue-600 hover:underline">← Услуги</button>
         <span id="mode-badge" class="text-xs bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full font-semibold"></span>
     </div>
 
     <div class="max-w-7xl mx-auto">
-        <header class="mb-8 flex justify-between items-center">
+        <header class="mb-8 flex justify-between items-center nd-v1-header">
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">Калькулятор Юнит-Экономики (CPC-модель)</h1>
                 <p class="text-sm text-slate-500 mt-1">Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов</p>
@@ -1438,7 +1438,7 @@
             
             <!-- INPUTS -->
             <div class="lg:col-span-4 space-y-6">
-                <div class="card p-5">
+                <div class="card p-5 nd-v1-input-panel">
                     <h2 class="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                         Входные данные
@@ -1459,7 +1459,7 @@
             <div class="lg:col-span-8 space-y-6">
                 
                 <!-- Summary Metrics -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 nd-v1-metrics">
                     <div class="card p-4 result-card green">
                         <div class="text-xs text-slate-500 mb-1" id="res-profit-label">Чистая прибыль</div>
                         <div class="text-2xl font-bold text-slate-900" id="res-profit">$0.00</div>
@@ -1480,7 +1480,7 @@
                 </div>
 
                 <!-- Summary Table -->
-                <div class="card overflow-hidden">
+                <div class="card overflow-hidden nd-v1-report-table">
                     <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
                         <h2 class="font-semibold text-slate-700" id="summary-title">Расчётные показатели (Итого за период)</h2>
                     </div>
@@ -1493,7 +1493,7 @@
                     </div>
                 </div>
 
-                <section class="card p-4 border border-emerald-200" id="online-v2-entry">
+                <section class="card p-4 nd-v1-transition-panel" id="online-v2-entry">
                   <h2 class="font-bold text-slate-800">Добавить онлайн-услугу в общий портфель V2</h2>
                   <p class="text-xs text-slate-600 mt-2">Переносим рассчитанную экономику именно вашего бизнеса. В агентской ветке учитываем ваше вознаграждение, а оборот партнёра не записываем как вашу выручку.</p>
                   <label class="block text-xs mt-3">Название услуги
@@ -1503,7 +1503,7 @@
                   <p id="online-v2-error" role="alert" class="text-sm mt-2 text-rose-700 hidden" hidden></p>
                 </section>
                 <!-- Monthly Breakdown Table -->
-                <div class="card overflow-hidden">
+                <div class="card overflow-hidden nd-v1-report-table">
                     <div class="bg-slate-50 px-4 sm:px-5 py-3 border-b border-slate-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                         <h2 class="font-semibold text-slate-700">Помесячная разбивка</h2>
                         <span id="months-badge" class="self-start sm:self-auto text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">3 месяца (по сценарию)</span>
