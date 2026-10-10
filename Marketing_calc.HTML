@@ -1861,8 +1861,16 @@
                 saveCurrentProductToPortfolio();
                 const item=productPortfolio.find(x=>x.id===currentProductSequence);
                 if(!item)throw Error('Нет рассчитанной услуги.');
-                const range=calculatePriceListRange(item);
-                if(!range.ready)throw Error(range.error||'Сначала завершите расчёт цены V1.');
+                const v1Model=calculateProductPortfolio();
+                const v1Price=v1Model.items.find(row=>row.id===item.id)?.price;
+                if(!v1Model.pricingReady||!Number.isFinite(v1Price)||
+                   !Number.isFinite(v1Model.taxPriceMultiplier))
+                  throw Error('Завершите расчёт цены и налога в V1 услуги.');
+                // Match the actual V1 customer price, not the separate upper
+                // marketing price-range bound. VAT only changes net receipts.
+                const v1Vat=item.uiState?.choices?.salesVat==='yes'?
+                    productNumber('own-sales-vat-pct'):0;
+                const customerGross=v1Price*v1Model.taxPriceMultiplier*(1+v1Vat/100);
                 const qty=Number(item.forecastUnitsPerMonth);
                 const capacity=Number(item.offlineServiceCapacity);
                 if(!(qty>0&&capacity>0))throw Error('Заполните прогноз рекламы и мощность услуги.');
@@ -1877,8 +1885,8 @@
                   }
                 }
                 const p=item.planning||{};
-                const data={monthlyForecast:qty,capacity,priceGross:range.maxPrice,
-                  vatPct:item.uiState?.choices?.salesVat==='yes'?productNumber('own-sales-vat-pct'):0,
+                const data={monthlyForecast:qty,capacity,priceGross:customerGross,
+                  vatPct:v1Vat,
                   taxType:productBusinessTaxType||'turnover',
                   taxPct:productNumber('own-business-tax-pct'),
                   months:1,unitCashCost:Number(item.materialsUnitCost||0)+Number(item.productionElectricityPerUnit||0),
