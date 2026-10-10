@@ -345,10 +345,10 @@
             </div>
             <h2 id="service-work-type-heading" class="text-2xl font-bold text-slate-900 mt-6">Я работаю:</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                <button type="button" id="service-work-online" onclick="showServiceChooser()" class="card nd-path-card p-5 text-left transition">
+                <button type="button" id="service-work-online" onclick="chooseServiceChannel('online')" class="card nd-path-card p-5 text-left transition">
                     <div class="text-lg font-bold text-slate-900">Онлайн</div>
                 </button>
-                <button type="button" id="service-work-offline" onclick="startOfflineServiceCalculation()" class="card nd-path-card p-5 text-left transition">
+                <button type="button" id="service-work-offline" onclick="chooseServiceChannel('offline')" class="card nd-path-card p-5 text-left transition">
                     <div class="text-lg font-bold text-slate-900">Офлайн</div>
                 </button>
             </div>
@@ -361,6 +361,7 @@
             <a class="nd-context-link" href="#service-work-screen" onclick="showServiceWorkChooser();return false;">Онлайн</a>
             <h1 class="text-3xl font-bold text-slate-900">Кто исполнитель услуги?</h1>
             <p class="text-sm text-slate-500 mt-2">Выберите, как устроены деньги между клиентом, вами и исполнителем.</p>
+            <p id="service-full-agent-status" class="text-sm text-rose-700 mt-2" role="status" aria-live="polite"></p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-7">
                 <button onclick="selectServiceMode('self')" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Я сам</div>
@@ -1840,6 +1841,7 @@
             window.LinkedPortfolioV2UI?.updateEntry();
         }
         let serviceFinancialMode='simple';
+        let serviceChannel='online'; // service delivery mode, not V2
         function syncServiceFinancialRoute() {
             // V1 means ONE service (simple/full are depth variants).
             // V2 is the optional multi-item portfolio, never an alias for full.
@@ -1850,17 +1852,13 @@
                 if(node){node.hidden=!visible;node.classList.toggle('hidden',!visible);}
             };
             document.getElementById('calculator-screen')?.classList.toggle('nd-full-single-online',full);
-            document.getElementById('product-screen')?.classList.toggle('nd-full-single-offline',offline);
+            document.getElementById('product-screen')?.classList.remove('nd-full-single-offline');
+            // Native product V1 owns complete offline-service finance and reporting.
             // Original individual-service inputs remain editable. Its interim
             // V1 summary/portfolio controls are shown in simple mode only.
             toggle('full-service-online-entry',full);
             toggle('online-v2-entry',!full);
-            toggle('full-service-offline-entry',offline);
-            if(offline) {
-                const end=document.getElementById('product-tax-block');
-                const action=document.getElementById('full-service-offline-entry');
-                if(end&&action&&action.parentElement!==end)end.appendChild(action);
-            }
+            toggle('full-service-offline-entry',false);
             const language=window.Nomad360UI?.getLanguage?.()||'ru';
             const labels={
               ru:{online:'Полный расчёт онлайн-услуги',desc:'Одна услуга. Заполните клиентов, воронку и расходы; затем рассчитайте НДС, налоги, кредит и денежный поток.',
@@ -1977,7 +1975,27 @@
         }
         document.addEventListener('nomad360:languagechange',syncServiceFinancialRoute);
         function showServiceWorkChooser() { showOnly('service-work-screen'); }
-        function showServiceChooser() { showOnly('service-screen');syncServiceFinancialRoute(); }
+        function chooseServiceChannel(channel) {
+            if(channel!=='online'&&channel!=='offline')return false;
+            serviceChannel=channel;
+            if(serviceFinancialMode==='simple'&&channel==='offline'){
+                startOfflineServiceCalculation(); // old simplified route unchanged
+                return true;
+            }
+            showServiceChooser();
+            return true;
+        }
+        function showServiceChooser() {
+            showOnly('service-screen');
+            const offline=serviceChannel==='offline';
+            const heading=document.querySelector('#service-screen h1');
+            if(heading)heading.textContent=offline?'Кто оказывает офлайн-услугу?':'Кто исполнитель онлайн-услуги?';
+            const context=document.querySelector('#service-screen .nd-context-link');
+            if(context)context.textContent=offline?'Офлайн':'Онлайн';
+            const err=document.getElementById('service-full-agent-status');
+            if(err)err.textContent='';
+            syncServiceFinancialRoute();
+        }
         function startOfflineServiceCalculation() {
             startFreshProductCalculation();
             selectProductSource('offline-service');
@@ -6472,7 +6490,7 @@
             const input=document.getElementById('product-name-input');
             if(input)input.placeholder=service?'Например: маникюр с покрытием':'Например: кофемашина, футболка, набор свечей';
             const back=document.getElementById('product-main-back');
-            if(back){back.textContent=service?'← Онлайн / офлайн':'← Главная';back.setAttribute('onclick',service?'showServiceWorkChooser()':'showHome()');}
+            if(back){back.textContent=service?(serviceFinancialMode==='full'?'← К роли исполнителя':'← Онлайн / офлайн'):'← Главная';back.setAttribute('onclick',service?(serviceFinancialMode==='full'?'showServiceChooser()':'showServiceWorkChooser()'):'showHome()');}
             show('product-production-block',service||productSource==='own');
             show('production-unit-result',service||productSource==='own');
             show('offline-service-capacity',service);
@@ -7632,6 +7650,20 @@
           }catch(error){report(error.message);return false;}
         }
         function selectServiceMode(mode) {
+            if(serviceFinancialMode==='full'&&serviceChannel==='offline'){
+                if(mode==='agent'){
+                    // Never silently relabel the legacy agent CPC as product V1.
+                    showServiceChooser();
+                    const error=document.getElementById('service-full-agent-status');
+                    if(error)error.textContent='Агентская экономика офлайн-услуги готовится для единого V1. Здесь потребуется распределение расходов между агентом и партнёром.';
+                    return false;
+                }
+                if(mode==='self'||mode==='hired'){
+                    startOfflineServiceCalculation();
+                    setProductionLaborMode(mode==='hired'?'workers':'self');
+                    return true; // product V1 owns price, financing, taxes, CF and PDF
+                }
+            }
             serviceMode = mode;
             const badge = document.getElementById('mode-badge');
             const context = document.getElementById('mode-context');
