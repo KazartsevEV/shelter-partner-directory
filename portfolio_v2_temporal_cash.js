@@ -13,7 +13,7 @@
  const stock=s=>['own','resale'].includes(s.source);
  function calculate(state,portfolio){
    const forecast=portfolio?.temporal;
-   if(!forecast?.ready||!(forecast.forecastMonths>1))
+   if(!forecast?.ready||!(forecast.forecastMonths>1||(state.skus||[]).some(s=>s.fullServiceV2)))
      throw Error('Нужен утверждённый многомесячный план спроса.');
    const items=portfolio.items,resources=portfolio.resources||[],
      horizonMonths=forecast.forecastMonths;
@@ -34,7 +34,7 @@
    const horizon=Math.max(horizonMonths*30+
        Math.max(0,...items.filter(s=>s.source==='dropship'&&s.dropshipPayoutMode!=='before')
          .map(s=>pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays))),
-     ...items.map(s=>pos(s.creditMonths)*30));
+     ...items.map(s=>s.fullServiceV2?0:pos(s.creditMonths)*30));
    if(horizon>3650)throw Error('Горизонт cash flow превышает 120 месяцев.');
    const dayCount=Math.ceil(horizon/30)*30;
    const daily=Array.from({length:dayCount},()=>({
@@ -89,6 +89,7 @@
      }else if(s.source==='online-service'){
        post(0,'stockPurchase',pos(s.onlineCapex));
      }else if(s.source==='offline-service'){
+       if(s.fullServiceV2)post(0,'stockPurchase',pos(s.fullServiceCapex));
        const original=Math.max(EPS,pos(s.forecastUnitsPerMonth));
        variableUnit=Math.max(0,pos(s.serviceMaterialsUnit)-pos(s.cashOffsets?.materials)/original)+
          Math.max(0,pos(s.serviceElectricityUnit)-pos(s.cashOffsets?.fulfillment)/original);
@@ -121,19 +122,30 @@
        const revenueRate=days>EPS?invoice/days:0;
        timeline[id].push({month:month.month,start,end,orders:qty,netRevenue:invoice});
        if(s.source==='offline-service'){
-         const rent=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
-         post(mStart,'stockPurchase',rent);
-         post(mStart,'fixedAccrual',rent);
-         accrue(id,mStart,'serviceFixed',rent);
-       }
-       for(let day=Math.floor(start);day<Math.ceil(end);day++){
+          const rent=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
+          post(mStart,'stockPurchase',rent);
+          post(mStart,'fixedAccrual',rent);
+          accrue(id,mStart,'serviceFixed',rent);
+          if(s.fullServiceV2){
+            const amort=pos(s.fullServiceMonthlyAmort);
+            post(mStart,'amortAccrual',amort);
+            accrue(id,mStart,'amort',amort);
+          }
+        }
+        if(s.source==='online-service'&&s.fullServiceV2){
+          const cashFixed=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
+          post(mStart,'shared',cashFixed);
+          accrue(id,mStart,'operatingShared',cashFixed);
+        }
+        for(let day=Math.floor(start);day<Math.ceil(end);day++){
          const interval=Math.max(0,Math.min(day+1,end)-Math.max(day,start));
          if(!(interval>0))continue;
          const units=salesRate*interval,revenue=revenueRate*interval;
          const advertising=hasPooledMedia?0:pos(s.adBudgetEffective)/30*interval;
          const attributedAd=hasPooledMedia?
            pos(month.media?.dailyAllocated?.[id]?.[day-Math.floor(mStart)])/1:advertising;
-         const overhead=(pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly))/30*interval;
+         const overhead=s.source==='online-service'&&s.fullServiceV2?0:
+           (pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly))/30*interval;
          const commission=revenue*pos(s.variableSalesPct)/100;
          post(day,'ad',advertising);
          post(day,'shared',overhead);
@@ -149,12 +161,12 @@
          post(day+receiptLag,'receipt',revenue);
          post(day+receiptLag,'commission',commission);
          if(s.source==='online-service'){
-           post(day+receiptLag,'onlineReceipt',revenue);
-           post(day+receiptLag,'onlineTax',revenue*pos(s.ownerTax?.pct)/100);
+           if(!s.fullServiceV2)post(day+receiptLag,'onlineReceipt',revenue);
+           if(!s.fullServiceV2)post(day+receiptLag,'onlineTax',revenue*pos(s.ownerTax?.pct)/100);
            const amort=pos(s.onlineAmortMonthly)/30*interval;
            post(day,'amortAccrual',amort);
            accrue(id,day,'amort',amort);
-           daily[day].onlineProfit+=revenue-units*variableUnit-
+           if(!s.fullServiceV2)daily[day].onlineProfit+=revenue-units*variableUnit-
              commission-attributedAd-overhead-amort;
          }
        }
@@ -178,10 +190,12 @@
      if(pos(s.creditPrincipal)>0){
        post(0,'loanDraw',pos(s.creditPrincipal));
        const months=Math.max(1,Math.ceil(pos(s.creditMonths)||1));
-       for(let month=1;month<=months;month++)
-         {post(month*30-1,'interest',pos(s.creditServiceMonthly));
-          accrue(id,month*30-1,'interest',pos(s.creditServiceMonthly));}
-       post(months*30-1,'principal',pos(s.creditPrincipal));
+       for(let month=1;month<=(s.fullServiceV2?Math.min(months,horizonMonths):months);month++){
+         post(month*30-1,'interest',pos(s.creditServiceMonthly));
+         accrue(id,month*30-1,'interest',pos(s.creditServiceMonthly));
+       }
+       if(!s.fullServiceV2||months<=horizonMonths)
+         post(months*30-1,'principal',pos(s.creditPrincipal));
      }
    }
    // A monthly shared resource is paid once whenever ANY beneficiary is
