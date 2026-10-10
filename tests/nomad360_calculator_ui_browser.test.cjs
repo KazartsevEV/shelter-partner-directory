@@ -602,7 +602,7 @@ async function unifiedV1Case(browser) {
       label:tr.querySelector('td:first-child')?.textContent.trim()||'',
       val:tr.querySelector('td:nth-child(2)')?.textContent.trim()||''
     }));
-    const number=text=>Number(text.replace(/\s/g,'').replace(/[^0-9,.-]/g,'').replace(',','.'));
+    const number=text=>Number((text.match(/-?[\d\s]+(?:[,.]\d+)?/)||['0'])[0].replace(/\s/g,'').replace(',','.'));
     const get=name=>number(rows.find(r=>r.label.startsWith(name))?.val||'');
     const spend=get('Общий рекламный бюджет')+currentValues.mgmt;
     const contribution=get('Общая выручка Revenue')-get('Комиссия эквайринга')-get('Налог на оборот');
@@ -610,7 +610,8 @@ async function unifiedV1Case(browser) {
     const actual=Number(document.getElementById('res-marketing-romi').textContent.replace('%','').replace(',','.'));
     return {expected,actual,spend,label:document.getElementById('res-marketing-romi-card').textContent.trim()};
   });
-  A.ok(market.spend>0&&Number.isFinite(market.actual));
+  A.ok(market.spend>0&&Number.isFinite(market.actual),
+    'ROMI needs positive ad+management spend and a numeric value: '+JSON.stringify(market));
   A.ok(Math.abs(market.actual-market.expected)<0.2,
     'Classical ROMI must use attributable consulting+package contribution minus ad and management, divided by marketing spend: '+JSON.stringify(market));
   A.equal(await page.locator('#res-marketing-romi-card').isVisible(),true);
