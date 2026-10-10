@@ -760,6 +760,29 @@ async function dropshipCopyCase(browser) {
   console.log('NOMAD360_DROPSHIP_COPY_GREEN');
  }finally{await context.close()}
 }
+async function offlineCostExampleCase(browser){
+ const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ try {
+  await page.goto(entry,{waitUntil:'domcontentloaded'});
+  await page.locator('#start-service').click();
+  await page.locator('#service-work-offline').click();
+  A.equal(await page.locator('#product-screen').isVisible(),true);
+  await page.locator('#product-name-input').fill('Массаж');
+  await page.locator('#product-screen button[type="submit"]').click();
+  A.equal(await page.locator('#product-materials-block').isVisible(),true);
+  const caption=(await page.locator('#materials-step-help').textContent()).trim();
+  A.equal(caption,'Например, для маникюра: лак, база, пилки, перчатки. Расходники на одну процедуру можно указать общей суммой или по позициям.');
+  A.match((await page.locator('#product-materials-block h2').innerText()).replace(/\s+/g,' '),
+    /Расходные материалы на одну услугу.*Массаж/);
+  A.equal(await page.evaluate(text=>Nomad360LocaleCore.translate(text,'en'),caption),
+    'For example, a manicure uses polish, base coat, files and gloves. Enter consumables as one total or itemized costs.');
+  A.deepEqual(errors,[]);
+  console.log('NOMAD360_OFFLINE_CONSUMABLE_EXAMPLE_GREEN');
+ } finally {await context.close()}
+}
 async function sourceChoiceCase(browser) {
  const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
  const page=await context.newPage();
@@ -820,6 +843,7 @@ async function sourceChoiceCase(browser) {
   await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Маған қандай бизнеспен айналысқан тиімді/});
   await browserCase(browser,'en-US',{lang:'en',tagline:/Which business would be most profitable/});
   await sourceChoiceCase(browser);
+  await offlineCostExampleCase(browser);
   await dropshipCopyCase(browser);
   await unifiedV1Case(browser);
   await v1AccentsCase(browser);
