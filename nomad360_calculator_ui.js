@@ -5,7 +5,7 @@ const L={
  ru:{
   brand:'NOMAD360',eyebrow:'БИЗНЕС-КАЛЬКУЛЯТОР',
   headline:'Бизнес-калькулятор',
-  sub:'Из чего состоит этот бизнес и чем и как выгодно заниматься?',
+  sub:'Каким бизнесом мне выгодно заниматься?',
   narrative:'Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что приносит живые деньги.',
   mba:'Оценка перспектив бизнес-идеи и возможностей повысить эффективность действующего бизнеса.',
   privacy:'',
@@ -34,7 +34,7 @@ const L={
  en:{
   brand:'NOMAD360',eyebrow:'BUSINESS CALCULATOR',
   headline:'Business calculator',
-  sub:'What makes up this business, and which activities are profitable?',
+  sub:'Which business would be most profitable for me?',
   narrative:'Calculate your business idea or existing business in 20 minutes and see what generates actual cash.',
   mba:'Assess the financial outlook of a business idea or identify ways to improve an existing business.',
   privacy:'',
@@ -63,7 +63,7 @@ const L={
  kk:{
   brand:'NOMAD360',eyebrow:'БИЗНЕС-КАЛЬКУЛЯТОР',
   headline:'Бизнес-калькулятор',
-  sub:'Бұл бизнес неден тұрады және қай бағыт тиімді?',
+  sub:'Маған қандай бизнеспен айналысқан тиімді?',
   narrative:'Бизнес-идеяңызды немесе жұмыс істеп тұрған бизнесіңізді 20 минутта есептеп, нақты ақшаны қай бағыт әкелетінін біліңіз.',
   mba:'Бизнес-идеяның қаржылық келешегін бағалау және қолданыстағы бизнестің тиімділігін арттыру жолдарын анықтау.',
   privacy:'',
