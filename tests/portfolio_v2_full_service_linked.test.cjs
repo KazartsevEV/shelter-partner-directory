@@ -91,3 +91,48 @@ test('TZ02 full service monthly forecast vector follows N without retroactive re
  A.equal(r.ready,true,JSON.stringify(r.errors));
  A.deepEqual(r.temporal.months.map(m=>m.orders.svc),[5,7,9]);
 });
+
+test('TZ02 two FULL services pool one premises payment exactly once across 3 months',()=>{
+ const v={...base,vatPct:0};
+ const a=sku(v,'offline','svc'),b=sku(v,'offline','svc2'),s=state([a,b]);
+ s.resources.push({id:'one-room',kind:'premises',label:'One room',
+   cadence:'monthly',amount:1000,pool:'none',
+   poolBySku:{svc:'unitCost',svc2:'unitCost'},
+   cashOriginBySku:{svc:'production',svc2:'production'},
+   allocation:'usage',skuIds:['svc','svc2'],usage:{svc:1,svc2:1},
+   includedBySku:{svc:1000,svc2:1000}});
+ const r=Linked.build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
+ const month=r.cashflow.periodPnl.months[0],cash=r.cashflow.months[0];
+ close(month.revenue,40000,'two full service net revenue');
+ close(month.cogs,3200,'consumables only accrued as COGS');
+ close(month.serviceFixed,18000,'two original fixed minus two embedded amounts');
+ close(month.operatingShared,1000,'only one shared rent');
+ close(month.taxAccrued,1780,'enterprise profit tax after pooled costs');
+ close(month.netProfit,16020,'portfolio profit after tax');
+ close(cash.stockPurchase,18000,'both fixed cash paid day zero');
+ close(cash.shared,1000,'shared room paid just once');
+ close(r.cashflow.ownerCapital,21320,'start capital reflects pooling and reserve');
+ for(let m=0;m<3;m++)
+   close(r.cashflow.months[m].shared,1000,'no extra rent month '+m);
+});
+test('TZ02 per-source pool moves SAME rent from offline COGS and online salesFixed',()=>{
+ const v={...base,vatPct:0};
+ const a=sku(v,'offline','off'),b=sku(v,'online','on'),s=state([a,b]);
+ s.resources.push({id:'office',kind:'premises',label:'Shared office',
+   cadence:'monthly',amount:1000,pool:'none',poolBySku:{off:'unitCost',on:'salesFixed'},
+   cashOriginBySku:{off:'production'},
+   allocation:'usage',skuIds:['off','on'],usage:{off:1,on:1},
+   includedBySku:{off:1000,on:1000}});
+ const r=Linked.build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
+ const m=r.cashflow.periodPnl.months[0];
+ close(m.revenue,40000,'full online and offline revenue');
+ close(m.serviceFixed,9000,'offline adjusted fixed');
+ close(m.operatingShared,10000,'online adjusted 9000 + shared room 1000');
+ close(m.taxAccrued,1780,'one business profit-tax base');
+ close(m.netProfit,16020,'no double rent across online and offline');
+ close(r.cashflow.months[0].shared,10000,'online fixed + one shared room cash');
+ A.equal(r.cashflow.periodPnl.bySku.off.taxAccrued>=0,true);
+ A.equal(r.cashflow.periodPnl.bySku.on.taxAccrued>=0,true);
+ close(Object.values(r.cashflow.periodPnl.bySku).reduce((a,b)=>a+b.netProfit,0),
+   r.cashflow.periodPnl.netProfit,'per-SKU mixed profit conservation');
+});
