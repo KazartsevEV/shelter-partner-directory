@@ -777,7 +777,8 @@ body #nomad360-home-secondary .nomad-example-link:focus-visible {
 body > section > button.text-blue-600,
 body > section > button.text-blue-600:hover:not(:disabled),
 body > section > button.text-blue-600:focus-visible {
-  color:#fff;
+  /* Explicit precedence over the calculator's legacy blue utility-button rule. */
+  color:#fff !important;
   background:transparent;
   text-decoration-line:underline;
   text-decoration-color:var(--nd-accent);
