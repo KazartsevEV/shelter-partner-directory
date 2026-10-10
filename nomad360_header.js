@@ -78,6 +78,8 @@
       sections=document.createElement('div');
       sections.id='nomad360-information';
       sections.className='nomad-information';
+      // Own RU/EN/KK dictionary renders this block; core locale observer skips it.
+      sections.setAttribute('data-nomad-no-translate','');
       const footer=document.getElementById('nomad360-footer');
       if(footer) footer.before(sections); else document.body.append(sections);
     }
@@ -90,6 +92,7 @@
     let header=document.getElementById('nomad360-header');
     if(!header){
       header=document.createElement('header'); header.id='nomad360-header';header.className='nomad-header';
+      header.setAttribute('data-nomad-no-translate','');
       document.body.prepend(header);
     }
     const isOpen=header.classList.contains('is-open');
