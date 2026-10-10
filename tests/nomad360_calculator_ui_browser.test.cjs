@@ -183,18 +183,22 @@ async function browserCase(browser,locale,expected){
    A.deepEqual(await page.locator('#product-source-block [data-product-source]').evaluateAll(
      nodes=>nodes.map(n=>n.dataset.productSource)),['own','resale','dropship'],
      'Offline service is accessible only through Service → Offline, never from Product sourcing');
-   const sourceType=await page.locator('#product-source-block [data-product-source="resale"]').evaluate(el=>{
-     const title=getComputedStyle(el.querySelector('div:first-child'));
-     const copy=getComputedStyle(el.querySelector('.text-xs'));
-     return {titleSize:parseFloat(title.fontSize),noteSize:parseFloat(copy.fontSize),
-       balance:title.textWrap,pretty:copy.textWrap};
-   });
-   A.ok(sourceType.titleSize>=18&&sourceType.titleSize<=21,
-     'Sourcing card labels must be proportional to their card size');
-   A.ok(sourceType.noteSize>=14&&sourceType.noteSize<=16,
-     'Sourcing card descriptions remain secondary to the action');
-   A.equal(sourceType.balance,'balance','Source route heading should balance its lines');
-   A.equal(sourceType.pretty,'pretty','Source route descriptions should avoid orphaned words');
+   const routeCards=await page.locator('button.nd-path-card').evaluateAll(nodes=>nodes.map(el=>{
+     const label=el.querySelector('div:first-child');
+     const css=getComputedStyle(label);
+     return {label:el.textContent.trim(),parts:el.children.length,
+       hasNote:!!el.querySelector('p,.text-xs,.text-sm'),
+       titleSize:parseFloat(css.fontSize),balance:css.textWrap};
+   }));
+   A.equal(routeCards.length,10,'All ten buying/service/agency path options remain available');
+   A.ok(routeCards.every(x=>x.parts===1&&!x.hasNote),
+     'Orange path cards contain only the choice label, with no explanatory copy: '+JSON.stringify(routeCards));
+   A.ok(routeCards.every(x=>x.titleSize>=18&&x.titleSize<=21),
+     'Sourcing, service and agency labels remain proportional to card geometry');
+   A.ok(routeCards.every(x=>x.balance==='balance'),
+     'Path labels balance lines without orphan words');
+   A.equal(await page.locator('#product-source-block [data-product-source="offline-service"]').count(),0,
+     'Offline service is not a product procurement route');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
