@@ -75,7 +75,22 @@ const {pathToFileURL}=require('node:url');
     return {forecast:item.forecastUnitsPerMonth,fixed:item.productionFixedMonthly};
   });
   A.equal(original.forecast,20,'Actual V1 ad funnel determines monthly service demand');
+  const beforeAssortment=await page.evaluate(()=>({
+    mode:serviceFinancialMode,source:productSource,taxHidden:document.getElementById('product-tax-block').hidden,
+    actionHidden:document.getElementById('full-service-offline-entry').hidden,
+    parent:document.getElementById('full-service-offline-entry').parentElement?.id
+  }));
   await page.locator('#assortment-complete-button').click();
+  const afterAssortment=await page.evaluate(()=>{
+    const tax=document.getElementById('product-tax-block'),a=document.getElementById('full-service-offline-entry');
+    return {mode:serviceFinancialMode,source:productSource,taxHidden:tax.hidden,taxCls:tax.className,
+      actionHidden:a.hidden,actionCls:a.className,parent:a.parentElement?.id,
+      actionCss:getComputedStyle(a).display,taxCss:getComputedStyle(tax).display,
+      ownHidden:document.getElementById('product-own-form').hidden,
+      ancestorIds:[a,a.parentElement,a.parentElement?.parentElement,a.parentElement?.parentElement?.parentElement].map(x=>[x?.id,x?.hidden,x?.className])
+    };
+  });
+  console.log('TZ02_SINGLE_V1_OFFLINE_GATE_DIAG',JSON.stringify({before:beforeAssortment,after:afterAssortment}));
   A.equal(await page.locator('#full-service-offline-entry').isVisible(),true,
     'Single-service result action is only available after confirming the service');
   A.equal(await page.locator('#product-v2-portfolio-gateway').isVisible(),false,
