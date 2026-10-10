@@ -90,8 +90,8 @@ async function browserCase(browser,locale,expected){
   A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=82),'All three are proper tap targets');
   A.equal(await page.locator('#nomad360-home-secondary').evaluate(e=>getComputedStyle(e).boxShadow),'none',
     'No legacy floating/nested homepage card shadow');
-  A.equal(await page.locator('#nomad360-calculation-list li').first().evaluate(
-    e=>getComputedStyle(e,'::before').content),'"01"','Outcomes use a visible numbered grid');
+  A.match(await page.locator('#nomad360-calculation-list li').first().evaluate(
+    e=>getComputedStyle(e,'::before').content),/counter\\(deliverable/,'Outcomes use a numbered CSS counter');
   await choice.locator('#start-service').click();
   A.equal(await page.locator('#service-work-screen').isVisible(),true,'Service must open online/offline branch');
   await page.evaluate(()=>showHome());
