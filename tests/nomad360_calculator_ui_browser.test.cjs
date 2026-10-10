@@ -37,6 +37,14 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.locator('#nomad360-information .nomad-info-block').count(),6);
   A.equal(await page.locator('#nomad360-contacts a[href="https://t.me/Kazartsev_EV"]').count(),1);
 
+  await page.setViewportSize({width:1440,height:900});
+  A.equal(await header.locator('.nomad-burger').isVisible(),false,
+    'desktop must show horizontal menu instead of mobile toggle');
+  A.equal(await header.locator('.nomad-nav').isVisible(),true);
+  A.equal(await header.locator('.nomad-cta').isVisible(),true);
+  await page.setViewportSize({width:390,height:844});
+  A.equal(await header.locator('.nomad-burger').isVisible(),true);
+
   A.match(await page.locator('#nomad360-hero').textContent(),/MBA/);
   A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI marketer|AI-маркетолог/);
   const footer=await page.locator('#nomad360-footer').textContent();
