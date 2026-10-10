@@ -108,6 +108,20 @@ async function browserCase(browser,locale,expected){
   A.ok(typography.recoveryTitle.weight>=700,'Saved work gets a visible text hierarchy');
   A.ok(typography.example.px>=16,'Auxiliary links stay tappable and legible');
   A.equal(typography.noteCopy.color,'rgb(64, 84, 106)','Muted copy must use legible dark blue-gray');
+   const exampleLink=await page.locator('#nomad360-home-secondary .nomad-example-link').evaluate(node=>{
+     const css=getComputedStyle(node);return {
+       color:css.color,underline:css.textDecorationColor,style:css.textDecorationLine,
+       thickness:css.textDecorationThickness
+     };
+   });
+   A.equal(exampleLink.color,'rgb(22, 55, 90)','Secondary link stays on-brand navy');
+   A.equal(exampleLink.underline,'rgb(184, 87, 58)','Secondary link underline stays terracotta');
+   A.match(exampleLink.style,/underline/,'Link should have a real underline, not a bar border');
+   A.equal(exampleLink.thickness,'2px','Underline is conspicuous without becoming a CTA');
+   const recoveryText=await page.locator('#resume-own-product').textContent();
+   A.equal(recoveryText.trim(),{ru:'Продолжить работу с товарами',
+     en:'Continue working on my products',kk:'Тауарлармен жұмысты жалғастыру'}[expected.lang],
+     'Short saved-work action remains localized');
 
   const mobileGeometry=await choice.locator('button').evaluateAll(buttons=>buttons.map(button=>{
     const rect=button.getBoundingClientRect(),style=getComputedStyle(button);
@@ -120,11 +134,11 @@ async function browserCase(browser,locale,expected){
   A.equal(new Set(mobileGeometry.map(x=>x.height)).size,1,'Three choices must have identical mobile heights');
   A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
   A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
-  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=96),'All three are proper tap targets');
+  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=84&&x.height<=110),'Choice buttons keep proportionate 84–110px tap targets');
   A.ok(mobileGeometry.every(x=>x.background==='rgb(237, 142, 99)' && x.color==='rgb(22, 55, 90)'),
     'All three primary routes must use warm orange with navy text');
-  A.ok(mobileGeometry.every(x=>x.fontSize>=21),
-    'All choices must have large visible typography on a mobile viewport');
+  A.ok(mobileGeometry.every(x=>x.fontSize>=19&&x.fontSize<=22),
+    'Mobile choice text remains readable but proportional to each tap target');
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
     'Remove the small 01/02/03 labels from the decision buttons');
   const savedTreatment=await page.locator('#saved-product-entry').evaluate(el=>{
@@ -162,6 +176,25 @@ async function browserCase(browser,locale,expected){
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
   A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
+   await page.locator('#product-name-input').fill('Футболка');
+   await page.locator('#product-screen button[type="submit"]').click();
+   A.equal(await page.locator('#product-source-block').isVisible(),true,
+     'Product entry should display product sourcing choices');
+   A.deepEqual(await page.locator('#product-source-block [data-product-source]').evaluateAll(
+     nodes=>nodes.map(n=>n.dataset.productSource)),['own','resale','dropship'],
+     'Offline service is accessible only through Service → Offline, never from Product sourcing');
+   const sourceType=await page.locator('#product-source-block [data-product-source="resale"]').evaluate(el=>{
+     const title=getComputedStyle(el.querySelector('div:first-child'));
+     const copy=getComputedStyle(el.querySelector('.text-xs'));
+     return {titleSize:parseFloat(title.fontSize),noteSize:parseFloat(copy.fontSize),
+       balance:title.textWrap,pretty:copy.textWrap};
+   });
+   A.ok(sourceType.titleSize>=18&&sourceType.titleSize<=21,
+     'Sourcing card labels must be proportional to their card size');
+   A.ok(sourceType.noteSize>=14&&sourceType.noteSize<=16,
+     'Sourcing card descriptions remain secondary to the action');
+   A.equal(sourceType.balance,'balance','Source route heading should balance its lines');
+   A.equal(sourceType.pretty,'pretty','Source route descriptions should avoid orphaned words');
   await page.evaluate(()=>showHome());
   await choice.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Third choice button must open V2');
