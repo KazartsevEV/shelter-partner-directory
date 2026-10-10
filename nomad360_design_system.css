@@ -716,3 +716,54 @@ body > section a.nd-context-link:focus-visible {
   color:var(--nd-ink-deep);
   text-decoration-color:var(--nd-brand-vermillion);
 }
+
+/* CANVAS-04: match the footer navy while leaving header, information blocks,
+   calculator cards and their internal dark-on-light labels untouched. */
+body {
+  background:#16375a;
+  color:#fff;
+}
+body #nomad360-hero h1,
+body #nomad360-hero h2,
+body #nomad360-hero h3 {
+  color:#fff;
+}
+body > section > p.nd-canvas-note,
+body > section > p.nd-canvas-note.text-slate-500 {
+  color:#fff;
+}
+/* Navigation on the navy canvas: white with the existing orange underline. */
+body > section > button:is(.text-blue-600,.text-blue-700):not(.bg-blue-600):not(.bg-blue-700),
+body > section > a:not(.nd-cta-primary):not(.bg-blue-600):not(.bg-blue-700) {
+  color:#fff;
+  text-decoration-line:underline;
+  text-decoration-color:var(--nd-brand-vermillion);
+  text-decoration-thickness:2px;
+  text-underline-offset:5px;
+}
+body > section > button:is(.text-blue-600,.text-blue-700):not(.bg-blue-600):not(.bg-blue-700):hover,
+body > section > a:not(.nd-cta-primary):not(.bg-blue-600):not(.bg-blue-700):hover {
+  color:#fff;
+  text-decoration-color:var(--nd-brand-vermillion);
+}
+/* The learning-example row is directly on the canvas, outside every card. */
+body #nomad360-home-secondary .nomad-example-title,
+body #nomad360-home-secondary .nomad-example-copy p {
+  color:#fff;
+}
+body #nomad360-home-secondary .nomad-example-link,
+body #nomad360-home-secondary .nomad-example-link:hover,
+body #nomad360-home-secondary .nomad-example-link:focus-visible {
+  color:#fff;
+  text-decoration-line:underline;
+  text-decoration-color:var(--nd-brand-vermillion);
+  text-decoration-thickness:2px;
+  text-underline-offset:5px;
+}
+/* Category links stay navy on white cards for legible contrast. */
+body > section .card a.nd-context-link,
+body > section .card a.nd-context-link:hover,
+body > section .card a.nd-context-link:focus-visible {
+  color:var(--nd-ink);
+  text-decoration-color:var(--nd-brand-vermillion);
+}
