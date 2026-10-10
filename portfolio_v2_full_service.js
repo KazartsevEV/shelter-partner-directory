@@ -83,6 +83,7 @@
        if(rolling<min){min=rolling;peakDay=m*30;}
        const dayRevenue=revenue/30,dayVariable=variable/30;
        for(let d=0;d<30;d++){
+         const beforeService=rolling;
          const flow=dayRevenue-dayVariable-
            (d===29?tax+interest:0);
          rolling+=flow;
@@ -91,6 +92,9 @@
          daily.push({day,month:m+1,revenue:dayRevenue,variable:dayVariable,
            fixed:d===0?fixedCashMonthly:0,asset:d===0?assetCash:0,
            interest:d===29?interest:0,tax:d===29?tax:0,
+           // Pre-service opening balance exposes fixed/CAPEX day-zero payments
+           // before the first client receipt, preventing an understated peak.
+           beforeServiceOperatingCumulative:beforeService,
            // Financing entries excluded from operational peak and profitability.
            operatingCumulative:rolling});
        }
