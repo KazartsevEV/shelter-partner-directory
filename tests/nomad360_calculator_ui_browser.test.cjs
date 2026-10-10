@@ -753,7 +753,7 @@ async function offlineCostExampleCase(browser){
   A.equal(caption,'Например, для маникюра: лак, база, пилки, перчатки. Расходники на одну процедуру можно указать общей суммой или по позициям.');
   A.match((await page.locator('#product-materials-block h2').innerText()).replace(/\s+/g,' '),
     /Расходные материалы на одну услугу.*Массаж/);
-  A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate(caption,'en')),
+  A.equal(await page.evaluate(text=>Nomad360LocaleCore.translate(text,'en'),caption),
     'For example, a manicure uses polish, base coat, files and gloves. Enter consumables as one total or itemized costs.');
   A.deepEqual(errors,[]);
   console.log('NOMAD360_OFFLINE_CONSUMABLE_EXAMPLE_GREEN');
