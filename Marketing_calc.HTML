@@ -283,11 +283,11 @@
         <section id="nomad360-selling-choice" class="card p-6 md:p-8" aria-labelledby="nomad360-selling-heading">
             <h4 id="nomad360-selling-heading" class="nd-type-section">Что вы продаете?</h4>
             <div class="nomad-choice-grid">
-                <button id="start-own-product" class="nomad-choice-button nd-type-action" type="button"
+                <button id="start-own-product" class="nomad-choice-button nd-type-action nd-cta-primary" type="button"
                     onclick="startFreshProductCalculation()">Товар</button>
-                <button id="start-service" class="nomad-choice-button nd-type-action" type="button"
+                <button id="start-service" class="nomad-choice-button nd-type-action nd-cta-primary" type="button"
                     onclick="showServiceWorkChooser()">Услугу</button>
-                <button id="start-multi-portfolio" class="nomad-choice-button nd-type-action" type="button"
+                <button id="start-multi-portfolio" class="nomad-choice-button nd-type-action nd-cta-primary" type="button"
                     onclick="openPortfolioV2(Boolean(window.PortfolioV2UI?.load?.()))">У меня уже много разного</button>
             </div>
         </section>
@@ -341,11 +341,11 @@
             <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Товар / услуга → Услуга</div>
             <h1 class="text-3xl font-bold text-slate-900">Я работаю:</h1>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                <button type="button" id="service-work-online" onclick="showServiceChooser()" class="card p-5 text-left hover:border-blue-400 transition">
+                <button type="button" id="service-work-online" onclick="showServiceChooser()" class="card nd-path-card p-5 text-left transition">
                     <div class="text-lg font-bold text-slate-900">Онлайн</div>
                     <p class="text-sm text-slate-600 mt-2">Я сам · Нанимаю другого · Я агент. Существующий калькулятор без изменений.</p>
                 </button>
-                <button type="button" id="service-work-offline" onclick="startOfflineServiceCalculation()" class="card p-5 text-left hover:border-emerald-500 transition">
+                <button type="button" id="service-work-offline" onclick="startOfflineServiceCalculation()" class="card nd-path-card p-5 text-left transition">
                     <div class="text-lg font-bold text-slate-900">Офлайн</div>
                     <p class="text-sm text-slate-600 mt-2">Например, ногтевой сервис: расходники, аренда, мастера, оборудование и реклама. Нет производства, склада и доставки.</p>
                 </button>
@@ -448,7 +448,7 @@
 
                 <button
                     type="submit"
-                    class="mt-4 w-full sm:w-auto bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+                    class="nd-cta-primary mt-4 w-full sm:w-auto bg-blue-600 px-5 py-3 rounded-lg font-semibold transition"
                 >
                     <span id="product-intro-submit-label">Рассчитать мой товар</span>
                 </button>
@@ -1411,7 +1411,7 @@
                     <div class="text-xs uppercase tracking-widest text-emerald-300 font-semibold">Следующий этап · V2</div>
                     <h2 class="text-xl font-black mt-2">Собрать портфель товаров и услуг</h2>
                     <p class="text-sm text-emerald-100 mt-2">Себестоимость, CAC, рекламный прогноз, налоги и диапазон цен уже рассчитаны выше. Дальше — объединение ресурсов, помещений, работников, сертификатов и бюджета без повторного заполнения карточек.</p>
-                    <button type="button" onclick="openLinkedPortfolioFromProducts()" class="mt-4 w-full rounded-xl bg-white text-emerald-950 font-black p-4">Перейти к портфельной экономике V2 →</button>
+                    <button type="button" onclick="openLinkedPortfolioFromProducts()" class="nd-cta-primary mt-4 w-full p-4 font-bold">Перейти к портфельной экономике V2 →</button>
                     <p id="linked-v2-entry-error" class="hidden mt-3 rounded-lg bg-rose-50 text-rose-900 p-3 text-sm font-semibold" role="alert" hidden></p>
                 </div>
                     <div class="mt-6 pt-5 border-t aggregate-separator"><div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
@@ -1513,7 +1513,7 @@
                   <label class="block text-xs mt-3">Название услуги
                     <input id="online-v2-name" class="input-field mt-1" type="text" placeholder="Например, консультация по маркетингу">
                   </label>
-                  <button type="button" id="online-v2-add" onclick="openLinkedPortfolioFromOnline()" class="mt-3 w-full bg-emerald-800 text-white rounded-lg p-3 font-bold">Добавить рассчитанную услугу в V2 →</button>
+                  <button type="button" id="online-v2-add" onclick="openLinkedPortfolioFromOnline()" class="nd-cta-primary mt-3 w-full p-3 font-bold">Добавить рассчитанную услугу в V2 →</button>
                   <p id="online-v2-error" role="alert" class="text-sm mt-2 text-rose-700 hidden" hidden></p>
                 </section>
                 <!-- Monthly Breakdown Table -->
@@ -5717,7 +5717,7 @@
                                     </button>
                                     <button type="button"
                                         data-pricing-decision="tax"
-                                        class="aggregate-action-confirm"
+                                        class="aggregate-action-confirm nd-cta-primary"
                                         onclick="showAggregateTaxPricing(${item.id}, this)">
                                         Рассчитать цену с учётом налогов
                                     </button>
