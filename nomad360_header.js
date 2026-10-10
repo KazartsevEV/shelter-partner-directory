@@ -66,7 +66,7 @@
       embedTitle:'Калькулятор для вашего сайта',
       embedB2BQuestion:'Работаете в B2B?',
       embedB2BOffer:'Привлеките полезный трафик',
-      embedB2BAnswer:'Бесплатно.'
+      embedB2BAnswer:'Бесплатно.',
       trafficTitle:'За последние 14 дней уникальных посетителей:',
       embedButton:'Встроить калькулятор на мой сайт',
       embedHint:'Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.',
@@ -126,7 +126,7 @@
       embedTitle:'Calculator for your website',
       embedB2BQuestion:'Work in B2B?',
       embedB2BOffer:'Attract relevant traffic',
-      embedB2BAnswer:'For free.'
+      embedB2BAnswer:'For free.',
       trafficTitle:'Unique visitors in the last 14 days:',
       embedButton:'Embed the calculator on my website',
       embedHint:'Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.',
@@ -186,7 +186,7 @@
       embedTitle:'Сайтыңызға арналған калькулятор',
       embedB2BQuestion:'B2B саласында жұмыс істейсіз бе?',
       embedB2BOffer:'Пайдалы трафикті тартыңыз',
-      embedB2BAnswer:'Тегін.'
+      embedB2BAnswer:'Тегін.',
       trafficTitle:'Соңғы 14 күндегі бірегей келушілер:',
       embedButton:'Калькуляторды өз сайтыма енгізу',
       embedHint:'Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.',
