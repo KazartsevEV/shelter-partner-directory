@@ -52,7 +52,9 @@
    const totalOnce=sum(resources.filter(r=>r.cadence==='once'&&
      !(hasPooledMedia&&r.kind==='campaign')).map(r=>pos(r.amount)));
    if(hasPooledMedia)for(const period of forecast.months){
-     for(let day=0;day<30;day++)
+     if(items.some(s=>s.fullServiceV2))
+       post((period.month-1)*30,'ad',sum(period.media.dailyCashPaid.map(pos)));
+     else for(let day=0;day<30;day++)
        post((period.month-1)*30+day,'ad',pos(period.media.dailyCashPaid[day]));
    }
    post(0,'shared',totalOnce);
@@ -132,19 +134,24 @@
             accrue(id,mStart,'amort',amort);
           }
         }
-        if(s.source==='online-service'&&s.fullServiceV2){
+        if(s.fullServiceV2){
           const cashFixed=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
           post(mStart,'shared',cashFixed);
           accrue(id,mStart,'operatingShared',cashFixed);
+          if(!hasPooledMedia){
+            const prepaidAd=pos(s.adBudgetEffective);
+            post(mStart,'ad',prepaidAd);
+            accrue(id,mStart,'marketing',prepaidAd);
+          }
         }
         for(let day=Math.floor(start);day<Math.ceil(end);day++){
          const interval=Math.max(0,Math.min(day+1,end)-Math.max(day,start));
          if(!(interval>0))continue;
          const units=salesRate*interval,revenue=revenueRate*interval;
-         const advertising=hasPooledMedia?0:pos(s.adBudgetEffective)/30*interval;
+         const advertising=hasPooledMedia||s.fullServiceV2?0:pos(s.adBudgetEffective)/30*interval;
          const attributedAd=hasPooledMedia?
            pos(month.media?.dailyAllocated?.[id]?.[day-Math.floor(mStart)])/1:advertising;
-         const overhead=s.source==='online-service'&&s.fullServiceV2?0:
+         const overhead=s.fullServiceV2?0:
            (pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly))/30*interval;
          const commission=revenue*pos(s.variableSalesPct)/100;
          post(day,'ad',advertising);
