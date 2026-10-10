@@ -1459,16 +1459,16 @@
             <div class="lg:col-span-8 space-y-6">
                 
                 <!-- Summary Metrics -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 nd-v1-metrics">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 nd-v1-metrics">
                     <div class="card p-4 result-card green">
                         <div class="text-xs text-slate-500 mb-1" id="res-profit-label">Чистая прибыль</div>
                         <div class="text-2xl font-bold text-slate-900" id="res-profit">$0.00</div>
                         <div class="text-xs text-slate-400 mt-1" id="res-profit-sub">После всех налогов</div>
                     </div>
                     <div class="card p-4 result-card">
-                        <div class="text-xs text-slate-500 mb-1" id="res-romi-label">ROMI</div>
+                        <div class="text-xs text-slate-500 mb-1" id="res-romi-label">Рентабельность вложений</div>
                         <div class="text-2xl font-bold text-slate-900" id="res-romi">0.00x</div>
-                        <div class="text-xs text-slate-400 mt-1" id="res-romi-sub">Окупаемость всех вложений</div>
+                        <div class="text-xs text-slate-400 mt-1" id="res-romi-sub">До налога, относительно всех затрат</div>
                     </div>
                     <div class="card p-4 result-card orange">
                         <div class="text-xs text-slate-500 mb-1" id="res-third-label">CPA / CAC</div>
@@ -1476,6 +1476,11 @@
                             <span id="res-cpa">$0.00</span><span id="res-cpa-sep"> / </span><span id="res-cac" class="text-base font-normal text-slate-500">$0.00</span>
                         </div>
                         <div class="text-xs text-slate-400 mt-1" id="res-third-sub">Рекламный / Полный</div>
+                    </div>
+                    <div id="res-marketing-romi-card" class="card p-4 result-card">
+                        <div class="text-xs text-slate-500 mb-1">ROMI</div>
+                        <div class="text-2xl font-bold text-slate-900" id="res-marketing-romi">—</div>
+                        <div class="text-xs text-slate-400 mt-1">Маркетинговая рентабельность, %</div>
                     </div>
                 </div>
 
@@ -7391,6 +7396,10 @@
 
             document.getElementById('summary-title').textContent =
                 mode === 'agent' ? 'Экономика агента и партнёра (Итого за период)' : 'Расчётные показатели (Итого за период)';
+            const marketingCard=document.getElementById('res-marketing-romi-card');
+            if(marketingCard)marketingCard.hidden=mode==='agent';
+            document.querySelector('#calculator-screen .nd-v1-metrics')
+              ?.classList.toggle('nd-v1-metrics-agent',mode==='agent');
 
             initInputs();
             calculate();
@@ -7400,7 +7409,7 @@
         function calculate() {
             // Invalidate previous display-only numeric markers before rebuilding
             // the view. Never restore stale values when validation fails.
-            for(const id of ['res-profit','res-romi','res-cpa','res-cac']){
+            for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac']){
                 const node=document.getElementById(id);
                 node?.removeAttribute('data-nomad-display-number');
                 node?.removeAttribute('data-nomad-display-money');
@@ -7445,7 +7454,7 @@
                 '<tr><td colspan="2" class="p-3 text-rose-800 bg-rose-50">Исправьте параметры расчёта. Недопустимая модель не рассчитывается.</td></tr>';
               document.getElementById('monthly-table').innerHTML=
                 '<tr><td class="p-3 text-rose-800">Нет корректного прогноза: '+msg+'</td></tr>';
-              for(const id of ['res-profit','res-romi','res-cpa','res-cac'])
+              for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac'])
                 document.getElementById(id).textContent='—';
               return;
             }
@@ -7734,6 +7743,16 @@
 
             const accountingNetProfit = totalMonth.mEbitda - totalMonth.mTax - siteAmort - magnetAmort;
             const accruedTotalCosts = totalMonth.mCosts + siteAmort + magnetAmort;
+            // Classic marketing ROMI: attributed revenue (first consultations
+            // plus later packages) minus direct fulfillment, payment processing,
+            // turnover tax, ad spend and ad management, divided by ad+management.
+            // General overhead/site/CAPEX remains in the full-cost ratio above.
+            const marketingSpend = totalMonth.mBudget + v.mgmt;
+            const marketingContribution = totalMonth.mRevTotal - totalMonth.mExecutor -
+              totalMonth.mAcq - totalMonth.mTax;
+            const classicRomiPercent = marketingSpend>0
+              ? 100 * (marketingContribution-marketingSpend) / marketingSpend
+              : null;
             // An unamortized website or lead-magnet acquisition is not an operating loss.
             // Monthly cash reflects full CAPEX, P&L reflects only period amortization.
             // Update Summary Table
@@ -7776,7 +7795,8 @@
                 [isAgent ? 'ROAS партнёра' : 'ROAS (возврат рекламы)', (totalBudget?totalMonth.mNetRev/totalBudget:0).toFixed(2) + 'x'],
                 ['CPA (цена клиента реклама)', displayMoneyNode(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
                 [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', displayMoneyNode(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
-                [isAgent ? 'ROMI партнёра' : 'ROMI (окупаемость инвестиций)', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x']
+                [isAgent ? 'Рентабельность вложений партнёра' : 'Рентабельность вложений', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x'],
+                ...(!isAgent ? [['ROMI (маркетинг)', classicRomiPercent===null?'—':classicRomiPercent.toFixed(1)+'%']] : [])
             ];
 
             const summaryTbody = document.getElementById('summary-table');
@@ -7816,9 +7836,11 @@
                 profitSub.textContent = 'После всех налогов';
                 setV1DisplayedMoney('res-profit',accountingNetProfit);
 
-                romiLabel.textContent = 'ROMI';
-                romiSub.textContent = 'Окупаемость всех вложений';
+                romiLabel.textContent = 'Рентабельность вложений';
+                romiSub.textContent = 'До налога, относительно всех затрат';
                 document.getElementById('res-romi').textContent = (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x';
+                document.getElementById('res-marketing-romi').textContent =
+                  classicRomiPercent===null?'—':classicRomiPercent.toFixed(1)+'%';
 
                 thirdLabel.textContent = 'CPA / CAC';
                 thirdSub.textContent = 'Рекламный / Полный';
