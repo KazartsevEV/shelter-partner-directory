@@ -50,7 +50,10 @@
      throw Error('Срок кредита должен задаваться целым числом месяцев.');
    const netPrice=priceGross/(1+vatPct/100),netUnitReceipt=netPrice*(1-discountPct/100);
    const commissionRate=commissionPct/100,taxRate=taxPct/100;
-   const reserve=(quantity[0]*unitCashCost+fixedCashMonthly)*reservePct/100;
+   // Liquidity reserve includes commissions as part of first-month variable costs.
+   const firstMonthRevenue=quantity[0]*netUnitReceipt;
+   const firstMonthVariable=quantity[0]*unitCashCost+firstMonthRevenue*commissionRate;
+   const reserve=(firstMonthVariable+fixedCashMonthly)*reservePct/100;
    // First pass excludes interest and taxes, but includes all real day-zero cash payments.
    const calc=(loanPrincipal=0,withCharges=false)=>{
      const monthsOut=[],daily=[];
@@ -119,6 +122,22 @@
      m.cashOnHand=cash;m.freeCash=cash-reserve;
      if(firstPositive===null&&m.operatingCash>0)firstPositive=m.month;
      if(payback===null&&operatingCum>=principal-EPS)payback=m.month;
+   }
+   // Reconcile a real daily cash ledger with monthly funding, debt maturity and
+   // working liquidity. The operational peak is intentionally separate from
+   // owner/loan funding, but the customer's daily balances must include both.
+   let dailyCash=0;
+   for(const day of period.daily){
+     const financingIn=day.day===0?principal:0;
+     const principalDue=funding==='credit'&&day.day===creditMonths*30-1?principal:0;
+     const netCashFlow=financingIn+day.revenue-day.variable-day.fixed-
+       day.asset-day.interest-day.tax-principalDue;
+     dailyCash+=netCashFlow;
+     day.financingIn=financingIn;
+     day.principalDue=principalDue;
+     day.netCashFlow=netCashFlow;
+     day.cashOnHand=dailyCash;
+     day.freeCash=dailyCash-reserve;
    }
    const total=key=>period.months.reduce((n,m)=>n+m[key],0);
    return {ready:true,kind:'full-service-v2',months:period.months,
