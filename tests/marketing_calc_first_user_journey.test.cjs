@@ -19,8 +19,8 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#product-demo-banner').isVisible(),false);
    assert.equal(await page.evaluate(()=>productPortfolio.length),0);
    assert.equal(await page.locator('#product-own-form').isVisible(),false);
-   await page.locator('summary').filter({hasText:'Посмотреть, что будет рассчитываться'}).click();
-   assert.match(await page.locator('#home-screen').textContent(),/ЖИВЫЕ ДЕНЬГИ|денежный поток/);
+   assert.equal(await page.locator('#nomad360-calculation-list ul').isVisible(),true,'Outcome list is already visible');
+   assert.match(await page.locator('#home-screen').textContent(),/живые деньги|денежный поток/i);
    // Detailed production and resale both use the primary, legible calculator.
    await page.locator('#start-own-product').click();
    assert.equal(await page.locator('#product-screen').isVisible(),true);

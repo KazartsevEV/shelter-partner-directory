@@ -11,8 +11,7 @@ const url = pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
  await page.route(/^https?:\/\//,r=>r.abort());
  try{
    await page.goto(url,{waitUntil:'domcontentloaded'});
-   await page.locator('summary').filter({hasText:'Экспериментальная портфельная модель v2'}).click();
-   await page.getByRole('button',{name:'Открыть экспериментальную модель v2'}).click();
+   await page.locator('#start-multi-portfolio').click();
    const fld=key=>page.locator('[data-p2-path="'+key+'"]');
    const inline=key=>fld(key).locator('xpath=ancestor::label[1]').locator('[data-p2-inline-error]');
    assert.equal(await inline('marketing.budget').count(),1,'Budget error anchored directly to the input');

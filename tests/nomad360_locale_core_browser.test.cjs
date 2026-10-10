@@ -60,9 +60,9 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
   for(const [navigatorLocale,expected,title] of [
-   ['ru-RU','ru','Калькулятор моего бизнеса'],
-   ['kk-KZ','kk','Менің бизнес-калькуляторым'],
-   ['en-US','en','My business calculator']]){
+   ['ru-RU','ru','Бизнес-калькулятор'],
+   ['kk-KZ','kk','Бизнес-калькулятор'],
+   ['en-US','en','Business calculator']]){
    const ctx=await browser.newContext({locale:navigatorLocale,viewport:{width:390,height:844}});
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(String(e.message)));

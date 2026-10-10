@@ -14,12 +14,143 @@ async function browserCase(browser,locale,expected){
   await page.waitForSelector('#nomad360-hero h2');
   A.equal(await page.locator('html').getAttribute('lang'),expected.lang);
   A.match(await page.locator('#nomad360-hero').textContent(),expected.tagline);
-  A.match(await page.locator('#nomad360-hero').textContent(),/MBA/);
-  A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI marketer|AI-маркетолог/);
+  const approved={
+   ru:['Бизнес-калькулятор','Каким бизнесом мне выгодно заниматься?',
+     'Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что принесет живые деньги.'],
+   en:['Business calculator','Which business would be most profitable for me?',
+     'Calculate your business idea or existing business in 20 minutes and see what will generate actual cash.'],
+   kk:['Бизнес-калькулятор','Маған қандай бизнеспен айналысқан тиімді?',
+     'Бизнес-идеяңызды немесе жұмыс істеп тұрған бизнесіңізді 20 минутта есептеп, нақты ақшаны қай бағыт әкелетінін анықтаңыз.']
+  };
+  A.deepEqual(await page.locator('#nomad360-hero h1, #nomad360-hero h2, #nomad360-hero h3').allTextContents(),approved[expected.lang],
+    'Approved H1 → H2 → H3 must have exact text and order');
+  A.equal(await page.locator('#nomad360-calculation-list ul > li').count(),6,
+    'Original six-point calculation list must remain visible');
+  A.equal(await page.locator('#nomad360-calculation-list ul').isVisible(),true);
+  const lead={ru:'После расчёта вы получите:',en:'After the calculation, you get:',kk:'Есеп нәтижесінде аласыз:'}[expected.lang];
+  await page.waitForFunction(v=>document.querySelector('#nomad360-calculation-list p')?.textContent?.trim()===v,lead);
+  const bullets=await page.locator('#nomad360-calculation-list ul li').allTextContents();
+  A.match(bullets[0],{ru:/Себестоимость/,en:/Cost per product/,kk:/өзіндік құны/}[expected.lang]);
+  A.match(bullets[5],{ru:/Денежный поток/,en:/Monthly cash flow/,kk:/Ай сайынғы ақша ағыны/}[expected.lang]);
+  A.equal(await page.locator('#home-screen').evaluate(el=>
+    [...el.children].findIndex(child=>child.id==='nomad360-hero')+1===
+    [...el.children].findIndex(child=>child.id==='nomad360-calculation-list')),true,
+    'Calculation list must directly follow heading block');
+  A.equal(await page.locator('#home-screen > .card > h1').count(),0,
+    'Do not duplicate a second homepage H1');
+  const presentation=await page.evaluate(()=>{
+    const hero=document.getElementById('nomad360-hero');
+    const footer=document.getElementById('nomad360-footer');
+    const heroStyle=getComputedStyle(hero),footerStyle=getComputedStyle(footer);
+    return {
+      heroBackground:heroStyle.backgroundImage,
+      heroFill:heroStyle.backgroundColor,
+      heroShadow:heroStyle.boxShadow,
+      heroDecoration:getComputedStyle(hero,'::after').content,
+      footerBackground:footerStyle.backgroundColor,
+      footerShadow:footerStyle.boxShadow
+    };
+  });
+  A.equal(presentation.heroBackground,'none','No green gradient behind homepage H1-H3');
+  A.ok(presentation.heroFill==='rgba(0, 0, 0, 0)'||presentation.heroFill==='transparent',
+    'Homepage hero must be transparent, not a banner');
+  A.equal(presentation.heroShadow,'none','Homepage hero must not cast a card shadow');
+  A.equal(presentation.heroDecoration,'none','Remove green banner ornament');
+  A.equal(presentation.footerBackground,'rgb(22, 55, 90)',
+    'Claude footer must retain approved navy background');
+  A.equal(presentation.footerShadow,'none','Support footer should not look like a colored banner');
+  for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
+    A.equal(await page.locator('#'+id).evaluate(e=>e.className.includes('emerald')),false,
+      'Home saved-state UI should use neutral colors: '+id);
+  }
+
+  const choice=page.locator('#nomad360-selling-choice');
+  const choiceTexts={
+    ru:['Что я думаю продавать?','Товар','Услугу','У меня уже много разного →'],
+    en:['What am I planning to sell?','Product','A service','I already sell several different things →'],
+    kk:['Мен не сатуды жоспарлап отырмын?','Тауар','Қызмет','Менде әртүрлі тауарлар мен қызметтер бар →']
+  }[expected.lang];
+  await page.waitForFunction(text=>document.querySelector('#nomad360-selling-heading')?.textContent?.trim()===text,
+    choiceTexts[0]);
+  A.equal(await choice.locator('h4').count(),1);
+  A.equal(await choice.locator('button').count(),2,'Selection block must have exactly two buttons');
+  A.deepEqual((await choice.locator('button').allTextContents()).map(x=>x.trim()),choiceTexts.slice(1,3));
+  A.equal((await choice.locator('a').textContent()).trim(),choiceTexts[3]);
+  await choice.locator('#start-service').click();
+  A.equal(await page.locator('#service-work-screen').isVisible(),true,'Service must open online/offline branch');
+  await page.evaluate(()=>showHome());
+  await choice.locator('#start-own-product').click();
+  A.equal(await page.locator('#product-screen').isVisible(),true,'Product must open product branch');
+  await page.evaluate(()=>showHome());
+  await choice.locator('#start-multi-portfolio').click();
+  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true,'Multi-item link must open V2');
+  A.ok(await page.evaluate(()=>PortfolioV2UI.load()),'V2 should create a draft on first visit');
+  await page.evaluate(()=>{
+    const draft=PortfolioV2UI.load();
+    draft.skus[0].name='retained-v2-item';
+    localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(draft));
+    showHome();
+  });
+  await choice.locator('#start-multi-portfolio').click();
+  A.equal((await page.evaluate(()=>PortfolioV2UI.getState())).skus[0].name,'retained-v2-item',
+    'Multi-item entry must resume an existing V2 draft, not overwrite it');
+  await page.evaluate(()=>showHome());
+
+
+  // Recovered Claude header: mobile drawer and all valid local anchors.
+  const header=page.locator('#nomad360-header');
+  A.equal(await header.count(),1);
+  A.equal(await header.locator('.nomad-logo').getAttribute('src'),'./nomad360_wolf_open_circle.png');
+  A.equal(await header.locator('.nomad-nav a').count(),5);
+  A.equal(await header.locator('#nomad360-lang-select').count(),1);
+  A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
+  await header.locator('.nomad-burger').click();
+  A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'true');
+  A.equal(await header.locator('.nomad-nav').isVisible(),true);
+  const targets=await header.locator('[data-nomad-go]').evaluateAll(links=>links.map(x=>
+    ({target:x.dataset.nomadGo,exists:!!document.getElementById(x.dataset.nomadGo)})));
+  A.ok(targets.every(x=>x.exists),'header destination missing: '+JSON.stringify(targets));
+  await page.keyboard.press('Escape');
+  A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
+  A.equal(await header.locator('.nomad-nav').isVisible(),false);
+  await header.locator('.nomad-burger').click();
+  await header.locator('a[data-nomad-go="nomad360-about"]').click();
+  A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
+  A.equal(await page.locator('#nomad360-information .nomad-info-block').count(),2,
+    'About and Contacts stay above the unified navy footer');
+  A.doesNotMatch(await page.locator('#nomad360-about').textContent(),/20 минут|20 minutes|20 минут/,'calculator figures belong only in hero');
+  A.equal(await page.locator('#nomad360-contacts a[href="https://t.me/Kazartsev_EV"]').count(),1);
+
+  await page.setViewportSize({width:1440,height:900});
+  A.equal(await header.locator('.nomad-burger').isVisible(),false,
+    'desktop must show horizontal menu instead of mobile toggle');
+  A.equal(await header.locator('.nomad-nav').isVisible(),true);
+  A.equal(await header.locator('.nomad-cta').isVisible(),true);
+  await page.setViewportSize({width:390,height:844});
+  A.equal(await header.locator('.nomad-burger').isVisible(),true);
+
+  A.doesNotMatch(await page.locator('#nomad360-hero').textContent(),/MBA|дорогие консультанты|expensive consulting/);
+  A.match(await page.locator('#nomad360-footer').textContent(),/AI-маркетолог|AI Marketer/i);
   const footer=await page.locator('#nomad360-footer').textContent();
   A.ok(footer.includes('+7 777 129 56 93')&&footer.includes('+7 977 986 74 41'));
-  A.equal(await page.locator('#nomad360-footer a[href^="mailto:"]').count(),2);
-  A.ok(await page.locator('#nomad360-footer a[href*="threads.com/@nomad260393"]').count());
+  A.equal(await page.locator('#nomad360-footer').count(),1,'Exactly one new footer');
+  A.equal(await page.locator('body > footer').count(),1,'Remove the old duplicate legal footer');
+  A.equal(await page.locator('#nomad360-footer .nomad-unit-note').textContent(),
+    {ru:'* у.е. — деньги в вашей валюте.',
+     en:'* currency units — amounts are shown in your chosen currency.',
+     kk:'* ш.б. — сіздің валютаңыздағы ақша.'}[expected.lang]);
+  A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
+  A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),2,'Crypto QR codes preserved');
+  A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),5,'All five payment methods must retain copy actions');
+  A.equal(await page.locator('#nomad360-footer #nomad360-license').count(),1,'License is in new footer');
+  A.equal(await page.locator('#nomad360-footer #nomad360-data').count(),1,'Data statement is in new footer');
+  A.equal(await page.locator('#nomad360-footer #nomad360-official').count(),1,'Official contact is in new footer');
+  A.equal(await page.locator('#nomad360-footer a.nomad-official-mail').getAttribute('href'),
+    'mailto:nomad260393@gmail.com');
+  A.ok(footer.includes('Платите за то, что покупаете.')||footer.includes('Pay for what you buy.')||
+    footer.includes('Сатып алғаныңызға ғана төлеңіз.'),'AI Marketer copy survived');
+  A.equal(await page.locator('#nomad360-contacts a[href^="mailto:"]').count(),1);
+  A.ok(await page.locator('#nomad360-contacts a[href*="threads.com/@nomad260393"]').count());
   const payload=fixture();
   await page.evaluate(p=>{
     LinkedPortfolioV2UI.importFromV1({skus:p.skus.filter(x=>x.source!=='online-service'),tax:p.tax});
@@ -63,6 +194,11 @@ async function browserCase(browser,locale,expected){
   for(const chosen of ['en','kk','ru']){
    await page.locator('#nomad360-lang-select').selectOption(chosen);
    A.equal(await page.locator('html').getAttribute('lang'),chosen);
+   A.equal(await page.locator('#nomad360-footer .nomad-unit-note').textContent(),
+     {ru:'* у.е. — деньги в вашей валюте.',
+      en:'* currency units — amounts are shown in your chosen currency.',
+      kk:'* ш.б. — сіздің валютаңыздағы ақша.'}[chosen],
+     'Footer currency note must track language switches');
    A.equal(await page.evaluate(()=>window.__nomadPrintCount),2,'locale change must not open another print dialog');
    A.equal(await preview.isVisible(),true,'price preview must remain open after locale change');
    A.equal(await preview.locator('tbody tr').count(),5);
@@ -89,8 +225,13 @@ async function browserCase(browser,locale,expected){
    A.match(await preview.locator('h3').textContent(),new RegExp(previewAction),'open price preview translated to '+chosen);
   }
   await page.locator('#nomad360-lang-select').selectOption('en');
+  A.equal(await page.locator('#nomad360-header #nomad360-lang-select').count(),1,
+    'header should keep one live language selector after retranslation');
+  A.equal(await page.locator('#nomad360-header .nomad-nav a').first().textContent(),'Calculator');
+  A.equal(await page.locator('#nomad360-information #nomad360-about h2').textContent(),'About Nomad360');
+
   A.equal(await page.locator('html').getAttribute('lang'),'en');
-  A.match(await page.locator('#nomad360-hero h2').textContent(),/Stop guessing/);
+  A.match(await page.locator('#nomad360-hero h2').textContent(),/Which business would be most profitable/);
   const after=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(after.cashflow.periodPnl.netProfit,before.cashflow.periodPnl.netProfit,'language cannot touch financial model');
   A.equal(after.items.length,5);
@@ -133,8 +274,8 @@ async function browserCase(browser,locale,expected){
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
-  await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Не гадайте/});
-  await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Болжамаңыз/});
-  await browserCase(browser,'en-US',{lang:'en',tagline:/Stop guessing/});
+  await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Каким бизнесом мне выгодно заниматься/});
+  await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Маған қандай бизнеспен айналысқан тиімді/});
+  await browserCase(browser,'en-US',{lang:'en',tagline:/Which business would be most profitable/});
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_UI_PACKAGING_BROWSER_RED',e.stack||e);process.exitCode=1});
