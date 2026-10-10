@@ -111,3 +111,47 @@
  #nomad360-print-sheet .nomad-print-end{border-top:1px solid #b2c9bc;padding-top:10px;font-size:8pt;margin-top:22px}
  #nomad360-print-sheet .nomad-alert{background:#fff6da!important;font-size:10pt}
 }
+
+
+/* Recovered header: full-width navigation over the unchanged calculator shell. */
+.nomad-header{margin:-16px -16px 24px;width:calc(100% + 32px)}
+.nomad-logo{border-radius:50%;object-fit:cover;object-position:center;background:#f5f5f5}
+.nomad-header .nomad-language{display:flex;align-items:center;margin:0;padding:0}
+.nomad-header .nomad-language label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.nomad-header .nomad-panel{z-index:20}
+.nomad-header .nomad-panel a{transition:color .12s ease,background-color .12s ease}
+.nomad-information{max-width:1152px;margin:32px auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid #d5dbe3;border-left:1px solid #d5dbe3;font-family:'IBM Plex Sans',Inter,system-ui,sans-serif;color:#16375a}
+.nomad-info-block{background:#fff;padding:24px;border-right:1px solid #d5dbe3;border-bottom:1px solid #d5dbe3;scroll-margin-top:28px}
+.nomad-info-block h2{margin:0 0 14px;font-size:20px;font-weight:600;line-height:1.3}
+.nomad-info-block h3{margin:16px 0 6px;font-size:15px;font-weight:600}
+.nomad-info-block p{margin:0 0 12px;font-size:14px;line-height:1.6;color:#344c63}
+.nomad-info-block p:last-child{margin-bottom:0}
+.nomad-status{display:inline-block;margin:-4px 0 10px;padding:3px 9px;border:1px solid #d5dbe3;color:#344c63;font-size:12px}
+.nomad-links{display:flex;flex-direction:column;gap:12px}
+.nomad-links a,.nomad-info-block>a{color:#16375a;text-decoration:underline;text-underline-offset:3px}
+.nomad-links a:hover,.nomad-info-block>a:hover{color:#b8573a}
+#nomad360-support{scroll-margin-top:28px}
+@media(min-width:768px){.nomad-header{margin:-32px -32px 24px;width:calc(100% + 64px)}}
+@media(max-width:1199px){
+ .nomad-header.is-open .nomad-panel{box-shadow:0 8px 18px -18px #16375a}
+ .nomad-header .nomad-sec{justify-content:flex-end}
+ .nomad-header .nomad-panel a:focus-visible{outline:2px solid #b8573a;outline-offset:-2px}
+}
+@media(max-width:660px){
+ .nomad-information{grid-template-columns:minmax(0,1fr);margin-top:24px}
+ .nomad-info-block{padding:20px 18px}
+ .nomad-header .nomad-bar{gap:4px}
+ .nomad-header .nomad-brand{gap:7px}
+ .nomad-header .nomad-logo{width:34px;height:34px}
+ .nomad-header .nomad-wordmark{font-size:18px}
+ .nomad-header .nomad-lang{margin-right:7px}
+ .nomad-header .nomad-lang select{padding:0 5px;font-size:12px}
+}
+@media(max-width:360px){
+ .nomad-header .nomad-wordmark{font-size:16px}
+ .nomad-header .nomad-brand{gap:5px}
+ .nomad-header .nomad-logo{width:30px;height:30px}
+ .nomad-header .nomad-bar{padding:0 10px}
+ .nomad-header .nomad-lang{margin-right:4px}
+}
+@media print{#nomad360-header,#nomad360-information{display:none!important}}
