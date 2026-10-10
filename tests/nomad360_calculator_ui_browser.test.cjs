@@ -745,6 +745,17 @@ async function sourceChoiceCase(browser) {
      'Path labels balance lines without orphan words');
    A.equal(await page.locator('#product-source-block [data-product-source="offline-service"]').count(),0,
      'Offline service is not a product procurement route');
+   await page.locator('#product-source-block [data-product-source="resale"]').click();
+   A.equal((await page.locator('#materials-step-name').textContent()).trim(),
+     'Закупки готового товара','Resale title describes purchases without duplicate cost wording');
+   A.equal((await page.locator('#materials-step-help').textContent()).trim(),
+     'Включая логистику и хранение','Resale subtitle is concise and exact');
+   A.equal(await page.locator('#materials-step-question').isVisible(),false,
+     'Resale heading is a label, not a question');
+   A.match((await page.locator('#product-materials-block h2').innerText()).replace(/\\s+/g,' '),
+     /Закупки готового товара.*Футболка/,
+     'Resale heading includes the current product name');
+
   A.deepEqual(errors,[],'Source routing should not throw');
   console.log('NOMAD360_LABEL_ONLY_ROUTE_CHOICES_GREEN');
  }finally{await context.close()}
