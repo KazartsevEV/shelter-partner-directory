@@ -367,11 +367,11 @@
         </div>
     </section>
 
-    <section id="agent-screen" class="max-w-4xl mx-auto hidden">
+    <section id="agent-screen" class="max-w-4xl mx-auto hidden nd-agent-screen">
         <button onclick="showServiceChooser()" class="text-sm text-blue-600 hover:underline mb-4">← К выбору исполнителя</button>
         <div class="card p-6 md:p-8">
-            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Агентская модель</div>
-            <h1 class="text-3xl font-bold text-slate-900">Как мне платят?</h1>
+            <div class="text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Я — агент</div>
+            <h1 class="text-3xl font-bold text-slate-900">Как зарабатываю я?</h1>
             <p class="text-sm text-slate-500 mt-2">В расчёте по каждому прямому расходу можно выбрать плательщика: <strong>Я</strong> или <strong>Партнёр</strong>.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
                 <button onclick="selectServiceMode('agent')" class="card nd-path-card p-5 text-left transition">
@@ -1426,8 +1426,8 @@
     <div class="max-w-7xl mx-auto">
         <header class="mb-8 flex justify-between items-center nd-v1-header">
             <div>
-                <h1 class="text-2xl font-bold text-slate-900">Калькулятор Юнит-Экономики (CPC-модель)</h1>
-                <p class="text-sm text-slate-500 mt-1">Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов</p>
+                <h1 id="service-v1-heading" class="text-2xl font-bold text-slate-900">Калькулятор Юнит-Экономики (CPC-модель)</h1>
+                <p id="service-v1-description" class="text-sm text-slate-500 mt-1">Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов</p>
             </div>
             <button onclick="resetDefaults()" class="text-sm bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-50 transition">
                 ↺ Сбросить значения
@@ -1486,6 +1486,7 @@
 
                 <!-- Summary Table -->
                 <div class="card overflow-hidden nd-v1-report-table">
+                    <div id="agent-owner-summary" class="hidden nd-agent-heading" hidden>Экономика агента</div>
                     <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
                         <h2 class="font-semibold text-slate-700" id="summary-title">Расчётные показатели (Итого за период)</h2>
                     </div>
@@ -1499,7 +1500,7 @@
                 </div>
 
                 <section class="card p-4 nd-v1-transition-panel" id="online-v2-entry">
-                  <h2 class="font-bold text-slate-800">Добавить онлайн-услугу в общий портфель V2</h2>
+                  <h2 id="online-v2-entry-heading" class="font-bold text-slate-800">Добавить онлайн-услугу в общий портфель V2</h2>
                   <p class="text-xs text-slate-600 mt-2">Переносим рассчитанную экономику именно вашего бизнеса. В агентской ветке учитываем ваше вознаграждение, а оборот партнёра не записываем как вашу выручку.</p>
                   <label class="block text-xs mt-3">Название услуги
                     <input id="online-v2-name" class="input-field mt-1" type="text" placeholder="Например, консультация по маркетингу">
@@ -1508,6 +1509,10 @@
                   <p id="online-v2-error" role="alert" class="text-sm mt-2 text-rose-700 hidden" hidden></p>
                 </section>
                 <!-- Monthly Breakdown Table -->
+                <div id="agent-principal-context" class="hidden nd-agent-principal" hidden>
+                    <h2>Как зарабатывает принципал</h2>
+                    <p>Если его модель бизнеса эффективна, он сможет оплачивать ваши услуги.</p>
+                </div>
                 <div class="card overflow-hidden nd-v1-report-table">
                     <div class="bg-slate-50 px-4 sm:px-5 py-3 border-b border-slate-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                         <h2 class="font-semibold text-slate-700">Помесячная разбивка</h2>
@@ -7394,8 +7399,23 @@
                 context.textContent = 'Для каждой ненулевой статьи расходов выберите «Кто платит»: Я или Партнёр. Нулевые расходы распределять не нужно. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса.';
             }
 
+            const agentView=mode==='agent';
+            const textByRole=[
+              ['service-v1-heading',agentView?'Я — агент':'Калькулятор Юнит-Экономики (CPC-модель)'],
+              ['service-v1-description',agentView?'Как зарабатываю я: вознаграждение, мои расходы и налоги.':'Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов'],
+              ['online-v2-entry-heading',agentView?'Добавить модель агента в портфель V2':'Добавить онлайн-услугу в общий портфель V2'],
+              ['online-v2-add',agentView?'Перенести экономику агента в V2 →':'Добавить рассчитанную услугу в V2 →']
+            ];
+            textByRole.forEach(([id,value])=>{
+              const node=document.getElementById(id);
+              if(node)node.textContent=value;
+            });
             document.getElementById('summary-title').textContent =
-                mode === 'agent' ? 'Экономика агента и партнёра (Итого за период)' : 'Расчётные показатели (Итого за период)';
+                agentView?'Экономика агента и принципала (итоги за период)':'Расчётные показатели (Итого за период)';
+            ['agent-owner-summary','agent-principal-context'].forEach(id=>{
+              const node=document.getElementById(id);
+              if(node){node.hidden=!agentView;node.classList.toggle('hidden',!agentView);}
+            });
             const marketingCard=document.getElementById('res-marketing-romi-card');
             if(marketingCard)marketingCard.hidden=mode==='agent';
             document.querySelector('#calculator-screen .nd-v1-metrics')
@@ -7486,11 +7506,11 @@
                 document.getElementById('res-profit-sub').textContent = 'Не выбран плательщик: ' + missingPayersText;
                 document.getElementById('res-profit').textContent = '—';
 
-                document.getElementById('res-romi-label').textContent = 'Расчётная прибыль партнёра';
+                document.getElementById('res-romi-label').textContent = 'Расчётная прибыль принципала';
                 document.getElementById('res-romi-sub').textContent = 'Не распределены: ' + missingPayersText;
                 document.getElementById('res-romi').textContent = '—';
 
-                document.getElementById('res-third-label').textContent = 'Накопленный cash flow партнёра';
+                document.getElementById('res-third-label').textContent = 'Накопленный cash flow принципала';
                 document.getElementById('res-third-sub').textContent = 'Расчёт включится автоматически после последнего выбора';
                 document.getElementById('res-cpa').textContent = '—';
                 document.getElementById('res-cpa-sep').textContent = '';
@@ -7615,7 +7635,7 @@
                 { label: 'Мне остаётся после расходов и налога', key: 'mAgentNet', fmt: 'money' },
                 { label: 'Накопленно мне остаётся', key: 'mAgentCum', fmt: 'money' },
 
-                { section: 'Партнёр' },
+                { section: 'Принципал' },
                 { label: 'Прямые расходы партнёра', key: 'mPartnerDirect', fmt: 'money' },
                 { label: 'Комиссия эквайринга партнёра', key: 'mAcq', fmt: 'money' },
                 { label: 'Вознаграждение агенту', key: 'mAgentIncome', fmt: 'money' },
@@ -7822,11 +7842,11 @@
                 profitSub.textContent = 'Вознаграждение минус мои расходы и мой налог на оборот';
                 setV1DisplayedMoney('res-profit',totalMonth.mAgentNet || 0);
 
-                romiLabel.textContent = 'Расчётная прибыль партнёра';
+                romiLabel.textContent = 'Расчётная прибыль принципала';
                 romiSub.textContent = 'P&L за период; помесячный cash flow показан отдельно';
                 setV1DisplayedMoney('res-romi',accountingNetProfit);
 
-                thirdLabel.textContent = 'Накопленный cash flow партнёра';
+                thirdLabel.textContent = 'Накопленный cash flow принципала';
                 thirdSub.textContent = 'По помесячному сценарию';
                 setV1DisplayedMoney('res-cpa',cumCash);
                 cpaSep.textContent = '';
