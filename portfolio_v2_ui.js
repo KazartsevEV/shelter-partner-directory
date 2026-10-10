@@ -33,6 +33,7 @@ function open(options={}){
  sequence=Math.max(0,...model.skus.map(v=>Number(String(v.id).replace(/\D/g,''))||0),
  ...model.resources.map(v=>Number(String(v.id).replace(/\D/g,''))||0))+1;
  root.showOnly('portfolio-v2-screen');
+ document.getElementById('portfolio-v2-screen')?.classList.remove('nd-v2-linked-active');
  render();
  if(!options.resume)save();
 }
