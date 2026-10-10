@@ -909,6 +909,27 @@ body .nd-v1-screen .nd-v1-metrics :is(#res-profit-sub,#res-romi-sub,#res-third-s
   color:var(--nd-v1-muted) !important;
   font-size:15px !important;
 }
+/* Guard grid intrinsic sizing: wide financial tables scroll within their white
+   panels and must never increase the document's mobile scroll width. */
+body .nd-v1-service,
+body .nd-v1-service > .max-w-7xl,
+body .nd-v1-service .grid,
+body .nd-v1-service .lg\\:col-span-4,
+body .nd-v1-service .lg\\:col-span-8,
+body .nd-v1-service .nd-v1-report-table{
+  min-width:0;
+  max-width:100%;
+}
+body .nd-v1-service .nd-v1-report-table{
+  width:100%;
+  overflow:hidden;
+}
+body .nd-v1-service .nd-v1-report-table :is(.overflow-x-auto,#monthly-scroll){
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  overflow-x:auto;
+}
 /* Data entry: same fields, numeric alignment, focus/hover and action hierarchy. */
 body .nd-v1-screen :is(.input-field,input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea){
   background:#fff;
