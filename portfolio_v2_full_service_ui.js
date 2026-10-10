@@ -40,7 +40,7 @@
  function mount(){const node=el('full-service-screen');if(!node||!input)return;const t=labels();
   node.innerHTML='<div class="nd-full-service-shell">'+
    '<button type="button" id="full-service-back" class="nd-full-service-secondary">'+t.back+'</button>'+
-   '<div class="nd-full-service-header"><p>V2 · '+escaped(source?.name||'')+'</p><h1>'+t.head+'</h1>'+
+   '<div class="nd-full-service-header"><p>V1 · '+escaped(source?.name||'')+'</p><h1>'+t.head+'</h1>'+
    '<p class="nd-full-service-v1-info">'+escaped(t.price)+': <b>'+money(Number(input.priceGross))+'</b> · '+
    escaped(lang()==='ru'?'Прогноз / месяц':lang()==='en'?'Forecast / month':'Болжам / ай')+': '+
    escaped(String(input.monthlyForecast))+'</p></div>'+

@@ -411,13 +411,6 @@
 
     <section id="product-screen" class="max-w-4xl mx-auto hidden nd-v1-screen nd-v1-product">
         <button id="product-main-back" onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
-        <div id="full-service-offline-route" class="nd-full-service-route-banner rounded-2xl border border-slate-200 bg-white p-5 mb-5 hidden" hidden>
-            <h2 id="full-service-offline-route-heading" class="font-bold text-xl text-slate-900">Полный расчёт офлайн-услуги</h2>
-            <p id="full-service-offline-route-help" class="text-sm text-slate-600 mt-2">Шаг 1 из 2. Укажите услугу, расходы, прогноз клиентов и налоги. После этого откройте полный денежный календарь.</p>
-            <button type="button" id="full-service-offline-top-action" onclick="openFullServiceFromOffline()" class="nd-cta-primary p-3 mt-4 w-full">Перейти к полному денежному потоку →</button>
-            <p id="full-service-offline-route-error" class="text-sm text-rose-700 mt-2" role="alert"></p>
-        </div>
-
         <div id="product-demo-banner" class="hidden rounded-2xl border-2 border-blue-400 bg-blue-50 p-4 mb-5 text-slate-900" hidden>
             <div class="text-lg font-black">ДЕМО: калькулятор заполнен реальными тестовыми числами</div>
             <p class="text-sm mt-1">Шоппер: 106 ед. материалов → 100 готовых штук → 24 продажи в месяц. Казахстан, 2 рабочих. Это демонстрация, не ваши сохранённые данные.</p>
@@ -1418,17 +1411,17 @@
                     </div>
 
                     <div id="product-tax-price-list" class="mt-5 space-y-3"></div>
-                <div class="mt-6 rounded-2xl border-2 border-emerald-300 bg-emerald-950 text-white p-5">
+                <div id="product-v2-portfolio-gateway" class="mt-6 rounded-2xl border-2 border-emerald-300 bg-emerald-950 text-white p-5">
                     <div class="text-xs uppercase tracking-widest text-emerald-300 font-semibold">Следующий этап · V2</div>
                     <h2 class="text-xl font-black mt-2">Собрать портфель товаров и услуг</h2>
                     <p class="text-sm text-emerald-100 mt-2">Себестоимость, CAC, рекламный прогноз, налоги и диапазон цен уже рассчитаны выше. Дальше — объединение ресурсов, помещений, работников, сертификатов и бюджета без повторного заполнения карточек.</p>
                     <button type="button" onclick="openLinkedPortfolioFromProducts()" class="nd-cta-primary mt-4 w-full p-4 font-bold">Перейти к портфельной экономике V2 →</button>
                     <p id="linked-v2-entry-error" class="hidden mt-3 rounded-lg bg-rose-50 text-rose-900 p-3 text-sm font-semibold" role="alert" hidden></p>
                 </div>
-                    <div class="mt-6 pt-5 border-t aggregate-separator"><div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
+                    <div id="product-v1-aggregate-report" class="mt-6 pt-5 border-t aggregate-separator"><div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
                     <div id="product-portfolio-business-summary" class="aggregate-price-card mt-4"></div></div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 pt-5 border-t aggregate-separator">
+                    <div id="product-v1-export-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 pt-5 border-t aggregate-separator">
                         <button type="button" onclick="saveProductCalculationToBrowser()" class="aggregate-action-confirm">
                             Сохранить результат в браузере
                         </button>
@@ -1440,10 +1433,8 @@
                 </div>
             </div>
         </div>
-        <div id="full-service-offline-entry" class="card p-5 my-5 hidden" hidden>
-          <h2 class="font-bold text-xl">Полная денежная модель</h2>
-          <p class="text-sm mt-2">Заполните расчёт V1, себестоимость, рекламу и налог. Данные перейдут в денежный календарь без повторного ввода.</p>
-          <button type="button" class="nd-cta-primary p-3 w-full mt-3" onclick="openFullServiceFromOffline()">Рассчитать денежный поток →</button>
+        <div id="full-service-offline-entry" class="my-5 hidden" hidden>
+          <button type="button" id="full-service-offline-action" class="nd-cta-primary p-4 w-full" onclick="openFullServiceFromOffline()">Рассчитать полную экономику услуги →</button>
           <p id="full-service-offline-error" role="alert" class="text-sm text-rose-700 mt-2"></p>
         </div>
     </section>
@@ -1455,13 +1446,6 @@
         <button onclick="showServiceChooser()" class="text-sm text-blue-600 hover:underline">← Услуги</button>
         <span id="mode-badge" class="text-xs bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full font-semibold"></span>
     </div>
-    <div id="full-service-online-route" class="max-w-7xl mx-auto nd-full-service-route-banner rounded-2xl border border-slate-200 bg-white p-5 mb-5 hidden" hidden>
-        <h2 id="full-service-online-route-heading" class="font-bold text-xl text-slate-900">Полный расчёт онлайн-услуги</h2>
-        <p id="full-service-online-route-help" class="text-sm text-slate-600 mt-2">Шаг 1 из 2. Укажите воронку, клиентов и расходы. Шаг 2 — НДС, налог с прибыли или оборота, кредит и денежный поток по месяцам.</p>
-        <button type="button" id="full-service-online-top-action" onclick="openFullServiceFromOnline()" class="nd-cta-primary p-3 mt-4 w-full">Перейти к полному денежному потоку →</button>
-        <p id="full-service-online-route-error" class="text-sm text-rose-700 mt-2" role="alert"></p>
-    </div>
-
     <div class="max-w-7xl mx-auto">
         <header class="mb-8 flex justify-between items-center nd-v1-header">
             <div>
@@ -1476,7 +1460,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             <!-- INPUTS -->
-            <div class="lg:col-span-4 space-y-6">
+            <div id="service-inputs-column" class="lg:col-span-4 space-y-6">
                 <div class="card p-5 nd-v1-input-panel">
                     <h2 class="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
@@ -1491,11 +1475,17 @@
                         * Налоги партнёра и агента в модели считаются помесячно, без учёта фактических налоговых периодов и сроков уплаты:
                         они зависят от налогового режима каждого участника.
                     </p>
+                    <div id="full-service-online-entry" class="mt-5 hidden" hidden>
+                        <label for="full-service-online-name" id="full-service-online-name-label" class="block text-sm font-medium text-slate-700 mb-2">Название услуги</label>
+                        <input id="full-service-online-name" type="text" class="input-field w-full mb-4" autocomplete="off" placeholder="Например, консультация по маркетингу">
+                        <button type="button" id="full-service-online-action" onclick="openFullServiceFromOnline()" class="nd-cta-primary w-full p-4 font-bold">Рассчитать полную экономику услуги →</button>
+                        <p id="full-service-online-error" class="text-sm text-rose-700 mt-2" role="alert"></p>
+                    </div>
                 </div>
             </div>
 
             <!-- RESULTS -->
-            <div class="lg:col-span-8 space-y-6">
+            <div id="service-results-column" class="lg:col-span-8 space-y-6">
                 
                 <!-- Summary Metrics -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 nd-v1-metrics">
@@ -1545,8 +1535,6 @@
                     <input id="online-v2-name" class="input-field mt-1" type="text" placeholder="Например, консультация по маркетингу">
                   </label>
                   <button type="button" id="online-v2-add" onclick="openLinkedPortfolioFromOnline()" class="nd-cta-primary mt-3 w-full p-3 font-bold">Добавить рассчитанную услугу в V2 →</button>
-                  <button type="button" id="full-service-online-action" class="nd-cta-primary mt-3 w-full p-3 font-bold hidden" hidden onclick="openFullServiceFromOnline()">Рассчитать полный денежный поток →</button>
-                  <p id="full-service-online-error" role="alert" class="text-sm mt-2 text-rose-700"></p>
                   <p id="online-v2-error" role="alert" class="text-sm mt-2 text-rose-700 hidden" hidden></p>
                 </section>
                 <!-- Monthly Breakdown Table -->
@@ -1853,56 +1841,52 @@
         }
         let serviceFinancialMode='simple';
         function syncServiceFinancialRoute() {
-            // The full route reuses V1 input fields, not the V1 result: show
-            // an explicit full-V2 journey at the BEGINNING of each form.
+            // V1 means ONE service (simple/full are depth variants).
+            // V2 is the optional multi-item portfolio, never an alias for full.
             const full=serviceFinancialMode==='full';
             const offline=full&&productSource==='offline-service';
             const toggle=(id,visible)=>{
                 const node=document.getElementById(id);
                 if(node){node.hidden=!visible;node.classList.toggle('hidden',!visible);}
             };
-            toggle('full-service-offline-route',offline);
+            document.getElementById('calculator-screen')?.classList.toggle('nd-full-single-online',full);
+            document.getElementById('product-screen')?.classList.toggle('nd-full-single-offline',offline);
+            // Original individual-service inputs remain editable. Its interim
+            // V1 summary/portfolio controls are shown in simple mode only.
+            toggle('full-service-online-entry',full);
+            toggle('online-v2-entry',!full);
             toggle('full-service-offline-entry',offline);
-            toggle('full-service-online-route',full);
-            toggle('full-service-online-action',full);
-            toggle('online-v2-add',!full);
-            const heading=document.getElementById('online-v2-entry-heading');
+            if(offline) {
+                const end=document.getElementById('product-tax-block');
+                const action=document.getElementById('full-service-offline-entry');
+                if(end&&action&&action.parentElement!==end)end.appendChild(action);
+            }
             const language=window.Nomad360UI?.getLanguage?.()||'ru';
-            const names={
-              ru:['Полный расчёт офлайн-услуги','Шаг 1 из 2. Укажите услугу, расходы, прогноз клиентов и налоги. Затем откройте полный денежный календарь.',
-                'Полный расчёт онлайн-услуги','Шаг 1 из 2. Укажите воронку, клиентов и расходы. Шаг 2 — НДС, налоги, кредит и денежный поток.',
-                'Перейти к полному денежному потоку →','Полная денежная модель онлайн-услуги','Данные услуги → полная модель V2 с НДС, налогами и кредитом.'],
-              en:['Full offline service calculation','Step 1 of 2. Enter service costs, customer forecast and taxes. Then open the full cash calendar.',
-                'Full online service calculation','Step 1 of 2. Enter funnel, customers and expenses. Step 2 covers VAT, taxes, credit and cash flow.',
-                'Open full cash flow →','Full online service cash flow','Service inputs → complete V2 model including VAT, taxes and credit.'],
-              kk:['Офлайн қызметтің толық есебі','1/2 қадам. Қызмет шығындарын, клиент болжамын және салықтарды енгізіңіз. Содан кейін толық ақша күнтізбесін ашыңыз.',
-                'Онлайн қызметтің толық есебі','1/2 қадам. Сату жолын, клиенттер мен шығындарды енгізіңіз. 2-қадам: ҚҚС, салық, несие және ақша ағыны.',
-                'Толық ақша ағынын ашу →','Онлайн қызметтің толық ақша ағыны','Қызмет деректері → ҚҚС, салық және несие бар толық V2 үлгісі.']
+            const labels={
+              ru:{online:'Полный расчёт онлайн-услуги',desc:'Одна услуга. Заполните клиентов, воронку и расходы; затем рассчитайте НДС, налоги, кредит и денежный поток.',
+                button:'Рассчитать полную экономику услуги →',offline:'Полный расчёт · офлайн-услуга',intro:'Заполнить расходы услуги'},
+              en:{online:'Full calculation for one online service',desc:'One service. Enter customers, funnel and costs, then calculate VAT, taxes, financing and cash flow.',
+                button:'Calculate complete service finances →',offline:'Full calculation · offline service',intro:'Enter service costs'},
+              kk:{online:'Бір онлайн қызметтің толық есебі',desc:'Бір қызмет. Клиенттерді, сату жолын және шығындарды енгізіңіз, содан кейін ҚҚС, салық, несие және ақша ағынын есептеңіз.',
+                button:'Қызметтің толық есебін шығару →',offline:'Толық есеп · офлайн қызмет',intro:'Қызмет шығындарын енгізу'}
             };
-            const t=names[language]||names.ru;
-            const set=(id,label)=>{const node=document.getElementById(id);if(node)node.textContent=label;};
-            set('full-service-offline-route-heading',t[0]);
-            set('full-service-offline-route-help',t[1]);
-            set('full-service-online-route-heading',t[2]);
-            set('full-service-online-route-help',t[3]);
-            set('full-service-offline-top-action',t[4]);
-            set('full-service-online-top-action',t[4]);
-            if(full){
-                set('service-v1-heading',t[5]);
-                set('service-v1-description',t[6]);
-                set('online-v2-entry-heading',t[5]);
-                set('full-service-online-action',t[4]);
-                set('product-intro-category',language==='en'?'Full calculation · offline service':
-                    language==='kk'?'Толық есеп · офлайн қызмет':'Полный расчёт · офлайн-услуга');
-                set('product-intro-submit-label',language==='en'?'Enter service costs':
-                    language==='kk'?'Қызмет шығындарын енгізу':'Заполнить расходы услуги');
-            }else if(productSource==='offline-service'){
+            const t=labels[language]||labels.ru;
+            const set=(id,value)=>{const node=document.getElementById(id);if(node)node.textContent=value;};
+            if(full) {
+                set('service-v1-heading',t.online);
+                set('service-v1-description',t.desc);
+                set('full-service-online-action',t.button);
+                set('full-service-online-name-label',language==='en'?'Service name':
+                    language==='kk'?'Қызмет атауы':'Название услуги');
+                set('full-service-offline-action',t.button);
+                if(offline){
+                    set('product-intro-category',t.offline);
+                    set('product-intro-submit-label',t.intro);
+                }
+            } else if(productSource==='offline-service') {
+                // Existing single-service V1 simple labels are kept.
                 set('product-intro-category','Офлайн-услуга');
                 set('product-intro-submit-label','Рассчитать услугу');
-            }
-            if(!full&&heading){
-                heading.textContent=typeof serviceMode!=='undefined'&&serviceMode==='agent'?
-                    'Добавить модель агента в портфель V2':'Добавить онлайн-услугу в общий портфель V2';
             }
         }
         function selectServiceFinancialMode(mode) {
@@ -1915,10 +1899,8 @@
         }
         function openFullServiceFromOffline() {
             const error=document.getElementById('full-service-offline-error');
-            const topError=document.getElementById('full-service-offline-route-error');
-            const fail=message=>{if(error)error.textContent=message;if(topError)topError.textContent=message;return false;};
+            const fail=message=>{if(error)error.textContent=message;return false;};
             if(error)error.textContent='';
-            if(topError)topError.textContent='';
             try {
                 if(productSource!=='offline-service'||!productName)
                   throw Error('Сначала заполните название и расчёт офлайн-услуги.');
@@ -1968,13 +1950,13 @@
         }
         function openFullServiceFromOnline() {
             const error=document.getElementById('full-service-online-error');
-            const topError=document.getElementById('full-service-online-route-error');
             if(error)error.textContent='';
-            if(topError)topError.textContent='';
             try{
                 if(!onlineV1PortfolioSnapshot)throw Error('Сначала завершите онлайн-расчёт V1.');
                 const sku=window.LinkedPortfolioOnlineAdapter.build({...onlineV1PortfolioSnapshot,
-                  name:document.getElementById('online-v2-name')?.value.trim()||'Онлайн-услуга',
+                  name:(serviceFinancialMode==='full'?
+                      document.getElementById('full-service-online-name')?.value.trim():null)||
+                    document.getElementById('online-v2-name')?.value.trim()||'Онлайн-услуга',
                   id:'v1-online-full-service'});
                 const monthlyDeals=onlineV1PortfolioSnapshot.period?.monthlyDeals;
                 const data={monthlyForecast:Array.isArray(monthlyDeals)&&monthlyDeals.length?
@@ -1991,7 +1973,7 @@
                   commissionPct:sku.variableSalesPct,reservePct:0,funding:'own',
                   annualRatePct:0,creditMonths:1};
                 return window.Nomad360FullServiceUI.open(data,{kind:'online',name:sku.name,id:sku.id,role:sku.onlineRole});
-            }catch(err){if(error)error.textContent=err.message;if(topError)topError.textContent=err.message;return false;}
+            }catch(err){if(error)error.textContent=err.message;return false;}
         }
         document.addEventListener('nomad360:languagechange',syncServiceFinancialRoute);
         function showServiceWorkChooser() { showOnly('service-work-screen'); }

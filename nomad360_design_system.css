@@ -1562,3 +1562,32 @@ body #full-service-screen #full-service-message{
   min-width:0;
   max-width:100%;
 }
+
+
+/* TZ02 / V1 full = ONE service; V2 = explicit multi-item portfolio.
+   Preserve the original simple-mode V1 layout and all calculation inputs. */
+#calculator-screen.nd-full-single-online #service-results-column {
+  display: none !important;
+}
+#calculator-screen.nd-full-single-online #service-inputs-column {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 780px;
+  margin-inline: auto;
+  min-width: 0;
+}
+#calculator-screen.nd-full-single-online #service-inputs-column .nd-v1-input-panel {
+  width: 100%;
+  min-width: 0;
+}
+#product-screen.nd-full-single-offline #product-v2-portfolio-gateway,
+#product-screen.nd-full-single-offline #product-v1-aggregate-report,
+#product-screen.nd-full-single-offline #product-v1-export-buttons,
+#product-screen.nd-full-single-offline #product-browser-save-status,
+#product-screen.nd-full-single-offline #product-assortment-gate .nd-assortment-more,
+#product-screen.nd-full-single-offline #product-assortment-gate #add-product-button {
+  display: none !important;
+}
+#product-screen.nd-full-single-offline #product-assortment-gate .grid {
+  grid-template-columns: minmax(0, 1fr);
+}

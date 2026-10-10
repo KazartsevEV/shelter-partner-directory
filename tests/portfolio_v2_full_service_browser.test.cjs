@@ -16,24 +16,45 @@ const {pathToFileURL}=require('node:url');
   // Simple mode must remain the original V1 route.
   await page.locator('#service-work-online').click();
   await page.locator('#service-screen button[onclick="selectServiceMode(\'self\')"]').click();
-  A.equal(await page.locator('#full-service-online-route').isVisible(),false);
+  A.equal(await page.locator('#full-service-online-entry').isVisible(),false,
+    'Simple V1 must not display full-service single-item action');
+  A.equal(await page.locator('#online-v2-entry').isVisible(),true);
   A.equal(await page.locator('#online-v2-add').isVisible(),true);
+  A.equal(await page.locator('#service-results-column').isVisible(),true);
   await page.evaluate(()=>showServiceWorkChooser());
   await page.locator('#service-mode-full').click();
   A.equal(await page.locator('#service-mode-full').getAttribute('aria-pressed'),'true');
   await page.locator('#service-work-online').click();
   await page.locator('#service-screen button[onclick="selectServiceMode(\'self\')"]').click();
-  A.equal(await page.locator('#full-service-online-route').isVisible(),true,
-    'Full online mode must be clearly visible before V1 data entry');
-  A.equal(await page.locator('#online-v2-add').isVisible(),false,
-    'Full online route must not offer the simplified V1-to-portfolio action');
+  A.equal(await page.locator('#full-service-online-route').count(),0,
+    'Full single-service V1 must have no duplicate introductory banner');
+  A.equal(await page.locator('#full-service-online-entry').isVisible(),true);
+  A.equal(await page.locator('#online-v2-entry').isVisible(),false,
+    'Multi-item portfolio V2 does not belong inside the single-service V1 form');
+  A.equal(await page.locator('#service-results-column').isVisible(),false,
+    'The simplified results of V1 must not duplicate the full single-service report');
   A.equal(await page.locator('#full-service-online-action').isVisible(),true);
-  A.match(await page.locator('#service-v1-heading').textContent(),/Полная денежная модель/);
+  A.match(await page.locator('#service-v1-heading').textContent(),/Полный расчёт онлайн-услуги/);
+  const onlineOrder=await page.evaluate(()=>({
+    inputs:document.getElementById('inputs-container').getBoundingClientRect().top,
+    action:document.getElementById('full-service-online-action').getBoundingClientRect().top
+  }));
+  A.ok(onlineOrder.action>onlineOrder.inputs,
+    'Complete-service calculation follows the input fields, never precedes them');
+  await page.locator('#full-service-online-name').fill('Онлайн-консультация');
+  await page.locator('#full-service-online-action').click();
+  A.equal(await page.locator('#full-service-screen').isVisible(),true,
+    'Real online click must open the full financial model of ONE service');
+  A.match(await page.locator('.nd-full-service-header > p').first().textContent(),
+    /V1 · Онлайн-консультация/,'A full V1 service retains its own name');
+  await page.locator('#full-service-back').click();
+  A.equal(await page.locator('#calculator-screen').isVisible(),true);
   await page.evaluate(()=>showServiceWorkChooser());
   await page.locator('#service-work-offline').click();
-  A.equal(await page.locator('#full-service-offline-entry').isVisible(),true);
-  A.equal(await page.locator('#full-service-offline-route').isVisible(),true,
-    'Full offline mode must show a distinct beginning-of-form V2 path');
+  A.equal(await page.locator('#full-service-offline-route').count(),0,
+    'No duplicate heading or premature CTA in one offline V1 service');
+  A.equal(await page.locator('#full-service-offline-entry').isVisible(),false,
+    'Full result action appears only after the business tax/price stage');
   A.match(await page.locator('#product-intro-category').textContent(),/Полный расчёт/);
   A.equal(await page.locator('#product-screen').isVisible(),true);
   // Integration: read actual V1 service field values and equipment rows.
@@ -58,13 +79,41 @@ const {pathToFileURL}=require('node:url');
     // inventory, capacity, amortization or the service funnel.
     productBusinessTaxType='turnover';
     document.getElementById('own-business-tax-pct').value='10';
-    calculateProductPortfolio=()=>({pricingReady:true,items:[{id:currentProductSequence,price:100}],taxPriceMultiplier:1});
     return {forecast:item.forecastUnitsPerMonth,fixed:item.productionFixedMonthly};
   });
   A.equal(original.forecast,20,'Actual V1 ad funnel determines monthly service demand');
-  await page.locator('#full-service-offline-top-action').click();
+  const beforeAssortment=await page.evaluate(()=>({
+    mode:serviceFinancialMode,source:productSource,taxHidden:document.getElementById('product-tax-block').hidden,
+    actionHidden:document.getElementById('full-service-offline-entry').hidden,
+    parent:document.getElementById('full-service-offline-entry').parentElement?.id
+  }));
+  await page.locator('#assortment-complete-button').click();
+  // Only the V1 approved price is stubbed; original V1 tax/pricing rendering
+  // must execute before that stub is installed or it would corrupt the gate.
+  await page.evaluate(()=>{
+    calculateProductPortfolio=()=>({pricingReady:true,items:[{id:currentProductSequence,price:100}],taxPriceMultiplier:1});
+  });
+  console.log('TZ02_SINGLE_V1_GATE_ERRORS',JSON.stringify(errors));
+  const afterAssortment=await page.evaluate(()=>{
+    const tax=document.getElementById('product-tax-block'),a=document.getElementById('full-service-offline-entry');
+    return {mode:serviceFinancialMode,source:productSource,taxHidden:tax.hidden,taxCls:tax.className,
+      actionHidden:a.hidden,actionCls:a.className,parent:a.parentElement?.id,
+      actionCss:getComputedStyle(a).display,taxCss:getComputedStyle(tax).display,
+      ownHidden:document.getElementById('product-own-form').hidden,
+      ancestorIds:[a,a.parentElement,a.parentElement?.parentElement,a.parentElement?.parentElement?.parentElement].map(x=>[x?.id,x?.hidden,x?.className])
+    };
+  });
+  console.log('TZ02_SINGLE_V1_OFFLINE_GATE_DIAG',JSON.stringify({before:beforeAssortment,after:afterAssortment}));
+  A.equal(await page.locator('#full-service-offline-entry').isVisible(),true,
+    'Single-service result action is only available after confirming the service');
+  A.equal(await page.locator('#product-v2-portfolio-gateway').isVisible(),false,
+    'V2 is a separate portfolio, not the full calculation of one service');
+  A.equal(await page.locator('#product-v1-aggregate-report').isVisible(),false,
+    'Hide obsolete simplified V1 monthly results in full mode');
+  await page.locator('#full-service-offline-action').click();
   A.equal(await page.locator('#full-service-screen').isVisible(),true,
-    'Real click on prominently placed full-mode CTA reaches the V2 finance screen');
+    'Real user click computes full V1 finance for ONE service');
+  A.match(await page.locator('.nd-full-service-header > p').first().textContent(),/^V1 ·/);
   const adapted=await page.evaluate(()=>Nomad360FullServiceUI.getInput());
   A.equal(adapted.monthlyForecast,20);
   A.equal(adapted.capacity,250);
