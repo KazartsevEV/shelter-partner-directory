@@ -1007,6 +1007,13 @@ body .nd-v1-screen .nd-v1-report-table .monthly-value-col{
   max-width:125px;
   white-space:nowrap;
 }
+/* Financial loss/validation red takes priority over the neutral table typography. */
+body .nd-v1-screen .nd-v1-report-table :is(
+  .text-red-500,.text-red-600,.text-red-700,
+  .text-rose-600,.text-rose-700,.text-rose-900
+){
+  color:#b91c1c !important;
+}
 /* Goods have older nested colored wrappers; neutralize decorative green,
    violet and blue surfaces while preserving alerts and actual selection state. */
 body .nd-v1-product div[class*="bg-blue-"]:not([role="alert"]),
