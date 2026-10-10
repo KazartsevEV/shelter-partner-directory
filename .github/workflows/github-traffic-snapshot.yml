@@ -1,0 +1,41 @@
+name: GitHub repository traffic snapshot
+
+on:
+  schedule:
+    - cron: '19 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-repository-traffic-snapshot
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Read repository traffic from GitHub Insights
+        env:
+          NOMAD360_TRAFFIC_TOKEN: ${{ secrets.NOMAD360_TRAFFIC_TOKEN }}
+        run: node scripts/update_github_repo_traffic.cjs
+      - name: Publish public snapshot
+        run: |
+          if git diff --quiet -- nomad360_repo_traffic.json; then
+            echo "Repository traffic snapshot is already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add nomad360_repo_traffic.json
+          git commit -m "data: refresh GitHub Insights repository traffic"
+          git pull --rebase origin main
+          git push origin HEAD:main
