@@ -25,7 +25,7 @@
     taxRate:'Ставка налога, %',creditOnly:'Параметры кредита',creditHint:'Появляются только при выборе финансирования «Кредит».',
     capitalNote:'Сколько денег потребуется для старта, включая резерв',profitNote:'Прибыль за весь выбранный период после налогов',freeNote:'Деньги к концу периода за вычетом резерва',
     peakNote:'Максимальная потребность в деньгах',firstNote:'Первый месяц с положительным операционным потоком',paybackNote:'Когда накопленные поступления возместят затраты',
-    monthsUnit:'мес.',monthShort:'мес.',noPositive:'Нет за выбранный период',portfolioHelp:'Есть несколько товаров или услуг? Соберите общий портфель V2 с общими расходами.',
+    monthsUnit:'мес.',monthShort:'мес.',noPositive:'Нет за выбранный период',ownFunding:'Свои вложения',portfolioHelp:'Есть несколько товаров или услуг? Соберите общий портфель V2 с общими расходами.',
     actions:'Сохранение и следующий шаг',firstPrefix:'Первый месяц',forecastCaveat:'Дробное число означает ожидаемое количество клиентов, а не часть человека.'},
   en:{step:'Calculation settings',stepHint:'Review taxes, time horizon and funding. Results update whenever you change an input.',
     summary:'Results for the selected period',summaryHint:'Amounts are in the calculation currency. Fractional clients reflect expected demand.',
@@ -34,7 +34,7 @@
     taxRate:'Tax rate, %',creditOnly:'Loan details',creditHint:'These fields appear only when you select loan funding.',
     capitalNote:'Money needed to start, including the reserve',profitNote:'Net profit for the whole selected period',freeNote:'End-of-period money after the reserve',
     peakNote:'Largest temporary funding need',firstNote:'First month with positive operating cash flow',paybackNote:'When cumulative inflows cover investment',
-    monthsUnit:'months',monthShort:'month',noPositive:'None in the selected period',portfolioHelp:'Several goods or services? Build a V2 portfolio to share business costs.',
+    monthsUnit:'months',monthShort:'month',noPositive:'None in the selected period',ownFunding:'Owner funding',portfolioHelp:'Several goods or services? Build a V2 portfolio to share business costs.',
     actions:'Save and continue',firstPrefix:'First month',forecastCaveat:'Fractional customers represent expected demand, not part of a person.'},
   kk:{step:'Есептеу шарттары',stepHint:'Салықты, кезеңді және қаржыландыруды тексеріңіз. Өрістер өзгерсе, нәтиже дереу жаңарады.',
     summary:'Таңдалған кезеңнің нәтижесі',summaryHint:'Барлық сома есептеу валютасымен берілген. Бөлшек клиент саны — күтілетін сұраныс.',
@@ -43,7 +43,7 @@
     taxRate:'Салық мөлшерлемесі, %',creditOnly:'Несие шарттары',creditHint:'Тек «Несие» таңдалғанда көрсетіледі.',
     capitalNote:'Резервпен бірге іске қосуға қажет ақша',profitNote:'Таңдалған кезеңдегі салықтан кейінгі пайда',freeNote:'Кезең соңындағы резервтен тыс ақша',
     peakNote:'Ең жоғары ақша қажеттілігі',firstNote:'Операциялық ақша ағыны оң болған алғашқы ай',paybackNote:'Жинақталған түсімдер шығындарды жапқан кезең',
-    monthsUnit:'ай',monthShort:'ай',noPositive:'Таңдалған кезеңде жоқ',portfolioHelp:'Бірнеше тауар немесе қызмет бар ма? Ортақ шығындар үшін V2 портфелін жинаңыз.',
+    monthsUnit:'ай',monthShort:'ай',noPositive:'Таңдалған кезеңде жоқ',ownFunding:'Өз қаражаты',portfolioHelp:'Бірнеше тауар немесе қызмет бар ма? Ортақ шығындар үшін V2 портфелін жинаңыз.',
     actions:'Сақтау және жалғастыру',firstPrefix:'Бірінші ай',forecastCaveat:'Бөлшек клиент саны — нақты адамның бөлігі емес, орташа болжам.'}
  };
  function help(){return guide[lang()]||guide.ru;}
@@ -59,6 +59,15 @@
  function monthValue(n){
   if(n===null||n===undefined)return help().noPositive;
   return amount(n)+' '+help().monthShort;
+ }
+ function monthColumns(t,credit){
+  const c=[[t.month,m=>m.month],[t.revenue,m=>m.revenue],[t.cost,m=>m.variable+m.fixed]];
+  if(credit)c.push([t.interest,m=>m.interest]);
+  c.push([t.taxCol,m=>m.tax],[t.amortCol,m=>m.depreciation],[t.profitCol,m=>m.profit],[t.flow,m=>m.operatingCash],
+   [t.capex,m=>m.assetCash],[credit?t.fundingIn:help().ownFunding,m=>m.financeIn]);
+  if(credit)c.push([t.principal,m=>m.principalDue]);
+  c.push([t.netFlow,m=>m.netCashFlow],[t.balance,m=>m.cashOnHand]);
+  return c;
  }
  function renderFunding(){
   const block=el('full-service-credit-fields');
