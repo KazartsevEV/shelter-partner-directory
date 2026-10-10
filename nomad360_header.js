@@ -327,7 +327,7 @@
         const css=await (await get(filename)).text();
         const inline=doc.createElement('style');
         inline.setAttribute('data-nomad-bundled',filename);
-        inline.textContent=css.replace(/<\\/style/gi,'<\\\\/style');
+        inline.textContent=css.replace(/<\/style/gi,'<\\/style');
         link.replaceWith(inline);
       }
       for(const old of Array.from(doc.querySelectorAll('script[src^="./"]'))){
@@ -337,13 +337,13 @@
           code=code.replaceAll('./nomad360_wolf_open_circle.png',logo);
         const inline=doc.createElement('script');
         inline.setAttribute('data-nomad-bundled',filename);
-        inline.textContent=code.replace(/<\\/script/gi,'<\\\\/script');
+        inline.textContent=code.replace(/<\/script/gi,'<\\/script');
         old.replaceWith(inline);
       }
       // A downloadable HTML snapshot freezes this edition of the calculator.
       // The embedded version has no auto-sync and may depend on public CDN
       // resources allowed by the host page's Content Security Policy.
-      const blob=new Blob(['<!DOCTYPE html>\\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
+      const blob=new Blob(['<!DOCTYPE html>\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
       a.href=url;a.download='Nomad360-calculator-embed.html';
