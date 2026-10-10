@@ -1343,10 +1343,10 @@
                 <div id="product-portfolio-list" class="hidden mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"></div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-5">
-                    <button id="assortment-complete-button" type="button" onclick="setProductAssortmentChoice('complete')" class="rounded-xl border-2 border-emerald-300 bg-emerald-50 text-emerald-800 px-4 py-3 font-bold text-left">
+                    <button id="assortment-complete-button" data-assortment-choice="complete" aria-pressed="false" type="button" onclick="setProductAssortmentChoice('complete')" class="rounded-xl border-2 border-emerald-300 bg-emerald-50 text-emerald-800 px-4 py-3 font-bold text-left">
                         Это мой единственный <span class="product-name-live"></span>
                     </button>
-                    <button type="button" onclick="setProductAssortmentChoice('more')" class="nd-secondary-action rounded-xl border-2 px-4 py-3 font-bold text-left">
+                    <button type="button" data-assortment-choice="more" aria-pressed="false" onclick="setProductAssortmentChoice('more')" class="nd-secondary-action rounded-xl border-2 px-4 py-3 font-bold text-left">
                         <span id="service-assortment-more">У меня будут другие товары</span>
                     </button>
                 </div>
@@ -1473,7 +1473,7 @@
                     <div class="card p-4 result-card" id="res-marketing-romi-card">
                         <div class="text-xs text-slate-500 mb-1">ROMI рекламы</div>
                         <div class="text-2xl font-bold text-slate-900" id="res-marketing-romi">—</div>
-                        <div class="text-xs text-slate-400 mt-1">Маржинальный доход от рекламы относительно рекламных расходов, %</div>
+                        <div class="text-xs text-slate-400 mt-1">После эквайринга, исполнения и рекламных расходов, включая ведение, %</div>
                     </div>
                     <div class="card p-4 result-card orange">
                         <div class="text-xs text-slate-500 mb-1" id="res-third-label">CPA / CAC</div>
@@ -5807,6 +5807,11 @@
         function setProductAssortmentChoice(choice) {
             const taxBlock = document.getElementById('product-tax-block');
             const addButton = document.getElementById('add-product-button');
+            // Assortment is a two-option choice: keep pressed state coherent
+            // with the selected path and with the common CSS accent.
+            document.querySelectorAll('#product-assortment-gate [data-assortment-choice]')
+                .forEach(button=>button.setAttribute('aria-pressed',
+                  button.dataset.assortmentChoice===choice?'true':'false'));
 
             if (choice === 'complete') {
                 if (!requireAdditionalProductName()) return;
@@ -5895,6 +5900,7 @@
 
             const addButton = document.getElementById('add-product-button');
             if (addButton) addButton.classList.add('hidden');
+            document.querySelectorAll('#product-assortment-gate [data-assortment-choice]').forEach(button=>button.setAttribute('aria-pressed','false'));
 
             const nameInput = document.getElementById('product-name-input');
             nameInput.value = '';
@@ -7792,6 +7798,13 @@
             const accruedTotalCosts = totalMonth.mCosts + siteAmort + magnetAmort;
             // An unamortized website or lead-magnet acquisition is not an operating loss.
             // Monthly cash reflects full CAPEX, P&L reflects only period amortization.
+            // Marketing ROI/ROMI explicitly includes media AND the setup/
+            // campaign-management fee; excludes fixed site/hosting investments.
+            // Gross contribution is net of acquiring + hired executor payouts.
+            const marketingInvestment=totalBudget + v.mgmt;
+            const marketingContribution=totalMonth.mRevTotal - totalMonth.mAcq - totalMonth.mExecutor;
+            const marketingRomiPct=marketingInvestment>0
+                ? (marketingContribution-marketingInvestment)/marketingInvestment*100 : null;
             // Update Summary Table
             const summaryRows = [
                 ['Общий рекламный бюджет', displayMoneyNode(totalBudget)],
@@ -7833,7 +7846,7 @@
                 ['CPA (цена клиента реклама)', displayMoneyNode(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
                 [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', displayMoneyNode(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
                 [isAgent ? 'Рентабельность вложений принципала' : 'Рентабельность вложений', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x'],
-                ...(!isAgent ? [['ROMI рекламы', (totalBudget>0?(totalMonth.mRevTotal-totalMonth.mAcq-totalMonth.mExecutor-totalBudget)/totalBudget*100:0).toFixed(2)+'%']] : [])
+                ...(!isAgent ? [['ROMI рекламы', marketingRomiPct===null?'—':marketingRomiPct.toFixed(2)+'%']] : [])
             ];
 
             const summaryTbody = document.getElementById('summary-table');
@@ -7880,11 +7893,8 @@
                 // Classic marketing-only return: contribution from ad-attributed
                 // sales after acquiring/direct executor costs, net of ad spend.
                 // This is separate from the existing all-expenses ratio.
-                const marketingReturn=totalBudget>0
-                    ? (totalMonth.mRevTotal-totalMonth.mAcq-totalMonth.mExecutor-totalBudget)/totalBudget*100
-                    : null;
                 document.getElementById('res-marketing-romi').textContent=
-                    marketingReturn===null?'—':marketingReturn.toFixed(2)+'%';
+                    marketingRomiPct===null?'—':marketingRomiPct.toFixed(2)+'%';
                 thirdLabel.textContent = 'CPA / CAC';
                 thirdSub.textContent = 'Рекламный / Полный';
                 setV1DisplayedMoney('res-cpa',totalMonth.mDeals > 0 ? totalBudget / totalMonth.mDeals : 0);
