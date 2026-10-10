@@ -130,6 +130,37 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#product-name-input').inputValue(),'');
    assert.equal(await page.evaluate(()=>productPortfolio.length),0);
    assert.equal((await page.evaluate(()=>JSON.parse(localStorage.getItem('marketingCalcProductResultV1')))).productPortfolio.length,2);
+   // Real deletion must update both the visible portfolio and the persisted
+   // draft, including when a different SKU is being edited.
+   await page.goto(pageUrl+'?resume=1',{waitUntil:'domcontentloaded'});
+   page.on('dialog',dialog=>dialog.accept());
+   assert.equal(await page.locator('[data-delete-v1-sku]').count(),2);
+   await page.locator('[data-delete-v1-sku="1"]').click();
+   let afterDelete=await page.evaluate(()=>({
+     ids:productPortfolio.map(x=>x.id),
+     saved:JSON.parse(localStorage.getItem('marketingCalcProductResultV1')),
+     current:currentProductSequence
+   }));
+   assert.deepEqual(afterDelete.ids,[2]);
+   assert.deepEqual(afterDelete.saved.productPortfolio.map(x=>x.id),[2],
+     'Deleting another SKU must never resurrect it on reload');
+   assert.equal(await page.locator('[data-portfolio-product-id]').count(),1);
+   assert.equal(await page.locator('[data-business-product-id="1"]').count(),0);
+   await page.goto(pageUrl+'?resume=1',{waitUntil:'domcontentloaded'});
+   assert.equal(await page.locator('#product-name-input').inputValue(),'Моя вторая майка');
+   await page.locator('[data-delete-v1-sku="2"]').click();
+   afterDelete=await page.evaluate(()=>({
+     ids:productPortfolio.map(x=>x.id),
+     saved:localStorage.getItem('marketingCalcProductResultV1')
+   }));
+   assert.deepEqual(afterDelete.ids,[]);
+   assert.equal(afterDelete.saved,null,'Deleting the last V1 item clears its saved draft');
+   assert.equal(await page.locator('#product-portfolio-list [data-portfolio-product-id]').count(),0);
+   assert.equal(await page.locator('#product-name-input').inputValue(),'',
+     'Removing active last SKU clears its form; user can start anew');
+   await page.evaluate(()=>showHome());
+   assert.equal(await page.locator('#saved-product-entry').isVisible(),false);
+
    assert.deepEqual(errors,[]);
    console.log('CLEAN_USER_JOURNEY_GREEN',JSON.stringify({firstVisit:'blank',ownName:'Моя первая футболка',resume:'PASS',draftSaved:true,twoSkuSaved:true,originalRestored:true,dropship:'explained',resale:'tested'}));
  }finally{await browser.close();}
