@@ -186,8 +186,8 @@
   el('full-service-pdf').disabled=false;el('full-service-save').disabled=false;
   el('full-service-add-portfolio').disabled=false;
   const data=result;
-  const card=(name,value,description,featured=false)=>
-    '<div class="nd-full-service-metric'+(featured?' nd-full-service-metric-featured':'')+'">'+
+  const card=(name,value,description,featured=false,loss=false)=>
+    '<div class="nd-full-service-metric'+(featured?' nd-full-service-metric-featured':'')+(loss?' nd-full-service-metric-loss':'')+'">'+
     '<span>'+escaped(name)+'</span><strong>'+escaped(value)+'</strong>'+
     '<small>'+escaped(description)+'</small></div>';
   const cashMetrics=[
@@ -209,7 +209,7 @@
   node.className='nd-full-service-results';
   node.innerHTML='<h2>2. '+escaped(h.summary)+'</h2>'+
    '<p class="nd-full-service-intro">'+escaped(h.summaryHint)+'</p>'+
-   '<div class="nd-full-service-metrics">'+cashMetrics.map(x=>card(...x,true)).join('')+'</div>'+
+   '<div class="nd-full-service-metrics">'+cashMetrics.map((x,i)=>card(...x,true,i===1&&data.profit<0)).join('')+'</div>'+
    '<details class="nd-full-service-details"><summary>'+escaped(h.details)+'</summary>'+
    '<div class="nd-full-service-details-grid">'+additional.map(x=>card(...x)).join('')+'</div></details>';
   target.append(node);
