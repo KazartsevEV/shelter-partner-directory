@@ -1897,7 +1897,7 @@
                   commissionPct:Number(item.salesVariablePct||0)+Number(item.penaltiesPct||0),
                   reservePct:Number(p.reservePct||0),funding:p.fundingMode==='credit'?'credit':'own',
                   annualRatePct:Number(p.creditRatePct||0),creditMonths:Number(p.creditTermMonths||1)};
-                return window.Nomad360FullServiceUI.open(data,{kind:'offline',name:item.name});
+                return window.Nomad360FullServiceUI.open(data,{kind:'offline',name:item.name,id:'offline-'+item.id});
             }catch(err){return fail(err.message);}
         }
         function openFullServiceFromOnline() {
@@ -1919,7 +1919,7 @@
                   equipmentPurchase:sku.onlineCapex,equipmentAmortMonthly:sku.onlineAmortMonthly,
                   commissionPct:sku.variableSalesPct,reservePct:0,funding:'own',
                   annualRatePct:0,creditMonths:1};
-                return window.Nomad360FullServiceUI.open(data,{kind:'online',name:sku.name});
+                return window.Nomad360FullServiceUI.open(data,{kind:'online',name:sku.name,id:sku.id,role:sku.onlineRole});
             }catch(err){if(error)error.textContent=err.message;return false;}
         }
         function showServiceWorkChooser() { showOnly('service-work-screen'); }
