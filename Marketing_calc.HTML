@@ -4315,6 +4315,9 @@
             const owns=k=>!agent||agency.payers?.[k]==='agent';
             const partnerPays=k=>agent&&agency.payers?.[k]==='partner';
             const receipt=qty*row.price*model.taxPriceMultiplier;
+            const lineSplit=agent&&Array.isArray(agency.lineItems)?
+                serviceAgencyExpenseSplit(item,receipt):null;
+            const owner=lineSplit?.agent,partner=lineSplit?.partner;
             const allDirect=qty*Math.max(0,Number(item.materialsUnitCost)||0);
             const allElectricity=qty*Math.max(0,Number(item.productionElectricityPerUnit)||0);
             const allDepreciation=Math.max(0,Number(item.serviceAmortMonthly)||0);
@@ -4324,17 +4327,26 @@
             const allManagement=Math.max(0,Number(item.adManagement)||0);
             const allCommissions=receipt*
                 (Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100;
-            const direct=(owns('direct')?allDirect:0)+(owns('production')?allElectricity:0);
-            const amort=owns('equipment')?allDepreciation:0;
-            const fixed=(owns('production')?allOperatingFixed:0)+amort+
+            const direct=owner?owner.direct+owner.electricity:
+                (owns('direct')?allDirect:0)+(owns('production')?allElectricity:0);
+            const amort=owner?owner.amort:owns('equipment')?allDepreciation:0;
+            const fixed=owner?
+                owner.production+owner.amort+owner.selling+owner.advertising+owner.management:
+                (owns('production')?allOperatingFixed:0)+amort+
                 (owns('selling')?allSalesFixed:0)+
                 (owns('advertising')?allAd:0)+(owns('management')?allManagement:0);
-            const variableCommissions=owns('commission')?allCommissions:0;
-            const capex=owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
+            const variableCommissions=owner?owner.commission:
+                owns('commission')?allCommissions:0;
+            const capex=owner?owner.capex:
+                owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
             const partnerPriceNet=agent?Math.max(0,Number(agency.grossPrice)||0)/
                 (1+Math.max(0,Number(agency.partnerVatPct)||0)/100):0;
             const partnerRevenue=qty*partnerPriceNet;
-            const partnerCosts=(partnerPays('direct')?allDirect:0)+
+            const partnerCosts=partner?
+                partner.direct+partner.production+partner.electricity+partner.amort+
+                partner.selling+partner.advertising+partner.management+
+                partner.commission+receipt:
+                (partnerPays('direct')?allDirect:0)+
                 (partnerPays('production')?allElectricity+allOperatingFixed:0)+
                 (partnerPays('equipment')?allDepreciation:0)+
                 (partnerPays('selling')?allSalesFixed:0)+
@@ -4864,8 +4876,13 @@
                     const sku={...draftSku},agency=item.serviceAgency||{};
                     const agent=item.serviceRole==='agent';
                     const owns=k=>!agent||agency.payers?.[k]==='agent';
-                    const amort=owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0;
-                    const capex=owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
+                    const lineSplit=agent&&Array.isArray(agency.lineItems)?
+                        serviceAgencyExpenseSplit(item).agent:null;
+                    const qty=Math.max(.0000001,Number(item.forecastUnitsPerMonth)||0);
+                    const amort=lineSplit?lineSplit.amort:
+                        owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0;
+                    const capex=lineSplit?lineSplit.capex:
+                        owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
                     const online=item.serviceChannel==='online';
                     const quote=row.price*model.taxPriceMultiplier*(1+sku.vatPct/100);
                     sku.source=online?'online-service':'offline-service';
@@ -4896,11 +4913,15 @@
                     sku.maxDiscountPct=0;
                     sku.minimumMarginPct=0;
                     sku.targetMarginPct=0;
-                    sku.salesFixedMonthly=owns('selling')?Number(item.salesFixedMonthly)||0:0;
-                    sku.adBudget=owns('advertising')?Number(item.adBudget)||0:0;
-                    sku.adManagement=owns('management')?Number(item.adManagement)||0:0;
+                    sku.salesFixedMonthly=lineSplit?lineSplit.selling:
+                        owns('selling')?Number(item.salesFixedMonthly)||0:0;
+                    sku.adBudget=lineSplit?lineSplit.advertising:
+                        owns('advertising')?Number(item.adBudget)||0:0;
+                    sku.adManagement=lineSplit?lineSplit.management:
+                        owns('management')?Number(item.adManagement)||0:0;
                     sku.baseCac=sku.adBudget>0?sku.adBudget/row.forecastSales:0;
-                    sku.variableSalesPct=owns('commission')?
+                    sku.variableSalesPct=lineSplit?lineSplit.commissionPct:
+                        owns('commission')?
                         (Number(item.salesVariablePct)||0)+(Number(item.penaltiesPct)||0):0;
                     sku.creditPrincipal=item.planning?.fundingMode==='credit'?
                         Number(credit.principal)||0:0;
@@ -4908,10 +4929,12 @@
                         Number(credit.monthlyServiceCost)||0:0;
                     sku.creditMonths=item.planning?.fundingMode==='credit'?
                         Number(credit.termMonths)||0:0;
-                    sku.serviceMaterialsUnit=owns('direct')?Number(item.materialsUnitCost)||0:0;
-                    sku.serviceElectricityUnit=owns('production')?
-                        Number(item.productionElectricityPerUnit)||0:0;
-                    sku.serviceFixedMonthly=owns('production')?
+                    sku.serviceMaterialsUnit=lineSplit?lineSplit.direct/qty:
+                        owns('direct')?Number(item.materialsUnitCost)||0:0;
+                    sku.serviceElectricityUnit=lineSplit?lineSplit.electricity/qty:
+                        owns('production')?Number(item.productionElectricityPerUnit)||0:0;
+                    sku.serviceFixedMonthly=lineSplit?lineSplit.production:
+                        owns('production')?
                         Math.max(0,(Number(item.productionFixedMonthly)||0)-
                             (Number(item.serviceAmortMonthly)||0)):0;
                     sku.serviceCapacity=online?0:Number(item.offlineServiceCapacity)||0;
