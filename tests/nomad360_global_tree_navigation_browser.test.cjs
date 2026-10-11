@@ -132,6 +132,31 @@ function startTestServer(){
   mark('service-start');
   await page.locator('#start-service').click();
   A.match(await back.innerText(),/Главная/);
+  // UI typography acceptance: both service calculation modes use the same
+  // prominent heading size and remain inside their cards at phone widths.
+  for(const width of [320,390,768]){
+   await page.setViewportSize({width,height:844});
+   const headings=await page.locator('#service-work-screen .nd-service-mode-choice').evaluateAll(cards=>
+    cards.map(card=>{
+     const title=card.querySelector('b');
+     const cardBox=card.getBoundingClientRect();
+     const titleBox=title.getBoundingClientRect();
+     return {id:card.id,font:parseFloat(getComputedStyle(title).fontSize),
+      weight:getComputedStyle(title).fontWeight,
+      cardHeight:cardBox.height,
+      cardRight:cardBox.right,cardLeft:cardBox.left,
+      titleRight:titleBox.right,titleLeft:titleBox.left,
+      textScroll:title.scrollWidth,textClient:title.clientWidth};
+    }));
+   A.equal(headings.length,2,'Both service mode cards are present at '+width);
+   A.equal(headings[0].font,headings[1].font,'Matching mode title sizes at '+width);
+   A.ok(headings.every(h=>h.font>=24&&h.font<=30&&Number(h.weight)>=700),
+    'Prominent 24-30px bold mode labels at '+width+': '+JSON.stringify(headings));
+   A.ok(headings.every(h=>h.cardHeight>=128&&h.cardLeft>=-1&&h.cardRight<=width+1&&
+    h.titleLeft>=h.cardLeft-1&&h.titleRight<=h.cardRight+1&&h.textScroll<=h.textClient+1),
+    'Mode labels do not overflow their cards at '+width+': '+JSON.stringify(headings));
+  }
+  await page.setViewportSize({width:390,height:844});
   mark('service-online');
   await page.locator('#service-work-online').click();
   A.match(await back.innerText(),/Услуга/);
