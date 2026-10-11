@@ -1353,6 +1353,8 @@ const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^Предложение (\d+)$/,'Offer $1','Ұсыныс $1'],
+
  [/^Чек (\\d+): нужен непустой список items\\.$/,'Receipt $1: items must contain at least one product.','$1-чек: items ішінде кемінде бір тауар болуы тиіс.'],
  [/^Чек (.+): неверная позиция (\\d+)\\.$/,'Receipt $1: invalid item $2.','$1-чек: $2-позиция жарамсыз.'],
  [/^Номер чека должен быть заполнен и уникален: (.*)$/,'Receipt ID is required and must be unique: $1','Чек нөмірі міндетті және бірегей болуы тиіс: $1'],
