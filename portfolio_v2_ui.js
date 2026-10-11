@@ -55,7 +55,7 @@ function resourceCard(r,index){
  '<button type="button" data-p2-delete-resource="'+safe(r.id)+'" class="text-xs text-rose-700 underline">Удалить</button></div>'+
  '<div class="grid grid-cols-2 gap-2 mt-3">'+
  selField('Тип ресурса','resources.'+index+'.kind',r.kind,Object.entries(labels))+
- numberField(r.kind==='campaign'?'Дополнительный рекламный бюджет, /мес.':'Сумма, у.е.','resources.'+index+'.amount',r.amount)+
+ numberField(r.kind==='campaign'?'Дополнительный рекламный бюджет, /мес.':'Сумма, USD','resources.'+index+'.amount',r.amount)+
  selField('Платёж','resources.'+index+'.cadence',r.cadence,[['monthly','Ежемесячно'],['once','Один раз']])+
  (r.kind==='campaign'?'<div class="col-span-2 text-xs rounded-lg bg-white p-3 text-blue-900">Рекламный бюджет распределяется строго по денежной доле выручки товаров, входящих в кампанию.</div>':
  selField('Как распределить по товарам','resources.'+index+'.allocation',r.allocation,[['revenue','По денежной выручке'],['usage','По фактической загрузке']]))+
@@ -86,9 +86,9 @@ function skuCard(s,i) {
  const extras=(s.source==='dropship'?
  '<p class="col-span-2 text-xs text-blue-800 bg-blue-50 p-2 rounded">Нет собственного склада и первоначальной закупки. Платёж поставщику возникает после каждого заказа.</p>':
  numberField('Размер первоначальной партии, шт. (необязательно)',path+'batchUnits',s.batchUnits,'Если указана партия, прогноз ведётся до её полной распродажи')+
- numberField('Стартовая закупка сырья / товара, у.е. (необязательно)',path+'initialCashOut',s.initialCashOut,
+ numberField('Стартовая закупка сырья / товара, USD (необязательно)',path+'initialCashOut',s.initialCashOut,
  'Аванс: выплата в начале цикла. Не прибавляется повторно к COGS')+
- numberField('Хранение 1 ед. за день, у.е. (по фактическим остаткам)',path+'storagePerUnitDay',s.storagePerUnitDay));
+ numberField('Хранение 1 ед. за день, USD (по фактическим остаткам)',path+'storagePerUnitDay',s.storagePerUnitDay));
  return '<article class="nd-v2-subpanel mb-4 rounded-2xl border-2 border-blue-200 bg-white p-4" data-p2-sku="'+safe(s.id)+'">'+
  '<div class="flex justify-between gap-3 mb-3"><h3 class="text-xl font-extrabold text-blue-950">Товар '+(i+1)+'</h3>'+
  '<button class="text-rose-700 text-sm underline" type="button" data-p2-remove-sku="'+safe(s.id)+'">Удалить</button></div>'+
@@ -101,7 +101,7 @@ function skuCard(s,i) {
  '<details class="mt-4 rounded-xl bg-slate-50 border border-slate-200 p-3"><summary class="font-semibold text-slate-800 cursor-pointer">Дополнительно: закупка, логистика и комиссия</summary>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
  extras+
- numberField('Исполнение и доставка заказа, у.е./шт.',path+'fulfillmentPerOrder',s.fulfillmentPerOrder,
+ numberField('Исполнение и доставка заказа, USD/шт.',path+'fulfillmentPerOrder',s.fulfillmentPerOrder,
  'Дропшиппинг: доставка поставщика; иначе отправка покупателю')+
  numberField('Эквайринг / комиссия от цены, %',path+'acquiringPct',s.acquiringPct)+
  '</div></details>'+

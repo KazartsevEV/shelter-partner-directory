@@ -59,14 +59,14 @@ const cashFields=['inflow','outflow','taxPaid','interestPaid','principalRepaid',
       if(!el)return false;
       const locale=Nomad360LocaleCore.displayLocale();
       const raw=Number(el.dataset.nomadDisplayNumber);
-      const unit=locale==='en-US'?'currency units*':locale==='kk-KZ'?'ш.б.*':'у.е.*';
+      const unit=locale==='en-US'?'USD':locale==='kk-KZ'?'USD':'USD';
       return el.textContent===raw.toLocaleString(locale,
         {minimumFractionDigits:2,maximumFractionDigits:2})+' '+unit;
      });
      const current=await page.evaluate(fields=>{
       const box=document.querySelector('#product-portfolio-business-summary');
       const locale=Nomad360LocaleCore.displayLocale();
-      const suffix=locale==='en-US'?'currency units*':locale==='kk-KZ'?'ш.б.*':'у.е.*';
+      const suffix=locale==='en-US'?'USD':locale==='kk-KZ'?'USD':'USD';
       const issues=[];
       const money=[...box.querySelectorAll('[data-nomad-display-money]')];
       for(const node of money){

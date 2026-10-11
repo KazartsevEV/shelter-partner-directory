@@ -455,7 +455,7 @@
             </form>
         </div>
 
-        <p class="nd-canvas-note mt-3 text-xs text-slate-500">* у.е. — деньги в вашей валюте.</p>
+        <p class="nd-canvas-note mt-3 text-xs text-slate-500">Валюта расчёта: USD.</p>
 
         <div id="product-source-block" class="card p-6 md:p-8 mt-5 hidden" hidden>
             <button id="product-business-back-button"
@@ -559,7 +559,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
 <label class="text-sm font-semibold text-slate-700"><span id="resale-buy-qty-label">Количество готовых единиц в минимальной партии</span>
 <input id="resale-buy-qty" type="number" min="1" step="1" value="1" class="input-field mt-2" oninput="updateResalePurchase()"></label>
-<label class="text-sm font-semibold text-slate-700"><span id="resale-buy-cost-label">Себестоимость минимальной партии, у.е.*</span>
+<label class="text-sm font-semibold text-slate-700"><span id="resale-buy-cost-label">Себестоимость минимальной партии, USD</span>
 <input id="resale-buy-total" type="number" min="0" step="0.01" value="" class="input-field mt-2" placeholder="Вся закупка этого товара" oninput="updateResalePurchase()"></label>
 <label class="text-sm font-semibold text-slate-700">Поставщик (необязательно)
 <input id="resale-buy-supplier" type="text" class="input-field mt-2" placeholder="Поставщик" oninput="renderResalePurchaseComposition()"></label>
@@ -586,7 +586,7 @@
                         </div>
 
                         <div id="own-materials-known-wrap" class="mt-4 hidden" hidden data-product-collapsible>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Себестоимость материалов на единицу, у.е.*</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Себестоимость материалов на единицу, USD</label>
                             <input id="own-materials-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateInboundDeliveryDefault(); recalculateMaterialsLandedCost()">
                         </div>
 
@@ -602,7 +602,7 @@
                             </button>
 
                             <div class="rounded-lg bg-white border border-slate-200 p-3 flex justify-between gap-4 text-sm">
-                                <span class="text-slate-600">Материалы на 1 единицу, у.е.*</span>
+                                <span class="text-slate-600">Материалы на 1 единицу, USD</span>
                                 <span id="own-materials-calculated-total" class="font-bold text-slate-900">0,00</span>
                             </div>
                         </div>
@@ -628,7 +628,7 @@
                             <button type="button" data-yn-group="inboundIncluded" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-inbound-cost-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-sm font-medium text-slate-700 mb-2"><span data-buy-copy="deliveryAmount">Стоимость доставки материалов до меня, у.е.*</span></label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2"><span data-buy-copy="deliveryAmount">Стоимость доставки материалов до меня, USD</span></label>
                             <input id="own-inbound-delivery-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="markInboundDeliveryManual()">
                             <p class="text-xs text-slate-400 mt-1">
                                 <span data-buy-copy="deliveryHint">По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.</span>
@@ -655,7 +655,7 @@
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="broker" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-broker-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Стоимость услуг брокера за партию, у.е.*</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Стоимость услуг брокера за партию, USD</label>
                                         <input id="own-broker-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -679,7 +679,7 @@
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="duties" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-duties-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Пошлины и сборы на 1 единицу, у.е.*</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Пошлины и сборы на 1 единицу, USD</label>
                                         <input id="own-duties-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -691,7 +691,7 @@
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="me" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                                     <button type="button" data-import-payer-key="certification" data-import-payer-value="seller" class="import-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Продавец</button>
                                     <div id="own-certification-cost-wrap" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                        <label class="block text-xs text-slate-500 mb-1">Сертификация и документы за партию, у.е.*</label>
+                                        <label class="block text-xs text-slate-500 mb-1">Сертификация и документы за партию, USD</label>
                                         <input id="own-certification-cost" type="number" min="0" step="0.01" value="0" class="input-field">
                                     </div>
                                 </div>
@@ -705,7 +705,7 @@
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     <span id="materials-step-result-label">Для того, чтобы купить и привезти материалы для 1 ед.</span> <span class="product-name-live"></span>, нужно потратить
                     <span id="own-materials-landed-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е.*.
+                    USD.
                 </div>
 
                 <div id="materials-qty-entry-panel" class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -739,7 +739,7 @@
                             <button type="button" data-yn-group="productionPremises" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-production-premises-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Расход / месяц, у.е.*</label>
+                            <label class="block text-xs text-slate-500 mb-1">Расход / месяц, USD</label>
                             <input id="own-production-premises-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
                         </div>
                     </div>
@@ -753,7 +753,7 @@
                         <div id="own-equipment-rental-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
                             <div id="own-equipment-rental-rows" class="space-y-3"></div>
                             <button type="button" onclick="addEquipmentRentalRow()" class="w-full rounded-lg border border-dashed border-blue-300 bg-blue-50 text-blue-700 px-3 py-2 font-semibold">+ Добавить оборудование</button>
-                            <div class="text-xs text-slate-500">Итого аренда оборудования / месяц, у.е.*: <span id="own-equipment-rental-total" class="font-semibold text-slate-900">0,00</span></div>
+                            <div class="text-xs text-slate-500">Итого аренда оборудования / месяц, USD: <span id="own-equipment-rental-total" class="font-semibold text-slate-900">0,00</span></div>
                         </div>
                     </div>
 
@@ -769,7 +769,7 @@
                             </p>
                             <div id="own-equipment-purchase-rows" class="space-y-3"></div>
                             <button type="button" onclick="addEquipmentPurchaseRow()" class="w-full rounded-lg border border-dashed border-blue-300 bg-blue-50 text-blue-700 px-3 py-2 font-semibold">+ Добавить оборудование</button>
-                            <div class="text-xs text-slate-500">Итого амортизация купленного оборудования / месяц, у.е.*: <span id="own-equipment-depreciation-total" class="font-semibold text-slate-900">0,00</span></div>
+                            <div class="text-xs text-slate-500">Итого амортизация купленного оборудования / месяц, USD: <span id="own-equipment-depreciation-total" class="font-semibold text-slate-900">0,00</span></div>
                         </div>
                     </div>
 
@@ -792,22 +792,22 @@
                                     <input id="own-production-workers-count" type="number" min="0" step="1" value="0" class="input-field" oninput="updateProductionWorkersCost()">
                                 </div>
                                 <div>
-                                    <label id="production-worker-gross-label" class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц, у.е.*</label>
+                                    <label id="production-worker-gross-label" class="block text-xs text-slate-500 mb-1">Gross 1 рабочего / месяц, USD</label>
                                     <input id="own-production-worker-gross" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionWorkersCost()">
                                 </div>
                             </div>
 
                             <div class="rounded-lg bg-slate-50 border border-slate-200 p-3 space-y-1 text-xs text-slate-600">
                                 <div class="flex justify-between gap-3">
-                                    <span>Gross зарплата всех рабочих / месяц, у.е.*</span>
+                                    <span>Gross зарплата всех рабочих / месяц, USD</span>
                                     <span id="own-production-workers-gross-total" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="flex justify-between gap-3">
-                                    <span>Налоги и взносы работодателя / месяц, у.е.*</span>
+                                    <span>Налоги и взносы работодателя / месяц, USD</span>
                                     <span id="own-production-workers-taxes-total" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="border-t border-slate-200 pt-2 mt-2 flex justify-between gap-3 text-sm">
-                                    <span class="font-semibold text-slate-800">Полная стоимость рабочих / месяц, у.е.*</span>
+                                    <span class="font-semibold text-slate-800">Полная стоимость рабочих / месяц, USD</span>
                                     <span id="own-production-workers-total" class="font-bold text-slate-900">0,00</span>
                                 </div>
                                 <div id="own-production-workers-note" class="pt-1 text-[11px] text-slate-400"></div>
@@ -829,7 +829,7 @@
                         <div id="own-production-gas-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Тариф за 1 м³ газа, у.е.*</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Тариф за 1 м³ газа, USD</label>
                                     <input id="own-production-gas-tariff" type="number" min="0" step="0.0001" value="0" class="input-field" oninput="updateProductionUtilityTotal('gas')">
                                 </div>
                                 <div>
@@ -837,7 +837,7 @@
                                     <input id="own-production-gas-usage" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionUtilityTotal('gas')">
                                 </div>
                             </div>
-                            <div class="text-xs text-slate-500">Газ / месяц (тариф × м³), у.е.*: <span id="own-production-gas-total" class="font-semibold text-slate-900">0,00</span></div>
+                            <div class="text-xs text-slate-500">Газ / месяц (тариф × м³), USD: <span id="own-production-gas-total" class="font-semibold text-slate-900">0,00</span></div>
                         </div>
                     </div>
 
@@ -850,7 +850,7 @@
                         <div id="own-production-electricity-wrap" class="hidden mt-3 space-y-3" hidden data-product-collapsible>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Тариф за 1 кВт·ч, у.е.*</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Тариф за 1 кВт·ч, USD</label>
                                     <input id="own-production-electricity-tariff" type="number" min="0" step="0.0001" value="0" class="input-field" oninput="updateProductionUtilityTotal('electricity')">
                                 </div>
                                 <div>
@@ -858,7 +858,7 @@
                                     <input id="own-production-electricity-usage" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateProductionUtilityTotal('electricity')">
                                 </div>
                             </div>
-                            <div class="text-xs text-slate-500">Электричество на 1 ед. (тариф × кВт·ч), у.е.*: <span id="own-production-electricity-total" class="font-semibold text-slate-900">0,00</span></div>
+                            <div class="text-xs text-slate-500">Электричество на 1 ед. (тариф × кВт·ч), USD: <span id="own-production-electricity-total" class="font-semibold text-slate-900">0,00</span></div>
                         </div>
                     </div>
 
@@ -869,7 +869,7 @@
                             <button type="button" data-yn-group="productionOverheads" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-production-overheads-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Накладные организационные расходы / месяц, у.е.*</label>
+                            <label class="block text-xs text-slate-500 mb-1">Накладные организационные расходы / месяц, USD</label>
                             <input id="own-production-overheads-monthly" type="number" min="0" step="0.01" value="0" class="input-field">
                             <p class="text-xs text-slate-400 mt-1">Эта сумма относится ко всему месяцу и распределяется на количество произведённых единиц. Включая проверки, аккредитации и аналогичные организационные расходы.</p>
                         </div>
@@ -890,7 +890,7 @@
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     <span id="production-result-caption">Стоимость производства 1 ед.</span> <span class="product-name-live"></span> составляет
                     <span id="own-production-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е.*.
+                    USD.
                 </div>
 
                 <div id="product-production-quantity-panel" class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -926,7 +926,7 @@
                             <button type="button" data-logistics-payer-key="warehouseInbound" data-logistics-payer-value="me" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Я</button>
                             <button type="button" data-logistics-payer-key="warehouseInbound" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
                             <div id="own-warehouse-inbound-details" class="col-span-2 mt-1 hidden" hidden data-product-collapsible>
-                                <label class="block text-xs text-slate-500 mb-1">Стоимость доставки 1 ед. до склада, у.е.*</label>
+                                <label class="block text-xs text-slate-500 mb-1">Стоимость доставки 1 ед. до склада, USD</label>
                                 <input id="own-warehouse-inbound-unit-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateLogisticsUnitCost()">
                             </div>
                         </div>
@@ -941,7 +941,7 @@
                             <button type="button" data-logistics-payer-key="warehouse" data-logistics-payer-value="counterparty" class="logistics-payer-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Другой контрагент</button>
                             <div id="own-warehouse-cost-wrap" class="col-span-2 mt-1 hidden space-y-4" hidden data-product-collapsible>
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Сколько стоит 1 день хранения, у.е.*?</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Сколько стоит 1 день хранения, USD?</label>
                                     <input id="own-warehouse-cost" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateLogisticsUnitCost()">
                                 </div>
                                 <div>
@@ -1002,7 +1002,7 @@
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     <span id="logistics-result-caption">Минимальная стоимость хранения и доставки до покупателя 1 ед.</span> <span class="product-name-live"></span> составляет
                     <span id="own-logistics-unit-cost" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е.*.
+                    USD.
                 </div>
 
                 <div id="logistics-quantity-panel" class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -1018,7 +1018,7 @@
                 <p id="own-logistics-minimum-note" class="mt-3 text-xs text-slate-500"></p>
                 <div id="own-logistics-unit-breakdown" class="mt-4 text-xs text-slate-600 leading-relaxed"></div>
                 <div id="logistics-total-stock-panel" class="mt-4 rounded-xl bg-white/80 border border-emerald-200 p-4 flex justify-between gap-4 text-sm">
-                    <span class="font-semibold text-slate-800">Логистика для выбранного количества, у.е.*</span>
+                    <span class="font-semibold text-slate-800">Логистика для выбранного количества, USD</span>
                     <span id="own-logistics-selected-total" class="font-bold text-emerald-800">0,00</span>
                 </div>
 
@@ -1054,7 +1054,7 @@
                             <button type="button" data-yn-group="payroll" data-yn-value="no" class="yn-choice px-4 py-2 rounded-lg border border-slate-300 text-sm">Нет</button>
                         </div>
                         <div id="own-payroll-wrap" class="hidden mt-3" hidden data-product-collapsible>
-                            <label class="block text-xs text-slate-500 mb-1">Регулярные расходы на ЗП и иные вознаграждения за месяц, у.е.*</label>
+                            <label class="block text-xs text-slate-500 mb-1">Регулярные расходы на ЗП и иные вознаграждения за месяц, USD</label>
                             <input id="own-payroll-rewards" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateSalesCostSummary()">
                         </div>
                     </div>
@@ -1112,7 +1112,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs text-slate-500 mb-1">Средняя начисленная зарплата одного сотрудника за месяц, у.е.*</label>
+                                <label class="block text-xs text-slate-500 mb-1">Средняя начисленная зарплата одного сотрудника за месяц, USD</label>
                                 <input id="own-employee-salary" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
                                 <p class="text-xs text-slate-400 mt-1">Используйте начисленную зарплату до удержаний сотрудника.</p>
                             </div>
@@ -1142,7 +1142,7 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-xs text-slate-500 mb-1">Фиксированные обязательные платежи на 1 сотрудника / месяц, у.е.*</label>
+                                    <label class="block text-xs text-slate-500 mb-1">Фиксированные обязательные платежи на 1 сотрудника / месяц, USD</label>
                                     <input id="own-employer-fixed-per-employee" type="number" min="0" step="0.01" value="0" class="input-field" oninput="updateEmployeeContributionEstimate()">
                                 </div>
 
@@ -1171,39 +1171,39 @@
 
                             <div class="rounded-lg bg-slate-50 border border-slate-200 p-4 space-y-2">
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
-                                    <span>Начисленная зарплата / месяц, у.е.*</span>
+                                    <span>Начисленная зарплата / месяц, USD</span>
                                     <span id="own-payroll-gross-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
-                                    <span>Взносы работодателя / месяц, у.е.*</span>
+                                    <span>Взносы работодателя / месяц, USD</span>
                                     <span id="own-insurance-monthly-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
-                                    <span>Налоги работодателя на ФОТ / месяц, у.е.*</span>
+                                    <span>Налоги работодателя на ФОТ / месяц, USD</span>
                                     <span id="own-employer-payroll-tax-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
-                                    <span>Травматизм / профриск / месяц, у.е.*</span>
+                                    <span>Травматизм / профриск / месяц, USD</span>
                                     <span id="own-employer-injury-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
-                                    <span>Другие начисления работодателя / месяц, у.е.*</span>
+                                    <span>Другие начисления работодателя / месяц, USD</span>
                                     <span id="own-employer-other-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
-                                    <span>Фиксированные платежи / месяц, у.е.*</span>
+                                    <span>Фиксированные платежи / месяц, USD</span>
                                     <span id="own-employer-fixed-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                                 <div class="border-t border-slate-200 pt-2 mt-2 flex justify-between gap-4 text-sm">
-                                    <span class="font-semibold text-slate-800">Итого налоги и обязательные начисления работодателя / месяц, у.е.*</span>
+                                    <span class="font-semibold text-slate-800">Итого налоги и обязательные начисления работодателя / месяц, USD</span>
                                     <span id="own-employer-mandatory-total-estimate" class="font-bold text-slate-900">0,00</span>
                                 </div>
                                 <div class="border-t border-slate-200 pt-2 mt-2 flex justify-between gap-4 text-sm">
-                                    <span class="font-semibold text-slate-800">Полная стоимость сотрудников бизнесу / месяц, у.е.*</span>
+                                    <span class="font-semibold text-slate-800">Полная стоимость сотрудников бизнесу / месяц, USD</span>
                                     <span id="own-employer-total-cost-estimate" class="font-bold text-slate-900">0,00</span>
                                 </div>
                                 <div class="flex justify-between gap-4 text-xs text-slate-500">
-                                    <span>Оценочно сотрудникам на руки / месяц, у.е.*</span>
+                                    <span>Оценочно сотрудникам на руки / месяц, USD</span>
                                     <span id="own-employee-net-estimate" class="font-semibold text-slate-900">0,00</span>
                                 </div>
                             </div>
@@ -1217,7 +1217,7 @@
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed" data-sales-unit-result-version="2">
                     Чтобы продать 1 ед. <span class="product-name-live"></span>, постоянные расходы на продажу составляют
                     <span id="own-sales-result-unit" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е.*.
+                    USD.
                 </div>
 
                 <div id="product-sales-quantity-panel" class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -1233,11 +1233,11 @@
                 <div class="mt-4 space-y-3">
                     <div class="rounded-xl bg-white/80 border border-emerald-200 p-4">
                         <div class="flex justify-between gap-4 text-sm">
-                            <span class="font-semibold text-slate-800">Постоянные расходы / месяц, у.е.*</span>
+                            <span class="font-semibold text-slate-800">Постоянные расходы / месяц, USD</span>
                             <span id="own-sales-fixed-monthly" class="font-bold text-slate-900">0,00</span>
                         </div>
                         <div class="flex justify-between gap-4 text-sm mt-2">
-                            <span class="font-semibold text-slate-800">Постоянные расходы / 1 ед., у.е.*</span>
+                            <span class="font-semibold text-slate-800">Постоянные расходы / 1 ед., USD</span>
                             <span id="own-sales-fixed-per-unit" class="font-bold text-emerald-800">0,00</span>
                         </div>
                         <p id="product-sales-fixed-help" class="text-xs text-slate-500 mt-1">
@@ -1296,7 +1296,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Свой рекламный бюджет на месяц, у.е.*</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Свой рекламный бюджет на месяц, USD</label>
                             <input id="own-product-ad-budget" type="number" min="0" step="0.01" value="" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
@@ -1309,7 +1309,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Средняя цена клика CPC, у.е.*</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Средняя цена клика CPC, USD</label>
                             <input id="own-product-ad-cpc" type="number" min="0" step="0.01" value="" class="input-field" oninput="recalculateProductAdFunnel()">
                         </div>
 
@@ -1329,7 +1329,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Гонорар маркетолога / месяц, у.е.*</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Гонорар маркетолога / месяц, USD</label>
                             <input id="own-product-ad-management" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateProductAdFunnel()">
                             <p class="text-xs text-slate-400 mt-1">Если маркетологу отдельно не платите — оставьте 0.</p>
                         </div>
@@ -1342,7 +1342,7 @@
                 <div class="text-lg md:text-xl font-semibold text-slate-900 leading-relaxed">
                     Чтобы продать 1 ед. <span class="product-name-live"></span>, надо потратить
                     <span id="own-product-ad-cac-unit" class="text-2xl md:text-3xl font-bold text-emerald-700 whitespace-nowrap">0,00</span>
-                    у.е.*
+                    USD
                 </div>
 
                 <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
@@ -1362,15 +1362,15 @@
 
                 <div class="mt-4 text-xs text-slate-600 leading-relaxed">
                     <div class="flex justify-between gap-3 py-0.5">
-                        <span>Чистый рекламный бюджет / 1 ед., у.е.*</span>
+                        <span>Чистый рекламный бюджет / 1 ед., USD</span>
                         <span id="own-product-ad-media-unit" class="font-semibold text-slate-800">0,00</span>
                     </div>
                     <div class="flex justify-between gap-3 py-0.5">
-                        <span>Гонорар маркетолога / 1 ед., у.е.*</span>
+                        <span>Гонорар маркетолога / 1 ед., USD</span>
                         <span id="own-product-ad-management-unit" class="font-semibold text-slate-800">0,00</span>
                     </div>
                     <div class="flex justify-between gap-3 py-0.5 border-t border-emerald-200 mt-2 pt-2">
-                        <span class="font-semibold text-slate-800">Полная стоимость привлечения / 1 ед., у.е.*</span>
+                        <span class="font-semibold text-slate-800">Полная стоимость привлечения / 1 ед., USD</span>
                         <span id="own-product-ad-full-unit" class="font-bold text-emerald-800">0,00</span>
                     </div>
                 </div>
@@ -1626,20 +1626,20 @@
         };
 
         const baseInputsConfig = [
-            { key: 'monthlyBudget', label: 'Месячный бюджет на рекламу, у.е.*', type: 'money' },
-            { key: 'cpc', label: 'Средняя цена клика CPC, у.е.*', type: 'money' },
+            { key: 'monthlyBudget', label: 'Месячный бюджет на рекламу, USD', type: 'money' },
+            { key: 'cpc', label: 'Средняя цена клика CPC, USD', type: 'money' },
             { key: 'ctr', label: 'CTR (кликабельность)', type: 'pct' },
             { key: 'cvrLead', label: 'Конверсия Клик → Лид', type: 'pct' },
             { key: 'cvrDeal', label: 'Конверсия Лид → Сделка', type: 'pct' },
-            { key: 'costConsult', label: 'Стоимость консультации, у.е.*', type: 'money' },
-            { key: 'costPack', label: 'Стоимость пакета консультаций, у.е.*', type: 'money' },
+            { key: 'costConsult', label: 'Стоимость консультации, USD', type: 'money' },
+            { key: 'costPack', label: 'Стоимость пакета консультаций, USD', type: 'money' },
             { key: 'ltv', label: 'LTV-фактор (доля купивших пакет)', type: 'pct' },
             { key: 'months', label: 'Период расчёта (месяцев)', type: 'num' },
-            { key: 'mgmt', label: 'Настройка и ведение рекламы, у.е.*', type: 'money' },
-            { key: 'site', label: 'Разработка сайта, у.е.*', type: 'money' },
-            { key: 'hosting', label: 'Хостинг / конструктор сайта, у.е.*', type: 'money' },
-            { key: 'dom', label: 'Домен, у.е.*', type: 'money' },
-            { key: 'magnet', label: 'Лид-магнит, у.е.*', type: 'money' },
+            { key: 'mgmt', label: 'Настройка и ведение рекламы, USD', type: 'money' },
+            { key: 'site', label: 'Разработка сайта, USD', type: 'money' },
+            { key: 'hosting', label: 'Хостинг / конструктор сайта, USD', type: 'money' },
+            { key: 'dom', label: 'Домен, USD', type: 'money' },
+            { key: 'magnet', label: 'Лид-магнит, USD', type: 'money' },
             { key: 'acq', label: 'Комиссия эквайринга', type: 'pct' },
             { key: 'taxTurnover', label: 'Налог на оборот*', type: 'pct' },
         ];
@@ -1812,7 +1812,7 @@
         function nomadDisplayLocale() {
             return window.Nomad360LocaleCore?.displayLocale?.() || 'ru-RU';
         }
-        function formatMoney(val) { const language=window.Nomad360LocaleCore?.locale?.()||'ru'; return `${formatNum(val)} ${language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'}`; }
+        function formatMoney(val) { return `${formatNum(val)} USD`; }
         function formatNum(val) { return new Intl.NumberFormat(nomadDisplayLocale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
         function formatInt(val) { return new Intl.NumberFormat(nomadDisplayLocale()).format(Math.round(val)); }
         // Presentation-only wrappers for already-calculated period totals.
@@ -1874,7 +1874,7 @@
                 const div = document.createElement('div');
                 if(serviceMode === 'agent' && def.key === 'agentTaxTurnover')
                     div.classList.add('nd-agent-own-tax-field');
-                const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? 'у.е.*' : '');
+                const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? 'USD' : '');
                 const value = currentValues[def.key] ?? defaults[def.key] ?? 0;
                 const showPayer = serviceMode === 'agent' && agentExpenseKeys.includes(def.key);
                 const payerControls = showPayer ? `
@@ -3118,23 +3118,23 @@
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-3 text-sm">
                             <div class="rounded-lg bg-slate-50 p-2">
                                 <div class="text-xs text-slate-500">${item.source==='own'?'Материалы':'Закупка товара'} / 1 ед.</div>
-                                <div class="font-semibold text-slate-900">${moneyInputValue(item.materialsUnitCost)} у.е.*</div>
+                                <div class="font-semibold text-slate-900">${moneyInputValue(item.materialsUnitCost)} USD</div>
                             </div>
                             <div class="${item.source==='own'?'rounded-lg bg-slate-50 p-2':'hidden'}">
                                 <div class="text-xs text-slate-500">Производство / 1 ед.</div>
-                                <div class="font-semibold text-slate-900">${moneyInputValue(item.productionUnitCost)} у.е.*</div>
+                                <div class="font-semibold text-slate-900">${moneyInputValue(item.productionUnitCost)} USD</div>
                             </div>
                             <div class="rounded-lg bg-slate-50 p-2">
                                 <div class="text-xs text-slate-500">${item.source==='dropship'?'Доставка покупателю':'Логистика'} / 1 ед.</div>
-                                <div class="font-semibold text-slate-900">${moneyInputValue(item.logisticsUnitCost)} у.е.*</div>
+                                <div class="font-semibold text-slate-900">${moneyInputValue(item.logisticsUnitCost)} USD</div>
                             </div>
                             <div class="rounded-lg bg-slate-50 p-2">
                                 <div class="text-xs text-slate-500">Продажи / 1 ед.</div>
-                                <div class="font-semibold text-slate-900">${moneyInputValue(item.salesFixedPerUnit)} у.е.* + ${moneyInputValue(item.salesVariablePct)}%</div>
+                                <div class="font-semibold text-slate-900">${moneyInputValue(item.salesFixedPerUnit)} USD + ${moneyInputValue(item.salesVariablePct)}%</div>
                             </div>
                             <div class="rounded-lg bg-slate-50 p-2">
                                 <div class="text-xs text-slate-500">Реклама / 1 ед.</div>
-                                <div class="font-semibold text-slate-900">${moneyInputValue(item.adCostPerUnit)} у.е.*</div>
+                                <div class="font-semibold text-slate-900">${moneyInputValue(item.adCostPerUnit)} USD</div>
                             </div>
                             <div class="rounded-lg bg-slate-50 p-2">
                                 <div class="text-xs text-slate-500">Прогноз продаж / мес.</div>
@@ -3143,7 +3143,7 @@
                         </div>
                         <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between gap-3 text-sm">
                             <span class="text-slate-500">Себестоимость SKU / 1 ед. для портфельной модели</span>
-                            <span class="font-bold text-slate-900">${moneyInputValue(unitCost)} у.е.*</span>
+                            <span class="font-bold text-slate-900">${moneyInputValue(unitCost)} USD</span>
                         </div>
                     </article>`;
                 }).join('') +
@@ -4238,8 +4238,8 @@
                 {minimumFractionDigits:kind==='percent'||kind==='ratio'?0:2,
                  maximumFractionDigits:2});
             const language=window.Nomad360LocaleCore?.locale?.()||'ru';
-            const unit=kind==='money'?' '+(language==='en'?'currency units*':
-                language==='kk'?'ш.б.*':'у.е.*'):'';
+            const unit=kind==='money'?' '+(language==='en'?'USD':
+                language==='kk'?'USD':'USD'):'';
             node.textContent=number+suffix+unit;
         }
 
@@ -6149,11 +6149,11 @@
             if (capitalEl) capitalEl.textContent = requiredCapitalText;
             if (termEl) termEl.textContent = cycleText;
             const baseEl = section.querySelector('[data-aggregate-final="baseRequiredCapital"]');
-            if (baseEl) baseEl.textContent = moneyInputValue(item.source==='dropship'?m.baseRequiredCapital||0:m.nonRevenueCosts||0) + ' у.е.*';
+            if (baseEl) baseEl.textContent = moneyInputValue(item.source==='dropship'?m.baseRequiredCapital||0:m.nonRevenueCosts||0) + ' USD';
             const floatEl=section.querySelector('[data-drop-supplier-float]');
-            if(floatEl)floatEl.textContent=moneyInputValue(m.supplierFloat||0)+' у.е.*';
+            if(floatEl)floatEl.textContent=moneyInputValue(m.supplierFloat||0)+' USD';
             const reserveEl = section.querySelector('[data-aggregate-final="reserveAmount"]');
-            if (reserveEl) reserveEl.textContent = moneyInputValue(m.reserveAmount || 0) + ' у.е.*';
+            if (reserveEl) reserveEl.textContent = moneyInputValue(m.reserveAmount || 0) + ' USD';
             const waterfall = {
                 ad: m.adTotal,
                 selling: (m.adTotal || 0) + (m.salesTotal || 0),
@@ -6162,7 +6162,7 @@
             };
             Object.entries(waterfall).forEach(([key, amount]) => {
                 const el = section.querySelector('[data-waterfall="' + key + '"]');
-                if (el) el.textContent = amount === null ? '—' : moneyInputValue(amount || 0) + ' у.е.*';
+                if (el) el.textContent = amount === null ? '—' : moneyInputValue(amount || 0) + ' USD';
             });
             // Field-level validation updates even when changes come from another SKU
             // form or a reloaded portfolio; no distant top-of-page warning.
@@ -6446,10 +6446,10 @@
                     <!-- Validation belongs to the offending quantity, not the heading. -->
                     <div class="mt-6 space-y-5 text-sm">
                         ${item.source==='dropship' ? '<div class="aggregate-line font-semibold">Прогноз заказов от рекламы: ' + moneyInputValue(adUnits) + ' за 30 дней. Склад не закупается.</div>' : ''}
-                        ${item.source==='offline-service'?'<div class="aggregate-line font-semibold">Буду оказывать '+moneyInputValue(adUnits)+' услуг / месяц при вместимости '+moneyInputValue(item.offlineServiceCapacity)+' процедур. Расходники на процедуры — '+moneyInputValue(item.materialsBatchTotal)+' у.е.*, аренда, мастера и оборудование — '+moneyInputValue(item.productionTotal)+' у.е. / мес. Склада и производства нет.</div>':''}
+                        ${item.source==='offline-service'?'<div class="aggregate-line font-semibold">Буду оказывать '+moneyInputValue(adUnits)+' услуг / месяц при вместимости '+moneyInputValue(item.offlineServiceCapacity)+' процедур. Расходники на процедуры — '+moneyInputValue(item.materialsBatchTotal)+' USD, аренда, мастера и оборудование — '+moneyInputValue(item.productionTotal)+' USD / мес. Склада и производства нет.</div>':''}
                         <div class="aggregate-line ${['dropship','offline-service'].includes(item.source)?'hidden':''}">
                             <div class="font-semibold">
-                                ${item.source==='resale'?'Куплю готовый товар в партии':'Привезу материал на'} ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью <span data-aggregate-output="materialsTotal">${moneyInputValue(item.materialsBatchTotal)}</span> у.е.*
+                                ${item.source==='resale'?'Куплю готовый товар в партии':'Привезу материал на'} ${aggregateQtyInput(item, 'materials', materialQty)} шт., общей стоимостью <span data-aggregate-output="materialsTotal">${moneyInputValue(item.materialsBatchTotal)}</span> USD
                             </div>
                             <div class="mt-3 space-y-3">
                                 <div>
@@ -6472,7 +6472,7 @@
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator ${['resale','dropship','offline-service'].includes(item.source)?'hidden':''}">
                             <div class="font-semibold">
-                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> у.е.*
+                                Сделаю ${aggregateQtyInput(item, 'production', productionQty)} шт., потрачу <span data-aggregate-output="productionTotal">${moneyInputValue(item.productionTotal)}</span> USD
                             </div>
                             <div class="mt-3">
                                 <label class="block text-xs mb-1">Срок производства, дней</label>
@@ -6482,20 +6482,20 @@
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold ${['dropship','offline-service'].includes(item.source)?'hidden':''}">
-                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., доставка до склада и введённые дни хранения — <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> у.е.*
+                            Положу на склад ${aggregateQtyInput(item, 'logistics', logisticsQty)} шт., доставка до склада и введённые дни хранения — <span data-aggregate-output="warehouseTotal">${moneyInputValue(item.warehouseStageTotal)}</span> USD
                             <div class="text-sm mt-2">
                                 Но товар хранится до полной распродажи: ${aggregatePlanMetrics(item).sellThroughDays === null ? 'укажите прогноз продаж' : aggregateDaysText(aggregatePlanMetrics(item).sellThroughDays) + ' дней'};
-                                полное хранение по прогнозу — ${moneyInputValue(aggregatePlanMetrics(item).warehouseTotal || 0)} у.е.* с доставкой на склад.
+                                полное хранение по прогнозу — ${moneyInputValue(aggregatePlanMetrics(item).warehouseTotal || 0)} USD с доставкой на склад.
                                 В цене учитывается весь период хранения, а не только введённые выше дни.
                             </div>
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> у.е.* за возможность продать ${item.source==='offline-service'?moneyInputValue(adUnits)+' ожидаемых посещений':item.source==='dropship'?moneyInputValue(adUnits)+' прогнозных заказов':aggregateQtyInput(item, 'sales', salesQty)+' шт.'}
+                            Заплачу продавцам / площадке <span data-aggregate-output="salesTotal">${moneyInputValue(item.salesFixedMonthly)}</span> USD за возможность продать ${item.source==='offline-service'?moneyInputValue(adUnits)+' ожидаемых посещений':item.source==='dropship'?moneyInputValue(adUnits)+' прогнозных заказов':aggregateQtyInput(item, 'sales', salesQty)+' шт.'}
                         </div>
 
                         <div class="aggregate-line pt-4 border-t aggregate-separator font-semibold">
-                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> у.е.* за рекламу, чтобы ${item.source==='offline-service'?'привлечь '+moneyInputValue(adUnits)+' клиентов':'продать '+aggregateQtyInput(item, 'ads', adUnits)+' шт.'}
+                            Заплачу <span data-aggregate-output="adTotal">${moneyInputValue(item.adTotal)}</span> USD за рекламу, чтобы ${item.source==='offline-service'?'привлечь '+moneyInputValue(adUnits)+' клиентов':'продать '+aggregateQtyInput(item, 'ads', adUnits)+' шт.'}
                         </div>
 
                         ${item.source==='dropship'?'<div class="aggregate-line pt-4 border-t aggregate-separator">Доставка покупателю: '+(item.dropshipDeliveryDays??0)+' дней, задержка выплаты: '+(item.dropshipPayoutLagDays??0)+' дней. Складских расходов нет.</div>':''}
@@ -6505,14 +6505,14 @@
                                 <label class="text-sm font-semibold">Резерв, % от плановых расходов</label>
                                 <input type="number" min="0" max="1000" step="0.01" class="input-field" value="${esc(planning.reservePct ?? '')}" oninput="updateProductPlanning(${item.id}, 'reservePct', this.value)">
                                 <span class="text-sm">${item.source==='dropship'?'Стартовые деньги без резерва':'Расходы без резерва'}</span>
-                                <span class="font-bold text-right" data-aggregate-final="baseRequiredCapital">${moneyInputValue(item.source==='dropship'?aggregatePlanMetrics(item).baseRequiredCapital:aggregatePlanMetrics(item).nonRevenueCosts)} у.е.*</span>
+                                <span class="font-bold text-right" data-aggregate-final="baseRequiredCapital">${moneyInputValue(item.source==='dropship'?aggregatePlanMetrics(item).baseRequiredCapital:aggregatePlanMetrics(item).nonRevenueCosts)} USD</span>
                                 <span class="text-sm">Резерв денег, не расход и не налоговый вычет</span>
-                                <span class="font-bold text-right" data-aggregate-final="reserveAmount">${moneyInputValue(aggregatePlanMetrics(item).reserveAmount || 0)} у.е.*</span>
+                                <span class="font-bold text-right" data-aggregate-final="reserveAmount">${moneyInputValue(aggregatePlanMetrics(item).reserveAmount || 0)} USD</span>
                             </div>
                             <div class="aggregate-final-total">
                                 ${item.source==='dropship'?'На рекламный запуск и исполнение заказов до доступности денег покупателя мне нужно':'Чтобы выполнить весь цикл до последней продажи, без расчёта на поступления будущей выручки, с резервом денег мне нужно'}
                                 <span class="aggregate-final-value" data-aggregate-final="requiredCapital">${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
-                                у.е.* на
+                                USD на
                                 <span class="aggregate-final-value" data-aggregate-final="totalCycleDays">${aggregatePlanMetrics(item).totalCycleDays === null ? '—' : aggregateDaysText(aggregatePlanMetrics(item).totalCycleDays)}</span>
                                 дней.
                             </div>
@@ -6521,14 +6521,14 @@
                                 <div class="font-black mb-2">Расходы и потребность в деньгах — от меньшего к большему</div>
                                 <div class="grid grid-cols-2 gap-2">
                                     <span>Реклама и ведение за цикл</span>
-                                    <strong class="text-right" data-waterfall="ad">${moneyInputValue(aggregatePlanMetrics(item).adTotal || 0)} у.е.*</strong>
+                                    <strong class="text-right" data-waterfall="ad">${moneyInputValue(aggregatePlanMetrics(item).adTotal || 0)} USD</strong>
                                     <span>Расходы на продажи (реклама + ведение + фиксированные продавцы)</span>
-                                    <strong class="text-right" data-waterfall="selling">${moneyInputValue((aggregatePlanMetrics(item).adTotal || 0) + (aggregatePlanMetrics(item).salesTotal || 0))} у.е.*</strong>
+                                    <strong class="text-right" data-waterfall="selling">${moneyInputValue((aggregatePlanMetrics(item).adTotal || 0) + (aggregatePlanMetrics(item).salesTotal || 0))} USD</strong>
                                     <span>Все плановые расходы цикла до резервирования</span>
-                                    <strong class="text-right" data-waterfall="costs">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts || 0)} у.е.*</strong>
-                                    ${item.source==='dropship'?'<span>Финансирование заказов в доставке</span><strong class="text-right" data-drop-supplier-float>'+moneyInputValue(aggregatePlanMetrics(item).supplierFloat||0)+' у.е.*</strong>':''}
+                                    <strong class="text-right" data-waterfall="costs">${moneyInputValue(aggregatePlanMetrics(item).nonRevenueCosts || 0)} USD</strong>
+                                    ${item.source==='dropship'?'<span>Финансирование заказов в доставке</span><strong class="text-right" data-drop-supplier-float>'+moneyInputValue(aggregatePlanMetrics(item).supplierFloat||0)+' USD</strong>':''}
                                     <span class="font-black">Капитал, необходимый с резервом</span>
-                                    <strong class="text-right" data-waterfall="funding">${moneyInputValue(aggregatePlanMetrics(item).requiredCapital || 0)} у.е.*</strong>
+                                    <strong class="text-right" data-waterfall="funding">${moneyInputValue(aggregatePlanMetrics(item).requiredCapital || 0)} USD</strong>
                                 </div>
                                 <div class="text-xs mt-2 opacity-80">Процентные комиссии и штрафы с выручки оплачиваются при продажах: они рассчитаны отдельно в цене и в cash flow и не являются авансовым расходом этого перечня.</div>
                             </div>
@@ -6551,7 +6551,7 @@
                                 <div class="aggregate-line font-semibold">
                                     Сумма кредита:
                                     <span class="aggregate-final-value" data-credit-amount>${aggregatePlanMetrics(item).requiredCapital === null ? '—' : moneyInputValue(aggregatePlanMetrics(item).requiredCapital)}</span>
-                                    у.е.*
+                                    USD
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
@@ -6582,16 +6582,16 @@
                                 <div class="aggregate-price-card mt-4">
                                     <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                                         <span class="aggregate-muted">Проценты по кредиту / месяц (без тела)</span>
-                                        <span class="font-bold text-right"><span data-credit-monthly-service>—</span> у.е.*</span>
+                                        <span class="font-bold text-right"><span data-credit-monthly-service>—</span> USD</span>
                                         <span class="aggregate-muted">Все проценты кредита на 1 ед. партии «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right"><span data-credit-unit-load>—</span> у.е.*</span>
+                                        <span class="font-bold text-right"><span data-credit-unit-load>—</span> USD</span>
                                         <span class="aggregate-muted">Проценты за весь срок</span>
-                                        <span class="font-bold text-right"><span data-credit-total-interest>—</span> у.е.*</span>
+                                        <span class="font-bold text-right"><span data-credit-total-interest>—</span> USD</span>
                                     </div>
                                     <div class="mt-3 pt-3 border-t aggregate-separator">
                                         <div class="aggregate-muted text-xs">Полная сумма к возврату</div>
                                         <div class="aggregate-price-number mt-1">
-                                            <span data-credit-total>—</span> у.е.*
+                                            <span data-credit-total>—</span> USD
                                         </div>
                                     </div>
                                 </div>
@@ -6624,7 +6624,7 @@
                                     <div class="aggregate-price-card">
                                         <div class="aggregate-muted text-xs">Цена «${esc(item.name)}» за 1 ед. без налогов и НДС</div>
                                         <div class="aggregate-price-number mt-1">
-                                            <span data-aggregate-price="priceBeforeTax">${aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTax)}</span> у.е.*
+                                            <span data-aggregate-price="priceBeforeTax">${aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTax)}</span> USD
                                         </div>
                                     </div>
                                     <div class="aggregate-price-card" data-vat-price-card>
@@ -6641,7 +6641,7 @@
                                                             ? 'укажите ставку НДС'
                                                             : (
                                                                 aggregatePricingMetrics(item).salesVatChoice === 'yes'
-                                                                    ? aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTaxWithVat) + ' у.е.*'
+                                                                    ? aggregatePriceText(aggregatePricingMetrics(item).priceBeforeTaxWithVat) + ' USD'
                                                                     : '—'
                                                             )
                                                     )
@@ -6658,17 +6658,17 @@
                                         <span class="aggregate-muted">Доля выручки от «${esc(item.name)}»</span>
                                         <span class="font-bold text-right" data-aggregate-price="revenueWeight">${aggregatePricingMetrics(item).revenueWeight === null ? '—' : (aggregatePricingMetrics(item).revenueWeight * 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + '%'}</span>
                                         <span class="aggregate-muted">Расходы на рекламу для продажи 1 ед. «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right"><span data-aggregate-price="weightedCac">${aggregatePriceText(aggregatePricingMetrics(item).weightedCac)}</span> у.е.*</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="weightedCac">${aggregatePriceText(aggregatePricingMetrics(item).weightedCac)}</span> USD</span>
                                         <span class="aggregate-muted">Рекламный бюджет на «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right"><span data-aggregate-price="adBudgetPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).adBudget)}</span> у.е.*</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="adBudgetPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).adBudget)}</span> USD</span>
                                         <span class="aggregate-muted">Сколько «${esc(item.name)}» продам по текущему прогнозу</span>
                                         <span class="font-bold text-right"><span data-aggregate-price="forecastSalesPortfolio">${aggregatePricingMetrics(item).forecastSales.toLocaleString('ru-RU', { maximumFractionDigits: 2 })}</span> шт.</span>
                                         <span class="aggregate-muted">Выручка от продажи «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right"><span data-aggregate-price="revenuePortfolio">${aggregatePriceText(aggregatePricingMetrics(item).revenue)}</span> у.е.*</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="revenuePortfolio">${aggregatePriceText(aggregatePricingMetrics(item).revenue)}</span> USD</span>
                                         <span class="aggregate-muted">Себестоимость проданных «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right"><span data-aggregate-price="cogsPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).cogs)}</span> у.е.*</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="cogsPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).cogs)}</span> USD</span>
                                         <span class="aggregate-muted">EBITDA «${esc(item.name)}»</span>
-                                        <span class="font-bold text-right"><span data-aggregate-price="ebitdaPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).ebitda)}</span> у.е.*</span>
+                                        <span class="font-bold text-right"><span data-aggregate-price="ebitdaPortfolio">${aggregatePriceText(aggregatePricingMetrics(item).ebitda)}</span> USD</span>
                                         <span class="aggregate-muted">ROAS рекламы «${esc(item.name)}»</span>
                                         <span class="font-bold text-right" data-aggregate-price="roasPortfolio">${aggregatePricingMetrics(item).roas === null ? '—' : aggregatePricingMetrics(item).roas.toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + 'x'}</span>
                                     </div>
@@ -6708,7 +6708,7 @@
                                                     : aggregatePricingMetrics(item).priceBeforeTax
                                             )
                                         }</span>
-                                        у.е.* и сколько это будет стоить для бизнеса.
+                                        USD и сколько это будет стоить для бизнеса.
                                     </div>
 
                                     <div class="mt-2 text-sm font-semibold">
@@ -7125,7 +7125,7 @@
 
                 <div class="grid grid-cols-2 gap-2 mt-2">
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Цена 1 ед. материала, у.е.*</label>
+                        <label class="block text-xs text-slate-500 mb-1">Цена 1 ед. материала, USD</label>
                         <input type="number" min="0" step="0.01" value="0" class="material-cost-price input-field" oninput="updateCalculatedMaterialsCost()">
                     </div>
                     <div>
@@ -7148,7 +7148,7 @@
                 </div>
 
                 <div class="mt-2 text-xs text-slate-500">
-                    Вклад материала в 1 товар, у.е.*:
+                    Вклад материала в 1 товар, USD:
                     <span class="material-cost-line-total font-semibold text-slate-900">0,00</span>
                 </div>
             `;
@@ -7197,9 +7197,9 @@
             const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
             box.innerHTML=goods.length?goods.map(g=>
                 '<div class="grid grid-cols-[1fr_auto] gap-3 py-2 border-b border-slate-200"><span><b>'+esc(g.name)+'</b><span class="block text-xs text-slate-500">'+
-                g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span>'+ (g.id===Number(currentProductSequence)?'': '<button type="button" onclick="editSavedProduct('+g.id+')" class="text-xs underline text-blue-800 mt-1">Редактировать товар</button>') + '</span><b>'+moneyInputValue(g.price)+' у.е.*</b></div>').join('')+
+                g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span>'+ (g.id===Number(currentProductSequence)?'': '<button type="button" onclick="editSavedProduct('+g.id+')" class="text-xs underline text-blue-800 mt-1">Редактировать товар</button>') + '</span><b>'+moneyInputValue(g.price)+' USD</b></div>').join('')+
                 '<div class="flex justify-between font-bold mt-3"><span>Всего позиций: '+goods.length+'</span><span>'+
-                moneyInputValue(goods.reduce((s,g)=>s+g.price,0))+' у.е.* закупки, без доставки</span></div>':
+                moneyInputValue(goods.reduce((s,g)=>s+g.price,0))+' USD закупки, без доставки</span></div>':
                 '<p class="text-xs text-slate-500">Сначала укажите закупаемый товар и стоимость партии.</p>';
         }
         function markResaleWarehouseQtyManual(){
@@ -7216,7 +7216,7 @@
             if(oldCost)oldCost.value=String(cost/qty);
             if(productSource==='resale'&&!resaleWarehouseQtyManual){const stock=document.getElementById('own-logistics-qty');if(stock)stock.value=String(qty);}
             const output=document.getElementById('resale-buy-unit');
-            if(output)output.textContent=raw===''?'—':moneyInputValue(cost/qty)+' у.е.*';
+            if(output)output.textContent=raw===''?'—':moneyInputValue(cost/qty)+' USD';
             const warning=document.getElementById('resale-buy-warning');
             if(warning){warning.hidden=cost>0;warning.classList.toggle('hidden',cost>0);}
             updateInboundDeliveryDefault();recalculateMaterialsLandedCost();renderResalePurchaseComposition();
@@ -7284,7 +7284,7 @@
             set('production-self-button',service?'Я оказываю услуги сам':'Всё делаю сам');
             set('production-workers-button',service?'Нанимаю мастеров':'Плачу рабочим');
             set('production-workers-count-label',service?'Количество мастеров':'Количество рабочих');
-            set('production-worker-gross-label',service?'Gross 1 мастера / месяц, у.е.*':'Gross 1 рабочего / месяц, у.е.*');
+            set('production-worker-gross-label',service?'Gross 1 мастера / месяц, USD':'Gross 1 рабочего / месяц, USD');
             set('production-result-caption',service?'Аренда, мастера и другие расходы на 1 услугу':'Стоимость производства 1 ед.');
             set('production-qty-label','Сколько единиц');
             set('production-qty-suffix','производите в месяц?');
@@ -7364,13 +7364,13 @@
             set('resale-buy-heading',drop?'Где и почём куплю товар?':'Минимальная партия');
             set('resale-buy-help',drop?'Каждый товар и поставщик считаются отдельно. Закупка — только под оплачиваемый покупателем заказ.':'Каждый товар в закупочном заказе — отдельная позиция.');
             set('resale-buy-qty-label',drop?'Единиц в одном заказе поставщику':'Количество готовых единиц в минимальной партии');
-            set('resale-buy-cost-label',drop?'Цена заказа у поставщика, у.е.*':'Себестоимость минимальной партии, у.е.*');
+            set('resale-buy-cost-label',drop?'Цена заказа у поставщика, USD':'Себестоимость минимальной партии, USD');
             set('resale-composition-title',drop?'Мой ассортимент по отдельным товарам':'Состав моего заказа по отдельным товарам');
             set('resale-buy-add-label',drop?'+ Добавить товар в ассортимент':'+ Добавить ещё один товар в заказ');
             set('logistics-stage-heading',drop?'Доставка до покупателя':'Логистика и склад');
             set('logistics-result-caption',drop?'Стоимость доставки покупателю 1 ед.':'Минимальная стоимость хранения и доставки до покупателя 1 ед.');
-            const own={vat:'НДС уже включён в себестоимость материалов?',rate:'Ставка НДС на материалы, %',delivery:'Доставка материалов до меня уже включена в себестоимость?',deliveryAmount:'Стоимость доставки материалов до меня, у.е.*',deliveryHint:'По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.',import:'Материалы везут ко мне из-за границы?'};
-            const buy={vat:'НДС уже включён в цену готового товара?',rate:'Ставка НДС при закупке товара, %',delivery:'Доставка готового товара до меня уже включена?',deliveryAmount:'Доставка готового товара до меня за 1 ед., у.е.*',deliveryHint:'По умолчанию — 10% от закупочной цены единицы с НДС. Значение можно заменить вручную.',import:'Товар везут ко мне из-за границы?'};
+            const own={vat:'НДС уже включён в себестоимость материалов?',rate:'Ставка НДС на материалы, %',delivery:'Доставка материалов до меня уже включена в себестоимость?',deliveryAmount:'Стоимость доставки материалов до меня, USD',deliveryHint:'По умолчанию — 10% от себестоимости материалов с НДС. Значение можно заменить вручную.',import:'Материалы везут ко мне из-за границы?'};
+            const buy={vat:'НДС уже включён в цену готового товара?',rate:'Ставка НДС при закупке товара, %',delivery:'Доставка готового товара до меня уже включена?',deliveryAmount:'Доставка готового товара до меня за 1 ед., USD',deliveryHint:'По умолчанию — 10% от закупочной цены единицы с НДС. Значение можно заменить вручную.',import:'Товар везут ко мне из-за границы?'};
             document.querySelectorAll('[data-buy-copy]').forEach(el=>el.textContent=(drop?{...buy,import:'Поставщик отправляет товар покупателю из-за границы?'}:resale?buy:own)[el.dataset.buyCopy]||el.textContent);
             if(ready){['own-materials-known-wrap','own-materials-calc-wrap'].forEach(id=>{const el=document.getElementById(id);if(el){el.hidden=true;el.classList.add('hidden');}});updateResalePurchase();recalculateProductionUnitCost();}
             if(drop)recalculateLogisticsUnitCost();
@@ -7716,7 +7716,7 @@
                 </div>
                 <div class="grid grid-cols-[1fr_auto] gap-2 items-end mt-2">
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Стоимость 1 ед. / мес, у.е.*</label>
+                        <label class="block text-xs text-slate-500 mb-1">Стоимость 1 ед. / мес, USD</label>
                         <input type="number" min="0" step="0.01" value="0" class="equipment-rental-cost input-field" oninput="updateEquipmentRentalTotal()">
                     </div>
                     <button type="button" onclick="removeEquipmentRow(this, 'rental')" class="h-10 w-10 rounded-lg border border-slate-300 text-slate-500">×</button>
@@ -7775,7 +7775,7 @@
                         <input type="number" min="1" step="1" value="12" class="equipment-useful-life input-field" oninput="updateEquipmentDepreciationTotal()">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-500 mb-1">Амортизация / мес, у.е.*</label>
+                        <label class="block text-xs text-slate-500 mb-1">Амортизация / мес, USD</label>
                         <input type="text" value="0,00" class="equipment-depreciation input-field bg-slate-100" readonly>
                     </div>
                 </div>

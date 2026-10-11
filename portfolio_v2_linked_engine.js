@@ -23,7 +23,7 @@
     }));
     return {version:3,source:'v1-calculated',importedAt:new Date().toISOString(),
       sourceSignature:JSON.stringify(payload),
-      skus,resources:[],offers:[],tax:{...payload.tax},currency:'у.е.*',
+      skus,resources:[],offers:[],tax:{...payload.tax},currency:'USD',
       forecastMonths:1,recurringDemandApproved:false};
   }
   function shares(resource,skus){

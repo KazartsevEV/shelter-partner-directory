@@ -147,9 +147,9 @@ test('product physical flow and salon capacity warnings translate amounts withou
 
 test('online service three-mode financial labels, V2/MBA copy and legal notice cover both target languages',()=>{
  const sources=[
-  'Месячный бюджет на рекламу, у.е.*','CTR (кликабельность)',
+  'Месячный бюджет на рекламу, USD','CTR (кликабельность)',
   'Конверсия Клик → Лид','Конверсия Лид → Сделка',
-  'Стоимость консультации, у.е.*','Стоимость пакета консультаций, у.е.*',
+  'Стоимость консультации, USD','Стоимость пакета консультаций, USD',
   'Торговая наценка к стоимости исполнителя','Моё вознаграждение с объёма продаж',
   'Мой налог на оборот*','Налог принципала на оборот*',
   'Комиссия эквайринга — платит принципал','Количество кликов',
@@ -175,7 +175,7 @@ test('agent payer Hold and V2 period diagnostics remain fail-closed across langu
   'У товара 1 нет названия.',
   'Клики 0,00, лиды 0,00, заказы/месяц 0,00, базовый CAC 0,00',
   'Исправьте поля, выделенные красным, рядом с местом ввода. Проверок осталось: 7.',
-  'Уже учтено в V1, у.е. / мес (доступно 100.00)',
+  'Уже учтено в V1, USD / мес (доступно 100.00)',
   'Экономика за 3 мес. · расчётная цена за весь период',
   'Цена для целевой маржи: 48.27; для минимальной: 48.27; денежная доля: 28.31%; целевая маржа достигнута'
  ];
@@ -393,12 +393,12 @@ test('financial glossary: monetary units are not translated as physical units',(
  const sandbox={Nomad360UI:{getLanguage:()=> 'en'}};
  new Function('window','document',src.replace(anchor,'window.__financialRows=rows;'+anchor))(
   sandbox,{readyState:'loading',addEventListener(){}});
- const rows=sandbox.__financialRows.filter(([ru])=>ru.includes('у.е.*'));
- A.ok(rows.length>=50,'monetary labels were not collected');
+ const rows=sandbox.__financialRows.filter(([ru])=>ru.includes('USD'));
+ A.ok(rows.length>=50,'USD-denominated labels were not collected');
  for(const [ru,en,kk] of rows){
-  A.ok(en.includes('currency units*'),'wrong monetary EN unit: '+ru+' => '+en);
-  A.ok(kk.includes('ш.б.*'),'wrong monetary KK unit: '+ru+' => '+kk);
+  A.ok(en.includes('USD'),'wrong monetary EN code: '+ru+' => '+en);
+  A.ok(kk.includes('USD'),'wrong monetary KK code: '+ru+' => '+kk);
  }
- A.equal(tr('у.е.*','en'),'currency units*');
- A.equal(tr('у.е.*','kk'),'ш.б.*');
+ A.equal(tr('USD','en'),'USD');
+ A.equal(tr('USD','kk'),'USD');
 });

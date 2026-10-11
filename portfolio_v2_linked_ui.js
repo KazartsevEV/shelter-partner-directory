@@ -211,7 +211,7 @@ function resourceCard(r,i){
    (checked?'<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">'+
     (splitPools?'<label class="text-xs font-semibold text-slate-700">Где учтена сумма у этой позиции?<select data-linked-path="resources.'+i+'.poolBySku.'+safe(s.id)+'" class="input-field mt-1">'+options(pools,pool)+'</select></label>':'')+
     (splitPools&&pool==='unitCost'?'<label class="text-xs font-semibold text-slate-700">Исходный денежный платёж<select data-linked-path="resources.'+i+'.cashOriginBySku.'+safe(s.id)+'" class="input-field mt-1">'+options([['','Выберите'],['materials','Материалы'],['production','Производство / аренда'],['fulfillment','Исполнение']],origin)+'</select></label>':'')+
-    (pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
+    (pool!=='none'?field('Уже учтено в V1, USD / мес (доступно '+money(baseline)+')',
       'resources.'+i+'.includedBySku.'+s.id,r.includedBySku?.[s.id]??0):'')+
     (r.allocation==='usage'?(r.usageMode==='per-unit'?
       field('Ресурс на 1 продажу / посещение','resources.'+i+'.loadPerUnit.'+s.id,r.loadPerUnit?.[s.id]??0):
@@ -224,7 +224,7 @@ function resourceCard(r,i){
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
  '<label class="text-xs font-semibold text-slate-700">Название<input data-linked-path="resources.'+i+'.label" type="text" class="input-field mt-1" value="'+safe(r.label)+'"></label>'+
  '<label class="text-xs font-semibold text-slate-700">Тип ресурса<select data-linked-path="resources.'+i+'.kind" class="input-field mt-1">'+options(kinds,r.kind)+'</select></label>'+
- field('Один реальный платёж, у.е.','resources.'+i+'.amount',r.amount)+
+ field('Один реальный платёж, USD','resources.'+i+'.amount',r.amount)+
  '<label class="text-xs font-semibold text-slate-700">Периодичность<select data-linked-path="resources.'+i+'.cadence" class="input-field mt-1">'+options([['monthly','Ежемесячно'],['once','Разово']],r.cadence)+'</select></label>'+
  '<label class="text-xs font-semibold text-slate-700">Что заменить в старых расчётах?<select data-linked-path="resources.'+i+'.pool" class="input-field mt-1">'+options(pools,r.pool)+'</select></label>'+
  (r.pool==='unitCost'?'<label class="text-xs font-semibold text-slate-700">Из какого платежа V1 вычесть старый расход?<select data-linked-path="resources.'+i+'.cashOrigin" class="input-field mt-1">'+options([['','Выберите исходный платёж'],['materials','Закупка / материалы'],['production','Производство'],['fulfillment','Доставка / исполнение заказа']],r.cashOrigin||'')+'</select></label>':'')+
