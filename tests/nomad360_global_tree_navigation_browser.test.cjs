@@ -51,6 +51,15 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   await page.locator('[data-product-source="own"]').click();
   A.deepEqual(await keys(),['home-screen','product-screen:name','product-screen:source','product-screen:expenses']);
   A.match(await back.innerText(),/Источник товара/);
+  // Product business edit uses its own existing 'back to results' control;
+  // it must replace, not duplicate, the ordinary product arrow.
+  await page.evaluate(()=>document.getElementById('product-business-back-button').classList.remove('hidden'));
+  await oneArrow();
+  A.equal(await page.locator('#product-main-back').isVisible(),false,
+   'product edit return suppresses ordinary back arrow');
+  A.match(await back.innerText(),/Итоги бизнеса/);
+  await page.evaluate(()=>document.getElementById('product-business-back-button').classList.add('hidden'));
+  A.match(await back.innerText(),/Источник товара/);
   await back.click();
   A.equal(await page.locator('#product-source-block').isVisible(),true);
   A.equal(await page.locator('#product-own-form').isVisible(),false);
