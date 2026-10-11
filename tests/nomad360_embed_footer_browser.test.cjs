@@ -31,6 +31,77 @@ const server=createServer(async(req,res)=>{
   page.on('pageerror',e=>errors.push(e.message));
   await page.route(/^https?:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
   await page.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+  // 2026-10-11 donation footer: only one global crypto link, KZ phone,
+  // expandable international bank details and discreet Ozon at the very end.
+  const support=page.locator('#nomad360-support');
+  const checkout=support.locator('.nomad-donate-checkout-link');
+  A.equal(await checkout.getAttribute('href'),'https://donate.trybit.com/O8CSU052');
+  A.equal(await checkout.getAttribute('target'),'_blank','Trybit opens in another tab');
+  A.match(await checkout.getAttribute('rel'),/noopener/);
+  A.match(await checkout.textContent(),/Поддержать Nomad360 криптовалютой/);
+  A.equal(await support.locator('.nomad-pay-kaspi .nomad-kz-flag').textContent(),'🇰🇿');
+  A.match(await support.locator('.nomad-pay-kaspi').innerText(),
+    /Перевод по номеру телефона для владельцев казахстанских карт/);
+  A.match(await support.locator('.nomad-pay-kaspi').innerText(),/\+7 777 129 56 93/);
+  A.equal(await support.locator('.nomad-pay-kaspi [data-nomad-copy]').getAttribute('data-nomad-copy'),
+    '+7 777 129 56 93');
+  A.equal(await support.locator('.nomad-pay-bank').getAttribute('open'),null);
+  await support.locator('.nomad-pay-bank summary').click();
+  A.equal(await support.locator('.nomad-pay-bank').getAttribute('open'),'');
+  for(const [label,value] of [['Получатель','Kazartsev Evgenii'],
+    ['Банк','АО Kaspi Bank'],['SWIFT/BIC','CASPKZKA'],
+    ['IBAN','KZ53722C000089313796']]){
+    const row=support.locator('.nomad-bank-row').filter({hasText:value});
+    A.equal(await row.count(),1,label+' shown once');
+    A.equal(await row.locator('[data-nomad-copy]').getAttribute('data-nomad-copy'),value);
+  }
+  A.equal(await support.locator('.nomad-russian-transfer').getAttribute('open'),null);
+  await support.locator('.nomad-russian-transfer summary').click();
+  A.match(await support.locator('.nomad-russian-transfer').innerText(),/Озон Банк/);
+  A.match(await support.locator('.nomad-russian-transfer').innerText(),/\+7 977 986 74 41/);
+  A.equal(await support.locator('.nomad-russian-transfer [data-nomad-copy]')
+    .getAttribute('data-nomad-copy'),'+7 977 986 74 41');
+  A.equal(await support.locator('.nomad-russian-details strong')
+    .evaluate(node=>getComputedStyle(node).color),'rgb(237, 142, 99)',
+    'Bank name Ozon is orange');
+  A.equal(await support.evaluate(el=>{
+    const last=el.querySelector('.nomad-russian-transfer');
+    const footerChildren=[...el.children];
+    return footerChildren[footerChildren.length-1]===last;
+  }),true,'Russia card link is the LAST support option');
+  A.doesNotMatch(await support.textContent(),/Bybit|Байбит|Байбит картасы/i);
+  A.equal(await support.locator('.nomad-direct-crypto, .nomad-qr, .nomad-pay-crypto').count(),0,
+    'Trybit replaces standalone USDT/BTC wallet links entirely');
+  A.equal(await support.locator('.nomad-copy').count(),6,
+    'KZ phone + four SWIFT details + Ozon number');
+  for(const width of [320,390,1440]){
+    await page.setViewportSize({width,height:844});
+    const geometry=await support.evaluate(el=>({
+      viewport:innerWidth,
+      maxRight:Math.max(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-donate-checkout-link, .nomad-bank-row, .nomad-russian-transfer')].map(n=>n.getBoundingClientRect().right)),
+      minLeft:Math.min(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-donate-checkout-link')].map(n=>n.getBoundingClientRect().left))
+    }));
+    A.ok(geometry.maxRight<=width+1&&geometry.minLeft>=-1,
+      'Donation cards fit '+width+' viewport: '+JSON.stringify(geometry));
+  }
+  await page.setViewportSize({width:390,height:844});
+  const snapshotDir=path.resolve(ROOT,'artifacts/donation-footer');
+  await fs.mkdir(snapshotDir,{recursive:true});
+  await support.screenshot({path:path.join(snapshotDir,'donations-mobile-390.png'),animations:'disabled'});
+  for(const [lang,headline] of [['en','Support Nomad360 with cryptocurrency'],
+    ['kk','Nomad360 жобасын криптовалютамен қолдау'],
+    ['ru','Поддержать Nomad360 криптовалютой']]){
+    await page.evaluate(language=>Nomad360UI.setLanguage(language),lang);
+    A.match(await support.locator('.nomad-donate-checkout-link').innerText(),new RegExp(headline));
+    A.equal(await support.locator('.nomad-donate-checkout-link').getAttribute('href'),
+      'https://donate.trybit.com/O8CSU052');
+    A.equal(await support.locator('.nomad-pay-bank summary').count(),1);
+    A.equal(await support.locator('.nomad-russian-transfer summary').count(),1);
+    A.doesNotMatch(await support.textContent(),/Bybit|Байбит/i);
+  }
+  await page.setViewportSize({width:1440,height:900});
+  await support.screenshot({path:path.join(snapshotDir,'donations-desktop-1440.png'),animations:'disabled'});
+  await page.setViewportSize({width:390,height:844});
   const license=page.locator('#nomad360-license');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
    A.equal(await license.locator('[data-nomad-embed-retry]').isVisible(),false,

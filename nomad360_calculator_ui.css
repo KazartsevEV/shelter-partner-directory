@@ -252,3 +252,51 @@ a.nomad-pay-value{text-decoration:underline}
   font-size:22px;font-weight:800;color:#fff;
   font-variant-numeric:tabular-nums
 }
+
+/* Voluntary donations: hosted global crypto checkout, local KZ transfer,
+   expandable SWIFT details, and low-emphasis RU transfer. No V1/V2 styles. */
+.nomad-donate-checkout{margin-top:24px;display:grid;gap:8px;max-width:760px}
+.nomad-footer a.nomad-donate-checkout-link{
+  display:flex;align-items:center;justify-content:flex-start;gap:12px;
+  min-height:58px;padding:14px 18px;border-radius:10px;
+  background:#ed8e63;color:#16375a;text-decoration:none;
+  font-size:17px;font-weight:700;line-height:1.35
+}
+.nomad-footer a.nomad-donate-checkout-link:hover,
+.nomad-footer a.nomad-donate-checkout-link:focus-visible{background:#f4a882;color:#16375a}
+.nomad-donate-globe{display:inline-block;flex:none;font-size:21px;line-height:1}
+.nomad-donate-external{margin-left:auto;font-size:19px}
+.nomad-pay-fiat{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}
+.nomad-kz-flag{display:inline-block;font-size:19px;vertical-align:-2px;margin-right:3px}
+.nomad-pay-kaspi .nomad-pay-hint{margin-top:2px}
+.nomad-pay-bank{display:block;min-width:0}
+.nomad-fold-toggle{
+  display:flex;gap:10px;align-items:flex-start;cursor:pointer;
+  list-style:none;color:#fff;font-weight:600;font-size:16px;line-height:1.45
+}
+.nomad-fold-toggle::-webkit-details-marker,
+.nomad-russian-transfer summary::-webkit-details-marker{display:none}
+.nomad-fold-toggle .nomad-donate-globe{margin-top:2px}
+.nomad-fold-arrow{margin-left:auto;color:#f0b9a5;font-size:22px;line-height:1}
+.nomad-pay-bank[open] .nomad-fold-arrow{transform:rotate(180deg)}
+.nomad-bank-details{margin-top:15px;padding-top:12px;border-top:1px solid var(--nf-line);display:grid;gap:10px}
+.nomad-bank-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
+.nomad-bank-key{grid-column:1/-1;font-size:12px;color:#c3d0de}
+.nomad-bank-value{font-size:14px;line-height:1.5;font-weight:600;color:#fff;overflow-wrap:anywhere;min-width:0}
+.nomad-bank-row .nomad-copy{margin:0;min-height:34px;padding:0 9px;font-size:12px}
+.nomad-russian-transfer{margin-top:18px;border-top:1px solid var(--nf-line);padding-top:15px}
+.nomad-russian-transfer summary{
+  cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:8px;
+  color:#dbe4ee;text-decoration:underline;text-underline-offset:3px;font-size:13px
+}
+.nomad-russian-transfer summary:hover{color:#fff}
+.nomad-russian-details{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:12px}
+.nomad-russian-details strong{color:#ed8e63;font-size:15px}
+.nomad-russian-details a{font-size:15px}
+.nomad-russian-details .nomad-copy{margin-top:0}
+@media(max-width:900px){.nomad-pay-fiat{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:480px){
+ .nomad-footer a.nomad-donate-checkout-link{font-size:16px;padding:13px 14px;min-height:54px}
+ .nomad-donate-globe{font-size:19px}
+ .nomad-pay-bank,.nomad-pay-kaspi{padding:16px}
+}

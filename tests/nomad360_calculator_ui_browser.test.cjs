@@ -422,8 +422,16 @@ async function browserCase(browser,locale,expected){
      en:'* currency units — amounts are shown in your chosen currency.',
      kk:'* ш.б. — сіздің валютаңыздағы ақша.'}[expected.lang]);
   A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
-  A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),2,'Crypto QR codes preserved');
-  A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),5,'All five payment methods must retain copy actions');
+   A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),0,
+     'Standalone USDT and BTC QR codes removed in favour of Trybit');
+  A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),6,
+    'Copy targets: KZ phone, 4 SWIFT fields and Ozon phone');
+  A.equal(await page.locator('#nomad360-footer .nomad-donate-checkout-link').getAttribute('href'),
+    'https://donate.trybit.com/O8CSU052');
+  A.equal(await page.locator('#nomad360-footer .nomad-pay-bank summary').count(),1,
+    'SWIFT data are in an accessible disclosure');
+  A.equal(await page.locator('#nomad360-footer .nomad-russian-transfer summary').count(),1,
+    'Ozon card details are folded last');
   A.equal(await page.locator('#nomad360-footer #nomad360-license').count(),1,'License is in new footer');
   A.equal(await page.locator('#nomad360-footer #nomad360-data').count(),1,'Data statement is in new footer');
   A.equal(await page.locator('#nomad360-footer #nomad360-official').count(),1,'Official contact is in new footer');
