@@ -188,7 +188,8 @@ a.nomad-pay-value{text-decoration:underline}
 
 /* License download/contact actions: same navy/terracotta geometry as Nomad360.
    The downloadable HTML is a fixed snapshot of this edition of the calculator. */
-.nomad-embed-actions{display:grid;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid var(--nf-line);max-width:460px}
+.nomad-embed-actions{display:grid;gap:12px;margin-top:0;max-width:460px}
+.nomad-license-terms{max-width:460px;margin-top:24px;padding-top:18px;border-top:1px solid var(--nf-line)}
 .nomad-embed-title{margin:0;color:#fff;font:700 17px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif}
 .nomad-embed-download,.nomad-embed-contact{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;padding:11px 14px;border:1px solid #f4f7fc;background:#f4f7fc;color:#16375a;font:700 15px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif;text-decoration:none;text-align:center;cursor:pointer}
 .nomad-embed-download:hover:not(:disabled){background:#f3a17a;border-color:#f3a17a;color:#16375a}
