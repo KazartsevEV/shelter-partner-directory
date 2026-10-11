@@ -70,7 +70,21 @@ async function demo(browser, financing) {
             price:model.items[0].price,
             list:pl,
             credit:calculateAggregateCredit(product),
-            summaryText:document.getElementById('product-portfolio-business-summary').textContent
+            summaryText:document.getElementById('product-portfolio-business-summary').textContent,
+            funnelForecast:model.items[0]?.forecastSales,
+            v1DomOrder:(()=>{
+                const report=document.getElementById('product-v1-aggregate-report');
+                const saves=document.getElementById('product-v1-export-buttons');
+                const v2=document.getElementById('product-v2-portfolio-gateway');
+                const before=(left,right)=>!!(left.compareDocumentPosition(right)&Node.DOCUMENT_POSITION_FOLLOWING);
+                return {reportBeforeExports:before(report,saves),
+                    exportsBeforeV2:before(saves,v2),
+                    reportBeforeV2:before(report,v2),
+                    sameTaxSection:report.closest('#product-tax-details')===v2.closest('#product-tax-details')};
+            })(),
+            screenCashRows:[...document.querySelectorAll('#product-portfolio-business-summary table tbody tr')]
+              .map(row=>[...row.querySelectorAll('[data-nomad-display-money]')]
+                .map(el=>Number(el.dataset.nomadDisplayNumber)))
         };
     });
     assert.match(data.productName,/шоппер/i);
@@ -101,6 +115,18 @@ async function demo(browser, financing) {
     assert.match(data.summaryText,new RegExp('Cash flow по месяцам — '+data.months.length+' месяцев'));
     assert.match(data.summaryText,/Период: со дня 0 до дня/);
     assert.match(data.summaryText,/ЖИВЫЕ ДЕНЬГИ/);
+    assert.deepEqual(data.v1DomOrder,{
+        reportBeforeExports:true,exportsBeforeV2:true,reportBeforeV2:true,sameTaxSection:true
+    },'V1 results, monthly Cash Flow and export must precede the V2 continuation');
+    tol(data.funnelForecast,24,'V1 sales forecast comes from advertising funnel, not manual quantity');
+    const expectedCashKeys=['inflow','outflow','taxPaid','interestPaid',
+        'principalRepaid','cashFlow','cumulative','freeCumulative'];
+    assert.equal(data.screenCashRows.length,expectedCashKeys.length,
+        'visible month-by-month cash ledger has all canonical lines');
+    data.screenCashRows.forEach((cells,i)=>{
+        assert.deepEqual(cells,data.months.map(m=>m[expectedCashKeys[i]]),
+            'displayed V1 Cash Flow matches numeric source for '+expectedCashKeys[i]);
+    });
     assert.equal(data.list.ready,true);
     const expectedInterest=financing==='credit'?principal*.01*6:0;
     const basePrice=(unitCost+900/24+reserve/100+expectedInterest/100)/.7;
@@ -166,6 +192,14 @@ async function demo(browser, financing) {
         assert.equal(await normal.locator('#product-demo-banner').isVisible(),false,
             'Ordinary calculator URL must remain untouched');
         assert.equal(await normal.evaluate(()=>productPortfolio.length),0);
+        await normal.evaluate(()=>updateProductPortfolioBusinessSummary());
+        const hint=normal.locator('#product-portfolio-business-summary');
+        assert.match(await hint.textContent(),/Прогноз продаж рассчитывается автоматически по рекламной воронке/);
+        assert.doesNotMatch(await hint.textContent(),/Заполните цену товара, сроки, прогноз продаж и налог/);
+        await normal.locator('#nomad360-lang-select').selectOption('en');
+        assert.match(await hint.textContent(),/The sales forecast is calculated automatically/);
+        await normal.locator('#nomad360-lang-select').selectOption('kk');
+        assert.match(await hint.textContent(),/Сату болжамы жарнама воронкасы бойынша автоматты түрде/);
         await normal.close();
         console.log('NORMAL_MODE_UNCHANGED_GREEN');
     } finally {await browser.close();}
