@@ -1830,3 +1830,73 @@ body #full-service-screen .nd-full-service-technical .nd-full-service-table{marg
 @media(max-width:700px){
   body #full-service-screen .nd-full-service-ledger{grid-template-columns:minmax(0,1fr)}
 }
+
+/* AGENT-CSS-05: one V1 agent design vocabulary across the simple and full route.
+   Cosmetic only; payer validation, loss-red and finance logic remain unchanged. */
+body :is(#agent-screen,#agent-complex-screen).nd-agent-screen .nd-agent-back{
+  display:inline-block;color:var(--nd-v1-navy)!important;
+  font:600 16px/1.4 var(--nd-font);text-decoration:underline;
+  text-underline-offset:4px;overflow-wrap:anywhere
+}
+body :is(#agent-screen,#agent-complex-screen).nd-agent-screen .nd-agent-eyebrow{
+  color:var(--nd-v1-navy)!important;letter-spacing:.1em
+}
+body #agent-screen.nd-agent-screen .nd-path-card{
+  background:var(--nd-v1-paper);color:var(--nd-v1-navy);
+  border:1px solid var(--nd-v1-rule);box-shadow:none;min-width:0
+}
+body :is(#agent-screen,#agent-complex-screen).nd-agent-screen :is(button,a):focus-visible{
+  outline:3px solid var(--nd-v1-cta);outline-offset:2px
+}
+body #product-screen #service-v1-agent-panel.nd-service-agent-panel{
+  background:var(--nd-v1-paper);color:var(--nd-v1-navy);
+  border:1px solid var(--nd-v1-rule);min-width:0
+}
+body #product-screen #service-v1-agent-panel.nd-service-agent-panel :is(h2,h3){
+  color:var(--nd-v1-navy)
+}
+body #product-screen #service-v1-agent-panel.nd-service-agent-panel .nd-agent-line-payers{
+  min-width:0;max-width:100%
+}
+body #product-screen #service-v1-agent-panel.nd-service-agent-panel .nd-agent-line-payers > label{
+  min-width:0;overflow-wrap:anywhere;color:var(--nd-v1-ink);
+  font:600 15px/1.45 var(--nd-font)
+}
+body #product-screen #service-v1-agent-panel.nd-service-agent-panel .nd-agent-line-payers select{
+  max-width:100%;color:var(--nd-v1-navy);
+  background:var(--nd-v1-paper);border-color:var(--nd-v1-rule)
+}
+body #calculator-screen.nd-agent-mode .nd-agent-payer-group{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:10px;min-width:0;max-width:100%;
+  background:var(--nd-v1-soft);border:1px solid var(--nd-v1-rule);
+  border-radius:var(--nd-radius);color:var(--nd-v1-navy)
+}
+body #calculator-screen.nd-agent-mode .nd-agent-payer-group > span{
+  color:var(--nd-v1-muted);font:700 13px/1.4 var(--nd-font)
+}
+body #calculator-screen.nd-agent-mode .nd-agent-payer-group > div{
+  display:flex;flex-wrap:wrap;gap:12px;min-width:0
+}
+body #calculator-screen.nd-agent-mode .nd-agent-payer-option{
+  color:var(--nd-v1-navy);font:600 15px/1.4 var(--nd-font);
+  white-space:normal;overflow-wrap:anywhere;min-height:30px
+}
+body #calculator-screen.nd-agent-mode .nd-agent-payer-option input[type=radio]{
+  accent-color:var(--nd-v1-navy);width:16px;height:16px;flex:none
+}
+body #calculator-screen.nd-agent-mode .nd-agent-payer-warning{
+  color:#b91c1c;font:600 13px/1.45 var(--nd-font)
+}
+body #calculator-screen.nd-agent-mode #summary-table .nd-agent-number-highlight{
+  color:var(--nd-v1-navy)!important;font-weight:700
+}
+@media(max-width:560px){
+  body :is(#agent-screen,#agent-complex-screen).nd-agent-screen > .card{
+    padding:18px;max-width:100%;min-width:0
+  }
+  body #calculator-screen.nd-agent-mode .nd-agent-payer-group{
+    align-items:flex-start;flex-direction:column
+  }
+  body #product-screen #service-v1-agent-panel.nd-service-agent-panel{padding:16px}
+}
