@@ -20,12 +20,13 @@ const sku=(id,stock,source='resale')=>({
   const payload={tax:{type:'turnover',pct:5},skus:[sku('a',60),sku('b',100)]};
   await page.evaluate(p=>LinkedPortfolioV2UI.importFromV1(p),payload);
   A.equal(await page.locator('[data-temporal-controls]').isVisible(),true);
-  await page.locator('[data-linked-path="forecastMonths"]').fill('5');
+  const inherited=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  A.equal(inherited.forecastMonths,5,'V1 goods stock and forecast auto-derive five months');
+  A.equal(inherited.v1HorizonInherited,true);
+  A.equal(inherited.recurringDemandApproved,true);
+  A.equal(await page.locator('[data-linked-path="forecastMonths"]').count(),0);
+  A.equal(await page.locator('[data-linked-path="recurringDemandApproved"]').count(),0);
   let result=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
-  A.equal(result.ready,false);
-  A.match(result.errors.join(' '),/Подтвердите/);
-  await page.locator('[data-linked-path="recurringDemandApproved"]').check();
-  result=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(result.ready,true,JSON.stringify(result.errors));
   A.equal(result.temporal.months.length,5);
   A.deepEqual(result.temporal.months.map(m=>m.orders.a),[20,20,20,0,0]);
@@ -43,13 +44,16 @@ const sku=(id,stock,source='resale')=>({
   await page.locator('[data-linked-save]').click();
   await page.locator('[data-linked-back]').click();await page.evaluate(()=>showHome());
   await page.locator('#portfolio-v2-linked-resume-home button').click();
-  A.equal(await page.locator('[data-linked-path="forecastMonths"]').inputValue(),'5');
-  A.equal(await page.locator('[data-linked-path="recurringDemandApproved"]').isChecked(),true);
+  const restored=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  A.equal(restored.forecastMonths,5,'Resume preserves V1-derived period');
+  A.equal(restored.v1HorizonInherited,true);
+  A.equal(await page.locator('[data-linked-path="forecastMonths"]').count(),0);
   // Child stock 45 funds month one (30), but not month two (another 30).
   await page.evaluate(p=>LinkedPortfolioV2UI.importFromV1(p),
     {tax:{type:'turnover',pct:5},skus:[sku('a',60),sku('b',45)]});
-  await page.locator('[data-linked-path="forecastMonths"]').fill('3');
-  await page.locator('[data-linked-path="recurringDemandApproved"]').check();
+  const reduced=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  A.equal(reduced.forecastMonths,3,'New V1 goods quantities recalculate the sell-out period');
+  A.equal(await page.locator('[data-linked-path="forecastMonths"]').count(),0);
   await page.locator('[data-basket-action="add"]').click();
   await page.locator('[data-basket-field="mode"]').selectOption('bundle');
   await page.locator('[data-basket-field="attachPct"]').fill('50');
