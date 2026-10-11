@@ -152,6 +152,12 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   await page.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
   A.match(await back.innerText(),/Главная/);
+  console.log('V2_NAV_DIAG',JSON.stringify(await back.evaluate(el=>({
+    outerHTML:el.outerHTML.slice(0,500),
+    color:getComputedStyle(el).color,
+    background:getComputedStyle(el).backgroundColor,
+    parent:el.parentElement?.outerHTML.slice(0,250)
+  }))));
   A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(255, 255, 255)',
    'standalone V2 return has white text over the dark header');
   await back.click();
