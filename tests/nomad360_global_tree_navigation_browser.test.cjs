@@ -156,7 +156,14 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
     outerHTML:el.outerHTML.slice(0,500),
     color:getComputedStyle(el).color,
     background:getComputedStyle(el).backgroundColor,
-    parent:el.parentElement?.outerHTML.slice(0,250)
+    parent:el.parentElement?.outerHTML.slice(0,250),
+    withinV2:!!el.closest('#portfolio-v2-screen'),
+    insideBody:document.body.contains(el),
+    styleSheets:[...document.styleSheets].map(x=>({href:x.href,rules:(()=>{try{return x.cssRules?.length}catch(e){return String(e)}})()})),
+    matchedTreeRules:[...document.styleSheets].flatMap(x=>{try{
+      return [...x.cssRules].filter(r=>r.selectorText?.includes('nd-tree-active-back'))
+       .map(r=>({selector:r.selectorText,matches:el.matches(r.selectorText)}))
+    }catch(e){return []}})
   }))));
   A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(255, 255, 255)',
    'standalone V2 return has white text over the dark header');
