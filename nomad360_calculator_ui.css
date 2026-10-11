@@ -301,3 +301,10 @@ a.nomad-pay-value{text-decoration:underline}
  .nomad-donate-globe{font-size:19px}
  .nomad-pay-bank,.nomad-pay-kaspi{padding:16px}
 }
+
+/* Simple V1 services: spendable cumulative cash is the first result, before P&L. */
+.nd-service-free-cash{background:#16375a;color:#fff;border:1px solid #16375a;border-radius:14px;padding:20px;min-width:0;box-sizing:border-box}
+.nd-service-free-cash[hidden]{display:none!important}
+.nd-service-free-cash-title{font-size:1rem;line-height:1.3;font-weight:800;letter-spacing:.035em;color:#fff}
+.nd-service-free-cash-value{font-size:clamp(1.7rem,5vw,2.35rem);line-height:1.3;font-weight:800;color:#fff;margin-top:8px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.nd-service-free-cash-detail{font-size:.875rem;line-height:1.5;color:#f1f5f9;margin-top:7px;max-width:72ch}
