@@ -47,7 +47,7 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    // Default inbound delivery remains the old 10% of unit purchase cost.
    assert.equal(purchase.materialsUnitCost,33);
    assert.equal(purchase.logisticsQty,15);
-   assert.equal(await page.locator('#resale-buy-unit').textContent(),'30,00 у.е.*');
+   assert.equal(await page.locator('#resale-buy-unit').textContent(),'30,00 USD');
 
    // Dropshipping now has direct supplier and delivery fields, no production.
    await page.locator('#product-source-block [data-product-source="dropship"]').click();
