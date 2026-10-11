@@ -134,14 +134,6 @@
        const salesRate=days>EPS?qty/days:0;
        const revenueRate=days>EPS?invoice/days:0;
        timeline[id].push({month:month.month,start,end,orders:qty,netRevenue:invoice});
-       if(s.source==='online-service'&&s.fullServiceV2&&s.nativeProductV1===true){
-          const fixed=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
-          // Native online rent and payroll are fixed calendar cash costs,
-          // including months with no client bookings.
-          post(mStart,'stockPurchase',fixed);
-          post(mStart,'fixedAccrual',fixed);
-          accrue(id,mStart,'serviceFixed',fixed);
-       }
        if(s.source==='offline-service'){
           const rent=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
           post(mStart,'stockPurchase',rent);
@@ -154,8 +146,7 @@
           }
         }
         if(s.fullServiceV2){
-          const cashFixed=Math.max(0,pos(s.manager)+pos(s.selling)-
-            (s.nativeProductV1===true?0:pos(s.onlineAmortMonthly)));
+          const cashFixed=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
           post(mStart,'shared',cashFixed);
           accrue(id,mStart,'operatingShared',cashFixed);
           if(!hasPooledMedia){
@@ -318,12 +309,9 @@
        Math.max(0,pos(s.serviceElectricityUnit)-pos(s.cashOffsets?.fulfillment)/original):
        pos(s.unitCostEffective);
      const commission=pos(timeline[s.id]?.[0]?.netRevenue)*pos(s.variableSalesPct)/100;
-     const calendarFixed=s.source==='offline-service'||
-       (s.source==='online-service'&&s.nativeProductV1===true);
-     const fixed=calendarFixed?
+     const fixed=s.source==='offline-service'?
        Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production)):0;
-     const sales=Math.max(0,pos(s.manager)+pos(s.selling)-
-       (s.nativeProductV1===true?0:pos(s.onlineAmortMonthly)));
+     const sales=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
      // Native product V1 service reserves only first-month committed
      // operating expenses, excluding price-dependent selling commission.
      const burden=qty*material+(s.nativeProductV1?0:commission)+fixed+sales+
