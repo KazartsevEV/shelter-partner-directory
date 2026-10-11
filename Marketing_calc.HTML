@@ -383,7 +383,7 @@
             <h1 class="text-3xl font-bold text-slate-900">Как зарабатываю я?</h1>
             <p class="text-sm text-slate-500 mt-2">В расчёте по каждому прямому расходу можно выбрать плательщика: <strong>Я</strong> или <strong>Принципал</strong>.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
-                <button onclick="selectServiceMode('agent')" class="card nd-path-card p-5 text-left transition">
+                <button onclick="selectServiceMode('agent')" class="card nd-path-card nd-agent-percentage-cta p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Мне платят % с объёма продаж</div>
                 </button>
                 <button onclick="showAgentComplex()" class="card nd-path-card p-5 text-left transition">
@@ -1521,6 +1521,7 @@
                 <div id="service-simple-free-cash" class="nd-service-free-cash">
                     <div class="nd-service-free-cash-title">ЖИВЫЕ ДЕНЬГИ</div>
                     <div class="nd-service-free-cash-value" id="service-simple-free-cash-value">—</div>
+                    <p id="service-agent-tax-note" class="nd-service-agent-tax-note" hidden>ПОСЛЕ уплаты моих налогов.</p>
                     <p class="nd-service-free-cash-detail" data-nomad-no-translate id="service-simple-free-cash-detail">Свободные деньги за выбранный период после расходов и налогов.</p>
                 </div>
                 <!-- Summary Metrics -->
@@ -1652,6 +1653,8 @@
         function renderSimpleOnlineCashDetail(state='ready',period=1,agent=false){
             const node=document.getElementById('service-simple-free-cash-detail');
             if(!node)return;
+            const taxNote=document.getElementById('service-agent-tax-note');
+            if(taxNote)taxNote.hidden=!(agent&&state==='ready');
             node.dataset.cashState=state;
             node.dataset.cashMonths=String(period);
             node.dataset.cashAgent=agent?'true':'false';

@@ -40,7 +40,16 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    const raw=await last(table,key).getAttribute('data-nomad-display-number');
    approx(amount,Number(raw),'4-month spendable cash, '+role);
    A.match(await page.locator('#service-simple-free-cash-detail').innerText(),/4 месяца/);
+   const taxNote=page.locator('#service-agent-tax-note');
+   A.equal(await taxNote.isVisible(),role==='agent','after-tax caption shown only to the agent');
    if(role==='agent'){
+    A.equal(await taxNote.innerText(),'ПОСЛЕ уплаты моих налогов.');
+    A.equal(await taxNote.evaluate(el=>getComputedStyle(el).color),
+      'rgb(237, 142, 99)','agent tax caption uses brand orange');
+    A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('ПОСЛЕ уплаты моих налогов.','en')),
+      'AFTER paying my taxes.');
+    A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('ПОСЛЕ уплаты моих налогов.','kk')),
+      'Менің салықтарымды төлегеннен КЕЙІН.');
     const partner=await last(table,'Накопленный поток принципала').getAttribute('data-nomad-display-number');
     A.notEqual(amount,Number(partner),'agent cannot display principal cash as their own');
     A.match(await page.locator('#mode-context').innerText(),/Принципал/i);
@@ -77,11 +86,15 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
   });
   A.equal(await page.locator('#service-simple-free-cash-value').innerText(),'—',
    'missing payer never leaves a stale numeric agent cash result');
+  A.equal(await page.locator('#service-agent-tax-note').isVisible(),false,
+   'invalid agent cash does not claim taxes were deducted');
   await page.evaluate(()=>{
     selectServiceMode('self');currentValues.months=121;calculate();
   });
   A.equal(await page.locator('#service-simple-free-cash-value').innerText(),'—',
    'invalid period cannot display spendable cash');
+  A.equal(await page.locator('#service-agent-tax-note').isVisible(),false,
+   'self service must not inherit agent caption');
   // Responsive agent components remain inside the viewport. Sitewide header/footer
   // have an independent 768px bleed; do not conflate that with the agent layout.
   const contained=selector=>page.evaluate(selector=>{
@@ -101,11 +114,20 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    A.equal(await page.locator('#agent-screen').isVisible(),true);
    A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
     'rgb(22, 55, 90)');
+   const orangeAction=page.locator('#agent-screen button.nd-agent-percentage-cta');
+   A.equal(await orangeAction.evaluate(el=>getComputedStyle(el).backgroundColor),
+     'rgb(237, 142, 99)','orange agent CTA at '+width);
+   A.equal(await orangeAction.locator('.font-semibold').evaluate(el=>getComputedStyle(el).color),
+     'rgb(22, 55, 90)','navy text on agent CTA at '+width);
+   A.equal(await page.locator('#agent-screen button[onclick="showAgentComplex()"]').evaluate(el=>getComputedStyle(el).backgroundColor),
+     'rgb(255, 255, 255)','secondary agent choice stays white');
    A.ok(await contained('#agent-screen'),'agent chooser elements overflow '+width);
    await page.evaluate(()=>showAgentComplex());
    A.equal(await page.locator('#agent-complex-screen').isVisible(),true);
    A.ok(await contained('#agent-complex-screen'),'agent custom elements overflow '+width);
-   await page.evaluate(()=>selectServiceMode('agent'));
+   await page.evaluate(()=>showAgentChooser());
+   await page.locator('#agent-screen button.nd-agent-percentage-cta').click();
+   A.equal(await page.locator('#calculator-screen').isVisible(),true,'CTA opens the simplified agent calculator');
    A.ok(await contained('#calculator-screen'),'agent calculation panels overflow '+width);
   }
   await page.setViewportSize({width:390,height:844});
