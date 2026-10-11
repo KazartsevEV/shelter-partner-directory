@@ -13,23 +13,36 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
  const errs=[];page.on('pageerror',err=>errs.push(err.message));
  await page.route(/^https?:\/\//,route=>route.abort());
  const nav=page.locator('#nomad360-tree-nav');
- const back=page.locator('#nomad360-tree-back');
+ const back=page.locator('.nd-tree-active-back:visible, #nomad360-tree-back:visible').first();
+ const arrows=page.locator('.nd-tree-active-back:visible, #nomad360-tree-back:visible');
  const keys=()=>page.evaluate(()=>Nomad360TreeNav.getTrail().map(x=>x.key));
  const within=()=>page.evaluate(()=>{
-  const n=document.getElementById('nomad360-tree-nav');
-  return n.getBoundingClientRect().right<=innerWidth+1&&
-    n.getBoundingClientRect().left>=-1&&n.scrollWidth<=n.clientWidth+1;
+  const el=document.querySelector('.nd-tree-active-back:not([hidden])')||
+    document.querySelector('#nomad360-tree-back');
+  if(!el)return false;
+  const r=el.getBoundingClientRect();
+  return r.left>=-1&&r.right<=innerWidth+1&&r.width<=innerWidth+1;
  });
- const clickCrumb=async(label)=>{
-  const item=nav.locator('button.nd-tree-link',{hasText:label}).last();
-  A.equal(await item.count(),1,'clickable ancestor '+label);
-  await item.click();
+ const returnTo=async(key)=>{
+  for(let i=0;i<12;i++){
+   if((await keys()).at(-1)===key)return;
+   A.equal(await arrows.count(),1,'only one arrow while returning to '+key);
+   await back.click();
+  }
+  A.fail('Could not return to '+key+'; trail='+JSON.stringify(await keys()));
+ };
+ const oneArrow=async()=>{
+  A.equal(await arrows.count(),1,'exactly one visible back arrow');
+  A.equal(await nav.isVisible(),false,'no duplicate white navigation card');
+  A.equal(await page.locator('#nomad360-tree-crumbs').count(),0,'breadcrumb chain removed');
+  A.equal(await back.evaluate(el=>getComputedStyle(el).textDecorationLine.includes('underline')),
+   true,'native arrow follows compact underlined design');
  };
  try{
   await page.goto(url,{waitUntil:'domcontentloaded'});
-  A.equal(await nav.isVisible(),false,'no back arrow on the tree root');
+  A.equal(await arrows.count(),0,'no back arrow on the tree root');
   await page.locator('#start-own-product').click();
-  A.equal(await nav.isVisible(),true,'goods V1 has global navigation');
+  await oneArrow();
   A.match(await back.innerText(),/Главная/);
   A.deepEqual(await keys(),['home-screen','product-screen:name']);
   await page.locator('#product-name-input').fill('Тест навигации');
@@ -38,13 +51,13 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   await page.locator('[data-product-source="own"]').click();
   A.deepEqual(await keys(),['home-screen','product-screen:name','product-screen:source','product-screen:expenses']);
   A.match(await back.innerText(),/Источник товара/);
-  await clickCrumb('Источник товара');
+  await back.click();
   A.equal(await page.locator('#product-source-block').isVisible(),true);
   A.equal(await page.locator('#product-own-form').isVisible(),false);
   A.equal(await page.locator('#product-name-input').inputValue(),'Тест навигации');
-  await clickCrumb('Главная');
+  await returnTo('home-screen');
   A.equal(await page.locator('#home-screen').isVisible(),true);
-  A.equal(await nav.isVisible(),false);
+  A.equal(await arrows.count(),0);
   // Simplified services: mode -> channel -> provider -> agent -> editable V1.
   await page.locator('#start-service').click();
   A.match(await back.innerText(),/Главная/);
@@ -59,10 +72,11 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   await back.click();
   A.equal(await page.locator('#agent-screen').isVisible(),true);
   A.deepEqual((await keys()).slice(-2),['service-screen','agent-screen']);
+  await oneArrow();
   // Return to previous form without reconstructing inputs or recalculating.
   await page.evaluate(()=>showOnly('calculator-screen'));
   A.equal(await page.locator('#in-agentTaxTurnover').inputValue(),'7');
-  await clickCrumb('Услуга');
+  await returnTo('service-work-screen');
   A.equal(await page.locator('#service-work-screen').isVisible(),true);
   // Three separate execution roles; each has an accurately labelled parent.
   await page.locator('#service-work-online').click();
@@ -73,7 +87,7 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
    await back.click();
    A.equal(await page.locator('#service-screen').isVisible(),true);
   }
-  await clickCrumb('Услуга');
+  await returnTo('service-work-screen');
   // Full offline agent: path must include service channel, executor and agent.
   await page.locator('#service-mode-full').click();
   await page.locator('#service-work-offline').click();
@@ -81,10 +95,10 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   await page.locator('#agent-screen button.nd-agent-percentage-cta').click();
   A.equal(await page.locator('#product-screen').isVisible(),true);
   A.match(await back.innerText(),/агент/i);
-  A.match((await nav.innerText()),/Название услуги/);
+  A.match((await page.evaluate(()=>Nomad360TreeNav.getTrail().map(x=>x.label).join(' › '))),/Название услуги/);
   await back.click();
   A.equal(await page.locator('#agent-screen').isVisible(),true);
-  await clickCrumb('Главная');
+  await returnTo('home-screen');
   // Direct standalone V2 opens from home and must return without clearing draft.
   await page.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
@@ -115,7 +129,7 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   for(const width of [320,390,768]){
    await page.setViewportSize({width,height:844});
    A.ok(await within(),'navigation must remain inside viewport at '+width);
-   A.equal(await nav.locator('[aria-current="step"]').count(),1);
+   await oneArrow();
   }
   A.deepEqual(errs,[],'no browser runtime errors');
   console.log('NOMAD360_GLOBAL_TREE_NAV_GREEN');
