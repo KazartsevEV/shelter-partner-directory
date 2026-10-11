@@ -7,6 +7,7 @@
 .nomad-logo{width:50px;height:50px;display:block;flex-shrink:0}
 .nomad-wordmark{font-size:25px;font-weight:700;letter-spacing:-.01em;line-height:1}
 .nomad-wordmark span{color:var(--nh-accent)}
+.nomad-wordmark .nomad-lite{font-size:.58em;font-weight:700;letter-spacing:0;color:var(--nh-navy);white-space:nowrap}
 .nomad-lang{margin-left:auto;margin-right:12px}
 .nomad-lang select{height:40px;padding:0 10px;border:1px solid var(--nh-line);border-radius:0;background:#fff;color:var(--nh-navy);font:600 14px 'IBM Plex Sans',Inter,system-ui,sans-serif;cursor:pointer}
 .nomad-burger{width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--nh-navy);background:#fff;color:var(--nh-navy);cursor:pointer}
@@ -124,11 +125,13 @@
  .nomad-header .nomad-lang select{padding:0 5px;font-size:12px}
 }
 @media(max-width:360px){
- .nomad-header .nomad-wordmark{font-size:19px}
- .nomad-header .nomad-brand{gap:5px}
- .nomad-header .nomad-logo{width:38px;height:38px}
- .nomad-header .nomad-bar{padding:0 10px}
+ .nomad-header .nomad-wordmark{font-size:18px}
+ .nomad-header .nomad-brand{gap:4px}
+ .nomad-header .nomad-logo{width:34px;height:34px}
+ .nomad-header .nomad-bar{padding:0 8px}
  .nomad-header .nomad-lang{margin-right:4px}
+ .nomad-header .nomad-lang select{font-size:11px;padding:0 4px}
+ .nomad-header .nomad-burger{width:40px;height:40px;flex-shrink:0}
 }
 @media print{#nomad360-header,#nomad360-information,#nomad360-footer{display:none!important}}
 
