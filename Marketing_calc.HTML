@@ -3211,8 +3211,11 @@
                 (owns('management')?Math.max(0,Number(item.adManagement)||0):0);
             const serviceCost=count*(materialsPerService+electricityPerService)+fixedPremisesAndWorkers;
             const nonRevenueCosts=serviceCost+salesFixed+ad;
-            const depreciation=owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0;
-            const capex=owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
+            // Original simplified microbusiness economics must remain intact.
+            // Day-zero CAPEX and noncash amortization apply only to full V1.
+            const fullV1=item.serviceFinanceMode==='full';
+            const depreciation=fullV1&&owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0;
+            const capex=fullV1&&owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
             const committedCashCosts=Math.max(0,nonRevenueCosts-depreciation)+capex;
             const reservePct=Math.min(1000,Math.max(0,Number(item.planning?.reservePct)||0));
             const reserveAmount=Math.max(0,nonRevenueCosts-depreciation)*reservePct/100;
