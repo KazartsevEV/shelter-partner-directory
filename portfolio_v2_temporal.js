@@ -52,10 +52,11 @@
        const approved=serviceMonths(s);
        if(approved===null)
          report('skus.'+s.id,'У онлайн-услуги «'+s.name+'» нет подтверждённого периода V1.');
-       else if(monthsRequested>approved&&state.v1HorizonInherited!==true)
+       else if(monthsRequested>approved&&state.v1HorizonInherited!==true&&
+           !(s.fullServiceV2&&monthsRequested<=Number(s.fullServiceHorizon)))
          report('skus.'+s.id,'У онлайн-услуги «'+s.name+'» период V1 не подтверждает '+monthsRequested+' месяцев. Нужен расчёт V1 на этот период.');
      }
-     if(s.fullServiceV2&&monthsRequested>Number(s.fullServiceOperatingMonths??s.fullServiceHorizon)&&
+     if(s.fullServiceV2&&monthsRequested>Number(s.fullServiceHorizon)&&
         state.v1HorizonInherited!==true)
        report('skus.'+s.id,'Горизонт полной услуги меньше горизонта портфеля. Пересчитайте исходную услугу.');
      if(s.fullServiceV2&&Array.isArray(s.fullServiceForecast)&&
