@@ -492,6 +492,11 @@
         </div>
 
         <div id="product-own-form" class="hidden mt-5 space-y-5" hidden>
+            <div id="service-v1-horizon-panel" class="card p-4 hidden" hidden>
+              <label for="service-v1-horizon" class="block text-sm font-semibold text-slate-700">Период расчёта услуги, месяцев</label>
+              <input id="service-v1-horizon" type="number" min="1" max="120" step="1" value="12" class="input-field mt-2" oninput="refreshAllAggregatePricing()">
+              <p class="text-sm text-slate-500 mt-2">Продажи и постоянные платежи рассчитываются для каждого месяца. Если кредит длиннее выбранного периода, денежный календарь продолжается до его погашения.</p>
+            </div>
             <div id="product-sales-unit-panel" class="card p-4">
                 <label for="product-sales-unit" class="block text-sm font-semibold text-slate-700 mb-2">Единица измерения товара или услуги</label>
                 <select id="product-sales-unit" class="input-field" aria-label="Единица измерения товара или услуги">
@@ -1859,6 +1864,7 @@
             toggle('full-service-online-entry',full);
             toggle('online-v2-entry',!full);
             toggle('full-service-offline-entry',false);
+            toggle('service-v1-horizon-panel',offline);
             const language=window.Nomad360UI?.getLanguage?.()||'ru';
             const labels={
               ru:{online:'Полный расчёт онлайн-услуги',desc:'Одна услуга. Заполните клиентов, воронку и расходы; затем рассчитайте НДС, налоги, кредит и денежный поток.',
@@ -2610,6 +2616,12 @@
             const materialsVariableUnit =
                 materialsBase + vatAdded + inboundDelivery + materialsInsurance + materialsDuties;
 
+            const serviceEquipment=Array.from(document.querySelectorAll('.equipment-purchase-row')).reduce((total,row)=>{
+                const count=Math.max(1,Math.floor(Number(row.querySelector('.equipment-purchase-qty')?.value)||1));
+                const price=Math.max(0,Number(row.querySelector('.equipment-purchase-cost')?.value)||0);
+                const life=Math.max(1,Number(row.querySelector('.equipment-useful-life')?.value)||1);
+                return {capex:total.capex+count*price,amort:total.amort+count*price/life};
+            },{capex:0,amort:0});
             const productionFixedMonthly = Math.max(
                 0,
                 latestProductionUnitCost *
@@ -2632,6 +2644,12 @@
                 id: currentProductSequence,
                 name: productName,
                 source: productSource,
+                serviceChannel:productSource==='offline-service'?serviceChannel:null,
+                serviceRole:productSource==='offline-service'?productionLaborMode==='workers'?'hired':'self':null,
+                serviceFinanceMode:productSource==='offline-service'?serviceFinancialMode:null,
+                serviceHorizonMonths:productSource==='offline-service'?Number(document.getElementById('service-v1-horizon')?.value||12):0,
+                serviceCapex:productSource==='offline-service'?serviceEquipment.capex:0,
+                serviceAmortMonthly:productSource==='offline-service'?serviceEquipment.amort:0,
                 unit: document.getElementById('product-sales-unit')?.value || (productSource==='offline-service'?'услуга':'шт'),
                 materialsUnitCost: latestMaterialsLandedUnitCost,
                 materialsVariableUnit,
@@ -3127,13 +3145,16 @@
             const ad=Math.max(0,Number(item.adBudget)||0)+Math.max(0,Number(item.adManagement)||0);
             const serviceCost=count*(materialsPerService+electricityPerService)+fixedPremisesAndWorkers;
             const nonRevenueCosts=serviceCost+salesFixed+ad;
+            const depreciation=Math.max(0,Number(item.serviceAmortMonthly)||0);
+            const capex=Math.max(0,Number(item.serviceCapex)||0);
+            const committedCashCosts=Math.max(0,nonRevenueCosts-depreciation)+capex;
             const reservePct=Math.min(1000,Math.max(0,Number(item.planning?.reservePct)||0));
-            const reserveAmount=nonRevenueCosts*reservePct/100;
+            const reserveAmount=Math.max(0,nonRevenueCosts-depreciation)*reservePct/100;
             const salesRate=(Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100;
             const zeroMarginRevenue=salesRate<1?nonRevenueCosts/(1-salesRate):null;
             return {
-                requiredCapital:count>0?nonRevenueCosts+reserveAmount:null,
-                baseRequiredCapital:count>0?nonRevenueCosts:null,
+                requiredCapital:count>0?committedCashCosts+reserveAmount:null,
+                baseRequiredCapital:count>0?committedCashCosts:null,
                 reservePct,reserveAmount:count>0?reserveAmount:null,
                 quantityIssues:aggregateQuantityIssues(item),
                 totalCycleDays:count>0?30:null,
@@ -3985,6 +4006,84 @@
             };
         }
 
+        function finishV1FinancialLedger(months,reserveLocked,horizonDays,saleEndDays) {
+            // Common V1 settlement for goods and services: VAT is passed through,
+            // financing is not revenue, debt principal is not an expense for P&L.
+            const taxRate=Math.max(0,productNumber('own-business-tax-pct'))/100;
+            let cumulative=0;
+            for(const month of months){
+                const taxableTurnover=Math.max(0,month.inflow-month.financedInflow);
+                month.taxPaid=productBusinessTaxType==='turnover'
+                    ?taxableTurnover*taxRate
+                    :Math.max(0,month.taxableProfit)*taxRate;
+                month.outflow+=month.taxPaid;
+                month.cashFlow=month.inflow-month.outflow;
+                cumulative+=month.cashFlow;
+                month.cumulative=cumulative;
+                month.freeCumulative=cumulative-reserveLocked;
+            }
+            return {ready:true,months,horizonDays,saleEndDays,reserveLocked,
+                cumulativeEnd:cumulative,freeCumulativeEnd:cumulative-reserveLocked};
+        }
+        function calculateCanonicalV1ServiceCashFlow(model) {
+            const items=productPortfolio.filter(item=>item.source==='offline-service');
+            if(items.length!==1||productPortfolio.length!==1||!model?.pricingReady||!productBusinessTaxType||
+                model.taxPriceMultiplier===null)
+                return {ready:false,months:[],reason:'Полный V1 рассчитывает одну услугу. Несколько услуг объединяются в V2.'};
+            const item=items[0],row=model.items.find(x=>x.id===item.id);
+            const cycle=aggregatePlanMetrics(item),credit=calculateAggregateCredit(item);
+            const funded=item.planning?.fundingMode;
+            const usesCredit=funded==='credit';
+            const horizon=Number(item.serviceHorizonMonths);
+            if(!row||!Number.isInteger(horizon)||horizon<1||horizon>120||
+                cycle.requiredCapital===null||cycle.quantityIssues?.length||
+                !['cash','credit'].includes(funded)||
+                (usesCredit&&(credit.principal===null||credit.monthlyServiceCost===null||
+                    !(Number.isInteger(Number(credit.termMonths))&&credit.termMonths>=1))))
+                return {ready:false,months:[],reason:'Проверьте период, рекламу, себестоимость, мощность услуги и финансирование.'};
+            const n=Math.max(horizon,usesCredit?Number(credit.termMonths):1);
+            const months=Array.from({length:n},(_,i)=>({month:i+1,inflow:0,outflow:0,
+                cashFlow:0,cumulative:0,taxPaid:0,interestPaid:0,principalRepaid:0,
+                financedInflow:0,taxableProfit:0,freeCumulative:0,
+                capexPaid:0,depreciation:0}));
+            const capital=usesCredit?Number(credit.principal):Number(cycle.requiredCapital);
+            const reserved=Math.max(0,Number(cycle.reserveAmount)||0);
+            const qty=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
+            const receipt=qty*row.price*model.taxPriceMultiplier;
+            const direct=qty*(Math.max(0,Number(item.materialsUnitCost)||0)+
+                Math.max(0,Number(item.productionElectricityPerUnit)||0));
+            const fixed=Math.max(0,Number(item.productionFixedMonthly)||0)+
+                Math.max(0,Number(item.salesFixedMonthly)||0)+
+                Math.max(0,Number(item.adBudget)||0)+Math.max(0,Number(item.adManagement)||0);
+            const variableCommissions=receipt*
+                (Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100;
+            const amort=Math.max(0,Number(item.serviceAmortMonthly)||0);
+            const capex=Math.max(0,Number(item.serviceCapex)||0);
+            for(const month of months){
+                // A repeatable service has no stock cycle or inventory purchases.
+                // Costs remain payable in zero-sales months; amort is noncash.
+                month.inflow+=receipt;
+                month.outflow+=direct+fixed-amort+variableCommissions;
+                month.taxableProfit+=receipt-direct-fixed-variableCommissions;
+                month.depreciation+=amort;
+            }
+            months[0].inflow+=capital;
+            months[0].financedInflow+=capital;
+            months[0].outflow+=capex;
+            months[0].capexPaid=capex;
+            if(usesCredit){
+                for(let m=0;m<Math.min(n,Number(credit.termMonths));m++){
+                    const interest=Math.max(0,Number(credit.monthlyServiceCost)||0);
+                    months[m].outflow+=interest;
+                    months[m].interestPaid+=interest;
+                    months[m].taxableProfit-=interest;
+                }
+                const maturity=months[Number(credit.termMonths)-1];
+                maturity.outflow+=capital;
+                maturity.principalRepaid+=capital;
+            }
+            return finishV1FinancialLedger(months,reserved,n*30,n*30);
+        }
         function calculateOfflineServiceCashFlow(model) {
             const items=productPortfolio.filter(item=>item.source==='offline-service');
             const schedules=items.map(item=>({
@@ -4053,7 +4152,9 @@
             if(productPortfolio.some(item=>item.source==='offline-service')){
                 if(productPortfolio.some(item=>item.source!=='offline-service'))
                     return {ready:false,months:[],reason:'Для смешанных товаров и офлайн-услуг используйте общий Cash flow V2.',cumulativeEnd:null,freeCumulativeEnd:null};
-                return calculateOfflineServiceCashFlow(model);
+                return productPortfolio.every(item=>item.serviceFinanceMode==='full')
+                    ?calculateCanonicalV1ServiceCashFlow(model)
+                    :calculateOfflineServiceCashFlow(model);
             }
             if (model?.pricingReady && productPortfolio.some(item=>item.source==='dropship')) {
                 // Mixed physical-stock and dropship cash schedules have different timing.
@@ -4342,35 +4443,8 @@
                 months[due].principalRepaid += principal;
             });
 
-            months.forEach(month => {
-                // Illustrative monthly settlement, with no inter-month loss carryforward.
-                // Revenue is net of pass-through VAT. Taxes on the contingency reserve
-                // are never charged: reserve was never counted as revenue/expense.
-                const tax = productBusinessTaxType === 'turnover'
-                    ? (month.inflow - month.financedInflow) * taxRate
-                    : Math.max(0, month.taxableProfit) * taxRate;
-                month.taxPaid = Math.max(0, tax);
-                month.outflow += month.taxPaid;
-            });
-
-            let cumulative = 0;
-            months.forEach(month => {
-                month.cashFlow = month.inflow - month.outflow;
-                cumulative += month.cashFlow;
-                month.cumulative = cumulative;
-                // Not all bank cash is discretionary: the reserve remains protected.
-                month.freeCumulative = cumulative - reserveLocked;
-            });
-
-            return {
-                ready: true,
-                months,
-                horizonDays,
-                saleEndDays: Math.max(...schedules.map(schedule => schedule.saleEnd)),
-                reserveLocked,
-                cumulativeEnd: cumulative,
-                freeCumulativeEnd: cumulative - reserveLocked
-            };
+            return finishV1FinancialLedger(months,reserveLocked,horizonDays,
+                Math.max(...schedules.map(schedule=>schedule.saleEnd)));
         }
 
         // Prices below are customer-facing and include VAT when applicable.
