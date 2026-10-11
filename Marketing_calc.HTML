@@ -3198,19 +3198,26 @@
         }
         function offlineServiceCycleMetrics(item) {
             const count=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
-            const materialsPerService=Math.max(0,Number(item.materialsUnitCost)||0);
-            const fixedPremisesAndWorkers=Math.max(0,Number(item.productionFixedMonthly)||0);
-            const electricityPerService=Math.max(0,Number(item.productionElectricityPerUnit)||0);
-            const salesFixed=Math.max(0,Number(item.salesFixedMonthly)||0);
-            const ad=Math.max(0,Number(item.adBudget)||0)+Math.max(0,Number(item.adManagement)||0);
+            const agent=item.serviceFinanceMode==='full'&&item.serviceRole==='agent';
+            const owns=k=>!agent||item.serviceAgency?.payers?.[k]==='agent';
+            const materialsPerService=owns('direct')?Math.max(0,Number(item.materialsUnitCost)||0):0;
+            const fullDepreciation=Math.max(0,Number(item.serviceAmortMonthly)||0);
+            const operatingFixed=Math.max(0,(Number(item.productionFixedMonthly)||0)-fullDepreciation);
+            const fixedPremisesAndWorkers=(owns('production')?operatingFixed:0)+
+                (owns('equipment')?fullDepreciation:0);
+            const electricityPerService=owns('production')?Math.max(0,Number(item.productionElectricityPerUnit)||0):0;
+            const salesFixed=owns('selling')?Math.max(0,Number(item.salesFixedMonthly)||0):0;
+            const ad=(owns('advertising')?Math.max(0,Number(item.adBudget)||0):0)+
+                (owns('management')?Math.max(0,Number(item.adManagement)||0):0);
             const serviceCost=count*(materialsPerService+electricityPerService)+fixedPremisesAndWorkers;
             const nonRevenueCosts=serviceCost+salesFixed+ad;
-            const depreciation=Math.max(0,Number(item.serviceAmortMonthly)||0);
-            const capex=Math.max(0,Number(item.serviceCapex)||0);
+            const depreciation=owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0;
+            const capex=owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
             const committedCashCosts=Math.max(0,nonRevenueCosts-depreciation)+capex;
             const reservePct=Math.min(1000,Math.max(0,Number(item.planning?.reservePct)||0));
             const reserveAmount=Math.max(0,nonRevenueCosts-depreciation)*reservePct/100;
-            const salesRate=(Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100;
+            const salesRate=owns('commission')?
+                (Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100:0;
             const zeroMarginRevenue=salesRate<1?nonRevenueCosts/(1-salesRate):null;
             return {
                 requiredCapital:count>0?committedCashCosts+reserveAmount:null,
@@ -4106,16 +4113,40 @@
             const capital=usesCredit?Number(credit.principal):Number(cycle.requiredCapital);
             const reserved=Math.max(0,Number(cycle.reserveAmount)||0);
             const qty=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
+            const agent=item.serviceRole==='agent',agency=item.serviceAgency||{};
+            const owns=k=>!agent||agency.payers?.[k]==='agent';
+            const partnerPays=k=>agent&&agency.payers?.[k]==='partner';
             const receipt=qty*row.price*model.taxPriceMultiplier;
-            const direct=qty*(Math.max(0,Number(item.materialsUnitCost)||0)+
-                Math.max(0,Number(item.productionElectricityPerUnit)||0));
-            const fixed=Math.max(0,Number(item.productionFixedMonthly)||0)+
-                Math.max(0,Number(item.salesFixedMonthly)||0)+
-                Math.max(0,Number(item.adBudget)||0)+Math.max(0,Number(item.adManagement)||0);
-            const variableCommissions=receipt*
+            const allDirect=qty*Math.max(0,Number(item.materialsUnitCost)||0);
+            const allElectricity=qty*Math.max(0,Number(item.productionElectricityPerUnit)||0);
+            const allDepreciation=Math.max(0,Number(item.serviceAmortMonthly)||0);
+            const allOperatingFixed=Math.max(0,(Number(item.productionFixedMonthly)||0)-allDepreciation);
+            const allSalesFixed=Math.max(0,Number(item.salesFixedMonthly)||0);
+            const allAd=Math.max(0,Number(item.adBudget)||0);
+            const allManagement=Math.max(0,Number(item.adManagement)||0);
+            const allCommissions=receipt*
                 (Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100;
-            const amort=Math.max(0,Number(item.serviceAmortMonthly)||0);
-            const capex=Math.max(0,Number(item.serviceCapex)||0);
+            const direct=(owns('direct')?allDirect:0)+(owns('production')?allElectricity:0);
+            const amort=owns('equipment')?allDepreciation:0;
+            const fixed=(owns('production')?allOperatingFixed:0)+amort+
+                (owns('selling')?allSalesFixed:0)+
+                (owns('advertising')?allAd:0)+(owns('management')?allManagement:0);
+            const variableCommissions=owns('commission')?allCommissions:0;
+            const capex=owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
+            const partnerPriceNet=agent?Math.max(0,Number(agency.grossPrice)||0)/
+                (1+Math.max(0,Number(agency.partnerVatPct)||0)/100):0;
+            const partnerRevenue=qty*partnerPriceNet;
+            const partnerCosts=(partnerPays('direct')?allDirect:0)+
+                (partnerPays('production')?allElectricity+allOperatingFixed:0)+
+                (partnerPays('equipment')?allDepreciation:0)+
+                (partnerPays('selling')?allSalesFixed:0)+
+                (partnerPays('advertising')?allAd:0)+
+                (partnerPays('management')?allManagement:0)+
+                (partnerPays('commission')?allCommissions:0)+receipt;
+            const partnerTaxRate=Math.max(0,Number(agency.partnerTaxPct)||0)/100;
+            const partnerTax=agency.partnerTaxType==='profit'?
+                Math.max(0,partnerRevenue-partnerCosts)*partnerTaxRate:
+                partnerRevenue*partnerTaxRate;
             for(const month of months){
                 // A repeatable service has no stock cycle or inventory purchases.
                 // Costs remain payable in zero-sales months; amort is noncash.
@@ -4123,6 +4154,12 @@
                 month.outflow+=direct+fixed-amort+variableCommissions;
                 month.taxableProfit+=receipt-direct-fixed-variableCommissions;
                 month.depreciation+=amort;
+                if(agent){
+                    month.partnerRevenue=partnerRevenue;
+                    month.partnerCosts=partnerCosts;
+                    month.partnerTax=partnerTax;
+                    month.partnerProfit=partnerRevenue-partnerCosts-partnerTax;
+                }
             }
             months[0].inflow+=capital;
             months[0].financedInflow+=capital;
@@ -4542,6 +4579,14 @@
         function calculatePriceListRange(item) {
             const model = calculateProductPortfolio();
             const row = model.items.find(entry => entry.id === item?.id) || null;
+            if(item?.serviceFinanceMode==='full'&&item?.serviceRole==='agent'){
+                const price=Number(row?.price),vat=item.uiState?.choices?.salesVat==='yes'?
+                    Math.max(0,Number(item.inputs?.['own-sales-vat-pct'])||0)/100:0;
+                return Number.isFinite(price)&&price>0?
+                    {ready:true,error:'',minPrice:Math.round(price*(1+vat)*100)/100,
+                        maxPrice:Math.round(price*(1+vat)*100)/100}:
+                    {ready:false,error:'Укажите вознаграждение агента.',minPrice:null,maxPrice:null};
+            }
             const pricing = aggregatePricingMetrics(item);
 
             const rawDiscount = item?.planning?.maxDiscountPct;
@@ -4785,6 +4830,18 @@
                         '%</span>';
 
             const cashFlow = calculateProductCashFlow(model);
+            const partnerFlow=productPortfolio.length===1&&productPortfolio[0].serviceRole==='agent'&&
+                cashFlow.ready?cashFlow.months:null;
+            const agencyReport=partnerFlow?
+                '<div class="mt-4 p-4 border aggregate-separator"><h3 class="font-bold mb-2">Экономика партнёра по месяцам</h3>'+
+                '<p class="text-sm mb-3">Оборот партнёра отдельно от агентского вознаграждения. Налоги партнёра рассчитываются по выбранной ставке.</p>'+
+                '<div class="overflow-x-auto"><table class="text-xs min-w-full"><thead><tr><th>Показатель</th>'+
+                partnerFlow.map(m=>'<th class="px-2">Месяц '+m.month+'</th>').join('')+'</tr></thead><tbody>'+
+                [['Выручка без НДС','partnerRevenue'],['Расходы с вознаграждением агента','partnerCosts'],
+                ['Налог партнёра','partnerTax'],['Прибыль партнёра','partnerProfit']].map(([name,key])=>
+                '<tr><td class="px-2 py-2">'+name+'</td>'+
+                    partnerFlow.map(m=>'<td class="px-2 text-right">'+money(m[key])+'</td>').join('')+'</tr>').join('')+
+                '</tbody></table></div></div>':'';
             const cashFlowTable = cashFlow.ready
                 ? `
                     <div class="mt-4 pt-4 border-t aggregate-separator">
@@ -4861,6 +4918,7 @@
                     <div class="text-xs mt-1">Минус означает кассовый разрыв. В поступлениях учтены ваши первоначальные вложения или полученный кредит: это финансирование, а не прибыль. Резерв остаётся вашим, но защищён от расходования. Транзитный НДС исключён.</div>
                 </div>
                 ${cashFlowTable}
+                ${agencyReport}
 
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mt-4 pt-4 border-t aggregate-separator">
                     <span class="aggregate-muted">Рентабельность бизнеса (чистая прибыль / выручка, без НДС)</span>
