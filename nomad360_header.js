@@ -5,7 +5,9 @@
   const PAY = {
     kaspi: '+7 777 129 56 93', kaspiTel: 'tel:+77771295693',
     ozon: '+7 977 986 74 41', ozonTel: 'tel:+79779867441',
-    card: '5367088103743267', cardView: '5367 0881 0374 3267',
+    donate: 'https://donate.trybit.com/O8CSU052',
+    bankName: 'Kazartsev Evgenii', bank: 'АО Kaspi Bank',
+    swift: 'CASPKZKA', iban: 'KZ53722C000089313796',
     usdt: 'TGjukX3RWwu8hKB9oZQnXRanXqCPMM9TCA',
     btc: '1GZDvXFWAnxFBEa1PtatsDiYLzHWyCrd3M',
     whatsapp: '+7 777 129 56 93', whatsappUrl: 'https://wa.me/77771295693',
@@ -34,7 +36,14 @@
       contactTopics:'Вопросы по калькулятору, доработка моделей, сотрудничество, предложения.',
       supportTitle:'Поддержать проект',
       supportLead:'Калькулятор бесплатный. Поддержка добровольная и идёт на развитие калькулятора, AI-маркетолога и контент-фабрики.',
-      kaspi:'Kaspi · Казахстан',ozon:'Ozon · Россия',card:'Карта Bybit',
+      kaspi:'Kaspi · Казахстан',ozon:'Ozon · Россия',
+      cryptoDonate:'Поддержать Nomad360 криптовалютой',
+      cryptoDonateHint:'Откроется страница донатов Trybit в новой вкладке',
+      kaspiPhoneHint:'Перевод по номеру телефона для владельцев казахстанских карт',
+      bankTransfer:'Реквизиты для международного банковского перевода',
+      bankRecipient:'Получатель',bankName:'Банк',
+      directCrypto:'Перевести криптовалюту напрямую (USDT / BTC)',
+      ozonTransfer:'Поддержать с российской карты',ozonBank:'Озон Банк',
       usdt:'USDT · сеть TRON (TRC20)',btc:'Bitcoin · сеть BTC',
       hintPhone:'Перевод по номеру телефона',hintCard:'Перевод на карту',hintCrypto:'Наведите камеру кошелька на QR или скопируйте адрес',
       copy:'Копировать',copied:'Скопировано',qrFor:'QR-код адреса',
@@ -92,7 +101,14 @@
       contactTopics:'Calculator questions, model customisation, cooperation, suggestions.',
       supportTitle:'Support the project',
       supportLead:'The calculator is free. Support is voluntary and funds the calculator, the AI Marketer and the Content Factory.',
-      kaspi:'Kaspi · Kazakhstan',ozon:'Ozon · Russia',card:'Bybit card',
+      kaspi:'Kaspi · Kazakhstan',ozon:'Ozon · Russia',
+      cryptoDonate:'Support Nomad360 with cryptocurrency',
+      cryptoDonateHint:'Opens the Trybit donation page in a new tab',
+      kaspiPhoneHint:'Transfer by phone number for holders of Kazakhstan-issued bank cards',
+      bankTransfer:'International bank transfer details',
+      bankRecipient:'Recipient',bankName:'Bank',
+      directCrypto:'Direct cryptocurrency transfer (USDT / BTC)',
+      ozonTransfer:'Support with a Russian bank card',ozonBank:'Ozon Bank',
       usdt:'USDT · TRON network (TRC20)',btc:'Bitcoin · BTC network',
       hintPhone:'Transfer by phone number',hintCard:'Transfer to the card',hintCrypto:'Scan the QR with your wallet or copy the address',
       copy:'Copy',copied:'Copied',qrFor:'QR code for the address',
@@ -150,7 +166,14 @@
       contactTopics:'Калькулятор бойынша сұрақтар, модельдерді жетілдіру, ынтымақтастық, ұсыныстар.',
       supportTitle:'Жобаны қолдау',
       supportLead:'Калькулятор тегін. Қолдау ерікті және калькуляторды, AI-маркетологты және контент фабрикасын дамытуға жұмсалады.',
-      kaspi:'Kaspi · Қазақстан',ozon:'Ozon · Ресей',card:'Bybit картасы',
+      kaspi:'Kaspi · Қазақстан',ozon:'Ozon · Ресей',
+      cryptoDonate:'Nomad360 жобасын криптовалютамен қолдау',
+      cryptoDonateHint:'Trybit донат парақшасы жаңа қойындыда ашылады',
+      kaspiPhoneHint:'Қазақстан банктерінің карталары үшін телефон нөмірі арқылы аударым',
+      bankTransfer:'Халықаралық банк аударымына арналған деректемелер',
+      bankRecipient:'Алушы',bankName:'Банк',
+      directCrypto:'Криптовалютаны тікелей аудару (USDT / BTC)',
+      ozonTransfer:'Ресейлік банк картасымен қолдау',ozonBank:'Озон Банк',
       usdt:'USDT · TRON желісі (TRC20)',btc:'Bitcoin · BTC желісі',
       hintPhone:'Телефон нөмірі бойынша аударым',hintCard:'Картаға аударым',hintCrypto:'Әмиян камерасын QR-ға бағыттаңыз немесе мекенжайды көшіріңіз',
       copy:'Көшіру',copied:'Көшірілді',qrFor:'Мекенжайдың QR-коды',
@@ -225,17 +248,37 @@
       '<a href="https://www.threads.com/@nomad260393" target="_blank" rel="noopener noreferrer">Threads · @nomad260393</a>'+
       '</div><p class="nomad-topics">'+esc(t.contactTopics)+'</p></section>';
   }
+  // Donation checkout is hosted by Trybit: no API keys or payment code in this site.
+  function payHostedCrypto(t) {
+    return '<div class="nomad-donate-checkout">'+
+      '<a class="nomad-donate-checkout-link" href="'+PAY.donate+'" target="_blank" rel="noopener noreferrer">'+
+      '<span class="nomad-donate-globe" aria-hidden="true">🌐</span>'+
+      '<span>'+esc(t.cryptoDonate)+'</span><span class="nomad-donate-external" aria-hidden="true">↗</span></a>'+
+      '<p class="nomad-pay-hint">'+esc(t.cryptoDonateHint)+'</p></div>';
+  }
   function payFiat(t) {
+    const bankLine=(label,value)=>
+      '<div class="nomad-bank-row"><span class="nomad-bank-key">'+esc(label)+'</span>'+
+      '<span class="nomad-bank-value">'+esc(value)+'</span>'+copyButton(t,value,label)+'</div>';
     return '<div class="nomad-pay-fiat">'+
-      '<article class="nomad-pay"><span class="nomad-pay-label">'+esc(t.kaspi)+'</span>'+
-      '<a class="nomad-pay-value" href="'+PAY.kaspiTel+'">'+esc(PAY.kaspi)+'</a><span class="nomad-pay-hint">'+esc(t.hintPhone)+'</span>'+
+      '<article class="nomad-pay nomad-pay-kaspi">'+
+      '<span class="nomad-pay-label"><span class="nomad-kz-flag" aria-hidden="true">🇰🇿</span> '+esc(t.kaspi)+'</span>'+
+      '<p class="nomad-pay-hint">'+esc(t.kaspiPhoneHint)+'</p>'+
+      '<a class="nomad-pay-value" href="'+PAY.kaspiTel+'">'+esc(PAY.kaspi)+'</a>'+
       copyButton(t,PAY.kaspi,t.kaspi)+'</article>'+
-      '<article class="nomad-pay"><span class="nomad-pay-label">'+esc(t.ozon)+'</span>'+
-      '<a class="nomad-pay-value" href="'+PAY.ozonTel+'">'+esc(PAY.ozon)+'</a><span class="nomad-pay-hint">'+esc(t.hintPhone)+'</span>'+
-      copyButton(t,PAY.ozon,t.ozon)+'</article>'+
-      '<article class="nomad-pay"><span class="nomad-pay-label">'+esc(t.card)+'</span>'+
-      '<span class="nomad-pay-value">'+esc(PAY.cardView)+'</span><span class="nomad-pay-hint">'+esc(t.hintCard)+'</span>'+
-      copyButton(t,PAY.card,t.card)+'</article></div>';
+      '<details class="nomad-pay nomad-pay-bank">'+
+      '<summary class="nomad-fold-toggle"><span class="nomad-donate-globe" aria-hidden="true">🌐</span><span>'+esc(t.bankTransfer)+'</span><span class="nomad-fold-arrow" aria-hidden="true">⌄</span></summary>'+
+      '<div class="nomad-bank-details">'+
+      bankLine(t.bankRecipient,PAY.bankName)+bankLine(t.bankName,PAY.bank)+
+      bankLine('SWIFT/BIC',PAY.swift)+bankLine('IBAN',PAY.iban)+
+      '</div></details></div>';
+  }
+  function payRussian(t) {
+    return '<details class="nomad-russian-transfer">'+
+      '<summary>'+esc(t.ozonTransfer)+' <span aria-hidden="true">⌄</span></summary>'+
+      '<div class="nomad-russian-details"><strong>'+esc(t.ozonBank)+'</strong>'+
+      '<a href="'+PAY.ozonTel+'">'+esc(PAY.ozon)+'</a>'+
+      copyButton(t,PAY.ozon,t.ozon)+'</div></details>';
   }
   function payCrypto(t) {
     return '<div class="nomad-pay-crypto">'+
@@ -272,7 +315,10 @@
     return '<div class="nomad-footer-inner">'+
       '<section id="nomad360-support" class="nomad-donate" tabindex="-1">'+
       '<h2>'+esc(t.supportTitle)+'</h2><p class="nomad-donate-lead">'+esc(t.supportLead)+'</p>'+
-      payFiat(t)+payCrypto(t)+'<p class="nomad-pay-note">'+esc(t.payNote)+'</p></section>'+
+      payHostedCrypto(t)+payFiat(t)+
+      '<details class="nomad-direct-crypto"><summary>'+esc(t.directCrypto)+' <span aria-hidden="true">⌄</span></summary>'+
+      payCrypto(t)+'<p class="nomad-pay-note">'+esc(t.payNote)+'</p></details>'+
+      payRussian(t)+'</section>'+
       '<section class="nomad-footer-products"><h3>'+esc(t.fundsTitle)+'</h3><div class="nomad-products-grid">'+
       t.products.map(p=>productMarkup(t,p)).join('')+'</div></section>'+
       '<div class="nomad-footer-meta">'+
