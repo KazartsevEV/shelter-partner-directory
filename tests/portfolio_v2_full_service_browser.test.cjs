@@ -91,6 +91,85 @@ const {pathToFileURL}=require('node:url');
   A.ok(agencyFlow.month.partnerTax>0);
   A.ok(agencyFlow.month.outflow<agencyFlow.month.partnerCosts,
     'Partner advertising does not debit the agent cash balance');
+  // Exact expense-line allocation: rent, payroll gross, employer tax,
+  // each rental/purchase row, materials and variable sales commission.
+  await page.locator('[data-material-cost-mode="known"]').click();
+  await page.locator('#own-materials-cost').fill('8');
+  await page.locator('[data-yn-group="productionPremises"][data-yn-value="yes"]').click();
+  await page.locator('#own-production-premises-monthly').fill('200');
+  await page.locator('[data-yn-group="equipmentRental"][data-yn-value="yes"]').click();
+  await page.locator('.equipment-rental-cost').first().fill('30');
+  await page.locator('[data-yn-group="equipmentPurchase"][data-yn-value="yes"]').click();
+  await page.locator('.equipment-purchase-cost').first().fill('600');
+  await page.locator('.equipment-useful-life').first().fill('12');
+  await page.locator('[data-production-labor-mode="workers"]').click();
+  await page.locator('#own-production-workers-count').fill('2');
+  await page.locator('#own-production-worker-gross').fill('100');
+  await page.locator('#own-sales-commission-pct').fill('5');
+  const requiredKeys=['material.known','premises','rental.0','purchase.0',
+    'worker.gross','worker.charges','advertising','sales.commission'];
+  for(const key of requiredKeys){
+    const control=page.locator('#service-agent-line-payers select[data-agent-line-key="'+key+'"]');
+    A.equal(await control.count(),1,'Payer exists for individual expense: '+key);
+    await control.selectOption(['premises','worker.gross','purchase.0','advertising'].includes(key)?
+      'partner':'agent');
+  }
+  const split=await page.evaluate(()=>{
+    const rows=serviceAgencyExpenseLines();
+    const item=currentProductPortfolioSnapshot();
+    const receipts=20*20/1.12;
+    const ledger=serviceAgencyExpenseSplit(item,receipts);
+    saveCurrentProductToPortfolio();
+    const s=productPortfolio[0];
+    Object.assign(s.planning,{fundingMode:'cash',targetMarginPct:30,
+      reservePct:10,maxDiscountPct:0,minimumMarginPct:10});
+    const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
+    return {rows,ledger,agency:s.serviceAgency,issues:aggregateQuantityIssues(s),
+      ready:model.pricingReady&&cash.ready,month:cash.months?.[0]};
+  });
+  A.equal(split.issues.length,0,JSON.stringify(split.issues));
+  A.equal(split.ready,true,JSON.stringify(split));
+  A.equal(split.agency.lineItems.find(x=>x.key==='worker.gross').payer,'partner');
+  A.equal(split.agency.lineItems.find(x=>x.key==='worker.charges').payer,'agent');
+  A.equal(split.agency.lineItems.find(x=>x.key==='purchase.0').payer,'partner');
+  A.ok(split.ledger.partner.production>=200,'Partner pays both rent and gross payroll');
+  A.ok(split.ledger.agent.production>0,'Employer statutory payroll charge stays with agent');
+  A.equal(split.ledger.agent.capex,0,'Partner equipment does not spend agent cash');
+  A.ok(split.ledger.partner.capex>=600,'Partner equipment is attributed once');
+  A.ok(split.month.partnerCosts>split.month.outflow,'Principal gross spend is separate');
+  await page.evaluate(()=>setProductAssortmentChoice('complete'));
+  await page.evaluate(()=>updateProductPortfolioBusinessSummary());
+  A.equal(await page.locator('#product-portfolio-business-summary').isVisible(),true);
+  A.match(await page.locator('#product-portfolio-business-summary').innerText(),
+    /Экономика партнёра по месяцам/);
+  const agentReportPdf=await page.pdf({format:'A4',printBackground:true});
+  A.equal(agentReportPdf.subarray(0,4).toString('ascii'),'%PDF');
+  A.ok(agentReportPdf.length>4000,'Native V1 agent PDF has actual report pages');
+  const saveAgent=await page.evaluate(()=>saveProductCalculationToBrowser());
+  A.equal(saveAgent,true,'Native V1 agent with expense payers saves');
+  const originalRows=await page.evaluate(()=>readSavedProductCalculation().productPortfolio[0].serviceAgency.lineItems);
+  await page.reload({waitUntil:'domcontentloaded'});
+  A.equal(await page.evaluate(()=>resumeSavedProductCalculation()),true);
+  const restored=await page.evaluate(()=>({
+    channel:serviceChannel,role:selectedServiceRole,
+    choices:[...document.querySelectorAll('#service-agent-line-payers [data-agent-line-key]')]
+      .map(x=>[x.dataset.agentLineKey,x.value]),
+    rows:currentProductPortfolioSnapshot().serviceAgency.lineItems
+  }));
+  A.equal(restored.channel,'online');
+  A.equal(restored.role,'agent');
+  A.deepEqual(restored.rows.map(x=>[x.key,x.payer]),originalRows.map(x=>[x.key,x.payer]),
+    'Restored per-expense payer choices match saved V1');
+  A.equal(restored.choices.find(x=>x[0]==='worker.gross')?.[1],'partner');
+  A.equal(restored.choices.find(x=>x[0]==='worker.charges')?.[1],'agent');
+  await page.setViewportSize({width:360,height:780});
+  const mobileNative=await page.evaluate(()=>({
+    viewport:innerWidth,page:document.documentElement.scrollWidth,
+    agentPanel:document.getElementById('service-v1-agent-panel').getBoundingClientRect().width
+  }));
+  A.ok(mobileNative.page<=mobileNative.viewport+1,
+    'The native 360px V1 agent expense form does not overflow: '+JSON.stringify(mobileNative));
+  await page.setViewportSize({width:390,height:844});
   await page.evaluate(()=>showServiceWorkChooser());
   // New V1 architecture: online/offline x role, then the SAME product V1.
   // Full offline must never ask for a secondary standalone finance screen.
