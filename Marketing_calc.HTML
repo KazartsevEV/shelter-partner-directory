@@ -2636,8 +2636,20 @@
             row.dataset.agentPayerKey=key;
             return key;
         }
+        function serviceDemandDraftAverage(){
+            const text=String(document.getElementById('service-v1-monthly-demand')?.value||'').trim();
+            const horizon=Number(document.getElementById('service-v1-horizon')?.value);
+            if(!text||!Number.isInteger(horizon)||horizon<1||horizon>120)return null;
+            const entries=text.split(/\r?\n|;/).map(x=>
+                x.trim()!==''?Number(x.trim().replace(',','.')):NaN);
+            if(entries.length!==horizon||entries.some(x=>!Number.isFinite(x)||x<0))return null;
+            const mean=entries.reduce((a,b)=>a+b,0)/horizon;
+            return mean>0?mean:null;
+        }
         function serviceAgencyExpenseLines(){
-            const lines=[],qty=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const lines=[],qty=productSource==='offline-service'&&serviceFinancialMode==='full'?
+                (serviceDemandDraftAverage()??Math.max(0,productNumberFromText('own-product-ad-units'))):
+                Math.max(0,productNumberFromText('own-product-ad-units'));
             const money=(id)=>Math.max(0,Number(document.getElementById(id)?.value)||0);
             const add=(key,bucket,label,monthly=0,capex=0,amort=0,ratePct=0)=>{
                 if(monthly>0||capex>0||amort>0||ratePct>0)
@@ -2767,18 +2779,10 @@
         }
         function currentProductPortfolioSnapshot() {
             const adUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
-            const rawDemand=String(document.getElementById('service-v1-monthly-demand')?.value||'').trim();
-            const demandHorizon=Number(document.getElementById('service-v1-horizon')?.value||12);
-            const demandEntries=rawDemand?rawDemand.split(/\r?\n|;/).map(x=>
-                x.trim()!==''?Number(x.trim().replace(',','.')):NaN):[];
-            const demandAverage=Number.isInteger(demandHorizon)&&demandEntries.length===demandHorizon&&
-                demandEntries.every(x=>Number.isFinite(x)&&x>=0)?
-                demandEntries.reduce((sum,x)=>sum+x,0)/demandHorizon:0;
-            // The explicit demand plan is authoritative for a service, even
-            // when no CPC campaign exists yet. Keep a strictly positive
-            // normalization base for allocating per-unit expenses to V2.
-            const expectedServiceUnits=productSource==='offline-service'&&demandAverage>0?
-                demandAverage:adUnits;
+            const manualAverage=serviceDemandDraftAverage();
+            // Stable quantity basis for unit costs, even if month one is zero.
+            const expectedServiceUnits=productSource==='offline-service'&&
+                serviceFinancialMode==='full'&&manualAverage!==null?manualAverage:adUnits;
             const materialsBatchQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
             const productionQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
             const forecastSales=Math.max(0,productNumberFromText('own-product-ad-units'));
@@ -5034,10 +5038,12 @@
                     sku.fullServiceOperatingMonths=Number(item.serviceHorizonMonths)||1;
                     sku.fullServiceHorizon=Math.max(sku.fullServiceOperatingMonths,
                         item.planning?.fundingMode==='credit'?Number(credit.termMonths)||1:1);
-                    // The explicit zero tail cannot be mistaken for extra sales.
+                    // V2 receives the exact month-specific V1 demand, then
+                    // zeroes only the extra months needed for loan settlement.
+                    const approved=serviceDemandProfile(item);
+                    if(!approved.valid)throw Error(approved.error);
                     sku.fullServiceForecast=Array.from({length:sku.fullServiceHorizon},
-                        (_,month)=>month<sku.fullServiceOperatingMonths?
-                            Number(row.forecastSales)||0:0);
+                        (_,month)=>month<approved.months.length?approved.months[month]:0);
                     // A loan extending beyond the selected service horizon
                     // extends the real V1 cash calendar through its maturity.
                     sku.fullServiceReservePct=Number(item.planning?.reservePct)||0;
@@ -5090,7 +5096,7 @@
                     if(online)sku.onlineProvenance={
                         periodMonths:sku.fullServiceHorizon,
                         fullServiceCalculated:true,
-                        ownerRevenueInPeriod:row.forecastSales*row.price*sku.fullServiceHorizon,
+                        ownerRevenueInPeriod:approved.total*row.price,
                         sourceRole:item.serviceRole||'self'
                     };
                     return sku;
@@ -7821,7 +7827,10 @@
                 const el=document.getElementById('own-production-unit-cost');if(el)el.textContent=moneyInputValue(0);
                 recalculateLogisticsUnitCost();return;
             }
-            const offlineForecast=productNumberFromText('own-product-ad-units');
+            const offlineForecast=productSource==='offline-service'&&
+                serviceFinancialMode==='full'?
+                (serviceDemandDraftAverage()??productNumberFromText('own-product-ad-units')):
+                productNumberFromText('own-product-ad-units');
             const qty = productSource==='offline-service'?Math.max(1,offlineForecast):Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
             const defectPct = productSource==='offline-service'?0:Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
             const yieldFactor = Math.max(0.0001, 1 - defectPct / 100);
