@@ -1830,3 +1830,28 @@ body #full-service-screen .nd-full-service-technical .nd-full-service-table{marg
 @media(max-width:700px){
   body #full-service-screen .nd-full-service-ledger{grid-template-columns:minmax(0,1fr)}
 }
+
+/* #91: full native V1 cash ledgers scroll INSIDE their card at 320px.
+   Tailwind CDN may be unavailable offline; guarantee the overflow contract
+   in the shipped CSS rather than relying on an uncompiled utility class. */
+body #product-tax-block,
+body #product-v1-aggregate-report,
+body #product-portfolio-business-summary{
+  box-sizing:border-box;
+  min-width:0;
+  max-width:100%;
+}
+body #product-portfolio-business-summary .overflow-x-auto{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  overflow-x:auto !important;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+}
+body #product-portfolio-business-summary .overflow-x-auto > table{
+  width:max-content;
+  min-width:100%;
+  max-width:none;
+}
