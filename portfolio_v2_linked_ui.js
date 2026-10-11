@@ -408,6 +408,27 @@ function updateResult(){
   (period.onceAssetAmortizationUnverified?
    '<p class="mt-2 text-xs text-amber-200">Есть разовые активы без подтверждённой амортизации; полная бухгалтерская прибыль пока не подтверждена.</p>':'')+
   '</section>':'';
+ const partnerRows=period?.bySku?
+   out.items.filter(s=>period.bySku[s.id]?.partner?.months?.length).map(s=>({
+     name:s.name,partner:period.bySku[s.id].partner
+   })):[];
+ const partnerPanel=partnerRows.map(entry=>
+   '<section class="mt-5 rounded-lg border border-white/25 p-3">'+
+   '<h3 class="font-bold">Экономика партнёра · <span data-nomad-no-translate>'+
+     safe(entry.name)+'</span></h3>'+
+   '<p class="text-xs text-slate-200 mt-2">Оборот и налог партнёра показаны отдельно от дохода агента. Разовые покупки оборудования относятся к денежным выплатам, амортизация — к прибыли.</p>'+
+   '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[550px] text-xs"><thead><tr>'+
+   ['Месяц','Выручка без НДС','Расходы, включая агента','Налог партнёра','Прибыль партнёра','Покупка оборудования'].map(label=>
+      '<th class="p-2 text-right">'+safe(label)+'</th>').join('')+
+   '</tr></thead><tbody>'+
+   entry.partner.months.map(m=>'<tr class="border-t border-white/20">'+
+      [m.month,m.revenue,m.costs,m.tax,m.profit,m.capex].map((v,i)=>
+        '<td class="p-2 text-right"'+(i===0?'':' data-nomad-display-number="'+safe(v)+'"')+'>'+
+        (i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
+   '</tbody></table></div>'+
+   '<p class="mt-2 text-xs">Итого: выручка '+money(entry.partner.revenue)+
+   ', налог '+money(entry.partner.tax)+', прибыль '+money(entry.partner.profit)+'.</p></section>'
+ ).join('');
  const advertising=out.temporal?.months?.some(m=>m.media)?
   '<h3 class="font-bold mt-5">Общая реклама по месяцам · реальные платежи и спрос</h3>'+
   '<p class="text-xs text-slate-200 mt-2">При распродаже товара его доля прекращается. Нераспределённые деньги остаются фактическим расходом кампании. Нераспределённые платежи входят в прибыль и цену всего выбранного периода.</p>'+
@@ -446,7 +467,7 @@ function updateResult(){
    '<p class="text-amber-200 text-sm mt-3">ПРЕДВАРИТЕЛЬНЫЙ РАСЧЁТ. Разовые расходы или активы без подтверждённой амортизации: целевая маржа за весь период НЕ подтверждена, даже если численная оценка выше цели.</p>':
   t.targetMet?'<p class="text-emerald-200 text-sm mt-3">'+(period?'Целевая маржа подтверждена по фактическому плану всего периода.':'Целевая маржа достигнута для всех позиций.')+'</p>':
   '<p class="text-amber-200 text-sm mt-3">Часть позиций обеспечивает минимальную, но не целевую маржу. Прайс остаётся в пределах диапазона V1.</p>')+
- periodPanel+
+ periodPanel+partnerPanel+
  '<h3 class="font-bold mt-5">Конечные цены покупателей</h3>'+priceTable+
  '<h3 class="font-bold mt-5">Общие ресурсы оплачиваются один раз</h3>'+resources+
  '<h3 class="font-bold mt-5">5. Стартовый капитал и Cash flow</h3>'+
