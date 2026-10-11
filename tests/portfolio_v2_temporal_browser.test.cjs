@@ -45,7 +45,7 @@ const sku=(id,stock,source='resale')=>({
       'Month '+(i+1)+' receipts must use only available goods');
     A.ok(Math.abs(m.ad-(i<3?200:100))<.012);
   });
-  A.match(await page.locator('#linked-results').textContent(),/Утверждённый сценарий 5 мес/);
+  A.match(await page.locator('#linked-results').textContent(),/План продаж из V1:\s*5\s*мес/);
   A.match(await page.locator('#linked-temporal-result').textContent(),/Остатки и мощности проверены/);
   await page.locator('[data-linked-save]').click();
   await page.locator('[data-linked-back]').click();await page.evaluate(()=>showHome());
