@@ -45,12 +45,12 @@ function selField(label,path,value,items){
  return '<label class="block"><span class="block font-semibold text-xs text-slate-700 mb-1">'+safe(label)+'</span><select class="input-field w-full" data-p2-path="'+safe(path)+'">'+items.map(([v,t])=>'<option value="'+safe(v)+'" '+(String(v)===String(value)?'selected':'')+'>'+safe(t)+'</option>').join('')+'</select></label>';
 }
 function box(title,body,id) {
- return '<section id="'+safe(id)+'" class="rounded-2xl border border-slate-200 bg-white p-4 md:p-5 mb-4 shadow-sm"><h3 class="text-lg font-bold text-slate-900 mb-3">'+title+'</h3>'+body+'</section>';
+ return '<section id="'+safe(id)+'" class="nd-v2-panel rounded-2xl border border-slate-200 bg-white p-4 md:p-5 mb-4 shadow-sm"><h3 class="text-lg font-bold text-slate-900 mb-3">'+title+'</h3>'+body+'</section>';
 }
 function resourceCard(r,index){
  let all=model.skus.map(s=>'<label class="flex gap-2 items-center text-xs text-slate-700"><input type="checkbox" data-p2-resource-member="'+index+'" value="'+safe(s.id)+'" '+((r.skuIds||[]).includes(s.id)?'checked':'')+'><span>'+safe(s.name||'Товар '+(model.skus.indexOf(s)+1))+'</span></label>').join('');
  const usable=(r.skuIds||[]).length;
- return '<article class="border border-indigo-200 bg-indigo-50 rounded-xl p-3 mt-3" data-p2-resource="'+safe(r.id)+'">'+
+ return '<article class="nd-v2-subpanel border border-indigo-200 bg-indigo-50 rounded-xl p-3 mt-3" data-p2-resource="'+safe(r.id)+'">'+
  '<div class="flex items-start justify-between gap-3"><strong class="text-slate-900">'+safe(r.label||labels[r.kind]||'Ресурс')+'</strong>'+
  '<button type="button" data-p2-delete-resource="'+safe(r.id)+'" class="text-xs text-rose-700 underline">Удалить</button></div>'+
  '<div class="grid grid-cols-2 gap-2 mt-3">'+
@@ -89,7 +89,7 @@ function skuCard(s,i) {
  numberField('Стартовая закупка сырья / товара, у.е. (необязательно)',path+'initialCashOut',s.initialCashOut,
  'Аванс: выплата в начале цикла. Не прибавляется повторно к COGS')+
  numberField('Хранение 1 ед. за день, у.е. (по фактическим остаткам)',path+'storagePerUnitDay',s.storagePerUnitDay));
- return '<article class="mb-4 rounded-2xl border-2 border-blue-200 bg-white p-4" data-p2-sku="'+safe(s.id)+'">'+
+ return '<article class="nd-v2-subpanel mb-4 rounded-2xl border-2 border-blue-200 bg-white p-4" data-p2-sku="'+safe(s.id)+'">'+
  '<div class="flex justify-between gap-3 mb-3"><h3 class="text-xl font-extrabold text-blue-950">Товар '+(i+1)+'</h3>'+
  '<button class="text-rose-700 text-sm underline" type="button" data-p2-remove-sku="'+safe(s.id)+'">Удалить</button></div>'+
  '<label class="block mb-3"><span class="text-xs font-bold text-slate-700 block mb-1">Название</span><input class="input-field w-full" data-p2-path="'+path+'name" value="'+safe(s.name)+'" placeholder="Название своего товара"></label>'+
@@ -109,7 +109,7 @@ function skuCard(s,i) {
 }
 function render(){
  const host=document.getElementById('portfolio-v2-root');if(!host||!model)return;
- host.innerHTML='<div class="mb-5 rounded-2xl bg-slate-900 text-white p-5">'+
+ host.innerHTML='<div class="nd-v2-hero mb-5 rounded-2xl bg-slate-900 text-white p-5">'+
  '<div class="text-xs tracking-widest uppercase text-sky-200">Самостоятельная портфельная модель · v2</div>'+
  '<h1 class="text-2xl font-black mt-2">Мои товары и реальные деньги</h1>'+
  '<p class="text-sm mt-2 text-slate-200">Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз. Здесь нет подставленных примеров.</p>'+
@@ -131,7 +131,7 @@ function render(){
  box('2. Товары и доли продаж','<p class="text-sm text-slate-600 mb-3">Три модели используют одну формулу цены; меняются состав себестоимости, наличие склада и момент расчёта с поставщиком.</p>'+
  model.skus.map(skuCard).join('')+
  '<div class="text-sm font-semibold mb-3" id="p2-mix-sum">Сумма долей по штукам: '+pct(model.skus.reduce((a,s)=>a+Number(s.mixPct||0),0))+'</div>'+
- '<button type="button" data-p2-add-sku class="w-full rounded-xl bg-blue-700 px-4 py-4 text-white font-bold">+ Добавить товар</button>','p2-stage-skus')+
+ '<button type="button" data-p2-add-sku class="nd-v2-operation w-full rounded-xl bg-blue-700 px-4 py-4 text-white font-bold">+ Добавить товар</button>','p2-stage-skus')+
  stageResources('purchase','3. Закупка и сертификаты','Один сертификат можно распределить на несколько товаров только если он действительно покрывает их тип, страну и срок. Материалы / закупка — в себестоимости соответствующего SKU.','certification')+
  stageResources('production','4. Производство: помещения, работники, оборудование','Добавьте одну общую аренду или одну бригаду для нескольких товаров либо две отдельные записи. При известной загрузке задайте её по товарам и ограничение мощности.','premises')+
  stageResources('logistics','5. Склад и логистика','Общую аренду склада платим один раз. Хранение каждого товара по остаткам и дням остаётся индивидуальным — в его карточке.','warehouse')+
@@ -150,7 +150,7 @@ function render(){
  numberField('Срок кредита, месяцев','funding.months',model.funding.months):'')+
  '</div><p class="text-xs text-slate-500 mt-3">Кредит: ежемесячные проценты и возврат всего тела в последний месяц (bullet). Тело кредита — выплата денежных средств, а не налоговый расход. Внесённые собственные деньги — тоже не прибыль.</p>',
  'p2-stage-financing')+
- '<section id="p2-results" class="rounded-2xl bg-emerald-900 text-white p-5 mb-6" aria-live="polite"></section>';
+ '<section id="p2-results" class="nd-v2-results rounded-2xl bg-emerald-900 text-white p-5 mb-6" aria-live="polite"></section>';
  const status=document.getElementById('p2-draft-status');if(status)status.textContent='Изменения сохраняются в этом браузере';
  updateResult();
 }

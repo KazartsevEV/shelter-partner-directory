@@ -8,6 +8,38 @@ const path=require('node:path');
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,route=>route.abort());
  const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
+ const verifyV2Design=async()=>{
+  for(const width of [320,390,768]){
+   await page.setViewportSize({width,height:844});
+   const v=await page.locator('#portfolio-v2-root').evaluate(el=>{
+    const panel=el.querySelector('.nd-v2-panel'),hero=el.querySelector('.nd-v2-hero');
+    const h=panel?.querySelector('h2,h3,.font-bold');
+    const input=el.querySelector('input[type="number"],input[type="text"]');
+    const rootBox=el.getBoundingClientRect();
+    const parts=[...el.querySelectorAll('.nd-v2-panel,.nd-v2-hero,.nd-v2-results')];
+    return {
+     body:getComputedStyle(document.body).backgroundColor,
+     panel:getComputedStyle(panel).backgroundColor,
+     title:getComputedStyle(h).color,
+     inputBg:getComputedStyle(input).backgroundColor,
+     inputFg:getComputedStyle(input).color,
+     sideOverflow:el.scrollWidth-el.clientWidth,
+     panelOverflow:parts.some(e=>{const r=e.getBoundingClientRect();return r.left<rootBox.left-2||r.right>rootBox.right+2}),
+     tableScroll:[...el.querySelectorAll('.overflow-x-auto')].every(e=>getComputedStyle(e).overflowX==='auto'),
+     panelCount:parts.length
+    };
+   });
+   assert.equal(v.body,'rgb(255, 255, 255)','V2 white canvas at '+width);
+   assert.equal(v.panel,'rgb(22, 55, 90)','V2 shared navy panels at '+width);
+   assert.equal(v.title,'rgb(255, 255, 255)','V2 white heading text at '+width);
+   assert.equal(v.inputBg,'rgb(255, 255, 255)','Readable paper inputs at '+width);
+   assert.equal(v.inputFg,'rgb(22, 55, 90)','Readable navy field text at '+width);
+   assert.ok(v.panelCount>=3&&!v.panelOverflow,'Panels fit '+width+': '+JSON.stringify(v));
+   assert.ok(v.sideOverflow<=2,'V2 contains horizontal overflow at '+width+': '+JSON.stringify(v));
+   assert.ok(v.tableScroll,'Only tables may scroll horizontally at '+width);
+  }
+  await page.setViewportSize({width:390,height:844});
+ };
  const payload={tax:{type:'turnover',pct:3},skus:[
  {id:'v1-1',name:'Товары А',source:'own',unitCost:30,forecastUnitsPerMonth:25,adBudget:250,baseCac:10,
  priceMin:90,priceMax:180,maxDiscountPct:20,minimumMarginPct:10,targetMarginPct:25,salesFixedMonthly:200,
@@ -23,6 +55,7 @@ const path=require('node:path');
   assert.equal(modules.linked,true);assert.equal(modules.engine,true);
   await page.evaluate(payload=>window.LinkedPortfolioV2UI.importFromV1(payload),payload);
   assert.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
+  await verifyV2Design();
   assert.equal(await page.locator('[data-linked-sku]').count(),2);
   assert.equal(await page.locator('[data-linked-path*="priceSelected"]').count(),0);
   assert.equal(await page.locator('[data-linked-price-list]').count(),2);

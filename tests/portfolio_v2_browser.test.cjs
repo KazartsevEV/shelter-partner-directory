@@ -7,6 +7,38 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}}),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,r=>r.abort());
+ const verifyV2Design=async()=>{
+  for(const width of [320,390,768]){
+   await page.setViewportSize({width,height:844});
+   const v=await page.locator('#portfolio-v2-root').evaluate(el=>{
+    const panel=el.querySelector('.nd-v2-panel'),hero=el.querySelector('.nd-v2-hero');
+    const h=panel?.querySelector('h2,h3');
+    const input=el.querySelector('input[type="number"],input[type="text"]');
+    const rootBox=el.getBoundingClientRect();
+    const parts=[...el.querySelectorAll('.nd-v2-panel,.nd-v2-hero,.nd-v2-results')];
+    return {
+     body:getComputedStyle(document.body).backgroundColor,
+     panel:getComputedStyle(panel).backgroundColor,
+     title:getComputedStyle(h).color,
+     inputBg:getComputedStyle(input).backgroundColor,
+     inputFg:getComputedStyle(input).color,
+     sideOverflow:el.scrollWidth-el.clientWidth,
+     panelOverflow:parts.some(e=>{const r=e.getBoundingClientRect();return r.left<rootBox.left-2||r.right>rootBox.right+2}),
+     tableScroll:[...el.querySelectorAll('.overflow-x-auto')].every(e=>getComputedStyle(e).overflowX==='auto'),
+     panelCount:parts.length
+    };
+   });
+   assert.equal(v.body,'rgb(255, 255, 255)','V2 white canvas at '+width);
+   assert.equal(v.panel,'rgb(22, 55, 90)','V2 shared navy panels at '+width);
+   assert.equal(v.title,'rgb(255, 255, 255)','V2 white heading text at '+width);
+   assert.equal(v.inputBg,'rgb(255, 255, 255)','Readable paper inputs at '+width);
+   assert.equal(v.inputFg,'rgb(22, 55, 90)','Readable navy field text at '+width);
+   assert.ok(v.panelCount>=3&&!v.panelOverflow,'Panels fit '+width+': '+JSON.stringify(v));
+   assert.ok(v.sideOverflow<=2,'V2 contains horizontal overflow at '+width+': '+JSON.stringify(v));
+   assert.ok(v.tableScroll,'Only tables may scroll horizontally at '+width);
+  }
+  await page.setViewportSize({width:390,height:844});
+ };
  const fill=(p,n)=>page.locator('[data-p2-path="'+p+'"]').fill(String(n));
  const choose=(p,v)=>page.locator('[data-p2-path="'+p+'"]').selectOption(v);
  const calc=()=>page.evaluate(()=>PortfolioV2Engine.build(PortfolioV2UI.getState()));
@@ -15,6 +47,7 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  assert.equal(await page.locator('#home-screen').isVisible(),true);
  await page.locator('#nomad360-selling-choice #start-multi-portfolio').click();
  assert.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
+ await verifyV2Design();
  assert.equal(await page.locator('[data-p2-path="skus.0.name"]').inputValue(),'');
  for(const [p,n] of [['marketing.budget',1000],['marketing.cpc',5],['marketing.ctrPct',2],
  ['marketing.clickLeadPct',20],['marketing.leadOrderPct',25],['skus.0.name','Майка'],
