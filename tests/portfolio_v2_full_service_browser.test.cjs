@@ -141,7 +141,17 @@ const {pathToFileURL}=require('node:url');
   A.ok(split.month.partnerCosts>split.month.outflow,'Principal gross spend is separate');
   await page.evaluate(()=>setProductAssortmentChoice('complete'));
   await page.evaluate(()=>updateProductPortfolioBusinessSummary());
-  A.equal(await page.locator('#product-portfolio-business-summary').isVisible(),true);
+  const agentReportGate=await page.evaluate(()=>{
+    let p=document.getElementById('product-portfolio-business-summary');
+    const path=[];for(let k=0;p&&k<9;k++,p=p.parentElement)
+      path.push({id:p.id,hidden:p.hidden,display:getComputedStyle(p).display,
+        cls:p.className});
+    return {path,tax:document.getElementById('product-tax-block')?.hidden,
+      htmlLength:document.getElementById('product-portfolio-business-summary')?.innerHTML.length};
+  });
+  console.log('NOMAD360_AGENT_REPORT_GATE',JSON.stringify(agentReportGate));
+  A.equal(await page.locator('#product-portfolio-business-summary').isVisible(),true,
+    JSON.stringify(agentReportGate));
   A.match(await page.locator('#product-portfolio-business-summary').innerText(),
     /Экономика партнёра по месяцам/);
   const agentReportPdf=await page.pdf({format:'A4',printBackground:true});
