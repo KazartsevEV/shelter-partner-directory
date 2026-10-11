@@ -206,8 +206,10 @@ const {pathToFileURL}=require('node:url');
   A.ok(agentV2.partner?.months?.length===12,'Partner PnL survives all 12 months of V1→V2');
   A.ok(agentV2.partner.months[0].profit!==null);
   A.match(await page.locator('#portfolio-v2-root').innerText(),/Экономика партнёра/);
+  await page.evaluate(()=>window.print=()=>{window.__v2PrintRequested=true});
   A.equal(await page.evaluate(()=>Nomad360UI.savePrint('report')),true,
     'V2 PDF export works for an imported agent contract');
+  A.equal(await page.evaluate(()=>window.__v2PrintRequested),true);
   A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'report');
   const partnerPdfText=await page.locator('#nomad360-print-sheet').textContent();
   A.match(partnerPdfText,/Экономика партнёра/);
