@@ -194,6 +194,9 @@ function startTestServer(){
         color:r.style?.getPropertyValue('color'),priority:r.style?.getPropertyPriority('color'),
         parent:r.parentRule?.conditionText||r.parentRule?.constructor?.name||null}))
     }catch(e){return []}}),
+    transition:{property:getComputedStyle(el).transitionProperty,
+      duration:getComputedStyle(el).transitionDuration,
+      timing:getComputedStyle(el).transitionTimingFunction},
     scheme:matchMedia('(forced-colors: active)').matches,
     bodyColor:getComputedStyle(document.body).color,
     linkMedia:[...document.querySelectorAll('link[rel=stylesheet]')].map(l=>({href:l.href,media:l.media,disabled:l.disabled}))
