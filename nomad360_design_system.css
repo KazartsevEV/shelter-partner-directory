@@ -1972,3 +1972,9 @@ body.nd-tree-business-return #product-main-back{display:none!important}
  body > nav.nd-journey-nav{display:none!important}
  body .nd-tree-active-back{display:none!important}
 }
+/* The legacy agent-back override used navy on a navy canvas; ensure the reused
+   native arrow matches the original white/orange '← Услуги' treatment. */
+body #agent-screen.nd-agent-screen > button.nd-agent-back.nd-tree-active-back,
+body #agent-complex-screen.nd-agent-screen > button.nd-agent-back.nd-tree-active-back{
+  color:#fff!important;
+}
