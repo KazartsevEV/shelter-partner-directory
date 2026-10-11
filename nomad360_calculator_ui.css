@@ -280,18 +280,26 @@ a.nomad-pay-value{text-decoration:underline}
   display:flex;justify-content:center;min-width:0;max-width:100%;
   padding:6px 6px 8px;background:#fff;
 }
-/* NOWPayments fixes its checkout body at 623px: shrinking the iframe
-   viewport clips Continue instead of removing whitespace (verified live).
-   Uniformly scale the whole LIVE iframe to keep its controls clickable. */
+/* NOWPayments renders a fixed 623px internal form with its Continue action
+   near y=508. The parent cannot rearrange this cross-origin layout. Instead,
+   provide an actual scrollable iframe (wheel and touch verified against
+   NOWPayments) in a compact viewport, preserving the full checkout workflow. */
 .nomad-crypto-viewport{
-  position:relative;width:min(100%,346px);height:487px;
+  position:relative;width:min(100%,346px);height:277px;
   flex:none;overflow:hidden;min-width:0;
 }
 .nomad-crypto-frame{
   display:block;box-sizing:border-box;width:128.205128%;max-width:none;
-  height:623px;border:0;border-radius:10px;background:#fff;
+  height:355px;border:0;border-radius:10px;background:#fff;
   transform:scale(.78);transform-origin:top left;
 }
+.nomad-crypto-scroll-cue{
+  margin:0!important;padding:0 10px 10px;
+  text-align:center;background:#fff;color:#16375a!important;
+  font:600 13px/1.4 'IBM Plex Sans',Inter,system-ui,sans-serif;
+}
+.nomad-crypto-scroll-cue::first-letter{color:#b8573a}
+
 @media(max-width:390px){
  .nomad-crypto-heading{padding:12px 14px 13px}
  .nomad-crypto-embed{padding:5px 4px 6px}
