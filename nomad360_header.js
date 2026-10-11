@@ -5,7 +5,7 @@
   const PAY = {
     kaspi: '+7 777 129 56 93', kaspiTel: 'tel:+77771295693',
     ozon: '+7 977 986 74 41', ozonTel: 'tel:+79779867441',
-    donate: 'https://donate.trybit.com/O8CSU052',
+    donationWidget: 'https://nowpayments.io/embeds/donation-widget?api_key=47aebf88-76b9-4871-9217-d3f5b46de839',
     bankName: 'Kazartsev Evgenii', bank: 'АО Kaspi Bank',
     swift: 'CASPKZKA', iban: 'KZ53722C000089313796',
     whatsapp: '+7 777 129 56 93', whatsappUrl: 'https://wa.me/77771295693',
@@ -31,7 +31,7 @@
       supportLead:'Калькулятор бесплатный. Поддержка добровольная и идёт на развитие калькулятора, AI-маркетолога и контент-фабрики.',
       kaspi:'Kaspi · Казахстан',ozon:'Ozon · Россия',
       cryptoDonate:'Поддержать Nomad360 криптовалютой',
-      cryptoDonateHint:'Откроется страница донатов Trybit в новой вкладке',
+      cryptoDonateHint:'Выберите криптовалюту и сумму в форме NOWPayments ниже',
       kaspiPhoneHint:'Перевод по номеру телефона для владельцев казахстанских карт',
       bankTransfer:'Реквизиты для международного банковского перевода',
       bankRecipient:'Получатель',bankName:'Банк',
@@ -93,7 +93,7 @@
       supportLead:'The calculator is free. Support is voluntary and funds the calculator, the AI Marketer and the Content Factory.',
       kaspi:'Kaspi · Kazakhstan',ozon:'Ozon · Russia',
       cryptoDonate:'Support Nomad360 with cryptocurrency',
-      cryptoDonateHint:'Opens the Trybit donation page in a new tab',
+      cryptoDonateHint:'Choose a cryptocurrency and amount in the NOWPayments form below',
       kaspiPhoneHint:'Transfer by phone number for holders of Kazakhstan-issued bank cards',
       bankTransfer:'International bank transfer details',
       bankRecipient:'Recipient',bankName:'Bank',
@@ -155,7 +155,7 @@
       supportLead:'Калькулятор тегін. Қолдау ерікті және калькуляторды, AI-маркетологты және контент фабрикасын дамытуға жұмсалады.',
       kaspi:'Kaspi · Қазақстан',ozon:'Ozon · Ресей',
       cryptoDonate:'Nomad360 жобасын криптовалютамен қолдау',
-      cryptoDonateHint:'Trybit донат парақшасы жаңа қойындыда ашылады',
+      cryptoDonateHint:'Төмендегі NOWPayments нысанында криптовалюта мен соманы таңдаңыз',
       kaspiPhoneHint:'Қазақстан банктерінің карталары үшін телефон нөмірі арқылы аударым',
       bankTransfer:'Халықаралық банк аударымына арналған деректемелер',
       bankRecipient:'Алушы',bankName:'Банк',
@@ -227,13 +227,20 @@
       '<a href="https://www.threads.com/@nomad260393" target="_blank" rel="noopener noreferrer">Threads · @nomad260393</a>'+
       '</div><p class="nomad-topics">'+esc(t.contactTopics)+'</p></section>';
   }
-  // Donation checkout is hosted by Trybit: no API keys or payment code in this site.
+  // Official NOWPayments donation form, embedded directly in the footer.
+  // The hosted iframe owns transaction processing and donor inputs. This
+  // static site never reads or handles wallet credentials or card details.
   function payHostedCrypto(t) {
-    return '<div class="nomad-donate-checkout">'+
-      '<a class="nomad-donate-checkout-link" href="'+PAY.donate+'" target="_blank" rel="noopener noreferrer">'+
-      '<span class="nomad-donate-globe" aria-hidden="true">🌐</span>'+
-      '<span>'+esc(t.cryptoDonate)+'</span><span class="nomad-donate-external" aria-hidden="true">↗</span></a>'+
-      '<p class="nomad-pay-hint">'+esc(t.cryptoDonateHint)+'</p></div>';
+    return '<section class="nomad-crypto-panel" aria-labelledby="nomad-crypto-title">'+
+      '<div class="nomad-crypto-heading">'+
+      '<span class="nomad-crypto-kicker"><span aria-hidden="true">🌐</span> NOWPayments</span>'+
+      '<h3 id="nomad-crypto-title">'+esc(t.cryptoDonate)+'</h3>'+
+      '<p>'+esc(t.cryptoDonateHint)+'</p></div>'+
+      '<div class="nomad-crypto-embed">'+
+      '<iframe class="nomad-crypto-frame" title="'+esc(t.cryptoDonate)+'" '+
+      'src="'+PAY.donationWidget+'" width="346" height="690" loading="lazy" '+
+      'frameborder="0" scrolling="no" referrerpolicy="strict-origin-when-cross-origin">'+
+      '</iframe></div></section>';
   }
   function payFiat(t) {
     const bankLine=(label,value)=>
