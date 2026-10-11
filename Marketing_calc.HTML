@@ -2599,6 +2599,12 @@
             if (frozen) frozen.remove();
 
             renderProductPortfolio();
+            if(item.source==='offline-service'){
+                configureOfflineServiceView();
+                syncServiceFinancialRoute();
+                document.querySelectorAll('.nd-service-mode-choice').forEach(b=>
+                    b.setAttribute('aria-pressed',b.id==='service-mode-'+serviceFinancialMode?'true':'false'));
+            }
 
             const ownForm = document.getElementById('product-own-form');
             (ownForm || sourceBlock)?.scrollIntoView({
@@ -5491,7 +5497,9 @@
                 };
                 localStorage.setItem(savedProductStorageKey, JSON.stringify(payload));
                 const savedHtml = 'Сохранено в этом браузере. ' +
-                    '<a class="underline font-bold" href="?resume=1">Открыть мои товары для редактирования</a>';
+                    '<a class="underline font-bold" href="?resume=1">'+
+                    (productPortfolio.some(i=>i.source==='offline-service')?
+                        'Продолжить расчёт услуги':'Открыть мои товары для редактирования')+'</a>';
                 if (status) status.innerHTML = savedHtml;
                 if (draftStatus) draftStatus.innerHTML = savedHtml;
                 updateSavedProductEntry();
