@@ -45,6 +45,7 @@ const sku=(id,stock)=>({
   const baseline={a:35.72,b:35.72};
   const baselinePnl3=await page.evaluate(prices=>
     LinkedPortfolioV2Engine.build({...LinkedPortfolioV2UI.getState(),
+      forecastMonths:3,v1HorizonInherited:false,
       __periodPriceCandidate:prices}).cashflow.periodPnl,baseline);
   close(p.netMargin,p.netProfit/p.revenue*100,'three-month margin');
   A.ok(p.netMargin>=25,'period-target margin, not merely month 1');
