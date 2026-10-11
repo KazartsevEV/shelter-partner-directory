@@ -103,6 +103,15 @@ const server=createServer(async(req,res)=>{
   await support.screenshot({path:path.join(snapshotDir,'donations-desktop-1440.png'),animations:'disabled'});
   await page.setViewportSize({width:390,height:844});
   const license=page.locator('#nomad360-license');
+  A.equal(await license.evaluate(el=>{
+    const embed=el.querySelector('.nomad-embed-actions');
+    const terms=el.querySelector('.nomad-license-terms');
+    const contact=embed?.querySelector('.nomad-embed-contact');
+    return !!embed&&!!terms&&!!contact&&
+      !!(contact.compareDocumentPosition(terms)&Node.DOCUMENT_POSITION_FOLLOWING)&&
+      terms.querySelector('h3')?.textContent==='Лицензия и использование'&&
+      terms.querySelector('a')?.getAttribute('href')?.endsWith('/CALCULATOR_LICENSE.md');
+  }),true,'License and usage must be below the entire calculator embed block');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
    A.equal(await license.locator('[data-nomad-embed-retry]').isVisible(),false,
      'Manual fallback is hidden until the HTML has been prepared');
