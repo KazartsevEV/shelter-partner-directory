@@ -70,11 +70,10 @@ const server=createServer(async(req,res)=>{
     return footerChildren[footerChildren.length-1]===last;
   }),true,'Russia card link is the LAST support option');
   A.doesNotMatch(await support.textContent(),/Bybit|Байбит|Байбит картасы/i);
-  const wallet=support.locator('.nomad-direct-crypto');
-  A.equal(await wallet.getAttribute('open'),null);
-  await wallet.locator('summary').click();
-  A.equal(await wallet.locator('.nomad-qr').count(),2,
-    'Existing direct wallet QR still available as an optional alternative');
+  A.equal(await support.locator('.nomad-direct-crypto, .nomad-qr, .nomad-pay-crypto').count(),0,
+    'Trybit replaces standalone USDT/BTC wallet links entirely');
+  A.equal(await support.locator('.nomad-copy').count(),6,
+    'KZ phone + four SWIFT details + Ozon number');
   for(const width of [320,390,1440]){
     await page.setViewportSize({width,height:844});
     const geometry=await support.evaluate(el=>({
@@ -86,7 +85,6 @@ const server=createServer(async(req,res)=>{
       'Donation cards fit '+width+' viewport: '+JSON.stringify(geometry));
   }
   await page.setViewportSize({width:390,height:844});
-  await wallet.locator('summary').click();
   const snapshotDir=path.resolve(ROOT,'artifacts/donation-footer');
   await fs.mkdir(snapshotDir,{recursive:true});
   await support.screenshot({path:path.join(snapshotDir,'donations-mobile-390.png'),animations:'disabled'});
