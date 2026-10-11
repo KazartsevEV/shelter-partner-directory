@@ -4819,6 +4819,9 @@
                     sku.source=online?'online-service':'offline-service';
                     sku.unitCost=Math.max(0,row.unitCost);
                     sku.fullServiceV2=true;
+                    sku.nativeProductV1=true;
+                    sku.nativeV1Funding=item.planning?.fundingMode||'cash';
+                    sku.nativeV1StartCapital=Number(cycle.requiredCapital)||0;
                     sku.fullServiceChannel=online?'online':'offline';
                     sku.fullServiceRole=item.serviceRole||'self';
                     sku.fullServiceAgency=agent?JSON.parse(JSON.stringify(agency)):null;
@@ -4834,8 +4837,10 @@
                     sku.ownerTax={type:ownerTaxType,
                         pct:ownerTaxPct,entity:'business'};
                     sku.fixedPriceFromV1=true;
-                    sku.priceMin=Math.round(quote*100)/100;
-                    sku.priceMax=sku.priceMin;
+                    // Transfer the exact V1 unit quote; round only UI labels.
+                    // Early two-decimal rounding changes 20+ transaction PnL.
+                    sku.priceMin=quote;
+                    sku.priceMax=quote;
                     sku.maxDiscountPct=0;
                     sku.minimumMarginPct=0;
                     sku.targetMarginPct=0;
