@@ -890,7 +890,7 @@
                     у.е.*.
                 </div>
 
-                <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
+                <div id="product-production-quantity-panel" class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
                     <label class="block text-sm font-medium text-slate-700 mb-2">
                         <span id="production-qty-label">Сколько единиц</span> <span class="product-name-live"></span> <span id="production-qty-suffix">производите в месяц?</span>
                     </label>
@@ -1217,7 +1217,7 @@
                     у.е.*.
                 </div>
 
-                <div class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
+                <div id="product-sales-quantity-panel" class="mt-5 rounded-xl bg-white/80 border border-emerald-200 p-4">
                     <label class="block text-sm font-medium text-slate-700 mb-2">
                         Сколько единиц <span class="product-name-live"></span> продаёте в месяц?
                     </label>
@@ -1227,6 +1227,7 @@
                     </p>
                 </div>
 
+                <p id="service-sales-result-pending" class="hidden mt-3 text-sm text-slate-600" hidden>Расчёт на 1 услугу появится после блока «Реклама».</p>
                 <div class="mt-4 space-y-3">
                     <div class="rounded-xl bg-white/80 border border-emerald-200 p-4">
                         <div class="flex justify-between gap-4 text-sm">
@@ -1237,7 +1238,7 @@
                             <span class="font-semibold text-slate-800">Постоянные расходы / 1 ед., у.е.*</span>
                             <span id="own-sales-fixed-per-unit" class="font-bold text-emerald-800">0,00</span>
                         </div>
-                        <p class="text-xs text-slate-500 mt-1">
+                        <p id="product-sales-fixed-help" class="text-xs text-slate-500 mt-1">
                             Зарплаты / гонорары + обязательные налоги и начисления работодателя делятся на количество проданных единиц в месяц.
                         </p>
                     </div>
@@ -7153,6 +7154,11 @@
             show('materials-qty-entry-panel',!service&&productSource==='own');
             show('product-logistics-block',!service);
             show('logistics-unit-result',!service);
+            // Goods have physical production/sales plans. For services the sole
+            // quantity source is the advertising funnel, checked against capacity.
+            show('product-production-quantity-panel',!service);
+            show('product-sales-quantity-panel',!service);
+            show('product-sales-fixed-help',!service);
             if(service||productSource==='own')set('materials-step-name',service?(onlineService?'Прямые расходы на одну онлайн-услугу':'Расходные материалы на одну услугу'):'Из чего состоит себестоимость');
             if(service||productSource==='own')set('materials-step-help',service?
                 'Например, для маникюра: лак, база, пилки, перчатки. Расходники на одну процедуру можно указать общей суммой или по позициям.':
@@ -7173,10 +7179,9 @@
             set('production-workers-count-label',service?'Количество мастеров':'Количество рабочих');
             set('production-worker-gross-label',service?'Gross 1 мастера / месяц, у.е.*':'Gross 1 рабочего / месяц, у.е.*');
             set('production-result-caption',service?'Аренда, мастера и другие расходы на 1 услугу':'Стоимость производства 1 ед.');
-            set('production-qty-label',service?'Прогноз оказанных услуг':'Сколько единиц');
-            set('production-qty-suffix',service?'в месяц (из рекламной воронки)':'производите в месяц?');
-            set('production-result-help',service?
-                'Месячную аренду, зарплаты мастеров и начисления работодателя, оборудование, отопление и накладные расходы распределяем на прогноз фактически оказанных услуг из рекламы. Максимум клиентов проверяем отдельно.':
+            set('production-qty-label','Сколько единиц');
+            set('production-qty-suffix','производите в месяц?');
+            set('production-result-help',
                 'Аренда помещения / месяц, аренда оборудования / месяц, амортизация оборудования / месяц, газ / месяц, рабочие / месяц и накладные организационные расходы / месяц распределяются на месячный объём производства: чем больше единиц, тем меньше их нагрузка на 1 единицу.');
             const qty=document.getElementById('own-production-monthly-qty');
             if(qty){
@@ -7186,7 +7191,7 @@
                 else qty.placeholder='';
             }
             const forecastState=document.getElementById('offline-service-forecast-state');
-            if(forecastState){forecastState.hidden=!service;forecastState.classList.toggle('hidden',!service);}
+            if(forecastState){forecastState.hidden=true;forecastState.classList.add('hidden');}
             if(service){
                 productOwnChoices.inboundIncluded='yes';productOwnChoices.materialsImported='no';
                 setProductChoiceVisual('inboundIncluded','yes');
@@ -8101,8 +8106,13 @@
                     : 0;
 
             const fixedMonthly = payrollMonthly + employerMandatory;
-            const monthlySalesQty = Math.max(1, Math.floor(Number(document.getElementById('own-sales-monthly-qty')?.value) || 1));
-            const fixedPerUnit = fixedMonthly / monthlySalesQty;
+            const isService=productSource==='offline-service';
+            // Never read the service quantity from an editable sales field:
+            // sales, production and the financial snapshot use one funnel forecast.
+            const forecast=isService?productNumberFromText('own-product-ad-units'):0;
+            const monthlySalesQty=isService?forecast:
+                Math.max(1,Math.floor(Number(document.getElementById('own-sales-monthly-qty')?.value)||1));
+            const fixedPerUnit=monthlySalesQty>0?fixedMonthly/monthlySalesQty:NaN;
             const commissionPct =
                 productOwnChoices.salesCommission === 'yes'
                     ? productNumber('own-sales-commission-pct')
@@ -8113,6 +8123,11 @@
                     : 0;
             const variableTotalPct = commissionPct + penaltiesPct;
 
+            const pending=document.getElementById('service-sales-result-pending');
+            if(pending){
+                const visible=isService&&!(forecast>0);
+                pending.hidden=!visible;pending.classList.toggle('hidden',!visible);
+            }
             setProductReadonlyNumber('own-sales-fixed-monthly',fixedMonthly,'2');
             setProductReadonlyNumber('own-sales-fixed-per-unit',fixedPerUnit,'2');
             setProductReadonlyNumber('own-sales-result-unit',fixedPerUnit,'2');
