@@ -31,7 +31,7 @@
       supportLead:'Калькулятор бесплатный. Поддержка добровольная и идёт на развитие калькулятора, AI-маркетолога и контент-фабрики.',
       kaspi:'Kaspi · Казахстан',ozon:'Ozon · Россия',
       cryptoDonate:'Поддержать Nomad360 криптовалютой',
-      cryptoDonateHint:'Выберите криптовалюту и сумму в форме NOWPayments ниже',
+      cryptoDonateHint:'Выберите криптовалюту и сумму.',
       kaspiPhoneHint:'Перевод по номеру телефона для владельцев казахстанских карт',
       bankTransfer:'Реквизиты для международного банковского перевода',
       bankRecipient:'Получатель',bankName:'Банк',
@@ -93,7 +93,7 @@
       supportLead:'The calculator is free. Support is voluntary and funds the calculator, the AI Marketer and the Content Factory.',
       kaspi:'Kaspi · Kazakhstan',ozon:'Ozon · Russia',
       cryptoDonate:'Support Nomad360 with cryptocurrency',
-      cryptoDonateHint:'Choose a cryptocurrency and amount in the NOWPayments form below',
+      cryptoDonateHint:'Choose a cryptocurrency and an amount.',
       kaspiPhoneHint:'Transfer by phone number for holders of Kazakhstan-issued bank cards',
       bankTransfer:'International bank transfer details',
       bankRecipient:'Recipient',bankName:'Bank',
@@ -155,7 +155,7 @@
       supportLead:'Калькулятор тегін. Қолдау ерікті және калькуляторды, AI-маркетологты және контент фабрикасын дамытуға жұмсалады.',
       kaspi:'Kaspi · Қазақстан',ozon:'Ozon · Ресей',
       cryptoDonate:'Nomad360 жобасын криптовалютамен қолдау',
-      cryptoDonateHint:'Төмендегі NOWPayments нысанында криптовалюта мен соманы таңдаңыз',
+      cryptoDonateHint:'Криптовалюта мен соманы таңдаңыз.',
       kaspiPhoneHint:'Қазақстан банктерінің карталары үшін телефон нөмірі арқылы аударым',
       bankTransfer:'Халықаралық банк аударымына арналған деректемелер',
       bankRecipient:'Алушы',bankName:'Банк',
@@ -236,11 +236,11 @@
       '<span class="nomad-crypto-kicker"><span aria-hidden="true">🌐</span> NOWPayments</span>'+
       '<h3 id="nomad-crypto-title">'+esc(t.cryptoDonate)+'</h3>'+
       '<p>'+esc(t.cryptoDonateHint)+'</p></div>'+
-      '<div class="nomad-crypto-embed">'+
+      '<div class="nomad-crypto-embed"><div class="nomad-crypto-viewport">'+
       '<iframe class="nomad-crypto-frame" title="'+esc(t.cryptoDonate)+'" '+
       'src="'+PAY.donationWidget+'" width="346" height="623" loading="lazy" '+
       'frameborder="0" scrolling="no" referrerpolicy="strict-origin-when-cross-origin">'+
-      '</iframe></div></section>';
+      '</iframe></div></div></section>';
   }
   function payFiat(t) {
     const bankLine=(label,value)=>
