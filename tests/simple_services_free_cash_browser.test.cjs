@@ -146,18 +146,20 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
   for(const width of [320,390,768]){
    await page.setViewportSize({width,height:844});
    await page.evaluate(()=>showAgentChooser());
+   // A prior click can leave the desktop mouse over this CTA after resizing.
+   // Its valid hover token (#f3a17a) must not be confused with its base color.
+   await page.mouse.move(1,1);
    A.equal(await page.locator('#agent-screen').isVisible(),true);
    A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
     'rgb(22, 55, 90)');
    const orangeAction=page.locator('#agent-screen button.nd-agent-percentage-cta');
-   const ctaColor=await orangeAction.evaluate(el=>({
-     effective:getComputedStyle(el).backgroundColor,
-     token:getComputedStyle(document.documentElement).getPropertyValue('--nd-cta-orange').trim()
-   }));
-   A.equal(ctaColor.token,'#ed8e63','Authoritative Nomad CTA brand token at '+width);
-   const rgb=/^rgb\((\d+), (\d+), (\d+)\)$/.exec(ctaColor.effective);
-   A.ok(rgb&&[237,142,99].every((v,i)=>Math.abs(Number(rgb[i+1])-v)<=4),
-     'Orange CTA matches brand token within 4 RGB levels at '+width+': '+JSON.stringify(ctaColor));
+   A.equal(await orangeAction.evaluate(el=>el.matches(':hover')),false,
+     'CTA must not be hovered during base-color verification at '+width);
+   A.equal(await orangeAction.evaluate(el=>
+     getComputedStyle(document.documentElement).getPropertyValue('--nd-cta-orange').trim()),
+     '#ed8e63','Authoritative orange brand token at '+width);
+   A.equal(await orangeAction.evaluate(el=>getComputedStyle(el).backgroundColor),
+     'rgb(237, 142, 99)','Unhovered agent CTA uses the exact brand orange at '+width);
    A.equal(await orangeAction.locator('.font-semibold').evaluate(el=>getComputedStyle(el).color),
      'rgb(22, 55, 90)','navy text on agent CTA at '+width);
    A.equal(await page.locator('#agent-screen button[onclick="showAgentComplex()"]').evaluate(el=>getComputedStyle(el).backgroundColor),
