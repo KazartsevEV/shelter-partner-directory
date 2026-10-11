@@ -54,7 +54,7 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#service-agent-fee-pct').fill('20');
   await page.locator('#service-agent-partner-vat').fill('10');
   await page.locator('#service-agent-partner-tax-pct').fill('5');
-  await page.locator('#service-agent-payer-advertising').selectOption('partner');
+  await page.locator('#service-agent-line-payers select[data-agent-line-key="advertising"]').selectOption('partner');
   await page.locator('#own-product-ad-budget').fill('900');
   await page.locator('#own-product-ad-cpc').fill('4.5');
   await page.locator('#own-product-ad-ctr').fill('2');
