@@ -22,9 +22,11 @@ const {pathToFileURL}=require('node:url');
    await page.locator('#own-materials-cost').fill(String(cost));
  };
  const next=async()=>{
-   await page.evaluate(()=>setProductAssortmentChoice('more'));
+   A.equal(await page.locator('#product-assortment-gate .nd-assortment-more').count(),0,
+     'Broken other-services/products intermediate button removed from shared gate');
+   A.equal(await page.locator('#service-assortment-more').count(),0);
    const b=page.locator('#add-product-button');
-   A.equal(await b.isVisible(),true);
+   A.equal(await b.isVisible(),true,'Direct add available without a preliminary choice');
    A.equal(await b.innerText(),'+ Добавить товар или услугу');
    await b.click();
    A.equal(await page.locator('#home-screen').isVisible(),true);
@@ -50,6 +52,10 @@ const {pathToFileURL}=require('node:url');
    await page.locator('#product-name-input').fill('Крем');
    await page.locator('#product-intro-submit-label').click();
    await page.evaluate(()=>selectProductSource('resale'));
+   A.equal(await page.locator('#product-assortment-gate .nd-assortment-more').count(),0,
+     'Resale branch has no broken intermediate button');
+   A.equal(await page.locator('#add-product-button').isVisible(),true,
+     'Resale product also allows direct addition');
    A.equal(await page.evaluate(()=>saveProductCalculationToBrowser()),true);
    A.deepEqual((await saved()).map(x=>[x.id,x.name,x.source]),
      [[1,'Массаж','offline-service'],[2,'Маникюр','offline-service'],[3,'Крем','resale']]);
