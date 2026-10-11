@@ -9,7 +9,7 @@ const shown=(v,suffix='')=>Number.isFinite(Number(v))?
  (suffix?' data-nomad-display-suffix="'+suffix+'"':'')+'>'+money(v)+suffix+'</span>':'—';
 const safe=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const option=(id,label,selected)=>'<option value="'+safe(id)+'" '+(id===selected?'selected':'')+'>'+safe(label)+'</option>';
-const modes=[['cross_sell','Cross-sell · дополнительная покупка'],['upsell','Upsell · замена позиции'],['bundle','Комбо · набор']];
+const modes=[['cross_sell','Добавляют к покупке'],['upsell','Выбирают вместо основного'],['bundle','Покупают комплект']];
 let offerSequence=1;
 function render(state,onChange){
  const target=document.getElementById('linked-results');
@@ -21,27 +21,30 @@ function render(state,onChange){
    skus.filter(s=>!exclude.includes(s.id)).map(s=>
      option(s.id,s.name+(['offline-service','online-service'].includes(s.source)?' · услуга':' · товар'),current)).join('');
  panel.className='rounded-2xl border border-slate-200 bg-white p-4 mb-5';
- panel.innerHTML='<h2 class="text-xl font-bold">3. Связанные продажи · Market Basket Analysis</h2>'+
-   '<p class="text-sm text-slate-600 mt-2">Cross-sell добавляет товар или услугу, upsell заменяет основную покупку, комбо продаёт несколько позиций одной корзиной. Каждая связь строится на отдельном прогнозе V1 — без второго рекламного CAC.</p>'+
-   '<p class="text-xs text-slate-500 mt-2">Доля привязки — сценарий, пока нет реальных чеков. Пересечение — процент присоединённых единиц, уже заложенных в самостоятельные продажи дополнения в V1. 0% = все новые, 100% = полностью перераспределённые.</p>'+
+ panel.innerHTML='<h2 class="text-xl font-bold text-slate-900">3. Покупки вместе и комплекты</h2>'+
+   '<p class="text-sm text-slate-700 mt-2">Дополнительные продажи и готовые комплекты: выберите товары, которые покупатель может взять вместе. Расчёт сразу покажет изменение выручки, прибыли и доступных остатков.</p>'+
+   '<details class="mt-3 rounded-lg border border-blue-200 bg-white p-3 text-sm">'+
+   '<summary class="font-semibold text-blue-900 cursor-pointer">Как рассчитываются совместные покупки</summary>'+
+   '<p class="mt-2 text-slate-700">За основу берём покупателей из рекламного прогноза V1. Один покупатель учитывается в рекламе один раз.</p>'+
+   '<p class="mt-2 text-slate-700">Можно добавить товар к заказу, заменить покупку другим товаром или предложить комплект. Для каждого варианта проверяются остатки и загрузка.</p></details>'+
    offers.map((r,i)=>
-    '<article class="rounded-xl border border-indigo-200 bg-indigo-50/40 p-3 mt-4" data-basket-offer="'+i+'">'+
-    '<div class="flex justify-between gap-2"><b class="text-sm">Связь '+safe(r.id)+'</b>'+
+    '<article class="rounded-xl border border-blue-200 bg-white p-4 mt-4" data-basket-offer="'+i+'">'+
+    '<div class="flex justify-between gap-2"><b class="text-base text-blue-900">Предложение '+safe(i+1)+'</b>'+
     '<button type="button" data-basket-action="remove" data-i="'+i+'" class="text-xs text-rose-700 underline">Удалить</button></div>'+
     '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
-    '<label class="text-xs font-semibold">Тип связи<select class="input-field mt-1" data-basket-field="mode" data-i="'+i+'">'+
+    '<label class="text-sm font-semibold text-slate-800">Что выберет покупатель?<select class="input-field mt-1" data-basket-field="mode" data-i="'+i+'">'+
       modes.map(x=>option(x[0],x[1],r.mode)).join('')+'</select></label>'+
-    '<label class="text-xs font-semibold">Основная позиция<select class="input-field mt-1" data-basket-field="anchorSkuId" data-i="'+i+'">'+
+    '<label class="text-sm font-semibold text-slate-800">Основная покупка<select class="input-field mt-1" data-basket-field="anchorSkuId" data-i="'+i+'">'+
       select(r.anchorSkuId)+'</select></label>'+
-    '<label class="text-xs font-semibold">Доля покупателей, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="attachPct" data-i="'+i+'" value="'+safe(r.attachPct)+'"></label>'+
-    '<label class="text-xs font-semibold">Пересечение с самостоятельным спросом, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="overlapPct" data-i="'+i+'" value="'+safe(r.overlapPct)+'"></label>'+
+    '<label class="text-sm font-semibold text-slate-800">Сколько покупателей выберут предложение, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="attachPct" data-i="'+i+'" value="'+safe(r.attachPct)+'"><span class="block text-xs font-normal text-slate-600 mt-1">Например, 20% — каждый пятый покупатель основной позиции.</span></label>'+
+    '<label class="text-sm font-semibold text-slate-800">Какая доля дополнительных покупок уже учтена в V1, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="overlapPct" data-i="'+i+'" value="'+safe(r.overlapPct)+'"><span class="block text-xs font-normal text-slate-600 mt-1">0% — все покупки добавятся к прогнозу. 100% — все уже входят в прогноз другого товара.</span></label>'+
     '</div>'+
     (r.mode==='bundle'?'<label class="block text-xs font-semibold mt-2">Скидка на весь комплект, % (всем позициям пропорционально цене)<input type="number" min="0" max="99.99" step="any" class="input-field mt-1" data-basket-field="bundleDiscountPct" data-i="'+i+'" value="'+safe(r.bundleDiscountPct??0)+'"></label>':'')+
     '<p class="text-xs text-slate-600 mt-2">'+
-      (r.mode==='upsell'?'Исходная позиция исключается из чека; новая занимает её место.':
-       r.mode==='bundle'?'Базовая позиция входит в набор один раз, дополнения перечислены ниже.':
-       'Базовая позиция сохраняется в чеке, дополнения покупаются вместе с ней.')+
-    '</p><div class="mt-3 text-xs font-bold">Добавляемые позиции / кортеж</div>'+
+      (r.mode==='upsell'?'Вместо основного товара покупатель выбирает предложенную замену.':
+       r.mode==='bundle'?'Основная позиция и дополнения продаются одним набором.':
+       'К основной покупке клиент добавляет ещё один товар или услугу.')+
+    '</p><div class="mt-3 text-sm font-bold text-slate-800">Что предложить покупателю</div>'+
     (r.items||[]).map((item,j)=>
       '<div class="grid grid-cols-1 sm:grid-cols-[1fr_110px_auto] gap-2 items-end mt-2 rounded-lg bg-white p-2">'+
       '<label class="text-xs font-semibold">Товар или услуга<select class="input-field mt-1" data-basket-field="skuId" data-i="'+i+'" data-j="'+j+'">'+
@@ -49,9 +52,9 @@ function render(state,onChange){
       '<label class="text-xs font-semibold">Кол-во<input class="input-field mt-1" type="number" min="1" max="100" step="1" value="'+safe(item.qty)+'" data-basket-field="qty" data-i="'+i+'" data-j="'+j+'"></label>'+
       '<button type="button" data-basket-action="remove-item" data-i="'+i+'" data-j="'+j+'" class="p-2 text-xs text-rose-700 underline">Убрать</button></div>').join('')+
     '<button type="button" data-basket-action="add-item" data-i="'+i+'" '+(!skus.some(s=>s.id!==r.anchorSkuId&&!r.items.some(p=>p.skuId===s.id))?'disabled':'')+
-    ' class="mt-2 rounded border border-indigo-300 px-3 py-2 text-xs text-indigo-900 disabled:opacity-40">+ Позиция в наборе</button></article>').join('')+
+    ' class="mt-2 rounded border border-blue-300 px-3 py-2 text-sm text-blue-900 disabled:opacity-40">+ Добавить позицию</button></article>').join('')+
    '<button type="button" data-basket-action="add" '+(skus.length<2?'disabled':'')+
-   ' class="w-full mt-4 rounded-lg border-2 border-dashed border-emerald-300 p-3 font-bold text-emerald-900 disabled:opacity-40">+ Связать товары / услуги</button>'+
+   ' class="w-full mt-4 rounded-lg border-2 border-dashed border-blue-300 bg-white p-3 font-bold text-blue-900 disabled:opacity-40">+ Создать предложение</button>'+
    '<div id="linked-basket-projection" class="mt-3" aria-live="polite"></div>';
  const commit=(next,structural)=>onChange(next,structural);
  panel.onclick=e=>{
