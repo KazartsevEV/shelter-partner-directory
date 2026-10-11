@@ -4,18 +4,46 @@
 'use strict';
 const A=require('node:assert/strict');
 const path=require('node:path');
-const {pathToFileURL}=require('node:url');
 const {chromium}=require('playwright');
-const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
+const fs=require('node:fs');
+const http=require('node:http');
+const {once}=require('node:events');
+const rootDir=path.resolve(__dirname,'..');
+// Serve the actual repository assets over HTTP, as GitHub Pages does. file://
+// CSS sheets have cross-origin restrictions in Chromium and can silently leave
+// native buttons with unstyled UA defaults, invalidating navigation contrast.
+function startTestServer(){
+ const server=http.createServer((req,res)=>{
+  try{
+   const name=decodeURIComponent(new URL(req.url,'http://127.0.0.1').pathname).slice(1);
+   const filename=path.resolve(rootDir,name);
+   if(!filename.startsWith(rootDir+path.sep)||!fs.existsSync(filename)||!fs.statSync(filename).isFile()){
+    res.writeHead(404);res.end();return;
+   }
+   const type=filename.endsWith('.js')?'application/javascript':
+    filename.endsWith('.css')?'text/css':
+    filename.endsWith('.HTML')?'text/html':'application/octet-stream';
+   res.writeHead(200,{'Content-Type':type+'; charset=utf-8','Cache-Control':'no-store'});
+   fs.createReadStream(filename).pipe(res);
+  }catch(e){res.writeHead(404);res.end()}
+ });
+ server.listen(0,'127.0.0.1');
+ return server;
+}
 (async()=>{
  let phase='chromium.launch';
  const mark=next=>{phase=next;console.log('NAV_PHASE',next)};
  const watchdog=setTimeout(()=>{console.error('NAVIGATION_WATCHDOG_PHASE',phase);process.exit(125)},90000);
  watchdog.unref();
+ const server=startTestServer();
+ await once(server,'listening');
+ const url='http://127.0.0.1:'+server.address().port+'/Marketing_calc.HTML';
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
  const errs=[];page.on('pageerror',err=>errs.push(err.message));
- await page.route(/^https?:\/\//,route=>route.abort());
+ // Deny external CDNs, but leave first-party assets accessible to the test.
+ await page.route(/^https?:\/\//,route=>
+  new URL(route.request().url()).hostname==='127.0.0.1'?route.continue():route.abort());
  const nav=page.locator('#nomad360-tree-nav');
  const back=page.locator('.nd-tree-active-back:visible, #nomad360-tree-back:visible').first();
  const arrows=page.locator('.nd-tree-active-back:visible, #nomad360-tree-back:visible');
@@ -202,5 +230,5 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   A.deepEqual(errs,[],'no browser runtime errors');
   clearTimeout(watchdog);
   console.log('NOMAD360_GLOBAL_TREE_NAV_GREEN');
- }finally{await browser.close()}
+ }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
 })().catch(err=>{console.error(err);process.exitCode=1});
