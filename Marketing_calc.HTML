@@ -513,7 +513,7 @@
             </div>
             <div id="service-v1-horizon-panel" class="card p-4 hidden" hidden>
               <label for="service-v1-horizon" class="block text-sm font-semibold text-slate-700">Период расчёта услуги, месяцев</label>
-              <input id="service-v1-horizon" type="number" min="1" max="120" step="1" value="12" class="input-field mt-2" oninput="refreshAllAggregatePricing()">
+              <input id="service-v1-horizon" type="number" min="1" max="120" step="1" value="12" class="input-field mt-2" oninput="syncVisibleAggregateFromCurrentProduct();refreshAllAggregatePricing()">
               <p class="text-sm text-slate-500 mt-2">Продажи и постоянные платежи рассчитываются для каждого месяца. Если кредит длиннее выбранного периода, денежный календарь продолжается до его погашения.</p>
             </div>
             <div id="product-sales-unit-panel" class="card p-4">
