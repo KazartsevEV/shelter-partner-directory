@@ -8,9 +8,8 @@
    'agent-complex-screen','product-screen','calculator-screen','full-service-screen',
    'portfolio-v2-screen'];
  const nav=document.getElementById('nomad360-tree-nav');
- const breadcrumbs=document.getElementById('nomad360-tree-crumbs');
  const back=document.getElementById('nomad360-tree-back');
- if(!nav||!breadcrumbs||!back)return;
+ if(!nav||!back)return;
  const dictionaries={
   ru:{navigation:'Навигация по шагам расчёта',path:'Путь расчёта',home:'Главная',service:'Услуга',mode:'Режим расчёта',
     channel:'Онлайн / офлайн',online:'Онлайн',offline:'Офлайн',who:'Кто исполнитель',
@@ -82,36 +81,50 @@
   const stage=screen==='product-screen'?productStage():null;
   return {screen,stage,key:screen+(stage?':'+stage:''),label:label(screen,stage,dict())};
  }
- function render(){
-  const d=dict();
-  nav.setAttribute('aria-label',d.navigation);
-  breadcrumbs.setAttribute('aria-label',d.path);
-  const entries=trail.filter(Boolean);
-  nav.hidden=entries.length<2;
-  if(nav.hidden)return;
-  const parent=entries[entries.length-2];
-  back.textContent='← '+d.back+' '+parent.label;
-  back.setAttribute('aria-label',back.textContent);
-  breadcrumbs.replaceChildren();
-  entries.forEach((entry,i)=>{
-   if(i){
-    const separator=document.createElement('span');
-    separator.className='nd-tree-separator';separator.textContent='›';
-    separator.setAttribute('aria-hidden','true');breadcrumbs.appendChild(separator);
-   }
-   if(i===entries.length-1){
-    const current=document.createElement('span');
-    current.className='nd-tree-current';current.textContent=entry.label;
-    current.setAttribute('aria-current','step');breadcrumbs.appendChild(current);
-   }else{
-    const link=document.createElement('button');
-    link.type='button';link.dataset.journeyIndex=String(i);
-    link.className='nd-tree-link';link.textContent=entry.label;
-    link.setAttribute('aria-label',entry.label);
-    breadcrumbs.appendChild(link);
-   }
-  });
+
+ // Each branch already has an inline arrow. Reuse that exact position, never
+ // insert a second panel, breadcrumb or action above the calculator.
+ const nativeSelectors={
+  'service-work-screen':'#service-work-screen > button[onclick="showHome()"]',
+  'service-screen':'#service-screen > button[onclick="showServiceWorkChooser()"]',
+  'agent-screen':'#agent-screen > button.nd-agent-back',
+  'agent-complex-screen':'#agent-complex-screen > button.nd-agent-back',
+  'product-screen':'#product-main-back',
+  'calculator-screen':'#calculator-screen > .max-w-7xl:first-child > button',
+  'full-service-screen':'#full-service-back',
+  'portfolio-v2-screen':'#portfolio-v2-screen [data-linked-back],#portfolio-v2-screen [data-p2-home]'
+ };
+ function nativeFor(screen){
+  if(screen==='product-screen'&&visible(byId('product-business-back-button')))
+   return byId('product-business-back-button');
+  return document.querySelector(nativeSelectors[screen]||'#nomad360-not-a-control');
  }
+ function render(){
+  const d=dict(),entries=trail.filter(Boolean),screen=active(),native=screen&&nativeFor(screen);
+  nav.setAttribute('aria-label',d.navigation);
+  // The native button stays DOM-addressable for established user flows and tests.
+  // The external fallback never competes with an existing on-screen back button.
+  nav.hidden=entries.length<2||Boolean(native);
+  document.body.classList.toggle('nd-tree-business-return',
+    screen==='product-screen'&&native?.id==='product-business-back-button');
+  document.querySelectorAll('.nd-tree-active-back').forEach(node=>{
+   if(node!==native)node.classList.remove('nd-tree-active-back');
+  });
+  if(entries.length<2)return;
+  const parent=entries[entries.length-2],business=native?.id==='product-business-back-button';
+  const caption=business?d.summary:parent.label;
+  const text='← '+caption;
+  const target=native||back;
+  if(target.textContent!==text)target.textContent=text;
+  target.setAttribute('aria-label',text);
+  if(native){
+   native.classList.add('nd-tree-active-back');
+   native.setAttribute('data-nomad-no-translate','');
+  }else{
+   back.setAttribute('aria-label',text);
+  }
+ }
+
  function update(){
   if(restoring)return;
   const next=capture();if(!next)return;
@@ -167,11 +180,24 @@
   queueMicrotask(()=>{restoring=false;update()});
   return true;
  }
- back.addEventListener('click',()=>goTo(trail.length-2));
- breadcrumbs.addEventListener('click',event=>{
-  const button=event.target.closest('button[data-journey-index]');
-  if(button)goTo(Number(button.dataset.journeyIndex));
- });
+ function goBack(){
+  if(active()==='product-screen'&&visible(byId('product-business-back-button'))&&
+      typeof root.returnToProductBusinessSummary==='function'){
+   root.returnToProductBusinessSummary();
+   return true;
+  }
+  return goTo(trail.length-2);
+ }
+ back.addEventListener('click',goBack);
+ document.addEventListener('click',event=>{
+  const button=event.target.closest('.nd-tree-active-back');
+  if(!button)return;
+  // Capture before the screen's historical onclick or third-party delegated
+  // back handler, so one click causes precisely one return.
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  goBack();
+ },true);
  document.addEventListener('nomad360:languagechange',()=>{
   trail=trail.map(entry=>({...entry,label:label(entry.screen,entry.stage,dict())}));
   render();
@@ -188,11 +214,18 @@
   }
   const intro=byId('product-name-input')?.closest('.card');
   if(intro)observer.observe(intro,{attributes:true,attributeFilter:['hidden','class']});
+  const special=byId('product-business-back-button');
+  if(special)observer.observe(special,{attributes:true,attributeFilter:['hidden','class']});
+  // V2 and full-service replace their native back buttons on rerender.
+  for(const id of ['portfolio-v2-screen','full-service-screen']){
+   const el=byId(id);
+   if(el)observer.observe(el,{subtree:true,childList:true});
+  }
   trail=[{screen:'home-screen',stage:null,key:'home-screen',label:dict().home}];
   update();
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
  else boot();
- root.Nomad360TreeNav=Object.freeze({back:()=>goTo(trail.length-2),
+ root.Nomad360TreeNav=Object.freeze({back:goBack,
   goTo,getTrail:()=>trail.map(({key,label})=>({key,label}))});
 })(window);
