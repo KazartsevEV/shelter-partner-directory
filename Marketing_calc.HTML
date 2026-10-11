@@ -515,9 +515,6 @@
               <label for="service-v1-horizon" class="block text-sm font-semibold text-slate-700">Период расчёта услуги, месяцев</label>
               <input id="service-v1-horizon" type="number" min="1" max="120" step="1" value="12" class="input-field mt-2" oninput="refreshAllAggregatePricing()">
               <p class="text-sm text-slate-500 mt-2">Продажи и постоянные платежи рассчитываются для каждого месяца. Если кредит длиннее выбранного периода, денежный календарь продолжается до его погашения.</p>
-              <label for="service-v1-monthly-demand" class="block text-sm font-semibold text-slate-700 mt-4">План клиентов по месяцам — по желанию</label>
-              <textarea id="service-v1-monthly-demand" class="input-field mt-2 w-full" rows="3" placeholder="0&#10;10&#10;15" aria-describedby="service-v1-demand-help" oninput="refreshAllAggregatePricing()"></textarea>
-              <p id="service-v1-demand-help" class="text-sm text-slate-500 mt-2">Укажите количество клиентов в каждом месяце, по одному числу на строку. Для периода 3 месяца: 0, затем 10, затем 15. Пустое поле означает одинаковый прогноз из рекламной воронки каждый месяц. Аренда, реклама и зарплата оплачиваются и в месяцы без клиентов.</p>
             </div>
             <div id="product-sales-unit-panel" class="card p-4">
                 <label for="product-sales-unit" class="block text-sm font-semibold text-slate-700 mb-2">Единица измерения товара или услуги</label>
@@ -2453,8 +2450,6 @@
                 if (!field) return;
                 field.value = value ?? '';
             });
-            const demandField=document.getElementById('service-v1-monthly-demand');
-            if(demandField)demandField.value=item?.serviceMonthlyDemand??item?.inputs?.['service-v1-monthly-demand']??'';
 
             Object.keys(productOwnChoices).forEach(key => delete productOwnChoices[key]);
             Object.entries({
@@ -2636,20 +2631,8 @@
             row.dataset.agentPayerKey=key;
             return key;
         }
-        function serviceDemandDraftAverage(){
-            const text=String(document.getElementById('service-v1-monthly-demand')?.value||'').trim();
-            const horizon=Number(document.getElementById('service-v1-horizon')?.value);
-            if(!text||!Number.isInteger(horizon)||horizon<1||horizon>120)return null;
-            const entries=text.split(/\r?\n|;/).map(x=>
-                x.trim()!==''?Number(x.trim().replace(',','.')):NaN);
-            if(entries.length!==horizon||entries.some(x=>!Number.isFinite(x)||x<0))return null;
-            const mean=entries.reduce((a,b)=>a+b,0)/horizon;
-            return mean>0?mean:null;
-        }
         function serviceAgencyExpenseLines(){
-            const lines=[],qty=productSource==='offline-service'&&serviceFinancialMode==='full'?
-                (serviceDemandDraftAverage()??Math.max(0,productNumberFromText('own-product-ad-units'))):
-                Math.max(0,productNumberFromText('own-product-ad-units'));
+            const lines=[],qty=Math.max(0,productNumberFromText('own-product-ad-units'));
             const money=(id)=>Math.max(0,Number(document.getElementById(id)?.value)||0);
             const add=(key,bucket,label,monthly=0,capex=0,amort=0,ratePct=0)=>{
                 if(monthly>0||capex>0||amort>0||ratePct>0)
@@ -2750,11 +2733,9 @@
                 label.append(select);host.append(label);
             }
         }
-        function serviceAgencyExpenseSplit(item,receipts=0,volume=null){
+        function serviceAgencyExpenseSplit(item,receipts=0){
             const agency=item.serviceAgency||{},lines=Array.isArray(agency.lineItems)?agency.lineItems:[];
-            const baseline=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
-            const qty=volume===null?baseline:Math.max(0,Number(volume)||0);
-            const ratio=baseline>0?qty/baseline:0;
+            const qty=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
             const blank=()=>({direct:0,production:0,electricity:0,advertising:0,
                 management:0,selling:0,commission:0,commissionPct:0,capex:0,amort:0});
             const agent=blank(),partner=blank();
@@ -2769,20 +2750,14 @@
                     payer.commissionPct+=rate;
                     payer.commission+=receipts*rate/100;
                 }else if(line.bucket in payer){
-                    const variable=line.bucket==='direct'||line.bucket==='electricity';
-                    payer[line.bucket]+=Math.max(0,Number(line.monthly)||0)*
-                        (variable?ratio:1);
+                    payer[line.bucket]+=Math.max(0,Number(line.monthly)||0);
                 }
             }
             return {agent,partner,qty,
                 valid:lines.every(x=>x.payer==='agent'||x.payer==='partner')};
         }
         function currentProductPortfolioSnapshot() {
-            const adUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
-            const manualAverage=serviceDemandDraftAverage();
-            // Stable quantity basis for unit costs, even if month one is zero.
-            const expectedServiceUnits=productSource==='offline-service'&&
-                serviceFinancialMode==='full'&&manualAverage!==null?manualAverage:adUnits;
+            const expectedServiceUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
             const materialsBatchQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
             const productionQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
             const forecastSales=Math.max(0,productNumberFromText('own-product-ad-units'));
@@ -2866,8 +2841,6 @@
                 serviceAgency:agency,
                 serviceFinanceMode:productSource==='offline-service'?serviceFinancialMode:null,
                 serviceHorizonMonths:productSource==='offline-service'?Number(document.getElementById('service-v1-horizon')?.value||12):0,
-                serviceMonthlyDemand:productSource==='offline-service'?
-                    String(document.getElementById('service-v1-monthly-demand')?.value||''):null,
                 serviceCapex:productSource==='offline-service'?serviceEquipment.capex:0,
                 serviceAmortMonthly:productSource==='offline-service'?serviceEquipment.amort:0,
                 unit: document.getElementById('product-sales-unit')?.value || (productSource==='offline-service'?'услуга':'шт'),
@@ -2909,8 +2882,7 @@
                 salesVariablePct: productNumber('own-sales-commission-pct'),
                 penaltiesPct: productNumber('own-platform-penalties-pct'),
                 adCostPerUnit: productNumberFromText('own-product-ad-cac-unit'),
-                forecastUnitsPerMonth: productSource==='offline-service'?expectedServiceUnits:
-                    productNumberFromText('own-product-ad-units'),
+                forecastUnitsPerMonth: productNumberFromText('own-product-ad-units'),
                 adBudget: productNumber('own-product-ad-budget'),
                 adManagement: productNumber('own-product-ad-management'),
                 adTotal: productNumber('own-product-ad-budget') + productNumber('own-product-ad-management'),
@@ -3264,17 +3236,6 @@
                     if(!(capacity>0))details.push({kind:'service-capacity',message:'Укажите физическую вместимость салона: сколько услуг могут оказать мастера за месяц.'});
                     else if(forecasts>capacity+0.000001)details.push({kind:'service-capacity',message:'Прогноз '+forecasts.toFixed(1)+' клиентов превышает доступные '+capacity+' процедур за месяц. Увеличьте количество рабочих мест / мастеров или скорректируйте рекламу.'});
                 }
-                if(item.serviceFinanceMode==='full'){
-                    const plan=serviceDemandProfile(item);
-                    if(!plan.valid)details.push({kind:'service-demand',message:plan.error});
-                    else if(item.serviceChannel!=='online'&&capacity>0)
-                        plan.months.forEach((qty,i)=>{
-                            if(qty>capacity+0.000001)
-                                details.push({kind:'service-capacity',message:
-                                    'Месяц '+(i+1)+': прогноз '+qty+
-                                    ' услуг превышает мощность '+capacity+'.'});
-                        });
-                }
                 if(item.serviceFinanceMode==='full'&&item.serviceRole==='agent'){
                     const a=item.serviceAgency||{};
                     const gross=Number(a.grossPrice),pct=Number(a.feePct),fixed=Number(a.fixedFee);
@@ -3348,33 +3309,6 @@
             return details;
         }
 
-        // The advertising funnel supplies a baseline quote; an explicit demand
-        // calendar may start at zero. Its entries are visit counts, never prices.
-        function serviceDemandProfile(item){
-            const horizon=Number(item?.serviceHorizonMonths);
-            if(!Number.isInteger(horizon)||horizon<1||horizon>120)
-                return {valid:false,months:[],total:0,error:'Период услуги должен быть от 1 до 120 месяцев.'};
-            const text=String(item?.serviceMonthlyDemand||'').trim();
-            let months;
-            if(!text){
-                const base=Number(item?.forecastUnitsPerMonth);
-                months=Array(horizon).fill(Number.isFinite(base)&&base>=0?base:0);
-            }else{
-                const parts=text.split(/\r?\n|;/).map(x=>x.trim());
-                if(parts.length!==horizon)
-                    return {valid:false,months:[],total:0,error:
-                        'План клиентов: укажите ровно '+horizon+' чисел, по одному на месяц.'};
-                months=parts.map(x=>x!==''?Number(x.replace(',','.')):NaN);
-                if(months.some(x=>!Number.isFinite(x)||x<0))
-                    return {valid:false,months:[],total:0,error:
-                        'План клиентов: допускаются только неотрицательные числа.'};
-            }
-            const total=months.reduce((sum,x)=>sum+x,0);
-            if(!(total>0))
-                return {valid:false,months,total,error:
-                    'Нет клиентов за весь период. Для расчёта цены укажите хотя бы один месяц с продажами.'};
-            return {valid:true,months,total,error:'',custom:!!text};
-        }
         function aggregateQuantityIssues(item) {
             return aggregateQuantityDetails(item).map(issue => issue.message);
         }
@@ -3443,13 +3377,11 @@
             };
         }
         function offlineServiceCycleMetrics(item) {
-            const demand=item.serviceFinanceMode==='full'?serviceDemandProfile(item):null;
-            const count=demand?.valid?demand.months[0]:
-                Math.max(0,Number(item.forecastUnitsPerMonth)||0);
+            const count=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
             const agent=item.serviceFinanceMode==='full'&&item.serviceRole==='agent';
             const owns=k=>!agent||item.serviceAgency?.payers?.[k]==='agent';
             const lineSplit=agent&&Array.isArray(item.serviceAgency?.lineItems)?
-                serviceAgencyExpenseSplit(item,0,count):null;
+                serviceAgencyExpenseSplit(item):null;
             const owner=lineSplit?.agent;
             const countSafe=Math.max(.00000001,count);
             const materialsPerService=owner?owner.direct/countSafe:
@@ -3482,15 +3414,15 @@
                 (Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100:0;
             const zeroMarginRevenue=salesRate<1?nonRevenueCosts/(1-salesRate):null;
             return {
-                requiredCapital:(demand?demand.valid:count>0)?committedCashCosts+reserveAmount:null,
-                baseRequiredCapital:(demand?demand.valid:count>0)?committedCashCosts:null,
-                reservePct,reserveAmount:(demand?demand.valid:count>0)?reserveAmount:null,
+                requiredCapital:count>0?committedCashCosts+reserveAmount:null,
+                baseRequiredCapital:count>0?committedCashCosts:null,
+                reservePct,reserveAmount:count>0?reserveAmount:null,
                 quantityIssues:aggregateQuantityIssues(item),
-                totalCycleDays:(demand?demand.valid:count>0)?30:null,
-                waitAfterAdvanceDays:0,productionDays:0,sellThroughDays:(demand?demand.valid:count>0)?30:null,
+                totalCycleDays:count>0?30:null,
+                waitAfterAdvanceDays:0,productionDays:0,sellThroughDays:count>0?30:null,
                 salesSpeedPerMonth:count,advanceAmount:0,
                 zeroMarginRevenue,zeroMarginUnitPrice:count>0&&zeroMarginRevenue!==null?zeroMarginRevenue/count:null,
-                nonRevenueCosts:(demand?demand.valid:count>0)?nonRevenueCosts:null,
+                nonRevenueCosts:count>0?nonRevenueCosts:null,
                 variableSalesRate:salesRate,stockQty:count,
                 productionTotal:fixedPremisesAndWorkers+count*electricityPerService,warehouseTotal:0,salesTotal:salesFixed,adTotal:ad,
                 customerDeliveryTotal:0,consumablesTotal:materialsPerService*count,
@@ -3692,11 +3624,7 @@
                 const clicks = cpc > 0 ? budget / cpc : 0;
                 const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;
                 const leads = clicks * clickLeadPct / 100;
-                const funnelOrders = leads * leadSalePct / 100;
-                const demandPlan=item.source==='offline-service'&&item.serviceFinanceMode==='full'?
-                    serviceDemandProfile(item):null;
-                const orders=demandPlan?.valid&&demandPlan.custom?
-                    demandPlan.total/demandPlan.months.length:funnelOrders;
+                const orders = leads * leadSalePct / 100;
                 const baseCac = orders > 0 ? budget / orders : null;
 
                 const storedCostPerUnit = Math.max(0, Number(item.warehouseStorageUnitCost) || 0);
@@ -3717,23 +3645,19 @@
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
                 const cycle = aggregatePlanMetrics(item);
-                const isFullService=item.source==='offline-service'&&item.serviceFinanceMode==='full';
-                const demand=isFullService?serviceDemandProfile(item):null;
-                const servicePricingMonths=isFullService?
+                const servicePricingMonths=item.source==='offline-service'&&item.serviceFinanceMode==='full'?
                     Math.max(1,Number(item.serviceHorizonMonths)||1):1;
-                // Interest and liquidity reserve are amortized over actual
-                // approved sales, not over invented customers in idle months.
-                const reserveUnits=isFullService?(demand.valid?demand.total:0):
-                    ['dropship','offline-service'].includes(item.source)?
-                        Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                // Loan interest is priced over approved operating sales only;
+                // debt maturity never creates extra forecast customers.
+                const reserveUnits=['dropship','offline-service'].includes(item.source)?
+                    Number(item.forecastUnitsPerMonth)*servicePricingMonths:Number(item.logisticsQty);
                 const reservePerUnit = cycle.reserveAmount !== null && reserveUnits > 0
                     ? cycle.reserveAmount / reserveUnits : 0;
 
                 const credit = calculateAggregateCredit(item);
                 const usesCredit = item?.planning?.fundingMode === 'credit';
-                const creditUnits=isFullService?(demand.valid?demand.total:0):
-                    ['dropship','offline-service'].includes(item.source)?
-                        Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const creditUnits=['dropship','offline-service'].includes(item.source)?
+                    Number(item.forecastUnitsPerMonth)*servicePricingMonths:Number(item.logisticsQty);
                 const creditReady =
                     !usesCredit ||
                     (
@@ -3745,20 +3669,8 @@
                     usesCredit && creditReady
                         ? credit.totalInterest / creditUnits
                         : 0;
-                const pricingUnitCost=isFullService&&demand.valid&&demand.custom?
-                    (()=>{
-                        const baseline=Math.max(.0000001,Number(item.forecastUnitsPerMonth)||0);
-                        const variable=ownSplit?
-                            (ownSplit.direct+ownSplit.electricity)/baseline:
-                            (own('direct')?Math.max(0,Number(item.materialsUnitCost)||0):0)+
-                            (own('production')?Math.max(0,Number(item.productionElectricityPerUnit)||0):0);
-                        const fixedPerBaseline=Math.max(0,unitCost-variable);
-                        return variable+fixedPerBaseline*baseline*servicePricingMonths/demand.total;
-                    })():unitCost;
-                const priceAdUnit=isFullService&&demand.valid&&demand.custom?
-                    budget*servicePricingMonths/demand.total:baseCac;
                 const pricingUnitLoad =
-                    pricingUnitCost + creditServicePerUnit + reservePerUnit;
+                    unitCost + creditServicePerUnit + reservePerUnit;
 
                 const rawMargin = item?.planning?.targetMarginPct;
                 const hasMargin =
@@ -3781,11 +3693,10 @@
                     (agencyFeeGross>0?agencyFeeGross/(1+agencyVat):null):
                     (!['resale','dropship'].includes(item.source) || Math.max(0,Number(item.inputs?.['resale-buy-total'])||0)>0) &&
                     baseCac !== null &&
-                    (!isFullService||demand.valid) &&
                     marginRate !== null &&
                     creditReady &&
                     1 - marginRate > 0
-                        ? (pricingUnitLoad + priceAdUnit) / (1 - marginRate)
+                        ? (pricingUnitLoad + baseCac) / (1 - marginRate)
                         : null;
 
                 return {
@@ -4416,9 +4327,6 @@
                 (usesCredit&&(credit.principal===null||credit.monthlyServiceCost===null||
                     !(Number.isInteger(Number(credit.termMonths))&&credit.termMonths>=1))))
                 return {ready:false,months:[],reason:'Проверьте период, рекламу, себестоимость, мощность услуги и финансирование.'};
-            const demand=serviceDemandProfile(item);
-            if(!demand.valid)
-                return {ready:false,months:[],reason:demand.error};
             const n=Math.max(horizon,usesCredit?Number(credit.termMonths):1);
             const months=Array.from({length:n},(_,i)=>({month:i+1,inflow:0,outflow:0,
                 cashFlow:0,cumulative:0,taxPaid:0,interestPaid:0,principalRepaid:0,
@@ -4473,43 +4381,20 @@
             const partnerTax=agency.partnerTaxType==='profit'?
                 Math.max(0,partnerRevenue-partnerCosts)*partnerTaxRate:
                 partnerRevenue*partnerTaxRate;
-            // Expenses are scheduled by economic character: per-visit
-            // materials/commission vary with actual customers, while rent,
-            // advertising, payroll and noncash amortization recur even at zero.
-            const partnerFixed=partner?
-                partner.production+partner.amort+partner.selling+
-                partner.advertising+partner.management:
-                (partnerPays('production')?allOperatingFixed:0)+
-                (partnerPays('equipment')?allDepreciation:0)+
-                (partnerPays('selling')?allSalesFixed:0)+
-                (partnerPays('advertising')?allAd:0)+
-                (partnerPays('management')?allManagement:0);
-            const partnerVariable=partner?
-                partner.direct+partner.electricity+partner.commission:
-                (partnerPays('direct')?allDirect:0)+
-                (partnerPays('production')?allElectricity:0)+
-                (partnerPays('commission')?allCommissions:0);
             for(let serviceMonth=0;serviceMonth<horizon;serviceMonth++){
-                const month=months[serviceMonth],volume=demand.months[serviceMonth];
-                const proportion=qty>0?volume/qty:0;
-                const monthlyReceipt=receipt*proportion;
-                const monthlyDirect=direct*proportion;
-                const monthlyCommission=variableCommissions*proportion;
-                month.inflow+=monthlyReceipt;
-                month.outflow+=monthlyDirect+fixed-amort+monthlyCommission;
-                month.taxableProfit+=monthlyReceipt-monthlyDirect-fixed-monthlyCommission;
+                const month=months[serviceMonth];
+                // Service sales and fixed operations stop after approved months.
+                // Longer credit terms only extend debt and interest payments.
+                // Costs remain payable in zero-sales months; amort is noncash.
+                month.inflow+=receipt;
+                month.outflow+=direct+fixed-amort+variableCommissions;
+                month.taxableProfit+=receipt-direct-fixed-variableCommissions;
                 month.depreciation+=amort;
-                month.serviceQuantity=volume;
                 if(agent){
-                    const grossPartner=partnerRevenue*proportion;
-                    const costsPartner=partnerFixed+partnerVariable*proportion+monthlyReceipt;
-                    const taxPartner=agency.partnerTaxType==='profit'?
-                        Math.max(0,grossPartner-costsPartner)*partnerTaxRate:
-                        grossPartner*partnerTaxRate;
-                    month.partnerRevenue=grossPartner;
-                    month.partnerCosts=costsPartner;
-                    month.partnerTax=taxPartner;
-                    month.partnerProfit=grossPartner-costsPartner-taxPartner;
+                    month.partnerRevenue=partnerRevenue;
+                    month.partnerCosts=partnerCosts;
+                    month.partnerTax=partnerTax;
+                    month.partnerProfit=partnerRevenue-partnerCosts-partnerTax;
                 }
             }
             months[0].inflow+=capital;
@@ -5038,12 +4923,10 @@
                     sku.fullServiceOperatingMonths=Number(item.serviceHorizonMonths)||1;
                     sku.fullServiceHorizon=Math.max(sku.fullServiceOperatingMonths,
                         item.planning?.fundingMode==='credit'?Number(credit.termMonths)||1:1);
-                    // V2 receives the exact month-specific V1 demand, then
-                    // zeroes only the extra months needed for loan settlement.
-                    const approved=serviceDemandProfile(item);
-                    if(!approved.valid)throw Error(approved.error);
+                    // The explicit zero tail cannot be mistaken for extra sales.
                     sku.fullServiceForecast=Array.from({length:sku.fullServiceHorizon},
-                        (_,month)=>month<approved.months.length?approved.months[month]:0);
+                        (_,month)=>month<sku.fullServiceOperatingMonths?
+                            Number(row.forecastSales)||0:0);
                     // A loan extending beyond the selected service horizon
                     // extends the real V1 cash calendar through its maturity.
                     sku.fullServiceReservePct=Number(item.planning?.reservePct)||0;
@@ -5087,10 +4970,6 @@
                         owns('production')?
                         Math.max(0,(Number(item.productionFixedMonthly)||0)-
                             (Number(item.serviceAmortMonthly)||0)):0;
-                    // Native online full service pays rent/staff by calendar,
-                    // even with zero bookings. Variable COGS must NOT absorb
-                    // this monthly commitment (or the same amortization).
-                    if(online)sku.unitCost=sku.serviceMaterialsUnit+sku.serviceElectricityUnit;
                     sku.serviceCapacity=online?0:Number(item.offlineServiceCapacity)||0;
                     sku.inventoryQty=0;
                     sku.materialsBatchTotal=0;
@@ -5100,7 +4979,7 @@
                     if(online)sku.onlineProvenance={
                         periodMonths:sku.fullServiceHorizon,
                         fullServiceCalculated:true,
-                        ownerRevenueInPeriod:approved.total*row.price,
+                        ownerRevenueInPeriod:row.forecastSales*row.price*sku.fullServiceHorizon,
                         sourceRole:item.serviceRole||'self'
                     };
                     return sku;
@@ -5126,11 +5005,8 @@
                     report('Для «'+item.name+'» не готов диапазон цены после скидок. '+(range.error||'Заполните максимальную скидку, минимальную и целевую маржу.') );
                     return false;
                 }
-                const explicitFullService=item.source==='offline-service'&&
-                    item.serviceFinanceMode==='full'&&serviceDemandProfile(item).valid;
-                if(!(row.forecastSales>0&&
-                    (explicitFullService||(row.adBudget>0&&row.baseCac>0)))){
-                    report('Для «'+item.name+'» не готов прогноз клиентов. Заполните рекламную воронку или помесячный план спроса.');
+                if(!(row.forecastSales>0&&row.adBudget>0&&row.baseCac>0)){
+                    report('Для «'+item.name+'» не готов рекламный прогноз. Вернитесь к настройкам бюджета и конверсии.');
                     return false;
                 }
                 const credit=calculateAggregateCredit(item);
@@ -5310,9 +5186,7 @@
                         <div class="aggregate-title font-bold mb-2">Cash flow по месяцам — ${cashFlow.months.length} месяцев</div>
                         <div class="aggregate-muted text-xs mb-3">
                             ${fullService?
-                                'Период оказания услуги — '+productPortfolio[0].serviceHorizonMonths+
-                                    ' мес.; финансовый календарь — '+cashFlow.months.length+
-                                    ' мес. Месяц = 30 дней. Количество услуг берётся из помесячного плана; аренда и реклама оплачиваются также в месяцы без клиентов.':
+                                'Период расчёта услуги — '+cashFlow.months.length+' мес. Месяц = 30 дней. Прогноз оказанных услуг повторяется по месяцам, расходы учитываются каждый месяц.':
                                 '<strong>Период: со дня 0 до дня '+Math.ceil(cashFlow.horizonDays)+'. Распродажа заканчивается на '+Math.ceil(cashFlow.saleEndDays)+'-й день.</strong> Один месяц = 30 дней. Первый месяц — дни 0–29, второй — 30–59. Последний может быть неполным. При кредите срок продлевается до последнего платежа.'}
                         </div>
                         <div class="aggregate-muted text-xs mb-3">
@@ -5332,7 +5206,6 @@
                                 </thead>
                                 <tbody>
                                     ${[
-                                        ...(fullService?[['Оказано услуг', 'serviceQuantity']]:[]),
                                         ['Поступления (включая внесённые деньги / кредит)', 'inflow'],
                                         ['Выплаты (включая налог и возврат кредита)', 'outflow'],
                                         ['Налоги с бизнеса', 'taxPaid'],
@@ -5348,7 +5221,7 @@
                                             <td class="py-2 pr-4 font-semibold whitespace-nowrap">${label}</td>
                                             ${cashFlow.months.map(month => `
                                                 <td class="py-2 px-2 text-right font-bold whitespace-nowrap">
-                                                    ${key==='serviceQuantity'?Number(month.serviceQuantity||0).toLocaleString(nomadDisplayLocale(),{maximumFractionDigits:2}):money(month[key])}
+                                                    ${money(month[key])}
                                                 </td>
                                             `).join('')}
                                         </tr>
@@ -5940,12 +5813,12 @@
                 ['Резерв (не расход)',number(flow.reserveLocked||0)],
                 ['Свободный остаток',number(flow.freeCumulativeEnd)]
             ]);
-            const headers=['Месяц',...(service?['Оказано услуг']:[]),'Выручка без НДС','Расходы','Налог'];
+            const headers=['Месяц','Выручка без НДС','Расходы','Налог'];
             if(anyCredit)headers.push('Проценты','Возврат тела кредита');
             headers.push('Оборудование / CAPEX','Внесено денег','Cash Flow','Остаток','Свободные деньги');
             html+='<h2>Денежный поток по месяцам</h2>'+table(headers,
                 flow.months.map(m=>{
-                    const row=[m.month,...(service?[number(m.serviceQuantity||0)]:[]),number(m.inflow-m.financedInflow),
+                    const row=[m.month,number(m.inflow-m.financedInflow),
                         number(m.outflow-m.taxPaid-m.interestPaid-m.principalRepaid-
                             (m.capexPaid||0)),number(m.taxPaid)];
                     if(anyCredit)row.push(number(m.interestPaid),number(m.principalRepaid));
@@ -6037,9 +5910,9 @@
             const forecastSalesPerMonth =
                 Math.max(0, Number(item?.forecastUnitsPerMonth || 0));
             const stockQty = Math.max(0, Number(item?.logisticsQty) || 0);
-            const servicePlan=item?.source==='offline-service'&&item?.serviceFinanceMode==='full'?
-                serviceDemandProfile(item):null;
-            const serviceUnits=servicePlan?servicePlan.total:stockQty;
+            const serviceUnits=item?.source==='offline-service'&&item?.serviceFinanceMode==='full'?
+                forecastSalesPerMonth*Math.max(1,Number(item.serviceHorizonMonths)||1,
+                    Number(termMonths)||1):stockQty;
             const servicePerUnit = totalInterest !== null && serviceUnits > 0
                 ? totalInterest / serviceUnits
                 : null;
@@ -6823,7 +6696,7 @@
             Object.keys(productImportPayers).forEach(key => productImportPayers[key] = null);
             Object.keys(productLogisticsPayers).forEach(key => productLogisticsPayers[key] = null);
 
-            document.querySelectorAll('#product-own-form input, #product-own-form textarea').forEach(input => {
+            document.querySelectorAll('#product-own-form input').forEach(input => {
                 input.value = input.defaultValue || '';
                 input.disabled = false;
             });
@@ -7837,10 +7710,7 @@
                 const el=document.getElementById('own-production-unit-cost');if(el)el.textContent=moneyInputValue(0);
                 recalculateLogisticsUnitCost();return;
             }
-            const offlineForecast=productSource==='offline-service'&&
-                serviceFinancialMode==='full'?
-                (serviceDemandDraftAverage()??productNumberFromText('own-product-ad-units')):
-                productNumberFromText('own-product-ad-units');
+            const offlineForecast=productNumberFromText('own-product-ad-units');
             const qty = productSource==='offline-service'?Math.max(1,offlineForecast):Math.max(1, Math.floor(Number(document.getElementById('own-production-monthly-qty')?.value) || 1));
             const defectPct = productSource==='offline-service'?0:Math.min(99.99, Math.max(0, productNumber('own-production-defect-pct')));
             const yieldFactor = Math.max(0.0001, 1 - defectPct / 100);
