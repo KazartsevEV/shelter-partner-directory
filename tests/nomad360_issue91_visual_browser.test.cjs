@@ -88,26 +88,11 @@ const {chromium}=require('playwright');
         .sort((a,b)=>b.right-a.right).slice(0,18));
       console.log('ISSUE91_MOBILE_OVERFLOW_DIAG',JSON.stringify({width,overflow,offenders}));
    }
-   if(width<=390)A.ok(overflow.document<=overflow.viewport+1,
-      'Document overflow '+JSON.stringify(overflow));
-   else {
-      // Identify the origin of any page-level desktop overflow, even when
-      // the financial report itself remains inside its viewport.
-      if(overflow.document>overflow.viewport+1){
-         const pageOffenders=await page.evaluate(()=>[...document.querySelectorAll('body *')]
-           .map(e=>{const r=e.getBoundingClientRect(),st=getComputedStyle(e);
-             return {tag:e.tagName,id:e.id,cls:String(e.className).slice(0,70),
-               left:Math.round(r.left),right:Math.round(r.right),
-               width:Math.round(r.width),scroll:e.scrollWidth,
-               overflow:st.overflowX,position:st.position,display:st.display};})
-           .filter(x=>x.width>0&&x.right>innerWidth+2&&x.display!=='none')
-           .sort((a,b)=>b.right-a.right).slice(0,25));
-         console.log('ISSUE91_DESKTOP_GLOBAL_OVERFLOW',JSON.stringify(pageOffenders));
-      }
-      const rect=await report.boundingBox();
-      A.ok(rect&&rect.x+rect.width<=width+1,
-        'Desktop V1 report exceeds viewport '+JSON.stringify({rect,overflow}));
-   }
+   A.ok(overflow.document<=overflow.viewport+1,
+      'Entire 320/390/1440px page must fit its viewport '+JSON.stringify(overflow));
+   const reportRect=await report.boundingBox();
+   A.ok(reportRect&&reportRect.x+reportRect.width<=width+1,
+      'V1 finance report must stay inside the viewport');
    A.equal(await page.evaluate(()=>saveProductCalculationToBrowser()),true);
    await page.reload({waitUntil:'domcontentloaded'});
    A.equal(await page.evaluate(()=>resumeSavedProductCalculation()),true);
