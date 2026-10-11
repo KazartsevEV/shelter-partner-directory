@@ -139,3 +139,31 @@ test('TZ02 per-source pool moves SAME rent from offline COGS and online salesFix
  close(Object.values(r.cashflow.periodPnl.bySku).reduce((a,b)=>a+b.netProfit,0),
    r.cashflow.periodPnl.netProfit,'per-SKU mixed profit conservation');
 });
+
+test('Issue #91 legacy full V1 adapter imports [0,10,15] without Infinity or invented sales',()=>{
+ for(const kind of ['online','offline'])for(const withCosts of [false,true]){
+   const x={...base,months:3,monthlyForecast:[0,10,15],capacity:25,
+     vatPct:0,priceGross:100,unitCashCost:8,
+     fixedCashMonthly:withCosts?600:0,adBudget:withCosts?200:0,
+     adManagement:0,salesFixedMonthly:0,reservePct:10};
+   const v1=Full.build(x),converted=sku(x,kind,'svc');
+   A.ok(Number.isFinite(converted.unitCost));
+   A.ok(Number.isFinite(converted.baseCac));
+   A.ok(converted.forecastUnitsPerMonth>0);
+   A.deepEqual(converted.fullServiceForecast,[0,10,15]);
+   const v2=Linked.build(state([converted],3));
+   A.equal(v2.ready,true,kind+' costs='+withCosts+' '+JSON.stringify(v2.errors));
+   for(let m=0;m<3;m++){
+     close(v2.cashflow.periodPnl.months[m].revenue,v1.months[m].revenue,'V1/V2 revenue m'+m);
+     close(v2.cashflow.periodPnl.months[m].taxAccrued,v1.months[m].tax,'V1/V2 tax m'+m);
+     close(v2.cashflow.periodPnl.months[m].netProfit,v1.months[m].profit,'V1/V2 PnL m'+m);
+     close(v2.cashflow.months[m].tax,v1.months[m].tax,'V1/V2 tax payment m'+m);
+   }
+   close(v2.cashflow.periodPnl.months[0].revenue,0,'first month no customers');
+   if(withCosts){
+     close(v2.cashflow.months[0].ad,200,'ads still paid in zero-sales month');
+     A.ok(v2.cashflow.months[0].operatingOutflow>=600,
+       'fixed costs paid without clients');
+   }
+ }
+});
