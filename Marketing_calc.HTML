@@ -3615,13 +3615,15 @@
                 const consumedMaterialCost = allocatedMaterialCostPerGood(item);
                 const agencyOwner=item.serviceFinanceMode==='full'&&item.serviceRole==='agent';
                 const own=p=>!agencyOwner||item.serviceAgency?.payers?.[p]==='agent';
-                const unitCost =
+                const ownSplit=agencyOwner&&Array.isArray(item.serviceAgency?.lineItems)?
+                    serviceAgencyExpenseSplit(item).agent:null;
+                const perUnit=Math.max(.0000001,Number(item.forecastUnitsPerMonth)||0);
+                const unitCost =ownSplit?
+                    (ownSplit.direct+ownSplit.production+ownSplit.electricity+ownSplit.amort)/perUnit:
                     (own('direct')?(consumedMaterialCost === null ? Math.max(0, Number(item.materialsUnitCost) || 0) : consumedMaterialCost):0) +
                     (own('production')?Math.max(0,Number(item.productionUnitCost||0)-
-                        Math.max(0,Number(item.serviceAmortMonthly)||0)/
-                        Math.max(1,Number(item.forecastUnitsPerMonth)||0)):0) +
-                    (own('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0)/
-                        Math.max(1,Number(item.forecastUnitsPerMonth)||0):0) +
+                        Math.max(0,Number(item.serviceAmortMonthly)||0)/perUnit):0) +
+                    (own('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0)/perUnit:0) +
                     Math.max(0, Number(item.logisticsUnitCost || 0)) -
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
@@ -3757,12 +3759,12 @@
                         ? row.price * forecastSales
                         : null;
 
-                const turnoverExpenseRate =
-                    Math.max(
-                        0,
-                        Number(row.item.salesVariablePct || 0) +
-                        Number(row.item.penaltiesPct || 0)
-                    ) / 100;
+                const rowAgent=row.item.serviceFinanceMode==='full'&&row.item.serviceRole==='agent';
+                const rowSplit=rowAgent&&Array.isArray(row.item.serviceAgency?.lineItems)?
+                    serviceAgencyExpenseSplit(row.item).agent:null;
+                const turnoverExpenseRate=rowSplit?rowSplit.commissionPct/100:
+                    Math.max(0,Number(row.item.salesVariablePct||0)+
+                        Number(row.item.penaltiesPct||0))/100;
 
                 const turnoverExpenses =
                     revenue === null
@@ -3771,13 +3773,12 @@
 
                 const agencyOwner=row.item.serviceFinanceMode==='full'&&row.item.serviceRole==='agent';
                 const ownerPays=key=>!agencyOwner||row.item.serviceAgency?.payers?.[key]==='agent';
+                const paidAd=rowSplit?rowSplit.advertising:
+                    ownerPays('advertising')?adBudget:0;
                 const ebitda =
                     revenue === null || turnoverExpenses === null
                         ? null
-                        : revenue -
-                          cogs -
-                          (ownerPays('advertising')?adBudget:0) -
-                          (ownerPays('commission')?turnoverExpenses:0);
+                        : revenue - cogs - paidAd - turnoverExpenses;
 
                 const roas =
                     revenue !== null && adBudget > 0
@@ -3820,13 +3821,24 @@
             });
 
             const totalManagement =
-                prepared.reduce((sum,row) => sum+(row.item.serviceRole==='agent'&&
-                    row.item.serviceFinanceMode==='full'&&row.item.serviceAgency?.payers?.management!=='agent'
-                    ?0:row.management),0);
+                prepared.reduce((sum,row)=>{
+                    const owner=row.item.serviceRole==='agent'&&
+                        Array.isArray(row.item.serviceAgency?.lineItems)?
+                        serviceAgencyExpenseSplit(row.item).agent:null;
+                    return sum+(owner?owner.management:
+                        row.item.serviceRole==='agent'&&row.item.serviceFinanceMode==='full'&&
+                        row.item.serviceAgency?.payers?.management!=='agent'?0:row.management);
+                },0);
             const salesFixedShared = Math.max(
                 0,
-                ...items.map(item => item.serviceRole==='agent'&&item.serviceFinanceMode==='full'&&
-                    item.serviceAgency?.payers?.selling!=='agent'?0:Number(item.salesFixedMonthly || 0))
+                ...items.map(item=>{
+                    const owner=item.serviceRole==='agent'&&
+                        Array.isArray(item.serviceAgency?.lineItems)?
+                        serviceAgencyExpenseSplit(item).agent:null;
+                    return owner?owner.selling:
+                        item.serviceRole==='agent'&&item.serviceFinanceMode==='full'&&
+                        item.serviceAgency?.payers?.selling!=='agent'?0:Number(item.salesFixedMonthly || 0);
+                })
             );
             const sharedBusinessCosts =
                 totalManagement + salesFixedShared;
