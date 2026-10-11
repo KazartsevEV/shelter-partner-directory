@@ -105,6 +105,7 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Run exact top-to-bottom numeric audit
         run: |
+          node tests/simple_services_free_cash_browser.test.cjs
           node tests/portfolio_v2_full_service_browser.test.cjs
           node tests/nomad360_locale_core_browser.test.cjs
           node tests/nomad360_locale_product_numbers_browser.test.cjs
@@ -133,7 +134,6 @@ jobs:
           node tests/portfolio_v2_mba_browser.test.cjs
           node tests/portfolio_v2_online_browser.test.cjs
           node tests/marketing_calc_offline_service_browser.test.cjs
-          node tests/simple_services_free_cash_browser.test.cjs
           node tests/nomad360_units_browser.test.cjs
           node tests/marketing_calc_add_next_service_browser.test.cjs
 
