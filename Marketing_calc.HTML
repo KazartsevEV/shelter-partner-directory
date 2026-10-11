@@ -2766,7 +2766,19 @@
                 valid:lines.every(x=>x.payer==='agent'||x.payer==='partner')};
         }
         function currentProductPortfolioSnapshot() {
-            const expectedServiceUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const adUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const rawDemand=String(document.getElementById('service-v1-monthly-demand')?.value||'').trim();
+            const demandHorizon=Number(document.getElementById('service-v1-horizon')?.value||12);
+            const demandEntries=rawDemand?rawDemand.split(/\r?\n|;/).map(x=>
+                x.trim()!==''?Number(x.trim().replace(',','.')):NaN):[];
+            const demandAverage=Number.isInteger(demandHorizon)&&demandEntries.length===demandHorizon&&
+                demandEntries.every(x=>Number.isFinite(x)&&x>=0)?
+                demandEntries.reduce((sum,x)=>sum+x,0)/demandHorizon:0;
+            // The explicit demand plan is authoritative for a service, even
+            // when no CPC campaign exists yet. Keep a strictly positive
+            // normalization base for allocating per-unit expenses to V2.
+            const expectedServiceUnits=productSource==='offline-service'&&demandAverage>0?
+                demandAverage:adUnits;
             const materialsBatchQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
             const productionQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):['resale','dropship'].includes(productSource) ? materialsBatchQty : Math.max(1, Math.floor(productNumber('own-production-monthly-qty') || 1));
             const forecastSales=Math.max(0,productNumberFromText('own-product-ad-units'));
@@ -2893,7 +2905,8 @@
                 salesVariablePct: productNumber('own-sales-commission-pct'),
                 penaltiesPct: productNumber('own-platform-penalties-pct'),
                 adCostPerUnit: productNumberFromText('own-product-ad-cac-unit'),
-                forecastUnitsPerMonth: productNumberFromText('own-product-ad-units'),
+                forecastUnitsPerMonth: productSource==='offline-service'?expectedServiceUnits:
+                    productNumberFromText('own-product-ad-units'),
                 adBudget: productNumber('own-product-ad-budget'),
                 adManagement: productNumber('own-product-ad-management'),
                 adTotal: productNumber('own-product-ad-budget') + productNumber('own-product-ad-management'),
@@ -3675,7 +3688,11 @@
                 const clicks = cpc > 0 ? budget / cpc : 0;
                 const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;
                 const leads = clicks * clickLeadPct / 100;
-                const orders = leads * leadSalePct / 100;
+                const funnelOrders = leads * leadSalePct / 100;
+                const demandPlan=item.source==='offline-service'&&item.serviceFinanceMode==='full'?
+                    serviceDemandProfile(item):null;
+                const orders=demandPlan?.valid&&demandPlan.custom?
+                    demandPlan.total/demandPlan.months.length:funnelOrders;
                 const baseCac = orders > 0 ? budget / orders : null;
 
                 const storedCostPerUnit = Math.max(0, Number(item.warehouseStorageUnitCost) || 0);
