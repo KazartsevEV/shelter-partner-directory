@@ -14,6 +14,8 @@ function between(begin,end){
   return html.slice(a,b);
 }
 const source=[
+  between('function serviceAgencyExpenseSplit(item,receipts=0){',
+    'function currentProductPortfolioSnapshot() {'),
   between('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
   between('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
   between('function calculateAggregateCredit(item) {','function updateAggregateCredit(item) {'),
@@ -27,11 +29,21 @@ const factory=new Function('productPortfolio','productBusinessTaxType','productN
 const EPS=.015;
 const n=x=>Number(x)||0;
 function fixture(channel,role,funding,taxType,vat){
+  const line=(key,bucket,monthly=0,capex=0,amort=0,ratePct=0,payer='agent')=>
+    ({key,label:key,bucket,monthly,capex,amort,ratePct,payer});
   const agency={grossPrice:100,feePct:20,fixedFee:0,partnerVatPct:10,
-    partnerTaxType:'turnover',partnerTaxPct:5,payers:{
-      direct:'agent',production:'agent',advertising:'partner',
-      management:'agent',selling:'agent',commission:'agent',equipment:'agent'
-    }};
+    partnerTaxType:'turnover',partnerTaxPct:5,payers:{},
+    lineItems:[
+      line('material.known','direct',160),
+      line('premises','production',100),
+      line('electricity','electricity',40),
+      line('purchase.0','equipment',0,600,50),
+      line('advertising','advertising',900,0,0,0,'partner'),
+      line('management','management',60),
+      line('sales.fixed','selling',100),
+      line('sales.commission','commission',0,0,0,5),
+      line('sales.penalties','commission',0,0,0,1)
+    ]};
   const horizon=3,qty=20,base={id:1,name:channel+'-'+role,source:'offline-service',
     serviceChannel:channel,serviceRole:role,serviceFinanceMode:'full',
     serviceAgency:role==='agent'?agency:null,serviceHorizonMonths:horizon,
