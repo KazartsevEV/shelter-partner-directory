@@ -229,7 +229,14 @@ const {pathToFileURL}=require('node:url');
     refreshServiceAgencyLinePayers();
   });
   A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.1"]').count(),1);
-  await page.locator('#service-agent-line-payers [data-agent-line-key="rental.1"]').selectOption('partner');
+  // The customer is currently looking at the V2 PDF; the V1 form is hidden.
+  // Mutate the hidden draft using the same DOM change handler, not Playwright's
+  // visible-only selectOption action.
+  await page.evaluate(()=>{
+    const select=document.querySelector('#service-agent-line-payers [data-agent-line-key="rental.1"]');
+    select.value='partner';
+    select.dispatchEvent(new Event('change',{bubbles:true}));
+  });
   await page.evaluate(()=>{
     const first=document.querySelector('.equipment-rental-row');
     removeEquipmentRow(first.querySelector('button[onclick*="removeEquipmentRow"]'),'rental');
