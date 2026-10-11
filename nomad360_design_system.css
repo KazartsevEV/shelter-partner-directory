@@ -2037,6 +2037,17 @@ body #portfolio-v2-root button:focus-visible{
 body #portfolio-v2-root :is(input[type="checkbox"],input[type="radio"]){
   accent-color:#ed8e63;flex-shrink:0;
 }
+body #portfolio-v2-root :is(.nd-v2-panel,.nd-v2-subpanel) label{font-size:15px!important;line-height:1.35}
+body #portfolio-v2-root :is(.nd-v2-panel,.nd-v2-subpanel) label > span{font-size:15px!important}
+body #portfolio-v2-root :is(.nd-v2-panel,.nd-v2-subpanel) :is(.input-field,input:not([type="checkbox"]),select,textarea){
+  font-size:17px!important;line-height:1.4
+}
+/* Adding SKUs changes portfolio structure; it is a navy secondary action,
+   not the orange primary save/continue CTA. */
+body #portfolio-v2-root [data-p2-add-sku]{
+  background:#16375a!important;color:#fff!important;
+  border:1px solid #b2cadd!important;min-height:52px
+}
 body #portfolio-v2-root input[type="file"]{
   display:block;max-width:100%;min-width:0;overflow-wrap:anywhere;
   font-size:13px;color:var(--nd-v2-navy)!important;
