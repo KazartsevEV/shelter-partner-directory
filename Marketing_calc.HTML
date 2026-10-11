@@ -4894,6 +4894,17 @@
                         '%</span>';
 
             const cashFlow = calculateProductCashFlow(model);
+            const fullService=productPortfolio.length===1&&
+                productPortfolio[0].source==='offline-service'&&
+                productPortfolio[0].serviceFinanceMode==='full'&&cashFlow.ready;
+            const serviceBorrowed=fullService&&productPortfolio[0].planning?.fundingMode==='credit';
+            const sumMonth=key=>cashFlow.months.reduce((n,m)=>n+(Number(m[key])||0),0);
+            const periodRevenue=fullService?sumMonth('inflow')-sumMonth('financedInflow'):null;
+            const periodTax=fullService?sumMonth('taxPaid'):null;
+            const periodBeforeTax=fullService?sumMonth('taxableProfit'):null;
+            const periodProfit=fullService?periodBeforeTax-periodTax:null;
+            const periodInterest=fullService?sumMonth('interestPaid'):null;
+            const periodEbitda=fullService?periodBeforeTax+periodInterest+sumMonth('depreciation'):null;
             const partnerFlow=productPortfolio.length===1&&productPortfolio[0].serviceRole==='agent'&&
                 cashFlow.ready?cashFlow.months:null;
             const agencyReport=partnerFlow?
@@ -4911,12 +4922,14 @@
                     <div class="mt-4 pt-4 border-t aggregate-separator">
                         <div class="aggregate-title font-bold mb-2">Cash flow по месяцам — ${cashFlow.months.length} месяцев</div>
                         <div class="aggregate-muted text-xs mb-3">
-                            <strong>Период: со дня 0 до дня ${Math.ceil(cashFlow.horizonDays)}. Распродажа заканчивается на ${Math.ceil(cashFlow.saleEndDays)}-й день.</strong>
-                            Один месяц = 30 дней. Первый месяц — дни 0–29, второй — 30–59. Последний может быть неполным.
-                            При кредите срок продлевается до последнего платежа, даже если весь товар уже продан.
+                            ${fullService?
+                                'Период расчёта услуги — '+cashFlow.months.length+' мес. Месяц = 30 дней. Прогноз оказанных услуг повторяется по месяцам, расходы учитываются каждый месяц.':
+                                '<strong>Период: со дня 0 до дня '+Math.ceil(cashFlow.horizonDays)+'. Распродажа заканчивается на '+Math.ceil(cashFlow.saleEndDays)+'-й день.</strong> Один месяц = 30 дней. Первый месяц — дни 0–29, второй — 30–59. Последний может быть неполным. При кредите срок продлевается до последнего платежа.'}
                         </div>
                         <div class="aggregate-muted text-xs mb-3">
-                            После бизнес-налогов и кредитных платежей. При кредите: получение тела кредита в первый месяц, выплата тела в конце срока (bullet), проценты ежемесячно; тело кредита не уменьшает прибыль. НДС транзитный и в свободный остаток не включён.
+                            ${fullService&&!serviceBorrowed?
+                                'Финансирование: свои деньги. Вложения не являются доходом; покупки оборудования учитываются как платёж, амортизация — только в прибыли. Выручка без НДС.':
+                                'После бизнес-налогов и кредитных платежей. При кредите: получение тела кредита в первый месяц, выплата тела в конце срока (bullet), проценты ежемесячно; тело кредита не уменьшает прибыль. НДС транзитный и в свободный остаток не включён.'}
                         </div>
                         <div class="overflow-x-auto">
                             <table class="min-w-full text-xs border-collapse">
@@ -4933,8 +4946,10 @@
                                         ['Поступления (включая внесённые деньги / кредит)', 'inflow'],
                                         ['Выплаты (включая налог и возврат кредита)', 'outflow'],
                                         ['Налоги с бизнеса', 'taxPaid'],
-                                        ['Проценты по кредиту', 'interestPaid'],
-                                        ['Возврат тела кредита', 'principalRepaid'],
+                                        ...(!fullService||serviceBorrowed?[
+                                            ['Проценты по кредиту', 'interestPaid'],
+                                            ['Возврат тела кредита', 'principalRepaid']
+                                        ]:[]),
                                         ['Cash flow', 'cashFlow'],
                                         ['Накопленный cash flow', 'cumulative'],
                                         ['ЖИВЫЕ ДЕНЬГИ · свободный остаток', 'freeCumulative']
@@ -4966,13 +4981,14 @@
             box.innerHTML = `
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                     <span class="aggregate-muted">Выручка всего бизнеса (после налоговой корректировки цены, без НДС)</span>
-                    <span class="font-bold text-right">${money(model.adjustedRevenue ?? model.totalRevenue)}</span>
+                    <span class="font-bold text-right">${money(fullService?periodRevenue:(model.adjustedRevenue ?? model.totalRevenue))}</span>
                     <span class="aggregate-muted">EBITDA всего бизнеса</span>
-                    <span class="font-bold text-right">${money(model.adjustedEbitda ?? model.businessEbitda)}</span>
-                    <span class="aggregate-muted">Обслуживание кредитов / месяц</span>
-                    <span class="font-bold text-right">${money(model.financingCostsMonthly)}</span>
+                    <span class="font-bold text-right">${money(fullService?periodEbitda:(model.adjustedEbitda ?? model.businessEbitda))}</span>
+                    ${fullService&&!serviceBorrowed?'':`
+                    <span class="aggregate-muted">${fullService?'Проценты по кредиту за период':'Обслуживание кредитов / месяц'}</span>
+                    <span class="font-bold text-right">${money(fullService?periodInterest:model.financingCostsMonthly)}</span>`}
                     <span class="aggregate-muted">Результат после обслуживания кредитов</span>
-                    <span class="font-bold text-right">${money(model.adjustedProfitBeforeTax ?? model.profitBeforeTax)}</span>
+                    <span class="font-bold text-right">${money(fullService?periodBeforeTax:(model.adjustedProfitBeforeTax ?? model.profitBeforeTax))}</span>
                 </div>
 
                 <div class="mt-5 mb-2 p-4 rounded-xl border-2 border-emerald-300 bg-emerald-900 text-white">
@@ -4986,11 +5002,12 @@
 
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mt-4 pt-4 border-t aggregate-separator">
                     <span class="aggregate-muted">Рентабельность бизнеса (чистая прибыль / выручка, без НДС)</span>
-                    <span class="font-bold text-right">${(model.adjustedRevenue ?? model.totalRevenue) > 0 && (model.adjustedNetProfit ?? model.netProfit) !== null ? percent((model.adjustedNetProfit ?? model.netProfit) / (model.adjustedRevenue ?? model.totalRevenue) * 100) : '—'}</span>
+                    <span class="font-bold text-right">${fullService?(periodRevenue>0?percent(periodProfit/periodRevenue*100):'—'):
+                    (model.adjustedRevenue ?? model.totalRevenue) > 0 && (model.adjustedNetProfit ?? model.netProfit) !== null ? percent((model.adjustedNetProfit ?? model.netProfit) / (model.adjustedRevenue ?? model.totalRevenue) * 100) : '—'}</span>
                     <span class="aggregate-muted">Сумма налога</span>
-                    <span class="font-bold text-right">${money(model.adjustedTax ?? model.tax)}</span>
+                    <span class="font-bold text-right">${money(fullService?periodTax:(model.adjustedTax ?? model.tax))}</span>
                     <span class="aggregate-muted">Чистая прибыль после налога</span>
-                    <span class="font-bold text-right">${money(model.adjustedNetProfit ?? model.netProfit)}</span>
+                    <span class="font-bold text-right">${money(fullService?periodProfit:(model.adjustedNetProfit ?? model.netProfit))}</span>
                 </div>
             `;
 
