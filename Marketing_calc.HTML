@@ -4014,26 +4014,7 @@
             };
         }
 
-        function finishV1FinancialLedger(months,reserveLocked,horizonDays,saleEndDays) {
-            // Common V1 settlement for goods and services: VAT is passed through,
-            // financing is not revenue, debt principal is not an expense for P&L.
-            const taxRate=Math.max(0,productNumber('own-business-tax-pct'))/100;
-            let cumulative=0;
-            for(const month of months){
-                const taxableTurnover=Math.max(0,month.inflow-month.financedInflow);
-                month.taxPaid=productBusinessTaxType==='turnover'
-                    ?taxableTurnover*taxRate
-                    :Math.max(0,month.taxableProfit)*taxRate;
-                month.outflow+=month.taxPaid;
-                month.cashFlow=month.inflow-month.outflow;
-                cumulative+=month.cashFlow;
-                month.cumulative=cumulative;
-                month.freeCumulative=cumulative-reserveLocked;
-            }
-            return {ready:true,months,horizonDays,saleEndDays,reserveLocked,
-                cumulativeEnd:cumulative,freeCumulativeEnd:cumulative-reserveLocked};
-        }
-        function calculateCanonicalV1ServiceCashFlow(model) {
+        function calculateCanonicalV1ServiceCashFlow(model,finishV1FinancialLedger) {
             const items=productPortfolio.filter(item=>item.source==='offline-service');
             if(items.length!==1||productPortfolio.length!==1||!model?.pricingReady||!productBusinessTaxType||
                 model.taxPriceMultiplier===null)
@@ -4157,11 +4138,30 @@
         }
 
         function calculateProductCashFlow(model) {
+        function finishV1FinancialLedger(months,reserveLocked,horizonDays,saleEndDays) {
+            // Common V1 settlement for goods and services: VAT is passed through,
+            // financing is not revenue, debt principal is not an expense for P&L.
+            const taxRate=Math.max(0,productNumber('own-business-tax-pct'))/100;
+            let cumulative=0;
+            for(const month of months){
+                const taxableTurnover=Math.max(0,month.inflow-month.financedInflow);
+                month.taxPaid=productBusinessTaxType==='turnover'
+                    ?taxableTurnover*taxRate
+                    :Math.max(0,month.taxableProfit)*taxRate;
+                month.outflow+=month.taxPaid;
+                month.cashFlow=month.inflow-month.outflow;
+                cumulative+=month.cashFlow;
+                month.cumulative=cumulative;
+                month.freeCumulative=cumulative-reserveLocked;
+            }
+            return {ready:true,months,horizonDays,saleEndDays,reserveLocked,
+                cumulativeEnd:cumulative,freeCumulativeEnd:cumulative-reserveLocked};
+        }
             if(productPortfolio.some(item=>item.source==='offline-service')){
                 if(productPortfolio.some(item=>item.source!=='offline-service'))
                     return {ready:false,months:[],reason:'Для смешанных товаров и офлайн-услуг используйте общий Cash flow V2.',cumulativeEnd:null,freeCumulativeEnd:null};
                 return productPortfolio.every(item=>item.serviceFinanceMode==='full')
-                    ?calculateCanonicalV1ServiceCashFlow(model)
+                    ?calculateCanonicalV1ServiceCashFlow(model,finishV1FinancialLedger)
                     :calculateOfflineServiceCashFlow(model);
             }
             if (model?.pricingReady && productPortfolio.some(item=>item.source==='dropship')) {
