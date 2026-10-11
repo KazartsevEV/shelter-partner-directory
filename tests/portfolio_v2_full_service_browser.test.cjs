@@ -25,30 +25,31 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#service-mode-full').click();
   A.equal(await page.locator('#service-mode-full').getAttribute('aria-pressed'),'true');
   await page.locator('#service-work-online').click();
+  A.equal(await page.evaluate(()=>serviceChannel),'online');
   await page.locator('#service-screen button[onclick="selectServiceMode(\'self\')"]').click();
-  A.equal(await page.locator('#full-service-online-route').count(),0,
-    'Full single-service V1 must have no duplicate introductory banner');
-  A.equal(await page.locator('#full-service-online-entry').isVisible(),true);
-  A.equal(await page.locator('#online-v2-entry').isVisible(),false,
-    'Multi-item portfolio V2 does not belong inside the single-service V1 form');
-  A.equal(await page.locator('#service-results-column').isVisible(),false,
-    'The simplified results of V1 must not duplicate the full single-service report');
-  A.equal(await page.locator('#full-service-online-action').isVisible(),true);
-  A.match(await page.locator('#service-v1-heading').textContent(),/Полный расчёт онлайн-услуги/);
-  const onlineOrder=await page.evaluate(()=>({
-    inputs:document.getElementById('inputs-container').getBoundingClientRect().top,
-    action:document.getElementById('full-service-online-action').getBoundingClientRect().top
-  }));
-  A.ok(onlineOrder.action>onlineOrder.inputs,
-    'Complete-service calculation follows the input fields, never precedes them');
-  await page.locator('#full-service-online-name').fill('Онлайн-консультация');
-  await page.locator('#full-service-online-action').click();
-  A.equal(await page.locator('#full-service-screen').isVisible(),true,
-    'Real online click must open the full financial model of ONE service');
-  A.match(await page.locator('.nd-full-service-header > p').first().textContent(),
-    /V1 · Онлайн-консультация/,'A full V1 service retains its own name');
-  await page.locator('#full-service-back').click();
-  A.equal(await page.locator('#calculator-screen').isVisible(),true);
+  A.equal(await page.locator('#product-screen').isVisible(),true,
+    'Full online self uses canonical product V1');
+  A.equal(await page.locator('#full-service-screen').isVisible(),false,
+    'No secondary financial screen');
+  A.match(await page.locator('#product-intro-category').textContent(),/Онлайн-услуга/);
+  A.equal(await page.locator('#offline-service-capacity').isVisible(),false,
+    'Online service has no physical capacity requirement');
+  await page.locator('#product-main-back').click();
+  A.equal(await page.locator('#service-screen').isVisible(),true);
+  await page.locator('#service-screen button[onclick="selectServiceMode(\'hired\')"]').click();
+  A.equal(await page.evaluate(()=>productionLaborMode),'workers');
+  A.equal(await page.locator('#product-screen').isVisible(),true);
+  await page.locator('#product-main-back').click();
+  await page.locator('#service-screen button[onclick="showAgentChooser()"]').click();
+  A.equal(await page.locator('#agent-screen').isVisible(),true);
+  await page.locator('#agent-screen button[onclick="selectServiceMode(\'agent\')"]').click();
+  A.equal(await page.locator('#product-screen').isVisible(),true);
+  A.equal(await page.locator('#service-v1-agent-panel').isVisible(),false,
+    'Agent finance fields appear once a service name is entered');
+  await page.locator('#product-name-input').fill('Агентская онлайн-услуга');
+  await page.locator('#product-intro-submit-label').click();
+  A.equal(await page.locator('#service-v1-agent-panel').isVisible(),true);
+  A.equal(await page.evaluate(()=>selectedServiceRole),'agent');
   await page.evaluate(()=>showServiceWorkChooser());
   // New V1 architecture: online/offline x role, then the SAME product V1.
   // Full offline must never ask for a secondary standalone finance screen.
