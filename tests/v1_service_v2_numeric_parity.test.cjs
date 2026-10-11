@@ -140,6 +140,35 @@ test('Canonical full V1→V2 numeric parity: 6 roles × own/credit × turnover/p
             for(const [metric,difference] of Object.entries(checks))
               if(Math.abs(difference)>worst.abs)worst={abs:Math.abs(difference),tag:r.tag,metric,difference};
             report.push({tag:r.tag,...checks});
+            // Never approve a portfolio import by checking month one only.
+            // Recurring costs and loan maturities often diverge after month one.
+            A.equal(r.v1Monthly.length,r.v2Pnl.length,r.tag+' full P&L horizon');
+            A.equal(r.v1Monthly.length,r.v2Cash.length,r.tag+' full cash horizon');
+            for(let monthIndex=0;monthIndex<r.v1Monthly.length;monthIndex++){
+              const vm=r.v1Monthly[monthIndex],pm=r.v2Pnl[monthIndex],
+                cash=r.v2Cash[monthIndex],m=' month '+(monthIndex+1);
+              for(const [name,v1value,v2value] of [
+                ['revenue',vm.inflow-vm.financedInflow,pm.revenue],
+                ['profit before tax',vm.taxableProfit,pm.preTaxProfit],
+                ['tax',vm.taxPaid,pm.taxAccrued],
+                ['interest',vm.interestPaid,cash.interest],
+                ['CAPEX',vm.capexPaid,cash.capex],
+                ['principal',vm.principalRepaid,cash.principalRepaid]
+              ])A.ok(Number.isFinite(v1value)&&Number.isFinite(v2value)&&
+                Math.abs(v1value-v2value)<=EPS,
+                r.tag+m+' '+name+' V1='+v1value+' V2='+v2value);
+              if(role==='agent'){
+                const counter=r.v2.cashflow.periodPnl.bySku['v1-1'].partner.months[monthIndex];
+                for(const [field,v1value,v2value] of [
+                  ['revenue',vm.partnerRevenue,counter.revenue],
+                  ['cost',vm.partnerCosts,counter.costs],
+                  ['tax',vm.partnerTax,counter.tax],
+                  ['profit',vm.partnerProfit,counter.profit]
+                ])A.ok(Number.isFinite(v1value)&&Number.isFinite(v2value)&&
+                  Math.abs(v1value-v2value)<=EPS,
+                  r.tag+m+' partner '+field+' V1='+v1value+' V2='+v2value);
+              }
+            }
           }
   console.log('NOMAD360_V1_V2_MATRIX',JSON.stringify({count,worst,
     sample:report.filter((x,i)=>i%8===0)}));
