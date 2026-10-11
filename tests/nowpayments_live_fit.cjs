@@ -13,8 +13,8 @@ const {chromium}=require('playwright');
   const frame=await iframe.elementHandle().then(h=>h.contentFrame());
   await frame.waitForLoadState('domcontentloaded',{timeout:30000}).catch(e=>console.log('FRAME_LOAD',e.message));
   await frame.waitForTimeout(5000);
-  for(const height of [623,550,500,460,430,400]){
-   await iframe.evaluate((el,h)=>el.style.height=h+'px',height);
+  for(const width of [346,390,420,432,460]){
+   await iframe.evaluate((el,w)=>{el.style.width=w+'px';el.style.height='623px'},width);
    await page.waitForTimeout(1100);
    const geom=await frame.evaluate(()=>{
     const nodes=[...document.querySelectorAll('button, input, a, h1, h2, p, div, span')];
@@ -32,7 +32,7 @@ const {chromium}=require('playwright');
       placeholder:n.placeholder,y:Math.round(n.getBoundingClientRect().top),bottom:Math.round(n.getBoundingClientRect().bottom)}))
     };
    }).catch(e=>({error:String(e)}));
-   console.log('NOWPAY_FIT',JSON.stringify({height,geom}));
+   console.log('NOWPAY_FIT',JSON.stringify({width,geom}));
   }
  }finally{await browser.close();}
 })().catch(e=>{console.error('NOWPAY_PROBE_ERR',e.stack);process.exitCode=1});
