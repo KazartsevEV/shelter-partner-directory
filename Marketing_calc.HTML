@@ -3225,15 +3225,44 @@
                     if(!(gross>0)||!(pct>=0&&pct<=100)||!(fixed>=0)||
                         !(gross*pct/100+fixed>0))
                         details.push({kind:'agency',message:'Введите цену партнёра и положительное вознаграждение агента.'});
-                    const buckets={direct:forecasts*(Number(item.materialsUnitCost)||0),
-                        production:Number(item.productionFixedMonthly)||0,
-                        advertising:Number(item.adBudget)||0,management:Number(item.adManagement)||0,
-                        selling:Number(item.salesFixedMonthly)||0,
-                        commission:(Number(item.salesVariablePct)||0)+(Number(item.penaltiesPct)||0),
-                        equipment:Number(item.serviceCapex)||0};
-                    for(const [key,value]of Object.entries(buckets))
-                        if(value>0&&!['agent','partner'].includes(a.payers?.[key]))
-                            details.push({kind:'agency',message:'Выберите плательщика: '+key+'.'});
+                    if(Array.isArray(a.lineItems)){
+                        for(const line of a.lineItems)
+                            if(!['agent','partner'].includes(line.payer))
+                                details.push({kind:'agency',message:'Выберите плательщика: '+line.label+'.'});
+                        // No unallocated amount may disappear when an input
+                        // changes after the agent chose an expense payer.
+                        const lines=a.lineItems,quantity=Math.max(0,forecasts);
+                        const sum=(bucket,key='monthly')=>lines.filter(x=>x.bucket===bucket)
+                            .reduce((n,x)=>n+Math.max(0,Number(x[key])||0),0);
+                        const original={direct:quantity*Math.max(0,Number(item.materialsUnitCost)||0),
+                            production:Math.max(0,Number(item.productionFixedMonthly)||0)-
+                                Math.max(0,Number(item.serviceAmortMonthly)||0),
+                            electricity:quantity*Math.max(0,Number(item.productionElectricityPerUnit)||0),
+                            advertising:Math.max(0,Number(item.adBudget)||0),
+                            management:Math.max(0,Number(item.adManagement)||0),
+                            selling:Math.max(0,Number(item.salesFixedMonthly)||0)};
+                        for(const [key,value] of Object.entries(original))
+                            if(Math.abs(value-sum(key))>0.05)
+                                details.push({kind:'agency',message:'Пересчитайте плательщика: '+key+'.'});
+                        if(Math.abs(Math.max(0,Number(item.serviceCapex)||0)-sum('equipment','capex'))>0.05)
+                            details.push({kind:'agency',message:'Пересчитайте плательщика оборудования.'});
+                        if(Math.abs(Math.max(0,Number(item.serviceAmortMonthly)||0)-sum('equipment','amort'))>0.05)
+                            details.push({kind:'agency',message:'Пересчитайте амортизацию оборудования.'});
+                        const variablePct=lines.filter(x=>x.bucket==='commission')
+                            .reduce((n,x)=>n+Math.max(0,Number(x.ratePct)||0),0);
+                        if(Math.abs(variablePct-((Number(item.salesVariablePct)||0)+(Number(item.penaltiesPct)||0)))>0.01)
+                            details.push({kind:'agency',message:'Пересчитайте плательщиков комиссий и удержаний.'});
+                    }else{
+                        const buckets={direct:forecasts*(Number(item.materialsUnitCost)||0),
+                            production:Number(item.productionFixedMonthly)||0,
+                            advertising:Number(item.adBudget)||0,management:Number(item.adManagement)||0,
+                            selling:Number(item.salesFixedMonthly)||0,
+                            commission:(Number(item.salesVariablePct)||0)+(Number(item.penaltiesPct)||0),
+                            equipment:Number(item.serviceCapex)||0};
+                        for(const [key,value]of Object.entries(buckets))
+                            if(value>0&&!['agent','partner'].includes(a.payers?.[key]))
+                                details.push({kind:'agency',message:'Выберите плательщика: '+key+'.'});
+                    }
                 }
                 return details;
             }
@@ -3334,26 +3363,37 @@
             const count=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
             const agent=item.serviceFinanceMode==='full'&&item.serviceRole==='agent';
             const owns=k=>!agent||item.serviceAgency?.payers?.[k]==='agent';
-            const materialsPerService=owns('direct')?Math.max(0,Number(item.materialsUnitCost)||0):0;
+            const lineSplit=agent&&Array.isArray(item.serviceAgency?.lineItems)?
+                serviceAgencyExpenseSplit(item):null;
+            const owner=lineSplit?.agent;
+            const countSafe=Math.max(.00000001,count);
+            const materialsPerService=owner?owner.direct/countSafe:
+                owns('direct')?Math.max(0,Number(item.materialsUnitCost)||0):0;
             const fullDepreciation=Math.max(0,Number(item.serviceAmortMonthly)||0);
             const operatingFixed=Math.max(0,(Number(item.productionFixedMonthly)||0)-fullDepreciation);
-            const fixedPremisesAndWorkers=(owns('production')?operatingFixed:0)+
-                (owns('equipment')?fullDepreciation:0);
-            const electricityPerService=owns('production')?Math.max(0,Number(item.productionElectricityPerUnit)||0):0;
-            const salesFixed=owns('selling')?Math.max(0,Number(item.salesFixedMonthly)||0):0;
-            const ad=(owns('advertising')?Math.max(0,Number(item.adBudget)||0):0)+
+            const fixedPremisesAndWorkers=owner?owner.production+owner.amort:
+                (owns('production')?operatingFixed:0)+(owns('equipment')?fullDepreciation:0);
+            const electricityPerService=owner?owner.electricity/countSafe:
+                owns('production')?Math.max(0,Number(item.productionElectricityPerUnit)||0):0;
+            const salesFixed=owner?owner.selling:
+                owns('selling')?Math.max(0,Number(item.salesFixedMonthly)||0):0;
+            const ad=owner?owner.advertising+owner.management:
+                (owns('advertising')?Math.max(0,Number(item.adBudget)||0):0)+
                 (owns('management')?Math.max(0,Number(item.adManagement)||0):0);
             const serviceCost=count*(materialsPerService+electricityPerService)+fixedPremisesAndWorkers;
             const nonRevenueCosts=serviceCost+salesFixed+ad;
             // Original simplified microbusiness economics must remain intact.
             // Day-zero CAPEX and noncash amortization apply only to full V1.
             const fullV1=item.serviceFinanceMode==='full';
-            const depreciation=fullV1&&owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0;
-            const capex=fullV1&&owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
+            const depreciation=fullV1?(owner?owner.amort:
+                owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0):0;
+            const capex=fullV1?(owner?owner.capex:
+                owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0):0;
             const committedCashCosts=Math.max(0,nonRevenueCosts-depreciation)+capex;
             const reservePct=Math.min(1000,Math.max(0,Number(item.planning?.reservePct)||0));
             const reserveAmount=Math.max(0,nonRevenueCosts-depreciation)*reservePct/100;
-            const salesRate=owns('commission')?
+            const salesRate=owner?owner.commissionPct/100:
+                owns('commission')?
                 (Math.max(0,Number(item.salesVariablePct)||0)+Math.max(0,Number(item.penaltiesPct)||0))/100:0;
             const zeroMarginRevenue=salesRate<1?nonRevenueCosts/(1-salesRate):null;
             return {
