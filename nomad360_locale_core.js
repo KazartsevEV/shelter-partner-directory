@@ -258,6 +258,9 @@ const rows=[
  ['Покупатель платит за отдельную позицию (без скидки комбо)','Standalone customer price (excluding bundle discount)','Бөлек сатып алу бағасы (жинақ жеңілдігінсіз)'],
  ['3. Связанные продажи · Market Basket Analysis','3. Linked sales · Market Basket Analysis','3. Байланысты сатылымдар · Себет талдауы'],
  ['История покупок · наблюдаемая MBA','Purchase history · observed basket analysis','Сатып алу тарихы · байқалған себет талдауы'],
+ ['JSON должен содержать массив строк, поле lines или шаблон Nomad360 orders.','JSON must contain a row array, a lines property, or the Nomad360 orders template.','JSON жолдар массивін, lines өрісін немесе Nomad360 orders үлгісін қамтуы керек.'],
+ ['Нужен шаблон JSON Nomad360 версии 1 с массивом orders.','Use Nomad360 JSON template version 1 with an orders array.','orders массиві бар Nomad360 JSON үлгісінің 1-нұсқасын қолданыңыз.'],
+
  ['История чеков и совместные покупки','Receipts and purchases made together','Чектер және бірге сатып алынған тауарлар'],
  ['Необязательный анализ.','Optional analysis.','Міндетті емес талдау.'],
  ['Загрузите оплаченные чеки, чтобы увидеть, какие товары и услуги клиенты выбирают вместе.','Upload paid receipts to see which products and services customers buy together.','Клиенттер бірге алатын тауарлар мен қызметтерді көру үшін төленген чектерді жүктеңіз.'],
@@ -1329,6 +1332,10 @@ const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));
  * product names are NEVER run through the UI dictionary. Unknown strings
  * remain in the original language rather than risking a mistranslation. */
 const patterns=[
+ [/^Чек (\\d+): нужен непустой список items\\.$/,'Receipt $1: items must contain at least one product.','$1-чек: items ішінде кемінде бір тауар болуы тиіс.'],
+ [/^Чек (.+): неверная позиция (\\d+)\\.$/,'Receipt $1: invalid item $2.','$1-чек: $2-позиция жарамсыз.'],
+ [/^Номер чека должен быть заполнен и уникален: (.*)$/,'Receipt ID is required and must be unique: $1','Чек нөмірі міндетті және бірегей болуы тиіс: $1'],
+
  [/^Наблюдаемый средний чек по валютам \(из цены файла, без предположений о НДС\): (.+)$/,
   'Observed average order value by currency (based on file prices, without VAT assumptions): $1',
   'Валюталар бойынша бақыланған орташа чек (файл бағалары бойынша, ҚҚС болжамынсыз): $1'],
