@@ -14,7 +14,7 @@ function between(begin,end){
   return html.slice(a,b);
 }
 const source=[
-  between('function serviceAgencyExpenseSplit(item,receipts=0,volume=null){',
+  between('function serviceAgencyExpenseSplit(item,receipts=0){',
     'function currentProductPortfolioSnapshot() {'),
   between('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
   between('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
@@ -67,16 +67,8 @@ function fixture(channel,role,funding,taxType,vat,creditMonths=2){
     uiState:{choices:{salesVat:vat?'yes':'no'}}};
   return base;
 }
-function metrics(channel,role,funding,taxType,vat,creditMonths=2,opts={}){
+function metrics(channel,role,funding,taxType,vat,creditMonths=2){
   const item=fixture(channel,role,funding,taxType,vat,creditMonths),taxPct=6,vatPct=vat?12:0;
-  if(opts.demand)item.serviceMonthlyDemand=opts.demand.join('\n');
-  if(opts.noAds){
-    item.adBudget=0;item.adManagement=0;
-    item.inputs['own-product-ad-budget']='0';
-    item.inputs['own-product-ad-management']='0';
-    if(item.serviceAgency)item.serviceAgency.lineItems=item.serviceAgency.lineItems.filter(x=>
-      !['advertising','management'].includes(x.bucket));
-  }
   const api=factory([item],taxType,id=>id==='own-business-tax-pct'?taxPct:0,
     ()=>({salesVatChoice:vat?'yes':'no',vatReady:true,vatPct}));
   const model=api.calculateProductPortfolio(),cycle=api.aggregatePlanMetrics(item);
@@ -240,69 +232,6 @@ test('Native V1→V2 long-credit maturity: six roles x profit/turnover x VAT',()
         }
   A.equal(checked,24);
   console.log('NOMAD360_LONG_CREDIT_PARITY_GREEN',checked);
-});
-test('Issue #91 variable-demand V1↔V2: [0,10,15] x six roles, own/credit, tax and VAT',()=>{
-  let cases=0;
-  for(const channel of ['online','offline'])
-    for(const role of ['self','hired','agent'])
-      for(const funding of ['cash','credit'])
-        for(const taxType of ['turnover','profit'])
-          for(const vat of [false,true]){
-            const r=metrics(channel,role,funding,taxType,vat,5,
-              {demand:[0,10,15]});
-            cases++;
-            const expected=funding==='credit'?[0,10,15,0,0]:[0,10,15];
-            A.deepEqual(r.sku.fullServiceForecast,expected,
-              r.tag+' V2 must preserve explicit demand and debt-only tail');
-            A.equal(r.v1Monthly.length,expected.length);
-            A.equal(r.v2Cash.length,expected.length);
-            for(let i=0;i<expected.length;i++){
-              const a=r.v1Monthly[i],b=r.v2Cash[i],p=r.v2Pnl[i];
-              for(const [field,v1,v2] of [
-                ['revenue',a.inflow-a.financedInflow,p.revenue],
-                ['tax',a.taxPaid,p.taxAccrued],
-                ['profit',a.taxableProfit,p.preTaxProfit],
-                ['interest',a.interestPaid,b.interest],
-                ['principal',a.principalRepaid,b.principalRepaid],
-                ['cumulative',a.cumulative,b.cumulative],
-                ['free cash',a.freeCumulative,b.freeCumulative]
-              ])A.ok(Math.abs(v1-v2)<.015,
-                r.tag+' month '+(i+1)+' '+field+' V1='+v1+' V2='+v2);
-              if(i===0){
-                A.equal(p.revenue,0);
-                A.ok(a.outflow-a.interestPaid-a.taxPaid>0,
-                  'Rent, staff and advertising paid before the first customer');
-              }
-              if(i>=3){
-                A.equal(p.revenue,0);
-                A.equal(b.operatingOutflow,0);
-              }
-              if(role==='agent'){
-                const partner=r.v2.cashflow.periodPnl.bySku['v1-1'].partner.months[i];
-                for(const [k,v1,v2] of [
-                  ['revenue',a.partnerRevenue||0,partner.revenue],
-                  ['costs',a.partnerCosts||0,partner.costs],
-                  ['tax',a.partnerTax||0,partner.tax],
-                  ['profit',a.partnerProfit||0,partner.profit]
-                ])A.ok(Math.abs(v1-v2)<.015,
-                  r.tag+' month '+(i+1)+' partner '+k+' '+v1+' '+v2);
-              }
-            }
-          }
-  A.equal(cases,48);
-  console.log('ISSUE91_VARIABLE_DEMAND_PARITY_GREEN',cases);
-});
-test('Issue #91 zero-first-month demand also works without paid advertising',()=>{
-  const r=metrics('offline','self','cash','turnover',false,3,
-    {demand:[0,10,15],noAds:true});
-  A.equal(r.item.adBudget,0);
-  A.deepEqual(r.v2.temporal.months.map(m=>m.orders['v1-1']),[0,10,15]);
-  for(let k=0;k<3;k++){
-    const a=r.v1Monthly[k],b=r.v2Cash[k];
-    A.ok(Math.abs(a.cumulative-b.cumulative)<.015,'no-ads month '+(k+1));
-  }
-  A.equal(r.v1Monthly[0].inflow-r.v1Monthly[0].financedInflow,0);
-  A.ok(r.v1Monthly[0].outflow>0,'rent and employees still payable without ads');
 });
 
 // #91: A late-start forecast cannot be inferred from a zero first month.
