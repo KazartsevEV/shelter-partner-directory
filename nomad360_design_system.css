@@ -1978,3 +1978,14 @@ body #agent-screen.nd-agent-screen > button.nd-agent-back.nd-tree-active-back,
 body #agent-complex-screen.nd-agent-screen > button.nd-agent-back.nd-tree-active-back{
   color:#fff!important;
 }
+
+/* NAV-TREE-03: dynamic V2 buttons sit on dark banners. The standalone
+   button historically used dark-on-white, but its background is now transparent. */
+body #portfolio-v2-screen [data-linked-back].nd-tree-active-back,
+body #portfolio-v2-screen [data-p2-home].nd-tree-active-back{
+  color:#fff!important;
+}
+/* The full V1 service shell is light, so its inline arrow must remain navy. */
+body #full-service-screen #full-service-back.nd-tree-active-back{
+  color:#16375a!important;
+}
