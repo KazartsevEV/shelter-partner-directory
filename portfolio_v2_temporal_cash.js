@@ -318,9 +318,12 @@
        Math.max(0,pos(s.serviceElectricityUnit)-pos(s.cashOffsets?.fulfillment)/original):
        pos(s.unitCostEffective);
      const commission=pos(timeline[s.id]?.[0]?.netRevenue)*pos(s.variableSalesPct)/100;
-     const fixed=s.source==='offline-service'?
+     const calendarFixed=s.source==='offline-service'||
+       (s.source==='online-service'&&s.nativeProductV1===true);
+     const fixed=calendarFixed?
        Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production)):0;
-     const sales=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
+     const sales=Math.max(0,pos(s.manager)+pos(s.selling)-
+       (s.nativeProductV1===true?0:pos(s.onlineAmortMonthly)));
      // Native product V1 service reserves only first-month committed
      // operating expenses, excluding price-dependent selling commission.
      const burden=qty*material+(s.nativeProductV1?0:commission)+fixed+sales+
