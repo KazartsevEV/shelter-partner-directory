@@ -3458,13 +3458,18 @@
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
                 const cycle = aggregatePlanMetrics(item);
-                const reserveUnits=['dropship','offline-service'].includes(item.source)?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const servicePricingMonths=item.source==='offline-service'&&item.serviceFinanceMode==='full'?
+                    Math.max(1,Number(item.serviceHorizonMonths)||1,
+                        item.planning?.fundingMode==='credit'?Number(item.planning.creditTermMonths)||1:1):1;
+                const reserveUnits=['dropship','offline-service'].includes(item.source)?
+                    Number(item.forecastUnitsPerMonth)*servicePricingMonths:Number(item.logisticsQty);
                 const reservePerUnit = cycle.reserveAmount !== null && reserveUnits > 0
                     ? cycle.reserveAmount / reserveUnits : 0;
 
                 const credit = calculateAggregateCredit(item);
                 const usesCredit = item?.planning?.fundingMode === 'credit';
-                const creditUnits=['dropship','offline-service'].includes(item.source)?Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
+                const creditUnits=['dropship','offline-service'].includes(item.source)?
+                    Number(item.forecastUnitsPerMonth)*servicePricingMonths:Number(item.logisticsQty);
                 const creditReady =
                     !usesCredit ||
                     (
@@ -5575,8 +5580,11 @@
             const forecastSalesPerMonth =
                 Math.max(0, Number(item?.forecastUnitsPerMonth || 0));
             const stockQty = Math.max(0, Number(item?.logisticsQty) || 0);
-            const servicePerUnit = totalInterest !== null && stockQty > 0
-                ? totalInterest / stockQty
+            const serviceUnits=item?.source==='offline-service'&&item?.serviceFinanceMode==='full'?
+                forecastSalesPerMonth*Math.max(1,Number(item.serviceHorizonMonths)||1,
+                    Number(termMonths)||1):stockQty;
+            const servicePerUnit = totalInterest !== null && serviceUnits > 0
+                ? totalInterest / serviceUnits
                 : null;
 
             const marginPct =
