@@ -139,21 +139,27 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    });
   },selector);
   await page.evaluate(()=>{serviceFinancialMode='simple';showAgentChooser()});
+  // Assert final brand styling, not an in-between RGB transition frame.
+  // This test-only override leaves the application and production CSS intact.
+  await page.addStyleTag({content:
+    '#agent-screen button.nd-agent-percentage-cta{transition:none!important;animation:none!important}'});
   for(const width of [320,390,768]){
    await page.setViewportSize({width,height:844});
    await page.evaluate(()=>showAgentChooser());
+   // A prior click can leave the desktop mouse over this CTA after resizing.
+   // Its valid hover token (#f3a17a) must not be confused with its base color.
+   await page.mouse.move(1,1);
    A.equal(await page.locator('#agent-screen').isVisible(),true);
    A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
     'rgb(22, 55, 90)');
    const orangeAction=page.locator('#agent-screen button.nd-agent-percentage-cta');
-   // Viewport changes may leave a short transition at a mid-animation RGB.
-   // Verify the final brand color instead of sampling an intermediate frame.
-   await page.waitForFunction(()=>{
-     const el=document.querySelector('#agent-screen button.nd-agent-percentage-cta');
-     return el&&getComputedStyle(el).backgroundColor==='rgb(237, 142, 99)';
-   },null,{timeout:3000});
+   A.equal(await orangeAction.evaluate(el=>el.matches(':hover')),false,
+     'CTA must not be hovered during base-color verification at '+width);
+   A.equal(await orangeAction.evaluate(el=>
+     getComputedStyle(document.documentElement).getPropertyValue('--nd-cta-orange').trim()),
+     '#ed8e63','Authoritative orange brand token at '+width);
    A.equal(await orangeAction.evaluate(el=>getComputedStyle(el).backgroundColor),
-     'rgb(237, 142, 99)','orange agent CTA at '+width);
+     'rgb(237, 142, 99)','Unhovered agent CTA uses the exact brand orange at '+width);
    A.equal(await orangeAction.locator('.font-semibold').evaluate(el=>getComputedStyle(el).color),
      'rgb(22, 55, 90)','navy text on agent CTA at '+width);
    A.equal(await page.locator('#agent-screen button[onclick="showAgentComplex()"]').evaluate(el=>getComputedStyle(el).backgroundColor),
