@@ -1436,13 +1436,6 @@
                     </div>
 
                     <div id="product-tax-price-list" class="mt-5 space-y-3"></div>
-                <div id="product-v2-portfolio-gateway" class="mt-6 rounded-2xl border-2 border-emerald-300 bg-emerald-950 text-white p-5">
-                    <div class="text-xs uppercase tracking-widest text-emerald-300 font-semibold">Следующий этап · V2</div>
-                    <h2 class="text-xl font-black mt-2">Собрать портфель товаров и услуг</h2>
-                    <p class="text-sm text-emerald-100 mt-2">Себестоимость, CAC, рекламный прогноз, налоги и диапазон цен уже рассчитаны выше. Дальше — объединение ресурсов, помещений, работников, сертификатов и бюджета без повторного заполнения карточек.</p>
-                    <button type="button" onclick="openLinkedPortfolioFromProducts()" class="nd-cta-primary mt-4 w-full p-4 font-bold">Перейти к портфельной экономике V2 →</button>
-                    <p id="linked-v2-entry-error" class="hidden mt-3 rounded-lg bg-rose-50 text-rose-900 p-3 text-sm font-semibold" role="alert" hidden></p>
-                </div>
                     <div id="product-v1-aggregate-report" class="mt-6 pt-5 border-t aggregate-separator"><div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
                     <div id="product-portfolio-business-summary" class="aggregate-price-card mt-4"></div></div>
 
@@ -1455,6 +1448,14 @@
                         </button>
                     </div>
                     <div id="product-browser-save-status" class="aggregate-muted text-xs mt-2"></div>
+                <div id="product-v2-portfolio-gateway" class="mt-6 rounded-2xl border-2 border-emerald-300 bg-emerald-950 text-white p-5">
+                    <div class="text-xs uppercase tracking-widest text-emerald-300 font-semibold">Следующий этап · V2</div>
+                    <h2 class="text-xl font-black mt-2">Собрать портфель товаров и услуг</h2>
+                    <p class="text-sm text-emerald-100 mt-2">Себестоимость, CAC, рекламный прогноз, налоги и диапазон цен уже рассчитаны выше. Дальше — объединение ресурсов, помещений, работников, сертификатов и бюджета без повторного заполнения карточек.</p>
+                    <button type="button" onclick="openLinkedPortfolioFromProducts()" class="nd-cta-primary mt-4 w-full p-4 font-bold">Перейти к портфельной экономике V2 →</button>
+                    <p id="linked-v2-entry-error" class="hidden mt-3 rounded-lg bg-rose-50 text-rose-900 p-3 text-sm font-semibold" role="alert" hidden></p>
+                </div>
+
                 </div>
             </div>
         </div>
@@ -5235,8 +5236,8 @@
                     <div class="mt-4 pt-4 border-t aggregate-separator">
                         <div class="aggregate-title font-bold">Cash flow по месяцам за период</div>
                         <div class="aggregate-muted text-xs mt-2">
-                            Расчёт начнётся с 0-го дня (закупка/финансирование) и закончится после продажи последней единицы либо возврата кредита — что позже.
-                            Один месяц = 30 дней. Заполните цену товара, сроки, прогноз продаж и налог, чтобы увидеть числовую таблицу.
+                            Прогноз спроса рассчитывается автоматически по рекламной воронке. Завершите ввод себестоимости, сроков, финансирования и налогового режима; для товаров со складом укажите размер партии.
+                            Денежный календарь начинается с закупки или финансирования и продолжается до последних поступлений и платежей по кредиту. Один месяц = 30 дней.
                         </div>
                     </div>
                 `;
