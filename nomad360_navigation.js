@@ -119,8 +119,8 @@
   // The native button stays DOM-addressable for established user flows and tests.
   // The external fallback never competes with an existing on-screen back button.
   nav.hidden=entries.length<2||Boolean(native);
-  document.body.classList.toggle('nd-tree-business-return',
-    screen==='product-screen'&&native?.id==='product-business-back-button');
+  const businessReturn=screen==='product-screen'&&native?.id==='product-business-back-button';
+  if(businessReturn)document.body.classList.add('nd-tree-business-return');
   document.querySelectorAll('.nd-tree-active-back').forEach(node=>{
    if(node!==native)node.classList.remove('nd-tree-active-back');
   });
@@ -130,12 +130,14 @@
   const text='← '+caption;
   const target=native||back;
   if(target.textContent!==text)target.textContent=text;
-  target.setAttribute('aria-label',text);
+  if(target.getAttribute('aria-label')!==text)target.setAttribute('aria-label',text);
   if(native){
-   native.classList.add('nd-tree-active-back');
-   native.setAttribute('data-nomad-no-translate','');
-  }else{
-   back.setAttribute('aria-label',text);
+   // MutationObserver watches the special button's class. Re-adding the
+   // existing token can emit another mutation and endlessly requeue render.
+   if(!native.classList.contains('nd-tree-active-back'))
+    native.classList.add('nd-tree-active-back');
+   if(!native.hasAttribute('data-nomad-no-translate'))
+    native.setAttribute('data-nomad-no-translate','');
   }
  }
 
