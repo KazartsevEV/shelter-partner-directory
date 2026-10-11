@@ -348,6 +348,17 @@ async function browserCase(browser,locale,expected){
   A.equal(await header.locator('.nomad-logo').getAttribute('src'),'./nomad360_wolf_open_circle.png');
   A.equal(await header.locator('.nomad-brand').getAttribute('aria-label'),'Nomad360 lite');
   A.equal((await header.locator('.nomad-wordmark').innerText()).trim(),'Nomad360 lite');
+  for(const width of [320,390,768]){
+    await page.setViewportSize({width,height:844});
+    const items=await header.evaluate(el=>
+      ['.nomad-brand','.nomad-lang','.nomad-burger'].map(q=>el.querySelector(q))
+       .filter(n=>n&&getComputedStyle(n).display!=='none')
+       .map(n=>({left:n.getBoundingClientRect().left,right:n.getBoundingClientRect().right,
+         scrollWidth:n.scrollWidth,clientWidth:n.clientWidth})));
+    A.ok(items.every(x=>x.left>=-1&&x.right<=width+1&&x.scrollWidth<=x.clientWidth+1),
+      'Nomad360 lite header fits '+width+'px: '+JSON.stringify(items));
+  }
+  await page.setViewportSize({width:390,height:844});
   A.equal(await header.locator('.nomad-nav a').count(),5);
   A.equal(await header.locator('#nomad360-lang-select').count(),1);
   A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
