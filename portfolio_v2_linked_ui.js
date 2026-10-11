@@ -61,9 +61,17 @@ function inheritedServicePeriod(portfolio){
 }
 function syncPeriodFromV1(portfolio){
  const months=inheritedServicePeriod(portfolio);
- if(months===null)return false;
+ if(months===null){
+  if(portfolio.v1HorizonInherited===true){
+   portfolio.forecastMonths=1;
+   portfolio.recurringDemandApproved=false;
+  }
+  portfolio.v1HorizonInherited=false;
+  return false;
+ }
  portfolio.forecastMonths=months;
  portfolio.recurringDemandApproved=true;
+ portfolio.v1HorizonInherited=true;
  return true;
 }
 function enter(){
