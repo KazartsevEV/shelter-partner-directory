@@ -710,8 +710,13 @@ const {pathToFileURL}=require('node:url');
         'Приёмка '+channel+' '+role,
         channel+'/'+role+' back preserves the entered service name');
       await acceptance.locator('#product-main-back').click();
+      if(role==='agent'){
+        A.equal(await acceptance.locator('#agent-screen').isVisible(),true,
+          channel+'/'+role+' second back returns to agent commission choice');
+        await acceptance.locator('#agent-screen > button.nd-agent-back').click();
+      }
       A.equal(await acceptance.locator('#service-screen').isVisible(),true,
-        channel+'/'+role+' second back returns to role selection');
+        channel+'/'+role+' back chain returns to executor selection');
     }
   }
   // Previously saved goods V1: do not treat old data without service metadata
