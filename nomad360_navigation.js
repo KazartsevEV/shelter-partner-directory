@@ -8,9 +8,8 @@
    'agent-complex-screen','product-screen','calculator-screen','full-service-screen',
    'portfolio-v2-screen'];
  const nav=document.getElementById('nomad360-tree-nav');
- const breadcrumbs=document.getElementById('nomad360-tree-crumbs');
  const back=document.getElementById('nomad360-tree-back');
- if(!nav||!breadcrumbs||!back)return;
+ if(!nav||!back)return;
  const dictionaries={
   ru:{navigation:'Навигация по шагам расчёта',path:'Путь расчёта',home:'Главная',service:'Услуга',mode:'Режим расчёта',
     channel:'Онлайн / офлайн',online:'Онлайн',offline:'Офлайн',who:'Кто исполнитель',
@@ -39,7 +38,17 @@
  };
  let trail=[],restoring=false,queued=false;
  const byId=id=>document.getElementById(id);
- const visible=el=>Boolean(el&&!el.hidden&&!el.classList.contains('hidden'));
+ // A button inside a hidden panel is not a usable back action even if the
+ // button's own hidden class was removed by the saved-item editor.
+ function visible(el){
+  if(!el||!el.isConnected)return false;
+  for(let node=el;node&&node.nodeType===1;node=node.parentElement){
+   if(node.hidden||node.classList.contains('hidden'))return false;
+   const style=getComputedStyle(node);
+   if(style.display==='none'||style.visibility==='hidden'||style.visibility==='collapse')return false;
+  }
+  return el.getClientRects().length>0;
+ }
  const locale=()=>String(root.Nomad360LocaleCore?.locale?.()||
     root.Nomad360UI?.getLanguage?.()||document.documentElement.lang||'ru').slice(0,2);
  const dict=()=>dictionaries[locale()]||dictionaries.ru;
@@ -82,36 +91,56 @@
   const stage=screen==='product-screen'?productStage():null;
   return {screen,stage,key:screen+(stage?':'+stage:''),label:label(screen,stage,dict())};
  }
- function render(){
-  const d=dict();
-  nav.setAttribute('aria-label',d.navigation);
-  breadcrumbs.setAttribute('aria-label',d.path);
-  const entries=trail.filter(Boolean);
-  nav.hidden=entries.length<2;
-  if(nav.hidden)return;
-  const parent=entries[entries.length-2];
-  back.textContent='← '+d.back+' '+parent.label;
-  back.setAttribute('aria-label',back.textContent);
-  breadcrumbs.replaceChildren();
-  entries.forEach((entry,i)=>{
-   if(i){
-    const separator=document.createElement('span');
-    separator.className='nd-tree-separator';separator.textContent='›';
-    separator.setAttribute('aria-hidden','true');breadcrumbs.appendChild(separator);
-   }
-   if(i===entries.length-1){
-    const current=document.createElement('span');
-    current.className='nd-tree-current';current.textContent=entry.label;
-    current.setAttribute('aria-current','step');breadcrumbs.appendChild(current);
-   }else{
-    const link=document.createElement('button');
-    link.type='button';link.dataset.journeyIndex=String(i);
-    link.className='nd-tree-link';link.textContent=entry.label;
-    link.setAttribute('aria-label',entry.label);
-    breadcrumbs.appendChild(link);
-   }
-  });
+
+ // Each branch already has an inline arrow. Reuse that exact position, never
+ // insert a second panel, breadcrumb or action above the calculator.
+ const nativeSelectors={
+  'service-work-screen':'#service-work-screen > button[onclick="showHome()"]',
+  'service-screen':'#service-screen > button[onclick="showServiceWorkChooser()"]',
+  'agent-screen':'#agent-screen > button.nd-agent-back',
+  'agent-complex-screen':'#agent-complex-screen > button.nd-agent-back',
+  'product-screen':'#product-main-back',
+  'calculator-screen':'#calculator-screen > .max-w-7xl:first-child > button',
+  'full-service-screen':'#full-service-back',
+  'portfolio-v2-screen':'#portfolio-v2-screen [data-linked-back],#portfolio-v2-screen [data-p2-home]'
+ };
+ function nativeFor(screen){
+  if(screen==='product-screen'&&visible(byId('product-business-back-button')))
+   return byId('product-business-back-button');
+  return [...document.querySelectorAll(nativeSelectors[screen]||'#nomad360-not-a-control')]
+   .find(visible)||null;
  }
+ function render(){
+  // Clear the previous special-return styling before choosing the next button.
+  // Otherwise CSS can hide product-main-back and create a zero-arrow state.
+  document.body.classList.remove('nd-tree-business-return');
+  const d=dict(),entries=trail.filter(Boolean),screen=active(),native=screen&&nativeFor(screen);
+  nav.setAttribute('aria-label',d.navigation);
+  // The native button stays DOM-addressable for established user flows and tests.
+  // The external fallback never competes with an existing on-screen back button.
+  nav.hidden=entries.length<2||Boolean(native);
+  const businessReturn=screen==='product-screen'&&native?.id==='product-business-back-button';
+  if(businessReturn)document.body.classList.add('nd-tree-business-return');
+  document.querySelectorAll('.nd-tree-active-back').forEach(node=>{
+   if(node!==native)node.classList.remove('nd-tree-active-back');
+  });
+  if(entries.length<2)return;
+  const parent=entries[entries.length-2],business=native?.id==='product-business-back-button';
+  const caption=business?d.summary:parent.label;
+  const text='← '+caption;
+  const target=native||back;
+  if(target.textContent!==text)target.textContent=text;
+  if(target.getAttribute('aria-label')!==text)target.setAttribute('aria-label',text);
+  if(native){
+   // MutationObserver watches the special button's class. Re-adding the
+   // existing token can emit another mutation and endlessly requeue render.
+   if(!native.classList.contains('nd-tree-active-back'))
+    native.classList.add('nd-tree-active-back');
+   if(!native.hasAttribute('data-nomad-no-translate'))
+    native.setAttribute('data-nomad-no-translate','');
+  }
+ }
+
  function update(){
   if(restoring)return;
   const next=capture();if(!next)return;
@@ -167,11 +196,24 @@
   queueMicrotask(()=>{restoring=false;update()});
   return true;
  }
- back.addEventListener('click',()=>goTo(trail.length-2));
- breadcrumbs.addEventListener('click',event=>{
-  const button=event.target.closest('button[data-journey-index]');
-  if(button)goTo(Number(button.dataset.journeyIndex));
- });
+ function goBack(){
+  if(active()==='product-screen'&&visible(byId('product-business-back-button'))&&
+      typeof root.returnToProductBusinessSummary==='function'){
+   root.returnToProductBusinessSummary();
+   return true;
+  }
+  return goTo(trail.length-2);
+ }
+ back.addEventListener('click',goBack);
+ document.addEventListener('click',event=>{
+  const button=event.target.closest('.nd-tree-active-back');
+  if(!button)return;
+  // Capture before the screen's historical onclick or third-party delegated
+  // back handler, so one click causes precisely one return.
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  goBack();
+ },true);
  document.addEventListener('nomad360:languagechange',()=>{
   trail=trail.map(entry=>({...entry,label:label(entry.screen,entry.stage,dict())}));
   render();
@@ -188,11 +230,20 @@
   }
   const intro=byId('product-name-input')?.closest('.card');
   if(intro)observer.observe(intro,{attributes:true,attributeFilter:['hidden','class']});
+  const special=byId('product-business-back-button');
+  if(special)observer.observe(special,{attributes:true,attributeFilter:['hidden','class']});
+  // Observe only root replacements of dynamic V2/full-service mounts.
+  // Subtree observation would rerun navigation on every financial-table cell
+  // mutation and needlessly slow down the Chromium numeric audit.
+  for(const id of ['portfolio-v2-root','full-service-screen']){
+   const el=byId(id);
+   if(el)observer.observe(el,{childList:true});
+  }
   trail=[{screen:'home-screen',stage:null,key:'home-screen',label:dict().home}];
   update();
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
  else boot();
- root.Nomad360TreeNav=Object.freeze({back:()=>goTo(trail.length-2),
+ root.Nomad360TreeNav=Object.freeze({back:goBack,
   goTo,getTrail:()=>trail.map(({key,label})=>({key,label}))});
 })(window);

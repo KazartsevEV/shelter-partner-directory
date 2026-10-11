@@ -698,9 +698,25 @@ const {pathToFileURL}=require('node:url');
       A.equal(routeState.route.full,true);
       A.ok(routeState.scroll<=routeState.width+1,
         channel+'/'+role+' viewport overflow: '+JSON.stringify(routeState));
+      // Single-step tree navigation: completed service details go back to
+      // the service-name step, then to the executor selection. Do not skip
+      // the intermediate V1 step or discard the user's entered name.
       await acceptance.locator('#product-main-back').click();
+      A.equal(await acceptance.locator('#product-screen').isVisible(),true,
+        channel+'/'+role+' first back stays in the service name step');
+      A.equal(await acceptance.locator('#product-own-form').isVisible(),false,
+        channel+'/'+role+' first back hides service expense fields');
+      A.equal(await acceptance.locator('#product-name-input').inputValue(),
+        'Приёмка '+channel+' '+role,
+        channel+'/'+role+' back preserves the entered service name');
+      await acceptance.locator('#product-main-back').click();
+      if(role==='agent'){
+        A.equal(await acceptance.locator('#agent-screen').isVisible(),true,
+          channel+'/'+role+' second back returns to agent commission choice');
+        await acceptance.locator('#agent-screen > button.nd-agent-back').click();
+      }
       A.equal(await acceptance.locator('#service-screen').isVisible(),true,
-        channel+'/'+role+' back must return to role selection');
+        channel+'/'+role+' back chain returns to executor selection');
     }
   }
   // Previously saved goods V1: do not treat old data without service metadata

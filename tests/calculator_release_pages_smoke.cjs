@@ -21,6 +21,8 @@ const files=[
  'portfolio_v2_mba_observed_ui.js',
  'nomad360_calculator_ui.js',
  'nomad360_calculator_ui.css',
+ 'nomad360_design_system.css',
+ 'nomad360_navigation.js',
  'nomad360_locale_core.js'
 ];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
