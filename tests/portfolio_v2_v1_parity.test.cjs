@@ -132,3 +132,6 @@ for(const term of [1,3,6,12]){
   run(100,{term,commission:8,storage:.2,manager:15});
  });
 }
+
+// Keep the complete six-role V1/V2 service parity matrix in the required regression suite.
+require('./v1_service_v2_numeric_parity.test.cjs');

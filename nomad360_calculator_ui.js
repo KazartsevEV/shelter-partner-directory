@@ -172,6 +172,20 @@ function printable(mode,context){
  '</tr></thead><tbody>'+p.months.map(m=>'<tr><td>'+m.month+'</td>'+
  '<td class="n">'+fmt(m.revenue)+'</td><td class="n">'+fmt(m.revenue-m.preTaxProfit)+'</td>'+
  '<td class="n">'+fmt(m.netProfit)+'</td><td class="n">'+fmt(m.taxAccrued)+'</td></tr>').join('')+'</tbody></table>';
+ if(p?.bySku)for(const sku of Object.values(p.bySku)){
+   if(!sku?.partner?.months?.length)continue;
+   html+='<h2>Экономика партнёра · '+esc(
+     out.items.find(item=>item.id===sku.id)?.name||sku.id)+'</h2>'+
+     '<p class="nomad-footnote">Оборот и налог партнёра отдельно от агентского дохода. Амортизация оборудования относится к прибыли; его покупка — к денежному потоку.</p>'+
+     '<table class="nomad-export-table"><thead><tr>'+
+     ['Месяц','Выручка партнёра без НДС','Расходы с агентом',
+      'Налог партнёра','Прибыль партнёра','Капитальные вложения'].map(esc)
+      .map(x=>'<th>'+x+'</th>').join('')+
+     '</tr></thead><tbody>'+sku.partner.months.map(m=>'<tr>'+
+     [m.month,m.revenue,m.costs,m.tax,m.profit,m.capex].map((value,i)=>
+        '<td'+(i?' class="n"':'')+'>'+(i?fmt(value):value)+'</td>').join('')+
+     '</tr>').join('')+'</tbody></table>';
+ }
  if(cf?.months?.length)html+='<h2>'+tr('cash')+'</h2><table class="nomad-export-table"><thead><tr>'+
  [tr('month'),tr('paid'),tr('expense'),tr('tax'),tr('interest'),tr('principal'),tr('balance')].map(x=>'<th>'+esc(x)+'</th>').join('')+
  '</tr></thead><tbody>'+cf.months.map(m=>'<tr>'+

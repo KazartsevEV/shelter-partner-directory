@@ -5,6 +5,7 @@ const {pathToFileURL}=require('node:url');
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+ page.setDefaultTimeout(8000);
  const errors=[];page.on('pageerror',err=>errors.push(err.message));
  await page.route(/^https?:\/\//,route=>route.abort());
  try{
@@ -25,125 +26,365 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#service-mode-full').click();
   A.equal(await page.locator('#service-mode-full').getAttribute('aria-pressed'),'true');
   await page.locator('#service-work-online').click();
+  A.equal(await page.evaluate(()=>serviceChannel),'online');
   await page.locator('#service-screen button[onclick="selectServiceMode(\'self\')"]').click();
-  A.equal(await page.locator('#full-service-online-route').count(),0,
-    'Full single-service V1 must have no duplicate introductory banner');
-  A.equal(await page.locator('#full-service-online-entry').isVisible(),true);
-  A.equal(await page.locator('#online-v2-entry').isVisible(),false,
-    'Multi-item portfolio V2 does not belong inside the single-service V1 form');
-  A.equal(await page.locator('#service-results-column').isVisible(),false,
-    'The simplified results of V1 must not duplicate the full single-service report');
-  A.equal(await page.locator('#full-service-online-action').isVisible(),true);
-  A.match(await page.locator('#service-v1-heading').textContent(),/Полный расчёт онлайн-услуги/);
-  const onlineOrder=await page.evaluate(()=>({
-    inputs:document.getElementById('inputs-container').getBoundingClientRect().top,
-    action:document.getElementById('full-service-online-action').getBoundingClientRect().top
-  }));
-  A.ok(onlineOrder.action>onlineOrder.inputs,
-    'Complete-service calculation follows the input fields, never precedes them');
-  await page.locator('#full-service-online-name').fill('Онлайн-консультация');
-  await page.locator('#full-service-online-action').click();
-  A.equal(await page.locator('#full-service-screen').isVisible(),true,
-    'Real online click must open the full financial model of ONE service');
-  A.match(await page.locator('.nd-full-service-header > p').first().textContent(),
-    /V1 · Онлайн-консультация/,'A full V1 service retains its own name');
-  await page.locator('#full-service-back').click();
-  A.equal(await page.locator('#calculator-screen').isVisible(),true);
-  await page.evaluate(()=>showServiceWorkChooser());
-  await page.locator('#service-work-offline').click();
-  A.equal(await page.locator('#full-service-offline-route').count(),0,
-    'No duplicate heading or premature CTA in one offline V1 service');
-  A.equal(await page.locator('#full-service-offline-entry').isVisible(),false,
-    'Full result action appears only after the business tax/price stage');
-  A.match(await page.locator('#product-intro-category').textContent(),/Полный расчёт/);
+  A.equal(await page.locator('#product-screen').isVisible(),true,
+    'Full online self uses canonical product V1');
+  A.equal(await page.locator('#full-service-screen').isVisible(),false,
+    'No secondary financial screen');
+  A.match(await page.locator('#product-intro-category').textContent(),/Онлайн-услуга/);
+  A.equal(await page.locator('#offline-service-capacity').isVisible(),false,
+    'Online service has no physical capacity requirement');
+  await page.locator('#product-main-back').click();
+  A.equal(await page.locator('#service-screen').isVisible(),true);
+  await page.locator('#service-screen button[onclick="selectServiceMode(\'hired\')"]').click();
+  A.equal(await page.evaluate(()=>productionLaborMode),'workers');
   A.equal(await page.locator('#product-screen').isVisible(),true);
-  // Integration: read actual V1 service field values and equipment rows.
-  await page.locator('#product-name-input').fill('Массаж');
+  await page.locator('#product-main-back').click();
+  await page.locator('#service-screen button[onclick="showAgentChooser()"]').click();
+  A.equal(await page.locator('#agent-screen').isVisible(),true);
+  await page.locator('#agent-screen button[onclick="selectServiceMode(\'agent\')"]').click();
+  A.equal(await page.locator('#product-screen').isVisible(),true);
+  A.equal(await page.locator('#service-v1-agent-panel').isVisible(),false,
+    'Agent finance fields appear once a service name is entered');
+  await page.locator('#product-name-input').fill('Агентская онлайн-услуга');
   await page.locator('#product-intro-submit-label').click();
+  A.equal(await page.locator('#service-v1-agent-panel').isVisible(),true);
+  A.equal(await page.evaluate(()=>selectedServiceRole),'agent');
+  await page.locator('#service-agent-partner-price').fill('100');
+  await page.locator('#service-agent-fee-pct').fill('20');
+  await page.locator('#service-agent-partner-vat').fill('10');
+  await page.locator('#service-agent-partner-tax-pct').fill('5');
+  await page.locator('#own-product-ad-budget').fill('900');
+  await page.locator('#service-agent-line-payers select[data-agent-line-key="advertising"]').selectOption('partner');
+  await page.locator('#own-product-ad-cpc').fill('4.5');
+  await page.locator('#own-product-ad-ctr').fill('2');
+  await page.locator('#own-product-ad-click-lead').fill('20');
+  await page.locator('#own-product-ad-lead-sale').fill('50');
+  const agencyFlow=await page.evaluate(()=>{
+    selectProductYesNo('salesVat','yes');
+    document.getElementById('own-sales-vat-pct').value='12';
+    setProductBusinessTaxType('turnover');
+    document.getElementById('own-business-tax-pct').value='6';
+    saveCurrentProductToPortfolio();
+    const item=productPortfolio[0];
+    Object.assign(item.planning,{fundingMode:'cash',targetMarginPct:30,
+      reservePct:10,maxDiscountPct:0,minimumMarginPct:10});
+    const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
+    return {pricing:model.pricingReady,ready:cash.ready,reason:cash.reason,
+      source:item.source,channel:item.serviceChannel,role:item.serviceRole,
+      price:model.items[0]?.price,month:cash.months[0],
+      ownAd:item.serviceAgency?.lineItems?.find(x=>x.key==='advertising')?.payer};
+  });
+  A.equal(agencyFlow.pricing,true,'Contractual agency commission is the V1 unit price');
+  A.equal(agencyFlow.ready,true,JSON.stringify(agencyFlow));
+  A.equal(agencyFlow.channel,'online');
+  A.equal(agencyFlow.role,'agent');
+  A.equal(agencyFlow.ownAd,'partner');
+  A.ok(Math.abs(agencyFlow.price-20/1.12)<.01,
+    'Owner fee excludes owner VAT, not the partner gross sale');
+  A.ok(Math.abs(agencyFlow.month.partnerRevenue-20*100/1.1)<.02,
+    'Partner turnover and partner VAT are accounted separately');
+  A.ok(Math.abs(agencyFlow.month.taxPaid-(agencyFlow.month.inflow-agencyFlow.month.financedInflow)*0.06)<.02,
+    'Agent turnover tax applies only to the agency fee');
+  A.ok(agencyFlow.month.partnerCosts>=900,
+    'Partner-paid advertising cannot silently become an agency expense');
+  A.ok(agencyFlow.month.partnerTax>0);
+  A.ok(agencyFlow.month.outflow<agencyFlow.month.partnerCosts,
+    'Partner advertising does not debit the agent cash balance');
+  // Exact expense-line allocation: rent, payroll gross, employer tax,
+  // each rental/purchase row, materials and variable sales commission.
   await page.locator('[data-material-cost-mode="known"]').click();
   await page.locator('#own-materials-cost').fill('8');
   await page.locator('[data-yn-group="productionPremises"][data-yn-value="yes"]').click();
-  await page.locator('#own-production-premises-monthly').fill('10000');
+  await page.locator('#own-production-premises-monthly').fill('200');
+  await page.locator('[data-yn-group="equipmentRental"][data-yn-value="yes"]').click();
+  await page.locator('.equipment-rental-cost').first().fill('30');
+  await page.locator('[data-yn-group="equipmentPurchase"][data-yn-value="yes"]').click();
+  await page.locator('.equipment-purchase-cost').first().fill('600');
+  await page.locator('.equipment-useful-life').first().fill('12');
+  await page.locator('[data-production-labor-mode="workers"]').click();
+  await page.locator('#own-production-workers-count').fill('2');
+  await page.locator('#own-production-worker-gross').fill('100');
+  await page.locator('[data-yn-group="salesCommission"][data-yn-value="yes"]').click();
+  await page.locator('#own-sales-commission-pct').fill('5');
+  const requiredKeys=['material.known','premises','rental.0','purchase.0',
+    'worker.gross','worker.charges','advertising','sales.commission'];
+  for(const key of requiredKeys){
+    const control=page.locator('#service-agent-line-payers select[data-agent-line-key="'+key+'"]');
+    A.equal(await control.count(),1,'Payer exists for individual expense: '+key);
+    await control.selectOption(['premises','worker.gross','purchase.0','advertising'].includes(key)?
+      'partner':'agent');
+  }
+  const split=await page.evaluate(()=>{
+    const rows=serviceAgencyExpenseLines();
+    const item=currentProductPortfolioSnapshot();
+    const receipts=20*20/1.12;
+    const ledger=serviceAgencyExpenseSplit(item,receipts);
+    saveCurrentProductToPortfolio();
+    const s=productPortfolio[0];
+    Object.assign(s.planning,{fundingMode:'cash',targetMarginPct:30,
+      reservePct:10,maxDiscountPct:0,minimumMarginPct:10});
+    const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
+    return {rows,ledger,agency:s.serviceAgency,issues:aggregateQuantityIssues(s),
+      ready:model.pricingReady&&cash.ready,month:cash.months?.[0]};
+  });
+  A.equal(split.issues.length,0,JSON.stringify(split.issues));
+  A.equal(split.ready,true,JSON.stringify(split));
+  A.equal(split.agency.lineItems.find(x=>x.key==='worker.gross').payer,'partner');
+  A.equal(split.agency.lineItems.find(x=>x.key==='worker.charges').payer,'agent');
+  A.equal(split.agency.lineItems.find(x=>x.key==='purchase.0').payer,'partner');
+  A.ok(split.ledger.partner.production>=200,'Partner pays both rent and gross payroll');
+  A.ok(split.ledger.agent.production>0,'Employer statutory payroll charge stays with agent');
+  A.equal(split.ledger.agent.capex,0,'Partner equipment does not spend agent cash');
+  A.ok(split.ledger.partner.capex>=600,'Partner equipment is attributed once');
+  A.ok(split.month.partnerCosts>split.month.outflow,'Principal gross spend is separate');
+  await page.evaluate(()=>setProductAssortmentChoice('complete'));
+  // User confirms the V1 pricing step before the common tax/CF report opens.
+  // User confirms self-financing to expose the standard goods-V1
+  // target-price controls before selecting the tax stage.
+  await page.locator('[data-business-product-id="1"] [data-funding-choice="cash"]').click();
+  await page.locator('[data-business-product-id="1"] [data-pricing-decision="tax"]').click();
+  await page.evaluate(()=>updateProductPortfolioBusinessSummary());
+  A.equal(await page.locator('#product-portfolio-business-summary').isVisible(),true,
+    'Confirmed V1 tax stage exposes the canonical cash-flow report');
+  A.match(await page.locator('#product-portfolio-business-summary').innerText(),
+    /Экономика партнёра по месяцам/);
+  await page.evaluate(()=>{window.print=()=>{window.__nativeV1Printed=true}});
+  const nativeExport=await page.evaluate(()=>exportProductCalculationPdf());
+  A.equal(nativeExport,true,'Real V1 print export is prepared');
+  A.equal(await page.evaluate(()=>window.__nativeV1Printed),true);
+  A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'v1-product');
+  const sheetText=await page.locator('#nomad360-print-sheet').textContent();
+  A.match(sheetText,/Экономика партнёра/);
+  A.match(sheetText,/Денежный поток по месяцам/);
+  const screenCount=await page.evaluate(()=>calculateProductCashFlow(calculateProductPortfolio()).months.length);
+  A.equal(await page.locator('#nomad360-print-sheet table').count(),4,
+    'V1 print includes quote, PnL, month cash-flow and partner PnL');
+  A.equal(await page.locator('#nomad360-print-sheet table').nth(2).locator('tbody tr').count(),
+    screenCount,'Printed V1 month count matches real cash ledger');
+  const agentReportPdf=await page.pdf({format:'A4',printBackground:true});
+  A.equal(agentReportPdf.subarray(0,4).toString('ascii'),'%PDF');
+  console.log('NOMAD360_NATIVE_V1_AGENT_PDF',JSON.stringify({bytes:agentReportPdf.length,
+    rows:screenCount,printTables:await page.locator('#nomad360-print-sheet table').count()}));
+  A.ok(agentReportPdf.length>4000,'Native V1 agent PDF has complete rendered report');
+  const saveAgent=await page.evaluate(()=>saveProductCalculationToBrowser());
+  A.equal(saveAgent,true,'Native V1 agent with expense payers saves');
+  const originalRows=await page.evaluate(()=>readSavedProductCalculation().productPortfolio[0].serviceAgency.lineItems);
+  await page.reload({waitUntil:'domcontentloaded'});
+  A.equal(await page.evaluate(()=>resumeSavedProductCalculation()),true);
+  const restored=await page.evaluate(()=>({
+    channel:serviceChannel,role:selectedServiceRole,
+    choices:[...document.querySelectorAll('#service-agent-line-payers [data-agent-line-key]')]
+      .map(x=>[x.dataset.agentLineKey,x.value]),
+    rows:currentProductPortfolioSnapshot().serviceAgency.lineItems
+  }));
+  A.equal(restored.channel,'online');
+  A.equal(restored.role,'agent');
+  A.deepEqual(restored.rows.map(x=>[x.key,x.payer]),originalRows.map(x=>[x.key,x.payer]),
+    'Restored per-expense payer choices match saved V1');
+  A.equal(restored.choices.find(x=>x[0]==='worker.gross')?.[1],'partner');
+  A.equal(restored.choices.find(x=>x[0]==='worker.charges')?.[1],'agent');
+  await page.setViewportSize({width:360,height:780});
+  const mobileNative=await page.evaluate(()=>({
+    viewport:innerWidth,page:document.documentElement.scrollWidth,
+    agentPanel:document.getElementById('service-v1-agent-panel').getBoundingClientRect().width
+  }));
+  A.ok(mobileNative.page<=mobileNative.viewport+1,
+    'The native 360px V1 agent expense form does not overflow: '+JSON.stringify(mobileNative));
+  await page.setViewportSize({width:390,height:844});
+  const agentV2=await page.evaluate(()=>{
+    const ok=openLinkedPortfolioFromProducts();
+    const state=LinkedPortfolioV2UI.getState();
+    const model=state?LinkedPortfolioV2Engine.build(state):null;
+    return {ok,state,ready:model?.ready,errors:model?.errors,
+      partner:model?.cashflow?.periodPnl?.bySku?.['v1-1']?.partner};
+  });
+  A.equal(agentV2.ok,true,'Restored native agent V1 exports to multi-SKU V2');
+  A.equal(agentV2.ready,true,JSON.stringify(agentV2.errors));
+  A.equal(agentV2.state.skus[0].fullServiceRole,'agent');
+  A.ok(agentV2.partner?.months?.length===12,'Partner PnL survives all 12 months of V1→V2');
+  A.ok(agentV2.partner.months[0].profit!==null);
+  A.match(await page.locator('#portfolio-v2-root').innerText(),/Экономика партнёра/);
+  await page.evaluate(()=>window.print=()=>{window.__v2PrintRequested=true});
+  A.equal(await page.evaluate(()=>Nomad360UI.savePrint('report')),true,
+    'V2 PDF export works for an imported agent contract');
+  A.equal(await page.evaluate(()=>window.__v2PrintRequested),true);
+  A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'report');
+  const partnerPdfText=await page.locator('#nomad360-print-sheet').textContent();
+  A.match(partnerPdfText,/Экономика партнёра/);
+  A.match(partnerPdfText,/Налог партнёра/);
+  const agentPortfolioPdf=await page.pdf({format:'A4',printBackground:true});
+  A.equal(agentPortfolioPdf.subarray(0,4).toString('ascii'),'%PDF');
+  A.ok(agentPortfolioPdf.length>4000,'V2 PDF contains a rendered partner financial report');
+  // Payer attribution must stick to a named expense after deleting an
+  // earlier row. Index-based rental.0/rental.1 reuse silently charged the
+  // wrong business, including after V1 save/restore.
+  await page.evaluate(()=>{
+    addEquipmentRentalRow();
+    const rows=document.querySelectorAll('.equipment-rental-row');
+    rows[1].querySelector('.equipment-rental-name').value='Second rental';
+    rows[1].querySelector('.equipment-rental-cost').value='17';
+    updateEquipmentRentalTotal();
+    refreshServiceAgencyLinePayers();
+  });
+  A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.1"]').count(),1);
+  // The customer is currently looking at the V2 PDF; the V1 form is hidden.
+  // Mutate the hidden draft using the same DOM change handler, not Playwright's
+  // visible-only selectOption action.
+  await page.evaluate(()=>{
+    const select=document.querySelector('#service-agent-line-payers [data-agent-line-key="rental.1"]');
+    select.value='partner';
+    select.dispatchEvent(new Event('change',{bubbles:true}));
+  });
+  await page.evaluate(()=>{
+    const first=document.querySelector('.equipment-rental-row');
+    removeEquipmentRow(first.querySelector('button[onclick*="removeEquipmentRow"]'),'rental');
+    refreshServiceAgencyLinePayers();
+  });
+  A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.1"]').inputValue(),
+    'partner','Deleting earlier rental must preserve the remaining partner payer');
+  A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.0"]').count(),0);
+  await page.evaluate(()=>{
+    addEquipmentRentalRow();
+    const rows=document.querySelectorAll('.equipment-rental-row');
+    rows[1].querySelector('.equipment-rental-name').value='New third rental';
+    rows[1].querySelector('.equipment-rental-cost').value='9';
+    updateEquipmentRentalTotal();
+    refreshServiceAgencyLinePayers();
+  });
+  A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.2"]').inputValue(),
+    '','New expense requires a new payer decision, never inherits deleted rental.0');
+  const stablePayers=await page.evaluate(()=>currentProductPortfolioSnapshot().serviceAgency.lineItems
+    .filter(x=>x.key.startsWith('rental.')).map(x=>({key:x.key,payer:x.payer,amount:x.monthly})));
+  A.deepEqual(stablePayers,[{key:'rental.1',payer:'partner',amount:17},
+    {key:'rental.2',payer:'',amount:9}]);
+  await page.evaluate(()=>showServiceWorkChooser());
+  // New V1 architecture: online/offline x role, then the SAME product V1.
+  // Full offline must never ask for a secondary standalone finance screen.
+  await page.locator('#service-work-offline').click();
+  A.equal(await page.locator('#service-screen').isVisible(),true,
+    'Full offline asks for self/hired/agent before the V1 economics');
+  A.equal(await page.evaluate(()=>serviceChannel),'offline');
+  A.match(await page.locator('#service-screen h1').textContent(),/офлайн-услугу/);
+  await page.locator('#service-screen button[onclick="selectServiceMode(\'hired\')"]').click();
+  A.equal(await page.locator('#product-screen').isVisible(),true,
+    'Full offline hired should open the native product V1');
+  A.equal(await page.evaluate(()=>productionLaborMode),'workers');
+  A.equal(await page.evaluate(()=>productSource),'offline-service');
+  A.equal(await page.locator('#full-service-screen').isVisible(),false);
+  A.equal(await page.locator('#full-service-offline-entry').isVisible(),false);
+  A.equal(await page.locator('#product-screen').evaluate(e=>e.classList.contains('nd-full-single-offline')),false,
+    'Do not hide the product V1 financial report and V2 handoff');
+  await page.locator('#product-main-back').click();
+  A.equal(await page.locator('#service-screen').isVisible(),true,
+    'Back returns to chosen role, not a reset microbusiness screen');
+  await page.locator('#service-screen button[onclick="selectServiceMode(\'self\')"]').click();
+  A.equal(await page.evaluate(()=>productionLaborMode),'self');
+  A.equal(await page.locator('#product-screen').isVisible(),true);
+  await page.locator('#product-name-input').fill('Массаж');
+  await page.locator('#product-intro-submit-label').click();
+  A.equal(await page.locator('#product-own-form').isVisible(),true,
+    'Service cost form is the actual product V1 form');
+  await page.locator('[data-material-cost-mode="known"]').click();
+  await page.locator('#own-materials-cost').fill('8');
   await page.locator('#offline-service-monthly-capacity').fill('250');
   await page.locator('#own-product-ad-budget').fill('900');
   await page.locator('#own-product-ad-cpc').fill('4.5');
   await page.locator('#own-product-ad-ctr').fill('2');
   await page.locator('#own-product-ad-click-lead').fill('20');
   await page.locator('#own-product-ad-lead-sale').fill('50');
-  await page.locator('[data-yn-group="equipmentPurchase"][data-yn-value="yes"]').click();
-  await page.locator('#own-equipment-purchase-rows .equipment-purchase-cost').first().fill('3000');
-  await page.locator('#own-equipment-purchase-rows .equipment-useful-life').first().fill('12');
-  const original=await page.evaluate(()=>{
-    const item=currentProductPortfolioSnapshot();
-    // V1 prices remain the authority: stub only the approved V1 quote, not costs,
-    // inventory, capacity, amortization or the service funnel.
-    productBusinessTaxType='turnover';
-    document.getElementById('own-business-tax-pct').value='10';
-    return {forecast:item.forecastUnitsPerMonth,fixed:item.productionFixedMonthly};
-  });
-  A.equal(original.forecast,20,'Actual V1 ad funnel determines monthly service demand');
-  const beforeAssortment=await page.evaluate(()=>({
-    mode:serviceFinancialMode,source:productSource,taxHidden:document.getElementById('product-tax-block').hidden,
-    actionHidden:document.getElementById('full-service-offline-entry').hidden,
-    parent:document.getElementById('full-service-offline-entry').parentElement?.id
-  }));
+  const snapshot=await page.evaluate(()=>currentProductPortfolioSnapshot());
+  A.equal(snapshot.source,'offline-service');
+  A.equal(snapshot.forecastUnitsPerMonth,20);
+  A.equal(snapshot.offlineServiceCapacity,250);
+  A.equal(snapshot.materialsUnitCost,8);
   await page.locator('#assortment-complete-button').click();
-  // Only the V1 approved price is stubbed; original V1 tax/pricing rendering
-  // must execute before that stub is installed or it would corrupt the gate.
+  A.equal(await page.locator('#product-tax-block').isVisible(),true,
+    'Native V1 business tax stage follows completed single service');
+  A.equal(await page.locator('#full-service-offline-entry').isVisible(),false);
+  A.equal(await page.locator('#full-service-screen').isVisible(),false);
+  A.equal(await page.locator('#product-v1-aggregate-report').count(),1);
+  A.equal(await page.locator('#product-v1-export-buttons').count(),1);
+  A.equal(await page.locator('#product-v2-portfolio-gateway').count(),1);
+  const native=await page.evaluate(()=>{
+    const item=productPortfolio[0];
+    Object.assign(item.planning,{fundingMode:'cash',targetMarginPct:30,
+      reservePct:10,maxDiscountPct:0,minimumMarginPct:10});
+    setProductBusinessTaxType('turnover');
+    selectProductYesNo('salesVat','no');
+    document.getElementById('own-business-tax-pct').value='10';
+    const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
+    return {ready:model.pricingReady,cash:cash.ready,months:cash.months,
+      capital:aggregatePlanMetrics(item).requiredCapital,
+      price:model.items[0]?.price,reason:cash.reason};
+  });
+  A.equal(native.ready,true,'V1 canonical service tariff ready');
+  A.equal(native.cash,true,JSON.stringify(native));
+  A.equal(native.months.length,12,'Service forecast horizon is controlled by V1 field');
+  A.ok(Math.abs(native.capital-1166)<.03,'Own capital covers first service month plus reserve');
+  A.ok(native.months.every(m=>m.principalRepaid===0&&m.interestPaid===0));
+  A.ok(native.months.every(m=>m.taxPaid>=0));
+  A.ok(native.months[1].cashFlow>0,'Service generates receipts in subsequent months');
+  await page.evaluate(()=>updateProductPortfolioBusinessSummary());
+  A.equal((await page.locator('#product-portfolio-business-summary').textContent()).includes('Проценты по кредиту'),false,
+    'Own funds do not expose loan columns in V1 report');
+  const finance=await page.evaluate(()=>{
+    const item=productPortfolio[0];
+    item.planning.fundingMode='credit';
+    item.planning.creditRatePct=12;
+    item.planning.creditTermMonths=3;
+    const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
+    return {ready:cash.ready,months:cash.months,
+      price:model.items[0]?.price,capital:calculateAggregateCredit(item).principal};
+  });
+  A.equal(finance.ready,true);
+  A.ok(finance.price>native.price,
+    'Loan interest raises the full-service V1 target unit price');
+  A.ok(finance.months[0].interestPaid>0,'Loan interest included as recurring cash expense');
+  A.ok(finance.months[2].principalRepaid>0,'Bullet principal repaid in contract month');
+  A.ok(Math.abs(finance.months[2].principalRepaid-finance.capital)<.02);
+  A.ok(finance.months.slice(3).every(m=>m.interestPaid===0));
   await page.evaluate(()=>{
-    calculateProductPortfolio=()=>({pricingReady:true,items:[{id:currentProductSequence,price:100}],taxPriceMultiplier:1});
+    const item=productPortfolio[0];item.planning.fundingMode='cash';
+    saveProductCalculationToBrowser();
   });
-  console.log('TZ02_SINGLE_V1_GATE_ERRORS',JSON.stringify(errors));
-  const afterAssortment=await page.evaluate(()=>{
-    const tax=document.getElementById('product-tax-block'),a=document.getElementById('full-service-offline-entry');
-    return {mode:serviceFinancialMode,source:productSource,taxHidden:tax.hidden,taxCls:tax.className,
-      actionHidden:a.hidden,actionCls:a.className,parent:a.parentElement?.id,
-      actionCss:getComputedStyle(a).display,taxCss:getComputedStyle(tax).display,
-      ownHidden:document.getElementById('product-own-form').hidden,
-      ancestorIds:[a,a.parentElement,a.parentElement?.parentElement,a.parentElement?.parentElement?.parentElement].map(x=>[x?.id,x?.hidden,x?.className])
-    };
+  const savedV1=await page.evaluate(()=>readSavedProductCalculation());
+  A.equal(savedV1.productPortfolio[0].serviceFinanceMode,'full');
+  A.equal(savedV1.productPortfolio[0].serviceChannel,'offline');
+  A.equal(savedV1.productPortfolio[0].serviceHorizonMonths,12);
+  A.equal(savedV1.productPortfolio[0].serviceRole,'self');
+  // Full native V1 own-funds PDF: real month rows, no phantom loan section.
+  await page.evaluate(()=>{window.print=()=>{window.__ownV1Print=true}});
+  A.equal(await page.evaluate(()=>exportProductCalculationPdf()),true);
+  A.equal(await page.evaluate(()=>window.__ownV1Print),true);
+  A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'v1-product');
+  const nativeOwnPrint=await page.locator('#nomad360-print-sheet').innerText();
+  A.match(nativeOwnPrint,/Массаж/);
+  A.match(nativeOwnPrint,/Денежный поток по месяцам/);
+  A.doesNotMatch(nativeOwnPrint,/Возврат тела кредита|Проценты|Непогашенный кредит/,
+    'Cash-only native V1 print must not display any credit concepts');
+  A.equal(await page.locator('#nomad360-print-sheet table').nth(2).locator('tbody tr').count(),12);
+  const ownNativePdf=await page.pdf({format:'A4',printBackground:true});
+  A.equal(ownNativePdf.subarray(0,4).toString('ascii'),'%PDF');
+  A.ok(ownNativePdf.length>4000);
+  const v2Native=await page.evaluate(()=>{
+    const okay=openLinkedPortfolioFromProducts();
+    const state=LinkedPortfolioV2UI.getState();
+    return {okay,error:document.getElementById('linked-v2-entry-error')?.textContent,source:state?.skus?.[0]?.source,full:state?.skus?.[0]?.fullServiceV2,
+      months:state?.forecastMonths,priceFixed:state?.skus?.[0]?.fixedPriceFromV1};
   });
-  console.log('TZ02_SINGLE_V1_OFFLINE_GATE_DIAG',JSON.stringify({before:beforeAssortment,after:afterAssortment}));
-  A.equal(await page.locator('#full-service-offline-entry').isVisible(),true,
-    'Single-service result action is only available after confirming the service');
-  A.equal(await page.locator('#product-v2-portfolio-gateway').isVisible(),false,
-    'V2 is a separate portfolio, not the full calculation of one service');
-  A.equal(await page.locator('#product-v1-aggregate-report').isVisible(),false,
-    'Hide obsolete simplified V1 monthly results in full mode');
-  await page.locator('#full-service-offline-action').click();
-  A.equal(await page.locator('#full-service-screen').isVisible(),true,
-    'Real user click computes full V1 finance for ONE service');
-  A.match(await page.locator('.nd-full-service-header > p').first().textContent(),/^V1 ·/);
-  const adapted=await page.evaluate(()=>Nomad360FullServiceUI.getInput());
-  A.equal(adapted.monthlyForecast,20);
-  A.equal(adapted.capacity,250);
-  A.equal(adapted.unitCashCost,8);
-  A.equal(adapted.equipmentPurchase,3000);
-  A.ok(Math.abs(adapted.equipmentAmortMonthly-250)<.001);
-  A.equal(adapted.taxPct,10);
-  A.ok(Math.abs(adapted.fixedCashMonthly-original.fixed+250-900)<.01,
-    'CAPEX depreciation excluded from monthly cash expenses, ad spend included');
-  A.equal(await page.locator('#full-service-screen').isVisible(),true);
-  const v1Parity=await page.evaluate(()=>{
-    const item=productPortfolio.find(x=>x.source==='offline-service');
-    const fixed=item.productionFixedMonthly;
-    item.productionFixedMonthly=fixed-250; // V1 simplified oracle without purchased equipment.
-    const cash=calculateOfflineServiceCashFlow(calculateProductPortfolio());
-    item.productionFixedMonthly=fixed;
-    return {ready:cash.ready,tax:cash.months[0]?.taxPaid,
-      operatingCash:cash.months[0]?.cashFlow-cash.months[0]?.financedInflow};
-  });
-  A.equal(v1Parity.ready,true);
-  const fullParity=await page.evaluate(data=>Nomad360FullServiceV2.build({
-    ...data,vatPct:0,months:1,funding:'own',equipmentPurchase:0,
-    equipmentAmortMonthly:0,taxType:'turnover'
-  }),adapted);
-  A.ok(Math.abs(fullParity.months[0].tax-v1Parity.tax)<.01,
-    'N=1, VAT 0, turnover tax: full service matches unchanged V1 tax');
-  A.ok(Math.abs(fullParity.months[0].operatingCash-v1Parity.operatingCash)<.01,
-    'N=1, VAT 0, equity: full service matches V1 operating cash before startup capital');
-  await page.locator('#full-service-back').click();
-  A.equal(await page.locator('#product-screen').isVisible(),true);
+  A.equal(v2Native.okay,true,JSON.stringify(v2Native));
+  A.equal(v2Native.source,'offline-service');
+  A.equal(v2Native.full,true);
+  A.equal(v2Native.priceFixed,true);
+  // Isolate the compatibility assertions below from this new V1→V2 import.
+  // Its persistent browser draft is deliberately retained and tested above.
+  await page.evaluate(()=>localStorage.removeItem('marketingCalcLinkedPortfolioV2'));
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.evaluate(()=>showServiceWorkChooser());
+  // Legacy full-service engine remains tested below for compatibility only,
+  // never as the full offline customer route.
   // Production screenshot regression: a forecast array is formatted for humans,
   // never pasted into the heading as a long comma-separated float dump.
   await page.evaluate(()=>Nomad360FullServiceUI.open({
@@ -250,13 +491,15 @@ const {pathToFileURL}=require('node:url');
   A.equal(draft.input.creditMonths,5);
   A.equal(Object.hasOwn(draft,'result'),false,'No duplicated derived 180-day cash ledger in storage');
   await page.evaluate(()=>showServiceWorkChooser());
-  A.equal(await page.locator('#service-full-saved-entry').isVisible(),true,'Saved model can be reopened');
-  await page.locator('#service-full-saved-entry').click();
+  A.equal(await page.locator('#service-full-saved-entry').isVisible(),false,
+    'Rejected standalone model is not exposed as a full V1 resume route');
+  A.equal(await page.evaluate(()=>Nomad360FullServiceUI.openSaved()),true,
+    'Old stored data remain readable for explicit future migration');
   A.equal(await page.locator('#full-service-screen').isVisible(),true);
   A.equal(await page.evaluate(()=>Nomad360FullServiceUI.getInput().months),6);
   await page.locator('#full-service-back').click();
-  A.equal(await page.locator('#service-work-screen').isVisible(),true,'Saved mode returns to chooser, not an empty V1 form');
-  await page.locator('#service-full-saved-entry').click();
+  A.equal(await page.locator('#service-work-screen').isVisible(),true);
+  await page.evaluate(()=>Nomad360FullServiceUI.openSaved());
   await page.evaluate(()=>window.print=()=>{window.__printInvoked=true});
   await page.locator('#full-service-pdf').click();
   A.equal(await page.evaluate(()=>window.__printInvoked),true);
@@ -361,6 +604,81 @@ const {pathToFileURL}=require('node:url');
   });
   console.log('TZ02_MOBILE_ANCESTRY',JSON.stringify(trail));
   A.equal(overflows.scrollWidth>overflows.viewport+1,false);
+  // Acceptance suite for every native service path, including the actual
+  // 320px customer viewport. Existing tests above cover computed monetary
+  // examples and agent restore; this catches broken navigation/field branching.
+  const acceptance=await browser.newPage({viewport:{width:320,height:740},locale:'ru-RU'});
+  const acceptanceErrors=[];
+  acceptance.on('pageerror',err=>acceptanceErrors.push(err.message));
+  await acceptance.route(/^https?:\/\//,route=>route.abort());
+  const appUrl=pathToFileURL(path.resolve(__dirname,'../Marketing_calc.HTML')).href;
+  for(const channel of ['online','offline']){
+    for(const role of ['self','hired','agent']){
+      await acceptance.goto(appUrl,{waitUntil:'domcontentloaded'});
+      await acceptance.locator('#start-service').click();
+      await acceptance.locator('#service-mode-full').click();
+      await acceptance.locator('#service-work-'+channel).click();
+      if(role==='agent'){
+        await acceptance.locator('#service-screen button[onclick="showAgentChooser()"]').click();
+        await acceptance.locator('#agent-screen button[onclick="selectServiceMode(\'agent\')"]').click();
+      }else await acceptance.locator('#service-screen button[onclick="selectServiceMode(\''+role+'\')"]').click();
+      A.equal(await acceptance.locator('#product-screen').isVisible(),true,
+        channel+'/'+role+' enters native V1');
+      A.equal(await acceptance.locator('#full-service-screen').isVisible(),false,
+        channel+'/'+role+' bypasses retired full-service UI');
+      await acceptance.locator('#product-name-input').fill('Приёмка '+channel+' '+role);
+      await acceptance.locator('#product-intro-submit-label').click();
+      A.equal(await acceptance.locator('#product-own-form').isVisible(),true);
+      A.equal(await acceptance.locator('#service-v1-horizon-panel').isVisible(),true);
+      A.equal(await acceptance.locator('#service-v1-agent-panel').isVisible(),role==='agent');
+      A.equal(await acceptance.locator('#offline-service-capacity').isVisible(),channel==='offline');
+      const routeState=await acceptance.evaluate(()=>({
+        source:productSource,channel:serviceChannel,role:selectedServiceRole,
+        labor:productionLaborMode,
+        route:{full:serviceFinancialMode==='full'},
+        width:innerWidth,scroll:document.documentElement.scrollWidth
+      }));
+      A.equal(routeState.source,'offline-service');
+      A.equal(routeState.channel,channel);
+      A.equal(routeState.role,role);
+      A.equal(routeState.labor,role==='hired'?'workers':'self');
+      A.equal(routeState.route.full,true);
+      A.ok(routeState.scroll<=routeState.width+1,
+        channel+'/'+role+' viewport overflow: '+JSON.stringify(routeState));
+      await acceptance.locator('#product-main-back').click();
+      A.equal(await acceptance.locator('#service-screen').isVisible(),true,
+        channel+'/'+role+' back must return to role selection');
+    }
+  }
+  // Previously saved goods V1: do not treat old data without service metadata
+  // as a full service, and never auto-load it on a fresh visit.
+  await acceptance.goto(appUrl,{waitUntil:'domcontentloaded'});
+  const legacyStored=await acceptance.evaluate(()=>{
+    const prior={savedAt:'2026-10-09T12:00:00.000Z',activeProductId:7,
+      productPortfolio:[{
+        id:7,name:'Архивная майка',source:'resale',
+        inputs:{'resale-buy-total':'100','own-product-ad-budget':'100'},
+        uiState:{choices:{salesVat:'no'},productionLaborMode:'self'},
+        planning:{fundingMode:'cash',targetMarginPct:25,reservePct:0}
+      }],taxType:'turnover',businessTaxPct:6,salesVat:'no',salesVatPct:0};
+    localStorage.setItem('marketingCalcProductResultV1',JSON.stringify(prior));
+    return JSON.stringify(readSavedProductCalculation().productPortfolio.map(i=>[i.id,i.name,i.source]));
+  });
+  A.match(legacyStored,/Архивная майка/);
+  await acceptance.reload({waitUntil:'domcontentloaded'});
+  A.equal(await acceptance.locator('#product-screen').isVisible(),false,
+    'Saved legacy goods V1 must not open without an explicit resume');
+  A.equal(await acceptance.evaluate(()=>resumeSavedProductCalculation()),true);
+  A.equal(await acceptance.locator('#product-screen').isVisible(),true);
+  const legacyState=await acceptance.evaluate(()=>({
+    name:productName,source:productSource,
+    count:productPortfolio.length,vat:productOwnChoices.salesVat,
+    tax:productBusinessTaxType
+  }));
+  A.deepEqual(legacyState,{name:'Архивная майка',source:'resale',
+    count:1,vat:'no',tax:'turnover'});
+  A.deepEqual(acceptanceErrors,[],'No runtime errors across six V1 routes + old goods restore');
+  await acceptance.close();
   A.deepEqual(errors,[]);
   console.log('TZ02_FULL_SERVICE_BROWSER_GREEN',{capital:seed.fixedCashMonthly+1160,rows:r.months.length});
  }finally{await browser.close()}

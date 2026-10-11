@@ -104,6 +104,17 @@
        pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0;
      for(const month of forecast.months){
        const m=month.month-1,mStart=m*30,mEnd=mStart+30;
+       // Repayment after V1 operating horizon does not create phantom demand.
+       if(s.nativeProductV1===true&&s.fullServiceV2&&
+           Number.isInteger(Number(s.fullServiceOperatingMonths))&&
+           Number(s.fullServiceOperatingMonths)>0&&
+           month.month>Number(s.fullServiceOperatingMonths)){
+         if(pos(month.orders[id])>EPS)
+           throw Error('Продажи услуги после утверждённого горизонта V1.');
+         timeline[id].push({month:month.month,start:mStart,end:mStart,
+           orders:0,netRevenue:0});
+         continue;
+       }
        const qty=pos(month.orders[id]);
        const rawBase=pos(month.baseOrders[id]);
        // Physical goods advertise only during their sale-active days.
@@ -301,14 +312,22 @@
      const fixed=s.source==='offline-service'?
        Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production)):0;
      const sales=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
-     const burden=qty*material+commission+fixed+sales+
+     // Native product V1 service reserves only first-month committed
+     // operating expenses, excluding price-dependent selling commission.
+     const burden=qty*material+(s.nativeProductV1?0:commission)+fixed+sales+
        pos(s.resourceShares)+pos(s.adBudgetEffective);
      return [s.id,burden*pos(s.fullServiceReservePct)/100];
    }));
    const reserve=sum(Object.values(reserveBySku));
    const fundedReserve=sum(items.filter(s=>s.fullServiceV2&&pos(s.creditPrincipal)>0)
      .map(s=>Math.min(pos(s.fullServiceReserveFunded),reserveBySku[s.id])));
-   const ownerCapital=Math.max(0,-peak)+Math.max(0,reserve-fundedReserve);
+   // One unchanged native V1 service carries its already committed owner
+   // capital. Additional V2 SKUs/resources revert to the pooled peak deficit.
+   const nativeSingle=items.length===1&&items[0].nativeProductV1===true&&
+     resources.length===0&&!(state.offers||[]).length;
+   const ownerCapital=nativeSingle?
+     (items[0].nativeV1Funding==='credit'?0:pos(items[0].nativeV1StartCapital)):
+     Math.max(0,-peak)+Math.max(0,reserve-fundedReserve);
    let balance=0;
    for(let day=0;day<daily.length;day++){
      const d=daily[day],m=months[Math.floor(day/30)];
@@ -440,10 +459,50 @@
    const bySku=Object.fromEntries(items.map(s=>{
      const rows=skuLedger[s.id],tot=k=>sum(rows.map(m=>m[k]));
      const revenue=tot('revenue'),netProfit=tot('netProfit');
+     // An agent's customer GMV belongs to the partner. Keep the partner
+     // counter-ledger alongside (never inside) the owner's enterprise P&L.
+     const agency=s.fullServiceRole==='agent'&&s.fullServiceAgency;
+     const partnerMonths=agency&&Array.isArray(agency.lineItems)?
+       rows.map((row,k)=>{
+         if(s.nativeProductV1===true&&
+             Number.isInteger(Number(s.fullServiceOperatingMonths))&&
+             Number(s.fullServiceOperatingMonths)>0&&
+             k>=Number(s.fullServiceOperatingMonths))
+           return {month:k+1,revenue:0,costs:0,tax:0,profit:0,capex:0};
+         const orders=pos(forecast.months[k]?.orders?.[s.id]);
+         const unitsFactor=orders/Math.max(EPS,pos(s.forecastUnitsPerMonth));
+         const partnerRevenue=orders*pos(agency.grossPrice)/
+           (1+pos(agency.partnerVatPct)/100);
+         const ownerFee=row.revenue;
+         let partnerCosts=ownerFee,partnerCapex=0;
+         for(const line of agency.lineItems){
+           if(line.payer!=='partner')continue;
+           if(line.bucket==='equipment'){
+             partnerCosts+=pos(line.amort);
+             if(k===0)partnerCapex+=pos(line.capex);
+           }else if(line.bucket==='commission'){
+             partnerCosts+=ownerFee*pos(line.ratePct)/100;
+           }else if(['direct','electricity'].includes(line.bucket)){
+             partnerCosts+=pos(line.monthly)*unitsFactor;
+           }else partnerCosts+=pos(line.monthly);
+         }
+         const rate=pos(agency.partnerTaxPct)/100;
+         const partnerTax=agency.partnerTaxType==='profit'?
+           Math.max(0,partnerRevenue-partnerCosts)*rate:partnerRevenue*rate;
+         return {month:k+1,revenue:partnerRevenue,costs:partnerCosts,
+           tax:partnerTax,profit:partnerRevenue-partnerCosts-partnerTax,
+           capex:partnerCapex};
+       }):null;
+     const partner=partnerMonths?{months:partnerMonths,
+       revenue:sum(partnerMonths.map(x=>x.revenue)),
+       costs:sum(partnerMonths.map(x=>x.costs)),
+       tax:sum(partnerMonths.map(x=>x.tax)),
+       profit:sum(partnerMonths.map(x=>x.profit)),
+       capex:sum(partnerMonths.map(x=>x.capex))}:null;
      const futureInterest=pos(s.creditPrincipal)>EPS?
        Math.max(0,Math.max(1,Math.ceil(pos(s.creditMonths)||1))-horizonMonths)*
          pos(s.creditServiceMonthly):0;
-     return [s.id,{id:s.id,months:rows,revenue,netProfit,futureInterest,
+     return [s.id,{id:s.id,months:rows,revenue,netProfit,futureInterest,partner,
        marketing:tot('marketing'),cogs:tot('cogs'),
        amort:tot('amort'),interest:tot('interest'),
        taxAccrued:tot('taxAccrued'),operatingShared:tot('operatingShared'),
