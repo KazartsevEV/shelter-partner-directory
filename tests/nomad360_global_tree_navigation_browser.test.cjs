@@ -92,7 +92,8 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   await back.click();
   A.equal(await page.locator('#home-screen').isVisible(),true);
   // V2 entered from V1 has an actual V1 parent, not an invented home destination.
-  await page.evaluate(()=>{showOnly('calculator-screen');showOnly('portfolio-v2-screen')});
+  await page.evaluate(()=>showOnly('calculator-screen'));
+  await page.evaluate(()=>showOnly('portfolio-v2-screen'));
   A.match(await back.innerText(),/Упрощённый расчёт/);
   await back.click();
   A.equal(await page.locator('#calculator-screen').isVisible(),true);
