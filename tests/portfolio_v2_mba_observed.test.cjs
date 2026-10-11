@@ -92,3 +92,26 @@ test('conflicting currency/channel/date on one order fail rather than silently m
  const bad=M.analyze(M.read(JSON.stringify([mk('o','a'),mk('o','b','2026-09-01','other')])),known);
  A.equal(bad.ready,false);A.ok(bad.errors.some(x=>x.includes('разные даты')));
 });
+
+test('Nomad360 JSON and CSV samples contain exactly 3 paid receipts and parse to the same baskets',()=>{
+ const template=M.exampleReceipts(['a','b']);
+ A.equal(template.format,'nomad360-mba-receipts');A.equal(template.version,1);
+ A.equal(template.orders.length,3);
+ for(const input of [JSON.stringify(template),M.receiptCsv(template)]){
+  const raw=M.read(input),result=M.analyze(raw,new Set(['a','b']));
+  A.equal(raw.rawLines,5);
+  A.equal(result.ready,true,JSON.stringify(result.errors));
+  A.equal(result.N,3);
+  const ab=result.rules.find(x=>x.antecedent[0]==='a'&&x.consequent==='b');
+  close(ab.confidence,2/3,'2 of 3 observed a-checks include b');
+ }
+});
+test('Nomad360 receipt format rejects unknown version, duplicate order ID and empty baskets',()=>{
+ const template=M.exampleReceipts(['a','b']);
+ const changed=structuredClone(template);changed.version=2;
+ A.throws(()=>M.read(JSON.stringify(changed)),/версии 1/);
+ const duplicated=structuredClone(template);duplicated.orders[1].order_id=duplicated.orders[0].order_id;
+ A.throws(()=>M.read(JSON.stringify(duplicated)),/уникален/);
+ const empty=structuredClone(template);empty.orders[2].items=[];
+ A.throws(()=>M.read(JSON.stringify(empty)),/непустой список items/);
+});
