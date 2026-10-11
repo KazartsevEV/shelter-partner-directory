@@ -97,17 +97,24 @@ const server=createServer(async(req,res)=>{
     const widgetLayout=await crypto.evaluate(el=>{
       const iframe=el.querySelector('iframe');
       const frame=iframe.getBoundingClientRect();
+      const clip=el.querySelector('.nomad-crypto-viewport').getBoundingClientRect();
       const section=el.getBoundingClientRect();
       const next=el.nextElementSibling?.getBoundingClientRect();
       return {height:frame.height,width:frame.width,
-        extraBottom:section.bottom-frame.bottom,
-        gapToFiat:next?next.top-section.bottom:null};
+        nativeHeight:iframe.clientHeight,
+        viewportHeight:clip.height,viewportWidth:clip.width,
+        extraBottom:section.bottom-clip.bottom,
+        gapToFiat:next?next.top-section.bottom:null,
+        transform:getComputedStyle(iframe).transform};
     });
-    A.equal(widgetLayout.height,623,'Official NOWPayments embed has exact 623px height at '+width+'px');
-    A.ok(widgetLayout.width<=346,'Iframe remains within 346px original provider width at '+width);
-    A.ok(widgetLayout.extraBottom<=24,'No extra whitespace below iframe at '+width+': '+JSON.stringify(widgetLayout));
+    A.equal(widgetLayout.nativeHeight,623,'Hosted iframe viewport retains its full native 623px at '+width);
+    A.ok(Math.abs(widgetLayout.height-485.94)<1,
+      'Whole live widget compresses to approximately 486px at '+width+': '+JSON.stringify(widgetLayout));
+    A.equal(widgetLayout.viewportHeight,487,'Tight clipping wrapper reserves only scaled height at '+width);
+    A.ok(widgetLayout.width<=346.5,'Scaled iframe fits mobile width at '+width);
+    A.ok(widgetLayout.extraBottom<=22,'No whitespace below scaled widget at '+width+': '+JSON.stringify(widgetLayout));
     A.ok(widgetLayout.gapToFiat===null||widgetLayout.gapToFiat<=32,
-      'Kaspi card follows compact widget at '+width+': '+JSON.stringify(widgetLayout));
+      'Kaspi follows scaled widget without excessive spacing at '+width+': '+JSON.stringify(widgetLayout));
   }
   A.equal(await iframe.getAttribute('height'),'623',
     'HTML height attribute agrees with the provider recommended iframe size');

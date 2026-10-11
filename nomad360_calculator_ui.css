@@ -262,7 +262,7 @@ a.nomad-pay-value{text-decoration:underline}
   background:#fff;box-shadow:0 12px 30px rgba(5,18,35,.24);
 }
 .nomad-crypto-heading{
-  background:#ed8e63;color:#16375a;padding:19px clamp(16px,4vw,28px) 20px;
+  background:#ed8e63;color:#16375a;padding:14px clamp(16px,4vw,24px) 15px;
 }
 .nomad-crypto-kicker{
   display:inline-flex;gap:9px;align-items:center;margin-bottom:8px;
@@ -278,17 +278,23 @@ a.nomad-pay-value{text-decoration:underline}
 }
 .nomad-crypto-embed{
   display:flex;justify-content:center;min-width:0;max-width:100%;
-  padding:8px 8px 8px;background:#fff;
+  padding:6px 6px 8px;background:#fff;
+}
+/* NOWPayments fixes its checkout body at 623px: shrinking the iframe
+   viewport clips Continue instead of removing whitespace (verified live).
+   Uniformly scale the whole LIVE iframe to keep its controls clickable. */
+.nomad-crypto-viewport{
+  position:relative;width:min(100%,346px);height:487px;
+  flex:none;overflow:hidden;min-width:0;
 }
 .nomad-crypto-frame{
-  display:block;box-sizing:border-box;width:346px;max-width:100%;
+  display:block;box-sizing:border-box;width:128.205128%;max-width:none;
   height:623px;border:0;border-radius:10px;background:#fff;
+  transform:scale(.78);transform-origin:top left;
 }
 @media(max-width:390px){
- .nomad-crypto-heading{padding:16px 14px}
- .nomad-crypto-embed{padding:6px 5px}
- /* Keep the provider's own 623px widget height on narrow screens; the old
-    740px override stretched its empty vertical space before Continue. */
+ .nomad-crypto-heading{padding:12px 14px 13px}
+ .nomad-crypto-embed{padding:5px 4px 6px}
 }
 .nomad-pay-fiat{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}
 .nomad-kz-flag{display:inline-block;font-size:19px;vertical-align:-2px;margin-right:3px}
