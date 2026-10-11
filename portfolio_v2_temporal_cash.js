@@ -104,6 +104,17 @@
        pos(s.dropshipDeliveryDays)+pos(s.dropshipPayoutLagDays):0;
      for(const month of forecast.months){
        const m=month.month-1,mStart=m*30,mEnd=mStart+30;
+       // Repayment after V1 operating horizon does not create phantom demand.
+       if(s.nativeProductV1===true&&s.fullServiceV2&&
+           Number.isInteger(Number(s.fullServiceOperatingMonths))&&
+           Number(s.fullServiceOperatingMonths)>0&&
+           month.month>Number(s.fullServiceOperatingMonths)){
+         if(pos(month.orders[id])>EPS)
+           throw Error('Продажи услуги после утверждённого горизонта V1.');
+         timeline[id].push({month:month.month,start:mStart,end:mStart,
+           orders:0,netRevenue:0});
+         continue;
+       }
        const qty=pos(month.orders[id]);
        const rawBase=pos(month.baseOrders[id]);
        // Physical goods advertise only during their sale-active days.
@@ -453,6 +464,11 @@
      const agency=s.fullServiceRole==='agent'&&s.fullServiceAgency;
      const partnerMonths=agency&&Array.isArray(agency.lineItems)?
        rows.map((row,k)=>{
+         if(s.nativeProductV1===true&&
+             Number.isInteger(Number(s.fullServiceOperatingMonths))&&
+             Number(s.fullServiceOperatingMonths)>0&&
+             k>=Number(s.fullServiceOperatingMonths))
+           return {month:k+1,revenue:0,costs:0,tax:0,profit:0,capex:0};
          const orders=pos(forecast.months[k]?.orders?.[s.id]);
          const unitsFactor=orders/Math.max(EPS,pos(s.forecastUnitsPerMonth));
          const partnerRevenue=orders*pos(agency.grossPrice)/
