@@ -64,17 +64,22 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   // it must replace, not duplicate, the ordinary product arrow.
   mark('product-business-return-show');
   await page.evaluate(()=>document.getElementById('product-business-back-button').classList.remove('hidden'));
+  mark('business-return-now-visible');
   await oneArrow();
+  mark('business-return-one-arrow-asserted');
   A.equal(await page.locator('#product-main-back').isVisible(),false,
    'product edit return suppresses ordinary back arrow');
   A.match(await back.innerText(),/Итоги бизнеса/);
   // Regression: saved offline-service editor leaves the business button
   // enabled inside a hidden source panel. It must not shadow the main arrow.
+  mark('hide-source-parent');
   await page.evaluate(()=>{
    const src=document.getElementById('product-source-block');
    src.hidden=true;src.classList.add('hidden');
   });
-  await page.waitForFunction(()=>document.getElementById('product-main-back').classList.contains('nd-tree-active-back'));
+  mark('await-native-main-back');
+  await page.waitForFunction(()=>document.getElementById('product-main-back').classList.contains('nd-tree-active-back'),null,{timeout:5000});
+  mark('native-main-back-restored');
   await oneArrow();
   A.equal(await back.getAttribute('id'),'product-main-back',
    'ignore business return nested inside a hidden parent');
@@ -83,7 +88,9 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
    src.hidden=false;src.classList.remove('hidden');
    document.getElementById('product-business-back-button').classList.add('hidden');
   });
-  await page.waitForFunction(()=>!document.body.classList.contains('nd-tree-business-return'));
+  mark('await-business-return-clear');
+  await page.waitForFunction(()=>!document.body.classList.contains('nd-tree-business-return'),null,{timeout:5000});
+  mark('business-return-cleared');
   A.match(await back.innerText(),/Источник товара/);
   mark('back-to-product-source');
   await back.click();
