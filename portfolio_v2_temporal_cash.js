@@ -154,7 +154,8 @@
           }
         }
         if(s.fullServiceV2){
-          const cashFixed=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
+          const cashFixed=Math.max(0,pos(s.manager)+pos(s.selling)-
+            (s.nativeProductV1===true?0:pos(s.onlineAmortMonthly)));
           post(mStart,'shared',cashFixed);
           accrue(id,mStart,'operatingShared',cashFixed);
           if(!hasPooledMedia){
