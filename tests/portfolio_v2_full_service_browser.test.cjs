@@ -5,6 +5,7 @@ const {pathToFileURL}=require('node:url');
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+ page.setDefaultTimeout(8000);
  const errors=[];page.on('pageerror',err=>errors.push(err.message));
  await page.route(/^https?:\/\//,route=>route.abort());
  try{
