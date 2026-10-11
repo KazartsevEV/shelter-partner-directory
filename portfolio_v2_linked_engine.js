@@ -346,7 +346,7 @@
       for(const r of allocation)if(r.kind==='campaign'&&r.cadence==='monthly')
         for(const [id,amount]of Object.entries(r.bySku))mediaBySku[id]+=amount;
       const baselineOrders=Object.fromEntries(rows.map(s=>[s.id,
-        s.source==='online-service'&&pos(s.adBudget)<=EPS?pos(s.forecastUnitsPerMonth):
+        (s.source==='online-service'||s.fullServiceV2)&&pos(s.adBudget)<=EPS?pos(s.forecastUnitsPerMonth):
          pos(s.forecastUnitsPerMonth)*mediaBySku[s.id]/Math.max(EPS,pos(s.adBudget))]));
       const basket=projectOffers(state.offers,baselineOrders,ids);
       const lifecycle=fullStockCycle?lifecycleResources(allocation,rows,prices):null;
