@@ -49,6 +49,7 @@ on:
       - "portfolio_v2_full_service.js"
       - "portfolio_v2_full_service_ui.js"
       - "tests/portfolio_v2_full_service_browser.test.cjs"
+      - "tests/nomad360_issue91_visual_browser.test.cjs"
       - "portfolio_v2_linked_ui.js"
       - "tests/portfolio_v2_mba_capacity_browser.test.cjs"
       - "tests/portfolio_v2_online_browser.test.cjs"
@@ -136,3 +137,13 @@ jobs:
           node tests/marketing_calc_add_next_service_browser.test.cjs
 
           node --test tests/calculator_business_oracle_browser.test.cjs
+      - name: Visual check for variable monthly service demand
+        run: node tests/nomad360_issue91_visual_browser.test.cjs
+      - name: Upload responsive acceptance screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: issue91-v1-service-visual-${{ github.sha }}
+          path: artifacts/issue91-visual/*.png
+          if-no-files-found: warn
+          retention-days: 14
