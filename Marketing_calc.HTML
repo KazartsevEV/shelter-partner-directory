@@ -4678,6 +4678,71 @@
             };
         }
 
+        function v1FullServiceSku(item,row,model,draftSku,cycle,credit,ownerTaxType,ownerTaxPct) {
+                    // Import the SAME approved V1 service quote; do not rebuild it
+                    // with the retired Nomad360FullServiceV2 adapter.
+                    const sku={...draftSku},agency=item.serviceAgency||{};
+                    const agent=item.serviceRole==='agent';
+                    const owns=k=>!agent||agency.payers?.[k]==='agent';
+                    const amort=owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0;
+                    const capex=owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
+                    const online=item.serviceChannel==='online';
+                    const quote=row.price*model.taxPriceMultiplier*(1+sku.vatPct/100);
+                    sku.source=online?'online-service':'offline-service';
+                    sku.unitCost=Math.max(0,row.unitCost);
+                    sku.fullServiceV2=true;
+                    sku.fullServiceChannel=online?'online':'offline';
+                    sku.fullServiceRole=item.serviceRole||'self';
+                    sku.fullServiceAgency=agent?JSON.parse(JSON.stringify(agency)):null;
+                    sku.fullServiceForecast=Number(row.forecastSales);
+                    sku.fullServiceHorizon=Number(item.serviceHorizonMonths)||1;
+                    sku.fullServiceReservePct=Number(item.planning?.reservePct)||0;
+                    sku.fullServiceReserveFunded=item.planning?.fundingMode==='credit'?
+                        Math.max(0,Number(cycle.reserveAmount)||0):0;
+                    sku.fullServiceMonthlyAmort=amort;
+                    sku.fullServiceCapex=online?0:capex;
+                    sku.onlineCapex=online?capex:0;
+                    sku.onlineAmortMonthly=online?amort:0;
+                    sku.ownerTax={type:ownerTaxType,
+                        pct:ownerTaxPct,entity:'business'};
+                    sku.fixedPriceFromV1=true;
+                    sku.priceMin=Math.round(quote*100)/100;
+                    sku.priceMax=sku.priceMin;
+                    sku.maxDiscountPct=0;
+                    sku.minimumMarginPct=0;
+                    sku.targetMarginPct=0;
+                    sku.salesFixedMonthly=owns('selling')?Number(item.salesFixedMonthly)||0:0;
+                    sku.adBudget=owns('advertising')?Number(item.adBudget)||0:0;
+                    sku.adManagement=owns('management')?Number(item.adManagement)||0:0;
+                    sku.baseCac=sku.adBudget>0?sku.adBudget/row.forecastSales:0;
+                    sku.variableSalesPct=owns('commission')?
+                        (Number(item.salesVariablePct)||0)+(Number(item.penaltiesPct)||0):0;
+                    sku.creditPrincipal=item.planning?.fundingMode==='credit'?
+                        Number(credit.principal)||0:0;
+                    sku.creditServiceMonthly=item.planning?.fundingMode==='credit'?
+                        Number(credit.monthlyServiceCost)||0:0;
+                    sku.creditMonths=item.planning?.fundingMode==='credit'?
+                        Number(credit.termMonths)||0:0;
+                    sku.serviceMaterialsUnit=owns('direct')?Number(item.materialsUnitCost)||0:0;
+                    sku.serviceElectricityUnit=owns('production')?
+                        Number(item.productionElectricityPerUnit)||0:0;
+                    sku.serviceFixedMonthly=owns('production')?
+                        Math.max(0,(Number(item.productionFixedMonthly)||0)-
+                            (Number(item.serviceAmortMonthly)||0)):0;
+                    sku.serviceCapacity=online?0:Number(item.offlineServiceCapacity)||0;
+                    sku.inventoryQty=0;
+                    sku.materialsBatchTotal=0;
+                    sku.productionTotal=0;
+                    sku.warehouseInboundUnitCost=0;
+                    sku.warehouseDayCost=0;
+                    if(online)sku.onlineProvenance={
+                        periodMonths:sku.fullServiceHorizon,
+                        fullServiceCalculated:true,
+                        ownerRevenueInPeriod:row.forecastSales*row.price*sku.fullServiceHorizon,
+                        sourceRole:item.serviceRole||'self'
+                    };
+                    return sku;
+        }
         function openLinkedPortfolioFromProducts() {
             const errorNode=document.getElementById('linked-v2-entry-error');
             const report=message=>{
@@ -4742,70 +4807,9 @@
                     dropshipPayoutMode:item.dropshipPayoutMode||'after',
                     vatPct:productOwnChoices.salesVat==='yes'?productNumber('own-sales-vat-pct'):0
                 });
-                if(item.serviceFinanceMode==='full'){
-                    // Import the SAME approved V1 service quote; do not rebuild it
-                    // with the retired Nomad360FullServiceV2 adapter.
-                    const sku=skus[skus.length-1],agency=item.serviceAgency||{};
-                    const agent=item.serviceRole==='agent';
-                    const owns=k=>!agent||agency.payers?.[k]==='agent';
-                    const amort=owns('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0):0;
-                    const capex=owns('equipment')?Math.max(0,Number(item.serviceCapex)||0):0;
-                    const online=item.serviceChannel==='online';
-                    const quote=row.price*model.taxPriceMultiplier*(1+sku.vatPct/100);
-                    sku.source=online?'online-service':'offline-service';
-                    sku.unitCost=Math.max(0,row.unitCost);
-                    sku.fullServiceV2=true;
-                    sku.fullServiceChannel=online?'online':'offline';
-                    sku.fullServiceRole=item.serviceRole||'self';
-                    sku.fullServiceAgency=agent?JSON.parse(JSON.stringify(agency)):null;
-                    sku.fullServiceForecast=Number(row.forecastSales);
-                    sku.fullServiceHorizon=Number(item.serviceHorizonMonths)||1;
-                    sku.fullServiceReservePct=Number(item.planning?.reservePct)||0;
-                    sku.fullServiceReserveFunded=item.planning?.fundingMode==='credit'?
-                        Math.max(0,Number(cycle.reserveAmount)||0):0;
-                    sku.fullServiceMonthlyAmort=amort;
-                    sku.fullServiceCapex=online?0:capex;
-                    sku.onlineCapex=online?capex:0;
-                    sku.onlineAmortMonthly=online?amort:0;
-                    sku.ownerTax={type:productBusinessTaxType,
-                        pct:productNumber('own-business-tax-pct'),entity:'business'};
-                    sku.fixedPriceFromV1=true;
-                    sku.priceMin=Math.round(quote*100)/100;
-                    sku.priceMax=sku.priceMin;
-                    sku.maxDiscountPct=0;
-                    sku.minimumMarginPct=0;
-                    sku.targetMarginPct=0;
-                    sku.salesFixedMonthly=owns('selling')?Number(item.salesFixedMonthly)||0:0;
-                    sku.adBudget=owns('advertising')?Number(item.adBudget)||0:0;
-                    sku.adManagement=owns('management')?Number(item.adManagement)||0:0;
-                    sku.baseCac=sku.adBudget>0?sku.adBudget/row.forecastSales:0;
-                    sku.variableSalesPct=owns('commission')?
-                        (Number(item.salesVariablePct)||0)+(Number(item.penaltiesPct)||0):0;
-                    sku.creditPrincipal=item.planning?.fundingMode==='credit'?
-                        Number(credit.principal)||0:0;
-                    sku.creditServiceMonthly=item.planning?.fundingMode==='credit'?
-                        Number(credit.monthlyServiceCost)||0:0;
-                    sku.creditMonths=item.planning?.fundingMode==='credit'?
-                        Number(credit.termMonths)||0:0;
-                    sku.serviceMaterialsUnit=owns('direct')?Number(item.materialsUnitCost)||0:0;
-                    sku.serviceElectricityUnit=owns('production')?
-                        Number(item.productionElectricityPerUnit)||0:0;
-                    sku.serviceFixedMonthly=owns('production')?
-                        Math.max(0,(Number(item.productionFixedMonthly)||0)-
-                            (Number(item.serviceAmortMonthly)||0)):0;
-                    sku.serviceCapacity=online?0:Number(item.offlineServiceCapacity)||0;
-                    sku.inventoryQty=0;
-                    sku.materialsBatchTotal=0;
-                    sku.productionTotal=0;
-                    sku.warehouseInboundUnitCost=0;
-                    sku.warehouseDayCost=0;
-                    if(online)sku.onlineProvenance={
-                        periodMonths:sku.fullServiceHorizon,
-                        fullServiceCalculated:true,
-                        ownerRevenueInPeriod:row.forecastSales*row.price*sku.fullServiceHorizon,
-                        sourceRole:item.serviceRole||'self'
-                    };
-                }
+                if(item.serviceFinanceMode==='full')
+                    skus[skus.length-1]=v1FullServiceSku(item,row,model,skus[skus.length-1],cycle,credit,
+                        productBusinessTaxType,productNumber('own-business-tax-pct'));
             }
             const payload={
                 skus,
