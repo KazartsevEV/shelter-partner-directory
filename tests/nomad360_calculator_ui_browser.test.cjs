@@ -272,17 +272,26 @@ async function browserCase(browser,locale,expected){
    A.equal(await page.locator('#product-screen .text-slate-900').first().evaluate(el=>getComputedStyle(el).color),
      'rgb(22, 55, 90)','Former black utility text is brand navy');
 
-  const productLink=page.locator('#product-intro-category.nd-context-link');
-  A.equal((await productLink.textContent()).trim(),{ru:'Товар',en:'Product',kk:'Тауар'}[expected.lang]);
-  const productVisual=await linkVisual('#product-intro-category');
-  A.deepEqual({color:productVisual.color,underline:productVisual.underline,size:productVisual.size},
-    {color:serviceVisual.color,underline:serviceVisual.underline,size:serviceVisual.size},
-    'Product and service links share brand CSS');
+  const productLabel=page.locator('#product-intro-category.nd-context-label');
+  A.equal((await productLabel.textContent()).trim(),{ru:'Товар',en:'Product',kk:'Тауар'}[expected.lang]);
+  A.equal(await productLabel.evaluate(el=>el.tagName),'SPAN',
+    'Product context is plain text, never a legacy breadcrumb');
+  A.equal(await productLabel.getAttribute('href'),null,
+    'Product context has no hidden navigation');
+  const productStyle=await productLabel.evaluate(el=>{
+    const style=getComputedStyle(el);
+    return {color:style.color,decoration:style.textDecorationLine,size:parseFloat(style.fontSize)};
+  });
+  A.equal(productStyle.color,'rgb(22, 55, 90)');
+  A.equal(productStyle.decoration,'none');
+  A.ok(productStyle.size>=16);
   const calculateSize=await page.locator('#product-screen button[type="submit"].nd-cta-primary')
     .evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   A.ok(calculateSize>=20&&calculateSize<=24,'Calculate CTA font uses prominent 20–24px');
-  await productLink.click();
-  A.equal(await page.locator('#home-screen').isVisible(),true,'Product breadcrumb leads home');
+  A.equal(await page.locator('#product-main-back.nd-tree-active-back:visible').count(),1,
+    'One tree back arrow on the V1 product screen');
+  await page.locator('#product-main-back.nd-tree-active-back').click();
+  A.equal(await page.locator('#home-screen').isVisible(),true,'Product tree back leads home');
   await choice.locator('#start-own-product').click();
 
   const typeField=await page.locator('#product-name-input').evaluate(el=>({
