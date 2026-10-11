@@ -43,6 +43,21 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    if(role==='agent'){
     const partner=await last(table,'Накопленный поток партнёра').getAttribute('data-nomad-display-number');
     A.notEqual(amount,Number(partner),'agent cannot display principal cash as their own');
+    A.equal(await page.locator('#calculator-screen').evaluate(el=>el.classList.contains('nd-agent-mode')),true);
+    A.ok(await page.locator('.nd-agent-payer-group').count()>0,'agent inputs expose shared payer skin');
+    const payerSkin=await page.locator('.nd-agent-payer-group').first().evaluate(el=>({
+     background:getComputedStyle(el).backgroundColor,
+     radio:getComputedStyle(el.querySelector('input[type=radio]')).accentColor,
+     width:el.scrollWidth,clientWidth:el.clientWidth
+    }));
+    A.equal(payerSkin.background,'rgb(245, 247, 249)','agent controls reuse V1 soft surface');
+    A.equal(payerSkin.radio,'rgb(22, 55, 90)','agent payer selector uses shared navy');
+    A.ok(payerSkin.width<=payerSkin.clientWidth+1,'agent payer group stays within mobile card');
+    A.ok(await page.locator('#summary-table .nd-agent-number-highlight').count()>0,
+     'positive agent figures use named, brand-neutral financial emphasis');
+   } else {
+    A.equal(await page.locator('#calculator-screen').evaluate(el=>el.classList.contains('nd-agent-mode')),false,
+     'non-agent mode cannot inherit agent-only skin');
    }
    await page.evaluate(()=>{currentValues.months=2;calculate()});
    A.match(await page.locator('#service-simple-free-cash-detail').innerText(),/2 месяца/);
@@ -63,6 +78,43 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
   });
   A.equal(await page.locator('#service-simple-free-cash-value').innerText(),'—',
    'invalid period cannot display spendable cash');
+  // Responsive agent components remain inside the viewport. Sitewide header/footer
+  // have an independent 768px bleed; do not conflate that with the agent layout.
+  const contained=selector=>page.evaluate(selector=>{
+   const root=document.querySelector(selector);
+   if(!root)return false;
+   const nodes=[root,...root.querySelectorAll('button,.card,.nd-agent-payer-group')];
+   return nodes.every(el=>{
+    const r=el.getBoundingClientRect(),css=getComputedStyle(el);
+    return css.display==='none'||css.visibility==='hidden'||
+     (r.left>=-1&&r.right<=innerWidth+1&&r.width<=innerWidth+1);
+   });
+  },selector);
+  await page.evaluate(()=>{serviceFinancialMode='simple';showAgentChooser()});
+  for(const width of [320,390,768]){
+   await page.setViewportSize({width,height:844});
+   await page.evaluate(()=>showAgentChooser());
+   A.equal(await page.locator('#agent-screen').isVisible(),true);
+   A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
+    'rgb(22, 55, 90)');
+   A.ok(await contained('#agent-screen'),'agent chooser elements overflow '+width);
+   await page.evaluate(()=>showAgentComplex());
+   A.equal(await page.locator('#agent-complex-screen').isVisible(),true);
+   A.ok(await contained('#agent-complex-screen'),'agent custom elements overflow '+width);
+   await page.evaluate(()=>selectServiceMode('agent'));
+   A.ok(await contained('#calculator-screen'),'agent calculation panels overflow '+width);
+  }
+  await page.setViewportSize({width:390,height:844});
+  // Full V1 agent has the same white/navy panel and separate per-expense payer rows.
+  await page.evaluate(()=>{serviceFinancialMode='full';selectServiceMode('agent')});
+  A.equal(await page.locator('#product-screen').isVisible(),true);
+  await page.locator('#product-name-input').fill('Агентская услуга');
+  await page.locator('#product-intro-submit-label').click();
+  A.equal(await page.locator('#service-v1-agent-panel').isVisible(),true);
+  A.equal(await page.locator('#service-v1-agent-panel').evaluate(el=>getComputedStyle(el).backgroundColor),
+   'rgb(255, 255, 255)','full agent panel uses same V1 paper');
+  A.ok(await contained('#service-v1-agent-panel'),'full V1 agent panel overflow');
+  console.log('AGENT_SHARED_CSS_GREEN');
   console.log('SIMPLE_ONLINE_FREE_CASH_GREEN');
   await page.goto(url,{waitUntil:'domcontentloaded'});
   await page.evaluate(()=>{serviceFinancialMode='simple';startOfflineServiceCalculation()});
