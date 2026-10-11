@@ -1795,13 +1795,13 @@
                         type: 'pct',
                         help: 'Ваш доход считается как указанный процент от общего объёма продаж, который создаёт эта воронка.'
                     },
+                    ...agentFromPeriod,
                     {
                         key: 'agentTaxTurnover',
                         label: 'Мой налог на оборот*',
                         type: 'pct',
                         help: 'Считается с вашего агентского вознаграждения и уменьшает сумму, которая остаётся вам.'
-                    },
-                    ...agentFromPeriod
+                    }
                 ];
             }
 
@@ -1872,6 +1872,8 @@
             container.innerHTML = '';
             getInputsConfig().forEach(def => {
                 const div = document.createElement('div');
+                if(serviceMode === 'agent' && def.key === 'agentTaxTurnover')
+                    div.classList.add('nd-agent-own-tax-field');
                 const suffix = def.type === 'pct' ? '%' : (def.type === 'money' ? 'у.е.*' : '');
                 const value = currentValues[def.key] ?? defaults[def.key] ?? 0;
                 const showPayer = serviceMode === 'agent' && agentExpenseKeys.includes(def.key);
@@ -1901,7 +1903,7 @@
 
                 div.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
-                        <label class="text-sm font-medium text-slate-700">${def.label}</label>
+                        <label class="text-sm font-medium text-slate-700" for="in-${def.key}">${def.label}</label>
                         <span class="text-xs text-slate-400">${suffix}</span>
                     </div>
                     <input type="number" step="any" value="${value}" id="in-${def.key}" class="input-field" oninput="handleInput('${def.key}', this.value)">

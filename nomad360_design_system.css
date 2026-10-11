@@ -1920,3 +1920,16 @@ body #calculator-screen.nd-agent-mode #service-agent-tax-note.nd-service-agent-t
   letter-spacing:.012em;overflow-wrap:anywhere;
 }
 body #service-agent-tax-note[hidden]{display:none!important}
+/* Agent microbusiness: separately identify the agent's tax just below
+   the principal's tax. Both rates still use their existing accounting basis. */
+body #calculator-screen.nd-agent-mode #inputs-container > .nd-agent-own-tax-field{
+  min-width:0;padding:14px;border:1px solid var(--nd-v1-rule);
+  border-left:4px solid var(--nd-cta-orange);border-radius:var(--nd-radius);
+  background:var(--nd-v1-soft)
+}
+body #calculator-screen.nd-agent-mode #inputs-container > .nd-agent-own-tax-field label{
+  color:var(--nd-v1-navy);font-weight:700
+}
+body #calculator-screen.nd-agent-mode #inputs-container > .nd-agent-own-tax-field input{
+  max-width:100%
+}
