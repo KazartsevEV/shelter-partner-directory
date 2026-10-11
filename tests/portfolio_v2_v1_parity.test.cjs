@@ -15,6 +15,7 @@ const source=[
  between('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
  between('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
  between('function calculateAggregateCredit(item) {','function updateAggregateCredit(item) {'),
+ between('function finishV1FinancialLedger(months,reserveLocked,horizonDays,saleEndDays) {','function calculateOfflineServiceCashFlow(model) {'),
  between('function calculateProductCashFlow(model) {','function updatePriceListRange(item) {')
 ].join('\n');
 const constructV1=new Function('productPortfolio','productBusinessTaxType','productNumber',
