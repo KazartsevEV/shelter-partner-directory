@@ -306,13 +306,15 @@ const {pathToFileURL}=require('node:url');
   A.equal(draft.input.creditMonths,5);
   A.equal(Object.hasOwn(draft,'result'),false,'No duplicated derived 180-day cash ledger in storage');
   await page.evaluate(()=>showServiceWorkChooser());
-  A.equal(await page.locator('#service-full-saved-entry').isVisible(),true,'Saved model can be reopened');
-  await page.locator('#service-full-saved-entry').click();
+  A.equal(await page.locator('#service-full-saved-entry').isVisible(),false,
+    'Rejected standalone model is not exposed as a full V1 resume route');
+  A.equal(await page.evaluate(()=>Nomad360FullServiceUI.openSaved()),true,
+    'Old stored data remain readable for explicit future migration');
   A.equal(await page.locator('#full-service-screen').isVisible(),true);
   A.equal(await page.evaluate(()=>Nomad360FullServiceUI.getInput().months),6);
   await page.locator('#full-service-back').click();
-  A.equal(await page.locator('#service-work-screen').isVisible(),true,'Saved mode returns to chooser, not an empty V1 form');
-  await page.locator('#service-full-saved-entry').click();
+  A.equal(await page.locator('#service-work-screen').isVisible(),true);
+  await page.evaluate(()=>Nomad360FullServiceUI.openSaved());
   await page.evaluate(()=>window.print=()=>{window.__printInvoked=true});
   await page.locator('#full-service-pdf').click();
   A.equal(await page.evaluate(()=>window.__printInvoked),true);
