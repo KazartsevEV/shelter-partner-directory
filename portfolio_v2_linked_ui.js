@@ -258,7 +258,7 @@ function render(){
  '<section class="rounded-2xl border border-sky-200 bg-sky-50 p-4 mb-5" data-temporal-controls>'+
  '<h2 class="text-lg font-bold text-slate-900">План продаж и загрузка по месяцам</h2>'+
  (inheritedServicePeriod(state)!==null?
-   '<p class="text-sm text-slate-700 mt-2">Период: <strong>'+safe(state.forecastMonths)+' мес.</strong> Перенесён из полного расчёта V1. Чтобы изменить период, отредактируйте исходную услугу.</p>'+
+   '<p class="text-sm text-slate-700 mt-2">Период: <strong>'+safe(state.forecastMonths)+' мес.</strong> Перенесён из полного расчёта V1. Чтобы изменить период, отредактируйте исходную услугу.</p>':
    '<p class="text-sm text-slate-600 mt-2">Для товаров V1 утверждён только первый месяц. Если нужен более длинный сценарий, укажите его здесь и подтвердите повторение прогноза.</p>'+
    '<div class="max-w-xs mt-3">'+field('Месяцев в сценарии (1–120)','forecastMonths',state.forecastMonths??1,'min="1" max="120" step="1"')+'</div>'+
    '<label class="flex items-start gap-2 text-sm text-slate-800 mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
