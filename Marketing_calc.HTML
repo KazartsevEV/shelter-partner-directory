@@ -3646,8 +3646,9 @@
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
                 const cycle = aggregatePlanMetrics(item);
                 const servicePricingMonths=item.source==='offline-service'&&item.serviceFinanceMode==='full'?
-                    Math.max(1,Number(item.serviceHorizonMonths)||1,
-                        item.planning?.fundingMode==='credit'?Number(item.planning.creditTermMonths)||1:1):1;
+                    Math.max(1,Number(item.serviceHorizonMonths)||1):1;
+                // Loan interest is priced over approved operating sales only;
+                // debt maturity never creates extra forecast customers.
                 const reserveUnits=['dropship','offline-service'].includes(item.source)?
                     Number(item.forecastUnitsPerMonth)*servicePricingMonths:Number(item.logisticsQty);
                 const reservePerUnit = cycle.reserveAmount !== null && reserveUnits > 0
@@ -4374,8 +4375,10 @@
             const partnerTax=agency.partnerTaxType==='profit'?
                 Math.max(0,partnerRevenue-partnerCosts)*partnerTaxRate:
                 partnerRevenue*partnerTaxRate;
-            for(const month of months){
-                // A repeatable service has no stock cycle or inventory purchases.
+            for(let serviceMonth=0;serviceMonth<horizon;serviceMonth++){
+                const month=months[serviceMonth];
+                // Service sales and fixed operations stop after approved months.
+                // Longer credit terms only extend debt and interest payments.
                 // Costs remain payable in zero-sales months; amort is noncash.
                 month.inflow+=receipt;
                 month.outflow+=direct+fixed-amort+variableCommissions;
@@ -4911,9 +4914,13 @@
                     sku.fullServiceChannel=online?'online':'offline';
                     sku.fullServiceRole=item.serviceRole||'self';
                     sku.fullServiceAgency=agent?JSON.parse(JSON.stringify(agency)):null;
-                    sku.fullServiceForecast=Number(row.forecastSales);
-                    sku.fullServiceHorizon=Math.max(Number(item.serviceHorizonMonths)||1,
+                    sku.fullServiceOperatingMonths=Number(item.serviceHorizonMonths)||1;
+                    sku.fullServiceHorizon=Math.max(sku.fullServiceOperatingMonths,
                         item.planning?.fundingMode==='credit'?Number(credit.termMonths)||1:1);
+                    // The explicit zero tail cannot be mistaken for extra sales.
+                    sku.fullServiceForecast=Array.from({length:sku.fullServiceHorizon},
+                        (_,month)=>month<sku.fullServiceOperatingMonths?
+                            Number(row.forecastSales)||0:0);
                     // A loan extending beyond the selected service horizon
                     // extends the real V1 cash calendar through its maturity.
                     sku.fullServiceReservePct=Number(item.planning?.reservePct)||0;
