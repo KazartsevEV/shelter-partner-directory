@@ -167,9 +167,12 @@ const {pathToFileURL}=require('node:url');
     item.planning.creditRatePct=12;
     item.planning.creditTermMonths=3;
     const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
-    return {ready:cash.ready,months:cash.months,capital:calculateAggregateCredit(item).principal};
+    return {ready:cash.ready,months:cash.months,
+      price:model.items[0]?.price,capital:calculateAggregateCredit(item).principal};
   });
   A.equal(finance.ready,true);
+  A.ok(finance.price>native.price,
+    'Loan interest raises the full-service V1 target unit price');
   A.ok(finance.months[0].interestPaid>0,'Loan interest included as recurring cash expense');
   A.ok(finance.months[2].principalRepaid>0,'Bullet principal repaid in contract month');
   A.ok(Math.abs(finance.months[2].principalRepaid-finance.capital)<.02);
