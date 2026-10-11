@@ -301,14 +301,22 @@
      const fixed=s.source==='offline-service'?
        Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production)):0;
      const sales=Math.max(0,pos(s.manager)+pos(s.selling)-pos(s.onlineAmortMonthly));
-     const burden=qty*material+commission+fixed+sales+
+     // Native product V1 service reserves only first-month committed
+     // operating expenses, excluding price-dependent selling commission.
+     const burden=qty*material+(s.nativeProductV1?0:commission)+fixed+sales+
        pos(s.resourceShares)+pos(s.adBudgetEffective);
      return [s.id,burden*pos(s.fullServiceReservePct)/100];
    }));
    const reserve=sum(Object.values(reserveBySku));
    const fundedReserve=sum(items.filter(s=>s.fullServiceV2&&pos(s.creditPrincipal)>0)
      .map(s=>Math.min(pos(s.fullServiceReserveFunded),reserveBySku[s.id])));
-   const ownerCapital=Math.max(0,-peak)+Math.max(0,reserve-fundedReserve);
+   // One unchanged native V1 service carries its already committed owner
+   // capital. Additional V2 SKUs/resources revert to the pooled peak deficit.
+   const nativeSingle=items.length===1&&items[0].nativeProductV1===true&&
+     resources.length===0&&!(state.offers||[]).length;
+   const ownerCapital=nativeSingle?
+     (items[0].nativeV1Funding==='credit'?0:pos(items[0].nativeV1StartCapital)):
+     Math.max(0,-peak)+Math.max(0,reserve-fundedReserve);
    let balance=0;
    for(let day=0;day<daily.length;day++){
      const d=daily[day],m=months[Math.floor(day/30)];
