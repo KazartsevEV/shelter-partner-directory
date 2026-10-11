@@ -21,8 +21,10 @@ const sku={id:'single',name:'Production A',source:'resale',unitCost:20,
    {waitUntil:'domcontentloaded'});
   await page.evaluate(p=>LinkedPortfolioV2UI.importFromV1(p),
    {skus:[sku],tax:{type:'turnover',pct:5}});
-  await page.locator('[data-linked-path="forecastMonths"]').fill('2');
-  await page.locator('[data-linked-path="recurringDemandApproved"]').check();
+  const V1Period=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  A.equal(V1Period.forecastMonths,2);
+  A.equal(V1Period.v1HorizonInherited,true);
+  A.equal(await page.locator('[data-linked-path="forecastMonths"]').count(),0);
   let r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(r.ready,true,JSON.stringify(r.errors));
   A.equal(r.cashflow.periodPnl.accountingCompleteness,'COMPLETE');
