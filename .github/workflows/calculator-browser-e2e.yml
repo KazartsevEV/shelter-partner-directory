@@ -136,3 +136,12 @@ jobs:
           node tests/marketing_calc_add_next_service_browser.test.cjs
 
           node --test tests/calculator_business_oracle_browser.test.cjs
+
+      - name: Upload donation footer visual receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nomad360-donation-footer-${{ github.sha }}
+          path: artifacts/donation-footer/*.png
+          if-no-files-found: warn
+          retention-days: 14
