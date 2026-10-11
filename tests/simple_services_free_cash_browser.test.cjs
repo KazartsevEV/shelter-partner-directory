@@ -50,6 +50,15 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
       'AFTER paying my taxes.');
     A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('ПОСЛЕ уплаты моих налогов.','kk')),
       'Менің салықтарымды төлегеннен КЕЙІН.');
+    const myTaxInput=page.locator('#in-agentTaxTurnover');
+    A.equal(await myTaxInput.count(),1,'agent must have its own rate input');
+    A.equal(await myTaxInput.isVisible(),true,'agent rate input should be rendered');
+    A.equal(await myTaxInput.inputValue(),'0','explicit default 0 percent');
+    A.deepEqual(await page.locator('#inputs-container > div').evaluateAll(rows=>
+      rows.map(row=>row.querySelector('input[id^="in-"]')?.id).filter(Boolean).slice(-2)),
+      ['in-taxTurnover','in-agentTaxTurnover'],'agent tax input follows principal tax at end of form');
+    A.equal(await myTaxInput.evaluate(el=>getComputedStyle(el.parentElement).borderLeftColor),
+      'rgb(237, 142, 99)','agent rate input has orange section marker');
     const partner=await last(table,'Накопленный поток принципала').getAttribute('data-nomad-display-number');
     A.notEqual(amount,Number(partner),'agent cannot display principal cash as their own');
     A.match(await page.locator('#mode-context').innerText(),/Принципал/i);
@@ -77,6 +86,28 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    approx(Number(await page.locator('#service-simple-free-cash-value').getAttribute('data-nomad-display-number')),
      Number(await last(table,key).getAttribute('data-nomad-display-number')),
      '2-month update, '+role);
+   if(role==='agent'){
+    await page.locator('#in-agentPct').fill('15');
+    await page.locator('#in-agentTaxTurnover').fill('0');
+    const fee=Number(await last(table,'Моё вознаграждение до расходов')
+      .getAttribute('data-nomad-display-number'));
+    const principalTaxBefore=Number(await last(table,'Налог принципала на оборот*')
+      .getAttribute('data-nomad-display-number'));
+    const cashBefore=Number(await page.locator('#service-simple-free-cash-value')
+      .getAttribute('data-nomad-display-number'));
+    await page.locator('#in-agentTaxTurnover').fill('7');
+    const ownTax=Number(await last(table,'Мой налог на оборот*')
+      .getAttribute('data-nomad-display-number'));
+    const cashAfter=Number(await page.locator('#service-simple-free-cash-value')
+      .getAttribute('data-nomad-display-number'));
+    const principalTaxAfter=Number(await last(table,'Налог принципала на оборот*')
+      .getAttribute('data-nomad-display-number'));
+    approx(ownTax,fee*.07,'agent turnover tax based on agency commission');
+    approx(cashBefore-cashAfter,ownTax,'agent tax rate reduces spendable cash');
+    approx(principalTaxBefore,principalTaxAfter,'principal tax independent of agent rate');
+    await page.locator('#in-agentTaxTurnover').fill('0');
+    await page.locator('#in-agentPct').fill('0');
+   }
   }
   await page.evaluate(()=>{
     selectServiceMode('agent');
