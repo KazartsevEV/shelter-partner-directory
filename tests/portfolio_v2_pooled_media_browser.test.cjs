@@ -30,11 +30,11 @@ const sku=(id,stock)=>({
   await page.locator('[data-linked-path="resources.0.allocation"]').selectOption('usage');
   await page.locator('[data-linked-path="resources.0.usage.a"]').fill('1');
   await page.locator('[data-linked-path="resources.0.usage.b"]').fill('1');
-  await page.locator('[data-linked-path="forecastMonths"]').fill('5');
-  let before=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
-  A.equal(before.ready,false);
-  A.match(before.errors.join(' '),/Подтвердите/);
-  await page.locator('[data-linked-path="recurringDemandApproved"]').check();
+  const inferred=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  A.equal(inferred.forecastMonths,5,'Goods V1 stock and demand already define the sales horizon');
+  A.equal(inferred.v1HorizonInherited,true);
+  A.equal(await page.locator('[data-linked-path="forecastMonths"]').count(),0);
+  A.equal(await page.locator('[data-linked-path="recurringDemandApproved"]').count(),0);
   let r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(r.ready,true,JSON.stringify(r.errors));
   A.deepEqual(r.temporal.months.map(x=>Math.round(x.orders.a)),[20,0,0,0,0]);
