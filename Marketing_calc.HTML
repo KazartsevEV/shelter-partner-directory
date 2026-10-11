@@ -1868,6 +1868,7 @@
         let serviceChannel='online'; // service delivery mode, not V2
         let selectedServiceRole='self'; // one V1 service: self / hired / agent
         let serviceAgentPayerChoices={}; // exact expense-line decisions, never defaulted
+        let serviceAgentRowSequence={material:0,rental:0,purchase:0};
         function syncServiceFinancialRoute() {
             // V1 means ONE service (simple/full are depth variants).
             // V2 is the optional multi-item portfolio, never an alias for full.
@@ -2434,6 +2435,9 @@
 
         function restoreProductOwnUiState(item) {
             const ui = item?.uiState || {};
+            // Older drafts used positional (.0, .1) keys. Recover those if rows
+            // lack stable keys; newer drafts persist each key in the row HTML.
+            serviceAgentRowSequence={material:0,rental:0,purchase:0};
 
             if (ui.dynamic) {
                 restoreDynamicProductContainer('own-material-rows', ui.dynamic.materials);
@@ -2614,6 +2618,19 @@
             });
         }
 
+        // Payers follow physical expense rows, not their changing array positions.
+        // Dynamic V1 HTML persists data-agent-payer-key across save and restore.
+        function serviceAgencyRowKey(row,kind){
+            const existing=row.dataset.agentPayerKey;
+            if(existing&&new RegExp('^'+kind+'\\.[0-9]+$').test(existing)){
+                const n=Number(existing.slice(kind.length+1));
+                serviceAgentRowSequence[kind]=Math.max(serviceAgentRowSequence[kind],n+1);
+                return existing;
+            }
+            const key=kind+'.'+serviceAgentRowSequence[kind]++;
+            row.dataset.agentPayerKey=key;
+            return key;
+        }
         function serviceAgencyExpenseLines(){
             const lines=[],qty=Math.max(0,productNumberFromText('own-product-ad-units'));
             const money=(id)=>Math.max(0,Number(document.getElementById(id)?.value)||0);
@@ -2630,7 +2647,7 @@
                     const price=Math.max(0,Number(row.querySelector('.material-cost-price')?.value)||0);
                     const value=count*price*qty;listed+=value;
                     const title=row.querySelector('.material-cost-name')?.value.trim()||('Материал '+(i+1));
-                    add('material.'+i,'direct',title,value);
+                    add(serviceAgencyRowKey(row,'material'),'direct',title,value);
                 });
                 add('material.other','direct','Остальные прямые расходы',
                     Math.max(0,latestMaterialsLandedUnitCost*qty-listed));
@@ -2642,7 +2659,7 @@
                 document.querySelectorAll('.equipment-rental-row').forEach((row,i)=>{
                     const units=Math.max(1,Math.floor(Number(row.querySelector('.equipment-rental-qty')?.value)||1));
                     const cost=Math.max(0,Number(row.querySelector('.equipment-rental-cost')?.value)||0);
-                    add('rental.'+i,'production',
+                    add(serviceAgencyRowKey(row,'rental'),'production',
                         row.querySelector('.equipment-rental-name')?.value.trim()||('Аренда оборудования '+(i+1)),
                         units*cost);
                 });
@@ -2670,7 +2687,7 @@
                     const cost=Math.max(0,Number(row.querySelector('.equipment-purchase-cost')?.value)||0);
                     const life=Math.max(1,Number(row.querySelector('.equipment-useful-life')?.value)||1);
                     const purchase=count*cost;
-                    add('purchase.'+i,'equipment',
+                    add(serviceAgencyRowKey(row,'purchase'),'equipment',
                         row.querySelector('.equipment-purchase-name')?.value.trim()||('Покупка оборудования '+(i+1)),
                         0,purchase,purchase/life);
                 });
@@ -6656,6 +6673,7 @@
             productBusinessTaxType = null;
             productionLaborMode = 'self';
             serviceAgentPayerChoices={};
+            serviceAgentRowSequence={material:0,rental:0,purchase:0};
             materialCostMode = null;
             latestMaterialsLandedUnitCost = 0;
             latestProductionUnitCost = 0;
