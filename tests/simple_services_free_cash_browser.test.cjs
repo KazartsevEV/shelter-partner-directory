@@ -155,7 +155,7 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
      token:getComputedStyle(document.documentElement).getPropertyValue('--nd-cta-orange').trim()
    }));
    A.equal(ctaColor.token,'#ed8e63','Authoritative Nomad CTA brand token at '+width);
-   const rgb=/^rgb\\((\\d+), (\\d+), (\\d+)\\)$/.exec(ctaColor.effective);
+   const rgb=/^rgb\((\d+), (\d+), (\d+)\)$/.exec(ctaColor.effective);
    A.ok(rgb&&[237,142,99].every((v,i)=>Math.abs(Number(rgb[i+1])-v)<=4),
      'Orange CTA matches brand token within 4 RGB levels at '+width+': '+JSON.stringify(ctaColor));
    A.equal(await orangeAction.locator('.font-semibold').evaluate(el=>getComputedStyle(el).color),
