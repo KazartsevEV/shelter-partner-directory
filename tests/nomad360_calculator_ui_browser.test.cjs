@@ -350,13 +350,19 @@ async function browserCase(browser,locale,expected){
   A.equal((await header.locator('.nomad-wordmark').innerText()).trim(),'Nomad360 lite');
   for(const width of [320,390,768]){
     await page.setViewportSize({width,height:844});
-    const items=await header.evaluate(el=>
-      ['.nomad-brand','.nomad-lang','.nomad-burger'].map(q=>el.querySelector(q))
+    const layout=await header.evaluate(el=>{
+      const bar=el.querySelector('.nomad-bar').getBoundingClientRect();
+      const items=['.nomad-brand','.nomad-lang','.nomad-burger'].map(q=>el.querySelector(q))
        .filter(n=>n&&getComputedStyle(n).display!=='none')
        .map(n=>({left:n.getBoundingClientRect().left,right:n.getBoundingClientRect().right,
-         scrollWidth:n.scrollWidth,clientWidth:n.clientWidth})));
-    A.ok(items.every(x=>x.left>=-1&&x.right<=width+1&&x.scrollWidth<=x.clientWidth+1),
-      'Nomad360 lite header fits '+width+'px: '+JSON.stringify(items));
+         scrollWidth:n.scrollWidth,clientWidth:n.clientWidth}));
+      return {barLeft:bar.left,barRight:bar.right,items};
+    });
+    A.ok(layout.items.every(x=>x.left>=layout.barLeft-1&&
+       x.right<=layout.barRight+1&&x.scrollWidth<=x.clientWidth+1),
+      'Lite wordmark remains within actual header bar at '+width+': '+JSON.stringify(layout));
+    A.ok(layout.items.every((x,i)=>!i||x.left>=layout.items[i-1].right-1),
+      'Brand, locale and burger do not overlap at '+width+': '+JSON.stringify(layout));
   }
   await page.setViewportSize({width:390,height:844});
   A.equal(await header.locator('.nomad-nav a').count(),5);
