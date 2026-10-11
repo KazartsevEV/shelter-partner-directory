@@ -89,6 +89,12 @@
 }
 
 
+/* Body padding also works when Tailwind CDN is unavailable (offline E2E).
+   Match the existing p-4 / md:p-8 contract so full-bleed header and footer
+   span exactly the viewport instead of extending beyond its edges. */
+body.p-4{margin:0;padding:16px}
+@media(min-width:768px){body.p-4{padding:32px}}
+
 /* Recovered header: full-width navigation over the unchanged calculator shell. */
 .nomad-header{margin:-16px -16px 24px;width:calc(100% + 32px)}
 .nomad-logo{border-radius:50%;object-fit:cover;object-position:center;background:#f5f5f5}
