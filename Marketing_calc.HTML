@@ -4412,6 +4412,9 @@
                 (usesCredit&&(credit.principal===null||credit.monthlyServiceCost===null||
                     !(Number.isInteger(Number(credit.termMonths))&&credit.termMonths>=1))))
                 return {ready:false,months:[],reason:'Проверьте период, рекламу, себестоимость, мощность услуги и финансирование.'};
+            const demand=serviceDemandProfile(item);
+            if(!demand.valid)
+                return {ready:false,months:[],reason:demand.error};
             const n=Math.max(horizon,usesCredit?Number(credit.termMonths):1);
             const months=Array.from({length:n},(_,i)=>({month:i+1,inflow:0,outflow:0,
                 cashFlow:0,cumulative:0,taxPaid:0,interestPaid:0,principalRepaid:0,
@@ -4466,20 +4469,43 @@
             const partnerTax=agency.partnerTaxType==='profit'?
                 Math.max(0,partnerRevenue-partnerCosts)*partnerTaxRate:
                 partnerRevenue*partnerTaxRate;
+            // Expenses are scheduled by economic character: per-visit
+            // materials/commission vary with actual customers, while rent,
+            // advertising, payroll and noncash amortization recur even at zero.
+            const partnerFixed=partner?
+                partner.production+partner.amort+partner.selling+
+                partner.advertising+partner.management:
+                (partnerPays('production')?allOperatingFixed:0)+
+                (partnerPays('equipment')?allDepreciation:0)+
+                (partnerPays('selling')?allSalesFixed:0)+
+                (partnerPays('advertising')?allAd:0)+
+                (partnerPays('management')?allManagement:0);
+            const partnerVariable=partner?
+                partner.direct+partner.electricity+partner.commission:
+                (partnerPays('direct')?allDirect:0)+
+                (partnerPays('production')?allElectricity:0)+
+                (partnerPays('commission')?allCommissions:0);
             for(let serviceMonth=0;serviceMonth<horizon;serviceMonth++){
-                const month=months[serviceMonth];
-                // Service sales and fixed operations stop after approved months.
-                // Longer credit terms only extend debt and interest payments.
-                // Costs remain payable in zero-sales months; amort is noncash.
-                month.inflow+=receipt;
-                month.outflow+=direct+fixed-amort+variableCommissions;
-                month.taxableProfit+=receipt-direct-fixed-variableCommissions;
+                const month=months[serviceMonth],volume=demand.months[serviceMonth];
+                const proportion=qty>0?volume/qty:0;
+                const monthlyReceipt=receipt*proportion;
+                const monthlyDirect=direct*proportion;
+                const monthlyCommission=variableCommissions*proportion;
+                month.inflow+=monthlyReceipt;
+                month.outflow+=monthlyDirect+fixed-amort+monthlyCommission;
+                month.taxableProfit+=monthlyReceipt-monthlyDirect-fixed-monthlyCommission;
                 month.depreciation+=amort;
+                month.serviceQuantity=volume;
                 if(agent){
-                    month.partnerRevenue=partnerRevenue;
-                    month.partnerCosts=partnerCosts;
-                    month.partnerTax=partnerTax;
-                    month.partnerProfit=partnerRevenue-partnerCosts-partnerTax;
+                    const grossPartner=partnerRevenue*proportion;
+                    const costsPartner=partnerFixed+partnerVariable*proportion+monthlyReceipt;
+                    const taxPartner=agency.partnerTaxType==='profit'?
+                        Math.max(0,grossPartner-costsPartner)*partnerTaxRate:
+                        grossPartner*partnerTaxRate;
+                    month.partnerRevenue=grossPartner;
+                    month.partnerCosts=costsPartner;
+                    month.partnerTax=taxPartner;
+                    month.partnerProfit=grossPartner-costsPartner-taxPartner;
                 }
             }
             months[0].inflow+=capital;
