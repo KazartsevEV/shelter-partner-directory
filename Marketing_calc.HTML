@@ -4307,10 +4307,16 @@
 
         function calculateCanonicalV1ServiceCashFlow(model,finishV1FinancialLedger) {
             const items=productPortfolio.filter(item=>item.source==='offline-service');
-            if(items.length!==1||productPortfolio.length!==1||!model?.pricingReady||!productBusinessTaxType||
-                model.taxPriceMultiplier===null)
+            if(items.length!==1||productPortfolio.length!==1)
                 return {ready:false,months:[],reason:'Полный V1 рассчитывает одну услугу. Несколько услуг объединяются в V2.'};
-            const item=items[0],row=model.items.find(x=>x.id===item.id);
+            const item=items[0];
+            if(!(Number(item.forecastUnitsPerMonth)>0))
+                return {ready:false,months:[],reason:'Для расчёта цены нужен прогноз клиентов первого месяца. Поздний старт с нулевыми продажами требует отдельного помесячного плана.'};
+            if(!model?.pricingReady)
+                return {ready:false,months:[],reason:'Уточните себестоимость, рекламный прогноз и цену услуги перед расчётом денежного потока.'};
+            if(!productBusinessTaxType||model.taxPriceMultiplier===null)
+                return {ready:false,months:[],reason:'Выберите налог бизнеса и ставку, чтобы рассчитать денежный поток.'};
+            const row=model.items.find(x=>x.id===item.id);
             const cycle=aggregatePlanMetrics(item),credit=calculateAggregateCredit(item);
             const funded=item.planning?.fundingMode;
             const usesCredit=funded==='credit';
