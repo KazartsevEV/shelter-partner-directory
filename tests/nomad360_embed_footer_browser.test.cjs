@@ -107,20 +107,17 @@ const server=createServer(async(req,res)=>{
         gapToFiat:next?next.top-section.bottom:null,
         transform:getComputedStyle(iframe).transform};
     });
-    A.equal(widgetLayout.nativeHeight,355,'Live hosted iframe has 355px internal scrolling viewport at '+width);
-    A.ok(Math.abs(widgetLayout.height-276.9)<1,
-      'Scaled checkout fits approximately 277px on screen at '+width+': '+JSON.stringify(widgetLayout));
-    A.equal(widgetLayout.viewportHeight,277,'Compact wrapper ends after scroll viewport at '+width);
-    A.ok(widgetLayout.width<=346.5,'Scaled iframe fits phone width at '+width);
-    A.ok(widgetLayout.extraBottom<=52,'Only short scroll cue follows iframe at '+width+': '+JSON.stringify(widgetLayout));
+    A.equal(widgetLayout.nativeHeight,623,'Hosted iframe viewport retains its full native 623px at '+width);
+    A.ok(Math.abs(widgetLayout.height-485.94)<1,
+      'Whole live widget compresses to approximately 486px at '+width+': '+JSON.stringify(widgetLayout));
+    A.equal(widgetLayout.viewportHeight,487,'Tight clipping wrapper reserves only scaled height at '+width);
+    A.ok(widgetLayout.width<=346.5,'Scaled iframe fits mobile width at '+width);
+    A.ok(widgetLayout.extraBottom<=22,'No whitespace below scaled widget at '+width+': '+JSON.stringify(widgetLayout));
     A.ok(widgetLayout.gapToFiat===null||widgetLayout.gapToFiat<=32,
-      'Kaspi follows compact checkout at '+width+': '+JSON.stringify(widgetLayout));
+      'Kaspi follows scaled widget without excessive spacing at '+width+': '+JSON.stringify(widgetLayout));
   }
-  A.equal(await iframe.getAttribute('height'),'355',
-    'Host embeds the compact scrollable form');
-  A.equal(await iframe.getAttribute('scrolling'),'auto',
-    'Continue is reachable by scrolling inside the actual hosted iframe');
-  A.match(await support.locator('.nomad-crypto-scroll-cue').innerText(),/Листайте вниз/);
+  A.equal(await iframe.getAttribute('height'),'623',
+    'HTML height attribute agrees with the provider recommended iframe size');
   await page.setViewportSize({width:390,height:844});
   const snapshotDir=path.resolve(ROOT,'artifacts/donation-footer');
   await fs.mkdir(snapshotDir,{recursive:true});
