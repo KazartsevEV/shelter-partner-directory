@@ -346,6 +346,8 @@ async function browserCase(browser,locale,expected){
   const header=page.locator('#nomad360-header');
   A.equal(await header.count(),1);
   A.equal(await header.locator('.nomad-logo').getAttribute('src'),'./nomad360_wolf_open_circle.png');
+  A.equal(await header.locator('.nomad-brand').getAttribute('aria-label'),'Nomad360 lite');
+  A.equal((await header.locator('.nomad-wordmark').innerText()).trim(),'Nomad360 lite');
   A.equal(await header.locator('.nomad-nav a').count(),5);
   A.equal(await header.locator('#nomad360-lang-select').count(),1);
   A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
