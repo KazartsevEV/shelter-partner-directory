@@ -39,8 +39,8 @@ const close=(a,b,label)=>A.ok(Number.isFinite(a)&&Math.abs(a-b)<.011,
   A.equal(await monthly.getByText('Чистая прибыль / месяц',{exact:true}).count(),1);
   A.ok((await monthly.getByText('Маржа за период',{exact:true}).count())>=1,'period margin column exists');
   A.doesNotMatch(await monthly.textContent(),/Cash flow отражает первые 30 дней|Продано позиций за 30 дней/);
-  A.match(await page.locator('[data-linked-cashflow-note]').innerText(),/План продаж из V1:\\s*3\\s*мес/);
-  A.match(await page.locator('[data-linked-cashflow-note]').innerText(),/Месяцев в денежном календаре:\\s*5/);
+  A.match(await page.locator('[data-linked-cashflow-note]').innerText(),/План продаж из V1:\s*3\s*мес/);
+  A.match(await page.locator('[data-linked-cashflow-note]').innerText(),/Месяцев в денежном календаре:\s*5/);
   for(const [id,price] of Object.entries({own:48.27,resale:39.61,drop:28.14,salon:55.85,agent:20}))
    close(r.items.find(s=>s.id===id).priceList,price,id+' real H price');
   for(const m of r.temporal.months){
