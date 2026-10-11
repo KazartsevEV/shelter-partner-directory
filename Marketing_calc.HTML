@@ -4895,7 +4895,10 @@
                     sku.fullServiceRole=item.serviceRole||'self';
                     sku.fullServiceAgency=agent?JSON.parse(JSON.stringify(agency)):null;
                     sku.fullServiceForecast=Number(row.forecastSales);
-                    sku.fullServiceHorizon=Number(item.serviceHorizonMonths)||1;
+                    sku.fullServiceHorizon=Math.max(Number(item.serviceHorizonMonths)||1,
+                        item.planning?.fundingMode==='credit'?Number(credit.termMonths)||1:1);
+                    // A loan extending beyond the selected service horizon
+                    // extends the real V1 cash calendar through its maturity.
                     sku.fullServiceReservePct=Number(item.planning?.reservePct)||0;
                     sku.fullServiceReserveFunded=item.planning?.fundingMode==='credit'?
                         Math.max(0,Number(cycle.reserveAmount)||0):0;
