@@ -32,6 +32,11 @@ const path=require('node:path');
   assert.equal(current.ready,true,JSON.stringify(current.errors));
   assert.ok(current.items.every(s=>s.priceList>=s.priceMin&&s.priceList<=s.priceMax));
   assert.ok(current.cashflow.ownerCapital>current.cashflow.reserve);
+  const cashNote=await page.locator('[data-linked-cashflow-note]').innerText();
+  assert.match(cashNote,/Здесь учтён прогноз продаж первого месяца V1/);
+  assert.match(cashNote,/Месяцев в денежном календаре:/);
+  assert.doesNotMatch(cashNote,/первые 30 дней|первых 30 дней|первых 30-дневных/);
+
   const oldProfit=current.totals.netProfit;
   await page.locator('[data-linked-add]').click();
   await page.locator('[data-linked-path="resources.0.kind"]').selectOption('salesStaff');
