@@ -5087,6 +5087,10 @@
                         owns('production')?
                         Math.max(0,(Number(item.productionFixedMonthly)||0)-
                             (Number(item.serviceAmortMonthly)||0)):0;
+                    // Native online full service pays rent/staff by calendar,
+                    // even with zero bookings. Variable COGS must NOT absorb
+                    // this monthly commitment (or the same amortization).
+                    if(online)sku.unitCost=sku.serviceMaterialsUnit+sku.serviceElectricityUnit;
                     sku.serviceCapacity=online?0:Number(item.offlineServiceCapacity)||0;
                     sku.inventoryQty=0;
                     sku.materialsBatchTotal=0;
