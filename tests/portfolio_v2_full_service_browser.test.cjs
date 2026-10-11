@@ -141,14 +141,9 @@ const {pathToFileURL}=require('node:url');
   A.ok(split.month.partnerCosts>split.month.outflow,'Principal gross spend is separate');
   await page.evaluate(()=>setProductAssortmentChoice('complete'));
   // User confirms the V1 pricing step before the common tax/CF report opens.
-  const pricingGate=await page.evaluate(()=>{
-    let p=document.querySelector('[data-business-product-id="1"] [data-pricing-decision="tax"]'),path=[];
-    for(let k=0;p&&k<12;k++,p=p.parentElement)
-      path.push({id:p.id,tag:p.tagName,hidden:p.hidden,display:getComputedStyle(p).display,
-        cls:String(p.className).slice(0,110)});
-    return path;
-  });
-  console.log('NOMAD360_PRICING_GATE',JSON.stringify(pricingGate));
+  // User confirms self-financing to expose the standard goods-V1
+  // target-price controls before selecting the tax stage.
+  await page.locator('[data-business-product-id="1"] [data-funding-choice="cash"]').click();
   await page.locator('[data-business-product-id="1"] [data-pricing-decision="tax"]').click();
   await page.evaluate(()=>updateProductPortfolioBusinessSummary());
   A.equal(await page.locator('#product-portfolio-business-summary').isVisible(),true,
