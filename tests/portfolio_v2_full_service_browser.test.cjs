@@ -193,6 +193,28 @@ const {pathToFileURL}=require('node:url');
   A.ok(mobileNative.page<=mobileNative.viewport+1,
     'The native 360px V1 agent expense form does not overflow: '+JSON.stringify(mobileNative));
   await page.setViewportSize({width:390,height:844});
+  const agentV2=await page.evaluate(()=>{
+    const ok=openLinkedPortfolioFromProducts();
+    const state=LinkedPortfolioV2UI.getState();
+    const model=state?LinkedPortfolioV2Engine.build(state):null;
+    return {ok,state,ready:model?.ready,errors:model?.errors,
+      partner:model?.cashflow?.periodPnl?.bySku?.['v1-1']?.partner};
+  });
+  A.equal(agentV2.ok,true,'Restored native agent V1 exports to multi-SKU V2');
+  A.equal(agentV2.ready,true,JSON.stringify(agentV2.errors));
+  A.equal(agentV2.state.skus[0].fullServiceRole,'agent');
+  A.ok(agentV2.partner?.months?.length===12,'Partner PnL survives all 12 months of V1→V2');
+  A.ok(agentV2.partner.months[0].profit!==null);
+  A.match(await page.locator('#portfolio-v2-root').innerText(),/Экономика партнёра/);
+  A.equal(await page.evaluate(()=>Nomad360UI.savePrint('report')),true,
+    'V2 PDF export works for an imported agent contract');
+  A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'report');
+  const partnerPdfText=await page.locator('#nomad360-print-sheet').textContent();
+  A.match(partnerPdfText,/Экономика партнёра/);
+  A.match(partnerPdfText,/Налог партнёра/);
+  const agentPortfolioPdf=await page.pdf({format:'A4',printBackground:true});
+  A.equal(agentPortfolioPdf.subarray(0,4).toString('ascii'),'%PDF');
+  A.ok(agentPortfolioPdf.length>4000,'V2 PDF contains a rendered partner financial report');
   await page.evaluate(()=>showServiceWorkChooser());
   // New V1 architecture: online/offline x role, then the SAME product V1.
   // Full offline must never ask for a secondary standalone finance screen.
