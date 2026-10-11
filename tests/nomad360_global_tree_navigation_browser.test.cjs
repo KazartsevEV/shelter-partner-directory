@@ -58,7 +58,22 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   A.equal(await page.locator('#product-main-back').isVisible(),false,
    'product edit return suppresses ordinary back arrow');
   A.match(await back.innerText(),/Итоги бизнеса/);
-  await page.evaluate(()=>document.getElementById('product-business-back-button').classList.add('hidden'));
+  // Regression: saved offline-service editor leaves the business button
+  // enabled inside a hidden source panel. It must not shadow the main arrow.
+  await page.evaluate(()=>{
+   const src=document.getElementById('product-source-block');
+   src.hidden=true;src.classList.add('hidden');
+  });
+  await page.waitForFunction(()=>document.getElementById('product-main-back').classList.contains('nd-tree-active-back'));
+  await oneArrow();
+  A.equal(await back.getAttribute('id'),'product-main-back',
+   'ignore business return nested inside a hidden parent');
+  await page.evaluate(()=>{
+   const src=document.getElementById('product-source-block');
+   src.hidden=false;src.classList.remove('hidden');
+   document.getElementById('product-business-back-button').classList.add('hidden');
+  });
+  await page.waitForFunction(()=>!document.body.classList.contains('nd-tree-business-return'));
   A.match(await back.innerText(),/Источник товара/);
   await back.click();
   A.equal(await page.locator('#product-source-block').isVisible(),true);
@@ -114,6 +129,8 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   await page.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
   A.match(await back.innerText(),/Главная/);
+  A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(255, 255, 255)',
+   'standalone V2 return has white text over the dark header');
   await back.click();
   A.equal(await page.locator('#home-screen').isVisible(),true);
   // V2 entered from V1 has an actual V1 parent, not an invented home destination.
@@ -134,6 +151,8 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   });
   A.equal(await page.locator('#full-service-screen').isVisible(),true);
   A.match(await back.innerText(),/Упрощённый расчёт/);
+  A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(22, 55, 90)',
+   'full service return has navy text over the light shell');
   await back.click();
   A.equal(await page.locator('#calculator-screen').isVisible(),true);
   // Mobile sizes and dynamic (non-duplicated) ancestry.
