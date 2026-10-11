@@ -72,7 +72,7 @@
       embedRetryLead:'Если загрузка не началась,',embedRetryAction:'нажмите здесь',
       embedError:'Не удалось собрать HTML. Проверьте подключение и попробуйте ещё раз.',
       officialTitle:'Официальный контакт',officialCopy:'Почта проекта для вопросов, сотрудничества и обращений по лицензии.',
-      unitNote:'* у.е. — деньги в вашей валюте.',rights:'© 2026 Nomad360'
+      unitNote:'Валюта расчёта: USD.',rights:'© 2026 Nomad360'
     },
     en: {
       nav:['Calculator','AI Marketer','Content Factory','About','Contacts'],
@@ -134,7 +134,7 @@
       embedRetryLead:'If the download did not start,',embedRetryAction:'click here',
       embedError:'Could not prepare HTML. Check your connection and try again.',
       officialTitle:'Official contact',officialCopy:'Project email for questions, cooperation and licence enquiries.',
-      unitNote:'* currency units — amounts are shown in your chosen currency.',rights:'© 2026 Nomad360'
+      unitNote:'Calculation currency: USD.',rights:'© 2026 Nomad360'
     },
     kk: {
       nav:['Калькулятор','AI-маркетолог','Контент фабрикасы','Жоба туралы','Байланыс'],
@@ -196,7 +196,7 @@
       embedRetryLead:'Егер жүктеу басталмаса,',embedRetryAction:'осы жерді басыңыз',
       embedError:'HTML жасау мүмкін болмады. Интернетті тексеріп, қайта көріңіз.',
       officialTitle:'Ресми байланыс',officialCopy:'Сұрақтар, ынтымақтастық және лицензия бойынша өтініштерге арналған жоба поштасы.',
-      unitNote:'* ш.б. — сіздің валютаңыздағы ақша.',rights:'© 2026 Nomad360'
+      unitNote:'Есептеу валютасы: USD.',rights:'© 2026 Nomad360'
     }
   };
   const TARGETS = ['home-screen','nomad360-ai','nomad360-factory','nomad360-about','nomad360-contacts'];
