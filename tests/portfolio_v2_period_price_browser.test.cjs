@@ -29,8 +29,10 @@ const sku=(id,stock,cap=250)=>({
   await page.locator('[data-linked-path="resources.0.allocation"]').selectOption('usage');
   await page.locator('[data-linked-path="resources.0.usage.a"]').fill('1');
   await page.locator('[data-linked-path="resources.0.usage.b"]').fill('1');
-  await page.locator('[data-linked-path="forecastMonths"]').fill('5');
-  await page.locator('[data-linked-path="recurringDemandApproved"]').check();
+  const approved1=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  A.equal(approved1.forecastMonths,5,'V1 sell-out period drives full-period pricing');
+  A.equal(approved1.v1HorizonInherited,true);
+  A.equal(await page.locator('[data-linked-path="forecastMonths"]').count(),0);
   let r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(r.ready,true,JSON.stringify(r.errors));
   eq(r.items.find(x=>x.id==='a').priceList,50,'A full-period target price');
@@ -52,8 +54,10 @@ const sku=(id,stock,cap=250)=>({
   // Fail closed at actual V1 price ceiling (not a secret out-of-range price).
   await page.evaluate(p=>LinkedPortfolioV2UI.importFromV1(p),
     {skus:[sku('a',20,39),sku('b',100)],tax:{type:'turnover',pct:5}});
-  await page.locator('[data-linked-path="forecastMonths"]').fill('5');
-  await page.locator('[data-linked-path="recurringDemandApproved"]').check();
+  const approved2=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  A.equal(approved2.forecastMonths,5,'V1 sell-out period drives full-period pricing');
+  A.equal(approved2.v1HorizonInherited,true);
+  A.equal(await page.locator('[data-linked-path="forecastMonths"]').count(),0);
   // Saved campaign remains attached to canonical SKUs after V1 reimport.
   const blocked=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(blocked.ready,false);
