@@ -36,6 +36,41 @@ const sku=(id,stock,source='resale')=>({
   A.match(cashNote,/новых заказов он не создаёт/);
   A.match(cashNote,/Месяцев в денежном календаре:\s*5/);
   A.doesNotMatch(cashNote,/первые 30 дней|первых 30 дней/);
+  // V2 cards show one-month scenario rates, never 30-day or whole-horizon totals.
+  const resultPanel=page.locator('#linked-results');
+  A.match(await resultPanel.textContent(),/Карточки: месячные показатели модели V2/);
+  A.equal(await resultPanel.getByText('План продаж / месяц',{exact:true}).count(),1);
+  A.equal(await resultPanel.getByText('Выручка без НДС / месяц',{exact:true}).count(),1);
+  A.ok((await resultPanel.getByText('Маржа за период',{exact:true}).count())>=1,'period margin column exists');
+  A.doesNotMatch(await resultPanel.textContent(),/первые 30 дней|Продано позиций за 30 дней|Выручка без НДС \/ 30 дней/);
+  const baselineNumbers=JSON.stringify(result.cashflow);
+  for(const [locale,expectedLabel] of [['en','Sales plan / month'],['kk','Сату жоспары / ай'],['ru','План продаж / месяц']]){
+    await page.locator('#nomad360-lang-select').selectOption(locale);
+    await resultPanel.getByText(expectedLabel,{exact:true}).waitFor({state:'visible'});
+    A.equal(JSON.stringify((await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()))).cashflow),
+      baselineNumbers,'locale '+locale+' must preserve financial math');
+  }
+  const v1HorizonPayload=stock=>({tax:{type:'turnover',pct:5},skus:[sku('a',stock),sku('b',stock)]});
+  for(const [stock,months] of [[20,1],[60,3],[240,12],[100,5]]){
+    await page.evaluate(p=>LinkedPortfolioV2UI.importFromV1(p),v1HorizonPayload(stock));
+    const scenario=await page.evaluate(()=>({state:LinkedPortfolioV2UI.getState(),
+      result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())}));
+    A.equal(scenario.result.ready,true,'V1 '+months+' months: '+JSON.stringify(scenario.result.errors));
+    A.equal(scenario.state.forecastMonths,months,'V1 horizon '+months);
+    if(scenario.result.temporal){
+      A.equal(scenario.result.temporal.months.length,months,'temporal monthly demand '+months);
+    }else{
+      A.equal(months,1,'single-month V1 uses the legacy one-month finance path');
+    }
+    A.equal(scenario.result.cashflow.months.length,months,'cash calendar '+months);
+    const note=await page.locator('[data-linked-cashflow-note]').innerText();
+    if(scenario.result.temporal)
+      A.match(note,new RegExp('План продаж из V1:\\s*'+months+'\\s*мес'));
+    else
+      A.match(note,/Cash Flow показывает продажи закупленных партий|Расчёт основан на месячном прогнозе продаж V1/);
+    A.match(note,new RegExp('Месяцев в денежном календаре:\\s*'+months));
+    A.doesNotMatch(note,/первые 30 дней|первых 30 дней/);
+  }
 
   A.equal(result.cashflow.months.length,5);
   const expectedPrice=result.items[0].standaloneNet;

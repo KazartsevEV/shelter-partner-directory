@@ -381,12 +381,14 @@ function updateResult(){
   out.resources.every(r=>r.kind!=='campaign')&&
   !(Array.isArray(state.offers)&&state.offers.length);
  const periodOptimized=out.cashflow?.periodPnl?.pricePolicy==='full-period-actual-sku-margin-pricing';
- const cards=[['Продано позиций за 30 дней',t.forecast],['Выручка без НДС / 30 дней',t.revenue],
-  ['Рекламный бюджет / 30 дней',t.media],['Себестоимость / 30 дней',t.cogs],
-  ['Общие расходы / мес.',t.monthlyResources],['EBITDA / 30 дней',t.ebitda],
-  ['Налог бизнеса / 30 дней',t.tax],['Чистая прибыль / 30 дней',t.netProfit]];
+ // These are comparable one-month scenario rates, not actual whole-horizon
+ // sales or accounting results. The temporal ledger below owns period totals.
+ const cards=[['План продаж / месяц',t.forecast],['Выручка без НДС / месяц',t.revenue],
+  ['Рекламный бюджет / месяц',t.media],['Себестоимость / месяц',t.cogs],
+  ['Общие расходы / месяц',t.monthlyResources],['EBITDA / месяц',t.ebitda],
+  ['Налог бизнеса / месяц',t.tax],['Чистая прибыль / месяц',t.netProfit]];
  const priceTable='<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
-  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Цена вне набора','Прогноз, ед.','Денежный вес','Реклама',periodOptimized?'Маржа за период':'Маржа / 30 дней'].map(label=>
+  ['Товар / услуга','Диапазон V1','Прайс V2','Скидка','Цена вне набора','Прогноз, ед.','Денежный вес','Реклама',periodOptimized?'Маржа за период':'Маржа / месяц'].map(label=>
    '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
   out.items.map(s=>'<tr class="border-t border-white/20">'+
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
@@ -503,6 +505,7 @@ function updateResult(){
     .map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+(i===0?'':' data-nomad-display-number="'+safe(v)+'"')+'>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
  el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+
+ '<p class="text-xs text-slate-200 mt-2">Карточки: месячные показатели модели V2. Денежная таблица ниже: продажи и платежи за весь рассчитанный период.</p>'+
  '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
   '<div class="text-xl font-black" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</div></div>').join('')+'</div>'+
@@ -520,8 +523,8 @@ function updateResult(){
   '<span>Для каждого месяца учтены продажи, закупки, расходы, поступления денег и платежи по кредиту. Срок кредита может продолжаться после окончания продаж — новых заказов он не создаёт.</span>':
   wholeStockCycle?
    '<span>Cash Flow показывает продажи закупленных партий по месячной скорости из V1. Общие расходы списываются по времени использования ресурсов; таблица продолжается до последних денежных поступлений или погашения кредита.</span> '+
-   '<span>Карточки выше показывают первый месяц, а денежная таблица — весь цикл.</span>':
-   '<span>Здесь учтён прогноз продаж первого месяца V1. Следующие строки отражают задержки платежей и возврат кредита, без дополнительных заказов.</span> '+
+   '<span>Карточки выше показывают месячную модель V2, а денежная таблица — весь цикл.</span>':
+   '<span>Расчёт основан на месячном прогнозе продаж V1. Следующие строки отражают задержки поступлений и возврат кредита, без дополнительных заказов.</span> '+
    '<span>Более длинный прогноз возможен, когда в V1 подтверждён срок продаж или вы отдельно утвердили сценарий.</span>')+
  ' <span>Месяцев в денежном календаре:</span> <strong>'+safe(cf.months.length)+'</strong>.'+
  '</p>'+
