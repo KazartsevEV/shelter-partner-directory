@@ -147,8 +147,8 @@ function startTestServer(){
   A.equal(await page.locator('#agent-screen').isVisible(),true);
   A.deepEqual((await keys()).slice(-2),['service-screen','agent-screen']);
   await oneArrow();
-  A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(22, 55, 90)',
-    'agent native arrow is readable navy on the actual light page canvas');
+  A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(255, 255, 255)',
+    'agent native arrow is white on the navy Nomad360 canvas');
   // Return to previous form without reconstructing inputs or recalculating.
   await page.evaluate(()=>showOnly('calculator-screen'));
   A.equal(await page.locator('#in-agentTaxTurnover').inputValue(),'7');
