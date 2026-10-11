@@ -190,8 +190,14 @@ function startTestServer(){
     styleSheets:[...document.styleSheets].map(x=>({href:x.href,rules:(()=>{try{return x.cssRules?.length}catch(e){return String(e)}})()})),
     matchedTreeRules:[...document.styleSheets].flatMap(x=>{try{
       return [...x.cssRules].filter(r=>r.selectorText?.includes('nd-tree-active-back'))
-       .map(r=>({selector:r.selectorText,matches:el.matches(r.selectorText)}))
-    }catch(e){return []}})
+       .map(r=>({selector:r.selectorText,matches:el.matches(r.selectorText),
+        color:r.style?.getPropertyValue('color'),priority:r.style?.getPropertyPriority('color'),
+        parent:r.parentRule?.conditionText||r.parentRule?.constructor?.name||null}))
+    }catch(e){return []}}),
+    scheme:matchMedia('(forced-colors: active)').matches,
+    bodyColor:getComputedStyle(document.body).color,
+    linkMedia:[...document.querySelectorAll('link[rel=stylesheet]')].map(l=>({href:l.href,media:l.media,disabled:l.disabled}))
+  
   }))));
   A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(255, 255, 255)',
    'standalone V2 return has white text over the dark header');
