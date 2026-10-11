@@ -513,7 +513,7 @@
             </div>
             <div id="service-v1-horizon-panel" class="card p-4 hidden" hidden>
               <label for="service-v1-horizon" class="block text-sm font-semibold text-slate-700">Период расчёта услуги, месяцев</label>
-              <input id="service-v1-horizon" type="number" min="1" max="120" step="1" value="12" class="input-field mt-2" oninput="refreshAllAggregatePricing()">
+              <input id="service-v1-horizon" type="number" min="1" max="120" step="1" value="12" class="input-field mt-2" oninput="syncVisibleAggregateFromCurrentProduct();refreshAllAggregatePricing()">
               <p class="text-sm text-slate-500 mt-2">Продажи и постоянные платежи рассчитываются для каждого месяца. Если кредит длиннее выбранного периода, денежный календарь продолжается до его погашения.</p>
             </div>
             <div id="product-sales-unit-panel" class="card p-4">
@@ -1436,7 +1436,11 @@
                     </div>
 
                     <div id="product-tax-price-list" class="mt-5 space-y-3"></div>
-                    <div id="product-v1-aggregate-report" class="mt-6 pt-5 border-t aggregate-separator"><div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
+                    <div id="product-v1-aggregate-report" class="mt-6 pt-5 border-t aggregate-separator"><div id="offline-simple-free-cash" class="nd-service-free-cash" hidden>
+                    <div class="nd-service-free-cash-title">ЖИВЫЕ ДЕНЬГИ</div>
+                    <div class="nd-service-free-cash-value" id="offline-simple-free-cash-value">—</div>
+                    <p class="nd-service-free-cash-detail" data-nomad-no-translate id="offline-simple-free-cash-detail">Свободные деньги после обязательных выплат и резерва за выбранный период.</p></div>
+                    <div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
                     <div id="product-portfolio-business-summary" class="aggregate-price-card mt-4"></div></div>
 
                     <div id="product-v1-export-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 pt-5 border-t aggregate-separator">
@@ -1513,6 +1517,12 @@
             <!-- RESULTS -->
             <div id="service-results-column" class="lg:col-span-8 space-y-6">
                 
+                <!-- Spendable cash is the first result of the simple online service. -->
+                <div id="service-simple-free-cash" class="nd-service-free-cash">
+                    <div class="nd-service-free-cash-title">ЖИВЫЕ ДЕНЬГИ</div>
+                    <div class="nd-service-free-cash-value" id="service-simple-free-cash-value">—</div>
+                    <p class="nd-service-free-cash-detail" data-nomad-no-translate id="service-simple-free-cash-detail">Свободные деньги за выбранный период после расходов и налогов.</p>
+                </div>
                 <!-- Summary Metrics -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 nd-v1-metrics">
                     <div class="card p-4 result-card green">
@@ -1633,6 +1643,72 @@
             { key: 'taxTurnover', label: 'Налог на оборот*', type: 'pct' },
         ];
 
+        // Display-only language layer for the new dynamic cash explanations.
+        // No mutation of numeric model state on language switch.
+        function simpleCashLanguage(){
+            const lang=window.Nomad360UI?.getLanguage?.()||document.documentElement.lang||'ru';
+            return String(lang).slice(0,2).toLowerCase();
+        }
+        function renderSimpleOnlineCashDetail(state='ready',period=1,agent=false){
+            const node=document.getElementById('service-simple-free-cash-detail');
+            if(!node)return;
+            node.dataset.cashState=state;
+            node.dataset.cashMonths=String(period);
+            node.dataset.cashAgent=agent?'true':'false';
+            const language=simpleCashLanguage();
+            if(state==='invalid'){
+                node.textContent=language==='en'?'Correct the inputs to calculate available cash.':
+                    language==='kk'?'Қолжетімді ақшаны есептеу үшін енгізілген деректерді түзетіңіз.':
+                    'Исправьте исходные данные, чтобы рассчитать свободные деньги.';
+            }else if(state==='pending'){
+                node.textContent=language==='en'?'Assign a payer for each nonzero expense to calculate your available cash.':
+                    language==='kk'?'Қолжетімді ақшаны есептеу үшін әрбір нөлден үлкен шығынға төлеушіні таңдаңыз.':
+                    'Выберите плательщиков по всем ненулевым расходам, чтобы рассчитать доступные деньги.';
+            }else{
+                node.textContent=language==='en'?
+                    'Cumulative cash flow over '+period+' months'+(agent?
+                        ': your commission after expenses paid by you and your tax.':
+                        ': receipts minus expenses and taxes, including one-off payments. No separate reserve is set.'):
+                    language==='kk'?
+                    period+' айдағы жинақталған ақша ағыны'+(agent?
+                        ': өзіңіз төлеген шығындар мен салықтан кейінгі агенттік сыйақыңыз.':
+                        ': біржолғы төлемдерді қоса алғанда түсімнен шығындар мен салықтар шегерілген. Бөлек резерв белгіленбеген.'):
+                    'Накопленный денежный поток за '+period+' '+monthWord(period)+
+                    (agent?' · моё агентское вознаграждение после оплаченных мной расходов и моего налога.':
+                        ' · поступления за вычетом расходов и налогов, включая разовые платежи. Резерв отдельно не задан.');
+            }
+        }
+        function renderSimpleOfflineCashDetail(ready,operating=1,calendar=1){
+            const node=document.getElementById('offline-simple-free-cash-detail');
+            if(!node)return;
+            node.dataset.cashState=ready?'ready':'invalid';
+            node.dataset.cashMonths=String(operating);
+            node.dataset.cashCalendar=String(calendar);
+            const language=simpleCashLanguage();
+            node.textContent=!ready?
+                (language==='en'?'Complete pricing, the service period, funding and tax settings.':
+                 language==='kk'?'Бағаны, қызмет көрсету кезеңін, қаржыландыру мен салық параметрлерін толтырыңыз.':
+                 'Завершите расчёт цены, срока оказания услуг, финансирования и налогов.'):
+                language==='en'?
+                    'Cumulative available cash: '+operating+' months of services, '+calendar+
+                    ' months of receipts and payments. Includes owner funding or borrowing, taxes and protected reserve. This is not profit.':
+                language==='kk'?
+                    'Жинақталған қолжетімді ақша: '+operating+' ай қызмет көрсету, '+calendar+
+                    ' ай түсімдер мен төлемдер. Өз қаражаты немесе несие, салық және қорғалған резерв ескерілген. Бұл пайда емес.':
+                    'Свободный накопленный денежный поток: '+operating+
+                    ' мес. оказания услуг, '+calendar+
+                    ' мес. денежных поступлений и платежей; учтены внесённые деньги или кредит, налоги и защищённый резерв. Это не прибыль.';
+        }
+        document.addEventListener('nomad360:languagechange',()=>{
+            const online=document.getElementById('service-simple-free-cash-detail');
+            if(online?.dataset.cashState)
+                renderSimpleOnlineCashDetail(online.dataset.cashState,
+                    Number(online.dataset.cashMonths)||1,online.dataset.cashAgent==='true');
+            const offline=document.getElementById('offline-simple-free-cash-detail');
+            if(offline?.dataset.cashState)
+                renderSimpleOfflineCashDetail(offline.dataset.cashState==='ready',
+                    Number(offline.dataset.cashMonths)||1,Number(offline.dataset.cashCalendar)||1);
+        });
         let serviceMode = 'self';
         let currentValues = { ...defaults };
 
@@ -1887,7 +1963,8 @@
             toggle('full-service-online-entry',full);
             toggle('online-v2-entry',!full);
             toggle('full-service-offline-entry',false);
-            toggle('service-v1-horizon-panel',offline);
+            toggle('service-v1-horizon-panel',productSource==='offline-service');
+            toggle('service-simple-free-cash',!full);
             const language=window.Nomad360UI?.getLanguage?.()||'ru';
             const labels={
               ru:{online:'Полный расчёт онлайн-услуги',desc:'Одна услуга. Заполните клиентов, воронку и расходы; затем рассчитайте НДС, налоги, кредит и денежный поток.',
@@ -2028,6 +2105,10 @@
         function startOfflineServiceCalculation() {
             startFreshProductCalculation();
             selectProductSource('offline-service');
+            if(serviceFinancialMode==='simple'){
+                const period=document.getElementById('service-v1-horizon');
+                if(period)period.value='1'; // Preserve historical one-month default in microbusiness mode.
+            }
             const form=document.getElementById('product-own-form');
             if(form){form.hidden=true;form.classList.add('hidden');}
             const source=document.getElementById('product-source-block');
@@ -4420,13 +4501,20 @@
             const schedules=items.map(item=>({
                 item,row:model.items.find(row=>row.id===item.id),
                 plan:offlineServiceCycleMetrics(item),credit:calculateAggregateCredit(item),
-                borrowed:item.planning?.fundingMode==='credit'
+                borrowed:item.planning?.fundingMode==='credit',
+                operatingMonths:item.serviceHorizonMonths===undefined||item.serviceHorizonMonths===null?
+                    1:Number(item.serviceHorizonMonths)
             }));
             if(!model?.pricingReady||!productBusinessTaxType||model.taxPriceMultiplier===null||
                 schedules.some(x=>!x.row||x.plan.requiredCapital===null||x.plan.quantityIssues?.length||
+                    !Number.isInteger(x.operatingMonths)||x.operatingMonths<1||x.operatingMonths>120||
                     (x.borrowed&&x.credit.principal===null)))
                 return {ready:false,months:[],cumulativeEnd:null,freeCumulativeEnd:null};
-            const n=Math.max(1,...schedules.map(x=>x.borrowed?Math.max(1,Number(x.credit.termMonths)||1):1));
+            // Only the selected months repeat service demand. A loan lasting longer
+            // extends the payment calendar, never creates extra clients or revenue.
+            const demandMonths=Math.max(1,...schedules.map(x=>x.operatingMonths));
+            const n=Math.max(demandMonths,...schedules.map(x=>
+                x.borrowed?Math.max(1,Number(x.credit.termMonths)||1):1));
             const months=Array.from({length:n},(_,i)=>({
                 month:i+1,inflow:0,outflow:0,cashFlow:0,cumulative:0,
                 taxPaid:0,interestPaid:0,principalRepaid:0,financedInflow:0,
@@ -4434,7 +4522,7 @@
             }));
             const rate=Math.max(0,productNumber('own-business-tax-pct'))/100;
             let reserveLocked=0;
-            for(const {item,row,plan,credit,borrowed} of schedules){
+            for(const {item,row,plan,credit,borrowed,operatingMonths} of schedules){
                 const qty=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
                 const revenue=qty*row.price*model.taxPriceMultiplier;
                 const materials=qty*Math.max(0,Number(item.materialsUnitCost)||0);
@@ -4446,11 +4534,14 @@
                     Math.max(0,Number(item.penaltiesPct)||0))/100;
                 const operating=materials+electricity+operations+salesFixed+advertising+commission;
                 const start=borrowed?Math.max(0,Number(credit.principal)||0):plan.requiredCapital;
-                months[0].inflow+=start+revenue;
-                months[0].financedInflow+=start;
-                months[0].outflow+=operating;
-                months[0].taxableProfit+=revenue-operating;
                 reserveLocked+=plan.reserveAmount||0;
+                months[0].inflow+=start;
+                months[0].financedInflow+=start;
+                for(let i=0;i<operatingMonths;i++){
+                    months[i].inflow+=revenue;
+                    months[i].outflow+=operating;
+                    months[i].taxableProfit+=revenue-operating;
+                }
                 if(borrowed){
                     const term=Math.max(1,Number(credit.termMonths)||1);
                     const interest=Math.max(0,Number(credit.monthlyServiceCost)||0);
@@ -4475,7 +4566,8 @@
                 month.cumulative=total;
                 month.freeCumulative=total-reserveLocked;
             }
-            return {ready:true,months,horizonDays:n*30,saleEndDays:30,reserveLocked,
+            return {ready:true,months,horizonDays:n*30,saleEndDays:demandMonths*30,
+                operatingMonths:demandMonths,reserveLocked,
                 cumulativeEnd:total,freeCumulativeEnd:total-reserveLocked};
         }
 
@@ -5158,17 +5250,33 @@
                         '%</span>';
 
             const cashFlow = calculateProductCashFlow(model);
+            const simpleOfflineService=productPortfolio.length===1&&
+                productPortfolio[0].source==='offline-service'&&
+                productPortfolio[0].serviceFinanceMode!=='full';
+            const offlineSimpleCard=document.getElementById('offline-simple-free-cash');
+            if(offlineSimpleCard){
+                offlineSimpleCard.hidden=!simpleOfflineService;
+                if(simpleOfflineService){
+                    document.getElementById('offline-simple-free-cash-value').innerHTML=
+                        cashFlow.ready?money(cashFlow.freeCumulativeEnd):'—';
+                    renderSimpleOfflineCashDetail(cashFlow.ready,
+                        cashFlow.operatingMonths||1,cashFlow.months.length||1);
+                }
+            }
+            const servicePeriodSummary=(simpleOfflineService&&cashFlow.ready)||(
+                productPortfolio.length===1&&productPortfolio[0].source==='offline-service'&&
+                productPortfolio[0].serviceFinanceMode==='full'&&cashFlow.ready);
             const fullService=productPortfolio.length===1&&
                 productPortfolio[0].source==='offline-service'&&
                 productPortfolio[0].serviceFinanceMode==='full'&&cashFlow.ready;
-            const serviceBorrowed=fullService&&productPortfolio[0].planning?.fundingMode==='credit';
+            const serviceBorrowed=servicePeriodSummary&&productPortfolio[0].planning?.fundingMode==='credit';
             const sumMonth=key=>cashFlow.months.reduce((n,m)=>n+(Number(m[key])||0),0);
-            const periodRevenue=fullService?sumMonth('inflow')-sumMonth('financedInflow'):null;
-            const periodTax=fullService?sumMonth('taxPaid'):null;
-            const periodBeforeTax=fullService?sumMonth('taxableProfit'):null;
-            const periodProfit=fullService?periodBeforeTax-periodTax:null;
-            const periodInterest=fullService?sumMonth('interestPaid'):null;
-            const periodEbitda=fullService?periodBeforeTax+periodInterest+sumMonth('depreciation'):null;
+            const periodRevenue=servicePeriodSummary?sumMonth('inflow')-sumMonth('financedInflow'):null;
+            const periodTax=servicePeriodSummary?sumMonth('taxPaid'):null;
+            const periodBeforeTax=servicePeriodSummary?sumMonth('taxableProfit'):null;
+            const periodProfit=servicePeriodSummary?periodBeforeTax-periodTax:null;
+            const periodInterest=servicePeriodSummary?sumMonth('interestPaid'):null;
+            const periodEbitda=servicePeriodSummary?periodBeforeTax+periodInterest+sumMonth('depreciation'):null;
             const partnerFlow=productPortfolio.length===1&&productPortfolio[0].serviceRole==='agent'&&
                 cashFlow.ready?cashFlow.months:null;
             const agencyReport=partnerFlow?
@@ -5186,12 +5294,16 @@
                     <div class="mt-4 pt-4 border-t aggregate-separator">
                         <div class="aggregate-title font-bold mb-2">Cash flow по месяцам — ${cashFlow.months.length} месяцев</div>
                         <div class="aggregate-muted text-xs mb-3">
-                            ${fullService?
+                            ${simpleOfflineService?
+                                'Оказание услуг: '+cashFlow.operatingMonths+' мес. по рекламному прогнозу V1. Денежный календарь: '+cashFlow.months.length+' мес.; после завершения услуг остаются только кредитные платежи. Месяц = 30 дней.':
+                              fullService?
                                 'Период расчёта услуги — '+cashFlow.months.length+' мес. Месяц = 30 дней. Прогноз оказанных услуг повторяется по месяцам, расходы учитываются каждый месяц.':
                                 '<strong>Период: со дня 0 до дня '+Math.ceil(cashFlow.horizonDays)+'. Распродажа заканчивается на '+Math.ceil(cashFlow.saleEndDays)+'-й день.</strong> Один месяц = 30 дней. Первый месяц — дни 0–29, второй — 30–59. Последний может быть неполным. При кредите срок продлевается до последнего платежа.'}
                         </div>
                         <div class="aggregate-muted text-xs mb-3">
-                            ${fullService&&!serviceBorrowed?
+                            ${simpleOfflineService&&!serviceBorrowed?
+                                'Финансирование: свои деньги. Внесённый капитал не является прибылью; защищённый резерв исключён из свободного остатка. НДС учтён как транзитный.':
+                              fullService&&!serviceBorrowed?
                                 'Финансирование: свои деньги. Вложения не являются доходом; покупки оборудования учитываются как платёж, амортизация — только в прибыли. Выручка без НДС.':
                                 'После бизнес-налогов и кредитных платежей. При кредите: получение тела кредита в первый месяц, выплата тела в конце срока (bullet), проценты ежемесячно; тело кредита не уменьшает прибыль. НДС транзитный и в свободный остаток не включён.'}
                         </div>
@@ -5210,7 +5322,7 @@
                                         ['Поступления (включая внесённые деньги / кредит)', 'inflow'],
                                         ['Выплаты (включая налог и возврат кредита)', 'outflow'],
                                         ['Налоги с бизнеса', 'taxPaid'],
-                                        ...(!fullService||serviceBorrowed?[
+                                        ...(!servicePeriodSummary||serviceBorrowed?[
                                             ['Проценты по кредиту', 'interestPaid'],
                                             ['Возврат тела кредита', 'principalRepaid']
                                         ]:[]),
@@ -5245,33 +5357,33 @@
             box.innerHTML = `
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                     <span class="aggregate-muted">Выручка всего бизнеса (после налоговой корректировки цены, без НДС)</span>
-                    <span class="font-bold text-right">${money(fullService?periodRevenue:(model.adjustedRevenue ?? model.totalRevenue))}</span>
+                    <span class="font-bold text-right">${money(servicePeriodSummary?periodRevenue:(model.adjustedRevenue ?? model.totalRevenue))}</span>
                     <span class="aggregate-muted">EBITDA всего бизнеса</span>
-                    <span class="font-bold text-right">${money(fullService?periodEbitda:(model.adjustedEbitda ?? model.businessEbitda))}</span>
-                    ${fullService&&!serviceBorrowed?'':`
-                    <span class="aggregate-muted">${fullService?'Проценты по кредиту за период':'Обслуживание кредитов / месяц'}</span>
-                    <span class="font-bold text-right">${money(fullService?periodInterest:model.financingCostsMonthly)}</span>`}
+                    <span class="font-bold text-right">${money(servicePeriodSummary?periodEbitda:(model.adjustedEbitda ?? model.businessEbitda))}</span>
+                    ${servicePeriodSummary&&!serviceBorrowed?'':`
+                    <span class="aggregate-muted">${servicePeriodSummary?'Проценты по кредиту за период':'Обслуживание кредитов / месяц'}</span>
+                    <span class="font-bold text-right">${money(servicePeriodSummary?periodInterest:model.financingCostsMonthly)}</span>`}
                     <span class="aggregate-muted">Результат после обслуживания кредитов</span>
-                    <span class="font-bold text-right">${money(fullService?periodBeforeTax:(model.adjustedProfitBeforeTax ?? model.profitBeforeTax))}</span>
+                    <span class="font-bold text-right">${money(servicePeriodSummary?periodBeforeTax:(model.adjustedProfitBeforeTax ?? model.profitBeforeTax))}</span>
                 </div>
 
-                <div class="mt-5 mb-2 p-4 rounded-xl border-2 border-emerald-300 bg-emerald-900 text-white">
+                ${simpleOfflineService?'':`<div class="mt-5 mb-2 p-4 rounded-xl border-2 border-emerald-300 bg-emerald-900 text-white">
                     <div class="font-black text-xl tracking-wide">ЖИВЫЕ ДЕНЬГИ</div>
                     <div class="font-semibold mt-1">Денежный поток, которым можно распоряжаться, после налогов, кредитных платежей и обязательного резерва.</div>
                     <div class="text-2xl font-black mt-2">${cashFlow.ready ? money(cashFlow.freeCumulativeEnd) : '—'}</div>
                     <div class="text-xs mt-1">Минус означает кассовый разрыв. В поступлениях учтены ваши первоначальные вложения или полученный кредит: это финансирование, а не прибыль. Резерв остаётся вашим, но защищён от расходования. Транзитный НДС исключён.</div>
-                </div>
+                </div>`}
                 ${cashFlowTable}
                 ${agencyReport}
 
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mt-4 pt-4 border-t aggregate-separator">
                     <span class="aggregate-muted">Рентабельность бизнеса (чистая прибыль / выручка, без НДС)</span>
-                    <span class="font-bold text-right">${fullService?(periodRevenue>0?percent(periodProfit/periodRevenue*100):'—'):
+                    <span class="font-bold text-right">${servicePeriodSummary?(periodRevenue>0?percent(periodProfit/periodRevenue*100):'—'):
                     (model.adjustedRevenue ?? model.totalRevenue) > 0 && (model.adjustedNetProfit ?? model.netProfit) !== null ? percent((model.adjustedNetProfit ?? model.netProfit) / (model.adjustedRevenue ?? model.totalRevenue) * 100) : '—'}</span>
                     <span class="aggregate-muted">Сумма налога</span>
-                    <span class="font-bold text-right">${money(fullService?periodTax:(model.adjustedTax ?? model.tax))}</span>
+                    <span class="font-bold text-right">${money(servicePeriodSummary?periodTax:(model.adjustedTax ?? model.tax))}</span>
                     <span class="aggregate-muted">Чистая прибыль после налога</span>
-                    <span class="font-bold text-right">${money(fullService?periodProfit:(model.adjustedNetProfit ?? model.netProfit))}</span>
+                    <span class="font-bold text-right">${money(servicePeriodSummary?periodProfit:(model.adjustedNetProfit ?? model.netProfit))}</span>
                 </div>
             `;
 
@@ -7142,7 +7254,7 @@
             show('production-unit-result',service||productSource==='own');
             const onlineService=service&&serviceFinancialMode==='full'&&serviceChannel==='online';
             show('offline-service-capacity',service&&!onlineService);
-            show('service-v1-horizon-panel',service&&serviceFinancialMode==='full');
+            show('service-v1-horizon-panel',service);
             show('service-v1-agent-panel',service&&serviceFinancialMode==='full'&&selectedServiceRole==='agent');
             if(service&&selectedServiceRole==='agent')refreshServiceAgencyLinePayers();
             // Online service has no inventory or physical capacity.
@@ -8368,7 +8480,7 @@
         function calculate() {
             // Invalidate previous display-only numeric markers before rebuilding
             // the view. Never restore stale values when validation fails.
-            for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac']){
+            for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac','service-simple-free-cash-value']){
                 const node=document.getElementById(id);
                 node?.removeAttribute('data-nomad-display-number');
                 node?.removeAttribute('data-nomad-display-money');
@@ -8413,8 +8525,9 @@
                 '<tr><td colspan="2" class="p-3 text-rose-800 bg-rose-50">Исправьте параметры расчёта. Недопустимая модель не рассчитывается.</td></tr>';
               document.getElementById('monthly-table').innerHTML=
                 '<tr><td class="p-3 text-rose-800">Нет корректного прогноза: '+msg+'</td></tr>';
-              for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac'])
+              for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac','service-simple-free-cash-value'])
                 document.getElementById(id).textContent='—';
+              renderSimpleOnlineCashDetail('invalid',1,serviceMode==='agent');
               return;
             }
             const months = v.months;
@@ -8454,6 +8567,8 @@
                 document.getElementById('res-cpa').textContent = '—';
                 document.getElementById('res-cpa-sep').textContent = '';
                 document.getElementById('res-cac').textContent = '';
+                document.getElementById('service-simple-free-cash-value').textContent = '—';
+                renderSimpleOnlineCashDetail('pending',months,true);
 
                 document.getElementById('summary-table').innerHTML = `
                     <tr>
@@ -8692,6 +8807,10 @@
             }
             totalMonth.mCum = cumCash;
             totalMonth.mAgentCum = cumAgentNet;
+            // Agent's own net receipts must never be replaced with the principal's cash flow.
+            const simpleSpendableCash=isAgent?cumAgentNet:cumCash;
+            setV1DisplayedMoney('service-simple-free-cash-value',simpleSpendableCash);
+            renderSimpleOnlineCashDetail('ready',months,isAgent);
             if(totalMonth.mDeals>0){
               onlineV1PortfolioSnapshot={
                 mode:serviceMode,values:{...v},payers:{...agentPayers},
