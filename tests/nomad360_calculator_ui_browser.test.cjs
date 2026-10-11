@@ -422,9 +422,10 @@ async function browserCase(browser,locale,expected){
      en:'* currency units — amounts are shown in your chosen currency.',
      kk:'* ш.б. — сіздің валютаңыздағы ақша.'}[expected.lang]);
   A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
-  A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),2,'Crypto QR codes preserved');
-  A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),8,
-    'Copy targets: KZ phone, 4 SWIFT fields, 2 wallets and Ozon phone');
+   A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),0,
+     'Standalone USDT and BTC QR codes removed in favour of Trybit');
+  A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),6,
+    'Copy targets: KZ phone, 4 SWIFT fields and Ozon phone');
   A.equal(await page.locator('#nomad360-footer .nomad-donate-checkout-link').getAttribute('href'),
     'https://donate.trybit.com/O8CSU052');
   A.equal(await page.locator('#nomad360-footer .nomad-pay-bank summary').count(),1,
