@@ -238,7 +238,7 @@
       '<p>'+esc(t.cryptoDonateHint)+'</p></div>'+
       '<div class="nomad-crypto-embed">'+
       '<iframe class="nomad-crypto-frame" title="'+esc(t.cryptoDonate)+'" '+
-      'src="'+PAY.donationWidget+'" width="346" height="690" loading="lazy" '+
+      'src="'+PAY.donationWidget+'" width="346" height="623" loading="lazy" '+
       'frameborder="0" scrolling="no" referrerpolicy="strict-origin-when-cross-origin">'+
       '</iframe></div></section>';
   }
