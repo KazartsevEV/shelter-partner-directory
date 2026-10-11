@@ -167,3 +167,28 @@ test('Issue #91 legacy full V1 adapter imports [0,10,15] without Infinity or inv
    }
  }
 });
+
+test('Issue #91 late-start [0,10,15] pools one shared rent payment each month',()=>{
+ const x={...base,months:3,monthlyForecast:[0,10,15],capacity:25,
+   vatPct:0,fixedCashMonthly:600,adBudget:200};
+ const a=sku(x,'offline','svc'),b=sku(x,'offline','svc2');
+ const portfolio=state([a,b],3);
+ portfolio.resources.push({id:'one-room',kind:'premises',label:'Shared studio',
+   cadence:'monthly',amount:100,pool:'none',
+   poolBySku:{svc:'unitCost',svc2:'unitCost'},
+   cashOriginBySku:{svc:'production',svc2:'production'},
+   allocation:'usage',skuIds:['svc','svc2'],usage:{svc:1,svc2:1},
+   includedBySku:{svc:100,svc2:100}});
+ const r=Linked.build(portfolio);
+ A.equal(r.ready,true,JSON.stringify(r.errors));
+ A.deepEqual(r.temporal.months.map(m=>[m.orders.svc,m.orders.svc2]),
+   [[0,0],[10,10],[15,15]]);
+ for(let i=0;i<3;i++){
+   close(r.cashflow.months[i].shared,100,'one pooled room invoice '+(i+1));
+   close(r.cashflow.periodPnl.months[i].operatingShared,100,'one pooled rent accrual '+(i+1));
+ }
+ close(r.cashflow.periodPnl.months[0].revenue,0,'no synthetic clients in month 1');
+ A.ok(r.cashflow.months[0].stockPurchase>0,
+   'unpooled fixed rent stays due in empty first month');
+ A.equal(r.cashflow.periodPnl.invariants.revenueConserved,true);
+});
