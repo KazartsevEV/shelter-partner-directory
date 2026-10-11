@@ -36,6 +36,49 @@
      return Object.fromEntries(headings.map((h,j)=>[h,cells[j].trim()]));
    });
  }
+
+ // A compact receipt-based Nomad360 JSON template. One receipt may contain
+ // several SKU lines, but still contributes only one observed purchase.
+ function exampleReceipts(skuIds=[]){
+   const a=String(skuIds[0]||'sku-1'),b=String(skuIds[1]||'sku-2');
+   return {format:'nomad360-mba-receipts',version:1,orders:[
+     {order_id:'DEMO-001',date:'2026-09-01',currency:'GEL',channel:'web',status:'paid',
+       items:[{sku_id:a,quantity:1,unit_price:120},{sku_id:b,quantity:1,unit_price:35}]},
+     {order_id:'DEMO-002',date:'2026-09-02',currency:'GEL',channel:'web',status:'paid',
+       items:[{sku_id:a,quantity:1,unit_price:120}]},
+     {order_id:'DEMO-003',date:'2026-09-03',currency:'GEL',channel:'web',status:'paid',
+       items:[{sku_id:a,quantity:1,unit_price:120},{sku_id:b,quantity:2,unit_price:35}]}
+   ]};
+ }
+ function flattenReceipts(data){
+   if(data?.format!=='nomad360-mba-receipts'||data?.version!==1||!Array.isArray(data.orders))
+     fail('Нужен шаблон JSON Nomad360 версии 1 с массивом orders.');
+   const seenOrders=new Set();
+   return data.orders.flatMap((order,i)=>{
+     if(!order||typeof order!=='object'||Array.isArray(order)||
+        !Array.isArray(order.items)||!order.items.length)
+       fail('Чек '+(i+1)+': нужен непустой список items.');
+     const orderId=String(order.order_id??'').trim();
+     if(!orderId||seenOrders.has(orderId))fail('Номер чека должен быть заполнен и уникален: '+orderId);
+     seenOrders.add(orderId);
+     return order.items.map((line,j)=>{
+       if(!line||typeof line!=='object'||Array.isArray(line))
+         fail('Чек '+orderId+': неверная позиция '+(j+1)+'.');
+       return {order_id:orderId,date:order.date,channel:order.channel,
+         currency:order.currency,status:order.status||'paid',buyer_id:order.buyer_id||'',
+         sku_id:line.sku_id,quantity:line.quantity,unit_price:line.unit_price,
+         line_id:line.line_id||orderId+'-'+(j+1),
+         returned_quantity:line.returned_quantity??0,
+         returned:line.returned??false,canceled:line.canceled??false};
+     });
+   });
+ }
+ function receiptCsv(data){
+   const cols=['order_id','date','sku_id','quantity','unit_price','currency','channel','status','line_id'];
+   const q=v=>{const text=String(v??'');return /[",\\r\\n]/.test(text)?
+     '"'+text.replaceAll('"','""')+'"':text;};
+   return [cols.join(','),...flattenReceipts(data).map(row=>cols.map(k=>q(row[k])).join(','))].join('\\r\\n')+'\\r\\n';
+ }
  function read(text,format='auto'){
    if(typeof text!=='string'||!text.trim())fail('Выберите непустой CSV или JSON с чеками.');
    if(text.length>3500000)fail('Файл больше лимита 3,5 МБ. Разделите историю на периоды.');
@@ -43,9 +86,12 @@
    if(!['csv','json'].includes(kind))fail('Поддерживается только CSV или JSON.');
    let records;
    if(kind==='json'){
-     try{const raw=JSON.parse(text);records=Array.isArray(raw)?raw:raw?.lines}
-     catch(_){fail('Некорректный JSON чеков.')}
-     if(!Array.isArray(records))fail('JSON должен содержать массив строк или поле lines.');
+     let raw;
+     try{raw=JSON.parse(text)}catch(_){fail('Некорректный JSON чеков.')}
+     records=Array.isArray(raw)?raw:
+       raw?.format==='nomad360-mba-receipts'?flattenReceipts(raw):raw?.lines;
+     if(!Array.isArray(records))
+       fail('JSON должен содержать массив строк, поле lines или шаблон Nomad360 orders.');
    }else records=csvRows(text);
    if(records.length>20000)fail('Не больше 20 000 строк за один импорт.');
    const seen=new Map(),lines=[];
@@ -161,5 +207,5 @@
      duplicateLines:dataset?.deduplicated||0,
      items:Object.fromEntries(items),baskets};
  }
- return Object.freeze({read,analyze});
+ return Object.freeze({read,analyze,exampleReceipts,receiptCsv});
 });
