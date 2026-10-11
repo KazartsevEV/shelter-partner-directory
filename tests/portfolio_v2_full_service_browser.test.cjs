@@ -595,7 +595,7 @@ const {pathToFileURL}=require('node:url');
     'Full-service V1 horizon must not be requested again in V2');
   A.equal(await page.locator('[data-temporal-controls] [data-linked-path="recurringDemandApproved"]').count(),0,
     'V1 approved service forecast must not require second consent');
-  A.match(await page.locator('[data-temporal-controls]').textContent(),/Перенесён из полного расчёта V1/);
+  A.match(await page.locator('[data-temporal-controls]').textContent(),/Период из полного расчёта V1/);
   A.equal(linked.ready,true,JSON.stringify(linked.errors));
   A.equal(linked.months,6);
   A.equal(linked.kind,'offline-service');
