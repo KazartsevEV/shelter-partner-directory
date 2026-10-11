@@ -412,11 +412,15 @@ async function browserCase(browser,locale,expected){
      kk:'* ш.б. — сіздің валютаңыздағы ақша.'}[expected.lang]);
   A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
    A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),0,
-     'Standalone USDT and BTC QR codes removed in favour of Trybit');
+     'Standalone USDT and BTC QR codes removed in favour of NOWPayments');
   A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),6,
     'Copy targets: KZ phone, 4 SWIFT fields and Ozon phone');
-  A.equal(await page.locator('#nomad360-footer .nomad-donate-checkout-link').getAttribute('href'),
-    'https://donate.trybit.com/O8CSU052');
+  A.equal(await page.locator('#nomad360-footer .nomad-donate-checkout-link').count(),0,
+    'No Trybit outbound checkout action');
+  A.equal(await page.locator('#nomad360-footer iframe.nomad-crypto-frame').getAttribute('src'),
+    'https://nowpayments.io/embeds/donation-widget?api_key=47aebf88-76b9-4871-9217-d3f5b46de839');
+  A.equal(await page.locator('#nomad360-footer iframe.nomad-crypto-frame').count(),1,
+    'One always-present inline NOWPayments form');
   A.equal(await page.locator('#nomad360-footer .nomad-pay-bank summary').count(),1,
     'SWIFT data are in an accessible disclosure');
   A.equal(await page.locator('#nomad360-footer .nomad-russian-transfer summary').count(),1,
