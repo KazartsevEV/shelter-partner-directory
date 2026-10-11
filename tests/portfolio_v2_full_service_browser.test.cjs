@@ -35,6 +35,12 @@ const {pathToFileURL}=require('node:url');
   A.match(await page.locator('#product-intro-category').textContent(),/Онлайн-услуга/);
   A.equal(await page.locator('#offline-service-capacity').isVisible(),false,
     'Online service has no physical capacity requirement');
+  A.equal(await page.locator('#product-production-quantity-panel').isVisible(),false,
+    'Service production quantity must not be a customer-input field');
+  A.equal(await page.locator('#product-sales-quantity-panel').isVisible(),false,
+    'Service sold quantity must not be a customer-input field');
+  A.equal(await page.locator('#own-sales-fixed-per-unit').textContent(),'—',
+    'Before advertising, service unit sales costs cannot be fabricated');
   await page.locator('#product-main-back').click();
   A.equal(await page.locator('#service-screen').isVisible(),true);
   await page.locator('#service-screen button[onclick="selectServiceMode(\'hired\')"]').click();
@@ -51,6 +57,8 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#product-intro-submit-label').click();
   A.equal(await page.locator('#service-v1-agent-panel').isVisible(),true);
   A.equal(await page.evaluate(()=>selectedServiceRole),'agent');
+  A.equal(await page.locator('#product-production-quantity-panel').isVisible(),false);
+  A.equal(await page.locator('#product-sales-quantity-panel').isVisible(),false);
   await page.locator('#service-agent-partner-price').fill('100');
   await page.locator('#service-agent-fee-pct').fill('20');
   await page.locator('#service-agent-partner-vat').fill('10');
@@ -272,6 +280,8 @@ const {pathToFileURL}=require('node:url');
     'Full offline hired should open the native product V1');
   A.equal(await page.evaluate(()=>productionLaborMode),'workers');
   A.equal(await page.evaluate(()=>productSource),'offline-service');
+  A.equal(await page.locator('#product-production-quantity-panel').isVisible(),false);
+  A.equal(await page.locator('#product-sales-quantity-panel').isVisible(),false);
   A.equal(await page.locator('#full-service-screen').isVisible(),false);
   A.equal(await page.locator('#full-service-offline-entry').isVisible(),false);
   A.equal(await page.locator('#product-screen').evaluate(e=>e.classList.contains('nd-full-single-offline')),false,
@@ -299,6 +309,38 @@ const {pathToFileURL}=require('node:url');
   A.equal(snapshot.forecastUnitsPerMonth,20);
   A.equal(snapshot.offlineServiceCapacity,250);
   A.equal(snapshot.materialsUnitCost,8);
+  // Only advertising can change the unit denominator. The old hidden
+  // quantity fields must not override it, including after editing a draft.
+  const exactUnit=await page.evaluate(()=>{
+    const sales=document.getElementById('own-sales-monthly-qty');
+    const made=document.getElementById('own-production-monthly-qty');
+    sales.value='999';made.value='999';
+    productOwnChoices.payroll='yes';
+    document.getElementById('own-payroll-rewards').value='200';
+    recalculateSalesCostSummary();recalculateProductionUnitCost();
+    const actual=productNumberFromText('own-sales-fixed-per-unit');
+    const prodQty=productNumberFromText('own-product-ad-units');
+    const isHidden=document.getElementById('product-sales-quantity-panel').hidden;
+    productOwnChoices.payroll='no';
+    document.getElementById('own-payroll-rewards').value='0';
+    syncOfflineServiceForecast();
+    return {actual,prodQty,isHidden,
+      restoredSales:sales.value,restoredMade:made.value};
+  });
+  A.equal(exactUnit.actual,10,'200 payroll ÷ 20 advertising clients = 10 per service');
+  A.equal(exactUnit.prodQty,20);
+  A.equal(exactUnit.isHidden,true);
+  A.equal(exactUnit.restoredSales,'20');
+  A.equal(exactUnit.restoredMade,'20');
+  const capacityGate=await page.evaluate(()=>{
+    const field=document.getElementById('offline-service-monthly-capacity');
+    field.value='5';syncOfflineServiceForecast();
+    const blocked=aggregateQuantityIssues(currentProductPortfolioSnapshot());
+    field.value='250';syncOfflineServiceForecast();
+    return blocked;
+  });
+  A.ok(capacityGate.some(s=>s.includes('превышает')),
+    'Existing capacity gate rejects funnel demand above physical service throughput');
   await page.locator('#assortment-complete-button').click();
   A.equal(await page.locator('#product-tax-block').isVisible(),true,
     'Native V1 business tax stage follows completed single service');
@@ -632,6 +674,10 @@ const {pathToFileURL}=require('node:url');
       A.equal(await acceptance.locator('#service-v1-horizon-panel').isVisible(),true);
       A.equal(await acceptance.locator('#service-v1-agent-panel').isVisible(),role==='agent');
       A.equal(await acceptance.locator('#offline-service-capacity').isVisible(),channel==='offline');
+      A.equal(await acceptance.locator('#product-production-quantity-panel').isVisible(),false,
+        channel+'/'+role+' cannot type expected service production');
+      A.equal(await acceptance.locator('#product-sales-quantity-panel').isVisible(),false,
+        channel+'/'+role+' cannot type expected service sales');
       const routeState=await acceptance.evaluate(()=>({
         source:productSource,channel:serviceChannel,role:selectedServiceRole,
         labor:productionLaborMode,
@@ -677,6 +723,15 @@ const {pathToFileURL}=require('node:url');
   }));
   A.deepEqual(legacyState,{name:'Архивная майка',source:'resale',
     count:1,vat:'no',tax:'turnover'});
+  A.equal(await acceptance.locator('#product-sales-quantity-panel').isVisible(),true,
+    'Original goods V1 retains its editable monthly sales field');
+  // Own-made goods also keep an independent physical production quantity.
+  await acceptance.evaluate(()=>{
+    productSource='own';setResaleProductPanels();
+    configureOfflineServiceView();
+  });
+  A.equal(await acceptance.locator('#product-production-quantity-panel').isVisible(),true,
+    'Goods V1 keeps editable quantity of physically manufactured stock');
   A.deepEqual(acceptanceErrors,[],'No runtime errors across six V1 routes + old goods restore');
   await acceptance.close();
   A.deepEqual(errors,[]);
