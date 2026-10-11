@@ -45,13 +45,11 @@ function fetchFile(url,redirects=0){
 }
 async function verify(mode){
  const source=fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
- // Cache-busting query params do not change canonical asset identity.
- const normalizedSource=source.replace(/(\.js)\?v=[A-Za-z0-9_-]+(?=\"><\/script>)/g,'$1');
  for(const file of files.slice(1)){
   const inclusion=file.endsWith('.css')?
    '<link rel="stylesheet" href="./'+file+'">':
    '<script src="./'+file+'"></script>';
-  A.ok(normalizedSource.includes(inclusion),
+  A.ok(source.includes(inclusion),
    'HTML must reference canonical asset: '+file);
   A.ok(fs.existsSync(path.join(__dirname,'..',file)),
    'HTML references missing local script: '+file);
