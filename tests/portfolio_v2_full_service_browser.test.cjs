@@ -738,6 +738,30 @@ const {pathToFileURL}=require('node:url');
   });
   A.equal(await acceptance.locator('#product-production-quantity-panel').isVisible(),true,
     'Goods V1 keeps editable quantity of physically manufactured stock');
+  // Goods V1 provides batch and monthly demand. V2 derives the sale horizon.
+  const goodsHorizon=await acceptance.evaluate(()=>{
+    localStorage.removeItem('marketingCalcLinkedPortfolioV2');
+    LinkedPortfolioV2UI.importFromV1({tax:{type:'turnover',pct:3},skus:[{
+      id:'batch-horizon',name:'Batch 60',source:'resale',
+      unitCost:20,forecastUnitsPerMonth:20,adBudget:100,baseCac:5,
+      priceMin:90,priceMax:200,maxDiscountPct:0,
+      minimumMarginPct:10,targetMarginPct:25,
+      salesFixedMonthly:0,adManagement:0,variableSalesPct:0,
+      vatPct:0,inventoryQty:60,materialsBatchTotal:1200,productionTotal:0,
+      supplyDays:15,productionDays:0,reserveAmount:0
+    }]});
+    const state=LinkedPortfolioV2UI.getState();
+    const built=LinkedPortfolioV2Engine.build(state);
+    return {months:state.forecastMonths,inherited:state.v1HorizonInherited,
+      approved:state.recurringDemandApproved,
+      controls:document.querySelectorAll('[data-temporal-controls] [data-linked-path="forecastMonths"]').length,
+      temporal:built.temporal?.months?.length};
+  });
+  A.equal(goodsHorizon.months,4,'60 units at 20/month + 15-day lead require four calendar months');
+  A.equal(goodsHorizon.inherited,true);
+  A.equal(goodsHorizon.approved,true);
+  A.equal(goodsHorizon.controls,0,'V1 batch horizon must not be requested again');
+  A.equal(goodsHorizon.temporal,4,'V2 monthly sales use inherited V1 horizon');
   A.deepEqual(acceptanceErrors,[],'No runtime errors across six V1 routes + old goods restore');
   await acceptance.close();
   A.deepEqual(errors,[]);
