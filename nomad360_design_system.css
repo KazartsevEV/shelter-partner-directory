@@ -1933,3 +1933,58 @@ body #calculator-screen.nd-agent-mode #inputs-container > .nd-agent-own-tax-fiel
 body #calculator-screen.nd-agent-mode #inputs-container > .nd-agent-own-tax-field input{
   max-width:100%
 }
+/* NAV-TREE-01: global decision tree. One navigable parent + clickable ancestors
+   on every screen; independent from V1/V2 economic and persistence controllers. */
+body > nav.nd-journey-nav{
+  box-sizing:border-box;
+  max-width:1100px;
+  width:100%;
+  margin:0 auto 20px;
+  padding:14px clamp(14px,3vw,22px);
+  min-width:0;
+  background:var(--nd-panel);
+  color:var(--nd-v1-navy,#16375a);
+  border:1px solid var(--nd-v1-rule,#cbd5de);
+  border-radius:var(--nd-radius);
+  font-family:var(--nd-font);
+  box-shadow:none;
+}
+body > nav.nd-journey-nav[hidden]{display:none!important}
+body > nav.nd-journey-nav .nd-tree-back{
+  display:inline-flex;align-items:center;min-height:42px;
+  max-width:100%;padding:7px 10px;
+  border:1px solid var(--nd-v1-rule,#cbd5de);
+  background:var(--nd-panel);color:var(--nd-v1-navy,#16375a);
+  border-radius:var(--nd-radius);font:700 16px/1.35 var(--nd-font);
+  text-align:left;overflow-wrap:anywhere;cursor:pointer;
+}
+body > nav.nd-journey-nav :is(.nd-tree-back,.nd-tree-link):focus-visible{
+  outline:3px solid var(--nd-cta-orange,#ed8e63);outline-offset:3px
+}
+body > nav.nd-journey-nav .nd-tree-back:hover{
+  background:var(--nd-v1-soft,#f5f7f9)
+}
+body > nav.nd-journey-nav .nd-tree-crumbs{
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:6px 8px;max-width:100%;min-width:0;
+  margin-top:10px;font:600 14px/1.45 var(--nd-font)
+}
+body > nav.nd-journey-nav .nd-tree-link{
+  border:0;background:none;padding:4px 2px;
+  color:var(--nd-v1-navy,#16375a);
+  text-decoration:underline;text-underline-offset:3px;
+  text-align:left;overflow-wrap:anywhere;cursor:pointer
+}
+body > nav.nd-journey-nav .nd-tree-current{
+  color:var(--nd-v1-muted,#40546a);
+  font-weight:700;overflow-wrap:anywhere
+}
+body > nav.nd-journey-nav .nd-tree-separator{
+  color:var(--nd-v1-muted,#40546a);flex:none
+}
+@media(max-width:560px){
+  body > nav.nd-journey-nav{padding:12px 14px;margin-bottom:18px}
+  body > nav.nd-journey-nav .nd-tree-crumbs{font-size:13px;gap:3px 5px}
+  body > nav.nd-journey-nav .nd-tree-back{font-size:15px}
+}
+@media print{body > nav.nd-journey-nav{display:none!important}}
