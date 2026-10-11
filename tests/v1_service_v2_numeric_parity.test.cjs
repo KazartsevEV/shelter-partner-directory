@@ -14,7 +14,7 @@ function between(begin,end){
   return html.slice(a,b);
 }
 const source=[
-  between('function serviceAgencyExpenseSplit(item,receipts=0){',
+  between('function serviceAgencyExpenseSplit(item,receipts=0,volume=null){',
     'function currentProductPortfolioSnapshot() {'),
   between('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
   between('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
