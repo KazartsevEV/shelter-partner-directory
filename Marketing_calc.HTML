@@ -339,7 +339,6 @@
     <section id="service-work-screen" class="max-w-5xl mx-auto hidden" hidden>
         <button type="button" onclick="showHome()" class="text-sm text-blue-600 hover:underline mb-4">← Главная</button>
         <div class="card p-6 md:p-8">
-            <a class="nd-context-link" href="#home-screen" onclick="showHome();return false;">Услуга</a>
             <div class="nd-service-money-chooser" aria-labelledby="service-financial-heading">
               <h1 id="service-financial-heading" class="text-3xl font-bold text-slate-900">Как рассчитать деньги?</h1>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
@@ -363,7 +362,6 @@
     <section id="service-screen" class="max-w-5xl mx-auto hidden">
         <button onclick="showServiceWorkChooser()" class="text-sm text-blue-600 hover:underline mb-4">← Онлайн / офлайн</button>
         <div class="card p-6 md:p-8">
-            <a class="nd-context-link" href="#service-work-screen" onclick="showServiceWorkChooser();return false;">Онлайн</a>
             <h1 class="text-3xl font-bold text-slate-900">Кто исполнитель услуги?</h1>
             <p class="text-sm text-slate-500 mt-2">Выберите, как устроены деньги между клиентом, вами и исполнителем.</p>
             <p id="service-full-agent-status" class="text-sm text-rose-700 mt-2" role="status" aria-live="polite"></p>
@@ -433,7 +431,7 @@
         <div id="completed-product-forms" class="space-y-5 mb-5"></div>
 
         <div class="card p-6 md:p-8">
-            <a id="product-intro-category" class="nd-context-link" href="#home-screen" onclick="showHome();return false;">Товар</a>
+            <span id="product-intro-category" class="nd-context-label">Товар</span>
             <h1 id="product-intro-title" class="text-3xl font-bold text-slate-900">Что продаёте?</h1>
 
             <form class="mt-6" onsubmit="submitProductIntro(event)">
@@ -2106,8 +2104,6 @@
             const offline=serviceChannel==='offline';
             const heading=document.querySelector('#service-screen h1');
             if(heading)heading.textContent=offline?'Кто оказывает офлайн-услугу?':'Кто исполнитель онлайн-услуги?';
-            const context=document.querySelector('#service-screen .nd-context-link');
-            if(context)context.textContent=offline?'Офлайн':'Онлайн';
             const err=document.getElementById('service-full-agent-status');
             if(err)err.textContent='';
             syncServiceFinancialRoute();
