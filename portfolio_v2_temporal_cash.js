@@ -134,6 +134,14 @@
        const salesRate=days>EPS?qty/days:0;
        const revenueRate=days>EPS?invoice/days:0;
        timeline[id].push({month:month.month,start,end,orders:qty,netRevenue:invoice});
+       if(s.source==='online-service'&&s.fullServiceV2&&s.nativeProductV1===true){
+          const fixed=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
+          // Native online rent and payroll are fixed calendar cash costs,
+          // including months with no client bookings.
+          post(mStart,'stockPurchase',fixed);
+          post(mStart,'fixedAccrual',fixed);
+          accrue(id,mStart,'serviceFixed',fixed);
+       }
        if(s.source==='offline-service'){
           const rent=Math.max(0,pos(s.serviceFixedMonthly)-pos(s.cashOffsets?.production));
           post(mStart,'stockPurchase',rent);
