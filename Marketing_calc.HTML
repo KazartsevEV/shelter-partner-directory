@@ -5122,8 +5122,11 @@
                     report('Для «'+item.name+'» не готов диапазон цены после скидок. '+(range.error||'Заполните максимальную скидку, минимальную и целевую маржу.') );
                     return false;
                 }
-                if(!(row.forecastSales>0&&row.adBudget>0&&row.baseCac>0)){
-                    report('Для «'+item.name+'» не готов рекламный прогноз. Вернитесь к настройкам бюджета и конверсии.');
+                const explicitFullService=item.source==='offline-service'&&
+                    item.serviceFinanceMode==='full'&&serviceDemandProfile(item).valid;
+                if(!(row.forecastSales>0&&
+                    (explicitFullService||(row.adBudget>0&&row.baseCac>0)))){
+                    report('Для «'+item.name+'» не готов прогноз клиентов. Заполните рекламную воронку или помесячный план спроса.');
                     return false;
                 }
                 const credit=calculateAggregateCredit(item);
@@ -5303,7 +5306,9 @@
                         <div class="aggregate-title font-bold mb-2">Cash flow по месяцам — ${cashFlow.months.length} месяцев</div>
                         <div class="aggregate-muted text-xs mb-3">
                             ${fullService?
-                                'Период расчёта услуги — '+cashFlow.months.length+' мес. Месяц = 30 дней. Прогноз оказанных услуг повторяется по месяцам, расходы учитываются каждый месяц.':
+                                'Период оказания услуги — '+productPortfolio[0].serviceHorizonMonths+
+                                    ' мес.; финансовый календарь — '+cashFlow.months.length+
+                                    ' мес. Месяц = 30 дней. Количество услуг берётся из помесячного плана; аренда и реклама оплачиваются также в месяцы без клиентов.':
                                 '<strong>Период: со дня 0 до дня '+Math.ceil(cashFlow.horizonDays)+'. Распродажа заканчивается на '+Math.ceil(cashFlow.saleEndDays)+'-й день.</strong> Один месяц = 30 дней. Первый месяц — дни 0–29, второй — 30–59. Последний может быть неполным. При кредите срок продлевается до последнего платежа.'}
                         </div>
                         <div class="aggregate-muted text-xs mb-3">
@@ -5323,6 +5328,7 @@
                                 </thead>
                                 <tbody>
                                     ${[
+                                        ...(fullService?[['Оказано услуг', 'serviceQuantity']]:[]),
                                         ['Поступления (включая внесённые деньги / кредит)', 'inflow'],
                                         ['Выплаты (включая налог и возврат кредита)', 'outflow'],
                                         ['Налоги с бизнеса', 'taxPaid'],
@@ -5338,7 +5344,7 @@
                                             <td class="py-2 pr-4 font-semibold whitespace-nowrap">${label}</td>
                                             ${cashFlow.months.map(month => `
                                                 <td class="py-2 px-2 text-right font-bold whitespace-nowrap">
-                                                    ${money(month[key])}
+                                                    ${key==='serviceQuantity'?Number(month.serviceQuantity||0).toLocaleString(nomadDisplayLocale(),{maximumFractionDigits:2}):money(month[key])}
                                                 </td>
                                             `).join('')}
                                         </tr>
@@ -5930,12 +5936,12 @@
                 ['Резерв (не расход)',number(flow.reserveLocked||0)],
                 ['Свободный остаток',number(flow.freeCumulativeEnd)]
             ]);
-            const headers=['Месяц','Выручка без НДС','Расходы','Налог'];
+            const headers=['Месяц',...(service?['Оказано услуг']:[]),'Выручка без НДС','Расходы','Налог'];
             if(anyCredit)headers.push('Проценты','Возврат тела кредита');
             headers.push('Оборудование / CAPEX','Внесено денег','Cash Flow','Остаток','Свободные деньги');
             html+='<h2>Денежный поток по месяцам</h2>'+table(headers,
                 flow.months.map(m=>{
-                    const row=[m.month,number(m.inflow-m.financedInflow),
+                    const row=[m.month,...(service?[number(m.serviceQuantity||0)]:[]),number(m.inflow-m.financedInflow),
                         number(m.outflow-m.taxPaid-m.interestPaid-m.principalRepaid-
                             (m.capexPaid||0)),number(m.taxPaid)];
                     if(anyCredit)row.push(number(m.interestPaid),number(m.principalRepaid));
@@ -6813,7 +6819,7 @@
             Object.keys(productImportPayers).forEach(key => productImportPayers[key] = null);
             Object.keys(productLogisticsPayers).forEach(key => productLogisticsPayers[key] = null);
 
-            document.querySelectorAll('#product-own-form input').forEach(input => {
+            document.querySelectorAll('#product-own-form input, #product-own-form textarea').forEach(input => {
                 input.value = input.defaultValue || '';
                 input.disabled = false;
             });
