@@ -5731,7 +5731,92 @@
         }
 
         function exportProductCalculationPdf() {
+            // All site print media intentionally hide the interactive body.
+            // Native V1 must prepare its own #nomad360-print-sheet or the PDF
+            // contains a blank page. The same exporter serves goods/services.
+            if(productName&&['own','resale','dropship','offline-service'].includes(productSource))
+                saveCurrentProductToPortfolio();
+            const model=calculateProductPortfolio(),flow=calculateProductCashFlow(model);
+            const status=document.getElementById('product-browser-save-status');
+            if(!model.pricingReady||!flow.ready||!model.items.length){
+                if(status)status.textContent='Завершите расчёт цены, налога и денежного потока перед сохранением PDF.';
+                return false;
+            }
+            const safe=value=>String(value??'')
+                .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+                .replaceAll('"','&quot;').replaceAll("'",'&#039;');
+            const number=value=>Number.isFinite(Number(value))?
+                Number(value).toLocaleString(nomadDisplayLocale(),{
+                    minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+            const cell=(value,td=false)=>
+                '<'+(td?'td':'th')+' class="'+(td?'n':'')+'">'+safe(value)+'</'+(td?'td':'th')+'>';
+            const table=(headers,rows)=>'<table class="nomad-export-table">'+
+                '<thead><tr>'+headers.map(h=>cell(h)).join('')+'</tr></thead>'+
+                '<tbody>'+rows.map(row=>'<tr>'+row.map(v=>cell(v,true)).join('')+
+                '</tr>').join('')+'</tbody></table>';
+            const service=productPortfolio.length===1&&
+                productPortfolio[0]?.serviceFinanceMode==='full';
+            const anyCredit=productPortfolio.some(item=>item.planning?.fundingMode==='credit');
+            const revenue=flow.months.reduce((n,m)=>n+m.inflow-m.financedInflow,0);
+            const tax=flow.months.reduce((n,m)=>n+m.taxPaid,0);
+            const ownerPnl=flow.months.reduce((n,m)=>n+m.taxableProfit-m.taxPaid,0);
+            const horizon=flow.months.length,heading=service?'Расчёт одной услуги V1':'Расчёт бизнеса V1';
+            let html='<header class="nomad-print-head"><div>NOMAD360</div><h1>'+
+                safe(heading)+'</h1><p>Период: '+horizon+
+                ' месяцев · Выручка и налоги без транзитного НДС</p></header>';
+            const vat=productOwnChoices.salesVat==='yes'?productNumber('own-sales-vat-pct'):0;
+            html+='<h2>Утверждённые позиции и цены</h2>'+table(
+                ['Товар / услуга','Канал','Роль','Цена без НДС','Цена с НДС','Количество / мес.'],
+                model.items.map(row=>{
+                    const item=productPortfolio.find(x=>x.id===row.id);
+                    const v=Math.max(0,Number(item?.inputs?.['own-sales-vat-pct'])||vat);
+                    const quote=Number(row.price)*Number(model.taxPriceMultiplier);
+                    return [row.name,item?.serviceChannel||item?.source,
+                        item?.serviceRole||'—',number(quote),
+                        number(quote*(1+v/100)),number(row.forecastSales)];
+                }));
+            html+='<h2>Финансовый результат за период</h2>'+table(['Показатель','Сумма'],[
+                ['Выручка без НДС',number(revenue)],
+                ['Налог бизнеса',number(tax)],
+                ['Прибыль после налога',number(ownerPnl)],
+                ['Стартовое финансирование',number(flow.months[0]?.financedInflow||0)],
+                ['Резерв (не расход)',number(flow.reserveLocked||0)],
+                ['Свободный остаток',number(flow.freeCumulativeEnd)]
+            ]);
+            const headers=['Месяц','Выручка без НДС','Расходы','Налог'];
+            if(anyCredit)headers.push('Проценты','Возврат тела кредита');
+            headers.push('Оборудование / CAPEX','Внесено денег','Cash Flow','Остаток','Свободные деньги');
+            html+='<h2>Денежный поток по месяцам</h2>'+table(headers,
+                flow.months.map(m=>{
+                    const row=[m.month,number(m.inflow-m.financedInflow),
+                        number(m.outflow-m.taxPaid-m.interestPaid-m.principalRepaid-
+                            (m.capexPaid||0)),number(m.taxPaid)];
+                    if(anyCredit)row.push(number(m.interestPaid),number(m.principalRepaid));
+                    row.push(number(m.capexPaid||0),number(m.financedInflow),
+                        number(m.cashFlow),number(m.cumulative),number(m.freeCumulative));
+                    return row;
+                }));
+            const partner=service&&productPortfolio[0]?.serviceRole==='agent';
+            if(partner){
+                html+='<h2>Экономика партнёра — отдельно от агентского вознаграждения</h2>'+
+                    table(['Месяц','Выручка партнёра без НДС','Расходы с агентом',
+                        'Налог партнёра','Прибыль партнёра'],
+                        flow.months.map(m=>[m.month,number(m.partnerRevenue),
+                            number(m.partnerCosts),number(m.partnerTax),
+                            number(m.partnerProfit)]));
+            }
+            html+='<p class="nomad-footnote">Собственные вложения и тело кредита не являются выручкой. '+
+                'Покупка оборудования показана денежным расходом; амортизация относится к прибыли. '+
+                'Расчёт по введённым пользователем данным.</p>'+
+                '<footer class="nomad-print-end">NOMAD360 · Расчёт V1</footer>';
+            let sheet=document.getElementById('nomad360-print-sheet');
+            if(!sheet){sheet=document.createElement('section');
+                sheet.id='nomad360-print-sheet';document.body.append(sheet);}
+            sheet.dataset.mode='v1-product';
+            sheet.innerHTML=html;
+            if(status)status.textContent='Документ подготовлен. В окне печати выберите «Сохранить как PDF».';
             window.print();
+            return true;
         }
 
         function aggregateDaysText(value) {
