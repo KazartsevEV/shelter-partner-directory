@@ -1953,10 +1953,10 @@ body .nd-tree-active-back{
   cursor:pointer;border-radius:0!important;
   transition:none!important;animation:none!important;
 }
-body > nav.nd-journey-nav .nd-tree-back{color:#16375a!important}
+body > nav.nd-journey-nav .nd-tree-back{color:#fff!important}
 body :is(#service-work-screen,#service-screen,#agent-screen,#agent-complex-screen,#product-screen)
- > button.nd-tree-active-back{color:#16375a!important}
-body #calculator-screen > .max-w-7xl:first-child > button.nd-tree-active-back{color:#16375a!important}
+ > button.nd-tree-active-back{color:#fff!important}
+body #calculator-screen > .max-w-7xl:first-child > button.nd-tree-active-back{color:#fff!important}
 body .nd-tree-active-back:focus-visible,
 body > nav.nd-journey-nav .nd-tree-back:focus-visible{
   outline:3px solid var(--nd-cta-orange);outline-offset:4px
@@ -1973,11 +1973,11 @@ body.nd-tree-business-return #product-main-back{display:none!important}
  body > nav.nd-journey-nav{display:none!important}
  body .nd-tree-active-back{display:none!important}
 }
-/* Route canvases are light: preserve the original navy-on-paper service
-   arrow contrast. Orange remains the underline accent, not the text color. */
+/* Outside V1 cards the actual Nomad360 canvas is navy. Match the original
+   white/orange service arrow, including the agent-specific specificity. */
 body #agent-screen.nd-agent-screen > button.nd-agent-back.nd-tree-active-back,
 body #agent-complex-screen.nd-agent-screen > button.nd-agent-back.nd-tree-active-back{
-  color:#16375a!important;
+  color:#fff!important;
 }
 
 /* NAV-TREE-03: dynamic V2 buttons sit on dark banners. The standalone
