@@ -266,10 +266,10 @@
 </head>
 <body class="p-4 md:p-8">
 
-    <!-- Shared decision-tree navigation: one accessible back route across V1 and V2. -->
+    <!-- Navigation controller reuses each screen's native ← back link.
+         This compact fallback is rendered only when a screen has no native link. -->
     <nav id="nomad360-tree-nav" class="nd-journey-nav" aria-label="Навигация по шагам расчёта" data-nomad-no-translate hidden>
         <button type="button" id="nomad360-tree-back" class="nd-tree-back">← Назад</button>
-        <div id="nomad360-tree-crumbs" class="nd-tree-crumbs" aria-label="Путь расчёта"></div>
     </nav>
     <!-- ENTRY / ROUTING SCREENS -->
     <section id="home-screen" class="max-w-4xl mx-auto">
