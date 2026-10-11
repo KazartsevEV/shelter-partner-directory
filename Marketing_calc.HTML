@@ -1388,16 +1388,13 @@
 
                 <div id="product-portfolio-list" class="hidden mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"></div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-5">
+                <div class="grid grid-cols-1 gap-3 mt-5">
                     <button id="assortment-complete-button" type="button" onclick="setProductAssortmentChoice('complete')" class="rounded-xl border-2 border-emerald-300 bg-emerald-50 text-emerald-800 px-4 py-3 font-bold text-left">
                         Это мой единственный <span class="product-name-live"></span>
                     </button>
-                    <button type="button" onclick="setProductAssortmentChoice('more')" class="nd-assortment-more rounded-xl border-2 border-slate-300 bg-slate-50 text-blue-800 px-4 py-3 font-bold text-left">
-                        <span id="service-assortment-more">У меня будут другие товары</span>
-                    </button>
                 </div>
 
-                <button id="add-product-button" type="button" onclick="saveAndChooseNextPortfolioItem()" class="nd-cta-primary hidden mt-4 w-full rounded-xl bg-blue-700 text-white px-5 py-3.5 font-bold shadow-md hover:bg-blue-800 transition">
+                <button id="add-product-button" type="button" onclick="saveAndChooseNextPortfolioItem()" class="nd-cta-primary mt-4 w-full rounded-xl bg-blue-700 text-white px-5 py-3.5 font-bold shadow-md hover:bg-blue-800 transition">
                     <span id="service-assortment-add">+ Добавить товар или услугу</span>
                 </button>
 
@@ -6787,13 +6784,6 @@
                 return;
             }
 
-            if (choice === 'more') {
-                if (taxBlock) {
-                    taxBlock.hidden = true;
-                    taxBlock.classList.add('hidden');
-                }
-                if (addButton) addButton.classList.remove('hidden');
-            }
         }
 
         function resetCurrentProductForNext() {
@@ -6862,7 +6852,7 @@
             }
 
             const addButton = document.getElementById('add-product-button');
-            if (addButton) addButton.classList.add('hidden');
+            if (addButton) addButton.classList.remove('hidden');
 
             const nameInput = document.getElementById('product-name-input');
             nameInput.value = '';
@@ -7287,7 +7277,6 @@
             set('service-ads-description',service?'Прогноз: рекламный бюджет → клики → обращения → записи → оказанные услуги. CAC — стоимость привлечения клиента.':'Считаем воронку этого SKU: рекламный бюджет → клики → лиды → покупки → Base CAC товара.');
             set('service-assortment-kicker',service?'Мои услуги':'Ассортимент');
             set('service-assortment-heading',service?'Это все ваши услуги?':'Это весь ваш ассортимент?');
-            set('service-assortment-more',service?'У меня будут другие услуги':'У меня будут другие товары');
             set('service-assortment-add','+ Добавить товар или услугу');
             set('production-stage-heading',service?(serviceChannel==='online'?'Онлайн-услуга · исполнение':'Офлайн-услуга · рабочее место и персонал'):'Производство');
             set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');

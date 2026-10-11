@@ -146,6 +146,12 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
     'rgb(22, 55, 90)');
    const orangeAction=page.locator('#agent-screen button.nd-agent-percentage-cta');
+   // Viewport changes may leave a short transition at a mid-animation RGB.
+   // Verify the final brand color instead of sampling an intermediate frame.
+   await page.waitForFunction(()=>{
+     const el=document.querySelector('#agent-screen button.nd-agent-percentage-cta');
+     return el&&getComputedStyle(el).backgroundColor==='rgb(237, 142, 99)';
+   },null,{timeout:3000});
    A.equal(await orangeAction.evaluate(el=>getComputedStyle(el).backgroundColor),
      'rgb(237, 142, 99)','orange agent CTA at '+width);
    A.equal(await orangeAction.locator('.font-semibold').evaluate(el=>getComputedStyle(el).color),
