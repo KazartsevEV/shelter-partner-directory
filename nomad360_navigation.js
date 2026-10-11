@@ -38,7 +38,17 @@
  };
  let trail=[],restoring=false,queued=false;
  const byId=id=>document.getElementById(id);
- const visible=el=>Boolean(el&&!el.hidden&&!el.classList.contains('hidden'));
+ // A button inside a hidden panel is not a usable back action even if the
+ // button's own hidden class was removed by the saved-item editor.
+ function visible(el){
+  if(!el||!el.isConnected)return false;
+  for(let node=el;node&&node.nodeType===1;node=node.parentElement){
+   if(node.hidden||node.classList.contains('hidden'))return false;
+   const style=getComputedStyle(node);
+   if(style.display==='none'||style.visibility==='hidden'||style.visibility==='collapse')return false;
+  }
+  return el.getClientRects().length>0;
+ }
  const locale=()=>String(root.Nomad360LocaleCore?.locale?.()||
     root.Nomad360UI?.getLanguage?.()||document.documentElement.lang||'ru').slice(0,2);
  const dict=()=>dictionaries[locale()]||dictionaries.ru;
@@ -97,9 +107,13 @@
  function nativeFor(screen){
   if(screen==='product-screen'&&visible(byId('product-business-back-button')))
    return byId('product-business-back-button');
-  return document.querySelector(nativeSelectors[screen]||'#nomad360-not-a-control');
+  return [...document.querySelectorAll(nativeSelectors[screen]||'#nomad360-not-a-control')]
+   .find(visible)||null;
  }
  function render(){
+  // Clear the previous special-return styling before choosing the next button.
+  // Otherwise CSS can hide product-main-back and create a zero-arrow state.
+  document.body.classList.remove('nd-tree-business-return');
   const d=dict(),entries=trail.filter(Boolean),screen=active(),native=screen&&nativeFor(screen);
   nav.setAttribute('aria-label',d.navigation);
   // The native button stays DOM-addressable for established user flows and tests.
