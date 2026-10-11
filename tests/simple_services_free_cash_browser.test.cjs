@@ -86,8 +86,16 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    A.equal(await page.locator('#agent-screen').isVisible(),true);
    A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
     'rgb(22, 55, 90)');
-   A.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
-    'agent chooser viewport overflow '+width);
+   const bounds=await page.evaluate(()=>({
+    width:innerWidth,scroll:document.documentElement.scrollWidth,
+    offenders:[...document.querySelectorAll('body *')].filter(el=>{
+      const rect=el.getBoundingClientRect(),cs=getComputedStyle(el);
+      return cs.display!=='none'&&cs.visibility!=='hidden'&&rect.width>0&&rect.right>innerWidth+2;
+    }).slice(0,12).map(el=>({id:el.id,cls:String(el.className).slice(0,75),
+      right:Math.round(el.getBoundingClientRect().right),width:Math.round(el.getBoundingClientRect().width)}))
+   }));
+   if(bounds.scroll>width+1)console.log('AGENT_CSS_OVERFLOW_DIAGNOSTIC',JSON.stringify(bounds));
+   A.ok(bounds.scroll<=width+1,'agent chooser viewport overflow '+width);
    await page.evaluate(()=>showAgentComplex());
    A.equal(await page.locator('#agent-complex-screen').isVisible(),true);
    A.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
