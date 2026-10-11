@@ -85,6 +85,24 @@ const {chromium}=require('playwright');
    A.equal(await page.evaluate(()=>resumeSavedProductCalculation()),true);
    A.equal(await page.locator('#service-v1-monthly-demand').inputValue(),'0\n10\n15',
       'Custom plan survives reload '+width);
+   const linked=await page.evaluate(()=>{
+      const okay=openLinkedPortfolioFromProducts();
+      const state=LinkedPortfolioV2UI.getState();
+      const model=LinkedPortfolioV2Engine.build(state);
+      return {okay,ready:model.ready,errors:model.errors,
+        forecast:state.skus[0]?.fullServiceForecast,
+        quantities:model.temporal?.months?.map(m=>m.orders['v1-1']),
+        revenue:model.cashflow?.periodPnl?.months?.map(m=>m.revenue)};
+   });
+   A.equal(linked.okay,true,JSON.stringify(linked));
+   A.equal(linked.ready,true,JSON.stringify(linked.errors));
+   A.deepEqual(linked.forecast,[0,10,15]);
+   A.deepEqual(linked.quantities,[0,10,15]);
+   for(let i=0;i<3;i++)
+     A.ok(Math.abs(linked.revenue[i]-prepared.revenue[i])<.015,
+       'V1/V2 native import keeps month '+(i+1)+' revenue');
+   if(width===390)await page.locator('#portfolio-v2-root').screenshot({
+      path:path.join(dest,'portfolio-v2-monthly-390.png'),animations:'disabled'});
    A.deepEqual(errors,[],'Browser errors at '+width);
    summary.push({width,quantities:prepared.quantities,revenue:prepared.revenue,
       viewportOverflow:false,restored:true});
