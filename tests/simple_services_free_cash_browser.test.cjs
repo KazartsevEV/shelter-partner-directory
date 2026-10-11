@@ -68,9 +68,10 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
   await page.evaluate(()=>{serviceFinancialMode='simple';startOfflineServiceCalculation()});
   A.equal(await page.locator('#service-v1-horizon').inputValue(),'1',
     'microbusiness mode must preserve the previous one-month default');
-  A.equal(await page.locator('#service-v1-horizon-panel').isVisible(),true);
   await page.locator('#product-name-input').fill('Маникюр, простой расчёт');
   await page.locator('#product-intro-submit-label').click();
+  A.equal(await page.locator('#service-v1-horizon-panel').isVisible(),true,
+    'period control is visible after service inputs open');
   await page.locator('[data-material-cost-mode="known"]').click();
   await page.locator('#own-materials-cost').fill('8');
   await page.locator('[data-yn-group="productionPremises"][data-yn-value="yes"]').click();
