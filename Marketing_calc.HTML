@@ -4436,7 +4436,8 @@
                 item,row:model.items.find(row=>row.id===item.id),
                 plan:offlineServiceCycleMetrics(item),credit:calculateAggregateCredit(item),
                 borrowed:item.planning?.fundingMode==='credit',
-                operatingMonths:Number(item.serviceHorizonMonths)
+                operatingMonths:item.serviceHorizonMonths===undefined||item.serviceHorizonMonths===null?
+                    1:Number(item.serviceHorizonMonths)
             }));
             if(!model?.pricingReady||!productBusinessTaxType||model.taxPriceMultiplier===null||
                 schedules.some(x=>!x.row||x.plan.requiredCapital===null||x.plan.quantityIssues?.length||
