@@ -12,7 +12,7 @@
  const back=document.getElementById('nomad360-tree-back');
  if(!nav||!breadcrumbs||!back)return;
  const dictionaries={
-  ru:{home:'Главная',service:'Услуга',mode:'Режим расчёта',
+  ru:{navigation:'Навигация по шагам расчёта',path:'Путь расчёта',home:'Главная',service:'Услуга',mode:'Режим расчёта',
     channel:'Онлайн / офлайн',online:'Онлайн',offline:'Офлайн',who:'Кто исполнитель',
     agent:'Я агент',commission:'Процент с продаж',complex:'Сложная мотивация',
     self:'Сам',hired:'Нанимаю',simple:'Упрощённый расчёт',full:'Полный расчёт',
@@ -20,7 +20,7 @@
     source:'Источник товара',expensesGood:'Расходы товара',
     expensesService:'Расходы услуги',summary:'Итоги бизнеса',portfolio:'Портфель V2',
     back:'Назад к'},
-  en:{home:'Home',service:'Service',mode:'Calculation mode',
+  en:{navigation:'Calculation step navigation',path:'Calculation path',home:'Home',service:'Service',mode:'Calculation mode',
     channel:'Online / offline',online:'Online',offline:'Offline',who:'Service provider',
     agent:'I am an agent',commission:'Sales commission',complex:'Custom motivation',
     self:'Self',hired:'Hiring',simple:'Simple calculation',full:'Full calculation',
@@ -28,7 +28,7 @@
     source:'Product sourcing',expensesGood:'Product expenses',
     expensesService:'Service expenses',summary:'Business results',portfolio:'Portfolio V2',
     back:'Back to'},
-  kk:{home:'Басты бет',service:'Қызмет',mode:'Есептеу режимі',
+  kk:{navigation:'Есептеу қадамдарының навигациясы',path:'Есептеу жолы',home:'Басты бет',service:'Қызмет',mode:'Есептеу режимі',
     channel:'Онлайн / офлайн',online:'Онлайн',offline:'Офлайн',who:'Орындаушы',
     agent:'Мен агентпін',commission:'Сатылым пайызы',complex:'Күрделі ынталандыру',
     self:'Өзім',hired:'Жалдаймын',simple:'Қарапайым есеп',full:'Толық есеп',
@@ -84,6 +84,8 @@
  }
  function render(){
   const d=dict();
+  nav.setAttribute('aria-label',d.navigation);
+  breadcrumbs.setAttribute('aria-label',d.path);
   const entries=trail.filter(Boolean);
   nav.hidden=entries.length<2;
   if(nav.hidden)return;
