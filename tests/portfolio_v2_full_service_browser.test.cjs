@@ -105,6 +105,7 @@ const {pathToFileURL}=require('node:url');
   await page.locator('[data-production-labor-mode="workers"]').click();
   await page.locator('#own-production-workers-count').fill('2');
   await page.locator('#own-production-worker-gross').fill('100');
+  await page.locator('[data-yn-group="salesCommission"][data-yn-value="yes"]').click();
   await page.locator('#own-sales-commission-pct').fill('5');
   const requiredKeys=['material.known','premises','rental.0','purchase.0',
     'worker.gross','worker.charges','advertising','sales.commission'];
