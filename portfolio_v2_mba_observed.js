@@ -75,9 +75,9 @@
  }
  function receiptCsv(data){
    const cols=['order_id','date','sku_id','quantity','unit_price','currency','channel','status','line_id'];
-   const q=v=>{const text=String(v??'');return /[",\\r\\n]/.test(text)?
+   const q=v=>{const text=String(v??'');return /[",\r\n]/.test(text)?
      '"'+text.replaceAll('"','""')+'"':text;};
-   return [cols.join(','),...flattenReceipts(data).map(row=>cols.map(k=>q(row[k])).join(','))].join('\\r\\n')+'\\r\\n';
+   return [cols.join(','),...flattenReceipts(data).map(row=>cols.map(k=>q(row[k])).join(','))].join('\r\n')+'\r\n';
  }
  function read(text,format='auto'){
    if(typeof text!=='string'||!text.trim())fail('Выберите непустой CSV или JSON с чеками.');
