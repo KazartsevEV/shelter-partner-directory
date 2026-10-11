@@ -1900,3 +1900,23 @@ body #calculator-screen.nd-agent-mode #summary-table .nd-agent-number-highlight{
   }
   body #product-screen #service-v1-agent-panel.nd-service-agent-panel{padding:16px}
 }
+/* AGENT-CASH-CTA-06: scoped display accents; financial mathematics unchanged. */
+body #agent-screen.nd-agent-screen button.nd-agent-percentage-cta.nd-path-card{
+  background:var(--nd-cta-orange);border:1px solid var(--nd-cta-orange);
+  color:var(--nd-cta-text);box-shadow:none;
+}
+body #agent-screen.nd-agent-screen button.nd-agent-percentage-cta.nd-path-card .font-semibold{
+  color:var(--nd-cta-text);
+}
+body #agent-screen.nd-agent-screen button.nd-agent-percentage-cta.nd-path-card:hover:not(:disabled){
+  background:var(--nd-cta-hover);border-color:var(--nd-cta-hover);
+}
+body #agent-screen.nd-agent-screen button.nd-agent-percentage-cta.nd-path-card:focus-visible{
+  outline:3px solid var(--nd-v1-navy);outline-offset:3px;
+}
+body #calculator-screen.nd-agent-mode #service-agent-tax-note.nd-service-agent-tax-note{
+  margin:10px 0 0;color:var(--nd-cta-orange);
+  font:700 clamp(16px,3.8vw,19px)/1.35 var(--nd-font);
+  letter-spacing:.012em;overflow-wrap:anywhere;
+}
+body #service-agent-tax-note[hidden]{display:none!important}
