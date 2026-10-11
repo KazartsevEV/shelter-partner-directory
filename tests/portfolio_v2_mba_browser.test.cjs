@@ -1,5 +1,5 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict');
-const {pathToFileURL}=require('node:url'),path=require('node:path');
+const {pathToFileURL}=require('node:url'),path=require('node:path'),fs=require('node:fs/promises');
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
@@ -27,6 +27,26 @@ const {pathToFileURL}=require('node:url'),path=require('node:path');
   await page.goto(url,{waitUntil:'domcontentloaded'});
   assert.equal(await page.evaluate(p=>LinkedPortfolioV2UI.importFromV1(p),payload),undefined);
   assert.equal(await page.locator('#linked-mba-panel').count(),1);
+  assert.match(await page.locator('#linked-mba-panel').textContent(),/Необязательный анализ/);
+  const sampleEvent=page.waitForEvent('download');
+  await page.locator('[data-mba-download="json"]').click();
+  const sample=await sampleEvent;
+  assert.equal(sample.suggestedFilename(),'Nomad360-receipts-example.json');
+  const sampleText=await fs.readFile(await sample.path(),'utf8');
+  const receiptData=JSON.parse(sampleText);
+  assert.equal(receiptData.orders.length,3);
+  assert.equal(receiptData.orders.reduce((n,o)=>n+o.items.length,0),5);
+  await page.locator('[data-mba-format]').selectOption('json');
+  await page.locator('[data-mba-file]').setInputFiles({name:sample.suggestedFilename(),
+    mimeType:'application/json',buffer:Buffer.from(sampleText)});
+  await page.locator('[data-mba-clear]').waitFor();
+  const sampleParsed=await page.evaluate(()=>{
+    const source=LinkedPortfolioV2UI.getState().mbaHistory.source;
+    const observed=LinkedPortfolioMBAObserved.analyze(source,new Set(['a','b']));
+    return {rawLines:source.rawLines,N:observed.N,ready:observed.ready};
+  });
+  assert.deepEqual(sampleParsed,{rawLines:5,N:3,ready:true});
+  await page.locator('[data-mba-clear]').click();
   await page.locator('[data-mba-file]').setInputFiles({name:'orders.json',mimeType:'application/json',
     buffer:Buffer.from(JSON.stringify(records))});
   await page.locator('[data-mba-map="raw-bag"]').waitFor();
