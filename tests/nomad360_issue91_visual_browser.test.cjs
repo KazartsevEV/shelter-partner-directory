@@ -49,7 +49,7 @@ const {chromium}=require('playwright');
    await panel.screenshot({path:path.join(dest,'monthly-demand-'+width+'.png'),
      animations:'disabled'});
    const prepared=await page.evaluate(()=>{
-    saveCurrentProductToPortfolio();
+    setProductAssortmentChoice('complete');
     const item=productPortfolio[0];
     Object.assign(item.planning,{fundingMode:'cash',targetMarginPct:30,
       reservePct:10,maxDiscountPct:0,minimumMarginPct:10});
@@ -57,8 +57,7 @@ const {chromium}=require('playwright');
     selectProductYesNo('salesVat','no');
     document.getElementById('own-business-tax-pct').value='6';
     const model=calculateProductPortfolio(),flow=calculateProductCashFlow(model);
-    const taxBlock=document.getElementById('product-tax-block');
-    taxBlock.hidden=false;taxBlock.classList.remove('hidden');
+    showAggregateTaxPricing(item.id,null);
     updateProductPortfolioBusinessSummary();
     return {ready:model.pricingReady&&flow.ready,reason:flow.reason||'',
       revenue:flow.months.map(m=>m.inflow-m.financedInflow),
