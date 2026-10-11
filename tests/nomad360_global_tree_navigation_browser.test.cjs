@@ -82,6 +82,8 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   A.equal(await page.locator('#agent-screen').isVisible(),true);
   A.deepEqual((await keys()).slice(-2),['service-screen','agent-screen']);
   await oneArrow();
+  A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(255, 255, 255)',
+    'agent native arrow is white on navy like the existing services back arrow');
   // Return to previous form without reconstructing inputs or recalculating.
   await page.evaluate(()=>showOnly('calculator-screen'));
   A.equal(await page.locator('#in-agentTaxTurnover').inputValue(),'7');
