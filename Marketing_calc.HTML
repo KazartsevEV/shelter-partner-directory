@@ -1897,7 +1897,8 @@
             toggle('full-service-online-entry',full);
             toggle('online-v2-entry',!full);
             toggle('full-service-offline-entry',false);
-            toggle('service-v1-horizon-panel',offline);
+            toggle('service-v1-horizon-panel',productSource==='offline-service');
+            toggle('service-simple-free-cash',!full);
             const language=window.Nomad360UI?.getLanguage?.()||'ru';
             const labels={
               ru:{online:'Полный расчёт онлайн-услуги',desc:'Одна услуга. Заполните клиентов, воронку и расходы; затем рассчитайте НДС, налоги, кредит и денежный поток.',
@@ -2038,6 +2039,10 @@
         function startOfflineServiceCalculation() {
             startFreshProductCalculation();
             selectProductSource('offline-service');
+            if(serviceFinancialMode==='simple'){
+                const period=document.getElementById('service-v1-horizon');
+                if(period)period.value='1'; // Preserve historical one-month default in microbusiness mode.
+            }
             const form=document.getElementById('product-own-form');
             if(form){form.hidden=true;form.classList.add('hidden');}
             const source=document.getElementById('product-source-block');
@@ -7152,7 +7157,7 @@
             show('production-unit-result',service||productSource==='own');
             const onlineService=service&&serviceFinancialMode==='full'&&serviceChannel==='online';
             show('offline-service-capacity',service&&!onlineService);
-            show('service-v1-horizon-panel',service&&serviceFinancialMode==='full');
+            show('service-v1-horizon-panel',service);
             show('service-v1-agent-panel',service&&serviceFinancialMode==='full'&&selectedServiceRole==='agent');
             if(service&&selectedServiceRole==='agent')refreshServiceAgencyLinePayers();
             // Online service has no inventory or physical capacity.
@@ -8378,7 +8383,7 @@
         function calculate() {
             // Invalidate previous display-only numeric markers before rebuilding
             // the view. Never restore stale values when validation fails.
-            for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac']){
+            for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac','service-simple-free-cash-value']){
                 const node=document.getElementById(id);
                 node?.removeAttribute('data-nomad-display-number');
                 node?.removeAttribute('data-nomad-display-money');
@@ -8423,7 +8428,7 @@
                 '<tr><td colspan="2" class="p-3 text-rose-800 bg-rose-50">Исправьте параметры расчёта. Недопустимая модель не рассчитывается.</td></tr>';
               document.getElementById('monthly-table').innerHTML=
                 '<tr><td class="p-3 text-rose-800">Нет корректного прогноза: '+msg+'</td></tr>';
-              for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac'])
+              for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac','service-simple-free-cash-value'])
                 document.getElementById(id).textContent='—';
               return;
             }
@@ -8464,6 +8469,8 @@
                 document.getElementById('res-cpa').textContent = '—';
                 document.getElementById('res-cpa-sep').textContent = '';
                 document.getElementById('res-cac').textContent = '';
+                document.getElementById('service-simple-free-cash-value').textContent = '—';
+                document.getElementById('service-simple-free-cash-detail').textContent = 'Выберите плательщиков по всем ненулевым расходам, чтобы рассчитать доступные деньги.';
 
                 document.getElementById('summary-table').innerHTML = `
                     <tr>
@@ -8702,6 +8709,13 @@
             }
             totalMonth.mCum = cumCash;
             totalMonth.mAgentCum = cumAgentNet;
+            // Agent's own net receipts must never be replaced with the principal's cash flow.
+            const simpleSpendableCash=isAgent?cumAgentNet:cumCash;
+            setV1DisplayedMoney('service-simple-free-cash-value',simpleSpendableCash);
+            document.getElementById('service-simple-free-cash-detail').textContent =
+                'Накопленный денежный поток за '+months+' '+monthWord(months)+
+                (isAgent?' · моё агентское вознаграждение после оплаченных мной расходов и моего налога.':
+                    ' · поступления за вычетом расходов и налогов, включая разовые платежи. Резерв отдельно не задан.');
             if(totalMonth.mDeals>0){
               onlineV1PortfolioSnapshot={
                 mode:serviceMode,values:{...v},payers:{...agentPayers},
