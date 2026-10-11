@@ -169,7 +169,14 @@
    if(!id||!name)throw Error('У услуги должен быть стабильный ID и название.');
    const first=model.months[0],forecast=Array.isArray(input.monthlyForecast)?
      input.monthlyForecast.slice():input.monthlyForecast;
-   const qty=first.quantity,amort=Number(input.equipmentAmortMonthly||0),
+   // The initial month can have no customers even though future months do.
+   // Use the approved period's average sales ONLY as the denominator for
+   // normalizing a SKU. V2's fullServiceForecast retains the actual [0,...]
+   // monthly series and charges fixed costs before the first sale.
+   const totalOrders=model.months.reduce((total,m)=>total+m.quantity,0);
+   const qty=totalOrders/model.horizonMonths;
+   if(!(qty>EPS))throw Error('Для импорта услуги нужен хотя бы один месяц с клиентами.');
+   const amort=Number(input.equipmentAmortMonthly||0),
      fixed=Number(input.fixedCashMonthly||0),variable=Number(input.unitCashCost||0);
    const offline=source==='offline-service',vatPct=Number(input.vatPct||0);
    const advertising=Number(input.adBudget||0),management=Number(input.adManagement||0),
