@@ -59,7 +59,7 @@ const {pathToFileURL}=require('node:url');
   A.equal(x.state.skus.length,3);
   near(x.result.items.find(s=>s.source==='online-agent').revenue,65,'agent own commission');
   near(x.result.counterpart[0].gross,325,'partner GMV not my revenue');
-  A.match(await page.locator('#linked-results').textContent(),/Оборот партнёра/);
+  A.match(await page.locator('#linked-results').textContent(),/Оборот принципала/);
   A.match(await page.locator('#linked-results').textContent(),/Моя реклама/);
   await page.locator('[data-basket-action="add"]').click();
   A.equal(await page.locator('[data-basket-offer]').count(),1);

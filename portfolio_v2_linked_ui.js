@@ -459,11 +459,11 @@ function updateResult(){
    })):[];
  const partnerPanel=partnerRows.map(entry=>
    '<section class="mt-5 rounded-lg border border-white/25 p-3">'+
-   '<h3 class="font-bold">Экономика партнёра · <span data-nomad-no-translate>'+
+   '<h3 class="font-bold">Экономика принципала · <span data-nomad-no-translate>'+
      safe(entry.name)+'</span></h3>'+
-   '<p class="text-xs text-slate-200 mt-2">Оборот и налог партнёра показаны отдельно от дохода агента. Разовые покупки оборудования относятся к денежным выплатам, амортизация — к прибыли.</p>'+
+   '<p class="text-xs text-slate-200 mt-2">Оборот и налог принципала показаны отдельно от дохода агента. Разовые покупки оборудования относятся к денежным выплатам, амортизация — к прибыли.</p>'+
    '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[550px] text-xs"><thead><tr>'+
-   ['Месяц','Выручка без НДС','Расходы, включая агента','Налог партнёра','Прибыль партнёра','Покупка оборудования'].map(label=>
+   ['Месяц','Выручка без НДС','Расходы, включая агента','Налог принципала','Прибыль принципала','Покупка оборудования'].map(label=>
       '<th class="p-2 text-right">'+safe(label)+'</th>').join('')+
    '</tr></thead><tbody>'+
    entry.partner.months.map(m=>'<tr class="border-t border-white/20">'+

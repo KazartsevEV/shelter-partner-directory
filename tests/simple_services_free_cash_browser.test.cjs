@@ -41,8 +41,12 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    approx(amount,Number(raw),'4-month spendable cash, '+role);
    A.match(await page.locator('#service-simple-free-cash-detail').innerText(),/4 месяца/);
    if(role==='agent'){
-    const partner=await last(table,'Накопленный поток партнёра').getAttribute('data-nomad-display-number');
+    const partner=await last(table,'Накопленный поток принципала').getAttribute('data-nomad-display-number');
     A.notEqual(amount,Number(partner),'agent cannot display principal cash as their own');
+    A.match(await page.locator('#mode-context').innerText(),/Принципал/i);
+    A.doesNotMatch(await page.locator('#calculator-screen').innerText(),/Партн[её]р/i);
+    A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('Принципал','en')),'Principal');
+    A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('Принципал','kk')),'Принципал');
     A.equal(await page.locator('#calculator-screen').evaluate(el=>el.classList.contains('nd-agent-mode')),true);
     A.ok(await page.locator('.nd-agent-payer-group').count()>0,'agent inputs expose shared payer skin');
     const payerSkin=await page.locator('.nd-agent-payer-group').first().evaluate(el=>({

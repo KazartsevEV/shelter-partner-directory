@@ -381,7 +381,7 @@
         <div class="card p-6 md:p-8">
             <div class="nd-agent-eyebrow text-xs uppercase tracking-[0.18em] text-blue-600 font-semibold mb-2">Я — агент</div>
             <h1 class="text-3xl font-bold text-slate-900">Как зарабатываю я?</h1>
-            <p class="text-sm text-slate-500 mt-2">В расчёте по каждому прямому расходу можно выбрать плательщика: <strong>Я</strong> или <strong>Партнёр</strong>.</p>
+            <p class="text-sm text-slate-500 mt-2">В расчёте по каждому прямому расходу можно выбрать плательщика: <strong>Я</strong> или <strong>Принципал</strong>.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-7">
                 <button onclick="selectServiceMode('agent')" class="card nd-path-card p-5 text-left transition">
                     <div class="font-semibold text-slate-900">Мне платят % с объёма продаж</div>
@@ -493,23 +493,23 @@
 
         <div id="product-own-form" class="hidden mt-5 space-y-5" hidden>
             <div id="service-v1-agent-panel" class="card nd-service-agent-panel p-5 hidden" hidden>
-              <h2 class="text-xl font-semibold text-slate-900">Агент · мой доход и расходы партнёра</h2>
-              <p class="text-sm text-slate-600 mt-2">Доход агента — только согласованное вознаграждение. Полную стоимость услуги клиент оплачивает партнёру. Плательщика каждой статьи выбираете вы.</p>
+              <h2 class="text-xl font-semibold text-slate-900">Агент · мой доход и расходы принципала</h2>
+              <p class="text-sm text-slate-600 mt-2">Доход агента — только согласованное вознаграждение. Полную стоимость услуги клиент оплачивает принципалу. Плательщика каждой статьи выбираете вы.</p>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                <label class="text-sm">Цена услуги у партнёра, с НДС <input id="service-agent-partner-price" type="number" min="0" step="0.01" value="" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
-                <label class="text-sm">Моё вознаграждение, % от цены партнёра <input id="service-agent-fee-pct" type="number" min="0" max="100" step="0.01" value="" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
+                <label class="text-sm">Цена услуги у принципала, с НДС <input id="service-agent-partner-price" type="number" min="0" step="0.01" value="" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
+                <label class="text-sm">Моё вознаграждение, % от цены принципала <input id="service-agent-fee-pct" type="number" min="0" max="100" step="0.01" value="" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
                 <label class="text-sm">Фиксированное вознаграждение за услугу <input id="service-agent-fee-fixed" type="number" min="0" step="0.01" value="0" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
-                <label class="text-sm">НДС партнёра, % <input id="service-agent-partner-vat" type="number" min="0" max="100" step="0.01" value="0" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
-                <label class="text-sm">Налог партнёра
+                <label class="text-sm">НДС принципала, % <input id="service-agent-partner-vat" type="number" min="0" max="100" step="0.01" value="0" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
+                <label class="text-sm">Налог принципала
                   <select id="service-agent-partner-tax-type" class="input-field mt-1" oninput="refreshAllAggregatePricing()">
                     <option value="turnover">С оборота</option><option value="profit">С прибыли</option>
                   </select>
                 </label>
-                <label class="text-sm">Ставка налога партнёра, % <input id="service-agent-partner-tax-pct" type="number" min="0" max="100" step="0.01" value="0" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
+                <label class="text-sm">Ставка налога принципала, % <input id="service-agent-partner-tax-pct" type="number" min="0" max="100" step="0.01" value="0" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
               </div>
               <h3 class="font-semibold text-slate-900 mt-5 mb-2">Кто оплачивает расходы?</h3>
               <div id="service-agent-line-payers" class="nd-agent-line-payers grid grid-cols-1 sm:grid-cols-2 gap-3" aria-label="Плательщик каждой расходной статьи"></div>
-              <p class="text-sm text-slate-500 mt-3">Для ненулевых затрат выбор плательщика обязателен. Затраты партнёра учитываются только в его экономике, ваши — в вашем V1.</p>
+              <p class="text-sm text-slate-500 mt-3">Для ненулевых затрат выбор плательщика обязателен. Затраты принципала учитываются только в его экономике, ваши — в вашем V1.</p>
             </div>
             <div id="service-v1-horizon-panel" class="card p-4 hidden" hidden>
               <label for="service-v1-horizon" class="block text-sm font-semibold text-slate-700">Период расчёта услуги, месяцев</label>
@@ -1502,7 +1502,7 @@
                         <!-- Generated via JS -->
                     </div>
                     <p class="text-[11px] text-slate-400 mt-4 leading-relaxed">
-                        * Налоги партнёра и агента в модели считаются помесячно, без учёта фактических налоговых периодов и сроков уплаты:
+                        * Налоги принципала и агента в модели считаются помесячно, без учёта фактических налоговых периодов и сроков уплаты:
                         они зависят от налогового режима каждого участника.
                     </p>
                     <div id="full-service-online-entry" class="mt-5 hidden" hidden>
@@ -1566,7 +1566,7 @@
 
                 <section class="card p-4 nd-v1-transition-panel" id="online-v2-entry">
                   <h2 id="online-v2-entry-heading" class="font-bold text-slate-800">Добавить онлайн-услугу в общий портфель V2</h2>
-                  <p class="text-xs text-slate-600 mt-2">Переносим рассчитанную экономику именно вашего бизнеса. В агентской ветке учитываем ваше вознаграждение, а оборот партнёра не записываем как вашу выручку.</p>
+                  <p class="text-xs text-slate-600 mt-2">Переносим рассчитанную экономику именно вашего бизнеса. В агентской ветке учитываем ваше вознаграждение, а оборот принципала не записываем как вашу выручку.</p>
                   <label class="block text-xs mt-3">Название услуги
                     <input id="online-v2-name" class="input-field mt-1" type="text" placeholder="Например, консультация по маркетингу">
                   </label>
@@ -1776,10 +1776,10 @@
             if (serviceMode === 'agent') {
                 const agentFromPeriod = fromPeriod.map(item => {
                     if (item.key === 'acq') {
-                        return { ...item, label: 'Комиссия эквайринга — платит партнёр' };
+                        return { ...item, label: 'Комиссия эквайринга — платит принципал' };
                     }
                     if (item.key === 'taxTurnover') {
-                        return { ...item, label: 'Налог партнёра на оборот*' };
+                        return { ...item, label: 'Налог принципала на оборот*' };
                     }
                     return item;
                 });
@@ -1886,7 +1886,7 @@
                                 <input type="radio" name="payer-${def.key}" value="partner"
                                     ${agentPayers[def.key] === 'partner' ? 'checked' : ''}
                                     onchange="setAgentPayer('${def.key}', 'partner')">
-                                <span>Партнёр</span>
+                                <span>Принципал</span>
                             </label>
                         </div>
                     </div>
@@ -2803,7 +2803,7 @@
                 select.className='input-field mt-1 w-full';
                 select.dataset.agentLineKey=line.key;
                 select.setAttribute('aria-label','Плательщик: '+line.label);
-                for(const [value,name] of [['','Выберите плательщика'],['agent','Я, агент'],['partner','Партнёр']]){
+                for(const [value,name] of [['','Выберите плательщика'],['agent','Я, агент'],['partner','Принципал']]){
                     const option=document.createElement('option');
                     option.value=value;option.textContent=name;select.append(option);
                 }
@@ -3323,7 +3323,7 @@
                     const gross=Number(a.grossPrice),pct=Number(a.feePct),fixed=Number(a.fixedFee);
                     if(!(gross>0)||!(pct>=0&&pct<=100)||!(fixed>=0)||
                         !(gross*pct/100+fixed>0))
-                        details.push({kind:'agency',message:'Введите цену партнёра и положительное вознаграждение агента.'});
+                        details.push({kind:'agency',message:'Введите цену принципала и положительное вознаграждение агента.'});
                     if(Array.isArray(a.lineItems)){
                         for(const line of a.lineItems)
                             if(!['agent','partner'].includes(line.payer))
@@ -5280,12 +5280,12 @@
             const partnerFlow=productPortfolio.length===1&&productPortfolio[0].serviceRole==='agent'&&
                 cashFlow.ready?cashFlow.months:null;
             const agencyReport=partnerFlow?
-                '<div class="mt-4 p-4 border aggregate-separator"><h3 class="font-bold mb-2">Экономика партнёра по месяцам</h3>'+
-                '<p class="text-sm mb-3">Оборот партнёра отдельно от агентского вознаграждения. Налоги партнёра рассчитываются по выбранной ставке.</p>'+
+                '<div class="mt-4 p-4 border aggregate-separator"><h3 class="font-bold mb-2">Экономика принципала по месяцам</h3>'+
+                '<p class="text-sm mb-3">Оборот принципала отдельно от агентского вознаграждения. Налоги принципала рассчитываются по выбранной ставке.</p>'+
                 '<div class="overflow-x-auto"><table class="text-xs min-w-full"><thead><tr><th>Показатель</th>'+
                 partnerFlow.map(m=>'<th class="px-2">Месяц '+m.month+'</th>').join('')+'</tr></thead><tbody>'+
                 [['Выручка без НДС','partnerRevenue'],['Расходы с вознаграждением агента','partnerCosts'],
-                ['Налог партнёра','partnerTax'],['Прибыль партнёра','partnerProfit']].map(([name,key])=>
+                ['Налог принципала','partnerTax'],['Прибыль принципала','partnerProfit']].map(([name,key])=>
                 '<tr><td class="px-2 py-2">'+name+'</td>'+
                     partnerFlow.map(m=>'<td class="px-2 text-right">'+money(m[key])+'</td>').join('')+'</tr>').join('')+
                 '</tbody></table></div></div>':'';
@@ -5941,9 +5941,9 @@
                 }));
             const partner=service&&productPortfolio[0]?.serviceRole==='agent';
             if(partner){
-                html+='<h2>Экономика партнёра — отдельно от агентского вознаграждения</h2>'+
-                    table(['Месяц','Выручка партнёра без НДС','Расходы с агентом',
-                        'Налог партнёра','Прибыль партнёра'],
+                html+='<h2>Экономика принципала — отдельно от агентского вознаграждения</h2>'+
+                    table(['Месяц','Выручка принципала без НДС','Расходы с агентом',
+                        'Налог принципала','Прибыль принципала'],
                         flow.months.map(m=>[m.month,number(m.partnerRevenue),
                             number(m.partnerCosts),number(m.partnerTax),
                             number(m.partnerProfit)]));
@@ -8446,7 +8446,7 @@
             } else if (mode === 'agent') {
                 badge.textContent = 'Услуга · агент';
                 context.classList.remove('hidden');
-                context.textContent = 'Для каждой ненулевой статьи расходов выберите «Кто платит»: Я или Партнёр. Нулевые расходы распределять не нужно. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если партнёр — она остаётся расходом его бизнеса.';
+                context.textContent = 'Для каждой ненулевой статьи расходов выберите «Кто платит»: Я или Принципал. Нулевые расходы распределять не нужно. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если принципал — она остаётся расходом его бизнеса.';
             }
 
             const agentView=mode==='agent';
@@ -8673,15 +8673,15 @@
 
             // Monthly Breakdown
             const monthlyRows = isAgent ? [
-                { section: 'Воронка и продажи партнёра' },
+                { section: 'Воронка и продажи принципала' },
                 { label: 'Рекламный бюджет', key: 'mBudget', fmt: 'money' },
                 { label: 'Количество кликов', key: 'mClicks', fmt: 'int' },
                 { label: 'Количество лидов', key: 'mLeads', fmt: 'num' },
                 { label: 'Количество сделок', key: 'mDeals', fmt: 'num' },
                 { label: 'Продано пакетов', key: 'mPacks', fmt: 'num' },
-                { label: 'Объём продаж консультаций партнёра', key: 'mGrossRevCons', fmt: 'money' },
-                { label: 'Объём продаж пакетов партнёра', key: 'mGrossRevPack', fmt: 'money' },
-                { label: 'Общий объём продаж партнёра', key: 'mGrossSales', fmt: 'money' },
+                { label: 'Объём продаж консультаций принципала', key: 'mGrossRevCons', fmt: 'money' },
+                { label: 'Объём продаж пакетов принципала', key: 'mGrossRevPack', fmt: 'money' },
+                { label: 'Общий объём продаж принципала', key: 'mGrossSales', fmt: 'money' },
 
                 { section: 'Я — агент' },
                 { label: 'Моё вознаграждение до расходов', key: 'mAgentIncome', fmt: 'money' },
@@ -8691,15 +8691,15 @@
                 { label: 'Накопленно мне остаётся', key: 'mAgentCum', fmt: 'money' },
 
                 { section: 'Принципал' },
-                { label: 'Прямые расходы партнёра', key: 'mPartnerDirect', fmt: 'money' },
-                { label: 'Комиссия эквайринга партнёра', key: 'mAcq', fmt: 'money' },
+                { label: 'Прямые расходы принципала', key: 'mPartnerDirect', fmt: 'money' },
+                { label: 'Комиссия эквайринга принципала', key: 'mAcq', fmt: 'money' },
                 { label: 'Вознаграждение агенту', key: 'mAgentIncome', fmt: 'money' },
-                { label: 'Общие расходы партнёра', key: 'mCosts', fmt: 'money' },
-                { label: 'EBITDA партнёра (до налога)', key: 'mEbitda', fmt: 'money' },
-                { label: 'Налог партнёра на оборот*', key: 'mTax', fmt: 'money' },
+                { label: 'Общие расходы принципала', key: 'mCosts', fmt: 'money' },
+                { label: 'EBITDA принципала (до налога)', key: 'mEbitda', fmt: 'money' },
+                { label: 'Налог принципала на оборот*', key: 'mTax', fmt: 'money' },
                 { label: 'Капитальные вложения: сайт / лид-магнит', key: 'mPartnerCapex', fmt: 'money' },
-                { label: 'Денежный поток партнёра', key: 'mCash', fmt: 'money' },
-                { label: 'Накопленный поток партнёра', key: 'mCum', fmt: 'money' },
+                { label: 'Денежный поток принципала', key: 'mCash', fmt: 'money' },
+                { label: 'Накопленный поток принципала', key: 'mCum', fmt: 'money' },
             ] : [
                 { label: 'Рекламный бюджет', key: 'mBudget', fmt: 'money' },
                 { label: 'Количество кликов', key: 'mClicks', fmt: 'int' },
@@ -8844,38 +8844,38 @@
                 ['Количество сделок', displayNumNode(totalMonth.mDeals)],
                 ['Продано пакетов', displayNumNode(totalMonth.mPacks)],
                 ...(isAgent ? [
-                    ['Объём продаж консультаций партнёра', displayMoneyNode(totalMonth.mGrossRevCons)],
-                    ['Объём продаж пакетов партнёра', displayMoneyNode(totalMonth.mGrossRevPack)],
-                    ['Общий объём продаж партнёра', displayMoneyNode(totalMonth.mGrossSales), 'text-blue-700 font-bold'],
+                    ['Объём продаж консультаций принципала', displayMoneyNode(totalMonth.mGrossRevCons)],
+                    ['Объём продаж пакетов принципала', displayMoneyNode(totalMonth.mGrossRevPack)],
+                    ['Общий объём продаж принципала', displayMoneyNode(totalMonth.mGrossSales), 'text-blue-700 font-bold'],
                     ['Мой процент от продаж', displayNumNode(agentPct) + '%'],
                     ['Моё вознаграждение до моих расходов', displayMoneyNode(totalMonth.mAgentIncome), 'nd-agent-number-highlight font-bold'],
                     ['Мои расходы (оплачиваю я)', displayMoneyNode(totalMonth.mAgentExpenses), agentCashExpenses > 0 ? 'text-red-700 font-bold' : ''],
                     ['Мой налог на оборот*', displayMoneyNode(totalMonth.mAgentTax), agentTaxScenario > 0 ? 'text-red-700 font-bold' : ''],
                     ['Мне остаётся после моих расходов и налога', displayMoneyNode(totalMonth.mAgentNet), agentNetScenario >= 0 ? 'nd-agent-number-highlight font-bold' : 'text-red-700 font-bold'],
                     ['Моё вознаграждение с одной сделки', displayMoneyNode(totalMonth.mDeals?totalMonth.mAgentIncome/totalMonth.mDeals:0)],
-                    ['Выручка партнёра Revenue', displayMoneyNode(totalMonth.mRevTotal), 'text-blue-700 font-bold']
+                    ['Выручка принципала Revenue', displayMoneyNode(totalMonth.mRevTotal), 'text-blue-700 font-bold']
                 ] : [
                     ['Выручка от консультаций', displayMoneyNode(totalMonth.mRevCons)],
                     ['Выручка от пакетов', displayMoneyNode(totalMonth.mRevPack)],
                     ['Общая выручка Revenue', displayMoneyNode(totalMonth.mRevTotal), 'text-blue-700 font-bold']
                 ]),
-                [isAgent ? 'Средний чек партнёра' : 'Средний чек', displayMoneyNode(totalMonth.mDeals?totalMonth.mRevTotal/totalMonth.mDeals:0)],
-                [isAgent ? 'Комиссия эквайринга партнёра' : 'Комиссия эквайринга', displayMoneyNode(totalMonth.mAcq)],
-                [isAgent ? 'Чистая выручка партнёра (после эквайринга)' : 'Чистая выручка (после эквайринга)', displayMoneyNode(totalMonth.mNetRev)],
-                ...(isAgent ? [['Вознаграждение агенту (расход партнёра)', displayMoneyNode(totalMonth.mAgentIncome)]] : []),
+                [isAgent ? 'Средний чек принципала' : 'Средний чек', displayMoneyNode(totalMonth.mDeals?totalMonth.mRevTotal/totalMonth.mDeals:0)],
+                [isAgent ? 'Комиссия эквайринга принципала' : 'Комиссия эквайринга', displayMoneyNode(totalMonth.mAcq)],
+                [isAgent ? 'Чистая выручка принципала (после эквайринга)' : 'Чистая выручка (после эквайринга)', displayMoneyNode(totalMonth.mNetRev)],
+                ...(isAgent ? [['Вознаграждение агенту (расход принципала)', displayMoneyNode(totalMonth.mAgentIncome)]] : []),
                 ...(isHired ? [['Оплата исполнителю', displayMoneyNode(totalMonth.mExecutor)]] : []),
-                [isAgent ? 'Операционные затраты партнёра OPEX' : 'Операционные затраты OPEX', displayMoneyNode(totalMonth.mCosts)],
+                [isAgent ? 'Операционные затраты принципала OPEX' : 'Операционные затраты OPEX', displayMoneyNode(totalMonth.mCosts)],
                 ['Амортизация сайта', displayMoneyNode(siteAmort)],
                 ['Амортизация лид-магнита', displayMoneyNode(magnetAmort)],
-                [isAgent ? 'Операционные расходы и амортизация партнёра' : 'Операционные расходы и амортизация', displayMoneyNode(accruedTotalCosts), 'text-red-700 font-bold'],
+                [isAgent ? 'Операционные расходы и амортизация принципала' : 'Операционные расходы и амортизация', displayMoneyNode(accruedTotalCosts), 'text-red-700 font-bold'],
                 ['Разовые капитальные выплаты (в денежном потоке)', displayMoneyNode(totalMonth.mPartnerCapex)],
-                [isAgent ? 'EBITDA партнёра (до налогов)' : 'EBITDA (прибыль до налогов)', displayMoneyNode(totalMonth.mEbitda)],
-                [isAgent ? 'Налог партнёра на оборот*' : 'Налог на оборот*', displayMoneyNode(totalMonth.mTax)],
-                [isAgent ? 'Чистая прибыль партнёра после налогов' : 'Чистая прибыль после налогов', displayMoneyNode(accountingNetProfit), isAgent ? 'nd-agent-number-highlight font-bold' : 'text-green-700 font-bold'],
-                [isAgent ? 'ROAS партнёра' : 'ROAS (возврат рекламы)', (totalBudget?totalMonth.mNetRev/totalBudget:0).toFixed(2) + 'x'],
+                [isAgent ? 'EBITDA принципала (до налогов)' : 'EBITDA (прибыль до налогов)', displayMoneyNode(totalMonth.mEbitda)],
+                [isAgent ? 'Налог принципала на оборот*' : 'Налог на оборот*', displayMoneyNode(totalMonth.mTax)],
+                [isAgent ? 'Чистая прибыль принципала после налогов' : 'Чистая прибыль после налогов', displayMoneyNode(accountingNetProfit), isAgent ? 'nd-agent-number-highlight font-bold' : 'text-green-700 font-bold'],
+                [isAgent ? 'ROAS принципала' : 'ROAS (возврат рекламы)', (totalBudget?totalMonth.mNetRev/totalBudget:0).toFixed(2) + 'x'],
                 ['CPA (цена клиента реклама)', displayMoneyNode(totalMonth.mDeals?totalBudget/totalMonth.mDeals:0)],
-                [isAgent ? 'CAC партнёра (цена клиента полная)' : 'CAC (цена клиента полная)', displayMoneyNode(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
-                [isAgent ? 'Рентабельность вложений партнёра' : 'Рентабельность вложений', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x'],
+                [isAgent ? 'CAC принципала (цена клиента полная)' : 'CAC (цена клиента полная)', displayMoneyNode(totalMonth.mDeals?accruedTotalCosts/totalMonth.mDeals:0)],
+                [isAgent ? 'Рентабельность вложений принципала' : 'Рентабельность вложений', (accruedTotalCosts?(totalMonth.mRevTotal-accruedTotalCosts)/accruedTotalCosts:0).toFixed(2) + 'x'],
                 ...(!isAgent ? [['ROMI (маркетинг)', classicRomiPercent===null?'—':classicRomiPercent.toFixed(1)+'%']] : [])
             ];
 

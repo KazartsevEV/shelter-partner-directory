@@ -56,6 +56,7 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#product-name-input').fill('Агентская онлайн-услуга');
   await page.locator('#product-intro-submit-label').click();
   A.equal(await page.locator('#service-v1-agent-panel').isVisible(),true);
+  A.doesNotMatch(await page.locator('#service-v1-agent-panel').innerText(),/Партн[её]р/i);
   A.equal(await page.evaluate(()=>selectedServiceRole),'agent');
   A.equal(await page.locator('#product-production-quantity-panel').isVisible(),false);
   A.equal(await page.locator('#product-sales-quantity-panel').isVisible(),false);
@@ -157,14 +158,14 @@ const {pathToFileURL}=require('node:url');
   A.equal(await page.locator('#product-portfolio-business-summary').isVisible(),true,
     'Confirmed V1 tax stage exposes the canonical cash-flow report');
   A.match(await page.locator('#product-portfolio-business-summary').innerText(),
-    /Экономика партнёра по месяцам/);
+    /Экономика принципала по месяцам/);
   await page.evaluate(()=>{window.print=()=>{window.__nativeV1Printed=true}});
   const nativeExport=await page.evaluate(()=>exportProductCalculationPdf());
   A.equal(nativeExport,true,'Real V1 print export is prepared');
   A.equal(await page.evaluate(()=>window.__nativeV1Printed),true);
   A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'v1-product');
   const sheetText=await page.locator('#nomad360-print-sheet').textContent();
-  A.match(sheetText,/Экономика партнёра/);
+  A.match(sheetText,/Экономика принципала/);
   A.match(sheetText,/Денежный поток по месяцам/);
   const screenCount=await page.evaluate(()=>calculateProductCashFlow(calculateProductPortfolio()).months.length);
   A.equal(await page.locator('#nomad360-print-sheet table').count(),4,
@@ -213,15 +214,15 @@ const {pathToFileURL}=require('node:url');
   A.equal(agentV2.state.skus[0].fullServiceRole,'agent');
   A.ok(agentV2.partner?.months?.length===12,'Partner PnL survives all 12 months of V1→V2');
   A.ok(agentV2.partner.months[0].profit!==null);
-  A.match(await page.locator('#portfolio-v2-root').innerText(),/Экономика партнёра/);
+  A.match(await page.locator('#portfolio-v2-root').innerText(),/Экономика принципала/);
   await page.evaluate(()=>window.print=()=>{window.__v2PrintRequested=true});
   A.equal(await page.evaluate(()=>Nomad360UI.savePrint('report')),true,
     'V2 PDF export works for an imported agent contract');
   A.equal(await page.evaluate(()=>window.__v2PrintRequested),true);
   A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'report');
   const partnerPdfText=await page.locator('#nomad360-print-sheet').textContent();
-  A.match(partnerPdfText,/Экономика партнёра/);
-  A.match(partnerPdfText,/Налог партнёра/);
+  A.match(partnerPdfText,/Экономика принципала/);
+  A.match(partnerPdfText,/Налог принципала/);
   const agentPortfolioPdf=await page.pdf({format:'A4',printBackground:true});
   A.equal(agentPortfolioPdf.subarray(0,4).toString('ascii'),'%PDF');
   A.ok(agentPortfolioPdf.length>4000,'V2 PDF contains a rendered partner financial report');

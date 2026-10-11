@@ -29,7 +29,7 @@
   if(mode==='agent'){
     for(const [k,value] of Object.entries({monthlyBudget:spend,mgmt:mgr,site,hosting,dom:domain,magnet}))
       if(value>0&&!['me','partner'].includes(payers[k]))
-        throw Error('Для '+k+' укажите, кто платит: я или партнёр.');
+        throw Error('Для '+k+' укажите, кто платит: я или принципал.');
   }
   const employer=k=>mode==='agent'?payers[k]==='me':true;
   const partner=k=>mode==='agent'?payers[k]==='partner':false;
@@ -97,7 +97,7 @@
   const keys=['monthlyBudget','mgmt','site','hosting','dom','magnet'];
   const own=key=>mode!=='agent'||payers[key]==='me';
   if(mode==='agent'&&keys.some(k=>value(k)>0&&!['me','partner'].includes(payers[k])))
-   throw Error('Не распределены расходы агента и партнёра.');
+   throw Error('Не распределены расходы агента и принципала.');
   const ownerGross=Number(mode==='agent'?period.agentIncome:period.grossRevenue);
   if(!Number.isFinite(ownerGross)||ownerGross<=0)throw Error('Не рассчитан доход владельца.');
   const ownerAd=own('monthlyBudget')?value('monthlyBudget'):0;
