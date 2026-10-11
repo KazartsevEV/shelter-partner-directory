@@ -278,16 +278,17 @@ a.nomad-pay-value{text-decoration:underline}
 }
 .nomad-crypto-embed{
   display:flex;justify-content:center;min-width:0;max-width:100%;
-  padding:16px 10px 12px;background:#fff;
+  padding:8px 8px 8px;background:#fff;
 }
 .nomad-crypto-frame{
   display:block;box-sizing:border-box;width:346px;max-width:100%;
-  height:690px;border:0;border-radius:10px;background:#fff;
+  height:623px;border:0;border-radius:10px;background:#fff;
 }
 @media(max-width:390px){
  .nomad-crypto-heading{padding:16px 14px}
- .nomad-crypto-embed{padding:10px 5px}
- .nomad-crypto-frame{height:740px}
+ .nomad-crypto-embed{padding:6px 5px}
+ /* Keep the provider's own 623px widget height on narrow screens; the old
+    740px override stretched its empty vertical space before Continue. */
 }
 .nomad-pay-fiat{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}
 .nomad-kz-flag{display:inline-block;font-size:19px;vertical-align:-2px;margin-right:3px}

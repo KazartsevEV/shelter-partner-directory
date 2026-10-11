@@ -94,7 +94,23 @@ const server=createServer(async(req,res)=>{
     }));
     A.ok(geometry.maxRight<=width+1&&geometry.minLeft>=-1,
       'Donation cards fit '+width+' viewport: '+JSON.stringify(geometry));
+    const widgetLayout=await crypto.evaluate(el=>{
+      const iframe=el.querySelector('iframe');
+      const frame=iframe.getBoundingClientRect();
+      const section=el.getBoundingClientRect();
+      const next=el.nextElementSibling?.getBoundingClientRect();
+      return {height:frame.height,width:frame.width,
+        extraBottom:section.bottom-frame.bottom,
+        gapToFiat:next?next.top-section.bottom:null};
+    });
+    A.equal(widgetLayout.height,623,'Official NOWPayments embed has exact 623px height at '+width+'px');
+    A.ok(widgetLayout.width<=346,'Iframe remains within 346px original provider width at '+width);
+    A.ok(widgetLayout.extraBottom<=24,'No extra whitespace below iframe at '+width+': '+JSON.stringify(widgetLayout));
+    A.ok(widgetLayout.gapToFiat===null||widgetLayout.gapToFiat<=32,
+      'Kaspi card follows compact widget at '+width+': '+JSON.stringify(widgetLayout));
   }
+  A.equal(await iframe.getAttribute('height'),'623',
+    'HTML height attribute agrees with the provider recommended iframe size');
   await page.setViewportSize({width:390,height:844});
   const snapshotDir=path.resolve(ROOT,'artifacts/donation-footer');
   await fs.mkdir(snapshotDir,{recursive:true});
