@@ -1436,7 +1436,11 @@
                     </div>
 
                     <div id="product-tax-price-list" class="mt-5 space-y-3"></div>
-                    <div id="product-v1-aggregate-report" class="mt-6 pt-5 border-t aggregate-separator"><div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
+                    <div id="product-v1-aggregate-report" class="mt-6 pt-5 border-t aggregate-separator"><div id="offline-simple-free-cash" class="nd-service-free-cash" hidden>
+                    <div class="nd-service-free-cash-title">ЖИВЫЕ ДЕНЬГИ</div>
+                    <div class="nd-service-free-cash-value" id="offline-simple-free-cash-value">—</div>
+                    <p class="nd-service-free-cash-detail" id="offline-simple-free-cash-detail">Свободные деньги после обязательных выплат и резерва за выбранный период.</p></div>
+                    <div class="aggregate-title text-lg font-bold mb-3">Результат бизнеса и денежный поток по месяцам</div>
                     <div id="product-portfolio-business-summary" class="aggregate-price-card mt-4"></div></div>
 
                     <div id="product-v1-export-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 pt-5 border-t aggregate-separator">
@@ -1513,6 +1517,12 @@
             <!-- RESULTS -->
             <div id="service-results-column" class="lg:col-span-8 space-y-6">
                 
+                <!-- Spendable cash is the first result of the simple online service. -->
+                <div id="service-simple-free-cash" class="nd-service-free-cash">
+                    <div class="nd-service-free-cash-title">ЖИВЫЕ ДЕНЬГИ</div>
+                    <div class="nd-service-free-cash-value" id="service-simple-free-cash-value">—</div>
+                    <p class="nd-service-free-cash-detail" id="service-simple-free-cash-detail">Свободные деньги за выбранный период после расходов и налогов.</p>
+                </div>
                 <!-- Summary Metrics -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 nd-v1-metrics">
                     <div class="card p-4 result-card green">
