@@ -82,8 +82,8 @@ test('AGENT: partner pays acquisition, agent pays media, both tax bases and ledg
   eq(await cell(page,'monthly-table','Мне остаётся после расходов и налога'),
     commission-1200-ownTax,'agent monthly net');
   eq(fmt(await page.locator('#res-profit').textContent()),commission-1200-ownTax,'agent hero net');
-  eq(await cell(page,'monthly-table','Комиссия эквайринга партнёра'),acquisition,'partner acquiring');
-  eq(await summary(page,'Чистая прибыль партнёра после налогов'),
+  eq(await cell(page,'monthly-table','Комиссия эквайринга принципала'),acquisition,'partner acquiring');
+  eq(await summary(page,'Чистая прибыль принципала после налогов'),
     monthRevenue-acquisition-commission-turnover,'partner profit');
   A.deepEqual(errors,[]);
  }finally{await page.close();}
@@ -109,8 +109,8 @@ test('CAPEX: website & lead magnet are one-time cash outflows, amortized in P&L,
   const partnerCash=partnerEBITDA-turnover-capex;
   eq(await summary(page,'Амортизация сайта'),30,'site monthly accrual over 3 months');
   eq(await summary(page,'Амортизация лид-магнита'),15,'lead magnet accrual over 3 months');
-  eq(await summary(page,'Чистая прибыль партнёра после налогов'),partnerProfit,'profit excludes CAPEX but includes depreciation');
-  eq(await cell(page,'monthly-table','Денежный поток партнёра'),partnerCash,'cash includes full up-front CAPEX');
+  eq(await summary(page,'Чистая прибыль принципала после налогов'),partnerProfit,'profit excludes CAPEX but includes depreciation');
+  eq(await cell(page,'monthly-table','Денежный поток принципала'),partnerCash,'cash includes full up-front CAPEX');
   eq(fmt(await page.locator('#res-cpa').textContent()),partnerCash,'partner hero is cash');
   A.deepEqual(errors,[]);
  }finally{await page.close();}
@@ -135,8 +135,8 @@ test('AGENT payer matrix: all 64 expense ownership combinations conserve partner
       };
       return {
         agent:val('summary-table','Мне остаётся после моих расходов и налога'),
-        profit:val('summary-table','Чистая прибыль партнёра после налогов'),
-        cash:val('monthly-table','Денежный поток партнёра'),
+        profit:val('summary-table','Чистая прибыль принципала после налогов'),
+        cash:val('monthly-table','Денежный поток принципала'),
         error:document.querySelector('#res-profit').textContent
       };
     },payers);
