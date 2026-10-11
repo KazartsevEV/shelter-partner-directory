@@ -453,9 +453,9 @@
     // Nomad360UI owns this control; re-creating it here would lose locale wiring.
     const chooser=document.getElementById('nomad360-language-chooser');
     header.innerHTML='<div class="nomad-bar">'+
-      '<a class="nomad-brand" href="#home-screen" data-nomad-go="home-screen" aria-label="Nomad360">'+
+      '<a class="nomad-brand" href="#home-screen" data-nomad-go="home-screen" aria-label="Nomad360 lite">'+
       '<img class="nomad-logo" src="./nomad360_wolf_open_circle.png" alt="" width="58" height="58">'+
-      '<span class="nomad-wordmark">Nomad<span>360</span></span></a>'+
+      '<span class="nomad-wordmark">Nomad<span>360</span><small class="nomad-lite"> lite</small></span></a>'+
       '<div class="nomad-lang" id="nomad360-header-lang"></div>'+
       '<button type="button" class="nomad-burger" aria-label="'+esc(isOpen?t.close:t.menu)+'" aria-controls="nomad360-header-panel" aria-expanded="'+isOpen+'">'+
       '<svg class="i-open" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>'+
