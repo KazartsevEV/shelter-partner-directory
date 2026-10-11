@@ -103,6 +103,7 @@ const {pathToFileURL}=require('node:url');
     Object.assign(item.planning,{fundingMode:'cash',targetMarginPct:30,
       reservePct:10,maxDiscountPct:0,minimumMarginPct:10});
     setProductBusinessTaxType('turnover');
+    selectProductYesNo('salesVat','no');
     document.getElementById('own-business-tax-pct').value='10';
     const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
     return {ready:model.pricingReady,cash:cash.ready,months:cash.months,
