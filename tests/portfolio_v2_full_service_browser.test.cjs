@@ -50,6 +50,47 @@ const {pathToFileURL}=require('node:url');
   await page.locator('#product-intro-submit-label').click();
   A.equal(await page.locator('#service-v1-agent-panel').isVisible(),true);
   A.equal(await page.evaluate(()=>selectedServiceRole),'agent');
+  await page.locator('#service-agent-partner-price').fill('100');
+  await page.locator('#service-agent-fee-pct').fill('20');
+  await page.locator('#service-agent-partner-vat').fill('10');
+  await page.locator('#service-agent-partner-tax-pct').fill('5');
+  await page.locator('#service-agent-payer-advertising').selectOption('partner');
+  await page.locator('#own-product-ad-budget').fill('900');
+  await page.locator('#own-product-ad-cpc').fill('4.5');
+  await page.locator('#own-product-ad-ctr').fill('2');
+  await page.locator('#own-product-ad-click-lead').fill('20');
+  await page.locator('#own-product-ad-lead-sale').fill('50');
+  const agencyFlow=await page.evaluate(()=>{
+    selectProductYesNo('salesVat','yes');
+    document.getElementById('own-sales-vat-pct').value='12';
+    setProductBusinessTaxType('turnover');
+    document.getElementById('own-business-tax-pct').value='6';
+    saveCurrentProductToPortfolio();
+    const item=productPortfolio[0];
+    Object.assign(item.planning,{fundingMode:'cash',targetMarginPct:30,
+      reservePct:10,maxDiscountPct:0,minimumMarginPct:10});
+    const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
+    return {pricing:model.pricingReady,ready:cash.ready,reason:cash.reason,
+      source:item.source,channel:item.serviceChannel,role:item.serviceRole,
+      price:model.items[0]?.price,month:cash.months[0],
+      ownAd:item.serviceAgency?.payers?.advertising};
+  });
+  A.equal(agencyFlow.pricing,true,'Contractual agency commission is the V1 unit price');
+  A.equal(agencyFlow.ready,true,JSON.stringify(agencyFlow));
+  A.equal(agencyFlow.channel,'online');
+  A.equal(agencyFlow.role,'agent');
+  A.equal(agencyFlow.ownAd,'partner');
+  A.ok(Math.abs(agencyFlow.price-20/1.12)<.01,
+    'Owner fee excludes owner VAT, not the partner gross sale');
+  A.ok(Math.abs(agencyFlow.month.partnerRevenue-20*100/1.1)<.02,
+    'Partner turnover and partner VAT are accounted separately');
+  A.ok(Math.abs(agencyFlow.month.taxPaid-agencyFlow.month.inflow*0.06)<.02,
+    'Agent turnover tax applies only to the agency fee');
+  A.ok(agencyFlow.month.partnerCosts>=900,
+    'Partner-paid advertising cannot silently become an agency expense');
+  A.ok(agencyFlow.month.partnerTax>0);
+  A.ok(agencyFlow.month.outflow<agencyFlow.month.partnerCosts,
+    'Partner advertising does not debit the agent cash balance');
   await page.evaluate(()=>showServiceWorkChooser());
   // New V1 architecture: online/offline x role, then the SAME product V1.
   // Full offline must never ask for a secondary standalone finance screen.
