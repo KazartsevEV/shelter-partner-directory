@@ -2657,12 +2657,12 @@
                     'selling','commission','equipment'].map(k=>[k,
                     document.getElementById('service-agent-payer-'+k)?.value||'']))
             }:null;
-            const serviceEquipment=Array.from(document.querySelectorAll('.equipment-purchase-row')).reduce((total,row)=>{
+            const serviceEquipment=productOwnChoices.equipmentPurchase==='yes'?Array.from(document.querySelectorAll('.equipment-purchase-row')).reduce((total,row)=>{
                 const count=Math.max(1,Math.floor(Number(row.querySelector('.equipment-purchase-qty')?.value)||1));
                 const price=Math.max(0,Number(row.querySelector('.equipment-purchase-cost')?.value)||0);
                 const life=Math.max(1,Number(row.querySelector('.equipment-useful-life')?.value)||1);
                 return {capex:total.capex+count*price,amort:total.amort+count*price/life};
-            },{capex:0,amort:0});
+            },{capex:0,amort:0}):{capex:0,amort:0};
             const productionFixedMonthly = Math.max(
                 0,
                 latestProductionUnitCost *
@@ -3443,7 +3443,11 @@
                 const own=p=>!agencyOwner||item.serviceAgency?.payers?.[p]==='agent';
                 const unitCost =
                     (own('direct')?(consumedMaterialCost === null ? Math.max(0, Number(item.materialsUnitCost) || 0) : consumedMaterialCost):0) +
-                    (own('production')?Math.max(0, Number(item.productionUnitCost || 0)):0) +
+                    (own('production')?Math.max(0,Number(item.productionUnitCost||0)-
+                        Math.max(0,Number(item.serviceAmortMonthly)||0)/
+                        Math.max(1,Number(item.forecastUnitsPerMonth)||0)):0) +
+                    (own('equipment')?Math.max(0,Number(item.serviceAmortMonthly)||0)/
+                        Math.max(1,Number(item.forecastUnitsPerMonth)||0):0) +
                     Math.max(0, Number(item.logisticsUnitCost || 0)) -
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
