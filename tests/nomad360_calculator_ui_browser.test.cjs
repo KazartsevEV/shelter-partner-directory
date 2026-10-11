@@ -223,42 +223,31 @@ async function browserCase(browser,locale,expected){
   A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
   A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(22, 55, 90)'),
     'Service path choices must share orange surface and navy readable labels');
-  const serviceLabel={ru:'Услуга',en:'Service',kk:'Қызмет'}[expected.lang];
-  const linkVisual=async selector=>page.locator(selector).evaluate(el=>{
-    const css=getComputedStyle(el);
-    return {color:css.color,underline:css.textDecorationColor,
-      line:css.textDecorationLine,size:parseFloat(css.fontSize),
-      transform:css.textTransform,href:el.getAttribute('href')};
-  });
-
   const outsideLink=await page.locator('#service-work-screen > button').evaluate(el=>{
     const c=getComputedStyle(el);return {
       color:c.color,underline:c.textDecorationColor,line:c.textDecorationLine};
   });
-  A.equal(outsideLink.color,'rgb(255, 255, 255)','Navigation outside white cards stays white');
-  A.equal(outsideLink.underline,'rgb(184, 87, 58)','Outdoor nav keeps orange underline');
+  A.equal(outsideLink.color,'rgb(255, 255, 255)','Tree back control remains white on navy');
+  A.equal(outsideLink.underline,'rgb(184, 87, 58)','Tree back retains orange underline');
   A.match(outsideLink.line,/underline/);
-  const serviceLink=page.locator('#service-work-screen a.nd-context-link');
-  A.equal((await serviceLink.textContent()).trim(),serviceLabel,
-    'Service category is shown once, not doubled');
-  const serviceVisual=await linkVisual('#service-work-screen a.nd-context-link');
-  A.equal(serviceVisual.color,'rgb(22, 55, 90)');
-  A.equal(serviceVisual.underline,'rgb(184, 87, 58)');
-  A.match(serviceVisual.line,/underline/);
-  A.equal(serviceVisual.transform,'none');
-  A.ok(serviceVisual.size>=16);
-  A.equal(serviceVisual.href,'#home-screen');
+  A.equal(await page.locator('#service-work-screen .nd-context-link').count(),0,
+    'Legacy service category link must be removed entirely');
+  A.equal(await page.locator('#service-work-screen .nd-tree-active-back:visible').count(),1,
+    'Exactly one tree return above the service card');
   const routeFont=await page.locator('#service-work-online > div').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   A.ok(routeFont>=25&&routeFont<=29,'Online/offline choices have larger type');
-  await serviceLink.click();
-  A.equal(await page.locator('#home-screen').isVisible(),true,'Service breadcrumb leads home');
+  await page.locator('#service-work-screen > button.nd-tree-active-back').click();
+  A.equal(await page.locator('#home-screen').isVisible(),true,'Tree return from service mode leads home');
   await choice.locator('#start-service').click();
   await page.locator('#service-work-online').click();
   A.equal(await page.locator('#service-screen').isVisible(),true);
-  const onlineTitle={ru:'Онлайн',en:'Online',kk:'Онлайн'}[expected.lang];
-  A.equal((await page.locator('#service-screen a.nd-context-link').textContent()).trim(),onlineTitle);
-  await page.locator('#service-screen a.nd-context-link').click();
-  A.equal(await page.locator('#service-work-screen').isVisible(),true,'Online link returns to mode chooser');
+  A.equal(await page.locator('#service-screen .nd-context-link').count(),0,
+    'Legacy online/offline breadcrumb must not be clickable');
+  A.equal(await page.locator('#service-screen > button.nd-tree-active-back:visible').count(),1,
+    'Exactly one tree return on service provider selection');
+  await page.locator('#service-screen > button.nd-tree-active-back').click();
+  A.equal(await page.locator('#service-work-screen').isVisible(),true,
+    'Tree arrow returns to service mode choice');
 
   await page.evaluate(()=>showHome());
   await choice.locator('#start-own-product').click();
