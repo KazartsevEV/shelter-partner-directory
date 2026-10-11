@@ -125,8 +125,9 @@ const server=createServer(async(req,res)=>{
   A.match(await license.textContent(),/Встроить калькулятор на мой сайт/);
   A.match(await license.textContent(),/Работаете в B2B\? Привлеките полезный трафик бесплатно/);
   A.match(await license.textContent(),/За последние 14 дней уникальных посетителей:/);
-  A.equal(await license.locator('[data-nomad-traffic-value]').textContent(),'—',
-    'Before a real GitHub Insights snapshot exists the number is unavailable');
+  const visitors=(await license.locator('[data-nomad-traffic-value]').textContent()).trim();
+  A.match(visitors,/^(?:—|[0-9][0-9\s\u00a0\u202f]*)$/,
+    'Visitor counter may be unavailable or populated from the real 14-day snapshot');
   A.equal(await license.locator('[data-nomad-traffic-stats] a').count(),0,
     'Do not add a GitHub link to the visitor label');
   A.doesNotMatch(await license.locator('[data-nomad-traffic-stats]').textContent(),
