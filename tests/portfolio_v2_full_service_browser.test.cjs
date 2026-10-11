@@ -217,6 +217,41 @@ const {pathToFileURL}=require('node:url');
   const agentPortfolioPdf=await page.pdf({format:'A4',printBackground:true});
   A.equal(agentPortfolioPdf.subarray(0,4).toString('ascii'),'%PDF');
   A.ok(agentPortfolioPdf.length>4000,'V2 PDF contains a rendered partner financial report');
+  // Payer attribution must stick to a named expense after deleting an
+  // earlier row. Index-based rental.0/rental.1 reuse silently charged the
+  // wrong business, including after V1 save/restore.
+  await page.evaluate(()=>{
+    addEquipmentRentalRow();
+    const rows=document.querySelectorAll('.equipment-rental-row');
+    rows[1].querySelector('.equipment-rental-name').value='Second rental';
+    rows[1].querySelector('.equipment-rental-cost').value='17';
+    updateEquipmentRentalTotal();
+    refreshServiceAgencyLinePayers();
+  });
+  A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.1"]').count(),1);
+  await page.locator('#service-agent-line-payers [data-agent-line-key="rental.1"]').selectOption('partner');
+  await page.evaluate(()=>{
+    const first=document.querySelector('.equipment-rental-row');
+    removeEquipmentRow(first.querySelector('button[onclick*="removeEquipmentRow"]'),'rental');
+    refreshServiceAgencyLinePayers();
+  });
+  A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.1"]').inputValue(),
+    'partner','Deleting earlier rental must preserve the remaining partner payer');
+  A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.0"]').count(),0);
+  await page.evaluate(()=>{
+    addEquipmentRentalRow();
+    const rows=document.querySelectorAll('.equipment-rental-row');
+    rows[1].querySelector('.equipment-rental-name').value='New third rental';
+    rows[1].querySelector('.equipment-rental-cost').value='9';
+    updateEquipmentRentalTotal();
+    refreshServiceAgencyLinePayers();
+  });
+  A.equal(await page.locator('#service-agent-line-payers [data-agent-line-key="rental.2"]').inputValue(),
+    '','New expense requires a new payer decision, never inherits deleted rental.0');
+  const stablePayers=await page.evaluate(()=>currentProductPortfolioSnapshot().serviceAgency.lineItems
+    .filter(x=>x.key.startsWith('rental.')).map(x=>({key:x.key,payer:x.payer,amount:x.monthly})));
+  A.deepEqual(stablePayers,[{key:'rental.1',payer:'partner',amount:17},
+    {key:'rental.2',payer:'',amount:9}]);
   await page.evaluate(()=>showServiceWorkChooser());
   // New V1 architecture: online/offline x role, then the SAME product V1.
   // Full offline must never ask for a secondary standalone finance screen.
