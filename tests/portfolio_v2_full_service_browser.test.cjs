@@ -354,6 +354,20 @@ const {pathToFileURL}=require('node:url');
   A.equal(savedV1.productPortfolio[0].serviceChannel,'offline');
   A.equal(savedV1.productPortfolio[0].serviceHorizonMonths,12);
   A.equal(savedV1.productPortfolio[0].serviceRole,'self');
+  // Full native V1 own-funds PDF: real month rows, no phantom loan section.
+  await page.evaluate(()=>{window.print=()=>{window.__ownV1Print=true}});
+  A.equal(await page.evaluate(()=>exportProductCalculationPdf()),true);
+  A.equal(await page.evaluate(()=>window.__ownV1Print),true);
+  A.equal(await page.locator('#nomad360-print-sheet').getAttribute('data-mode'),'v1-product');
+  const nativeOwnPrint=await page.locator('#nomad360-print-sheet').innerText();
+  A.match(nativeOwnPrint,/Массаж/);
+  A.match(nativeOwnPrint,/Денежный поток по месяцам/);
+  A.doesNotMatch(nativeOwnPrint,/Возврат тела кредита|Проценты|Непогашенный кредит/,
+    'Cash-only native V1 print must not display any credit concepts');
+  A.equal(await page.locator('#nomad360-print-sheet table').nth(2).locator('tbody tr').count(),12);
+  const ownNativePdf=await page.pdf({format:'A4',printBackground:true});
+  A.equal(ownNativePdf.subarray(0,4).toString('ascii'),'%PDF');
+  A.ok(ownNativePdf.length>4000);
   const v2Native=await page.evaluate(()=>{
     const okay=openLinkedPortfolioFromProducts();
     const state=LinkedPortfolioV2UI.getState();
@@ -590,6 +604,81 @@ const {pathToFileURL}=require('node:url');
   });
   console.log('TZ02_MOBILE_ANCESTRY',JSON.stringify(trail));
   A.equal(overflows.scrollWidth>overflows.viewport+1,false);
+  // Acceptance suite for every native service path, including the actual
+  // 320px customer viewport. Existing tests above cover computed monetary
+  // examples and agent restore; this catches broken navigation/field branching.
+  const acceptance=await browser.newPage({viewport:{width:320,height:740},locale:'ru-RU'});
+  const acceptanceErrors=[];
+  acceptance.on('pageerror',err=>acceptanceErrors.push(err.message));
+  await acceptance.route(/^https?:\/\//,route=>route.abort());
+  const appUrl=pathToFileURL(path.resolve(__dirname,'../Marketing_calc.HTML')).href;
+  for(const channel of ['online','offline']){
+    for(const role of ['self','hired','agent']){
+      await acceptance.goto(appUrl,{waitUntil:'domcontentloaded'});
+      await acceptance.locator('#start-service').click();
+      await acceptance.locator('#service-mode-full').click();
+      await acceptance.locator('#service-work-'+channel).click();
+      if(role==='agent'){
+        await acceptance.locator('#service-screen button[onclick="showAgentChooser()"]').click();
+        await acceptance.locator('#agent-screen button[onclick="selectServiceMode(\'agent\')"]').click();
+      }else await acceptance.locator('#service-screen button[onclick="selectServiceMode(\''+role+'\')"]').click();
+      A.equal(await acceptance.locator('#product-screen').isVisible(),true,
+        channel+'/'+role+' enters native V1');
+      A.equal(await acceptance.locator('#full-service-screen').isVisible(),false,
+        channel+'/'+role+' bypasses retired full-service UI');
+      await acceptance.locator('#product-name-input').fill('Приёмка '+channel+' '+role);
+      await acceptance.locator('#product-intro-submit-label').click();
+      A.equal(await acceptance.locator('#product-own-form').isVisible(),true);
+      A.equal(await acceptance.locator('#service-v1-horizon-panel').isVisible(),true);
+      A.equal(await acceptance.locator('#service-v1-agent-panel').isVisible(),role==='agent');
+      A.equal(await acceptance.locator('#offline-service-capacity').isVisible(),channel==='offline');
+      const routeState=await acceptance.evaluate(()=>({
+        source:productSource,channel:serviceChannel,role:selectedServiceRole,
+        labor:productionLaborMode,
+        route:{full:serviceFinancialMode==='full'},
+        width:innerWidth,scroll:document.documentElement.scrollWidth
+      }));
+      A.equal(routeState.source,'offline-service');
+      A.equal(routeState.channel,channel);
+      A.equal(routeState.role,role);
+      A.equal(routeState.labor,role==='hired'?'workers':'self');
+      A.equal(routeState.route.full,true);
+      A.ok(routeState.scroll<=routeState.width+1,
+        channel+'/'+role+' viewport overflow: '+JSON.stringify(routeState));
+      await acceptance.locator('#product-main-back').click();
+      A.equal(await acceptance.locator('#service-screen').isVisible(),true,
+        channel+'/'+role+' back must return to role selection');
+    }
+  }
+  // Previously saved goods V1: do not treat old data without service metadata
+  // as a full service, and never auto-load it on a fresh visit.
+  await acceptance.goto(appUrl,{waitUntil:'domcontentloaded'});
+  const legacyStored=await acceptance.evaluate(()=>{
+    const prior={savedAt:'2026-10-09T12:00:00.000Z',activeProductId:7,
+      productPortfolio:[{
+        id:7,name:'Архивная майка',source:'resale',
+        inputs:{'resale-buy-total':'100','own-product-ad-budget':'100'},
+        uiState:{choices:{salesVat:'no'},productionLaborMode:'self'},
+        planning:{fundingMode:'cash',targetMarginPct:25,reservePct:0}
+      }],taxType:'turnover',businessTaxPct:6,salesVat:'no',salesVatPct:0};
+    localStorage.setItem('marketingCalcProductResultV1',JSON.stringify(prior));
+    return JSON.stringify(readSavedProductCalculation().productPortfolio.map(i=>[i.id,i.name,i.source]));
+  });
+  A.match(legacyStored,/Архивная майка/);
+  await acceptance.reload({waitUntil:'domcontentloaded'});
+  A.equal(await acceptance.locator('#product-screen').isVisible(),false,
+    'Saved legacy goods V1 must not open without an explicit resume');
+  A.equal(await acceptance.evaluate(()=>resumeSavedProductCalculation()),true);
+  A.equal(await acceptance.locator('#product-screen').isVisible(),true);
+  const legacyState=await acceptance.evaluate(()=>({
+    name:productName,source:productSource,
+    count:productPortfolio.length,vat:productOwnChoices.salesVat,
+    tax:productBusinessTaxType
+  }));
+  A.deepEqual(legacyState,{name:'Архивная майка',source:'resale',
+    count:1,vat:'no',tax:'turnover'});
+  A.deepEqual(acceptanceErrors,[],'No runtime errors across six V1 routes + old goods restore');
+  await acceptance.close();
   A.deepEqual(errors,[]);
   console.log('TZ02_FULL_SERVICE_BROWSER_GREEN',{capital:seed.fixedCashMonthly+1160,rows:r.months.length});
  }finally{await browser.close()}
