@@ -54,7 +54,7 @@ async function assertPresentation(page,label){
   ];
   const locale=Nomad360LocaleCore.displayLocale();
   const language=Nomad360LocaleCore.locale();
-  const unit=language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*';
+  const unit=language==='en'?'USD':language==='kk'?'USD':'USD';
   const errors=[];
   for(const node of nodes){
    const raw=Number(node.dataset.nomadDisplayNumber);
