@@ -31,7 +31,7 @@
       supportLead:'Калькулятор бесплатный. Поддержка добровольная и идёт на развитие калькулятора, AI-маркетолога и контент-фабрики.',
       kaspi:'Kaspi · Казахстан',ozon:'Ozon · Россия',
       cryptoDonate:'Поддержать Nomad360 криптовалютой',
-      cryptoDonateHint:'Выберите криптовалюту и сумму.',cryptoScrollHint:'↓ Листайте вниз',
+      cryptoDonateHint:'Выберите криптовалюту и сумму.',
       kaspiPhoneHint:'Перевод по номеру телефона для владельцев казахстанских карт',
       bankTransfer:'Реквизиты для международного банковского перевода',
       bankRecipient:'Получатель',bankName:'Банк',
@@ -93,7 +93,7 @@
       supportLead:'The calculator is free. Support is voluntary and funds the calculator, the AI Marketer and the Content Factory.',
       kaspi:'Kaspi · Kazakhstan',ozon:'Ozon · Russia',
       cryptoDonate:'Support Nomad360 with cryptocurrency',
-      cryptoDonateHint:'Choose a cryptocurrency and an amount.',cryptoScrollHint:'↓ Scroll down',
+      cryptoDonateHint:'Choose a cryptocurrency and an amount.',
       kaspiPhoneHint:'Transfer by phone number for holders of Kazakhstan-issued bank cards',
       bankTransfer:'International bank transfer details',
       bankRecipient:'Recipient',bankName:'Bank',
@@ -155,7 +155,7 @@
       supportLead:'Калькулятор тегін. Қолдау ерікті және калькуляторды, AI-маркетологты және контент фабрикасын дамытуға жұмсалады.',
       kaspi:'Kaspi · Қазақстан',ozon:'Ozon · Ресей',
       cryptoDonate:'Nomad360 жобасын криптовалютамен қолдау',
-      cryptoDonateHint:'Криптовалюта мен соманы таңдаңыз.',cryptoScrollHint:'↓ Төмен сырғытыңыз',
+      cryptoDonateHint:'Криптовалюта мен соманы таңдаңыз.',
       kaspiPhoneHint:'Қазақстан банктерінің карталары үшін телефон нөмірі арқылы аударым',
       bankTransfer:'Халықаралық банк аударымына арналған деректемелер',
       bankRecipient:'Алушы',bankName:'Банк',
@@ -238,10 +238,9 @@
       '<p>'+esc(t.cryptoDonateHint)+'</p></div>'+
       '<div class="nomad-crypto-embed"><div class="nomad-crypto-viewport">'+
       '<iframe class="nomad-crypto-frame" title="'+esc(t.cryptoDonate)+'" '+
-      'src="'+PAY.donationWidget+'" width="346" height="355" loading="lazy" '+
-      'frameborder="0" scrolling="auto" referrerpolicy="strict-origin-when-cross-origin">'+
-      '</iframe></div></div>'+
-      '<p class="nomad-crypto-scroll-cue">'+esc(t.cryptoScrollHint)+'</p></section>';
+      'src="'+PAY.donationWidget+'" width="346" height="623" loading="lazy" '+
+      'frameborder="0" scrolling="no" referrerpolicy="strict-origin-when-cross-origin">'+
+      '</iframe></div></div></section>';
   }
   function payFiat(t) {
     const bankLine=(label,value)=>
