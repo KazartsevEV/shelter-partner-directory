@@ -98,6 +98,60 @@ const {pathToFileURL}=require('node:url');
   A.equal(await page.locator('#product-v1-aggregate-report').count(),1);
   A.equal(await page.locator('#product-v1-export-buttons').count(),1);
   A.equal(await page.locator('#product-v2-portfolio-gateway').count(),1);
+  const native=await page.evaluate(()=>{
+    const item=productPortfolio[0];
+    Object.assign(item.planning,{fundingMode:'cash',targetMarginPct:30,
+      reservePct:10,maxDiscountPct:0,minimumMarginPct:10});
+    setProductBusinessTaxType('turnover');
+    document.getElementById('own-business-tax-pct').value='10';
+    const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
+    return {ready:model.pricingReady,cash:cash.ready,months:cash.months,
+      capital:aggregatePlanMetrics(item).requiredCapital,
+      price:model.items[0]?.price,reason:cash.reason};
+  });
+  A.equal(native.ready,true,'V1 canonical service tariff ready');
+  A.equal(native.cash,true,JSON.stringify(native));
+  A.equal(native.months.length,12,'Service forecast horizon is controlled by V1 field');
+  A.ok(Math.abs(native.capital-1166)<.03,'Own capital covers first service month plus reserve');
+  A.ok(native.months.every(m=>m.principalRepaid===0&&m.interestPaid===0));
+  A.ok(native.months.every(m=>m.taxPaid>=0));
+  A.ok(native.months[1].cashFlow>0,'Service generates receipts in subsequent months');
+  await page.evaluate(()=>updateProductPortfolioBusinessSummary());
+  A.equal((await page.locator('#product-portfolio-business-summary').textContent()).includes('Проценты по кредиту'),false,
+    'Own funds do not expose loan columns in V1 report');
+  const finance=await page.evaluate(()=>{
+    const item=productPortfolio[0];
+    item.planning.fundingMode='credit';
+    item.planning.creditRatePct=12;
+    item.planning.creditTermMonths=3;
+    const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
+    return {ready:cash.ready,months:cash.months,capital:calculateAggregateCredit(item).principal};
+  });
+  A.equal(finance.ready,true);
+  A.ok(finance.months[0].interestPaid>0,'Loan interest included as recurring cash expense');
+  A.ok(finance.months[2].principalRepaid>0,'Bullet principal repaid in contract month');
+  A.ok(Math.abs(finance.months[2].principalRepaid-finance.capital)<.02);
+  A.ok(finance.months.slice(3).every(m=>m.interestPaid===0));
+  await page.evaluate(()=>{
+    const item=productPortfolio[0];item.planning.fundingMode='cash';
+    saveProductCalculationToBrowser();
+  });
+  const savedV1=await page.evaluate(()=>readSavedProductCalculation());
+  A.equal(savedV1.productPortfolio[0].serviceFinanceMode,'full');
+  A.equal(savedV1.productPortfolio[0].serviceChannel,'offline');
+  A.equal(savedV1.productPortfolio[0].serviceHorizonMonths,12);
+  A.equal(savedV1.productPortfolio[0].serviceRole,'self');
+  const v2Native=await page.evaluate(()=>{
+    const okay=openLinkedPortfolioFromProducts();
+    const state=LinkedPortfolioV2UI.getState();
+    return {okay,source:state?.skus?.[0]?.source,full:state?.skus?.[0]?.fullServiceV2,
+      months:state?.forecastMonths,priceFixed:state?.skus?.[0]?.fixedPriceFromV1};
+  });
+  A.equal(v2Native.okay,true);
+  A.equal(v2Native.source,'offline-service');
+  A.equal(v2Native.full,true);
+  A.equal(v2Native.priceFixed,true);
+  await page.evaluate(()=>showServiceWorkChooser());
   // Legacy full-service engine remains tested below for compatibility only,
   // never as the full offline customer route.
   // Production screenshot regression: a forecast array is formatted for humans,
