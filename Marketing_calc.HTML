@@ -3696,19 +3696,23 @@
                     storedCostPerUnit +
                     (projectedStorage === null ? storedCostPerUnit : projectedStorage);
                 const cycle = aggregatePlanMetrics(item);
-                const servicePricingMonths=item.source==='offline-service'&&item.serviceFinanceMode==='full'?
+                const isFullService=item.source==='offline-service'&&item.serviceFinanceMode==='full';
+                const demand=isFullService?serviceDemandProfile(item):null;
+                const servicePricingMonths=isFullService?
                     Math.max(1,Number(item.serviceHorizonMonths)||1):1;
-                // Loan interest is priced over approved operating sales only;
-                // debt maturity never creates extra forecast customers.
-                const reserveUnits=['dropship','offline-service'].includes(item.source)?
-                    Number(item.forecastUnitsPerMonth)*servicePricingMonths:Number(item.logisticsQty);
+                // Interest and liquidity reserve are amortized over actual
+                // approved sales, not over invented customers in idle months.
+                const reserveUnits=isFullService?(demand.valid?demand.total:0):
+                    ['dropship','offline-service'].includes(item.source)?
+                        Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
                 const reservePerUnit = cycle.reserveAmount !== null && reserveUnits > 0
                     ? cycle.reserveAmount / reserveUnits : 0;
 
                 const credit = calculateAggregateCredit(item);
                 const usesCredit = item?.planning?.fundingMode === 'credit';
-                const creditUnits=['dropship','offline-service'].includes(item.source)?
-                    Number(item.forecastUnitsPerMonth)*servicePricingMonths:Number(item.logisticsQty);
+                const creditUnits=isFullService?(demand.valid?demand.total:0):
+                    ['dropship','offline-service'].includes(item.source)?
+                        Number(item.forecastUnitsPerMonth):Number(item.logisticsQty);
                 const creditReady =
                     !usesCredit ||
                     (
@@ -3720,8 +3724,20 @@
                     usesCredit && creditReady
                         ? credit.totalInterest / creditUnits
                         : 0;
+                const pricingUnitCost=isFullService&&demand.valid&&demand.custom?
+                    (()=>{
+                        const baseline=Math.max(.0000001,Number(item.forecastUnitsPerMonth)||0);
+                        const variable=ownSplit?
+                            (ownSplit.direct+ownSplit.electricity)/baseline:
+                            (own('direct')?Math.max(0,Number(item.materialsUnitCost)||0):0)+
+                            (own('production')?Math.max(0,Number(item.productionElectricityPerUnit)||0):0);
+                        const fixedPerBaseline=Math.max(0,unitCost-variable);
+                        return variable+fixedPerBaseline*baseline*servicePricingMonths/demand.total;
+                    })():unitCost;
+                const priceAdUnit=isFullService&&demand.valid&&demand.custom?
+                    budget*servicePricingMonths/demand.total:baseCac;
                 const pricingUnitLoad =
-                    unitCost + creditServicePerUnit + reservePerUnit;
+                    pricingUnitCost + creditServicePerUnit + reservePerUnit;
 
                 const rawMargin = item?.planning?.targetMarginPct;
                 const hasMargin =
@@ -3744,10 +3760,11 @@
                     (agencyFeeGross>0?agencyFeeGross/(1+agencyVat):null):
                     (!['resale','dropship'].includes(item.source) || Math.max(0,Number(item.inputs?.['resale-buy-total'])||0)>0) &&
                     baseCac !== null &&
+                    (!isFullService||demand.valid) &&
                     marginRate !== null &&
                     creditReady &&
                     1 - marginRate > 0
-                        ? (pricingUnitLoad + baseCac) / (1 - marginRate)
+                        ? (pricingUnitLoad + priceAdUnit) / (1 - marginRate)
                         : null;
 
                 return {
@@ -5961,9 +5978,9 @@
             const forecastSalesPerMonth =
                 Math.max(0, Number(item?.forecastUnitsPerMonth || 0));
             const stockQty = Math.max(0, Number(item?.logisticsQty) || 0);
-            const serviceUnits=item?.source==='offline-service'&&item?.serviceFinanceMode==='full'?
-                forecastSalesPerMonth*Math.max(1,Number(item.serviceHorizonMonths)||1,
-                    Number(termMonths)||1):stockQty;
+            const servicePlan=item?.source==='offline-service'&&item?.serviceFinanceMode==='full'?
+                serviceDemandProfile(item):null;
+            const serviceUnits=servicePlan?servicePlan.total:stockQty;
             const servicePerUnit = totalInterest !== null && serviceUnits > 0
                 ? totalInterest / serviceUnits
                 : null;
