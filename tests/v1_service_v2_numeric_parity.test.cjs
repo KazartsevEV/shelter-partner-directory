@@ -114,6 +114,17 @@ test('Canonical full V1→V2 numeric parity: 6 roles × own/credit × turnover/p
           for(const vat of [false,true]){
             const r=metrics(channel,role,funding,taxType,vat);count++;
             const a=r.v1Monthly[0],p=r.v2Pnl[0],c=r.v2Cash[0];
+            const partner=r.v2.cashflow.periodPnl.bySku['v1-1']?.partner?.months?.[0];
+            if(role==='agent'){
+              A.ok(partner,r.tag+' V2 partner counter-ledger exists');
+              for(const [v1key,v2key] of [['partnerRevenue','revenue'],
+                ['partnerCosts','costs'],['partnerTax','tax'],['partnerProfit','profit']])
+                A.ok(Math.abs(a[v1key]-partner[v2key])<EPS,
+                  r.tag+' partner '+v1key+' V1='+a[v1key]+' V2='+partner[v2key]);
+              A.equal(r.v2.cashflow.periodPnl.bySku['v1-1'].partner.months.length,
+                r.v1Monthly.length,'V2 partner months follow V1 horizon');
+            }else A.equal(r.v2.cashflow.periodPnl.bySku['v1-1']?.partner,null,
+              'Non-agents have no partner turnover');
             const checks={
               revenue:delta(a.inflow-a.financedInflow,p.revenue),
               profitBeforeTax:delta(a.taxableProfit,p.preTaxProfit),
