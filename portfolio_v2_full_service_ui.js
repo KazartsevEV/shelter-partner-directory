@@ -94,8 +94,9 @@
  }
  function updateResume(){
   const btn=el('service-full-saved-entry');if(!btn)return;
-  const has=!!savedDraft();
-  btn.hidden=!has;btn.classList.toggle('hidden',!has);
+  // Obsolete secondary full-service UI is no longer a public V1 route.
+  // Preserve the legacy draft in storage for potential explicit migration.
+  btn.hidden=true;btn.classList.add('hidden');
   btn.textContent=labels().resume;
  }
  function field(label,id,value,type='number',other=''){
