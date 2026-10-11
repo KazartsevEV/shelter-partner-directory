@@ -1847,6 +1847,7 @@
         }
         let serviceFinancialMode='simple';
         let serviceChannel='online'; // service delivery mode, not V2
+        let selectedServiceRole='self'; // one V1 service: self / hired / agent
         function syncServiceFinancialRoute() {
             // V1 means ONE service (simple/full are depth variants).
             // V2 is the optional multi-item portfolio, never an alias for full.
@@ -2507,6 +2508,11 @@
             currentProductSequence = id;
             productName = item.name;
             productSource = item.source;
+            if(item.source==='offline-service'){
+                serviceChannel=item.serviceChannel==='online'?'online':'offline';
+                selectedServiceRole=['self','hired','agent'].includes(item.serviceRole)?item.serviceRole:'self';
+                serviceFinancialMode=item.serviceFinanceMode==='full'?'full':'simple';
+            }
             productOwnInitialized = false;
 
             const nameInput = document.getElementById('product-name-input');
@@ -2645,7 +2651,7 @@
                 name: productName,
                 source: productSource,
                 serviceChannel:productSource==='offline-service'?serviceChannel:null,
-                serviceRole:productSource==='offline-service'?productionLaborMode==='workers'?'hired':'self':null,
+                serviceRole:productSource==='offline-service'?selectedServiceRole:null,
                 serviceFinanceMode:productSource==='offline-service'?serviceFinancialMode:null,
                 serviceHorizonMonths:productSource==='offline-service'?Number(document.getElementById('service-v1-horizon')?.value||12):0,
                 serviceCapex:productSource==='offline-service'?serviceEquipment.capex:0,
@@ -3039,8 +3045,10 @@
             if(item.source==='offline-service'){
                 const capacity=Number(item.offlineServiceCapacity)||0;
                 if(!(forecasts>0))details.push({kind:'ads',message:'Для расчёта цены услуги заполните рекламную воронку и бюджет — нужен прогноз клиентов.'});
-                if(!(capacity>0))details.push({kind:'service-capacity',message:'Укажите физическую вместимость салона: сколько услуг могут оказать мастера за месяц.'});
-                else if(forecasts>capacity+0.000001)details.push({kind:'service-capacity',message:'Прогноз '+forecasts.toFixed(1)+' клиентов превышает доступные '+capacity+' процедур за месяц. Увеличьте количество рабочих мест / мастеров или скорректируйте рекламу.'});
+                if(item.serviceChannel!=='online'){
+                    if(!(capacity>0))details.push({kind:'service-capacity',message:'Укажите физическую вместимость салона: сколько услуг могут оказать мастера за месяц.'});
+                    else if(forecasts>capacity+0.000001)details.push({kind:'service-capacity',message:'Прогноз '+forecasts.toFixed(1)+' клиентов превышает доступные '+capacity+' процедур за месяц. Увеличьте количество рабочих мест / мастеров или скорректируйте рекламу.'});
+                }
                 return details;
             }
             if(item.source==='dropship'){
@@ -6554,20 +6562,27 @@
             const service=productSource==='offline-service';
             const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
             const show=(id,value)=>{const el=document.getElementById(id);if(el){el.hidden=!value;el.classList.toggle('hidden',!value);}};
-            set('product-intro-category',service?'Офлайн-услуга':'Товар');
+            set('product-intro-category',service?(serviceChannel==='online'?'Онлайн-услуга':'Офлайн-услуга'):'Товар');
             set('product-intro-title',service?'Какую услугу оказываете?':'Что продаёте?');
             set('product-name-label',service?'Название услуги':'Наименование товара');
-            set('product-intro-help',service?'Например: маникюр с покрытием, стрижка, массаж. Одна единица = одна оказанная услуга.':'Введите название своего товара. Сведения из учебных примеров сюда не переносятся.');
+            set('product-intro-help',service?(serviceChannel==='online'?
+                'Например: консультация, аудит, онлайн-урок. Одна единица = одна оплаченная услуга.':
+                'Например: маникюр с покрытием, стрижка, массаж. Одна единица = одна оказанная услуга.'):'Введите название своего товара. Сведения из учебных примеров сюда не переносятся.');
             set('product-intro-submit-label',service?'Рассчитать услугу':'Рассчитать мой товар');
             const salesUnit=document.getElementById('product-sales-unit');
             if(salesUnit && service)salesUnit.value='услуга';
             const input=document.getElementById('product-name-input');
-            if(input)input.placeholder=service?'Например: маникюр с покрытием':'Например: кофемашина, футболка, набор свечей';
+            if(input)input.placeholder=service?(serviceChannel==='online'?'Например: консультация по маркетингу':'Например: маникюр с покрытием'):'Например: кофемашина, футболка, набор свечей';
             const back=document.getElementById('product-main-back');
             if(back){back.textContent=service?(serviceFinancialMode==='full'?'← К роли исполнителя':'← Онлайн / офлайн'):'← Главная';back.setAttribute('onclick',service?(serviceFinancialMode==='full'?'showServiceChooser()':'showServiceWorkChooser()'):'showHome()');}
             show('product-production-block',service||productSource==='own');
             show('production-unit-result',service||productSource==='own');
-            show('offline-service-capacity',service);
+            const onlineService=service&&serviceFinancialMode==='full'&&serviceChannel==='online';
+            show('offline-service-capacity',service&&!onlineService);
+            show('service-v1-horizon-panel',service&&serviceFinancialMode==='full');
+            show('service-v1-agent-panel',service&&serviceFinancialMode==='full'&&selectedServiceRole==='agent');
+            // Online service has no inventory or physical capacity.
+            set('service-sales-heading',service?(onlineService?'Расходы на онлайн-услугу':'Расходы на оказание и продажу'):'Расходы при продаже');
             show('production-defect-panel',!service);
             show('materials-import-prompt',!service);
             show('purchase-inbound-delivery-panel',!service&&productSource!=='dropship');
@@ -6575,7 +6590,7 @@
             show('materials-qty-entry-panel',!service&&productSource==='own');
             show('product-logistics-block',!service);
             show('logistics-unit-result',!service);
-            if(service||productSource==='own')set('materials-step-name',service?'Расходные материалы на одну услугу':'Из чего состоит себестоимость');
+            if(service||productSource==='own')set('materials-step-name',service?(onlineService?'Прямые расходы на одну онлайн-услугу':'Расходные материалы на одну услугу'):'Из чего состоит себестоимость');
             if(service||productSource==='own')set('materials-step-help',service?
                 'Например, для маникюра: лак, база, пилки, перчатки. Расходники на одну процедуру можно указать общей суммой или по позициям.':
                 'Для «Делаю сам» считаем материалы и связанные с ними расходы. Неиспользуемые статьи по умолчанию равны 0 и скрыты.');
@@ -6587,7 +6602,7 @@
             set('service-assortment-heading',service?'Это все ваши услуги?':'Это весь ваш ассортимент?');
             set('service-assortment-more',service?'У меня будут другие услуги':'У меня будут другие товары');
             set('service-assortment-add','+ Добавить товар или услугу');
-            set('production-stage-heading',service?'Офлайн-услуга · рабочее место и персонал':'Производство');
+            set('production-stage-heading',service?(serviceChannel==='online'?'Онлайн-услуга · исполнение':'Офлайн-услуга · рабочее место и персонал'):'Производство');
             set('production-stage-title',service?'Аренда, мастера, оборудование и коммунальные расходы на':'Расходы на производство 1 единицы');
             set('production-worker-heading',service?'Кто оказывает услугу?':'Кто выполняет производство?');
             set('production-self-button',service?'Я оказываю услуги сам':'Всё делаю сам');
@@ -7724,19 +7739,12 @@
           }catch(error){report(error.message);return false;}
         }
         function selectServiceMode(mode) {
-            if(serviceFinancialMode==='full'&&serviceChannel==='offline'){
-                if(mode==='agent'){
-                    // Never silently relabel the legacy agent CPC as product V1.
-                    showServiceChooser();
-                    const error=document.getElementById('service-full-agent-status');
-                    if(error)error.textContent='Агентская экономика офлайн-услуги готовится для единого V1. Здесь потребуется распределение расходов между агентом и партнёром.';
-                    return false;
-                }
-                if(mode==='self'||mode==='hired'){
-                    startOfflineServiceCalculation();
-                    setProductionLaborMode(mode==='hired'?'workers':'self');
-                    return true; // product V1 owns price, financing, taxes, CF and PDF
-                }
+            if(serviceFinancialMode==='full'&&['self','hired','agent'].includes(mode)){
+                selectedServiceRole=mode;
+                startOfflineServiceCalculation();
+                setProductionLaborMode(mode==='hired'?'workers':'self');
+                configureOfflineServiceView();
+                return true; // ONE product-V1 form for all service channels and roles
             }
             serviceMode = mode;
             const badge = document.getElementById('mode-badge');
