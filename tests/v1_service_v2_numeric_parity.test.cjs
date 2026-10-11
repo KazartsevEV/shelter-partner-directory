@@ -251,11 +251,12 @@ test('Issue #91 variable-demand V1↔V2: [0,10,15] x six roles, own/credit, tax 
             const r=metrics(channel,role,funding,taxType,vat,5,
               {demand:[0,10,15]});
             cases++;
-            A.deepEqual(r.sku.fullServiceForecast,[0,10,15,0,0],
+            const expected=funding==='credit'?[0,10,15,0,0]:[0,10,15];
+            A.deepEqual(r.sku.fullServiceForecast,expected,
               r.tag+' V2 must preserve explicit demand and debt-only tail');
-            A.equal(r.v1Monthly.length,5);
-            A.equal(r.v2Cash.length,5);
-            for(let i=0;i<5;i++){
+            A.equal(r.v1Monthly.length,expected.length);
+            A.equal(r.v2Cash.length,expected.length);
+            for(let i=0;i<expected.length;i++){
               const a=r.v1Monthly[i],b=r.v2Cash[i],p=r.v2Pnl[i];
               for(const [field,v1,v2] of [
                 ['revenue',a.inflow-a.financedInflow,p.revenue],
