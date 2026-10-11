@@ -515,6 +515,9 @@
               <label for="service-v1-horizon" class="block text-sm font-semibold text-slate-700">Период расчёта услуги, месяцев</label>
               <input id="service-v1-horizon" type="number" min="1" max="120" step="1" value="12" class="input-field mt-2" oninput="refreshAllAggregatePricing()">
               <p class="text-sm text-slate-500 mt-2">Продажи и постоянные платежи рассчитываются для каждого месяца. Если кредит длиннее выбранного периода, денежный календарь продолжается до его погашения.</p>
+              <label for="service-v1-monthly-demand" class="block text-sm font-semibold text-slate-700 mt-4">План клиентов по месяцам — по желанию</label>
+              <textarea id="service-v1-monthly-demand" class="input-field mt-2 w-full" rows="3" placeholder="0&#10;10&#10;15" aria-describedby="service-v1-demand-help" oninput="refreshAllAggregatePricing()"></textarea>
+              <p id="service-v1-demand-help" class="text-sm text-slate-500 mt-2">Укажите количество клиентов в каждом месяце, по одному числу на строку. Для периода 3 месяца: 0, затем 10, затем 15. Пустое поле означает одинаковый прогноз из рекламной воронки каждый месяц. Аренда, реклама и зарплата оплачиваются и в месяцы без клиентов.</p>
             </div>
             <div id="product-sales-unit-panel" class="card p-4">
                 <label for="product-sales-unit" class="block text-sm font-semibold text-slate-700 mb-2">Единица измерения товара или услуги</label>
@@ -2450,6 +2453,8 @@
                 if (!field) return;
                 field.value = value ?? '';
             });
+            const demandField=document.getElementById('service-v1-monthly-demand');
+            if(demandField)demandField.value=item?.serviceMonthlyDemand??item?.inputs?.['service-v1-monthly-demand']??'';
 
             Object.keys(productOwnChoices).forEach(key => delete productOwnChoices[key]);
             Object.entries({
@@ -2841,6 +2846,8 @@
                 serviceAgency:agency,
                 serviceFinanceMode:productSource==='offline-service'?serviceFinancialMode:null,
                 serviceHorizonMonths:productSource==='offline-service'?Number(document.getElementById('service-v1-horizon')?.value||12):0,
+                serviceMonthlyDemand:productSource==='offline-service'?
+                    String(document.getElementById('service-v1-monthly-demand')?.value||''):null,
                 serviceCapex:productSource==='offline-service'?serviceEquipment.capex:0,
                 serviceAmortMonthly:productSource==='offline-service'?serviceEquipment.amort:0,
                 unit: document.getElementById('product-sales-unit')?.value || (productSource==='offline-service'?'услуга':'шт'),
