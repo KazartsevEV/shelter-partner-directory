@@ -508,9 +508,7 @@
                 <label class="text-sm">Ставка налога партнёра, % <input id="service-agent-partner-tax-pct" type="number" min="0" max="100" step="0.01" value="0" class="input-field mt-1" oninput="refreshAllAggregatePricing()"></label>
               </div>
               <h3 class="font-semibold text-slate-900 mt-5 mb-2">Кто оплачивает расходы?</h3>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <label class="text-sm">Прямые расходы на услугу<select id="service-agent-payer-direct" class="input-field mt-1" oninput="refreshAllAggregatePricing()"><option value="">Выберите плательщика</option><option value="agent">Я, агент</option><option value="partner">Партнёр</option></select></label><label class="text-sm">Аренда, исполнение, персонал<select id="service-agent-payer-production" class="input-field mt-1" oninput="refreshAllAggregatePricing()"><option value="">Выберите плательщика</option><option value="agent">Я, агент</option><option value="partner">Партнёр</option></select></label><label class="text-sm">Реклама<select id="service-agent-payer-advertising" class="input-field mt-1" oninput="refreshAllAggregatePricing()"><option value="">Выберите плательщика</option><option value="agent">Я, агент</option><option value="partner">Партнёр</option></select></label><label class="text-sm">Ведение рекламы<select id="service-agent-payer-management" class="input-field mt-1" oninput="refreshAllAggregatePricing()"><option value="">Выберите плательщика</option><option value="agent">Я, агент</option><option value="partner">Партнёр</option></select></label><label class="text-sm">Постоянные расходы на продажи<select id="service-agent-payer-selling" class="input-field mt-1" oninput="refreshAllAggregatePricing()"><option value="">Выберите плательщика</option><option value="agent">Я, агент</option><option value="partner">Партнёр</option></select></label><label class="text-sm">Комиссии и удержания<select id="service-agent-payer-commission" class="input-field mt-1" oninput="refreshAllAggregatePricing()"><option value="">Выберите плательщика</option><option value="agent">Я, агент</option><option value="partner">Партнёр</option></select></label><label class="text-sm">Покупка оборудования<select id="service-agent-payer-equipment" class="input-field mt-1" oninput="refreshAllAggregatePricing()"><option value="">Выберите плательщика</option><option value="agent">Я, агент</option><option value="partner">Партнёр</option></select></label>
-              </div>
+              <div id="service-agent-line-payers" class="grid grid-cols-1 sm:grid-cols-2 gap-3" aria-label="Плательщик каждой расходной статьи"></div>
               <p class="text-sm text-slate-500 mt-3">Для ненулевых затрат выбор плательщика обязателен. Затраты партнёра учитываются только в его экономике, ваши — в вашем V1.</p>
             </div>
             <div id="service-v1-horizon-panel" class="card p-4 hidden" hidden>
@@ -1869,6 +1867,7 @@
         let serviceFinancialMode='simple';
         let serviceChannel='online'; // service delivery mode, not V2
         let selectedServiceRole='self'; // one V1 service: self / hired / agent
+        let serviceAgentPayerChoices={}; // exact expense-line decisions, never defaulted
         function syncServiceFinancialRoute() {
             // V1 means ONE service (simple/full are depth variants).
             // V2 is the optional multi-item portfolio, never an alias for full.
@@ -2532,6 +2531,8 @@
             currentProductSequence = id;
             productName = item.name;
             productSource = item.source;
+            serviceAgentPayerChoices=Object.fromEntries(
+                (item.serviceAgency?.lineItems||[]).map(x=>[x.key,x.payer||'']));
             if(item.source==='offline-service'){
                 serviceChannel=item.serviceChannel==='online'?'online':'offline';
                 selectedServiceRole=['self','hired','agent'].includes(item.serviceRole)?item.serviceRole:'self';
@@ -2613,6 +2614,131 @@
             });
         }
 
+        function serviceAgencyExpenseLines(){
+            const lines=[],qty=Math.max(0,productNumberFromText('own-product-ad-units'));
+            const money=(id)=>Math.max(0,Number(document.getElementById(id)?.value)||0);
+            const add=(key,bucket,label,monthly=0,capex=0,amort=0,ratePct=0)=>{
+                if(monthly>0||capex>0||amort>0||ratePct>0)
+                    lines.push({key,bucket,label,monthly,capex,amort,ratePct});
+            };
+            const materialRows=materialCostMode==='calculate'?
+                [...document.querySelectorAll('.material-cost-row')]:[];
+            if(materialRows.length){
+                let listed=0;
+                materialRows.forEach((row,i)=>{
+                    const count=Math.max(0,Number(row.querySelector('.material-cost-qty')?.value)||0);
+                    const price=Math.max(0,Number(row.querySelector('.material-cost-price')?.value)||0);
+                    const value=count*price*qty;listed+=value;
+                    const title=row.querySelector('.material-cost-name')?.value.trim()||('Материал '+(i+1));
+                    add('material.'+i,'direct',title,value);
+                });
+                add('material.other','direct','Остальные прямые расходы',
+                    Math.max(0,latestMaterialsLandedUnitCost*qty-listed));
+            }else add('material.known','direct','Материалы / прямые расходы',
+                latestMaterialsLandedUnitCost*qty);
+            if(productOwnChoices.productionPremises==='yes')
+                add('premises','production','Аренда помещения',money('own-production-premises-monthly'));
+            if(productOwnChoices.equipmentRental==='yes')
+                document.querySelectorAll('.equipment-rental-row').forEach((row,i)=>{
+                    const units=Math.max(1,Math.floor(Number(row.querySelector('.equipment-rental-qty')?.value)||1));
+                    const cost=Math.max(0,Number(row.querySelector('.equipment-rental-cost')?.value)||0);
+                    add('rental.'+i,'production',
+                        row.querySelector('.equipment-rental-name')?.value.trim()||('Аренда оборудования '+(i+1)),
+                        units*cost);
+                });
+            if(productionLaborMode==='workers'){
+                const count=Math.max(0,Math.floor(money('own-production-workers-count')));
+                const gross=money('own-production-worker-gross');
+                const country=document.getElementById('own-production-workers-country')?.value||'KZ';
+                add('worker.gross','production','Оплата труда мастеров',count*gross);
+                add('worker.charges','production','Взносы и налоги работодателя',
+                    count*productionEmployerChargesForWorker(country,gross));
+            }
+            if(productOwnChoices.productionGas==='yes')
+                add('gas','production','Газ / отопление',
+                    money('own-production-gas-tariff')*money('own-production-gas-usage'));
+            if(productOwnChoices.productionElectricity==='yes')
+                add('electricity','electricity','Электричество на услуги',
+                    money('own-production-electricity-tariff')*
+                    money('own-production-electricity-usage')*qty);
+            if(productOwnChoices.productionOverheads==='yes')
+                add('overheads','production','Организационные расходы',
+                    money('own-production-overheads-monthly'));
+            if(productOwnChoices.equipmentPurchase==='yes')
+                document.querySelectorAll('.equipment-purchase-row').forEach((row,i)=>{
+                    const count=Math.max(1,Math.floor(Number(row.querySelector('.equipment-purchase-qty')?.value)||1));
+                    const cost=Math.max(0,Number(row.querySelector('.equipment-purchase-cost')?.value)||0);
+                    const life=Math.max(1,Number(row.querySelector('.equipment-useful-life')?.value)||1);
+                    const purchase=count*cost;
+                    add('purchase.'+i,'equipment',
+                        row.querySelector('.equipment-purchase-name')?.value.trim()||('Покупка оборудования '+(i+1)),
+                        0,purchase,purchase/life);
+                });
+            add('advertising','advertising','Рекламный бюджет',money('own-product-ad-budget'));
+            add('management','management','Ведение рекламы',money('own-product-ad-management'));
+            add('sales.fixed','selling','Постоянные расходы на продажи',
+                Math.max(0,productNumberFromText('own-sales-fixed-monthly')));
+            add('sales.commission','commission','Комиссия с продаж',0,0,0,money('own-sales-commission-pct'));
+            add('sales.penalties','commission','Удержания и штрафы',0,0,0,money('own-platform-penalties-pct'));
+            return lines;
+        }
+        function refreshServiceAgencyLinePayers(){
+            const host=document.getElementById('service-agent-line-payers');
+            if(!host||serviceFinancialMode!=='full'||selectedServiceRole!=='agent')return;
+            const lines=serviceAgencyExpenseLines(),valid=new Set(lines.map(x=>x.key));
+            // Keep decisions for temporarily hidden rows; persist exact key in V1.
+            const keys=[...host.querySelectorAll('select[data-agent-line-key]')];
+            for(const input of keys)serviceAgentPayerChoices[input.dataset.agentLineKey]=input.value;
+            const signature=JSON.stringify(lines.map(x=>[x.key,x.label,x.monthly,x.capex,x.amort,x.ratePct]));
+            if(host.dataset.signature===signature)return;
+            host.dataset.signature=signature;
+            host.replaceChildren();
+            for(const line of lines){
+                const label=document.createElement('label');
+                label.className='text-sm min-w-0';
+                const total=line.capex?' · '+moneyInputValue(line.capex)+' разово':
+                    line.ratePct?' · '+line.ratePct+'%':
+                    ' · '+moneyInputValue(line.monthly)+'/мес.';
+                label.append(document.createTextNode(line.label+total));
+                const select=document.createElement('select');
+                select.className='input-field mt-1 w-full';
+                select.dataset.agentLineKey=line.key;
+                select.setAttribute('aria-label','Плательщик: '+line.label);
+                for(const [value,name] of [['','Выберите плательщика'],['agent','Я, агент'],['partner','Партнёр']]){
+                    const option=document.createElement('option');
+                    option.value=value;option.textContent=name;select.append(option);
+                }
+                select.value=serviceAgentPayerChoices[line.key]||'';
+                select.addEventListener('change',()=>{
+                    serviceAgentPayerChoices[line.key]=select.value;
+                    refreshAllAggregatePricing();
+                });
+                label.append(select);host.append(label);
+            }
+        }
+        function serviceAgencyExpenseSplit(item,receipts=0){
+            const agency=item.serviceAgency||{},lines=Array.isArray(agency.lineItems)?agency.lineItems:[];
+            const qty=Math.max(0,Number(item.forecastUnitsPerMonth)||0);
+            const blank=()=>({direct:0,production:0,electricity:0,advertising:0,
+                management:0,selling:0,commission:0,commissionPct:0,capex:0,amort:0});
+            const agent=blank(),partner=blank();
+            for(const line of lines){
+                const payer=line.payer==='agent'?agent:line.payer==='partner'?partner:null;
+                if(!payer)continue;
+                if(line.bucket==='equipment'){
+                    payer.capex+=Math.max(0,Number(line.capex)||0);
+                    payer.amort+=Math.max(0,Number(line.amort)||0);
+                }else if(line.bucket==='commission'){
+                    const rate=Math.max(0,Number(line.ratePct)||0);
+                    payer.commissionPct+=rate;
+                    payer.commission+=receipts*rate/100;
+                }else if(line.bucket in payer){
+                    payer[line.bucket]+=Math.max(0,Number(line.monthly)||0);
+                }
+            }
+            return {agent,partner,qty,
+                valid:lines.every(x=>x.payer==='agent'||x.payer==='partner')};
+        }
         function currentProductPortfolioSnapshot() {
             const expectedServiceUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
             const materialsBatchQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
@@ -2659,9 +2785,11 @@
                 partnerVatPct:productNumber('service-agent-partner-vat'),
                 partnerTaxType:document.getElementById('service-agent-partner-tax-type')?.value||'turnover',
                 partnerTaxPct:productNumber('service-agent-partner-tax-pct'),
-                payers:Object.fromEntries(['direct','production','advertising','management',
-                    'selling','commission','equipment'].map(k=>[k,
-                    document.getElementById('service-agent-payer-'+k)?.value||'']))
+                lineItems:serviceAgencyExpenseLines().map(line=>({
+                    ...line,payer:serviceAgentPayerChoices[line.key]||''
+                })),
+                // Retain a compatible category shape only for old saved models.
+                payers:{}
             }:null;
             const serviceEquipment=productOwnChoices.equipmentPurchase==='yes'?Array.from(document.querySelectorAll('.equipment-purchase-row')).reduce((total,row)=>{
                 const count=Math.max(1,Math.floor(Number(row.querySelector('.equipment-purchase-qty')?.value)||1));
@@ -6359,6 +6487,7 @@
             resaleWarehouseQtyManual = false;
             productBusinessTaxType = null;
             productionLaborMode = 'self';
+            serviceAgentPayerChoices={};
             materialCostMode = null;
             latestMaterialsLandedUnitCost = 0;
             latestProductionUnitCost = 0;
@@ -6815,6 +6944,7 @@
             show('offline-service-capacity',service&&!onlineService);
             show('service-v1-horizon-panel',service&&serviceFinancialMode==='full');
             show('service-v1-agent-panel',service&&serviceFinancialMode==='full'&&selectedServiceRole==='agent');
+            if(service&&selectedServiceRole==='agent')refreshServiceAgencyLinePayers();
             // Online service has no inventory or physical capacity.
             set('service-sales-heading',service?(onlineService?'Расходы на онлайн-услугу':'Расходы на оказание и продажу'):'Расходы при продаже');
             show('production-defect-panel',!service);
@@ -8740,6 +8870,16 @@
             focus?.scrollIntoView({ behavior: 'instant', block: 'start' });
         }
 
+        document.addEventListener('input',event=>{
+            if(selectedServiceRole==='agent'&&serviceFinancialMode==='full'&&
+                document.getElementById('product-screen')?.classList.contains('hidden')===false)
+                queueMicrotask(refreshServiceAgencyLinePayers);
+        });
+        document.addEventListener('click',event=>{
+            if(selectedServiceRole==='agent'&&serviceFinancialMode==='full'&&
+                document.getElementById('product-screen')?.classList.contains('hidden')===false)
+                queueMicrotask(refreshServiceAgencyLinePayers);
+        });
         document.addEventListener('DOMContentLoaded', () => {
             document.addEventListener('nomad360:languagechange', updateSavedProductEntry);
             initInputs();
