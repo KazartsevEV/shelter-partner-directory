@@ -37,6 +37,16 @@ function enter(){
 }
 function importFromV1(payload){
  const fresh=Engine.fromV1(payload),prior=state||read();
+ // A single full V1 service explicitly approved recurring demand for its
+ // calculation horizon. Import that contract unchanged; ordinary product
+ // batches still require a separate V2 recurring-demand approval.
+ if(fresh.skus.length===1&&fresh.skus[0].fullServiceV2){
+   const months=Number(fresh.skus[0].fullServiceHorizon);
+   if(Number.isInteger(months)&&months>=1&&months<=120){
+     fresh.forecastMonths=months;
+     fresh.recurringDemandApproved=true;
+   }
+ }
  // Preserve individually imported online services when the product portfolio
  // is re-imported. Each online SKU retains its own owner-tax provenance.
  if(prior)fresh.skus.push(...prior.skus.filter(s=>(s.source==='online-service'||s.fullServiceV2)&&
