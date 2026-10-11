@@ -216,10 +216,12 @@
   if(intro)observer.observe(intro,{attributes:true,attributeFilter:['hidden','class']});
   const special=byId('product-business-back-button');
   if(special)observer.observe(special,{attributes:true,attributeFilter:['hidden','class']});
-  // V2 and full-service replace their native back buttons on rerender.
-  for(const id of ['portfolio-v2-screen','full-service-screen']){
+  // Observe only root replacements of dynamic V2/full-service mounts.
+  // Subtree observation would rerun navigation on every financial-table cell
+  // mutation and needlessly slow down the Chromium numeric audit.
+  for(const id of ['portfolio-v2-root','full-service-screen']){
    const el=byId(id);
-   if(el)observer.observe(el,{subtree:true,childList:true});
+   if(el)observer.observe(el,{childList:true});
   }
   trail=[{screen:'home-screen',stage:null,key:'home-screen',label:dict().home}];
   update();
