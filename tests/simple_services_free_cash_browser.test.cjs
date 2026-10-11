@@ -125,7 +125,8 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
   };
   await check(1,1);
   await page.locator('#service-v1-horizon').fill('3');
-  await page.evaluate(()=>{saveCurrentProductToPortfolio();refreshAllAggregatePricing()});
+  A.equal(await page.evaluate(()=>productPortfolio[0].serviceHorizonMonths),3,
+    'editing the visible period synchronizes the underlying active offline service');
   const month3=await check(3,3);
   approx(month3.months[1].inflow-month3.months[1].financedInflow,
     month3.months[0].inflow-month3.months[0].financedInflow,
@@ -133,7 +134,6 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
   await page.locator(sel+' [data-funding-choice="credit"]').click();
   await page.locator(sel+' input[oninput*="creditRatePct"]').fill('12');
   await page.locator(sel+' input[oninput*="creditTermMonths"]').fill('6');
-  await page.evaluate(()=>{saveCurrentProductToPortfolio();refreshAllAggregatePricing()});
   const loan=await check(3,6);
   A.ok(loan.months[5].principalRepaid>0,'bullet principal is paid in sixth month');
   A.ok(loan.months[5].interestPaid>0);
