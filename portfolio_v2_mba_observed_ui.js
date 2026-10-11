@@ -39,10 +39,27 @@ function render(state,onChange){
  const unresolved=raws.filter(raw=>!skus.some(s=>s.id===((history.mapping||{})[raw]||raw)));
  const channels=source?[...new Set(source.lines.map(x=>x.channel))].sort():[];
  panel.className='rounded-2xl border border-slate-200 bg-white p-4 mb-5';
- panel.innerHTML='<h2 class="text-xl font-bold">История покупок · наблюдаемая MBA</h2>'+
- '<p class="text-sm text-slate-600 mt-2">Загрузите реальные оплаченные чеки в CSV/JSON. Метрики описывают совместные покупки, но не доказывают причинный прирост продаж и не меняют прогноз без вашего решения.</p>'+
- '<p class="text-xs text-slate-500 mt-2">Столбцы: order_id, date (YYYY-MM-DD), sku_id, quantity, unit_price, currency, channel. Дополнительно: status, line_id, returned_quantity, canceled, returned, buyer_id. Один заказ = один чек. Повторные покупки клиента считаются отдельными чеками. Отмены и возвраты исключаются.</p>'+
- '<label class="block text-sm font-semibold mt-3">Файл чеков (локально, без отправки на сервер)<input data-mba-file type="file" accept=".csv,.json,text/csv,application/json" class="block mt-2 text-xs w-full"></label>'+
+ panel.innerHTML='<h2 class="text-xl font-bold text-slate-900">История чеков и совместные покупки</h2>'+
+ '<p class="text-sm text-slate-700 mt-2"><strong>Необязательный анализ.</strong> Загрузите оплаченные чеки, чтобы увидеть, какие товары и услуги клиенты выбирают вместе.</p>'+
+ '<p class="text-sm text-slate-600 mt-2">Это помогает оценить спрос на комплекты и дополнительные продажи. История показывает фактические сочетания покупок; прогноз V1 меняется только после вашего решения.</p>'+
+ '<div class="flex flex-wrap gap-3 mt-4 text-sm">'+
+ '<a href="#" data-mba-download="csv" class="font-semibold text-blue-800 underline underline-offset-4">Скачать шаблон CSV · 3 чека</a>'+
+ '<a href="#" data-mba-download="json" class="font-semibold text-blue-800 underline underline-offset-4">Скачать шаблон JSON · 3 чека</a></div>'+
+ '<details class="mt-3 rounded-lg border border-slate-200 p-3 text-sm">'+
+ '<summary class="font-semibold text-slate-800 cursor-pointer">Как заполнить шаблон</summary>'+
+ '<ol class="list-decimal pl-5 mt-2 space-y-2 text-slate-700">'+
+ '<li>Скачайте CSV или JSON с тремя примерами чеков.</li>'+
+ '<li>Удалите все три демонстрационных чека и заполните файл своими оплаченными покупками.</li>'+
+ '<li>Один order_id — один чек. Для нескольких товаров в чеке используйте несколько строк CSV или items в JSON.</li>'+
+ '<li>Указывайте SKU ваших позиций V1, дату, количество, цену, валюту и канал. Отменённые и возвращённые покупки исключаются.</li>'+
+ '<li>Сохраните файл и загрузите его ниже. Вы сможете удалить историю из черновика.</li></ol>'+
+ '<p class="text-xs text-slate-500 mt-3">CSV: order_id, date, sku_id, quantity, unit_price, currency, channel. JSON Nomad360: orders → items. Данные остаются в браузере.</p>'+
+ '</details>'+
+ '<div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">'+
+ '<label class="block text-sm font-semibold text-slate-700">Формат файла'+
+ '<select data-mba-format class="input-field mt-2"><option value="auto">Определить автоматически</option><option value="csv">CSV</option><option value="json">JSON</option></select></label>'+
+ '<label class="block text-sm font-semibold text-slate-700">Загрузить заполненный файл'+
+ '<input data-mba-file type="file" accept=".csv,.json,text/csv,application/json" class="block mt-2 text-xs w-full"></label></div>'+
  '<div data-mba-message class="text-xs mt-2" role="status"></div>'+
  (source?'<div class="rounded-lg bg-slate-50 p-3 mt-4 text-xs">'+
  'Исходных строк: <b>'+money(source.rawLines)+'</b>; точных дублей line_id: <b>'+money(source.deduplicated)+'</b>; '+
@@ -80,12 +97,26 @@ function render(state,onChange){
   '</tbody></table></div><p class="text-xs text-slate-500 mt-2">Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте '+money(data.rules.length)+' направленных правил; показано до 60. Для кортежей A+B → C не делается ложная конвертация в одноякорную связку.</p>':
   '<p class="text-sm text-slate-500 mt-3">Нет подтверждённых совместных покупок в этой выборке. Правила не создаются.</p>'):'')+
  '<button type="button" data-mba-clear class="text-xs text-rose-700 underline mt-4">Удалить загруженную историю из черновика</button>':'')+
- '<p class="text-xs text-slate-500 mt-3">Перенос правила добавляет cross-sell по наблюдаемой confidence, но процент уже самостоятельных продаж дополнения нужно ввести вручную. Пока вы не введёте её, перенос недоступен. История и прогноз V1 остаются разными источниками.</p>';
+ '<p class="text-xs text-slate-600 mt-3">Данные истории показывают совместные покупки. Добавление связки в прогноз требует вашего решения и оценки уже учтённых продаж.</p>';
  const message=(text,bad=false)=>{const el=panel.querySelector('[data-mba-message]');if(el){el.textContent=text;el.className='mt-2 text-xs '+(bad?'text-rose-700':'text-emerald-700')}};
+ panel.querySelectorAll('[data-mba-download]').forEach(link=>link.onclick=e=>{
+  e.preventDefault();
+  try{
+   const example=Engine.exampleReceipts(skus.map(s=>s.id));
+   const json=e.currentTarget.dataset.mbaDownload==='json';
+   const output=json?JSON.stringify(example,null,2):'\uFEFF'+Engine.receiptCsv(example);
+   const blob=new Blob([output],{type:json?'application/json;charset=utf-8':'text/csv;charset=utf-8'});
+   const url=URL.createObjectURL(blob),anchor=document.createElement('a');
+   anchor.href=url;anchor.download='Nomad360-receipts-example.'+(json?'json':'csv');
+   document.body.append(anchor);anchor.click();anchor.remove();
+   root.setTimeout(()=>URL.revokeObjectURL(url),3000);
+  }catch(error){message(error.message||String(error),true);}
+ });
  panel.querySelector('[data-mba-file]').onchange=async e=>{
   const file=e.target.files?.[0];if(!file)return;
   try{
-   const text=await file.text(),parsed=Engine.read(text);
+   const text=await file.text(),selected=panel.querySelector('[data-mba-format]')?.value||'auto',
+    parsed=Engine.read(text,selected);
    // No source is written until every record passes strict validation.
    const mappings=source?(history.mapping||{}):{};
    onChange({mbaHistory:{source:parsed,mapping:{...mappings},filter:{channel:'all',from:'',to:''}}},true);
