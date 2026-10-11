@@ -31,6 +31,12 @@ const sku=(id,stock,source='resale')=>({
   A.equal(result.temporal.months.length,5);
   A.deepEqual(result.temporal.months.map(m=>m.orders.a),[20,20,20,0,0]);
   A.equal(result.cashflow.temporal,true);
+  const cashNote=await page.locator('[data-linked-cashflow-note]').innerText();
+  A.match(cashNote,/План продаж из V1:\s*5\s*мес/);
+  A.match(cashNote,/новых заказов он не создаёт/);
+  A.match(cashNote,/Месяцев в денежном календаре:\s*5/);
+  A.doesNotMatch(cashNote,/первые 30 дней|первых 30 дней/);
+
   A.equal(result.cashflow.months.length,5);
   const expectedPrice=result.items[0].standaloneNet;
   result.cashflow.months.forEach((m,i)=>{
