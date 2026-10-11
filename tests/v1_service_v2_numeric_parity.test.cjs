@@ -190,6 +190,25 @@ test('Native V1→V2 long-credit maturity: six roles x profit/turnover x VAT',()
           const r=metrics(channel,role,'credit',taxType,vat,5);checked++;
           A.equal(r.v1Monthly.length,5,r.tag+' source loan calendar');
           A.equal(r.v2Cash.length,5,r.tag+' V2 maturity calendar');
+          A.equal(r.sku.fullServiceOperatingMonths,3,
+            r.tag+' approved V1 sales horizon stays 3 months');
+          A.deepEqual(r.sku.fullServiceForecast,[20,20,20,0,0],
+            r.tag+' V2 import cannot synthesize demand in credit tail');
+          for(let k=3;k<5;k++){
+            const a=r.v1Monthly[k],p=r.v2Pnl[k],c=r.v2Cash[k];
+            A.equal(a.inflow-a.financedInflow,0,r.tag+' no V1 sales in month '+(k+1));
+            A.equal(p.revenue,0,r.tag+' no V2 sales in month '+(k+1));
+            A.equal(c.receipt,0,r.tag+' no V2 cash receipt in month '+(k+1));
+            A.ok(Math.abs(a.outflow-a.interestPaid-a.principalRepaid)<.015,
+              r.tag+' V1 pays debt only after approved period');
+            A.ok(Math.abs(c.operatingOutflow)<.015,
+              r.tag+' V2 incurs no unapproved OPEX after period');
+            if(role==='agent'){
+              const counter=r.v2.cashflow.periodPnl.bySku['v1-1'].partner.months[k];
+              A.equal(counter.revenue,0,r.tag+' partner no future GMV');
+              A.equal(counter.costs,0,r.tag+' partner no future rent or agent fee');
+            }
+          }
           A.ok(Math.abs(r.v1Monthly[4].principalRepaid-r.v2Cash[4].principalRepaid)<.015,
             r.tag+' principal maturity');
           A.ok(Math.abs(r.v1Monthly[0].interestPaid-r.v2Cash[0].interest)<.015,
