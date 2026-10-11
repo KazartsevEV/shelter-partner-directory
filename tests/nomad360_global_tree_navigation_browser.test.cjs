@@ -180,28 +180,6 @@ function startTestServer(){
   await page.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
   A.match(await back.innerText(),/Главная/);
-  console.log('V2_NAV_DIAG',JSON.stringify(await back.evaluate(el=>({
-    outerHTML:el.outerHTML.slice(0,500),
-    color:getComputedStyle(el).color,
-    background:getComputedStyle(el).backgroundColor,
-    parent:el.parentElement?.outerHTML.slice(0,250),
-    withinV2:!!el.closest('#portfolio-v2-screen'),
-    insideBody:document.body.contains(el),
-    styleSheets:[...document.styleSheets].map(x=>({href:x.href,rules:(()=>{try{return x.cssRules?.length}catch(e){return String(e)}})()})),
-    matchedTreeRules:[...document.styleSheets].flatMap(x=>{try{
-      return [...x.cssRules].filter(r=>r.selectorText?.includes('nd-tree-active-back'))
-       .map(r=>({selector:r.selectorText,matches:el.matches(r.selectorText),
-        color:r.style?.getPropertyValue('color'),priority:r.style?.getPropertyPriority('color'),
-        parent:r.parentRule?.conditionText||r.parentRule?.constructor?.name||null}))
-    }catch(e){return []}}),
-    transition:{property:getComputedStyle(el).transitionProperty,
-      duration:getComputedStyle(el).transitionDuration,
-      timing:getComputedStyle(el).transitionTimingFunction},
-    scheme:matchMedia('(forced-colors: active)').matches,
-    bodyColor:getComputedStyle(document.body).color,
-    linkMedia:[...document.querySelectorAll('link[rel=stylesheet]')].map(l=>({href:l.href,media:l.media,disabled:l.disabled}))
-  
-  }))));
   A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(255, 255, 255)',
    'standalone V2 return has white text over the dark header');
   await back.click();
