@@ -8,6 +8,10 @@ const {pathToFileURL}=require('node:url');
 const {chromium}=require('playwright');
 const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
 (async()=>{
+ let phase='chromium.launch';
+ const mark=next=>{phase=next;console.log('NAV_PHASE',next)};
+ const watchdog=setTimeout(()=>{console.error('NAVIGATION_WATCHDOG_PHASE',phase);process.exit(125)},90000);
+ watchdog.unref();
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
  const errs=[];page.on('pageerror',err=>errs.push(err.message));
@@ -39,20 +43,26 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
    true,'native arrow follows compact underlined design');
  };
  try{
+  mark('page.goto');
   await page.goto(url,{waitUntil:'domcontentloaded'});
+  mark('domcontentloaded');
   A.equal(await arrows.count(),0,'no back arrow on the tree root');
+  mark('start-own-product');
   await page.locator('#start-own-product').click();
   await oneArrow();
   A.match(await back.innerText(),/Главная/);
   A.deepEqual(await keys(),['home-screen','product-screen:name']);
   await page.locator('#product-name-input').fill('Тест навигации');
+  mark('submit-product-name');
   await page.locator('#product-intro-submit-label').click();
   A.deepEqual(await keys(),['home-screen','product-screen:name','product-screen:source']);
+  mark('product-source-own');
   await page.locator('[data-product-source="own"]').click();
   A.deepEqual(await keys(),['home-screen','product-screen:name','product-screen:source','product-screen:expenses']);
   A.match(await back.innerText(),/Источник товара/);
   // Product business edit uses its own existing 'back to results' control;
   // it must replace, not duplicate, the ordinary product arrow.
+  mark('product-business-return-show');
   await page.evaluate(()=>document.getElementById('product-business-back-button').classList.remove('hidden'));
   await oneArrow();
   A.equal(await page.locator('#product-main-back').isVisible(),false,
@@ -75,6 +85,7 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   });
   await page.waitForFunction(()=>!document.body.classList.contains('nd-tree-business-return'));
   A.match(await back.innerText(),/Источник товара/);
+  mark('back-to-product-source');
   await back.click();
   A.equal(await page.locator('#product-source-block').isVisible(),true);
   A.equal(await page.locator('#product-own-form').isVisible(),false);
@@ -83,12 +94,16 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   A.equal(await page.locator('#home-screen').isVisible(),true);
   A.equal(await arrows.count(),0);
   // Simplified services: mode -> channel -> provider -> agent -> editable V1.
+  mark('service-start');
   await page.locator('#start-service').click();
   A.match(await back.innerText(),/Главная/);
+  mark('service-online');
   await page.locator('#service-work-online').click();
   A.match(await back.innerText(),/Услуга/);
+  mark('service-agent-chooser');
   await page.locator('#service-screen button[onclick="showAgentChooser()"]').click();
   A.match(await back.innerText(),/Кто исполнитель/);
+  mark('agent-percent');
   await page.locator('#agent-screen button.nd-agent-percentage-cta').click();
   A.equal(await page.locator('#calculator-screen').isVisible(),true);
   A.match(await back.innerText(),/агент/i);
@@ -126,6 +141,7 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   A.equal(await page.locator('#agent-screen').isVisible(),true);
   await returnTo('home-screen');
   // Direct standalone V2 opens from home and must return without clearing draft.
+  mark('standalone-v2');
   await page.locator('#start-multi-portfolio').click();
   A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
   A.match(await back.innerText(),/Главная/);
@@ -140,6 +156,7 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
   await back.click();
   A.equal(await page.locator('#calculator-screen').isVisible(),true);
   // Full-calculation subview also resolves to its own originating V1 screen.
+  mark('full-service-open');
   await page.evaluate(()=>{
    window.Nomad360FullServiceUI.open({
     priceGross:150,monthlyForecast:10,vatPct:0,taxType:'turnover',taxPct:6,
@@ -161,7 +178,9 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
    A.ok(await within(),'navigation must remain inside viewport at '+width);
    await oneArrow();
   }
+  mark('final-assertions');
   A.deepEqual(errs,[],'no browser runtime errors');
+  clearTimeout(watchdog);
   console.log('NOMAD360_GLOBAL_TREE_NAV_GREEN');
  }finally{await browser.close()}
 })().catch(err=>{console.error(err);process.exitCode=1});
