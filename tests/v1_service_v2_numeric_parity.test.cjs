@@ -233,3 +233,23 @@ test('Native V1→V2 long-credit maturity: six roles x profit/turnover x VAT',()
   A.equal(checked,24);
   console.log('NOMAD360_LONG_CREDIT_PARITY_GREEN',checked);
 });
+
+// #91: A late-start forecast cannot be inferred from a zero first month.
+// The current single-month marketing input must fail explicitly rather than
+// emitting NaN, Infinity, or fabricating positive customer receipts.
+test('Full V1 zero-first-month demand fails closed with an actionable explanation',()=>{
+  const item=fixture('online','self','cash','turnover',false);
+  item.forecastUnitsPerMonth=0;
+  item.adBudget=0;
+  item.inputs['own-product-ad-budget']='0';
+  const api=factory([item],'turnover',id=>id==='own-business-tax-pct'?6:0,
+    ()=>({salesVatChoice:'no',vatReady:true,vatPct:0}));
+  const model=api.calculateProductPortfolio();
+  const ledger=api.calculateProductCashFlow(model);
+  A.equal(model.pricingReady,false);
+  A.equal(ledger.ready,false);
+  A.match(ledger.reason,/прогноз клиентов первого месяца/i);
+  A.deepEqual(ledger.months,[]);
+  A.equal(JSON.stringify(ledger).includes('Infinity'),false);
+  A.equal(JSON.stringify(ledger).includes('NaN'),false);
+});
