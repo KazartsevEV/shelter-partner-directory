@@ -28,6 +28,27 @@ function updateEntry(){
  if(el){el.hidden=!saved;el.classList.toggle('hidden',!saved);}
 }
 function resetSequence(){sequence=1+Math.max(0,...(state.resources||[]).map(r=>Number(String(r.id).replace(/\D/g,''))||0));}
+// The operating horizon is chosen once in full V1. A longer loan maturity
+// must not extend projected sales after service work has ended.
+function serviceV1Months(sku){
+ if(!sku?.fullServiceV2)return null;
+ const months=Number(sku.fullServiceOperatingMonths??sku.onlineProvenance?.periodMonths??
+   sku.sourcePeriodMonths??sku.fullServiceHorizon);
+ return Number.isInteger(months)&&months>=1&&months<=120?months:null;
+}
+function inheritedServicePeriod(portfolio){
+ const items=portfolio?.skus||[];
+ if(!items.length)return null;
+ const periods=items.map(serviceV1Months);
+ return periods.every(p=>p!==null)?Math.min(...periods):null;
+}
+function syncPeriodFromV1(portfolio){
+ const months=inheritedServicePeriod(portfolio);
+ if(months===null)return false;
+ portfolio.forecastMonths=months;
+ portfolio.recurringDemandApproved=true;
+ return true;
+}
 function enter(){
  root.showOnly('portfolio-v2-screen');
  const host=document.getElementById('portfolio-v2-root');
@@ -37,16 +58,8 @@ function enter(){
 }
 function importFromV1(payload){
  const fresh=Engine.fromV1(payload),prior=state||read();
- // A single full V1 service explicitly approved recurring demand for its
- // calculation horizon. Import that contract unchanged; ordinary product
- // batches still require a separate V2 recurring-demand approval.
- if(fresh.skus.length===1&&fresh.skus[0].fullServiceV2){
-   const months=Number(fresh.skus[0].fullServiceHorizon);
-   if(Number.isInteger(months)&&months>=1&&months<=120){
-     fresh.forecastMonths=months;
-     fresh.recurringDemandApproved=true;
-   }
- }
+ // Preserve the approved V1 service operating horizon after SKU merging.
+ // Do not invent additional sales during the longer loan repayment tail.
  // Preserve individually imported online services when the product portfolio
  // is re-imported. Each online SKU retains its own owner-tax provenance.
  if(prior)fresh.skus.push(...prior.skus.filter(s=>(s.source==='online-service'||s.fullServiceV2)&&
@@ -80,6 +93,7 @@ function importFromV1(payload){
   }
  }
  fresh.mbaHistory=prior?.mbaHistory||null;
+ syncPeriodFromV1(fresh);
  state=fresh;resetSequence();save();enter();
 }
 function appendOnline(sku){
@@ -111,8 +125,7 @@ function appendFullService(sku){
      throw Error('Расчёт этой услуги уже есть в портфеле. Удалите старую версию перед заменой.');
    next.skus.push({...JSON.parse(JSON.stringify(sku)),priceSelected:sku.priceMax,discountSelected:0});
  }
- next.forecastMonths=Math.max(Number(next.forecastMonths||1),Number(sku.fullServiceHorizon||1));
- if(!previous)next.recurringDemandApproved=true;
+ syncPeriodFromV1(next);
  next.lastOrigin='full-service';
  state=next;resetSequence();save();enter();
  return true;
@@ -144,12 +157,13 @@ function deleteLinkedSku(skuId){
   h.excludedRawSkuIds=[...excluded];
   for(const raw of excluded)if(h.mapping)delete h.mapping[raw];
  }
+ syncPeriodFromV1(next);
  state=next;
  save();
  render(); // Re-run entire linked engine, shared allocations, cash flow & MBA.
  return true;
 }
-function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];resetSequence();enter();return true;}
+function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];if(syncPeriodFromV1(state))save();resetSequence();enter();return true;}
 function options(items,value){return items.map(([v,label])=>'<option value="'+safe(v)+'" '+(v===value?'selected':'')+'>'+safe(label)+'</option>').join('');}
 function field(label,path,value,extra=''){
  return '<label class="block min-w-0 text-xs font-semibold text-slate-700">'+safe(label)+
@@ -242,10 +256,12 @@ function render(){
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
  '<button type="button" data-linked-add class="w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
  '<section class="rounded-2xl border border-sky-200 bg-sky-50 p-4 mb-5" data-temporal-controls>'+
- '<h2 class="text-lg font-bold text-slate-900">Помесячный прогноз · остатки и мощности</h2>'+
- '<p class="text-sm text-slate-600 mt-2">Повторение спроса V1 в следующих месяцах — ваше сценарное допущение, а не подтверждённые будущие заказы.</p>'+
- '<div class="max-w-xs mt-3">'+field('Горизонт, месяцев (1–120)','forecastMonths',state.forecastMonths??1,'min="1" max="120" step="1"')+'</div>'+
- '<label class="flex items-start gap-2 text-sm text-slate-800 mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Подтверждаю повторение месячного спроса V1 в пределах выбранного горизонта.</span></label>'+
+ '<h2 class="text-lg font-bold text-slate-900">План продаж и загрузка по месяцам</h2>'+
+ (inheritedServicePeriod(state)!==null?
+   '<p class="text-sm text-slate-700 mt-2">Период: <strong>'+safe(state.forecastMonths)+' мес.</strong> Перенесён из полного расчёта V1. Чтобы изменить период, отредактируйте исходную услугу.</p>'+
+   '<p class="text-sm text-slate-600 mt-2">Для товаров V1 утверждён только первый месяц. Если нужен более длинный сценарий, укажите его здесь и подтвердите повторение прогноза.</p>'+
+   '<div class="max-w-xs mt-3">'+field('Месяцев в сценарии (1–120)','forecastMonths',state.forecastMonths??1,'min="1" max="120" step="1"')+'</div>'+
+   '<label class="flex items-start gap-2 text-sm text-slate-800 mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
  '<div id="linked-temporal-result" class="mt-3 text-sm text-slate-700"></div></section>'+
  '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
  root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{
@@ -279,7 +295,7 @@ function updateResult(){
     '<p class="mt-2 text-xs text-amber-800">Этот объёмный прогноз используется в Cash Flow ниже. Денежные потоки учитывают только выбранный горизонт и сроки фактического поступления денег.</p>';
   }else preview.textContent=Number(state.forecastMonths??1)>1?
    'Для многомесячного прогноза требуется подтверждение повторения спроса и проверка запасов.':
-   'По умолчанию используется исходный 30-дневный прогноз V2.';
+   'Используется исходный прогноз первого месяца из V1.';
  }
  root.LinkedPortfolioV2BasketUI?.updateResult(out);
  for(const node of document.querySelectorAll('[data-linked-live]')){
