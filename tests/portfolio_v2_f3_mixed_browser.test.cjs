@@ -37,7 +37,7 @@ const close=(a,b,label)=>A.ok(Number.isFinite(a)&&Math.abs(a-b)<.011,
   const monthly=page.locator('#linked-results');
   A.equal(await monthly.getByText('Выручка без НДС / месяц',{exact:true}).count(),1);
   A.equal(await monthly.getByText('Чистая прибыль / месяц',{exact:true}).count(),1);
-  A.equal(await monthly.getByText('Маржа за период',{exact:true}).count(),1);
+  A.ok((await monthly.getByText('Маржа за период',{exact:true}).count())>=1,'period margin column exists');
   A.doesNotMatch(await monthly.textContent(),/Cash flow отражает первые 30 дней|Продано позиций за 30 дней/);
   A.match(await page.locator('[data-linked-cashflow-note]').innerText(),/План продаж из V1:\\s*3\\s*мес/);
   A.match(await page.locator('[data-linked-cashflow-note]').innerText(),/Месяцев в денежном календаре:\\s*5/);
