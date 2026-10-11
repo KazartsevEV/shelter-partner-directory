@@ -674,6 +674,10 @@ const {pathToFileURL}=require('node:url');
       A.equal(await acceptance.locator('#service-v1-horizon-panel').isVisible(),true);
       A.equal(await acceptance.locator('#service-v1-agent-panel').isVisible(),role==='agent');
       A.equal(await acceptance.locator('#offline-service-capacity').isVisible(),channel==='offline');
+      A.equal(await acceptance.locator('#product-production-quantity-panel').isVisible(),false,
+        channel+'/'+role+' cannot type expected service production');
+      A.equal(await acceptance.locator('#product-sales-quantity-panel').isVisible(),false,
+        channel+'/'+role+' cannot type expected service sales');
       const routeState=await acceptance.evaluate(()=>({
         source:productSource,channel:serviceChannel,role:selectedServiceRole,
         labor:productionLaborMode,
@@ -719,6 +723,15 @@ const {pathToFileURL}=require('node:url');
   }));
   A.deepEqual(legacyState,{name:'Архивная майка',source:'resale',
     count:1,vat:'no',tax:'turnover'});
+  A.equal(await acceptance.locator('#product-sales-quantity-panel').isVisible(),true,
+    'Original goods V1 retains its editable monthly sales field');
+  // Own-made goods also keep an independent physical production quantity.
+  await acceptance.evaluate(()=>{
+    productSource='own';setResaleProductPanels();
+    configureOfflineServiceView();
+  });
+  A.equal(await acceptance.locator('#product-production-quantity-panel').isVisible(),true,
+    'Goods V1 keeps editable quantity of physically manufactured stock');
   A.deepEqual(acceptanceErrors,[],'No runtime errors across six V1 routes + old goods restore');
   await acceptance.close();
   A.deepEqual(errors,[]);
