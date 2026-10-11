@@ -73,7 +73,7 @@ const {pathToFileURL}=require('node:url');
     return {pricing:model.pricingReady,ready:cash.ready,reason:cash.reason,
       source:item.source,channel:item.serviceChannel,role:item.serviceRole,
       price:model.items[0]?.price,month:cash.months[0],
-      ownAd:item.serviceAgency?.payers?.advertising};
+      ownAd:item.serviceAgency?.lineItems?.find(x=>x.key==='advertising')?.payer};
   });
   A.equal(agencyFlow.pricing,true,'Contractual agency commission is the V1 unit price');
   A.equal(agencyFlow.ready,true,JSON.stringify(agencyFlow));
@@ -84,7 +84,7 @@ const {pathToFileURL}=require('node:url');
     'Owner fee excludes owner VAT, not the partner gross sale');
   A.ok(Math.abs(agencyFlow.month.partnerRevenue-20*100/1.1)<.02,
     'Partner turnover and partner VAT are accounted separately');
-  A.ok(Math.abs(agencyFlow.month.taxPaid-agencyFlow.month.inflow*0.06)<.02,
+  A.ok(Math.abs(agencyFlow.month.taxPaid-(agencyFlow.month.inflow-agencyFlow.month.financedInflow)*0.06)<.02,
     'Agent turnover tax applies only to the agency fee');
   A.ok(agencyFlow.month.partnerCosts>=900,
     'Partner-paid advertising cannot silently become an agency expense');
