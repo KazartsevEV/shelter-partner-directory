@@ -1227,7 +1227,6 @@
                     </p>
                 </div>
 
-                <p id="service-sales-result-pending" class="hidden mt-3 text-sm text-slate-600" hidden>Расчёт на 1 услугу появится после блока «Реклама».</p>
                 <div class="mt-4 space-y-3">
                     <div class="rounded-xl bg-white/80 border border-emerald-200 p-4">
                         <div class="flex justify-between gap-4 text-sm">
@@ -8123,11 +8122,6 @@
                     : 0;
             const variableTotalPct = commissionPct + penaltiesPct;
 
-            const pending=document.getElementById('service-sales-result-pending');
-            if(pending){
-                const visible=isService&&!(forecast>0);
-                pending.hidden=!visible;pending.classList.toggle('hidden',!visible);
-            }
             setProductReadonlyNumber('own-sales-fixed-monthly',fixedMonthly,'2');
             setProductReadonlyNumber('own-sales-fixed-per-unit',fixedPerUnit,'2');
             setProductReadonlyNumber('own-sales-result-unit',fixedPerUnit,'2');
