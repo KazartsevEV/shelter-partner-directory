@@ -1951,6 +1951,7 @@ body .nd-tree-active-back{
   text-decoration:underline;text-decoration-color:var(--nd-accent);
   text-underline-offset:5px;text-align:left;overflow-wrap:anywhere;
   cursor:pointer;border-radius:0!important;
+  transition:none!important;animation:none!important;
 }
 body > nav.nd-journey-nav .nd-tree-back{color:#16375a!important}
 body :is(#service-work-screen,#service-screen,#agent-screen,#agent-complex-screen,#product-screen)
