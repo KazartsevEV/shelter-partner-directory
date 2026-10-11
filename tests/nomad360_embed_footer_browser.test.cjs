@@ -31,14 +31,25 @@ const server=createServer(async(req,res)=>{
   page.on('pageerror',e=>errors.push(e.message));
   await page.route(/^https?:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
   await page.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
-  // 2026-10-11 donation footer: only one global crypto link, KZ phone,
-  // expandable international bank details and discreet Ozon at the very end.
+  // Embedded NOWPayments form replaces the Trybit link. No checkout route
+  // can displace the donation form, and the remaining bank options stay intact.
   const support=page.locator('#nomad360-support');
-  const checkout=support.locator('.nomad-donate-checkout-link');
-  A.equal(await checkout.getAttribute('href'),'https://donate.trybit.com/O8CSU052');
-  A.equal(await checkout.getAttribute('target'),'_blank','Trybit opens in another tab');
-  A.match(await checkout.getAttribute('rel'),/noopener/);
-  A.match(await checkout.textContent(),/Поддержать Nomad360 криптовалютой/);
+  const crypto=support.locator('.nomad-crypto-panel');
+  const iframe=crypto.locator('iframe.nomad-crypto-frame');
+  A.equal(await crypto.count(),1,'One prominent crypto donation panel');
+  A.equal(await iframe.getAttribute('src'),'https://nowpayments.io/embeds/donation-widget?api_key=47aebf88-76b9-4871-9217-d3f5b46de839');
+  A.equal(await iframe.getAttribute('loading'),'lazy');
+  A.equal(await iframe.getAttribute('title'),'Поддержать Nomad360 криптовалютой');
+  A.equal(await support.locator('.nomad-donate-checkout-link').count(),0,
+    'Legacy Trybit checkout link removed');
+  A.doesNotMatch(await support.innerText(),/Trybit/i);
+  const brand=await crypto.evaluate(el=>{
+    const heading=getComputedStyle(el.querySelector('.nomad-crypto-heading'));
+    const title=getComputedStyle(el.querySelector('h3'));
+    return {background:heading.backgroundColor,color:title.color};
+  });
+  A.deepEqual(brand,{background:'rgb(237, 142, 99)',color:'rgb(22, 55, 90)'},
+    'The visible widget panel has Nomad360 orange and navy branding');
   A.equal(await support.locator('.nomad-pay-kaspi .nomad-kz-flag').textContent(),'🇰🇿');
   A.match(await support.locator('.nomad-pay-kaspi').innerText(),
     /Перевод по номеру телефона для владельцев казахстанских карт/);
@@ -71,15 +82,15 @@ const server=createServer(async(req,res)=>{
   }),true,'Russia card link is the LAST support option');
   A.doesNotMatch(await support.textContent(),/Bybit|Байбит|Байбит картасы/i);
   A.equal(await support.locator('.nomad-direct-crypto, .nomad-qr, .nomad-pay-crypto').count(),0,
-    'Trybit replaces standalone USDT/BTC wallet links entirely');
+    'NOWPayments widget replaces standalone USDT/BTC wallet links entirely');
   A.equal(await support.locator('.nomad-copy').count(),6,
     'KZ phone + four SWIFT details + Ozon number');
   for(const width of [320,390,1440]){
     await page.setViewportSize({width,height:844});
     const geometry=await support.evaluate(el=>({
       viewport:innerWidth,
-      maxRight:Math.max(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-donate-checkout-link, .nomad-bank-row, .nomad-russian-transfer')].map(n=>n.getBoundingClientRect().right)),
-      minLeft:Math.min(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-donate-checkout-link')].map(n=>n.getBoundingClientRect().left))
+      maxRight:Math.max(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-crypto-panel, .nomad-crypto-frame, .nomad-bank-row, .nomad-russian-transfer')].map(n=>n.getBoundingClientRect().right)),
+      minLeft:Math.min(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-crypto-panel, .nomad-crypto-frame')].map(n=>n.getBoundingClientRect().left))
     }));
     A.ok(geometry.maxRight<=width+1&&geometry.minLeft>=-1,
       'Donation cards fit '+width+' viewport: '+JSON.stringify(geometry));
@@ -92,9 +103,10 @@ const server=createServer(async(req,res)=>{
     ['kk','Nomad360 жобасын криптовалютамен қолдау'],
     ['ru','Поддержать Nomad360 криптовалютой']]){
     await page.evaluate(language=>Nomad360UI.setLanguage(language),lang);
-    A.match(await support.locator('.nomad-donate-checkout-link').innerText(),new RegExp(headline));
-    A.equal(await support.locator('.nomad-donate-checkout-link').getAttribute('href'),
-      'https://donate.trybit.com/O8CSU052');
+    A.match(await support.locator('.nomad-crypto-heading h3').innerText(),new RegExp(headline));
+    A.equal(await support.locator('iframe.nomad-crypto-frame').getAttribute('src'),
+      'https://nowpayments.io/embeds/donation-widget?api_key=47aebf88-76b9-4871-9217-d3f5b46de839');
+    A.equal(await support.locator('iframe.nomad-crypto-frame').count(),1);
     A.equal(await support.locator('.nomad-pay-bank summary').count(),1);
     A.equal(await support.locator('.nomad-russian-transfer summary').count(),1);
     A.doesNotMatch(await support.textContent(),/Bybit|Байбит/i);
