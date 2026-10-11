@@ -91,8 +91,19 @@ const {chromium}=require('playwright');
    if(width<=390)A.ok(overflow.document<=overflow.viewport+1,
       'Document overflow '+JSON.stringify(overflow));
    else {
-      // At desktop an unrelated page-level section can extend beyond the
-      // viewport; the service finance report itself must stay within it.
+      // Identify the origin of any page-level desktop overflow, even when
+      // the financial report itself remains inside its viewport.
+      if(overflow.document>overflow.viewport+1){
+         const pageOffenders=await page.evaluate(()=>[...document.querySelectorAll('body *')]
+           .map(e=>{const r=e.getBoundingClientRect(),st=getComputedStyle(e);
+             return {tag:e.tagName,id:e.id,cls:String(e.className).slice(0,70),
+               left:Math.round(r.left),right:Math.round(r.right),
+               width:Math.round(r.width),scroll:e.scrollWidth,
+               overflow:st.overflowX,position:st.position,display:st.display};})
+           .filter(x=>x.width>0&&x.right>innerWidth+2&&x.display!=='none')
+           .sort((a,b)=>b.right-a.right).slice(0,25));
+         console.log('ISSUE91_DESKTOP_GLOBAL_OVERFLOW',JSON.stringify(pageOffenders));
+      }
       const rect=await report.boundingBox();
       A.ok(rect&&rect.x+rect.width<=width+1,
         'Desktop V1 report exceeds viewport '+JSON.stringify({rect,overflow}));
