@@ -57,10 +57,17 @@ const sku=(id,stock,source='resale')=>({
       result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())}));
     A.equal(scenario.result.ready,true,'V1 '+months+' months: '+JSON.stringify(scenario.result.errors));
     A.equal(scenario.state.forecastMonths,months,'V1 horizon '+months);
-    A.equal(scenario.result.temporal.months.length,months,'monthly demand '+months);
+    if(scenario.result.temporal){
+      A.equal(scenario.result.temporal.months.length,months,'temporal monthly demand '+months);
+    }else{
+      A.equal(months,1,'single-month V1 uses the legacy one-month finance path');
+    }
     A.equal(scenario.result.cashflow.months.length,months,'cash calendar '+months);
     const note=await page.locator('[data-linked-cashflow-note]').innerText();
-    A.match(note,new RegExp('План продаж из V1:\\s*'+months+'\\s*мес'));
+    if(scenario.result.temporal)
+      A.match(note,new RegExp('План продаж из V1:\\s*'+months+'\\s*мес'));
+    else
+      A.match(note,/Cash Flow показывает продажи закупленных партий|Расчёт основан на месячном прогнозе продаж V1/);
     A.match(note,new RegExp('Месяцев в денежном календаре:\\s*'+months));
     A.doesNotMatch(note,/первые 30 дней|первых 30 дней/);
   }
