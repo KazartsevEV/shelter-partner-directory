@@ -77,6 +77,17 @@ const {chromium}=require('playwright');
       viewport:innerWidth,document:document.documentElement.scrollWidth,
       report:document.getElementById('product-portfolio-business-summary').getBoundingClientRect().width
    }));
+   if(overflow.document>overflow.viewport+1){
+      const offenders=await page.evaluate(()=>[...document.querySelectorAll('#product-screen *')]
+        .map(e=>{const r=e.getBoundingClientRect(),cs=getComputedStyle(e);
+          return {tag:e.tagName,id:e.id,cls:String(e.className).slice(0,80),
+            right:Math.round(r.right),left:Math.round(r.left),width:Math.round(r.width),
+            scroll:e.scrollWidth,client:e.clientWidth,
+            overflow:cs.overflowX,display:cs.display};})
+        .filter(x=>x.width>0&&x.right>innerWidth+2&&x.display!=='none')
+        .sort((a,b)=>b.right-a.right).slice(0,18));
+      console.log('ISSUE91_MOBILE_OVERFLOW_DIAG',JSON.stringify({width,overflow,offenders}));
+   }
    A.ok(overflow.document<=overflow.viewport+1,
       'Document overflow '+JSON.stringify(overflow));
    A.equal(await page.evaluate(()=>saveProductCalculationToBrowser()),true);
