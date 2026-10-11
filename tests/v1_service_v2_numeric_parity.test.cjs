@@ -28,7 +28,7 @@ const factory=new Function('productPortfolio','productBusinessTaxType','productN
   'aggregatePricingMetrics',source+';return {calculateProductPortfolio,calculateProductCashFlow,aggregatePlanMetrics,calculateAggregateCredit,v1FullServiceSku};');
 const EPS=.015;
 const n=x=>Number(x)||0;
-function fixture(channel,role,funding,taxType,vat){
+function fixture(channel,role,funding,taxType,vat,creditMonths=2){
   const line=(key,bucket,monthly=0,capex=0,amort=0,ratePct=0,payer='agent')=>
     ({key,label:key,bucket,monthly,capex,amort,ratePct,payer});
   const agency={grossPrice:100,feePct:20,fixedFee:0,partnerVatPct:10,
@@ -58,7 +58,7 @@ function fixture(channel,role,funding,taxType,vat){
     warehouseStorageUnitCost:0,customerDeliveryPct:0,customerReturnPct:0,
     salesFixedMonthly:100,salesVariablePct:5,penaltiesPct:1,
     forecastUnitsPerMonth:qty,adBudget:900,adManagement:60,
-    planning:{fundingMode:funding,creditRatePct:12,creditTermMonths:2,
+    planning:{fundingMode:funding,creditRatePct:12,creditTermMonths:creditMonths,
       targetMarginPct:30,reservePct:10,maxDiscountPct:0,minimumMarginPct:10},
     inputs:{'own-product-ad-budget':'900','own-product-ad-cpc':'4.5',
       'own-product-ad-ctr':'2','own-product-ad-click-lead':'20',
@@ -67,8 +67,8 @@ function fixture(channel,role,funding,taxType,vat){
     uiState:{choices:{salesVat:vat?'yes':'no'}}};
   return base;
 }
-function metrics(channel,role,funding,taxType,vat){
-  const item=fixture(channel,role,funding,taxType,vat),taxPct=6,vatPct=vat?12:0;
+function metrics(channel,role,funding,taxType,vat,creditMonths=2){
+  const item=fixture(channel,role,funding,taxType,vat,creditMonths),taxPct=6,vatPct=vat?12:0;
   const api=factory([item],taxType,id=>id==='own-business-tax-pct'?taxPct:0,
     ()=>({salesVatChoice:vat?'yes':'no',vatReady:true,vatPct}));
   const model=api.calculateProductPortfolio(),cycle=api.aggregatePlanMetrics(item);
@@ -95,7 +95,7 @@ function metrics(channel,role,funding,taxType,vat){
     warehouseInboundUnitCost:0,warehouseDayCost:0,vatPct};
   const sku=api.v1FullServiceSku(item,row,model,draft,cycle,credit,taxType,taxPct);
   const state=Linked.fromV1({tax:{type:taxType,pct:taxPct},skus:[sku]});
-  state.forecastMonths=3;state.recurringDemandApproved=true;
+  state.forecastMonths=sku.fullServiceHorizon;state.recurringDemandApproved=true;
   const v2=Linked.build(state);
   A.equal(v2.ready,true,channel+'/'+role+'/'+funding+'/'+taxType+'/vat'+vat+
     ' V2 '+JSON.stringify(v2.errors||[]));
@@ -136,4 +136,31 @@ test('Canonical full V1→V2 numeric parity: 6 roles × own/credit × turnover/p
   for(const item of report)
     for(const k of ['revenue','profitBeforeTax','tax','interest','capex','reserve'])
       A.ok(Math.abs(item[k])<=EPS,item.tag+' '+k+' V1-V2 delta='+item[k]);
+});
+
+
+// Long bullet loan: the owner's approved V1 cash calendar outlasts the
+// chosen three-month service horizon. V2 must retain maturity, not hide debt.
+test('Native V1→V2 long-credit maturity: six roles x profit/turnover x VAT',()=>{
+  let checked=0;
+  for(const channel of ['online','offline'])
+    for(const role of ['self','hired','agent'])
+      for(const taxType of ['turnover','profit'])
+        for(const vat of [false,true]){
+          const r=metrics(channel,role,'credit',taxType,vat,5);checked++;
+          A.equal(r.v1Monthly.length,5,r.tag+' source loan calendar');
+          A.equal(r.v2Cash.length,5,r.tag+' V2 maturity calendar');
+          A.ok(Math.abs(r.v1Monthly[4].principalRepaid-r.v2Cash[4].principalRepaid)<.015,
+            r.tag+' principal maturity');
+          A.ok(Math.abs(r.v1Monthly[0].interestPaid-r.v2Cash[0].interest)<.015,
+            r.tag+' interest in first month');
+          for(let i=0;i<5;i++){
+            A.ok(Math.abs((r.v1Monthly[i].inflow-r.v1Monthly[i].financedInflow)-
+              r.v2Pnl[i].revenue)<.015,r.tag+' revenue month '+(i+1));
+            A.ok(Math.abs(r.v1Monthly[i].taxPaid-r.v2Pnl[i].taxAccrued)<.015,
+              r.tag+' tax month '+(i+1));
+          }
+        }
+  A.equal(checked,24);
+  console.log('NOMAD360_LONG_CREDIT_PARITY_GREEN',checked);
 });
