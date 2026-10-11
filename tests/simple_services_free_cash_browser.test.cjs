@@ -10,7 +10,7 @@ const path=require('node:path');
 const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
 const approx=(a,b,label)=>A.ok(Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<.015,
  label+': '+a+' vs '+b);
-const last=(table,label)=>table.locator('tbody tr').filter({has:table.getByText(label,{exact:true})}).last().locator('td').last();
+const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last().locator('td').last();
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
