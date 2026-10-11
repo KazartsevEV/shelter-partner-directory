@@ -13,7 +13,7 @@ const path=require('node:path');
    await page.setViewportSize({width,height:844});
    const v=await page.locator('#portfolio-v2-root').evaluate(el=>{
     const panel=el.querySelector('.nd-v2-panel'),hero=el.querySelector('.nd-v2-hero');
-    const h=panel?.querySelector('h2,h3');
+    const h=panel?.querySelector('h2,h3,.font-bold');
     const input=el.querySelector('input[type="number"],input[type="text"]');
     const rootBox=el.getBoundingClientRect();
     const parts=[...el.querySelectorAll('.nd-v2-panel,.nd-v2-hero,.nd-v2-results')];
