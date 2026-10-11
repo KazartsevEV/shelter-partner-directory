@@ -1972,3 +1972,134 @@ body #portfolio-v2-screen [data-p2-home].nd-tree-active-back{
 body #full-service-screen #full-service-back.nd-tree-active-back{
   color:#16375a!important;
 }
+
+
+/* V2-DESIGN-03 — Unified presentation contract for the independent and linked
+   portfolios. This layer does not alter V1, business formulas or conditional UI.
+   White page, navy sections with white type, orange primary actions. */
+body:has(#portfolio-v2-screen:not([hidden])){background:#fff!important}
+body #portfolio-v2-screen.nd-v2-screen{
+  background:#fff!important;color:#16375a;min-width:0;max-width:100%;
+  box-sizing:border-box;padding:12px clamp(0px,1.5vw,16px) 32px;
+}
+body #portfolio-v2-root.nd-v2-root{
+  --nd-v2-navy:#16375a;--nd-v2-blue:#244a70;--nd-v2-raised:#31577c;
+  --nd-v2-ink:#f6faff;--nd-v2-orange:#ed8e63;
+  width:100%;min-width:0;max-width:100%;box-sizing:border-box;
+  color:var(--nd-v2-navy);font-family:var(--nd-font);
+}
+body #portfolio-v2-root :is(.nd-v2-panel,.nd-v2-hero,.nd-v2-results){
+  background:var(--nd-v2-navy)!important;color:#fff!important;
+  border:1px solid #38638a!important;border-radius:var(--nd-radius);
+  box-shadow:none;box-sizing:border-box;min-width:0;max-width:100%;
+}
+body #portfolio-v2-root :is(.nd-v2-panel,.nd-v2-hero,.nd-v2-results) :is(
+  h1,h2,h3,h4,p,summary,label,strong,b,span,li
+){color:inherit}
+body #portfolio-v2-root :is(.nd-v2-panel,.nd-v2-hero,.nd-v2-results) :is(
+  .text-slate-900,.text-slate-800,.text-slate-700,.text-slate-600,.text-slate-500,
+  .text-blue-950,.text-blue-900,.text-blue-800,.text-indigo-800,
+  .text-emerald-900,.text-emerald-800,.text-emerald-200,.text-emerald-100,
+  .text-sky-200
+){color:var(--nd-v2-ink)!important}
+body #portfolio-v2-root .nd-v2-subpanel,
+body #portfolio-v2-root .nd-v2-price{
+  background:var(--nd-v2-blue)!important;color:#fff!important;
+  border:1px solid #6688a8!important;box-sizing:border-box;
+  min-width:0;max-width:100%;
+}
+body #portfolio-v2-root .nd-v2-panel :is(
+  [class~="bg-white"],[class~="bg-slate-50"],[class~="bg-blue-50"],
+  [class~="bg-indigo-50"],[class~="bg-emerald-50"]
+),
+body #portfolio-v2-root .nd-v2-results :is(
+  [class~="bg-emerald-200"],[class~="bg-white/10"],[class~="bg-white/15"]
+){
+  background:var(--nd-v2-raised)!important;color:#fff!important;
+  border-color:#6688a8;
+}
+body #portfolio-v2-root .nd-v2-panel :is(
+  [class~="bg-white"],[class~="bg-slate-50"],[class~="bg-blue-50"],
+  [class~="bg-indigo-50"],[class~="bg-emerald-50"]
+) :is(span,strong,b,p,label,summary,h3,h4){
+  color:#fff!important;
+}
+/* Financial inputs are always white paper with readable navy lettering. */
+body #portfolio-v2-root :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea){
+  display:block;max-width:100%;min-width:0;box-sizing:border-box;
+  background:#fff!important;color:#16375a!important;border:1px solid #9ab5cb;
+  border-radius:var(--nd-radius);
+}
+body #portfolio-v2-root :is(input,select,textarea):focus-visible,
+body #portfolio-v2-root button:focus-visible{
+  outline:3px solid var(--nd-v2-orange);outline-offset:2px;
+}
+body #portfolio-v2-root :is(input[type="checkbox"],input[type="radio"]){
+  accent-color:#ed8e63;flex-shrink:0;
+}
+body #portfolio-v2-root input[type="file"]{
+  display:block;max-width:100%;min-width:0;overflow-wrap:anywhere;
+  font-size:13px;color:var(--nd-v2-navy)!important;
+}
+body #portfolio-v2-root :is(.nd-v2-hero,.nd-v2-panel) .nd-cta-primary,
+body #portfolio-v2-root .nd-v2-cta{
+  background:var(--nd-v2-orange)!important;color:#16375a!important;
+  border:1px solid var(--nd-v2-orange)!important;
+  font-weight:800;white-space:normal;min-width:0;
+}
+body #portfolio-v2-root :is(.nd-v2-hero,.nd-v2-panel) .nd-cta-primary:hover,
+body #portfolio-v2-root .nd-v2-cta:hover{background:#f3a17a!important}
+body #portfolio-v2-root :is(.nd-v2-hero,.nd-v2-panel) .nd-v2-secondary,
+body #portfolio-v2-root .nd-v2-panel :is(
+  [data-p2-add-resource],[data-basket-action="add"],[data-basket-action="add-item"]
+){
+  color:#fff!important;background:var(--nd-v2-blue)!important;
+  border:1px solid #9bb7ce!important;
+  min-height:44px;white-space:normal;
+}
+body #portfolio-v2-root :is(.nd-v2-hero,.nd-v2-panel) :is(
+  [data-p2-home],[data-p2-new],[data-linked-back]
+){color:#fff!important;background:transparent!important;border:1px solid #b2cadd!important}
+body #portfolio-v2-root :is(.nd-v2-hero,.nd-v2-panel) :is(
+  [data-p2-remove-sku],[data-p2-delete-resource],
+  [data-linked-delete],[data-linked-delete-sku],
+  [data-basket-action="remove"],[data-basket-action="remove-item"]
+){color:#ffd2c4!important;text-decoration:underline}
+body #portfolio-v2-root [class*="grid"]>*,
+body #portfolio-v2-root [class*="flex"]>*{min-width:0}
+body #portfolio-v2-root .overflow-x-auto{
+  width:100%;min-width:0;max-width:100%;overflow-x:auto!important;
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+}
+body #portfolio-v2-root table{
+  border-collapse:collapse;min-width:100%;width:max-content;
+  color:#fff;background:transparent;
+}
+body #portfolio-v2-root :is(th,td){
+  padding:9px 10px;white-space:nowrap;text-align:left;
+  border-bottom:1px solid #557797;color:#fff;
+}
+body #portfolio-v2-root th{background:var(--nd-v2-blue);font-weight:700}
+body #portfolio-v2-root tbody tr:nth-child(even){background:rgba(255,255,255,.045)}
+body #portfolio-v2-root .nd-v2-panel :is(.bg-rose-50,.bg-rose-100,.bg-amber-50),
+body #portfolio-v2-root .nd-v2-results :is(.bg-rose-50,.bg-rose-100,.bg-amber-50){
+  color:#84213b!important;
+}
+body #portfolio-v2-root :is([role="alert"],[data-p2-inline-error],[data-linked-error]){
+  background:#fff1f2!important;color:#9f1239!important;max-width:100%;
+  white-space:normal;overflow-wrap:anywhere;
+}
+@media(max-width:600px){
+ body #portfolio-v2-screen.nd-v2-screen{padding:4px 0 20px}
+ body #portfolio-v2-root :is(.nd-v2-panel,.nd-v2-hero,.nd-v2-results){
+   padding:16px!important;margin-bottom:14px;
+ }
+ body #portfolio-v2-root .grid.grid-cols-2{grid-template-columns:minmax(0,1fr)!important}
+ body #portfolio-v2-root :is(.nd-v2-hero,.nd-v2-panel) :is(
+   .flex.justify-between,.flex.items-start,.flex.flex-wrap
+ ){flex-wrap:wrap}
+ body #portfolio-v2-root :is(.nd-v2-panel,.nd-v2-results) :is(h1,h2,h3){
+   font-size:clamp(18px,5.5vw,24px);line-height:1.25;overflow-wrap:anywhere;
+ }
+ body #portfolio-v2-root .nd-v2-subpanel{padding:12px!important}
+}
