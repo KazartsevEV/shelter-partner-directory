@@ -30,9 +30,14 @@ const sku=(id,stock)=>({
   await page.locator('[data-linked-path="resources.0.allocation"]').selectOption('usage');
   await page.locator('[data-linked-path="resources.0.usage.a"]').fill('1');
   await page.locator('[data-linked-path="resources.0.usage.b"]').fill('1');
-  await page.locator('[data-linked-path="forecastMonths"]').fill('3');
-  await page.locator('[data-linked-path="recurringDemandApproved"]').check();
-  let r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
+  // Three months is only a model counterfactual. V2's user-facing period
+  // comes from V1 (100 units / 20 monthly = five months).
+  const confirmed=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+  A.equal(confirmed.forecastMonths,5);
+  A.equal(confirmed.v1HorizonInherited,true);
+  A.equal(await page.locator('[data-linked-path="forecastMonths"]').count(),0);
+  let r=await page.evaluate(()=>LinkedPortfolioV2Engine.build({
+    ...LinkedPortfolioV2UI.getState(),forecastMonths:3,v1HorizonInherited:false}));
   A.equal(r.ready,true,JSON.stringify(r.errors));
   let p=r.cashflow.periodPnl;
   A.equal(p.months.length,3);
@@ -40,10 +45,11 @@ const sku=(id,stock)=>({
   const baseline={a:35.72,b:35.72};
   const baselinePnl3=await page.evaluate(prices=>
     LinkedPortfolioV2Engine.build({...LinkedPortfolioV2UI.getState(),
+      forecastMonths:3,v1HorizonInherited:false,
       __periodPriceCandidate:prices}).cashflow.periodPnl,baseline);
   close(p.netMargin,p.netProfit/p.revenue*100,'three-month margin');
   A.ok(p.netMargin>=25,'period-target margin, not merely month 1');
-  await page.locator('[data-linked-path="forecastMonths"]').fill('5');
+  // Restore the full confirmed V1 sales period without UI re-entry.
   r=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(r.ready,true,JSON.stringify(r.errors));
   p=r.cashflow.periodPnl;

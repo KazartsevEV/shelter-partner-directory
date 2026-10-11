@@ -100,3 +100,27 @@ test('#31E2 reject deliveries entirely after selected forecast horizon',()=>{
  A.equal(r.ready,false);
  A.match(r.errors.join(' '),/поступит после выбранного горизонта/);
 });
+
+test('V1-inherited mixed horizon caps an online service without truncating a goods batch',()=>{
+ const x=state(100,0);
+ x.skus[1]=sku('B',0,'online-service');
+ x.skus[1].onlineProvenance={periodMonths:2};
+ x.forecastMonths=5;x.recurringDemandApproved=true;x.v1HorizonInherited=true;
+ const r=plan(x);
+ A.equal(r.ready,true,JSON.stringify(r.errors));
+ A.deepEqual(r.months.map(m=>m.orders.A),[20,20,20,20,20]);
+ A.deepEqual(r.months.map(m=>m.orders.B),[20,20,0,0,0]);
+ close(r.months.reduce((n,m)=>n+m.orders.B,0),40,'approved service sales conserved');
+});
+test('V1 full service stops at operating period even when portfolio runs longer',()=>{
+ const x=state(100,0);
+ x.skus[1]=sku('B',0,'offline-service');
+ x.skus[1].fullServiceV2=true;
+ x.skus[1].fullServiceOperatingMonths=2;
+ x.skus[1].fullServiceHorizon=6; // loan tail must not extend sales
+ x.skus[1].fullServiceForecast=[10,10,0,0,0,0];
+ x.forecastMonths=5;x.recurringDemandApproved=true;x.v1HorizonInherited=true;
+ const r=plan(x);
+ A.equal(r.ready,true,JSON.stringify(r.errors));
+ A.deepEqual(r.months.map(m=>m.orders.B),[10,10,0,0,0]);
+});

@@ -30,23 +30,48 @@ function updateEntry(){
 function resetSequence(){sequence=1+Math.max(0,...(state.resources||[]).map(r=>Number(String(r.id).replace(/\D/g,''))||0));}
 // The operating horizon is chosen once in full V1. A longer loan maturity
 // must not extend projected sales after service work has ended.
-function serviceV1Months(sku){
- if(!sku?.fullServiceV2)return null;
- const months=Number(sku.fullServiceOperatingMonths??sku.onlineProvenance?.periodMonths??
-   sku.sourcePeriodMonths??sku.fullServiceHorizon);
- return Number.isInteger(months)&&months>=1&&months<=120?months:null;
+function approvedV1Months(sku){
+ if(!sku)return null;
+ // Services have an approved operating period; a longer credit tail adds no sales.
+ const period=sku.fullServiceOperatingMonths??sku.onlineProvenance?.periodMonths??
+   sku.sourcePeriodMonths??(sku.fullServiceV2?sku.fullServiceHorizon:null);
+ if(period!==null&&period!==undefined&&period!==''){
+  const months=Number(period);
+  return Number.isInteger(months)&&months>=1&&months<=120?months:null;
+ }
+ // V1 physical stock and monthly advertising demand fix its sell-out horizon.
+ if(['own','resale'].includes(sku.source)){
+  const stock=Number(sku.inventoryQty),rate=Number(sku.forecastUnitsPerMonth);
+  const lead=Number(sku.supplyDays||0)+Number(sku.productionDays||0);
+  if(stock>0&&rate>0&&Number.isFinite(stock)&&Number.isFinite(rate)&&
+    Number.isFinite(lead)&&lead>=0){
+   const months=Math.max(1,Math.ceil((lead+30*stock/rate-1e-9)/30));
+   return months<=120?months:null;
+  }
+ }
+ return null;
 }
 function inheritedServicePeriod(portfolio){
  const items=portfolio?.skus||[];
  if(!items.length)return null;
- const periods=items.map(serviceV1Months);
- return periods.every(p=>p!==null)?Math.min(...periods):null;
+ const periods=items.map(approvedV1Months);
+ // Mixed SKU calendar uses the longest operating cycle, without extending
+ // any shorter-lived service demand or inventing extra stock.
+ return periods.every(p=>p!==null)?Math.max(...periods):null;
 }
 function syncPeriodFromV1(portfolio){
  const months=inheritedServicePeriod(portfolio);
- if(months===null)return false;
+ if(months===null){
+  if(portfolio.v1HorizonInherited===true){
+   portfolio.forecastMonths=1;
+   portfolio.recurringDemandApproved=false;
+  }
+  portfolio.v1HorizonInherited=false;
+  return false;
+ }
  portfolio.forecastMonths=months;
  portfolio.recurringDemandApproved=true;
+ portfolio.v1HorizonInherited=true;
  return true;
 }
 function enter(){
@@ -106,6 +131,7 @@ function appendOnline(sku){
    if(next.skus.some(s=>s.id===sku.id))throw Error('Такой ID услуги уже включён в портфель.');
    next.skus.push({...JSON.parse(JSON.stringify(sku)),priceSelected:sku.priceMax,discountSelected:0});
  }
+ syncPeriodFromV1(next);
  next.lastOrigin='online';
  state=next;resetSequence();save();enter();
 }
@@ -257,12 +283,12 @@ function render(){
  '<button type="button" data-linked-add class="w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
  '<section class="rounded-2xl border border-sky-200 bg-sky-50 p-4 mb-5" data-temporal-controls>'+
  '<h2 class="text-lg font-bold text-slate-900">План продаж и загрузка по месяцам</h2>'+
- (inheritedServicePeriod(state)!==null?
-   '<p class="text-sm text-slate-700 mt-2"><span>Период из полного расчёта V1:</span> <strong>'+safe(state.forecastMonths)+'</strong> <span>мес.</span></p>'+
-   '<p class="text-sm text-slate-600 mt-1">Чтобы изменить период, откройте исходную услугу V1.</p>':
-   '<p class="text-sm text-slate-600 mt-2">Для товаров V1 утверждён только первый месяц. Если нужен более длинный сценарий, укажите его здесь и подтвердите повторение прогноза.</p>'+
-   '<div class="max-w-xs mt-3">'+field('Месяцев в сценарии (1–120)','forecastMonths',state.forecastMonths??1,'min="1" max="120" step="1"')+'</div>'+
-   '<label class="flex items-start gap-2 text-sm text-slate-800 mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
+  (inheritedServicePeriod(state)!==null?
+    '<p class="text-sm text-slate-700 mt-2"><span>'+(state.skus.every(s=>s.fullServiceV2)?'Период из полного расчёта V1:':'Период продаж и услуг по данным V1:')+'</span> <strong>'+safe(state.forecastMonths)+'</strong> <span>мес.</span></p>'+
+    '<p class="text-sm text-slate-600 mt-1">Товарные партии — до продажи последней единицы; услуги — в пределах периода V1. Погашение кредита само по себе продажи не продлевает.</p>':
+    '<p class="text-sm text-slate-600 mt-2">У отдельных позиций V1 нет подтверждённого срока будущих продаж. Для многомесячного сценария укажите период и подтвердите повторение спроса.</p>'+
+    '<div class="max-w-xs mt-3">'+field('Месяцев в сценарии (1–120)','forecastMonths',state.forecastMonths??1,'min="1" max="120" step="1"')+'</div>'+
+    '<label class="flex items-start gap-2 text-sm text-slate-800 mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
  '<div id="linked-temporal-result" class="mt-3 text-sm text-slate-700"></div></section>'+
  '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
  root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{

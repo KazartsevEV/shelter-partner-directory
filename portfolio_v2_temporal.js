@@ -11,6 +11,14 @@
  const pos=v=>Math.max(0,n(v));
  const sum=a=>a.reduce((x,y)=>x+y,0);
  const stockSource=s=>['own','resale'].includes(s?.source);
+ const serviceMonths=s=>{
+   if(!['online-service','offline-service'].includes(s?.source))return null;
+   const raw=s.fullServiceOperatingMonths??s.onlineProvenance?.periodMonths??
+      s.sourcePeriodMonths??(s.fullServiceV2?s.fullServiceHorizon:null);
+   if(raw===undefined||raw===null||raw==='')return null;
+   const value=Number(raw);
+   return Number.isInteger(value)&&value>=1&&value<=120?value:null;
+ };
  function plan(state,firstMonthBase,projectOffers){
    const monthsRequested=state?.forecastMonths===undefined?1:Number(state.forecastMonths);
    const errors=[],fieldErrors=[],report=(path,message)=>{
@@ -41,11 +49,15 @@
         pos(s.supplyDays)+pos(s.productionDays)>=monthsRequested*30)
        report('skus.'+s.id,'Товар «'+s.name+'» поступит после выбранного горизонта. Увеличьте число месяцев, чтобы не переносить платежи на неверные даты.');
      if(s.source==='online-service'){
-       const months=Number(s.onlineProvenance?.periodMonths??s.sourcePeriodMonths);
-       if(!Number.isInteger(months)||months<monthsRequested)
+       const approved=serviceMonths(s);
+       if(approved===null)
+         report('skus.'+s.id,'У онлайн-услуги «'+s.name+'» нет подтверждённого периода V1.');
+       else if(monthsRequested>approved&&state.v1HorizonInherited!==true&&
+           !(s.fullServiceV2&&monthsRequested<=Number(s.fullServiceHorizon)))
          report('skus.'+s.id,'У онлайн-услуги «'+s.name+'» период V1 не подтверждает '+monthsRequested+' месяцев. Нужен расчёт V1 на этот период.');
      }
-     if(s.fullServiceV2&&monthsRequested>Number(s.fullServiceHorizon))
+     if(s.fullServiceV2&&monthsRequested>Number(s.fullServiceHorizon)&&
+        state.v1HorizonInherited!==true)
        report('skus.'+s.id,'Горизонт полной услуги меньше горизонта портфеля. Пересчитайте исходную услугу.');
      if(s.fullServiceV2&&Array.isArray(s.fullServiceForecast)&&
        (!s.fullServiceForecast.length||s.fullServiceForecast.some(v=>
@@ -75,7 +87,11 @@
            s.fullServiceForecast[Math.min(month,s.fullServiceForecast.length-1)]:
            s.fullServiceForecast):undefined;
        const demand=entered===undefined?base[id]:pos(entered);
-       independent[id]=stockSource(s)?Math.min(pos(stock[id]),base[id]*fraction):demand;
+       // Longer product cycles or a credit tail never create sales after a
+       // service's V1-approved operating period.
+       const approved=serviceMonths(s);
+       const bounded=approved!==null&&month>=approved?0:demand;
+       independent[id]=stockSource(s)?Math.min(pos(stock[id]),base[id]*fraction):bounded;
      }
      const basket=projectOffers(state.offers||[],independent,ids);
      basket.fieldErrors.forEach(e=>report(e.path,'Месяц '+(month+1)+': '+e.message));
