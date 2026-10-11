@@ -1,0 +1,34 @@
+name: Nomad360 service-demand visual acceptance
+
+on:
+  pull_request:
+    paths:
+      - "Marketing_calc.HTML"
+      - "tests/nomad360_issue91_visual_browser.test.cjs"
+      - ".github/workflows/issue91-visual.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  visual-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-save --no-package-lock playwright@1.58.0
+      - run: npx playwright install --with-deps chromium
+      - name: Inspect mobile and desktop V1/V2 cash reports
+        run: node tests/nomad360_issue91_visual_browser.test.cjs
+      - name: Keep acceptance screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: service-demand-visual-${{ github.sha }}
+          path: artifacts/issue91-visual/*.png
+          if-no-files-found: warn
+          retention-days: 14
