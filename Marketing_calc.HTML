@@ -1643,6 +1643,72 @@
             { key: 'taxTurnover', label: 'Налог на оборот*', type: 'pct' },
         ];
 
+        // Display-only language layer for the new dynamic cash explanations.
+        // No mutation of numeric model state on language switch.
+        function simpleCashLanguage(){
+            const lang=window.Nomad360UI?.getLanguage?.()||document.documentElement.lang||'ru';
+            return String(lang).slice(0,2).toLowerCase();
+        }
+        function renderSimpleOnlineCashDetail(state='ready',period=1,agent=false){
+            const node=document.getElementById('service-simple-free-cash-detail');
+            if(!node)return;
+            node.dataset.cashState=state;
+            node.dataset.cashMonths=String(period);
+            node.dataset.cashAgent=agent?'true':'false';
+            const language=simpleCashLanguage();
+            if(state==='invalid'){
+                node.textContent=language==='en'?'Correct the inputs to calculate available cash.':
+                    language==='kk'?'Қолжетімді ақшаны есептеу үшін енгізілген деректерді түзетіңіз.':
+                    'Исправьте исходные данные, чтобы рассчитать свободные деньги.';
+            }else if(state==='pending'){
+                node.textContent=language==='en'?'Assign a payer for each nonzero expense to calculate your available cash.':
+                    language==='kk'?'Қолжетімді ақшаны есептеу үшін әрбір нөлден үлкен шығынға төлеушіні таңдаңыз.':
+                    'Выберите плательщиков по всем ненулевым расходам, чтобы рассчитать доступные деньги.';
+            }else{
+                node.textContent=language==='en'?
+                    'Cumulative cash flow over '+period+' months'+(agent?
+                        ': your commission after expenses paid by you and your tax.':
+                        ': receipts minus expenses and taxes, including one-off payments. No separate reserve is set.'):
+                    language==='kk'?
+                    period+' айдағы жинақталған ақша ағыны'+(agent?
+                        ': өзіңіз төлеген шығындар мен салықтан кейінгі агенттік сыйақыңыз.':
+                        ': біржолғы төлемдерді қоса алғанда түсімнен шығындар мен салықтар шегерілген. Бөлек резерв белгіленбеген.'):
+                    'Накопленный денежный поток за '+period+' '+monthWord(period)+
+                    (agent?' · моё агентское вознаграждение после оплаченных мной расходов и моего налога.':
+                        ' · поступления за вычетом расходов и налогов, включая разовые платежи. Резерв отдельно не задан.');
+            }
+        }
+        function renderSimpleOfflineCashDetail(ready,operating=1,calendar=1){
+            const node=document.getElementById('offline-simple-free-cash-detail');
+            if(!node)return;
+            node.dataset.cashState=ready?'ready':'invalid';
+            node.dataset.cashMonths=String(operating);
+            node.dataset.cashCalendar=String(calendar);
+            const language=simpleCashLanguage();
+            node.textContent=!ready?
+                (language==='en'?'Complete pricing, the service period, funding and tax settings.':
+                 language==='kk'?'Бағаны, қызмет көрсету кезеңін, қаржыландыру мен салық параметрлерін толтырыңыз.':
+                 'Завершите расчёт цены, срока оказания услуг, финансирования и налогов.'):
+                language==='en'?
+                    'Cumulative available cash: '+operating+' months of services, '+calendar+
+                    ' months of receipts and payments. Includes owner funding or borrowing, taxes and protected reserve. This is not profit.':
+                language==='kk'?
+                    'Жинақталған қолжетімді ақша: '+operating+' ай қызмет көрсету, '+calendar+
+                    ' ай түсімдер мен төлемдер. Өз қаражаты немесе несие, салық және қорғалған резерв ескерілген. Бұл пайда емес.':
+                    'Свободный накопленный денежный поток: '+operating+
+                    ' мес. оказания услуг, '+calendar+
+                    ' мес. денежных поступлений и платежей; учтены внесённые деньги или кредит, налоги и защищённый резерв. Это не прибыль.';
+        }
+        document.addEventListener('nomad360:languagechange',()=>{
+            const online=document.getElementById('service-simple-free-cash-detail');
+            if(online?.dataset.cashState)
+                renderSimpleOnlineCashDetail(online.dataset.cashState,
+                    Number(online.dataset.cashMonths)||1,online.dataset.cashAgent==='true');
+            const offline=document.getElementById('offline-simple-free-cash-detail');
+            if(offline?.dataset.cashState)
+                renderSimpleOfflineCashDetail(offline.dataset.cashState==='ready',
+                    Number(offline.dataset.cashMonths)||1,Number(offline.dataset.cashCalendar)||1);
+        });
         let serviceMode = 'self';
         let currentValues = { ...defaults };
 
@@ -5193,12 +5259,8 @@
                 if(simpleOfflineService){
                     document.getElementById('offline-simple-free-cash-value').innerHTML=
                         cashFlow.ready?money(cashFlow.freeCumulativeEnd):'—';
-                    document.getElementById('offline-simple-free-cash-detail').textContent=
-                        cashFlow.ready?
-                          'Свободный накопленный денежный поток: '+(cashFlow.operatingMonths||1)+
-                          ' мес. оказания услуг, '+cashFlow.months.length+
-                          ' мес. денежных поступлений и платежей; учтены внесённые деньги или кредит, налоги и защищённый резерв. Это не прибыль.':
-                          'Завершите расчёт цены, срока оказания услуг, финансирования и налогов.';
+                    renderSimpleOfflineCashDetail(cashFlow.ready,
+                        cashFlow.operatingMonths||1,cashFlow.months.length||1);
                 }
             }
             const servicePeriodSummary=(simpleOfflineService&&cashFlow.ready)||(
@@ -8465,6 +8527,7 @@
                 '<tr><td class="p-3 text-rose-800">Нет корректного прогноза: '+msg+'</td></tr>';
               for(const id of ['res-profit','res-romi','res-marketing-romi','res-cpa','res-cac','service-simple-free-cash-value'])
                 document.getElementById(id).textContent='—';
+              renderSimpleOnlineCashDetail('invalid',1,serviceMode==='agent');
               return;
             }
             const months = v.months;
@@ -8505,7 +8568,7 @@
                 document.getElementById('res-cpa-sep').textContent = '';
                 document.getElementById('res-cac').textContent = '';
                 document.getElementById('service-simple-free-cash-value').textContent = '—';
-                document.getElementById('service-simple-free-cash-detail').textContent = 'Выберите плательщиков по всем ненулевым расходам, чтобы рассчитать доступные деньги.';
+                renderSimpleOnlineCashDetail('pending',months,true);
 
                 document.getElementById('summary-table').innerHTML = `
                     <tr>
@@ -8747,10 +8810,7 @@
             // Agent's own net receipts must never be replaced with the principal's cash flow.
             const simpleSpendableCash=isAgent?cumAgentNet:cumCash;
             setV1DisplayedMoney('service-simple-free-cash-value',simpleSpendableCash);
-            document.getElementById('service-simple-free-cash-detail').textContent =
-                'Накопленный денежный поток за '+months+' '+monthWord(months)+
-                (isAgent?' · моё агентское вознаграждение после оплаченных мной расходов и моего налога.':
-                    ' · поступления за вычетом расходов и налогов, включая разовые платежи. Резерв отдельно не задан.');
+            renderSimpleOnlineCashDetail('ready',months,isAgent);
             if(totalMonth.mDeals>0){
               onlineV1PortfolioSnapshot={
                 mode:serviceMode,values:{...v},payers:{...agentPayers},
