@@ -145,10 +145,10 @@ const {pathToFileURL}=require('node:url');
   const v2Native=await page.evaluate(()=>{
     const okay=openLinkedPortfolioFromProducts();
     const state=LinkedPortfolioV2UI.getState();
-    return {okay,source:state?.skus?.[0]?.source,full:state?.skus?.[0]?.fullServiceV2,
+    return {okay,error:document.getElementById('linked-v2-entry-error')?.textContent,source:state?.skus?.[0]?.source,full:state?.skus?.[0]?.fullServiceV2,
       months:state?.forecastMonths,priceFixed:state?.skus?.[0]?.fixedPriceFromV1};
   });
-  A.equal(v2Native.okay,true);
+  A.equal(v2Native.okay,true,JSON.stringify(v2Native));
   A.equal(v2Native.source,'offline-service');
   A.equal(v2Native.full,true);
   A.equal(v2Native.priceFixed,true);
