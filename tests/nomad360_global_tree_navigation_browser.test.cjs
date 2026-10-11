@@ -141,20 +141,32 @@ function startTestServer(){
      const title=card.querySelector('b');
      const cardBox=card.getBoundingClientRect();
      const titleBox=title.getBoundingClientRect();
+     const desc=card.querySelector('small');
+     const descBox=desc.getBoundingClientRect();
+     const cs=getComputedStyle(card);
+     const paddingTop=titleBox.top-cardBox.top;
+     const paddingBottom=cardBox.bottom-descBox.bottom;
      return {id:card.id,font:parseFloat(getComputedStyle(title).fontSize),
       weight:getComputedStyle(title).fontWeight,
       cardHeight:cardBox.height,
       cardRight:cardBox.right,cardLeft:cardBox.left,
       titleRight:titleBox.right,titleLeft:titleBox.left,
+      descRight:descBox.right,descLeft:descBox.left,
+      paddingTop,paddingBottom,align:cs.textAlign,justify:cs.justifyContent,
       textScroll:title.scrollWidth,textClient:title.clientWidth};
     }));
    A.equal(headings.length,2,'Both service mode cards are present at '+width);
    A.equal(headings[0].font,headings[1].font,'Matching mode title sizes at '+width);
-   A.ok(headings.every(h=>h.font>=24&&h.font<=30&&Number(h.weight)>=700),
-    'Prominent 24-30px bold mode labels at '+width+': '+JSON.stringify(headings));
-   A.ok(headings.every(h=>h.cardHeight>=128&&h.cardLeft>=-1&&h.cardRight<=width+1&&
-    h.titleLeft>=h.cardLeft-1&&h.titleRight<=h.cardRight+1&&h.textScroll<=h.textClient+1),
-    'Mode labels do not overflow their cards at '+width+': '+JSON.stringify(headings));
+   A.ok(headings.every(h=>h.font>=28&&h.font<=36&&Number(h.weight)>=700),
+    'Prominent 28-36px bold mode labels at '+width+': '+JSON.stringify(headings));
+   A.ok(headings.every(h=>h.cardHeight>=104&&h.cardHeight<=220&&
+    h.cardLeft>=-1&&h.cardRight<=width+1&&h.titleLeft>=h.cardLeft-1&&
+    h.titleRight<=h.cardRight+1&&h.descLeft>=h.cardLeft-1&&
+    h.descRight<=h.cardRight+1&&h.textScroll<=h.textClient+1),
+    'Mode labels fit the cards at '+width+': '+JSON.stringify(headings));
+   A.ok(headings.every(h=>h.align==='center'&&h.justify==='center'&&
+     h.paddingTop>=6&&h.paddingTop<=38&&h.paddingBottom>=6&&h.paddingBottom<=38),
+    'Mode text is centered with no empty 100px region at '+width+': '+JSON.stringify(headings));
   }
   await page.setViewportSize({width:390,height:844});
   mark('service-online');
