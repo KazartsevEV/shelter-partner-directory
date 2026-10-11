@@ -223,42 +223,31 @@ async function browserCase(browser,locale,expected){
   A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
   A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(22, 55, 90)'),
     'Service path choices must share orange surface and navy readable labels');
-  const serviceLabel={ru:'Услуга',en:'Service',kk:'Қызмет'}[expected.lang];
-  const linkVisual=async selector=>page.locator(selector).evaluate(el=>{
-    const css=getComputedStyle(el);
-    return {color:css.color,underline:css.textDecorationColor,
-      line:css.textDecorationLine,size:parseFloat(css.fontSize),
-      transform:css.textTransform,href:el.getAttribute('href')};
-  });
-
   const outsideLink=await page.locator('#service-work-screen > button').evaluate(el=>{
     const c=getComputedStyle(el);return {
       color:c.color,underline:c.textDecorationColor,line:c.textDecorationLine};
   });
-  A.equal(outsideLink.color,'rgb(255, 255, 255)','Navigation outside white cards stays white');
-  A.equal(outsideLink.underline,'rgb(184, 87, 58)','Outdoor nav keeps orange underline');
+  A.equal(outsideLink.color,'rgb(255, 255, 255)','Tree back control remains white on navy');
+  A.equal(outsideLink.underline,'rgb(184, 87, 58)','Tree back retains orange underline');
   A.match(outsideLink.line,/underline/);
-  const serviceLink=page.locator('#service-work-screen a.nd-context-link');
-  A.equal((await serviceLink.textContent()).trim(),serviceLabel,
-    'Service category is shown once, not doubled');
-  const serviceVisual=await linkVisual('#service-work-screen a.nd-context-link');
-  A.equal(serviceVisual.color,'rgb(22, 55, 90)');
-  A.equal(serviceVisual.underline,'rgb(184, 87, 58)');
-  A.match(serviceVisual.line,/underline/);
-  A.equal(serviceVisual.transform,'none');
-  A.ok(serviceVisual.size>=16);
-  A.equal(serviceVisual.href,'#home-screen');
+  A.equal(await page.locator('#service-work-screen .nd-context-link').count(),0,
+    'Legacy service category link must be removed entirely');
+  A.equal(await page.locator('#service-work-screen .nd-tree-active-back:visible').count(),1,
+    'Exactly one tree return above the service card');
   const routeFont=await page.locator('#service-work-online > div').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   A.ok(routeFont>=25&&routeFont<=29,'Online/offline choices have larger type');
-  await serviceLink.click();
-  A.equal(await page.locator('#home-screen').isVisible(),true,'Service breadcrumb leads home');
+  await page.locator('#service-work-screen > button.nd-tree-active-back').click();
+  A.equal(await page.locator('#home-screen').isVisible(),true,'Tree return from service mode leads home');
   await choice.locator('#start-service').click();
   await page.locator('#service-work-online').click();
   A.equal(await page.locator('#service-screen').isVisible(),true);
-  const onlineTitle={ru:'Онлайн',en:'Online',kk:'Онлайн'}[expected.lang];
-  A.equal((await page.locator('#service-screen a.nd-context-link').textContent()).trim(),onlineTitle);
-  await page.locator('#service-screen a.nd-context-link').click();
-  A.equal(await page.locator('#service-work-screen').isVisible(),true,'Online link returns to mode chooser');
+  A.equal(await page.locator('#service-screen .nd-context-link').count(),0,
+    'Legacy online/offline breadcrumb must not be clickable');
+  A.equal(await page.locator('#service-screen > button.nd-tree-active-back:visible').count(),1,
+    'Exactly one tree return on service provider selection');
+  await page.locator('#service-screen > button.nd-tree-active-back').click();
+  A.equal(await page.locator('#service-work-screen').isVisible(),true,
+    'Tree arrow returns to service mode choice');
 
   await page.evaluate(()=>showHome());
   await choice.locator('#start-own-product').click();
@@ -283,17 +272,26 @@ async function browserCase(browser,locale,expected){
    A.equal(await page.locator('#product-screen .text-slate-900').first().evaluate(el=>getComputedStyle(el).color),
      'rgb(22, 55, 90)','Former black utility text is brand navy');
 
-  const productLink=page.locator('#product-intro-category.nd-context-link');
-  A.equal((await productLink.textContent()).trim(),{ru:'Товар',en:'Product',kk:'Тауар'}[expected.lang]);
-  const productVisual=await linkVisual('#product-intro-category');
-  A.deepEqual({color:productVisual.color,underline:productVisual.underline,size:productVisual.size},
-    {color:serviceVisual.color,underline:serviceVisual.underline,size:serviceVisual.size},
-    'Product and service links share brand CSS');
+  const productLabel=page.locator('#product-intro-category.nd-context-label');
+  A.equal((await productLabel.textContent()).trim(),{ru:'Товар',en:'Product',kk:'Тауар'}[expected.lang]);
+  A.equal(await productLabel.evaluate(el=>el.tagName),'SPAN',
+    'Product context is plain text, never a legacy breadcrumb');
+  A.equal(await productLabel.getAttribute('href'),null,
+    'Product context has no hidden navigation');
+  const productStyle=await productLabel.evaluate(el=>{
+    const style=getComputedStyle(el);
+    return {color:style.color,decoration:style.textDecorationLine,size:parseFloat(style.fontSize)};
+  });
+  A.equal(productStyle.color,'rgb(22, 55, 90)');
+  A.equal(productStyle.decoration,'none');
+  A.ok(productStyle.size>=16);
   const calculateSize=await page.locator('#product-screen button[type="submit"].nd-cta-primary')
     .evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   A.ok(calculateSize>=20&&calculateSize<=24,'Calculate CTA font uses prominent 20–24px');
-  await productLink.click();
-  A.equal(await page.locator('#home-screen').isVisible(),true,'Product breadcrumb leads home');
+  A.equal(await page.locator('#product-main-back.nd-tree-active-back:visible').count(),1,
+    'One tree back arrow on the V1 product screen');
+  await page.locator('#product-main-back.nd-tree-active-back').click();
+  A.equal(await page.locator('#home-screen').isVisible(),true,'Product tree back leads home');
   await choice.locator('#start-own-product').click();
 
   const typeField=await page.locator('#product-name-input').evaluate(el=>({
@@ -423,11 +421,15 @@ async function browserCase(browser,locale,expected){
      kk:'* ш.б. — сіздің валютаңыздағы ақша.'}[expected.lang]);
   A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
    A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),0,
-     'Standalone USDT and BTC QR codes removed in favour of Trybit');
+     'Standalone USDT and BTC QR codes removed in favour of NOWPayments');
   A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),6,
     'Copy targets: KZ phone, 4 SWIFT fields and Ozon phone');
-  A.equal(await page.locator('#nomad360-footer .nomad-donate-checkout-link').getAttribute('href'),
-    'https://donate.trybit.com/O8CSU052');
+  A.equal(await page.locator('#nomad360-footer .nomad-donate-checkout-link').count(),0,
+    'No Trybit outbound checkout action');
+  A.equal(await page.locator('#nomad360-footer iframe.nomad-crypto-frame').getAttribute('src'),
+    'https://nowpayments.io/embeds/donation-widget?api_key=47aebf88-76b9-4871-9217-d3f5b46de839');
+  A.equal(await page.locator('#nomad360-footer iframe.nomad-crypto-frame').count(),1,
+    'One always-present inline NOWPayments form');
   A.equal(await page.locator('#nomad360-footer .nomad-pay-bank summary').count(),1,
     'SWIFT data are in an accessible disclosure');
   A.equal(await page.locator('#nomad360-footer .nomad-russian-transfer summary').count(),1,

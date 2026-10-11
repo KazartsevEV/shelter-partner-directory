@@ -5,7 +5,7 @@
   const PAY = {
     kaspi: '+7 777 129 56 93', kaspiTel: 'tel:+77771295693',
     ozon: '+7 977 986 74 41', ozonTel: 'tel:+79779867441',
-    donate: 'https://donate.trybit.com/O8CSU052',
+    donationWidget: 'https://nowpayments.io/embeds/donation-widget?api_key=47aebf88-76b9-4871-9217-d3f5b46de839',
     bankName: 'Kazartsev Evgenii', bank: 'АО Kaspi Bank',
     swift: 'CASPKZKA', iban: 'KZ53722C000089313796',
     whatsapp: '+7 777 129 56 93', whatsappUrl: 'https://wa.me/77771295693',
@@ -31,7 +31,7 @@
       supportLead:'Калькулятор бесплатный. Поддержка добровольная и идёт на развитие калькулятора, AI-маркетолога и контент-фабрики.',
       kaspi:'Kaspi · Казахстан',ozon:'Ozon · Россия',
       cryptoDonate:'Поддержать Nomad360 криптовалютой',
-      cryptoDonateHint:'Откроется страница донатов Trybit в новой вкладке',
+      cryptoDonateHint:'Выберите криптовалюту и сумму в форме NOWPayments ниже',
       kaspiPhoneHint:'Перевод по номеру телефона для владельцев казахстанских карт',
       bankTransfer:'Реквизиты для международного банковского перевода',
       bankRecipient:'Получатель',bankName:'Банк',
@@ -58,7 +58,7 @@
          goal:'',slogan:'Покупайте то, что продается.'}
       ],
       dataTitle:'Данные и конфиденциальность',
-      dataCopy:'Расчёты выполняются в браузере. Финансовые данные остаются на вашем устройстве, черновики сохраняются в хранилище браузера, PDF формируется средствами браузера. Для удаления сохранённых данных очистите данные сайта. При загрузке используются Tailwind CDN и Google Fonts: они получают технические данные запроса, включая IP-адрес и сведения о браузере. Финансовые данные расчётов им не передаются.',
+      dataCopy:'Расчёты выполняются в браузере. Финансовые данные остаются на вашем устройстве, черновики сохраняются в хранилище браузера, PDF формируется средствами браузера. Для удаления сохранённых данных очистите данные сайта. При загрузке используются Tailwind CDN и Google Fonts: они получают технические данные запроса, включая IP-адрес и сведения о браузере. Финансовые данные расчётов им не передаются. При отображении формы пожертвования NOWPayments получает технические данные браузера; введённые в форму платёжные сведения обрабатывает NOWPayments.',
       licenseTitle:'Лицензия и использование',
       licenseCopy:'Использование, копирование, изменение и встраивание калькулятора разрешены при сохранении названия калькулятора и ссылки на оригинал согласно действующей лицензии.',
       licenseLink:'Читать лицензию',
@@ -93,7 +93,7 @@
       supportLead:'The calculator is free. Support is voluntary and funds the calculator, the AI Marketer and the Content Factory.',
       kaspi:'Kaspi · Kazakhstan',ozon:'Ozon · Russia',
       cryptoDonate:'Support Nomad360 with cryptocurrency',
-      cryptoDonateHint:'Opens the Trybit donation page in a new tab',
+      cryptoDonateHint:'Choose a cryptocurrency and amount in the NOWPayments form below',
       kaspiPhoneHint:'Transfer by phone number for holders of Kazakhstan-issued bank cards',
       bankTransfer:'International bank transfer details',
       bankRecipient:'Recipient',bankName:'Bank',
@@ -120,7 +120,7 @@
          goal:'',slogan:'Buy what sells.'}
       ],
       dataTitle:'Data and privacy',
-      dataCopy:'Calculations run in your browser. Financial data stays on your device; drafts are saved in browser storage and PDFs are created by the browser. Clear site data to remove saved calculations. The page loads Tailwind CDN and Google Fonts, which receive technical request data including IP address and browser information. Your financial calculations are not sent to these providers.',
+      dataCopy:'Calculations run in your browser. Financial data stays on your device; drafts are saved in browser storage and PDFs are created by the browser. Clear site data to remove saved calculations. The page loads Tailwind CDN and Google Fonts, which receive technical request data including IP address and browser information. Your financial calculations are not sent to these providers. The embedded NOWPayments donation form receives browser connection data and processes any payment details entered in the form.',
       licenseTitle:'License and usage',
       licenseCopy:'You may use, copy, modify and embed the calculator while preserving its name and a link to the original under the current license.',
       licenseLink:'Read license',
@@ -155,7 +155,7 @@
       supportLead:'Калькулятор тегін. Қолдау ерікті және калькуляторды, AI-маркетологты және контент фабрикасын дамытуға жұмсалады.',
       kaspi:'Kaspi · Қазақстан',ozon:'Ozon · Ресей',
       cryptoDonate:'Nomad360 жобасын криптовалютамен қолдау',
-      cryptoDonateHint:'Trybit донат парақшасы жаңа қойындыда ашылады',
+      cryptoDonateHint:'Төмендегі NOWPayments нысанында криптовалюта мен соманы таңдаңыз',
       kaspiPhoneHint:'Қазақстан банктерінің карталары үшін телефон нөмірі арқылы аударым',
       bankTransfer:'Халықаралық банк аударымына арналған деректемелер',
       bankRecipient:'Алушы',bankName:'Банк',
@@ -182,7 +182,7 @@
          goal:'',slogan:'Өтімді тауарды сатып алыңыз.'}
       ],
       dataTitle:'Деректер және құпиялық',
-      dataCopy:'Есептеулер браузеріңізде орындалады. Қаржылық деректер құрылғыңызда қалады, нобайлар браузерде сақталады, PDF браузер арқылы жасалады. Сақталған есептерді жою үшін сайт деректерін тазалаңыз. Бетті жүктегенде Tailwind CDN және Google Fonts техникалық сұрау деректерін, соның ішінде IP мекенжайы мен браузер мәліметтерін алады. Қаржылық есеп деректері оларға берілмейді.',
+      dataCopy:'Есептеулер браузеріңізде орындалады. Қаржылық деректер құрылғыңызда қалады, нобайлар браузерде сақталады, PDF браузер арқылы жасалады. Сақталған есептерді жою үшін сайт деректерін тазалаңыз. Бетті жүктегенде Tailwind CDN және Google Fonts техникалық сұрау деректерін, соның ішінде IP мекенжайы мен браузер мәліметтерін алады. Қаржылық есеп деректері оларға берілмейді. NOWPayments қайырымдылық нысаны браузердің техникалық деректерін алады және нысанға енгізілген төлем мәліметтерін өңдейді.',
       licenseTitle:'Лицензия және пайдалану',
       licenseCopy:'Қолданыстағы лицензия бойынша калькуляторды пайдалану, көшіру, өзгерту және енгізу кезінде оның атауын және түпнұсқаға сілтемені сақтау қажет.',
       licenseLink:'Лицензияны оқу',
@@ -227,13 +227,20 @@
       '<a href="https://www.threads.com/@nomad260393" target="_blank" rel="noopener noreferrer">Threads · @nomad260393</a>'+
       '</div><p class="nomad-topics">'+esc(t.contactTopics)+'</p></section>';
   }
-  // Donation checkout is hosted by Trybit: no API keys or payment code in this site.
+  // Official NOWPayments donation form, embedded directly in the footer.
+  // The hosted iframe owns transaction processing and donor inputs. This
+  // static site never reads or handles wallet credentials or card details.
   function payHostedCrypto(t) {
-    return '<div class="nomad-donate-checkout">'+
-      '<a class="nomad-donate-checkout-link" href="'+PAY.donate+'" target="_blank" rel="noopener noreferrer">'+
-      '<span class="nomad-donate-globe" aria-hidden="true">🌐</span>'+
-      '<span>'+esc(t.cryptoDonate)+'</span><span class="nomad-donate-external" aria-hidden="true">↗</span></a>'+
-      '<p class="nomad-pay-hint">'+esc(t.cryptoDonateHint)+'</p></div>';
+    return '<section class="nomad-crypto-panel" aria-labelledby="nomad-crypto-title">'+
+      '<div class="nomad-crypto-heading">'+
+      '<span class="nomad-crypto-kicker"><span aria-hidden="true">🌐</span> NOWPayments</span>'+
+      '<h3 id="nomad-crypto-title">'+esc(t.cryptoDonate)+'</h3>'+
+      '<p>'+esc(t.cryptoDonateHint)+'</p></div>'+
+      '<div class="nomad-crypto-embed">'+
+      '<iframe class="nomad-crypto-frame" title="'+esc(t.cryptoDonate)+'" '+
+      'src="'+PAY.donationWidget+'" width="346" height="690" loading="lazy" '+
+      'frameborder="0" scrolling="no" referrerpolicy="strict-origin-when-cross-origin">'+
+      '</iframe></div></section>';
   }
   function payFiat(t) {
     const bankLine=(label,value)=>

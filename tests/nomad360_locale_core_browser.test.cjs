@@ -96,8 +96,14 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     await page.waitForFunction(language=>document.documentElement.lang===language,expected);
     A.equal(await page.locator('#nomad-v1-money-locale-probe').getAttribute('data-nomad-display-number'),'1234.5');
     await page.evaluate(()=>showServiceWorkChooser());
-    await page.waitForFunction(code=>document.querySelector('#service-work-screen')?.textContent?.includes(code),
-      expected==='kk'?'Қызмет':expected==='en'?'Service':'Услуга');
+    await page.waitForFunction(()=>{
+      const screen=document.getElementById('service-work-screen');
+      const simple=document.getElementById('service-mode-simple');
+      const full=document.getElementById('service-mode-full');
+      return screen?.getClientRects().length>0&&simple?.getClientRects().length>0&&full?.getClientRects().length>0;
+    });
+    A.equal(await page.locator('#service-work-screen .nd-context-link').count(),0,
+      'Removed breadcrumb must never be a localization requirement');
     if(expected!=='ru'){
       for(const mode of ['self','hired','agent']){
         await page.evaluate(selected=>selectServiceMode(selected),mode);
