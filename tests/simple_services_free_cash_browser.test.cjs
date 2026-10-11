@@ -139,6 +139,10 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    });
   },selector);
   await page.evaluate(()=>{serviceFinancialMode='simple';showAgentChooser()});
+  // Assert final brand styling, not an in-between RGB transition frame.
+  // This test-only override leaves the application and production CSS intact.
+  await page.addStyleTag({content:
+    '#agent-screen button.nd-agent-percentage-cta{transition:none!important;animation:none!important}'});
   for(const width of [320,390,768]){
    await page.setViewportSize({width,height:844});
    await page.evaluate(()=>showAgentChooser());
