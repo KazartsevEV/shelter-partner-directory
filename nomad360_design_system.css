@@ -1431,12 +1431,12 @@ body #agent-complex-screen.nd-custom-screen .nd-agent-contact-link:focus-visible
 body #service-work-screen .nd-service-money-chooser{margin:0 0 24px}
 body #service-work-screen .nd-service-mode-choice{
   display:flex;flex-direction:column;align-items:flex-start;gap:8px;
-  min-width:0;padding:18px 20px;min-height:108px;
+  min-width:0;padding:18px 20px;min-height:128px;
   border:1px solid #16375a;background:#fff;color:#16375a;
   text-align:left;border-radius:var(--nd-radius);box-shadow:none
 }
 body #service-work-screen .nd-service-mode-choice b{
-  font:700 clamp(18px,3.6vw,22px)/1.25 var(--nd-font);color:inherit
+  font:700 clamp(24px,5vw,30px)/1.2 var(--nd-font);color:inherit
 }
 body #service-work-screen .nd-service-mode-choice small{
   color:inherit;font:500 14px/1.4 var(--nd-font)
