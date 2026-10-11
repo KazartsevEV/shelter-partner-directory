@@ -193,6 +193,10 @@ const {pathToFileURL}=require('node:url');
   A.equal(v2Native.source,'offline-service');
   A.equal(v2Native.full,true);
   A.equal(v2Native.priceFixed,true);
+  // Isolate the compatibility assertions below from this new V1→V2 import.
+  // Its persistent browser draft is deliberately retained and tested above.
+  await page.evaluate(()=>localStorage.removeItem('marketingCalcLinkedPortfolioV2'));
+  await page.reload({waitUntil:'domcontentloaded'});
   await page.evaluate(()=>showServiceWorkChooser());
   // Legacy full-service engine remains tested below for compatibility only,
   // never as the full offline customer route.
