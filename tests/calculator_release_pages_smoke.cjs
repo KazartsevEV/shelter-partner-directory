@@ -23,6 +23,7 @@ const files=[
  'nomad360_calculator_ui.css',
  'nomad360_design_system.css',
  'nomad360_navigation.js',
+ 'nomad360_header.js',
  'nomad360_locale_core.js'
 ];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
