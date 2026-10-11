@@ -120,7 +120,7 @@ const server=createServer(async(req,res)=>{
     'Host embeds the compact scrollable form');
   A.equal(await iframe.getAttribute('scrolling'),'auto',
     'Continue is reachable by scrolling inside the actual hosted iframe');
-  A.match(await support.locator('.nomad-crypto-scroll-cue').innerText(),/Continue/);
+  A.match(await support.locator('.nomad-crypto-scroll-cue').innerText(),/Листайте вниз/);
   await page.setViewportSize({width:390,height:844});
   const snapshotDir=path.resolve(ROOT,'artifacts/donation-footer');
   await fs.mkdir(snapshotDir,{recursive:true});
