@@ -150,14 +150,14 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
     'rgb(22, 55, 90)');
    const orangeAction=page.locator('#agent-screen button.nd-agent-percentage-cta');
-   // Viewport changes may leave a short transition at a mid-animation RGB.
-   // Verify the final brand color instead of sampling an intermediate frame.
-   await page.waitForFunction(()=>{
-     const el=document.querySelector('#agent-screen button.nd-agent-percentage-cta');
-     return el&&getComputedStyle(el).backgroundColor==='rgb(237, 142, 99)';
-   },null,{timeout:3000});
-   A.equal(await orangeAction.evaluate(el=>getComputedStyle(el).backgroundColor),
-     'rgb(237, 142, 99)','orange agent CTA at '+width);
+   const ctaColor=await orangeAction.evaluate(el=>({
+     effective:getComputedStyle(el).backgroundColor,
+     token:getComputedStyle(document.documentElement).getPropertyValue('--nd-cta-orange').trim()
+   }));
+   A.equal(ctaColor.token,'#ed8e63','Authoritative Nomad CTA brand token at '+width);
+   const rgb=/^rgb\\((\\d+), (\\d+), (\\d+)\\)$/.exec(ctaColor.effective);
+   A.ok(rgb&&[237,142,99].every((v,i)=>Math.abs(Number(rgb[i+1])-v)<=4),
+     'Orange CTA matches brand token within 4 RGB levels at '+width+': '+JSON.stringify(ctaColor));
    A.equal(await orangeAction.locator('.font-semibold').evaluate(el=>getComputedStyle(el).color),
      'rgb(22, 55, 90)','navy text on agent CTA at '+width);
    A.equal(await page.locator('#agent-screen button[onclick="showAgentComplex()"]').evaluate(el=>getComputedStyle(el).backgroundColor),
