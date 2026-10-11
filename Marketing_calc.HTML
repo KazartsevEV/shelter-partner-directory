@@ -5200,7 +5200,7 @@
                           'Завершите расчёт цены, срока оказания услуг, финансирования и налогов.';
                 }
             }
-            const servicePeriodSummary=simpleOfflineService||(
+            const servicePeriodSummary=(simpleOfflineService&&cashFlow.ready)||(
                 productPortfolio.length===1&&productPortfolio[0].source==='offline-service'&&
                 productPortfolio[0].serviceFinanceMode==='full'&&cashFlow.ready);
             const fullService=productPortfolio.length===1&&
