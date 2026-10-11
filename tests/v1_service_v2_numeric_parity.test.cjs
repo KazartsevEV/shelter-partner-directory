@@ -153,7 +153,13 @@ test('Canonical full V1→V2 numeric parity: 6 roles × own/credit × turnover/p
                 ['tax',vm.taxPaid,pm.taxAccrued],
                 ['interest',vm.interestPaid,cash.interest],
                 ['CAPEX',vm.capexPaid,cash.capex],
-                ['principal',vm.principalRepaid,cash.principalRepaid]
+                ['principal',vm.principalRepaid,cash.principalRepaid],
+                ['cumulative funded cash',vm.cumulative,cash.cumulative],
+                ['free funded cash',vm.freeCumulative,cash.freeCumulative],
+                // V1 names owner contributions as CF inflow; V2 places the
+                // identical contribution in a separate named cash column.
+                ['cash including owner contribution',vm.cashFlow,
+                  cash.cashFlow+(monthIndex===0?cash.ownerCapital:0)]
               ])A.ok(Number.isFinite(v1value)&&Number.isFinite(v2value)&&
                 Math.abs(v1value-v2value)<=EPS,
                 r.tag+m+' '+name+' V1='+v1value+' V2='+v2value);
@@ -214,6 +220,10 @@ test('Native V1→V2 long-credit maturity: six roles x profit/turnover x VAT',()
           A.ok(Math.abs(r.v1Monthly[0].interestPaid-r.v2Cash[0].interest)<.015,
             r.tag+' interest in first month');
           for(let i=0;i<5;i++){
+            A.ok(Math.abs(r.v1Monthly[i].cumulative-r.v2Cash[i].cumulative)<.015,
+              r.tag+' long-credit funded cumulative month '+(i+1));
+            A.ok(Math.abs(r.v1Monthly[i].freeCumulative-r.v2Cash[i].freeCumulative)<.015,
+              r.tag+' long-credit free cumulative month '+(i+1));
             A.ok(Math.abs((r.v1Monthly[i].inflow-r.v1Monthly[i].financedInflow)-
               r.v2Pnl[i].revenue)<.015,r.tag+' revenue month '+(i+1));
             A.ok(Math.abs(r.v1Monthly[i].taxPaid-r.v2Pnl[i].taxAccrued)<.015,
