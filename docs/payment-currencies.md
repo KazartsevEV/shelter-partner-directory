@@ -46,6 +46,10 @@ Missing payment metadata inherits the saved business currency,
 without changing the saved amount. V2 retains per-SKU metadata in its existing
 local draft. Inactive inventory payments remain preserved when switching sourcing
 modes, but do not block dropshipping.
+Every V2 save synchronizes applicable payment records from the current numeric
+fields before serialization. Editing an amount after selecting a foreign currency
+preserves that currency, updates the original amount and readiness status, and
+keeps an unconverted positive payment unresolved after draft restoration.
 
 The payment selector and new hints/statuses use explicit EN/RU/KK strings.
 Amount labels show the selected payment ISO; financial results retain the business

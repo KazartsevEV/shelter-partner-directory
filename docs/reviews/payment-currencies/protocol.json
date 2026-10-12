@@ -264,6 +264,37 @@
       "width": 320,
       "lang": "ru",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -1039,6 +1070,66 @@
       "width": 320,
       "lang": "ru",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -1814,6 +1905,66 @@
       "width": 320,
       "lang": "ru",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -2406,6 +2557,37 @@
       "width": 320,
       "lang": "en",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -3181,6 +3363,66 @@
       "width": 320,
       "lang": "en",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -3956,6 +4198,66 @@
       "width": 320,
       "lang": "en",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -4548,6 +4850,37 @@
       "width": 320,
       "lang": "kk",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -5323,6 +5656,66 @@
       "width": 320,
       "lang": "kk",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -6098,6 +6491,66 @@
       "width": 320,
       "lang": "kk",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -6690,6 +7143,37 @@
       "width": 360,
       "lang": "ru",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -7465,6 +7949,66 @@
       "width": 360,
       "lang": "ru",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -8240,6 +8784,66 @@
       "width": 360,
       "lang": "ru",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -8832,6 +9436,37 @@
       "width": 360,
       "lang": "en",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -9607,6 +10242,66 @@
       "width": 360,
       "lang": "en",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -10382,6 +11077,66 @@
       "width": 360,
       "lang": "en",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -10974,6 +11729,37 @@
       "width": 360,
       "lang": "kk",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -11749,6 +12535,66 @@
       "width": 360,
       "lang": "kk",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -12524,6 +13370,66 @@
       "width": 360,
       "lang": "kk",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -13116,6 +14022,37 @@
       "width": 390,
       "lang": "ru",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -13891,6 +14828,66 @@
       "width": 390,
       "lang": "ru",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -14666,6 +15663,66 @@
       "width": 390,
       "lang": "ru",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -15258,6 +16315,37 @@
       "width": 390,
       "lang": "en",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -16033,6 +17121,66 @@
       "width": 390,
       "lang": "en",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -16808,6 +17956,66 @@
       "width": 390,
       "lang": "en",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -17400,6 +18608,37 @@
       "width": 390,
       "lang": "kk",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -18175,6 +19414,66 @@
       "width": 390,
       "lang": "kk",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -18950,6 +20249,66 @@
       "width": 390,
       "lang": "kk",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -19542,6 +20901,37 @@
       "width": 430,
       "lang": "ru",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -20317,6 +21707,66 @@
       "width": 430,
       "lang": "ru",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -21092,6 +22542,66 @@
       "width": 430,
       "lang": "ru",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -21684,6 +23194,37 @@
       "width": 430,
       "lang": "en",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -22459,6 +24000,66 @@
       "width": 430,
       "lang": "en",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -23234,6 +24835,66 @@
       "width": 430,
       "lang": "en",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -23826,6 +25487,37 @@
       "width": 430,
       "lang": "kk",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -24601,6 +26293,66 @@
       "width": 430,
       "lang": "kk",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -25376,6 +27128,66 @@
       "width": 430,
       "lang": "kk",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -25968,6 +27780,37 @@
       "width": 768,
       "lang": "ru",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -26743,6 +28586,66 @@
       "width": 768,
       "lang": "ru",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -27518,6 +29421,66 @@
       "width": 768,
       "lang": "ru",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -28110,6 +30073,37 @@
       "width": 768,
       "lang": "en",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -28885,6 +30879,66 @@
       "width": 768,
       "lang": "en",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -29660,6 +31714,66 @@
       "width": 768,
       "lang": "en",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -30252,6 +32366,37 @@
       "width": 768,
       "lang": "kk",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -31027,6 +33172,66 @@
       "width": 768,
       "lang": "kk",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -31802,6 +34007,66 @@
       "width": 768,
       "lang": "kk",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -32394,6 +34659,37 @@
       "width": 1280,
       "lang": "ru",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -33169,6 +35465,66 @@
       "width": 1280,
       "lang": "ru",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -33944,6 +36300,66 @@
       "width": 1280,
       "lang": "ru",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -34536,6 +36952,37 @@
       "width": 1280,
       "lang": "en",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -35311,6 +37758,66 @@
       "width": 1280,
       "lang": "en",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -36086,6 +38593,66 @@
       "width": 1280,
       "lang": "en",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -36678,6 +39245,37 @@
       "width": 1280,
       "lang": "kk",
       "route": "v2-own",
+      "editedPayments": [
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -37453,6 +40051,66 @@
       "width": 1280,
       "lang": "kk",
       "route": "v2-resale",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "initialCashOut",
+          "before": 2000,
+          "edited": 2035,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 2035,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 2035,
+            "convertedAmount": 2035,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,
@@ -38228,6 +40886,66 @@
       "width": 1280,
       "lang": "kk",
       "route": "v2-dropship",
+      "editedPayments": [
+        {
+          "key": "unitCost",
+          "before": 20,
+          "edited": 35,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 35,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 35,
+            "convertedAmount": 35,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        },
+        {
+          "key": "fulfillmentPerOrder",
+          "before": 2,
+          "edited": 37,
+          "saved": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "restoredPayment": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "CNY",
+            "paymentAmount": 37,
+            "convertedAmount": null,
+            "status": "conversion-required"
+          },
+          "sameCurrency": {
+            "businessCurrency": "KZT",
+            "paymentCurrency": "KZT",
+            "paymentAmount": 37,
+            "convertedAmount": 37,
+            "status": "normalized"
+          },
+          "zero": true,
+          "empty": true,
+          "invalid": true
+        }
+      ],
       "normalizedParity": true,
       "restored": true,
       "legacy": true,

@@ -1,0 +1,14 @@
+AssertionError [ERR_ASSERTION]: V2_EDIT_AUTOSAVE resale/unitCost live metadata
++ actual - expected
+
+  {
+    businessCurrency: 'KZT',
+    convertedAmount: null,
++   paymentAmount: 20,
+-   paymentAmount: 35,
+    paymentCurrency: 'CNY',
+    status: 'conversion-required'
+  }
+
+    at checkDraft (/tmp/payment-rejected/tests/nomad360_payments_browser.test.cjs:207:9)
+    at async /tmp/payment-rejected/tests/nomad360_payments_browser.test.cjs:212:17
