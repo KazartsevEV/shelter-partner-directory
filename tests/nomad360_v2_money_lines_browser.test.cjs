@@ -39,6 +39,9 @@ async function inspect(page,route){return page.evaluate(route=>NomadMoneyLines.a
     A.ok(original.finance.ready);A.ok(actual.count>=8,'actual result values '+key);
     if(version==='fixed'){
      A.deepEqual(original,receipts['rejected-'+key].business,'same state and finance '+key);
+     A.deepEqual(actual.samples.map(v=>({text:v.text,fontSize:v.fontSize})),
+      receipts['rejected-'+key].actual.samples.map(v=>({text:v.text,fontSize:v.fontSize})),
+      'displayed amounts and font sizes are unchanged '+key);
      if(actual.failures.length)failures.push({key,phase:'actual',failures:actual.failures});
     }
     if([320,390,1280].includes(width)){
@@ -47,6 +50,9 @@ async function inspect(page,route){return page.evaluate(route=>NomadMoneyLines.a
      await page.screenshot({path:path.join(artifacts,version,key+'-results.png')});
      if(route==='linked'){
       await page.locator('#linked-results > .grid').last().evaluate(el=>el.scrollIntoView({block:'start'}));
+      await page.screenshot({path:path.join(artifacts,version,key+'-capital.png')});
+     }else{
+      await page.locator('#p2-results > .grid > div').nth(6).evaluate(el=>el.scrollIntoView({block:'start'}));
       await page.screenshot({path:path.join(artifacts,version,key+'-capital.png')});
      }
     }
