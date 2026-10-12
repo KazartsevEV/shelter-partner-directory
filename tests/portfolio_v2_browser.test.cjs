@@ -85,7 +85,7 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  // inputs and buttons within its card, even after extra SKU/resources are added.
  assert.equal(await page.locator('[data-p2-resource] [data-p2-path$=".kind"]').count(),0,
   'Resource kind is chosen using the section action, not a duplicated dropdown');
- assert.ok((await page.locator('[data-p2-resource="resource-4"]').textContent()).includes('Сертификат'));
+ assert.ok((await page.locator('[data-p2-resource]').nth(3).textContent()).includes('Сертификат'));
  for(const width of [320,390]){
   await page.setViewportSize({width,height:844});
   const violations=await page.locator('[data-p2-resource]').evaluateAll(cards=>cards.flatMap(card=>{
