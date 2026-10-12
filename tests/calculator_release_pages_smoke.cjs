@@ -9,6 +9,7 @@ const A=require('node:assert/strict');
 const base='https://kazartsevev.github.io/shelter-partner-directory/';
 const files=[
  'Marketing_calc.HTML',
+ 'nomad360_currency.js',
  'portfolio_v2_linked_engine.js',
  'portfolio_v2_temporal.js',
  'portfolio_v2_pooled_media.js',
@@ -87,3 +88,4 @@ async function verify(mode){
  process.exitCode=1;
 }
 verify(process.argv[2]||'--presence').catch(e=>{console.error('F4_PAGES_RED',e);process.exitCode=1});
+

@@ -47,7 +47,8 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    // Default inbound delivery remains the old 10% of unit purchase cost.
    assert.equal(purchase.materialsUnitCost,33);
    assert.equal(purchase.logisticsQty,15);
-   assert.equal(await page.locator('#resale-buy-unit').textContent(),'30,00 у.е.*');
+   assert.equal(await page.locator('#resale-buy-unit').textContent(),
+    '30,00 '+await page.evaluate(()=>Nomad360Currency.get()));
 
    // Dropshipping now has direct supplier and delivery fields, no production.
    await page.locator('#product-source-block [data-product-source="dropship"]').click();
@@ -165,3 +166,4 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    console.log('CLEAN_USER_JOURNEY_GREEN',JSON.stringify({firstVisit:'blank',ownName:'Моя первая футболка',resume:'PASS',draftSaved:true,twoSkuSaved:true,originalRestored:true,dropship:'explained',resale:'tested'}));
  }finally{await browser.close();}
 })().catch(e=>{console.error('CLEAN_USER_JOURNEY_RED',e.stack||e);process.exitCode=1});
+
