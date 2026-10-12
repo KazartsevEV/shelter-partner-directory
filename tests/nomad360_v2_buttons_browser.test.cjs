@@ -70,6 +70,19 @@ async function interactions(page,route,state,language,version,receipts){
   await page.locator('[data-p2-home]').click();A.equal(await page.locator('#portfolio-v2-screen').isVisible(),false);
   await page.evaluate(()=>PortfolioV2UI.open({resume:true}));await record('home and resume');
  }else{
+  const exportState=await business(page,route);
+  await page.locator('[data-nomad-price-toggle]').click();
+  A.equal(await page.locator('#nomad360-price-preview').isVisible(),true);
+  if(version==='after')A.deepEqual((await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root')))).failures,[],'opened preview actions');
+  await page.evaluate(()=>{window.__buttonPrintCalls=0;window.print=()=>window.__buttonPrintCalls++;});
+  for(const mode of ['price','report']){
+   await page.locator('[data-nomad-export=\"'+mode+'\"]').click();
+   const sheet=await page.locator('#nomad360-print-sheet').evaluate(el=>({mode:el.dataset.mode,html:el.innerHTML}));
+   A.equal(sheet.mode,mode);A.ok(sheet.html.length>100);trace.push({action:'print '+mode,...sheet});
+  }
+  A.equal(await page.evaluate(()=>window.__buttonPrintCalls),2);
+  await page.locator('[data-nomad-hide-price]').click();A.equal(await page.locator('#nomad360-price-preview').isVisible(),false);
+  A.deepEqual(await business(page,route),exportState,'existing price/PDF controls do not change the business model');await record('price preview and PDF');
   await press('[data-linked-add]','Enter');A.equal((await business(page,route)).state.resources.length,state.resources.length+1);await record('add resource');
   await page.locator('[data-linked-delete]').last().click();A.equal((await business(page,route)).state.resources.length,state.resources.length);await record('remove resource');
   await page.locator('[data-basket-action="add"]').click();await record('add offer');

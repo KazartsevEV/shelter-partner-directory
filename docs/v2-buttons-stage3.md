@@ -10,9 +10,10 @@ No labels, actions, navigation, handlers, state, formulas or storage contracts
 change. V1, home, header/footer and full-service V1 remain protected.
 
 Orange `#ED8E63` with navy `#16375A` text: save calculation/portfolio and approve
-an observed scenario into the forecast. Blue `#31577C` with white text: add SKU,
-resource, offer or offer item. Outlines: back/home, new portfolio, remove and
-template downloads. Light cards use navy outlines; dark cards use white outlines.
+an observed scenario into the forecast, generate price preview and print its PDF. Blue `#31577C` with white text: add SKU,
+resource, offer or offer item and export the business PDF. Outlines: back/home, new portfolio, remove and
+template downloads and hide price preview. Existing export controls are styled through
+scoped data selectors; the shared export module remains unchanged. Light cards use navy outlines; dark cards use white outlines.
 The native file chooser button uses the secondary blue palette.
 
 Actions have 44 px minimum tap area, wrapped labels, modest radius, explicit
@@ -32,7 +33,7 @@ removing class attributes. Seven cases run without optional utility CSS.
 A separate test checks 36 hover/active/focus cases across the same six widths,
 all three languages and both routes. Six before/after interaction traces exercise
 save, add/remove, new portfolio, back/resume, template downloads, file upload,
-manual-overlap gating, forecast approval and disabled actions. Enter and Space
+manual-overlap gating, forecast approval, price preview/PDF and disabled actions. Enter and Space
 exercise native keyboard activation. Compare state and financial results after
 every action against the baseline. Screenshots and JSON are uploaded to CI.
 

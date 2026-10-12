@@ -1,9 +1,9 @@
 'use strict';
 (function(root){
  function role(el){
-  if(el.matches('[data-p2-save],[data-linked-save],[data-mba-transfer]'))return 'primary';
-  if(el.matches('[data-p2-add-sku],[data-p2-add-resource],[data-linked-add],[data-basket-action="add"],[data-basket-action="add-item"]'))return 'secondary';
-  if(el.matches('[data-p2-home],[data-p2-new],[data-p2-remove-sku],[data-p2-delete-resource],[data-linked-back],[data-linked-delete],[data-linked-delete-sku],[data-basket-action="remove"],[data-basket-action="remove-item"],[data-mba-clear],[data-mba-download]'))return 'outline';
+  if(el.matches('[data-p2-save],[data-linked-save],[data-mba-transfer],[data-nomad-price-toggle],[data-nomad-export="price"]'))return 'primary';
+  if(el.matches('[data-p2-add-sku],[data-p2-add-resource],[data-linked-add],[data-basket-action="add"],[data-basket-action="add-item"],[data-nomad-export="report"]'))return 'secondary';
+  if(el.matches('[data-p2-home],[data-p2-new],[data-p2-remove-sku],[data-p2-delete-resource],[data-linked-back],[data-linked-delete],[data-linked-delete-sku],[data-basket-action="remove"],[data-basket-action="remove-item"],[data-mba-clear],[data-mba-download],[data-nomad-hide-price]'))return 'outline';
   return null;
  }
  function audit(scope){
