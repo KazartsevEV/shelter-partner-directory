@@ -25,7 +25,14 @@ async function geometry(page){
    if(r.right>parent.right+1)bad.push('control overflow '+JSON.stringify({field:el.closest('[data-payment-field]')?.dataset.paymentField,path:el.closest('[data-payment-path]')?.dataset.paymentPath,selector:[r.x,r.width],controls:[parent.x,parent.width]}));
   }
   return bad;
- });A.deepEqual(issues,[]);
+ });
+ if(issues.length){
+  const debug=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(el=>el.getClientRects().length&&!el.closest('[hidden],.hidden')&&el.getBoundingClientRect().right>innerWidth+1).slice(-35).map(el=>({tag:el.tagName,id:el.id,class:el.className,text:el.textContent?.slice(0,65),x:el.getBoundingClientRect().x,width:el.getBoundingClientRect().width,display:getComputedStyle(el).display,whiteSpace:getComputedStyle(el).whiteSpace})));
+  console.error('PAYMENT_GEOMETRY',JSON.stringify(debug));
+  fs.writeFileSync(path.join(art,'geometry-failure.json'),JSON.stringify({issues,debug},null,2));
+  await page.screenshot({path:path.join(art,'geometry-failure.png'),fullPage:true});
+ }
+ A.deepEqual(issues,[]);
 }
 async function screenshot(page,selector,name){await page.locator(selector).screenshot({path:path.join(art,name+'.png')});}
 (async()=>{
@@ -45,6 +52,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
   const choice=async(group,value)=>page.locator('[data-yn-group="'+group+'"][data-yn-value="'+value+'"]').click();
   const select=id=>page.locator('[data-payment-field="'+id+'"] [data-payment-currency]');
   for(const source of ['own','resale','dropship','materials']){
+   console.log('PAYMENT_CASE',width,lang,source);
    await goto();await page.locator('#business-currency').selectOption('KZT');
    await page.locator('#start-own-product').click();
    await fill('product-name-input','Валютный товар / Тауар');await page.locator('#product-intro-submit-label').click();
@@ -70,6 +78,8 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    A.equal(payments[actual].paymentAmount,1000);A.equal(payments[actual].convertedAmount,null);
    A.equal(await page.evaluate(()=>calculateProductPortfolio().pricingReady),false);
    A.equal(await page.evaluate(()=>calculateProductPortfolio().paymentPending),true);
+   A.equal(await page.evaluate(()=>aggregatePlanMetrics(productPortfolio[0]).requiredCapital),null);
+   A.equal(await page.evaluate(()=>calculateAggregateCredit(productPortfolio[0]).principal),null);
    A.equal(await page.evaluate(()=>openLinkedPortfolioFromProducts()),false);
    await geometry(page);await screenshot(page,'#product-materials-block',`${width}-${lang}-v1-${source}`);
    const rawBefore=JSON.stringify(saved);

@@ -3533,6 +3533,14 @@
             };
         }
         function aggregatePlanMetrics(item) {
+            if(Object.values(item?.payments||{}).some(p=>p.status==='invalid'||p.status==='conversion-required')){
+                return {paymentPending:true,quantityIssues:[],requiredCapital:null,baseRequiredCapital:null,
+                    reservePct:Math.max(0,Number(item?.planning?.reservePct)||0),reserveAmount:null,
+                    totalCycleDays:null,waitAfterAdvanceDays:null,productionDays:null,sellThroughDays:null,
+                    salesSpeedPerMonth:null,advanceAmount:null,zeroMarginRevenue:null,zeroMarginUnitPrice:null,
+                    nonRevenueCosts:null,variableSalesRate:null,stockQty:null,productionTotal:null,
+                    warehouseTotal:null,salesTotal:null,adTotal:null,customerDeliveryTotal:null};
+            }
             if(item?.source==='offline-service')return offlineServiceCycleMetrics(item);
             if(item?.source==='dropship')return dropshipCycleMetrics(item);
             const planning = item?.planning || {};

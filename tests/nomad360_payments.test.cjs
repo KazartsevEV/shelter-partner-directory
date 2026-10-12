@@ -39,3 +39,15 @@ test('selectors follow economic meaning and do not attach to aggregate/domestic 
  A.deepEqual(P.fields({source:'dropship'}),['unitCost','fulfillmentPerOrder']);
  A.deepEqual(P.fields({source:'offline-service'}),[]);
 });
+test('real V1 capital and credit functions reject an unconverted payment before running financial formulas',()=>{
+ const html=require('node:fs').readFileSync(require('node:path').join(__dirname,'..','Marketing_calc.HTML'),'utf8');
+ const source=html.slice(html.indexOf('function aggregatePlanMetrics(item) {'),html.indexOf('function calculateProductPortfolio() {'));
+ const calculate=new Function('item',source+';return aggregatePlanMetrics(item);');
+ for(const source of ['own','resale','dropship','offline-service']){
+  const item={source,planning:{reservePct:10,creditRatePct:12,creditTermMonths:6},payments:{purchase:P.record(1000,'CNY','USD',valid)}};
+  const out=calculate(item);A.equal(out.paymentPending,true);A.equal(out.requiredCapital,null);A.equal(out.advanceAmount,null);
+  const creditSource=html.slice(html.indexOf('function calculateAggregateCredit(item) {'),html.indexOf('function updateAggregateCredit(item) {'));
+  const credit=new Function('item','aggregatePlanMetrics',creditSource+';return calculateAggregateCredit(item);')(item,calculate);
+  A.equal(credit.principal,null);A.equal(credit.monthlyServiceCost,null);A.equal(credit.totalRepayment,null);
+ }
+});
