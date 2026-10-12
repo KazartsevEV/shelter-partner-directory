@@ -2189,3 +2189,31 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 @media(min-width:1280px){
   #portfolio-v2-root .nd-v2-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* Financial figures are atomic. Labels may wrap; digits and their decimal
+   parts must stay together and fit the card without reducing the font. */
+#portfolio-v2-root .nd-v2-number-value{
+  white-space:nowrap;
+  overflow-wrap:normal;
+  word-break:normal;
+}
+#portfolio-v2-root .nd-v2-financial-grid,
+#portfolio-v2-root .nd-v2-period-grid,
+#portfolio-v2-root .nd-v2-capital-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  min-width:0;
+}
+#portfolio-v2-root .nd-v2-financial-cell{min-width:0}
+@media(min-width:640px){
+  #portfolio-v2-root .nd-v2-financial-grid,
+  #portfolio-v2-root .nd-v2-period-grid,
+  #portfolio-v2-root .nd-v2-capital-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(min-width:768px){
+  #portfolio-v2-root .nd-v2-capital-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(min-width:1024px){
+  #portfolio-v2-root .nd-v2-financial-grid,
+  #portfolio-v2-root .nd-v2-period-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}

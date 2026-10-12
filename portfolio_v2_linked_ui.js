@@ -429,7 +429,7 @@ function updateResult(){
   '<p class="text-xs text-slate-200 mt-2">'+
   (fullServicePresent?fullWords.note:
    'Цена каждого SKU рассчитана по фактической марже за выбранный период, включая долю рекламы, расходов, проценты и налоги. Все цены в пределах V1. Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки выше показывают первый месяц V1, а не сумму всего периода.')+'</p>'+
-  '<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">'+
+  '<div class="nd-v2-period-grid grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">'+
   [['Выручка без НДС',money(period.revenue)],['EBITDA',money(period.ebitda)],
    ['Налог начислен',money(period.taxAccrued)],['Чистая прибыль',money(period.netProfit)],
    ['Маржа за период',period.netMargin===null?'не определена':money(period.netMargin)+'%'],
@@ -437,7 +437,7 @@ function updateResult(){
    ['Проценты после горизонта',money(period.postHorizonInterest)],
    ...(fullServicePresent?[[fullWords.capex,money(cf.capitalExpenditure)],
     [fullWords.debt,money(cf.outstandingPrincipal)]]:[])].map(([label,value])=>
-    '<div class="bg-white/10 p-2 rounded text-xs">'+safe(label)+': <b>'+safe(value)+'</b></div>').join('')+'</div>'+
+    '<div class="nd-v2-financial-cell bg-white/10 p-2 rounded text-xs">'+safe(label)+': <b class="nd-v2-number-value">'+safe(value)+'</b></div>').join('')+'</div>'+
   '<div class="overflow-x-auto mt-3"><table class="w-full min-w-[750px] text-xs"><thead><tr>'+
   ['Месяц','Выручка','Себестоимость','Реклама','Общие расходы','Фикс. услуги','EBITDA',
    'Амортизация','Проценты','Налог начислен','Прибыль'].map(s=>
@@ -513,9 +513,9 @@ function updateResult(){
   '</tbody></table></div>';
  el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+
  '<p class="text-xs text-slate-200 mt-2">Карточки: месячные показатели модели V2. Денежная таблица ниже: продажи и платежи за весь рассчитанный период.</p>'+
- '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
-  '<div class="rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
-  '<div class="text-xl font-black" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</div></div>').join('')+'</div>'+
+ '<div class="nd-v2-financial-grid grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
+  '<div class="nd-v2-financial-cell rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
+  '<div class="nd-v2-number-value text-xl font-black" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</div></div>').join('')+'</div>'+
  (period?.accountingCompleteness==='PROVISIONAL'?
    '<p class="text-amber-200 text-sm mt-3">ПРЕДВАРИТЕЛЬНЫЙ РАСЧЁТ. Разовые расходы или активы без подтверждённой амортизации: целевая маржа за весь период НЕ подтверждена, даже если численная оценка выше цели.</p>':
   t.targetMet?'<p class="text-emerald-200 text-sm mt-3">'+(period?'Целевая маржа подтверждена по фактическому плану всего периода.':'Целевая маржа достигнута для всех позиций.')+'</p>':
@@ -535,11 +535,11 @@ function updateResult(){
    '<span>Более длинный прогноз возможен, когда в V1 подтверждён срок продаж или вы отдельно утвердили сценарий.</span>')+
  ' <span>Месяцев в денежном календаре:</span> <strong>'+safe(cf.months.length)+'</strong>.'+
  '</p>'+
- '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
+ '<div class="nd-v2-capital-grid grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">'+
  [['Всего капитал',t.startupCapital],['Собственные деньги',cf.ownerCapital],['Кредит',cf.borrowedCapital],
   ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]
- .map(([label,value])=>'<div class="bg-white/10 rounded-lg p-3"><div class="text-xs">'+label+'</div>'+
-  '<b class="text-lg" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
+ .map(([label,value])=>'<div class="nd-v2-financial-cell bg-white/10 rounded-lg p-3"><div class="text-xs">'+label+'</div>'+
+  '<b class="nd-v2-number-value text-lg" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
  '<p class="nd-v2-description mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
  'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+

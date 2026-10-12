@@ -251,13 +251,13 @@ function updateResult(){
  money(v.amount)+'</td><td class="p-2">'+(v.cadence==='once'?'раз':'месяц')+'</td><td class="p-2">'+
  Object.entries(v.bySku).map(([id,amount])=>safe(r.items.find(s=>s.id===id)?.name||id)+': '+money(amount)).join('; ')+'</td></tr>').join('');
  el.innerHTML=intro+
- '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+
+ '<div class="nd-v2-financial-grid grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+
  [['Чистая прибыль · базовый месяц',r.netProfit],['Рентабельность товара (взвешенная), %',r.weightedMarginPct],
  ['Деньги на запуск',r.financing.principal],['Резерв',r.financing.reserve],
  ['ROAS бизнеса',r.totalROAS],['EBITDA · базовый месяц',r.businessEBITDA],
  ['Накопленный CF',r.finalCash],['ЖИВЫЕ ДЕНЬГИ',r.freeCash]]
- .map(([t,v],i)=>'<div class="rounded-xl '+(i===7?'bg-emerald-200 text-emerald-950':'bg-white/15 text-white')+
- ' p-3"><div class="text-xs">'+safe(t)+'</div><div class="text-xl font-black mt-1">'+
+ .map(([t,v],i)=>'<div class="nd-v2-financial-cell rounded-xl '+(i===7?'bg-emerald-200 text-emerald-950':'bg-white/15 text-white')+
+ ' p-3"><div class="text-xs">'+safe(t)+'</div><div class="nd-v2-number-value text-xl font-black mt-1">'+
  (i===1?pct(v):i===4?money(v)+'×':money(v))+'</div></div>').join('')+'</div>'+
  '<p class="text-xs text-emerald-50 mt-3">Цена без НДС рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.</p>'+
  '<h3 class="font-bold mt-5">Портфель: цены, доли и нагрузка</h3>'+

@@ -225,7 +225,7 @@ async function assertColors(page,route){
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const receipts={},baseline=stage===1?JSON.parse(fs.readFileSync(path.join(artifacts,'before','receipts.json'),'utf8')):null;
- const contrastFailures=[],layoutFailures=[];
+ const contrastFailures=[],layoutFailures=[],numericFailures=[];
  try{
   for(const route of ['standalone','linked'])for(const condition of layout===2?(route==='standalone'?['ready','unready','credit','dropship']:['ready','unready','history','unmapped','full-service']):['ready','unready'])
   for(const language of languages)for(const width of widths){
@@ -241,12 +241,15 @@ async function assertColors(page,route){
    A.equal(initial.finance.ready,condition!=='unready',key+': '+JSON.stringify(initial.finance.errors));
    if(layout===2){
     await page.addScriptTag({path:path.join(__dirname,'helpers/v2-layout.cjs')});
+    await page.addScriptTag({path:path.join(__dirname,'helpers/v2-money-lines.cjs')});
     await prepareForms(page);
    }
    const snapshot=JSON.parse(JSON.stringify(await page.evaluate(visibleSnapshot)));
    const contrast=await page.evaluate(()=>NomadContrast.audit(document.getElementById('portfolio-v2-root')));
    const geometry=layout===2?await page.evaluate(()=>NomadLayout.audit(document.getElementById('portfolio-v2-root'))):null;
-   receipts[key]={...initial,...snapshot,contrast,...(geometry?{geometry}: {})};
+   const numbers=layout===2?await page.evaluate(route=>NomadMoneyLines.audit(
+    document.getElementById(route==='standalone'?'p2-results':'linked-results')),route):null;
+   receipts[key]={...initial,...snapshot,contrast,...(geometry?{geometry,numbers}: {})};
    if(stage===1){
     const before=baseline[key];
     A.deepEqual(initial.state,before.state,'saved business state '+key);
@@ -267,6 +270,10 @@ async function assertColors(page,route){
      if(geometry.failures.length){
       layoutFailures.push({key,failures:geometry.failures});
       console.log('LAYOUT_FAILURE '+key+' '+JSON.stringify(geometry.failures.slice(0,10)));
+     }
+     if(numbers.failures.length){
+      numericFailures.push({key,failures:numbers.failures});
+      console.log('NUMERIC_LINE_FAILURE '+key+' '+JSON.stringify(numbers.failures.slice(0,8)));
      }
     }
     A.ok(snapshot.metrics.scroll<=Math.max(width,before.metrics.scroll),'no new document overflow '+key);
@@ -314,6 +321,7 @@ async function assertColors(page,route){
   }
   fs.writeFileSync(path.join(artifacts,name,'receipts.json'),JSON.stringify(receipts,null,2));
   A.deepEqual(layoutFailures,[],'no clipped labels, field/checkbox overlap or unreadable selections');
+  A.deepEqual(numericFailures,[],'result values are one line and fit their cards');
   if(layout===2&&stage===1){
    A.ok(baseline['standalone-ready-ru-320'].geometry.failures.length>0,'baseline reproduces standalone mobile defects');
    A.ok(baseline['linked-ready-ru-320'].geometry.failures.length>0,'baseline reproduces linked mobile defects');
