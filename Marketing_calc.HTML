@@ -7458,7 +7458,11 @@
             if (productOwnChoices.inboundIncluded !== 'no') return;
             const input = document.getElementById('own-inbound-delivery-cost');
             if (!input) return;
-            input.value = (materialsCostWithVat() * 0.10).toFixed(2);
+            const normalizedMaterials=materialsCostWithVat();
+            // An unconverted quote cannot provide a delivery default. Keep the
+            // previous delivery amount while the supplier payment is pending.
+            if(!Number.isFinite(normalizedMaterials))return;
+            input.value = (normalizedMaterials * 0.10).toFixed(2);
         }
 
         function markInboundDeliveryManual() {

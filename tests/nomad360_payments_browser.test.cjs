@@ -84,6 +84,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    A.match(await selector.locator('option[value="CNY"]').textContent(),/🇨🇳 CNY/);
    A.equal(await page.evaluate(()=>saveProductCalculationToBrowser()),true);
    let saved=await page.evaluate(()=>readSavedProductCalculation());
+   if(source!=='dropship')A.equal(saved.productPortfolio[0].inputs['own-inbound-delivery-cost'],'150');
    const payments=saved.productPortfolio[0].payments;
    A.equal(payments[actual].businessCurrency,'KZT');A.equal(payments[actual].paymentCurrency,'CNY');
    A.equal(payments[actual].paymentAmount,1000);A.equal(payments[actual].convertedAmount,null);
@@ -104,6 +105,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    await goto('?resume=1');
    const recovered=source==='materials'?page.locator('#own-material-rows [data-payment-currency]').first():select(actual);
    A.equal(await recovered.inputValue(),'CNY');A.equal(await amount.inputValue(),'1000');
+   if(source!=='dropship')console.log('PAYMENT_DELIVERY_RESTORED',source,await page.evaluate(()=>({input:document.getElementById('own-inbound-delivery-cost').value,manual:productOwnInboundDeliveryManual,saved:readSavedProductCalculation().productPortfolio[0].inputs['own-inbound-delivery-cost']})));
    // Choosing the model's currency makes the same original amount normalizable.
    await recovered.selectOption('KZT');await page.evaluate(()=>saveProductCalculationToBrowser());
    if(source!=='dropship')A.equal(await page.locator('#own-inbound-delivery-cost').inputValue(),'150');
@@ -142,7 +144,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    // International amounts only: percentage insurance and domestic payroll lack selectors.
    A.equal(await page.locator('#own-cargo-insurance-cost').locator('..').locator('[data-payment-currency]').count(),0);
    A.equal(await page.locator('#own-production-worker-gross').locator('..').locator('[data-payment-currency]').count(),0);
-   protocol.push({width,lang,route:'v1-'+source,original:1000,currency:'CNY',normalized:null,restored:true,legacy:true,overflow:false});
+   protocol.push({width,lang,route:'v1-'+source,original:1000,currency:'CNY',normalized:null,restored:true,legacy:true,overflow:false,paymentsBeforeResume:payments});
   }
   // Independent delivery and import payments use their own currencies.
   await choice('inboundIncluded','no');await fill('own-inbound-delivery-cost',200);
@@ -193,7 +195,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    const old=await page.evaluate(()=>PortfolioV2UI.getState());delete old.skus[0].payments;delete old.businessCurrency;
    await page.evaluate(old=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(old));openPortfolioV2(true);},old);
    A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(baseline));
-   protocol.push({width,lang,route:'v2-'+source,normalizedParity:true,restored:true,legacy:true,overflow:false});
+   protocol.push({width,lang,route:'v2-'+source,normalizedParity:true,restored:true,legacy:true,overflow:false,baseline:financial(baseline),after:financial(restored)});
   }
   const f=fixture();await page.evaluate(m=>{localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify({...m,version:3,source:'v1-calculated',currency:'KZT'}));LinkedPortfolioV2UI.resume();},f);
   const linked=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
