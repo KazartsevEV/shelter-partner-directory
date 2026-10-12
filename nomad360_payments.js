@@ -30,6 +30,7 @@
    status:!currencyValid||(!empty&&!numeric)?'invalid':empty?'empty':normalized?'normalized':'conversion-required'};
  }
  function apply(amount,paymentCurrency,businessCurrency,valid,quote){
+  if((quote.base!==undefined&&quote.base!==paymentCurrency)||(quote.quote!==undefined&&quote.quote!==businessCurrency))throw Error('Currency pair mismatch');
   const conversion={base:paymentCurrency,quote:businessCurrency,appliedAmount:Number(amount),
    rate:Number(quote.rate),date:quote.date,source:quote.source,sourceLabel:String(quote.sourceLabel||'').trim()};
   const p=record(amount,paymentCurrency,businessCurrency,valid,{conversion});

@@ -19,7 +19,7 @@ test('editing amount, currency or business currency requires a fresh explicit ap
  A.equal(P.record(20,'USD','USD',valid,p).convertedAmount,20);
 });
 test('unconfirmed, malformed and overflowing rates cannot unblock the financial model',()=>{
- for(const change of [{rate:0},{rate:-1},{rate:NaN},{rate:Infinity},{rate:1e308},{date:''},{date:'2026-02-30'},{date:'2999-01-01'},{source:'google'},{sourceLabel:''}])A.throws(()=>P.apply(20,'CNY','USD',valid,{...quote,...change}));
+ for(const change of [{base:'USD',quote:'CNY'},{quote:'KZT'},{rate:0},{rate:-1},{rate:NaN},{rate:Infinity},{rate:1e308},{date:''},{date:'2026-02-30'},{date:'2999-01-01'},{source:'google'},{sourceLabel:''}])A.throws(()=>P.apply(20,'CNY','USD',valid,{...quote,...change}));
  const p=P.apply(20,'CNY','USD',valid,quote);p.convertedAmount=999;
  A.equal(P.record(20,'CNY','USD',valid,p).convertedAmount,40);
  p.conversion.quote='EUR';A.equal(P.record(20,'CNY','USD',valid,p).status,'conversion-required');
