@@ -101,12 +101,12 @@ async function assertColors(page,route){
    const context=await browser.newContext({locale:language==='kk'?'kk-KZ':language==='en'?'en-US':'ru-RU',viewport:{width,height:900}});
    const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
    await page.route(/^https?:\/\//,r=>r.abort());
-   await page.addInitScript(language=>localStorage.setItem('nomad360PreferredLanguage',language),language);
    await page.goto(pathToFileURL(path.join(directory,'Marketing_calc.HTML')).href,{waitUntil:'domcontentloaded'});
+   await page.evaluate(language=>Nomad360UI.setLanguage(language),language);
    await page.addStyleTag({path:utilities});
-   const initial=await seed(page,route,condition);
+   const initial=JSON.parse(JSON.stringify(await seed(page,route,condition)));
    A.equal(initial.finance.ready,condition==='ready',key+': '+JSON.stringify(initial.finance.errors));
-   const snapshot=await page.evaluate(visibleSnapshot);
+   const snapshot=JSON.parse(JSON.stringify(await page.evaluate(visibleSnapshot)));
    receipts[key]={...initial,...snapshot};
    if(stage===1){
     const before=baseline[key];
