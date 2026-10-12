@@ -81,7 +81,7 @@ function stageResources(which,label,help,kind){
  selected.map(({r,i})=>resourceCard(r,i)).join('')+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4" data-p2-resource-actions>'+Object.entries(labels)
  .filter(([resourceKind])=>stage[resourceKind]===which)
- .map(([resourceKind,resourceLabel])=>'<button type="button" data-p2-add-resource="'+safe(resourceKind)+'" class="rounded-lg border border-blue-300 bg-blue-50 text-blue-800 p-3 font-semibold">+ '+safe(resourceLabel)+'</button>').join('')+
+ .map(([resourceKind,resourceLabel])=>'<button type="button" data-p2-add-resource="'+safe(resourceKind)+'" class="rounded-lg border border-blue-300 bg-blue-50 text-blue-800 p-3 font-semibold"><span aria-hidden="true">+ </span><span>'+safe(resourceLabel)+'</span></button>').join('')+
  '</div>','p2-stage-'+which);
 }
 function skuCard(s,i) {
@@ -229,8 +229,8 @@ function updateResult(){
    // The detailed reason now appears alongside the actual input. This summary
    // does not repeat the error out of sight at the end of a long form.
    el.innerHTML=intro+'<p class="nd-v2-unready rounded-xl bg-white p-4 mt-4 text-sm">'+
-     'Расчёт появится после заполнения обязательных полей. '+
-     (out.errors.length?'Требуют внимания: '+out.errors.length+'.':'')+'</p>';
+     'Исправьте поля, выделенные красным, рядом с местом ввода. '+
+     (out.errors.length?'Проверок осталось: '+out.errors.length+'.':'')+'</p>';
    return;
  }
  const r=out;
