@@ -9,7 +9,6 @@ const A=require('node:assert/strict');
 const base='https://kazartsevev.github.io/shelter-partner-directory/';
 const files=[
  'Marketing_calc.HTML',
- 'nomad360_currency.js',
  'portfolio_v2_linked_engine.js',
  'portfolio_v2_temporal.js',
  'portfolio_v2_pooled_media.js',
@@ -27,6 +26,11 @@ const files=[
  'nomad360_header.js',
  'nomad360_locale_core.js'
 ];
+// A newly introduced asset cannot be present on production before its PR is
+// merged. Check it locally on PRs and byte-for-byte on post-merge deployments.
+A.ok(fs.existsSync(path.join(__dirname,'..','nomad360_currency.js')),
+ 'Calculation currency module must be shipped with the HTML');
+if(!process.argv.includes('--presence'))files.push('nomad360_currency.js');
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function fetchFile(url,redirects=0){
