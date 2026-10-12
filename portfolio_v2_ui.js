@@ -54,9 +54,12 @@ function resourceCard(r,index){
  '<div class="flex items-start justify-between gap-3"><strong class="text-slate-900">'+safe(r.label||labels[r.kind]||'Ресурс')+'</strong>'+
  '<button type="button" data-p2-delete-resource="'+safe(r.id)+'" class="text-xs text-rose-700 underline">Удалить</button></div>'+
  '<div class="grid grid-cols-2 gap-2 mt-3">'+
- selField('Тип ресурса','resources.'+index+'.kind',r.kind,Object.entries(labels))+
- numberField(r.kind==='campaign'?'Дополнительный рекламный бюджет, /мес.':'Сумма, у.е.','resources.'+index+'.amount',r.amount)+
- selField('Платёж','resources.'+index+'.cadence',r.cadence,[['monthly','Ежемесячно'],['once','Один раз']])+
+ numberField(r.kind==='campaign'?'Дополнительный рекламный бюджет / месяц':
+ (r.kind==='salesStaff'||r.kind==='workers')?'Полный ФОТ (gross + взносы работодателя), у.е.':
+ 'Сумма, у.е.','resources.'+index+'.amount',r.amount,
+ (r.kind==='salesStaff'||r.kind==='workers')?'Полный расход работодателя на команду: gross-зарплата до удержаний плюс взносы работодателя. Налоги и взносы автоматически не начисляются.':'')+
+ (r.kind==='campaign'?'<div class="text-sm font-semibold">Платёж: ежемесячно</div>':
+ selField('Платёж','resources.'+index+'.cadence',r.cadence,[['monthly','Ежемесячно'],['once','Один раз']]))+
  (r.kind==='campaign'?'<div class="col-span-2 text-xs rounded-lg bg-white p-3 text-blue-900">Рекламный бюджет распределяется строго по денежной доле выручки товаров, входящих в кампанию.</div>':
  selField('Как распределить по товарам','resources.'+index+'.allocation',r.allocation,[['revenue','По денежной выручке'],['usage','По фактической загрузке']]))+
  '</div>'+
@@ -68,7 +71,7 @@ function resourceCard(r,index){
  (r.kind==='certification'?'<div class="mt-3 grid grid-cols-2 gap-2">'+
  '<label class="block col-span-2"><span class="block text-xs font-bold mb-1">Страна, тип продукта и область сертификата</span><input class="input-field w-full" data-p2-path="resources.'+index+'.validFor" value="'+safe(r.validFor||'')+'" placeholder="Укажите точный охват"></label>'+
  '<label class="block"><span class="block text-xs font-bold mb-1">Действует до</span><input type="date" class="input-field w-full" data-p2-path="resources.'+index+'.validUntil" value="'+safe(r.validUntil||'')+'"></label>'+
- '<label class="flex items-center gap-2 text-xs"><input type="checkbox" data-p2-path="resources.'+index+'.confirmedCoverage" '+(r.confirmedCoverage?'checked':'')+'>Подтверждаю охват обоих товаров</label></div>':'')+
+ ((r.skuIds||[]).length>1?'<label class="flex items-center gap-2 text-xs"><input type="checkbox" data-p2-path="resources.'+index+'.confirmedCoverage" '+(r.confirmedCoverage?'checked':'')+'>Подтверждаю действие сертификата для всех выбранных товаров</label>':'')+'</div>':'')+
  '</article>';
 }
 function stageResources(which,label,help,kind){
@@ -76,7 +79,10 @@ function stageResources(which,label,help,kind){
  return box(label,
  '<div class="text-sm text-slate-600">'+help+'</div>'+
  selected.map(({r,i})=>resourceCard(r,i)).join('')+
- '<button type="button" data-p2-add-resource="'+kind+'" class="mt-3 w-full border border-blue-300 text-blue-800 bg-blue-50 rounded-xl p-3 font-semibold">+ Добавить ресурс / связать с другими товарами</button>','p2-stage-'+which);
+ '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4" data-p2-resource-actions>'+Object.entries(labels)
+ .filter(([resourceKind])=>stage[resourceKind]===which)
+ .map(([resourceKind,resourceLabel])=>'<button type="button" data-p2-add-resource="'+safe(resourceKind)+'" class="rounded-lg border border-blue-300 bg-blue-50 text-blue-800 p-3 font-semibold">+ '+safe(resourceLabel)+'</button>').join('')+
+ '</div>','p2-stage-'+which);
 }
 function skuCard(s,i) {
  const path='skus.'+i+'.';
@@ -218,15 +224,13 @@ function updateResult(){
  const out=Engine.build(model);
  displayInlineValidation(out.fieldErrors);
  const funnel=out.marketing;
- let intro='<h2 class="text-2xl font-black">Результат портфеля</h2><p class="mt-2 text-sm">Клики '+money(funnel?.clicks||0)+
- ', лиды '+money(funnel?.leads||0)+', заказы/месяц '+money(funnel?.orders||0)+
- ', базовый CAC '+money(funnel?.baseCAC||0)+'</p>';
+ let intro='<h2 class="text-2xl font-black">Результат портфеля</h2>';
  if(!out.ready){
    // The detailed reason now appears alongside the actual input. This summary
    // does not repeat the error out of sight at the end of a long form.
-   el.innerHTML=intro+'<p class="rounded-xl bg-white text-rose-800 p-4 mt-4 text-sm">'+
-     'Исправьте поля, выделенные красным, рядом с местом ввода. '+
-     (out.errors.length?'Проверок осталось: '+out.errors.length+'.':'')+'</p>';
+   el.innerHTML=intro+'<p class="nd-v2-unready rounded-xl bg-white p-4 mt-4 text-sm">'+
+     'Расчёт появится после заполнения обязательных полей. '+
+     (out.errors.length?'Требуют внимания: '+out.errors.length+'.':'')+'</p>';
    return;
  }
  const r=out;
@@ -254,6 +258,9 @@ function updateResult(){
  ' p-3"><div class="text-xs">'+safe(t)+'</div><div class="text-xl font-black mt-1">'+
  (i===1?pct(v):i===4?money(v)+'×':money(v))+'</div></div>').join('')+'</div>'+
  '<p class="text-xs text-emerald-50 mt-3">Цена без НДС рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.</p>'+
+ '<div class="nd-v2-marketing-summary mt-4 rounded-lg border p-3"><strong>Рекламная воронка</strong><p class="text-sm mt-1">Клики '+money(funnel?.clicks||0)+
+ ', лиды '+money(funnel?.leads||0)+', заказы/месяц '+money(funnel?.orders||0)+
+ ', базовый CAC '+money(funnel?.baseCAC||0)+'</p></div>'+
  '<h3 class="font-bold mt-5">Портфель: цены, доли и нагрузка</h3>'+
  '<div class="overflow-x-auto mt-2"><table class="text-xs text-left w-full"><thead><tr>'+
  heads.map(h=>'<th class="px-2 py-3 whitespace-nowrap">'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+skuRows+'</tbody></table></div>'+
