@@ -19,7 +19,7 @@
  function paint(wrapper,p){
   const controls=wrapper.matches('.nd-payment-controls')?wrapper:wrapper.querySelector('.nd-payment-controls');
   let host=controls.querySelector('[data-fx]');
-  if(p.paymentCurrency===p.businessCurrency){host?.remove();return;}
+  if(p.paymentCurrency===p.businessCurrency||!(p.paymentAmount>0)){host?.remove();return;}
   if(!host){host=document.createElement('details');host.className='nd-fx';host.dataset.fx='';controls.append(host);}
   host.hidden=p.paymentCurrency===p.businessCurrency;host.ndPayment=p;
   const signature=JSON.stringify([p.paymentAmount,p.paymentCurrency,p.businessCurrency]);

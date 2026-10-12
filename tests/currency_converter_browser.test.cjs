@@ -58,6 +58,10 @@ async function panel(page,pathKey,currency){
    const twice=await page.evaluate(key=>JSON.parse(localStorage.getItem('marketingCalcPortfolioV2')).skus[0].payments[key],key);A.equal(twice.convertedAmount,edited*2);
    expected.skus[0][key]=edited*2;A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(await page.evaluate(m=>PortfolioV2Engine.build(m),expected)));
    await page.locator('[data-payment-path="'+pathKey+'"] [data-payment-currency]').selectOption(m.currency==='KZT'?'EUR':'KZT');A.equal(await pending(page),true);
+   await amount.fill('0');const zero=await page.evaluate(key=>PortfolioV2UI.getState().skus[0].payments[key],key);A.equal(zero.status,'normalized');A.equal(zero.convertedAmount,0);A.equal(await fx.count(),0);
+   await amount.fill('');A.equal(await fx.count(),0);
+   await amount.fill('-1');A.equal(await pending(page),true);A.equal(await fx.count(),0);
+   await amount.fill(String(edited));A.equal(await pending(page),true);
    protocol.push({width,lang,route:'v2-'+source,saved:saved.skus[0].payments,invalidated,twice,normalizedFinance:financial(result),nativeFinance:financial(await page.evaluate(m=>PortfolioV2Engine.build(m),{...expected,skus:expected.skus.map(s=>({...s,[key]:raw*2}))})),noResumeRequests:true});
   }
   for(const source of ['own','resale','dropship','materials']){
