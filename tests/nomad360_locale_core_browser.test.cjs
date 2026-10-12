@@ -89,7 +89,7 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
       if(!node||document.documentElement.lang!==language)return false;
       const desired=new Intl.NumberFormat(Nomad360LocaleCore.displayLocale(),
        {minimumFractionDigits:2,maximumFractionDigits:2}).format(1234.5);
-      const suffix=language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*';
+      const suffix=Nomad360Currency.get();
       return node.textContent===desired+' '+suffix;
     },transient);
     await page.locator('#nomad360-lang-select').selectOption(expected);
@@ -125,7 +125,7 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
               const digits=cell.dataset.nomadDisplayFractions==='0'?0:2;
               const formatted=amount.toLocaleString('kk-KZ',
                 {minimumFractionDigits:digits,maximumFractionDigits:digits});
-              const suffix=cell.hasAttribute('data-nomad-display-money')?' ш.б.*':'';
+              const suffix=cell.hasAttribute('data-nomad-display-money')?' '+Nomad360Currency.get():'';
               return cell.textContent===formatted+suffix;
             });
             A.equal(await page.locator('#monthly-table [data-nomad-display-number]').first().getAttribute('data-nomad-display-number'),original);
@@ -212,7 +212,7 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
     A.equal((await page.locator('#assortment-complete-button [data-nomad-no-translate]').textContent()).trim(),
       '«Товар»','user-entered V1 product name never translates');
     const formattedMoney=await page.evaluate(()=>formatMoney(1234.5));
-    A.ok(formattedMoney.endsWith(expected==='en'?'currency units*':expected==='kk'?'ш.б.*':'у.е.*'),
+    A.ok(formattedMoney.endsWith(await page.evaluate(()=>Nomad360Currency.get())),
       'display currency unit localized without changing numeric value');
     if(expected==='en')await assertEnglishLocaleClean(page,'v1-product');
     const a11y_v1_product=await localeA11yCensus(page,'v1-product');
@@ -494,3 +494,4 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
   }
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_I18N_CORE_BROWSER_RED',e.stack||e);process.exitCode=1});
+

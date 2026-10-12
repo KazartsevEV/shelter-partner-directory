@@ -224,7 +224,7 @@ function resourceCard(r,i){
       field('Загрузка этого товара (ед.)','resources.'+i+'.usage.'+s.id,r.usage?.[s.id]??0)):'')+
    '</div>':'')+'</div>';
  }).join('');
- return '<article class="nd-v2-subpanel rounded-xl border border-indigo-200 bg-indigo-50/40 p-4 mt-4" data-linked-resource="'+i+'">'+
+ return '<article class="rounded-xl border border-indigo-200 bg-indigo-50/40 p-4 mt-4" data-linked-resource="'+i+'">'+
  '<div class="flex justify-between gap-3 items-center"><b>'+safe(r.label||'Новый ресурс')+'</b>'+
  '<button type="button" data-linked-delete="'+i+'" class="text-rose-700 underline text-sm">Удалить</button></div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
@@ -252,7 +252,7 @@ function render(){
  const host=document.getElementById('portfolio-v2-root');if(!host||!state)return;
  const scenario=Engine.build(state);
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
- const skus=state.skus.map((s,i)=>'<article class="nd-v2-panel rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
+ const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
  '<div class="flex items-start justify-between gap-3"><div class="font-bold text-slate-900 text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+ 
  '<button type="button" data-linked-delete-sku="'+safe(s.id)+'" class="border border-rose-300 text-rose-800 px-3 py-2 text-sm font-semibold rounded-sm">Удалить</button></div>'+
  '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
@@ -264,14 +264,14 @@ function render(){
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
  'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
- '<div class="nd-v2-price rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
+ '<div class="rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
  '<div class="text-xs">Автоматическая цена прайса V2</div><div class="text-xl font-black" data-linked-price-list>'+money(byId.get(s.id)?.priceList)+'</div>'+
  '<div class="text-xs mt-2">Покупатель платит за отдельную позицию (без скидки комбо)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
  '<div class="text-xs text-slate-700 mt-2" data-linked-unit-meta></div>'+
  '<p class="text-xs text-slate-500 mt-2">Цену рассчитывает V2 по продажам, денежному весу, рекламной и общей нагрузке. Диапазон цены V1 не меняется.</p>'+
  '</article>').join('');
  host.innerHTML=
- '<div class="nd-v2-hero rounded-2xl bg-emerald-900 text-white p-5 mb-5">'+
+ '<div class="rounded-2xl bg-emerald-900 text-white p-5 mb-5">'+
  '<div class="text-xs font-semibold uppercase tracking-widest text-emerald-200">V2 · Связанный портфель</div>'+
  '<h1 class="text-2xl font-black mt-2">Портфель товаров и услуг</h1>'+
  '<p class="mt-2" data-nomad-no-translate data-business-currency-note>'+safe(root.Nomad360Currency?.caption()||state.currency)+'</p>'+
@@ -283,12 +283,12 @@ function render(){
  '<section class="mb-5"><h2 class="text-xl font-bold mb-2">1. Экономика товаров и услуг V1</h2>'+
  '<p class="text-xs text-slate-600 mb-3">Каждая позиция сохраняет ID, себестоимость, прогноз и ценовой диапазон из V1.</p>'+
  '<div class="grid grid-cols-1 xl:grid-cols-2 gap-3">'+skus+'</div></section>'+
- '<section class="nd-v2-panel rounded-2xl border border-slate-200 bg-white p-4 mb-5">'+
+ '<section class="rounded-2xl border border-slate-200 bg-white p-4 mb-5">'+
  '<h2 class="text-xl font-bold">2. Общие ресурсы</h2>'+
  '<p class="text-sm text-slate-600 mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
- '<button type="button" data-linked-add class="nd-v2-secondary w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
- '<section class="nd-v2-panel rounded-2xl border border-sky-200 bg-sky-50 p-4 mb-5" data-temporal-controls>'+
+ '<button type="button" data-linked-add class="w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
+ '<section class="rounded-2xl border border-sky-200 bg-sky-50 p-4 mb-5" data-temporal-controls>'+
  '<h2 class="text-lg font-bold text-slate-900">План продаж и загрузка по месяцам</h2>'+
   (inheritedServicePeriod(state)!==null?
     '<p class="text-sm text-slate-700 mt-2"><span>'+(state.skus.every(s=>s.fullServiceV2)?'Период из полного расчёта V1:':'Период продаж и услуг по данным V1:')+'</span> <strong>'+safe(state.forecastMonths)+'</strong> <span>мес.</span></p>'+
@@ -297,7 +297,7 @@ function render(){
     '<div class="max-w-xs mt-3">'+field('Месяцев в сценарии (1–120)','forecastMonths',state.forecastMonths??1,'min="1" max="120" step="1"')+'</div>'+
     '<label class="flex items-start gap-2 text-sm text-slate-800 mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
  '<div id="linked-temporal-result" class="mt-3 text-sm text-slate-700"></div></section>'+
- '<section id="linked-results" class="nd-v2-results rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
+ '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
  root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{
    state.offers=offers;save();if(structural)render();else updateResult();
  });
