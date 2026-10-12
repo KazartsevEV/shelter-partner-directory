@@ -31,7 +31,8 @@ Acceptance: 162 scenarios before and after, standalone and linked RU/EN/KK,
 observed/mapped/unmapped history and full-service source data. Check actual
 action foreground/background, composited contrast >=4.5, text bounds, tap area,
 overlap, field geometry, document overflow and one-line financial values.
-Fixed primary/secondary action labels must also keep each word on one line.
+Fixed primary/secondary action labels must keep each letter/number run on one
+line. Normal breaks at spaces or hyphens, such as «прайс-лист», remain allowed.
 Financial output and saved state must match the merged baseline in every case.
 Source guards protect all business modules; UI copy/logic must match after
 removing class attributes. Seven cases run without optional utility CSS.

@@ -37,9 +37,9 @@
     for(const box of range.getClientRects())if(box.width>0&&box.height>0&&
      (box.left<r.left-1||box.right>r.right+1||box.top<r.top-1||box.bottom>r.bottom+1))fail('text outside action');
     // An action can fit its box while still breaking a word into fragments.
-    // Back links may contain arbitrary user names; fixed action labels must
-    // wrap at spaces, with each word occupying one line.
-    if(kind!=='outline')for(const word of node.textContent.matchAll(/\S+/gu)){
+    // Back links may contain arbitrary user names. Fixed labels may wrap at
+    // spaces or hyphens (price-list), but never inside a letter/number run.
+    if(kind!=='outline')for(const word of node.textContent.matchAll(/[\p{L}\p{N}]+/gu)){
      const part=document.createRange();part.setStart(node,word.index);part.setEnd(node,word.index+word[0].length);
      const lines=[];for(const box of part.getClientRects()){
       if(!box.width||!box.height)continue;const center=(box.top+box.bottom)/2;
