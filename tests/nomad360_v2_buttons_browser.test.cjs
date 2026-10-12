@@ -31,7 +31,7 @@ async function states(page,route,language,receipts){
   A.deepEqual((await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root')))).failures,[]);
   const output={};
   for(const [name,selector,hover,active,color] of [
-   ['primary',save,'rgb(243, 161, 122)','rgb(231, 125, 76)','rgb(22, 55, 90)'],
+   ['primary',save,'rgb(243, 161, 122)','rgb(235, 135, 91)','rgb(22, 55, 90)'],
    ['secondary',add,'rgb(22, 55, 90)','rgb(13, 32, 51)','rgb(255, 255, 255)'],
    ['outline',back,'rgba(22, 55, 90, 0.12)','rgba(22, 55, 90, 0.22)','rgb(255, 255, 255)']]){
    const el=page.locator(selector).first();await el.hover();await page.waitForTimeout(180);
