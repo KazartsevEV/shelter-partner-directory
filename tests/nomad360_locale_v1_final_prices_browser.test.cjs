@@ -54,7 +54,7 @@ async function assertPresentation(page,label){
   ];
   const locale=Nomad360LocaleCore.displayLocale();
   const language=Nomad360LocaleCore.locale();
-  const unit=language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*';
+  const unit=Nomad360Currency.get();
   const errors=[];
   for(const node of nodes){
    const raw=Number(node.dataset.nomadDisplayNumber);
@@ -160,3 +160,4 @@ async function assertPresentation(page,label){
   }
  }finally{await browser.close()}
 })().catch(e=>{console.error('NOMAD360_L47_AU_RED',e.stack||e);process.exitCode=1});
+

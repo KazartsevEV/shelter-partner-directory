@@ -9,6 +9,7 @@
     <title>Nomad360 — калькулятор бизнеса, цен и Cash Flow</title>
     <meta name="description" content="Nomad360 — бесплатный калькулятор бизнеса. Проверьте цены, себестоимость, прибыль и денежный поток в вашем браузере.">
     <link rel="stylesheet" href="./nomad360_calculator_ui.css">
+    <script src="./nomad360_currency.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Typeface is loaded once in nomad360_calculator_ui.css. */
@@ -291,10 +292,16 @@
                 <button id="start-own-product" class="nomad-choice-button nd-type-action nd-cta-primary" type="button"
                     onclick="startFreshProductCalculation()">Товар</button>
                 <button id="start-service" class="nomad-choice-button nd-type-action nd-cta-primary" type="button"
-                    onclick="showServiceWorkChooser()">Услугу</button>
+                    onclick="window.Nomad360Currency?.beginNew();showServiceWorkChooser()">Услугу</button>
                 <button id="start-multi-portfolio" class="nomad-choice-button nd-type-action nd-cta-primary" type="button"
                     onclick="openPortfolioV2(Boolean(window.PortfolioV2UI?.load?.()))">У меня уже много разного</button>
             </div>
+        </section>
+
+        <section id="business-currency-settings" class="card nd-currency-settings p-6 md:p-8 mt-4" data-nomad-no-translate>
+            <label id="business-currency-question" for="business-currency" class="nd-type-section">В какой валюте будем рассчитывать бизнес?</label>
+            <select id="business-currency" class="input-field mt-3" aria-describedby="business-currency-help"></select>
+            <p id="business-currency-help" class="nd-type-note mt-3"></p>
         </section>
 
         <div id="nomad360-home-secondary" class="nomad-home-secondary">
@@ -455,7 +462,7 @@
             </form>
         </div>
 
-        <p class="nd-canvas-note mt-3 text-xs text-slate-500">* у.е. — деньги в вашей валюте.</p>
+        <p class="nd-canvas-note mt-3 text-xs text-slate-500" data-nomad-no-translate data-business-currency-note></p>
 
         <div id="product-source-block" class="card p-6 md:p-8 mt-5 hidden" hidden>
             <button id="product-business-back-button"
@@ -1812,7 +1819,7 @@
         function nomadDisplayLocale() {
             return window.Nomad360LocaleCore?.displayLocale?.() || 'ru-RU';
         }
-        function formatMoney(val) { const language=window.Nomad360LocaleCore?.locale?.()||'ru'; return `${formatNum(val)} ${language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'}`; }
+        function formatMoney(val) { return `${formatNum(val)} ${window.Nomad360Currency?.get()||'USD'}`; }
         function formatNum(val) { return new Intl.NumberFormat(nomadDisplayLocale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val); }
         function formatInt(val) { return new Intl.NumberFormat(nomadDisplayLocale()).format(Math.round(val)); }
         // Presentation-only wrappers for already-calculated period totals.
@@ -2920,6 +2927,7 @@
             return {
                 id: currentProductSequence,
                 name: productName,
+                currency: window.Nomad360Currency?.get() || 'USD',
                 source: productSource,
                 serviceChannel:productSource==='offline-service'?serviceChannel:null,
                 serviceRole:productSource==='offline-service'?selectedServiceRole:null,
@@ -5150,6 +5158,7 @@
             }
             const payload={
                 skus,
+                currency: window.Nomad360Currency?.get() || 'USD',
                 tax:{type:productBusinessTaxType,pct:productNumber('own-business-tax-pct')},
                 importedFrom:'Marketing_calc.HTML'
             };
@@ -5159,7 +5168,8 @@
                 report('Модуль V2 ещё не загружен. Обновите страницу.');
                 return false;
             }
-            window.LinkedPortfolioV2UI.importFromV1(payload);
+            try { window.LinkedPortfolioV2UI.importFromV1(payload); }
+            catch(error) { report(error.message); return false; }
             return true;
         }
 
@@ -5768,6 +5778,8 @@
             const appendSavedPortfolio=nextPortfolioItemRequested;
             nextPortfolioItemRequested=false;
             const saved=appendSavedPortfolio?readSavedProductCalculation():null;
+            if(saved)window.Nomad360Currency?.adopt(saved.currency);
+            else window.Nomad360Currency?.beginNew();
             productPortfolio.length = 0;
             currentProductSequence = 1;
             document.getElementById('completed-product-forms').innerHTML = '';
@@ -5805,6 +5817,7 @@
                 showHome();
                 return false;
             }
+            window.Nomad360Currency?.adopt(saved.currency);
             productPortfolio.length = 0;
             currentProductSequence = 1;
             document.getElementById('completed-product-forms').innerHTML = '';
@@ -5854,6 +5867,7 @@
             try {
                 const payload = {
                     savedAt: new Date().toISOString(),
+                    currency: window.Nomad360Currency?.get() || 'USD',
                     activeProductId: currentProductSequence,
                     productPortfolio,
                     taxType: productBusinessTaxType,
@@ -5909,7 +5923,8 @@
             const horizon=flow.months.length,heading=service?'Расчёт одной услуги V1':'Расчёт бизнеса V1';
             let html='<header class="nomad-print-head"><div>NOMAD360</div><h1>'+
                 safe(heading)+'</h1><p>Период: '+horizon+
-                ' месяцев · Выручка и налоги без транзитного НДС</p></header>';
+                ' месяцев · '+safe(window.Nomad360Currency?.get()||'USD')+
+                ' · Выручка и налоги без транзитного НДС</p></header>';
             const vat=productOwnChoices.salesVat==='yes'?productNumber('own-sales-vat-pct'):0;
             html+='<h2>Утверждённые позиции и цены</h2>'+table(
                 ['Товар / услуга','Канал','Роль','Цена без НДС','Цена с НДС','Количество / мес.'],
@@ -9258,3 +9273,4 @@
 <script src="./nomad360_navigation.js"></script>
 </body>
 </html>
+

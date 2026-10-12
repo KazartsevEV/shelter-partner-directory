@@ -59,14 +59,14 @@ const cashFields=['inflow','outflow','taxPaid','interestPaid','principalRepaid',
       if(!el)return false;
       const locale=Nomad360LocaleCore.displayLocale();
       const raw=Number(el.dataset.nomadDisplayNumber);
-      const unit=locale==='en-US'?'currency units*':locale==='kk-KZ'?'ш.б.*':'у.е.*';
+      const unit=Nomad360Currency.get();
       return el.textContent===raw.toLocaleString(locale,
         {minimumFractionDigits:2,maximumFractionDigits:2})+' '+unit;
      });
      const current=await page.evaluate(fields=>{
       const box=document.querySelector('#product-portfolio-business-summary');
       const locale=Nomad360LocaleCore.displayLocale();
-      const suffix=locale==='en-US'?'currency units*':locale==='kk-KZ'?'ш.б.*':'у.е.*';
+      const suffix=Nomad360Currency.get();
       const issues=[];
       const money=[...box.querySelectorAll('[data-nomad-display-money]')];
       for(const node of money){
@@ -112,3 +112,4 @@ const cashFields=['inflow','outflow','taxPaid','interestPaid','principalRepaid',
   }
  }finally{await browser.close()}
 })().catch(err=>{console.error('NOMAD360_L47_AT_RED',err.stack||err);process.exitCode=1});
+

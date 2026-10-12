@@ -2114,3 +2114,9 @@ body #portfolio-v2-root :is([role="alert"],[data-p2-inline-error],[data-linked-e
  }
  body #portfolio-v2-root .nd-v2-subpanel{padding:12px!important}
 }
+
+/* Business currency uses the same navy form surface as the calculator. */
+body .nd-currency-settings{background:var(--nd-v2-navy,#16375a);color:#fff;min-width:0}
+body .nd-currency-settings label{display:block;color:#fff}
+body .nd-currency-settings p{color:#dbe4ee;overflow-wrap:anywhere}
+body .nd-currency-settings select{width:100%;max-width:320px;background:#fff;color:#16375a;min-height:44px}

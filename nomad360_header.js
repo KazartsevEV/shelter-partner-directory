@@ -312,7 +312,7 @@
       '<section id="nomad360-data" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.dataTitle)+'</h3><p>'+esc(t.dataCopy)+'</p></section>'+
       '<section id="nomad360-official" class="nomad-meta-block"><h3>'+esc(t.officialTitle)+'</h3><p>'+esc(t.officialCopy)+'</p>'+
       '<p><a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
-      '<div class="nomad-footer-bottom"><p class="nomad-unit-note">'+esc(t.unitNote)+'</p><span>'+esc(t.rights)+'</span></div>'+
+      '<div class="nomad-footer-bottom"><p class="nomad-unit-note">'+esc(root.Nomad360Currency?.caption()||'USD')+'</p><span>'+esc(t.rights)+'</span></div>'+
       '<div class="nomad-sr" id="nomad360-copy-status" role="status" aria-live="polite"></div></div>';
   }
   function renderInformation() {
@@ -521,7 +521,9 @@
       // Nomad360UI rebuilds its select before dispatching languagechange.
       renderInformation();renderFooter();renderHeader();
     });
+    document.addEventListener('nomad360:currencychange',renderFooter);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
   else boot();
 })(window);
+

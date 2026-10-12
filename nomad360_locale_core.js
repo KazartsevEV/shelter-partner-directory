@@ -349,7 +349,7 @@ const rows=[
  ['Уже в гонораре маркетолога SKU','Already in SKU marketing fee','SKU маркетолог ақысында есептелген'],
  ['Уже в рекламном бюджете SKU','Already in SKU advertising budget','SKU жарнама бюджетінде есептелген'],
  ['Ежемесячно','Monthly','Ай сайын'],['Разово','One time','Бір рет'],
- ['Один реальный платёж, у.е.','One actual payment, units','Бір нақты төлем, ш.б.'],
+ ['Один реальный платёж, у.е.','One actual payment, currency units','Бір нақты төлем, ш.б.'],
  ['Название','Name','Атауы'],['Тип ресурса','Resource type','Ресурс түрі'],
  ['Периодичность','Frequency','Мерзімділігі'],
  ['Что заменить в старых расчётах?','Which old expense does it replace?','Бұрынғы есептегі қай шығынды алмастырады?'],
@@ -1618,14 +1618,15 @@ function locale(){
 }
 function valid(node){
  let parent=node.nodeType===3?node.parentElement:node;
- return parent && !parent.closest('script,style,template,noscript,pre,code,textarea,[contenteditable="true"],[data-nomad-no-translate],#nomad360-hero,#nomad360-footer,#nomad360-portfolio-tools,#nomad360-print-sheet,#nomad360-language-chooser');
+ return parent && !parent.closest('script,style,template,noscript,pre,code,textarea,.product-name-live,[contenteditable="true"],[data-nomad-no-translate],#nomad360-hero,#nomad360-footer,#nomad360-portfolio-tools,#nomad360-print-sheet,#nomad360-language-chooser');
 }
 function lookup(raw,language){
- if(language==='ru')return raw;
+ const money=text=>root.Nomad360Currency?.replaceUnits(text)||text;
+ if(language==='ru')return money(raw);
  const m=/^(\s*)([\s\S]*?)(\s*)$/.exec(raw);
  if(!m)return raw;
  const translated=(direct.get(m[2])||direct.get(m[2].replace(/\s+/g,' ').trim()))?.[language];
- return m[1]+(translated||dynamicLookup(m[2],language))+m[3];
+ return money(m[1]+(translated||dynamicLookup(m[2],language))+m[3]);
 }
 const localizedAttributes=['placeholder','title','aria-label','aria-description','aria-placeholder','aria-valuetext','alt'];
 function translateAttributes(node,language){
@@ -1676,7 +1677,7 @@ function refreshDisplayNumbers(language){
   const fmt=new Intl.NumberFormat(tag,{minimumFractionDigits:min,maximumFractionDigits:max});
   const suffix=node.getAttribute('data-nomad-display-suffix')||'';
   const output=fmt.format(value)+suffix+(node.hasAttribute('data-nomad-display-money')?
-   ' '+(language==='en'?'currency units*':language==='kk'?'ш.б.*':'у.е.*'):'');
+   ' '+(root.Nomad360Currency?.get()||'USD'):'');
   if(node.textContent!==output)node.textContent=output;
  }
 }
@@ -1764,3 +1765,4 @@ root.Nomad360LocaleCore=Object.freeze({
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
 else boot();
 })(window);
+
