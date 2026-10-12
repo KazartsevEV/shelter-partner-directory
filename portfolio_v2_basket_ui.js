@@ -23,7 +23,7 @@ function render(state,onChange){
  panel.className='nd-v2-section rounded-2xl border border-slate-200 p-4 mb-5';
  panel.innerHTML='<h2 class="nd-v2-title text-xl font-bold">3. Покупки вместе и комплекты</h2>'+
    '<p class="nd-v2-description text-sm mt-2">Дополнительные продажи и готовые комплекты: выберите товары, которые покупатель может взять вместе. Расчёт сразу покажет изменение выручки, прибыли и доступных остатков.</p>'+
-   '<details class="mt-3 rounded-lg border border-blue-200 bg-white p-3 text-sm">'+
+   '<details class="nd-v2-basket-info mt-3 rounded-lg border border-blue-200 bg-white p-3 text-sm">'+
    '<summary class="font-semibold text-blue-900 cursor-pointer">Как рассчитываются совместные покупки</summary>'+
    '<p class="mt-2 text-slate-700">За основу берём покупателей из рекламного прогноза V1. Один покупатель учитывается в рекламе один раз.</p>'+
    '<p class="mt-2 text-slate-700">Можно добавить товар к заказу, заменить покупку другим товаром или предложить комплект. Для каждого варианта проверяются остатки и загрузка.</p></details>'+

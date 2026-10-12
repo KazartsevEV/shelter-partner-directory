@@ -2127,6 +2127,17 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
   background:transparent;
   color:#fff;
 }
+#portfolio-v2-root [data-linked-add]{background:transparent}
+#portfolio-v2-root [data-basket-offer],
+#portfolio-v2-root .nd-v2-basket-info{
+  background:#fff;
+  color:var(--nd-ink);
+}
+#portfolio-v2-root .nd-v2-light-note{background:#f0f3f6}
+#portfolio-v2-root .nd-v2-input-error{
+  background:#fff1f2;
+  color:#9f1239;
+}
 #portfolio-v2-root [data-mba-transfer],
 #portfolio-v2-root [data-mba-clear]{
   color:#fff;

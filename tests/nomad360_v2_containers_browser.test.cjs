@@ -299,11 +299,12 @@ async function assertColors(page,route){
    A.deepEqual(errors,[],key);
    await context.close();
   }
-  if(stage===1)for(const route of ['standalone','linked']){
+  if(stage===1)for(const route of ['standalone','linked'])for(const condition of layout===2?
+   (route==='standalone'?['ready','credit','dropship']:['ready','history','unmapped','full-service']):['ready']){
    const page=await browser.newPage({locale:'en-US',viewport:{width:390,height:900}});
    await page.route(/^https?:\/\//,r=>r.abort());
    await page.goto(pathToFileURL(path.join(directory,'Marketing_calc.HTML')).href,{waitUntil:'domcontentloaded'});
-   await seed(page,route,'ready');await assertColors(page,route);
+   await seed(page,route,condition);await assertColors(page,route);
    if(layout===2){await page.addScriptTag({path:path.join(__dirname,'helpers/v2-layout.cjs')});await page.addScriptTag({path:path.join(__dirname,'helpers/contrast.cjs')});await prepareForms(page);
     A.deepEqual((await page.evaluate(()=>NomadLayout.audit(document.getElementById('portfolio-v2-root')))).failures,[],'layout without optional utilities '+route);
     A.deepEqual((await page.evaluate(()=>NomadContrast.audit(document.getElementById('portfolio-v2-root')))).failures,[],'contrast without optional utilities '+route);}

@@ -42,7 +42,7 @@
   const walker=document.createTreeWalker(scope,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){
    const node=walker.currentNode,el=node.parentElement;
-   if(!node.textContent.trim()||!el||!visible(el)||el.closest('option,script,style,table'))continue;
+   if(!node.textContent.trim()||!el||!visible(el)||el.closest('option,script,style')||(el.closest('table')&&!el.closest('label')))continue;
    const holder=el.closest('label,.nd-v2-stat-cell,.nd-v2-card-title,.nd-v2-selected-value');
    if(!holder)continue;
    const bounds=rect(holder),range=document.createRange();range.selectNodeContents(node);
