@@ -172,6 +172,15 @@ async function exerciseFields(page,route,condition){
   A.equal(await page.evaluate(()=>LinkedPortfolioV2UI.getState().offers[0].mode),'cross_sell');
   await page.locator('[data-basket-field="mode"][data-i="0"]').selectOption(initial.offers[0].mode);
   await page.locator('[data-basket-field="bundleDiscountPct"][data-i="0"]').fill(String(initial.offers[0].bundleDiscountPct));
+  if(condition==='history'){
+   const input=page.locator('[data-mba-overlap]').first();
+   await input.scrollIntoViewIfNeeded();
+   const reachable=await input.evaluate(el=>{
+    const r=el.getBoundingClientRect(),p=el.closest('.overflow-x-auto').getBoundingClientRect();
+    return r.left>=p.left-1&&r.right<=p.right+1;
+   });
+   A.ok(reachable,'report input is reachable through local table scrolling');
+  }
  }
  // Restore the original fixture through its existing resume route. This also
  // checks that presentation notes never become saved business fields.
@@ -180,6 +189,15 @@ async function exerciseFields(page,route,condition){
   if(route==='standalone')PortfolioV2UI.open({resume:true});else LinkedPortfolioV2UI.resume();
  },{route,initial});
  await prepareForms(page);
+ if(condition==='ready'){
+  for(const [width,language] of [[320,'en'],[768,'kk'],[390,'ru']]){
+   await page.setViewportSize({width,height:900});
+   await page.evaluate(language=>Nomad360UI.setLanguage(language),language);
+   await prepareForms(page);
+   A.deepEqual((await page.evaluate(()=>NomadLayout.audit(document.getElementById('portfolio-v2-root')))).failures,[],
+    'same-page resize/language refresh '+route+' '+width+' '+language);
+  }
+ }
  const current=await page.evaluate(route=>(route==='standalone'?PortfolioV2UI:LinkedPortfolioV2UI).getState(),route);
  A.deepEqual(current,initial,'interactive controls leave fixture recoverable '+route+' '+condition);
 }

@@ -2058,6 +2058,12 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 
 /* V2 stage 2: each form group owns its responsive layout. These named
    components work without optional Tailwind and leave report grids alone. */
+#portfolio-v2-root .nd-v2-section,
+#portfolio-v2-root .nd-v2-hero,
+#portfolio-v2-root .nd-v2-result-frame{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
 #portfolio-v2-root .nd-v2-form-grid,
 #portfolio-v2-root .nd-v2-filter-grid,
 #portfolio-v2-root .nd-v2-basket-item-grid,
@@ -2113,6 +2119,18 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
   min-height:44px;
   max-width:100%;
   white-space:normal;
+  background:transparent;
+}
+#portfolio-v2-root .nd-v2-hero [data-linked-back],
+#portfolio-v2-root .nd-v2-hero [data-p2-home],
+#portfolio-v2-root .nd-v2-hero [data-p2-new]{
+  background:transparent;
+  color:#fff;
+}
+#portfolio-v2-root [data-mba-transfer],
+#portfolio-v2-root [data-mba-clear]{
+  color:#fff;
+  background:transparent;
 }
 #portfolio-v2-root .nd-v2-check-list{
   display:flex;

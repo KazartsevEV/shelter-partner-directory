@@ -7,10 +7,13 @@
   const failures=[],controls=[...scope.querySelectorAll('input,select,textarea')].filter(visible);
   const positions=controls.map(rect),byControl=new Map(controls.map((el,i)=>[el,positions[i]]));
   const describe=el=>el.getAttribute('data-p2-path')||el.getAttribute('data-linked-path')||el.getAttribute('data-basket-field')||el.getAttribute('data-mba-filter')||el.outerHTML.slice(0,130);
-  if(document.documentElement.scrollWidth>innerWidth+1)failures.push({kind:'document-overflow',width:innerWidth,scroll:document.documentElement.scrollWidth});
+  if(document.documentElement.scrollWidth>innerWidth+1)failures.push({kind:'document-overflow',width:innerWidth,scroll:document.documentElement.scrollWidth,
+   offenders:[...scope.querySelectorAll('*')].filter(el=>visible(el)&&!el.closest('.overflow-x-auto')&&rect(el).right>innerWidth+1).slice(0,8).map(el=>({tag:el.tagName,classes:el.className,text:el.textContent.slice(0,80),rect:rect(el)}))});
   for(let i=0;i<controls.length;i++){
    const el=controls[i],r=positions[i],card=el.closest('article,.nd-v2-info-panel,.nd-v2-section,.nd-v2-result-frame')||scope,c=rect(card);
-   if(r.x<c.x-1||r.right>c.right+1)failures.push({kind:'control-outside-card',field:describe(el),rect:r,card:c});
+   const tablePane=el.closest('table')?.closest('.overflow-x-auto');
+   const boundary=tablePane?{...rect(tablePane),right:rect(tablePane).x+tablePane.scrollWidth}:c;
+   if(r.x<boundary.x-1||r.right>boundary.right+1)failures.push({kind:'control-outside-card',field:describe(el),rect:r,card:boundary});
    const check=el.type==='checkbox';
    if(check?(r.width<18||r.height<18):r.height<43.9)failures.push({kind:'control-touch-size',field:describe(el),rect:r});
    for(let j=i+1;j<controls.length;j++)if(intersects(r,positions[j]))failures.push({kind:'control-overlap',a:describe(el),b:describe(controls[j])});

@@ -79,7 +79,7 @@ function render(state,onChange){
     '<select data-mba-map="'+esc(raw)+'" class="input-field mt-1"><option value="">— выберите позицию V1 —</option>'+
     skus.map(s=>'<option data-nomad-no-translate value="'+esc(s.id)+'" '+((history.mapping||{})[raw]===s.id?'selected':'')+'>'+esc(s.name)+' · '+esc(s.id)+'</option>').join('')+
     '</select></label>').join('')+'</div>':'')+
- (data.errors.length?'<div class="mt-3 text-sm text-rose-800">'+data.errors.map(esc).join('; ')+'</div>':'')+
+ (data.errors.length?'<div class="mt-3 text-sm text-rose-800 bg-rose-50 p-3 rounded-lg">'+data.errors.map(esc).join('; ')+'</div>':'')+
  (data.ready?
   (data.rules.length?'<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
   ['Основа → дополнение','Вместе, чеков','Support совместной корзины','Confidence','Lift','Сценарий']
