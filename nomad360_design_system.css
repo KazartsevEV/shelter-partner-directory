@@ -2068,6 +2068,13 @@ body #portfolio-v2-root [data-linked-error]{
 }
 body #portfolio-v2-root :is(.nd-v2-hero,.nd-v2-panel,.nd-v2-results)
   :is(.bg-rose-50,.bg-rose-100,.bg-amber-50) *{color:#881337}
+/* Headings retain white foreground even when their legacy utility classes
+   have a conflicting higher-specificity declaration. */
+body #portfolio-v2-root .nd-v2-panel > :is(h2,h3,h4),
+body #portfolio-v2-root .nd-v2-hero > h1,
+body #portfolio-v2-root .nd-v2-results > h2{
+  color:#fff!important
+}
 body #portfolio-v2-root .nd-v2-unready{
   background:#f1f5f9!important;color:#16375a!important;
   border:1px solid #a9bfd2;line-height:1.55
