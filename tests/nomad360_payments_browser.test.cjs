@@ -11,7 +11,7 @@ const protocol=[],editOnly=process.argv.includes('--edit-only');
 const financial=out=>JSON.parse(JSON.stringify(out,(k,v)=>k==='payments'||k==='businessCurrency'?undefined:v));
 const labels={ru:'Валюта платежа',en:'Payment currency',kk:'Төлем валютасы'};
 const model=source=>({version:2,currency:'KZT',marketing:{budget:1000,cpc:5,ctrPct:2,clickLeadPct:20,leadOrderPct:25,periodMonths:2,cacReservePct:100},
- skus:[{id:'a',name:'Тауар / Product',source,unitCost:'20',marginPct:25,mixPct:100,batchUnits:source==='dropship'?0:100,initialCashOut:source==='dropship'?'0':'2000',fulfillmentPerOrder:'2',storagePerUnitDay:0,acquiringPct:0}],
+ skus:[{id:'a',name:'Тауар / Product',source,unitCost:20,marginPct:25,mixPct:100,batchUnits:source==='dropship'?0:100,initialCashOut:source==='dropship'?0:2000,fulfillmentPerOrder:2,storagePerUnitDay:0,acquiringPct:0}],
  resources:[],funding:{kind:'cash',reservePct:10},tax:{type:'turnover',pct:6,vatPct:0}});
 async function geometry(page){
  const issues=await page.evaluate(()=>{
