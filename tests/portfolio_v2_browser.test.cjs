@@ -61,14 +61,14 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  for(const [p,n] of [['skus.1.unitCost',60],['skus.1.marginPct',30],['skus.0.mixPct',50],
  ['skus.1.mixPct',50],['skus.1.batchUnits',10],['skus.1.initialCashOut',120],
  ['skus.1.storagePerUnitDay',.5]])await fill(p,n);
- await page.locator('#p2-stage-production [data-p2-add-resource]').click();
+ await page.locator('#p2-stage-production [data-p2-add-resource="premises"]').click();
  await fill('resources.0.amount',400);
  await page.locator('[data-p2-resource-member="0"][value="sku-2"]').check();
  await choose('resources.0.allocation','usage');
  await fill('resources.0.usage.sku-1',40);await fill('resources.0.usage.sku-2',60);
  await fill('resources.0.capacity',100);
- await page.locator('#p2-stage-production [data-p2-add-resource]').click();
- await choose('resources.1.kind','workers');await fill('resources.1.amount',600);
+ await page.locator('#p2-stage-production [data-p2-add-resource="workers"]').click();
+ await fill('resources.1.amount',600);
  await page.locator('[data-p2-resource-member="1"][value="sku-2"]').check();
  await page.locator('#p2-stage-logistics [data-p2-add-resource]').click();
  await fill('resources.2.amount',90);
@@ -86,7 +86,7 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  assert.ok(r.invariants.resourceAllocated);
  eq(r.items[0].weightedCAC*r.items[0].forecastOrders,r.items[0].adBudget,'SKU A ad');
  eq(r.items[1].weightedCAC*r.items[1].forecastOrders,r.items[1].adBudget,'SKU B ad');
- await page.locator('#p2-stage-advertising [data-p2-add-resource]').click();
+ await page.locator('#p2-stage-advertising [data-p2-add-resource="campaign"]').click();
  await fill('resources.4.amount',200);
  await page.locator('[data-p2-resource-member="4"][value="sku-1"]').uncheck();
  await page.locator('[data-p2-resource-member="4"][value="sku-2"]').check();
