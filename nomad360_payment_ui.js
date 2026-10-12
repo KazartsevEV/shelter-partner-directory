@@ -127,6 +127,8 @@
   if(summary)summary.textContent=text().pending;
   const breakdown=document.querySelector('#own-materials-landed-breakdown[data-nomad-no-translate]');
   if(breakdown)breakdown.textContent=text().pending;
+  const importError=document.getElementById('linked-v2-entry-error');
+  if(importError&&Object.values(words).some(t=>t.pending===importError.textContent))importError.textContent=text().pending;
   if(model)root.PortfolioV2UI?.refreshPayments?.();
  }
  function boot(){

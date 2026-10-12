@@ -94,6 +94,8 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    const rawBefore=JSON.stringify(saved);
    for(const next of ['en','kk','ru']){
     await page.locator('#nomad360-lang-select').selectOption(next);
+    A.equal(await selector.getAttribute('aria-label'),labels[next]);
+    A.equal(await page.locator('#linked-v2-entry-error').textContent(),await page.evaluate(()=>Nomad360PaymentUI.pendingMessage()));
     A.equal(await amount.inputValue(),'1000');A.equal(await selector.inputValue(),'CNY');
     A.equal(await page.evaluate(()=>JSON.stringify(readSavedProductCalculation())),rawBefore);
    }
