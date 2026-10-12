@@ -15,6 +15,7 @@ const pct=n=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(Num
 const safe=value=>String(value??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const initial=()=>({
  version:2,
+ currency:root.Nomad360Currency?.get()||'USD',
  marketing:{budget:'',cpc:'',ctrPct:'',clickLeadPct:'',leadOrderPct:'',periodMonths:3,cacReservePct:100},
  skus:[{id:'sku-1',name:'',source:'own',unitCost:'',marginPct:25,mixPct:100,
    batchUnits:'',initialCashOut:'',fulfillmentPerOrder:'',storagePerUnitDay:'',acquiringPct:0}],
@@ -29,7 +30,9 @@ function updateEntry(){
  if(el){el.hidden=!existing;el.classList.toggle('hidden',!existing);}
 }
 function open(options={}){
+ if(!options.resume)root.Nomad360Currency?.beginNew();
  const saved=load();model=options.resume&&saved?saved:initial();
+ model.currency=root.Nomad360Currency?.adopt(model.currency)||model.currency||'USD';
  sequence=Math.max(0,...model.skus.map(v=>Number(String(v.id).replace(/\D/g,''))||0),
  ...model.resources.map(v=>Number(String(v.id).replace(/\D/g,''))||0))+1;
  root.showOnly('portfolio-v2-screen');
@@ -112,6 +115,7 @@ function render(){
  host.innerHTML='<div class="mb-5 rounded-2xl bg-slate-900 text-white p-5">'+
  '<div class="text-xs tracking-widest uppercase text-sky-200">Самостоятельная портфельная модель · v2</div>'+
  '<h1 class="text-2xl font-black mt-2">Мои товары и реальные деньги</h1>'+
+ '<p class="mt-2" data-nomad-no-translate data-business-currency-note>'+safe(root.Nomad360Currency?.caption()||model.currency)+'</p>'+
  '<p class="text-sm mt-2 text-slate-200">Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз. Здесь нет подставленных примеров.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4"><button class="bg-white text-slate-900 px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-home>← Главная</button>'+
  '<button class="nd-cta-primary px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-save>Сохранить расчёт</button>'+
@@ -369,3 +373,4 @@ root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();
 })(window);
+

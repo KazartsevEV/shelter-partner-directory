@@ -26,6 +26,11 @@ const files=[
  'nomad360_header.js',
  'nomad360_locale_core.js'
 ];
+// A newly introduced asset cannot be present on production before its PR is
+// merged. Check it locally on PRs and byte-for-byte on post-merge deployments.
+A.ok(fs.existsSync(path.join(__dirname,'..','nomad360_currency.js')),
+ 'Calculation currency module must be shipped with the HTML');
+if(!process.argv.includes('--presence'))files.push('nomad360_currency.js');
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function fetchFile(url,redirects=0){
@@ -87,3 +92,4 @@ async function verify(mode){
  process.exitCode=1;
 }
 verify(process.argv[2]||'--presence').catch(e=>{console.error('F4_PAGES_RED',e);process.exitCode=1});
+

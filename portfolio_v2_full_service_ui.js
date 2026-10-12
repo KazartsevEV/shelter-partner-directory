@@ -19,7 +19,7 @@
 
  const guide={
   ru:{step:'Условия расчёта',stepHint:'Проверьте налог, период и источник денег. Итог обновляется сразу после изменения поля.',
-    summary:'Итог за выбранный период',summaryHint:'Все суммы указаны в денежных единицах расчёта. Прогноз может содержать дробные значения: это ожидаемое число клиентов.',
+    summary:'Итог за выбранный период',summaryHint:'Все суммы указаны в валюте расчёта. Прогноз может содержать дробные значения: это ожидаемое число клиентов.',
     months:'Деньги по месяцам',monthsHint:'Таблицу можно прокручивать горизонтально. Выручка указана без НДС, денежный поток — после расходов и налогов.',
     details:'Показать остальные показатели',priceOne:'Цена одной услуги с НДС',forecast:'Прогноз клиентов',foreFirst:'в первый месяц',foreMax:'максимум в месяц',foreEach:'в месяц',
     taxRate:'Ставка налога, %',creditOnly:'Параметры кредита',creditHint:'Появляются только при выборе финансирования «Кредит».',
@@ -162,7 +162,7 @@
     if(!result)return;
     try{
       root.localStorage.setItem(STORAGE_KEY,JSON.stringify({
-        schema:2,input,source:{name:source.name,kind:source.kind,id:source.id,role:source.role},
+        schema:2,input,currency:root.Nomad360Currency?.get()||'USD',source:{name:source.name,kind:source.kind,id:source.id,role:source.role},
         savedAt:new Date().toISOString()
       }));
       el('full-service-message').textContent=labels().saved;
@@ -290,6 +290,7 @@
  function openSaved(){
   const draft=savedDraft();
   if(!draft)return false;
+  root.Nomad360Currency?.adopt(draft.currency);
   return open(draft.input,{...draft.source,fromSaved:true});
  }
  document.addEventListener('DOMContentLoaded',updateResume);
@@ -300,3 +301,4 @@
  root.Nomad360FullServiceUI=Object.freeze({open,openSaved,hasSaved:()=>!!savedDraft(),
   updateResume,getResult:()=>result,getInput:()=>input});
 })(window);
+

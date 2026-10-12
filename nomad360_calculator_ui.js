@@ -98,7 +98,7 @@ function preferred(){
  for(const loc of candidates){const key=String(loc||'').split('-')[0].toLowerCase();if(L[key])return key}
  return 'en';
 }
-const tr=k=>(L[lang]||L.ru)[k]||L.ru[k]||k;
+const tr=k=>root.Nomad360Currency?.replaceUnits((L[lang]||L.ru)[k]||L.ru[k]||k)||((L[lang]||L.ru)[k]||L.ru[k]||k);
 const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const num=v=>Number.isFinite(Number(v))?Number(v):0;
 const fmt=v=>new Intl.NumberFormat(lang==='kk'?'kk-KZ':lang==='en'?'en-US':'ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(v)||0);
@@ -140,9 +140,9 @@ function status(item,out){
  if(item.status==='INFEASIBLE')return tr('required');
  return '';
 }
-function table(items,out){
+function table(items,out,currency=root.Nomad360Currency?.get()||'USD'){
  return '<table class="nomad-export-table"><thead><tr>'+
- [tr('item'),tr('type'),tr('base'),tr('discount'),tr('customer')].map(s=>'<th>'+esc(s)+'</th>').join('')+
+ [tr('item'),tr('type'),tr('base')+' ('+currency+')',tr('discount'),tr('customer')+' ('+currency+')'].map(s=>'<th>'+esc(s)+'</th>').join('')+
  '</tr></thead><tbody>'+items.map(item=>
  '<tr><td>'+esc(item.name)+'</td><td>'+esc(tr(sourceType[item.source]||'item'))+'</td>'+
  '<td class="n">'+fmt(item.priceList)+'</td><td class="n">'+fmt(item.discountSelected)+'%</td>'+
@@ -155,8 +155,8 @@ function printable(mode,context){
  const {state,out}=context,p=out.cashflow?.periodPnl,cf=out.cashflow;
  const title=mode==='price'?tr('listAction'):tr('report');
  let html='<header class="nomad-print-head"><div>NOMAD360</div><h1>'+esc(title)+'</h1>'+
- '<p>'+tr('horizon')+': '+esc(state.forecastMonths||1)+' '+tr('months')+'</p></header>'+
- table(out.items,out);
+ '<p>'+tr('horizon')+': '+esc(state.forecastMonths||1)+' '+tr('months')+' · '+esc(state.currency||root.Nomad360Currency?.get()||'USD')+'</p></header>'+
+ table(out.items,out,state.currency||'USD');
  if(mode==='report'){
  const reportValues=[
   [tr('revenue'),p?.revenue??out.totals.revenue],
@@ -205,7 +205,7 @@ function showPreview(){
  if(!host)return false;
  const hidden=host.hidden;
  host.hidden=!hidden;
- if(hidden){host.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(context.out.items,context.out)+
+ if(hidden){host.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(context.out.items,context.out,context.state.currency||'USD')+
  '<div class="nomad-export-row"><button type="button" data-nomad-export="price">'+tr('listPrint')+'</button>'+
  '<button type="button" data-nomad-hide-price>'+tr('listClose')+'</button></div>';
  }
@@ -255,7 +255,7 @@ function syncPortfolioActions(out){
  if(can&&keepPreview){
   const preview=section.querySelector('#nomad360-price-preview');
   preview.hidden=false;
-  preview.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(out.items,out)+
+  preview.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(out.items,out,root.LinkedPortfolioV2UI?.getState?.()?.currency||'USD')+
    '<div class="nomad-export-row"><button type="button" data-nomad-export="price">'+tr('listPrint')+'</button>'+
    '<button type="button" data-nomad-hide-price>'+tr('listClose')+'</button></div>';
  }
@@ -293,3 +293,4 @@ function boot(){
 root.Nomad360UI=Object.freeze({syncPortfolioActions,showPreview,savePrint,setLanguage,getLanguage:()=>lang,preferred});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })(window);
+

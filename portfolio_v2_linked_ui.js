@@ -75,6 +75,7 @@ function syncPeriodFromV1(portfolio){
  return true;
 }
 function enter(){
+ state.currency=root.Nomad360Currency?.adopt(state.currency)||state.currency||'USD';
  root.showOnly('portfolio-v2-screen');
  const host=document.getElementById('portfolio-v2-root');
  if(!host)return;
@@ -83,6 +84,7 @@ function enter(){
 }
 function importFromV1(payload){
  const fresh=Engine.fromV1(payload),prior=state||read();
+ if(prior)root.Nomad360Currency?.assertSame(prior.currency);
  // Preserve the approved V1 service operating horizon after SKU merging.
  // Do not invent additional sales during the longer loan repayment tail.
  // Preserve individually imported online services when the product portfolio
@@ -125,8 +127,10 @@ function appendOnline(sku){
  if(!sku||sku.source!=='online-service'||!sku.onlineProvenance)
   throw Error('Ожидается проверенный расчёт онлайн-услуги V1.');
  const previous=state||read();
+ if(previous)root.Nomad360Currency?.assertSame(previous.currency);
+ sku={...sku,currency:root.Nomad360Currency?.get()||'USD'};
  const next=previous?JSON.parse(JSON.stringify(previous)):Engine.fromV1({
-   tax:sku.ownerTax,skus:[sku]});
+   tax:sku.ownerTax,skus:[sku],currency:sku.currency});
  if(previous){
    if(next.skus.some(s=>s.id===sku.id))throw Error('Такой ID услуги уже включён в портфель.');
    next.skus.push({...JSON.parse(JSON.stringify(sku)),priceSelected:sku.priceMax,discountSelected:0});
@@ -141,11 +145,13 @@ function appendFullService(sku){
  if(!sku?.fullServiceV2||!['online-service','offline-service'].includes(sku.source))
    throw Error('Требуется проверенная полная денежная модель услуги.');
  const previous=state||read();
+ if(previous)root.Nomad360Currency?.assertSame(previous.currency);
+ sku={...sku,currency:root.Nomad360Currency?.get()||'USD'};
  if(previous&&(previous.tax?.type!==sku.ownerTax?.type||
     Math.abs(Number(previous.tax?.pct)-Number(sku.ownerTax?.pct))>.0000001))
    throw Error('Налог предприятия в портфеле отличается от налога полной услуги. Укажите единый налоговый режим.');
  const next=previous?JSON.parse(JSON.stringify(previous)):Engine.fromV1({
-   tax:{type:sku.ownerTax.type,pct:sku.ownerTax.pct},skus:[sku]});
+   tax:{type:sku.ownerTax.type,pct:sku.ownerTax.pct},skus:[sku],currency:sku.currency});
  if(previous){
    if(next.skus.some(s=>s.id===sku.id))
      throw Error('Расчёт этой услуги уже есть в портфеле. Удалите старую версию перед заменой.');
@@ -268,6 +274,7 @@ function render(){
  '<div class="rounded-2xl bg-emerald-900 text-white p-5 mb-5">'+
  '<div class="text-xs font-semibold uppercase tracking-widest text-emerald-200">V2 · Связанный портфель</div>'+
  '<h1 class="text-2xl font-black mt-2">Портфель товаров и услуг</h1>'+
+ '<p class="mt-2" data-nomad-no-translate data-business-currency-note>'+safe(root.Nomad360Currency?.caption()||state.currency)+'</p>'+
  '<p class="text-sm text-emerald-100 mt-2">Цены, прогнозы, рекламные бюджеты, себестоимость и налоги взяты из V1. Повторно их заполнять не нужно.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4">'+
  '<button type="button" data-linked-back class="rounded-lg border border-white/40 p-2 text-sm font-bold">← К расчёту V1</button>'+
@@ -606,3 +613,4 @@ root.LinkedPortfolioV2UI=Object.freeze({importFromV1,appendOnline,appendFullServ
  resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })(window);
+
