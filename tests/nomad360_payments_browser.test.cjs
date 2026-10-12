@@ -6,6 +6,10 @@ const root=path.join(__dirname,'..'),art=path.join(root,'artifacts','payments');
 fs.mkdirSync(art,{recursive:true});
 const url=pathToFileURL(path.join(root,'Marketing_calc.HTML')).href;
 const protocol=[];
+// The engine retains original SKU objects in some reports. Payment metadata is
+// expected to appear there; compare every existing numeric/behavioral field.
+const financial=out=>JSON.parse(JSON.stringify(out,(k,v)=>k==='payments'||k==='businessCurrency'?undefined:v));
+const labels={ru:'Валюта платежа',en:'Payment currency',kk:'Төлем валютасы'};
 const model=source=>({version:2,currency:'KZT',marketing:{budget:1000,cpc:5,ctrPct:2,clickLeadPct:20,leadOrderPct:25,periodMonths:2,cacReservePct:100},
  skus:[{id:'a',name:'Тауар / Product',source,unitCost:20,marginPct:25,mixPct:100,batchUnits:source==='dropship'?0:100,initialCashOut:source==='dropship'?0:2000,fulfillmentPerOrder:2,storagePerUnitDay:0,acquiringPct:0}],
  resources:[],funding:{kind:'cash',reservePct:10},tax:{type:'turnover',pct:6,vatPct:0}});
@@ -55,6 +59,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
     amount=page.locator('#own-materials-cost');await amount.fill('1000');
    }else{amount=page.locator('#resale-buy-total');await amount.fill('1000');}
    const selector=source==='materials'?page.locator('#own-material-rows [data-payment-currency]').first():select(actual);
+   A.equal(await selector.getAttribute('aria-label'),labels[lang]);
    A.equal(await selector.inputValue(),'KZT');
    await selector.selectOption('CNY');A.equal(await amount.inputValue(),'1000');
    A.match(await selector.locator('option[value="CNY"]').textContent(),/🇨🇳 CNY/);
@@ -114,7 +119,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},m);
    const baseline=await page.evaluate(()=>PortfolioV2Engine.build(PortfolioV2UI.getState()));
    A.equal(baseline.ready,true);
-   A.deepEqual(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState())),baseline);
+   A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(baseline));
    const pathKey='skus.0.'+(source==='own'?'initialCashOut':'unitCost');
    const selector=page.locator('[data-payment-path="'+pathKey+'"] [data-payment-currency]');
    if(source==='own')await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
@@ -132,11 +137,11 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    if(source==='own')await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
    await selector.selectOption('KZT');
    const restored=await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()));
-   A.deepEqual(restored,baseline);
+   A.deepEqual(financial(restored),financial(baseline));
    // Initial payment is an advance, not an additional cost. No double counting.
    const old=await page.evaluate(()=>PortfolioV2UI.getState());delete old.skus[0].payments;
    await page.evaluate(old=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(old));openPortfolioV2(true);},old);
-   A.deepEqual(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState())),baseline);
+   A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(baseline));
    protocol.push({width,lang,route:'v2-'+source,normalizedParity:true,restored:true,legacy:true,overflow:false});
   }
   const f=fixture();await page.evaluate(m=>{localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify({...m,version:3,source:'v1-calculated',currency:'KZT'}));LinkedPortfolioV2UI.resume();},f);
