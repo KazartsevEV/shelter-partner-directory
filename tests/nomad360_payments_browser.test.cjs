@@ -76,9 +76,11 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
     amount=page.locator('#own-materials-cost');await amount.fill('1000');
    }else{amount=page.locator('#resale-buy-total');await amount.fill('1000');}
    const selector=source==='materials'?page.locator('#own-material-rows [data-payment-currency]').first():select(actual);
+   if(source!=='dropship'){await choice('inboundIncluded','no');await fill('own-inbound-delivery-cost',150);}
    A.equal(await selector.getAttribute('aria-label'),labels[lang]);
    A.equal(await selector.inputValue(),'KZT');
    await selector.selectOption('CNY');A.equal(await amount.inputValue(),'1000');
+   if(source!=='dropship')A.equal(await page.locator('#own-inbound-delivery-cost').inputValue(),'150');
    A.match(await selector.locator('option[value="CNY"]').textContent(),/🇨🇳 CNY/);
    A.equal(await page.evaluate(()=>saveProductCalculationToBrowser()),true);
    let saved=await page.evaluate(()=>readSavedProductCalculation());
@@ -104,6 +106,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    A.equal(await recovered.inputValue(),'CNY');A.equal(await amount.inputValue(),'1000');
    // Choosing the model's currency makes the same original amount normalizable.
    await recovered.selectOption('KZT');await page.evaluate(()=>saveProductCalculationToBrowser());
+   if(source!=='dropship')A.equal(await page.locator('#own-inbound-delivery-cost').inputValue(),'150');
    A.equal(await page.evaluate(key=>readSavedProductCalculation().productPortfolio[0].payments[key].convertedAmount,actual),1000);
    if(source==='materials'){
     await page.evaluate(()=>addMaterialRow());
@@ -113,6 +116,17 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    // Legacy UI HTML/positional fields remain readable; payment metadata is optional.
    await page.evaluate(()=>{
     const old=readSavedProductCalculation();delete old.productPortfolio[0].payments;
+    delete old.productPortfolio[0].businessCurrency;
+    const material=old.productPortfolio[0].uiState?.dynamic?.materials;
+    if(material){
+     const host=document.createElement('div');host.innerHTML=material.html;
+     [...host.querySelectorAll('input,select,textarea')].forEach((f,i)=>{if(material.fields[i]){f.value=material.fields[i].value;f.checked=material.fields[i].checked;}});
+     for(const wrap of host.querySelectorAll('[data-payment-field]'))wrap.replaceWith(wrap.querySelector('input'));
+     for(const row of host.querySelectorAll('.material-cost-row'))delete row.dataset.paymentKey;
+     for(const label of host.querySelectorAll('[data-payment-amount-currency]'))delete label.dataset.paymentAmountCurrency;
+     material.html=host.innerHTML;
+     material.fields=[...host.querySelectorAll('input,select,textarea')].map(f=>({value:f.value,checked:!!f.checked,selectedIndex:f.tagName==='SELECT'?f.selectedIndex:null}));
+    }
     localStorage.setItem(savedProductStorageKey,JSON.stringify(old));
    });await goto('?resume=1');
    A.equal(await recovered.inputValue(),'KZT');A.equal(await amount.inputValue(),'1000');
@@ -127,12 +141,19 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
   await choice('materialsImported','yes');
   await page.locator('[data-import-payer-key="broker"][data-import-payer-value="me"]').click();
   await fill('own-broker-cost',50);await select('own-broker-cost').selectOption('USD');
+  for(const [payer,id,amount,currency] of [['duties','own-duties-cost',10,'USD'],['certification','own-certification-cost',25,'EUR']]){
+   await page.locator('[data-import-payer-key="'+payer+'"][data-import-payer-value="me"]').click();
+   await fill(id,amount);await select(id).selectOption(currency);
+  }
   await page.evaluate(()=>saveProductCalculationToBrowser());
   const importSaved=await page.evaluate(()=>readSavedProductCalculation().productPortfolio[0].payments);
   A.equal(importSaved['own-inbound-delivery-cost'].paymentCurrency,'EUR');
   A.equal(importSaved['own-broker-cost'].paymentCurrency,'USD');
+  A.equal(importSaved['own-duties-cost'].paymentAmount,10);A.equal(importSaved['own-duties-cost'].paymentCurrency,'USD');
+  A.equal(importSaved['own-certification-cost'].paymentAmount,25);A.equal(importSaved['own-certification-cost'].paymentCurrency,'EUR');
   await goto('?resume=1');A.equal(await select('own-inbound-delivery-cost').inputValue(),'EUR');
   A.equal(await select('own-broker-cost').inputValue(),'USD');await geometry(page);
+  A.equal(await select('own-duties-cost').inputValue(),'USD');A.equal(await select('own-certification-cost').inputValue(),'EUR');
   await screenshot(page,'#product-materials-block',`${width}-${lang}-v1-import`);
   protocol.push({width,lang,route:'v1-import',restored:true,overflow:false});
   for(const source of ['own','resale','dropship']){
@@ -160,7 +181,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    const restored=await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()));
    A.deepEqual(financial(restored),financial(baseline));
    // Initial payment is an advance, not an additional cost. No double counting.
-   const old=await page.evaluate(()=>PortfolioV2UI.getState());delete old.skus[0].payments;
+   const old=await page.evaluate(()=>PortfolioV2UI.getState());delete old.skus[0].payments;delete old.businessCurrency;
    await page.evaluate(old=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(old));openPortfolioV2(true);},old);
    A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(baseline));
    protocol.push({width,lang,route:'v2-'+source,normalizedParity:true,restored:true,legacy:true,overflow:false});

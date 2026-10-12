@@ -141,7 +141,7 @@
   document.addEventListener('change',event=>{
    if(!event.target.matches('[data-payment-currency]')||event.target.closest('[data-payment-path]'))return;
    const field=event.target.closest('[data-payment-field]')?.querySelector('input');if(!field)return;
-   if(field.classList.contains('material-cost-price'))root.updateCalculatedMaterialsCost?.();
+   if(field.classList.contains('material-cost-price'))root.updateCalculatedMaterialsCost?.(true);
    else if(field.id==='resale-buy-total')root.updateResalePurchase?.();
    root.recalculateMaterialsLandedCost?.();
    root.syncVisibleAggregateFromCurrentProduct?.();

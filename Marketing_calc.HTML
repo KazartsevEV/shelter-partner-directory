@@ -7213,7 +7213,7 @@
             updateCalculatedMaterialsCost();
         }
 
-        function updateCalculatedMaterialsCost() {
+        function updateCalculatedMaterialsCost(preserveDelivery=false) {
             let total = 0;
 
             document.querySelectorAll('.material-cost-row').forEach(row => {
@@ -7233,7 +7233,7 @@
             const baseInput = document.getElementById('own-materials-cost');
             if (baseInput && materialCostMode === 'calculate') baseInput.value = Number.isFinite(total)?total.toFixed(2):'';
 
-            if(Number.isFinite(total)){
+            if(Number.isFinite(total)&&!preserveDelivery){
                 productOwnInboundDeliveryManual = false;
                 updateInboundDeliveryDefault();
             }
@@ -7277,7 +7277,8 @@
             const warning=document.getElementById('resale-buy-warning');
             const positiveRaw=Number(raw)>0&&Number.isFinite(Number(raw));
             if(warning){warning.hidden=positiveRaw;warning.classList.toggle('hidden',positiveRaw);}
-            updateInboundDeliveryDefault();recalculateMaterialsLandedCost();renderResalePurchaseComposition();
+            if(Number.isFinite(cost))updateInboundDeliveryDefault();
+            recalculateMaterialsLandedCost();renderResalePurchaseComposition();
         }
         function syncDropshipFinanceInputs(){
             if(productSource!=='dropship')return;
