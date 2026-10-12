@@ -2018,9 +2018,15 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 #portfolio-v2-root .nd-v2-status,
 #portfolio-v2-root .nd-v2-field-label,
 #portfolio-v2-root .nd-v2-field-help,
-#portfolio-v2-root .nd-v2-section-link,
-#portfolio-v2-root .nd-v2-upload-control{
+#portfolio-v2-root .nd-v2-section-link{
   color:#fff;
+}
+#portfolio-v2-root [data-linked-path="recurringDemandApproved"]{
+  color:var(--nd-ink);
+}
+#portfolio-v2-root .nd-v2-upload-control{
+  color:var(--nd-ink);
+  background:#fff;
 }
 #portfolio-v2-root .nd-v2-light-note{
   color:var(--nd-ink);

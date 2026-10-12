@@ -97,7 +97,7 @@ async function assertColors(page,route){
   return {background:style(document.body).backgroundColor,
    sections:sections.map(el=>({background:style(el).backgroundColor,radius:style(el).borderRadius,shadow:style(el).boxShadow})),
    text:text.map(el=>({text:el.textContent.slice(0,60),color:style(el).color})),
-   fields:[...root.querySelectorAll('.input-field')].map(el=>({color:style(el).color,background:style(el).backgroundColor}))};
+   fields:[...root.querySelectorAll('.input-field,.nd-v2-upload-control')].map(el=>({color:style(el).color,background:style(el).backgroundColor}))};
  });
  A.equal(result.background,'rgb(255, 255, 255)');
  A.ok(result.sections.length>=(route==='standalone'?11:7));
@@ -127,7 +127,10 @@ async function assertColors(page,route){
     const before=baseline[key];
     A.deepEqual(initial.state,before.state,'saved business state '+key);
     A.deepEqual(initial.finance,before.finance,'financial results '+key);
-    A.deepEqual(snapshot.fields,before.fields,'control values, geometry and colors '+key);
+    // File upload joins the white input surface in stage 1; its geometry,
+    // filename, control text color and every other control remain unchanged.
+    const controls=fields=>fields.map(f=>f.type==='file'?{...f,background:'file-upload-surface'}:f);
+    A.deepEqual(controls(snapshot.fields),controls(before.fields),'control values, geometry and colors '+key);
     A.deepEqual(snapshot.resources,before.resources,'resource cards remain unchanged '+key);
     A.deepEqual(snapshot.regions.map(x=>x.rect),before.regions.map(x=>x.rect),'section geometry '+key);
     A.ok(snapshot.metrics.scroll<=Math.max(width,before.metrics.scroll),'no new document overflow '+key);
