@@ -31,7 +31,7 @@ async function panel(page,pathKey,currency){
   const apply=async fx=>{await fx.locator('[data-fx-fetch]').click();await page.waitForFunction(el=>el.querySelector('[data-fx-rate]').value!=='',await fx.elementHandle());A.equal(await fx.locator('[data-fx-apply]').isEnabled(),true);await fx.locator('[data-fx-apply]').click();};
   for(const source of ['own','resale','dropship']){
    await goto();const m=model(source);await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},m);
-   await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
+   await page.locator('[data-p2-sku] details.nd-v2-info-panel').evaluate(el=>el.open=true);
    const key=source==='own'?'initialCashOut':'unitCost',pathKey='skus.0.'+key,raw=m.skus[0][key];
    const fx=await panel(page,pathKey,'CNY');A.equal(await pending(page),true);
    await fx.locator('[data-fx-fetch]').click();await page.waitForFunction(el=>el.querySelector('[data-fx-rate]').value==='2',await fx.elementHandle());
@@ -49,7 +49,7 @@ async function panel(page,pathKey,currency){
    const count=requests.length;for(const next of ['ru','en','kk']){await page.locator('#nomad360-lang-select').selectOption(next);A.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('marketingCalcPortfolioV2'))),saved);A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(result));}
    await goto();await page.evaluate(()=>openPortfolioV2(true));A.equal(requests.length,count);
    A.deepEqual(await page.evaluate(()=>PortfolioV2UI.getState()),saved);A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(result));
-   await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);await fx.evaluate(el=>el.open=true);
+   await page.locator('[data-p2-sku] details.nd-v2-info-panel').evaluate(el=>el.open=true);await fx.evaluate(el=>el.open=true);
    await geometry(page);await fx.screenshot({path:path.join(art,`${width}-${lang}-v2-${source}.png`)});
    const amount=page.locator('[data-p2-path="'+pathKey+'"]'),edited=source==='own'?1035:35;
    await amount.fill(String(edited));const invalidated=await page.evaluate(key=>JSON.parse(localStorage.getItem('marketingCalcPortfolioV2')).skus[0].payments[key],key);
