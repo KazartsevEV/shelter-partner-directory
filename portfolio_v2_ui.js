@@ -25,7 +25,7 @@ const initial=()=>({
  tax:{type:'turnover',pct:0,vatPct:0}
 });
 function load(){try{const raw=JSON.parse(localStorage.getItem(storageKey));return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length?raw:null}catch(_){return null}}
-function save(){try{localStorage.setItem(storageKey,JSON.stringify(model));const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
+function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);localStorage.setItem(storageKey,JSON.stringify(model));const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
 function updateEntry(){
  const existing=load(),el=document.getElementById('portfolio-v2-resume-home');
  if(el){el.hidden=!existing;el.classList.toggle('hidden',!existing);}

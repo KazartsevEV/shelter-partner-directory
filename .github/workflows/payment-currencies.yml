@@ -15,6 +15,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -33,6 +35,19 @@ jobs:
           mkdir -p artifacts/payments
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/payment-utilities.css
           npx tailwindcss -i /tmp/payment-utilities.css -o artifacts/payment-utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js'
+      - name: Prove the edit regression fails on the rejected PR revision
+        run: |
+          mkdir -p /tmp/payment-rejected/artifacts
+          git archive 125634d4641910c731331929c93135e0e2bea1c0 | tar -x -C /tmp/payment-rejected
+          cp tests/nomad360_payments_browser.test.cjs /tmp/payment-rejected/tests/
+          cp artifacts/payment-utilities.css /tmp/payment-rejected/artifacts/
+          export NODE_PATH="$GITHUB_WORKSPACE/node_modules"
+          if node /tmp/payment-rejected/tests/nomad360_payments_browser.test.cjs --edit-only > artifacts/payments/edit-baseline-red.log 2>&1; then
+            cat artifacts/payments/edit-baseline-red.log
+            echo 'Rejected revision unexpectedly passed the edit regression'
+            exit 1
+          fi
+          node -e "const s=require('fs').readFileSync('artifacts/payments/edit-baseline-red.log','utf8');if(!s.includes('V2_EDIT_AUTOSAVE resale/unitCost live metadata')||!s.includes('20')||!s.includes('35'))throw Error('Expected stale-payment assertion was not reproduced');console.log('PAYMENT_EDIT_BASELINE_RED_CONFIRMED')"
       - name: Chromium amounts, currencies, restore, languages and responsive forms
         run: node tests/nomad360_payments_browser.test.cjs
       - uses: actions/upload-artifact@v4

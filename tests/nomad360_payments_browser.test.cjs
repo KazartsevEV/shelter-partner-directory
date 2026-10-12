@@ -5,13 +5,13 @@ const {fixture}=require('./portfolio_v2_f3_fixture.cjs');
 const root=path.join(__dirname,'..'),art=path.join(root,'artifacts','payments');
 fs.mkdirSync(art,{recursive:true});
 const url=pathToFileURL(path.join(root,'Marketing_calc.HTML')).href;
-const protocol=[];
+const protocol=[],editOnly=process.argv.includes('--edit-only');
 // The engine retains original SKU objects in some reports. Payment metadata is
 // expected to appear there; compare every existing numeric/behavioral field.
 const financial=out=>JSON.parse(JSON.stringify(out,(k,v)=>k==='payments'||k==='businessCurrency'?undefined:v));
 const labels={ru:'Валюта платежа',en:'Payment currency',kk:'Төлем валютасы'};
 const model=source=>({version:2,currency:'KZT',marketing:{budget:1000,cpc:5,ctrPct:2,clickLeadPct:20,leadOrderPct:25,periodMonths:2,cacReservePct:100},
- skus:[{id:'a',name:'Тауар / Product',source,unitCost:20,marginPct:25,mixPct:100,batchUnits:source==='dropship'?0:100,initialCashOut:source==='dropship'?0:2000,fulfillmentPerOrder:2,storagePerUnitDay:0,acquiringPct:0}],
+ skus:[{id:'a',name:'Тауар / Product',source,unitCost:'20',marginPct:25,mixPct:100,batchUnits:source==='dropship'?0:100,initialCashOut:source==='dropship'?'0':'2000',fulfillmentPerOrder:'2',storagePerUnitDay:0,acquiringPct:0}],
  resources:[],funding:{kind:'cash',reservePct:10},tax:{type:'turnover',pct:6,vatPct:0}});
 async function geometry(page){
  const issues=await page.evaluate(()=>{
@@ -61,6 +61,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
   const fill=async(id,value)=>page.locator('#'+id).fill(String(value));
   const choice=async(group,value)=>page.locator('[data-yn-group="'+group+'"][data-yn-value="'+value+'"]').click();
   const select=id=>page.locator('[data-payment-field="'+id+'"] [data-payment-currency]');
+  if(!editOnly){
   for(const source of ['own','resale','dropship','materials']){
    console.log('PAYMENT_CASE',width,lang,source);
    await goto();await page.locator('#business-currency').selectOption('KZT');
@@ -171,7 +172,8 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
   A.equal(await select('own-duties-cost').inputValue(),'USD');A.equal(await select('own-certification-cost').inputValue(),'EUR');
   await screenshot(page,'#product-materials-block',`${width}-${lang}-v1-import`);
   protocol.push({width,lang,route:'v1-import',restored:true,overflow:false});
-  for(const source of ['own','resale','dropship']){
+  }else await goto();
+  for(const source of editOnly?['resale','own','dropship']:['own','resale','dropship']){
    const m=model(source);
    await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},m);
    const baseline=await page.evaluate(()=>PortfolioV2Engine.build(PortfolioV2UI.getState()));
@@ -186,6 +188,51 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    A.equal(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()).paymentPending),true);
    A.equal(await page.locator('[data-nomad-price-toggle]').isDisabled(),true);
    await geometry(page);await screenshot(page,'[data-p2-sku]',`${width}-${lang}-v2-${source}`);
+   // Regression for PR #132: currency first, numeric edit second. Inspect
+   // the raw auto-saved draft before any reload or explicit save can repair it.
+   const editedPayments=[];
+   const fields=source==='own'?['initialCashOut']:source==='resale'?['unitCost','initialCashOut']:['unitCost','fulfillmentPerOrder'];
+   await selector.selectOption('KZT');
+   for(const key of fields){
+    const editPath='skus.0.'+key;
+    const editAmount=page.locator('[data-p2-path="'+editPath+'"]');
+    const editCurrency=page.locator('[data-payment-path="'+editPath+'"] [data-payment-currency]');
+    await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
+    const before=await editAmount.inputValue(),edited=key==='unitCost'?35:Number(before)+35;
+    await editCurrency.selectOption('CNY');
+    const checkDraft=async(value,convertedAmount,status)=>{
+     const drafts=await page.evaluate(()=>({live:PortfolioV2UI.getState(),saved:JSON.parse(localStorage.getItem('marketingCalcPortfolioV2'))}));
+     for(const [where,draft] of Object.entries(drafts)){
+      A.equal(draft.skus[0][key],value,`V2_EDIT_AUTOSAVE ${source}/${key} ${where} raw input`);
+      A.deepEqual(draft.skus[0].payments[key],{businessCurrency:'KZT',paymentCurrency:'CNY',paymentAmount:value===''||Number(value)<0?null:Number(value),convertedAmount,status},`V2_EDIT_AUTOSAVE ${source}/${key} ${where} metadata`);
+     }
+     return drafts.saved.skus[0].payments[key];
+    };
+    await editAmount.fill(String(edited));
+    const saved=await checkDraft(String(edited),null,'conversion-required');
+    A.equal(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()).paymentPending),true);
+    A.equal(await page.locator('[data-nomad-price-toggle]').isDisabled(),true);
+    await goto();await page.evaluate(()=>openPortfolioV2(true));
+    await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
+    A.equal(await editCurrency.inputValue(),'CNY');A.equal(await editAmount.inputValue(),String(edited));
+    const restoredPayment=await checkDraft(String(edited),null,'conversion-required');
+    A.equal(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()).paymentPending),true);
+    A.equal(await page.locator('[data-nomad-price-toggle]').isDisabled(),true);
+    await editAmount.fill('0');await checkDraft('0',0,'normalized');
+    await editAmount.fill('');await checkDraft('',null,'empty');
+    await editAmount.fill('-1');await checkDraft('-1',null,'invalid');
+    A.equal(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()).paymentPending),true);
+    await editAmount.fill(String(edited));await checkDraft(String(edited),null,'conversion-required');
+    await editCurrency.selectOption('KZT');
+    const sameCurrency=await page.evaluate(key=>JSON.parse(localStorage.getItem('marketingCalcPortfolioV2')).skus[0].payments[key],key);
+    A.deepEqual(sameCurrency,{businessCurrency:'KZT',paymentCurrency:'KZT',paymentAmount:edited,convertedAmount:edited,status:'normalized'});
+    await editAmount.fill(before);
+    const reset=await page.evaluate(key=>JSON.parse(localStorage.getItem('marketingCalcPortfolioV2')).skus[0].payments[key],key);
+    A.equal(reset.paymentAmount,Number(before));A.equal(reset.convertedAmount,Number(before));
+    editedPayments.push({key,before:Number(before),edited,saved,restoredPayment,sameCurrency,zero:true,empty:true,invalid:true});
+   }
+   // Keep the original foreign-payment round trip and financial baseline check.
+   await selector.selectOption('CNY');
    const state=await page.evaluate(()=>PortfolioV2UI.getState());
    await page.locator('#nomad360-lang-select').selectOption(lang==='en'?'kk':'en');
    A.deepEqual(await page.evaluate(()=>PortfolioV2UI.getState()),state);
@@ -199,17 +246,19 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    const old=await page.evaluate(()=>PortfolioV2UI.getState());delete old.skus[0].payments;delete old.businessCurrency;
    await page.evaluate(old=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(old));openPortfolioV2(true);},old);
    A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(baseline));
-   protocol.push({width,lang,route:'v2-'+source,normalizedParity:true,restored:true,legacy:true,overflow:false,baseline:financial(baseline),after:financial(restored)});
+   protocol.push({width,lang,route:'v2-'+source,editedPayments,normalizedParity:true,restored:true,legacy:true,overflow:false,baseline:financial(baseline),after:financial(restored)});
   }
+  if(!editOnly){
   const f=fixture();await page.evaluate(m=>{localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify({...m,version:3,source:'v1-calculated',currency:'KZT'}));LinkedPortfolioV2UI.resume();},f);
   const linked=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
   A.equal(linked.ready,true);
   await page.locator('#nomad360-lang-select').selectOption(lang==='kk'?'en':'kk');
   A.deepEqual(await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())),linked);
   protocol.push({width,lang,route:'linked',normalizedParity:true});
+  }
   A.deepEqual(errors,[]);await page.close();
  }
- fs.writeFileSync(path.join(art,'protocol.json'),JSON.stringify({cases:protocol.length,protocol},null,2));
- console.log('PAYMENT_BROWSER_GREEN',JSON.stringify({cases:protocol.length,languages:3,widths:6}));
+ fs.writeFileSync(path.join(art,editOnly?'edit-protocol.json':'protocol.json'),JSON.stringify({cases:protocol.length,protocol},null,2));
+ console.log(editOnly?'PAYMENT_EDIT_BROWSER_GREEN':'PAYMENT_BROWSER_GREEN',JSON.stringify({cases:protocol.length,editedPayments:protocol.reduce((n,p)=>n+(p.editedPayments?.length||0),0),languages:3,widths:6}));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e.stack);process.exitCode=1;});
