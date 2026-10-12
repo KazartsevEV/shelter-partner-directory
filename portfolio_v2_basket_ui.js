@@ -117,7 +117,7 @@ function updateResult(out){
       ([0,1,3].includes(i)?safe(v):i===6&&e.mode!=='bundle'?'—':shown(v,i===6?'%':''))+'</td>'
     ).join('')+'</tr>';
   }).join('')+'</tbody></table></div>'+
-  '<p class="text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+shown(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+shown(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
+  '<p class="nd-v2-description text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+shown(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+shown(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
   (out.ready?'':'<p class="text-xs text-rose-700 mt-2">Весь портфель ещё не подтверждён: проверьте лимиты запасов, загрузку и маржу.</p>');
 }
 root.LinkedPortfolioV2BasketUI=Object.freeze({render,updateResult});

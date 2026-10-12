@@ -99,6 +99,7 @@ async function assertColors(page,route){
   return {background:style(document.body).backgroundColor,
    sections:sections.map(el=>({background:style(el).backgroundColor,radius:style(el).borderRadius,shadow:style(el).boxShadow})),
    text:text.map(el=>({text:el.textContent.slice(0,60),color:style(el).color})),
+   resources:[...root.querySelectorAll('[data-p2-resource],[data-linked-resource]')].map(el=>({color:style(el).color,background:style(el).backgroundColor})),
    fields:[...root.querySelectorAll('.input-field,.nd-v2-upload-control')].map(el=>({color:style(el).color,background:style(el).backgroundColor}))};
  });
  A.equal(result.background,'rgb(255, 255, 255)');
@@ -107,6 +108,7 @@ async function assertColors(page,route){
  A.ok(result.text.length>=8);
  for(const t of result.text)A.equal(t.color,'rgb(255, 255, 255)',JSON.stringify(t));
  for(const f of result.fields){A.equal(f.color,'rgb(22, 55, 90)');A.equal(f.background,'rgb(255, 255, 255)');}
+ for(const r of result.resources){A.equal(r.color,'rgb(22, 55, 90)');A.equal(r.background,'rgb(255, 255, 255)');}
 }
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});

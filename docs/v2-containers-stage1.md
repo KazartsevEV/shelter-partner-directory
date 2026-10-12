@@ -23,7 +23,7 @@ Actions run `38221371009`.
 | `portfolio_v2_mba_observed_ui.js` | `#linked-mba-panel` | Existing optional history render template |
 | `nomad360_design_system.css` | Shared input colors, type sizes, focus, local table scrolling | Preserved shared rules |
 
-Resource cards, SKU forms, allocations, periods, salary semantics, CTA hierarchy
+Resource structure, SKU forms, allocations, periods, salary semantics, CTA hierarchy
 and the order of result metrics remain owned by their existing code. They are
 outside stage 1. Any pre-existing grid limitations will be recorded for stage 2.
 
@@ -33,11 +33,14 @@ The review workflow builds the exact baseline from a Git archive and captures
 the existing standalone/linked V2 before any stage-1 styling. A local compiled
 Tailwind stylesheet recreates the current utilities without CDN timing changes.
 The browser matrix uses 320/360/390/430/768/1280 px and RU/EN/KK, both populated
-and unready states. PNGs at 390/1280 px and machine-readable geometry/finance
-receipts are uploaded as the `v2-containers-review` Actions artifact.
+and unready states. PNGs cover ready states at 320/390/1280 px and unready states at 390 px,
+for both routes and RU/EN/KK. Other matrix widths have machine-readable
+geometry/finance/contrast receipts. These are uploaded as the
+`v2-containers-review` Actions artifact (192 PNGs before/after).
 
-Stage 1 will compare original control geometry, resource-card markup and colors,
-field values, stored drafts and numerical results against these receipts. It will
+Stage 1 compares original control geometry, resource-card markup/geometry,
+field values, stored drafts and numerical results against these receipts. Resource
+surface and inherited caption colors intentionally change to repair contrast. It will
 also test explicit colors with optional Tailwind styles absent.
 
 Publication: a separate stage-1 PR remains unmerged until the user accepts it.
@@ -67,10 +70,35 @@ Runtime changes: `nomad360_design_system.css`, `portfolio_v2_ui.js`,
 translation keys. No new product copy or untranslated labels are introduced.
 
 Acceptance checks compare the before/after finance and saved-state receipts,
-control values/geometry/colors, resource-card DOM/colors/geometry, section bounds
+control values/geometry and text-input colors, resource-card DOM/geometry, section bounds
 and document overflow. Additional checks verify actual surface/text colors with
 and without utility styles. Protected V1/header/footer/locale and engine files
 must be byte-identical to the baseline; resource-card templates must also match.
 
 Stage 2 mobile layout, stage 3 CTA hierarchy, stage 4 resource-type/payroll fields
 and stage 5 financial-result hierarchy remain pending user acceptance of stage 1.
+
+## Contrast correction after review
+
+The previous own-property color comparison missed alpha blending over changed
+ancestor backgrounds. Its green run did not establish readable resource text.
+The correction keeps both resource templates byte-identical and preserves
+resource structure, grids, sizes, actions, stored state and finance. Both resource
+card surfaces are now opaque white with explicit navy inherited text. The linked
+add-resource action and basket card inherited labels also receive readable text.
+
+The browser audit checks rendered text, nonempty input/select values and empty
+input placeholders throughout the V2 root. It paints foreground/background layers
+through every ancestor in sRGB, including alpha and group opacity, then calculates
+WCAG relative luminance and requires at least 4.5:1. Hidden text and disabled
+controls are excluded; unopened details have no rendered text rectangles. Image
+backgrounds fail explicitly instead of receiving an assumed contrast. This is a
+normal-state audit, not a hover/focus or native-popup audit.
+
+Reference tests cover 21:1 black/white, equal-color 1:1, translucent layers and
+ancestor group opacity. Negative browser regression temporarily loads the rejected
+57d46ba stylesheet in both RU/390 ready routes and must find resource contrast
+failures, then restores current styles before screenshots. Full matrix receipts
+contain the composited colors, ratios and text samples.
+
+PR #129 remains draft and unmerged. Stage 2 has not started.
