@@ -27,7 +27,7 @@ async function states(page,route,language,receipts){
  const back=route==='standalone'?'[data-p2-home]':'[data-linked-back]';
  for(const width of [320,360,390,430,768,1280]){
   await page.setViewportSize({width,height:900});await page.mouse.move(0,0);
-  await page.waitForTimeout(50);
+  await page.waitForTimeout(200); // settle the previous hover before a normal-state audit
   A.deepEqual((await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root')))).failures,[]);
   const output={};
   for(const [name,selector,hover,active,color] of [
@@ -75,6 +75,7 @@ async function interactions(page,route,state,language,version,receipts){
   await page.locator('[data-nomad-price-toggle]').click();
   A.equal(await page.locator('#nomad360-price-preview').isVisible(),true);
   await page.locator('#nomad360-portfolio-tools').screenshot({path:path.join(artifacts,version+'-linked-'+language+'-390-price.png')});
+  await page.mouse.move(0,0);await page.waitForTimeout(200);
   if(version==='after')A.deepEqual((await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root')))).failures,[],'opened preview actions');
   await page.evaluate(()=>{window.__buttonPrintCalls=0;window.print=()=>window.__buttonPrintCalls++;});
   for(const mode of ['price','report']){
@@ -119,6 +120,7 @@ async function interactions(page,route,state,language,version,receipts){
   const disabled=page.locator('[data-basket-action="add"]');A.equal(await disabled.isDisabled(),true);
   const blocked=await business(page,route);await disabled.evaluate(el=>el.click());A.deepEqual(await business(page,route),blocked,'disabled offer action is inert');await record('disabled offer');
   if(version==='after'){
+   await page.mouse.move(0,0);await page.waitForTimeout(200);
    A.deepEqual((await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root')))).failures,[]);
    await disabled.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(artifacts,'linked-'+language+'-390-disabled.png')});
   }
