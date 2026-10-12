@@ -939,6 +939,16 @@ rows.push(
  ['Такая направленная связь уже есть в прогнозе. Нельзя учесть покупку дважды.','This directed offer already exists in the forecast. A purchase cannot be counted twice.','Мұндай байланыс болжамда бар. Сатып алуды екі рет санауға болмайды.']
 );
 
+/* V2-MOBILE-RESTORE: additional labels from the clearer resource cards. */
+rows.push(
+ ["Дополнительный рекламный бюджет / месяц","Additional advertising budget / month","Қосымша жарнама бюджеті / ай"],
+ ["Полный ФОТ (gross + взносы работодателя), у.е.","Total employer payroll (gross pay + employer contributions), currency units","Жұмыс берушінің толық еңбекақы қоры (gross + жарналар), ш.б."],
+ ["Полный расход работодателя на команду: gross-зарплата до удержаний плюс взносы работодателя. Налоги и взносы автоматически не начисляются.","Full employer cost of the team: gross pay before withholding plus employer contributions. Taxes and contributions are not added automatically.","Командаға жұмыс берушінің толық шығыны: ұсталымға дейінгі gross жалақы және жұмыс беруші жарналары. Салықтар мен жарналар автоматты есептелмейді."],
+ ["Платёж: ежемесячно","Payment: monthly","Төлем: ай сайын"],
+ ["Подтверждаю действие сертификата для всех выбранных товаров","I confirm the certificate covers every selected product","Сертификаттың таңдалған барлық тауарға жарамдылығын растаймын"],
+ ["Рекламная воронка","Advertising funnel","Жарнама воронкасы"],
+);
+
 /* Independent experimental portfolio V2: source labels only, no engine edits. */
 rows.push(
  ['Помещение','Premises','Ғимарат'],
