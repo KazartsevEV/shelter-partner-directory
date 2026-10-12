@@ -20,9 +20,9 @@ function render(state,onChange){
  const select=(current,exclude=[])=>'<option value="">Выберите позицию</option>'+
    skus.filter(s=>!exclude.includes(s.id)).map(s=>
      option(s.id,s.name+(['offline-service','online-service'].includes(s.source)?' · услуга':' · товар'),current)).join('');
- panel.className='rounded-2xl border border-slate-200 bg-white p-4 mb-5';
- panel.innerHTML='<h2 class="text-xl font-bold text-slate-900">3. Покупки вместе и комплекты</h2>'+
-   '<p class="text-sm text-slate-700 mt-2">Дополнительные продажи и готовые комплекты: выберите товары, которые покупатель может взять вместе. Расчёт сразу покажет изменение выручки, прибыли и доступных остатков.</p>'+
+ panel.className='nd-v2-section rounded-2xl border border-slate-200 p-4 mb-5';
+ panel.innerHTML='<h2 class="nd-v2-title text-xl font-bold">3. Покупки вместе и комплекты</h2>'+
+   '<p class="nd-v2-description text-sm mt-2">Дополнительные продажи и готовые комплекты: выберите товары, которые покупатель может взять вместе. Расчёт сразу покажет изменение выручки, прибыли и доступных остатков.</p>'+
    '<details class="mt-3 rounded-lg border border-blue-200 bg-white p-3 text-sm">'+
    '<summary class="font-semibold text-blue-900 cursor-pointer">Как рассчитываются совместные покупки</summary>'+
    '<p class="mt-2 text-slate-700">За основу берём покупателей из рекламного прогноза V1. Один покупатель учитывается в рекламе один раз.</p>'+
@@ -98,10 +98,10 @@ function updateResult(out){
    host.innerHTML='<div class="rounded-lg bg-rose-50 p-3 text-sm text-rose-800">'+
      problems.map(p=>'<p>'+safe(p.message)+'</p>').join('')+'</div>';return;
  }
- if(!basket?.events?.length){host.innerHTML='<p class="text-xs text-slate-500">Связей пока нет. Обычные расчёты V2 остаются неизменными.</p>';return;}
+ if(!basket?.events?.length){host.innerHTML='<p class="nd-v2-description text-xs">Связей пока нет. Обычные расчёты V2 остаются неизменными.</p>';return;}
  host.innerHTML='<h3 class="font-bold mt-3">Прогноз привязанных покупок</h3>'+
   (basket.bundleSavingsGross>0?
-    '<p class="text-sm mt-2 text-emerald-800">Скидки по комплектам за месяц: <b>'+shown(basket.bundleSavingsGross)+
+    '<p class="nd-v2-description text-sm mt-2">Скидки по комплектам за месяц: <b>'+shown(basket.bundleSavingsGross)+
     '</b> с НДС; уменьшение выручки без НДС: <b>'+shown(basket.bundleSavingsNet)+'</b>. Пересчёт включён в цену, налог, маржу и Cash Flow.</p>':'')+
   '<div class="overflow-x-auto mt-2"><table class="min-w-full text-xs"><thead><tr>'+
   ['Вариант','Основная позиция','Чеков со связкой','Дополнения (шт. в чеке)','Дополнительно, ед.','Пересечение, ед.','Скидка комплекта','Цена чека до','Покупатель платит']
@@ -117,8 +117,9 @@ function updateResult(out){
       ([0,1,3].includes(i)?safe(v):i===6&&e.mode!=='bundle'?'—':shown(v,i===6?'%':''))+'</td>'
     ).join('')+'</tr>';
   }).join('')+'</tbody></table></div>'+
-  '<p class="text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+shown(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+shown(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
+  '<p class="nd-v2-description text-xs text-slate-600 mt-2">Изменение выручки при тех же рассчитанных ценах: <b>'+shown(basket.revenueLift)+'</b>; изменение переменного вклада (до общих расходов и налогов): <b>'+shown(basket.variableContributionLift)+'</b>. Включено в V2, в том числе прогнозы себестоимости, загрузки и Cash Flow.</p>'+
   (out.ready?'':'<p class="text-xs text-rose-700 mt-2">Весь портфель ещё не подтверждён: проверьте лимиты запасов, загрузку и маржу.</p>');
 }
 root.LinkedPortfolioV2BasketUI=Object.freeze({render,updateResult});
 })(window);
+

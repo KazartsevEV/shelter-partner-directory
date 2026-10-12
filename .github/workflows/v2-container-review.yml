@@ -1,0 +1,44 @@
+name: V2 container visual review
+on:
+  pull_request:
+    paths:
+      - 'nomad360_design_system.css'
+      - 'portfolio_v2_*ui.js'
+      - 'tests/nomad360_v2_containers_browser.test.cjs'
+      - 'tests/nomad360_contrast.test.cjs'
+      - 'tests/helpers/contrast.cjs'
+      - 'docs/v2-containers-stage1.md'
+      - '.github/workflows/v2-container-review.yml'
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+      - run: npx playwright install --with-deps chromium
+      - name: Check reference contrast and alpha composition
+        run: node --test tests/nomad360_contrast.test.cjs
+      - name: Compile existing utility styles and archive the restored baseline
+        run: |
+          mkdir -p artifacts/v2-containers /tmp/nomad-v2-baseline
+          git archive d0cf181aac92115a4f6f838e7a9b976733b21f88 | tar -x -C /tmp/nomad-v2-baseline
+          git show 57d46ba7c462174c8401b22369aad2f4812dfec7:nomad360_design_system.css > /tmp/nomad-v2-rejected.css
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/nomad-v2-utilities.css
+          npx tailwindcss -i /tmp/nomad-v2-utilities.css -o artifacts/v2-utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js,/tmp/nomad-v2-baseline/Marketing_calc.HTML,/tmp/nomad-v2-baseline/portfolio_v2_*ui.js,/tmp/nomad-v2-baseline/nomad360_*.js'
+      - name: Capture restored V2 before any styling changes
+        run: node tests/nomad360_v2_containers_browser.test.cjs --stage=0 --root=/tmp/nomad-v2-baseline
+      - name: Verify composited text contrast, resource geometry and unchanged finance
+        run: node tests/nomad360_v2_containers_browser.test.cjs --stage=1
+      - name: Upload before and after visual receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-containers-review
+          path: artifacts/v2-containers
+          retention-days: 14

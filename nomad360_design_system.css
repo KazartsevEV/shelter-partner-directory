@@ -1978,3 +1978,80 @@ body .nd-currency-settings{background:#16375a;color:#fff;min-width:0}
 body .nd-currency-settings label{display:block;color:#fff}
 body .nd-currency-settings p{color:#dbe4ee;overflow-wrap:anywhere}
 body .nd-currency-settings select{width:100%;max-width:320px;background:#fff;color:#16375a;min-height:44px}
+
+/* V2 stage 1: explicit component surfaces only. Original grids, field sizes,
+   resource cards, controls and calculation order remain owned by their UI.
+   No utility-name substring selectors and no important overrides. */
+body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
+  background:#fff;
+}
+#portfolio-v2-root .nd-v2-section,
+#portfolio-v2-root .nd-v2-hero,
+#portfolio-v2-root .nd-v2-result-frame{
+  background:var(--nd-ink);
+  border-color:#31577c;
+  border-radius:var(--nd-radius);
+  box-shadow:none;
+}
+#portfolio-v2-root .nd-v2-hero,
+#portfolio-v2-root .nd-v2-result-frame,
+#portfolio-v2-root .nd-v2-product-card,
+#portfolio-v2-root .nd-v2-price-summary,
+#portfolio-v2-root .nd-v2-sku-metrics,
+#portfolio-v2-root .nd-v2-temporal-summary{
+  color:#fff;
+}
+#portfolio-v2-root .nd-v2-product-card,
+#portfolio-v2-root .nd-v2-info-panel,
+#portfolio-v2-root .nd-v2-price-summary{
+  background:#31577c;
+  border-radius:var(--nd-radius);
+  box-shadow:none;
+}
+#portfolio-v2-root .nd-v2-stat-cell{
+  background:var(--nd-ink);
+  border-radius:var(--nd-radius);
+}
+#portfolio-v2-root .nd-v2-title,
+#portfolio-v2-root .nd-v2-description,
+#portfolio-v2-root .nd-v2-eyebrow,
+#portfolio-v2-root .nd-v2-status,
+#portfolio-v2-root .nd-v2-field-label,
+#portfolio-v2-root .nd-v2-field-help,
+#portfolio-v2-root .nd-v2-section-link{
+  color:#fff;
+}
+#portfolio-v2-root .nd-v2-product-card [data-p2-remove-sku],
+#portfolio-v2-root .nd-v2-product-card [data-linked-delete-sku]{
+  color:#fff;
+}
+#portfolio-v2-root [data-linked-path="recurringDemandApproved"]{
+  color:var(--nd-ink);
+}
+#portfolio-v2-root .nd-v2-upload-control{
+  color:var(--nd-ink);
+  background:#fff;
+}
+#portfolio-v2-root .nd-v2-light-note{
+  color:var(--nd-ink);
+}
+/* Resource surfaces must be opaque: translucent indigo over a navy section
+   cannot support the existing dark labels. Inherited captions need ink too. */
+#portfolio-v2-root [data-p2-resource],
+#portfolio-v2-root [data-linked-resource]{
+  background:#fff;
+  color:var(--nd-ink);
+}
+#portfolio-v2-root [data-p2-resource] .text-slate-500{
+  color:#475569;
+}
+#portfolio-v2-root [data-linked-add]{
+  color:#fff;
+}
+#portfolio-v2-root [data-basket-offer]{
+  color:var(--nd-ink);
+}
+#portfolio-v2-root .input-field::placeholder{
+  color:#475569;
+  opacity:1;
+}

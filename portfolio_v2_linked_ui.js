@@ -198,7 +198,7 @@ function deleteLinkedSku(skuId){
 function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];if(syncPeriodFromV1(state))save();resetSequence();enter();return true;}
 function options(items,value){return items.map(([v,label])=>'<option value="'+safe(v)+'" '+(v===value?'selected':'')+'>'+safe(label)+'</option>').join('');}
 function field(label,path,value,extra=''){
- return '<label class="block min-w-0 text-xs font-semibold text-slate-700">'+safe(label)+
+ return '<label class="block min-w-0 text-xs font-semibold text-slate-700'+(path==='forecastMonths'||path.startsWith('skus.')?' nd-v2-field-label':'')+'">'+safe(label)+
  '<input data-linked-path="'+safe(path)+'" type="number" step="0.01" min="0" class="input-field mt-1" value="'+safe(value)+'" '+extra+'></label>';
 }
 function resourceCard(r,i){
@@ -252,52 +252,52 @@ function render(){
  const host=document.getElementById('portfolio-v2-root');if(!host||!state)return;
  const scenario=Engine.build(state);
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
- const skus=state.skus.map((s,i)=>'<article class="rounded-xl border border-slate-200 bg-white p-4" data-linked-sku="'+i+'">'+
- '<div class="flex items-start justify-between gap-3"><div class="font-bold text-slate-900 text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+ 
+ const skus=state.skus.map((s,i)=>'<article class="nd-v2-product-card rounded-xl border border-slate-200 p-4" data-linked-sku="'+i+'">'+
+ '<div class="flex items-start justify-between gap-3"><div class="nd-v2-title font-bold text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
  '<button type="button" data-linked-delete-sku="'+safe(s.id)+'" class="border border-rose-300 text-rose-800 px-3 py-2 text-sm font-semibold rounded-sm">Удалить</button></div>'+
- '<div class="text-xs text-slate-500">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
- '<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-700 mt-3">'+
+ '<div class="nd-v2-description text-xs">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
+ '<div class="nd-v2-sku-metrics grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mt-3">'+
  [['Себестоимость V1 / шт.',s.unitCost],['Прогноз V1 / мес.',s.forecastUnitsPerMonth],
  ['Реклама V1 / мес.',s.adBudget],['CAC V1',s.baseCac],['Цена от',s.priceMin],
  ['Цена до',s.priceMax],['Дельта цены',num(s.priceMax)-num(s.priceMin)]].map(([label,value])=>
- '<div class="rounded-lg bg-slate-50 p-2"><div class="text-xs text-slate-500">'+label+'</div><b data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+
+ '<div class="nd-v2-stat-cell rounded-lg p-2"><div class="nd-v2-description text-xs">'+label+'</div><b data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+
  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
  'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
- '<div class="rounded-xl bg-emerald-50 text-emerald-900 p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
+ '<div class="nd-v2-price-summary rounded-xl p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
  '<div class="text-xs">Автоматическая цена прайса V2</div><div class="text-xl font-black" data-linked-price-list>'+money(byId.get(s.id)?.priceList)+'</div>'+
  '<div class="text-xs mt-2">Покупатель платит за отдельную позицию (без скидки комбо)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
- '<div class="text-xs text-slate-700 mt-2" data-linked-unit-meta></div>'+
- '<p class="text-xs text-slate-500 mt-2">Цену рассчитывает V2 по продажам, денежному весу, рекламной и общей нагрузке. Диапазон цены V1 не меняется.</p>'+
+ '<div class="nd-v2-description text-xs mt-2" data-linked-unit-meta></div>'+
+ '<p class="nd-v2-description text-xs mt-2">Цену рассчитывает V2 по продажам, денежному весу, рекламной и общей нагрузке. Диапазон цены V1 не меняется.</p>'+
  '</article>').join('');
  host.innerHTML=
- '<div class="rounded-2xl bg-emerald-900 text-white p-5 mb-5">'+
- '<div class="text-xs font-semibold uppercase tracking-widest text-emerald-200">V2 · Связанный портфель</div>'+
- '<h1 class="text-2xl font-black mt-2">Портфель товаров и услуг</h1>'+
+ '<div class="nd-v2-hero rounded-2xl text-white p-5 mb-5">'+
+ '<div class="nd-v2-eyebrow text-xs font-semibold uppercase tracking-widest">V2 · Связанный портфель</div>'+
+ '<h1 class="nd-v2-title text-2xl font-black mt-2">Портфель товаров и услуг</h1>'+
  '<p class="mt-2" data-nomad-no-translate data-business-currency-note>'+safe(root.Nomad360Currency?.caption()||state.currency)+'</p>'+
- '<p class="text-sm text-emerald-100 mt-2">Цены, прогнозы, рекламные бюджеты, себестоимость и налоги взяты из V1. Повторно их заполнять не нужно.</p>'+
+ '<p class="nd-v2-description text-sm mt-2">Цены, прогнозы, рекламные бюджеты, себестоимость и налоги взяты из V1. Повторно их заполнять не нужно.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4">'+
  '<button type="button" data-linked-back class="rounded-lg border border-white/40 p-2 text-sm font-bold">← К расчёту V1</button>'+
  '<button type="button" data-linked-save class="nd-cta-primary rounded-lg p-2 text-sm font-bold">Сохранить портфель</button></div>'+
- '<div id="linked-save-message" class="text-xs mt-2">Черновик хранится в этом браузере</div></div>'+
- '<section class="mb-5"><h2 class="text-xl font-bold mb-2">1. Экономика товаров и услуг V1</h2>'+
- '<p class="text-xs text-slate-600 mb-3">Каждая позиция сохраняет ID, себестоимость, прогноз и ценовой диапазон из V1.</p>'+
+ '<div id="linked-save-message" class="nd-v2-status text-xs mt-2">Черновик хранится в этом браузере</div></div>'+
+ '<section class="nd-v2-section mb-5"><h2 class="nd-v2-title text-xl font-bold mb-2">1. Экономика товаров и услуг V1</h2>'+
+ '<p class="nd-v2-description text-xs mb-3">Каждая позиция сохраняет ID, себестоимость, прогноз и ценовой диапазон из V1.</p>'+
  '<div class="grid grid-cols-1 xl:grid-cols-2 gap-3">'+skus+'</div></section>'+
- '<section class="rounded-2xl border border-slate-200 bg-white p-4 mb-5">'+
- '<h2 class="text-xl font-bold">2. Общие ресурсы</h2>'+
- '<p class="text-sm text-slate-600 mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
+ '<section class="nd-v2-section rounded-2xl border border-slate-200 p-4 mb-5">'+
+ '<h2 class="nd-v2-title text-xl font-bold">2. Общие ресурсы</h2>'+
+ '<p class="nd-v2-description text-sm mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
  '<button type="button" data-linked-add class="w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
- '<section class="rounded-2xl border border-sky-200 bg-sky-50 p-4 mb-5" data-temporal-controls>'+
- '<h2 class="text-lg font-bold text-slate-900">План продаж и загрузка по месяцам</h2>'+
+ '<section class="nd-v2-section rounded-2xl border border-sky-200 p-4 mb-5" data-temporal-controls>'+
+ '<h2 class="nd-v2-title text-lg font-bold">План продаж и загрузка по месяцам</h2>'+
   (inheritedServicePeriod(state)!==null?
-    '<p class="text-sm text-slate-700 mt-2"><span>'+(state.skus.every(s=>s.fullServiceV2)?'Период из полного расчёта V1:':'Период продаж и услуг по данным V1:')+'</span> <strong>'+safe(state.forecastMonths)+'</strong> <span>мес.</span></p>'+
-    '<p class="text-sm text-slate-600 mt-1">Товарные партии — до продажи последней единицы; услуги — в пределах периода V1. Погашение кредита само по себе продажи не продлевает.</p>':
-    '<p class="text-sm text-slate-600 mt-2">У отдельных позиций V1 нет подтверждённого срока будущих продаж. Для многомесячного сценария укажите период и подтвердите повторение спроса.</p>'+
+    '<p class="nd-v2-description text-sm mt-2"><span>'+(state.skus.every(s=>s.fullServiceV2)?'Период из полного расчёта V1:':'Период продаж и услуг по данным V1:')+'</span> <strong>'+safe(state.forecastMonths)+'</strong> <span>мес.</span></p>'+
+    '<p class="nd-v2-description text-sm mt-1">Товарные партии — до продажи последней единицы; услуги — в пределах периода V1. Погашение кредита само по себе продажи не продлевает.</p>':
+    '<p class="nd-v2-description text-sm mt-2">У отдельных позиций V1 нет подтверждённого срока будущих продаж. Для многомесячного сценария укажите период и подтвердите повторение спроса.</p>'+
     '<div class="max-w-xs mt-3">'+field('Месяцев в сценарии (1–120)','forecastMonths',state.forecastMonths??1,'min="1" max="120" step="1"')+'</div>'+
-    '<label class="flex items-start gap-2 text-sm text-slate-800 mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
- '<div id="linked-temporal-result" class="mt-3 text-sm text-slate-700"></div></section>'+
- '<section id="linked-results" class="rounded-2xl bg-slate-900 text-white p-5 mb-6" aria-live="polite"></section>';
+    '<label class="nd-v2-field-label flex items-start gap-2 text-sm mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
+ '<div id="linked-temporal-result" class="nd-v2-temporal-summary mt-3 text-sm"></div></section>'+
+ '<section id="linked-results" class="nd-v2-result-frame rounded-2xl text-white p-5 mb-6" aria-live="polite"></section>';
  root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{
    state.offers=offers;save();if(structural)render();else updateResult();
  });
@@ -322,11 +322,11 @@ function updateResult(){
     '<td class="p-2">'+m.month+'</td><td class="p-2 text-right">'+money(m.units)+'</td>'+
     '<td class="p-2">'+values(m.orders)+'</td>'+
     '<td class="p-2">'+values(m.remainingStock)+'</td></tr>').join('');
-   preview.innerHTML='<p class="text-emerald-800 font-bold">Остатки и мощности проверены по месяцам.</p>'+
+   preview.innerHTML='<p class="nd-v2-description font-bold">Остатки и мощности проверены по месяцам.</p>'+
     '<div class="overflow-x-auto mt-2"><table class="min-w-full text-xs"><thead><tr>'+
     '<th class="p-2">Месяц</th><th class="p-2">Количество</th><th class="p-2">Продажи</th>'+
     '<th class="p-2">Остатки</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
-    '<p class="mt-2 text-xs text-amber-800">Этот объёмный прогноз используется в Cash Flow ниже. Денежные потоки учитывают только выбранный горизонт и сроки фактического поступления денег.</p>';
+    '<p class="nd-v2-description mt-2 text-xs">Этот объёмный прогноз используется в Cash Flow ниже. Денежные потоки учитывают только выбранный горизонт и сроки фактического поступления денег.</p>';
   }else preview.textContent=Number(state.forecastMonths??1)>1?
    'Для многомесячного прогноза требуется подтверждение повторения спроса и проверка запасов.':
    'Используется исходный прогноз первого месяца из V1.';
@@ -540,7 +540,7 @@ function updateResult(){
   ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]
  .map(([label,value])=>'<div class="bg-white/10 rounded-lg p-3"><div class="text-xs">'+label+'</div>'+
   '<b class="text-lg" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
- '<p class="mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
+ '<p class="nd-v2-description mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
  'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+
  'Месяц принят равным 30 дням; налоги моделируются помесячно, без переноса убытков.</p>';
