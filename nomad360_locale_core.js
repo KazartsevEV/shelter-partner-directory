@@ -1620,8 +1620,8 @@ function valid(node){
  let parent=node.nodeType===3?node.parentElement:node;
  return parent && !parent.closest('script,style,template,noscript,pre,code,textarea,.product-name-live,[contenteditable="true"],[data-nomad-no-translate],#nomad360-hero,#nomad360-footer,#nomad360-portfolio-tools,#nomad360-print-sheet,#nomad360-language-chooser');
 }
-function lookup(raw,language){
- const money=text=>root.Nomad360Currency?.replaceUnits(text)||text;
+function lookup(raw,language,paymentCurrency){
+ const money=text=>root.Nomad360Currency?.replaceUnits(text,paymentCurrency)||text;
  if(language==='ru')return money(raw);
  const m=/^(\s*)([\s\S]*?)(\s*)$/.exec(raw);
  if(!m)return raw;
@@ -1644,8 +1644,11 @@ function translateNode(node,language){
  if(node.nodeType===3){
   const value=node.nodeValue||'';
   const prior=weak.get(node);
-  const canonical=prior&&value===prior.applied?prior.original:value;
-  const output=lookup(canonical,language);
+  const paymentLabel=node.parentElement?.closest('[data-payment-amount-currency]');
+  const canonical=paymentLabel===node.parentElement&&paymentLabel?.dataset.paymentAmountSource?
+   paymentLabel.dataset.paymentAmountSource:prior&&value===prior.applied?prior.original:value;
+  const paymentCurrency=paymentLabel?.dataset.paymentAmountCurrency;
+  const output=lookup(canonical,language,paymentCurrency);
   weak.set(node,{original:canonical,applied:output});
   if(output!==value)node.nodeValue=output;
   return;

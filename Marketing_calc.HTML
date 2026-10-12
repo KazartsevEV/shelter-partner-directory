@@ -10,6 +10,9 @@
     <meta name="description" content="Nomad360 — бесплатный калькулятор бизнеса. Проверьте цены, себестоимость, прибыль и денежный поток в вашем браузере.">
     <link rel="stylesheet" href="./nomad360_calculator_ui.css">
     <script src="./nomad360_currency.js"></script>
+    <link rel="stylesheet" href="./nomad360_payments.css">
+    <script src="./nomad360_payments.js"></script>
+    <script src="./nomad360_payment_ui.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Typeface is loaded once in nomad360_calculator_ui.css. */
@@ -566,8 +569,8 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
 <label class="text-sm font-semibold text-slate-700"><span id="resale-buy-qty-label">Количество готовых единиц в минимальной партии</span>
 <input id="resale-buy-qty" type="number" min="1" step="1" value="1" class="input-field mt-2" oninput="updateResalePurchase()"></label>
-<label class="text-sm font-semibold text-slate-700"><span id="resale-buy-cost-label">Себестоимость минимальной партии, у.е.*</span>
-<input id="resale-buy-total" type="number" min="0" step="0.01" value="" class="input-field mt-2" placeholder="Вся закупка этого товара" oninput="updateResalePurchase()"></label>
+<div class="text-sm font-semibold text-slate-700"><label for="resale-buy-total" id="resale-buy-cost-label">Себестоимость минимальной партии, у.е.*</label>
+<input id="resale-buy-total" type="number" min="0" step="0.01" value="" class="input-field mt-2" placeholder="Вся закупка этого товара" oninput="updateResalePurchase()"></div>
 <label class="text-sm font-semibold text-slate-700">Поставщик (необязательно)
 <input id="resale-buy-supplier" type="text" class="input-field mt-2" placeholder="Поставщик" oninput="renderResalePurchaseComposition()"></label>
 <label class="text-sm font-semibold text-slate-700">Ссылка на товар (необязательно)
@@ -782,7 +785,7 @@
 
                     <div class="rounded-lg border border-slate-200 p-4">
                         <div id="production-worker-heading" class="text-sm font-medium text-slate-800">Кто выполняет производство?</div>
-                        <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div class="nd-v1-labor-choices grid grid-cols-2 gap-2 mt-2">
                             <button type="button" id="production-self-button" data-production-labor-mode="self" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Всё делаю сам</button>
                             <button type="button" id="production-workers-button" data-production-labor-mode="workers" class="production-labor-choice px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold">Плачу рабочим</button>
                         </div>
@@ -2564,6 +2567,7 @@
                         : null;
             });
 
+            window.Nomad360PaymentUI?.restoreV1(item?.payments);
             productOwnInboundDeliveryManual = !!ui.inboundDeliveryManual;
             productionLaborMode = ui.productionLaborMode || 'self';
             materialCostMode =
@@ -2659,7 +2663,7 @@
             const sourceName = document.getElementById('product-source-name');
             if (sourceName) sourceName.textContent = item.name ? '«' + item.name + '»' : '';
 
-            selectProductSource(item.source);
+            selectProductSource(item.source,{restoring:true});
             if(item.source==='offline-service'){
                 const src=document.getElementById('product-source-block');
                 if(src){src.hidden=true;src.classList.add('hidden');}
@@ -2848,6 +2852,10 @@
             return {agent,partner,qty,
                 valid:lines.every(x=>x.payer==='agent'||x.payer==='partner')};
         }
+        function nomadPaymentContext() {
+            return {source:productSource,materialCostMode,choices:productOwnChoices,importPayers:productImportPayers};
+        }
+
         function currentProductPortfolioSnapshot() {
             const expectedServiceUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
             const materialsBatchQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
@@ -2928,6 +2936,8 @@
                 id: currentProductSequence,
                 name: productName,
                 currency: window.Nomad360Currency?.get() || 'USD',
+                businessCurrency: window.Nomad360Currency?.get() || 'USD',
+                payments: window.Nomad360PaymentUI?.captureV1(nomadPaymentContext()) || {},
                 source: productSource,
                 serviceChannel:productSource==='offline-service'?serviceChannel:null,
                 serviceRole:productSource==='offline-service'?selectedServiceRole:null,
@@ -3523,6 +3533,14 @@
             };
         }
         function aggregatePlanMetrics(item) {
+            if(Object.values(item?.payments||{}).some(p=>p.active!==false&&(p.status==='invalid'||p.status==='conversion-required'))){
+                return {paymentPending:true,quantityIssues:[],requiredCapital:null,baseRequiredCapital:null,
+                    reservePct:Math.max(0,Number(item?.planning?.reservePct)||0),reserveAmount:null,
+                    totalCycleDays:null,waitAfterAdvanceDays:null,productionDays:null,sellThroughDays:null,
+                    salesSpeedPerMonth:null,advanceAmount:null,zeroMarginRevenue:null,zeroMarginUnitPrice:null,
+                    nonRevenueCosts:null,variableSalesRate:null,stockQty:null,productionTotal:null,
+                    warehouseTotal:null,salesTotal:null,adTotal:null,customerDeliveryTotal:null};
+            }
             if(item?.source==='offline-service')return offlineServiceCycleMetrics(item);
             if(item?.source==='dropship')return dropshipCycleMetrics(item);
             const planning = item?.planning || {};
@@ -3682,10 +3700,13 @@
         function calculateProductPortfolio() {
             const items = productPortfolio.slice();
 
-            if (!items.length) {
+            const paymentPending=items.some(item=>Object.values(item.payments||{}).some(p=>
+                p.active!==false&&(p.status==='invalid'||p.status==='conversion-required')));
+            if (!items.length || paymentPending) {
                 return {
                     items: [],
                     pricingReady: false,
+                    ...(paymentPending?{paymentPending:true}:{}),
                     totalAdBudget: 0,
                     totalForecastOrders: 0,
                     totalRevenue: null,
@@ -5096,6 +5117,7 @@
             report('');
             if(productName&&['own','resale','dropship','offline-service'].includes(productSource))saveCurrentProductToPortfolio();
             const model=calculateProductPortfolio();
+            if(model.paymentPending){report(window.Nomad360PaymentUI?.pendingMessage()||'');return false;}
             if(!model.items.length){report('Сначала рассчитайте и сохраните хотя бы один товар.');return false;}
             if(!productBusinessTaxType||!model.pricingReady){
                 report('Завершите цены, рекламу, объёмы продаж и налог бизнеса для всех товаров — без готовых расчётов портфель V2 не строится.');
@@ -5117,6 +5139,8 @@
                 const cycle=aggregatePlanMetrics(item);
                 skus.push({
                     id:'v1-'+item.id,name:item.name,source:item.source,
+                    businessCurrency:item.businessCurrency||item.currency||'USD',
+                    payments:JSON.parse(JSON.stringify(item.payments||{})),
                     unitCost:row.unitCost,forecastUnitsPerMonth:row.forecastSales,
                     adBudget:row.adBudget,baseCac:row.baseCac,
                     priceMin:range.minPrice,priceMax:range.maxPrice,
@@ -5248,6 +5272,15 @@
             if (!box) return;
 
             const model = calculateProductPortfolio();
+            if(model.paymentPending){
+                box.textContent=window.Nomad360PaymentUI?.pendingMessage()||'';
+                box.classList.add('nd-payment-pending');
+                box.setAttribute('data-nomad-no-translate','');
+                if(priceBox)priceBox.textContent='';
+                return;
+            }
+            box.classList.remove('nd-payment-pending');
+            box.removeAttribute('data-nomad-no-translate');
             // Keep V1 aggregate and monthly Cash Flow amounts bound to their
             // canonical source values; locale switching must never re-run math.
             const money = value =>
@@ -6804,6 +6837,7 @@
         function resetCurrentProductForNext() {
             productName = '';
             productSource = null;
+            window.Nomad360PaymentUI?.resetV1();
             productOwnInitialized = false;
             productOwnInboundDeliveryManual = false;
             resaleWarehouseQtyManual = false;
@@ -6888,6 +6922,8 @@
             if(capacityField)capacityField.value='';
             productSource=null;
             setResaleProductPanels();
+            window.Nomad360PaymentUI?.resetV1();
+            window.Nomad360PaymentUI?.attachV1();
             document.querySelectorAll('.product-name-live').forEach(el => { el.textContent = ''; });
 
             nameInput.focus();
@@ -7168,6 +7204,7 @@
                 </div>
             `;
             container.appendChild(row);
+            window.Nomad360PaymentUI?.attachV1();
             updateCalculatedMaterialsCost();
         }
 
@@ -7176,27 +7213,30 @@
             updateCalculatedMaterialsCost();
         }
 
-        function updateCalculatedMaterialsCost() {
+        function updateCalculatedMaterialsCost(preserveDelivery=false) {
             let total = 0;
 
             document.querySelectorAll('.material-cost-row').forEach(row => {
-                const price = Math.max(0, Number(row.querySelector('.material-cost-price')?.value) || 0);
+                const priceField=row.querySelector('.material-cost-price');
+                const price = window.Nomad360PaymentUI?.readNumber(priceField) ?? Math.max(0, Number(priceField?.value) || 0);
                 const qty = Math.max(0, Number(row.querySelector('.material-cost-qty')?.value) || 0);
                 const lineTotal = price * qty;
                 total += lineTotal;
 
                 const lineOut = row.querySelector('.material-cost-line-total');
-                if (lineOut) lineOut.textContent = moneyInputValue(lineTotal);
+                if (lineOut) lineOut.textContent = Number.isFinite(lineTotal)?moneyInputValue(lineTotal):'—';
             });
 
             const totalOut = document.getElementById('own-materials-calculated-total');
-            if (totalOut) totalOut.textContent = moneyInputValue(total);
+            if (totalOut) totalOut.textContent = Number.isFinite(total)?moneyInputValue(total):'—';
 
             const baseInput = document.getElementById('own-materials-cost');
-            if (baseInput && materialCostMode === 'calculate') baseInput.value = total.toFixed(2);
+            if (baseInput && materialCostMode === 'calculate') baseInput.value = Number.isFinite(total)?total.toFixed(2):'';
 
-            productOwnInboundDeliveryManual = false;
-            updateInboundDeliveryDefault();
+            if(Number.isFinite(total)&&!preserveDelivery){
+                productOwnInboundDeliveryManual = false;
+                updateInboundDeliveryDefault();
+            }
             recalculateMaterialsLandedCost();
         }
 
@@ -7206,15 +7246,17 @@
             if(!box||!['resale','dropship'].includes(productSource))return;
             const goods=productPortfolio.filter(x=>x.source===productSource&&Number(x.id)!==Number(currentProductSequence))
                 .map(x=>({id:Number(x.id),name:x.name,qty:Number(x.inputs?.['resale-buy-qty'])||Number(x.materialsBatchQty)||1,
-                    price:Math.max(0,Number(x.inputs?.['resale-buy-total'])||0),supplier:x.inputs?.['resale-buy-supplier']||''}));
+                    price:Math.max(0,Number(x.inputs?.['resale-buy-total'])||0),supplier:x.inputs?.['resale-buy-supplier']||'',
+                    payment:x.payments?.['resale-buy-total']}));
             if(productName)goods.push({id:Number(currentProductSequence),name:productName,qty:Math.max(1,Number(document.getElementById('resale-buy-qty')?.value)||1),
-                price:productNumber('resale-buy-total'),supplier:document.getElementById('resale-buy-supplier')?.value||''});
+                price:Math.max(0,Number(document.getElementById('resale-buy-total')?.value)||0),supplier:document.getElementById('resale-buy-supplier')?.value||'',
+                payment:window.Nomad360PaymentUI?.captureV1(nomadPaymentContext())?.['resale-buy-total']});
             const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
             box.innerHTML=goods.length?goods.map(g=>
                 '<div class="grid grid-cols-[1fr_auto] gap-3 py-2 border-b border-slate-200"><span><b>'+esc(g.name)+'</b><span class="block text-xs text-slate-500">'+
-                g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span>'+ (g.id===Number(currentProductSequence)?'': '<button type="button" onclick="editSavedProduct('+g.id+')" class="text-xs underline text-blue-800 mt-1">Редактировать товар</button>') + '</span><b>'+moneyInputValue(g.price)+' у.е.*</b></div>').join('')+
+                g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span>'+ (g.id===Number(currentProductSequence)?'': '<button type="button" onclick="editSavedProduct('+g.id+')" class="text-xs underline text-blue-800 mt-1">Редактировать товар</button>') + '</span><b>'+moneyInputValue(g.price)+' '+esc(g.payment?.paymentCurrency||window.Nomad360Currency?.get()||'USD')+'</b></div>').join('')+
                 '<div class="flex justify-between font-bold mt-3"><span>Всего позиций: '+goods.length+'</span><span>'+
-                moneyInputValue(goods.reduce((s,g)=>s+g.price,0))+' у.е.* закупки, без доставки</span></div>':
+                (goods.some(g=>g.payment?.status==='conversion-required'||g.payment?.status==='invalid')?'—':moneyInputValue(goods.reduce((s,g)=>s+(g.payment?.convertedAmount??g.price),0)))+' у.е.* закупки, без доставки</span></div>':
                 '<p class="text-xs text-slate-500">Сначала укажите закупаемый товар и стоимость партии.</p>';
         }
         function markResaleWarehouseQtyManual(){
@@ -7231,10 +7273,12 @@
             if(oldCost)oldCost.value=String(cost/qty);
             if(productSource==='resale'&&!resaleWarehouseQtyManual){const stock=document.getElementById('own-logistics-qty');if(stock)stock.value=String(qty);}
             const output=document.getElementById('resale-buy-unit');
-            if(output)output.textContent=raw===''?'—':moneyInputValue(cost/qty)+' у.е.*';
+            if(output)output.textContent=raw===''||!Number.isFinite(cost)?'—':moneyInputValue(cost/qty)+' у.е.*';
             const warning=document.getElementById('resale-buy-warning');
-            if(warning){warning.hidden=cost>0;warning.classList.toggle('hidden',cost>0);}
-            updateInboundDeliveryDefault();recalculateMaterialsLandedCost();renderResalePurchaseComposition();
+            const positiveRaw=Number(raw)>0&&Number.isFinite(Number(raw));
+            if(warning){warning.hidden=positiveRaw;warning.classList.toggle('hidden',positiveRaw);}
+            if(Number.isFinite(cost))updateInboundDeliveryDefault();
+            recalculateMaterialsLandedCost();renderResalePurchaseComposition();
         }
         function syncDropshipFinanceInputs(){
             if(productSource!=='dropship')return;
@@ -7403,7 +7447,7 @@
         }
 
         function materialsCostWithVat() {
-            const materials = Number(document.getElementById('own-materials-cost')?.value) || 0;
+            const materials = productNumber('own-materials-cost');
             if (productOwnChoices.vatIncluded !== 'no') return materials;
             const vatRate = Number(document.getElementById('own-vat-rate')?.value) || 0;
             return materials * (1 + Math.max(0, vatRate) / 100);
@@ -7414,7 +7458,11 @@
             if (productOwnChoices.inboundIncluded !== 'no') return;
             const input = document.getElementById('own-inbound-delivery-cost');
             if (!input) return;
-            input.value = (materialsCostWithVat() * 0.10).toFixed(2);
+            const normalizedMaterials=materialsCostWithVat();
+            // An unconverted quote cannot provide a delivery default. Keep the
+            // previous delivery amount while the supplier payment is pending.
+            if(!Number.isFinite(normalizedMaterials))return;
+            input.value = (normalizedMaterials * 0.10).toFixed(2);
         }
 
         function markInboundDeliveryManual() {
@@ -7531,7 +7579,8 @@
         }
 
         function productNumber(id) {
-            return Math.max(0, Number(document.getElementById(id)?.value) || 0);
+            const field=document.getElementById(id);
+            return window.Nomad360PaymentUI?.readNumber(field) ?? Math.max(0, Number(field?.value) || 0);
         }
 
         function recalculateMaterialsLandedCost() {
@@ -7577,11 +7626,16 @@
                 certificationPerUnit;
 
             latestMaterialsLandedUnitCost = unitCost;
+            const paymentPending=window.Nomad360Payments?.pending(window.Nomad360PaymentUI?.captureV1(nomadPaymentContext()));
             const out = document.getElementById('own-materials-landed-unit-cost');
-            if (out) out.textContent = moneyInputValue(unitCost);
+            if (out) out.textContent = !paymentPending&&Number.isFinite(unitCost)?moneyInputValue(unitCost):'—';
 
             const breakdown = document.getElementById('own-materials-landed-breakdown');
-            if (breakdown) {
+            if(breakdown&&paymentPending){
+                breakdown.textContent=window.Nomad360PaymentUI.pendingMessage();
+                breakdown.setAttribute('data-nomad-no-translate','');
+            } else if (breakdown) {
+                breakdown.removeAttribute('data-nomad-no-translate');
                 breakdown.innerHTML = [
                     [productSource==='resale'?'Готовый товар':'Материалы', materialsBase],
                     ['НДС сверх указанной себестоимости', vatAdded],
@@ -8078,7 +8132,7 @@
             return false;
         }
 
-        function selectProductSource(source) {
+        function selectProductSource(source,options={}) {
             productSource = source;
 
             document.querySelectorAll('.product-source-choice').forEach(button => {
@@ -8117,7 +8171,10 @@
                 }
 
                 requestAnimationFrame(() => {
-                    Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
+                    // restoreProductOwnUiState already applied exact saved
+                    // choices and amounts. A late frame must not reset the
+                    // manual-delivery flag or regenerate those saved amounts.
+                    if(!options.restoring)Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
                     updateProductAssortmentGate();
                     renderProductPortfolio();
                     ownForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
