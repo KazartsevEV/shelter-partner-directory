@@ -323,7 +323,7 @@ async function browserCase(browser,locale,expected){
   A.equal(v2Action.background,'rgb(237, 142, 99)','V2 primary save CTA is orange');
   A.equal(v2Action.color,'rgb(22, 55, 90)','V2 CTA label is navy');
   A.equal(await page.locator('[data-p2-add-sku]').evaluate(e=>getComputedStyle(e).backgroundColor),
-    'rgb(22, 55, 90)','Add a SKU stays a blue operational action');
+    'rgb(49, 87, 124)','Add a SKU uses the V2 secondary blue action palette');
   const v2Type=await page.locator('[data-p2-path="marketing.budget"]').evaluate(el=>({
     size:parseFloat(getComputedStyle(el).fontSize),
     labelSize:parseFloat(getComputedStyle(el.closest('label').querySelector('span')).fontSize)

@@ -22,7 +22,7 @@ if(stage===1){
   'portfolio_v2_temporal.js','portfolio_v2_temporal_cash.js','portfolio_v2_pooled_media.js','portfolio_v2_period_price.js'];
  for(const file of frozen)A.ok(fs.readFileSync(path.join(directory,file)).equals(fs.readFileSync(path.join(baseline,file))),
   'Protected source must be unchanged: '+file);
- if(layout===2){
+ if(layout>=2){
   const normalize=s=>s.split('\n/* V2_FIELDS_PRESENTATION_START')[0].replace(/\sclass="[^"]*"/g,'').trimEnd();
   for(const file of ['portfolio_v2_ui.js','portfolio_v2_linked_ui.js','portfolio_v2_basket_ui.js','portfolio_v2_mba_observed_ui.js'])
    A.equal(normalize(fs.readFileSync(path.join(directory,file),'utf8')),normalize(fs.readFileSync(path.join(baseline,file),'utf8')),
@@ -73,7 +73,7 @@ function visibleSnapshot(){
 }
 async function seed(page,route,condition){
  const state=route==='standalone'?standalone():linked();
- if(layout===2){
+ if(layout>=2){
   state.skus[0].name='ОченьДлинноеНазваниеБезПробеловДляПроверкиПереносаНаТелефоне_ҰзынАтау';
   state.resources[0].label='ОбщийРесурсСОченьДлиннымНазваниемБезПробеловДляПереноса';
   if(route==='standalone'){
@@ -146,6 +146,7 @@ async function formPictures(page,route,condition,key){
    [['[data-linked-sku="0"]','sku'],['#linked-resources','resources'],['label:has([data-mba-format])','history'],
     ['#linked-basket-panel','basket'],['#linked-results','results']];
  }
+ if(layout===3&&condition==='ready')targets.unshift(['.nd-v2-hero','actions']);
  for(const [selector,label] of targets){
   await page.locator(selector).first().evaluate(el=>el.scrollIntoView({block:'start'}));
   await page.screenshot({path:path.join(artifacts,name,key+'-'+label+'.png')});
@@ -227,7 +228,7 @@ async function assertColors(page,route){
  const receipts={},baseline=stage===1?JSON.parse(fs.readFileSync(path.join(artifacts,'before','receipts.json'),'utf8')):null;
  const contrastFailures=[],layoutFailures=[],numericFailures=[];
  try{
-  for(const route of ['standalone','linked'])for(const condition of layout===2?(route==='standalone'?['ready','unready','credit','dropship']:['ready','unready','history','unmapped','full-service']):['ready','unready'])
+  for(const route of ['standalone','linked'])for(const condition of layout>=2?(route==='standalone'?['ready','unready','credit','dropship']:['ready','unready','history','unmapped','full-service']):['ready','unready'])
   for(const language of languages)for(const width of widths){
    const key=[route,condition,language,width].join('-');
    const context=await browser.newContext({locale:language==='kk'?'kk-KZ':language==='en'?'en-US':'ru-RU',viewport:{width,height:900}});
@@ -239,17 +240,20 @@ async function assertColors(page,route){
    await page.addScriptTag({path:path.join(__dirname,'helpers/contrast.cjs')});
    const initial=JSON.parse(JSON.stringify(await seed(page,route,condition)));
    A.equal(initial.finance.ready,condition!=='unready',key+': '+JSON.stringify(initial.finance.errors));
-   if(layout===2){
+   if(layout>=2){
     await page.addScriptTag({path:path.join(__dirname,'helpers/v2-layout.cjs')});
     await page.addScriptTag({path:path.join(__dirname,'helpers/v2-money-lines.cjs')});
+    if(layout===3)await page.addScriptTag({path:path.join(__dirname,'helpers/v2-buttons.cjs')});
     await prepareForms(page);
    }
    const snapshot=JSON.parse(JSON.stringify(await page.evaluate(visibleSnapshot)));
    const contrast=await page.evaluate(()=>NomadContrast.audit(document.getElementById('portfolio-v2-root')));
-   const geometry=layout===2?await page.evaluate(()=>NomadLayout.audit(document.getElementById('portfolio-v2-root'))):null;
-   const numbers=layout===2?await page.evaluate(route=>NomadMoneyLines.audit(
+   const geometry=layout>=2?await page.evaluate(()=>NomadLayout.audit(document.getElementById('portfolio-v2-root'))):null;
+   const numbers=layout>=2?await page.evaluate(route=>NomadMoneyLines.audit(
     document.getElementById(route==='standalone'?'p2-results':'linked-results')),route):null;
-   receipts[key]={...initial,...snapshot,contrast,...(geometry?{geometry,numbers}: {})};
+   const buttons=layout===3?await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root'))):null;
+   receipts[key]={...initial,...snapshot,contrast,...(geometry?{geometry,numbers}: {}),...(buttons?{buttons}: {})};
+   if(stage===1&&buttons)A.deepEqual(buttons.failures,[],'action colors, contrast, touch size and text fit '+key);
    if(stage===1){
     const before=baseline[key];
     A.deepEqual(initial.state,before.state,'saved business state '+key);
@@ -300,21 +304,25 @@ async function assertColors(page,route){
    await page.evaluate(route=>route==='standalone'?PortfolioV2UI.open({resume:true}):LinkedPortfolioV2UI.resume(),route);
    const restored=await page.evaluate(route=>JSON.stringify((route==='standalone'?PortfolioV2UI:LinkedPortfolioV2UI).getState()),route);
    A.equal(restored,stateBefore,'save/resume '+key);
-   if(layout===2){
+   if(layout>=2){
     await prepareForms(page);
     if(stage===1&&language==='ru'&&width===390)await exerciseFields(page,route,condition);
-    if((condition==='ready'&&[320,390,1280].includes(width))||(condition!=='ready'&&width===390))await formPictures(page,route,condition,key);
+    if((condition==='ready'&&[320,390,1280].includes(width))||(condition!=='ready'&&width===390)||(layout===3&&condition==='history'&&[320,1280].includes(width)))await formPictures(page,route,condition,key);
    }else if((condition==='ready'&&[320,390,1280].includes(width))||(condition==='unready'&&width===390))await pictures(page,route,key);
    A.deepEqual(errors,[],key);
    await context.close();
   }
-  if(stage===1)for(const route of ['standalone','linked'])for(const condition of layout===2?
+  if(stage===1)for(const route of ['standalone','linked'])for(const condition of layout>=2?
    (route==='standalone'?['ready','credit','dropship']:['ready','history','unmapped','full-service']):['ready']){
    const page=await browser.newPage({locale:'en-US',viewport:{width:390,height:900}});
    await page.route(/^https?:\/\//,r=>r.abort());
    await page.goto(pathToFileURL(path.join(directory,'Marketing_calc.HTML')).href,{waitUntil:'domcontentloaded'});
    await seed(page,route,condition);await assertColors(page,route);
-   if(layout===2){await page.addScriptTag({path:path.join(__dirname,'helpers/v2-layout.cjs')});await page.addScriptTag({path:path.join(__dirname,'helpers/contrast.cjs')});await prepareForms(page);
+   if(layout>=2){await page.addScriptTag({path:path.join(__dirname,'helpers/v2-layout.cjs')});await page.addScriptTag({path:path.join(__dirname,'helpers/contrast.cjs')});await prepareForms(page);
+    if(layout===3){
+     await page.addScriptTag({path:path.join(__dirname,'helpers/v2-buttons.cjs')});
+     A.deepEqual((await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root')))).failures,[],'actions without optional utilities '+route+' '+condition);
+    }
     A.deepEqual((await page.evaluate(()=>NomadLayout.audit(document.getElementById('portfolio-v2-root')))).failures,[],'layout without optional utilities '+route);
     A.deepEqual((await page.evaluate(()=>NomadContrast.audit(document.getElementById('portfolio-v2-root')))).failures,[],'contrast without optional utilities '+route);}
    await page.close();
@@ -326,7 +334,12 @@ async function assertColors(page,route){
    A.ok(baseline['standalone-ready-ru-320'].geometry.failures.length>0,'baseline reproduces standalone mobile defects');
    A.ok(baseline['linked-ready-ru-320'].geometry.failures.length>0,'baseline reproduces linked mobile defects');
   }
+  if(layout===3&&stage===1){
+   A.ok(baseline['standalone-ready-ru-320'].buttons.failures.length>0,'baseline detects inconsistent action styling');
+   A.ok(baseline['linked-history-ru-320'].buttons.failures.some(f=>f.role==='primary'),'baseline detects unstyled approval CTA');
+   A.ok(baseline['linked-history-ru-320'].buttons.failures.some(f=>f.reason.startsWith('split action word')),'baseline detects fragmented table action labels');
+  }
   A.deepEqual(contrastFailures,[],'composited text contrast >= 4.5 in all cases');
-  console.log((layout===2?'V2_FIELDS_':'V2_CONTAINERS_')+name.toUpperCase()+'_GREEN '+Object.keys(receipts).length+' cases');
+  console.log((layout===3?'V2_BUTTONS_':layout>=2?'V2_FIELDS_':'V2_CONTAINERS_')+name.toUpperCase()+'_GREEN '+Object.keys(receipts).length+' cases');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e.stack||e);process.exitCode=1;});
