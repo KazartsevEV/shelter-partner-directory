@@ -1,4 +1,4 @@
-name: V2 container visual review
+name: V2 field layout visual review
 on:
   pull_request:
     paths:
@@ -7,6 +7,10 @@ on:
       - 'tests/nomad360_v2_containers_browser.test.cjs'
       - 'tests/nomad360_contrast.test.cjs'
       - 'tests/helpers/contrast.cjs'
+      - 'tests/helpers/v2-layout.cjs'
+      - 'tests/helpers/v2-money-lines.cjs'
+      - 'tests/nomad360_v2_money_lines_browser.test.cjs'
+      - 'docs/v2-fields-stage2.md'
       - 'docs/v2-containers-stage1.md'
       - '.github/workflows/v2-container-review.yml'
 jobs:
@@ -24,21 +28,45 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Check reference contrast and alpha composition
         run: node --test tests/nomad360_contrast.test.cjs
-      - name: Compile existing utility styles and archive the restored baseline
+      - name: Compile existing utility styles and archive the accepted stage 1
         run: |
           mkdir -p artifacts/v2-containers /tmp/nomad-v2-baseline
-          git archive d0cf181aac92115a4f6f838e7a9b976733b21f88 | tar -x -C /tmp/nomad-v2-baseline
+          git archive 0eb9fbc1226c98e32d1a653be7af532dac37f766 | tar -x -C /tmp/nomad-v2-baseline
+          mkdir -p /tmp/nomad-v2-stage2-rejected
+          git archive 3df23f55e004ee299b86aee1296c65bcc91f7d49 | tar -x -C /tmp/nomad-v2-stage2-rejected
           git show 57d46ba7c462174c8401b22369aad2f4812dfec7:nomad360_design_system.css > /tmp/nomad-v2-rejected.css
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/nomad-v2-utilities.css
           npx tailwindcss -i /tmp/nomad-v2-utilities.css -o artifacts/v2-utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js,/tmp/nomad-v2-baseline/Marketing_calc.HTML,/tmp/nomad-v2-baseline/portfolio_v2_*ui.js,/tmp/nomad-v2-baseline/nomad360_*.js'
-      - name: Capture restored V2 before any styling changes
-        run: node tests/nomad360_v2_containers_browser.test.cjs --stage=0 --root=/tmp/nomad-v2-baseline
-      - name: Verify composited text contrast, resource geometry and unchanged finance
-        run: node tests/nomad360_v2_containers_browser.test.cjs --stage=1
-      - name: Upload before and after visual receipts
+      - name: Capture accepted stage 1 with all conditional forms
+        run: node tests/nomad360_v2_containers_browser.test.cjs --layout=2 --stage=0 --root=/tmp/nomad-v2-baseline
+      - name: Verify form geometry, selected values, contrast and unchanged finance
+        run: node tests/nomad360_v2_containers_browser.test.cjs --layout=2 --stage=1
+      - name: Verify financial values stay on one line and fit their cards
+        run: node tests/nomad360_v2_money_lines_browser.test.cjs
+      - name: Upload numeric regression comparison
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: v2-containers-review
-          path: artifacts/v2-containers
+          name: v2-money-lines-review
+          path: artifacts/v2-money-lines
+          retention-days: 14
+      - name: Upload standalone before and after forms
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-fields-stage2-standalone
+          path: |
+            artifacts/v2-containers/before/standalone*.png
+            artifacts/v2-containers/after/standalone*.png
+            artifacts/v2-containers/*/receipts.json
+          retention-days: 14
+      - name: Upload linked before and after forms
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-fields-stage2-linked
+          path: |
+            artifacts/v2-containers/before/linked*.png
+            artifacts/v2-containers/after/linked*.png
+            artifacts/v2-containers/*/receipts.json
           retention-days: 14

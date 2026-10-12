@@ -55,10 +55,10 @@ function render(state,onChange){
  '<li>Сохраните файл и загрузите его ниже. Вы сможете удалить историю из черновика.</li></ol>'+
  '<p class="nd-v2-description text-xs mt-3">CSV: order_id, date, sku_id, quantity, unit_price, currency, channel. JSON Nomad360: orders → items. Данные остаются в браузере.</p>'+
  '</details>'+
- '<div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">'+
- '<label class="nd-v2-field-label block text-sm font-semibold">Формат файла'+
+ '<div class="nd-v2-form-grid mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">'+
+ '<label class="nd-v2-field nd-v2-field-label block text-sm font-semibold">Формат файла'+
  '<select data-mba-format class="input-field mt-2"><option value="auto">Определить автоматически</option><option value="csv">CSV</option><option value="json">JSON</option></select></label>'+
- '<label class="nd-v2-field-label block text-sm font-semibold">Загрузить заполненный файл'+
+ '<label class="nd-v2-field nd-v2-field-label block text-sm font-semibold">Загрузить заполненный файл'+
  '<input data-mba-file type="file" accept=".csv,.json,text/csv,application/json" class="nd-v2-upload-control block mt-2 text-xs w-full"></label></div>'+
  '<div data-mba-message class="text-xs mt-2" role="status"></div>'+
  (source?'<div class="nd-v2-light-note rounded-lg bg-slate-50 p-3 mt-4 text-xs">'+
@@ -68,18 +68,18 @@ function render(state,onChange){
  (data.ready&&data.aovByCurrency.length?'<br>Наблюдаемый средний чек по валютам (из цены файла, без предположений о НДС): '+
  data.aovByCurrency.map(v=>esc(v.currency)+' '+money(v.averageOrderValue)+
  ' / '+money(v.orders)+' чеков').join('; '):'')+'</div>'+
- '<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3">'+
- '<label class="text-xs">Канал<select class="input-field mt-1" data-mba-filter="channel">'+
+ '<div class="nd-v2-filter-grid grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3">'+
+ '<label class="nd-v2-field nd-v2-field-label text-xs">Канал<select class="input-field mt-1" data-mba-filter="channel">'+
    [['all','Все'],...channels.map(c=>[c,c])].map(([v,t])=>'<option value="'+esc(v)+'" '+((history.filter?.channel||'all')===v?'selected':'')+'>'+esc(t)+'</option>').join('')+'</select></label>'+
- '<label class="text-xs">С даты<input class="input-field mt-1" data-mba-filter="from" type="date" value="'+esc(history.filter?.from||'')+'"></label>'+
- '<label class="text-xs">По дату<input class="input-field mt-1" data-mba-filter="to" type="date" value="'+esc(history.filter?.to||'')+'"></label></div>'+
- (unresolved.length?'<div class="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3">'+
+ '<label class="nd-v2-field nd-v2-field-label text-xs">С даты<input class="input-field mt-1" data-mba-filter="from" type="date" value="'+esc(history.filter?.from||'')+'"></label>'+
+ '<label class="nd-v2-field nd-v2-field-label text-xs">По дату<input class="input-field mt-1" data-mba-filter="to" type="date" value="'+esc(history.filter?.to||'')+'"></label></div>'+
+ (unresolved.length?'<div class="nd-v2-light-note mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3">'+
    '<h3 class="font-bold text-sm text-amber-950">Сопоставьте неизвестные SKU ('+unresolved.length+')</h3>'+
-   unresolved.map(raw=>'<label class="block text-xs mt-2">'+esc(raw)+
+   unresolved.map(raw=>'<label class="nd-v2-field block text-xs mt-2">'+esc(raw)+
     '<select data-mba-map="'+esc(raw)+'" class="input-field mt-1"><option value="">— выберите позицию V1 —</option>'+
     skus.map(s=>'<option data-nomad-no-translate value="'+esc(s.id)+'" '+((history.mapping||{})[raw]===s.id?'selected':'')+'>'+esc(s.name)+' · '+esc(s.id)+'</option>').join('')+
     '</select></label>').join('')+'</div>':'')+
- (data.errors.length?'<div class="mt-3 text-sm text-rose-800">'+data.errors.map(esc).join('; ')+'</div>':'')+
+ (data.errors.length?'<div class="nd-v2-input-error mt-3 text-sm text-rose-800 bg-rose-50 p-3 rounded-lg">'+data.errors.map(esc).join('; ')+'</div>':'')+
  (data.ready?
   (data.rules.length?'<div class="overflow-x-auto mt-3"><table class="min-w-full text-xs"><thead><tr>'+
   ['Основа → дополнение','Вместе, чеков','Support совместной корзины','Confidence','Lift','Сценарий']
@@ -91,7 +91,7 @@ function render(state,onChange){
   '<td class="text-right p-2">'+pct(r.confidence)+'</td>'+
   '<td class="text-right p-2">'+money(r.lift)+'</td>'+
   '<td class="p-2">'+(r.antecedent.length===1?
-   '<label class="block text-xs">Пересечение с V1, % (введите вручную)<input type="number" min="0" max="100" step="any" class="input-field mt-1" data-mba-overlap="'+i+'" placeholder="0–100"></label>'+
+   '<label class="nd-v2-field block text-xs">Пересечение с V1, % (введите вручную)<input type="number" min="0" max="100" step="any" class="input-field mt-1" data-mba-overlap="'+i+'" placeholder="0–100"></label>'+
    '<button type="button" data-mba-transfer="'+i+'" class="text-emerald-800 underline mt-1">Утвердить сценарий</button>':
    'Кортеж · только анализ')+'</td></tr>').join('')+
   '</tbody></table></div><p class="nd-v2-description text-xs mt-2">Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте '+money(data.rules.length)+' направленных правил; показано до 60. Для кортежей A+B → C не делается ложная конвертация в одноякорную связку.</p>':

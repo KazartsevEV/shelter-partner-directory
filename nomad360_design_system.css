@@ -2055,3 +2055,165 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
   color:#475569;
   opacity:1;
 }
+
+/* V2 stage 2: each form group owns its responsive layout. These named
+   components work without optional Tailwind and leave report grids alone. */
+#portfolio-v2-root .nd-v2-section,
+#portfolio-v2-root .nd-v2-hero,
+#portfolio-v2-root .nd-v2-result-frame{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+#portfolio-v2-root .nd-v2-form-grid,
+#portfolio-v2-root .nd-v2-filter-grid,
+#portfolio-v2-root .nd-v2-basket-item-grid,
+#portfolio-v2-root .nd-v2-resource-members-grid,
+#portfolio-v2-root .nd-v2-product-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:12px;
+  min-width:0;
+}
+#portfolio-v2-root .nd-v2-field{
+  display:block;
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
+#portfolio-v2-root .nd-v2-field-full{
+  grid-column:1 / -1;
+  min-width:0;
+}
+#portfolio-v2-root .nd-v2-field .input-field,
+#portfolio-v2-root .nd-v2-upload-control{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  min-height:44px;
+  box-sizing:border-box;
+}
+#portfolio-v2-root .nd-v2-selected-value{
+  display:block;
+  margin-top:4px;
+  font-size:14px;
+  line-height:1.4;
+  font-weight:400;
+  overflow-wrap:anywhere;
+}
+#portfolio-v2-root .nd-v2-card-heading{
+  display:flex;
+  align-items:flex-start;
+  flex-wrap:wrap;
+  gap:8px;
+  min-width:0;
+}
+#portfolio-v2-root .nd-v2-card-title{
+  flex:1 1 140px;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+#portfolio-v2-root .nd-v2-card-remove{
+  flex:0 0 auto;
+  min-width:44px;
+  min-height:44px;
+  max-width:100%;
+  white-space:normal;
+  background:transparent;
+}
+#portfolio-v2-root .nd-v2-hero [data-linked-back],
+#portfolio-v2-root .nd-v2-hero [data-p2-home],
+#portfolio-v2-root .nd-v2-hero [data-p2-new]{
+  background:transparent;
+  color:#fff;
+}
+#portfolio-v2-root [data-linked-add]{background:transparent}
+#portfolio-v2-root [data-basket-offer],
+#portfolio-v2-root .nd-v2-basket-info{
+  background:#fff;
+  color:var(--nd-ink);
+}
+#portfolio-v2-root .nd-v2-light-note{background:#f0f3f6}
+#portfolio-v2-root .nd-v2-input-error{
+  background:#fff1f2;
+  color:#9f1239;
+}
+#portfolio-v2-root [data-mba-transfer],
+#portfolio-v2-root [data-mba-clear]{
+  color:#fff;
+  background:transparent;
+}
+#portfolio-v2-root .nd-v2-check-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 12px;
+}
+#portfolio-v2-root .nd-v2-check-row{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  min-width:0;
+  max-width:100%;
+  min-height:44px;
+  overflow-wrap:anywhere;
+}
+#portfolio-v2-root .nd-v2-check-row > input[type="checkbox"]{
+  flex:0 0 18px;
+  width:18px;
+  height:18px;
+  margin-top:3px;
+}
+#portfolio-v2-root .nd-v2-check-row > :is(span,b){
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+#portfolio-v2-root .nd-v2-sku-metrics{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+#portfolio-v2-root .nd-v2-stat-cell,
+#portfolio-v2-root .nd-v2-resource-member{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+@media(min-width:640px){
+  #portfolio-v2-root .nd-v2-form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #portfolio-v2-root .nd-v2-filter-grid,
+  #portfolio-v2-root .nd-v2-sku-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(min-width:768px){
+  #portfolio-v2-root .nd-v2-resource-members-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #portfolio-v2-root .nd-v2-basket-item-grid{grid-template-columns:minmax(0,1fr) 110px auto}
+}
+@media(min-width:1280px){
+  #portfolio-v2-root .nd-v2-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Financial figures are atomic. Labels may wrap; digits and their decimal
+   parts must stay together and fit the card without reducing the font. */
+#portfolio-v2-root .nd-v2-number-value{
+  white-space:nowrap;
+  overflow-wrap:normal;
+  word-break:normal;
+}
+#portfolio-v2-root .nd-v2-financial-grid,
+#portfolio-v2-root .nd-v2-period-grid,
+#portfolio-v2-root .nd-v2-capital-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  min-width:0;
+}
+#portfolio-v2-root .nd-v2-financial-cell{min-width:0}
+@media(min-width:640px){
+  #portfolio-v2-root .nd-v2-financial-grid,
+  #portfolio-v2-root .nd-v2-period-grid,
+  #portfolio-v2-root .nd-v2-capital-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(min-width:768px){
+  #portfolio-v2-root .nd-v2-capital-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(min-width:1024px){
+  #portfolio-v2-root .nd-v2-financial-grid,
+  #portfolio-v2-root .nd-v2-period-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}

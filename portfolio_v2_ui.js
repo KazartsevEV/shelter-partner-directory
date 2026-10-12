@@ -41,39 +41,39 @@ function open(options={}){
 }
 function numberField(label,path,value,hint,extra=''){
  const surface=/^(marketing|tax|funding|skus)\./.test(path);
- return '<label class="block min-w-0"><span class="block font-semibold text-xs text-slate-700 mb-1'+(surface?' nd-v2-field-label':'')+'">'+safe(label)+'</span>'+
+ return '<label class="nd-v2-field block min-w-0"><span class="block font-semibold text-xs text-slate-700 mb-1'+(surface?' nd-v2-field-label':'')+'">'+safe(label)+'</span>'+
  '<input type="number" inputmode="decimal" step="any" min="0" '+extra+' data-p2-path="'+safe(path)+'" value="'+safe(value)+'" '+
  'class="input-field w-full" placeholder="Введите число">'+(hint?'<span class="block text-xs text-slate-500 mt-1'+(surface?' nd-v2-field-help':'')+'">'+safe(hint)+'</span>':'')+'</label>';
 }
 function selField(label,path,value,items){
  const surface=/^(tax|funding|skus)\./.test(path);
- return '<label class="block"><span class="block font-semibold text-xs text-slate-700 mb-1'+(surface?' nd-v2-field-label':'')+'">'+safe(label)+'</span><select class="input-field w-full" data-p2-path="'+safe(path)+'">'+items.map(([v,t])=>'<option value="'+safe(v)+'" '+(String(v)===String(value)?'selected':'')+'>'+safe(t)+'</option>').join('')+'</select></label>';
+ return '<label class="nd-v2-field block"><span class="block font-semibold text-xs text-slate-700 mb-1'+(surface?' nd-v2-field-label':'')+'">'+safe(label)+'</span><select class="input-field w-full" data-p2-path="'+safe(path)+'">'+items.map(([v,t])=>'<option value="'+safe(v)+'" '+(String(v)===String(value)?'selected':'')+'>'+safe(t)+'</option>').join('')+'</select></label>';
 }
 function box(title,body,id) {
  return '<section id="'+safe(id)+'" class="nd-v2-section rounded-2xl border border-slate-200 p-4 md:p-5 mb-4"><h3 class="nd-v2-title text-lg font-bold mb-3">'+title+'</h3>'+body+'</section>';
 }
 function resourceCard(r,index){
- let all=model.skus.map(s=>'<label class="flex gap-2 items-center text-xs text-slate-700"><input type="checkbox" data-p2-resource-member="'+index+'" value="'+safe(s.id)+'" '+((r.skuIds||[]).includes(s.id)?'checked':'')+'><span>'+safe(s.name||'Товар '+(model.skus.indexOf(s)+1))+'</span></label>').join('');
+ let all=model.skus.map(s=>'<label class="nd-v2-check-row flex gap-2 items-center text-xs text-slate-700"><input type="checkbox" data-p2-resource-member="'+index+'" value="'+safe(s.id)+'" '+((r.skuIds||[]).includes(s.id)?'checked':'')+'><span>'+safe(s.name||'Товар '+(model.skus.indexOf(s)+1))+'</span></label>').join('');
  const usable=(r.skuIds||[]).length;
  return '<article class="border border-indigo-200 bg-indigo-50 rounded-xl p-3 mt-3" data-p2-resource="'+safe(r.id)+'">'+
- '<div class="flex items-start justify-between gap-3"><strong class="text-slate-900">'+safe(r.label||labels[r.kind]||'Ресурс')+'</strong>'+
- '<button type="button" data-p2-delete-resource="'+safe(r.id)+'" class="text-xs text-rose-700 underline">Удалить</button></div>'+
- '<div class="grid grid-cols-2 gap-2 mt-3">'+
+ '<div class="nd-v2-card-heading flex items-start justify-between gap-3"><strong class="nd-v2-card-title text-slate-900">'+safe(r.label||labels[r.kind]||'Ресурс')+'</strong>'+
+ '<button type="button" data-p2-delete-resource="'+safe(r.id)+'" class="nd-v2-card-remove text-xs text-rose-700 underline">Удалить</button></div>'+
+ '<div class="nd-v2-form-grid grid grid-cols-2 gap-2 mt-3">'+
  selField('Тип ресурса','resources.'+index+'.kind',r.kind,Object.entries(labels))+
  numberField(r.kind==='campaign'?'Дополнительный рекламный бюджет, /мес.':'Сумма, у.е.','resources.'+index+'.amount',r.amount)+
  selField('Платёж','resources.'+index+'.cadence',r.cadence,[['monthly','Ежемесячно'],['once','Один раз']])+
- (r.kind==='campaign'?'<div class="col-span-2 text-xs rounded-lg bg-white p-3 text-blue-900">Рекламный бюджет распределяется строго по денежной доле выручки товаров, входящих в кампанию.</div>':
+ (r.kind==='campaign'?'<div class="nd-v2-field-full col-span-2 text-xs rounded-lg bg-white p-3 text-blue-900">Рекламный бюджет распределяется строго по денежной доле выручки товаров, входящих в кампанию.</div>':
  selField('Как распределить по товарам','resources.'+index+'.allocation',r.allocation,[['revenue','По денежной выручке'],['usage','По фактической загрузке']]))+
  '</div>'+
- '<div class="mt-3" data-p2-resource-members><span class="text-xs font-bold">Ресурс обслуживает товары</span><div class="flex flex-wrap gap-3 mt-2">'+all+'</div>'+
+ '<div class="mt-3" data-p2-resource-members><span class="text-xs font-bold">Ресурс обслуживает товары</span><div class="nd-v2-check-list flex flex-wrap gap-3 mt-2">'+all+'</div>'+
  '<div class="text-xs mt-1 text-slate-600">'+(usable>1?'Один платёж на группу товаров, без повторного списания.':'Платёж относится только к выбранному товару.')+'</div></div>'+
- (r.allocation==='usage'?'<div class="mt-3 grid grid-cols-2 gap-2">'+
+ (r.allocation==='usage'?'<div class="nd-v2-form-grid mt-3 grid grid-cols-2 gap-2">'+
  model.skus.filter(s=>(r.skuIds||[]).includes(s.id)).map(s=>numberField('Загрузка: '+(s.name||s.id),'resources.'+index+'.usage.'+s.id,r.usage?.[s.id]||'', 'Часы, дни или доля — одинаковая единица')).join('')+
  numberField('Общая мощность ресурса','resources.'+index+'.capacity',r.capacity||'','Оставьте пустым, если ограничения нет')+'</div>':'')+
- (r.kind==='certification'?'<div class="mt-3 grid grid-cols-2 gap-2">'+
- '<label class="block col-span-2"><span class="block text-xs font-bold mb-1">Страна, тип продукта и область сертификата</span><input class="input-field w-full" data-p2-path="resources.'+index+'.validFor" value="'+safe(r.validFor||'')+'" placeholder="Укажите точный охват"></label>'+
- '<label class="block"><span class="block text-xs font-bold mb-1">Действует до</span><input type="date" class="input-field w-full" data-p2-path="resources.'+index+'.validUntil" value="'+safe(r.validUntil||'')+'"></label>'+
- '<label class="flex items-center gap-2 text-xs"><input type="checkbox" data-p2-path="resources.'+index+'.confirmedCoverage" '+(r.confirmedCoverage?'checked':'')+'>Подтверждаю охват обоих товаров</label></div>':'')+
+ (r.kind==='certification'?'<div class="nd-v2-form-grid mt-3 grid grid-cols-2 gap-2">'+
+ '<label class="nd-v2-field nd-v2-field-full block col-span-2"><span class="block text-xs font-bold mb-1">Страна, тип продукта и область сертификата</span><input class="input-field w-full" data-p2-path="resources.'+index+'.validFor" value="'+safe(r.validFor||'')+'" placeholder="Укажите точный охват"></label>'+
+ '<label class="nd-v2-field block"><span class="block text-xs font-bold mb-1">Действует до</span><input type="date" class="input-field w-full" data-p2-path="resources.'+index+'.validUntil" value="'+safe(r.validUntil||'')+'"></label>'+
+ '<label class="nd-v2-check-row flex items-center gap-2 text-xs"><input type="checkbox" data-p2-path="resources.'+index+'.confirmedCoverage" '+(r.confirmedCoverage?'checked':'')+'>Подтверждаю охват обоих товаров</label></div>':'')+
  '</article>';
 }
 function stageResources(which,label,help,kind){
@@ -89,22 +89,22 @@ function skuCard(s,i) {
  s.source==='resale'?'Закупочная себестоимость с доставкой до меня за 1 шт.':'Поставщику за один исполненный заказ';
  const variant=selField('Откуда беру товар',path+'source',s.source,Object.entries(kinds));
  const extras=(s.source==='dropship'?
- '<p class="nd-v2-description nd-v2-info-panel col-span-2 text-xs p-2 rounded">Нет собственного склада и первоначальной закупки. Платёж поставщику возникает после каждого заказа.</p>':
+ '<p class="nd-v2-field-full nd-v2-description nd-v2-info-panel col-span-2 text-xs p-2 rounded">Нет собственного склада и первоначальной закупки. Платёж поставщику возникает после каждого заказа.</p>':
  numberField('Размер первоначальной партии, шт. (необязательно)',path+'batchUnits',s.batchUnits,'Если указана партия, прогноз ведётся до её полной распродажи')+
  numberField('Стартовая закупка сырья / товара, у.е. (необязательно)',path+'initialCashOut',s.initialCashOut,
  'Аванс: выплата в начале цикла. Не прибавляется повторно к COGS')+
  numberField('Хранение 1 ед. за день, у.е. (по фактическим остаткам)',path+'storagePerUnitDay',s.storagePerUnitDay));
  return '<article class="nd-v2-product-card mb-4 rounded-2xl border-2 border-blue-200 p-4" data-p2-sku="'+safe(s.id)+'">'+
- '<div class="flex justify-between gap-3 mb-3"><h3 class="nd-v2-title text-xl font-extrabold">Товар '+(i+1)+'</h3>'+
- '<button class="text-rose-700 text-sm underline" type="button" data-p2-remove-sku="'+safe(s.id)+'">Удалить</button></div>'+
- '<label class="block mb-3"><span class="nd-v2-field-label text-xs font-bold block mb-1">Название</span><input class="input-field w-full" data-p2-path="'+path+'name" value="'+safe(s.name)+'" placeholder="Название своего товара"></label>'+
- '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">'+variant+
+ '<div class="nd-v2-card-heading flex justify-between gap-3 mb-3"><h3 class="nd-v2-card-title nd-v2-title text-xl font-extrabold">Товар '+(i+1)+'</h3>'+
+ '<button class="nd-v2-card-remove text-rose-700 text-sm underline" type="button" data-p2-remove-sku="'+safe(s.id)+'">Удалить</button></div>'+
+ '<label class="nd-v2-field block mb-3"><span class="nd-v2-field-label text-xs font-bold block mb-1">Название</span><input class="input-field w-full" data-p2-path="'+path+'name" value="'+safe(s.name)+'" placeholder="Название своего товара"></label>'+
+ '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3">'+variant+
  numberField(from,path+'unitCost',s.unitCost,'Это основное поле себестоимости для выбранной ветки')+
  numberField('Целевая маржинальность товара, %',path+'marginPct',s.marginPct)+
  numberField('Прогнозная доля продаж в ШТУКАХ, %',path+'mixPct',s.mixPct,'Сумма по всем товарам = 100%')+
  '</div>'+
  '<details class="nd-v2-info-panel mt-4 rounded-xl border border-slate-200 p-3"><summary class="nd-v2-title font-semibold cursor-pointer">Дополнительно: закупка, логистика и комиссия</summary>'+
- '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
+ '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
  extras+
  numberField('Исполнение и доставка заказа, у.е./шт.',path+'fulfillmentPerOrder',s.fulfillmentPerOrder,
  'Дропшиппинг: доставка поставщика; иначе отправка покупателю')+
@@ -125,7 +125,7 @@ function render(){
  '<div id="p2-draft-status" class="nd-v2-status mt-2 text-xs">Черновик сохраняется только в этом браузере</div></div>'+
  box('1. Общий маркетинговый двигатель',
  '<p class="nd-v2-description text-xs mb-3">Одна воронка на портфель: бюджет → CPC → клики → лиды → заказы. CTR нужен для показов. Отдельные дополнительные кампании можно назначить конкретным SKU ниже.</p>'+
- '<div class="grid grid-cols-2 gap-3">'+
+ '<div class="nd-v2-form-grid grid grid-cols-2 gap-3">'+
  numberField('Общий рекламный бюджет / месяц','marketing.budget',model.marketing.budget)+
  numberField('CPC, цена клика','marketing.cpc',model.marketing.cpc)+
  numberField('CTR, %','marketing.ctrPct',model.marketing.ctrPct)+
@@ -145,7 +145,7 @@ function render(){
  stageResources('advertising','7. Рекламные бюджеты и маркетологи','Общий бюджет воронки уже распределяется по денежной доле SKU. Здесь добавляйте ОТДЕЛЬНЫЕ кампании и гонорары; дополнительный бюджет учитывается ровно один раз и не подменяет общий.','campaign')+
  stageResources('business','8. Прочие расходы бизнеса','Сайт, домен, контент и другие расходы относятся к бизнесу: один реальный платёж на список выбранных товаров.','website')+
  box('9. Налоги, собственные деньги и кредит',
- '<div class="grid grid-cols-2 gap-3">'+
+ '<div class="nd-v2-form-grid grid grid-cols-2 gap-3">'+
  selField('Налог бизнеса','tax.type',model.tax.type,[['turnover','С оборота'],['profit','С прибыли']])+
  numberField('Ставка налога, %','tax.pct',model.tax.pct)+
  numberField('НДС для цены покупателя, % (транзитный)','tax.vatPct',model.tax.vatPct)+
@@ -251,13 +251,13 @@ function updateResult(){
  money(v.amount)+'</td><td class="p-2">'+(v.cadence==='once'?'раз':'месяц')+'</td><td class="p-2">'+
  Object.entries(v.bySku).map(([id,amount])=>safe(r.items.find(s=>s.id===id)?.name||id)+': '+money(amount)).join('; ')+'</td></tr>').join('');
  el.innerHTML=intro+
- '<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+
+ '<div class="nd-v2-financial-grid grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+
  [['Чистая прибыль · базовый месяц',r.netProfit],['Рентабельность товара (взвешенная), %',r.weightedMarginPct],
  ['Деньги на запуск',r.financing.principal],['Резерв',r.financing.reserve],
  ['ROAS бизнеса',r.totalROAS],['EBITDA · базовый месяц',r.businessEBITDA],
  ['Накопленный CF',r.finalCash],['ЖИВЫЕ ДЕНЬГИ',r.freeCash]]
- .map(([t,v],i)=>'<div class="rounded-xl '+(i===7?'bg-emerald-200 text-emerald-950':'bg-white/15 text-white')+
- ' p-3"><div class="text-xs">'+safe(t)+'</div><div class="text-xl font-black mt-1">'+
+ .map(([t,v],i)=>'<div class="nd-v2-financial-cell rounded-xl '+(i===7?'bg-emerald-200 text-emerald-950':'bg-white/15 text-white')+
+ ' p-3"><div class="text-xs">'+safe(t)+'</div><div class="nd-v2-number-value text-xl font-black mt-1">'+
  (i===1?pct(v):i===4?money(v)+'×':money(v))+'</div></div>').join('')+'</div>'+
  '<p class="text-xs text-emerald-50 mt-3">Цена без НДС рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.</p>'+
  '<h3 class="font-bold mt-5">Портфель: цены, доли и нагрузка</h3>'+
@@ -375,4 +375,41 @@ root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();
 })(window);
+
+/* V2_FIELDS_PRESENTATION_START
+   Native selects keep their existing events and keyboard behavior. When the
+   chosen value is clipped, repeat its full text below that same field. */
+(function(root){
+ 'use strict';
+ const host=document.getElementById('portfolio-v2-root');if(!host)return;
+ const canvas=document.createElement('canvas'),measure=canvas.getContext('2d');
+ let scheduled=false,lastWidth=-1;
+ function refresh(){
+  scheduled=false;
+  for(const select of host.querySelectorAll('.nd-v2-field select')){
+   if(!select.getClientRects().length)continue;
+   const style=getComputedStyle(select),text=select.selectedOptions[0]?.textContent?.trim()||'';
+   measure.font=[style.fontStyle,style.fontWeight,style.fontSize,style.fontFamily].join(' ');
+   const spacing=Number.parseFloat(style.letterSpacing)||0;
+   const available=select.clientWidth-Number.parseFloat(style.paddingLeft)-Number.parseFloat(style.paddingRight)-24;
+   const clipped=measure.measureText(text).width+Math.max(0,text.length-1)*spacing>available+1;
+   let note=select.nextElementSibling?.matches('.nd-v2-selected-value')?select.nextElementSibling:null;
+   if(!clipped||!text){note?.remove();continue;}
+   if(!note){
+    note=document.createElement('span');note.className='nd-v2-selected-value';
+    note.setAttribute('aria-hidden','true');note.setAttribute('data-nomad-no-translate','');
+    select.after(note);
+   }
+   if(note.textContent!==text)note.textContent=text;
+  }
+ }
+ function schedule(){if(!scheduled){scheduled=true;root.requestAnimationFrame(refresh);}}
+ host.addEventListener('change',schedule);
+ root.addEventListener('resize',schedule);
+ document.fonts?.addEventListener('loadingdone',schedule);
+ new MutationObserver(schedule).observe(host,{childList:true,subtree:true,characterData:true});
+ new ResizeObserver(()=>{if(host.clientWidth!==lastWidth){lastWidth=host.clientWidth;schedule();}}).observe(host);
+ root.Nomad360V2Fields=Object.freeze({refresh});schedule();
+})(window);
+/* V2_FIELDS_PRESENTATION_END */
 
