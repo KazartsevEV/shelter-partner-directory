@@ -11,4 +11,7 @@ body .nd-payment-label .nd-payment-select{width:100%;max-width:130px;min-width:0
 #portfolio-v2-root .nd-payment-controls{color:#fff}
 #portfolio-v2-root .nd-payment-status{color:#16375a;background:#fff;padding:6px;border-radius:4px}
 .nd-payment-pending{padding:12px;border:1px solid #ed8e63;background:#fff1dc;color:#16375a;border-radius:8px;line-height:1.5}
-@media(max-width:639px){#own-material-rows .material-cost-row>.grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:639px){
+ #own-material-rows .material-cost-row>.grid,
+ #product-screen .nd-v1-labor-choices{grid-template-columns:minmax(0,1fr)}
+}
