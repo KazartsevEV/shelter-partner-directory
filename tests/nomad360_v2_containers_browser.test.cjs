@@ -9,6 +9,7 @@ const stage=Number(arg('stage','1'));
 const directory=path.resolve(arg('root',path.join(__dirname,'..')));
 const artifacts=path.resolve(arg('artifacts','artifacts/v2-containers'));
 const utilities=path.resolve(arg('utilities','artifacts/v2-utilities.css'));
+const rejectedStyles=path.resolve(arg('rejected-styles','/tmp/nomad-v2-rejected.css'));
 if(stage===1){
  const baseline=path.resolve(arg('baseline','/tmp/nomad-v2-baseline'));
  const frozen=['Marketing_calc.HTML','nomad360_calculator_ui.js','nomad360_calculator_ui.css',
@@ -53,6 +54,7 @@ function visibleSnapshot(){
  const key=el=>['data-p2-path','data-linked-path','data-p2-resource-member','data-linked-member','data-basket-field','data-mba-format','data-mba-file','data-mba-filter'].map(a=>el.hasAttribute(a)?a+':'+el.getAttribute(a):'').filter(Boolean).join('|')+'|'+(el.dataset.i||'')+'|'+(el.dataset.j||'')+'|'+(el.type==='checkbox'?el.value:'');
  const fields=[...root.querySelectorAll('input,select,textarea')].filter(visible).map(el=>({key:key(el),
   value:el.value,checked:el.checked,type:el.type,rect:rect(el),label:el.closest('label')?rect(el.closest('label')):null,
+  resource:!!el.closest('[data-p2-resource],[data-linked-resource]'),
   color:getComputedStyle(el).color,background:getComputedStyle(el).backgroundColor}));
  const resources=[...root.querySelectorAll('[data-p2-resource],[data-linked-resource]')].filter(visible).map(el=>({
   html:el.outerHTML,color:getComputedStyle(el).color,background:getComputedStyle(el).backgroundColor,rect:rect(el)}));
@@ -109,6 +111,7 @@ async function assertColors(page,route){
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const receipts={},baseline=stage===1?JSON.parse(fs.readFileSync(path.join(artifacts,'before','receipts.json'),'utf8')):null;
+ const contrastFailures=[];
  try{
   for(const route of ['standalone','linked'])for(const condition of ['ready','unready'])
   for(const language of languages)for(const width of widths){
@@ -119,29 +122,50 @@ async function assertColors(page,route){
    await page.goto(pathToFileURL(path.join(directory,'Marketing_calc.HTML')).href,{waitUntil:'domcontentloaded'});
    await page.evaluate(language=>Nomad360UI.setLanguage(language),language);
    await page.addStyleTag({path:utilities});
+   await page.addScriptTag({path:path.join(__dirname,'helpers/contrast.cjs')});
    const initial=JSON.parse(JSON.stringify(await seed(page,route,condition)));
    A.equal(initial.finance.ready,condition==='ready',key+': '+JSON.stringify(initial.finance.errors));
    const snapshot=JSON.parse(JSON.stringify(await page.evaluate(visibleSnapshot)));
-   receipts[key]={...initial,...snapshot};
+   const contrast=await page.evaluate(()=>NomadContrast.audit(document.getElementById('portfolio-v2-root')));
+   receipts[key]={...initial,...snapshot,contrast};
    if(stage===1){
     const before=baseline[key];
     A.deepEqual(initial.state,before.state,'saved business state '+key);
     A.deepEqual(initial.finance,before.finance,'financial results '+key);
-    // File upload joins the white input surface in stage 1; its geometry,
-    // filename, control text color and every other control remain unchanged.
-    const controls=fields=>fields.map(f=>f.type==='file'?{...f,background:'file-upload-surface'}:f);
+    // Only upload background and inherited resource checkbox foreground change.
+    // Text input colors, control geometry, values and checked state are frozen.
+    const controls=fields=>fields.map(f=>({...f,
+     background:f.type==='file'?'file-upload-surface':f.background,
+     color:f.type==='checkbox'&&f.resource?'resource-checkbox-ink':f.color}));
     A.deepEqual(controls(snapshot.fields),controls(before.fields),'control values, geometry and colors '+key);
-    A.deepEqual(snapshot.resources,before.resources,'resource cards remain unchanged '+key);
+    const resources=cards=>cards.map(({color,background,...card})=>card);
+    A.deepEqual(resources(snapshot.resources),resources(before.resources),'resource DOM and geometry '+key);
     A.deepEqual(snapshot.regions.map(x=>x.rect),before.regions.map(x=>x.rect),'section geometry '+key);
     A.ok(snapshot.metrics.scroll<=Math.max(width,before.metrics.scroll),'no new document overflow '+key);
     await assertColors(page,route);
+    A.ok(contrast.count>100,'visible text audit '+key);
+    if(contrast.failures.length){
+     contrastFailures.push({key,failures:contrast.failures});
+     console.log('CONTRAST_FAILURE '+key+' '+JSON.stringify(contrast.failures.slice(0,12)));
+    }
+    if(condition==='ready'&&language==='ru'&&width===390){
+     await page.locator('link[href*="nomad360_design_system.css"]').evaluate(el=>{el.disabled=true;});
+     const rejected=await page.addStyleTag({path:rejectedStyles});
+     const previous=await page.evaluate(()=>NomadContrast.audit(document.getElementById('portfolio-v2-root')));
+     const failures=previous.failures.filter(v=>v.resource!==null);
+     A.ok(failures.length>0,'negative regression detects rejected resource contrast '+key);
+     receipts[key].rejectedResourceFailures=failures;
+     console.log('REJECTED_RESOURCE_CONTRAST '+key+' '+failures.length+' failures; min '+Math.min(...failures.map(v=>v.ratio)));
+     await rejected.evaluate(el=>el.remove());
+     await page.locator('link[href*="nomad360_design_system.css"]').evaluate(el=>{el.disabled=false;});
+    }
    }
    const stateBefore=JSON.stringify(initial.state);
    await page.locator(route==='standalone'?'[data-p2-save]':'[data-linked-save]').click();
    await page.evaluate(route=>route==='standalone'?PortfolioV2UI.open({resume:true}):LinkedPortfolioV2UI.resume(),route);
    const restored=await page.evaluate(route=>JSON.stringify((route==='standalone'?PortfolioV2UI:LinkedPortfolioV2UI).getState()),route);
    A.equal(restored,stateBefore,'save/resume '+key);
-   if(condition==='ready'&&[390,1280].includes(width))await pictures(page,route,key);
+   if((condition==='ready'&&[320,390,1280].includes(width))||(condition==='unready'&&width===390))await pictures(page,route,key);
    A.deepEqual(errors,[],key);
    await context.close();
   }
@@ -152,6 +176,7 @@ async function assertColors(page,route){
    await seed(page,route,'ready');await assertColors(page,route);await page.close();
   }
   fs.writeFileSync(path.join(artifacts,name,'receipts.json'),JSON.stringify(receipts,null,2));
+  A.deepEqual(contrastFailures,[],'composited text contrast >= 4.5 in all cases');
   console.log('V2_CONTAINERS_'+name.toUpperCase()+'_GREEN '+Object.keys(receipts).length+' cases');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e.stack||e);process.exitCode=1;});

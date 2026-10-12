@@ -2035,3 +2035,19 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 #portfolio-v2-root .nd-v2-light-note{
   color:var(--nd-ink);
 }
+/* Resource surfaces must be opaque: translucent indigo over a navy section
+   cannot support the existing dark labels. Inherited captions need ink too. */
+#portfolio-v2-root [data-p2-resource],
+#portfolio-v2-root [data-linked-resource]{
+  background:#fff;
+  color:var(--nd-ink);
+}
+#portfolio-v2-root [data-p2-resource] .text-slate-500{
+  color:#475569;
+}
+#portfolio-v2-root [data-linked-add]{
+  color:#fff;
+}
+#portfolio-v2-root [data-basket-offer]{
+  color:var(--nd-ink);
+}
