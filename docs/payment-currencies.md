@@ -6,7 +6,9 @@ Base: accepted and merged PR #131, `4f3a7d51e7ba78efeb560710ebff0fec6419dc05`.
 The existing business-currency catalogue, default USD, home question and legacy
 `currency` field are preserved. `businessCurrency` identifies the model currency;
 each `payments` entry records `businessCurrency`, `paymentCurrency`,
-`paymentAmount`, `convertedAmount` and its readiness status. Model amounts are
+`paymentAmount`, `convertedAmount` and its readiness status. V1 also records whether
+the payment belongs to the active sourcing/expense branch. Hidden choices persist
+without blocking an unrelated branch. Model amounts are
 independent from the UI language.
 
 Only an amount already in the business currency is normalized. Zero is zero in
@@ -39,7 +41,8 @@ enters it as 1:1 or as a zero expense. V1 has equivalent readiness gates.
 V1 retains original input strings and dynamic-row HTML/positional fields. Payment
 metadata is restored after legacy dynamic fields, so old positional arrays do not
 shift. Stable material keys prevent collisions when another material is added
-after resume. Missing payment metadata inherits the saved business currency,
+after resume. Currency selection also preserves a separate manual delivery quote.
+Missing payment metadata inherits the saved business currency,
 without changing the saved amount. V2 retains per-SKU metadata in its existing
 local draft. Inactive inventory payments remain preserved when switching sourcing
 modes, but do not block dropshipping.

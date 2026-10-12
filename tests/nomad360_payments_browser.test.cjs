@@ -112,6 +112,15 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
     await page.evaluate(()=>addMaterialRow());
     const keys=await page.locator('#own-material-rows .material-cost-row').evaluateAll(rows=>rows.map(r=>r.dataset.paymentKey));
     A.equal(new Set(keys).size,2);
+    await page.evaluate(()=>{
+     const select=document.querySelector('[data-payment-field="own-materials-cost"] [data-payment-currency]');
+     select.value='CNY';select.dispatchEvent(new Event('change',{bubbles:true}));saveProductCalculationToBrowser();
+    });
+    A.equal(await page.evaluate(()=>readSavedProductCalculation().productPortfolio[0].payments['own-materials-cost'].active),false);
+    A.equal(await page.evaluate(()=>calculateProductPortfolio().paymentPending||false),false);
+    await goto('?resume=1');
+    A.equal(await select('own-materials-cost').inputValue(),'CNY');
+    A.equal(await page.evaluate(()=>calculateProductPortfolio().paymentPending||false),false);
    }
    // Legacy UI HTML/positional fields remain readable; payment metadata is optional.
    await page.evaluate(()=>{

@@ -18,7 +18,7 @@
    status:!currencyValid||(!empty&&!numeric)?'invalid':empty?'empty':normalized?'normalized':'conversion-required'};
  }
  function pending(payments){
-  return Object.values(payments||{}).some(p=>p.status==='invalid'||p.status==='conversion-required');
+  return Object.values(payments||{}).some(p=>p.active!==false&&(p.status==='invalid'||p.status==='conversion-required'));
  }
  function fields(sku){
   // Own-production unitCost is an aggregate, not a supplier's invoice.

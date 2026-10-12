@@ -13,6 +13,7 @@ test('payment selection preserves the original amount, without an implicit excha
  A.equal(P.record('','EUR','USD',valid).paymentAmount,null);
  for(const v of ['-1','Infinity','not a number'])A.equal(P.record(v,'USD','USD',valid).status,'invalid');
  A.equal(P.record(100,'BAD','USD',valid).status,'invalid');
+ A.equal(P.pending({hidden:{...P.record(1000,'CNY','USD',valid),active:false}}),false);
 });
 test('legacy portfolio and same-currency metadata preserve the complete financial result',()=>{
  const m=model(),before=JSON.stringify(m),baseline=Engine.build(m);

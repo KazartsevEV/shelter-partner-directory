@@ -75,7 +75,7 @@
  }
  function captureV1(context){
   attachV1();
-  return Object.fromEntries(v1Fields().filter(f=>activeV1(f,context)).map(f=>[key(f),P.record(f.value,f.parentElement.querySelector('[data-payment-currency]').value,C.get(),C.valid)]));
+  return Object.fromEntries(v1Fields().map(f=>[key(f),{...P.record(f.value,f.parentElement.querySelector('[data-payment-currency]').value,C.get(),C.valid),active:activeV1(f,context)}]));
  }
  function restoreV1(payments){
   attachV1();

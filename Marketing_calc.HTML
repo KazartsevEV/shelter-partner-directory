@@ -3533,7 +3533,7 @@
             };
         }
         function aggregatePlanMetrics(item) {
-            if(Object.values(item?.payments||{}).some(p=>p.status==='invalid'||p.status==='conversion-required')){
+            if(Object.values(item?.payments||{}).some(p=>p.active!==false&&(p.status==='invalid'||p.status==='conversion-required'))){
                 return {paymentPending:true,quantityIssues:[],requiredCapital:null,baseRequiredCapital:null,
                     reservePct:Math.max(0,Number(item?.planning?.reservePct)||0),reserveAmount:null,
                     totalCycleDays:null,waitAfterAdvanceDays:null,productionDays:null,sellThroughDays:null,
@@ -3701,7 +3701,7 @@
             const items = productPortfolio.slice();
 
             const paymentPending=items.some(item=>Object.values(item.payments||{}).some(p=>
-                p.status==='invalid'||p.status==='conversion-required'));
+                p.active!==false&&(p.status==='invalid'||p.status==='conversion-required')));
             if (!items.length || paymentPending) {
                 return {
                     items: [],
