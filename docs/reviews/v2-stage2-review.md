@@ -51,7 +51,7 @@
 
 [Тест](../../tests/nomad360_v2_money_lines_browser.test.cjs) ·
 [Измерение строк](../../tests/helpers/v2-money-lines.cjs) ·
-[Публичные численные протоколы](v2-stage2-money/numeric-receipts.json) ·
+[Индекс публичных численных протоколов](v2-stage2-money/numeric-receipts.json) ·
 [Полный архив теста](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38246859620/artifacts/11745724251).
 
 ## Сравнение на 320 px
