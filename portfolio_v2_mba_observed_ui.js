@@ -43,8 +43,8 @@ function render(state,onChange){
  '<p class="nd-v2-description text-sm mt-2"><strong>Необязательный анализ.</strong> Загрузите оплаченные чеки, чтобы увидеть, какие товары и услуги клиенты выбирают вместе.</p>'+
  '<p class="nd-v2-description text-sm mt-2">Это помогает оценить спрос на комплекты и дополнительные продажи. История показывает фактические сочетания покупок; прогноз V1 меняется только после вашего решения.</p>'+
  '<div class="flex flex-wrap gap-3 mt-4 text-sm">'+
- '<a href="#" data-mba-download="csv" class="nd-v2-section-link font-semibold underline underline-offset-4">Скачать шаблон CSV · 3 чека</a>'+
- '<a href="#" data-mba-download="json" class="nd-v2-section-link font-semibold underline underline-offset-4">Скачать шаблон JSON · 3 чека</a></div>'+
+ '<a href="#" data-mba-download="csv" class="nd-v2-action nd-v2-action-outline nd-v2-section-link font-semibold underline underline-offset-4">Скачать шаблон CSV · 3 чека</a>'+
+ '<a href="#" data-mba-download="json" class="nd-v2-action nd-v2-action-outline nd-v2-section-link font-semibold underline underline-offset-4">Скачать шаблон JSON · 3 чека</a></div>'+
  '<details class="nd-v2-info-panel mt-3 rounded-lg border border-slate-200 p-3 text-sm">'+
  '<summary class="nd-v2-title font-semibold cursor-pointer">Как заполнить шаблон</summary>'+
  '<ol class="nd-v2-description list-decimal pl-5 mt-2 space-y-2">'+
@@ -92,11 +92,11 @@ function render(state,onChange){
   '<td class="text-right p-2">'+money(r.lift)+'</td>'+
   '<td class="p-2">'+(r.antecedent.length===1?
    '<label class="nd-v2-field block text-xs">Пересечение с V1, % (введите вручную)<input type="number" min="0" max="100" step="any" class="input-field mt-1" data-mba-overlap="'+i+'" placeholder="0–100"></label>'+
-   '<button type="button" data-mba-transfer="'+i+'" class="text-emerald-800 underline mt-1">Утвердить сценарий</button>':
+   '<button type="button" data-mba-transfer="'+i+'" class="nd-v2-action nd-v2-action-primary text-emerald-800 underline mt-1">Утвердить сценарий</button>':
    'Кортеж · только анализ')+'</td></tr>').join('')+
   '</tbody></table></div><p class="nd-v2-description text-xs mt-2">Confidence = совместные чеки / чеки с основой; lift = confidence / долю чеков с дополнением. Всего в отчёте '+money(data.rules.length)+' направленных правил; показано до 60. Для кортежей A+B → C не делается ложная конвертация в одноякорную связку.</p>':
   '<p class="nd-v2-description text-sm mt-3">Нет подтверждённых совместных покупок в этой выборке. Правила не создаются.</p>'):'')+
- '<button type="button" data-mba-clear class="text-xs text-rose-700 underline mt-4">Удалить загруженную историю из черновика</button>':'')+
+ '<button type="button" data-mba-clear class="nd-v2-action nd-v2-action-outline text-xs text-rose-700 underline mt-4">Удалить загруженную историю из черновика</button>':'')+
  '<p class="nd-v2-description text-xs mt-3">Данные истории показывают совместные покупки. Добавление связки в прогноз требует вашего решения и оценки уже учтённых продаж.</p>';
  const message=(text,bad=false)=>{const el=panel.querySelector('[data-mba-message]');if(el){el.textContent=text;el.className='mt-2 text-xs '+(bad?'text-rose-700':'text-emerald-700')}};
  panel.querySelectorAll('[data-mba-download]').forEach(link=>link.onclick=e=>{

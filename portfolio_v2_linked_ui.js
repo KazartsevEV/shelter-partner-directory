@@ -226,7 +226,7 @@ function resourceCard(r,i){
  }).join('');
  return '<article class="rounded-xl border border-indigo-200 bg-indigo-50/40 p-4 mt-4" data-linked-resource="'+i+'">'+
  '<div class="nd-v2-card-heading flex justify-between gap-3 items-center"><b class="nd-v2-card-title">'+safe(r.label||'Новый ресурс')+'</b>'+
- '<button type="button" data-linked-delete="'+i+'" class="nd-v2-card-remove text-rose-700 underline text-sm">Удалить</button></div>'+
+ '<button type="button" data-linked-delete="'+i+'" class="nd-v2-action nd-v2-action-outline nd-v2-card-remove text-rose-700 underline text-sm">Удалить</button></div>'+
  '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
  '<label class="nd-v2-field text-xs font-semibold text-slate-700">Название<input data-linked-path="resources.'+i+'.label" type="text" class="input-field mt-1" value="'+safe(r.label)+'"></label>'+
  '<label class="nd-v2-field text-xs font-semibold text-slate-700">Тип ресурса<select data-linked-path="resources.'+i+'.kind" class="input-field mt-1">'+options(kinds,r.kind)+'</select></label>'+
@@ -254,7 +254,7 @@ function render(){
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="nd-v2-product-card rounded-xl border border-slate-200 p-4" data-linked-sku="'+i+'">'+
  '<div class="nd-v2-card-heading flex items-start justify-between gap-3"><div class="nd-v2-card-title nd-v2-title font-bold text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
- '<button type="button" data-linked-delete-sku="'+safe(s.id)+'" class="nd-v2-card-remove border border-rose-300 text-rose-800 px-3 py-2 text-sm font-semibold rounded-sm">Удалить</button></div>'+
+ '<button type="button" data-linked-delete-sku="'+safe(s.id)+'" class="nd-v2-action nd-v2-action-outline nd-v2-card-remove border border-rose-300 text-rose-800 px-3 py-2 text-sm font-semibold rounded-sm">Удалить</button></div>'+
  '<div class="nd-v2-description text-xs">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="nd-v2-sku-metrics grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mt-3">'+
  [['Себестоимость V1 / шт.',s.unitCost],['Прогноз V1 / мес.',s.forecastUnitsPerMonth],
@@ -277,8 +277,8 @@ function render(){
  '<p class="mt-2" data-nomad-no-translate data-business-currency-note>'+safe(root.Nomad360Currency?.caption()||state.currency)+'</p>'+
  '<p class="nd-v2-description text-sm mt-2">Цены, прогнозы, рекламные бюджеты, себестоимость и налоги взяты из V1. Повторно их заполнять не нужно.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4">'+
- '<button type="button" data-linked-back class="rounded-lg border border-white/40 p-2 text-sm font-bold">← К расчёту V1</button>'+
- '<button type="button" data-linked-save class="nd-cta-primary rounded-lg p-2 text-sm font-bold">Сохранить портфель</button></div>'+
+ '<button type="button" data-linked-back class="nd-v2-action nd-v2-action-outline rounded-lg border border-white/40 p-2 text-sm font-bold">← К расчёту V1</button>'+
+ '<button type="button" data-linked-save class="nd-v2-action nd-v2-action-primary nd-cta-primary rounded-lg p-2 text-sm font-bold">Сохранить портфель</button></div>'+
  '<div id="linked-save-message" class="nd-v2-status text-xs mt-2">Черновик хранится в этом браузере</div></div>'+
  '<section class="nd-v2-section mb-5"><h2 class="nd-v2-title text-xl font-bold mb-2">1. Экономика товаров и услуг V1</h2>'+
  '<p class="nd-v2-description text-xs mb-3">Каждая позиция сохраняет ID, себестоимость, прогноз и ценовой диапазон из V1.</p>'+
@@ -287,7 +287,7 @@ function render(){
  '<h2 class="nd-v2-title text-xl font-bold">2. Общие ресурсы</h2>'+
  '<p class="nd-v2-description text-sm mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
- '<button type="button" data-linked-add class="w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
+ '<button type="button" data-linked-add class="nd-v2-action nd-v2-action-secondary w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
  '<section class="nd-v2-section rounded-2xl border border-sky-200 p-4 mb-5" data-temporal-controls>'+
  '<h2 class="nd-v2-title text-lg font-bold">План продаж и загрузка по месяцам</h2>'+
   (inheritedServicePeriod(state)!==null?

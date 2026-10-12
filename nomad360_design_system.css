@@ -2217,3 +2217,98 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
   #portfolio-v2-root .nd-v2-financial-grid,
   #portfolio-v2-root .nd-v2-period-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
+
+/* V2 stage 3: action roles are explicit in the existing templates. Orange
+   commits a calculation or approves a forecast; configuration stays blue. */
+#portfolio-v2-root .nd-v2-action{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  box-sizing:border-box;
+  min-width:44px;
+  min-height:44px;
+  max-width:100%;
+  padding:10px 14px;
+  border:1px solid;
+  border-radius:var(--nd-radius);
+  font:600 17px/1.35 var(--nd-font);
+  white-space:normal;
+  overflow-wrap:anywhere;
+  text-align:center;
+  text-decoration:none;
+  cursor:pointer;
+  box-shadow:none;
+}
+#portfolio-v2-root .nd-v2-action-primary{
+  background:#ed8e63;
+  color:#16375a;
+  border-color:#ed8e63;
+  font-weight:700;
+}
+#portfolio-v2-root .nd-v2-action-secondary{
+  background:#31577c;
+  color:#fff;
+  border-color:#31577c;
+}
+#portfolio-v2-root .nd-v2-action-outline{
+  background:transparent;
+  color:#16375a;
+  border-color:currentColor;
+}
+#portfolio-v2-root .nd-v2-hero .nd-v2-action-outline,
+#portfolio-v2-root .nd-v2-product-card .nd-v2-action-outline,
+#portfolio-v2-root .nd-v2-section > .nd-v2-action-outline,
+#portfolio-v2-root .nd-v2-section-link.nd-v2-action-outline{
+  color:#fff;
+}
+#portfolio-v2-root .nd-v2-action-primary:hover:not(:disabled){
+  background:#f3a17a;
+  color:#16375a;
+  border-color:#f3a17a;
+}
+#portfolio-v2-root .nd-v2-action-primary:active:not(:disabled){
+  background:#e77d4c;
+  border-color:#e77d4c;
+}
+#portfolio-v2-root .nd-v2-action-secondary:hover:not(:disabled){
+  background:#16375a;
+  border-color:#fff;
+  color:#fff;
+}
+#portfolio-v2-root .nd-v2-action-secondary:active:not(:disabled){
+  background:#0d2033;
+  border-color:#fff;
+}
+#portfolio-v2-root .nd-v2-action-outline:hover:not(:disabled){
+  background:rgba(22,55,90,.12);
+}
+#portfolio-v2-root .nd-v2-action-outline:active:not(:disabled){
+  background:rgba(22,55,90,.22);
+}
+#portfolio-v2-root .nd-v2-action:focus-visible{
+  outline:3px solid #ed8e63;
+  outline-offset:3px;
+  box-shadow:0 0 0 3px #16375a;
+}
+#portfolio-v2-root .nd-v2-action:disabled{
+  background:#dbe4ee;
+  color:#40546a;
+  border-color:#94a5b7;
+  opacity:1;
+  cursor:not-allowed;
+}
+#portfolio-v2-root .nd-v2-upload-control::file-selector-button{
+  min-height:44px;
+  padding:8px 12px;
+  margin-right:8px;
+  border:0;
+  border-radius:var(--nd-radius);
+  background:#31577c;
+  color:#fff;
+  font:inherit;
+  cursor:pointer;
+}
+#portfolio-v2-root .nd-v2-upload-control::file-selector-button:hover{
+  background:#16375a;
+}

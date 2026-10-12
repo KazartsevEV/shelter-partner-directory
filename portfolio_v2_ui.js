@@ -57,7 +57,7 @@ function resourceCard(r,index){
  const usable=(r.skuIds||[]).length;
  return '<article class="border border-indigo-200 bg-indigo-50 rounded-xl p-3 mt-3" data-p2-resource="'+safe(r.id)+'">'+
  '<div class="nd-v2-card-heading flex items-start justify-between gap-3"><strong class="nd-v2-card-title text-slate-900">'+safe(r.label||labels[r.kind]||'Ресурс')+'</strong>'+
- '<button type="button" data-p2-delete-resource="'+safe(r.id)+'" class="nd-v2-card-remove text-xs text-rose-700 underline">Удалить</button></div>'+
+ '<button type="button" data-p2-delete-resource="'+safe(r.id)+'" class="nd-v2-action nd-v2-action-outline nd-v2-card-remove text-xs text-rose-700 underline">Удалить</button></div>'+
  '<div class="nd-v2-form-grid grid grid-cols-2 gap-2 mt-3">'+
  selField('Тип ресурса','resources.'+index+'.kind',r.kind,Object.entries(labels))+
  numberField(r.kind==='campaign'?'Дополнительный рекламный бюджет, /мес.':'Сумма, у.е.','resources.'+index+'.amount',r.amount)+
@@ -81,7 +81,7 @@ function stageResources(which,label,help,kind){
  return box(label,
  '<div class="nd-v2-description text-sm">'+help+'</div>'+
  selected.map(({r,i})=>resourceCard(r,i)).join('')+
- '<button type="button" data-p2-add-resource="'+kind+'" class="mt-3 w-full border border-blue-300 text-blue-800 bg-blue-50 rounded-xl p-3 font-semibold">+ Добавить ресурс / связать с другими товарами</button>','p2-stage-'+which);
+ '<button type="button" data-p2-add-resource="'+kind+'" class="nd-v2-action nd-v2-action-secondary mt-3 w-full border border-blue-300 text-blue-800 bg-blue-50 rounded-xl p-3 font-semibold">+ Добавить ресурс / связать с другими товарами</button>','p2-stage-'+which);
 }
 function skuCard(s,i) {
  const path='skus.'+i+'.';
@@ -96,7 +96,7 @@ function skuCard(s,i) {
  numberField('Хранение 1 ед. за день, у.е. (по фактическим остаткам)',path+'storagePerUnitDay',s.storagePerUnitDay));
  return '<article class="nd-v2-product-card mb-4 rounded-2xl border-2 border-blue-200 p-4" data-p2-sku="'+safe(s.id)+'">'+
  '<div class="nd-v2-card-heading flex justify-between gap-3 mb-3"><h3 class="nd-v2-card-title nd-v2-title text-xl font-extrabold">Товар '+(i+1)+'</h3>'+
- '<button class="nd-v2-card-remove text-rose-700 text-sm underline" type="button" data-p2-remove-sku="'+safe(s.id)+'">Удалить</button></div>'+
+ '<button class="nd-v2-action nd-v2-action-outline nd-v2-card-remove text-rose-700 text-sm underline" type="button" data-p2-remove-sku="'+safe(s.id)+'">Удалить</button></div>'+
  '<label class="nd-v2-field block mb-3"><span class="nd-v2-field-label text-xs font-bold block mb-1">Название</span><input class="input-field w-full" data-p2-path="'+path+'name" value="'+safe(s.name)+'" placeholder="Название своего товара"></label>'+
  '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3">'+variant+
  numberField(from,path+'unitCost',s.unitCost,'Это основное поле себестоимости для выбранной ветки')+
@@ -119,9 +119,9 @@ function render(){
  '<h1 class="nd-v2-title text-2xl font-black mt-2">Мои товары и реальные деньги</h1>'+
  '<p class="mt-2" data-nomad-no-translate data-business-currency-note>'+safe(root.Nomad360Currency?.caption()||model.currency)+'</p>'+
  '<p class="nd-v2-description text-sm mt-2">Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз. Здесь нет подставленных примеров.</p>'+
- '<div class="flex flex-wrap gap-2 mt-4"><button class="bg-white text-slate-900 px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-home>← Главная</button>'+
- '<button class="nd-cta-primary px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-save>Сохранить расчёт</button>'+
- '<button class="border border-white/40 px-3 py-2 rounded-lg text-sm" type="button" data-p2-new>+ Новый портфель</button></div>'+
+ '<div class="flex flex-wrap gap-2 mt-4"><button class="nd-v2-action nd-v2-action-outline bg-white text-slate-900 px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-home>← Главная</button>'+
+ '<button class="nd-v2-action nd-v2-action-primary nd-cta-primary px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-save>Сохранить расчёт</button>'+
+ '<button class="nd-v2-action nd-v2-action-outline border border-white/40 px-3 py-2 rounded-lg text-sm" type="button" data-p2-new>+ Новый портфель</button></div>'+
  '<div id="p2-draft-status" class="nd-v2-status mt-2 text-xs">Черновик сохраняется только в этом браузере</div></div>'+
  box('1. Общий маркетинговый двигатель',
  '<p class="nd-v2-description text-xs mb-3">Одна воронка на портфель: бюджет → CPC → клики → лиды → заказы. CTR нужен для показов. Отдельные дополнительные кампании можно назначить конкретным SKU ниже.</p>'+
@@ -137,7 +137,7 @@ function render(){
  box('2. Товары и доли продаж','<p class="nd-v2-description text-sm mb-3">Три модели используют одну формулу цены; меняются состав себестоимости, наличие склада и момент расчёта с поставщиком.</p>'+
  model.skus.map(skuCard).join('')+
  '<div class="nd-v2-status text-sm font-semibold mb-3" id="p2-mix-sum">Сумма долей по штукам: '+pct(model.skus.reduce((a,s)=>a+Number(s.mixPct||0),0))+'</div>'+
- '<button type="button" data-p2-add-sku class="w-full rounded-xl bg-blue-700 px-4 py-4 text-white font-bold">+ Добавить товар</button>','p2-stage-skus')+
+ '<button type="button" data-p2-add-sku class="nd-v2-action nd-v2-action-secondary w-full rounded-xl bg-blue-700 px-4 py-4 text-white font-bold">+ Добавить товар</button>','p2-stage-skus')+
  stageResources('purchase','3. Закупка и сертификаты','Один сертификат можно распределить на несколько товаров только если он действительно покрывает их тип, страну и срок. Материалы / закупка — в себестоимости соответствующего SKU.','certification')+
  stageResources('production','4. Производство: помещения, работники, оборудование','Добавьте одну общую аренду или одну бригаду для нескольких товаров либо две отдельные записи. При известной загрузке задайте её по товарам и ограничение мощности.','premises')+
  stageResources('logistics','5. Склад и логистика','Общую аренду склада платим один раз. Хранение каждого товара по остаткам и дням остаётся индивидуальным — в его карточке.','warehouse')+

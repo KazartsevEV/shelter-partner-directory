@@ -30,7 +30,7 @@ function render(state,onChange){
    offers.map((r,i)=>
     '<article class="rounded-xl border border-blue-200 bg-white p-4 mt-4" data-basket-offer="'+i+'">'+
     '<div class="nd-v2-card-heading flex justify-between gap-2"><b class="nd-v2-card-title text-base text-blue-900">Предложение '+safe(i+1)+'</b>'+
-    '<button type="button" data-basket-action="remove" data-i="'+i+'" class="nd-v2-card-remove text-xs text-rose-700 underline">Удалить</button></div>'+
+    '<button type="button" data-basket-action="remove" data-i="'+i+'" class="nd-v2-action nd-v2-action-outline nd-v2-card-remove text-xs text-rose-700 underline">Удалить</button></div>'+
     '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
     '<label class="nd-v2-field text-sm font-semibold text-slate-800">Что выберет покупатель?<select class="input-field mt-1" data-basket-field="mode" data-i="'+i+'">'+
       modes.map(x=>option(x[0],x[1],r.mode)).join('')+'</select></label>'+
@@ -50,11 +50,11 @@ function render(state,onChange){
       '<label class="nd-v2-field text-xs font-semibold">Товар или услуга<select class="input-field mt-1" data-basket-field="skuId" data-i="'+i+'" data-j="'+j+'">'+
       select(item.skuId,[r.anchorSkuId])+'</select></label>'+
       '<label class="nd-v2-field text-xs font-semibold">Кол-во<input class="input-field mt-1" type="number" min="1" max="100" step="1" value="'+safe(item.qty)+'" data-basket-field="qty" data-i="'+i+'" data-j="'+j+'"></label>'+
-      '<button type="button" data-basket-action="remove-item" data-i="'+i+'" data-j="'+j+'" class="p-2 text-xs text-rose-700 underline">Убрать</button></div>').join('')+
+      '<button type="button" data-basket-action="remove-item" data-i="'+i+'" data-j="'+j+'" class="nd-v2-action nd-v2-action-outline p-2 text-xs text-rose-700 underline">Убрать</button></div>').join('')+
     '<button type="button" data-basket-action="add-item" data-i="'+i+'" '+(!skus.some(s=>s.id!==r.anchorSkuId&&!r.items.some(p=>p.skuId===s.id))?'disabled':'')+
-    ' class="mt-2 rounded border border-blue-300 px-3 py-2 text-sm text-blue-900 disabled:opacity-40">+ Добавить позицию</button></article>').join('')+
+    ' class="nd-v2-action nd-v2-action-secondary mt-2 rounded border border-blue-300 px-3 py-2 text-sm text-blue-900 disabled:opacity-40">+ Добавить позицию</button></article>').join('')+
    '<button type="button" data-basket-action="add" '+(skus.length<2?'disabled':'')+
-   ' class="w-full mt-4 rounded-lg border-2 border-dashed border-blue-300 bg-white p-3 font-bold text-blue-900 disabled:opacity-40">+ Создать предложение</button>'+
+   ' class="nd-v2-action nd-v2-action-secondary w-full mt-4 rounded-lg border-2 border-dashed border-blue-300 bg-white p-3 font-bold text-blue-900 disabled:opacity-40">+ Создать предложение</button>'+
    '<div id="linked-basket-projection" class="mt-3" aria-live="polite"></div>';
  const commit=(next,structural)=>onChange(next,structural);
  panel.onclick=e=>{
