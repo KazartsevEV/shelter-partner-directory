@@ -17,6 +17,9 @@ scoped data selectors; the shared export module remains unchanged. Light cards u
 The native file chooser button uses the secondary blue palette.
 The existing refusal message for approval without a manual overlap estimate uses
 a light error surface and dark red text. Its copy and gate are unchanged.
+The observed-history table keeps its existing local scroll pane with a 900 px
+minimum table width. Its approval button has at least 190 px and whole-word
+wrapping; headings do not split. No columns or controls are removed or reordered.
 
 Actions have 44 px minimum tap area, wrapped labels, modest radius, explicit
 hover/active states and a two-color focus ring visible on light and dark surfaces.
@@ -28,6 +31,7 @@ Acceptance: 162 scenarios before and after, standalone and linked RU/EN/KK,
 observed/mapped/unmapped history and full-service source data. Check actual
 action foreground/background, composited contrast >=4.5, text bounds, tap area,
 overlap, field geometry, document overflow and one-line financial values.
+Fixed primary/secondary action labels must also keep each word on one line.
 Financial output and saved state must match the merged baseline in every case.
 Source guards protect all business modules; UI copy/logic must match after
 removing class attributes. Seven cases run without optional utility CSS.

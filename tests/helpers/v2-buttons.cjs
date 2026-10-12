@@ -36,6 +36,17 @@
     const range=document.createRange();range.selectNodeContents(node);
     for(const box of range.getClientRects())if(box.width>0&&box.height>0&&
      (box.left<r.left-1||box.right>r.right+1||box.top<r.top-1||box.bottom>r.bottom+1))fail('text outside action');
+    // An action can fit its box while still breaking a word into fragments.
+    // Back links may contain arbitrary user names; fixed action labels must
+    // wrap at spaces, with each word occupying one line.
+    if(kind!=='outline')for(const word of node.textContent.matchAll(/\S+/gu)){
+     const part=document.createRange();part.setStart(node,word.index);part.setEnd(node,word.index+word[0].length);
+     const lines=[];for(const box of part.getClientRects()){
+      if(!box.width||!box.height)continue;const center=(box.top+box.bottom)/2;
+      if(!lines.some(y=>Math.abs(y-center)<2))lines.push(center);
+     }
+     if(lines.length>1)fail('split action word: '+word[0]);
+    }
    }
    const siblings=[...el.parentElement.children].filter(other=>other!==el&&other.matches('button,a[data-mba-download]'));
    for(const other of siblings){const b=other.getBoundingClientRect();

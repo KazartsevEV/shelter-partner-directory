@@ -337,6 +337,7 @@ async function assertColors(page,route){
   if(layout===3&&stage===1){
    A.ok(baseline['standalone-ready-ru-320'].buttons.failures.length>0,'baseline detects inconsistent action styling');
    A.ok(baseline['linked-history-ru-320'].buttons.failures.some(f=>f.role==='primary'),'baseline detects unstyled approval CTA');
+   A.ok(baseline['linked-history-ru-320'].buttons.failures.some(f=>f.reason.startsWith('split action word')),'baseline detects fragmented table action labels');
   }
   A.deepEqual(contrastFailures,[],'composited text contrast >= 4.5 in all cases');
   console.log((layout===3?'V2_BUTTONS_':layout>=2?'V2_FIELDS_':'V2_CONTAINERS_')+name.toUpperCase()+'_GREEN '+Object.keys(receipts).length+' cases');
