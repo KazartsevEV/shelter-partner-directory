@@ -8,6 +8,7 @@ const arg=(key,fallback)=>process.argv.find(v=>v.startsWith('--'+key+'='))?.spli
 const stage=Number(arg('stage','1'));
 const layout=Number(arg('layout','1'));
 const Observed=require('../portfolio_v2_mba_observed.js');
+const Full=require('../portfolio_v2_full_service.js');
 const directory=path.resolve(arg('root',path.join(__dirname,'..')));
 const artifacts=path.resolve(arg('artifacts','artifacts/v2-containers'));
 const utilities=path.resolve(arg('utilities','artifacts/v2-utilities.css'));
@@ -83,6 +84,14 @@ async function seed(page,route,condition){
   }else{
    state.resources.push({id:'certificate',kind:'certification',label:'Сертификат',amount:90,cadence:'once',pool:'none',skuIds:['own','resale'],allocation:'revenue',includedBySku:{},validFor:'Kazakhstan: clothing',validUntil:'2027-12-31',confirmedCoverage:true},
     {id:'warehouse',kind:'warehouse',label:'Склад',amount:30,cadence:'monthly',pool:'none',skuIds:['own','resale'],allocation:'revenue',includedBySku:{}});
+   if(condition==='full-service'){
+    state.skus[3]=Full.toPortfolioSku({months:3,monthlyForecast:8,capacity:25,priceGross:100,vatPct:0,
+     discountPct:0,unitCashCost:5,commissionPct:0,fixedCashMonthly:90,equipmentPurchase:0,
+     equipmentAmortMonthly:0,taxType:'turnover',taxPct:5,reservePct:0,funding:'own'},
+     {id:'salon',name:'Полная услуга',kind:'offline'});
+    state.resources[1]={...state.resources[1],pool:'unitCost',cashOrigin:'production',
+     poolBySku:{own:'none',salon:'unitCost'},cashOriginBySku:{salon:'production'},includedBySku:{salon:30}};
+   }
    if(['history','unmapped'].includes(condition)){
     const records=['a','b'].flatMap(order_id=>['own','resale'].map(sku_id=>({order_id,sku_id:condition==='unmapped'?'UnknownSKU_'+sku_id:sku_id,date:'2026-09-01',quantity:1,unit_price:100,currency:'USD',channel:'web',status:'completed'})));
     state.mbaHistory={source:Observed.read(JSON.stringify(records),'json'),mapping:{},filter:{channel:'all',from:'2026-09-01',to:'2026-09-30'},fileName:'orders.json'};
@@ -129,7 +138,8 @@ async function formPictures(page,route,condition,key){
    [['#p2-stage-marketing','marketing'],['#p2-stage-skus','sku'],['#p2-stage-purchase','certification'],
     ['#p2-stage-production','resources'],['#p2-stage-financing','financing'],['#p2-results','results']];
  }else{
-  targets=['history','unmapped'].includes(condition)?[['#linked-mba-panel','history'],['#linked-basket-panel','basket']]:
+  targets=condition==='full-service'?[['[data-linked-resource="1"]','resource-origin'],['[data-linked-sku="3"]','full-service']]:
+   ['history','unmapped'].includes(condition)?[['#linked-mba-panel','history'],['#linked-basket-panel','basket']]:
    condition==='unready'?[['[data-linked-sku="0"]','sku'],['#linked-results','results']]:
    [['[data-linked-sku="0"]','sku'],['#linked-resources','resources'],['#linked-mba-panel','history'],
     ['#linked-basket-panel','basket'],['#linked-results','results']];
@@ -197,7 +207,7 @@ async function assertColors(page,route){
  const receipts={},baseline=stage===1?JSON.parse(fs.readFileSync(path.join(artifacts,'before','receipts.json'),'utf8')):null;
  const contrastFailures=[],layoutFailures=[];
  try{
-  for(const route of ['standalone','linked'])for(const condition of layout===2?(route==='standalone'?['ready','unready','credit','dropship']:['ready','unready','history','unmapped']):['ready','unready'])
+  for(const route of ['standalone','linked'])for(const condition of layout===2?(route==='standalone'?['ready','unready','credit','dropship']:['ready','unready','history','unmapped','full-service']):['ready','unready'])
   for(const language of languages)for(const width of widths){
    const key=[route,condition,language,width].join('-');
    const context=await browser.newContext({locale:language==='kk'?'kk-KZ':language==='en'?'en-US':'ru-RU',viewport:{width,height:900}});

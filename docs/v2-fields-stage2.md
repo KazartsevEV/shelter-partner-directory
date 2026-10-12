@@ -30,11 +30,12 @@ order are not part of stage 2.
 
 ## Acceptance checks
 
-144 Chromium cases per before/after phase: both routes, RU/EN/KK, six widths
+162 Chromium cases per before/after phase: both routes, RU/EN/KK, six widths
 320/360/390/430/768/1280. Standalone includes ready/unready, cash/credit and
 own/resale/dropship forms. Linked includes five V1 source types, all basket modes,
 shared resources, certification, warehouses and loaded/missing SKU mappings
-in observed history. All details are opened to test conditional form content.
+in observed history. Full-service resource pools and original-payment selectors
+are included. All details are opened to test conditional form content.
 Long unbroken product and resource names stress wrapping and delete headings.
 
 The comparison freezes financial results, saved state, field types/values/colors

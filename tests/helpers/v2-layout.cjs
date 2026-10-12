@@ -5,17 +5,19 @@
   const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
   const intersects=(a,b)=>Math.min(a.right,b.right)-Math.max(a.x,b.x)>1&&Math.min(a.bottom,b.bottom)-Math.max(a.y,b.y)>1;
   const failures=[],controls=[...scope.querySelectorAll('input,select,textarea')].filter(visible);
+  const positions=controls.map(rect),byControl=new Map(controls.map((el,i)=>[el,positions[i]]));
   const describe=el=>el.getAttribute('data-p2-path')||el.getAttribute('data-linked-path')||el.getAttribute('data-basket-field')||el.getAttribute('data-mba-filter')||el.outerHTML.slice(0,130);
   if(document.documentElement.scrollWidth>innerWidth+1)failures.push({kind:'document-overflow',width:innerWidth,scroll:document.documentElement.scrollWidth});
   for(let i=0;i<controls.length;i++){
-   const el=controls[i],r=rect(el),card=el.closest('article,.nd-v2-info-panel,.nd-v2-section,.nd-v2-result-frame')||scope,c=rect(card);
+   const el=controls[i],r=positions[i],card=el.closest('article,.nd-v2-info-panel,.nd-v2-section,.nd-v2-result-frame')||scope,c=rect(card);
    if(r.x<c.x-1||r.right>c.right+1)failures.push({kind:'control-outside-card',field:describe(el),rect:r,card:c});
    const check=el.type==='checkbox';
    if(check?(r.width<18||r.height<18):r.height<43.9)failures.push({kind:'control-touch-size',field:describe(el),rect:r});
-   for(let j=i+1;j<controls.length;j++)if(intersects(r,rect(controls[j])))failures.push({kind:'control-overlap',a:describe(el),b:describe(controls[j])});
+   for(let j=i+1;j<controls.length;j++)if(intersects(r,positions[j]))failures.push({kind:'control-overlap',a:describe(el),b:describe(controls[j])});
    if(el.tagName==='SELECT'){
     const value=el.selectedOptions[0]?.textContent.trim()||'',s=getComputedStyle(el);
     const probe=document.createElement('span');probe.textContent=value;
+    probe.setAttribute('data-nomad-no-translate','');
     probe.style.cssText='position:absolute;white-space:pre;visibility:hidden;pointer-events:none';
     probe.style.font=s.font;probe.style.letterSpacing=s.letterSpacing;document.body.append(probe);
     const needed=probe.getBoundingClientRect().width;probe.remove();
@@ -44,9 +46,9 @@
    for(const r of range.getClientRects()){
     if(!r.width||!r.height)continue;
     if(r.x<bounds.x-1||r.right>bounds.right+1)failures.push({kind:'text-outside-component',text:node.textContent.slice(0,100),rect:{x:r.x,right:r.right},bounds});
-    for(const control of controls)if(intersects(r,rect(control)))failures.push({kind:'text-control-overlap',text:node.textContent.slice(0,100),field:describe(control)});
+    for(let i=0;i<controls.length;i++)if(intersects(r,positions[i]))failures.push({kind:'text-control-overlap',text:node.textContent.slice(0,100),field:describe(controls[i])});
     const own=el.closest('label')?.querySelector('input:not([type="checkbox"]),select,textarea');
-    if(own&&(node.compareDocumentPosition(own)&Node.DOCUMENT_POSITION_FOLLOWING)&&r.bottom>rect(own).y+1)
+    if(own&&byControl.has(own)&&(node.compareDocumentPosition(own)&Node.DOCUMENT_POSITION_FOLLOWING)&&r.bottom>byControl.get(own).y+1)
      failures.push({kind:'label-not-above-field',text:node.textContent.slice(0,100),field:describe(own)});
    }
   }
