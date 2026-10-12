@@ -125,6 +125,8 @@
   const model=root.PortfolioV2UI?.getState?.();if(model)paintPortfolio(model);
   const summary=document.querySelector('#product-portfolio-business-summary.nd-payment-pending');
   if(summary)summary.textContent=text().pending;
+  const breakdown=document.querySelector('#own-materials-landed-breakdown[data-nomad-no-translate]');
+  if(breakdown)breakdown.textContent=text().pending;
   if(model)root.PortfolioV2UI?.refreshPayments?.();
  }
  function boot(){

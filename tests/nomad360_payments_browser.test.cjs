@@ -18,7 +18,7 @@ async function geometry(page){
    const r=el.getBoundingClientRect();
    if(r.x<0||r.right>innerWidth+1||r.height<44)bad.push('selector geometry '+JSON.stringify([r.x,r.width,r.height]));
    const controls=el.closest('.nd-payment-controls'),parent=controls.getBoundingClientRect();
-   if(r.right>parent.right+1)bad.push('control overflow');
+   if(r.right>parent.right+1)bad.push('control overflow '+JSON.stringify({field:el.closest('[data-payment-field]')?.dataset.paymentField,path:el.closest('[data-payment-path]')?.dataset.paymentPath,selector:[r.x,r.width],controls:[parent.x,parent.width]}));
   }
   return bad;
  });A.deepEqual(issues,[]);
@@ -78,7 +78,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    A.equal(await recovered.inputValue(),'CNY');A.equal(await amount.inputValue(),'1000');
    // Choosing the model's currency makes the same original amount normalizable.
    await recovered.selectOption('KZT');await page.evaluate(()=>saveProductCalculationToBrowser());
-   A.equal(await page.evaluate(()=>readSavedProductCalculation().productPortfolio[0].payments[Object.keys(readSavedProductCalculation().productPortfolio[0].payments)[0]].convertedAmount),1000);
+   A.equal(await page.evaluate(key=>readSavedProductCalculation().productPortfolio[0].payments[key].convertedAmount,actual),1000);
    if(source==='materials'){
     await page.evaluate(()=>addMaterialRow());
     const keys=await page.locator('#own-material-rows .material-cost-row').evaluateAll(rows=>rows.map(r=>r.dataset.paymentKey));

@@ -7223,10 +7223,12 @@
             if (totalOut) totalOut.textContent = Number.isFinite(total)?moneyInputValue(total):'—';
 
             const baseInput = document.getElementById('own-materials-cost');
-            if (baseInput && materialCostMode === 'calculate') baseInput.value = total.toFixed(2);
+            if (baseInput && materialCostMode === 'calculate') baseInput.value = Number.isFinite(total)?total.toFixed(2):'';
 
-            productOwnInboundDeliveryManual = false;
-            updateInboundDeliveryDefault();
+            if(Number.isFinite(total)){
+                productOwnInboundDeliveryManual = false;
+                updateInboundDeliveryDefault();
+            }
             recalculateMaterialsLandedCost();
         }
 
@@ -7236,15 +7238,17 @@
             if(!box||!['resale','dropship'].includes(productSource))return;
             const goods=productPortfolio.filter(x=>x.source===productSource&&Number(x.id)!==Number(currentProductSequence))
                 .map(x=>({id:Number(x.id),name:x.name,qty:Number(x.inputs?.['resale-buy-qty'])||Number(x.materialsBatchQty)||1,
-                    price:Math.max(0,Number(x.inputs?.['resale-buy-total'])||0),supplier:x.inputs?.['resale-buy-supplier']||''}));
+                    price:Math.max(0,Number(x.inputs?.['resale-buy-total'])||0),supplier:x.inputs?.['resale-buy-supplier']||'',
+                    payment:x.payments?.['resale-buy-total']}));
             if(productName)goods.push({id:Number(currentProductSequence),name:productName,qty:Math.max(1,Number(document.getElementById('resale-buy-qty')?.value)||1),
-                price:productNumber('resale-buy-total'),supplier:document.getElementById('resale-buy-supplier')?.value||''});
+                price:Math.max(0,Number(document.getElementById('resale-buy-total')?.value)||0),supplier:document.getElementById('resale-buy-supplier')?.value||'',
+                payment:window.Nomad360PaymentUI?.captureV1(nomadPaymentContext())?.['resale-buy-total']});
             const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
             box.innerHTML=goods.length?goods.map(g=>
                 '<div class="grid grid-cols-[1fr_auto] gap-3 py-2 border-b border-slate-200"><span><b>'+esc(g.name)+'</b><span class="block text-xs text-slate-500">'+
-                g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span>'+ (g.id===Number(currentProductSequence)?'': '<button type="button" onclick="editSavedProduct('+g.id+')" class="text-xs underline text-blue-800 mt-1">Редактировать товар</button>') + '</span><b>'+moneyInputValue(g.price)+' у.е.*</b></div>').join('')+
+                g.qty+' шт. · '+esc(g.supplier||'поставщик не указан')+'</span>'+ (g.id===Number(currentProductSequence)?'': '<button type="button" onclick="editSavedProduct('+g.id+')" class="text-xs underline text-blue-800 mt-1">Редактировать товар</button>') + '</span><b>'+moneyInputValue(g.price)+' '+esc(g.payment?.paymentCurrency||window.Nomad360Currency?.get()||'USD')+'</b></div>').join('')+
                 '<div class="flex justify-between font-bold mt-3"><span>Всего позиций: '+goods.length+'</span><span>'+
-                moneyInputValue(goods.reduce((s,g)=>s+g.price,0))+' у.е.* закупки, без доставки</span></div>':
+                (goods.some(g=>g.payment?.status==='conversion-required'||g.payment?.status==='invalid')?'—':moneyInputValue(goods.reduce((s,g)=>s+(g.payment?.convertedAmount??g.price),0)))+' у.е.* закупки, без доставки</span></div>':
                 '<p class="text-xs text-slate-500">Сначала укажите закупаемый товар и стоимость партии.</p>';
         }
         function markResaleWarehouseQtyManual(){
@@ -7263,7 +7267,8 @@
             const output=document.getElementById('resale-buy-unit');
             if(output)output.textContent=raw===''||!Number.isFinite(cost)?'—':moneyInputValue(cost/qty)+' у.е.*';
             const warning=document.getElementById('resale-buy-warning');
-            if(warning){warning.hidden=cost>0;warning.classList.toggle('hidden',cost>0);}
+            const positiveRaw=Number(raw)>0&&Number.isFinite(Number(raw));
+            if(warning){warning.hidden=positiveRaw;warning.classList.toggle('hidden',positiveRaw);}
             updateInboundDeliveryDefault();recalculateMaterialsLandedCost();renderResalePurchaseComposition();
         }
         function syncDropshipFinanceInputs(){
@@ -7608,11 +7613,16 @@
                 certificationPerUnit;
 
             latestMaterialsLandedUnitCost = unitCost;
+            const paymentPending=window.Nomad360Payments?.pending(window.Nomad360PaymentUI?.captureV1(nomadPaymentContext()));
             const out = document.getElementById('own-materials-landed-unit-cost');
-            if (out) out.textContent = Number.isFinite(unitCost)?moneyInputValue(unitCost):'—';
+            if (out) out.textContent = !paymentPending&&Number.isFinite(unitCost)?moneyInputValue(unitCost):'—';
 
             const breakdown = document.getElementById('own-materials-landed-breakdown');
-            if (breakdown) {
+            if(breakdown&&paymentPending){
+                breakdown.textContent=window.Nomad360PaymentUI.pendingMessage();
+                breakdown.setAttribute('data-nomad-no-translate','');
+            } else if (breakdown) {
+                breakdown.removeAttribute('data-nomad-no-translate');
                 breakdown.innerHTML = [
                     [productSource==='resale'?'Готовый товар':'Материалы', materialsBase],
                     ['НДС сверх указанной себестоимости', vatAdded],

@@ -16,6 +16,7 @@ const safe=value=>String(value??'').replaceAll('&','&amp;').replaceAll('<','&lt;
 const initial=()=>({
  version:2,
  currency:root.Nomad360Currency?.get()||'USD',
+ businessCurrency:root.Nomad360Currency?.get()||'USD',
  marketing:{budget:'',cpc:'',ctrPct:'',clickLeadPct:'',leadOrderPct:'',periodMonths:3,cacReservePct:100},
  skus:[{id:'sku-1',name:'',source:'own',unitCost:'',marginPct:25,mixPct:100,
    batchUnits:'',initialCashOut:'',fulfillmentPerOrder:'',storagePerUnitDay:'',acquiringPct:0}],
@@ -33,6 +34,7 @@ function open(options={}){
  if(!options.resume)root.Nomad360Currency?.beginNew();
  const saved=load();model=options.resume&&saved?saved:initial();
  model.currency=root.Nomad360Currency?.adopt(model.currency)||model.currency||'USD';
+ model.businessCurrency=model.currency;
  sequence=Math.max(0,...model.skus.map(v=>Number(String(v.id).replace(/\D/g,''))||0),
  ...model.resources.map(v=>Number(String(v.id).replace(/\D/g,''))||0))+1;
  root.showOnly('portfolio-v2-screen');
