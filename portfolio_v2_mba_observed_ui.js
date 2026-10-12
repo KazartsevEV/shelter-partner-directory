@@ -38,7 +38,7 @@ function render(state,onChange){
  const raws=activeSource?[...new Set(activeSource.lines.filter(l=>l.quantity>0).map(l=>l.rawSku))].sort():[];
  const unresolved=raws.filter(raw=>!skus.some(s=>s.id===((history.mapping||{})[raw]||raw)));
  const channels=source?[...new Set(source.lines.map(x=>x.channel))].sort():[];
- panel.className='nd-v2-panel rounded-2xl border border-slate-200 bg-white p-4 mb-5';
+ panel.className='rounded-2xl border border-slate-200 bg-white p-4 mb-5';
  panel.innerHTML='<h2 class="text-xl font-bold text-slate-900">История чеков и совместные покупки</h2>'+
  '<p class="text-sm text-slate-700 mt-2"><strong>Необязательный анализ.</strong> Загрузите оплаченные чеки, чтобы увидеть, какие товары и услуги клиенты выбирают вместе.</p>'+
  '<p class="text-sm text-slate-600 mt-2">Это помогает оценить спрос на комплекты и дополнительные продажи. История показывает фактические сочетания покупок; прогноз V1 меняется только после вашего решения.</p>'+
