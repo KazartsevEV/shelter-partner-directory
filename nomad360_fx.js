@@ -9,7 +9,7 @@
   if(!response.ok)throw Error('Rate unavailable');
   const row=await response.json();
   if(row.base!==base||row.quote!==quote||typeof row.rate!=='number'||!Number.isFinite(row.rate)||row.rate<=0||!/^\d{4}-\d{2}-\d{2}$/.test(row.date)||!Number.isFinite(Date.parse(row.date+'T00:00:00Z'))||new Date(row.date+'T00:00:00Z').toISOString().slice(0,10)!==row.date||row.date>new Date().toISOString().slice(0,10))throw Error('Unconfirmed rate');
-  return {base,quote,rate:row.rate,date:row.date,source:'frankfurter',sourceLabel:'Frankfurter · official reference rates'};
+  return {base,quote,rate:row.rate,date:row.date,source:'frankfurter',sourceLabel:'Frankfurter · daily reference rate'};
  }
  return Object.freeze({quote});
 });

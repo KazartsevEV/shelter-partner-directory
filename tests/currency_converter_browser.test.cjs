@@ -20,10 +20,10 @@ async function panel(page,pathKey,currency){
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
  for(const width of [320,360,390,430,768,1280])for(const lang of ['ru','en','kk']){
-  const page=await browser.newPage({viewport:{width,height:900}}),errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await browser.newPage({viewport:{width,height:900}}),errors=[],requests=[];let availability='ok';page.on('pageerror',e=>errors.push(e.message));
   await page.route(/^https?:\/\//,route=>{
    const u=route.request().url();if(u.startsWith('https://api.frankfurter.dev/')){
-    requests.push(u);const pair=u.split('/').slice(-2).map(x=>x.toUpperCase());
+    requests.push(u);if(availability==='offline')return route.abort();const pair=u.split('/').slice(-2).map(x=>x.toUpperCase());
     return route.fulfill({contentType:'application/json',body:JSON.stringify({base:pair[0],quote:pair[1],rate:pair[0]==='CNY'?2:3,date:'2026-01-02'})});
    }return route.abort();
   });
@@ -88,24 +88,30 @@ async function panel(page,pathKey,currency){
    for(const next of ['en','kk','ru']){await page.locator('#nomad360-lang-select').selectOption(next);A.equal(await page.evaluate(()=>latestMaterialsLandedUnitCost),amountBefore);A.deepEqual(await page.evaluate(()=>readSavedProductCalculation()),restored);}
    protocol.push({width,lang,route:'v1-'+source,payments:saved.productPortfolio[0].payments,landedUnitCost:amountBefore,noResumeRequests:true});
   }
+  availability='offline';await goto();await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},model('resale'));
+  const offline=await panel(page,'skus.0.unitCost','CNY');await offline.locator('[data-fx-fetch]').click();await page.waitForFunction(el=>el.ndMessage==='error',await offline.elementHandle());
+  A.match(await offline.locator('[data-fx-message]').textContent(),lang==='en'?/manual/:lang==='ru'?/ручной/:/қолмен/);
+  A.equal(await pending(page),true);await offline.locator('[data-fx-rate]').fill('2');await offline.locator('[data-fx-date]').fill('2026-01-02');await offline.locator('[data-fx-source]').fill('Bank invoice');await offline.locator('[data-fx-apply]').click();
+  A.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus[0].payments.unitCost.convertedAmount),40);await geometry(page);await offline.screenshot({path:path.join(art,`${width}-${lang}-manual-fallback.png`)});
+  protocol.push({width,lang,route:'api-manual',offlineMessageLocalized:true,convertedAmount:40,manualSource:'Bank invoice'});
   A.deepEqual(errors,[]);await page.close();
  }
  // Failure, malformed pair, a delayed response and a newer proposal cannot alter an applied rate.
- const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));let mode='offline',release;
+ const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));let mode='offline',release,start;const delayedStarted=new Promise(resolve=>start=resolve);
  await page.route(/^https?:\/\//,route=>{
   if(!route.request().url().startsWith('https://api.frankfurter.dev/'))return route.abort();
   if(mode==='offline')return route.abort();
-  if(mode==='delayed')return new Promise(resolve=>release=()=>{route.fulfill({contentType:'application/json',body:JSON.stringify({base:'CNY',quote:'USD',date:'2026-01-02',rate:2})}).then(resolve);});
+  if(mode==='delayed')return new Promise(resolve=>{release=()=>route.fulfill({contentType:'application/json',body:JSON.stringify({base:'CNY',quote:'USD',date:'2026-01-02',rate:2})}).then(resolve);start();});
   return route.fulfill({contentType:'application/json',body:JSON.stringify({base:mode==='wrong'?'USD':'CNY',quote:mode==='wrong'?'CNY':'USD',date:'2026-01-02',rate:3})});
  });
- await page.goto(url);await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},model('resale'));
+ await page.goto(url);await page.locator('#nomad360-lang-select').selectOption('ru');await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},model('resale'));
  const fx=await panel(page,'skus.0.unitCost','CNY');await fx.locator('[data-fx-fetch]').click();await page.waitForFunction(el=>el.querySelector('[data-fx-message]').textContent.includes('недоступен'),await fx.elementHandle());A.equal(await pending(page),true);
  await fx.locator('[data-fx-rate]').fill('2');await fx.locator('[data-fx-date]').fill('2026-01-02');await fx.locator('[data-fx-source]').fill('Bank invoice');await fx.locator('[data-fx-apply]').click();
  const saved=await page.evaluate(()=>PortfolioV2UI.getState());A.equal(saved.skus[0].payments.unitCost.conversion.source,'manual');
  mode='newer';await fx.locator('[data-fx-fetch]').click();await page.waitForFunction(el=>el.querySelector('[data-fx-rate]').value==='3',await fx.elementHandle());A.deepEqual(await page.evaluate(()=>PortfolioV2UI.getState()),saved);
  await fx.locator('[data-fx-apply]').click();A.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus[0].payments.unitCost.convertedAmount),60);
  mode='wrong';await fx.locator('[data-fx-fetch]').click();await page.waitForFunction(el=>el.querySelector('[data-fx-message]').textContent.includes('недоступен'),await fx.elementHandle());A.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus[0].payments.unitCost.convertedAmount),60);
- mode='delayed';await fx.locator('[data-fx-fetch]').click();await page.waitForTimeout(100);await page.locator('[data-p2-path="skus.0.unitCost"]').fill('35');await release();A.equal(await pending(page),true);A.equal(await fx.locator('[data-fx-rate]').inputValue(),'');
+ mode='delayed';await fx.locator('[data-fx-fetch]').click();await delayedStarted;await page.locator('[data-p2-path="skus.0.unitCost"]').fill('35');await release();await page.waitForTimeout(100);A.equal(await pending(page),true);A.equal(await fx.locator('[data-fx-rate]').inputValue(),'');
  A.deepEqual(errors,[]);await page.close();
  // Live public API calls from Chromium: no stub, no model/user payload, no application.
  const live=await browser.newPage();await live.goto(url);const liveRates=await live.evaluate(async()=>{
