@@ -58,6 +58,8 @@ the existing white input surfaces and navy input text. White page background is
 scoped to the visible V2 screen. Existing border-radius token replaces large
 surface corners; section shadows are removed. No layout, spacing or type sizes
 are changed, and no new global utility selectors or important rules are added.
+Deletion text remains readable on the recolored product cards; button geometry
+and all actions remain the same. File upload receives the white input surface.
 
 Runtime changes: `nomad360_design_system.css`, `portfolio_v2_ui.js`,
 `portfolio_v2_linked_ui.js`, `portfolio_v2_basket_ui.js`,

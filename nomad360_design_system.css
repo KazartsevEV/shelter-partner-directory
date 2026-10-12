@@ -2021,6 +2021,10 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 #portfolio-v2-root .nd-v2-section-link{
   color:#fff;
 }
+#portfolio-v2-root .nd-v2-product-card [data-p2-remove-sku],
+#portfolio-v2-root .nd-v2-product-card [data-linked-delete-sku]{
+  color:#fff;
+}
 #portfolio-v2-root [data-linked-path="recurringDemandApproved"]{
   color:var(--nd-ink);
 }

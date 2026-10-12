@@ -80,12 +80,12 @@ async function seed(page,route,condition){
  },route);
 }
 async function pictures(page,route,key){
- const targets=route==='standalone'?['#portfolio-v2-root','#p2-stage-production','#p2-results']:
-  ['#portfolio-v2-root','#linked-resources','#linked-results'];
+ const targets=route==='standalone'?['#portfolio-v2-root','#p2-stage-skus','#p2-stage-production','#p2-results']:
+  ['#portfolio-v2-root','[data-linked-sku="0"]','#linked-resources','#linked-results'];
  for(let i=0;i<targets.length;i++){
   if(i===0)await page.evaluate(()=>scrollTo(0,0));
   else await page.locator(targets[i]).evaluate(el=>el.scrollIntoView({block:'start'}));
-  await page.screenshot({path:path.join(artifacts,name,key+'-'+['top','resources','results'][i]+'.png')});
+  await page.screenshot({path:path.join(artifacts,name,key+'-'+['top','sku','resources','results'][i]+'.png')});
  }
  await page.evaluate(()=>scrollTo(0,0));
 }
@@ -93,7 +93,7 @@ async function assertColors(page,route){
  const result=await page.evaluate(()=>{
   const root=document.getElementById('portfolio-v2-root'),style=el=>getComputedStyle(el);
   const sections=[...root.querySelectorAll('.nd-v2-section,.nd-v2-hero,.nd-v2-result-frame')];
-  const text=[...root.querySelectorAll('.nd-v2-title,.nd-v2-description,.nd-v2-eyebrow,.nd-v2-status,.nd-v2-section-link')];
+  const text=[...root.querySelectorAll('.nd-v2-title,.nd-v2-description,.nd-v2-eyebrow,.nd-v2-status,.nd-v2-section-link,.nd-v2-product-card [data-p2-remove-sku],.nd-v2-product-card [data-linked-delete-sku]')];
   return {background:style(document.body).backgroundColor,
    sections:sections.map(el=>({background:style(el).backgroundColor,radius:style(el).borderRadius,shadow:style(el).boxShadow})),
    text:text.map(el=>({text:el.textContent.slice(0,60),color:style(el).color})),
