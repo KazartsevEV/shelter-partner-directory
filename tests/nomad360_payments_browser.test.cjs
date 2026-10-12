@@ -28,8 +28,17 @@ async function geometry(page){
  });
  if(issues.length){
   const debug=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(el=>el.getClientRects().length&&!el.closest('[hidden],.hidden')&&el.getBoundingClientRect().right>innerWidth+1).slice(-35).map(el=>({tag:el.tagName,id:el.id,class:el.className,text:el.textContent?.slice(0,65),x:el.getBoundingClientRect().x,width:el.getBoundingClientRect().width,display:getComputedStyle(el).display,whiteSpace:getComputedStyle(el).whiteSpace})));
+  const textOverflow=await page.evaluate(()=>{
+   const result=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
+   while((node=walker.nextNode())){
+    const el=node.parentElement;if(!node.textContent.trim()||el.closest('script,style,[hidden],.hidden')||!el.getClientRects().length)continue;
+    const range=document.createRange();range.selectNodeContents(node);
+    if([...range.getClientRects()].some(r=>r.right>innerWidth+1))result.push({text:node.textContent.slice(0,130),tag:el.tagName,id:el.id,class:el.className,parent:el.parentElement.id||el.parentElement.className,font:getComputedStyle(el).font,wrap:getComputedStyle(el).overflowWrap});
+   }return result;
+  });
   console.error('PAYMENT_GEOMETRY',JSON.stringify(debug));
-  fs.writeFileSync(path.join(art,'geometry-failure.json'),JSON.stringify({issues,debug},null,2));
+  console.error('PAYMENT_TEXT_OVERFLOW',JSON.stringify(textOverflow));
+  fs.writeFileSync(path.join(art,'geometry-failure.json'),JSON.stringify({issues,debug,textOverflow},null,2));
   await page.screenshot({path:path.join(art,'geometry-failure.png'),fullPage:true});
  }
  A.deepEqual(issues,[]);
