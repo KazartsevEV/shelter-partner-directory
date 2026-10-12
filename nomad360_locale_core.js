@@ -1644,8 +1644,10 @@ function translateNode(node,language){
  if(node.nodeType===3){
   const value=node.nodeValue||'';
   const prior=weak.get(node);
-  const canonical=prior&&value===prior.applied?prior.original:value;
-  const paymentCurrency=node.parentElement?.closest('[data-payment-amount-currency]')?.dataset.paymentAmountCurrency;
+  const paymentLabel=node.parentElement?.closest('[data-payment-amount-currency]');
+  const canonical=paymentLabel===node.parentElement&&paymentLabel?.dataset.paymentAmountSource?
+   paymentLabel.dataset.paymentAmountSource:prior&&value===prior.applied?prior.original:value;
+  const paymentCurrency=paymentLabel?.dataset.paymentAmountCurrency;
   const output=lookup(canonical,language,paymentCurrency);
   weak.set(node,{original:canonical,applied:output});
   if(output!==value)node.nodeValue=output;

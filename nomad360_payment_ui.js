@@ -51,7 +51,10 @@
    }
    const select=wrap.querySelector('[data-payment-currency]');
    const label=field.id?document.querySelector('label[for="'+field.id+'"]')||wrap.previousElementSibling:wrap.previousElementSibling;
-   if(label?.tagName==='LABEL')label.dataset.paymentAmountCurrency=select.value;
+   if(label?.tagName==='LABEL'){
+    label.dataset.paymentAmountCurrency=select.value;
+    if(field.classList.contains('material-cost-price'))label.dataset.paymentAmountSource='Цена 1 ед. материала, у.е.*';
+   }
    paint(wrap,P.record(field.value,select.value,C.get(),C.valid));
   }
  }

@@ -81,6 +81,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    A.equal(await selector.getAttribute('aria-label'),labels[lang]);
    A.equal(await selector.inputValue(),'KZT');
    await selector.selectOption('CNY');A.equal(await amount.inputValue(),'1000');
+   if(source==='materials')await page.waitForFunction(()=>document.querySelector('.material-cost-price').parentElement.previousElementSibling.textContent.includes('CNY'));
    if(source!=='dropship')A.equal(await page.locator('#own-inbound-delivery-cost').inputValue(),'150');
    A.match(await selector.locator('option[value="CNY"]').textContent(),/🇨🇳 CNY/);
    A.equal(await page.evaluate(()=>saveProductCalculationToBrowser()),true);
@@ -109,6 +110,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    if(source!=='dropship')console.log('PAYMENT_DELIVERY_RESTORED',source,await page.evaluate(()=>({input:document.getElementById('own-inbound-delivery-cost').value,manual:productOwnInboundDeliveryManual,saved:readSavedProductCalculation().productPortfolio[0].inputs['own-inbound-delivery-cost']})));
    // Choosing the model's currency makes the same original amount normalizable.
    await recovered.selectOption('KZT');await page.evaluate(()=>saveProductCalculationToBrowser());
+   if(source==='materials')await page.waitForFunction(()=>document.querySelector('.material-cost-price').parentElement.previousElementSibling.textContent.includes('KZT'));
    if(source!=='dropship')A.equal(await page.locator('#own-inbound-delivery-cost').inputValue(),'150');
    A.equal(await page.evaluate(key=>readSavedProductCalculation().productPortfolio[0].payments[key].convertedAmount,actual),1000);
    if(source==='materials'){
@@ -142,6 +144,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
     localStorage.setItem(savedProductStorageKey,JSON.stringify(old));
    });await goto('?resume=1');
    A.equal(await recovered.inputValue(),'KZT');A.equal(await amount.inputValue(),'1000');
+   if(source==='materials')await page.waitForFunction(()=>document.querySelector('.material-cost-price').parentElement.previousElementSibling.textContent.includes('KZT'));
    // International amounts only: percentage insurance and domestic payroll lack selectors.
    A.equal(await page.locator('#own-cargo-insurance-cost').locator('..').locator('[data-payment-currency]').count(),0);
    A.equal(await page.locator('#own-production-worker-gross').locator('..').locator('[data-payment-currency]').count(),0);
