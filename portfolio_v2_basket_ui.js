@@ -20,7 +20,7 @@ function render(state,onChange){
  const select=(current,exclude=[])=>'<option value="">Выберите позицию</option>'+
    skus.filter(s=>!exclude.includes(s.id)).map(s=>
      option(s.id,s.name+(['offline-service','online-service'].includes(s.source)?' · услуга':' · товар'),current)).join('');
- panel.className='nd-v2-panel rounded-2xl border border-slate-200 bg-white p-4 mb-5';
+ panel.className='rounded-2xl border border-slate-200 bg-white p-4 mb-5';
  panel.innerHTML='<h2 class="text-xl font-bold text-slate-900">3. Покупки вместе и комплекты</h2>'+
    '<p class="text-sm text-slate-700 mt-2">Дополнительные продажи и готовые комплекты: выберите товары, которые покупатель может взять вместе. Расчёт сразу покажет изменение выручки, прибыли и доступных остатков.</p>'+
    '<details class="mt-3 rounded-lg border border-blue-200 bg-white p-3 text-sm">'+
