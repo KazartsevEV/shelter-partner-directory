@@ -90,7 +90,12 @@ async function panel(page,pathKey,currency){
    const restored=await page.evaluate(()=>readSavedProductCalculation());A.deepEqual(restored.productPortfolio[0].payments,saved.productPortfolio[0].payments);
    const after=await page.evaluate(()=>Nomad360PaymentUI.captureV1(nomadPaymentContext()));A.deepEqual(after,saved.productPortfolio[0].payments);
    for(const next of ['en','kk','ru']){await page.locator('#nomad360-lang-select').selectOption(next);A.equal(await page.evaluate(()=>latestMaterialsLandedUnitCost),amountBefore);A.deepEqual(await page.evaluate(()=>readSavedProductCalculation()),restored);}
-   protocol.push({width,lang,route:'v1-'+source,payments:saved.productPortfolio[0].payments,landedUnitCost:amountBefore,noResumeRequests:true});
+   let frozenQuantity=null;
+   if(source==='resale'){
+    frozenQuantity=await page.evaluate(item=>{recalculatePortfolioItemQuantity(item,'materials',item.materialsBatchQty*2);return item;},saved.productPortfolio[0]);
+    A.equal(Number(frozenQuantity.inputs['resale-buy-total']),2000);A.equal(frozenQuantity.payments['resale-buy-total'].paymentAmount,2000);A.equal(frozenQuantity.payments['resale-buy-total'].status,'conversion-required');A.equal(frozenQuantity.payments['resale-buy-total'].convertedAmount,null);A.equal(frozenQuantity.payments['resale-buy-total'].conversion,undefined);
+   }
+   protocol.push({width,lang,route:'v1-'+source,frozenQuantity,payments:saved.productPortfolio[0].payments,landedUnitCost:amountBefore,noResumeRequests:true});
   }
   availability='offline';await goto();await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},model('resale'));
   const offline=await panel(page,'skus.0.unitCost','CNY');await offline.locator('[data-fx-fetch]').click();await page.waitForFunction(el=>el.ndMessage==='error',await offline.elementHandle());

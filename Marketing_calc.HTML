@@ -3234,6 +3234,10 @@
                     item.productionQty=n;
                     item.inputs['resale-buy-qty']=String(n);
                     item.inputs['resale-buy-total']=String((Math.max(0,Number(item.inputs['resale-buy-total'])||0)/previousQty)*n);
+                    const payment=item.payments?.['resale-buy-total'];
+                    if(payment&&window.Nomad360Payments){
+                        item.payments['resale-buy-total']={...window.Nomad360Payments.record(item.inputs['resale-buy-total'],payment.paymentCurrency,item.currency||item.businessCurrency||'USD',window.Nomad360Currency.valid,payment),active:payment.active};
+                    }
                     if(item.uiState?.resaleWarehouseQtyManual!==true){
                         item.logisticsQty=n;
                         item.inputs['own-logistics-qty']=String(n);
