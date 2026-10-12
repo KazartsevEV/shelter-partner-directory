@@ -15,6 +15,8 @@ resource, offer or offer item and export the business PDF. Outlines: back/home, 
 template downloads and hide price preview. Existing export controls are styled through
 scoped data selectors; the shared export module remains unchanged. Light cards use navy outlines; dark cards use white outlines.
 The native file chooser button uses the secondary blue palette.
+The existing refusal message for approval without a manual overlap estimate uses
+a light error surface and dark red text. Its copy and gate are unchanged.
 
 Actions have 44 px minimum tap area, wrapped labels, modest radius, explicit
 hover/active states and a two-color focus ring visible on light and dark surfaces.

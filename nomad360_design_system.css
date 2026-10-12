@@ -2314,3 +2314,11 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 #portfolio-v2-root .nd-v2-upload-control::file-selector-button:hover{
   background:#16375a;
 }
+/* Keep the existing approval refusal readable on its dark section. The
+   controller still owns the message, manual estimate gate and clearing. */
+#portfolio-v2-root [data-mba-message].text-rose-700:not(:empty){
+  background:#fff1f2;
+  color:#9f1239;
+  padding:12px;
+  border-radius:var(--nd-radius);
+}

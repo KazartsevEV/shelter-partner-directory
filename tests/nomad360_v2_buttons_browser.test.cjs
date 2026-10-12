@@ -71,8 +71,10 @@ async function interactions(page,route,state,language,version,receipts){
   await page.evaluate(()=>PortfolioV2UI.open({resume:true}));await record('home and resume');
  }else{
   const exportState=await business(page,route);
+  await page.locator('#nomad360-portfolio-tools').screenshot({path:path.join(artifacts,version+'-linked-'+language+'-390-export.png')});
   await page.locator('[data-nomad-price-toggle]').click();
   A.equal(await page.locator('#nomad360-price-preview').isVisible(),true);
+  await page.locator('#nomad360-portfolio-tools').screenshot({path:path.join(artifacts,version+'-linked-'+language+'-390-price.png')});
   if(version==='after')A.deepEqual((await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root')))).failures,[],'opened preview actions');
   await page.evaluate(()=>{window.__buttonPrintCalls=0;window.print=()=>window.__buttonPrintCalls++;});
   for(const mode of ['price','report']){
@@ -101,7 +103,10 @@ async function interactions(page,route,state,language,version,receipts){
    trace.push({action:'download '+format,filename:download.suggestedFilename(),content:text});
   }
   const beforeApproval=await business(page,route);
+  await page.locator('[data-mba-transfer]').first().scrollIntoViewIfNeeded();
+  await page.screenshot({path:path.join(artifacts,version+'-linked-'+language+'-390-approval.png')});
   await page.locator('[data-mba-transfer]').first().click();A.deepEqual(await business(page,route),beforeApproval,'overlap remains required');
+  if(version==='after')A.ok(await page.locator('[data-mba-message]').evaluate(el=>NomadContrast.painted(el).ratio>=4.5),'approval refusal is readable');
   await page.locator('[data-mba-overlap]').first().fill('20');await page.locator('[data-mba-transfer]').first().click();
   const approved=await business(page,route);A.equal(approved.state.offers.length,1);A.equal(approved.state.offers[0].overlapPct,20);await record('approve observed forecast');
   await page.locator('[data-mba-clear]').click();A.equal((await business(page,route)).state.mbaHistory,null);await record('clear history');
