@@ -1,4 +1,4 @@
-/* Local actual-payment currencies. Conversion is a separate accepted task. */
+/* Local payment metadata, explicit conversion and normalized financial inputs. */
 (function(root){
  'use strict';
  const P=root.Nomad360Payments,C=root.Nomad360Currency;
@@ -26,6 +26,7 @@
   out.textContent=p.status==='conversion-required'?t.pending:p.status==='invalid'?t.invalid:
    p.status==='empty'?t.empty:t.business+': '+new Intl.NumberFormat(root.Nomad360UI?.getLanguage?.()==='kk'?'kk-KZ':root.Nomad360UI?.getLanguage?.()==='en'?'en-US':'ru-RU',{maximumFractionDigits:2}).format(p.convertedAmount)+' '+p.businessCurrency;
   wrapper.dataset.paymentStatus=p.status;
+  root.Nomad360FXUI?.paint(wrapper,p);
  }
  function v1Fields(){
   const fields=fixed.map(id=>document.getElementById(id)).filter(Boolean);
@@ -55,7 +56,8 @@
     label.dataset.paymentAmountCurrency=select.value;
     if(field.classList.contains('material-cost-price'))label.dataset.paymentAmountSource='Цена 1 ед. материала, у.е.*';
    }
-   paint(wrap,P.record(field.value,select.value,C.get(),C.valid));
+   const p=P.record(field.value,select.value,C.get(),C.valid,wrap.ndAppliedPayment);
+   wrap.ndAppliedPayment=p;paint(wrap,p);
   }
  }
  function readNumber(field){
@@ -63,7 +65,7 @@
   if(root.nomadPaymentContext&&!activeV1(field,root.nomadPaymentContext()))return Math.max(0,Number(field.value)||0);
   const select=field.parentElement.querySelector(':scope > .nd-payment-controls [data-payment-currency]');
   if(!select)return Math.max(0,Number(field.value)||0);
-  const p=P.record(field.value,select.value,C.get(),C.valid);
+  const p=P.record(field.value,select.value,C.get(),C.valid,field.parentElement.ndAppliedPayment);
   // Pending values propagate as NaN to intermediate previews, never as 1:1.
   return P.pending({p})?NaN:p.convertedAmount??0;
  }
@@ -78,7 +80,7 @@
  }
  function captureV1(context){
   attachV1();
-  return Object.fromEntries(v1Fields().map(f=>[key(f),{...P.record(f.value,f.parentElement.querySelector('[data-payment-currency]').value,C.get(),C.valid),active:activeV1(f,context)}]));
+  return Object.fromEntries(v1Fields().map(f=>[key(f),{...P.record(f.value,f.parentElement.querySelector('[data-payment-currency]').value,C.get(),C.valid,f.parentElement.ndAppliedPayment),active:activeV1(f,context)}]));
  }
  function restoreV1(payments){
   attachV1();
@@ -87,11 +89,11 @@
    // Legacy static/dynamic drafts keep their amounts and inherit business currency.
    const code=p?.paymentCurrency??C.get();
    if(!C.valid(code)){const option=document.createElement('option');option.value=code;option.textContent=code;sel.append(option);}
-   sel.value=code;
+   sel.value=code;f.parentElement.ndAppliedPayment=p;
   }
   attachV1();
  }
- function resetV1(){for(const f of v1Fields())f.parentElement.querySelector('[data-payment-currency]').value=C.get();}
+ function resetV1(){for(const f of v1Fields()){f.parentElement.querySelector('[data-payment-currency]').value=C.get();f.parentElement.ndAppliedPayment=null;}}
  function paymentField(path,value,model){
   const parts=path.split('.');
   if(parts[0]!=='skus'||!P.fields(model.skus[Number(parts[1])]).includes(parts[2]))return '';
@@ -104,19 +106,28 @@
    const code=sku.payments?.[k]?.paymentCurrency??model.currency??'USD';
    const label=wrap.parentElement.querySelector(':scope > label');
    if(label)label.dataset.paymentAmountCurrency=code;
-   paint(wrap,P.record(sku[k],code,model.currency||'USD',C.valid));
+   paint(wrap,P.record(sku[k],code,model.currency||'USD',C.valid,sku.payments?.[k]));
   }
  }
  function updatePortfolio(model,path,code){
   const [,i,k]=path.split('.'),sku=model.skus[Number(i)];
   sku.payments=sku.payments||{};
-  sku.payments[k]=P.record(sku[k],code,model.currency||'USD',C.valid);
+  sku.payments[k]=P.record(sku[k],code,model.currency||'USD',C.valid,sku.payments[k]);
  }
  function syncPortfolio(model){
   for(const sku of model.skus)for(const k of P.fields(sku)){
    sku.payments=sku.payments||{};
-   sku.payments[k]=P.record(sku[k],sku.payments[k]?.paymentCurrency??model.currency??'USD',model.currency||'USD',C.valid);
+   sku.payments[k]=P.record(sku[k],sku.payments[k]?.paymentCurrency??model.currency??'USD',model.currency||'USD',C.valid,sku.payments[k]);
   }
+ }
+ function applyConversion(controls,quote){
+  if(controls.dataset.paymentPath)return root.PortfolioV2UI.applyPaymentConversion(controls.dataset.paymentPath,quote);
+  const wrap=controls.closest('[data-payment-field]'),field=wrap.querySelector(':scope > input');
+  wrap.ndAppliedPayment=P.apply(field.value,controls.querySelector('[data-payment-currency]').value,C.get(),C.valid,quote);
+  if(field.classList.contains('material-cost-price'))root.updateCalculatedMaterialsCost?.(true);
+  else if(field.id==='resale-buy-total')root.updateResalePurchase?.();
+  root.recalculateMaterialsLandedCost?.();root.syncVisibleAggregateFromCurrentProduct?.();root.refreshAllAggregatePricing?.();
+  attachV1();root.Nomad360LocaleCore?.localizeAll?.();
  }
  function buildPortfolio(model){
   const normalized=P.normalizePortfolio(model,C.valid);
@@ -154,6 +165,6 @@
    root.refreshAllAggregatePricing?.();refresh();root.Nomad360LocaleCore?.localizeAll?.();
   });
  }
- root.Nomad360PaymentUI=Object.freeze({attachV1,readNumber,captureV1,restoreV1,resetV1,paymentField,paintPortfolio,updatePortfolio,syncPortfolio,buildPortfolio,pendingMessage:()=>text().pending});
+ root.Nomad360PaymentUI=Object.freeze({attachV1,readNumber,captureV1,restoreV1,resetV1,paymentField,paintPortfolio,updatePortfolio,syncPortfolio,applyConversion,buildPortfolio,pendingMessage:()=>text().pending});
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })(window);

@@ -15,3 +15,15 @@ body .nd-payment-label .nd-payment-select{width:100%;max-width:130px;min-width:0
  #own-material-rows .material-cost-row>.grid,
  #product-screen .nd-v1-labor-choices{grid-template-columns:minmax(0,1fr)}
 }
+.nd-fx{min-width:0;max-width:100%;color:#16375a;background:#fff;border:1px solid #bed0e5;border-radius:6px;padding:8px}
+.nd-fx[hidden]{display:none}
+.nd-fx summary{font-weight:700;cursor:pointer;min-height:32px;overflow-wrap:break-word}
+.nd-fx-body{display:grid;gap:8px;margin-top:8px;min-width:0}
+.nd-fx-body label{display:grid;gap:4px;min-width:0}
+.nd-fx-body input{width:100%;max-width:100%;min-width:0;min-height:44px;border:1px solid #9db3cd;background:#fff;color:#16375a;border-radius:5px;padding:7px;font-size:16px;box-sizing:border-box}
+.nd-fx-body p{margin:0;overflow-wrap:anywhere;line-height:1.45}
+.nd-fx-body button{min-width:0;min-height:44px;padding:8px;border-radius:6px;font-weight:700;white-space:normal;overflow-wrap:break-word;font-size:14px}
+.nd-fx-primary{background:#ed8e63;color:#16375a;border:1px solid #ed8e63}
+.nd-fx-secondary{background:#fff;color:#16375a;border:1px solid #16375a}
+.nd-fx-body button:disabled{opacity:.6;cursor:not-allowed}
+.nd-fx-body input:focus-visible,.nd-fx-body button:focus-visible,.nd-fx summary:focus-visible{outline:3px solid #16375a;outline-offset:2px}
