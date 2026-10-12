@@ -9,6 +9,21 @@ const stage=Number(arg('stage','1'));
 const directory=path.resolve(arg('root',path.join(__dirname,'..')));
 const artifacts=path.resolve(arg('artifacts','artifacts/v2-containers'));
 const utilities=path.resolve(arg('utilities','artifacts/v2-utilities.css'));
+if(stage===1){
+ const baseline=path.resolve(arg('baseline','/tmp/nomad-v2-baseline'));
+ const frozen=['Marketing_calc.HTML','nomad360_calculator_ui.js','nomad360_calculator_ui.css',
+  'nomad360_header.js','nomad360_locale_core.js','nomad360_navigation.js','nomad360_currency.js',
+  'portfolio_v2_engine.js','portfolio_v2_linked_engine.js','portfolio_v2_full_service.js',
+  'portfolio_v2_full_service_ui.js','portfolio_v2_online_adapter.js','portfolio_v2_mba_observed.js',
+  'portfolio_v2_temporal.js','portfolio_v2_temporal_cash.js','portfolio_v2_pooled_media.js','portfolio_v2_period_price.js'];
+ for(const file of frozen)A.ok(fs.readFileSync(path.join(directory,file)).equals(fs.readFileSync(path.join(baseline,file))),
+  'Protected source must be unchanged: '+file);
+ for(const file of ['portfolio_v2_ui.js','portfolio_v2_linked_ui.js']){
+  const resource=dir=>fs.readFileSync(path.join(dir,file),'utf8').split('function resourceCard(')[1]
+   .split(file==='portfolio_v2_ui.js'?'function stageResources(':'function render(')[0];
+  A.equal(resource(directory),resource(baseline),'Resource-card template must be unchanged: '+file);
+ }
+}
 const name=stage===0?'before':'after';
 fs.mkdirSync(path.join(artifacts,name),{recursive:true});
 const widths=[320,360,390,430,768,1280],languages=['ru','en','kk'];
