@@ -30,7 +30,7 @@ async function panel(page,pathKey,currency){
   const goto=async(suffix='')=>{await page.goto(url+suffix,{waitUntil:'domcontentloaded'});await page.addStyleTag({path:path.join(root,'artifacts','converter-utilities.css')});await page.waitForFunction(()=>window.Nomad360PaymentUI&&window.Nomad360UI?.getLanguage());await page.locator('#nomad360-lang-select').selectOption(lang);};
   const apply=async fx=>{await fx.locator('[data-fx-fetch]').click();await page.waitForFunction(el=>el.querySelector('[data-fx-rate]').value!=='',await fx.elementHandle());A.equal(await fx.locator('[data-fx-apply]').isEnabled(),true);await fx.locator('[data-fx-apply]').click();};
   for(const source of ['own','resale','dropship']){
-   await goto();const m=model(source);await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},m);
+   await goto();const m=model(source);if(source==='resale')m.currency='KZT';await page.evaluate(m=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(m));openPortfolioV2(true);},m);
    await page.locator('[data-p2-sku] details.nd-v2-info-panel').evaluate(el=>el.open=true);
    const key=source==='own'?'initialCashOut':'unitCost',pathKey='skus.0.'+key,raw=m.skus[0][key];
    const fx=await panel(page,pathKey,'CNY');A.equal(await pending(page),true);
@@ -57,7 +57,7 @@ async function panel(page,pathKey,currency){
    await apply(fx);await fx.locator('[data-fx-apply]').click();
    const twice=await page.evaluate(key=>JSON.parse(localStorage.getItem('marketingCalcPortfolioV2')).skus[0].payments[key],key);A.equal(twice.convertedAmount,edited*2);
    expected.skus[0][key]=edited*2;A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(await page.evaluate(m=>PortfolioV2Engine.build(m),expected)));
-   await page.locator('[data-payment-path="'+pathKey+'"] [data-payment-currency]').selectOption('KZT');A.equal(await pending(page),true);
+   await page.locator('[data-payment-path="'+pathKey+'"] [data-payment-currency]').selectOption(m.currency==='KZT'?'EUR':'KZT');A.equal(await pending(page),true);
    protocol.push({width,lang,route:'v2-'+source,saved:saved.skus[0].payments,invalidated,twice,normalizedFinance:financial(result),nativeFinance:financial(await page.evaluate(m=>PortfolioV2Engine.build(m),{...expected,skus:expected.skus.map(s=>({...s,[key]:raw*2}))})),noResumeRequests:true});
   }
   for(const source of ['own','resale','dropship','materials']){
@@ -115,9 +115,9 @@ async function panel(page,pathKey,currency){
  A.deepEqual(errors,[]);await page.close();
  // Live public API calls from Chromium: no stub, no model/user payload, no application.
  const live=await browser.newPage();await live.goto(url);const liveRates=await live.evaluate(async()=>{
-  const rows=[];for(const [iso] of Nomad360Currency.currencies){if(iso==='USD')continue;try{rows.push({iso,ok:true,quote:await Nomad360FX.quote(iso,'USD')});}catch(e){rows.push({iso,ok:false,error:e.message});}}return rows;
+  const rows=[];for(const [iso] of Nomad360Currency.currencies){if(iso==='USD')continue;try{rows.push({iso,ok:true,quote:await Nomad360FX.quote(iso,'USD')});}catch(e){rows.push({iso,ok:false,error:e.message});}}for(const iso of ['CNY','EUR']){try{rows.push({iso,businessCurrency:'KZT',ok:true,quote:await Nomad360FX.quote(iso,'KZT')});}catch(e){rows.push({iso,businessCurrency:'KZT',ok:false,error:e.message});}}return rows;
  });
- fs.writeFileSync(path.join(art,'live-provider.json'),JSON.stringify(liveRates,null,2));A.ok(liveRates.some(r=>r.iso==='CNY'&&r.ok),'Live CNY/USD browser CORS must succeed');A.ok(liveRates.some(r=>r.iso==='KZT'&&r.ok),'Live KZT/USD browser CORS must succeed');await live.close();
+ fs.writeFileSync(path.join(art,'live-provider.json'),JSON.stringify(liveRates,null,2));A.ok(liveRates.some(r=>r.iso==='CNY'&&r.quote?.quote==='USD'&&r.ok),'Live CNY/USD browser CORS must succeed');A.ok(liveRates.some(r=>r.iso==='KZT'&&r.quote?.quote==='USD'&&r.ok),'Live KZT/USD browser CORS must succeed');A.ok(liveRates.filter(r=>r.businessCurrency==='KZT').every(r=>r.ok),'Live CNY/KZT and EUR/KZT browser CORS must succeed');await live.close();
  fs.writeFileSync(path.join(art,'protocol.json'),JSON.stringify({cases:protocol.length,protocol,failureAndManualFallback:true,staleResponseIgnored:true,newerRateRequiresApply:true},null,2));
  console.log('CONVERTER_BROWSER_GREEN',JSON.stringify({cases:protocol.length,languages:3,widths:6,livePairs:liveRates.filter(r=>r.ok).length}));
  }finally{await browser.close();}
