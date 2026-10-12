@@ -136,12 +136,14 @@ async function formPictures(page,route,condition,key){
    condition==='dropship'?[['#p2-stage-skus','sku'],['#p2-stage-skus details','extras']]:
    condition==='unready'?[['#p2-stage-marketing','marketing'],['#p2-results','results']]:
    [['#p2-stage-marketing','marketing'],['#p2-stage-skus','sku'],['#p2-stage-purchase','certification'],
+    ['label:has([data-p2-path$=".validFor"])','certificate-dates'],
     ['#p2-stage-production','resources'],['#p2-stage-financing','financing'],['#p2-results','results']];
  }else{
-  targets=condition==='full-service'?[['[data-linked-resource="1"]','resource-origin'],['[data-linked-sku="3"]','full-service']]:
-   ['history','unmapped'].includes(condition)?[['#linked-mba-panel','history'],['#linked-basket-panel','basket']]:
+  targets=condition==='full-service'?[['[data-linked-resource="1"]','resource-origin'],
+   ['label:has([data-linked-path="resources.1.poolBySku.salon"])','resource-pools'],['[data-linked-sku="3"]','full-service']]:
+   ['history','unmapped'].includes(condition)?[['label:has([data-mba-filter="channel"])','history'],['#linked-basket-panel','basket']]:
    condition==='unready'?[['[data-linked-sku="0"]','sku'],['#linked-results','results']]:
-   [['[data-linked-sku="0"]','sku'],['#linked-resources','resources'],['#linked-mba-panel','history'],
+   [['[data-linked-sku="0"]','sku'],['#linked-resources','resources'],['label:has([data-mba-format])','history'],
     ['#linked-basket-panel','basket'],['#linked-results','results']];
  }
  for(const [selector,label] of targets){
