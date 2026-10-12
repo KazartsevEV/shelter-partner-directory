@@ -55,6 +55,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    await page.goto(url+suffix,{waitUntil:'domcontentloaded'});
    const css=path.join(root,'artifacts','payment-utilities.css');
    if(fs.existsSync(css))await page.addStyleTag({path:css});
+   await page.waitForFunction(labels=>document.querySelector('[data-payment-currency]')?.getAttribute('aria-label')===labels[Nomad360UI.getLanguage()],labels);
    await page.locator('#nomad360-lang-select').selectOption(lang);
   };
   const fill=async(id,value)=>page.locator('#'+id).fill(String(value));

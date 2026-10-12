@@ -133,6 +133,9 @@
  }
  function boot(){
   attachV1();
+  // The language shell initializes later in DOMContentLoaded. Paint its saved
+  // language after all boot listeners, including automatic draft restoration.
+  setTimeout(refresh,0);
   document.addEventListener('nomad360:languagechange',refresh);
   document.addEventListener('nomad360:currencychange',()=>{resetV1();refresh();});
   document.addEventListener('input',event=>{
