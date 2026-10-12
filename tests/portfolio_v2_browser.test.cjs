@@ -81,6 +81,24 @@ const eq=(a,b,msg)=>assert.ok(Math.abs(a-b)<1e-6,msg+': '+a+' !== '+b);
  await page.locator('[data-p2-path="resources.3.validUntil"]').fill('2027-12-31');
  await page.locator('[data-p2-path="resources.3.confirmedCoverage"]').check();
  let r=await calc();assert.equal(r.ready,true,JSON.stringify(r.errors));
+ // Mobile regression: every resource editor must keep labels, select/date
+ // inputs and buttons within its card, even after extra SKU/resources are added.
+ assert.equal(await page.locator('[data-p2-resource] [data-p2-path$=".kind"]').count(),0,
+  'Resource kind is chosen using the section action, not a duplicated dropdown');
+ assert.ok((await page.locator('[data-p2-resource="resource-4"]').textContent()).includes('Сертификат'));
+ for(const width of [320,390]){
+  await page.setViewportSize({width,height:844});
+  const violations=await page.locator('[data-p2-resource]').evaluateAll(cards=>cards.flatMap(card=>{
+   const box=card.getBoundingClientRect();
+   return [...card.querySelectorAll('input:not([type="checkbox"]),select,textarea')]
+    .filter(field=>{const r=field.getBoundingClientRect();return r.width<120||r.left<box.left-2||r.right>box.right+2})
+    .map(field=>({card:card.dataset.p2Resource,path:field.dataset.p2Path,
+      width:field.getBoundingClientRect().width,cardWidth:box.width}));
+  }));
+  assert.deepEqual(violations,[],'Mobile resource fields fit '+width+'px');
+ }
+ await page.setViewportSize({width:390,height:844});
+ 
  eq(r.resourceMonthly,1090,'Shared overhead once');eq(r.resourceOnce,900,'Certification once');
  eq(r.invariants.adDiff,0,'Advertising conserved');
  assert.ok(r.invariants.resourceAllocated);
