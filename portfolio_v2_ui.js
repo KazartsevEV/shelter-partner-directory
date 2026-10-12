@@ -405,6 +405,8 @@ else mount();
  }
  function schedule(){if(!scheduled){scheduled=true;root.requestAnimationFrame(refresh);}}
  host.addEventListener('change',schedule);
+ root.addEventListener('resize',schedule);
+ document.fonts?.addEventListener('loadingdone',schedule);
  new MutationObserver(schedule).observe(host,{childList:true,subtree:true,characterData:true});
  new ResizeObserver(()=>{if(host.clientWidth!==lastWidth){lastWidth=host.clientWidth;schedule();}}).observe(host);
  root.Nomad360V2Fields=Object.freeze({refresh});schedule();

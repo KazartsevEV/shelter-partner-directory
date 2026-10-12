@@ -190,7 +190,7 @@ async function exerciseFields(page,route,condition){
  },{route,initial});
  await prepareForms(page);
  if(condition==='ready'){
-  for(const [width,language] of [[320,'en'],[768,'kk'],[390,'ru']]){
+  for(const [width,language] of [[320,'en'],[768,'kk'],[1200,'en'],[1280,'kk'],[390,'ru']]){
    await page.setViewportSize({width,height:900});
    await page.evaluate(language=>Nomad360UI.setLanguage(language),language);
    await prepareForms(page);
