@@ -2663,7 +2663,7 @@
             const sourceName = document.getElementById('product-source-name');
             if (sourceName) sourceName.textContent = item.name ? '«' + item.name + '»' : '';
 
-            selectProductSource(item.source);
+            selectProductSource(item.source,{restoring:true});
             if(item.source==='offline-service'){
                 const src=document.getElementById('product-source-block');
                 if(src){src.hidden=true;src.classList.add('hidden');}
@@ -8132,7 +8132,7 @@
             return false;
         }
 
-        function selectProductSource(source) {
+        function selectProductSource(source,options={}) {
             productSource = source;
 
             document.querySelectorAll('.product-source-choice').forEach(button => {
@@ -8171,7 +8171,10 @@
                 }
 
                 requestAnimationFrame(() => {
-                    Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
+                    // restoreProductOwnUiState already applied exact saved
+                    // choices and amounts. A late frame must not reset the
+                    // manual-delivery flag or regenerate those saved amounts.
+                    if(!options.restoring)Object.keys(productOwnDefaults).forEach(syncProductOwnVisibility);
                     updateProductAssortmentGate();
                     renderProductPortfolio();
                     ownForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
