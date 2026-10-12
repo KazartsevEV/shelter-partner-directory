@@ -41,9 +41,11 @@ function open(options={}){
 }
 function numberField(label,path,value,hint,extra=''){
  const surface=/^(marketing|tax|funding|skus)\./.test(path);
- return '<label class="nd-v2-field block min-w-0"><span class="block font-semibold text-xs text-slate-700 mb-1'+(surface?' nd-v2-field-label':'')+'">'+safe(label)+'</span>'+
+ const field='<label class="nd-v2-field block min-w-0"><span class="block font-semibold text-xs text-slate-700 mb-1'+(surface?' nd-v2-field-label':'')+'">'+safe(label)+'</span>'+
  '<input type="number" inputmode="decimal" step="any" min="0" '+extra+' data-p2-path="'+safe(path)+'" value="'+safe(value)+'" '+
  'class="input-field w-full" placeholder="Введите число">'+(hint?'<span class="block text-xs text-slate-500 mt-1'+(surface?' nd-v2-field-help':'')+'">'+safe(hint)+'</span>':'')+'</label>';
+ const payment=root.Nomad360PaymentUI?.paymentField(path,value,model)||'';
+ return payment?'<div class="nd-v2-field nd-payment-v2-field">'+field+payment+'</div>':field;
 }
 function selField(label,path,value,items){
  const surface=/^(tax|funding|skus)\./.test(path);
@@ -158,6 +160,7 @@ function render(){
  'p2-stage-financing')+
  '<section id="p2-results" class="nd-v2-result-frame rounded-2xl text-white p-5 mb-6" aria-live="polite"></section>';
  const status=document.getElementById('p2-draft-status');if(status)status.textContent='Изменения сохраняются в этом браузере';
+ root.Nomad360PaymentUI?.paintPortfolio(model);
  updateResult();
 }
 function displayInlineValidation(fieldErrors) {
@@ -221,7 +224,8 @@ function displayInlineValidation(fieldErrors) {
 }
 function updateResult(){
  if(!model)return;const el=document.getElementById('p2-results');if(!el)return;
- const out=Engine.build(model);
+ const out=root.Nomad360PaymentUI?.buildPortfolio(model)||Engine.build(model);
+ if(out.paymentPending){el.innerHTML='<p class="nd-payment-pending" data-nomad-no-translate role="alert">'+safe(root.Nomad360PaymentUI.pendingMessage())+'</p>';root.Nomad360UI?.syncPortfolioActions?.(out);return;}
  displayInlineValidation(out.fieldErrors);
  const funnel=out.marketing;
  let intro='<h2 class="text-2xl font-black">Результат портфеля</h2><p class="mt-2 text-sm">Клики '+money(funnel?.clicks||0)+
@@ -320,6 +324,12 @@ function addResource(kind){
 }
 function handleEvent(event) {
  const t=event.target;
+ if(t.matches?.('[data-payment-currency]')){
+   if(event.type!=='change')return;
+   const path=t.closest('[data-payment-path]')?.dataset.paymentPath;
+   if(path){root.Nomad360PaymentUI.updatePortfolio(model,path,t.value);save();root.Nomad360PaymentUI.paintPortfolio(model);updateResult();root.Nomad360LocaleCore?.localizeAll?.();}
+   return;
+ }
  if(t.dataset?.p2Path){
    // Blur/change fires on every number/text input. Rebuilding the form on blur
    // detaches the NEXT focused input and silently loses half the user fields.
@@ -342,6 +352,7 @@ function handleEvent(event) {
    }
    updatePath(t.dataset.p2Path,t.type==='checkbox'?t.checked:t.value);
    save();
+   root.Nomad360PaymentUI?.paintPortfolio(model);
    if(event.type==='change'&&structural)render();else updateResult();
    return;
  }
@@ -370,7 +381,7 @@ function mount(){
  if(el){el.addEventListener('input',handleEvent);el.addEventListener('change',handleEvent);el.addEventListener('click',handleEvent);}
  updateEntry();
 }
-root.PortfolioV2UI=Object.freeze({open,load,updateEntry,getState:()=>model?JSON.parse(JSON.stringify(model)):null});
+root.PortfolioV2UI=Object.freeze({open,load,updateEntry,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
 root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();

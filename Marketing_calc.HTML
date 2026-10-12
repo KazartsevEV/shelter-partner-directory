@@ -10,6 +10,9 @@
     <meta name="description" content="Nomad360 — бесплатный калькулятор бизнеса. Проверьте цены, себестоимость, прибыль и денежный поток в вашем браузере.">
     <link rel="stylesheet" href="./nomad360_calculator_ui.css">
     <script src="./nomad360_currency.js"></script>
+    <link rel="stylesheet" href="./nomad360_payments.css">
+    <script src="./nomad360_payments.js"></script>
+    <script src="./nomad360_payment_ui.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Typeface is loaded once in nomad360_calculator_ui.css. */
@@ -566,8 +569,8 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
 <label class="text-sm font-semibold text-slate-700"><span id="resale-buy-qty-label">Количество готовых единиц в минимальной партии</span>
 <input id="resale-buy-qty" type="number" min="1" step="1" value="1" class="input-field mt-2" oninput="updateResalePurchase()"></label>
-<label class="text-sm font-semibold text-slate-700"><span id="resale-buy-cost-label">Себестоимость минимальной партии, у.е.*</span>
-<input id="resale-buy-total" type="number" min="0" step="0.01" value="" class="input-field mt-2" placeholder="Вся закупка этого товара" oninput="updateResalePurchase()"></label>
+<div class="text-sm font-semibold text-slate-700"><label for="resale-buy-total" id="resale-buy-cost-label">Себестоимость минимальной партии, у.е.*</label>
+<input id="resale-buy-total" type="number" min="0" step="0.01" value="" class="input-field mt-2" placeholder="Вся закупка этого товара" oninput="updateResalePurchase()"></div>
 <label class="text-sm font-semibold text-slate-700">Поставщик (необязательно)
 <input id="resale-buy-supplier" type="text" class="input-field mt-2" placeholder="Поставщик" oninput="renderResalePurchaseComposition()"></label>
 <label class="text-sm font-semibold text-slate-700">Ссылка на товар (необязательно)
@@ -2564,6 +2567,7 @@
                         : null;
             });
 
+            window.Nomad360PaymentUI?.restoreV1(item?.payments);
             productOwnInboundDeliveryManual = !!ui.inboundDeliveryManual;
             productionLaborMode = ui.productionLaborMode || 'self';
             materialCostMode =
@@ -2848,6 +2852,10 @@
             return {agent,partner,qty,
                 valid:lines.every(x=>x.payer==='agent'||x.payer==='partner')};
         }
+        function nomadPaymentContext() {
+            return {source:productSource,materialCostMode,choices:productOwnChoices,importPayers:productImportPayers};
+        }
+
         function currentProductPortfolioSnapshot() {
             const expectedServiceUnits=Math.max(0,productNumberFromText('own-product-ad-units'));
             const materialsBatchQty = productSource==='offline-service'?Math.max(1,Math.ceil(expectedServiceUnits)):Math.max(1, Math.floor(productNumber('own-materials-batch-qty') || 1));
@@ -2928,6 +2936,8 @@
                 id: currentProductSequence,
                 name: productName,
                 currency: window.Nomad360Currency?.get() || 'USD',
+                businessCurrency: window.Nomad360Currency?.get() || 'USD',
+                payments: window.Nomad360PaymentUI?.captureV1(nomadPaymentContext()) || {},
                 source: productSource,
                 serviceChannel:productSource==='offline-service'?serviceChannel:null,
                 serviceRole:productSource==='offline-service'?selectedServiceRole:null,
@@ -3682,10 +3692,13 @@
         function calculateProductPortfolio() {
             const items = productPortfolio.slice();
 
-            if (!items.length) {
+            const paymentPending=items.some(item=>Object.values(item.payments||{}).some(p=>
+                p.status==='invalid'||p.status==='conversion-required'));
+            if (!items.length || paymentPending) {
                 return {
                     items: [],
                     pricingReady: false,
+                    ...(paymentPending?{paymentPending:true}:{}),
                     totalAdBudget: 0,
                     totalForecastOrders: 0,
                     totalRevenue: null,
@@ -5096,6 +5109,7 @@
             report('');
             if(productName&&['own','resale','dropship','offline-service'].includes(productSource))saveCurrentProductToPortfolio();
             const model=calculateProductPortfolio();
+            if(model.paymentPending){report(window.Nomad360PaymentUI?.pendingMessage()||'');return false;}
             if(!model.items.length){report('Сначала рассчитайте и сохраните хотя бы один товар.');return false;}
             if(!productBusinessTaxType||!model.pricingReady){
                 report('Завершите цены, рекламу, объёмы продаж и налог бизнеса для всех товаров — без готовых расчётов портфель V2 не строится.');
@@ -5117,6 +5131,8 @@
                 const cycle=aggregatePlanMetrics(item);
                 skus.push({
                     id:'v1-'+item.id,name:item.name,source:item.source,
+                    businessCurrency:item.businessCurrency||item.currency||'USD',
+                    payments:JSON.parse(JSON.stringify(item.payments||{})),
                     unitCost:row.unitCost,forecastUnitsPerMonth:row.forecastSales,
                     adBudget:row.adBudget,baseCac:row.baseCac,
                     priceMin:range.minPrice,priceMax:range.maxPrice,
@@ -5248,6 +5264,15 @@
             if (!box) return;
 
             const model = calculateProductPortfolio();
+            if(model.paymentPending){
+                box.textContent=window.Nomad360PaymentUI?.pendingMessage()||'';
+                box.classList.add('nd-payment-pending');
+                box.setAttribute('data-nomad-no-translate','');
+                if(priceBox)priceBox.textContent='';
+                return;
+            }
+            box.classList.remove('nd-payment-pending');
+            box.removeAttribute('data-nomad-no-translate');
             // Keep V1 aggregate and monthly Cash Flow amounts bound to their
             // canonical source values; locale switching must never re-run math.
             const money = value =>
@@ -6804,6 +6829,7 @@
         function resetCurrentProductForNext() {
             productName = '';
             productSource = null;
+            window.Nomad360PaymentUI?.resetV1();
             productOwnInitialized = false;
             productOwnInboundDeliveryManual = false;
             resaleWarehouseQtyManual = false;
@@ -6888,6 +6914,8 @@
             if(capacityField)capacityField.value='';
             productSource=null;
             setResaleProductPanels();
+            window.Nomad360PaymentUI?.resetV1();
+            window.Nomad360PaymentUI?.attachV1();
             document.querySelectorAll('.product-name-live').forEach(el => { el.textContent = ''; });
 
             nameInput.focus();
@@ -7168,6 +7196,7 @@
                 </div>
             `;
             container.appendChild(row);
+            window.Nomad360PaymentUI?.attachV1();
             updateCalculatedMaterialsCost();
         }
 
@@ -7180,17 +7209,18 @@
             let total = 0;
 
             document.querySelectorAll('.material-cost-row').forEach(row => {
-                const price = Math.max(0, Number(row.querySelector('.material-cost-price')?.value) || 0);
+                const priceField=row.querySelector('.material-cost-price');
+                const price = window.Nomad360PaymentUI?.readNumber(priceField) ?? Math.max(0, Number(priceField?.value) || 0);
                 const qty = Math.max(0, Number(row.querySelector('.material-cost-qty')?.value) || 0);
                 const lineTotal = price * qty;
                 total += lineTotal;
 
                 const lineOut = row.querySelector('.material-cost-line-total');
-                if (lineOut) lineOut.textContent = moneyInputValue(lineTotal);
+                if (lineOut) lineOut.textContent = Number.isFinite(lineTotal)?moneyInputValue(lineTotal):'—';
             });
 
             const totalOut = document.getElementById('own-materials-calculated-total');
-            if (totalOut) totalOut.textContent = moneyInputValue(total);
+            if (totalOut) totalOut.textContent = Number.isFinite(total)?moneyInputValue(total):'—';
 
             const baseInput = document.getElementById('own-materials-cost');
             if (baseInput && materialCostMode === 'calculate') baseInput.value = total.toFixed(2);
@@ -7231,7 +7261,7 @@
             if(oldCost)oldCost.value=String(cost/qty);
             if(productSource==='resale'&&!resaleWarehouseQtyManual){const stock=document.getElementById('own-logistics-qty');if(stock)stock.value=String(qty);}
             const output=document.getElementById('resale-buy-unit');
-            if(output)output.textContent=raw===''?'—':moneyInputValue(cost/qty)+' у.е.*';
+            if(output)output.textContent=raw===''||!Number.isFinite(cost)?'—':moneyInputValue(cost/qty)+' у.е.*';
             const warning=document.getElementById('resale-buy-warning');
             if(warning){warning.hidden=cost>0;warning.classList.toggle('hidden',cost>0);}
             updateInboundDeliveryDefault();recalculateMaterialsLandedCost();renderResalePurchaseComposition();
@@ -7403,7 +7433,7 @@
         }
 
         function materialsCostWithVat() {
-            const materials = Number(document.getElementById('own-materials-cost')?.value) || 0;
+            const materials = productNumber('own-materials-cost');
             if (productOwnChoices.vatIncluded !== 'no') return materials;
             const vatRate = Number(document.getElementById('own-vat-rate')?.value) || 0;
             return materials * (1 + Math.max(0, vatRate) / 100);
@@ -7531,7 +7561,8 @@
         }
 
         function productNumber(id) {
-            return Math.max(0, Number(document.getElementById(id)?.value) || 0);
+            const field=document.getElementById(id);
+            return window.Nomad360PaymentUI?.readNumber(field) ?? Math.max(0, Number(field?.value) || 0);
         }
 
         function recalculateMaterialsLandedCost() {
@@ -7578,7 +7609,7 @@
 
             latestMaterialsLandedUnitCost = unitCost;
             const out = document.getElementById('own-materials-landed-unit-cost');
-            if (out) out.textContent = moneyInputValue(unitCost);
+            if (out) out.textContent = Number.isFinite(unitCost)?moneyInputValue(unitCost):'—';
 
             const breakdown = document.getElementById('own-materials-landed-breakdown');
             if (breakdown) {
