@@ -7,7 +7,7 @@ const pending=page=>page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(Portfolio
 async function geometry(page){
  const issues=await page.evaluate(()=>{
   const bad=[];if(document.documentElement.scrollWidth>innerWidth+1)bad.push('page overflow');
-  for(const el of document.querySelectorAll('[data-fx] input,[data-fx] button')){
+  for(const el of document.querySelectorAll('[data-fx] input,[data-fx] button,[data-fx] summary')){
    if(!el.getClientRects().length||el.closest('[hidden],.hidden')||!el.closest('details').open)continue;
    const r=el.getBoundingClientRect();if(r.x<0||r.right>innerWidth+1||r.height<44)bad.push(el.outerHTML);
   }return bad;
