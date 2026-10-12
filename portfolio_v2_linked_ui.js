@@ -198,7 +198,7 @@ function deleteLinkedSku(skuId){
 function resume(){const previous=read();if(!previous)return false;state=previous;state.offers=state.offers||[];if(syncPeriodFromV1(state))save();resetSequence();enter();return true;}
 function options(items,value){return items.map(([v,label])=>'<option value="'+safe(v)+'" '+(v===value?'selected':'')+'>'+safe(label)+'</option>').join('');}
 function field(label,path,value,extra=''){
- return '<label class="block min-w-0 text-xs font-semibold text-slate-700'+(path==='forecastMonths'||path.startsWith('skus.')?' nd-v2-field-label':'')+'">'+safe(label)+
+ return '<label class="nd-v2-field block min-w-0 text-xs font-semibold text-slate-700'+(path==='forecastMonths'||path.startsWith('skus.')?' nd-v2-field-label':'')+'">'+safe(label)+
  '<input data-linked-path="'+safe(path)+'" type="number" step="0.01" min="0" class="input-field mt-1" value="'+safe(value)+'" '+extra+'></label>';
 }
 function resourceCard(r,i){
@@ -212,11 +212,11 @@ function resourceCard(r,i){
    pool==='salesFixed'?num(s.salesFixedMonthly):
    pool==='marketingManagement'?num(s.adManagement):
    pool==='adBudget'?num(s.adBudget):0;
-  return '<div class="rounded-lg border border-slate-200 p-3 min-w-0">'+
-   '<label class="flex gap-2 items-center text-sm"><input type="checkbox" data-linked-member="'+i+'" value="'+safe(s.id)+'" '+(checked?'checked':'')+'><b data-nomad-no-translate>'+safe(s.name)+'</b></label>'+
-   (checked?'<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">'+
-    (splitPools?'<label class="text-xs font-semibold text-slate-700">Где учтена сумма у этой позиции?<select data-linked-path="resources.'+i+'.poolBySku.'+safe(s.id)+'" class="input-field mt-1">'+options(pools,pool)+'</select></label>':'')+
-    (splitPools&&pool==='unitCost'?'<label class="text-xs font-semibold text-slate-700">Исходный денежный платёж<select data-linked-path="resources.'+i+'.cashOriginBySku.'+safe(s.id)+'" class="input-field mt-1">'+options([['','Выберите'],['materials','Материалы'],['production','Производство / аренда'],['fulfillment','Исполнение']],origin)+'</select></label>':'')+
+  return '<div class="nd-v2-resource-member rounded-lg border border-slate-200 p-3 min-w-0">'+
+   '<label class="nd-v2-check-row flex gap-2 items-center text-sm"><input type="checkbox" data-linked-member="'+i+'" value="'+safe(s.id)+'" '+(checked?'checked':'')+'><b data-nomad-no-translate>'+safe(s.name)+'</b></label>'+
+   (checked?'<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">'+
+    (splitPools?'<label class="nd-v2-field text-xs font-semibold text-slate-700">Где учтена сумма у этой позиции?<select data-linked-path="resources.'+i+'.poolBySku.'+safe(s.id)+'" class="input-field mt-1">'+options(pools,pool)+'</select></label>':'')+
+    (splitPools&&pool==='unitCost'?'<label class="nd-v2-field text-xs font-semibold text-slate-700">Исходный денежный платёж<select data-linked-path="resources.'+i+'.cashOriginBySku.'+safe(s.id)+'" class="input-field mt-1">'+options([['','Выберите'],['materials','Материалы'],['production','Производство / аренда'],['fulfillment','Исполнение']],origin)+'</select></label>':'')+
     (pool!=='none'?field('Уже учтено в V1, у.е. / мес (доступно '+money(baseline)+')',
       'resources.'+i+'.includedBySku.'+s.id,r.includedBySku?.[s.id]??0):'')+
     (r.allocation==='usage'?(r.usageMode==='per-unit'?
@@ -225,27 +225,27 @@ function resourceCard(r,i){
    '</div>':'')+'</div>';
  }).join('');
  return '<article class="rounded-xl border border-indigo-200 bg-indigo-50/40 p-4 mt-4" data-linked-resource="'+i+'">'+
- '<div class="flex justify-between gap-3 items-center"><b>'+safe(r.label||'Новый ресурс')+'</b>'+
- '<button type="button" data-linked-delete="'+i+'" class="text-rose-700 underline text-sm">Удалить</button></div>'+
- '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
- '<label class="text-xs font-semibold text-slate-700">Название<input data-linked-path="resources.'+i+'.label" type="text" class="input-field mt-1" value="'+safe(r.label)+'"></label>'+
- '<label class="text-xs font-semibold text-slate-700">Тип ресурса<select data-linked-path="resources.'+i+'.kind" class="input-field mt-1">'+options(kinds,r.kind)+'</select></label>'+
+ '<div class="nd-v2-card-heading flex justify-between gap-3 items-center"><b class="nd-v2-card-title">'+safe(r.label||'Новый ресурс')+'</b>'+
+ '<button type="button" data-linked-delete="'+i+'" class="nd-v2-card-remove text-rose-700 underline text-sm">Удалить</button></div>'+
+ '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
+ '<label class="nd-v2-field text-xs font-semibold text-slate-700">Название<input data-linked-path="resources.'+i+'.label" type="text" class="input-field mt-1" value="'+safe(r.label)+'"></label>'+
+ '<label class="nd-v2-field text-xs font-semibold text-slate-700">Тип ресурса<select data-linked-path="resources.'+i+'.kind" class="input-field mt-1">'+options(kinds,r.kind)+'</select></label>'+
  field('Один реальный платёж, у.е.','resources.'+i+'.amount',r.amount)+
- '<label class="text-xs font-semibold text-slate-700">Периодичность<select data-linked-path="resources.'+i+'.cadence" class="input-field mt-1">'+options([['monthly','Ежемесячно'],['once','Разово']],r.cadence)+'</select></label>'+
- '<label class="text-xs font-semibold text-slate-700">Что заменить в старых расчётах?<select data-linked-path="resources.'+i+'.pool" class="input-field mt-1">'+options(pools,r.pool)+'</select></label>'+
- (r.pool==='unitCost'?'<label class="text-xs font-semibold text-slate-700">Из какого платежа V1 вычесть старый расход?<select data-linked-path="resources.'+i+'.cashOrigin" class="input-field mt-1">'+options([['','Выберите исходный платёж'],['materials','Закупка / материалы'],['production','Производство'],['fulfillment','Доставка / исполнение заказа']],r.cashOrigin||'')+'</select></label>':'')+
- '<label class="text-xs font-semibold text-slate-700">Распределять по<select data-linked-path="resources.'+i+'.allocation" class="input-field mt-1">'+options([['revenue','Прогнозной выручке V1'],['usage','Реальной загрузке']],r.allocation)+'</select></label>'+
- (r.allocation==='usage'?'<label class="block text-xs">Как считать загрузку<select data-linked-path="resources.'+i+'.usageMode" class="input-field mt-1">'+
+ '<label class="nd-v2-field text-xs font-semibold text-slate-700">Периодичность<select data-linked-path="resources.'+i+'.cadence" class="input-field mt-1">'+options([['monthly','Ежемесячно'],['once','Разово']],r.cadence)+'</select></label>'+
+ '<label class="nd-v2-field text-xs font-semibold text-slate-700">Что заменить в старых расчётах?<select data-linked-path="resources.'+i+'.pool" class="input-field mt-1">'+options(pools,r.pool)+'</select></label>'+
+ (r.pool==='unitCost'?'<label class="nd-v2-field text-xs font-semibold text-slate-700">Из какого платежа V1 вычесть старый расход?<select data-linked-path="resources.'+i+'.cashOrigin" class="input-field mt-1">'+options([['','Выберите исходный платёж'],['materials','Закупка / материалы'],['production','Производство'],['fulfillment','Доставка / исполнение заказа']],r.cashOrigin||'')+'</select></label>':'')+
+ '<label class="nd-v2-field text-xs font-semibold text-slate-700">Распределять по<select data-linked-path="resources.'+i+'.allocation" class="input-field mt-1">'+options([['revenue','Прогнозной выручке V1'],['usage','Реальной загрузке']],r.allocation)+'</select></label>'+
+ (r.allocation==='usage'?'<label class="nd-v2-field block text-xs">Как считать загрузку<select data-linked-path="resources.'+i+'.usageMode" class="input-field mt-1">'+
   options([['fixed','Вручную (старые черновики)'],['per-unit','На единицу продажи / посещения']],r.usageMode||'fixed')+'</select></label>'+
   field('Максимальная месячная мощность (0 — не ограничена)','resources.'+i+'.capacity',r.capacity):'')+
  '</div>'+
  '<p class="text-xs text-slate-600 mt-3">Укажите, какими товарами используется ресурс. Если его стоимость уже была включена в V1, внесите первоначальные суммы по товарам — они будут заменены одним реальным платежом. Нулевые значения ничего не списывают.</p>'+
- '<div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">'+skuCards+'</div>'+
+ '<div class="nd-v2-resource-members-grid grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">'+skuCards+'</div>'+
  (r.kind==='certification'&&r.skuIds.length>1?'<div class="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3">'+
  '<p class="text-xs">Один сертификат на несколько SKU допустим только при совпадении области действия.</p>'+
- '<label class="block text-xs mt-2">Страна, товарные группы, назначение<input type="text" data-linked-path="resources.'+i+'.validFor" class="input-field mt-1" value="'+safe(r.validFor||'')+'"></label>'+
- '<label class="block text-xs mt-2">Действителен до<input type="date" data-linked-path="resources.'+i+'.validUntil" class="input-field mt-1" value="'+safe(r.validUntil||'')+'"></label>'+
- '<label class="flex gap-2 text-sm items-center mt-2"><input type="checkbox" data-linked-path="resources.'+i+'.confirmedCoverage" '+(r.confirmedCoverage?'checked':'')+'>Проверил покрытие всех товаров</label></div>':'')+
+ '<label class="nd-v2-field block text-xs mt-2">Страна, товарные группы, назначение<input type="text" data-linked-path="resources.'+i+'.validFor" class="input-field mt-1" value="'+safe(r.validFor||'')+'"></label>'+
+ '<label class="nd-v2-field block text-xs mt-2">Действителен до<input type="date" data-linked-path="resources.'+i+'.validUntil" class="input-field mt-1" value="'+safe(r.validUntil||'')+'"></label>'+
+ '<label class="nd-v2-check-row flex gap-2 text-sm items-center mt-2"><input type="checkbox" data-linked-path="resources.'+i+'.confirmedCoverage" '+(r.confirmedCoverage?'checked':'')+'>Проверил покрытие всех товаров</label></div>':'')+
  '</article>';
 }
 function render(){
@@ -253,15 +253,15 @@ function render(){
  const scenario=Engine.build(state);
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="nd-v2-product-card rounded-xl border border-slate-200 p-4" data-linked-sku="'+i+'">'+
- '<div class="flex items-start justify-between gap-3"><div class="nd-v2-title font-bold text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
- '<button type="button" data-linked-delete-sku="'+safe(s.id)+'" class="border border-rose-300 text-rose-800 px-3 py-2 text-sm font-semibold rounded-sm">Удалить</button></div>'+
+ '<div class="nd-v2-card-heading flex items-start justify-between gap-3"><div class="nd-v2-card-title nd-v2-title font-bold text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
+ '<button type="button" data-linked-delete-sku="'+safe(s.id)+'" class="nd-v2-card-remove border border-rose-300 text-rose-800 px-3 py-2 text-sm font-semibold rounded-sm">Удалить</button></div>'+
  '<div class="nd-v2-description text-xs">'+safe({own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга','online-service':'Онлайн-услуга'}[s.source]||s.source)+' · ID '+safe(s.id)+'</div>'+
  '<div class="nd-v2-sku-metrics grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mt-3">'+
  [['Себестоимость V1 / шт.',s.unitCost],['Прогноз V1 / мес.',s.forecastUnitsPerMonth],
  ['Реклама V1 / мес.',s.adBudget],['CAC V1',s.baseCac],['Цена от',s.priceMin],
  ['Цена до',s.priceMax],['Дельта цены',num(s.priceMax)-num(s.priceMin)]].map(([label,value])=>
  '<div class="nd-v2-stat-cell rounded-lg p-2"><div class="nd-v2-description text-xs">'+label+'</div><b data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+
- '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
+ '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">'+
  field('Плановая скидка покупателю, % (макс. '+money(s.maxDiscountPct)+'%)','skus.'+i+'.discountSelected',s.discountSelected,
  'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
  '<div class="nd-v2-price-summary rounded-xl p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
@@ -282,7 +282,7 @@ function render(){
  '<div id="linked-save-message" class="nd-v2-status text-xs mt-2">Черновик хранится в этом браузере</div></div>'+
  '<section class="nd-v2-section mb-5"><h2 class="nd-v2-title text-xl font-bold mb-2">1. Экономика товаров и услуг V1</h2>'+
  '<p class="nd-v2-description text-xs mb-3">Каждая позиция сохраняет ID, себестоимость, прогноз и ценовой диапазон из V1.</p>'+
- '<div class="grid grid-cols-1 xl:grid-cols-2 gap-3">'+skus+'</div></section>'+
+ '<div class="nd-v2-product-grid grid grid-cols-1 xl:grid-cols-2 gap-3">'+skus+'</div></section>'+
  '<section class="nd-v2-section rounded-2xl border border-slate-200 p-4 mb-5">'+
  '<h2 class="nd-v2-title text-xl font-bold">2. Общие ресурсы</h2>'+
  '<p class="nd-v2-description text-sm mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
@@ -295,7 +295,7 @@ function render(){
     '<p class="nd-v2-description text-sm mt-1">Товарные партии — до продажи последней единицы; услуги — в пределах периода V1. Погашение кредита само по себе продажи не продлевает.</p>':
     '<p class="nd-v2-description text-sm mt-2">У отдельных позиций V1 нет подтверждённого срока будущих продаж. Для многомесячного сценария укажите период и подтвердите повторение спроса.</p>'+
     '<div class="max-w-xs mt-3">'+field('Месяцев в сценарии (1–120)','forecastMonths',state.forecastMonths??1,'min="1" max="120" step="1"')+'</div>'+
-    '<label class="nd-v2-field-label flex items-start gap-2 text-sm mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
+    '<label class="nd-v2-check-row nd-v2-field-label flex items-start gap-2 text-sm mt-3"><input type="checkbox" data-linked-path="recurringDemandApproved" '+(state.recurringDemandApproved===true?'checked':'')+'><span>Использовать прогноз первого месяца повторно в остальных месяцах.</span></label>')+
  '<div id="linked-temporal-result" class="nd-v2-temporal-summary mt-3 text-sm"></div></section>'+
  '<section id="linked-results" class="nd-v2-result-frame rounded-2xl text-white p-5 mb-6" aria-live="polite"></section>';
  root.LinkedPortfolioV2BasketUI?.render(state,(offers,structural)=>{

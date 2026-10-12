@@ -29,27 +29,27 @@ function render(state,onChange){
    '<p class="mt-2 text-slate-700">Можно добавить товар к заказу, заменить покупку другим товаром или предложить комплект. Для каждого варианта проверяются остатки и загрузка.</p></details>'+
    offers.map((r,i)=>
     '<article class="rounded-xl border border-blue-200 bg-white p-4 mt-4" data-basket-offer="'+i+'">'+
-    '<div class="flex justify-between gap-2"><b class="text-base text-blue-900">Предложение '+safe(i+1)+'</b>'+
-    '<button type="button" data-basket-action="remove" data-i="'+i+'" class="text-xs text-rose-700 underline">Удалить</button></div>'+
-    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
-    '<label class="text-sm font-semibold text-slate-800">Что выберет покупатель?<select class="input-field mt-1" data-basket-field="mode" data-i="'+i+'">'+
+    '<div class="nd-v2-card-heading flex justify-between gap-2"><b class="nd-v2-card-title text-base text-blue-900">Предложение '+safe(i+1)+'</b>'+
+    '<button type="button" data-basket-action="remove" data-i="'+i+'" class="nd-v2-card-remove text-xs text-rose-700 underline">Удалить</button></div>'+
+    '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
+    '<label class="nd-v2-field text-sm font-semibold text-slate-800">Что выберет покупатель?<select class="input-field mt-1" data-basket-field="mode" data-i="'+i+'">'+
       modes.map(x=>option(x[0],x[1],r.mode)).join('')+'</select></label>'+
-    '<label class="text-sm font-semibold text-slate-800">Основная покупка<select class="input-field mt-1" data-basket-field="anchorSkuId" data-i="'+i+'">'+
+    '<label class="nd-v2-field text-sm font-semibold text-slate-800">Основная покупка<select class="input-field mt-1" data-basket-field="anchorSkuId" data-i="'+i+'">'+
       select(r.anchorSkuId)+'</select></label>'+
-    '<label class="text-sm font-semibold text-slate-800">Сколько покупателей выберут предложение, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="attachPct" data-i="'+i+'" value="'+safe(r.attachPct)+'"><span class="block text-xs font-normal text-slate-600 mt-1">Например, 20% — каждый пятый покупатель основной позиции.</span></label>'+
-    '<label class="text-sm font-semibold text-slate-800">Какая доля дополнительных покупок уже учтена в V1, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="overlapPct" data-i="'+i+'" value="'+safe(r.overlapPct)+'"><span class="block text-xs font-normal text-slate-600 mt-1">0% — все покупки добавятся к прогнозу. 100% — все уже входят в прогноз другого товара.</span></label>'+
+    '<label class="nd-v2-field text-sm font-semibold text-slate-800">Сколько покупателей выберут предложение, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="attachPct" data-i="'+i+'" value="'+safe(r.attachPct)+'"><span class="block text-xs font-normal text-slate-600 mt-1">Например, 20% — каждый пятый покупатель основной позиции.</span></label>'+
+    '<label class="nd-v2-field text-sm font-semibold text-slate-800">Какая доля дополнительных покупок уже учтена в V1, %<input class="input-field mt-1" type="number" min="0" max="100" step="any" data-basket-field="overlapPct" data-i="'+i+'" value="'+safe(r.overlapPct)+'"><span class="block text-xs font-normal text-slate-600 mt-1">0% — все покупки добавятся к прогнозу. 100% — все уже входят в прогноз другого товара.</span></label>'+
     '</div>'+
-    (r.mode==='bundle'?'<label class="block text-xs font-semibold mt-2">Скидка на весь комплект, % (всем позициям пропорционально цене)<input type="number" min="0" max="99.99" step="any" class="input-field mt-1" data-basket-field="bundleDiscountPct" data-i="'+i+'" value="'+safe(r.bundleDiscountPct??0)+'"></label>':'')+
+    (r.mode==='bundle'?'<label class="nd-v2-field block text-xs font-semibold mt-2">Скидка на весь комплект, % (всем позициям пропорционально цене)<input type="number" min="0" max="99.99" step="any" class="input-field mt-1" data-basket-field="bundleDiscountPct" data-i="'+i+'" value="'+safe(r.bundleDiscountPct??0)+'"></label>':'')+
     '<p class="text-xs text-slate-600 mt-2">'+
       (r.mode==='upsell'?'Вместо основного товара покупатель выбирает предложенную замену.':
        r.mode==='bundle'?'Основная позиция и дополнения продаются одним набором.':
        'К основной покупке клиент добавляет ещё один товар или услугу.')+
     '</p><div class="mt-3 text-sm font-bold text-slate-800">Что предложить покупателю</div>'+
     (r.items||[]).map((item,j)=>
-      '<div class="grid grid-cols-1 sm:grid-cols-[1fr_110px_auto] gap-2 items-end mt-2 rounded-lg bg-white p-2">'+
-      '<label class="text-xs font-semibold">Товар или услуга<select class="input-field mt-1" data-basket-field="skuId" data-i="'+i+'" data-j="'+j+'">'+
+      '<div class="nd-v2-basket-item-grid grid grid-cols-1 sm:grid-cols-[1fr_110px_auto] gap-2 items-end mt-2 rounded-lg bg-white p-2">'+
+      '<label class="nd-v2-field text-xs font-semibold">Товар или услуга<select class="input-field mt-1" data-basket-field="skuId" data-i="'+i+'" data-j="'+j+'">'+
       select(item.skuId,[r.anchorSkuId])+'</select></label>'+
-      '<label class="text-xs font-semibold">Кол-во<input class="input-field mt-1" type="number" min="1" max="100" step="1" value="'+safe(item.qty)+'" data-basket-field="qty" data-i="'+i+'" data-j="'+j+'"></label>'+
+      '<label class="nd-v2-field text-xs font-semibold">Кол-во<input class="input-field mt-1" type="number" min="1" max="100" step="1" value="'+safe(item.qty)+'" data-basket-field="qty" data-i="'+i+'" data-j="'+j+'"></label>'+
       '<button type="button" data-basket-action="remove-item" data-i="'+i+'" data-j="'+j+'" class="p-2 text-xs text-rose-700 underline">Убрать</button></div>').join('')+
     '<button type="button" data-basket-action="add-item" data-i="'+i+'" '+(!skus.some(s=>s.id!==r.anchorSkuId&&!r.items.some(p=>p.skuId===s.id))?'disabled':'')+
     ' class="mt-2 rounded border border-blue-300 px-3 py-2 text-sm text-blue-900 disabled:opacity-40">+ Добавить позицию</button></article>').join('')+
