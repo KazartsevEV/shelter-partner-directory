@@ -27,12 +27,13 @@ async function open(browser,width,lang,baseline){
  const page=await browser.newPage({viewport:{width,height:1000}});
  await page.route(/^https?:\/\//,r=>r.abort());await page.goto(url,{waitUntil:'domcontentloaded'});
  await page.addStyleTag({path:path.join(root,'artifacts','converter-utilities.css')});
+ await page.waitForFunction(()=>window.Nomad360PaymentUI&&window.Nomad360UI?.getLanguage());
  if(baseline){
   await page.locator('link[href="./nomad360_payments.css"]').evaluate(el=>el.disabled=true);
   await page.addStyleTag({path:baseline});
  }
  await page.locator('#nomad360-lang-select').selectOption(lang);
- await page.locator('#start-own-product').click();await page.locator('#product-name-input').fill('Layout / материал');await page.locator('button:has(#product-intro-submit-label)').click();await page.evaluate(()=>selectProductSource('own'));
+ await page.locator('#start-own-product').click();await page.locator('#product-name-input').fill('Layout / материал');await page.locator('#product-name-input').press('Enter');await page.evaluate(()=>selectProductSource('own'));
  const known=page.locator('[data-material-cost-mode="known"]'),calc=page.locator('[data-material-cost-mode="calculate"]');
  await known.click();A.equal(await known.getAttribute('aria-pressed'),'true');A.equal(await page.locator('#own-materials-known-wrap').isVisible(),true);
  await calc.click();A.equal(await calc.getAttribute('aria-pressed'),'true');A.equal(await known.getAttribute('aria-pressed'),'false');A.equal(await page.locator('#own-materials-calc-wrap').isVisible(),true);
@@ -52,6 +53,7 @@ async function open(browser,width,lang,baseline){
   await old.fx.screenshot({path:path.join(art,'320-kk-before-fx.png')});await old.page.locator('#material-cost-entry-panel').screenshot({path:path.join(art,'320-kk-before-materials.png')});await old.page.close();
   console.log('CONVERTER_LAYOUT_BASELINE_RED_CONFIRMED',JSON.stringify(before.issues));
   for(const width of [320,360,390,430,768,1280])for(const lang of ['ru','en','kk']){
+   console.log('CONVERTER_LAYOUT_CASE',width,lang);
    const {page,fx}=await open(browser,width,lang);const actual=await inspect(page);A.deepEqual(actual.issues,[],`${width}/${lang}`);
    A.equal(actual.buttons.length,4);A.equal(actual.columns.trim().split(/\s+/).length,width<768?1:2);
    if(width===320&&lang==='kk'){
