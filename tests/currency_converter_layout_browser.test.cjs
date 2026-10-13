@@ -32,7 +32,7 @@ async function open(browser,width,lang,baseline){
   await page.addStyleTag({path:baseline});
  }
  await page.locator('#nomad360-lang-select').selectOption(lang);
- await page.locator('#start-own-product').click();await page.locator('#product-name-input').fill('Layout / материал');await page.locator('#product-intro-submit-label').click();await page.evaluate(()=>selectProductSource('own'));
+ await page.locator('#start-own-product').click();await page.locator('#product-name-input').fill('Layout / материал');await page.locator('button:has(#product-intro-submit-label)').click();await page.evaluate(()=>selectProductSource('own'));
  const known=page.locator('[data-material-cost-mode="known"]'),calc=page.locator('[data-material-cost-mode="calculate"]');
  await known.click();A.equal(await known.getAttribute('aria-pressed'),'true');A.equal(await page.locator('#own-materials-known-wrap').isVisible(),true);
  await calc.click();A.equal(await calc.getAttribute('aria-pressed'),'true');A.equal(await known.getAttribute('aria-pressed'),'false');A.equal(await page.locator('#own-materials-calc-wrap').isVisible(),true);
