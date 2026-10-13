@@ -50,12 +50,15 @@ async function examine(page,stage,width){
     if(!e.getClientRects().length||e.closest('[hidden],.hidden'))continue;
     for(const a of ['placeholder','title','aria-label','aria-description','alt'])if(e.getAttribute(a))records.push({kind:a,context:e.id||e.closest('[id]')?.id||e.tagName,text:e.getAttribute(a)});
    }
-   const nodes=[...document.querySelectorAll('.screen')].filter(e=>e.getClientRects().length&&!e.hidden&&!e.classList.contains('hidden')).map(e=>e.id);
+   const nodes=[...document.querySelectorAll('#home-screen,#portfolio-v2-screen,#service-work-screen,#service-screen,#product-screen,#full-service-screen,#calculator-screen,#agent-screen,#agent-complex-screen')].filter(e=>e.getClientRects().length&&!e.hidden&&!e.classList.contains('hidden')).map(e=>e.id);
    const print=document.querySelector('#nomad360-print-sheet');
    if(print?.textContent.trim())records.push({kind:'print-sheet',context:'nomad360-print-sheet',text:print.textContent.replace(/\s+/g,' ').trim()});
-   return {records,nodes,gaps:Nomad360LocaleCore.auditVisibleGaps(),pageOverflow:document.documentElement.scrollWidth>innerWidth+1};
+   return {language:document.documentElement.lang,records,nodes,gaps:Nomad360LocaleCore.auditVisibleGaps(),pageOverflow:document.documentElement.scrollWidth>innerWidth+1};
   });
   A.ok(census.records.length>0,'empty census '+stage);
+  A.equal(census.language,lang,'wrong document language '+stage);
+  const expectedRoot=stage==='landing-header-footer'?'home-screen':stage==='full-service-validation-panel'?'full-service-screen':stage.startsWith('standalone')||stage.startsWith('linked')?'portfolio-v2-screen':stage.startsWith('v1-online-simple')?'calculator-screen':'product-screen';
+  A.ok(census.nodes.includes(expectedRoot),'Expected '+expectedRoot+' at '+stage+', found '+census.nodes.join(','));
   const refs=census.records.map(r=>{const key=lang+'|'+r.kind+'|'+r.context+'|'+r.text;if(!texts.has(key))texts.set(key,{id:'observed-'+texts.size,language:lang,...r});return texts.get(key).id;});
   const findings=census.gaps.map(g=>({...g,classification:lang==='kk'&&knownKK.has(g.original.replace(/\s+/g,' ').trim())?'known-kk-module-copy':'requires-triage'}));
   cases.push({stage,width,language:lang,roots:census.nodes,strings:refs,gaps:findings,pageOverflow:census.pageOverflow,financialInputsUnchanged:true,financialResultsUnchanged:true});
@@ -80,10 +83,16 @@ const standalone=()=>({version:2,currency:'USD',marketing:{budget:1000,cpc:5,ctr
   for(const channel of ['online','offline'])for(const depth of ['simple','full']){
    await page.evaluate(({channel,depth})=>{showServiceWorkChooser();selectServiceFinancialMode(depth);chooseServiceChannel(channel);},{channel,depth});
    if(channel==='offline'&&depth==='simple'){
+    await page.locator('#product-name-input').fill('L0 test service');await page.evaluate(()=>submitProductIntro({preventDefault(){}}));await settle(page);
     await examine(page,'v1-offline-simple',width);continue;
    }
    for(const role of ['self','hired','agent']){
-    await page.evaluate(r=>selectServiceMode(r),role);await settle(page);await examine(page,'v1-'+channel+'-'+depth+'-'+role,width);
+    await page.evaluate(r=>selectServiceMode(r),role);await settle(page);
+    if(depth==='full'){
+     await page.locator('#product-name-input').fill('L0 test service');await page.evaluate(()=>submitProductIntro({preventDefault(){}}));await settle(page);
+     A.equal(await page.locator('#product-own-form').isVisible(),true,'Full service expense form must be open');
+    }
+    await examine(page,'v1-'+channel+'-'+depth+'-'+role,width);
    }
   }
   await page.evaluate(()=>Nomad360FullServiceUI.open({},{kind:'offline',name:'L0 test service',role:'self'}));await settle(page);await examine(page,'full-service-validation-panel',width);
