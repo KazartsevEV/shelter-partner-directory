@@ -12,6 +12,8 @@
     <script src="./nomad360_currency.js"></script>
     <link rel="stylesheet" href="./nomad360_payments.css">
     <script src="./nomad360_payments.js"></script>
+    <script src="./nomad360_fx.js"></script>
+    <script src="./nomad360_fx_ui.js"></script>
     <script src="./nomad360_payment_ui.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -3232,6 +3234,10 @@
                     item.productionQty=n;
                     item.inputs['resale-buy-qty']=String(n);
                     item.inputs['resale-buy-total']=String((Math.max(0,Number(item.inputs['resale-buy-total'])||0)/previousQty)*n);
+                    const payment=item.payments?.['resale-buy-total'];
+                    if(payment&&window.Nomad360Payments){
+                        item.payments['resale-buy-total']={...window.Nomad360Payments.record(item.inputs['resale-buy-total'],payment.paymentCurrency,item.currency||item.businessCurrency||'USD',window.Nomad360Currency.valid,payment),active:payment.active};
+                    }
                     if(item.uiState?.resaleWarehouseQtyManual!==true){
                         item.logisticsQty=n;
                         item.inputs['own-logistics-qty']=String(n);
@@ -7458,6 +7464,9 @@
             if (productOwnChoices.inboundIncluded !== 'no') return;
             const input = document.getElementById('own-inbound-delivery-cost');
             if (!input) return;
+            // An automatic business-currency default must never replace a foreign quote.
+            const paymentCurrency=input.closest?.('[data-payment-field]')?.querySelector('[data-payment-currency]')?.value;
+            if(paymentCurrency&&paymentCurrency!==(window.Nomad360Currency?.get()||'USD'))return;
             const normalizedMaterials=materialsCostWithVat();
             // An unconverted quote cannot provide a delivery default. Keep the
             // previous delivery amount while the supplier payment is pending.

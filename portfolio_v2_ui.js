@@ -277,6 +277,13 @@ function updateResult(){
  cashHeads.map(h=>'<th class="px-2 py-3 whitespace-nowrap">'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+cashRows+'</tbody></table></div>'+
  '<p class="text-xs mt-3">«Живые деньги» = накопленный денежный остаток с учётом начального собственного взноса или кредита, минус защищённый резерв. Это не прибыль. Проценты уплачиваются ежемесячно, тело кредита — в последний месяц. Месяц = 30 дней.</p>';
 }
+function applyPaymentConversion(path,quote){
+ const [,i,key]=path.split('.'),sku=model.skus[Number(i)];
+ if(!root.Nomad360Payments.fields(sku).includes(key))throw Error('Invalid payment field');
+ sku.payments=sku.payments||{};
+ sku.payments[key]=root.Nomad360Payments.apply(sku[key],sku.payments[key]?.paymentCurrency??model.currency,model.currency,root.Nomad360Currency.valid,quote);
+ save();root.Nomad360PaymentUI.paintPortfolio(model);updateResult();
+}
 function updatePath(path,value){
  const parts=path.split('.');let cur=model;for(let i=0;i<parts.length-1;i++){
   if(cur[parts[i]]===undefined)cur[parts[i]]={};
@@ -383,7 +390,7 @@ function mount(){
  if(el){el.addEventListener('input',handleEvent);el.addEventListener('change',handleEvent);el.addEventListener('click',handleEvent);}
  updateEntry();
 }
-root.PortfolioV2UI=Object.freeze({open,load,updateEntry,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
+root.PortfolioV2UI=Object.freeze({open,load,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
 root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();

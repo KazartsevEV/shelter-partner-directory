@@ -181,7 +181,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    A.deepEqual(financial(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()))),financial(baseline));
    const pathKey='skus.0.'+(source==='own'?'initialCashOut':'unitCost');
    const selector=page.locator('[data-payment-path="'+pathKey+'"] [data-payment-currency]');
-   if(source==='own')await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
+   if(source==='own')await page.locator('[data-p2-sku] details.nd-v2-info-panel').evaluate(el=>el.open=true);
    const amount=page.locator('[data-p2-path="'+pathKey+'"]'),original=await amount.inputValue();
    A.equal(await selector.inputValue(),'KZT');await selector.selectOption('CNY');
    A.equal(await amount.inputValue(),original);
@@ -197,7 +197,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
     const editPath='skus.0.'+key;
     const editAmount=page.locator('[data-p2-path="'+editPath+'"]');
     const editCurrency=page.locator('[data-payment-path="'+editPath+'"] [data-payment-currency]');
-    await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
+    await page.locator('[data-p2-sku] details.nd-v2-info-panel').evaluate(el=>el.open=true);
     const before=await editAmount.inputValue(),edited=key==='unitCost'?35:Number(before)+35;
     await editCurrency.selectOption('CNY');
     const checkDraft=async(value,convertedAmount,status)=>{
@@ -213,7 +213,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
     A.equal(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()).paymentPending),true);
     A.equal(await page.locator('[data-nomad-price-toggle]').isDisabled(),true);
     await goto();await page.evaluate(()=>openPortfolioV2(true));
-    await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
+    await page.locator('[data-p2-sku] details.nd-v2-info-panel').evaluate(el=>el.open=true);
     A.equal(await editCurrency.inputValue(),'CNY');A.equal(await editAmount.inputValue(),String(edited));
     const restoredPayment=await checkDraft(String(edited),null,'conversion-required');
     A.equal(await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()).paymentPending),true);
@@ -238,7 +238,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
    A.deepEqual(await page.evaluate(()=>PortfolioV2UI.getState()),state);
    await goto();await page.evaluate(()=>openPortfolioV2(true));
    A.equal(await selector.inputValue(),'CNY');A.equal(await amount.inputValue(),original);
-   if(source==='own')await page.locator('[data-p2-sku] details').evaluate(el=>el.open=true);
+   if(source==='own')await page.locator('[data-p2-sku] details.nd-v2-info-panel').evaluate(el=>el.open=true);
    await selector.selectOption('KZT');
    const restored=await page.evaluate(()=>Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState()));
    A.deepEqual(financial(restored),financial(baseline));

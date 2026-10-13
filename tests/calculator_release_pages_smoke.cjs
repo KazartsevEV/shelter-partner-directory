@@ -31,7 +31,7 @@ const files=[
 A.ok(fs.existsSync(path.join(__dirname,'..','nomad360_currency.js')),
  'Calculation currency module must be shipped with the HTML');
 if(!process.argv.includes('--presence'))files.push('nomad360_currency.js');
-for(const file of ['nomad360_payments.js','nomad360_payment_ui.js','nomad360_payments.css']){
+for(const file of ['nomad360_fx.js','nomad360_fx_ui.js','nomad360_payments.js','nomad360_payment_ui.js','nomad360_payments.css']){
  A.ok(fs.existsSync(path.join(__dirname,'..',file)),'Actual-payment asset must be shipped: '+file);
  if(!process.argv.includes('--presence'))files.push(file);
 }
