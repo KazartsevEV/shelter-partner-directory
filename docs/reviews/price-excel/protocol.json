@@ -1,0 +1,1644 @@
+{
+  "caseCount": 36,
+  "downloads": 72,
+  "cases": [
+    {
+      "width": 320,
+      "file": "320-ru-linked.xlsx",
+      "kind": "linked",
+      "lang": "ru",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 320,
+      "file": "320-ru-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "ru",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 320,
+      "file": "320-en-linked.xlsx",
+      "kind": "linked",
+      "lang": "en",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 320,
+      "file": "320-en-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "en",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 320,
+      "file": "320-kk-linked.xlsx",
+      "kind": "linked",
+      "lang": "kk",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 320,
+      "file": "320-kk-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "kk",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 360,
+      "file": "360-ru-linked.xlsx",
+      "kind": "linked",
+      "lang": "ru",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 360,
+      "file": "360-ru-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "ru",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 360,
+      "file": "360-en-linked.xlsx",
+      "kind": "linked",
+      "lang": "en",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 360,
+      "file": "360-en-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "en",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 360,
+      "file": "360-kk-linked.xlsx",
+      "kind": "linked",
+      "lang": "kk",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 360,
+      "file": "360-kk-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "kk",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 390,
+      "file": "390-ru-linked.xlsx",
+      "kind": "linked",
+      "lang": "ru",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 390,
+      "file": "390-ru-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "ru",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 390,
+      "file": "390-en-linked.xlsx",
+      "kind": "linked",
+      "lang": "en",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 390,
+      "file": "390-en-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "en",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 390,
+      "file": "390-kk-linked.xlsx",
+      "kind": "linked",
+      "lang": "kk",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 390,
+      "file": "390-kk-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "kk",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 430,
+      "file": "430-ru-linked.xlsx",
+      "kind": "linked",
+      "lang": "ru",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 430,
+      "file": "430-ru-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "ru",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 430,
+      "file": "430-en-linked.xlsx",
+      "kind": "linked",
+      "lang": "en",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 430,
+      "file": "430-en-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "en",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 430,
+      "file": "430-kk-linked.xlsx",
+      "kind": "linked",
+      "lang": "kk",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 430,
+      "file": "430-kk-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "kk",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 768,
+      "file": "768-ru-linked.xlsx",
+      "kind": "linked",
+      "lang": "ru",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 768,
+      "file": "768-ru-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "ru",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 768,
+      "file": "768-en-linked.xlsx",
+      "kind": "linked",
+      "lang": "en",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 768,
+      "file": "768-en-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "en",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 768,
+      "file": "768-kk-linked.xlsx",
+      "kind": "linked",
+      "lang": "kk",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 768,
+      "file": "768-kk-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "kk",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 1280,
+      "file": "1280-ru-linked.xlsx",
+      "kind": "linked",
+      "lang": "ru",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 1280,
+      "file": "1280-ru-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "ru",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-лист",
+        "Примечания"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 1280,
+      "file": "1280-en-linked.xlsx",
+      "kind": "linked",
+      "lang": "en",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 1280,
+      "file": "1280-en-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "en",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Price list",
+        "Notes"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 1280,
+      "file": "1280-kk-linked.xlsx",
+      "kind": "linked",
+      "lang": "kk",
+      "currency": "KZT",
+      "items": [
+        {
+          "id": "own",
+          "name": "=HYPERLINK(\"https://invalid.example\",\"x\") · Қазақша",
+          "base": 50.81,
+          "discount": 5,
+          "customer": 48.2695
+        },
+        {
+          "id": "resale",
+          "name": "+SUM(1) русский English",
+          "base": 39.61,
+          "discount": 0,
+          "customer": 39.61
+        },
+        {
+          "id": "drop",
+          "name": "drop",
+          "base": 28.14,
+          "discount": 0,
+          "customer": 28.14
+        },
+        {
+          "id": "salon",
+          "name": "salon",
+          "base": 55.85,
+          "discount": 0,
+          "customer": 55.85
+        },
+        {
+          "id": "agent",
+          "name": "agent",
+          "base": 20,
+          "discount": 0,
+          "customer": 20
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    },
+    {
+      "width": 1280,
+      "file": "1280-kk-standalone.xlsx",
+      "kind": "standalone",
+      "lang": "kk",
+      "currency": "USD",
+      "items": [
+        {
+          "id": "0007",
+          "name": "=1+1 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-1",
+          "name": "+SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-2",
+          "name": "-1+2 · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        },
+        {
+          "id": "sku-3",
+          "name": "@SUM(1) · Қазақша русский English",
+          "base": 160,
+          "discount": null,
+          "customer": 179.20000000000002
+        }
+      ],
+      "sheetNames": [
+        "Прайс-парақ",
+        "Ескертпелер"
+      ],
+      "noExportRequests": true
+    }
+  ]
+}

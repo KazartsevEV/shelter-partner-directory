@@ -251,6 +251,15 @@ const server=createServer(async(req,res)=>{
   A.equal(await embed.locator('#nomad360-footer').count(),1);
   A.equal(await embed.locator('#start-own-product').count(),1);
   A.ok(await embed.evaluate(()=>!!window.LinkedPortfolioV2UI&&!!window.PortfolioV2UI));
+  A.ok(await embed.evaluate(()=>!!window.ExcelJS?.Workbook&&!!window.Nomad360PriceExport));
+  await embed.evaluate(()=>{
+    const s={version:2,currency:'USD',marketing:{budget:1000,cpc:5,ctrPct:2,clickLeadPct:20,leadOrderPct:25,periodMonths:2,cacReservePct:100},skus:[{id:'embed',name:'Embedded Excel',source:'resale',unitCost:20,marginPct:25,mixPct:100,batchUnits:20,initialCashOut:400,fulfillmentPerOrder:0,storagePerUnitDay:0,acquiringPct:0}],resources:[],funding:{kind:'cash',reservePct:10},tax:{type:'turnover',pct:6,vatPct:0}};
+    localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(s));openPortfolioV2(true);
+  });
+  await embed.locator('[data-nomad-price-toggle]').click();
+  const xlsxEvent=embed.waitForEvent('download');await embed.locator('[data-nomad-excel]').last().click();const xlsxDownload=await xlsxEvent;
+  A.match(xlsxDownload.suggestedFilename(),/USD\.xlsx$/);console.log('EMBED_EXCEL_DOWNLOAD_GREEN');
+  await embed.evaluate(()=>showHome());
   await embed.locator('#start-own-product').click();
   A.equal(await embed.locator('#product-screen').isVisible(),true);
   A.deepEqual(embeddedErrors,[],'Exported HTML must execute in its new context');
