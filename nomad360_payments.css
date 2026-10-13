@@ -27,3 +27,11 @@ body .nd-payment-label .nd-payment-select{width:100%;max-width:130px;min-width:0
 .nd-fx-secondary{background:#fff;color:#16375a;border:1px solid #16375a}
 .nd-fx-body button:disabled{opacity:.6;cursor:not-allowed}
 .nd-fx-body input:focus-visible,.nd-fx-body button:focus-visible,.nd-fx summary:focus-visible{outline:3px solid #16375a;outline-offset:2px}
+/* Materials V1: retain the action font while giving localized words room. */
+#material-cost-entry-panel .material-cost-mode-choice,
+#material-cost-entry-panel .nd-fx-body button{overflow-wrap:normal;word-break:normal}
+@media(max-width:767px){
+ #material-cost-entry-panel{padding:8px}
+ #material-cost-entry-panel>.grid{grid-template-columns:minmax(0,1fr)}
+ #material-cost-entry-panel .nd-fx-body button{padding-inline:4px}
+}
