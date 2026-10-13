@@ -11,6 +11,7 @@ const L={
   privacy:'',
   print:'Сохранить расчёт в PDF',listTitle:'Сформировать прайс-лист?',listDesc:'Все товары и услуги портфеля с рассчитанными ценами V2 — в одном документе.',
   listAction:'Сформировать прайс-лист',listPrint:'Сохранить прайс-лист в PDF',listClose:'Скрыть прайс-лист',
+  listExcel:'Скачать прайс-лист Excel',excelReady:'Excel-файл подготовлен для локального скачивания.',excelError:'Не удалось подготовить Excel-файл. Повторите попытку.',excelStale:'Расчёт или язык изменился. Скачайте прайс-лист заново.',
   onlyReady:'Прайс-лист можно сформировать после подтверждения расчёта V2.',
   provisional:'Предварительная цена: порядок амортизации разовых затрат не подтверждён.',
   pdfHint:'Откроется стандартная печать браузера: выберите «Сохранить как PDF». Данные никуда не отправляются.',
@@ -40,6 +41,7 @@ const L={
   privacy:'',
   print:'Save calculation as PDF',listTitle:'Create a price list?',listDesc:'All products and services with calculated V2 prices, together.',
   listAction:'Create price list',listPrint:'Save price list as PDF',listClose:'Hide price list',
+  listExcel:'Download Excel price list',excelReady:'The Excel file is ready for local download.',excelError:'Could not prepare the Excel file. Please try again.',excelStale:'The calculation or language changed. Download the price list again.',
   onlyReady:'Complete a valid V2 calculation before creating a price list.',
   provisional:'Provisional prices: one-off asset amortization is unconfirmed.',
   pdfHint:'Your browser print dialog will open. Choose “Save as PDF”. No data is uploaded.',
@@ -69,6 +71,7 @@ const L={
   privacy:'',
   print:'Есепті PDF ретінде сақтау',listTitle:'Прайс-парақ жасаймыз ба?',listDesc:'Портфельдегі барлық тауар мен қызметтің есептелген V2 бағасы бір құжатта.',
   listAction:'Прайс-парақ жасау',listPrint:'Прайс-парақты PDF-ке сақтау',listClose:'Прайс-парақты жасыру',
+  listExcel:'Прайс-парақты Excel форматында жүктеу',excelReady:'Excel файлы құрылғыға жүктеуге дайын.',excelError:'Excel файлын дайындау мүмкін болмады. Қайталап көріңіз.',excelStale:'Есеп немесе тіл өзгерді. Прайс-парақты қайта жүктеңіз.',
   onlyReady:'Алдымен V2 есебін растаңыз.',provisional:'Алдын ала баға: біржолғы шығындардың амортизациясы расталмаған.',
   pdfHint:'Браузердің басып шығару терезесінен «PDF ретінде сақтау» тармағын таңдаңыз. Деректер жіберілмейді.',
   price:'Баға, ш.б.',type:'Түрі',item:'Тауар / қызмет',discount:'Жеке жеңілдік',customer:'Сатып алушы бағасы',base:'V2 баға тізімі',
@@ -90,7 +93,7 @@ const L={
   reportName:'Nomad360 бизнес-калькуляторы',language:'Тіл',cadenceMonthly:'Ай сайын',cadenceOnce:'Бір рет'
  }
 };
-let lang='ru';
+let lang='ru',exportContext=null,excelBusy=false;
 const localeKey='nomad360PreferredLanguage'; // UI preference only: never included in financial saved state
 function userLocale(){try{const v=localStorage.getItem(localeKey);return L[v]?v:null}catch(_){return null}}
 function preferred(){
@@ -130,33 +133,32 @@ function buildShell(){
  document.documentElement.lang=lang;
 }
 function readyOutput(){
- const state=root.LinkedPortfolioV2UI?.getState?.();
- if(!state)return null;
- const out=root.LinkedPortfolioV2Engine?.build(state);
- return out?.ready&&Array.isArray(out.items)&&out.items.length?{state,out}:null;
+ return exportContext;
 }
 function status(item,out){
  if(out.cashflow?.periodPnl?.accountingCompleteness==='PROVISIONAL'||item.status==='PROVISIONAL')return tr('provisional');
  if(item.status==='INFEASIBLE')return tr('required');
  return '';
 }
-function table(items,out,currency=root.Nomad360Currency?.get()||'USD'){
+function table(items,out,currency=root.Nomad360Currency?.get()||'USD',kind='linked'){
+ const standalone=kind==='standalone',show=v=>typeof v==='number'&&Number.isFinite(v)?fmt(v):'—';
+ const baseTitle=standalone?root.Nomad360PriceExport.document({state:{currency},out,kind},lang).columns[4]:tr('base');
  return '<table class="nomad-export-table"><thead><tr>'+
- [tr('item'),tr('type'),tr('base')+' ('+currency+')',tr('discount'),tr('customer')+' ('+currency+')'].map(s=>'<th>'+esc(s)+'</th>').join('')+
+ [tr('item'),tr('type'),baseTitle+' ('+currency+')',tr('discount'),tr('customer')+' ('+currency+')'].map(s=>'<th>'+esc(s)+'</th>').join('')+
  '</tr></thead><tbody>'+items.map(item=>
- '<tr><td>'+esc(item.name)+'</td><td>'+esc(tr(sourceType[item.source]||'item'))+'</td>'+
- '<td class="n">'+fmt(item.priceList)+'</td><td class="n">'+fmt(item.discountSelected)+'%</td>'+
- '<td class="n"><strong>'+fmt(item.priceGross)+'</strong></td></tr>').join('')+
+ '<tr><td data-nomad-no-translate>'+esc(item.name)+'</td><td>'+esc(tr(sourceType[item.source||item.sourcing?.source]||'item'))+'</td>'+
+ '<td class="n" data-nomad-list-price>'+show(standalone?item.price:item.priceList)+'</td><td class="n">'+(standalone?'—':show(item.discountSelected)+'%')+'</td>'+
+ '<td class="n" data-nomad-customer-price><strong>'+show(standalone?item.priceWithVat:item.priceGross)+'</strong></td></tr>').join('')+
  '</tbody></table>'+
  (out.cashflow?.periodPnl?.accountingCompleteness==='PROVISIONAL'?'<p class="nomad-alert">'+tr('warning')+'</p>':'')+
- '<p class="nomad-footnote">'+tr('offer')+'</p>';
+ '<p class="nomad-footnote">'+(standalone?esc(root.Nomad360PriceExport.document({state:{currency},out,kind},lang).notes[1]):tr('offer'))+'</p>';
 }
 function printable(mode,context){
- const {state,out}=context,p=out.cashflow?.periodPnl,cf=out.cashflow;
+ const {state,out,kind}=context,p=out.cashflow?.periodPnl,cf=out.cashflow;
  const title=mode==='price'?tr('listAction'):tr('report');
  let html='<header class="nomad-print-head"><div>NOMAD360</div><h1>'+esc(title)+'</h1>'+
- '<p>'+tr('horizon')+': '+esc(state.forecastMonths||1)+' '+tr('months')+' · '+esc(state.currency||root.Nomad360Currency?.get()||'USD')+'</p></header>'+
- table(out.items,out,state.currency||'USD');
+ '<p>'+tr('horizon')+': '+esc(state.forecastMonths||state.marketing?.periodMonths||1)+' '+tr('months')+' · '+esc(state.currency||root.Nomad360Currency?.get()||'USD')+'</p></header>'+
+ table(out.items,out,state.currency||'USD',kind);
  if(mode==='report'){
  const reportValues=[
   [tr('revenue'),p?.revenue??out.totals.revenue],
@@ -205,15 +207,16 @@ function showPreview(){
  if(!host)return false;
  const hidden=host.hidden;
  host.hidden=!hidden;
- if(hidden){host.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(context.out.items,context.out,context.state.currency||'USD')+
+ if(hidden){host.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(context.out.items,context.out,context.state.currency||'USD',context.kind)+
  '<div class="nomad-export-row"><button type="button" data-nomad-export="price">'+tr('listPrint')+'</button>'+
+ excelButton(true)+
  '<button type="button" data-nomad-hide-price>'+tr('listClose')+'</button></div>';
  }
  return hidden;
 }
 function savePrint(mode){
  const context=readyOutput();
- if(!context){
+ if(!context||(mode==='report'&&context.kind==='standalone')){
   document.getElementById('nomad360-print-sheet')?.remove();
   const label=document.getElementById('nomad360-export-feedback');
   if(label)label.textContent=tr('required');
@@ -227,7 +230,26 @@ function savePrint(mode){
  root.print();
  return true;
 }
-function syncPortfolioActions(out){
+function excelButton(can){return '<button type="button" class="nd-v2-action nd-v2-action-secondary" data-nomad-excel'+(can&&!excelBusy?'':' disabled')+(excelBusy?' aria-busy="true"':'')+'>'+tr('listExcel')+'</button>';}
+async function saveExcel(){
+ const context=readyOutput(),language=lang;
+ const feedback=key=>{const el=document.getElementById('nomad360-export-feedback');if(el)el.textContent=tr(key);};
+ if(!context){feedback('required');return false;}
+ if(excelBusy)return false;
+ excelBusy=true;document.querySelectorAll('[data-nomad-excel]').forEach(b=>{b.disabled=true;b.setAttribute('aria-busy','true');});
+ try{
+  const doc=root.Nomad360PriceExport.document(context,language);
+  const bytes=await root.Nomad360PriceExport.write(doc,root.ExcelJS);
+  const current=readyOutput();
+  if(!current||current.kind!==context.kind||JSON.stringify(current.state)!==JSON.stringify(context.state)||lang!==language){feedback('excelStale');return false;}
+  const url=URL.createObjectURL(new Blob([bytes],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));
+  const a=document.createElement('a');a.href=url;a.download='nomad360-price-'+doc.currency+'.xlsx';document.body.append(a);
+  try{a.click();feedback('excelReady');}finally{a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  return true;
+ }catch(_){feedback('excelError');return false;}
+ finally{excelBusy=false;document.querySelectorAll('[data-nomad-excel]').forEach(b=>{b.disabled=!readyOutput();b.removeAttribute('aria-busy');});}
+}
+function syncPortfolioActions(out,state,kind='linked'){
  const host=document.getElementById('portfolio-v2-root');if(!host)return;
  const existingPreview=host.querySelector('#nomad360-price-preview');
  const keepPreview=existingPreview&&!existingPreview.hidden;
@@ -235,12 +257,14 @@ function syncPortfolioActions(out){
  if(!section){section=document.createElement('section');section.id='nomad360-portfolio-tools';
  host.append(section)}
  const can=!!out?.ready&&Array.isArray(out?.items)&&out.items.length>0;
+ const currentState=state||root.LinkedPortfolioV2UI?.getState?.();
+ exportContext=can&&currentState?{state:JSON.parse(JSON.stringify(currentState)),out,kind}:null;
  section.innerHTML='<div class="nomad-export-callout">'+
  '<div class="nomad-export-title">'+tr('listTitle')+'</div><p>'+tr('listDesc')+'</p>'+
  '<div class="nomad-export-row">'+
  '<button type="button" data-nomad-price-toggle'+(can?'':' disabled')+'>'+tr('listAction')+'</button>'+
- '<button type="button" data-nomad-export="report"'+(can?'':' disabled')+'>'+tr('print')+'</button></div>'+
- '<p class="nomad-footnote" id="nomad360-export-feedback">'+(can?tr('pdfHint'):tr('onlyReady'))+'</p>'+
+ (kind==='linked'?'<button type="button" data-nomad-export="report"'+(can?'':' disabled')+'>'+tr('print')+'</button>':'')+excelButton(can)+'</div>'+
+ '<p class="nomad-footnote" id="nomad360-export-feedback" role="status" aria-live="polite">'+(can?tr('pdfHint'):tr('onlyReady'))+'</p>'+
  '<div id="nomad360-price-preview" hidden></div></div>';
  if(!can)section.dataset.ready='false';else section.dataset.ready='true';
  // Revoke invalid old print output and synchronize valid existing documents.
@@ -248,19 +272,20 @@ function syncPortfolioActions(out){
  if(sheet){
   if(!can)sheet.remove();
   else if(['price','report'].includes(sheet.dataset.mode)){
-   const currentState=root.LinkedPortfolioV2UI?.getState?.();
-   if(currentState)sheet.innerHTML=printable(sheet.dataset.mode,{state:currentState,out});
+   if(exportContext)sheet.innerHTML=printable(sheet.dataset.mode,exportContext);
   }
  }
  if(can&&keepPreview){
   const preview=section.querySelector('#nomad360-price-preview');
   preview.hidden=false;
-  preview.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(out.items,out,root.LinkedPortfolioV2UI?.getState?.()?.currency||'USD')+
+  preview.innerHTML='<h3>'+tr('listAction')+'</h3>'+table(out.items,out,currentState?.currency||'USD',kind)+
    '<div class="nomad-export-row"><button type="button" data-nomad-export="price">'+tr('listPrint')+'</button>'+
+   excelButton(true)+
    '<button type="button" data-nomad-hide-price>'+tr('listClose')+'</button></div>';
  }
 }
 function handleClick(event){
+ if(event.target.closest('[data-nomad-excel]'))saveExcel();
  if(event.target.closest('[data-nomad-price-toggle]'))showPreview();
  const print=event.target.closest('[data-nomad-export]');
  if(print)savePrint(print.dataset.nomadExport);
@@ -275,7 +300,7 @@ function setLanguage(next){
  buildShell();
  const payload=readyOutput();
  // The finance engine is never translated or re-run with altered inputs.
- if(document.getElementById('nomad360-portfolio-tools'))syncPortfolioActions(payload?.out||null);
+ if(document.getElementById('nomad360-portfolio-tools'))syncPortfolioActions(payload?.out||null,payload?.state,payload?.kind);
  // Refresh an already-prepared print document in the newly selected UI locale,
  // without opening a print dialog or writing any financial input.
  const sheet=document.getElementById('nomad360-print-sheet');
@@ -290,7 +315,7 @@ function boot(){
   if(event.target?.id==='nomad360-lang-select')setLanguage(event.target.value);
  });
 }
-root.Nomad360UI=Object.freeze({syncPortfolioActions,showPreview,savePrint,setLanguage,getLanguage:()=>lang,preferred});
+root.Nomad360UI=Object.freeze({syncPortfolioActions,showPreview,savePrint,saveExcel,setLanguage,getLanguage:()=>lang,preferred});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })(window);
 

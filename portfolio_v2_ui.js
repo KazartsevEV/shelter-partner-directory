@@ -227,7 +227,7 @@ function displayInlineValidation(fieldErrors) {
 function updateResult(){
  if(!model)return;const el=document.getElementById('p2-results');if(!el)return;
  const out=root.Nomad360PaymentUI?.buildPortfolio(model)||Engine.build(model);
- if(out.paymentPending){el.innerHTML='<p class="nd-payment-pending" data-nomad-no-translate role="alert">'+safe(root.Nomad360PaymentUI.pendingMessage())+'</p>';root.Nomad360UI?.syncPortfolioActions?.(out);return;}
+ if(out.paymentPending){el.innerHTML='<p class="nd-payment-pending" data-nomad-no-translate role="alert">'+safe(root.Nomad360PaymentUI.pendingMessage())+'</p>';root.Nomad360UI?.syncPortfolioActions?.(out,model,'standalone');return;}
  displayInlineValidation(out.fieldErrors);
  const funnel=out.marketing;
  let intro='<h2 class="text-2xl font-black">Результат портфеля</h2><p class="mt-2 text-sm">Клики '+money(funnel?.clicks||0)+
@@ -239,7 +239,7 @@ function updateResult(){
    el.innerHTML=intro+'<p class="rounded-xl bg-white text-rose-800 p-4 mt-4 text-sm">'+
      'Исправьте поля, выделенные красным, рядом с местом ввода. '+
      (out.errors.length?'Проверок осталось: '+out.errors.length+'.':'')+'</p>';
-   return;
+   root.Nomad360UI?.syncPortfolioActions?.(out,model,'standalone');return;
  }
  const r=out;
  const heads=['Товар','Цена без НДС','Себест.','Mix шт.','Mix выручки','Weighted CAC','Прогноз, шт/мес','Рекламный бюджет','EBITDA SKU','ROAS'];
@@ -276,6 +276,7 @@ function updateResult(){
  '<div class="overflow-x-auto mt-2"><table class="text-xs text-left w-full"><thead><tr>'+
  cashHeads.map(h=>'<th class="px-2 py-3 whitespace-nowrap">'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+cashRows+'</tbody></table></div>'+
  '<p class="text-xs mt-3">«Живые деньги» = накопленный денежный остаток с учётом начального собственного взноса или кредита, минус защищённый резерв. Это не прибыль. Проценты уплачиваются ежемесячно, тело кредита — в последний месяц. Месяц = 30 дней.</p>';
+ root.Nomad360UI?.syncPortfolioActions?.(out,model,'standalone');
 }
 function applyPaymentConversion(path,quote){
  const [,i,key]=path.split('.'),sku=model.skus[Number(i)];

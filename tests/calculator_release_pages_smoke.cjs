@@ -35,6 +35,10 @@ for(const file of ['nomad360_fx.js','nomad360_fx_ui.js','nomad360_payments.js','
  A.ok(fs.existsSync(path.join(__dirname,'..',file)),'Actual-payment asset must be shipped: '+file);
  if(!process.argv.includes('--presence'))files.push(file);
 }
+for(const file of ['nomad360_price_export.js','vendor/exceljs-4.4.0.min.js']){
+ A.ok(fs.existsSync(path.join(__dirname,'..',file)),'Local Excel asset must be shipped: '+file);
+ if(!process.argv.includes('--presence'))files.push(file);
+}
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function fetchFile(url,redirects=0){

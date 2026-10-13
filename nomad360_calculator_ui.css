@@ -57,6 +57,14 @@
 .nomad-export-row button+button{background:#fff;color:#0d6047}
 .nomad-export-row button:hover:not(:disabled){filter:brightness(1.13)}
 .nomad-export-row button:disabled{opacity:.4;cursor:not-allowed}
+/* Existing V2 price tools and their new Excel action share the V2 palette. */
+#portfolio-v2-root .nomad-export-callout{background:#16375a;border-color:#31577c;border-left-color:#ed8e63;color:#fff;font-family:var(--nd-font)}
+#portfolio-v2-root .nomad-export-title{color:#fff}
+#portfolio-v2-root .nomad-export-callout>p{color:#fff}
+#portfolio-v2-root #nomad360-price-preview{border-color:#d7e0e8;color:#16375a}
+#portfolio-v2-root #nomad360-price-preview :is(h3,p){color:#16375a}
+#portfolio-v2-root .nomad-export-table th{background:#16375a;color:#fff}
+#portfolio-v2-root .nomad-export-table :is(th,td){border-color:#d7e0e8}
 .nomad-export-callout .nomad-footnote{font-size:11px;line-height:1.5;color:#607369;margin-top:12px}
 #nomad360-price-preview{background:white;border:1px solid #d2e8da;padding:16px;margin-top:18px;border-radius:12px;overflow:auto}
 #nomad360-price-preview h3{font-size:17px;font-weight:850;margin-bottom:10px}
