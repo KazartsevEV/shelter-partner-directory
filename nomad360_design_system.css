@@ -2371,3 +2371,9 @@ body #full-service-screen .nd-full-service-ledger-row > strong{
     min-width:0;
   }
 }
+@media (max-width: 430px) {
+  /* Six-digit gross pay must be fully visible in its editable input too. */
+  body #own-production-workers-wrap > .grid {
+    grid-template-columns:minmax(0,1fr);
+  }
+}

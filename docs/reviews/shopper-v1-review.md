@@ -1,6 +1,6 @@
 # Task 5 · cotton tote in real V1 · review
 
-14 October 2026. Base `main` / `4af9cbdebc902f2c9277fa1cc1c56319fb38a648`, after accepted localization #135 and task-map #138. Branch `feature/shopper-v1-realistic`. **Implementation presented for review; not accepted, not merged.** TYPE-02 and tasks 6–9 have not started. CI status will be recorded here after verification on the published HEAD. The initial task-specific run on `931d4454` reproduced payroll-row overflow on KK/320; the targeted mobile layout stacks caption and amount without changing fonts or formulas.
+14 October 2026. Base `main` / `4af9cbdebc902f2c9277fa1cc1c56319fb38a648`, after accepted localization #135 and task-map #138. Branch `feature/shopper-v1-realistic`. **Implementation presented for review; not accepted, not merged.** TYPE-02 and tasks 6–9 have not started. CI status will be recorded here after verification on the published HEAD. The initial task-specific run on `931d4454` reproduced payroll-row overflow on KK/320; the targeted mobile layout stacks caption and amount without changing fonts or formulas. A follow-up visual inspection also stacks the narrow worker-count/gross-pay input grid so the six-digit gross pay is fully visible; a text-width check covers entered numeric values.
 
 ## Result
 

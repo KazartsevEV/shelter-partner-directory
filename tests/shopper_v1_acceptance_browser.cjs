@@ -11,6 +11,12 @@ async function geometry(page){return page.evaluate(()=>{
  const root=document.getElementById('product-screen');
  const offenders=[...root.querySelectorAll('*')].filter(e=>e.getClientRects().length&&!e.closest('.overflow-x-auto')&&e.getBoundingClientRect().right>innerWidth+2).slice(0,12).map(e=>({id:e.id,class:e.className,right:e.getBoundingClientRect().right}));
  const invalid=[...root.querySelectorAll('input')].filter(e=>e.getClientRects().length&&!e.disabled&&e.value!==''&&!e.checkValidity()).map(e=>({id:e.id,class:e.className,value:e.value,step:e.step}));
+const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+ const clippedInputValues=[...root.querySelectorAll('input[type=number]')].filter(e=>e.getClientRects().length&&!e.disabled&&e.value!=='').flatMap(e=>{
+  const s=getComputedStyle(e);ctx.font=`${s.fontStyle} ${s.fontWeight} ${s.fontSize} ${s.fontFamily}`;
+  const needed=ctx.measureText(e.value).width,available=e.clientWidth-parseFloat(s.paddingLeft)-parseFloat(s.paddingRight)-16;
+  return needed>available+1?[{id:e.id,class:e.className,value:e.value,needed,available}]:[];
+ });
  const gaps=Nomad360LocaleCore.auditVisibleGaps();
  const markers=root.textContent.match(/⟦[^⟧]*⟧/g)||[];
  const brokenNumbers=[...root.querySelectorAll('[data-nomad-display-money]')].filter(e=>e.getClientRects().length).flatMap(e=>{
@@ -24,7 +30,7 @@ const payrollStackErrors=innerWidth<768?['gross-total','taxes-total','total'].fl
   const a=label.getBoundingClientRect(),b=value.getBoundingClientRect();
   return a.bottom>b.top+1?[{suffix,labelBottom:a.bottom,amountTop:b.top}]:[];
  }):[];
- return {pageOverflow:document.documentElement.scrollWidth>innerWidth+1,offenders,invalid,gaps,markers,brokenNumbers,payrollStackErrors};
+ return {pageOverflow:document.documentElement.scrollWidth>innerWidth+1,offenders,invalid,gaps,markers,brokenNumbers,payrollStackErrors,clippedInputValues};
 });}
 async function capture(page,stem){
  const sections=[['materials','#product-materials-block'],['production','#product-production-block'],['logistics','#product-logistics-block'],['sales','#product-sales-block'],['funnel','#product-ad-block'],['planning','#product-tax-block'],['prices','#product-tax-price-list'],['cash-flow','#product-portfolio-business-summary'],['assumptions','#product-demo-banner']];
@@ -63,7 +69,7 @@ async function capture(page,stem){
    verify(await page.evaluate(snap),finance);
    A.deepEqual(await page.evaluate(snap),beforeLanguage,'Language must not change inputs or finance');
    const g=await geometry(page);if(g.pageOverflow||g.invalid.length||g.gaps.length||g.markers.length)console.log('SHOPPER_GEOMETRY',JSON.stringify({width,finance,lang,...g}));
-   A.equal(g.pageOverflow,false);A.deepEqual(g.invalid,[]);A.deepEqual(g.gaps,[]);A.deepEqual(g.markers,[]);A.deepEqual(g.brokenNumbers,[],'Numeric amounts must stay on one line');A.deepEqual(g.payrollStackErrors,[],'Narrow payroll rows must stack caption and whole amount');
+   A.equal(g.pageOverflow,false);A.deepEqual(g.invalid,[]);A.deepEqual(g.gaps,[]);A.deepEqual(g.markers,[]);A.deepEqual(g.brokenNumbers,[],'Numeric amounts must stay on one line');A.deepEqual(g.payrollStackErrors,[],'Narrow payroll rows must stack caption and whole amount');A.deepEqual(g.clippedInputValues,[],'Entered numeric values must fit with room for native controls');
    const screenshots=[320,390,1280].includes(width)?await capture(page,`${finance}-${lang}-${width}`):[];
    const pdf=await page.evaluate(()=>{window.print=()=>{};const ok=exportProductCalculationPdf();return {ok,text:document.getElementById('nomad360-print-sheet').textContent,cells:document.querySelectorAll('#nomad360-print-sheet td').length};});
    A.equal(pdf.ok,true);A.match(pdf.text,/KZT/);A.ok(pdf.cells>40);A.ok(!pdf.text.includes('⟦'));
