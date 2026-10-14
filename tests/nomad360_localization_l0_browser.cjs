@@ -71,6 +71,10 @@ async function examine(page,stage,width){
   A.ok(census.nodes.includes(expectedRoot),'Expected '+expectedRoot+' at '+stage+', found '+census.nodes.join(','));
   const refs=census.records.map(r=>{const key=lang+'|'+r.kind+'|'+r.context+'|'+r.text;if(!texts.has(key))texts.set(key,{id:'observed-'+texts.size,language:lang,...r});return texts.get(key).id;});
   const findings=census.gaps.map(g=>({...g,classification:lang==='kk'&&knownKK.has(g.original.replace(/\s+/g,' ').trim())?'known-kk-module-copy':'requires-triage'}));
+  if(process.env.NOMAD360_LOCALE_ACCEPTANCE==='1'&&lang==='en'){
+   const leaks=census.records.filter(r=>r.kind!=='text'&&/[А-Яа-яЁё]/.test(r.text));
+   A.deepEqual(leaks,[],'Untranslated visible accessibility/placeholder attributes: '+stage);
+  }
   cases.push({stage,width,language:lang,roots:census.nodes,strings:refs,gaps:findings,pageOverflow:census.pageOverflow,financialInputsUnchanged:true,financialResultsUnchanged:true});
  }
  await page.locator('#nomad360-lang-select').selectOption('ru');await settle(page);

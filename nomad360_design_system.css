@@ -2349,3 +2349,12 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
     max-width:100%;white-space:normal;word-break:normal;overflow-wrap:normal;
   }
 }
+
+/* Localized full-service ledger: labels may wrap; monetary decimals stay whole. */
+body #full-service-screen .nd-full-service-ledger-row{
+  display:grid;grid-template-columns:minmax(0,1fr) max-content;column-gap:12px;
+}
+body #full-service-screen .nd-full-service-ledger-row > span{min-width:0}
+body #full-service-screen .nd-full-service-ledger-row > strong{
+  white-space:nowrap;word-break:normal;overflow-wrap:normal;
+}

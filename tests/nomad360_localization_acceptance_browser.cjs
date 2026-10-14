@@ -12,7 +12,7 @@ async function inspect(page,scenario,width,lang){
  const evidence=await page.evaluate(()=>{
   const node=document.querySelector('#portfolio-v2-screen:not(.hidden),#full-service-screen:not(.hidden),#product-screen:not(.hidden)');
   const structural=[...document.querySelectorAll('[data-i18n]')].filter(e=>e.children.length&&!e.matches('input,select,textarea')).map(e=>e.dataset.i18n);
-  const moneyLineErrors=[...document.querySelectorAll('#p2-results .nd-v2-number-value')].filter(e=>e.getClientRects().length).map(e=>{const range=document.createRange();range.selectNodeContents(e);const tops=[...range.getClientRects()].map(r=>Math.round(r.top));return {text:e.textContent,lines:new Set(tops).size}}).filter(e=>e.lines>1);
+  const moneyLineErrors=[...document.querySelectorAll('#p2-results .nd-v2-number-value,#full-service-report .nd-full-service-ledger-row strong')].filter(e=>e.getClientRects().length).map(e=>{const range=document.createRange();range.selectNodeContents(e);const tops=[...range.getClientRects()].map(r=>Math.round(r.top));return {text:e.textContent,lines:new Set(tops).size}}).filter(e=>e.lines>1);
   const scalar=[...document.querySelectorAll('[data-i18n]')].filter(e=>!e.children.length&&!e.matches('input,select,textarea')).map(e=>({key:e.dataset.i18n,actual:e.textContent,expected:Nomad360LocaleCore.t(e.dataset.i18n,Nomad360UI.getLanguage(),JSON.parse(e.dataset.i18nParams||'{}'))}));
   const offenders=[...document.querySelectorAll('body *')].filter(e=>e.getClientRects().length&&e.getBoundingClientRect().right>innerWidth+2&&!e.closest('.overflow-x-auto')).slice(0,8).map(e=>({id:e.id,tag:e.tagName,class:e.className,right:e.getBoundingClientRect().right,width:e.getBoundingClientRect().width}));
   return {offenders,locale:document.documentElement.lang,root:node?.id,overflow:document.documentElement.scrollWidth>innerWidth+1,gaps:Nomad360LocaleCore.auditVisibleGaps(),scalarErrors:scalar.filter(e=>e.actual!==e.expected),structuralErrors:structural,moneyLineErrors,markers:node?.textContent.match(/⟦[^⟧]*⟧/g)||[]};
@@ -21,8 +21,8 @@ async function inspect(page,scenario,width,lang){
  A.equal(evidence.locale,lang);A.equal(evidence.overflow,false);A.deepEqual(evidence.gaps,[]);A.deepEqual(evidence.scalarErrors,[]);A.deepEqual(evidence.structuralErrors,[],'User strings must never create HTML children');A.deepEqual(evidence.markers,[]);A.deepEqual(evidence.moneyLineErrors,[],'Financial values must stay on one line');
  if([320,390,1280].includes(width)){
   await page.screenshot({path:path.join(out,`${scenario}-${lang}-${width}.png`),fullPage:true});
-  const target=scenario==='standalone-name'?'#p2-results .nd-v2-financial-grid':scenario==='full-service-name'?'#full-service-report':'[data-i18n="goods.salesRevenue"]';
-  const detail=page.locator(target).first();if(await detail.isVisible())await detail.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`${scenario}-${lang}-${width}-detail.png`)});
+  const target=scenario==='standalone-name'?'#p2-results .nd-v2-financial-grid':scenario==='full-service-name'?'#full-service-report':'#completed-product-forms [data-completed-product-id]';
+  const detail=page.locator(target).first();if(await detail.isVisible())await detail.evaluate(e=>e.scrollIntoView({behavior:'instant',block:'start'}));await page.screenshot({path:path.join(out,`${scenario}-${lang}-${width}-detail.png`)});
  }
  cases.push({scenario,width,language:lang,...evidence});
 }
@@ -67,7 +67,7 @@ async function inspect(page,scenario,width,lang){
   for(const lang of ['ru','en','kk']){
    await language(page,lang);await inspect(page,'native-v1-name',width,lang);
    A.equal(await page.evaluate(()=>JSON.stringify({model:productPortfolio,output:calculateProductPortfolio(),cash:calculateProductCashFlow(calculateProductPortfolio())})),nativeBefore);
-   const keys=await page.locator('[data-i18n="goods.salesRevenue"]').count();A.ok(keys>0,'Actual native V1 parameterized labels must be present');
+   const keys=await page.locator('#completed-product-forms [data-completed-product-id]').count();A.ok(keys>0,'Actual native V1 parameterized labels must be present');
   }
   for(const lang of ['ru','en','kk']){
    await language(page,lang);

@@ -2234,6 +2234,11 @@ function flush(){
  const roots=[...pending];pending=new Set();
  const language=locale();
  roots.forEach(node=>translateNode(node,language));
+ // DOM recreation during service setup can replace a control while the body
+ // walker is translating labels. Refresh presentation attributes separately;
+ // input values and model fields are never read or written here.
+ for(const node of document.querySelectorAll(localizedAttributes.map(name=>'['+name+']').join(',')))
+  if(valid(node))translateAttributes(node,language);
  // An explicitly annotated application label can also belong to a component
  // that owns its remaining copy. Never process editable/user-owned nodes.
  for(const node of document.querySelectorAll('[data-i18n]')){
