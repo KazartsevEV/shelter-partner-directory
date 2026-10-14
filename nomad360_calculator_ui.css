@@ -382,41 +382,42 @@ a.nomad-pay-value{text-decoration:underline}
 .nd-service-free-cash-value{font-size:clamp(1.7rem,5vw,2.35rem);line-height:1.3;font-weight:700;color:#fff;margin-top:8px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
 .nd-service-free-cash-detail{font-size:.875rem;line-height:1.5;color:#f1f5f9;margin-top:7px;max-width:72ch}
 
-/* TYPE-02: V1 business advice uses the Nomad360 palette and semantic type roles.
-   Only the actionable CTA is orange; body and ancillary guidance stay legible. */
-#product-tax-block .nd-business-advice{
+/* TYPE-02: V1 marketing-advice panel. Pure CSS to preserve the protected
+   source markup, financial handlers and existing localization selectors.
+   Body and guidance use Inter roles; only the primary action is orange. */
+#product-tax-block [data-business-advice]{
   box-sizing:border-box;min-width:0;
   border:2px solid #ed8e63;border-radius:16px;
   background:#16375a;color:#fff;
   font-family:var(--nd-font,Inter,system-ui,sans-serif);
 }
-#product-tax-block .nd-business-advice-lead{
+#product-tax-block [data-business-advice] > div:first-of-type{
   color:#fff;font-size:18px;font-weight:600;line-height:1.45;
   overflow-wrap:anywhere;
 }
-#product-tax-block .nd-business-advice-copy{
+#product-tax-block [data-business-advice] > div:nth-of-type(2){
   color:#fff;font-size:16px;font-weight:400;line-height:1.55;
 }
-#product-tax-block .nd-business-advice-kicker{
+#product-tax-block [data-business-advice] > div:nth-of-type(3){
   color:#fff;font-size:16px;font-weight:600;line-height:1.4;
   letter-spacing:0;text-transform:none;
 }
-#product-tax-block .nd-business-advice-links{
+#product-tax-block [data-business-advice] > div:nth-of-type(4){
   font-size:16px;font-weight:500;line-height:1.55;overflow-wrap:anywhere;
 }
-#product-tax-block .nd-business-advice-links a{
+#product-tax-block [data-business-advice] > div:nth-of-type(4) a{
   color:#ed8e63;font-weight:500;text-decoration:underline;
   text-decoration-thickness:1px;text-underline-offset:4px;
 }
-#product-tax-block .nd-business-advice-links a:hover{color:#f3a17a}
-#product-tax-block .nd-business-advice-links a:focus-visible,
-#product-tax-block .nd-business-advice-action:focus-visible{
+#product-tax-block [data-business-advice] > div:nth-of-type(4) a:hover{color:#f3a17a}
+#product-tax-block [data-business-advice] > div:nth-of-type(4) a:focus-visible,
+#product-tax-block [data-business-advice] > button:focus-visible{
   outline:3px solid #fff;outline-offset:3px;
 }
-#product-tax-block .nd-business-advice-nonlink{
+#product-tax-block [data-business-advice] > div:nth-of-type(4) > div{
   color:#fff;font-weight:400;
 }
-#product-tax-block .nd-business-advice-action{
+#product-tax-block [data-business-advice] > button{
   display:block;box-sizing:border-box;min-height:52px;
   background:#ed8e63;border:1px solid #ed8e63;
   color:#16375a;
@@ -424,14 +425,14 @@ a.nomad-pay-value{text-decoration:underline}
   font-size:18px;font-weight:600;line-height:1.4;
   cursor:pointer;
 }
-#product-tax-block .nd-business-advice-action:hover{
+#product-tax-block [data-business-advice] > button:hover{
   background:#f3a17a;border-color:#f3a17a;color:#16375a;
 }
-#product-tax-block .nd-business-advice-note{
+#product-tax-block [data-business-advice] > button > span{
   color:#16375a;font-size:15px;font-weight:400;line-height:1.5;
 }
 @media(max-width:390px){
-  #product-tax-block .nd-business-advice{padding:16px}
-  #product-tax-block .nd-business-advice-lead{font-size:17px}
-  #product-tax-block .nd-business-advice-action{font-size:17px}
+  #product-tax-block [data-business-advice]{padding:16px}
+  #product-tax-block [data-business-advice] > div:first-of-type{font-size:17px}
+  #product-tax-block [data-business-advice] > button{font-size:17px}
 }
