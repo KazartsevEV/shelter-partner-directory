@@ -285,7 +285,7 @@ const server=createServer(async(req,res)=>{
   A.equal(await embed.locator('#product-screen').isVisible(),true);
   A.deepEqual(embeddedErrors,[],'Exported HTML must execute in its new context');
   const font=await embed.locator('#product-name-input').evaluate(x=>getComputedStyle(x).fontFamily);
-  A.match(font,/IBM Plex Sans/);
+  A.match(font,/^Inter,/);
   console.log('NOMAD360_EMBED_DOWNLOAD_GREEN',JSON.stringify({bytes:snapshot.length,
     logoBundled:true,scriptsBundled:true,standaloneCalculator:true}));
   await embed.close();

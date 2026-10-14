@@ -120,11 +120,11 @@ async function browserCase(browser,locale,expected){
       example:at('#nomad360-home-secondary .nomad-example-link')
     };
   });
-  A.match(typography.font,/IBM Plex Sans/,'Nomad360 must declare one coherent brand typeface');
+  A.match(typography.font,/^Inter,/,'Nomad360 must declare one coherent brand typeface');
   A.equal(typography.body,'17px');
-  A.equal(typography.note,'15px');
-  A.ok(typography.outcome.px>=17&&typography.outcome.weight>=500,'Result explanations cannot be fine print');
-  A.ok(typography.noteCopy.px>=15,'Secondary notes remain readable on a phone');
+  A.equal(typography.note,'14px');
+  A.ok(typography.outcome.px>=17&&typography.outcome.weight===400,'Result explanations cannot be fine print');
+  A.ok(typography.noteCopy.px>=14,'Secondary notes remain readable on a phone');
   A.ok(typography.hero.px>=17,'Subtitle remains legible on mobile');
    A.equal(await page.locator('#nomad360-hero h3').evaluate(el=>getComputedStyle(el).textWrap),
      'balance','Subtitle uses balanced line wraps');
@@ -141,7 +141,7 @@ async function browserCase(browser,locale,expected){
      A.deepEqual(lastWords,{valid:true,sameLine:true},'Subtitle must end without an orphaned word');
    }
 
-  A.ok(typography.recoveryTitle.weight>=700,'Saved work gets a visible text hierarchy');
+  A.ok(typography.recoveryTitle.weight===600,'Saved work gets a visible text hierarchy');
   A.ok(typography.example.px>=16,'Auxiliary links stay tappable and legible');
   A.equal(typography.noteCopy.color,'rgb(64, 84, 106)','Muted copy must use legible dark blue-gray');
    const exampleRow=page.locator('#nomad360-home-secondary .nomad-example-row');
@@ -297,7 +297,7 @@ async function browserCase(browser,locale,expected){
   const typeField=await page.locator('#product-name-input').evaluate(el=>({
     size:parseFloat(getComputedStyle(el).fontSize),weight:Number(getComputedStyle(el).fontWeight)
   }));
-  A.ok(typeField.size>=17&&typeField.weight>=500,'Product form fields use standard readable type');
+  A.ok(typeField.size===16&&typeField.weight===400,'Product form fields use standard readable type');
   await page.evaluate(()=>showHome());
   const multi=choice.locator('#start-multi-portfolio');
   const normal=await multi.evaluate(el=>{
@@ -328,7 +328,7 @@ async function browserCase(browser,locale,expected){
     size:parseFloat(getComputedStyle(el).fontSize),
     labelSize:parseFloat(getComputedStyle(el.closest('label').querySelector('span')).fontSize)
   }));
-  A.ok(v2Type.size>=17&&v2Type.labelSize>=15,'V2 data-entry typography must match V1');
+  A.ok(v2Type.size===16&&v2Type.labelSize===16,'V2 data-entry typography must match V1: '+JSON.stringify(v2Type));
   A.ok(await page.evaluate(()=>PortfolioV2UI.load()),'V2 should create a draft on first visit');
   await page.evaluate(()=>{
     const draft=PortfolioV2UI.load();

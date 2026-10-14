@@ -62,6 +62,7 @@ async function pictures(page,variant,lang,width,route){
      A.ok(geometry.controls.every(c=>c.size>=16),JSON.stringify(geometry.controls.filter(c=>c.size<16)));A.ok(geometry.controls.every(c=>c.height>=44),JSON.stringify(geometry.controls.filter(c=>c.height<44)));
      A.deepEqual(geometry.gaps,previous.geometry.gaps,'Preserve existing localization diagnostics');
      A.deepEqual(geometry.text.filter(t=>t.cls!=='nomad-lite'&&(t.size<14||!['400','500','600','700'].includes(t.weight))),[],'Meaningful text has readable sizes and supported role weights');
+     A.deepEqual(geometry.text.filter(t=>t.cls.split(/\s+/).includes('nd-v2-field-label')&&(t.size!==16||t.weight!=='500')),[],'Field labels keep their own role instead of inheriting note utilities');
      if(lang==='kk'&&width===390&&route==='standalone')fonts.push(...await glyphs(page));
      if(route==='v1')verify(data,'cash');
     }

@@ -2106,7 +2106,7 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 /* Existing controller-owned inline validation styles require these two local
    declarations. State, live announcements and messages are not changed. */
 #portfolio-v2-root [data-p2-inline-error] {font-size:var(--nd-type-note) !important;font-weight:var(--nd-weight-label) !important;font-family:var(--nd-font)}
-#portfolio-v2-root :is(.nd-v2-section,.nd-v2-result-frame,.nd-v2-product-card) :is(p,div,span).text-xs,
+#portfolio-v2-root :is(.nd-v2-section,.nd-v2-result-frame,.nd-v2-product-card) :is(p,div,span).text-xs:not(.nd-v2-field-label),
 #portfolio-v2-root .nd-v2-financial-cell.text-xs {font-size:var(--nd-type-note);font-weight:var(--nd-weight-body);line-height:var(--nd-leading-note)}
 #portfolio-v2-root .nd-payment-controls :is(.nd-payment-note,.nd-payment-status) {font-size:var(--nd-type-note);font-weight:var(--nd-weight-body);line-height:var(--nd-leading-note)}
 #portfolio-v2-root .nd-payment-label > span {font-size:var(--nd-type-label);font-weight:var(--nd-weight-label)}
