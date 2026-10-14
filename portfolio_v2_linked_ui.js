@@ -540,7 +540,7 @@ function updateResult(){
   ['Резерв',t.reserve],['Итоговый остаток',t.finalCash],['ЖИВЫЕ ДЕНЬГИ',t.freeCash]]
  .map(([label,value])=>'<div class="nd-v2-financial-cell bg-white/10 rounded-lg p-3"><div class="text-xs">'+label+'</div>'+
   '<b class="nd-v2-number-value text-lg" data-nomad-display-number="'+safe(value)+'">'+money(value)+'</b></div>').join('')+'</div>'+advertising+flow+
- '<p class="nd-v2-description mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
+ '<p class="nd-v2-description nd-type-note mt-5 pt-3 border-t border-white/15 text-slate-400" style="font-size:11px;line-height:1.5">'+
  'Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. '+
  'Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. '+
  'Месяц принят равным 30 дням; налоги моделируются помесячно, без переноса убытков.</p>';

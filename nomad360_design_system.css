@@ -13,21 +13,30 @@
   --nd-panel:#ffffff;
   --nd-surface:#f0f3f6;
   --nd-radius:3px;
-  --nd-font:'IBM Plex Sans',Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --nd-font:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
   --nd-type-body:17px;
-  --nd-type-field:17px;
+  --nd-type-field:16px;
   --nd-type-label:16px;
-  --nd-type-note:15px;
-  --nd-type-action:18px;
-  --nd-type-section:clamp(22px,2.4vw,29px);
+  --nd-type-note:14px;
+  --nd-type-action:16px;
+  --nd-type-section:clamp(23px,2.1vw,26px);
+  --nd-type-card:19px;
+  --nd-weight-body:400;
+  --nd-weight-label:500;
+  --nd-weight-heading:600;
+  --nd-weight-number:700;
+  --nd-leading-body:1.55;
+  --nd-leading-label:1.42;
+  --nd-leading-note:1.5;
 }
 body {
   background:var(--nd-canvas);
   color:var(--nd-text);
   font-family:var(--nd-font);
   font-size:var(--nd-type-body);
-  font-weight:500;
-  line-height:1.55;
+  font-weight:var(--nd-weight-body);
+  line-height:var(--nd-leading-body);
+  font-synthesis:none;
   -webkit-font-smoothing:antialiased;
 }
 /* Components shared by the actual calculator screens. Neutral geometry and
@@ -102,7 +111,7 @@ body #nomad360-hero {
   box-shadow:none;
 }
 body #nomad360-hero h1 {
-  font-size:clamp(13px,1.35vw,16px);
+  font-size:clamp(14px,1.35vw,16px);
   font-weight:600;
   letter-spacing:.11em;
   text-transform:uppercase;
@@ -114,9 +123,9 @@ body #nomad360-hero h2 {
   max-width:890px;
   margin:0 0 18px;
   font-size:clamp(32px,4.75vw,55px);
-  line-height:1.075;
+  line-height:1.12;
   letter-spacing:-.043em;
-  font-weight:600;
+  font-weight:700;
   color:var(--nd-ink-deep);
 }
 body #nomad360-hero h3 {
@@ -170,8 +179,8 @@ body #nomad360-calculation-list li {
 body #nomad360-calculation-list li::before {
   content:counter(deliverable,decimal-leading-zero);
   color:var(--nd-accent);
-  font-family:'IBM Plex Sans',Inter,system-ui,sans-serif;
-  font-size:12px;
+  font-family:var(--nd-font);
+  font-size:14px;
   font-weight:600;
   letter-spacing:.035em;
   line-height:1.85;
@@ -280,7 +289,7 @@ body #nomad360-home-secondary .nomad-recovery-detail {
 body #nomad360-home-secondary .nomad-recovery-note {
   margin:12px 0 0;
   color:var(--nd-muted);
-  font-size:12px;
+  font-size:14px;
   line-height:1.5;
 }
 body #nomad360-home-secondary .nomad-recovery-action {
@@ -323,20 +332,20 @@ body #nomad360-home-secondary .nomad-example-title {
 body #nomad360-home-secondary .nomad-example-copy p {
   margin:4px 0 0;
   color:var(--nd-muted);
-  font-size:12px;
+  font-size:14px;
   line-height:1.5;
 }
 body #nomad360-home-secondary .nomad-example-link {
   display:inline-flex;
   align-items:center;
-  min-height:42px;
+  min-height:44px;
   flex-shrink:0;
   padding:10px 0;
   color:var(--nd-ink);
   border-bottom:1px solid var(--nd-accent);
   text-decoration:none;
   font-weight:600;
-  font-size:13px;
+  font-size:14px;
   line-height:1.3;
   white-space:normal;
 }
@@ -379,14 +388,14 @@ body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
 .nd-type-body {
   font-family:var(--nd-font);
   font-size:var(--nd-type-body);
-  font-weight:500;
-  line-height:1.6;
+  font-weight:var(--nd-weight-body);
+  line-height:var(--nd-leading-body);
   color:var(--nd-text);
 }
 .nd-type-section {
   font-family:var(--nd-font);
   font-size:var(--nd-type-section);
-  font-weight:700;
+  font-weight:var(--nd-weight-heading);
   line-height:1.22;
   letter-spacing:-.025em;
   color:var(--nd-ink-deep);
@@ -394,74 +403,93 @@ body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
 .nd-type-label {
   font-family:var(--nd-font);
   font-size:var(--nd-type-label);
-  font-weight:600;
-  line-height:1.45;
+  font-weight:var(--nd-weight-label);
+  line-height:var(--nd-leading-label);
   color:var(--nd-ink);
 }
 .nd-type-note {
   font-family:var(--nd-font);
   font-size:var(--nd-type-note);
-  font-weight:500;
-  line-height:1.55;
+  font-weight:var(--nd-weight-body);
+  line-height:var(--nd-leading-note);
   color:var(--nd-muted);
 }
 .nd-type-action {
   font-family:var(--nd-font);
   font-size:var(--nd-type-action);
-  font-weight:700;
+  font-weight:var(--nd-weight-heading);
   line-height:1.35;
 }
 .nd-type-number {
   font-family:var(--nd-font);
   font-variant-numeric:tabular-nums;
-  font-weight:700;
+  font-weight:var(--nd-weight-number);
   letter-spacing:0;
 }
-/* Never apply these to the approved header/footer; these selectors are scoped
-   to calculator entry and calculation screens, including dynamic V2 markup. */
-body > section :is(.text-xs,.text-sm) {
-  font-size:var(--nd-type-label) !important;
-  line-height:1.52;
-}
-body > section .text-xs {
-  font-size:var(--nd-type-note) !important;
-  font-weight:500;
-}
-body > section :is(p,li,label,legend,summary,dd,dt) {
-  line-height:1.55;
-}
-body > section :is(label,legend,.font-semibold) {
-  font-weight:600;
-}
-body > section :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea,.input-field) {
-  font-family:var(--nd-font);
-  font-size:var(--nd-type-field) !important;
-  font-weight:500;
-  line-height:1.45;
+/* TYPE-02: component roles, not utility-name/heading-wide overrides.
+   Form controls stay >=16px on phones; caption and label sizes are independent.
+   Semantic selectors take priority over Tailwind regardless of injection time. */
+body :is(.card,.nd-v1-input-panel,.nd-v1-transition-panel) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea),
+body #portfolio-v2-root .input-field,
+body .nd-currency-settings select {
+  font:var(--nd-weight-body) var(--nd-type-field)/1.45 var(--nd-font);
+  font-variant-numeric:tabular-nums;
+  min-height:44px;
   color:var(--nd-ink-deep);
 }
-body > section :is(button,[role="button"]) {
+body :is(.card,.nd-v1-input-panel,.nd-v1-transition-panel) :is(label,legend),
+body :is(.card,.nd-v1-input-panel,.nd-v1-transition-panel) label > :is(span,b) {
+  font-size:var(--nd-type-label);
+  font-weight:var(--nd-weight-label);
+  line-height:var(--nd-leading-label);
+}
+body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-screen)) :is(p,li) {
+  font-weight:var(--nd-weight-body);
+  line-height:var(--nd-leading-body);
+}
+body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-screen)) :is(p,li).text-xs,
+body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-screen)) .text-xs:not(:is(input,select,textarea,label,button,h1,h2,h3,h4,strong,b)) {
+  font-size:var(--nd-type-note);
+  font-weight:var(--nd-weight-body);
+  line-height:var(--nd-leading-note);
+}
+body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-screen)) :is(p,li).text-sm {
+  font-size:16px;
+}
+body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-screen)) :is(h2,h3,h4) {
+  font-family:var(--nd-font);
+  font-weight:var(--nd-weight-heading);
+  line-height:1.3;
+}
+body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-screen)) :is(h2,h3,h4).text-xs {
+  font-size:var(--nd-type-label);
+}
+body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-screen)) :is(button,[role="button"]) {
   font-family:var(--nd-font);
   font-size:var(--nd-type-action);
-  font-weight:600;
+  min-height:44px;
+  font-weight:var(--nd-weight-heading);
   line-height:1.35;
-}
-body > section :is(button.text-xs,button.text-sm,[role="button"].text-xs,[role="button"].text-sm) {
-  font-size:var(--nd-type-label) !important;
-  font-weight:600;
-}
-body > section :is(.text-slate-400,.text-slate-500,.text-slate-600,.text-gray-400,.text-gray-500,.text-gray-600):not(.bg-slate-900 *):not(.bg-emerald-900 *):not(.bg-amber-900 *):not(.bg-blue-700 *):not(.product-business-aggregate *):not(.bg-indigo-900 *) {
-  color:var(--nd-muted);
-}
-body > section :is(h2,h3,h4,.text-xl,.text-2xl):not(#nomad360-hero h2):not(#nomad360-hero h3) {
-  font-family:var(--nd-font);
-  font-weight:700;
-  letter-spacing:-.02em;
 }
 body > section :is(.td-val,[data-nomad-display-number],.aggregate-price-number) {
   font-family:var(--nd-font);
   font-variant-numeric:tabular-nums;
-  font-weight:700;
+  font-weight:var(--nd-weight-number);
+}
+/* Legacy V1 output uses utility classes on semantic panels; contain their
+   emphasis to those panels rather than overriding utilities project-wide. */
+body .nd-v1-screen :is(.product-business-aggregate,#product-portfolio-business-summary) .font-black,
+body #product-demo-banner > div:first-child {font-weight:var(--nd-weight-heading)}
+body .nd-v1-screen :is([class~="text-[11px]"],[class~="text-[12px]"],#own-production-workers-note),
+body .nd-payment-field :is(.nd-payment-note,.nd-payment-status) {font-size:var(--nd-type-note);font-weight:var(--nd-weight-body);line-height:var(--nd-leading-note)}
+/* Currency conversion is a form component in both V1 and V2. */
+body .nd-fx {font:var(--nd-weight-body) var(--nd-type-note)/var(--nd-leading-note) var(--nd-font)}
+body .nd-fx summary {font-size:var(--nd-type-label);font-weight:var(--nd-weight-heading)}
+body .nd-fx :is(label > span,input) {font-size:var(--nd-type-field);font-weight:var(--nd-weight-body)}
+body .nd-fx label > span:first-child {font-weight:var(--nd-weight-label)}
+body .nd-fx button {font-size:var(--nd-type-action);font-weight:var(--nd-weight-heading)}
+body > section :is(.text-slate-400,.text-slate-500,.text-slate-600,.text-gray-400,.text-gray-500,.text-gray-600):not(.bg-slate-900 *):not(.bg-emerald-900 *):not(.bg-amber-900 *):not(.bg-blue-700 *):not(.product-business-aggregate *):not(.bg-indigo-900 *) {
+  color:var(--nd-muted);
 }
 /* Sections with high-density data get a legible compact grid, not microprint. */
 body > section :is(.th,.td-label,.td-val,table th,table td) {
@@ -494,15 +522,15 @@ body > section #monthly-breakdown-table .monthly-value-col {
 }
 /* Home — keep the existing hierarchy but remove any pharmacy-label feeling. */
 body #nomad360-hero h1 { font-size:15px; font-weight:700; }
-body #nomad360-hero h3 { font-size:clamp(17px,2vw,21px);font-weight:500;color:var(--nd-text); }
+body #nomad360-hero h3 { font-size:clamp(17px,2vw,21px);font-weight:400;color:var(--nd-text); }
 body #nomad360-calculation-list li {
   font-size:var(--nd-type-body);
-  font-weight:500;
+  font-weight:400;
   line-height:1.57;
   color:var(--nd-text);
 }
 body #nomad360-calculation-list li::before {font-size:14px;font-weight:700;}
-body #nomad360-home-secondary .nomad-recovery-title {font-weight:700;}
+body #nomad360-home-secondary .nomad-recovery-title {font-weight:600;}
 body #nomad360-home-secondary .nomad-recovery-detail {
   font-size:var(--nd-type-body);
   color:var(--nd-text);
@@ -512,7 +540,7 @@ body #nomad360-home-secondary .nomad-recovery-note,
 body #nomad360-home-secondary .nomad-example-copy p {font-size:var(--nd-type-note);color:var(--nd-muted);}
 body #nomad360-home-secondary .nomad-example-title {font-size:var(--nd-type-label);}
 body #nomad360-home-secondary .nomad-example-link {font-size:var(--nd-type-label);}
-body #nomad360-home-secondary .nomad-recovery-action {font-size:var(--nd-type-action);font-weight:700;}
+body #nomad360-home-secondary .nomad-recovery-action {font-size:var(--nd-type-action);font-weight:600;}
 @media(max-width:480px){
   body #nomad360-calculation-list li {font-size:var(--nd-type-body);line-height:1.56}
   body #nomad360-calculation-list li::before {font-size:14px}
@@ -541,7 +569,7 @@ body > section :is(button.nd-cta-primary,a.nd-cta-primary,[role="button"].nd-cta
   border-radius:var(--nd-radius) !important;
   background:var(--nd-cta-orange);
   color:var(--nd-cta-text);
-  font:700 clamp(17px,2vw,20px)/1.3 var(--nd-font);
+  font:600 clamp(17px,2vw,20px)/1.3 var(--nd-font);
   letter-spacing:-.014em;
   text-decoration:none;
   cursor:pointer;
@@ -652,7 +680,7 @@ body > section button.nd-path-card {
 }
 body > section button.nd-path-card > div:first-child {
   font-size:clamp(24px,2.3vw,29px);
-  font-weight:700;
+  font-weight:600;
   line-height:1.24;
   text-wrap:balance;
 }
@@ -812,9 +840,6 @@ body #nomad360-selling-choice h4.nd-main-choice-heading{
 body .nd-v1-screen{
   font-family:var(--nd-font);
   color:var(--nd-v1-navy);
-  --nd-type-field:17px;
-  --nd-type-label:16px;
-  --nd-type-note:15px;
   min-width:0;
 }
 /* Titles and explanatory text outside white panels sit directly on the navy canvas. */
@@ -870,7 +895,7 @@ body .nd-v1-screen .nd-v1-input-panel h2,
 body .nd-v1-screen .nd-v1-report-table h2,
 body .nd-v1-screen .nd-v1-transition-panel h2{
   color:var(--nd-v1-navy) !important;
-  font:700 clamp(22px,5.8vw,27px)/1.25 var(--nd-font);
+  font:600 clamp(22px,5.8vw,27px)/1.25 var(--nd-font);
   text-wrap:balance;
 }
 body .nd-v1-screen .nd-v1-input-panel svg{color:var(--nd-v1-navy)}
@@ -889,7 +914,7 @@ body .nd-v1-screen .nd-v1-metrics :is(#res-profit,#res-romi,#res-cpa,#res-cac){
 }
 body .nd-v1-screen .nd-v1-metrics :is(#res-profit-label,#res-romi-label,#res-third-label){
   color:var(--nd-v1-muted) !important;
-  font:600 15px/1.4 var(--nd-font);
+  font:500 16px/1.4 var(--nd-font);
 }
 body .nd-v1-screen .nd-v1-metrics :is(#res-profit-sub,#res-romi-sub,#res-third-sub){
   color:var(--nd-v1-muted) !important;
@@ -939,7 +964,7 @@ body .nd-v1-screen :is(.input-field,input:not([type="checkbox"]):not([type="radi
   border-radius:8px !important;
   box-shadow:none;
   color:var(--nd-v1-navy);
-  font:500 17px/1.4 var(--nd-font);
+  font:400 16px/1.4 var(--nd-font);
   min-height:48px;
   max-width:100%;
 }
@@ -957,7 +982,7 @@ body .nd-v1-screen :is(button.nd-cta-primary,a.nd-cta-primary):hover:not(:disabl
   background:var(--nd-v1-cta);
   color:var(--nd-v1-navy);
   border-color:var(--nd-v1-cta);
-  font:700 clamp(18px,4.8vw,23px)/1.25 var(--nd-font);
+  font:600 clamp(18px,4.8vw,23px)/1.25 var(--nd-font);
   min-height:54px;
   text-wrap:balance;
 }
@@ -1229,12 +1254,12 @@ body .nd-v1-product :is(
 ):is(.yn-choice-selected,[aria-pressed="true"]) :is(span,strong){
   color:var(--nd-v1-navy);
 }
-/* Informational tips, rather than validation errors: consistent dark-navy
-   panels with orange type and links. Keep red warnings/error elements intact. */
+/* Informational tips retain the legacy navy/orange treatment.
+   Business advice has its own TYPE-02 contrast and typography rules in
+   nomad360_calculator_ui.css; do not blanket-force its text orange. */
 body .nd-v1-product :is(
   #product-source-unavailable,
-  #product-assortment-gate .bg-amber-50,
-  [data-business-advice]
+  #product-assortment-gate .bg-amber-50
 ),
 body .nd-v1-service #mode-context{
   background:var(--nd-v1-hint-navy) !important;
@@ -1244,8 +1269,7 @@ body .nd-v1-service #mode-context{
 }
 body .nd-v1-product :is(
   #product-source-unavailable,
-  #product-assortment-gate .bg-amber-50,
-  [data-business-advice]
+  #product-assortment-gate .bg-amber-50
 ) :is(strong,span,div,p,a,h2,h3),
 body .nd-v1-service #mode-context :is(strong,span,div,p,a,h2,h3){
   color:var(--nd-v1-focus-orange) !important;
@@ -1280,7 +1304,7 @@ body #product-screen.nd-v1-product .nd-v1-soft-panel{
 body #product-screen.nd-v1-product .nd-secondary-action:is(button,a){
   background:var(--nd-v1-navy);border-color:var(--nd-v1-navy);
   color:#fff;box-shadow:none;border-radius:var(--nd-radius);
-  font-family:var(--nd-font);font-weight:700
+  font-family:var(--nd-font);font-weight:600
 }
 body #product-screen.nd-v1-product .nd-secondary-action:is(button,a):hover:not(:disabled){
   background:#24517f;color:#fff;border-color:#24517f
@@ -1369,14 +1393,14 @@ body #agent-screen.nd-agent-screen .nd-path-card{
 body #agent-screen.nd-agent-screen .nd-path-card .font-semibold{color:var(--nd-v1-navy)}
 body #calculator-screen.nd-v1-service .nd-agent-heading{
   padding:16px 20px 0;background:var(--nd-panel);color:var(--nd-v1-navy);
-  font:700 clamp(20px,4vw,25px)/1.3 var(--nd-font)
+  font:600 clamp(20px,4vw,25px)/1.3 var(--nd-font)
 }
 body #calculator-screen.nd-v1-service .nd-agent-principal{
   background:var(--nd-panel);border:1px solid var(--nd-v1-rule);
   border-radius:var(--nd-radius);padding:18px 20px;min-width:0
 }
 body #calculator-screen.nd-v1-service .nd-agent-principal h2{
-  color:var(--nd-v1-navy);font:700 clamp(21px,4vw,27px)/1.25 var(--nd-font);
+  color:var(--nd-v1-navy);font:600 clamp(21px,4vw,27px)/1.25 var(--nd-font);
   margin:0
 }
 body #calculator-screen.nd-v1-service .nd-agent-principal p{
@@ -1431,7 +1455,7 @@ body #service-work-screen .nd-service-mode-choice{
 }
 body #service-work-screen .nd-service-mode-choice b{
   display:block;max-width:100%;
-  font:700 clamp(28px,7.8vw,36px)/1.15 var(--nd-font);color:inherit;
+  font:600 clamp(28px,7.8vw,36px)/1.15 var(--nd-font);color:inherit;
   text-wrap:balance
 }
 body #service-work-screen .nd-service-mode-choice small{
@@ -1459,11 +1483,11 @@ body #full-service-screen h1{
 body #full-service-screen .nd-full-service-inputs{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px
 }
-body #full-service-screen .nd-full-service-label{font:600 15px/1.4 var(--nd-font);color:#fff}
+body #full-service-screen .nd-full-service-label{font:500 16px/1.4 var(--nd-font);color:#fff}
 body #full-service-screen .nd-full-service-label :is(input,select){
   display:block;width:100%;max-width:100%;min-height:48px;margin-top:7px;
   padding:9px 12px;border-radius:var(--nd-radius);color:#16375a;
-  background:#fff;border:1px solid #adc3d4;font:500 17px/1.4 var(--nd-font)
+  background:#fff;border:1px solid #adc3d4;font:400 16px/1.4 var(--nd-font)
 }
 body #full-service-screen :is(input,select,button):focus-visible{
   outline:3px solid #ed8e63;outline-offset:2px
@@ -1489,7 +1513,7 @@ body #full-service-screen .nd-full-service-table{
 }
 body #full-service-screen .nd-full-service-table table{
   width:100%;min-width:1160px;border-collapse:collapse;
-  font:500 13px/1.5 var(--nd-font);color:#fff;font-variant-numeric:tabular-nums
+  font:400 14px/1.5 var(--nd-font);color:#fff;font-variant-numeric:tabular-nums
 }
 body #full-service-screen .nd-full-service-table :is(td,th){
   padding:12px;text-align:right;border-bottom:1px solid #557a99;white-space:nowrap
@@ -1503,7 +1527,7 @@ body #full-service-screen .nd-full-service-actions{
 body #full-service-screen .nd-full-service-actions button,
 body #full-service-screen .nd-full-service-secondary{
   min-height:48px;padding:10px 16px;
-  font:700 16px/1.35 var(--nd-font);
+  font:600 16px/1.35 var(--nd-font);
   border-radius:var(--nd-radius)
 }
 body #full-service-screen .nd-full-service-secondary{
@@ -1540,6 +1564,9 @@ body #full-service-screen #full-service-message{
   overscroll-behavior-x:contain;
   -webkit-overflow-scrolling:touch;
 }
+/* Wide reports scroll inside their existing wrapper. Do not squeeze words
+   and monetary columns into letter-sized cells on a phone. */
+#portfolio-v2-root .overflow-x-auto > table{min-width:600px;overflow-wrap:normal;word-break:normal}
 #portfolio-v2-root .input-field{
   box-sizing:border-box;
   min-width:0;
@@ -1608,14 +1635,14 @@ body #full-service-screen h1{
   margin:6px 0 17px;
 }
 body #full-service-screen h2{
-  font:700 clamp(21px,4.5vw,27px)/1.2 var(--nd-font);
+  font:600 clamp(21px,4.5vw,27px)/1.2 var(--nd-font);
 }
 body #full-service-screen h3{
-  font:700 18px/1.35 var(--nd-font);
+  font:600 18px/1.35 var(--nd-font);
 }
 body #full-service-screen .nd-full-service-eyebrow{
   color:#486786;
-  font:650 14px/1.5 var(--nd-font);
+  font:500 14px/1.5 var(--nd-font);
   overflow-wrap:anywhere;
 }
 body #full-service-screen .nd-full-service-overview{
@@ -1649,7 +1676,7 @@ body #full-service-screen .nd-full-service-credit p{
   margin:8px 0 16px;
 }
 body #full-service-screen .nd-full-service-forecast-note{
-  font-size:13px;margin:12px 0 0;
+  font-size:14px;margin:12px 0 0;
 }
 body #full-service-screen .nd-full-service-inputs{
   display:grid;
@@ -1660,7 +1687,7 @@ body #full-service-screen .nd-full-service-label{
   display:block;
   min-width:0;
   color:#16375a;
-  font:600 15px/1.4 var(--nd-font);
+  font:500 16px/1.4 var(--nd-font);
 }
 body #full-service-screen .nd-full-service-label :is(input,select){
   box-sizing:border-box;
@@ -1701,7 +1728,7 @@ body #full-service-screen .nd-full-service-metric strong{
   overflow-wrap:break-word;min-width:0;
 }
 body #full-service-screen .nd-full-service-metric small{
-  color:#526a7e;font:500 13px/1.45 var(--nd-font);
+  color:#526a7e;font:400 14px/1.45 var(--nd-font);
 }
 body #full-service-screen .nd-full-service-metric-featured :is(span,strong,small){color:#fff}
 body #full-service-screen .nd-full-service-metric-loss strong{color:#ffbcaa}
@@ -1788,7 +1815,7 @@ body #full-service-screen .nd-full-service-month-card{
   border:1px solid #cbd5de;border-radius:var(--nd-radius);
 }
 body #full-service-screen .nd-full-service-month-card h3{
-  font:700 19px/1.3 var(--nd-font);margin:0 0 12px;color:#16375a;
+  font:600 19px/1.3 var(--nd-font);margin:0 0 12px;color:#16375a;
 }
 body #full-service-screen .nd-full-service-ledger-row{
   display:flex;justify-content:space-between;align-items:baseline;
@@ -1842,7 +1869,7 @@ body #product-screen #service-v1-agent-panel.nd-service-agent-panel .nd-agent-li
 }
 body #product-screen #service-v1-agent-panel.nd-service-agent-panel .nd-agent-line-payers > label{
   min-width:0;overflow-wrap:anywhere;color:var(--nd-v1-ink);
-  font:600 15px/1.45 var(--nd-font)
+  font:500 16px/1.45 var(--nd-font)
 }
 body #product-screen #service-v1-agent-panel.nd-service-agent-panel .nd-agent-line-payers select{
   max-width:100%;color:var(--nd-v1-navy);
@@ -1855,20 +1882,20 @@ body #calculator-screen.nd-agent-mode .nd-agent-payer-group{
   border-radius:var(--nd-radius);color:var(--nd-v1-navy)
 }
 body #calculator-screen.nd-agent-mode .nd-agent-payer-group > span{
-  color:var(--nd-v1-muted);font:700 13px/1.4 var(--nd-font)
+  color:var(--nd-v1-muted);font:500 16px/1.4 var(--nd-font)
 }
 body #calculator-screen.nd-agent-mode .nd-agent-payer-group > div{
   display:flex;flex-wrap:wrap;gap:12px;min-width:0
 }
 body #calculator-screen.nd-agent-mode .nd-agent-payer-option{
-  color:var(--nd-v1-navy);font:600 15px/1.4 var(--nd-font);
-  white-space:normal;overflow-wrap:anywhere;min-height:30px
+  color:var(--nd-v1-navy);font:500 16px/1.4 var(--nd-font);
+  white-space:normal;overflow-wrap:anywhere;min-height:44px
 }
 body #calculator-screen.nd-agent-mode .nd-agent-payer-option input[type=radio]{
   accent-color:var(--nd-v1-navy);width:16px;height:16px;flex:none
 }
 body #calculator-screen.nd-agent-mode .nd-agent-payer-warning{
-  color:#b91c1c;font:600 13px/1.45 var(--nd-font)
+  color:#b91c1c;font:500 14px/1.45 var(--nd-font)
 }
 body #calculator-screen.nd-agent-mode #summary-table .nd-agent-number-highlight{
   color:var(--nd-v1-navy)!important;font-weight:700
@@ -2056,6 +2083,36 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
   opacity:1;
 }
 
+/* TYPE-02: accepted Inter roles for both V2 controllers and dynamic resources. */
+#portfolio-v2-root .nd-v2-title {font-family:var(--nd-font);font-weight:var(--nd-weight-heading);letter-spacing:-.015em;line-height:1.3}
+#portfolio-v2-root .nd-v2-section > .nd-v2-title,
+#portfolio-v2-root .nd-v2-result-frame > :is(h2,h3) {font-weight:var(--nd-weight-heading);font-size:var(--nd-type-section);line-height:1.26;margin-bottom:12px}
+#portfolio-v2-root .nd-v2-hero h1 {font:600 clamp(26px,3vw,34px)/1.22 var(--nd-font)}
+#portfolio-v2-root .nd-v2-card-title {font:600 var(--nd-type-card)/1.34 var(--nd-font);letter-spacing:normal}
+#portfolio-v2-root .nd-v2-description {font:400 var(--nd-type-body)/var(--nd-leading-body) var(--nd-font);max-width:75ch;text-wrap:pretty}
+#portfolio-v2-root :is(.nd-v2-product-card,.nd-v2-info-panel) .nd-v2-description,
+#portfolio-v2-root :is(.nd-v2-status,.nd-v2-eyebrow,.nd-v2-field-help,.nd-v2-selected-value,.nd-v2-light-note) {font:400 var(--nd-type-note)/var(--nd-leading-note) var(--nd-font)}
+#portfolio-v2-root .nd-v2-field,
+#portfolio-v2-root .nd-v2-field > span:first-child,
+#portfolio-v2-root [data-p2-resource-members] > span,
+#portfolio-v2-root .nd-v2-field-label {font:500 var(--nd-type-label)/var(--nd-leading-label) var(--nd-font);margin-bottom:8px;letter-spacing:normal}
+#portfolio-v2-root .input-field {font:400 var(--nd-type-field)/1.45 var(--nd-font);font-variant-numeric:tabular-nums}
+#portfolio-v2-root .input-field::placeholder {font-weight:400;opacity:1}
+#portfolio-v2-root .nd-v2-check-row {font:500 var(--nd-type-label)/var(--nd-leading-label) var(--nd-font)}
+#portfolio-v2-root [data-p2-resource-members] > div:last-child,
+#portfolio-v2-root .nd-v2-field > span:not(:first-child) {font:400 var(--nd-type-note)/var(--nd-leading-note) var(--nd-font)}
+#portfolio-v2-root .nd-v2-number-value {font-weight:var(--nd-weight-number);font-variant-numeric:tabular-nums}
+/* Existing controller-owned inline validation styles require these two local
+   declarations. State, live announcements and messages are not changed. */
+#portfolio-v2-root [data-p2-inline-error] {font-size:var(--nd-type-note) !important;font-weight:var(--nd-weight-label) !important;font-family:var(--nd-font)}
+#portfolio-v2-root :is(.nd-v2-section,.nd-v2-result-frame,.nd-v2-product-card) :is(p,div,span).text-xs:not(.nd-v2-field-label),
+#portfolio-v2-root .nd-v2-financial-cell.text-xs {font-size:var(--nd-type-note);font-weight:var(--nd-weight-body);line-height:var(--nd-leading-note)}
+#portfolio-v2-root .nd-payment-controls :is(.nd-payment-note,.nd-payment-status) {font-size:var(--nd-type-note);font-weight:var(--nd-weight-body);line-height:var(--nd-leading-note)}
+#portfolio-v2-root .nd-payment-label > span {font-size:var(--nd-type-label);font-weight:var(--nd-weight-label)}
+#portfolio-v2-root .nd-v2-input-error {font-size:var(--nd-type-note);font-weight:var(--nd-weight-label)}
+/* The historical linked-report footnote also writes its size inline. */
+#portfolio-v2-root .nd-v2-description.nd-type-note {font-size:var(--nd-type-note) !important;font-weight:var(--nd-weight-body)}
+
 /* V2 stage 2: each form group owns its responsive layout. These named
    components work without optional Tailwind and leave report grids alone. */
 #portfolio-v2-root .nd-v2-section,
@@ -2192,7 +2249,8 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 
 /* Financial figures are atomic. Labels may wrap; digits and their decimal
    parts must stay together and fit the card without reducing the font. */
-#portfolio-v2-root .nd-v2-number-value{
+#portfolio-v2-root .nd-v2-number-value,
+#portfolio-v2-root [data-nomad-display-number]{
   white-space:nowrap;
   overflow-wrap:normal;
   word-break:normal;
@@ -2233,7 +2291,7 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
   padding:10px 14px;
   border:1px solid;
   border-radius:var(--nd-radius);
-  font:600 17px/1.35 var(--nd-font);
+  font:var(--nd-weight-heading) var(--nd-type-action)/1.35 var(--nd-font);
   white-space:normal;
   overflow-wrap:anywhere;
   text-align:center;
@@ -2246,7 +2304,7 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
   background:#ed8e63;
   color:#16375a;
   border-color:#ed8e63;
-  font-weight:700;
+  font-weight:600;
 }
 #portfolio-v2-root :is(.nd-v2-action-secondary,[data-nomad-export="report"]){
   background:#31577c;

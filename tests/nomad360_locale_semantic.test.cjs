@@ -67,7 +67,13 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
  }
  const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!presentation.has(f));
  A.ok(files.length>=10);
- for(const file of [...files,'vendor/exceljs-4.4.0.min.js'])A.deepEqual(fs.readFileSync(path.join(base,file)),execFileSync('git',['show',SHA+':'+file],{cwd:base,maxBuffer:4*1024*1024}),file);
+ for(const file of [...files,'vendor/exceljs-4.4.0.min.js']){
+  // PR #141 accepted a visitor-counter retry fix after the financial baseline.
+  // Pin that non-financial widget to its accepted main, rather than excluding
+  // it from protection. Every financial asset still uses the original SHA.
+  const reference=file==='nomad360_traffic.js'?'b1cc9b50ae48c3c8f392e4342fb5243c7575bd8e':SHA;
+  A.deepEqual(fs.readFileSync(path.join(base,file)),execFileSync('git',['show',reference+':'+file],{cwd:base,maxBuffer:4*1024*1024}),file);
+ }
 });
 test('nested semantic component sections preserve arrays, immutable values and explicit empty presentation fields',()=>{
  A.deepEqual(core.section('interface.header','en').nav,['Calculator','AI Marketer','Content Factory','About','Contacts']);

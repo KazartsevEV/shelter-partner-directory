@@ -40,8 +40,10 @@ jobs:
           npx tailwindcss -i /tmp/converter-utilities.css -o artifacts/converter-utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js'
       - name: Materials layout baseline RED and localized word geometry
         run: |
-          git show 26d8d01f8b3dc46fe417a17bb5e461f529cf1474:nomad360_payments.css > artifacts/converter-layout-baseline.css
-          NOMAD360_LAYOUT_BASELINE_CSS=artifacts/converter-layout-baseline.css node tests/currency_converter_layout_browser.test.cjs
+          mkdir -p artifacts/converter-layout-baseline
+          git archive b1cc9b50ae48c3c8f392e4342fb5243c7575bd8e | tar -x -C artifacts/converter-layout-baseline
+          git show 26d8d01f8b3dc46fe417a17bb5e461f529cf1474:nomad360_payments.css > artifacts/converter-layout-baseline/nomad360_payments.css
+          node tests/currency_converter_layout_browser.test.cjs
       - name: Chromium conversion, restore, RU/EN/KK and live provider CORS
         run: node tests/currency_converter_browser.test.cjs
       - uses: actions/upload-artifact@v4

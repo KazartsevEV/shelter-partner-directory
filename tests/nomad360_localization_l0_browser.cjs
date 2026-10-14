@@ -75,6 +75,15 @@ async function examine(page,stage,width){
    const leaks=census.records.filter(r=>r.kind!=='text'&&/[А-Яа-яЁё]/.test(r.text));
    A.deepEqual(leaks,[],'Untranslated visible accessibility/placeholder attributes: '+stage);
   }
+  if(process.env.TYPE02_ROLE_AUDIT==='1'){
+   const typography=await page.evaluate(()=>{
+    const visible=e=>e.getClientRects().length&&!e.closest('[hidden],.hidden,#nomad360-print-sheet');
+    const issues=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+    while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true],.nomad-lite'))continue;const s=getComputedStyle(e);if(parseFloat(s.fontSize)<14||!['400','500','600','700'].includes(s.fontWeight))issues.push({text:n.textContent.trim().slice(0,90),root:e.closest('[id]')?.id,cls:e.className,size:s.fontSize,weight:s.fontWeight});}
+    return issues;
+   });
+   A.deepEqual(typography,[],'TYPE-02 readable role weights: '+stage+' '+width+' '+lang);
+  }
   cases.push({stage,width,language:lang,roots:census.nodes,strings:refs,gaps:findings,pageOverflow:census.pageOverflow,financialInputsUnchanged:true,financialResultsUnchanged:true});
  }
  await page.locator('#nomad360-lang-select').selectOption('ru');await settle(page);
