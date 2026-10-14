@@ -244,9 +244,9 @@ const server=createServer(async(req,res)=>{
   await stats.close();
   // Reproduce a transient browser fetch failure. The number must appear
   // automatically after a retry, without reloading the calculator.
-  const retry=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+  const counterRetryPage=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
   let attempts=0;
-  await retry.route('**/nomad360_repo_traffic.json',route=>{
+  await counterRetryPage.route('**/nomad360_repo_traffic.json',route=>{
     attempts+=1;
     if(attempts===1)return route.abort('failed');
     return route.fulfill({
@@ -257,12 +257,12 @@ const server=createServer(async(req,res)=>{
       })
     });
   });
-  await retry.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
-  await retry.waitForFunction(
+  await counterRetryPage.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+  await counterRetryPage.waitForFunction(
     ()=>document.querySelector('[data-nomad-traffic-value]')?.textContent==='63',
     null,{timeout:15000});
   A.equal(attempts,2,'The counter retries once after a network error');
-  await retry.close();
+  await counterRetryPage.close();
   const embed=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
   const embeddedErrors=[];
   embed.on('pageerror',e=>embeddedErrors.push(e.message));
