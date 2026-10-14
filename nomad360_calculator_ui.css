@@ -41,7 +41,7 @@
 .nomad-wordmark span{color:var(--nh-accent)}
 .nomad-wordmark .nomad-lite{font-size:.58em;font-weight:700;letter-spacing:0;color:var(--nh-navy);white-space:nowrap}
 .nomad-lang{margin-left:auto;margin-right:12px}
-.nomad-lang select{height:44px;padding:0 10px;border:1px solid var(--nh-line);border-radius:0;background:#fff;color:var(--nh-navy);font:600 16px var(--nd-font,Inter,system-ui,sans-serif);cursor:pointer}
+.nomad-lang select{height:44px;padding:0 10px;border:1px solid var(--nh-line);border-radius:0;background:#fff;color:var(--nh-navy);font:500 16px var(--nd-font,Inter,system-ui,sans-serif);cursor:pointer}
 .nomad-burger{width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--nh-navy);background:#fff;color:var(--nh-navy);cursor:pointer}
 .nomad-burger[aria-expanded="true"]{background:var(--nh-navy);color:#fff}
 .nomad-burger .i-close,.nomad-burger[aria-expanded="true"] .i-open{display:none}

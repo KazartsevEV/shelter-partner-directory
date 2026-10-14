@@ -58,6 +58,6 @@ async function open(browser,width,lang,baseline){
    await fx.screenshot({path:path.join(art,`${width}-${lang}-after-fx.png`)});await page.locator('#material-cost-entry-panel').screenshot({path:path.join(art,`${width}-${lang}-after-materials.png`)});
    cases.push({width,lang,...actual,knownAndCalculateWorking:true,rawAmount:1000,normalizedAmount:2000});await page.close();
   }
-  fs.writeFileSync(path.join(art,'protocol.json'),JSON.stringify({baselineHead:'26d8d01f',before,cases},null,2));console.log('CONVERTER_LAYOUT_GREEN',JSON.stringify({cases:cases.length,wordSplits:0,actionFont:16,historicalActionFont:18}));
+  fs.writeFileSync(path.join(art,'protocol.json'),JSON.stringify({baselineHead:'26d8d01f',baselineMain:'b1cc9b50ae48c3c8f392e4342fb5243c7575bd8e',baselinePaymentsHead:'26d8d01f8b3dc46fe417a17bb5e461f529cf1474',before,cases},null,2));console.log('CONVERTER_LAYOUT_GREEN',JSON.stringify({cases:cases.length,wordSplits:0,actionFont:16,historicalActionFont:18}));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});
