@@ -1,12 +1,12 @@
 # Task 5 · cotton tote in real V1 · review
 
-14 October 2026. Base `main` / `4af9cbdebc902f2c9277fa1cc1c56319fb38a648`, after accepted localization #135 and task-map #138. Branch `feature/shopper-v1-realistic`. **Implementation presented for review; not accepted, not merged.** TYPE-02 and tasks 6–9 have not started. CI status will be recorded here after verification on the published HEAD.
+14 October 2026. Base `main` / `4af9cbdebc902f2c9277fa1cc1c56319fb38a648`, after accepted localization #135 and task-map #138. Branch `feature/shopper-v1-realistic`. **Implementation presented for review; not accepted, not merged.** TYPE-02 and tasks 6–9 have not started. CI status will be recorded here after verification on the published HEAD. The initial task-specific run on `931d4454` reproduced payroll-row overflow on KK/320; the targeted mobile layout stacks caption and amount without changing fonts or formulas.
 
 ## Result
 
 The existing `Marketing_calc.HTML?demo=shopper&finance=cash` and `finance=credit` URLs now populate the real V1 with one dated Almaty cotton-tote campaign in **KZT**. The United States/Oregon is excluded by the owner's instruction. The scenario uses Kazakhstan **VAT 16% and corporate profit tax 20%**, not US sales tax.
 
-Four material rows, rented equipment, one production employee, rejection allowance, inbound and declining-stock storage, outsourced sales/support, Kaspi payment acceptance, advertising funnel, funding, tax and pricing are filled through existing public form/event handlers. The banner explains assumptions, payment-fee normalization, tax limits and demand uncertainty in RU/EN/KK. No decorative substitute calculator is introduced.
+Four material rows, rented equipment, one production employee, rejection allowance, inbound and declining-stock storage, outsourced sales/support, Kaspi payment acceptance, advertising funnel, funding, tax and pricing are filled through existing public form/event handlers. The banner explains assumptions, payment-fee normalization, tax limits and demand uncertainty in RU/EN/KK. No decorative substitute calculator is introduced. Mobile payroll summary rows are stacked to accommodate larger KZT budgets and KK captions.
 
 [Inputs, dated sources, complete financial reconciliation and limits](../demos/shopper-v1-assumptions.md). Material, tax and acquiring references are verified benchmarks; other prices, production yield, schedule and funnel are explicitly assumptions. Procurement VAT status is a scenario assumption, not an assertion about the fabric supplier.
 

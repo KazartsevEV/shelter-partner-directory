@@ -19,7 +19,12 @@ async function geometry(page){return page.evaluate(()=>{
   const lines=new Set([...range.getClientRects()].map(r=>Math.round(r.top))).size;
   return lines>1?[{text:number,lines}]:[];
  });
- return {pageOverflow:document.documentElement.scrollWidth>innerWidth+1,offenders,invalid,gaps,markers,brokenNumbers};
+const payrollStackErrors=innerWidth<768?['gross-total','taxes-total','total'].flatMap(suffix=>{
+  const value=document.getElementById('own-production-workers-'+suffix),label=value.previousElementSibling;
+  const a=label.getBoundingClientRect(),b=value.getBoundingClientRect();
+  return a.bottom>b.top+1?[{suffix,labelBottom:a.bottom,amountTop:b.top}]:[];
+ }):[];
+ return {pageOverflow:document.documentElement.scrollWidth>innerWidth+1,offenders,invalid,gaps,markers,brokenNumbers,payrollStackErrors};
 });}
 async function capture(page,stem){
  const sections=[['materials','#product-materials-block'],['production','#product-production-block'],['logistics','#product-logistics-block'],['sales','#product-sales-block'],['funnel','#product-ad-block'],['planning','#product-tax-block'],['prices','#product-tax-price-list'],['cash-flow','#product-portfolio-business-summary'],['assumptions','#product-demo-banner']];
@@ -58,7 +63,7 @@ async function capture(page,stem){
    verify(await page.evaluate(snap),finance);
    A.deepEqual(await page.evaluate(snap),beforeLanguage,'Language must not change inputs or finance');
    const g=await geometry(page);if(g.pageOverflow||g.invalid.length||g.gaps.length||g.markers.length)console.log('SHOPPER_GEOMETRY',JSON.stringify({width,finance,lang,...g}));
-   A.equal(g.pageOverflow,false);A.deepEqual(g.invalid,[]);A.deepEqual(g.gaps,[]);A.deepEqual(g.markers,[]);A.deepEqual(g.brokenNumbers,[],'Numeric amounts must stay on one line');
+   A.equal(g.pageOverflow,false);A.deepEqual(g.invalid,[]);A.deepEqual(g.gaps,[]);A.deepEqual(g.markers,[]);A.deepEqual(g.brokenNumbers,[],'Numeric amounts must stay on one line');A.deepEqual(g.payrollStackErrors,[],'Narrow payroll rows must stack caption and whole amount');
    const screenshots=[320,390,1280].includes(width)?await capture(page,`${finance}-${lang}-${width}`):[];
    const pdf=await page.evaluate(()=>{window.print=()=>{};const ok=exportProductCalculationPdf();return {ok,text:document.getElementById('nomad360-print-sheet').textContent,cells:document.querySelectorAll('#nomad360-print-sheet td').length};});
    A.equal(pdf.ok,true);A.match(pdf.text,/KZT/);A.ok(pdf.cells>40);A.ok(!pdf.text.includes('⟦'));
