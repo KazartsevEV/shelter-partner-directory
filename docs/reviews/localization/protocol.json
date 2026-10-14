@@ -1,0 +1,1799 @@
+{
+  "summary": {
+    "cases": 54,
+    "widths": 6,
+    "languages": 3,
+    "financialResultsUnchanged": true,
+    "userNamesPreserved": true,
+    "scalarMessagesVerified": true,
+    "financialValuesSingleLine": true,
+    "frozenActionsBaselineRedConfirmed": true,
+    "nativePdfLanguagesVerified": 3,
+    "pageOverflowCases": 0,
+    "visibleGapCases": 0
+  },
+  "cases": [
+    {
+      "scenario": "standalone-name",
+      "width": 320,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 320,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 320,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 320,
+      "language": "ru",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 383.375,
+          "width": 94.625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 489.0625,
+          "width": 105.6875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 562.0625,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 692.671875,
+          "width": 130.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 789.765625,
+          "width": 97.09375
+        }
+      ],
+      "locale": "ru",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 320,
+      "language": "en",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 395.921875,
+          "width": 98.25
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 482.71875,
+          "width": 86.796875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 555.71875,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 680.890625,
+          "width": 125.171875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 753.890625,
+          "width": 73
+        }
+      ],
+      "locale": "en",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 320,
+      "language": "kk",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 370.40625,
+          "width": 114.671875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 476.953125,
+          "width": 106.546875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 553.09375,
+          "width": 76.140625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 683.703125,
+          "width": 130.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 759.4375,
+          "width": 75.734375
+        }
+      ],
+      "locale": "kk",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 320,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 320,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 320,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 360,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 360,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 360,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 360,
+      "language": "ru",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 383.375,
+          "width": 94.625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 489.0625,
+          "width": 105.6875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 562.0625,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 692.671875,
+          "width": 130.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 789.765625,
+          "width": 97.09375
+        }
+      ],
+      "locale": "ru",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 360,
+      "language": "en",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 395.921875,
+          "width": 98.25
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 482.71875,
+          "width": 86.796875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 555.71875,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 680.890625,
+          "width": 125.171875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 753.890625,
+          "width": 73
+        }
+      ],
+      "locale": "en",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 360,
+      "language": "kk",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 370.40625,
+          "width": 114.671875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 476.953125,
+          "width": 106.546875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 553.09375,
+          "width": 76.140625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 683.703125,
+          "width": 130.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 759.4375,
+          "width": 75.734375
+        }
+      ],
+      "locale": "kk",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 360,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 360,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 360,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 390,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 390,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 390,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 390,
+      "language": "ru",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 489.0625,
+          "width": 105.6875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 562.0625,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 692.671875,
+          "width": 130.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 789.765625,
+          "width": 97.09375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 960.640625,
+          "width": 170.875
+        }
+      ],
+      "locale": "ru",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 390,
+      "language": "en",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 395.921875,
+          "width": 98.25
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 482.71875,
+          "width": 86.796875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 555.71875,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 680.890625,
+          "width": 125.171875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 753.890625,
+          "width": 73
+        }
+      ],
+      "locale": "en",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 390,
+      "language": "kk",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 476.953125,
+          "width": 106.546875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 553.09375,
+          "width": 76.140625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 683.703125,
+          "width": 130.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 759.4375,
+          "width": 75.734375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 920.28125,
+          "width": 160.84375
+        }
+      ],
+      "locale": "kk",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 390,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 390,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 390,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 430,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 430,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 430,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 430,
+      "language": "ru",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1712.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 489.0625,
+          "width": 105.6875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 562.0625,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 692.671875,
+          "width": 130.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 789.765625,
+          "width": 97.09375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 960.640625,
+          "width": 170.875
+        }
+      ],
+      "locale": "ru",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 430,
+      "language": "en",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1575.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 482.71875,
+          "width": 86.796875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 555.71875,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 680.890625,
+          "width": 125.171875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 753.890625,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 881.859375,
+          "width": 127.96875
+        }
+      ],
+      "locale": "en",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 430,
+      "language": "kk",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1555.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 476.953125,
+          "width": 106.546875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 553.09375,
+          "width": 76.140625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 683.703125,
+          "width": 130.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 759.4375,
+          "width": 75.734375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 920.28125,
+          "width": 160.84375
+        }
+      ],
+      "locale": "kk",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 430,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 430,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 430,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 768,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 768,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 768,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 768,
+      "language": "ru",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1751.8125,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1751.8125,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1751.8125,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 828.640625,
+          "width": 97.09375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 999.515625,
+          "width": 170.875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1142.171875,
+          "width": 142.65625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1312.546875,
+          "width": 170.375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1448.046875,
+          "width": 135.5
+        }
+      ],
+      "locale": "ru",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 768,
+      "language": "en",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1614.375,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1614.375,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1614.375,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 792.765625,
+          "width": 73
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 920.734375,
+          "width": 127.96875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1029.859375,
+          "width": 109.125
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1219.46875,
+          "width": 189.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1355.359375,
+          "width": 135.890625
+        }
+      ],
+      "locale": "en",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 768,
+      "language": "kk",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1594.65625,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1594.65625,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1594.65625,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 798.3125,
+          "width": 75.734375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 959.15625,
+          "width": 160.84375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1053,
+          "width": 93.84375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1206.40625,
+          "width": 153.40625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1343.875,
+          "width": 137.46875
+        }
+      ],
+      "locale": "kk",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 768,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 768,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 768,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 1280,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 1280,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "standalone-name",
+      "width": 1280,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "portfolio-v2-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 1280,
+      "language": "ru",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1848.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1848.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1848.9375,
+          "width": 1665.9375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1409.671875,
+          "width": 170.375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1545.171875,
+          "width": 135.5
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1707.78125,
+          "width": 162.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1848.9375,
+          "width": 141.15625
+        },
+        {
+          "id": "",
+          "tag": "TBODY",
+          "class": "",
+          "right": 1848.9375,
+          "width": 1665.9375
+        }
+      ],
+      "locale": "ru",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 1280,
+      "language": "en",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1711.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1711.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1711.5,
+          "width": 1528.5
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1316.59375,
+          "width": 189.609375
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1452.484375,
+          "width": 135.890625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1583.125,
+          "width": 130.640625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1711.5,
+          "width": 128.375
+        },
+        {
+          "id": "",
+          "tag": "TBODY",
+          "class": "",
+          "right": 1711.5,
+          "width": 1528.5
+        }
+      ],
+      "locale": "en",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "full-service-name",
+      "width": 1280,
+      "language": "kk",
+      "offenders": [
+        {
+          "id": "",
+          "tag": "TABLE",
+          "class": "",
+          "right": 1691.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "THEAD",
+          "class": "",
+          "right": 1691.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TR",
+          "class": "",
+          "right": 1691.78125,
+          "width": 1508.78125
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1303.53125,
+          "width": 153.40625
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1441,
+          "width": 137.46875
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1544.8125,
+          "width": 103.8125
+        },
+        {
+          "id": "",
+          "tag": "TH",
+          "class": "",
+          "right": 1691.78125,
+          "width": 146.96875
+        },
+        {
+          "id": "",
+          "tag": "TBODY",
+          "class": "",
+          "right": 1691.78125,
+          "width": 1508.78125
+        }
+      ],
+      "locale": "kk",
+      "root": "full-service-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 1280,
+      "language": "ru",
+      "offenders": [],
+      "locale": "ru",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 1280,
+      "language": "en",
+      "offenders": [],
+      "locale": "en",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    },
+    {
+      "scenario": "native-v1-name",
+      "width": 1280,
+      "language": "kk",
+      "offenders": [],
+      "locale": "kk",
+      "root": "product-screen",
+      "overflow": false,
+      "gaps": [],
+      "scalarErrors": [],
+      "structuralErrors": [],
+      "moneyLineErrors": [],
+      "markers": []
+    }
+  ]
+}

@@ -225,7 +225,7 @@ function resourceCard(r,i){
    '</div>':'')+'</div>';
  }).join('');
  return '<article class="rounded-xl border border-indigo-200 bg-indigo-50/40 p-4 mt-4" data-linked-resource="'+i+'">'+
- '<div class="nd-v2-card-heading flex justify-between gap-3 items-center"><b class="nd-v2-card-title">'+safe(r.label||'Новый ресурс')+'</b>'+
+ '<div class="nd-v2-card-heading flex justify-between gap-3 items-center"><b class="nd-v2-card-title"'+(r.label?' data-nomad-no-translate':'')+'>'+safe(r.label||'Новый ресурс')+'</b>'+
  '<button type="button" data-linked-delete="'+i+'" class="nd-v2-action nd-v2-action-outline nd-v2-card-remove text-rose-700 underline text-sm">Удалить</button></div>'+
  '<div class="nd-v2-form-grid grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">'+
  '<label class="nd-v2-field text-xs font-semibold text-slate-700">Название<input data-linked-path="resources.'+i+'.label" type="text" class="input-field mt-1" value="'+safe(r.label)+'"></label>'+
@@ -405,7 +405,7 @@ function updateResult(){
   '</tbody></table></div>';
  const resources='<div class="mt-2 space-y-2 text-xs">'+out.resources.map(r=>
   '<div class="rounded-lg bg-white/10 p-3">'+
-   '<b>'+safe(r.label)+' — '+money(r.amount)+(r.cadence==='once'?' разово':' / мес.')+'</b>'+
+   '<b><span data-nomad-no-translate>'+safe(r.label)+'</span> — '+money(r.amount)+' <span>'+(r.cadence==='once'?'разово':'/ мес.')+'</span></b>'+
    '<div>Заменённые начисления из V1: '+money(r.previousTotal)+'</div>'+
    (r.usageMode==='per-unit'?'<div>Мощность ресурса: '+money(r.projectedLoad)+
      ' / '+(num(r.capacity)>0?money(r.capacity):'без лимита')+
@@ -415,14 +415,14 @@ function updateResult(){
   '</div>').join('')+'</div>';
  const period=cf.periodPnl,fullServicePresent=out.items.some(s=>s.fullServiceV2);
  const fullLanguage=root.Nomad360UI?.getLanguage?.()||'ru';
- const fullWords=({
+ const fullWords=((root.Nomad360LocaleCore?.locales("portfolio.fullServiceSummary") || {
    ru:{capex:'Оборудование / CAPEX',debt:'Долг на конец горизонта',
      note:'Цены полных услуг сохранены из V1, выручка показана без НДС. Амортизация и тело кредита учитываются раздельно. Общие расходы оплачиваются один раз. Резерв не является расходом прибыли.'},
    en:{capex:'Equipment / CAPEX',debt:'Outstanding debt at horizon',
      note:'Full-service prices follow V1. Revenue excludes VAT. Depreciation, principal and shared expenses are accounted for separately. Reserves do not reduce profit.'},
    kk:{capex:'Жабдық / CAPEX',debt:'Кезең соңындағы қарыз',
      note:'Толық қызмет бағалары V1 есебінен алынды. Кіріс ҚҚС-сыз көрсетілді. Амортизация, несие сомасы және ортақ шығындар бөлек есептеледі. Резерв пайдадан шегерілмейді.'}
- })[fullLanguage]||null;
+ }))[fullLanguage]||null;
  const periodPanel=period?.ready?
   '<section class="mt-5 rounded-lg border border-white/25 p-3">'+
   '<h3 class="font-bold">Экономика за '+period.horizonMonths+' мес. · '+(periodOptimized?'расчётная цена за весь период':'по месячным ценам V2')+'</h3>'+

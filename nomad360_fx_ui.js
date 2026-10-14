@@ -1,11 +1,11 @@
 /* Compact, explicit FX proposals. A lookup never applies a rate. */
 (function(root){
  'use strict';
- const words={
+ const words=(root.Nomad360LocaleCore?.locales("currency.converter") || {
  en:{title:'Currency converter',rate:'Exchange rate',date:'Rate date',source:'Rate source',example:'Bank quote or rate reference',fetch:'Get reference rate',apply:'Apply to calculation',preview:'Converted amount',applied:'Applied to calculation',daily:'Daily reference rates from Frankfurter. Your bank rate may differ. No fees or spread are added.',error:'The reference rate is unavailable. Enter a manual rate, date and source.',invalid:'Enter a positive rate, a valid date and its source.',loading:'Retrieving rate…',manual:'Manual rate',pending:'Apply a rate to use this payment in the calculation.'},
  ru:{title:'Конвертер валют',rate:'Обменный курс',date:'Дата курса',source:'Источник курса',example:'Курс банка или источник котировки',fetch:'Получить справочный курс',apply:'Применить к расчёту',preview:'Результат конвертации',applied:'Применено к расчёту',daily:'Ежедневные справочные курсы Frankfurter. Курс вашего банка может отличаться. Комиссии и спред не добавляются.',error:'Справочный курс недоступен. Укажите ручной курс, дату и источник.',invalid:'Укажите положительный курс, корректную дату и его источник.',loading:'Получение курса…',manual:'Ручной курс',pending:'Примените курс, чтобы учесть этот платёж в расчёте.'},
  kk:{title:'Валюта конвертері',rate:'Айырбастау бағамы',date:'Бағам күні',source:'Бағам дереккөзі',example:'Банк бағамы немесе котировка дереккөзі',fetch:'Анықтамалық бағамды алу',apply:'Есептеуге қолдану',preview:'Конвертация нәтижесі',applied:'Есептеуге қолданылды',daily:'Frankfurter күнделікті анықтамалық бағамдары. Банкіңіздің бағамы өзгеше болуы мүмкін. Комиссиялар мен спред қосылмайды.',error:'Анықтамалық бағам қолжетімсіз. Бағамды, күнін және дереккөзін қолмен енгізіңіз.',invalid:'Оң бағамды, дұрыс күнді және дереккөзін көрсетіңіз.',loading:'Бағам алынуда…',manual:'Қолмен енгізілген бағам',pending:'Бұл төлемді есепке алу үшін бағамды қолданыңыз.'}
- };
+ });
  const t=()=>words[root.Nomad360UI?.getLanguage?.()||'ru'];
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const money=n=>new Intl.NumberFormat(root.Nomad360UI?.getLanguage?.()==='en'?'en-US':root.Nomad360UI?.getLanguage?.()==='kk'?'kk-KZ':'ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);

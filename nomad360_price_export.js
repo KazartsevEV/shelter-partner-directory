@@ -4,7 +4,7 @@
  else root.Nomad360PriceExport=Object.freeze(api);
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
-const copy={
+const copy=(globalThis.Nomad360LocaleCore?.locales("export.excel") || {
  en:{sheet:'Price list',notes:'Notes',id:'SKU / ID',name:'Product / service',type:'Type',currency:'Currency',base:'V2 list price',baseNet:'V2 price excluding VAT',discount:'Individual discount, %',customer:'Customer price',status:'Status',note:'Note',
   own:'Own production',resale:'Resale',dropship:'Dropshipping','offline-service':'Offline service','online-service':'Online service',
   CALCULATED:'Calculated',TARGET_MET:'Target met',MINIMUM_ONLY:'Minimum only',FIXED_V1:'Fixed V1 price',LOSS:'Loss',PROVISIONAL:'Provisional',INFEASIBLE:'Infeasible',
@@ -32,10 +32,10 @@ const copy={
   linked:'V2 прайс пен сатып алушы бағасы — есептеу модулінің ҚҚС қосылған нәтижелері. Жеке жеңілдік пайыздық тармақпен көрсетілген.',
   standalone:'V2 базалық бағасы ҚҚС-сыз көрсетілген. Сатып алушы бағасы — модульдің ҚҚС қосылған нәтижесі. Бұл модельде жеке жеңілдік жоқ; оның ұяшықтары бос.',
   offers:'Жинақ жеңілдіктері мен байланысты сатылымдар бөлек қолданылады; прайс жеке позиция бағаларын көрсетеді.',
-  provisional:'Біржолғы шығындардың амортизациясы расталмаған; толық бухгалтерлік маржа алдын ала көрсетілген.',
+  provisional:"Біржолғы шығындардың амортизациясы расталмаған; толық бухгалтерлік Margin алдын ала көрсетілген.",
   missing:'Бос сандық ұяшық модельде анықталған мән жоқ екенін білдіреді, нөлді емес.',
   review:'Бағаны пайдаланбас бұрын осы позицияның күйін тексеріңіз.'}
-};
+});
 const number=value=>typeof value==='number'&&Number.isFinite(value)?value:null;
 const text=value=>value===undefined||value===null?'':String(value);
 function document(context,language='en'){

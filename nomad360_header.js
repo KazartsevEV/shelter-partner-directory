@@ -11,7 +11,7 @@
     whatsapp: '+7 777 129 56 93', whatsappUrl: 'https://wa.me/77771295693',
     email: 'nomad260393@gmail.com'
   };
-  const COPY = {
+  const COPY = (root.Nomad360LocaleCore?.locales("interface.header") || {
     ru: {
       nav: ['Калькулятор','AI-маркетолог','Контент-фабрика','О проекте','Контакты'],
       support:'Поддержать',license:'Лицензия',data:'Данные',menu:'Открыть меню',close:'Закрыть меню',
@@ -198,7 +198,7 @@
       officialTitle:'Ресми байланыс',officialCopy:'Сұрақтар, ынтымақтастық және лицензия бойынша өтініштерге арналған жоба поштасы.',
       unitNote:'* ш.б. — сіздің валютаңыздағы ақша.',rights:'© 2026 Nomad360'
     }
-  };
+  });
   const TARGETS = ['home-screen','nomad360-ai','nomad360-factory','nomad360-about','nomad360-contacts'];
   function esc(s) {
     return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

@@ -10,11 +10,11 @@ const currencies=Object.freeze([
 const valid=code=>currencies.some(([iso])=>iso===code);
 let current='USD',next='USD';
 // Do not infer a business currency from locale, country or an unrelated draft.
-const labels={
+const labels=(root.Nomad360LocaleCore?.locales("currency.business") || {
  ru:{question:'В какой валюте будем рассчитывать бизнес?',note:'Результаты и расходы без отдельного выбора валюты платежа считаются в валюте бизнеса. Сохранённый расчёт откроется в своей валюте.',amounts:'Валюта расчёта',mixed:'Нельзя объединить расчёты в разных валютах. Рассчитайте позиции в одной валюте.'},
  en:{question:'Which currency will we use to calculate the business?',note:'Business results and expenses without a separate payment currency use this currency. A saved calculation opens in its own currency.',amounts:'Calculation currency',mixed:'Calculations in different currencies cannot be combined. Calculate all items in the same currency.'},
  kk:{question:'Бизнесті қай валютамен есептейміз?',note:'Нәтижелер мен төлем валютасы бөлек таңдалмаған шығындар бизнес валютасында есептеледі. Сақталған есеп өз валютасымен ашылады.',amounts:'Есептеу валютасы',mixed:'Әртүрлі валютадағы есептерді біріктіру мүмкін емес. Барлық позицияны бір валютамен есептеңіз.'}
-};
+});
 const lang=()=>root.Nomad360UI?.getLanguage?.()||'ru';
 function get(){return current;}
 function assertSame(code){if((valid(code)?code:'USD')!==current)throw Error((labels[lang()]||labels.ru).mixed);}

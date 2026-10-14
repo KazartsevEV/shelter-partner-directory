@@ -206,7 +206,7 @@ test('ALL HERO KPIs: CPA/CAC match displayed period totals, never the un-ramped 
     eq(fmt(await page.locator('#res-cpa').textContent()),budget/deals,mode+'/'+months+' hero CPA');
     eq(fmt(await page.locator('#res-cac').textContent()),costs/deals,mode+'/'+months+' hero CAC');
     eq(await summary(page,'CPA (цена клиента реклама)'),budget/deals,mode+'/'+months+' table CPA');
-    eq(await summary(page,'CAC (цена клиента полная)'),costs/deals,mode+'/'+months+' table CAC');
+    eq(await summary(page,'Стоимость привлечения и обслуживания клиента для бизнеса'),costs/deals,mode+'/'+months+' table customer cost');
     eq(fmt(await page.locator('#res-profit').textContent()),net,mode+'/'+months+' profit');
     eq(await cell(page,'monthly-table','Количество сделок'),deals,mode+'/'+months+' deals');
     eq(await cell(page,'monthly-table','Денежный поток'),net,mode+'/'+months+' cash');
