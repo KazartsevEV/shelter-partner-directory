@@ -49,7 +49,7 @@
       "context": "snapshot",
       "text": "Нет сверенной периодной ведомости SKU.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:1473ba0f1838d53e"
+      "catalog": "ui.reconciledPeriodBySkuPLIsMissing"
     },
     {
       "id": "portfolio_v2_period_price.js:2376:js-string",
@@ -86,7 +86,7 @@
       "context": "optimize",
       "text": "Периодный подбор цены не сошёлся за 45 итераций.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e196498e03a09b7c"
+      "catalog": "ui.periodPricingDidNotConvergeAfter45Iterations"
     },
     {
       "id": "portfolio_v2_period_price.js:3359:js-string",
@@ -291,7 +291,7 @@
       "context": "optimize",
       "text": "не определена",
       "coverage": "legacy-exact",
-      "catalog": "legacy:78c7bca2a0121afb"
+      "catalog": "ui.notDetermined"
     },
     {
       "id": "portfolio_v2_period_price.js:6137:js-string",
@@ -364,7 +364,7 @@
       "context": "optimize",
       "text": "Есть разовые расходы или активы без подтверждённого срока списания. Прибыль и цена ориентировочные; достижение целевой маржи не подтверждено.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7a5b3c3780bf4fae"
+      "catalog": "pricing.someOneOffCostsOrAssetsHaveNoVerifiedAmortizationScheduleProfitPriceAndTargetMarginAttainm"
     },
     {
       "id": "portfolio_v2_period_price.js:7295:js-string",
@@ -377,7 +377,7 @@
       "context": "optimize",
       "text": "Не сошлась чистая прибыль SKU с портфелем.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:dc368a48105610c9"
+      "catalog": "finance.skuNetProfitsDoNotReconcileToThePortfolio"
     },
     {
       "id": "portfolio_v2_period_price.js:7561:js-string",

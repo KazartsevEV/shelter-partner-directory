@@ -3,36 +3,363 @@
   "file": "Marketing_calc.HTML",
   "entries": [
     {
-      "id": "Marketing_calc.HTML:482099:js-string",
+      "id": "Marketing_calc.HTML:475840:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7824,
-      "offset": 482099,
+      "line": 7688,
+      "offset": 475840,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
-      "context": "addEquipmentPurchaseRow",
-      "text": "equipment-purchase-row rounded-lg border border-slate-200 bg-slate-50 p-3",
+      "context": "setProductionLaborMode",
+      "text": ".production-labor-choice[data-production-labor-mode]",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:482258:js-template",
+      "id": "Marketing_calc.HTML:476049:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7826,
-      "offset": 482258,
+      "line": 7690,
+      "offset": 476049,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "module",
+      "text": "yn-choice-selected",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:476118:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7691,
+      "offset": 476118,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "module",
+      "text": "aria-pressed",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:476145:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7691,
+      "offset": 476145,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "module",
+      "text": "true",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:476154:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7691,
+      "offset": 476154,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "module",
+      "text": "false",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:476240:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7694,
+      "offset": 476240,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "setProductionLaborMode",
+      "text": "workers",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:476280:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7695,
+      "offset": 476280,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "setProductionLaborMode",
+      "text": "own-production-workers-wrap",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:476496:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7700,
+      "offset": 476496,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "setProductionLaborMode",
+      "text": "own-production-workers-count",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:476583:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7701,
+      "offset": 476583,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "setProductionLaborMode",
+      "text": "own-production-worker-gross",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:476978:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7713,
+      "offset": 476978,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "productionEmployerChargesForWorker",
+      "text": "RU",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:477991:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7731,
+      "offset": 477991,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "workers",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:478108:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7733,
+      "offset": 478108,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "own-production-workers-count",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:478280:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7736,
+      "offset": 478280,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "own-production-worker-gross",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:478398:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7738,
+      "offset": 478398,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "own-production-workers-country",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:478442:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7738,
+      "offset": 478442,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "KZ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:478760:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7746,
+      "offset": 478760,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "own-production-workers-gross-total",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:478826:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7747,
+      "offset": 478826,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "own-production-workers-taxes-total",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:478894:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7748,
+      "offset": 478894,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "own-production-workers-total",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:479197:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7756,
+      "offset": 479197,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "own-production-workers-note",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:479285:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7758,
+      "offset": 479285,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "RU",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:479332:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7759,
+      "offset": 479332,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "РФ: учтены страховые взносы по стандартной шкале 30% / 15,1% сверх предельной базы и базовый травматизм 0,2%.",
+      "coverage": "legacy-exact",
+      "catalog": "payroll.russiaPayrollContributionsUseThe30151AboveCapScheduleAndThe02BaseOccupationalInjuryRate"
+    },
+    {
+      "id": "Marketing_calc.HTML:479484:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7760,
+      "offset": 479484,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "KZ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:479531:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7761,
+      "offset": 479531,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "Казахстан, 2026: 5% соцотчисления + 3% ОСМС + 3,5% ОПВР + 6% соцналог (17,5% для применимых работников, без предельных баз); пенсионные и медицинские удержания работника не являются надбавкой к gross. ОПВР зависит от категории и возраста.",
+      "coverage": "legacy-exact",
+      "catalog": "tax.kazakhstan20265SocialContributions3CompulsorySocialHealthInsurance35EmployerMandatoryPensi"
+    },
+    {
+      "id": "Marketing_calc.HTML:479837:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7763,
+      "offset": 479837,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateProductionWorkersCost",
+      "text": "Используются справочные ставки работодателя по выбранной стране. Проверяйте применимый режим со своим бухгалтером.",
+      "coverage": "legacy-exact",
+      "catalog": "payroll.referenceEmployerRatesForTheSelectedCountryAreUsedVerifyTheApplicableRegimeWithYourAccount"
+    },
+    {
+      "id": "Marketing_calc.HTML:480216:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7774,
+      "offset": 480216,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "moneyInputValue",
+      "text": "ru-RU",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:480434:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7781,
+      "offset": 480434,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "addEquipmentRentalRow",
+      "text": "own-equipment-rental-rows",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:480584:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7784,
+      "offset": 480584,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "addEquipmentRentalRow",
+      "text": "div",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:480620:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7785,
+      "offset": 480620,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "addEquipmentRentalRow",
+      "text": "equipment-rental-row rounded-lg border border-slate-200 bg-slate-50 p-3",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:480775:js-template",
+      "file": "Marketing_calc.HTML",
+      "line": 7787,
+      "offset": 480775,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
-      "context": "addEquipmentPurchaseRow",
-      "text": "\n                <div class=\"grid grid-cols-[1fr_72px] gap-2\">\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Оборудование</label>\n                        <input type=\"text\" class=\"equipment-purchase-name input-field\" placeholder=\"Название\">\n                    </div>\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Ед.</label>\n                        <input type=\"number\" min=\"1\" step=\"1\" value=\"1\" class=\"equipment-purchase-qty input-field\" oninput=\"updateEquipmentDepreciationTotal()\">\n                        <label class=\"block text-xs text-slate-500 mt-2\">Ед. изм.\n                            <select class=\"equipment-purchase-unit input-field mt-1\" aria-label=\"Единица измерения оборудования\">\n                                <option value=\"шт\">шт</option><option value=\"компл\">компл</option>\n                                <option value=\"ед\">ед</option><option value=\"упак\">упак</option>\n                            </select>\n                        </label>\n                    </div>\n                </div>\n                <div class=\"grid grid-cols-[1fr_auto] gap-2 items-end mt-2\">\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Стоимость 1 ед.</label>\n                        <input type=\"number\" min=\"0\" step=\"0.01\" value=\"0\" class=\"equipment-purchase-cost input-field\" oninput=\"updateEquipmentDepreciationTotal()\">\n                    </div>\n                    <button type=\"button\" onclick=\"removeEquipmentRow(this, 'purchase')\" class=\"h-10 w-10 rounded-lg border border-slate-300 text-slate-500\">×</button>\n                </div>\n                <div class=\"grid grid-cols-2 gap-2 mt-2\">\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Срок службы, мес.</label>\n                        <input type=\"number\" min=\"1\" step=\"1\" value=\"12\" class=\"equipment-useful-life input-field\" oninput=\"updateEquipmentDepreciationTotal()\">\n                    </div>\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Амортизация / мес, у.е.*</label>\n                        <input type=\"text\" value=\"0,00\" class=\"equipment-depreciation input-field bg-slate-100\" readonly>\n                    </div>\n                </div>\n            ",
+      "context": "addEquipmentRentalRow",
+      "text": "\n                <div class=\"grid grid-cols-[1fr_72px] gap-2\">\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Оборудование</label>\n                        <input type=\"text\" class=\"equipment-rental-name input-field\" placeholder=\"Название\">\n                    </div>\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Ед.</label>\n                        <input type=\"number\" min=\"1\" step=\"1\" value=\"1\" class=\"equipment-rental-qty input-field\" oninput=\"updateEquipmentRentalTotal()\">\n                        <label class=\"block text-xs text-slate-500 mt-2\">Ед. изм.\n                            <select class=\"equipment-rental-unit input-field mt-1\" aria-label=\"Единица измерения оборудования\">\n                                <option value=\"шт\">шт</option><option value=\"компл\">компл</option>\n                                <option value=\"ед\">ед</option><option value=\"упак\">упак</option>\n                            </select>\n                        </label>\n                    </div>\n                </div>\n                <div class=\"grid grid-cols-[1fr_auto] gap-2 items-end mt-2\">\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Стоимость 1 ед. / мес, у.е.*</label>\n                        <input type=\"number\" min=\"0\" step=\"0.01\" value=\"0\" class=\"equipment-rental-cost input-field\" oninput=\"updateEquipmentRentalTotal()\">\n                    </div>\n                    <button type=\"button\" onclick=\"removeEquipmentRow(this, 'rental')\" class=\"h-10 w-10 rounded-lg border border-slate-300 text-slate-500\">×</button>\n                </div>\n            ",
       "parameters": [],
       "review": "Dynamic template: captures and user-owned values must be preserved",
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:482420:markup-text",
+      "id": "Marketing_calc.HTML:480937:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7829,
-      "offset": 482420,
+      "line": 7790,
+      "offset": 480937,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -41,13 +368,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:7f1b1af5392e2694"
+      "catalog": "service.cashflow.capex"
     },
     {
-      "id": "Marketing_calc.HTML:482528:markup-attribute",
+      "id": "Marketing_calc.HTML:481043:markup-attribute",
       "file": "Marketing_calc.HTML",
-      "line": 7830,
-      "offset": 482528,
+      "line": 7791,
+      "offset": 481043,
       "kind": "markup-attribute",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -57,13 +384,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:0918b4ba92684eaa"
+      "catalog": "ui.name"
     },
     {
-      "id": "Marketing_calc.HTML:482678:markup-text",
+      "id": "Marketing_calc.HTML:481193:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7833,
-      "offset": 482678,
+      "line": 7794,
+      "offset": 481193,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -72,13 +399,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:458b265ffdd13025"
+      "catalog": "ui.units"
     },
     {
-      "id": "Marketing_calc.HTML:482924:markup-text",
+      "id": "Marketing_calc.HTML:481431:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7835,
-      "offset": 482924,
+      "line": 7796,
+      "offset": 481431,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -87,13 +414,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:7996d77db35c2e1c"
+      "catalog": "ui.unit"
     },
     {
-      "id": "Marketing_calc.HTML:483018:markup-attribute",
+      "id": "Marketing_calc.HTML:481523:markup-attribute",
       "file": "Marketing_calc.HTML",
-      "line": 7836,
-      "offset": 483018,
+      "line": 7797,
+      "offset": 481523,
       "kind": "markup-attribute",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -103,13 +430,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:a7fe3471273300aa"
+      "catalog": "ui.equipmentMeasurementUnit"
     },
     {
-      "id": "Marketing_calc.HTML:483114:markup-text",
+      "id": "Marketing_calc.HTML:481619:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7837,
-      "offset": 483114,
+      "line": 7798,
+      "offset": 481619,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -117,13 +444,14 @@
       "text": "шт",
       "protectedNode": false,
       "embedded": true,
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "goods.pcs"
     },
     {
-      "id": "Marketing_calc.HTML:483147:markup-text",
+      "id": "Marketing_calc.HTML:481652:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7837,
-      "offset": 483147,
+      "line": 7798,
+      "offset": 481652,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -131,13 +459,14 @@
       "text": "компл",
       "protectedNode": false,
       "embedded": true,
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "goods.sets"
     },
     {
-      "id": "Marketing_calc.HTML:483213:markup-text",
+      "id": "Marketing_calc.HTML:481718:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7838,
-      "offset": 483213,
+      "line": 7799,
+      "offset": 481718,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -145,13 +474,14 @@
       "text": "ед",
       "protectedNode": false,
       "embedded": true,
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "goods.units"
     },
     {
-      "id": "Marketing_calc.HTML:483245:markup-text",
+      "id": "Marketing_calc.HTML:481750:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7838,
-      "offset": 483245,
+      "line": 7799,
+      "offset": 481750,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -159,28 +489,29 @@
       "text": "упак",
       "protectedNode": false,
       "embedded": true,
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "goods.packs"
     },
     {
-      "id": "Marketing_calc.HTML:483556:markup-text",
+      "id": "Marketing_calc.HTML:482061:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7845,
-      "offset": 483556,
+      "line": 7806,
+      "offset": 482061,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "label",
-      "text": "Стоимость 1 ед.",
+      "text": "Стоимость 1 ед. / мес, у.е.*",
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:62e952dc5ffb6d73"
+      "catalog": "finance.costPerUnitMonthCurrencyUnits"
     },
     {
-      "id": "Marketing_calc.HTML:483929:markup-text",
+      "id": "Marketing_calc.HTML:482437:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7848,
-      "offset": 483929,
+      "line": 7809,
+      "offset": 482437,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -191,10 +522,274 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:484120:markup-text",
+      "id": "Marketing_calc.HTML:482691:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7852,
-      "offset": 484120,
+      "line": 7817,
+      "offset": 482691,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateEquipmentRentalTotal",
+      "text": ".equipment-rental-row",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:482837:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7819,
+      "offset": 482837,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "qty",
+      "text": ".equipment-rental-qty",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:482948:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7820,
+      "offset": 482948,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "cost",
+      "text": ".equipment-rental-cost",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:483108:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7823,
+      "offset": 483108,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "updateEquipmentRentalTotal",
+      "text": "own-equipment-rental-total",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:483363:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7829,
+      "offset": 483363,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "addEquipmentPurchaseRow",
+      "text": "own-equipment-purchase-rows",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:483517:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7832,
+      "offset": 483517,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "addEquipmentPurchaseRow",
+      "text": "div",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:483553:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 7833,
+      "offset": 483553,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "addEquipmentPurchaseRow",
+      "text": "equipment-purchase-row rounded-lg border border-slate-200 bg-slate-50 p-3",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:483712:js-template",
+      "file": "Marketing_calc.HTML",
+      "line": 7835,
+      "offset": 483712,
+      "kind": "js-template",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "addEquipmentPurchaseRow",
+      "text": "\n                <div class=\"grid grid-cols-[1fr_72px] gap-2\">\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Оборудование</label>\n                        <input type=\"text\" class=\"equipment-purchase-name input-field\" placeholder=\"Название\">\n                    </div>\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Ед.</label>\n                        <input type=\"number\" min=\"1\" step=\"1\" value=\"1\" class=\"equipment-purchase-qty input-field\" oninput=\"updateEquipmentDepreciationTotal()\">\n                        <label class=\"block text-xs text-slate-500 mt-2\">Ед. изм.\n                            <select class=\"equipment-purchase-unit input-field mt-1\" aria-label=\"Единица измерения оборудования\">\n                                <option value=\"шт\">шт</option><option value=\"компл\">компл</option>\n                                <option value=\"ед\">ед</option><option value=\"упак\">упак</option>\n                            </select>\n                        </label>\n                    </div>\n                </div>\n                <div class=\"grid grid-cols-[1fr_auto] gap-2 items-end mt-2\">\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Стоимость 1 ед.</label>\n                        <input type=\"number\" min=\"0\" step=\"0.01\" value=\"0\" class=\"equipment-purchase-cost input-field\" oninput=\"updateEquipmentDepreciationTotal()\">\n                    </div>\n                    <button type=\"button\" onclick=\"removeEquipmentRow(this, 'purchase')\" class=\"h-10 w-10 rounded-lg border border-slate-300 text-slate-500\">×</button>\n                </div>\n                <div class=\"grid grid-cols-2 gap-2 mt-2\">\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Срок службы, мес.</label>\n                        <input type=\"number\" min=\"1\" step=\"1\" value=\"12\" class=\"equipment-useful-life input-field\" oninput=\"updateEquipmentDepreciationTotal()\">\n                    </div>\n                    <div>\n                        <label class=\"block text-xs text-slate-500 mb-1\">Амортизация / мес, у.е.*</label>\n                        <input type=\"text\" value=\"0,00\" class=\"equipment-depreciation input-field bg-slate-100\" readonly>\n                    </div>\n                </div>\n            ",
+      "parameters": [],
+      "review": "Dynamic template: captures and user-owned values must be preserved",
+      "coverage": "dynamic-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:483874:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7838,
+      "offset": 483874,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "label",
+      "text": "Оборудование",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "service.cashflow.capex"
+    },
+    {
+      "id": "Marketing_calc.HTML:483982:markup-attribute",
+      "file": "Marketing_calc.HTML",
+      "line": 7839,
+      "offset": 483982,
+      "kind": "markup-attribute",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "input",
+      "text": "Название",
+      "attribute": "placeholder",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "ui.name"
+    },
+    {
+      "id": "Marketing_calc.HTML:484132:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7842,
+      "offset": 484132,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "label",
+      "text": "Ед.",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "ui.units"
+    },
+    {
+      "id": "Marketing_calc.HTML:484378:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7844,
+      "offset": 484378,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "label",
+      "text": "Ед. изм.",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "ui.unit"
+    },
+    {
+      "id": "Marketing_calc.HTML:484472:markup-attribute",
+      "file": "Marketing_calc.HTML",
+      "line": 7845,
+      "offset": 484472,
+      "kind": "markup-attribute",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "select",
+      "text": "Единица измерения оборудования",
+      "attribute": "aria-label",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "ui.equipmentMeasurementUnit"
+    },
+    {
+      "id": "Marketing_calc.HTML:484568:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7846,
+      "offset": 484568,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "option",
+      "text": "шт",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "goods.pcs"
+    },
+    {
+      "id": "Marketing_calc.HTML:484601:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7846,
+      "offset": 484601,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "option",
+      "text": "компл",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "goods.sets"
+    },
+    {
+      "id": "Marketing_calc.HTML:484667:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7847,
+      "offset": 484667,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "option",
+      "text": "ед",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "goods.units"
+    },
+    {
+      "id": "Marketing_calc.HTML:484699:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7847,
+      "offset": 484699,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "option",
+      "text": "упак",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "goods.packs"
+    },
+    {
+      "id": "Marketing_calc.HTML:485010:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7854,
+      "offset": 485010,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "label",
+      "text": "Стоимость 1 ед.",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "pricing.unitPrice"
+    },
+    {
+      "id": "Marketing_calc.HTML:485383:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7857,
+      "offset": 485383,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "button",
+      "text": "×",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "Marketing_calc.HTML:485574:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 7861,
+      "offset": 485574,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -203,13 +798,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:7805aff9c9ceb3d9"
+      "catalog": "ui.usefulLifeMonths"
     },
     {
-      "id": "Marketing_calc.HTML:484433:markup-text",
+      "id": "Marketing_calc.HTML:485887:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7856,
-      "offset": 484433,
+      "line": 7865,
+      "offset": 485887,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -218,13 +813,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:d279dfa731c5bb6a"
+      "catalog": "ui.depreciationMonthCurrencyUnits"
     },
     {
-      "id": "Marketing_calc.HTML:484872:js-string",
+      "id": "Marketing_calc.HTML:486326:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7867,
-      "offset": 484872,
+      "line": 7876,
+      "offset": 486326,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -233,10 +828,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:484992:js-string",
+      "id": "Marketing_calc.HTML:486446:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7868,
-      "offset": 484992,
+      "line": 7877,
+      "offset": 486446,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -245,10 +840,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:485101:js-string",
+      "id": "Marketing_calc.HTML:486555:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7869,
-      "offset": 485101,
+      "line": 7878,
+      "offset": 486555,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -257,10 +852,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:485210:js-string",
+      "id": "Marketing_calc.HTML:486664:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7870,
-      "offset": 485210,
+      "line": 7879,
+      "offset": 486664,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -269,10 +864,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:485382:js-string",
+      "id": "Marketing_calc.HTML:486836:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7873,
-      "offset": 485382,
+      "line": 7882,
+      "offset": 486836,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -281,10 +876,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:485542:js-string",
+      "id": "Marketing_calc.HTML:486996:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7876,
-      "offset": 485542,
+      "line": 7885,
+      "offset": 486996,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -293,10 +888,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:485796:js-string",
+      "id": "Marketing_calc.HTML:487250:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7882,
-      "offset": 485796,
+      "line": 7891,
+      "offset": 487250,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -305,10 +900,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:485807:js-string",
+      "id": "Marketing_calc.HTML:487261:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7882,
-      "offset": 485807,
+      "line": 7891,
+      "offset": 487261,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -317,10 +912,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:485833:js-string",
+      "id": "Marketing_calc.HTML:487287:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7882,
-      "offset": 485833,
+      "line": 7891,
+      "offset": 487287,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -329,10 +924,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:485896:js-string",
+      "id": "Marketing_calc.HTML:487350:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7883,
-      "offset": 485896,
+      "line": 7892,
+      "offset": 487350,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -341,10 +936,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486090:js-string",
+      "id": "Marketing_calc.HTML:487544:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7888,
-      "offset": 486090,
+      "line": 7897,
+      "offset": 487544,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -353,10 +948,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486098:js-string",
+      "id": "Marketing_calc.HTML:487552:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7888,
-      "offset": 486098,
+      "line": 7897,
+      "offset": 487552,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -365,10 +960,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486106:js-string",
+      "id": "Marketing_calc.HTML:487560:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7888,
-      "offset": 486106,
+      "line": 7897,
+      "offset": 487560,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -377,10 +972,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486156:js-string",
+      "id": "Marketing_calc.HTML:487610:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7889,
-      "offset": 486156,
+      "line": 7898,
+      "offset": 487610,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -389,10 +984,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486164:js-string",
+      "id": "Marketing_calc.HTML:487618:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7889,
-      "offset": 486164,
+      "line": 7898,
+      "offset": 487618,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -401,10 +996,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486182:js-string",
+      "id": "Marketing_calc.HTML:487636:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7889,
-      "offset": 486182,
+      "line": 7898,
+      "offset": 487636,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -413,10 +1008,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486264:js-string",
+      "id": "Marketing_calc.HTML:487718:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7890,
-      "offset": 486264,
+      "line": 7899,
+      "offset": 487718,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -425,10 +1020,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486351:js-template",
+      "id": "Marketing_calc.HTML:487805:js-template",
       "file": "Marketing_calc.HTML",
-      "line": 7891,
-      "offset": 486351,
+      "line": 7900,
+      "offset": 487805,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -441,10 +1036,10 @@
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:486484:js-template",
+      "id": "Marketing_calc.HTML:487938:js-template",
       "file": "Marketing_calc.HTML",
-      "line": 7892,
-      "offset": 486484,
+      "line": 7901,
+      "offset": 487938,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -457,10 +1052,10 @@
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:486588:js-template",
+      "id": "Marketing_calc.HTML:488042:js-template",
       "file": "Marketing_calc.HTML",
-      "line": 7893,
-      "offset": 486588,
+      "line": 7902,
+      "offset": 488042,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -473,10 +1068,10 @@
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:486779:js-string",
+      "id": "Marketing_calc.HTML:488233:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7898,
-      "offset": 486779,
+      "line": 7907,
+      "offset": 488233,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -485,10 +1080,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486788:js-string",
+      "id": "Marketing_calc.HTML:488242:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7898,
-      "offset": 486788,
+      "line": 7907,
+      "offset": 488242,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -497,10 +1092,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:486919:js-string",
+      "id": "Marketing_calc.HTML:488373:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7900,
-      "offset": 486919,
+      "line": 7909,
+      "offset": 488373,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -509,10 +1104,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487113:js-string",
+      "id": "Marketing_calc.HTML:488567:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7903,
-      "offset": 487113,
+      "line": 7912,
+      "offset": 488567,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -521,10 +1116,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487178:js-string",
+      "id": "Marketing_calc.HTML:488632:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7904,
-      "offset": 487178,
+      "line": 7913,
+      "offset": 488632,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -533,10 +1128,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487278:js-string",
+      "id": "Marketing_calc.HTML:488732:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7904,
-      "offset": 487278,
+      "line": 7913,
+      "offset": 488732,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -545,10 +1140,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487370:js-string",
+      "id": "Marketing_calc.HTML:488824:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7905,
-      "offset": 487370,
+      "line": 7914,
+      "offset": 488824,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -557,10 +1152,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487432:js-string",
+      "id": "Marketing_calc.HTML:488886:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7905,
-      "offset": 487432,
+      "line": 7914,
+      "offset": 488886,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -569,10 +1164,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487629:js-string",
+      "id": "Marketing_calc.HTML:489083:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7909,
-      "offset": 487629,
+      "line": 7918,
+      "offset": 489083,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -581,10 +1176,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487671:js-string",
+      "id": "Marketing_calc.HTML:489125:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7910,
-      "offset": 487671,
+      "line": 7919,
+      "offset": 489125,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -593,10 +1188,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487829:js-string",
+      "id": "Marketing_calc.HTML:489283:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7914,
-      "offset": 487829,
+      "line": 7923,
+      "offset": 489283,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -605,10 +1200,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:487894:js-string",
+      "id": "Marketing_calc.HTML:489348:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7915,
-      "offset": 487894,
+      "line": 7924,
+      "offset": 489348,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -617,10 +1212,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:488060:js-string",
+      "id": "Marketing_calc.HTML:489514:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7917,
-      "offset": 488060,
+      "line": 7926,
+      "offset": 489514,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -629,10 +1224,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:488183:js-string",
+      "id": "Marketing_calc.HTML:489637:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7918,
-      "offset": 488183,
+      "line": 7927,
+      "offset": 489637,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -641,10 +1236,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:488446:js-string",
+      "id": "Marketing_calc.HTML:489900:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7924,
-      "offset": 488446,
+      "line": 7933,
+      "offset": 489900,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -653,10 +1248,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:488511:js-string",
+      "id": "Marketing_calc.HTML:489965:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7925,
-      "offset": 488511,
+      "line": 7934,
+      "offset": 489965,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -665,10 +1260,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:488679:js-string",
+      "id": "Marketing_calc.HTML:490133:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7927,
-      "offset": 488679,
+      "line": 7936,
+      "offset": 490133,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -677,10 +1272,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:488800:js-string",
+      "id": "Marketing_calc.HTML:490254:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7928,
-      "offset": 488800,
+      "line": 7937,
+      "offset": 490254,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -689,10 +1284,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:488921:js-string",
+      "id": "Marketing_calc.HTML:490375:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7929,
-      "offset": 488921,
+      "line": 7938,
+      "offset": 490375,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -701,10 +1296,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489165:js-string",
+      "id": "Marketing_calc.HTML:490619:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7935,
-      "offset": 489165,
+      "line": 7944,
+      "offset": 490619,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -713,10 +1308,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489207:js-string",
+      "id": "Marketing_calc.HTML:490661:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7936,
-      "offset": 489207,
+      "line": 7945,
+      "offset": 490661,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -725,10 +1320,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489252:js-string",
+      "id": "Marketing_calc.HTML:490706:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7936,
-      "offset": 489252,
+      "line": 7945,
+      "offset": 490706,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -737,10 +1332,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489413:js-string",
+      "id": "Marketing_calc.HTML:490867:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7940,
-      "offset": 489413,
+      "line": 7949,
+      "offset": 490867,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -749,10 +1344,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489455:js-string",
+      "id": "Marketing_calc.HTML:490909:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7941,
-      "offset": 489455,
+      "line": 7950,
+      "offset": 490909,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -761,10 +1356,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489508:js-string",
+      "id": "Marketing_calc.HTML:490962:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7941,
-      "offset": 489508,
+      "line": 7950,
+      "offset": 490962,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -773,10 +1368,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489664:js-string",
+      "id": "Marketing_calc.HTML:491118:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7945,
-      "offset": 489664,
+      "line": 7954,
+      "offset": 491118,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -785,10 +1380,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489706:js-string",
+      "id": "Marketing_calc.HTML:491160:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7946,
-      "offset": 489706,
+      "line": 7955,
+      "offset": 491160,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -797,10 +1392,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489853:js-string",
+      "id": "Marketing_calc.HTML:491307:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7950,
-      "offset": 489853,
+      "line": 7959,
+      "offset": 491307,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -809,10 +1404,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:489986:js-string",
+      "id": "Marketing_calc.HTML:491440:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7952,
-      "offset": 489986,
+      "line": 7961,
+      "offset": 491440,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -821,10 +1416,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:490124:js-string",
+      "id": "Marketing_calc.HTML:491578:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7953,
-      "offset": 490124,
+      "line": 7962,
+      "offset": 491578,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -833,10 +1428,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:490234:js-string",
+      "id": "Marketing_calc.HTML:491688:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7954,
-      "offset": 490234,
+      "line": 7963,
+      "offset": 491688,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -845,10 +1440,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:490278:js-string",
+      "id": "Marketing_calc.HTML:491732:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7954,
-      "offset": 490278,
+      "line": 7963,
+      "offset": 491732,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -857,10 +1452,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:491229:js-string",
+      "id": "Marketing_calc.HTML:492683:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7978,
-      "offset": 491229,
+      "line": 7987,
+      "offset": 492683,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -869,10 +1464,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:491304:js-string",
+      "id": "Marketing_calc.HTML:492758:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7979,
-      "offset": 491304,
+      "line": 7988,
+      "offset": 492758,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -881,10 +1476,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:491425:js-string",
+      "id": "Marketing_calc.HTML:492879:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7980,
-      "offset": 491425,
+      "line": 7989,
+      "offset": 492879,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -893,10 +1488,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:491485:js-string",
+      "id": "Marketing_calc.HTML:492939:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7982,
-      "offset": 491485,
+      "line": 7991,
+      "offset": 492939,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -905,114 +1500,114 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:491602:js-string",
+      "id": "Marketing_calc.HTML:493056:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7984,
-      "offset": 491602,
+      "line": 7993,
+      "offset": 493056,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductionUnitCost",
       "text": "Расходы на одну услугу появятся после расчёта рекламной воронки.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:99335bbe2d62e080"
+      "catalog": "marketing.costPerServiceAppearsAfterCalculatingTheAdvertisingFunnel"
     },
     {
-      "id": "Marketing_calc.HTML:491758:js-string",
+      "id": "Marketing_calc.HTML:493212:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7987,
-      "offset": 491758,
+      "line": 7996,
+      "offset": 493212,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductionUnitCost",
       "text": "Аренда помещения / 1 ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:1a73331037632ab1"
+      "catalog": "ui.premisesRentPerUnit"
     },
     {
-      "id": "Marketing_calc.HTML:491831:js-string",
+      "id": "Marketing_calc.HTML:493285:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7988,
-      "offset": 491831,
+      "line": 7997,
+      "offset": 493285,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductionUnitCost",
       "text": "Аренда оборудования / 1 ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:cf8b1727d8284f12"
+      "catalog": "ui.equipmentRentalPerUnit"
     },
     {
-      "id": "Marketing_calc.HTML:491914:js-string",
+      "id": "Marketing_calc.HTML:493368:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7989,
-      "offset": 491914,
+      "line": 7998,
+      "offset": 493368,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductionUnitCost",
       "text": "Амортизация оборудования / 1 ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e6a1d9bab7d84c00"
+      "catalog": "ui.equipmentDepreciationPerUnit"
     },
     {
-      "id": "Marketing_calc.HTML:492008:js-string",
+      "id": "Marketing_calc.HTML:493462:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7990,
-      "offset": 492008,
+      "line": 7999,
+      "offset": 493462,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductionUnitCost",
       "text": "Газ / отопление / 1 ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:3ba7fb93d174449d"
+      "catalog": "ui.gasHeatingPerUnit"
     },
     {
-      "id": "Marketing_calc.HTML:492075:js-string",
+      "id": "Marketing_calc.HTML:493529:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7991,
-      "offset": 492075,
+      "line": 8000,
+      "offset": 493529,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductionUnitCost",
       "text": "Рабочие с налогами и взносами / 1 ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:cede7f69e1c0e7b7"
+      "catalog": "tax.laborWithTaxesAndContributionsPerUnit"
     },
     {
-      "id": "Marketing_calc.HTML:492170:js-string",
+      "id": "Marketing_calc.HTML:493624:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7992,
-      "offset": 492170,
+      "line": 8001,
+      "offset": 493624,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductionUnitCost",
       "text": "Накладные организационные / 1 ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:2f750dabda0d100b"
+      "catalog": "ui.administrativeOverheadPerUnit"
     },
     {
-      "id": "Marketing_calc.HTML:492252:js-string",
+      "id": "Marketing_calc.HTML:493706:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7993,
-      "offset": 492252,
+      "line": 8002,
+      "offset": 493706,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductionUnitCost",
       "text": "Электричество / 1 произведённую ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:f1d5fd310baf9a1b"
+      "catalog": "marketing.electricityPerUnitProduced"
     },
     {
-      "id": "Marketing_calc.HTML:492341:js-template",
+      "id": "Marketing_calc.HTML:493795:js-template",
       "file": "Marketing_calc.HTML",
-      "line": 7994,
-      "offset": 492341,
+      "line": 8003,
+      "offset": 493795,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1025,10 +1620,10 @@
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:492393:js-string",
+      "id": "Marketing_calc.HTML:493847:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 7994,
-      "offset": 492393,
+      "line": 8003,
+      "offset": 493847,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1037,10 +1632,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:492528:js-template",
+      "id": "Marketing_calc.HTML:493982:js-template",
       "file": "Marketing_calc.HTML",
-      "line": 7998,
-      "offset": 492528,
+      "line": 8007,
+      "offset": 493982,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1054,10 +1649,10 @@
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:492581:markup-text",
+      "id": "Marketing_calc.HTML:494035:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7998,
-      "offset": 492581,
+      "line": 8007,
+      "offset": 494035,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1068,10 +1663,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:492638:markup-text",
+      "id": "Marketing_calc.HTML:494092:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 7998,
-      "offset": 492638,
+      "line": 8007,
+      "offset": 494092,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1082,10 +1677,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:492872:js-string",
+      "id": "Marketing_calc.HTML:494326:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8005,
-      "offset": 492872,
+      "line": 8014,
+      "offset": 494326,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1094,10 +1689,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:492883:js-string",
+      "id": "Marketing_calc.HTML:494337:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8005,
-      "offset": 492883,
+      "line": 8014,
+      "offset": 494337,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1106,10 +1701,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:492973:js-string",
+      "id": "Marketing_calc.HTML:494427:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8005,
-      "offset": 492973,
+      "line": 8014,
+      "offset": 494427,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1118,10 +1713,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:493017:js-string",
+      "id": "Marketing_calc.HTML:494471:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8006,
-      "offset": 493017,
+      "line": 8015,
+      "offset": 494471,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1130,10 +1725,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:493028:js-string",
+      "id": "Marketing_calc.HTML:494482:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8006,
-      "offset": 493028,
+      "line": 8015,
+      "offset": 494482,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1142,10 +1737,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:493111:js-string",
+      "id": "Marketing_calc.HTML:494565:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8006,
-      "offset": 493111,
+      "line": 8015,
+      "offset": 494565,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1154,10 +1749,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:493168:js-string",
+      "id": "Marketing_calc.HTML:494622:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8007,
-      "offset": 493168,
+      "line": 8016,
+      "offset": 494622,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1166,10 +1761,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:493231:js-string",
+      "id": "Marketing_calc.HTML:494685:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8007,
-      "offset": 493231,
+      "line": 8016,
+      "offset": 494685,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1178,10 +1773,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:493337:js-string",
+      "id": "Marketing_calc.HTML:494791:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8010,
-      "offset": 493337,
+      "line": 8019,
+      "offset": 494791,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1190,10 +1785,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:493462:js-string",
+      "id": "Marketing_calc.HTML:494916:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8012,
-      "offset": 493462,
+      "line": 8021,
+      "offset": 494916,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1202,10 +1797,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:493552:js-string",
+      "id": "Marketing_calc.HTML:495006:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8013,
-      "offset": 493552,
+      "line": 8022,
+      "offset": 495006,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1214,10 +1809,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:494133:js-string",
+      "id": "Marketing_calc.HTML:495587:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8023,
-      "offset": 494133,
+      "line": 8032,
+      "offset": 495587,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1226,10 +1821,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:494228:js-string",
+      "id": "Marketing_calc.HTML:495682:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8024,
-      "offset": 494228,
+      "line": 8033,
+      "offset": 495682,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1238,10 +1833,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:494647:js-string",
+      "id": "Marketing_calc.HTML:496101:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8030,
-      "offset": 494647,
+      "line": 8039,
+      "offset": 496101,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1250,10 +1845,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:494836:js-string",
+      "id": "Marketing_calc.HTML:496290:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8034,
-      "offset": 494836,
+      "line": 8043,
+      "offset": 496290,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1262,10 +1857,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:494992:js-string",
+      "id": "Marketing_calc.HTML:496446:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8036,
-      "offset": 494992,
+      "line": 8045,
+      "offset": 496446,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1274,10 +1869,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:495173:js-string",
+      "id": "Marketing_calc.HTML:496627:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8039,
-      "offset": 495173,
+      "line": 8048,
+      "offset": 496627,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1286,10 +1881,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:495290:js-string",
+      "id": "Marketing_calc.HTML:496744:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8041,
-      "offset": 495290,
+      "line": 8050,
+      "offset": 496744,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1298,88 +1893,88 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:495326:js-string",
+      "id": "Marketing_calc.HTML:496780:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8042,
-      "offset": 495326,
+      "line": 8051,
+      "offset": 496780,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Доставка до покупателя",
       "coverage": "legacy-exact",
-      "catalog": "legacy:0b8f4fecc4544863"
+      "catalog": "operations.deliveryToCustomer"
     },
     {
-      "id": "Marketing_calc.HTML:495388:js-string",
+      "id": "Marketing_calc.HTML:496842:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8043,
-      "offset": 495388,
+      "line": 8052,
+      "offset": 496842,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Доп. доставка из-за возвратов",
       "coverage": "legacy-exact",
-      "catalog": "legacy:0dd141956931c58b"
+      "catalog": "finance.extraDeliveryCostFromReturns"
     },
     {
-      "id": "Marketing_calc.HTML:495486:js-string",
+      "id": "Marketing_calc.HTML:496940:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8045,
-      "offset": 495486,
+      "line": 8054,
+      "offset": 496940,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Доставка 1 ед. до склада",
       "coverage": "legacy-exact",
-      "catalog": "legacy:641e574135a92322"
+      "catalog": "operations.deliveryOfOneUnitToWarehouse"
     },
     {
-      "id": "Marketing_calc.HTML:495561:js-string",
+      "id": "Marketing_calc.HTML:497015:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8046,
-      "offset": 495561,
+      "line": 8055,
+      "offset": 497015,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Хранение 1 ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c34606f1d66a90eb"
+      "catalog": "ui.storagePerUnit"
     },
     {
-      "id": "Marketing_calc.HTML:495619:js-string",
+      "id": "Marketing_calc.HTML:497073:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8047,
-      "offset": 495619,
+      "line": 8056,
+      "offset": 497073,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Доставка до покупателя",
       "coverage": "legacy-exact",
-      "catalog": "legacy:0b8f4fecc4544863"
+      "catalog": "operations.deliveryToCustomer"
     },
     {
-      "id": "Marketing_calc.HTML:495681:js-string",
+      "id": "Marketing_calc.HTML:497135:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8048,
-      "offset": 495681,
+      "line": 8057,
+      "offset": 497135,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Доп. доставка из-за возвратов",
       "coverage": "legacy-exact",
-      "catalog": "legacy:0dd141956931c58b"
+      "catalog": "finance.extraDeliveryCostFromReturns"
     },
     {
-      "id": "Marketing_calc.HTML:495799:js-template",
+      "id": "Marketing_calc.HTML:497253:js-template",
       "file": "Marketing_calc.HTML",
-      "line": 8050,
-      "offset": 495799,
+      "line": 8059,
+      "offset": 497253,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1393,10 +1988,10 @@
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:495852:markup-text",
+      "id": "Marketing_calc.HTML:497306:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 8050,
-      "offset": 495852,
+      "line": 8059,
+      "offset": 497306,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1407,10 +2002,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:495909:markup-text",
+      "id": "Marketing_calc.HTML:497363:markup-text",
       "file": "Marketing_calc.HTML",
-      "line": 8050,
-      "offset": 495909,
+      "line": 8059,
+      "offset": 497363,
       "kind": "markup-text",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1421,10 +2016,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:496043:js-string",
+      "id": "Marketing_calc.HTML:497497:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8054,
-      "offset": 496043,
+      "line": 8063,
+      "offset": 497497,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1433,10 +2028,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:496134:js-string",
+      "id": "Marketing_calc.HTML:497588:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8056,
-      "offset": 496134,
+      "line": 8065,
+      "offset": 497588,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1445,49 +2040,49 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:496185:js-string",
+      "id": "Marketing_calc.HTML:497639:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8057,
-      "offset": 496185,
+      "line": 8066,
+      "offset": 497639,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Нет склада: учтены только оплачиваемые вами доставка до покупателя и возвраты.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d982e58e57206787"
+      "catalog": "operations.noWarehouseOnlyCustomerDeliveryAndReturnsPaidByYouAreIncluded"
     },
     {
-      "id": "Marketing_calc.HTML:496373:js-string",
+      "id": "Marketing_calc.HTML:497827:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8059,
-      "offset": 496373,
+      "line": 8068,
+      "offset": 497827,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Срок хранения пока не указан, поэтому хранение временно считается как 0. На следующих этапах срок можно будет рассчитать автоматически.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c51f11945bc7d6c7"
+      "catalog": "finance.storageDurationIsNotSpecifiedSoStorageIsTemporarilyAssumedToCost0ItCanBeCalculatedAutomati"
     },
     {
-      "id": "Marketing_calc.HTML:496576:js-string",
+      "id": "Marketing_calc.HTML:498030:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8061,
-      "offset": 496576,
+      "line": 8070,
+      "offset": 498030,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateLogisticsUnitCost",
       "text": "Учитываются только расходы, которые оплачиваете вы. Доставка рассчитана от текущей стоимости товара до логистики; возвраты увеличивают стоимость доставки.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:b6f883a698cab095"
+      "catalog": "finance.onlyExpensesYouPayAreIncludedShippingUsesTheCurrentPreLogisticsItemCostReturnsIncreaseShip"
     },
     {
-      "id": "Marketing_calc.HTML:497040:js-string",
+      "id": "Marketing_calc.HTML:498494:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8071,
-      "offset": 497040,
+      "line": 8080,
+      "offset": 498494,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1496,10 +2091,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:497213:js-string",
+      "id": "Marketing_calc.HTML:498667:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8073,
-      "offset": 497213,
+      "line": 8082,
+      "offset": 498667,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1508,10 +2103,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:497366:js-string",
+      "id": "Marketing_calc.HTML:498820:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8075,
-      "offset": 497366,
+      "line": 8084,
+      "offset": 498820,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1520,10 +2115,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:497879:js-string",
+      "id": "Marketing_calc.HTML:499333:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8085,
-      "offset": 497879,
+      "line": 8094,
+      "offset": 499333,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1532,10 +2127,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:497981:js-string",
+      "id": "Marketing_calc.HTML:499435:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8087,
-      "offset": 497981,
+      "line": 8096,
+      "offset": 499435,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1544,10 +2139,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:498056:js-string",
+      "id": "Marketing_calc.HTML:499510:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8088,
-      "offset": 498056,
+      "line": 8097,
+      "offset": 499510,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1556,10 +2151,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:498151:js-string",
+      "id": "Marketing_calc.HTML:499605:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8090,
-      "offset": 498151,
+      "line": 8099,
+      "offset": 499605,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1568,10 +2163,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:498315:js-string",
+      "id": "Marketing_calc.HTML:499769:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8094,
-      "offset": 498315,
+      "line": 8103,
+      "offset": 499769,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1580,10 +2175,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:498799:js-string",
+      "id": "Marketing_calc.HTML:500253:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8106,
-      "offset": 498799,
+      "line": 8115,
+      "offset": 500253,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1592,10 +2187,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:498952:js-string",
+      "id": "Marketing_calc.HTML:500406:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8109,
-      "offset": 498952,
+      "line": 8118,
+      "offset": 500406,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1604,10 +2199,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499061:js-string",
+      "id": "Marketing_calc.HTML:500515:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8111,
-      "offset": 499061,
+      "line": 8120,
+      "offset": 500515,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1616,10 +2211,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499081:js-string",
+      "id": "Marketing_calc.HTML:500535:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8111,
-      "offset": 499081,
+      "line": 8120,
+      "offset": 500535,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1628,23 +2223,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499087:js-string",
+      "id": "Marketing_calc.HTML:500541:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8111,
-      "offset": 499087,
+      "line": 8120,
+      "offset": 500541,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "setAdditionalProductName",
       "text": "следующий товар",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e04f668a6b98105c"
+      "catalog": "operations.nextProduct"
     },
     {
-      "id": "Marketing_calc.HTML:499159:js-string",
+      "id": "Marketing_calc.HTML:500613:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8114,
-      "offset": 499159,
+      "line": 8123,
+      "offset": 500613,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1653,10 +2248,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499244:js-string",
+      "id": "Marketing_calc.HTML:500698:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8115,
-      "offset": 499244,
+      "line": 8124,
+      "offset": 500698,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1665,10 +2260,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499264:js-string",
+      "id": "Marketing_calc.HTML:500718:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8115,
-      "offset": 499264,
+      "line": 8124,
+      "offset": 500718,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1677,10 +2272,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499341:js-string",
+      "id": "Marketing_calc.HTML:500795:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8118,
-      "offset": 499341,
+      "line": 8127,
+      "offset": 500795,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1689,10 +2284,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499433:js-string",
+      "id": "Marketing_calc.HTML:500887:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8119,
-      "offset": 499433,
+      "line": 8128,
+      "offset": 500887,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1701,10 +2296,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499746:js-string",
+      "id": "Marketing_calc.HTML:501200:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8129,
-      "offset": 499746,
+      "line": 8138,
+      "offset": 501200,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1713,10 +2308,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499829:js-string",
+      "id": "Marketing_calc.HTML:501283:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8130,
-      "offset": 499829,
+      "line": 8139,
+      "offset": 501283,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1725,10 +2320,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:499913:js-string",
+      "id": "Marketing_calc.HTML:501367:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8131,
-      "offset": 499913,
+      "line": 8140,
+      "offset": 501367,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1737,10 +2332,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500046:js-string",
+      "id": "Marketing_calc.HTML:501500:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8134,
-      "offset": 500046,
+      "line": 8143,
+      "offset": 501500,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1749,10 +2344,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500117:js-string",
+      "id": "Marketing_calc.HTML:501571:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8136,
-      "offset": 500117,
+      "line": 8145,
+      "offset": 501571,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1761,10 +2356,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500202:js-string",
+      "id": "Marketing_calc.HTML:501656:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8138,
-      "offset": 500202,
+      "line": 8147,
+      "offset": 501656,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1773,10 +2368,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500219:js-string",
+      "id": "Marketing_calc.HTML:501673:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8138,
-      "offset": 500219,
+      "line": 8147,
+      "offset": 501673,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1785,10 +2380,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500447:js-string",
+      "id": "Marketing_calc.HTML:501901:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8147,
-      "offset": 500447,
+      "line": 8156,
+      "offset": 501901,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1797,10 +2392,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500607:js-string",
+      "id": "Marketing_calc.HTML:502061:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8149,
-      "offset": 500607,
+      "line": 8158,
+      "offset": 502061,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1809,10 +2404,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500681:js-string",
+      "id": "Marketing_calc.HTML:502135:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8150,
-      "offset": 500681,
+      "line": 8159,
+      "offset": 502135,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1821,10 +2416,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500708:js-string",
+      "id": "Marketing_calc.HTML:502162:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8150,
-      "offset": 500708,
+      "line": 8159,
+      "offset": 502162,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1833,10 +2428,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500717:js-string",
+      "id": "Marketing_calc.HTML:502171:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8150,
-      "offset": 500717,
+      "line": 8159,
+      "offset": 502171,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1845,10 +2440,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500796:js-string",
+      "id": "Marketing_calc.HTML:502250:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8153,
-      "offset": 500796,
+      "line": 8162,
+      "offset": 502250,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1857,10 +2452,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500847:js-string",
+      "id": "Marketing_calc.HTML:502301:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8154,
-      "offset": 500847,
+      "line": 8163,
+      "offset": 502301,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1869,10 +2464,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500853:js-string",
+      "id": "Marketing_calc.HTML:502307:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8154,
-      "offset": 500853,
+      "line": 8163,
+      "offset": 502307,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1881,10 +2476,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500862:js-string",
+      "id": "Marketing_calc.HTML:502316:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8154,
-      "offset": 500862,
+      "line": 8163,
+      "offset": 502316,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1893,10 +2488,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500873:js-string",
+      "id": "Marketing_calc.HTML:502327:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8154,
-      "offset": 500873,
+      "line": 8163,
+      "offset": 502327,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1905,10 +2500,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:500966:js-string",
+      "id": "Marketing_calc.HTML:502420:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8155,
-      "offset": 500966,
+      "line": 8164,
+      "offset": 502420,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1917,10 +2512,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501015:js-string",
+      "id": "Marketing_calc.HTML:502469:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8156,
-      "offset": 501015,
+      "line": 8165,
+      "offset": 502469,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1929,10 +2524,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501103:js-string",
+      "id": "Marketing_calc.HTML:502557:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8156,
-      "offset": 501103,
+      "line": 8165,
+      "offset": 502557,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1941,10 +2536,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501190:js-string",
+      "id": "Marketing_calc.HTML:502644:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8158,
-      "offset": 501190,
+      "line": 8167,
+      "offset": 502644,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1953,10 +2548,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501266:js-string",
+      "id": "Marketing_calc.HTML:502720:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8159,
-      "offset": 501266,
+      "line": 8168,
+      "offset": 502720,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1965,10 +2560,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501413:js-string",
+      "id": "Marketing_calc.HTML:502867:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8162,
-      "offset": 501413,
+      "line": 8171,
+      "offset": 502867,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1977,10 +2572,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501495:js-string",
+      "id": "Marketing_calc.HTML:502949:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8164,
-      "offset": 501495,
+      "line": 8173,
+      "offset": 502949,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1989,10 +2584,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501646:js-string",
+      "id": "Marketing_calc.HTML:503100:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8167,
-      "offset": 501646,
+      "line": 8176,
+      "offset": 503100,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2001,10 +2596,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501698:js-string",
+      "id": "Marketing_calc.HTML:503152:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8170,
-      "offset": 501698,
+      "line": 8179,
+      "offset": 503152,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2013,10 +2608,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501704:js-string",
+      "id": "Marketing_calc.HTML:503158:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8170,
-      "offset": 501704,
+      "line": 8179,
+      "offset": 503158,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2025,10 +2620,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501713:js-string",
+      "id": "Marketing_calc.HTML:503167:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8170,
-      "offset": 501713,
+      "line": 8179,
+      "offset": 503167,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2037,10 +2632,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501724:js-string",
+      "id": "Marketing_calc.HTML:503178:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8170,
-      "offset": 501724,
+      "line": 8179,
+      "offset": 503178,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2049,10 +2644,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:501911:js-string",
+      "id": "Marketing_calc.HTML:503365:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8174,
-      "offset": 501911,
+      "line": 8183,
+      "offset": 503365,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2061,10 +2656,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:502012:js-string",
+      "id": "Marketing_calc.HTML:503466:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8175,
-      "offset": 502012,
+      "line": 8184,
+      "offset": 503466,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2073,10 +2668,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:502288:js-string",
+      "id": "Marketing_calc.HTML:503742:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8179,
-      "offset": 502288,
+      "line": 8188,
+      "offset": 503742,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2085,10 +2680,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:502877:js-string",
+      "id": "Marketing_calc.HTML:504331:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8189,
-      "offset": 502877,
+      "line": 8198,
+      "offset": 504331,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2097,10 +2692,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:502894:js-string",
+      "id": "Marketing_calc.HTML:504348:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8189,
-      "offset": 502894,
+      "line": 8198,
+      "offset": 504348,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2109,10 +2704,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:503363:js-string",
+      "id": "Marketing_calc.HTML:504817:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8203,
-      "offset": 503363,
+      "line": 8212,
+      "offset": 504817,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2121,10 +2716,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:503407:js-string",
+      "id": "Marketing_calc.HTML:504861:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8204,
-      "offset": 503407,
+      "line": 8213,
+      "offset": 504861,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2133,10 +2728,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:503477:js-string",
+      "id": "Marketing_calc.HTML:504931:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8205,
-      "offset": 503477,
+      "line": 8214,
+      "offset": 504931,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2145,10 +2740,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:503799:js-string",
+      "id": "Marketing_calc.HTML:505253:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8214,
-      "offset": 503799,
+      "line": 8223,
+      "offset": 505253,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2157,10 +2752,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:503817:js-string",
+      "id": "Marketing_calc.HTML:505271:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8214,
-      "offset": 503817,
+      "line": 8223,
+      "offset": 505271,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2169,10 +2764,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:503881:js-template",
+      "id": "Marketing_calc.HTML:505335:js-template",
       "file": "Marketing_calc.HTML",
-      "line": 8216,
-      "offset": 503881,
+      "line": 8225,
+      "offset": 505335,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2185,10 +2780,10 @@
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:504100:js-string",
+      "id": "Marketing_calc.HTML:505554:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8218,
-      "offset": 504100,
+      "line": 8227,
+      "offset": 505554,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2197,10 +2792,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504171:js-string",
+      "id": "Marketing_calc.HTML:505625:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8219,
-      "offset": 504171,
+      "line": 8228,
+      "offset": 505625,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2209,10 +2804,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504198:js-string",
+      "id": "Marketing_calc.HTML:505652:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8219,
-      "offset": 504198,
+      "line": 8228,
+      "offset": 505652,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2221,10 +2816,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504207:js-string",
+      "id": "Marketing_calc.HTML:505661:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8219,
-      "offset": 504207,
+      "line": 8228,
+      "offset": 505661,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2233,10 +2828,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504295:js-string",
+      "id": "Marketing_calc.HTML:505749:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8223,
-      "offset": 504295,
+      "line": 8232,
+      "offset": 505749,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2245,10 +2840,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504346:js-string",
+      "id": "Marketing_calc.HTML:505800:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8224,
-      "offset": 504346,
+      "line": 8233,
+      "offset": 505800,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2257,10 +2852,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504398:js-string",
+      "id": "Marketing_calc.HTML:505852:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8225,
-      "offset": 504398,
+      "line": 8234,
+      "offset": 505852,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2269,10 +2864,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504448:js-string",
+      "id": "Marketing_calc.HTML:505902:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8226,
-      "offset": 504448,
+      "line": 8235,
+      "offset": 505902,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2281,10 +2876,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504636:js-string",
+      "id": "Marketing_calc.HTML:506090:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8231,
-      "offset": 504636,
+      "line": 8240,
+      "offset": 506090,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2293,10 +2888,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:504685:js-string",
+      "id": "Marketing_calc.HTML:506139:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8232,
-      "offset": 504685,
+      "line": 8241,
+      "offset": 506139,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2305,10 +2900,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505059:js-string",
+      "id": "Marketing_calc.HTML:506513:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8241,
-      "offset": 505059,
+      "line": 8250,
+      "offset": 506513,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2317,10 +2912,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505077:js-string",
+      "id": "Marketing_calc.HTML:506531:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8241,
-      "offset": 505077,
+      "line": 8250,
+      "offset": 506531,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2329,10 +2924,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505147:js-template",
+      "id": "Marketing_calc.HTML:506601:js-template",
       "file": "Marketing_calc.HTML",
-      "line": 8243,
-      "offset": 505147,
+      "line": 8252,
+      "offset": 506601,
       "kind": "js-template",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2345,10 +2940,10 @@
       "coverage": "dynamic-review"
     },
     {
-      "id": "Marketing_calc.HTML:505398:js-string",
+      "id": "Marketing_calc.HTML:506852:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8246,
-      "offset": 505398,
+      "line": 8255,
+      "offset": 506852,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2357,10 +2952,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505469:js-string",
+      "id": "Marketing_calc.HTML:506923:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8247,
-      "offset": 505469,
+      "line": 8256,
+      "offset": 506923,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2369,10 +2964,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505496:js-string",
+      "id": "Marketing_calc.HTML:506950:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8247,
-      "offset": 505496,
+      "line": 8256,
+      "offset": 506950,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2381,10 +2976,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505505:js-string",
+      "id": "Marketing_calc.HTML:506959:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8247,
-      "offset": 505505,
+      "line": 8256,
+      "offset": 506959,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2393,10 +2988,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505556:js-string",
+      "id": "Marketing_calc.HTML:507010:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8250,
-      "offset": 505556,
+      "line": 8259,
+      "offset": 507010,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2405,10 +3000,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505641:js-string",
+      "id": "Marketing_calc.HTML:507095:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8251,
-      "offset": 505641,
+      "line": 8260,
+      "offset": 507095,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2417,10 +3012,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505680:js-string",
+      "id": "Marketing_calc.HTML:507134:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8252,
-      "offset": 505680,
+      "line": 8261,
+      "offset": 507134,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2429,10 +3024,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505772:js-string",
+      "id": "Marketing_calc.HTML:507226:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8253,
-      "offset": 505772,
+      "line": 8262,
+      "offset": 507226,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2441,10 +3036,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505847:js-string",
+      "id": "Marketing_calc.HTML:507301:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8256,
-      "offset": 505847,
+      "line": 8265,
+      "offset": 507301,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2453,10 +3048,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505925:js-string",
+      "id": "Marketing_calc.HTML:507379:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8257,
-      "offset": 505925,
+      "line": 8266,
+      "offset": 507379,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2465,10 +3060,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:505964:js-string",
+      "id": "Marketing_calc.HTML:507418:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8258,
-      "offset": 505964,
+      "line": 8267,
+      "offset": 507418,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2477,10 +3072,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:506072:js-string",
+      "id": "Marketing_calc.HTML:507526:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8260,
-      "offset": 506072,
+      "line": 8269,
+      "offset": 507526,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2489,10 +3084,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:506152:js-string",
+      "id": "Marketing_calc.HTML:507606:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8261,
-      "offset": 506152,
+      "line": 8270,
+      "offset": 507606,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2501,10 +3096,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:506279:js-string",
+      "id": "Marketing_calc.HTML:507733:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8266,
-      "offset": 506279,
+      "line": 8275,
+      "offset": 507733,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2513,10 +3108,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:506364:js-string",
+      "id": "Marketing_calc.HTML:507818:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8267,
-      "offset": 506364,
+      "line": 8276,
+      "offset": 507818,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2525,10 +3120,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:506403:js-string",
+      "id": "Marketing_calc.HTML:507857:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8268,
-      "offset": 506403,
+      "line": 8277,
+      "offset": 507857,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2537,10 +3132,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:506533:js-string",
+      "id": "Marketing_calc.HTML:507987:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8271,
-      "offset": 506533,
+      "line": 8280,
+      "offset": 507987,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2549,10 +3144,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:506701:js-string",
+      "id": "Marketing_calc.HTML:508155:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8274,
-      "offset": 506701,
+      "line": 8283,
+      "offset": 508155,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2561,10 +3156,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:506771:js-string",
+      "id": "Marketing_calc.HTML:508225:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8275,
-      "offset": 506771,
+      "line": 8284,
+      "offset": 508225,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2573,10 +3168,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:507009:js-string",
+      "id": "Marketing_calc.HTML:508463:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8284,
-      "offset": 507009,
+      "line": 8293,
+      "offset": 508463,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2585,10 +3180,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:507051:js-string",
+      "id": "Marketing_calc.HTML:508505:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8285,
-      "offset": 507051,
+      "line": 8294,
+      "offset": 508505,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2597,10 +3192,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:507444:js-string",
+      "id": "Marketing_calc.HTML:508898:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8292,
-      "offset": 507444,
+      "line": 8301,
+      "offset": 508898,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2609,10 +3204,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:507494:js-string",
+      "id": "Marketing_calc.HTML:508948:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8293,
-      "offset": 507494,
+      "line": 8302,
+      "offset": 508948,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2621,10 +3216,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:507674:js-string",
+      "id": "Marketing_calc.HTML:509128:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8297,
-      "offset": 507674,
+      "line": 8306,
+      "offset": 509128,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2633,10 +3228,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:507914:js-string",
+      "id": "Marketing_calc.HTML:509368:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8300,
-      "offset": 507914,
+      "line": 8309,
+      "offset": 509368,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2645,10 +3240,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508064:js-string",
+      "id": "Marketing_calc.HTML:509518:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8302,
-      "offset": 508064,
+      "line": 8311,
+      "offset": 509518,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2657,10 +3252,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508274:js-string",
+      "id": "Marketing_calc.HTML:509728:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8305,
-      "offset": 508274,
+      "line": 8314,
+      "offset": 509728,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2669,10 +3264,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508316:js-string",
+      "id": "Marketing_calc.HTML:509770:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8306,
-      "offset": 508316,
+      "line": 8315,
+      "offset": 509770,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2681,10 +3276,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508458:js-string",
+      "id": "Marketing_calc.HTML:509912:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8309,
-      "offset": 508458,
+      "line": 8318,
+      "offset": 509912,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2693,10 +3288,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508500:js-string",
+      "id": "Marketing_calc.HTML:509954:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8310,
-      "offset": 508500,
+      "line": 8319,
+      "offset": 509954,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2705,10 +3300,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508660:js-string",
+      "id": "Marketing_calc.HTML:510114:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8314,
-      "offset": 508660,
+      "line": 8323,
+      "offset": 510114,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2717,10 +3312,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508699:js-string",
+      "id": "Marketing_calc.HTML:510153:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8314,
-      "offset": 508699,
+      "line": 8323,
+      "offset": 510153,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2729,10 +3324,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508742:js-string",
+      "id": "Marketing_calc.HTML:510196:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8315,
-      "offset": 508742,
+      "line": 8324,
+      "offset": 510196,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2741,10 +3336,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508782:js-string",
+      "id": "Marketing_calc.HTML:510236:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8315,
-      "offset": 508782,
+      "line": 8324,
+      "offset": 510236,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2753,10 +3348,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508825:js-string",
+      "id": "Marketing_calc.HTML:510279:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8316,
-      "offset": 508825,
+      "line": 8325,
+      "offset": 510279,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2765,10 +3360,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508862:js-string",
+      "id": "Marketing_calc.HTML:510316:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8316,
-      "offset": 508862,
+      "line": 8325,
+      "offset": 510316,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2777,10 +3372,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508905:js-string",
+      "id": "Marketing_calc.HTML:510359:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8317,
-      "offset": 508905,
+      "line": 8326,
+      "offset": 510359,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2789,10 +3384,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508944:js-string",
+      "id": "Marketing_calc.HTML:510398:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8317,
-      "offset": 508944,
+      "line": 8326,
+      "offset": 510398,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2801,10 +3396,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508954:js-string",
+      "id": "Marketing_calc.HTML:510408:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8317,
-      "offset": 508954,
+      "line": 8326,
+      "offset": 510408,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2813,10 +3408,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:508997:js-string",
+      "id": "Marketing_calc.HTML:510451:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8318,
-      "offset": 508997,
+      "line": 8327,
+      "offset": 510451,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2825,10 +3420,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509036:js-string",
+      "id": "Marketing_calc.HTML:510490:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8318,
-      "offset": 509036,
+      "line": 8327,
+      "offset": 510490,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2837,10 +3432,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509046:js-string",
+      "id": "Marketing_calc.HTML:510500:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8318,
-      "offset": 509046,
+      "line": 8327,
+      "offset": 510500,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2849,10 +3444,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509089:js-string",
+      "id": "Marketing_calc.HTML:510543:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8319,
-      "offset": 509089,
+      "line": 8328,
+      "offset": 510543,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2861,10 +3456,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509137:js-string",
+      "id": "Marketing_calc.HTML:510591:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8319,
-      "offset": 509137,
+      "line": 8328,
+      "offset": 510591,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2873,10 +3468,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509147:js-string",
+      "id": "Marketing_calc.HTML:510601:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8319,
-      "offset": 509147,
+      "line": 8328,
+      "offset": 510601,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2885,10 +3480,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509363:js-string",
+      "id": "Marketing_calc.HTML:510817:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8326,
-      "offset": 509363,
+      "line": 8335,
+      "offset": 510817,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2897,10 +3492,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509714:js-string",
+      "id": "Marketing_calc.HTML:511168:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8332,
-      "offset": 509714,
+      "line": 8341,
+      "offset": 511168,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2909,10 +3504,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509744:js-regex",
+      "id": "Marketing_calc.HTML:511198:js-regex",
       "file": "Marketing_calc.HTML",
-      "line": 8333,
-      "offset": 509744,
+      "line": 8342,
+      "offset": 511198,
       "kind": "js-regex",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2923,10 +3518,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509762:js-string",
+      "id": "Marketing_calc.HTML:511216:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8333,
-      "offset": 509762,
+      "line": 8342,
+      "offset": 511216,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2935,10 +3530,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509766:js-string",
+      "id": "Marketing_calc.HTML:511220:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8333,
-      "offset": 509766,
+      "line": 8342,
+      "offset": 511220,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2947,10 +3542,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509779:js-regex",
+      "id": "Marketing_calc.HTML:511233:js-regex",
       "file": "Marketing_calc.HTML",
-      "line": 8333,
-      "offset": 509779,
+      "line": 8342,
+      "offset": 511233,
       "kind": "js-regex",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2961,10 +3556,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:509950:js-string",
+      "id": "Marketing_calc.HTML:511404:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8338,
-      "offset": 509950,
+      "line": 8347,
+      "offset": 511404,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2973,10 +3568,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:510014:js-string",
+      "id": "Marketing_calc.HTML:511468:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8339,
-      "offset": 510014,
+      "line": 8348,
+      "offset": 511468,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2985,10 +3580,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:510078:js-string",
+      "id": "Marketing_calc.HTML:511532:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8340,
-      "offset": 510078,
+      "line": 8349,
+      "offset": 511532,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2997,10 +3592,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:510148:js-string",
+      "id": "Marketing_calc.HTML:511602:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8341,
-      "offset": 510148,
+      "line": 8350,
+      "offset": 511602,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3009,10 +3604,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:510224:js-string",
+      "id": "Marketing_calc.HTML:511678:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8342,
-      "offset": 510224,
+      "line": 8351,
+      "offset": 511678,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3021,10 +3616,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:510298:js-string",
+      "id": "Marketing_calc.HTML:511752:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8343,
-      "offset": 510298,
+      "line": 8352,
+      "offset": 511752,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3033,10 +3628,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:510933:js-string",
+      "id": "Marketing_calc.HTML:512387:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8356,
-      "offset": 510933,
+      "line": 8365,
+      "offset": 512387,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3045,10 +3640,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511010:js-string",
+      "id": "Marketing_calc.HTML:512464:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8357,
-      "offset": 511010,
+      "line": 8366,
+      "offset": 512464,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3057,10 +3652,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511095:js-string",
+      "id": "Marketing_calc.HTML:512549:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8358,
-      "offset": 511095,
+      "line": 8367,
+      "offset": 512549,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3069,10 +3664,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511121:js-string",
+      "id": "Marketing_calc.HTML:512575:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8360,
-      "offset": 511121,
+      "line": 8369,
+      "offset": 512575,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3081,10 +3676,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511184:js-string",
+      "id": "Marketing_calc.HTML:512638:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8361,
-      "offset": 511184,
+      "line": 8370,
+      "offset": 512638,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3093,10 +3688,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511237:js-string",
+      "id": "Marketing_calc.HTML:512691:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8362,
-      "offset": 511237,
+      "line": 8371,
+      "offset": 512691,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3105,10 +3700,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511288:js-string",
+      "id": "Marketing_calc.HTML:512742:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8363,
-      "offset": 511288,
+      "line": 8372,
+      "offset": 512742,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3117,10 +3712,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511341:js-string",
+      "id": "Marketing_calc.HTML:512795:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8364,
-      "offset": 511341,
+      "line": 8373,
+      "offset": 512795,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3129,10 +3724,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511404:js-string",
+      "id": "Marketing_calc.HTML:512858:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8365,
-      "offset": 511404,
+      "line": 8374,
+      "offset": 512858,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3141,10 +3736,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511474:js-string",
+      "id": "Marketing_calc.HTML:512928:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8367,
-      "offset": 511474,
+      "line": 8376,
+      "offset": 512928,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3153,10 +3748,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511539:js-string",
+      "id": "Marketing_calc.HTML:512993:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8368,
-      "offset": 511539,
+      "line": 8377,
+      "offset": 512993,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3165,10 +3760,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511614:js-string",
+      "id": "Marketing_calc.HTML:513068:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8369,
-      "offset": 511614,
+      "line": 8378,
+      "offset": 513068,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3177,10 +3772,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511677:js-string",
+      "id": "Marketing_calc.HTML:513131:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8370,
-      "offset": 511677,
+      "line": 8379,
+      "offset": 513131,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3189,10 +3784,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511764:js-string",
+      "id": "Marketing_calc.HTML:513218:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8372,
-      "offset": 511764,
+      "line": 8381,
+      "offset": 513218,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3201,62 +3796,62 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:511897:js-string",
+      "id": "Marketing_calc.HTML:513351:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8375,
-      "offset": 511897,
+      "line": 8384,
+      "offset": 513351,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductAdFunnel",
       "text": "Укажите CPC больше 0, чтобы построить воронку.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:dfb697e1c0857669"
+      "catalog": "marketing.enterACpcGreaterThan0ToBuildTheFunnel"
     },
     {
-      "id": "Marketing_calc.HTML:512070:js-string",
+      "id": "Marketing_calc.HTML:513524:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8377,
-      "offset": 512070,
+      "line": 8386,
+      "offset": 513524,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductAdFunnel",
       "text": "Укажите обе конверсии больше 0, чтобы рассчитать стоимость продажи 1 ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:f7257ddb4c0b16c0"
+      "catalog": "finance.enterBothConversionRatesAbove0ToCalculateAcquisitionCostPerItemSold"
     },
     {
-      "id": "Marketing_calc.HTML:512225:js-string",
+      "id": "Marketing_calc.HTML:513679:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8379,
-      "offset": 512225,
+      "line": 8388,
+      "offset": 513679,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductAdFunnel",
       "text": "Base CAC = рекламный бюджет ÷ покупки. Ведение рекламы показано отдельно и не входит в CAC SKU.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:cc51b207c3fb60a7"
+      "catalog": "marketing.baseCacAdvertisingBudgetPurchasesCampaignManagementIsShownSeparatelyAndExcludedFromSkuCac"
     },
     {
-      "id": "Marketing_calc.HTML:512388:js-string",
+      "id": "Marketing_calc.HTML:513842:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8381,
-      "offset": 512388,
+      "line": 8390,
+      "offset": 513842,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "recalculateProductAdFunnel",
       "text": "Заполните воронку, чтобы получить рекламную стоимость продажи 1 единицы.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:11c951163eb69cb3"
+      "catalog": "marketing.completeTheFunnelToCalculateAdvertisingCostPerSale"
     },
     {
-      "id": "Marketing_calc.HTML:512659:js-string",
+      "id": "Marketing_calc.HTML:514113:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8389,
-      "offset": 512659,
+      "line": 8398,
+      "offset": 514113,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3265,10 +3860,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:512682:js-string",
+      "id": "Marketing_calc.HTML:514136:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8389,
-      "offset": 512682,
+      "line": 8398,
+      "offset": 514136,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3277,10 +3872,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:512745:js-string",
+      "id": "Marketing_calc.HTML:514199:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8391,
-      "offset": 512745,
+      "line": 8400,
+      "offset": 514199,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3289,10 +3884,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:512945:js-string",
+      "id": "Marketing_calc.HTML:514399:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8393,
-      "offset": 512945,
+      "line": 8402,
+      "offset": 514399,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3301,10 +3896,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:513014:js-string",
+      "id": "Marketing_calc.HTML:514468:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8394,
-      "offset": 513014,
+      "line": 8403,
+      "offset": 514468,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3313,10 +3908,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:513041:js-string",
+      "id": "Marketing_calc.HTML:514495:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8394,
-      "offset": 513041,
+      "line": 8403,
+      "offset": 514495,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3325,10 +3920,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:513050:js-string",
+      "id": "Marketing_calc.HTML:514504:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8394,
-      "offset": 513050,
+      "line": 8403,
+      "offset": 514504,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3337,10 +3932,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:513160:js-string",
+      "id": "Marketing_calc.HTML:514614:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8398,
-      "offset": 513160,
+      "line": 8407,
+      "offset": 514614,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3349,10 +3944,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:513247:js-string",
+      "id": "Marketing_calc.HTML:514701:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8400,
-      "offset": 513247,
+      "line": 8409,
+      "offset": 514701,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3361,10 +3956,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:513362:js-string",
+      "id": "Marketing_calc.HTML:514816:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8402,
-      "offset": 513362,
+      "line": 8411,
+      "offset": 514816,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3373,10 +3968,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:513393:js-string",
+      "id": "Marketing_calc.HTML:514847:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8403,
-      "offset": 513393,
+      "line": 8412,
+      "offset": 514847,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3385,22 +3980,23 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:513437:js-string",
+      "id": "Marketing_calc.HTML:514891:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8404,
-      "offset": 513437,
+      "line": 8413,
+      "offset": 514891,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
       "context": "setProductBusinessTaxType",
       "text": "Налог на оборот, %",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "goods.turnoverTax"
     },
     {
-      "id": "Marketing_calc.HTML:513520:js-string",
+      "id": "Marketing_calc.HTML:514974:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8407,
-      "offset": 513520,
+      "line": 8416,
+      "offset": 514974,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3409,10 +4005,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:513959:js-string",
+      "id": "Marketing_calc.HTML:515413:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8415,
-      "offset": 513959,
+      "line": 8424,
+      "offset": 515413,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3421,10 +4017,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:514054:js-string",
+      "id": "Marketing_calc.HTML:515508:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8417,
-      "offset": 514054,
+      "line": 8426,
+      "offset": 515508,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3433,10 +4029,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:514081:js-string",
+      "id": "Marketing_calc.HTML:515535:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8417,
-      "offset": 514081,
+      "line": 8426,
+      "offset": 515535,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3445,10 +4041,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:514378:js-string",
+      "id": "Marketing_calc.HTML:515832:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8424,
-      "offset": 514378,
+      "line": 8433,
+      "offset": 515832,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3457,10 +4053,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:514459:js-string",
+      "id": "Marketing_calc.HTML:515913:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8425,
-      "offset": 514459,
+      "line": 8434,
+      "offset": 515913,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3469,10 +4065,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:514750:js-string",
+      "id": "Marketing_calc.HTML:516204:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8432,
-      "offset": 514750,
+      "line": 8441,
+      "offset": 516204,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3481,10 +4077,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:515184:js-string",
+      "id": "Marketing_calc.HTML:516638:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8442,
-      "offset": 515184,
+      "line": 8451,
+      "offset": 516638,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3493,10 +4089,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:515642:js-string",
+      "id": "Marketing_calc.HTML:517096:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8452,
-      "offset": 515642,
+      "line": 8461,
+      "offset": 517096,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3505,10 +4101,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:515956:js-string",
+      "id": "Marketing_calc.HTML:517410:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8459,
-      "offset": 515956,
+      "line": 8468,
+      "offset": 517410,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3517,10 +4113,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:516288:js-string",
+      "id": "Marketing_calc.HTML:517742:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8466,
-      "offset": 516288,
+      "line": 8475,
+      "offset": 517742,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3529,10 +4125,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:516599:js-string",
+      "id": "Marketing_calc.HTML:518053:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8473,
-      "offset": 516599,
+      "line": 8482,
+      "offset": 518053,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3541,10 +4137,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:516951:js-string",
+      "id": "Marketing_calc.HTML:518405:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8481,
-      "offset": 516951,
+      "line": 8490,
+      "offset": 518405,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3553,10 +4149,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:517106:js-string",
+      "id": "Marketing_calc.HTML:518560:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8483,
-      "offset": 517106,
+      "line": 8492,
+      "offset": 518560,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3565,10 +4161,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:517231:js-string",
+      "id": "Marketing_calc.HTML:518685:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8487,
-      "offset": 517231,
+      "line": 8496,
+      "offset": 518685,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3577,10 +4173,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:517408:js-string",
+      "id": "Marketing_calc.HTML:518862:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8489,
-      "offset": 517408,
+      "line": 8498,
+      "offset": 518862,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3589,10 +4185,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:517661:js-string",
+      "id": "Marketing_calc.HTML:519115:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8493,
-      "offset": 517661,
+      "line": 8502,
+      "offset": 519115,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3601,10 +4197,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:517744:js-string",
+      "id": "Marketing_calc.HTML:519198:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8494,
-      "offset": 517744,
+      "line": 8503,
+      "offset": 519198,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3613,10 +4209,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:517793:js-string",
+      "id": "Marketing_calc.HTML:519247:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8495,
-      "offset": 517793,
+      "line": 8504,
+      "offset": 519247,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3625,10 +4221,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:517819:js-string",
+      "id": "Marketing_calc.HTML:519273:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8495,
-      "offset": 517819,
+      "line": 8504,
+      "offset": 519273,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3637,10 +4233,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:517831:js-string",
+      "id": "Marketing_calc.HTML:519285:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8495,
-      "offset": 517831,
+      "line": 8504,
+      "offset": 519285,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3649,10 +4245,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:517859:js-string",
+      "id": "Marketing_calc.HTML:519313:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8495,
-      "offset": 517859,
+      "line": 8504,
+      "offset": 519313,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3661,10 +4257,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:518012:js-string",
+      "id": "Marketing_calc.HTML:519466:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8497,
-      "offset": 518012,
+      "line": 8506,
+      "offset": 519466,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3673,10 +4269,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518265:js-string",
+      "id": "Marketing_calc.HTML:519719:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8503,
-      "offset": 518265,
+      "line": 8512,
+      "offset": 519719,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3685,10 +4281,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518274:js-string",
+      "id": "Marketing_calc.HTML:519728:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8503,
-      "offset": 518274,
+      "line": 8512,
+      "offset": 519728,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3697,10 +4293,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518281:js-string",
+      "id": "Marketing_calc.HTML:519735:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8503,
-      "offset": 518281,
+      "line": 8512,
+      "offset": 519735,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3709,10 +4305,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518289:js-string",
+      "id": "Marketing_calc.HTML:519743:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8503,
-      "offset": 518289,
+      "line": 8512,
+      "offset": 519743,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3721,10 +4317,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518453:js-string",
+      "id": "Marketing_calc.HTML:519907:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8506,
-      "offset": 518453,
+      "line": 8515,
+      "offset": 519907,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3733,10 +4329,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518461:js-string",
+      "id": "Marketing_calc.HTML:519915:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8506,
-      "offset": 518461,
+      "line": 8515,
+      "offset": 519915,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3745,10 +4341,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518471:js-string",
+      "id": "Marketing_calc.HTML:519925:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8506,
-      "offset": 518471,
+      "line": 8515,
+      "offset": 519925,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3757,10 +4353,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518710:js-string",
+      "id": "Marketing_calc.HTML:520164:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8511,
-      "offset": 518710,
+      "line": 8520,
+      "offset": 520164,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3769,10 +4365,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518777:js-string",
+      "id": "Marketing_calc.HTML:520231:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8512,
-      "offset": 518777,
+      "line": 8521,
+      "offset": 520231,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3781,10 +4377,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518820:js-string",
+      "id": "Marketing_calc.HTML:520274:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8514,
-      "offset": 518820,
+      "line": 8523,
+      "offset": 520274,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3793,23 +4389,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:518866:js-string",
+      "id": "Marketing_calc.HTML:520320:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8515,
-      "offset": 518866,
+      "line": 8524,
+      "offset": 520320,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Услуга · я сам",
       "coverage": "legacy-exact",
-      "catalog": "legacy:bfd72140393380b7"
+      "catalog": "operations.serviceDeliveredByMe"
     },
     {
-      "id": "Marketing_calc.HTML:518922:js-string",
+      "id": "Marketing_calc.HTML:520376:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8516,
-      "offset": 518922,
+      "line": 8525,
+      "offset": 520376,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3818,10 +4414,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519007:js-string",
+      "id": "Marketing_calc.HTML:520461:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8518,
-      "offset": 519007,
+      "line": 8527,
+      "offset": 520461,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3830,23 +4426,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519054:js-string",
+      "id": "Marketing_calc.HTML:520508:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8519,
-      "offset": 519054,
+      "line": 8528,
+      "offset": 520508,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Услуга · нанимаю исполнителя",
       "coverage": "legacy-exact",
-      "catalog": "legacy:40388d684e4ed8e8"
+      "catalog": "operations.serviceHiredProvider"
     },
     {
-      "id": "Marketing_calc.HTML:519127:js-string",
+      "id": "Marketing_calc.HTML:520581:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8520,
-      "offset": 519127,
+      "line": 8529,
+      "offset": 520581,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3855,23 +4451,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519176:js-string",
+      "id": "Marketing_calc.HTML:520630:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8521,
-      "offset": 519176,
+      "line": 8530,
+      "offset": 520630,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Оплата исполнителю считается отдельной статьёй расходов. Налог исполнителя в вашу модель не включается.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:ed27498c5601d269"
+      "catalog": "tax.providerFeesAreASeparateExpenseTheProviderSOwnTaxesAreNotPartOfYourCalculation"
     },
     {
-      "id": "Marketing_calc.HTML:519315:js-string",
+      "id": "Marketing_calc.HTML:520769:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8522,
-      "offset": 519315,
+      "line": 8531,
+      "offset": 520769,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3880,23 +4476,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519362:js-string",
+      "id": "Marketing_calc.HTML:520816:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8523,
-      "offset": 519362,
+      "line": 8532,
+      "offset": 520816,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Услуга · агент",
       "coverage": "legacy-exact",
-      "catalog": "legacy:54e75ba1e6ec717b"
+      "catalog": "operations.serviceAgent"
     },
     {
-      "id": "Marketing_calc.HTML:519421:js-string",
+      "id": "Marketing_calc.HTML:520875:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8524,
-      "offset": 519421,
+      "line": 8533,
+      "offset": 520875,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3905,23 +4501,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519470:js-string",
+      "id": "Marketing_calc.HTML:520924:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8525,
-      "offset": 519470,
+      "line": 8534,
+      "offset": 520924,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Для каждой ненулевой статьи расходов выберите «Кто платит»: Я или Принципал. Нулевые расходы распределять не нужно. Если платите вы — сумма вычитается из вашего агентского вознаграждения. Если принципал — она остаётся расходом его бизнеса.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c9b0e87311e9bd2d"
+      "catalog": "finance.forEachNonzeroExpenseSelectWhoPaysMeOrPrincipalZeroExpensesNeedNoAllocationIfYouPayTheAmou"
     },
     {
-      "id": "Marketing_calc.HTML:519763:js-string",
+      "id": "Marketing_calc.HTML:521217:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8528,
-      "offset": 519763,
+      "line": 8537,
+      "offset": 521217,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3930,10 +4526,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519808:js-string",
+      "id": "Marketing_calc.HTML:521262:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8529,
-      "offset": 519808,
+      "line": 8538,
+      "offset": 521262,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3942,10 +4538,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519847:js-string",
+      "id": "Marketing_calc.HTML:521301:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8529,
-      "offset": 519847,
+      "line": 8538,
+      "offset": 521301,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3954,10 +4550,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519921:js-string",
+      "id": "Marketing_calc.HTML:521375:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8531,
-      "offset": 519921,
+      "line": 8540,
+      "offset": 521375,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -3966,36 +4562,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:519952:js-string",
+      "id": "Marketing_calc.HTML:521406:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8531,
-      "offset": 519952,
+      "line": 8540,
+      "offset": 521406,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Я — агент",
       "coverage": "legacy-exact",
-      "catalog": "legacy:2d7b5e85c494d980"
+      "catalog": "ui.iAmAnAgent"
     },
     {
-      "id": "Marketing_calc.HTML:519964:js-string",
+      "id": "Marketing_calc.HTML:521418:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8531,
-      "offset": 519964,
+      "line": 8540,
+      "offset": 521418,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Калькулятор Юнит-Экономики (CPC-модель)",
       "coverage": "legacy-exact",
-      "catalog": "legacy:ea40909bb676632f"
+      "catalog": "marketing.unitEconomicsCalculatorCpcModel"
     },
     {
-      "id": "Marketing_calc.HTML:520023:js-string",
+      "id": "Marketing_calc.HTML:521477:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8532,
-      "offset": 520023,
+      "line": 8541,
+      "offset": 521477,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4004,36 +4600,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:520058:js-string",
+      "id": "Marketing_calc.HTML:521512:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8532,
-      "offset": 520058,
+      "line": 8541,
+      "offset": 521512,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Как зарабатываю я: вознаграждение, мои расходы и налоги.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:5bf21daefee83659"
+      "catalog": "tax.howIEarnCommissionMyExpensesAndTaxes"
     },
     {
-      "id": "Marketing_calc.HTML:520117:js-string",
+      "id": "Marketing_calc.HTML:521571:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8532,
-      "offset": 520117,
+      "line": 8541,
+      "offset": 521571,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Аналог Excel-калькулятора с помесячной разбивкой и учётом налогов",
       "coverage": "legacy-exact",
-      "catalog": "legacy:48eb166c343de7a5"
+      "catalog": "tax.spreadsheetStyleFinancialCalculatorWithMonthlyBreakdownAndTaxes"
     },
     {
-      "id": "Marketing_calc.HTML:520202:js-string",
+      "id": "Marketing_calc.HTML:521656:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8533,
-      "offset": 520202,
+      "line": 8542,
+      "offset": 521656,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4042,36 +4638,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:520238:js-string",
+      "id": "Marketing_calc.HTML:521692:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8533,
-      "offset": 520238,
+      "line": 8542,
+      "offset": 521692,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Добавить модель агента в портфель V2",
       "coverage": "legacy-exact",
-      "catalog": "legacy:1313ddab314eec50"
+      "catalog": "ui.addTheAgentModelToTheV2Portfolio"
     },
     {
-      "id": "Marketing_calc.HTML:520277:js-string",
+      "id": "Marketing_calc.HTML:521731:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8533,
-      "offset": 520277,
+      "line": 8542,
+      "offset": 521731,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Добавить онлайн-услугу в общий портфель V2",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7c25d24a0b7a4a49"
+      "catalog": "operations.addOnlineServiceToSharedV2Portfolio"
     },
     {
-      "id": "Marketing_calc.HTML:520339:js-string",
+      "id": "Marketing_calc.HTML:521793:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8534,
-      "offset": 520339,
+      "line": 8543,
+      "offset": 521793,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4080,36 +4676,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:520365:js-string",
+      "id": "Marketing_calc.HTML:521819:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8534,
-      "offset": 520365,
+      "line": 8543,
+      "offset": 521819,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Перенести экономику агента в V2 →",
       "coverage": "legacy-exact",
-      "catalog": "legacy:2710238e773d5f00"
+      "catalog": "ui.transferTheAgentEconomicsToV2"
     },
     {
-      "id": "Marketing_calc.HTML:520401:js-string",
+      "id": "Marketing_calc.HTML:521855:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8534,
-      "offset": 520401,
+      "line": 8543,
+      "offset": 521855,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Добавить рассчитанную услугу в V2 →",
       "coverage": "legacy-exact",
-      "catalog": "legacy:27e57dadb1c7c33f"
+      "catalog": "operations.addCalculatedServiceToV2"
     },
     {
-      "id": "Marketing_calc.HTML:520654:js-string",
+      "id": "Marketing_calc.HTML:522108:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8540,
-      "offset": 520654,
+      "line": 8549,
+      "offset": 522108,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4118,36 +4714,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:520711:js-string",
+      "id": "Marketing_calc.HTML:522165:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8541,
-      "offset": 520711,
+      "line": 8550,
+      "offset": 522165,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Экономика агента и принципала (итоги за период)",
       "coverage": "legacy-exact",
-      "catalog": "legacy:86066a513199e5b5"
+      "catalog": "ui.agentAndPrincipalEconomicsPeriodTotals"
     },
     {
-      "id": "Marketing_calc.HTML:520761:js-string",
+      "id": "Marketing_calc.HTML:522215:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8541,
-      "offset": 520761,
+      "line": 8550,
+      "offset": 522215,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "selectServiceMode",
       "text": "Расчётные показатели (Итого за период)",
       "coverage": "legacy-exact",
-      "catalog": "legacy:bfd9708df05b1e28"
+      "catalog": "ui.calculatedResultsPeriodTotals"
     },
     {
-      "id": "Marketing_calc.HTML:520816:js-string",
+      "id": "Marketing_calc.HTML:522270:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8542,
-      "offset": 520816,
+      "line": 8551,
+      "offset": 522270,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4156,10 +4752,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:520838:js-string",
+      "id": "Marketing_calc.HTML:522292:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8542,
-      "offset": 520838,
+      "line": 8551,
+      "offset": 522292,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4168,10 +4764,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521001:js-string",
+      "id": "Marketing_calc.HTML:522455:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8544,
-      "offset": 521001,
+      "line": 8553,
+      "offset": 522455,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -4180,10 +4776,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521096:js-string",
+      "id": "Marketing_calc.HTML:522550:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8546,
-      "offset": 521096,
+      "line": 8555,
+      "offset": 522550,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4192,10 +4788,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521181:js-string",
+      "id": "Marketing_calc.HTML:522635:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8547,
-      "offset": 521181,
+      "line": 8556,
+      "offset": 522635,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4204,10 +4800,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521225:js-string",
+      "id": "Marketing_calc.HTML:522679:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8548,
-      "offset": 521225,
+      "line": 8557,
+      "offset": 522679,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4216,10 +4812,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521295:js-string",
+      "id": "Marketing_calc.HTML:522749:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8549,
-      "offset": 521295,
+      "line": 8558,
+      "offset": 522749,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4228,10 +4824,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521324:js-string",
+      "id": "Marketing_calc.HTML:522778:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8549,
-      "offset": 521324,
+      "line": 8558,
+      "offset": 522778,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4240,10 +4836,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521407:js-string",
+      "id": "Marketing_calc.HTML:522861:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8553,
-      "offset": 521407,
+      "line": 8562,
+      "offset": 522861,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4252,10 +4848,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521698:js-string",
+      "id": "Marketing_calc.HTML:523152:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8560,
-      "offset": 521698,
+      "line": 8569,
+      "offset": 523152,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4264,10 +4860,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521711:js-string",
+      "id": "Marketing_calc.HTML:523165:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8560,
-      "offset": 521711,
+      "line": 8569,
+      "offset": 523165,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4276,10 +4872,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521722:js-string",
+      "id": "Marketing_calc.HTML:523176:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8560,
-      "offset": 521722,
+      "line": 8569,
+      "offset": 523176,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4288,10 +4884,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521743:js-string",
+      "id": "Marketing_calc.HTML:523197:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8560,
-      "offset": 521743,
+      "line": 8569,
+      "offset": 523197,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4300,10 +4896,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521753:js-string",
+      "id": "Marketing_calc.HTML:523207:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8560,
-      "offset": 521753,
+      "line": 8569,
+      "offset": 523207,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4312,10 +4908,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521763:js-string",
+      "id": "Marketing_calc.HTML:523217:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8560,
-      "offset": 521763,
+      "line": 8569,
+      "offset": 523217,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4324,10 +4920,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521893:js-string",
+      "id": "Marketing_calc.HTML:523347:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8562,
-      "offset": 521893,
+      "line": 8571,
+      "offset": 523347,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4336,10 +4932,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:521961:js-string",
+      "id": "Marketing_calc.HTML:523415:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8563,
-      "offset": 521961,
+      "line": 8572,
+      "offset": 523415,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4348,10 +4944,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:522303:js-string",
+      "id": "Marketing_calc.HTML:523757:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8569,
-      "offset": 522303,
+      "line": 8578,
+      "offset": 523757,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
@@ -4360,578 +4956,15 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:522401:js-string",
+      "id": "Marketing_calc.HTML:523855:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 8570,
-      "offset": 522401,
+      "line": 8579,
+      "offset": 523855,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L3",
       "context": "calculate",
       "text": "#inputs-container [aria-invalid]",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522472:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8570,
-      "offset": 522472,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L2",
-      "context": "module",
-      "text": "aria-invalid",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522643:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8573,
-      "offset": 522643,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "monthlyBudget",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522659:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8573,
-      "offset": 522659,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "cpc",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522665:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8573,
-      "offset": 522665,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "costConsult",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522679:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8573,
-      "offset": 522679,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "costPack",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522690:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8573,
-      "offset": 522690,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "mgmt",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522697:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8573,
-      "offset": 522697,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "site",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522719:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8574,
-      "offset": 522719,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "hosting",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522729:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8574,
-      "offset": 522729,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "dom",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522735:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8574,
-      "offset": 522735,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "magnet",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522744:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8574,
-      "offset": 522744,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "markup",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522786:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8575,
-      "offset": 522786,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "ctr",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522792:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8575,
-      "offset": 522792,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "cvrLead",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522802:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8575,
-      "offset": 522802,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "cvrDeal",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522812:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8575,
-      "offset": 522812,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "ltv",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522818:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8575,
-      "offset": 522818,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "acq",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522824:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8575,
-      "offset": 522824,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "taxTurnover",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522853:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8576,
-      "offset": 522853,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "agentPct",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522864:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8576,
-      "offset": 522864,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "agentTaxTurnover",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:522991:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8578,
-      "offset": 522991,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "Значение не может быть отрицательным.",
-      "coverage": "legacy-exact",
-      "catalog": "legacy:afc09d722392f34d"
-    },
-    {
-      "id": "Marketing_calc.HTML:523168:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8581,
-      "offset": 523168,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "Процент должен быть от 0 до 100.",
-      "coverage": "legacy-exact",
-      "catalog": "legacy:5f7082486aa9a6ba"
-    },
-    {
-      "id": "Marketing_calc.HTML:523297:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8583,
-      "offset": 523297,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "months",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:523306:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8583,
-      "offset": 523306,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "Период должен быть целым числом от 1 до 120 месяцев.",
-      "coverage": "legacy-exact",
-      "catalog": "legacy:61ed68cc3ff7b7de"
-    },
-    {
-      "id": "Marketing_calc.HTML:523431:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8585,
-      "offset": 523431,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "cpc",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:523437:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8585,
-      "offset": 523437,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "При положительном рекламном бюджете CPC должен быть больше нуля.",
-      "coverage": "legacy-exact",
-      "catalog": "legacy:1bfec00cd673b223"
-    },
-    {
-      "id": "Marketing_calc.HTML:523574:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8587,
-      "offset": 523574,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "ctr",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:523580:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8587,
-      "offset": 523580,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "Без положительного CTR нельзя получить клики из показов.",
-      "coverage": "legacy-exact",
-      "catalog": "legacy:1ad8cb999cfb3570"
-    },
-    {
-      "id": "Marketing_calc.HTML:523790:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8590,
-      "offset": 523790,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "in-",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:523872:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8592,
-      "offset": 523872,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "aria-invalid",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:523887:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8592,
-      "offset": 523887,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "true",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:523948:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8593,
-      "offset": 523948,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "p",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524003:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8594,
-      "offset": 524003,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "yes",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524043:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8595,
-      "offset": 524043,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "mt-1 text-xs text-rose-700",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524312:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8601,
-      "offset": 524312,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "summary-table",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524356:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8602,
-      "offset": 524356,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "<tr><td colspan=\"2\" class=\"p-3 text-rose-800 bg-rose-50\">Исправьте параметры расчёта. Недопустимая модель не рассчитывается.</td></tr>",
-      "coverage": "unmapped-candidate"
-    },
-    {
-      "id": "Marketing_calc.HTML:524413:markup-text",
-      "file": "Marketing_calc.HTML",
-      "line": 8602,
-      "offset": 524413,
-      "kind": "markup-text",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L2",
-      "context": "td",
-      "text": "Исправьте параметры расчёта. Недопустимая модель не рассчитывается.",
-      "protectedNode": false,
-      "embedded": true,
-      "coverage": "legacy-exact",
-      "catalog": "legacy:3ee6e546ac445da4"
-    },
-    {
-      "id": "Marketing_calc.HTML:524532:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8603,
-      "offset": 524532,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "monthly-table",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524576:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8604,
-      "offset": 524576,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "<tr><td class=\"p-3 text-rose-800\">Нет корректного прогноза: ",
-      "coverage": "unmapped-candidate"
-    },
-    {
-      "id": "Marketing_calc.HTML:524610:markup-text",
-      "file": "Marketing_calc.HTML",
-      "line": 8604,
-      "offset": 524610,
-      "kind": "markup-text",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L2",
-      "context": "td",
-      "text": "Нет корректного прогноза:",
-      "protectedNode": false,
-      "embedded": true,
-      "coverage": "legacy-exact",
-      "catalog": "legacy:35edeba9c37612ea"
-    },
-    {
-      "id": "Marketing_calc.HTML:524643:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8604,
-      "offset": 524643,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "</td></tr>",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524688:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8605,
-      "offset": 524688,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "res-profit",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524701:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8605,
-      "offset": 524701,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "res-romi",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524712:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8605,
-      "offset": 524712,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "res-marketing-romi",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524733:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8605,
-      "offset": 524733,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "res-cpa",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524743:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8605,
-      "offset": 524743,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "res-cac",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "Marketing_calc.HTML:524753:js-string",
-      "file": "Marketing_calc.HTML",
-      "line": 8605,
-      "offset": 524753,
-      "kind": "js-string",
-      "owner": "Marketing_calc.HTML",
-      "stage": "L3",
-      "context": "calculate",
-      "text": "service-simple-free-cash-value",
       "coverage": "technical-or-latin-review"
     }
   ]

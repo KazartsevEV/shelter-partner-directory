@@ -57,10 +57,10 @@ function box(title,body,id) {
  return '<section id="'+safe(id)+'" class="nd-v2-section rounded-2xl border border-slate-200 p-4 md:p-5 mb-4"><h3 class="nd-v2-title text-lg font-bold mb-3">'+title+'</h3>'+body+'</section>';
 }
 function resourceCard(r,index){
- let all=model.skus.map(s=>'<label class="nd-v2-check-row flex gap-2 items-center text-xs text-slate-700"><input type="checkbox" data-p2-resource-member="'+index+'" value="'+safe(s.id)+'" '+((r.skuIds||[]).includes(s.id)?'checked':'')+'><span>'+safe(s.name||'Товар '+(model.skus.indexOf(s)+1))+'</span></label>').join('');
+ let all=model.skus.map(s=>'<label class="nd-v2-check-row flex gap-2 items-center text-xs text-slate-700"><input type="checkbox" data-p2-resource-member="'+index+'" value="'+safe(s.id)+'" '+((r.skuIds||[]).includes(s.id)?'checked':'')+'><span'+(s.name?' data-nomad-no-translate':'')+'>'+safe(s.name||'Товар '+(model.skus.indexOf(s)+1))+'</span></label>').join('');
  const usable=(r.skuIds||[]).length;
  return '<article class="border border-indigo-200 bg-indigo-50 rounded-xl p-3 mt-3" data-p2-resource="'+safe(r.id)+'">'+
- '<div class="nd-v2-card-heading flex items-start justify-between gap-3"><strong class="nd-v2-card-title text-slate-900">'+safe(r.label||labels[r.kind]||'Ресурс')+'</strong>'+
+ '<div class="nd-v2-card-heading flex items-start justify-between gap-3"><strong class="nd-v2-card-title text-slate-900"'+(r.label?' data-nomad-no-translate':'')+'>'+safe(r.label||labels[r.kind]||'Ресурс')+'</strong>'+
  '<button type="button" data-p2-delete-resource="'+safe(r.id)+'" class="nd-v2-action nd-v2-action-outline nd-v2-card-remove text-xs text-rose-700 underline">Удалить</button></div>'+
  '<div class="nd-v2-form-grid grid grid-cols-2 gap-2 mt-3">'+
  selField('Тип ресурса','resources.'+index+'.kind',r.kind,Object.entries(labels))+
@@ -246,16 +246,16 @@ function updateResult(){
  const skuRows=r.items.map(s=>'<tr class="border-t border-white/20">'+
  [safe(s.name),money(s.price),money(s.unitCost),pct(s.mix*100),pct(s.revenueWeight*100),
  money(s.weightedCAC),money(s.forecastOrders),money(s.adBudget),money(s.ebitda),
- s.roas===null?'—':money(s.roas)+'×'].map(k=>'<td class="px-2 py-3 whitespace-nowrap">'+k+'</td>').join('')+'</tr>').join('');
+ s.roas===null?'—':money(s.roas)+'×'].map((k,column)=>'<td class="px-2 py-3 whitespace-nowrap"'+(column===0?' data-nomad-no-translate':'')+'>'+k+'</td>').join('')+'</tr>').join('');
  const cashHeads=['Месяц','Продажи','Выплаты','Операционный cash flow','Кредит / свои','Проценты','Возврат тела','Чистый CF','Накопленный CF','ЖИВЫЕ ДЕНЬГИ'];
  const cashRows=r.months.map(m=>'<tr class="border-t border-white/20">'+
  [m.month,money(m.receipt),money(m.outflow),money(m.preFinancing),
  money(m.loanDraw+m.ownerDraw),money(m.interest),money(m.principalRepayment),
  money(m.cashFlow),money(m.cumulative),money(m.freeCumulative)]
  .map(k=>'<td class="px-2 py-2 whitespace-nowrap">'+k+'</td>').join('')+'</tr>').join('');
- const resourceRows=r.resources.map(v=>'<tr class="border-t border-white/20"><td class="p-2">'+safe(v.label)+'</td><td class="p-2">'+
+ const resourceRows=r.resources.map(v=>'<tr class="border-t border-white/20"><td class="p-2" data-nomad-no-translate>'+safe(v.label)+'</td><td class="p-2">'+
  money(v.amount)+'</td><td class="p-2">'+(v.cadence==='once'?'раз':'месяц')+'</td><td class="p-2">'+
- Object.entries(v.bySku).map(([id,amount])=>safe(r.items.find(s=>s.id===id)?.name||id)+': '+money(amount)).join('; ')+'</td></tr>').join('');
+ Object.entries(v.bySku).map(([id,amount])=>'<span data-nomad-no-translate>'+safe(r.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(amount)).join('; ')+'</td></tr>').join('');
  el.innerHTML=intro+
  '<div class="nd-v2-financial-grid grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+
  [['Чистая прибыль · базовый месяц',r.netProfit],['Рентабельность товара (взвешенная), %',r.weightedMarginPct],
@@ -272,6 +272,7 @@ function updateResult(){
  '<p class="text-sm mt-3">Всего рекламы в месяц: <strong>'+money(r.marketingBudget)+'</strong>. На SKU распределено: <strong>'+money(r.invariants.adAllocated)+'</strong>. Денежные доли суммарно '+pct(r.invariants.weightSum*100)+'.</p>'+
  '<h3 class="font-bold mt-5">Общие ресурсы — одна оплата, несколько получателей</h3>'+
  '<div class="overflow-x-auto"><table class="text-xs w-full text-left"><thead><tr><th class="p-2">Ресурс</th><th class="p-2">Сумма</th><th class="p-2">Частота</th><th class="p-2">Кому отнесено</th></tr></thead><tbody>'+resourceRows+'</tbody></table></div>'+
+ '<p class="text-xs mt-3" data-i18n="finance.theBaseMonthResultIsAfterBusinessTaxAndBeforeLoanInterestDepreciationIsNotCalculatedS"></p>'+
  '<h3 class="font-bold mt-5">Помесячный cash flow · '+r.months.length+' месяцев</h3>'+
  '<div class="overflow-x-auto mt-2"><table class="text-xs text-left w-full"><thead><tr>'+
  cashHeads.map(h=>'<th class="px-2 py-3 whitespace-nowrap">'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+cashRows+'</tbody></table></div>'+

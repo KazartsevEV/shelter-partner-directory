@@ -3,62 +3,88 @@
   "file": "portfolio_v2_linked_ui.js",
   "entries": [
     {
-      "id": "portfolio_v2_linked_ui.js:26123:js-string",
+      "id": "portfolio_v2_linked_ui.js:26087:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 354,
-      "offset": 26123,
+      "offset": 26087,
+      "kind": "js-string",
+      "owner": "portfolio_v2_linked_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "минимальная маржа недостижима",
+      "coverage": "legacy-exact",
+      "catalog": "pricing.minimumMarginInfeasible"
+    },
+    {
+      "id": "portfolio_v2_linked_ui.js:26124:js-string",
+      "file": "portfolio_v2_linked_ui.js",
+      "line": 354,
+      "offset": 26124,
+      "kind": "js-string",
+      "owner": "portfolio_v2_linked_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Фиксированная цена V1 убыточна",
+      "coverage": "legacy-exact",
+      "catalog": "pricing.fixedV1PriceIsLossMaking"
+    },
+    {
+      "id": "portfolio_v2_linked_ui.js:26166:js-string",
+      "file": "portfolio_v2_linked_ui.js",
+      "line": 354,
+      "offset": 26166,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Фиксированная цена/комиссия V1 сохранена",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d7c839fc94b31667"
+      "catalog": "pricing.fixedV1PriceCommissionRetained"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26178:js-string",
+      "id": "portfolio_v2_linked_ui.js:26221:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 354,
-      "offset": 26178,
+      "offset": 26221,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "предварительно: амортизация не подтверждена",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e70c5b1df7129f5a"
+      "catalog": "ui.provisionalAmortizationUnverified"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26238:js-string",
+      "id": "portfolio_v2_linked_ui.js:26281:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 354,
-      "offset": 26238,
+      "offset": 26281,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "ожидает проверки",
       "coverage": "legacy-exact",
-      "catalog": "legacy:ce15ca8ae3c959ef"
+      "catalog": "ui.awaitingValidation"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26263:js-string",
+      "id": "portfolio_v2_linked_ui.js:26306:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 355,
-      "offset": 26263,
+      "offset": 26306,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Заполните общие ресурсы.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:66bd549eca0ce6f0"
+      "catalog": "ui.completeTheSharedResources"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26321:js-string",
+      "id": "portfolio_v2_linked_ui.js:26364:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 357,
-      "offset": 26321,
+      "offset": 26364,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -67,10 +93,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26395:js-string",
+      "id": "portfolio_v2_linked_ui.js:26438:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 358,
-      "offset": 26395,
+      "offset": 26438,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -79,10 +105,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26460:js-string",
+      "id": "portfolio_v2_linked_ui.js:26503:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 358,
-      "offset": 26460,
+      "offset": 26503,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -91,10 +117,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26510:js-string",
+      "id": "portfolio_v2_linked_ui.js:26553:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 360,
-      "offset": 26510,
+      "offset": 26553,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -103,10 +129,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26541:markup-text",
+      "id": "portfolio_v2_linked_ui.js:26584:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 360,
-      "offset": 26541,
+      "offset": 26584,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -115,13 +141,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:e1d62abef86b489a"
+      "catalog": "ui.portfolioEconomicsNotYetValidated"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26594:js-string",
+      "id": "portfolio_v2_linked_ui.js:26637:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 361,
-      "offset": 26594,
+      "offset": 26637,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -130,10 +156,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26618:markup-text",
+      "id": "portfolio_v2_linked_ui.js:26661:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 361,
-      "offset": 26618,
+      "offset": 26661,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -142,13 +168,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:f6bcf12961c09557"
+      "catalog": "pricing.v1RemainsUnchangedV2CannotExceedItsApprovedPriceCeilingCorrectTheAllocationsOrExpenses"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26739:js-string",
+      "id": "portfolio_v2_linked_ui.js:26782:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 362,
-      "offset": 26739,
+      "offset": 26782,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -157,10 +183,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26817:js-string",
+      "id": "portfolio_v2_linked_ui.js:26860:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 363,
-      "offset": 26817,
+      "offset": 26860,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -169,10 +195,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26896:js-string",
+      "id": "portfolio_v2_linked_ui.js:26939:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 363,
-      "offset": 26896,
+      "offset": 26939,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -181,10 +207,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26915:js-string",
+      "id": "portfolio_v2_linked_ui.js:26958:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 363,
-      "offset": 26915,
+      "offset": 26958,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -193,10 +219,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:26947:js-string",
+      "id": "portfolio_v2_linked_ui.js:26990:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 364,
-      "offset": 26947,
+      "offset": 26990,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -205,10 +231,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27003:js-string",
+      "id": "portfolio_v2_linked_ui.js:27046:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 365,
-      "offset": 27003,
+      "offset": 27046,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -217,10 +243,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27108:js-string",
+      "id": "portfolio_v2_linked_ui.js:27151:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 365,
-      "offset": 27108,
+      "offset": 27151,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -229,10 +255,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27112:markup-text",
+      "id": "portfolio_v2_linked_ui.js:27155:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 365,
-      "offset": 27112,
+      "offset": 27155,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -243,10 +269,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27155:js-string",
+      "id": "portfolio_v2_linked_ui.js:27198:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 366,
-      "offset": 27155,
+      "offset": 27198,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -255,10 +281,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27180:js-string",
+      "id": "portfolio_v2_linked_ui.js:27223:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 366,
-      "offset": 27180,
+      "offset": 27223,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -267,36 +293,36 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27248:js-string",
+      "id": "portfolio_v2_linked_ui.js:27291:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 367,
-      "offset": 27248,
+      "offset": 27291,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "module",
       "text": ", максимально допустимая цена ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7d7ad374940a64a1"
+      "catalog": "pricing.maximumPermittedPrice"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27308:js-string",
+      "id": "portfolio_v2_linked_ui.js:27351:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 368,
-      "offset": 27308,
+      "offset": 27351,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "module",
       "text": ", итоговая маржа ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:69b9bb54b6c4c672"
+      "catalog": "pricing.resultingMargin"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27361:js-string",
+      "id": "portfolio_v2_linked_ui.js:27404:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 368,
-      "offset": 27361,
+      "offset": 27404,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -305,10 +331,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27361:markup-text",
+      "id": "portfolio_v2_linked_ui.js:27404:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 368,
-      "offset": 27361,
+      "offset": 27404,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -319,10 +345,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27381:js-string",
+      "id": "portfolio_v2_linked_ui.js:27424:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 368,
-      "offset": 27381,
+      "offset": 27424,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -331,10 +357,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27490:js-string",
+      "id": "portfolio_v2_linked_ui.js:27533:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 370,
-      "offset": 27490,
+      "offset": 27533,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -343,10 +369,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27568:js-regex",
+      "id": "portfolio_v2_linked_ui.js:27611:js-regex",
       "file": "portfolio_v2_linked_ui.js",
       "line": 371,
-      "offset": 27568,
+      "offset": 27611,
       "kind": "js-regex",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -357,10 +383,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27607:js-regex",
+      "id": "portfolio_v2_linked_ui.js:27650:js-regex",
       "file": "portfolio_v2_linked_ui.js",
       "line": 371,
-      "offset": 27607,
+      "offset": 27650,
       "kind": "js-regex",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -371,10 +397,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27671:js-string",
+      "id": "portfolio_v2_linked_ui.js:27714:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 372,
-      "offset": 27671,
+      "offset": 27714,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -383,10 +409,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27734:js-string",
+      "id": "portfolio_v2_linked_ui.js:27777:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 373,
-      "offset": 27734,
+      "offset": 27777,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -395,10 +421,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27765:js-string",
+      "id": "portfolio_v2_linked_ui.js:27808:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 373,
-      "offset": 27765,
+      "offset": 27808,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -407,10 +433,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27809:js-string",
+      "id": "portfolio_v2_linked_ui.js:27852:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 374,
-      "offset": 27809,
+      "offset": 27852,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -419,10 +445,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27835:js-string",
+      "id": "portfolio_v2_linked_ui.js:27878:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 374,
-      "offset": 27835,
+      "offset": 27878,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -431,10 +457,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27895:js-string",
+      "id": "portfolio_v2_linked_ui.js:27938:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 376,
-      "offset": 27895,
+      "offset": 27938,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -443,10 +469,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27910:js-string",
+      "id": "portfolio_v2_linked_ui.js:27953:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 376,
-      "offset": 27910,
+      "offset": 27953,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -455,10 +481,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27957:js-string",
+      "id": "portfolio_v2_linked_ui.js:28000:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 377,
-      "offset": 27957,
+      "offset": 28000,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -467,10 +493,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:27989:js-string",
+      "id": "portfolio_v2_linked_ui.js:28032:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 377,
-      "offset": 27989,
+      "offset": 28032,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -479,10 +505,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28015:js-string",
+      "id": "portfolio_v2_linked_ui.js:28058:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 378,
-      "offset": 28015,
+      "offset": 28058,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -491,10 +517,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28321:js-string",
+      "id": "portfolio_v2_linked_ui.js:28364:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 387,
-      "offset": 28321,
+      "offset": 28364,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -503,10 +529,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28327:js-string",
+      "id": "portfolio_v2_linked_ui.js:28370:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 387,
-      "offset": 28327,
+      "offset": 28370,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -515,10 +541,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28393:js-string",
+      "id": "portfolio_v2_linked_ui.js:28436:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 388,
-      "offset": 28393,
+      "offset": 28436,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -527,10 +553,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28524:js-string",
+      "id": "portfolio_v2_linked_ui.js:28567:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 390,
-      "offset": 28524,
+      "offset": 28567,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -539,114 +565,114 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28735:js-string",
+      "id": "portfolio_v2_linked_ui.js:28778:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 393,
-      "offset": 28735,
+      "offset": 28778,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "План продаж / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:fbe6cb73bf450e49"
+      "catalog": "ui.salesPlanMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28770:js-string",
+      "id": "portfolio_v2_linked_ui.js:28813:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 393,
-      "offset": 28770,
+      "offset": 28813,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Выручка без НДС / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:36ed454687b84fcf"
+      "catalog": "tax.revenueExcludingVatMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28811:js-string",
+      "id": "portfolio_v2_linked_ui.js:28854:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 394,
-      "offset": 28811,
+      "offset": 28854,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Рекламный бюджет / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:eb64af812e76986a"
+      "catalog": "ui.adBudgetMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28848:js-string",
+      "id": "portfolio_v2_linked_ui.js:28891:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 394,
-      "offset": 28848,
+      "offset": 28891,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Себестоимость / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:4d2bcae76622e97d"
+      "catalog": "ui.cogsMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28884:js-string",
+      "id": "portfolio_v2_linked_ui.js:28927:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 395,
-      "offset": 28884,
+      "offset": 28927,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Общие расходы / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:11e402a4a63e2e47"
+      "catalog": "finance.sharedExpensesMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28929:js-string",
+      "id": "portfolio_v2_linked_ui.js:28972:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 395,
-      "offset": 28929,
+      "offset": 28972,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "EBITDA / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:2d1969f52a59710f"
+      "catalog": "ui.ebitdaMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28960:js-string",
+      "id": "portfolio_v2_linked_ui.js:29003:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 396,
-      "offset": 28960,
+      "offset": 29003,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Налог бизнеса / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:07ff30f128997548"
+      "catalog": "tax.businessTaxMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:28992:js-string",
+      "id": "portfolio_v2_linked_ui.js:29035:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 396,
-      "offset": 28992,
+      "offset": 29035,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Чистая прибыль / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:66f854e7dddade7e"
+      "catalog": "finance.netProfitMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29050:js-string",
+      "id": "portfolio_v2_linked_ui.js:29093:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 397,
-      "offset": 29050,
+      "offset": 29093,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -655,140 +681,140 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29136:js-string",
+      "id": "portfolio_v2_linked_ui.js:29179:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29136,
+      "offset": 29179,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Товар / услуга",
       "coverage": "legacy-exact",
-      "catalog": "legacy:4eb35103ad838511"
+      "catalog": "export.excel.name"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29153:js-string",
+      "id": "portfolio_v2_linked_ui.js:29196:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29153,
+      "offset": 29196,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Диапазон V1",
       "coverage": "legacy-exact",
-      "catalog": "legacy:571d18b977582ae5"
+      "catalog": "pricing.v1PriceRange"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29167:js-string",
+      "id": "portfolio_v2_linked_ui.js:29210:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29167,
+      "offset": 29210,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Прайс V2",
       "coverage": "legacy-exact",
-      "catalog": "legacy:eed1d9bb2b4216ad"
+      "catalog": "export.excel.base"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29178:js-string",
+      "id": "portfolio_v2_linked_ui.js:29221:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29178,
+      "offset": 29221,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Скидка",
       "coverage": "legacy-exact",
-      "catalog": "legacy:53bf07ab6cc701f2"
+      "catalog": "pricing.discount"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29187:js-string",
+      "id": "portfolio_v2_linked_ui.js:29230:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29187,
+      "offset": 29230,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Цена вне набора",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c23259930419e8ed"
+      "catalog": "pricing.standalonePrice"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29205:js-string",
+      "id": "portfolio_v2_linked_ui.js:29248:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29205,
+      "offset": 29248,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Прогноз, ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:3d42a92f745fe06d"
+      "catalog": "ui.forecastUnits"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29220:js-string",
+      "id": "portfolio_v2_linked_ui.js:29263:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29220,
+      "offset": 29263,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Денежный вес",
       "coverage": "legacy-exact",
-      "catalog": "legacy:45e506aad56a1dd2"
+      "catalog": "finance.revenueShare"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29235:js-string",
+      "id": "portfolio_v2_linked_ui.js:29278:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29235,
+      "offset": 29278,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Реклама",
       "coverage": "legacy-exact",
-      "catalog": "legacy:769538bf2bf4d681"
+      "catalog": "marketing.advertising"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29261:js-string",
+      "id": "portfolio_v2_linked_ui.js:29304:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29261,
+      "offset": 29304,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Маржа за период",
       "coverage": "legacy-exact",
-      "catalog": "legacy:8e50108416f3ec94"
+      "catalog": "pricing.periodMargin"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29279:js-string",
+      "id": "portfolio_v2_linked_ui.js:29322:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 398,
-      "offset": 29279,
+      "offset": 29322,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Маржа / месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d1c931f0ee2209a1"
+      "catalog": "pricing.marginMonth"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29311:js-string",
+      "id": "portfolio_v2_linked_ui.js:29354:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 399,
-      "offset": 29311,
+      "offset": 29354,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -797,10 +823,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29347:js-string",
+      "id": "portfolio_v2_linked_ui.js:29390:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 399,
-      "offset": 29347,
+      "offset": 29390,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -809,10 +835,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29365:js-string",
+      "id": "portfolio_v2_linked_ui.js:29408:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 399,
-      "offset": 29365,
+      "offset": 29408,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -821,10 +847,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29408:js-string",
+      "id": "portfolio_v2_linked_ui.js:29451:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 400,
-      "offset": 29408,
+      "offset": 29451,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -833,10 +859,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29484:js-string",
+      "id": "portfolio_v2_linked_ui.js:29527:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 401,
-      "offset": 29484,
+      "offset": 29527,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -845,10 +871,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29556:js-string",
+      "id": "portfolio_v2_linked_ui.js:29599:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 402,
-      "offset": 29556,
+      "offset": 29599,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -857,29 +883,16 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29636:js-string",
+      "id": "portfolio_v2_linked_ui.js:29679:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 403,
-      "offset": 29636,
+      "offset": 29679,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "priceTable",
       "text": "%",
       "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "portfolio_v2_linked_ui.js:29697:js-string",
-      "file": "portfolio_v2_linked_ui.js",
-      "line": 403,
-      "offset": 29697,
-      "kind": "js-string",
-      "owner": "portfolio_v2_linked_ui.js",
-      "stage": "L4",
-      "context": "priceTable",
-      "text": "нет продаж",
-      "coverage": "legacy-exact",
-      "catalog": "legacy:9705246922110cbf"
     },
     {
       "id": "portfolio_v2_linked_ui.js:29740:js-string",
@@ -890,14 +903,27 @@
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "priceTable",
+      "text": "нет продаж",
+      "coverage": "legacy-exact",
+      "catalog": "ui.noSales"
+    },
+    {
+      "id": "portfolio_v2_linked_ui.js:29783:js-string",
+      "file": "portfolio_v2_linked_ui.js",
+      "line": 403,
+      "offset": 29783,
+      "kind": "js-string",
+      "owner": "portfolio_v2_linked_ui.js",
+      "stage": "L4",
+      "context": "priceTable",
       "text": "%",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29760:js-string",
+      "id": "portfolio_v2_linked_ui.js:29803:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 404,
-      "offset": 29760,
+      "offset": 29803,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -906,10 +932,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29814:js-string",
+      "id": "portfolio_v2_linked_ui.js:29857:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 404,
-      "offset": 29814,
+      "offset": 29857,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -918,10 +944,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29845:js-string",
+      "id": "portfolio_v2_linked_ui.js:29888:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 404,
-      "offset": 29845,
+      "offset": 29888,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -930,10 +956,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29851:js-string",
+      "id": "portfolio_v2_linked_ui.js:29894:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 404,
-      "offset": 29851,
+      "offset": 29894,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -942,10 +968,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29869:js-string",
+      "id": "portfolio_v2_linked_ui.js:29912:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 404,
-      "offset": 29869,
+      "offset": 29912,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -954,10 +980,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29890:js-string",
+      "id": "portfolio_v2_linked_ui.js:29933:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 405,
-      "offset": 29890,
+      "offset": 29933,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -966,10 +992,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29933:js-string",
+      "id": "portfolio_v2_linked_ui.js:29976:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 406,
-      "offset": 29933,
+      "offset": 29976,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -978,10 +1004,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:29996:js-string",
+      "id": "portfolio_v2_linked_ui.js:30039:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 407,
-      "offset": 29996,
+      "offset": 30039,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -990,34 +1016,60 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30043:js-string",
+      "id": "portfolio_v2_linked_ui.js:30086:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 408,
-      "offset": 30043,
+      "offset": 30086,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "resources",
-      "text": "<b>",
+      "text": "<b><span data-nomad-no-translate>",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30063:js-string",
+      "id": "portfolio_v2_linked_ui.js:30136:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 408,
-      "offset": 30063,
+      "offset": 30136,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "resources",
-      "text": " — ",
+      "text": "</span> — ",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30098:js-string",
+      "id": "portfolio_v2_linked_ui.js:30143:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 408,
-      "offset": 30098,
+      "offset": 30143,
+      "kind": "markup-text",
+      "owner": "portfolio_v2_linked_ui.js",
+      "stage": "L4",
+      "context": "document",
+      "text": "—",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_linked_ui.js:30165:js-string",
+      "file": "portfolio_v2_linked_ui.js",
+      "line": 408,
+      "offset": 30165,
+      "kind": "js-string",
+      "owner": "portfolio_v2_linked_ui.js",
+      "stage": "L4",
+      "context": "resources",
+      "text": " <span>",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_linked_ui.js:30188:js-string",
+      "file": "portfolio_v2_linked_ui.js",
+      "line": 408,
+      "offset": 30188,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1026,48 +1078,48 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30105:js-string",
+      "id": "portfolio_v2_linked_ui.js:30195:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 408,
-      "offset": 30105,
+      "offset": 30195,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "resources",
-      "text": " разово",
+      "text": "разово",
       "coverage": "legacy-exact",
-      "catalog": "legacy:fda36a459489d8dd"
+      "catalog": "ui.oneTime2"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30115:js-string",
+      "id": "portfolio_v2_linked_ui.js:30204:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 408,
-      "offset": 30115,
+      "offset": 30204,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "resources",
-      "text": " / мес.",
+      "text": "/ мес.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:4ee6de35c9b5448d"
+      "catalog": "ui.month2"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30126:js-string",
+      "id": "portfolio_v2_linked_ui.js:30214:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 408,
-      "offset": 30126,
+      "offset": 30214,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "resources",
-      "text": "</b>",
+      "text": "</span></b>",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30137:js-string",
+      "id": "portfolio_v2_linked_ui.js:30232:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 409,
-      "offset": 30137,
+      "offset": 30232,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1076,10 +1128,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30142:markup-text",
+      "id": "portfolio_v2_linked_ui.js:30237:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 409,
-      "offset": 30142,
+      "offset": 30237,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1088,13 +1140,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:6e923184ea81097b"
+      "catalog": "ui.replacedV1Charges"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30197:js-string",
+      "id": "portfolio_v2_linked_ui.js:30292:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 409,
-      "offset": 30197,
+      "offset": 30292,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1103,10 +1155,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30225:js-string",
+      "id": "portfolio_v2_linked_ui.js:30320:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 410,
-      "offset": 30225,
+      "offset": 30320,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1115,10 +1167,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30236:js-string",
+      "id": "portfolio_v2_linked_ui.js:30331:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 410,
-      "offset": 30236,
+      "offset": 30331,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1127,10 +1179,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30241:markup-text",
+      "id": "portfolio_v2_linked_ui.js:30336:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 410,
-      "offset": 30241,
+      "offset": 30336,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1139,13 +1191,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:fe8e8dabe64305af"
+      "catalog": "ui.resourceCapacity"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30291:js-string",
+      "id": "portfolio_v2_linked_ui.js:30386:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 411,
-      "offset": 30291,
+      "offset": 30386,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1154,36 +1206,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30334:js-string",
+      "id": "portfolio_v2_linked_ui.js:30429:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 411,
-      "offset": 30334,
+      "offset": 30429,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "resources",
       "text": "без лимита",
       "coverage": "legacy-exact",
-      "catalog": "legacy:edc9d04f3fecfdaa"
+      "catalog": "ui.unlimited"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30354:js-string",
+      "id": "portfolio_v2_linked_ui.js:30449:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 412,
-      "offset": 30354,
+      "offset": 30449,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "resources",
       "text": ", остаток ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:5acd2ba72a8e2622"
+      "catalog": "ui.remaining"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30395:js-string",
+      "id": "portfolio_v2_linked_ui.js:30490:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 412,
-      "offset": 30395,
+      "offset": 30490,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1192,10 +1244,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30427:js-string",
+      "id": "portfolio_v2_linked_ui.js:30522:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 412,
-      "offset": 30427,
+      "offset": 30522,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1204,10 +1256,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30492:js-string",
+      "id": "portfolio_v2_linked_ui.js:30587:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 414,
-      "offset": 30492,
+      "offset": 30587,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1216,10 +1268,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30575:js-string",
+      "id": "portfolio_v2_linked_ui.js:30670:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 414,
-      "offset": 30575,
+      "offset": 30670,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1228,10 +1280,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30582:markup-text",
+      "id": "portfolio_v2_linked_ui.js:30677:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 414,
-      "offset": 30582,
+      "offset": 30677,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1242,10 +1294,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30601:js-string",
+      "id": "portfolio_v2_linked_ui.js:30696:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 414,
-      "offset": 30601,
+      "offset": 30696,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1254,10 +1306,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30623:js-string",
+      "id": "portfolio_v2_linked_ui.js:30718:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 415,
-      "offset": 30623,
+      "offset": 30718,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1266,10 +1318,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30642:js-string",
+      "id": "portfolio_v2_linked_ui.js:30737:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 415,
-      "offset": 30642,
+      "offset": 30737,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1278,10 +1330,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30788:js-string",
+      "id": "portfolio_v2_linked_ui.js:30883:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 417,
-      "offset": 30788,
+      "offset": 30883,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1290,136 +1342,148 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30827:js-string",
+      "id": "portfolio_v2_linked_ui.js:30941:js-string",
+      "file": "portfolio_v2_linked_ui.js",
+      "line": 418,
+      "offset": 30941,
+      "kind": "js-string",
+      "owner": "portfolio_v2_linked_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "portfolio.fullServiceSummary",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_linked_ui.js:30991:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 419,
-      "offset": 30827,
+      "offset": 30991,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Оборудование / CAPEX",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:capex",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:capex",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30855:js-string",
+      "id": "portfolio_v2_linked_ui.js:31019:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 419,
-      "offset": 30855,
+      "offset": 31019,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Долг на конец горизонта",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:debt",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:debt",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:30892:js-string",
+      "id": "portfolio_v2_linked_ui.js:31056:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 420,
-      "offset": 30892,
+      "offset": 31056,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Цены полных услуг сохранены из V1, выручка показана без НДС. Амортизация и тело кредита учитываются раздельно. Общие расходы оплачиваются один раз. Резерв не является расходом прибыли.",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:note",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:note",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31094:js-string",
+      "id": "portfolio_v2_linked_ui.js:31258:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 421,
-      "offset": 31094,
+      "offset": 31258,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Equipment / CAPEX",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:capex",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:capex",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31119:js-string",
+      "id": "portfolio_v2_linked_ui.js:31283:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 421,
-      "offset": 31119,
+      "offset": 31283,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Outstanding debt at horizon",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:debt",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:debt",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31160:js-string",
+      "id": "portfolio_v2_linked_ui.js:31324:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 422,
-      "offset": 31160,
+      "offset": 31324,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Full-service prices follow V1. Revenue excludes VAT. Depreciation, principal and shared expenses are accounted for separately. Reserves do not reduce profit.",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:note",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:note",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31335:js-string",
+      "id": "portfolio_v2_linked_ui.js:31499:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 423,
-      "offset": 31335,
+      "offset": 31499,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Жабдық / CAPEX",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:capex",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:capex",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31357:js-string",
+      "id": "portfolio_v2_linked_ui.js:31521:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 423,
-      "offset": 31357,
+      "offset": 31521,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Кезең соңындағы қарыз",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:debt",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:debt",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31392:js-string",
+      "id": "portfolio_v2_linked_ui.js:31556:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 424,
-      "offset": 31392,
+      "offset": 31556,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Толық қызмет бағалары V1 есебінен алынды. Кіріс ҚҚС-сыз көрсетілді. Амортизация, несие сомасы және ортақ шығындар бөлек есептеледі. Резерв пайдадан шегерілмейді.",
-      "catalog": "portfolio_v2_linked_ui.js:fullWords:30812:note",
+      "catalog": "portfolio_v2_linked_ui.js:fullWords:30976:note",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31618:js-string",
+      "id": "portfolio_v2_linked_ui.js:31783:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 427,
-      "offset": 31618,
+      "offset": 31783,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1428,10 +1492,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31684:js-string",
+      "id": "portfolio_v2_linked_ui.js:31849:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 428,
-      "offset": 31684,
+      "offset": 31849,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1440,10 +1504,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31706:markup-text",
+      "id": "portfolio_v2_linked_ui.js:31871:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 428,
-      "offset": 31706,
+      "offset": 31871,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1454,49 +1518,49 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31743:js-string",
+      "id": "portfolio_v2_linked_ui.js:31908:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 428,
-      "offset": 31743,
+      "offset": 31908,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": " мес. · ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:30708a3c4894630e"
+      "catalog": "ui.months3"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31771:js-string",
+      "id": "portfolio_v2_linked_ui.js:31936:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 428,
-      "offset": 31771,
+      "offset": 31936,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "расчётная цена за весь период",
       "coverage": "legacy-exact",
-      "catalog": "legacy:2a602b9f0a0c616f"
+      "catalog": "pricing.calculatedPriceOverEntirePeriod"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31803:js-string",
+      "id": "portfolio_v2_linked_ui.js:31968:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 428,
-      "offset": 31803,
+      "offset": 31968,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "по месячным ценам V2",
       "coverage": "legacy-exact",
-      "catalog": "legacy:50a12cdf6243d66b"
+      "catalog": "pricing.atMonthlyV2Prices"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31827:js-string",
+      "id": "portfolio_v2_linked_ui.js:31992:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 428,
-      "offset": 31827,
+      "offset": 31992,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1505,10 +1569,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31838:js-string",
+      "id": "portfolio_v2_linked_ui.js:32003:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 429,
-      "offset": 31838,
+      "offset": 32003,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1517,23 +1581,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:31922:js-string",
+      "id": "portfolio_v2_linked_ui.js:32087:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 431,
-      "offset": 31922,
+      "offset": 32087,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Цена каждого SKU рассчитана по фактической марже за выбранный период, включая долю рекламы, расходов, проценты и налоги. Все цены в пределах V1. Резерв и тело кредита влияют на денежную потребность, но не являются расходом прибыли. Карточки выше показывают первый месяц V1, а не сумму всего периода.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:611c27c2950636d1"
+      "catalog": "credit.eachProductOrServicePriceUsesItsActualMarginForTheSelectedPeriodIncludingAllocatedAdvertis"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32225:js-string",
+      "id": "portfolio_v2_linked_ui.js:32390:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 431,
-      "offset": 32225,
+      "offset": 32390,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1542,10 +1606,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32235:js-string",
+      "id": "portfolio_v2_linked_ui.js:32400:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 432,
-      "offset": 32235,
+      "offset": 32400,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1554,23 +1618,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32317:js-string",
+      "id": "portfolio_v2_linked_ui.js:32482:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 433,
-      "offset": 32317,
+      "offset": 32482,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Выручка без НДС",
       "coverage": "legacy-exact",
-      "catalog": "legacy:9766c58f7cfe3be6"
+      "catalog": "service.cashflowGuide.ledgerIn"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32359:js-string",
+      "id": "portfolio_v2_linked_ui.js:32524:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 433,
-      "offset": 32359,
+      "offset": 32524,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1579,62 +1643,62 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32395:js-string",
+      "id": "portfolio_v2_linked_ui.js:32560:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 434,
-      "offset": 32395,
+      "offset": 32560,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Налог начислен",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e41dbab50203ee6c"
+      "catalog": "tax.accruedTax"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32439:js-string",
+      "id": "portfolio_v2_linked_ui.js:32604:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 434,
-      "offset": 32439,
+      "offset": 32604,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Чистая прибыль",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7366a5d568c71c95"
+      "catalog": "service.cashflow.net"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32486:js-string",
+      "id": "portfolio_v2_linked_ui.js:32651:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 435,
-      "offset": 32486,
+      "offset": 32651,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Маржа за период",
       "coverage": "legacy-exact",
-      "catalog": "legacy:8e50108416f3ec94"
+      "catalog": "pricing.periodMargin"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32528:js-string",
+      "id": "portfolio_v2_linked_ui.js:32693:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 435,
-      "offset": 32528,
+      "offset": 32693,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "не определена",
       "coverage": "legacy-exact",
-      "catalog": "legacy:78c7bca2a0121afb"
+      "catalog": "ui.notDetermined"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32568:js-string",
+      "id": "portfolio_v2_linked_ui.js:32733:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 435,
-      "offset": 32568,
+      "offset": 32733,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1643,36 +1707,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32578:js-string",
+      "id": "portfolio_v2_linked_ui.js:32743:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 436,
-      "offset": 32578,
+      "offset": 32743,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Налог начислен − уплачен",
       "coverage": "legacy-exact",
-      "catalog": "legacy:95767acf4e75506c"
+      "catalog": "tax.taxAccruedPaid"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32645:js-string",
+      "id": "portfolio_v2_linked_ui.js:32810:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 437,
-      "offset": 32645,
+      "offset": 32810,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Проценты после горизонта",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d6c3a7fbeca89dd5"
+      "catalog": "credit.interestAfterForecastPeriod"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32867:js-string",
+      "id": "portfolio_v2_linked_ui.js:33032:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 440,
-      "offset": 32867,
+      "offset": 33032,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1681,10 +1745,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32948:js-string",
+      "id": "portfolio_v2_linked_ui.js:33113:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 440,
-      "offset": 32948,
+      "offset": 33113,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1693,10 +1757,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32948:markup-text",
+      "id": "portfolio_v2_linked_ui.js:33113:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 440,
-      "offset": 32948,
+      "offset": 33113,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1707,10 +1771,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:32995:js-string",
+      "id": "portfolio_v2_linked_ui.js:33160:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 440,
-      "offset": 32995,
+      "offset": 33160,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1719,10 +1783,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33018:js-string",
+      "id": "portfolio_v2_linked_ui.js:33183:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 440,
-      "offset": 33018,
+      "offset": 33183,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1731,10 +1795,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33030:js-string",
+      "id": "portfolio_v2_linked_ui.js:33195:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 441,
-      "offset": 33030,
+      "offset": 33195,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1743,88 +1807,88 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33126:js-string",
+      "id": "portfolio_v2_linked_ui.js:33291:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 442,
-      "offset": 33126,
+      "offset": 33291,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33134:js-string",
+      "id": "portfolio_v2_linked_ui.js:33299:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 442,
-      "offset": 33134,
+      "offset": 33299,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Выручка",
       "coverage": "legacy-exact",
-      "catalog": "legacy:6a187a492750eae2"
+      "catalog": "finance.revenue"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33144:js-string",
+      "id": "portfolio_v2_linked_ui.js:33309:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 442,
-      "offset": 33144,
+      "offset": 33309,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Себестоимость",
       "coverage": "legacy-exact",
-      "catalog": "legacy:9e205592c895da75"
+      "catalog": "finance.cost"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33160:js-string",
+      "id": "portfolio_v2_linked_ui.js:33325:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 442,
-      "offset": 33160,
+      "offset": 33325,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Реклама",
       "coverage": "legacy-exact",
-      "catalog": "legacy:769538bf2bf4d681"
+      "catalog": "marketing.advertising"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33170:js-string",
+      "id": "portfolio_v2_linked_ui.js:33335:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 442,
-      "offset": 33170,
+      "offset": 33335,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Общие расходы",
       "coverage": "legacy-exact",
-      "catalog": "legacy:14ddb7372f133d5c"
+      "catalog": "finance.sharedExpenses"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33186:js-string",
+      "id": "portfolio_v2_linked_ui.js:33351:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 442,
-      "offset": 33186,
+      "offset": 33351,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Фикс. услуги",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7b95319346eafce8"
+      "catalog": "finance.fixedServiceCosts"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33201:js-string",
+      "id": "portfolio_v2_linked_ui.js:33366:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 442,
-      "offset": 33201,
+      "offset": 33366,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1833,62 +1897,62 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33214:js-string",
+      "id": "portfolio_v2_linked_ui.js:33379:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 443,
-      "offset": 33214,
+      "offset": 33379,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Амортизация",
       "coverage": "legacy-exact",
-      "catalog": "legacy:5d9c7d7a9a3722ad"
+      "catalog": "service.cashflow.amortCol"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33228:js-string",
+      "id": "portfolio_v2_linked_ui.js:33393:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 443,
-      "offset": 33228,
+      "offset": 33393,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Проценты",
       "coverage": "legacy-exact",
-      "catalog": "legacy:28ea6700ae8c8181"
+      "catalog": "service.cashflow.interest"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33239:js-string",
+      "id": "portfolio_v2_linked_ui.js:33404:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 443,
-      "offset": 33239,
+      "offset": 33404,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Налог начислен",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e41dbab50203ee6c"
+      "catalog": "tax.accruedTax"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33256:js-string",
+      "id": "portfolio_v2_linked_ui.js:33421:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 443,
-      "offset": 33256,
+      "offset": 33421,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Прибыль",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d3f688e18e9fef57"
+      "catalog": "service.cashflow.profitCol"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33278:js-string",
+      "id": "portfolio_v2_linked_ui.js:33443:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 444,
-      "offset": 33278,
+      "offset": 33443,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1897,10 +1961,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33310:js-string",
+      "id": "portfolio_v2_linked_ui.js:33475:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 444,
-      "offset": 33310,
+      "offset": 33475,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1909,10 +1973,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33328:js-string",
+      "id": "portfolio_v2_linked_ui.js:33493:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 444,
-      "offset": 33328,
+      "offset": 33493,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1921,10 +1985,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33375:js-string",
+      "id": "portfolio_v2_linked_ui.js:33540:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 445,
-      "offset": 33375,
+      "offset": 33540,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1933,10 +1997,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33565:js-string",
+      "id": "portfolio_v2_linked_ui.js:33730:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 448,
-      "offset": 33565,
+      "offset": 33730,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1945,10 +2009,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33604:js-string",
+      "id": "portfolio_v2_linked_ui.js:33769:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 448,
-      "offset": 33604,
+      "offset": 33769,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1957,10 +2021,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33643:js-string",
+      "id": "portfolio_v2_linked_ui.js:33808:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 448,
-      "offset": 33643,
+      "offset": 33808,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1969,10 +2033,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33648:js-string",
+      "id": "portfolio_v2_linked_ui.js:33813:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 448,
-      "offset": 33648,
+      "offset": 33813,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1981,10 +2045,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33671:js-string",
+      "id": "portfolio_v2_linked_ui.js:33836:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 448,
-      "offset": 33671,
+      "offset": 33836,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -1993,10 +2057,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33689:js-string",
+      "id": "portfolio_v2_linked_ui.js:33854:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 448,
-      "offset": 33689,
+      "offset": 33854,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2005,10 +2069,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33710:js-string",
+      "id": "portfolio_v2_linked_ui.js:33875:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 449,
-      "offset": 33710,
+      "offset": 33875,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2017,10 +2081,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33755:js-string",
+      "id": "portfolio_v2_linked_ui.js:33920:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 450,
-      "offset": 33755,
+      "offset": 33920,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2029,10 +2093,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33786:markup-text",
+      "id": "portfolio_v2_linked_ui.js:33951:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 450,
-      "offset": 33786,
+      "offset": 33951,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2041,13 +2105,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:332ec1d1b20d93c1"
+      "catalog": "pricing.skuPricesAndMarginsOverTheEntirePeriod"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33839:js-string",
+      "id": "portfolio_v2_linked_ui.js:34004:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 451,
-      "offset": 33839,
+      "offset": 34004,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2056,88 +2120,88 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33937:js-string",
+      "id": "portfolio_v2_linked_ui.js:34102:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 33937,
+      "offset": 34102,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Товар / услуга",
       "coverage": "legacy-exact",
-      "catalog": "legacy:4eb35103ad838511"
+      "catalog": "export.excel.name"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33954:js-string",
+      "id": "portfolio_v2_linked_ui.js:34119:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 33954,
+      "offset": 34119,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Цена за период",
       "coverage": "legacy-exact",
-      "catalog": "legacy:489269e9e7453b63"
+      "catalog": "pricing.periodPrice"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33971:js-string",
+      "id": "portfolio_v2_linked_ui.js:34136:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 33971,
+      "offset": 34136,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Маржа за период",
       "coverage": "legacy-exact",
-      "catalog": "legacy:8e50108416f3ec94"
+      "catalog": "pricing.periodMargin"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33989:js-string",
+      "id": "portfolio_v2_linked_ui.js:34154:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 33989,
+      "offset": 34154,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Статус",
       "coverage": "legacy-exact",
-      "catalog": "legacy:225077c6d4791e69"
+      "catalog": "export.excel.status"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:33998:js-string",
+      "id": "portfolio_v2_linked_ui.js:34163:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 33998,
+      "offset": 34163,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Для минимума",
       "coverage": "legacy-exact",
-      "catalog": "legacy:43d3e61344e67d8e"
+      "catalog": "ui.requiredForMinimum"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34013:js-string",
+      "id": "portfolio_v2_linked_ui.js:34178:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 34013,
+      "offset": 34178,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Для цели",
       "coverage": "legacy-exact",
-      "catalog": "legacy:451dc9b974e5e480"
+      "catalog": "ui.requiredForTarget"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34032:js-string",
+      "id": "portfolio_v2_linked_ui.js:34197:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 34032,
+      "offset": 34197,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2146,10 +2210,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34064:js-string",
+      "id": "portfolio_v2_linked_ui.js:34229:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 34064,
+      "offset": 34229,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2158,10 +2222,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34082:js-string",
+      "id": "portfolio_v2_linked_ui.js:34247:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 452,
-      "offset": 34082,
+      "offset": 34247,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2170,10 +2234,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34147:js-string",
+      "id": "portfolio_v2_linked_ui.js:34312:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 453,
-      "offset": 34147,
+      "offset": 34312,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2182,23 +2246,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34283:js-string",
+      "id": "portfolio_v2_linked_ui.js:34448:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 455,
-      "offset": 34283,
+      "offset": 34448,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "periodPanel",
       "text": "нет продаж",
       "coverage": "legacy-exact",
-      "catalog": "legacy:9705246922110cbf"
+      "catalog": "ui.noSales"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34311:js-string",
+      "id": "portfolio_v2_linked_ui.js:34476:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 455,
-      "offset": 34311,
+      "offset": 34476,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2207,36 +2271,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34405:js-string",
+      "id": "portfolio_v2_linked_ui.js:34570:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 456,
-      "offset": 34405,
+      "offset": 34570,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "periodPanel",
       "text": "недостижима",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a9b9cf1ac94f1fa2"
+      "catalog": "ui.infeasible"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34495:js-string",
+      "id": "portfolio_v2_linked_ui.js:34660:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 457,
-      "offset": 34495,
+      "offset": 34660,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "periodPanel",
       "text": "недостижима",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a9b9cf1ac94f1fa2"
+      "catalog": "ui.infeasible"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34531:js-string",
+      "id": "portfolio_v2_linked_ui.js:34696:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 458,
-      "offset": 34531,
+      "offset": 34696,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2245,10 +2309,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34585:js-string",
+      "id": "portfolio_v2_linked_ui.js:34750:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 458,
-      "offset": 34585,
+      "offset": 34750,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2257,10 +2321,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34616:js-string",
+      "id": "portfolio_v2_linked_ui.js:34781:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 458,
-      "offset": 34616,
+      "offset": 34781,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2269,10 +2333,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34622:js-string",
+      "id": "portfolio_v2_linked_ui.js:34787:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 458,
-      "offset": 34622,
+      "offset": 34787,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2281,10 +2345,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34640:js-string",
+      "id": "portfolio_v2_linked_ui.js:34805:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 458,
-      "offset": 34640,
+      "offset": 34805,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2293,10 +2357,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34663:js-string",
+      "id": "portfolio_v2_linked_ui.js:34828:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 459,
-      "offset": 34663,
+      "offset": 34828,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2305,10 +2369,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34739:js-string",
+      "id": "portfolio_v2_linked_ui.js:34904:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 461,
-      "offset": 34739,
+      "offset": 34904,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2317,10 +2381,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34778:markup-text",
+      "id": "portfolio_v2_linked_ui.js:34943:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 461,
-      "offset": 34778,
+      "offset": 34943,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2329,13 +2393,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:967efd15a615387a"
+      "catalog": "finance.someOneOffAssetsHaveNoVerifiedDepreciationScheduleFullAccountingProfitIsProvisional"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:34894:js-string",
+      "id": "portfolio_v2_linked_ui.js:35059:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 462,
-      "offset": 34894,
+      "offset": 35059,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2344,10 +2408,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35133:js-string",
+      "id": "portfolio_v2_linked_ui.js:35298:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 468,
-      "offset": 35133,
+      "offset": 35298,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2356,10 +2420,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35200:js-string",
+      "id": "portfolio_v2_linked_ui.js:35365:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 469,
-      "offset": 35200,
+      "offset": 35365,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2368,10 +2432,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35222:markup-text",
+      "id": "portfolio_v2_linked_ui.js:35387:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 469,
-      "offset": 35222,
+      "offset": 35387,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2379,13 +2443,14 @@
       "text": "Экономика принципала ·",
       "protectedNode": false,
       "embedded": true,
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "report.principalEconomics"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35301:js-string",
+      "id": "portfolio_v2_linked_ui.js:35466:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 470,
-      "offset": 35301,
+      "offset": 35466,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2394,10 +2459,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35320:js-string",
+      "id": "portfolio_v2_linked_ui.js:35485:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 471,
-      "offset": 35320,
+      "offset": 35485,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2406,10 +2471,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35359:markup-text",
+      "id": "portfolio_v2_linked_ui.js:35524:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 471,
-      "offset": 35359,
+      "offset": 35524,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2420,10 +2485,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35516:js-string",
+      "id": "portfolio_v2_linked_ui.js:35681:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 472,
-      "offset": 35516,
+      "offset": 35681,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2432,36 +2497,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35613:js-string",
+      "id": "portfolio_v2_linked_ui.js:35778:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 473,
-      "offset": 35613,
+      "offset": 35778,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "partnerPanel",
       "text": "Месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35621:js-string",
+      "id": "portfolio_v2_linked_ui.js:35786:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 473,
-      "offset": 35621,
+      "offset": 35786,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "partnerPanel",
       "text": "Выручка без НДС",
       "coverage": "legacy-exact",
-      "catalog": "legacy:9766c58f7cfe3be6"
+      "catalog": "service.cashflowGuide.ledgerIn"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35639:js-string",
+      "id": "portfolio_v2_linked_ui.js:35804:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 473,
-      "offset": 35639,
+      "offset": 35804,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2470,49 +2535,49 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35665:js-string",
+      "id": "portfolio_v2_linked_ui.js:35830:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 473,
-      "offset": 35665,
+      "offset": 35830,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "partnerPanel",
       "text": "Налог принципала",
       "coverage": "legacy-exact",
-      "catalog": "legacy:74e3a183530b2939"
+      "catalog": "tax.principalTax"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35684:js-string",
+      "id": "portfolio_v2_linked_ui.js:35849:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 473,
-      "offset": 35684,
+      "offset": 35849,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "partnerPanel",
       "text": "Прибыль принципала",
       "coverage": "legacy-exact",
-      "catalog": "legacy:bb0b1ddc1d765e36"
+      "catalog": "finance.principalProfit"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35705:js-string",
+      "id": "portfolio_v2_linked_ui.js:35870:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 473,
-      "offset": 35705,
+      "offset": 35870,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "partnerPanel",
       "text": "Покупка оборудования",
       "coverage": "legacy-exact",
-      "catalog": "legacy:defa19b0d5097834"
+      "catalog": "ui.equipmentPurchase"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35747:js-string",
+      "id": "portfolio_v2_linked_ui.js:35912:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 474,
-      "offset": 35747,
+      "offset": 35912,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2521,10 +2586,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35789:js-string",
+      "id": "portfolio_v2_linked_ui.js:35954:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 474,
-      "offset": 35789,
+      "offset": 35954,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2533,10 +2598,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35811:js-string",
+      "id": "portfolio_v2_linked_ui.js:35976:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 475,
-      "offset": 35811,
+      "offset": 35976,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2545,10 +2610,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35866:js-string",
+      "id": "portfolio_v2_linked_ui.js:36031:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 476,
-      "offset": 35866,
+      "offset": 36031,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2557,10 +2622,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:35984:js-string",
+      "id": "portfolio_v2_linked_ui.js:36149:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 478,
-      "offset": 35984,
+      "offset": 36149,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2569,10 +2634,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36023:js-string",
+      "id": "portfolio_v2_linked_ui.js:36188:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 478,
-      "offset": 36023,
+      "offset": 36188,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2581,10 +2646,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36062:js-string",
+      "id": "portfolio_v2_linked_ui.js:36227:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 478,
-      "offset": 36062,
+      "offset": 36227,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2593,10 +2658,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36067:js-string",
+      "id": "portfolio_v2_linked_ui.js:36232:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 478,
-      "offset": 36067,
+      "offset": 36232,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2605,10 +2670,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36099:js-string",
+      "id": "portfolio_v2_linked_ui.js:36264:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 479,
-      "offset": 36099,
+      "offset": 36264,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2617,10 +2682,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36117:js-string",
+      "id": "portfolio_v2_linked_ui.js:36282:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 479,
-      "offset": 36117,
+      "offset": 36282,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2629,10 +2694,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36139:js-string",
+      "id": "portfolio_v2_linked_ui.js:36304:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 480,
-      "offset": 36139,
+      "offset": 36304,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2641,10 +2706,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36168:js-string",
+      "id": "portfolio_v2_linked_ui.js:36333:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 481,
-      "offset": 36168,
+      "offset": 36333,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2653,10 +2718,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36192:markup-text",
+      "id": "portfolio_v2_linked_ui.js:36357:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 481,
-      "offset": 36192,
+      "offset": 36357,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2667,10 +2732,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36243:js-string",
+      "id": "portfolio_v2_linked_ui.js:36408:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 482,
-      "offset": 36243,
+      "offset": 36408,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2679,10 +2744,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36279:js-string",
+      "id": "portfolio_v2_linked_ui.js:36444:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 482,
-      "offset": 36279,
+      "offset": 36444,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2691,10 +2756,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36320:js-string",
+      "id": "portfolio_v2_linked_ui.js:36485:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 482,
-      "offset": 36320,
+      "offset": 36485,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2703,10 +2768,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36320:markup-text",
+      "id": "portfolio_v2_linked_ui.js:36485:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 482,
-      "offset": 36320,
+      "offset": 36485,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2717,10 +2782,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36412:js-string",
+      "id": "portfolio_v2_linked_ui.js:36577:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 485,
-      "offset": 36412,
+      "offset": 36577,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2729,10 +2794,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36439:markup-text",
+      "id": "portfolio_v2_linked_ui.js:36604:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 485,
-      "offset": 36439,
+      "offset": 36604,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2741,13 +2806,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:f2b5d7faf42eacb7"
+      "catalog": "marketing.sharedMonthlyAdvertisingActualPaymentsAndDemand"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36501:js-string",
+      "id": "portfolio_v2_linked_ui.js:36666:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 486,
-      "offset": 36501,
+      "offset": 36666,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2756,10 +2821,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36540:markup-text",
+      "id": "portfolio_v2_linked_ui.js:36705:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 486,
-      "offset": 36540,
+      "offset": 36705,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2768,13 +2833,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:0725e2ea05352ef0"
+      "catalog": "pricing.onceAnItemSellsOutItNoLongerReceivesAdvertisingAllocationUnallocatedFundsRemainActualCampa"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36733:js-string",
+      "id": "portfolio_v2_linked_ui.js:36898:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 487,
-      "offset": 36733,
+      "offset": 36898,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2783,88 +2848,88 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36829:js-string",
+      "id": "portfolio_v2_linked_ui.js:36994:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 488,
-      "offset": 36829,
+      "offset": 36994,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36837:js-string",
+      "id": "portfolio_v2_linked_ui.js:37002:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 488,
-      "offset": 36837,
+      "offset": 37002,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Оплачено",
       "coverage": "legacy-exact",
-      "catalog": "legacy:1c42287fd1c37ad2"
+      "catalog": "ui.paid"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36848:js-string",
+      "id": "portfolio_v2_linked_ui.js:37013:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 488,
-      "offset": 36848,
+      "offset": 37013,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "По SKU",
       "coverage": "legacy-exact",
-      "catalog": "legacy:4e67d215cd748bb6"
+      "catalog": "ui.bySku"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36857:js-string",
+      "id": "portfolio_v2_linked_ui.js:37022:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 488,
-      "offset": 36857,
+      "offset": 37022,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Нераспределено",
       "coverage": "legacy-exact",
-      "catalog": "legacy:b440cfb806902ab4"
+      "catalog": "ui.unallocated"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36874:js-string",
+      "id": "portfolio_v2_linked_ui.js:37039:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 488,
-      "offset": 36874,
+      "offset": 37039,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Неисполненный спрос, ед.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:4a777384a81d5cf6"
+      "catalog": "ui.unfulfilledDemandUnits"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36901:js-string",
+      "id": "portfolio_v2_linked_ui.js:37066:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 488,
-      "offset": 36901,
+      "offset": 37066,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Кампании",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a7b41cca80df0290"
+      "catalog": "marketing.campaigns"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36924:js-string",
+      "id": "portfolio_v2_linked_ui.js:37089:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 489,
-      "offset": 36924,
+      "offset": 37089,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2873,10 +2938,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36956:js-string",
+      "id": "portfolio_v2_linked_ui.js:37121:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 489,
-      "offset": 36956,
+      "offset": 37121,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2885,10 +2950,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:36974:js-string",
+      "id": "portfolio_v2_linked_ui.js:37139:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 489,
-      "offset": 36974,
+      "offset": 37139,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2897,10 +2962,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37027:js-string",
+      "id": "portfolio_v2_linked_ui.js:37192:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 490,
-      "offset": 37027,
+      "offset": 37192,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2909,10 +2974,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37072:js-string",
+      "id": "portfolio_v2_linked_ui.js:37237:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 491,
-      "offset": 37072,
+      "offset": 37237,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2921,10 +2986,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37110:js-string",
+      "id": "portfolio_v2_linked_ui.js:37275:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 491,
-      "offset": 37110,
+      "offset": 37275,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2933,10 +2998,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37123:js-string",
+      "id": "portfolio_v2_linked_ui.js:37288:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 492,
-      "offset": 37123,
+      "offset": 37288,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2945,10 +3010,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37178:js-string",
+      "id": "portfolio_v2_linked_ui.js:37343:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 492,
-      "offset": 37178,
+      "offset": 37343,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2957,10 +3022,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37191:js-string",
+      "id": "portfolio_v2_linked_ui.js:37356:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 493,
-      "offset": 37191,
+      "offset": 37356,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2969,10 +3034,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37272:js-string",
+      "id": "portfolio_v2_linked_ui.js:37437:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 494,
-      "offset": 37272,
+      "offset": 37437,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2981,10 +3046,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37350:js-string",
+      "id": "portfolio_v2_linked_ui.js:37515:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 494,
-      "offset": 37350,
+      "offset": 37515,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -2993,10 +3058,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37357:markup-text",
+      "id": "portfolio_v2_linked_ui.js:37522:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 494,
-      "offset": 37357,
+      "offset": 37522,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3007,10 +3072,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37445:js-string",
+      "id": "portfolio_v2_linked_ui.js:37610:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 495,
-      "offset": 37445,
+      "offset": 37610,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3019,10 +3084,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37451:js-string",
+      "id": "portfolio_v2_linked_ui.js:37616:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 495,
-      "offset": 37451,
+      "offset": 37616,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3031,10 +3096,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37464:js-string",
+      "id": "portfolio_v2_linked_ui.js:37629:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 496,
-      "offset": 37464,
+      "offset": 37629,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3043,10 +3108,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37522:js-string",
+      "id": "portfolio_v2_linked_ui.js:37687:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 496,
-      "offset": 37522,
+      "offset": 37687,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3055,10 +3120,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37535:js-string",
+      "id": "portfolio_v2_linked_ui.js:37700:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 497,
-      "offset": 37535,
+      "offset": 37700,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3067,10 +3132,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37662:js-string",
+      "id": "portfolio_v2_linked_ui.js:37827:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 498,
-      "offset": 37662,
+      "offset": 37827,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3079,10 +3144,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37740:js-string",
+      "id": "portfolio_v2_linked_ui.js:37905:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 498,
-      "offset": 37740,
+      "offset": 37905,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3091,10 +3156,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37747:markup-text",
+      "id": "portfolio_v2_linked_ui.js:37912:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 498,
-      "offset": 37747,
+      "offset": 37912,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3105,10 +3170,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37769:js-string",
+      "id": "portfolio_v2_linked_ui.js:37934:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 498,
-      "offset": 37769,
+      "offset": 37934,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3117,10 +3182,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37775:js-string",
+      "id": "portfolio_v2_linked_ui.js:37940:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 498,
-      "offset": 37775,
+      "offset": 37940,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3129,10 +3194,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37788:js-string",
+      "id": "portfolio_v2_linked_ui.js:37953:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 499,
-      "offset": 37788,
+      "offset": 37953,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3141,10 +3206,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37883:js-string",
+      "id": "portfolio_v2_linked_ui.js:38048:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 500,
-      "offset": 37883,
+      "offset": 38048,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3153,10 +3218,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37968:js-string",
+      "id": "portfolio_v2_linked_ui.js:38133:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 500,
-      "offset": 37968,
+      "offset": 38133,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3165,10 +3230,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:37975:markup-text",
+      "id": "portfolio_v2_linked_ui.js:38140:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 500,
-      "offset": 37975,
+      "offset": 38140,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3179,10 +3244,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38000:js-string",
+      "id": "portfolio_v2_linked_ui.js:38165:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 500,
-      "offset": 38000,
+      "offset": 38165,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3191,10 +3256,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38006:js-string",
+      "id": "portfolio_v2_linked_ui.js:38171:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 500,
-      "offset": 38006,
+      "offset": 38171,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3203,10 +3268,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38018:js-string",
+      "id": "portfolio_v2_linked_ui.js:38183:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 501,
-      "offset": 38018,
+      "offset": 38183,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3215,10 +3280,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38036:js-string",
+      "id": "portfolio_v2_linked_ui.js:38201:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 501,
-      "offset": 38036,
+      "offset": 38201,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3227,10 +3292,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38077:js-string",
+      "id": "portfolio_v2_linked_ui.js:38242:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 502,
-      "offset": 38077,
+      "offset": 38242,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3239,101 +3304,101 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38163:js-string",
+      "id": "portfolio_v2_linked_ui.js:38328:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 503,
-      "offset": 38163,
+      "offset": 38328,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Месяц",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38171:js-string",
+      "id": "portfolio_v2_linked_ui.js:38336:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 503,
-      "offset": 38171,
+      "offset": 38336,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Поступления без НДС",
       "coverage": "legacy-exact",
-      "catalog": "legacy:769b4a6e3a1418fc"
+      "catalog": "tax.receiptsExcludingVat"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38193:js-string",
+      "id": "portfolio_v2_linked_ui.js:38358:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 503,
-      "offset": 38193,
+      "offset": 38358,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Расходы",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e0ccd06f8b299fb8"
+      "catalog": "service.cashflow.cost"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38256:js-string",
+      "id": "portfolio_v2_linked_ui.js:38421:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 505,
-      "offset": 38256,
+      "offset": 38421,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Налог бизнеса",
       "coverage": "legacy-exact",
-      "catalog": "legacy:cfe4029a878d0c87"
+      "catalog": "tax.businessTax"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38272:js-string",
+      "id": "portfolio_v2_linked_ui.js:38437:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 505,
-      "offset": 38272,
+      "offset": 38437,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Проценты",
       "coverage": "legacy-exact",
-      "catalog": "legacy:28ea6700ae8c8181"
+      "catalog": "service.cashflow.interest"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38283:js-string",
+      "id": "portfolio_v2_linked_ui.js:38448:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 505,
-      "offset": 38283,
+      "offset": 38448,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Тело кредита",
       "coverage": "legacy-exact",
-      "catalog": "legacy:4782d2eec7dbdda7"
+      "catalog": "service.cashflow.principal"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38298:js-string",
+      "id": "portfolio_v2_linked_ui.js:38463:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 505,
-      "offset": 38298,
+      "offset": 38463,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Деньги владельца",
       "coverage": "legacy-exact",
-      "catalog": "legacy:f1f233ecefc8bb0a"
+      "catalog": "finance.ownerCapital"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38317:js-string",
+      "id": "portfolio_v2_linked_ui.js:38482:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 505,
-      "offset": 38317,
+      "offset": 38482,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3342,36 +3407,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38322:js-string",
+      "id": "portfolio_v2_linked_ui.js:38487:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 505,
-      "offset": 38322,
+      "offset": 38487,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Остаток",
       "coverage": "legacy-exact",
-      "catalog": "legacy:93c53d485571ca16"
+      "catalog": "interface.shell.balance"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38332:js-string",
+      "id": "portfolio_v2_linked_ui.js:38497:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 505,
-      "offset": 38332,
+      "offset": 38497,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Живые деньги",
       "coverage": "legacy-exact",
-      "catalog": "legacy:57fdb5aa4893c55e"
+      "catalog": "finance.availableCash2"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38359:js-string",
+      "id": "portfolio_v2_linked_ui.js:38524:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 506,
-      "offset": 38359,
+      "offset": 38524,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3380,10 +3445,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38391:js-string",
+      "id": "portfolio_v2_linked_ui.js:38556:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 506,
-      "offset": 38391,
+      "offset": 38556,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3392,10 +3457,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38409:js-string",
+      "id": "portfolio_v2_linked_ui.js:38574:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 506,
-      "offset": 38409,
+      "offset": 38574,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3404,10 +3469,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38452:js-string",
+      "id": "portfolio_v2_linked_ui.js:38617:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 507,
-      "offset": 38452,
+      "offset": 38617,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3416,10 +3481,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38709:js-string",
+      "id": "portfolio_v2_linked_ui.js:38874:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 512,
-      "offset": 38709,
+      "offset": 38874,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3428,10 +3493,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38766:js-string",
+      "id": "portfolio_v2_linked_ui.js:38931:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 512,
-      "offset": 38766,
+      "offset": 38931,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3440,10 +3505,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38805:js-string",
+      "id": "portfolio_v2_linked_ui.js:38970:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 512,
-      "offset": 38805,
+      "offset": 38970,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3452,10 +3517,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38810:js-string",
+      "id": "portfolio_v2_linked_ui.js:38975:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 512,
-      "offset": 38810,
+      "offset": 38975,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3464,10 +3529,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38833:js-string",
+      "id": "portfolio_v2_linked_ui.js:38998:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 512,
-      "offset": 38833,
+      "offset": 38998,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3476,10 +3541,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38851:js-string",
+      "id": "portfolio_v2_linked_ui.js:39016:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 512,
-      "offset": 38851,
+      "offset": 39016,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3488,10 +3553,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38872:js-string",
+      "id": "portfolio_v2_linked_ui.js:39037:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 513,
-      "offset": 38872,
+      "offset": 39037,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3500,10 +3565,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38912:js-string",
+      "id": "portfolio_v2_linked_ui.js:39077:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 514,
-      "offset": 38912,
+      "offset": 39077,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3512,10 +3577,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38943:markup-text",
+      "id": "portfolio_v2_linked_ui.js:39108:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 514,
-      "offset": 38943,
+      "offset": 39108,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3524,13 +3589,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:a069db047ce88735"
+      "catalog": "pricing.value4PortfolioPricesAndEconomics"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:38982:js-string",
+      "id": "portfolio_v2_linked_ui.js:39147:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 515,
-      "offset": 38982,
+      "offset": 39147,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3539,10 +3604,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39021:markup-text",
+      "id": "portfolio_v2_linked_ui.js:39186:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 515,
-      "offset": 39021,
+      "offset": 39186,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3551,13 +3616,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:d8d10cf50f1f75ff"
+      "catalog": "finance.cardsShowV2MonthlyScenarioMetricsTheCashTableBelowCoversSalesAndPaymentsOverTheEntireCalcu"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39140:js-string",
+      "id": "portfolio_v2_linked_ui.js:39305:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 516,
-      "offset": 39140,
+      "offset": 39305,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3566,10 +3631,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39250:js-string",
+      "id": "portfolio_v2_linked_ui.js:39415:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 517,
-      "offset": 39250,
+      "offset": 39415,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3578,10 +3643,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39362:js-string",
+      "id": "portfolio_v2_linked_ui.js:39527:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 517,
-      "offset": 39362,
+      "offset": 39527,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3590,10 +3655,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39374:js-string",
+      "id": "portfolio_v2_linked_ui.js:39539:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 518,
-      "offset": 39374,
+      "offset": 39539,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3602,10 +3667,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39467:js-string",
+      "id": "portfolio_v2_linked_ui.js:39632:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 518,
-      "offset": 39467,
+      "offset": 39632,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3614,10 +3679,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39485:js-string",
+      "id": "portfolio_v2_linked_ui.js:39650:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 518,
-      "offset": 39485,
+      "offset": 39650,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3626,10 +3691,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39510:js-string",
+      "id": "portfolio_v2_linked_ui.js:39675:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 518,
-      "offset": 39510,
+      "offset": 39675,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3638,10 +3703,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39555:js-string",
+      "id": "portfolio_v2_linked_ui.js:39720:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 519,
-      "offset": 39555,
+      "offset": 39720,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3650,10 +3715,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39573:js-string",
+      "id": "portfolio_v2_linked_ui.js:39738:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 520,
-      "offset": 39573,
+      "offset": 39738,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3662,10 +3727,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39612:markup-text",
+      "id": "portfolio_v2_linked_ui.js:39777:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 520,
-      "offset": 39612,
+      "offset": 39777,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3674,13 +3739,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:ba7cace164087903"
+      "catalog": "pricing.provisionalEstimateOneOffCostsOrAssetsHaveNoValidatedAmortizationScheduleFullPeriodTargetM"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39800:js-string",
+      "id": "portfolio_v2_linked_ui.js:39965:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 521,
-      "offset": 39800,
+      "offset": 39965,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3689,36 +3754,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39852:js-string",
+      "id": "portfolio_v2_linked_ui.js:40017:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 521,
-      "offset": 39852,
+      "offset": 40017,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Целевая маржа подтверждена по фактическому плану всего периода.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a19a0ad82dd8388b"
+      "catalog": "pricing.targetMarginVerifiedForTheEntireActualForecastPeriod"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39918:js-string",
+      "id": "portfolio_v2_linked_ui.js:40083:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 521,
-      "offset": 39918,
+      "offset": 40083,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Целевая маржа достигнута для всех позиций.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:be21d3f7a84dc366"
+      "catalog": "pricing.allItemsMeetTargetMargin"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39964:js-string",
+      "id": "portfolio_v2_linked_ui.js:40129:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 521,
-      "offset": 39964,
+      "offset": 40129,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3727,10 +3792,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:39974:js-string",
+      "id": "portfolio_v2_linked_ui.js:40139:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 522,
-      "offset": 39974,
+      "offset": 40139,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3739,10 +3804,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40013:markup-text",
+      "id": "portfolio_v2_linked_ui.js:40178:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 522,
-      "offset": 40013,
+      "offset": 40178,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3751,13 +3816,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:e3c295e91c9054e4"
+      "catalog": "pricing.someItemsMeetMinimumButNotTargetMarginAllPricesRemainInsideV1Limits"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40150:js-string",
+      "id": "portfolio_v2_linked_ui.js:40315:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 524,
-      "offset": 40150,
+      "offset": 40315,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3766,10 +3831,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40177:markup-text",
+      "id": "portfolio_v2_linked_ui.js:40342:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 524,
-      "offset": 40177,
+      "offset": 40342,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3778,13 +3843,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:949a9f8616091b5b"
+      "catalog": "pricing.finalCustomerPrices"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40223:js-string",
+      "id": "portfolio_v2_linked_ui.js:40388:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 525,
-      "offset": 40223,
+      "offset": 40388,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3793,10 +3858,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40250:markup-text",
+      "id": "portfolio_v2_linked_ui.js:40415:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 525,
-      "offset": 40250,
+      "offset": 40415,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3805,13 +3870,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:8fe8570f26804dcf"
+      "catalog": "ui.sharedResourcesArePaidOnce"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40305:js-string",
+      "id": "portfolio_v2_linked_ui.js:40470:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 526,
-      "offset": 40305,
+      "offset": 40470,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3820,10 +3885,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40332:markup-text",
+      "id": "portfolio_v2_linked_ui.js:40497:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 526,
-      "offset": 40332,
+      "offset": 40497,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3832,13 +3897,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:f55975d6de0aae45"
+      "catalog": "finance.value5StartupCapitalAndCashFlow"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40374:js-string",
+      "id": "portfolio_v2_linked_ui.js:40539:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 527,
-      "offset": 40374,
+      "offset": 40539,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3847,10 +3912,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40460:js-string",
+      "id": "portfolio_v2_linked_ui.js:40625:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 529,
-      "offset": 40460,
+      "offset": 40625,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3859,10 +3924,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40466:markup-text",
+      "id": "portfolio_v2_linked_ui.js:40631:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 529,
-      "offset": 40466,
+      "offset": 40631,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3871,13 +3936,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:5eabe57f6fc8e1f7"
+      "catalog": "ui.salesPlanFromV1"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40534:js-string",
+      "id": "portfolio_v2_linked_ui.js:40699:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 529,
-      "offset": 40534,
+      "offset": 40699,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3886,10 +3951,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40550:markup-text",
+      "id": "portfolio_v2_linked_ui.js:40715:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 529,
-      "offset": 40550,
+      "offset": 40715,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3898,13 +3963,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:a7d04cd283fa1383"
+      "catalog": "service.cashflowGuide.monthShort"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40568:js-string",
+      "id": "portfolio_v2_linked_ui.js:40733:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 530,
-      "offset": 40568,
+      "offset": 40733,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3913,10 +3978,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40574:markup-text",
+      "id": "portfolio_v2_linked_ui.js:40739:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 530,
-      "offset": 40574,
+      "offset": 40739,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3925,13 +3990,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:13e991fb90582164"
+      "catalog": "credit.eachMonthIncludesSalesPurchasesExpensesIncomingPaymentsAndLoanPaymentsLoanRepaymentCanCont"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40785:js-string",
+      "id": "portfolio_v2_linked_ui.js:40950:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 532,
-      "offset": 40785,
+      "offset": 40950,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3940,10 +4005,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:40791:markup-text",
+      "id": "portfolio_v2_linked_ui.js:40956:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 532,
-      "offset": 40791,
+      "offset": 40956,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3952,13 +4017,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:abdc1b7f33225290"
+      "catalog": "credit.cashFlowTracksEachPurchasedBatchUsingTheMonthlyV1SalesPaceSharedExpensesFollowActualResour"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41020:js-string",
+      "id": "portfolio_v2_linked_ui.js:41185:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 533,
-      "offset": 41020,
+      "offset": 41185,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3967,10 +4032,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41026:markup-text",
+      "id": "portfolio_v2_linked_ui.js:41191:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 533,
-      "offset": 41026,
+      "offset": 41191,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3979,13 +4044,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:513209eb8659112f"
+      "catalog": "finance.theCardsAboveShowTheV2MonthlyModelTheCashTableShowsTheFullCycle"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41116:js-string",
+      "id": "portfolio_v2_linked_ui.js:41281:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 534,
-      "offset": 41116,
+      "offset": 41281,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -3994,10 +4059,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41122:markup-text",
+      "id": "portfolio_v2_linked_ui.js:41287:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 534,
-      "offset": 41122,
+      "offset": 41287,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4006,13 +4071,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:c45634450ba58284"
+      "catalog": "credit.theCalculationUsesTheV1MonthlySalesForecastLaterRowsShowDelayedReceiptsAndLoanRepaymentWit"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41277:js-string",
+      "id": "portfolio_v2_linked_ui.js:41442:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 535,
-      "offset": 41277,
+      "offset": 41442,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4021,10 +4086,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41283:markup-text",
+      "id": "portfolio_v2_linked_ui.js:41448:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 535,
-      "offset": 41283,
+      "offset": 41448,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4033,13 +4098,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:4f7341f014dec9f6"
+      "catalog": "ui.aLongerForecastIsAvailableWhenTheV1SalesPeriodIsConfirmedOrYouExplicitlyApproveAScenario"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41398:js-string",
+      "id": "portfolio_v2_linked_ui.js:41563:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 536,
-      "offset": 41398,
+      "offset": 41563,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4048,10 +4113,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41405:markup-text",
+      "id": "portfolio_v2_linked_ui.js:41570:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 536,
-      "offset": 41405,
+      "offset": 41570,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4060,13 +4125,13 @@
       "protectedNode": false,
       "embedded": true,
       "coverage": "legacy-exact",
-      "catalog": "legacy:34b3b8f1492a5fc0"
+      "catalog": "finance.monthsInTheCashCalendar"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41476:js-string",
+      "id": "portfolio_v2_linked_ui.js:41641:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 536,
-      "offset": 41476,
+      "offset": 41641,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4075,10 +4140,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41485:markup-text",
+      "id": "portfolio_v2_linked_ui.js:41650:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 536,
-      "offset": 41485,
+      "offset": 41650,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4089,10 +4154,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41491:js-string",
+      "id": "portfolio_v2_linked_ui.js:41656:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 537,
-      "offset": 41491,
+      "offset": 41656,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4101,10 +4166,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41500:js-string",
+      "id": "portfolio_v2_linked_ui.js:41665:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 538,
-      "offset": 41500,
+      "offset": 41665,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4113,88 +4178,88 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41582:js-string",
+      "id": "portfolio_v2_linked_ui.js:41747:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 539,
-      "offset": 41582,
+      "offset": 41747,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Всего капитал",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7da2cfd056550416"
+      "catalog": "finance.totalCapital"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41617:js-string",
+      "id": "portfolio_v2_linked_ui.js:41782:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 539,
-      "offset": 41617,
+      "offset": 41782,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Собственные деньги",
       "coverage": "legacy-exact",
-      "catalog": "legacy:61a82e208c8bd413"
+      "catalog": "ui.ownerFunds"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41656:js-string",
+      "id": "portfolio_v2_linked_ui.js:41821:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 539,
-      "offset": 41656,
+      "offset": 41821,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Кредит",
       "coverage": "legacy-exact",
-      "catalog": "legacy:99c22c9c54f35e95"
+      "catalog": "service.cashflow.credit"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41689:js-string",
+      "id": "portfolio_v2_linked_ui.js:41854:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 540,
-      "offset": 41689,
+      "offset": 41854,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Резерв",
       "coverage": "legacy-exact",
-      "catalog": "legacy:65afece11a04de38"
+      "catalog": "service.cashflow.reserve"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41710:js-string",
+      "id": "portfolio_v2_linked_ui.js:41875:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 540,
-      "offset": 41710,
+      "offset": 41875,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Итоговый остаток",
       "coverage": "legacy-exact",
-      "catalog": "legacy:656322f9b62e7c1d"
+      "catalog": "finance.closingCashBalance"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41743:js-string",
+      "id": "portfolio_v2_linked_ui.js:41908:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 540,
-      "offset": 41743,
+      "offset": 41908,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "ЖИВЫЕ ДЕНЬГИ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:ca1893fb40f70dff"
+      "catalog": "finance.availableCash"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41794:js-string",
+      "id": "portfolio_v2_linked_ui.js:41959:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 541,
-      "offset": 41794,
+      "offset": 41959,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4203,10 +4268,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41885:js-string",
+      "id": "portfolio_v2_linked_ui.js:42050:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 541,
-      "offset": 41885,
+      "offset": 42050,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4215,10 +4280,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41897:js-string",
+      "id": "portfolio_v2_linked_ui.js:42062:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 542,
-      "offset": 41897,
+      "offset": 42062,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4227,10 +4292,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41977:js-string",
+      "id": "portfolio_v2_linked_ui.js:42142:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 542,
-      "offset": 41977,
+      "offset": 42142,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4239,10 +4304,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:41995:js-string",
+      "id": "portfolio_v2_linked_ui.js:42160:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 542,
-      "offset": 41995,
+      "offset": 42160,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4251,10 +4316,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:42018:js-string",
+      "id": "portfolio_v2_linked_ui.js:42183:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 542,
-      "offset": 42018,
+      "offset": 42183,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4263,10 +4328,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:42046:js-string",
+      "id": "portfolio_v2_linked_ui.js:42211:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 543,
-      "offset": 42046,
+      "offset": 42211,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4275,36 +4340,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:42169:js-string",
+      "id": "portfolio_v2_linked_ui.js:42334:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 544,
-      "offset": 42169,
+      "offset": 42334,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Примечания к расчёту: при изменении цены прогноз продаж пока использует исходные CAC и конверсии из V1. ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:fc9d5f6dac482043"
+      "catalog": "pricing.calculationNoteWhenPricesChangeDemandForecastsStillUseTheOriginalV1CacAndConversionRates"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:42278:js-string",
+      "id": "portfolio_v2_linked_ui.js:42443:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 545,
-      "offset": 42278,
+      "offset": 42443,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "updateResult",
       "text": "Разовые вложения учитываются в Cash flow, но без автоматически начисленной амортизации в EBITDA. ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:593f13590e46b8db"
+      "catalog": "finance.oneOffInvestmentsAreIncludedInCashFlowButDepreciationIsNotAutomaticallyAccruedInEbitda"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:42380:js-string",
+      "id": "portfolio_v2_linked_ui.js:42545:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 546,
-      "offset": 42380,
+      "offset": 42545,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4313,10 +4378,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:42380:markup-text",
+      "id": "portfolio_v2_linked_ui.js:42545:markup-text",
       "file": "portfolio_v2_linked_ui.js",
       "line": 546,
-      "offset": 42380,
+      "offset": 42545,
       "kind": "markup-text",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4327,10 +4392,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:42570:js-string",
+      "id": "portfolio_v2_linked_ui.js:42735:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 550,
-      "offset": 42570,
+      "offset": 42735,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4339,10 +4404,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:42874:js-string",
+      "id": "portfolio_v2_linked_ui.js:43039:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 559,
-      "offset": 42874,
+      "offset": 43039,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4351,10 +4416,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43371:js-string",
+      "id": "portfolio_v2_linked_ui.js:43536:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 566,
-      "offset": 43371,
+      "offset": 43536,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4363,10 +4428,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43394:js-string",
+      "id": "portfolio_v2_linked_ui.js:43559:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 566,
-      "offset": 43394,
+      "offset": 43559,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4375,10 +4440,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43432:js-string",
+      "id": "portfolio_v2_linked_ui.js:43597:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 567,
-      "offset": 43432,
+      "offset": 43597,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4387,10 +4452,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43496:js-string",
+      "id": "portfolio_v2_linked_ui.js:43661:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 568,
-      "offset": 43496,
+      "offset": 43661,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4399,10 +4464,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43540:js-regex",
+      "id": "portfolio_v2_linked_ui.js:43705:js-regex",
       "file": "portfolio_v2_linked_ui.js",
       "line": 569,
-      "offset": 43540,
+      "offset": 43705,
       "kind": "js-regex",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4413,10 +4478,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43614:js-string",
+      "id": "portfolio_v2_linked_ui.js:43779:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 569,
-      "offset": 43614,
+      "offset": 43779,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4425,10 +4490,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43693:js-string",
+      "id": "portfolio_v2_linked_ui.js:43858:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 570,
-      "offset": 43693,
+      "offset": 43858,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4437,10 +4502,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43738:js-string",
+      "id": "portfolio_v2_linked_ui.js:43903:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 571,
-      "offset": 43738,
+      "offset": 43903,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4449,10 +4514,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:43756:js-string",
+      "id": "portfolio_v2_linked_ui.js:43921:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 571,
-      "offset": 43756,
+      "offset": 43921,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4461,10 +4526,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44076:js-string",
+      "id": "portfolio_v2_linked_ui.js:44241:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 578,
-      "offset": 44076,
+      "offset": 44241,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4473,10 +4538,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44141:js-string",
+      "id": "portfolio_v2_linked_ui.js:44306:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 581,
-      "offset": 44141,
+      "offset": 44306,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4485,10 +4550,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44182:js-string",
+      "id": "portfolio_v2_linked_ui.js:44347:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 582,
-      "offset": 44182,
+      "offset": 44347,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4497,10 +4562,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44229:js-string",
+      "id": "portfolio_v2_linked_ui.js:44394:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 583,
-      "offset": 44229,
+      "offset": 44394,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4509,10 +4574,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44276:js-string",
+      "id": "portfolio_v2_linked_ui.js:44441:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 584,
-      "offset": 44276,
+      "offset": 44441,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4521,10 +4586,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44299:js-string",
+      "id": "portfolio_v2_linked_ui.js:44464:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 584,
-      "offset": 44299,
+      "offset": 44464,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4533,10 +4598,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44390:js-string",
+      "id": "portfolio_v2_linked_ui.js:44555:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 588,
-      "offset": 44390,
+      "offset": 44555,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4545,10 +4610,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44447:js-string",
+      "id": "portfolio_v2_linked_ui.js:44612:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 589,
-      "offset": 44447,
+      "offset": 44612,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4557,36 +4622,36 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44501:js-string",
+      "id": "portfolio_v2_linked_ui.js:44666:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 590,
-      "offset": 44501,
+      "offset": 44666,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "onEvent",
       "text": "Сохранено в этом браузере",
       "coverage": "legacy-exact",
-      "catalog": "legacy:503a4fe3fdbe4d8c"
+      "catalog": "ui.savedInThisBrowser"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44529:js-string",
+      "id": "portfolio_v2_linked_ui.js:44694:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 590,
-      "offset": 44529,
+      "offset": 44694,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "onEvent",
       "text": "Не удалось сохранить: хранилище недоступно",
       "coverage": "legacy-exact",
-      "catalog": "legacy:8550da62dc8fd67b"
+      "catalog": "ui.couldNotSaveBrowserStorageUnavailable"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44609:js-string",
+      "id": "portfolio_v2_linked_ui.js:44774:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 593,
-      "offset": 44609,
+      "offset": 44774,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4595,10 +4660,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44657:js-string",
+      "id": "portfolio_v2_linked_ui.js:44822:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 594,
-      "offset": 44657,
+      "offset": 44822,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4607,10 +4672,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44683:js-string",
+      "id": "portfolio_v2_linked_ui.js:44848:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 594,
-      "offset": 44683,
+      "offset": 44848,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4619,23 +4684,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44700:js-string",
+      "id": "portfolio_v2_linked_ui.js:44865:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 594,
-      "offset": 44700,
+      "offset": 44865,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
       "context": "onEvent",
       "text": "Общий ресурс",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7f49849e803d28a8"
+      "catalog": "ui.sharedResource"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44738:js-string",
+      "id": "portfolio_v2_linked_ui.js:44903:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 595,
-      "offset": 44738,
+      "offset": 44903,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4644,10 +4709,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44753:js-string",
+      "id": "portfolio_v2_linked_ui.js:44918:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 595,
-      "offset": 44753,
+      "offset": 44918,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4656,10 +4721,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44771:js-string",
+      "id": "portfolio_v2_linked_ui.js:44936:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 595,
-      "offset": 44771,
+      "offset": 44936,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4668,10 +4733,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44868:js-string",
+      "id": "portfolio_v2_linked_ui.js:45033:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 596,
-      "offset": 44868,
+      "offset": 45033,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4680,10 +4745,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:44941:js-string",
+      "id": "portfolio_v2_linked_ui.js:45106:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 599,
-      "offset": 44941,
+      "offset": 45106,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4692,10 +4757,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:45051:js-string",
+      "id": "portfolio_v2_linked_ui.js:45216:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 603,
-      "offset": 45051,
+      "offset": 45216,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4704,10 +4769,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:45210:js-string",
+      "id": "portfolio_v2_linked_ui.js:45375:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 608,
-      "offset": 45210,
+      "offset": 45375,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4716,10 +4781,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:45260:js-string",
+      "id": "portfolio_v2_linked_ui.js:45425:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 609,
-      "offset": 45260,
+      "offset": 45425,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4728,10 +4793,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:45297:js-string",
+      "id": "portfolio_v2_linked_ui.js:45462:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 609,
-      "offset": 45297,
+      "offset": 45462,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4740,10 +4805,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:45335:js-string",
+      "id": "portfolio_v2_linked_ui.js:45500:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 609,
-      "offset": 45335,
+      "offset": 45500,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4752,10 +4817,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:45568:js-string",
+      "id": "portfolio_v2_linked_ui.js:45733:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 614,
-      "offset": 45568,
+      "offset": 45733,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",
@@ -4764,10 +4829,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_linked_ui.js:45604:js-string",
+      "id": "portfolio_v2_linked_ui.js:45769:js-string",
       "file": "portfolio_v2_linked_ui.js",
       "line": 614,
-      "offset": 45604,
+      "offset": 45769,
       "kind": "js-string",
       "owner": "portfolio_v2_linked_ui.js",
       "stage": "L4",

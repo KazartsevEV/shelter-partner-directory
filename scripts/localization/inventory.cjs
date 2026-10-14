@@ -20,8 +20,10 @@ function flatten(n,prefix='',out={}){
  if(n?.type==='ObjectExpression')for(const p of n.properties){
   if(p.type!=='Property')continue;const k=prefix?prefix+'.'+key(p):String(key(p));
   if(str(p.value)!==null)out[k]=p.value;
-  else if(p.value.type==='ObjectExpression')flatten(p.value,k,out);
- }return out;
+  else if(['ObjectExpression','ArrayExpression'].includes(p.value.type))flatten(p.value,k,out);
+ }else if(n?.type==='ArrayExpression')n.elements.forEach((item,index)=>{
+  const k=prefix+'.'+index;if(str(item)!==null)out[k]=item;else flatten(item,k,out);
+ });return out;
 }
 function build(root=ROOT){
  const entries=[],sources=[],catalogs=[],patterns=[],excluded=[],assetSet=new Set(['Marketing_calc.HTML']);
@@ -70,6 +72,12 @@ function build(root=ROOT){
   const ast=acorn.parse(raw,{ecmaVersion:'latest',sourceType:'script',locations:true});
   const own=new Map();dictionaryNodes.set(f,[...(dictionaryNodes.get(f)||[]),own]);
   walk(ast,(n,anc)=>{
+   if(f==='nomad360_locale_core.js'&&n.type==='ArrayExpression'&&n.elements.length===4&&n.elements.every(x=>str(x)!==null)&&/^[a-z][a-zA-Z0-9]+(?:\.[a-zA-Z0-9_-]+)+$/.test(str(n.elements[0]))){
+    const [id,en,ru,kk]=n.elements.map(str);
+    core.set(norm(ru),{id,ru,en,kk});catalogs.push({id,file:f,line:raw.slice(0,n.start).split('\n').length,kind:'semantic-message',translations:{ru,en,kk}});
+    n.elements.slice(1).forEach((x,i)=>own.set(x.start,{catalog:id,language:['en','ru','kk'][i]}));
+    if(!['interface.shell.privacy','interface.header.products.1.goal'].includes(id)&&[en,ru,kk].some(x=>!x.trim()))dictionaryIssues.push({file:f,key:id,issue:'missing semantic language'});
+   }
    if(f==='nomad360_locale_core.js'&&n.type==='ArrayExpression'&&n.elements.length===3&&n.elements.every(x=>str(x)!==null)&&/[А-Яа-яЁё]/.test(str(n.elements[0]))){
     const [ru,en,kk]=n.elements.map(str),id='legacy:'+sha(ru).slice(0,16);
     const previous=core.get(norm(ru));

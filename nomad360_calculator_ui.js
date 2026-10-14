@@ -1,7 +1,7 @@
 /* Nomad360 customer-facing UI ONLY. Never modifies V1/V2 inputs or finance. */
 (function(root){
 'use strict';
-const L={
+const L=(root.Nomad360LocaleCore?.locales("interface.shell") || {
  ru:{
   brand:'NOMAD360',eyebrow:'БИЗНЕС-КАЛЬКУЛЯТОР',
   headline:'Бизнес-калькулятор',
@@ -24,7 +24,7 @@ const L={
   support:'Поддержать проект',supportSub:'Доступ к калькулятору бесплатный. Добровольная поддержка идёт на развитие калькулятора, AI-маркетолога и контент-фабрики.',
   email:'Связаться с разработчиком',feedback:'Заметили ошибку или есть предложение?',ctaTitle:'Следующий поход — AI-маркетолог и фабрика креативов.',
   ctaSub:'Готовим инструменты, которые помогают брендам находить клиентов и превращать идеи в контент без конвейера ручной рутины.',
-  ctaMail:'Обсудить AI-маркетолога',threads:'Наш Threads',well:'Жолыңыз ашық, ісіңіз берекелі болсын!',
+  ctaMail:'Обсудить AI-маркетолога',threads:'Наш Threads',well:"Пусть ваш путь будет открыт, а дело — благополучным!",
   rub:'Покупаю у других',own:'Делаю сам',drop:'Дропшиппинг',offline:'Офлайн-услуга',online:'Онлайн-услуга',
   required:'Расчёт не подтверждён. Исправьте указанные ошибки, прежде чем выгружать документ.',
   printInfo:'Подготовлено к печати. В диалоге выберите «Сохранить как PDF».',
@@ -54,7 +54,7 @@ const L={
   support:'Support this project',supportSub:'The calculator is free. Voluntary support funds development of the calculator, AI marketer and content factory.',
   email:'Contact the developer',feedback:'Found a bug or have an idea?',ctaTitle:'Next on the horizon: AI marketer & creative factory.',
   ctaSub:'We are building tools to help brands find customers and turn ideas into content without manual busywork.',
-  ctaMail:'Ask about AI marketing',threads:'Our Threads',well:'Жолыңыз ашық, ісіңіз берекелі болсын!',
+  ctaMail:'Ask about AI marketing',threads:'Our Threads',well:"May your path be open and your work prosper!",
   rub:'Resale',own:'Own production',drop:'Dropshipping',offline:'Offline service',online:'Online service',
   required:'Calculation is not validated. Fix the errors before exporting.',
   printInfo:'Ready for printing. Choose “Save as PDF” in the print dialog.',
@@ -77,8 +77,8 @@ const L={
   price:'Баға, ш.б.',type:'Түрі',item:'Тауар / қызмет',discount:'Жеке жеңілдік',customer:'Сатып алушы бағасы',base:'V2 баға тізімі',
   offer:'Жинақ жеңілдіктері мен байланысты сатылымдар бөлек есептеледі; бұл тізімде жеке позиция бағасы көрсетіледі.',
   report:'V2 портфелінің қаржылық есебі',horizon:'Есептеу мерзімі',months:'ай',summary:'Қаржылық қорытынды',
-  revenue:'ҚҚС-сыз түсім',profit:'Таза пайда',margin:'Маржа',cash:'Ақша ағыны',stock:'Сатылым және қалдық',
-  resources:'Ортақ ресурстар',noTax:'ҚҚС: ақша ағыны транзиттік ҚҚС-сыз көрсетілген, бұл банк көшірмесі емес.',
+  revenue:"ҚҚС-сыз Revenue",profit:"Net Profit",margin:"Margin",cash:"Cash Flow",stock:'Сатылым және қалдық',
+  resources:'Ортақ ресурстар',noTax:"ҚҚС: Cash Flow транзиттік ҚҚС-сыз көрсетілген, бұл банк көшірмесі емес.",
   source:'Дереккөз: браузеріңіздегі Nomad360 есебі. Нәтиже енгізілген мәліметтер мен болжамдарға байланысты.',
   support:'Жобаны қолдау',supportSub:'Калькулятор тегін. Ерікті қолдау калькуляторды, AI-маркетологты және контент фабрикасын дамытуға жұмсалады.',
   email:'Әзірлеушімен байланысу',feedback:'Қате таптыңыз ба, әлде ұсынысыңыз бар ма?',
@@ -88,11 +88,11 @@ const L={
   rub:'Қайта сату',own:'Өзім өндіремін',drop:'Дропшиппинг',offline:'Офлайн қызмет',online:'Онлайн қызмет',
   required:'Есеп расталмаған. Құжатты жасамас бұрын қателерді түзетіңіз.',
   printInfo:'Басып шығаруға дайын. «PDF ретінде сақтау» тармағын таңдаңыз.',
-  warning:'Назар аударыңыз: есепте расталмаған шығындар бар, толық бухгалтерлік маржа нақтыланбаған.',
+  warning:"Назар аударыңыз: есепте расталмаған шығындар бар, толық бухгалтерлік Margin нақтыланбаған.",
   month:'Ай',paid:'Түсім',expense:'Шығыс',tax:'Салық',interest:'Пайыз',principal:'Несие қарызы',balance:'Қалдық',
   reportName:'Nomad360 бизнес-калькуляторы',language:'Тіл',cadenceMonthly:'Ай сайын',cadenceOnce:'Бір рет'
  }
-};
+});
 let lang='ru',exportContext=null,excelBusy=false;
 const localeKey='nomad360PreferredLanguage'; // UI preference only: never included in financial saved state
 function userLocale(){try{const v=localStorage.getItem(localeKey);return L[v]?v:null}catch(_){return null}}
@@ -101,7 +101,11 @@ function preferred(){
  for(const loc of candidates){const key=String(loc||'').split('-')[0].toLowerCase();if(L[key])return key}
  return 'en';
 }
-const tr=k=>root.Nomad360Currency?.replaceUnits((L[lang]||L.ru)[k]||L.ru[k]||k)||((L[lang]||L.ru)[k]||L.ru[k]||k);
+const tr=k=>{
+ const value=root.Nomad360LocaleCore?root.Nomad360LocaleCore.t('interface.shell.'+k,lang):(L[lang]||L.en)[k];
+ const text=value??('⟦interface.shell.'+k+':'+lang+'⟧');
+ return root.Nomad360Currency?.replaceUnits(text)||text;
+};
 const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const num=v=>Number.isFinite(Number(v))?Number(v):0;
 const fmt=v=>new Intl.NumberFormat(lang==='kk'?'kk-KZ':lang==='en'?'en-US':'ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(v)||0);
@@ -176,8 +180,8 @@ function printable(mode,context){
  '<td class="n">'+fmt(m.netProfit)+'</td><td class="n">'+fmt(m.taxAccrued)+'</td></tr>').join('')+'</tbody></table>';
  if(p?.bySku)for(const sku of Object.values(p.bySku)){
    if(!sku?.partner?.months?.length)continue;
-   html+='<h2>Экономика принципала · '+esc(
-     out.items.find(item=>item.id===sku.id)?.name||sku.id)+'</h2>'+
+   html+='<h2>Экономика принципала · <span data-nomad-no-translate>'+esc(
+     out.items.find(item=>item.id===sku.id)?.name||sku.id)+'</span></h2>'+
      '<p class="nomad-footnote">Оборот и налог принципала отдельно от агентского дохода. Амортизация оборудования относится к прибыли; его покупка — к денежному потоку.</p>'+
      '<table class="nomad-export-table"><thead><tr>'+
      ['Месяц','Выручка принципала без НДС','Расходы с агентом',
@@ -194,7 +198,7 @@ function printable(mode,context){
  [m.month,m.receipt,m.operatingOutflow,m.tax,m.interest,m.principalRepaid,m.cumulative].map((x,i)=>
  '<td'+(i?' class="n"':'')+'>'+(i?fmt(x):x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
  if(out.resources?.length)html+='<h2>'+tr('resources')+'</h2><table class="nomad-export-table"><tbody>'+
- out.resources.map(x=>'<tr><td>'+esc(x.label)+'</td><td class="n">'+fmt(x.amount)+'</td>'+
+ out.resources.map(x=>'<tr><td data-nomad-no-translate>'+esc(x.label)+'</td><td class="n">'+fmt(x.amount)+'</td>'+
  '<td>'+esc(tr(x.cadence==='once'?'cadenceOnce':'cadenceMonthly'))+'</td></tr>').join('')+'</tbody></table>';
  html+='<p class="nomad-footnote">'+tr('noTax')+'</p>';
  }
@@ -225,6 +229,7 @@ function savePrint(mode){
  let sheet=document.getElementById('nomad360-print-sheet');
  if(!sheet){sheet=document.createElement('section');sheet.id='nomad360-print-sheet';document.body.append(sheet)}
  sheet.innerHTML=printable(mode,context);
+ root.Nomad360LocaleCore?.localizeElement(sheet);
  sheet.dataset.mode=mode;
  const label=document.getElementById('nomad360-export-feedback');if(label)label.textContent=tr('printInfo');
  root.print();
@@ -272,7 +277,7 @@ function syncPortfolioActions(out,state,kind='linked'){
  if(sheet){
   if(!can)sheet.remove();
   else if(['price','report'].includes(sheet.dataset.mode)){
-   if(exportContext)sheet.innerHTML=printable(sheet.dataset.mode,exportContext);
+   if(exportContext){sheet.innerHTML=printable(sheet.dataset.mode,exportContext);root.Nomad360LocaleCore?.localizeElement(sheet)}
   }
  }
  if(can&&keepPreview){
@@ -306,6 +311,7 @@ function setLanguage(next){
  const sheet=document.getElementById('nomad360-print-sheet');
  if(sheet&&payload&&['price','report'].includes(sheet.dataset.mode))
   sheet.innerHTML=printable(sheet.dataset.mode,payload);
+  root.Nomad360LocaleCore?.localizeElement(sheet);
  document.dispatchEvent(new CustomEvent('nomad360:languagechange',{detail:{lang}}));
 }
 function boot(){

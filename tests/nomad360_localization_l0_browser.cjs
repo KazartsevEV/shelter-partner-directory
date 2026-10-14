@@ -36,6 +36,16 @@ async function examine(page,stage,width){
  const before=await finance(page);
  for(const lang of ['ru','en','kk']){
   await page.locator('#nomad360-lang-select').selectOption(lang);await settle(page);
+  const semantic=await page.evaluate(language=>({
+   mismatches:[...document.querySelectorAll('[data-i18n]')].filter(node=>!node.children.length&&!node.matches('input,select,textarea')).map(node=>{const p=JSON.parse(node.getAttribute('data-i18n-params')||'{}');return {key:node.dataset.i18n,actual:node.textContent,expected:Nomad360LocaleCore.t(node.dataset.i18n,language,p)}}).filter(x=>x.actual!==x.expected),
+   heading:document.getElementById('nomad360-selling-heading').textContent,
+   expectedHeading:Nomad360LocaleCore.t('business.whatYouSell',language),
+   currency:document.getElementById('business-currency-question').textContent,
+   expectedCurrency:Nomad360LocaleCore.t('business.currencyQuestion',language)
+  }),lang);
+  A.deepEqual(semantic.mismatches,[],'Semantic presentation and immutable parameters '+lang);
+  A.equal(semantic.heading,semantic.expectedHeading,'Semantic heading '+lang);
+  A.equal(semantic.currency,semantic.expectedCurrency,'Semantic currency label '+lang);
   A.deepEqual(await finance(page),before,'language changed source data at '+stage+' '+width+' '+lang);
   const census=await page.evaluate(()=>{
    const records=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
@@ -43,7 +53,7 @@ async function examine(page,stage,width){
     const p=n.parentElement,t=n.nodeValue?.replace(/\s+/g,' ').trim();
     if(!p||!t||!p.getClientRects().length||p.closest('script,style,noscript,template,pre,code,textarea,[hidden],.hidden,[aria-hidden="true"],.product-name-live,[contenteditable="true"]'))continue;
     const guard=p.closest('[data-nomad-no-translate]');
-    if(guard&&!['nomad360-hero','nomad360-footer','nomad360-portfolio-tools','nomad360-language-chooser'].includes(guard.id))continue;
+    if(guard&&!['nomad360-hero','nomad360-footer','nomad360-portfolio-tools','nomad360-language-chooser'].includes(guard.id)&&!p.closest('[data-i18n]'))continue;
     records.push({kind:'text',context:p.closest('[id]')?.id||p.tagName,text:t});
    }
    for(const e of document.querySelectorAll('[placeholder],[title],[aria-label],[aria-description],[alt]')){
@@ -120,6 +130,7 @@ const standalone=()=>({version:2,currency:'USD',marketing:{budget:1000,cpc:5,ctr
   A.deepEqual(errors,[],'Unexpected JS errors at '+width);await page.close();console.log('L0_WIDTH_COMPLETE',width);
  }
  const summary={cases:cases.length,languages:3,widths:widths.length,stages:[...new Set(cases.map(c=>c.stage))],observedStrings:texts.size,visibleGapCases:cases.filter(c=>c.gaps.length).length,knownKKModuleCopyCases:cases.filter(c=>c.gaps.some(g=>g.classification==='known-kk-module-copy')).length,unresolvedDiagnosticCases:cases.filter(c=>c.gaps.some(g=>g.classification==='requires-triage')).length,pageOverflowCases:cases.filter(c=>c.pageOverflow).length,financialInputsUnchanged:true,financialResultsUnchanged:true};
+ if(process.env.NOMAD360_LOCALE_ACCEPTANCE==='1'){A.equal(summary.visibleGapCases,0,'L6 untranslated visible text');A.equal(summary.pageOverflowCases,0,'L6 page overflow');console.log('LOCALIZATION_L6_MATRIX_GREEN',JSON.stringify(summary));}
  fs.writeFileSync(path.join(out,'browser-census.json'),JSON.stringify({schemaVersion:1,summary,cases,texts:[...texts.values()]},null,2)+'\n');console.log('LOCALIZATION_L0_BROWSER_GREEN',JSON.stringify(summary));
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

@@ -301,7 +301,7 @@
       "context": "fromV1",
       "text": "Нет подтверждённых позиций V1 (товаров или услуг).",
       "coverage": "legacy-exact",
-      "catalog": "legacy:2ddab39fbb6aa4f6"
+      "catalog": "operations.thereAreNoConfirmedV1ProductsOrServices"
     },
     {
       "id": "portfolio_v2_linked_engine.js:1327:js-string",
@@ -422,7 +422,7 @@
       "context": "module",
       "text": "У связи должен быть уникальный ID.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:594982f8062e629a"
+      "catalog": "ui.eachLinkedOfferMustHaveAUniqueId"
     },
     {
       "id": "portfolio_v2_linked_engine.js:3105:js-string",
@@ -447,7 +447,7 @@
       "context": "module",
       "text": "Выберите cross-sell, upsell или набор.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d117eb5ba2872f9d"
+      "catalog": "ui.chooseCrossSellUpsellOrBundle"
     },
     {
       "id": "portfolio_v2_linked_engine.js:3245:js-string",
@@ -472,7 +472,7 @@
       "context": "module",
       "text": "Базовый товар или услуга отсутствует в портфеле.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c6f832177f7b3c64"
+      "catalog": "operations.thePrimaryProductOrServiceIsNotInThePortfolio"
     },
     {
       "id": "portfolio_v2_linked_engine.js:3450:js-string",
@@ -497,7 +497,7 @@
       "context": "module",
       "text": "Доля покупателей должна быть больше 0% и не выше 100%.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7bab5c02b08a5376"
+      "catalog": "ui.customerShareMustBeGreaterThan0AndAtMost100"
     },
     {
       "id": "portfolio_v2_linked_engine.js:3696:js-string",
@@ -522,7 +522,7 @@
       "context": "module",
       "text": "Скидка комплекта должна быть от 0% до менее 100%.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:aae7136dd34ba186"
+      "catalog": "pricing.bundleDiscountMustBeAtLeast0AndBelow100"
     },
     {
       "id": "portfolio_v2_linked_engine.js:3790:js-string",
@@ -559,7 +559,7 @@
       "context": "module",
       "text": "Скидка набора применима только к комбо.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:79a0235e4b0b9a6d"
+      "catalog": "pricing.theBundleDiscountAppliesToBundleOffersOnly"
     },
     {
       "id": "portfolio_v2_linked_engine.js:3981:js-string",
@@ -584,7 +584,7 @@
       "context": "module",
       "text": "Пересечение с самостоятельными продажами — от 0 до 100%.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:81ab24d7ea8168f2"
+      "catalog": "ui.independentDemandOverlapMustBeBetween0And100"
     },
     {
       "id": "portfolio_v2_linked_engine.js:4144:js-string",
@@ -609,7 +609,7 @@
       "context": "module",
       "text": "Добавьте хотя бы одну позицию к предложению.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:14ec91029a37d118"
+      "catalog": "ui.addAtLeastOneItemToTheOffer"
     },
     {
       "id": "portfolio_v2_linked_engine.js:4432:js-string",
@@ -646,7 +646,7 @@
       "context": "module",
       "text": "Позиция должна существовать, отличаться от основной и не повторяться в наборе.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a16607234e097546"
+      "catalog": "ui.itemMustExistDifferFromThePrimaryOneAndNotRepeatInTheBundle"
     },
     {
       "id": "portfolio_v2_linked_engine.js:4650:js-string",
@@ -683,7 +683,7 @@
       "context": "module",
       "text": "Количество в связке должно быть целым числом от 1 до 100.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:ac60a08cf298591b"
+      "catalog": "ui.linkedQuantityMustBeAnIntegerFrom1To100"
     },
     {
       "id": "portfolio_v2_linked_engine.js:5197:js-string",
@@ -960,7 +960,7 @@
       "context": "build",
       "text": "V2 ожидает рассчитанные товары и услуги V1.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:71efb933f0f40693"
+      "catalog": "operations.v2RequiresCalculatedV1ProductsAndServices"
     },
     {
       "id": "portfolio_v2_linked_engine.js:9179:js-string",
@@ -985,7 +985,7 @@
       "context": "build",
       "text": "Не импортировано ни одной позиции.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a9ab95688c62f6a3"
+      "catalog": "ui.noItemsWereImported"
     },
     {
       "id": "portfolio_v2_linked_engine.js:9333:js-string",
@@ -1010,7 +1010,7 @@
       "context": "build",
       "text": "Повторяющийся ID товара.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:71b30139513dc215"
+      "catalog": "operations.duplicateProductId"
     },
     {
       "id": "portfolio_v2_linked_engine.js:9437:js-string",
@@ -1083,7 +1083,7 @@
       "context": "build",
       "text": "Товар не имеет корректного происхождения.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:34b8952fc8272a4d"
+      "catalog": "operations.theProductHasNoValidSourceType"
     },
     {
       "id": "portfolio_v2_linked_engine.js:9601:js-string",
@@ -1192,7 +1192,7 @@
       "context": "build",
       "text": "Для товара отсутствует подтверждённый диапазон цен V1.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:2b2946c0f39891fc"
+      "catalog": "pricing.theItemHasNoVerifiedV1PriceRange"
     },
     {
       "id": "portfolio_v2_linked_engine.js:10153:js-string",
@@ -1205,7 +1205,7 @@
       "context": "build",
       "text": "Не готовы минимальная и целевая маржинальность V1.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:5f632a38310ac084"
+      "catalog": "pricing.v1MinimumAndTargetMarginsAreNotConfirmed"
     },
     {
       "id": "portfolio_v2_linked_engine.js:10345:js-string",
@@ -1230,7 +1230,7 @@
       "context": "build",
       "text": "Рабочая скидка превышает максимальную скидку из V1.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:ae93c6e4273663aa"
+      "catalog": "pricing.appliedDiscountExceedsTheV1Maximum"
     },
     {
       "id": "portfolio_v2_linked_engine.js:10528:js-string",
@@ -1243,7 +1243,7 @@
       "context": "build",
       "text": "Отсутствует рассчитанный прогноз продаж и CAC.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e04683abb0c312f5"
+      "catalog": "marketing.calculatedDemandForecastAndCacAreMissing"
     },
     {
       "id": "portfolio_v2_linked_engine.js:10628:js-string",
@@ -1256,7 +1256,7 @@
       "context": "build",
       "text": "Сумма переменных комиссий превышает 100%.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e2bf3b1aaa2e72da"
+      "catalog": "ui.variableCommissionRateExceeds100"
     },
     {
       "id": "portfolio_v2_linked_engine.js:10714:js-string",
@@ -1497,7 +1497,7 @@
       "context": "build",
       "text": "Повторяющийся ID ресурса.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:271e404819579c8e"
+      "catalog": "ui.duplicateResourceId"
     },
     {
       "id": "portfolio_v2_linked_engine.js:12935:js-string",
@@ -1522,7 +1522,7 @@
       "context": "build",
       "text": "Неизвестный тип общего ресурса.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:ac02fc65f8242613"
+      "catalog": "ui.unknownSharedResourceType"
     },
     {
       "id": "portfolio_v2_linked_engine.js:12997:js-string",
@@ -1583,7 +1583,7 @@
       "context": "build",
       "text": "Складской ресурс нельзя распределять на офлайн-услугу: услуга не хранится на складе.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:3c246d0eb9535942"
+      "catalog": "finance.warehouseCostsCannotBeAssignedToOfflineServicesServicesAreNotStocked"
     },
     {
       "id": "portfolio_v2_linked_engine.js:13276:js-string",
@@ -1608,7 +1608,7 @@
       "context": "build",
       "text": "Неизвестный исходный блок расхода.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:b9bfd345b36d9816"
+      "catalog": "finance.unknownOriginalExpenseCategory"
     },
     {
       "id": "portfolio_v2_linked_engine.js:13341:js-string",
@@ -1669,7 +1669,7 @@
       "context": "build",
       "text": "Общую кампанию можно заменить только из рекламного бюджета.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:8da419977c3285c7"
+      "catalog": "marketing.aSharedCampaignMayReplaceAdvertisingBudgetOnly"
     },
     {
       "id": "portfolio_v2_linked_engine.js:13496:js-string",
@@ -1718,7 +1718,7 @@
       "context": "build",
       "text": "Рекламный бюджет можно объединять только рекламной кампанией.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:cf79b0d0e030e952"
+      "catalog": "marketing.advertisingBudgetsMayBePooledThroughAnAdvertisingCampaignOnly"
     },
     {
       "id": "portfolio_v2_linked_engine.js:13641:js-string",
@@ -1767,7 +1767,7 @@
       "context": "build",
       "text": "Укажите периодичность ресурса.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:9ded8a52e5200f6b"
+      "catalog": "ui.selectTheResourcePaymentFrequency"
     },
     {
       "id": "portfolio_v2_linked_engine.js:14005:js-string",
@@ -2080,7 +2080,7 @@
       "context": "build",
       "text": "Нельзя перенести ежемесячный расход в разовый без графика амортизации.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:91a8ea541b5eea65"
+      "catalog": "finance.aMonthlyExpenseCannotBecomeAOneTimeExpenseWithoutAnAmortizationSchedule"
     },
     {
       "id": "portfolio_v2_linked_engine.js:15396:js-string",
@@ -2105,7 +2105,7 @@
       "context": "build",
       "text": "Стоимость общего ресурса должна быть неотрицательной.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:3e8bce19e3d8e9f8"
+      "catalog": "finance.sharedResourceCostCannotBeNegative"
     },
     {
       "id": "portfolio_v2_linked_engine.js:15605:js-string",
@@ -2130,7 +2130,7 @@
       "context": "build",
       "text": "Выберите уникальных получателей ресурса из импортированных товаров.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d3f2896c347c52f3"
+      "catalog": "ui.selectDistinctImportedItemsAsResourceBeneficiaries"
     },
     {
       "id": "portfolio_v2_linked_engine.js:15711:js-string",
@@ -2179,7 +2179,7 @@
       "context": "build",
       "text": "Способ распределения неизвестен.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:cb9c1f555c7c64b6"
+      "catalog": "ui.unknownAllocationMethod"
     },
     {
       "id": "portfolio_v2_linked_engine.js:15843:js-string",
@@ -2228,7 +2228,7 @@
       "context": "build",
       "text": "Неизвестный тип учёта загрузки.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:6a20d1c1ca26d542"
+      "catalog": "ui.unknownCapacityAccountingMethod"
     },
     {
       "id": "portfolio_v2_linked_engine.js:15988:js-string",
@@ -2277,7 +2277,7 @@
       "context": "build",
       "text": "Помесячную загрузку по единице можно выбрать только при распределении по использованию.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:02aa5f97162cc0e5"
+      "catalog": "ui.perUnitMonthlyUtilizationRequiresUsageBasedAllocation"
     },
     {
       "id": "portfolio_v2_linked_engine.js:16186:js-string",
@@ -2350,7 +2350,7 @@
       "context": "build",
       "text": "Загрузка на единицу применяется к сотрудникам, помещению и оборудованию.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:80f577cc48efd8f8"
+      "catalog": "ui.perUnitUtilizationAppliesToStaffPremisesAndEquipment"
     },
     {
       "id": "portfolio_v2_linked_engine.js:16535:js-string",
@@ -2375,7 +2375,7 @@
       "context": "build",
       "text": "Норма ресурса на единицу должна быть неотрицательной.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:21e6e28a0107d878"
+      "catalog": "ui.perUnitResourceDemandCannotBeNegative"
     },
     {
       "id": "portfolio_v2_linked_engine.js:16711:js-string",
@@ -2400,7 +2400,7 @@
       "context": "build",
       "text": "Укажите расход времени/мощности на единицу хотя бы для одной позиции.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7a9161da57b0a3c8"
+      "catalog": "ui.enterUnitUtilizationForAtLeastOneItem"
     },
     {
       "id": "portfolio_v2_linked_engine.js:16830:js-string",
@@ -2437,7 +2437,7 @@
       "context": "build",
       "text": "Укажите положительную загрузку товарами.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a53c354b91c1e236"
+      "catalog": "operations.enterPositiveProductUtilization"
     },
     {
       "id": "portfolio_v2_linked_engine.js:17083:js-string",
@@ -2474,7 +2474,7 @@
       "context": "build",
       "text": "Загрузка общего ресурса превышает мощность.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:066bbe8c97171e0d"
+      "catalog": "ui.sharedResourceUtilizationExceedsCapacity"
     },
     {
       "id": "portfolio_v2_linked_engine.js:17263:js-string",
@@ -2511,7 +2511,7 @@
       "context": "build",
       "text": "Подтвердите покрытие, страну и срок действия общего сертификата.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:027693d4b3d66db7"
+      "catalog": "ui.confirmTheSharedCertificateScopeCountryAndExpiration"
     },
     {
       "id": "portfolio_v2_linked_engine.js:17511:js-string",
@@ -2560,7 +2560,7 @@
       "context": "build",
       "text": "Истёк срок действия сертификата.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:89d7ec86f5702029"
+      "catalog": "ui.certificateHasExpired"
     },
     {
       "id": "portfolio_v2_linked_engine.js:17813:js-string",
@@ -2585,7 +2585,7 @@
       "context": "build",
       "text": "Списание уже учтённого расхода допускается только для получателя.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a4ebb25b82410a2b"
+      "catalog": "finance.anExistingExpenseCanBeOffsetOnlyForItsOriginalBeneficiary"
     },
     {
       "id": "portfolio_v2_linked_engine.js:17975:js-string",
@@ -2610,7 +2610,7 @@
       "context": "build",
       "text": "Учтённая сумма должна быть неотрицательной.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:cae4d4f72b04a477"
+      "catalog": "finance.allocatedExistingCostCannotBeNegative"
     },
     {
       "id": "portfolio_v2_linked_engine.js:18155:js-string",
@@ -2707,7 +2707,7 @@
       "context": "build",
       "text": "Для списания старой суммы укажите исходный блок.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:8f56dc992e855e2d"
+      "catalog": "finance.selectAnOriginalExpenseCategoryBeforeOffsettingACost"
     },
     {
       "id": "portfolio_v2_linked_engine.js:18843:js-string",
@@ -2852,7 +2852,7 @@
       "context": "build",
       "text": "Дропшиппинг оплачивается по заказу: используйте «Исполнение заказа».",
       "coverage": "legacy-exact",
-      "catalog": "legacy:89b639c82183e7c0"
+      "catalog": "ui.dropshippingIsPaidPerOrderUseOrderFulfillment"
     },
     {
       "id": "portfolio_v2_linked_engine.js:19582:js-string",
@@ -2889,7 +2889,7 @@
       "context": "build",
       "text": "Общий расход превышает первоначальную сумму соответствующей статьи офлайн-услуги V1.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:3b31ee115a6f1f9d"
+      "catalog": "finance.sharedCostsExceedTheOriginalV1OfflineServiceExpense"
     },
     {
       "id": "portfolio_v2_linked_engine.js:19996:js-string",
@@ -3010,7 +3010,7 @@
       "context": "build",
       "text": "Онлайн-услуга должна сохранять исходные условия, налог и подтверждённую цену V1.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e86bbd9d68c49db2"
+      "catalog": "tax.onlineServicesMustRetainTheirOriginalV1TermsTaxAndVerifiedPrice"
     },
     {
       "id": "portfolio_v2_linked_engine.js:20876:js-string",
@@ -3227,7 +3227,7 @@
       "context": "build",
       "text": "Распределение рекламного бюджета и цен не сошлось; зафиксируйте загрузку кампаний по товарам.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:b613ad4cc2a6e344"
+      "catalog": "pricing.advertisingAllocationAndPricesDidNotConvergeSpecifyCampaignUsageByItem"
     },
     {
       "id": "portfolio_v2_linked_engine.js:27223:js-string",
@@ -3252,7 +3252,7 @@
       "context": "build",
       "text": "Фиксированное онлайн-вознаграждение нельзя снижать скидкой без указания плательщика.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:afe5803f8034d518"
+      "catalog": "pricing.aFixedOnlineAgentFeeCannotBeDiscountedWithoutNamingThePayer"
     },
     {
       "id": "portfolio_v2_linked_engine.js:28449:js-string",
@@ -3793,7 +3793,7 @@
       "context": "build",
       "text": "Не удалось распределить все расходы без потерь или повторного учёта.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:32c07d4a5c2ff0ea"
+      "catalog": "finance.expensesCouldNotBeAllocatedWithoutOmissionsOrDoubleCounting"
     },
     {
       "id": "portfolio_v2_linked_engine.js:33856:js-string",
@@ -3890,7 +3890,7 @@
       "context": "build",
       "text": "Не загружен многомесячный расчёт спроса.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e049bb8a24a48869"
+      "catalog": "ui.multiMonthDemandModelIsMissing"
     },
     {
       "id": "portfolio_v2_linked_engine.js:36941:js-string",
@@ -3939,7 +3939,7 @@
       "context": "build",
       "text": "Нет финансового движка для многомесячного сценария.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:31cfb2ad185779a0"
+      "catalog": "ui.multiMonthFinancialEngineIsUnavailable"
     },
     {
       "id": "portfolio_v2_linked_engine.js:37741:js-string",
@@ -3988,7 +3988,7 @@
       "context": "build",
       "text": "Модель полной периодной цены не загружена.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:75fe59cc89e4ed06"
+      "catalog": "ui.fullPeriodPricingModelIsUnavailable"
     },
     {
       "id": "portfolio_v2_linked_engine.js:38089:js-string",
@@ -4013,7 +4013,7 @@
       "context": "build",
       "text": "Модель полной периодной цены не загружена.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:75fe59cc89e4ed06"
+      "catalog": "ui.fullPeriodPricingModelIsUnavailable"
     },
     {
       "id": "portfolio_v2_linked_engine.js:38477:js-string",
@@ -4122,7 +4122,7 @@
       "context": "cashFlow",
       "text": "Горизонт cash flow превышает 120 месяцев.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c29cfcc2f2a1a9b9"
+      "catalog": "finance.cashFlowHorizonExceeds120Months"
     },
     {
       "id": "portfolio_v2_linked_engine.js:40461:js-string",

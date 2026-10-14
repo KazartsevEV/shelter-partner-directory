@@ -253,7 +253,7 @@
       "context": "marketingFunnel",
       "text": "Укажите общий месячный рекламный бюджет.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:04c0c8dedc6b5d7a"
+      "catalog": "marketing.enterTheTotalMonthlyAdvertisingBudget"
     },
     {
       "id": "portfolio_v2_engine.js:1970:js-string",
@@ -278,7 +278,7 @@
       "context": "marketingFunnel",
       "text": "CPC должен быть больше нуля.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:f77800e107e96344"
+      "catalog": "marketing.cpcMustBeGreaterThanZero"
     },
     {
       "id": "portfolio_v2_engine.js:2039:js-string",
@@ -375,7 +375,7 @@
       "context": "marketingFunnel",
       "text": "Укажите CTR, чтобы рассчитать число показов.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:817186cee6370ccd"
+      "catalog": "marketing.enterCtrToCalculateImpressions"
     },
     {
       "id": "portfolio_v2_engine.js:2393:js-string",
@@ -400,7 +400,7 @@
       "context": "marketingFunnel",
       "text": "Укажите конверсию клик → лид.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a18e2dcc1248561c"
+      "catalog": "marketing.enterClickToLeadConversion"
     },
     {
       "id": "portfolio_v2_engine.js:2474:js-string",
@@ -425,7 +425,7 @@
       "context": "marketingFunnel",
       "text": "Укажите конверсию лид → заказ.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:323dfe4ab23e5c20"
+      "catalog": "marketing.enterLeadToOrderConversion"
     },
     {
       "id": "portfolio_v2_engine.js:2691:js-string",
@@ -894,7 +894,7 @@
       "context": "skus",
       "text": "Повторяющийся ID товара.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:71b30139513dc215"
+      "catalog": "operations.duplicateProductId"
     },
     {
       "id": "portfolio_v2_engine.js:5585:js-string",
@@ -1027,7 +1027,7 @@
       "context": "skus",
       "text": "Эквайринг ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:1b7c82ebef21fcb0"
+      "catalog": "payments.processing"
     },
     {
       "id": "portfolio_v2_engine.js:5931:js-string",
@@ -1388,7 +1388,7 @@
       "context": "resources",
       "text": "Ресурс ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:7ad4b7be8f9b03c5"
+      "catalog": "ui.resource"
     },
     {
       "id": "portfolio_v2_engine.js:7551:js-string",

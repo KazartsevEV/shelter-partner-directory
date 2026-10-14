@@ -10,7 +10,7 @@
  const nav=document.getElementById('nomad360-tree-nav');
  const back=document.getElementById('nomad360-tree-back');
  if(!nav||!back)return;
- const dictionaries={
+ const dictionaries=(root.Nomad360LocaleCore?.locales("navigation.steps") || {
   ru:{navigation:'Навигация по шагам расчёта',path:'Путь расчёта',home:'Главная',service:'Услуга',mode:'Режим расчёта',
     channel:'Онлайн / офлайн',online:'Онлайн',offline:'Офлайн',who:'Кто исполнитель',
     agent:'Я агент',commission:'Процент с продаж',complex:'Сложная мотивация',
@@ -35,7 +35,7 @@
     source:'Тауар көзі',expensesGood:'Тауар шығындары',
     expensesService:'Қызмет шығындары',summary:'Бизнес қорытындысы',
     portfolio:'V2 портфелі',back:'Қайту:'}
- };
+ });
  let trail=[],restoring=false,queued=false;
  const byId=id=>document.getElementById(id);
  // A button inside a hidden panel is not a usable back action even if the

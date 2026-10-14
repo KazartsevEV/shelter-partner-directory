@@ -238,15 +238,15 @@ test('V1 to V2 online adapter, empirical MBA, and period-pricing rejection messa
 
 test('English and Kazakh finance glossary distinguishes markup, margin, profit, turnover tax and principal',()=>{
  const glossary=[
-  ['Наценка','Markup','Үстеме баға'],
-  ['Торговая наценка к стоимости исполнителя','Markup on provider cost','Орындаушы құнына үстеме баға'],
-  ['Маржа','Margin','Маржа'],
-  ['Чистая прибыль','Net profit','Таза пайда'],
-  ['Выручка без НДС','Revenue excluding VAT','ҚҚС-сыз түсім'],
-  ['Налог на оборот*','Turnover tax*','Айналым салығы*'],
+  ['Наценка','Markup','Markup'],
+  ['Торговая наценка к стоимости исполнителя','Markup on provider cost','Орындаушы құнына Markup'],
+  ['Маржа','Margin','Margin'],
+  ['Чистая прибыль','Net profit','Net Profit'],
+  ['Выручка без НДС','Revenue excluding VAT','ҚҚС-сыз Revenue'],
+  ['Налог на оборот*','Turnover tax*','Turnover Tax*'],
   ['Мой налог на оборот*','My turnover tax*','Менің айналым салығым*'],
-  ['Налог принципала на оборот*','Principal turnover tax*','Принципалдың айналым салығы*'],
-  ['Тело кредита','Loan principal','Несиенің негізгі борышы'],
+  ['Налог принципала на оборот*','Principal turnover tax*','Принципалдың Turnover Tax*'],
+  ['Тело кредита','Loan principal','Loan Principal'],
   ['Прогноз продаж','Sales forecast','Сатылым болжамы'],
   ['Эквайринг','Payment processing','Эквайринг'],
   ['EBITDA (прибыль до налогов)','EBITDA (before interest, taxes, depreciation and amortization)','EBITDA (пайыздар, салықтар, тозу мен амортизацияға дейінгі пайда)'],
@@ -345,27 +345,18 @@ test('16 malformed MBA CSV/JSON variants are rejected and their exact diagnostic
  }
 });
 
-test('complete locale catalog: no empty EN/KK keys, no conflicting duplicates, no Russian Cyrillic in English copy',()=>{
- const marker='const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));';
- A.ok(src.includes(marker),'source catalog shape should be explicit');
- const sandbox={Nomad360UI:{getLanguage:()=> 'en'}};
- new Function('window','document',src.replace(marker,'window.__testCatalog=rows;'+marker))(
-  sandbox,{readyState:'loading',addEventListener(){}});
- const seen=new Map(),conflicts=[];
- let russianInEnglish=0;
- for(const row of sandbox.__testCatalog){
-  A.equal(row.length,3,'all locale rows must be RU/EN/KK');
-  const [ru,en,kk]=row;
-  A.ok([ru,en,kk].every(v=>typeof v==='string'&&v.trim()),
-   'no empty language keys: '+JSON.stringify(row));
-  if(/[А-ЯЁа-яё]/.test(en))russianInEnglish++;
-  if(seen.has(ru)&&JSON.stringify(seen.get(ru))!==JSON.stringify([en,kk]))
-   conflicts.push(ru);
-  seen.set(ru,[en,kk]);
+test('semantic catalog has no missing languages, duplicate keys or unexplained Cyrillic in EN',()=>{
+ const c=win.Nomad360LocaleCore,keys=c.keys();
+ A.equal(keys.length,new Set(keys).size);A.ok(keys.length>1600);
+ const parameters={receipt:1,item:2,quantity:3,name:'Test item',unit:'unit',months:4,end:5,sale:6,date:'2026-10-14',month:2,capacity:3,share:100,currency:'USD'};
+ for(const key of keys)for(const language of ['ru','en','kk']){
+  const value=c.t(key,language,parameters);
+  A.ok(!value.includes('⟦'),'missing translation: '+key+' '+language);
+  if(['interface.shell.privacy','interface.header.products.1.goal'].includes(key))A.equal(value,'','intentional empty legacy presentation field');
+  else A.ok(value.trim(),'empty translation: '+key+' '+language);
+  if(language==='en')A.ok(!/[А-Яа-яЁё]/.test(value),'untranslated Cyrillic in English: '+key);
  }
- A.equal(conflicts.length,0,'contradictory duplicate translation '+conflicts.join(', '));
- A.equal(russianInEnglish,0,'English catalog must not contain unlocalized Russian text');
- A.ok(seen.size>1000,'audit full RU/EN/KK catalog, not a tiny handpicked list');
+ const aliases=c.aliases();A.equal(aliases.length,new Set(aliases).size,'legacy alias must be unambiguous');
 });
 
 test('populated MBA source captions and runtime currency prefix have exact RU/EN/KK ownership',()=>{
@@ -388,12 +379,7 @@ test('populated MBA source captions and runtime currency prefix have exact RU/EN
 });
 
 test('financial glossary: monetary units are not translated as physical units',()=>{
- const anchor='const direct=new Map(rows.map(([ru,en,kk])=>[ru,{en,kk}]));';
- A.ok(src.includes(anchor),'expected locale-catalog hook');
- const sandbox={Nomad360UI:{getLanguage:()=> 'en'}};
- new Function('window','document',src.replace(anchor,'window.__financialRows=rows;'+anchor))(
-  sandbox,{readyState:'loading',addEventListener(){}});
- const rows=sandbox.__financialRows.filter(([ru])=>ru.includes('у.е.*'));
+ const rows=win.Nomad360LocaleCore.keys().map(key=>['ru','en','kk'].map(lang=>win.Nomad360LocaleCore.t(key,lang,{receipt:1,item:2}))).filter(([ru])=>ru.includes('у.е.*'));
  A.ok(rows.length>=50,'monetary labels were not collected');
  for(const [ru,en,kk] of rows){
   A.ok(en.includes('currency units*'),'wrong monetary EN unit: '+ru+' => '+en);

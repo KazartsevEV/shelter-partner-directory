@@ -48,7 +48,8 @@
       "stage": "L4",
       "context": "numeric",
       "text": "Некорректное значение: ",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.invalidValue"
     },
     {
       "id": "portfolio_v2_full_service.js:825:js-string",
@@ -60,7 +61,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Горизонт",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "interface.shell.horizon"
     },
     {
       "id": "portfolio_v2_full_service.js:896:js-string",
@@ -72,7 +74,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Горизонт должен быть от 1 до 120 месяцев.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.theHorizonMustBeBetween1And120Months"
     },
     {
       "id": "portfolio_v2_full_service.js:1218:js-string",
@@ -84,7 +87,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Нужен хотя бы один рассчитанный месяц спроса V1.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.atLeastOneCalculatedMonthOfV1DemandIsRequired"
     },
     {
       "id": "portfolio_v2_full_service.js:1311:js-string",
@@ -96,7 +100,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Мощность",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.capacity"
     },
     {
       "id": "portfolio_v2_full_service.js:1407:js-string",
@@ -157,7 +162,7 @@
       "context": "build",
       "text": "Цена с НДС",
       "coverage": "legacy-exact",
-      "catalog": "legacy:88efebaf6e406cd1"
+      "catalog": "service.cashflow.price"
     },
     {
       "id": "portfolio_v2_full_service.js:1664:js-string",
@@ -169,7 +174,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Ставка НДС",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.vatRate"
     },
     {
       "id": "portfolio_v2_full_service.js:1728:js-string",
@@ -182,7 +188,7 @@
       "context": "build",
       "text": "Скидка",
       "coverage": "legacy-exact",
-      "catalog": "legacy:53bf07ab6cc701f2"
+      "catalog": "pricing.discount"
     },
     {
       "id": "portfolio_v2_full_service.js:1787:js-string",
@@ -194,7 +200,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Недопустимый НДС или скидка.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.invalidVatOrDiscount"
     },
     {
       "id": "portfolio_v2_full_service.js:1859:js-string",
@@ -230,7 +237,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Выберите налог с оборота или прибыли.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.selectTurnoverTaxOrProfitTax"
     },
     {
       "id": "portfolio_v2_full_service.js:1991:js-string",
@@ -242,7 +250,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Ставка налога",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.businessTaxRate"
     },
     {
       "id": "portfolio_v2_full_service.js:2038:js-string",
@@ -254,7 +263,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Ставка налога должна быть не больше 100%.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.theTaxRateCannotExceed100"
     },
     {
       "id": "portfolio_v2_full_service.js:2135:js-string",
@@ -266,7 +276,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Расходники и исполнение",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.consumablesAndServiceDelivery"
     },
     {
       "id": "portfolio_v2_full_service.js:2216:js-string",
@@ -278,7 +289,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Комиссии",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.fees"
     },
     {
       "id": "portfolio_v2_full_service.js:2265:js-string",
@@ -290,7 +302,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Комиссия не может быть больше 100%.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.theFeeCannotExceed100"
     },
     {
       "id": "portfolio_v2_full_service.js:2364:js-string",
@@ -302,7 +315,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Ежемесячные расходы",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.monthlyExpenses"
     },
     {
       "id": "portfolio_v2_full_service.js:2437:js-string",
@@ -315,7 +329,7 @@
       "context": "build",
       "text": "Покупка оборудования",
       "coverage": "legacy-exact",
-      "catalog": "legacy:defa19b0d5097834"
+      "catalog": "ui.equipmentPurchase"
     },
     {
       "id": "portfolio_v2_full_service.js:2515:js-string",
@@ -328,7 +342,7 @@
       "context": "build",
       "text": "Амортизация",
       "coverage": "legacy-exact",
-      "catalog": "legacy:5d9c7d7a9a3722ad"
+      "catalog": "service.cashflow.amortCol"
     },
     {
       "id": "portfolio_v2_full_service.js:2578:js-string",
@@ -341,7 +355,7 @@
       "context": "build",
       "text": "Резерв",
       "coverage": "legacy-exact",
-      "catalog": "legacy:65afece11a04de38"
+      "catalog": "service.cashflow.reserve"
     },
     {
       "id": "portfolio_v2_full_service.js:2620:js-string",
@@ -389,7 +403,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Выберите свои деньги или кредит.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.selectOwnFundsOrALoan"
     },
     {
       "id": "portfolio_v2_full_service.js:2751:js-string",
@@ -413,7 +428,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Годовая ставка кредита",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.annualLoanRate"
     },
     {
       "id": "portfolio_v2_full_service.js:2848:js-string",
@@ -437,7 +453,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Срок кредита",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.loanTerm"
     },
     {
       "id": "portfolio_v2_full_service.js:2920:js-string",
@@ -461,7 +478,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Срок кредита должен задаваться целым числом месяцев.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.theLoanTermMustBeAWholeNumberOfMonths"
     },
     {
       "id": "portfolio_v2_full_service.js:3758:js-string",
@@ -533,7 +551,8 @@
       "stage": "L4",
       "context": "build",
       "text": "Не удалось согласовать капитал и проценты кредита за 10 проходов.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.fundingAndLoanInterestDidNotReconcileWithin10Iterations"
     },
     {
       "id": "portfolio_v2_full_service.js:7710:js-string",
@@ -701,7 +720,8 @@
       "stage": "L4",
       "context": "toPortfolioSku",
       "text": "Для портфеля выберите онлайн- или офлайн-услугу.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.selectAnOnlineOrOfflineServiceForThePortfolio"
     },
     {
       "id": "portfolio_v2_full_service.js:9519:js-string",
@@ -713,7 +733,8 @@
       "stage": "L4",
       "context": "toPortfolioSku",
       "text": "У услуги должен быть стабильный ID и название.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.theServiceMustHaveAStableIdAndAName"
     },
     {
       "id": "portfolio_v2_full_service.js:9891:js-string",
@@ -737,7 +758,8 @@
       "stage": "L4",
       "context": "toPortfolioSku",
       "text": "Расшифровка постоянных расходов услуги превышает общую сумму.",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "service.theServiceFixedCostBreakdownExceedsTheTotal"
     },
     {
       "id": "portfolio_v2_full_service.js:10496:js-string",

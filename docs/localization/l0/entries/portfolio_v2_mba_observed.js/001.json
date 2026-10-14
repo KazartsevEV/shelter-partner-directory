@@ -245,7 +245,7 @@
       "context": "csvRows",
       "text": "Некорректное экранирование CSV.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:42d8f4c34e289322"
+      "catalog": "ui.invalidCsvQuoting"
     },
     {
       "id": "portfolio_v2_mba_observed.js:1233:js-string",
@@ -258,7 +258,7 @@
       "context": "csvRows",
       "text": "CSV содержит незакрытую кавычку.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:9f76a42c6b61b6c2"
+      "catalog": "ui.csvContainsAnUnclosedQuote"
     },
     {
       "id": "portfolio_v2_mba_observed.js:1361:js-string",
@@ -271,7 +271,7 @@
       "context": "csvRows",
       "text": "Файл чеков пуст.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:b9bccf6862bf2774"
+      "catalog": "ui.receiptFileIsEmpty"
     },
     {
       "id": "portfolio_v2_mba_observed.js:1500:js-string",
@@ -572,7 +572,7 @@
       "context": "flattenReceipts",
       "text": "Нужен шаблон JSON Nomad360 версии 1 с массивом orders.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d87d88b99f37ff0f"
+      "catalog": "ui.useNomad360JsonTemplateVersion1WithAnOrdersArray"
     },
     {
       "id": "portfolio_v2_mba_observed.js:2997:js-string",
@@ -923,7 +923,7 @@
       "context": "read",
       "text": "Выберите непустой CSV или JSON с чеками.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:2372c48f837b40ba"
+      "catalog": "ui.selectANonemptyCsvOrJsonReceiptFile"
     },
     {
       "id": "portfolio_v2_mba_observed.js:4467:js-string",
@@ -936,7 +936,7 @@
       "context": "read",
       "text": "Файл больше лимита 3,5 МБ. Разделите историю на периоды.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:08499066299ee363"
+      "catalog": "ui.fileExceedsThe35MbLimitSplitTheHistoryIntoPeriods"
     },
     {
       "id": "portfolio_v2_mba_observed.js:4551:js-string",
@@ -1023,7 +1023,7 @@
       "context": "read",
       "text": "Поддерживается только CSV или JSON.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:1beeaf8750126b2a"
+      "catalog": "ui.onlyCsvOrJsonIsSupported"
     },
     {
       "id": "portfolio_v2_mba_observed.js:4718:js-string",
@@ -1048,7 +1048,7 @@
       "context": "read",
       "text": "Некорректный JSON чеков.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:8cd2bcef3675de92"
+      "catalog": "ui.invalidReceiptJson"
     },
     {
       "id": "portfolio_v2_mba_observed.js:4872:js-string",
@@ -1073,7 +1073,7 @@
       "context": "read",
       "text": "JSON должен содержать массив строк, поле lines или шаблон Nomad360 orders.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:f72eaa0712ba9ed7"
+      "catalog": "ui.jsonMustContainARowArrayALinesPropertyOrTheNomad360OrdersTemplate"
     },
     {
       "id": "portfolio_v2_mba_observed.js:5117:js-string",
@@ -1086,7 +1086,7 @@
       "context": "read",
       "text": "Не больше 20 000 строк за один импорт.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:25731272250faac6"
+      "catalog": "ui.maximum20000RowsPerImport"
     },
     {
       "id": "portfolio_v2_mba_observed.js:5229:js-string",
@@ -1533,7 +1533,7 @@
       "context": "analyze",
       "text": "Сопоставьте неизвестные SKU с позициями V1 перед расчётом ассоциаций.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:617a55cffb536f36"
+      "catalog": "ui.mapUnknownSkuIdsToV1ItemsBeforeCalculatingAssociations"
     },
     {
       "id": "portfolio_v2_mba_observed.js:10387:js-string",

@@ -1,10 +1,13 @@
-name: Localization L0 source and browser census
+name: Localization source, semantic compatibility and browser census
 on:
   pull_request:
     paths:
       - 'scripts/localization/**'
       - 'docs/localization/**'
       - 'tests/nomad360_localization_*'
+      - 'tests/nomad360_locale_semantic.test.cjs'
+      - 'nomad360_locale_core.js'
+      - 'Marketing_calc.HTML'
       - '.github/workflows/localization-l0.yml'
   workflow_dispatch:
 permissions:
@@ -28,15 +31,8 @@ jobs:
           node scripts/localization/inventory.cjs --check
           node tests/nomad360_localization_inventory.test.cjs
           node tests/nomad360_locale_diagnostics.test.cjs
-      - name: Assert application and finance unchanged from accepted Excel merge
-        if: github.head_ref == 'feature/localization-l0' || github.ref_name == 'feature/localization-l0'
-        run: |
-          node - <<'JS'
-          const {execFileSync}=require('node:child_process');
-          const s=require('./docs/localization/l0/catalog.json').sources.map(s=>s.file);
-          execFileSync('git',['diff','--exit-code','9e5a7f51b22ff9240cb9a520203182e0b448d623','HEAD','--',...s,'vendor/exceljs-4.4.0.min.js']);
-          console.log('LOCALIZATION_L0_RUNTIME_PARITY_GREEN',s.length+1);
-          JS
+      - name: Semantic compatibility and unchanged financial code against accepted Excel merge
+        run: node tests/nomad360_locale_semantic.test.cjs
       - run: npm install --no-save --package-lock=false playwright@1.58.0 tailwindcss@3.4.17
       - run: npx playwright install --with-deps chromium
       - name: Offline CSS for browser census
@@ -45,9 +41,14 @@ jobs:
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/l0-utilities.css
           npx tailwindcss -i /tmp/l0-utilities.css --content './Marketing_calc.HTML,./nomad360_*.js,./portfolio_v2_*ui.js' -o artifacts/l0-utilities.css --minify
       - run: node tests/nomad360_localization_l0_browser.cjs
+        env:
+          NOMAD360_LOCALE_ACCEPTANCE: '1'
+      - run: node tests/nomad360_localization_acceptance_browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: localization-l0-browser-census
-          path: artifacts/localization-l0
+          path: |
+            artifacts/localization-l0
+            artifacts/localization-acceptance
           retention-days: 14

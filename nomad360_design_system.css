@@ -2335,3 +2335,17 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
   overflow-wrap:normal;
   word-break:normal;
 }
+
+/* L6 locale matrix: frozen V1 records must fit translated actions at 320 px.
+   Preserve the current type scale; wrap actions below the user-owned title. */
+@media (max-width:767px){
+  #completed-product-forms [data-completed-product-id] > div:first-child{
+    flex-wrap:wrap;min-width:0;
+  }
+  #completed-product-forms [data-completed-product-id] > div:first-child > div{
+    flex:1 1 100%;min-width:0;overflow-wrap:anywhere;
+  }
+  #completed-product-forms [data-completed-product-id] > div:first-child > button{
+    max-width:100%;white-space:normal;word-break:normal;overflow-wrap:normal;
+  }
+}

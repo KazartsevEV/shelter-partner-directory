@@ -133,7 +133,7 @@
       "context": "fromOnlineV1",
       "text": "Неизвестная онлайн-ветка V1.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a32b58054cf6dca4"
+      "catalog": "operations.unknownV1OnlineServiceScenario"
     },
     {
       "id": "portfolio_v2_online_adapter.js:1092:js-string",
@@ -146,7 +146,7 @@
       "context": "fromOnlineV1",
       "text": "Назовите услугу перед передачей в V2.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:b69aba8756015c45"
+      "catalog": "operations.nameTheServiceBeforeImportingItIntoV2"
     },
     {
       "id": "portfolio_v2_online_adapter.js:1219:js-string",
@@ -339,7 +339,7 @@
       "context": "fromOnlineV1",
       "text": "Нужна рассчитанная рекламная воронка с положительным бюджетом, CPC и конверсиями.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:9ac641bbc33218b6"
+      "catalog": "marketing.aCalculatedAdvertisingFunnelWithAPositiveBudgetCpcAndConversionRatesIsRequired"
     },
     {
       "id": "portfolio_v2_online_adapter.js:1764:js-string",
@@ -364,7 +364,7 @@
       "context": "fromOnlineV1",
       "text": "Некорректный период V1.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:88055c83d2171680"
+      "catalog": "ui.invalidV1CalculationPeriod"
     },
     {
       "id": "portfolio_v2_online_adapter.js:1880:js-string",
@@ -485,7 +485,7 @@
       "context": "fromOnlineV1",
       "text": "V1 не подтверждает положительный чек онлайн-услуги.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:9ecdb18699bc71c6"
+      "catalog": "operations.v1DoesNotConfirmAPositiveTransactionValueForThisOnlineService"
     },
     {
       "id": "portfolio_v2_online_adapter.js:2650:js-string",
@@ -534,7 +534,7 @@
       "context": "fromOnlineV1",
       "text": "В агентской ветке нужен положительный процент вознаграждения.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:d9c6f01905f71795"
+      "catalog": "ui.agencyCommissionPercentageMustBeGreaterThanZero"
     },
     {
       "id": "portfolio_v2_online_adapter.js:2833:js-string",
@@ -895,7 +895,7 @@
       "context": "build",
       "text": "Неизвестный онлайн-сценарий.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:fc4150948d8d557d"
+      "catalog": "operations.unknownOnlineServiceScenario"
     },
     {
       "id": "portfolio_v2_online_adapter.js:5484:js-string",
@@ -908,7 +908,7 @@
       "context": "build",
       "text": "Недопустимый период.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:5e373cc852578a25"
+      "catalog": "ui.invalidCalculationPeriod"
     },
     {
       "id": "portfolio_v2_online_adapter.js:5560:js-string",
@@ -921,7 +921,7 @@
       "context": "build",
       "text": "Воронка не содержит подтверждённого прогноза сделок.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:55cf3458c22507c8"
+      "catalog": "marketing.theFunnelHasNoConfirmedDealForecast"
     },
     {
       "id": "portfolio_v2_online_adapter.js:5696:js-string",
@@ -1078,7 +1078,7 @@
       "context": "build",
       "text": "Не распределены расходы агента и принципала.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:54262ed19daa5c6f"
+      "catalog": "finance.agentAndPrincipalExpensesHaveNotBeenAllocated"
     },
     {
       "id": "portfolio_v2_online_adapter.js:6043:js-string",
@@ -1103,7 +1103,7 @@
       "context": "build",
       "text": "Не рассчитан доход владельца.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:193f69f1be718bb7"
+      "catalog": "finance.ownerIncomeHasNotBeenCalculated"
     },
     {
       "id": "portfolio_v2_online_adapter.js:6207:js-string",
@@ -1212,7 +1212,7 @@
       "context": "build",
       "text": "Не рассчитана оплата исполнителю.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:39620ff916b5e758"
+      "catalog": "ui.providerPaymentHasNotBeenCalculated"
     },
     {
       "id": "portfolio_v2_online_adapter.js:6647:js-string",
@@ -1273,7 +1273,7 @@
       "context": "build",
       "text": "Налог или эквайринг превышает 100%.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:fe29c5fe409c44ff"
+      "catalog": "tax.taxOrPaymentProcessingPercentageExceeds100"
     },
     {
       "id": "portfolio_v2_online_adapter.js:6874:js-string",
@@ -1286,7 +1286,7 @@
       "context": "build",
       "text": "Неверная цена или количество продаж.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:adce0493b0fe2453"
+      "catalog": "pricing.invalidPriceOrSalesQuantity"
     },
     {
       "id": "portfolio_v2_online_adapter.js:6962:js-string",
@@ -1299,7 +1299,7 @@
       "context": "build",
       "text": "Онлайн-услуга",
       "coverage": "legacy-exact",
-      "catalog": "legacy:e39f1fdd2602757a"
+      "catalog": "export.excel.online-service"
     },
     {
       "id": "portfolio_v2_online_adapter.js:6986:js-string",

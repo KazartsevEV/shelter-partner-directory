@@ -2,11 +2,11 @@
 (function(root){
  'use strict';
  const P=root.Nomad360Payments,C=root.Nomad360Currency;
- const words={
+ const words=(root.Nomad360LocaleCore?.locales("currency.payment") || {
   en:{label:'Payment currency',note:'Enter the cost in the currency you will use to pay for the goods or delivery.',pending:'Conversion required before calculation. This currency selection does not apply an exchange rate.',invalid:'Check the payment amount and currency.',business:'Amount in the business currency',empty:'Enter the payment amount.'},
   ru:{label:'Валюта платежа',note:'Укажите стоимость в валюте, в которой будете оплачивать товар или доставку.',pending:'Для расчёта требуется конвертация. Выбор валюты не применяет обменный курс.',invalid:'Проверьте сумму и валюту платежа.',business:'Сумма в валюте бизнеса',empty:'Укажите сумму платежа.'},
   kk:{label:'Төлем валютасы',note:'Тауар немесе жеткізу ақысын төлейтін валютада құнын көрсетіңіз.',pending:'Есептеу үшін конвертация қажет. Валютаны таңдау айырбастау бағамын қолданбайды.',invalid:'Төлем сомасы мен валютасын тексеріңіз.',business:'Бизнес валютасындағы сома',empty:'Төлем сомасын көрсетіңіз.'}
- };
+ });
  const text=()=>words[root.Nomad360UI?.getLanguage?.()||'ru'];
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const fixed=['resale-buy-total','own-materials-cost','own-inbound-delivery-cost','own-broker-cost','own-duties-cost','own-certification-cost'];

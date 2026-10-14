@@ -109,7 +109,7 @@
       "context": "plan",
       "text": "Горизонт должен составлять от 1 до 120 целых месяцев.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:eb8479f03b9aa733"
+      "catalog": "ui.forecastMustBeBetween1And120WholeMonths"
     },
     {
       "id": "portfolio_v2_temporal.js:1571:js-string",
@@ -134,7 +134,7 @@
       "context": "plan",
       "text": "Подтвердите предположение о повторении прогноза V1 каждый месяц.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:09a4509c8e77d507"
+      "catalog": "ui.confirmThatYouAssumeV1DemandRepeatsEveryMonth"
     },
     {
       "id": "portfolio_v2_temporal.js:1695:js-string",
@@ -171,7 +171,7 @@
       "context": "plan",
       "text": "Не загружен расчёт связей товаров.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:1587788b63574fcc"
+      "catalog": "ui.linkedOfferModelIsNotLoaded"
     },
     {
       "id": "portfolio_v2_temporal.js:1912:js-string",
@@ -232,7 +232,7 @@
       "context": "plan",
       "text": "Общий месячный ресурс онлайн-услуги при налоге на прибыль имеет неподтверждённое разделение налоговых расходов. Нужен проверенный договор распределения.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:33fdab6758e63b0b"
+      "catalog": "tax.sharedMonthlyOnlineServiceResourcesUnderProfitTaxHaveNoVerifiedCostOwnerAllocationContract"
     },
     {
       "id": "portfolio_v2_temporal.js:2583:js-string",
@@ -257,7 +257,7 @@
       "context": "plan",
       "text": "Пустой портфель.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:94c1c5754650309f"
+      "catalog": "ui.portfolioIsEmpty"
     },
     {
       "id": "portfolio_v2_temporal.js:2645:js-string",
@@ -522,7 +522,7 @@
       "context": "plan",
       "text": "Не загружен календарь общих рекламных кампаний.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:b8d1a91a8526dbe5"
+      "catalog": "marketing.sharedAdvertisingCampaignCalendarIsUnavailable"
     },
     {
       "id": "portfolio_v2_temporal.js:4465:js-string",
@@ -547,7 +547,7 @@
       "context": "plan",
       "text": "Не загружен календарь рекламных кампаний.",
       "coverage": "legacy-exact",
-      "catalog": "legacy:a670383be664f772"
+      "catalog": "marketing.advertisingCampaignCalendarIsUnavailable"
     },
     {
       "id": "portfolio_v2_temporal.js:5962:js-string",
@@ -560,7 +560,7 @@
       "context": "module",
       "text": "Месяц ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
       "id": "portfolio_v2_temporal.js:5981:js-string",
@@ -597,7 +597,7 @@
       "context": "plan",
       "text": "Месяц ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
       "id": "portfolio_v2_temporal.js:6243:js-string",
@@ -646,7 +646,7 @@
       "context": "plan",
       "text": "Месяц ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
       "id": "portfolio_v2_temporal.js:6414:js-string",
@@ -731,7 +731,7 @@
       "context": "plan",
       "text": "Месяц ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
       "id": "portfolio_v2_temporal.js:6776:js-string",
@@ -828,7 +828,7 @@
       "context": "plan",
       "text": "Месяц ",
       "coverage": "legacy-exact",
-      "catalog": "legacy:c90866545244fc5d"
+      "catalog": "service.cashflow.month"
     },
     {
       "id": "portfolio_v2_temporal.js:7247:js-string",
