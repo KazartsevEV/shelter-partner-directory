@@ -466,6 +466,8 @@ body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-s
 }
 body :is(.nd-v1-screen,.nd-agent-screen,.nd-custom-screen,:where(#full-service-screen)) :is(button,[role="button"]) {
   font-family:var(--nd-font);
+  font-size:var(--nd-type-action);
+  min-height:44px;
   font-weight:var(--nd-weight-heading);
   line-height:1.35;
 }
