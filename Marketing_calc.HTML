@@ -19,7 +19,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Typeface is loaded once in nomad360_calculator_ui.css. */
-        body { font-family: 'IBM Plex Sans', system-ui, sans-serif; background-color: #f8fafc; color: #334155; }
+        body { font-family: var(--nd-font); background-color: #f8fafc; color: #334155; }
         .card { background: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .input-field { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-weight: 500; outline: none; transition: all 0.2s; }
         .input-field:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
@@ -29,7 +29,7 @@
         .result-card.red { border-left-color: #ef4444; background: #fef2f2; }
         .th { background-color: #f1f5f9; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; color: #64748b; padding: 0.75rem; }
         .td-label { font-weight: 500; color: #475569; padding: 0.75rem; background-color: #fff; text-align: left; vertical-align: middle; }
-        .td-val { text-align: right; padding: 0.75rem; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-weight: 600; }
+        .td-val { text-align: right; padding: 0.75rem; font-family: var(--nd-font); font-weight: 600; }
         .td-total { background-color: #f8fafc; font-weight: 700; color: #0f172a; }
         .product-source-choice.product-source-selected {
             border-color: #2563eb;
@@ -50,7 +50,7 @@
             width: 100%;
             min-width: 0;
             white-space: nowrap;
-            font-family: 'IBM Plex Sans', system-ui, sans-serif;
+            font-family: var(--nd-font);
             font-stretch: condensed;
             font-weight: 600;
             letter-spacing: -0.02em;
@@ -124,7 +124,7 @@
             border: 1px solid rgba(167, 243, 208, 0.95);
             background: #ecfdf5;
             color: #064e3b;
-            font-weight: 800;
+            font-weight: 700;
             text-align: right;
             font-variant-numeric: tabular-nums;
             vertical-align: middle;
@@ -151,18 +151,18 @@
             color: #ffffff;
             font-size: 1.35rem;
             line-height: 1.35;
-            font-weight: 800;
+            font-weight: 700;
         }
         #product-tax-block.product-business-aggregate .aggregate-final-value {
             color: #a7f3d0;
-            font-weight: 900;
+            font-weight: 700;
         }
         #product-tax-block.product-business-aggregate .aggregate-action-confirm,
         #product-tax-block.product-business-aggregate .aggregate-action-recalc {
             min-height: 3rem;
             border-radius: 0.8rem;
             padding: 0.75rem 1rem;
-            font-weight: 800;
+            font-weight: 700;
         }
         #product-tax-block.product-business-aggregate .aggregate-action-confirm {
             background: #ecfdf5;
@@ -194,7 +194,7 @@
         #product-tax-block.product-business-aggregate .aggregate-price-number {
             color: #ffffff;
             font-size: 1.3rem;
-            font-weight: 900;
+            font-weight: 700;
             font-variant-numeric: tabular-nums;
         }
         #product-tax-block.product-business-aggregate .final-tax-price-highlight {
@@ -206,12 +206,12 @@
             color: #a7f3d0;
             font-size: 1.65rem;
             line-height: 1.2;
-            font-weight: 900;
+            font-weight: 700;
         }
         #product-tax-block.product-business-aggregate .price-list-range {
             color: #ffffff;
             font-size: 1.45rem;
-            font-weight: 900;
+            font-weight: 700;
             font-variant-numeric: tabular-nums;
         }
         @media print {
@@ -226,7 +226,7 @@
             table-layout: fixed;
             width: max-content;
             min-width: 100%;
-            font-family: 'IBM Plex Sans', system-ui, sans-serif;
+            font-family: var(--nd-font);
             font-stretch: condensed;
         }
         .monthly-label-col {
@@ -249,21 +249,21 @@
             }
             .monthly-label-col {
                 width: 148px; min-width: 148px; max-width: 148px;
-                padding: 0.5rem 0.4rem; font-size: 0.72rem; line-height: 1.18;
+                padding: 0.5rem 0.4rem; font-size: 14px; line-height: 1.18;
             }
             .monthly-value-col {
                 width: 82px; min-width: 82px; max-width: 82px;
-                padding: 0.5rem 0.3rem; font-size: 0.72rem;
+                padding: 0.5rem 0.3rem; font-size: 14px;
             }
             #monthly-breakdown-table .td-val {
                 padding: 0.5rem 0.3rem;
-                font-family: 'IBM Plex Sans', system-ui, sans-serif;
+                font-family: var(--nd-font);
                 font-variant-numeric: tabular-nums;
                 letter-spacing: -0.02em;
             }
             #monthly-breakdown-table .td-label { padding: 0.5rem 0.4rem; }
             #monthly-breakdown-table .th {
-                font-size: 0.68rem;
+                font-size: 14px;
                 letter-spacing: 0.015em;
                 padding: 0.5rem 0.3rem;
             }
