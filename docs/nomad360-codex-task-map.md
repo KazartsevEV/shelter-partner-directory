@@ -23,7 +23,7 @@
 3. **DONE / PR #134 merged (9e5a7f51):** локальный экспорт прайс-листа V2 в Excel.
 4. **DONE / PR #135 merged (`71048bfd`):** локализация RU/EN/KK L0–L6, 10/10 workflows, 11/11 рабочих jobs GREEN на точном PR-head; historical visual Skipped.
 5. **DONE / PR #139 merged (`e458115d`):** реалистичный шоппер V1, Казахстан/KZT, принят пользователем. Post-merge 5/5 workflows GREEN и Pages опубликован; [данные и источники](demos/shopper-v1-assumptions.md), [проверка](reviews/shopper-v1-review.md).
-**TYPE-02 — IN PROGRESS / этап A:** отдельная задача между 5 и 6; системная типографика CSS с A/B сравнением и приёмкой экрана сертификатов V2. [Подробное ТЗ](nomad360-typography-type02-tz.md).
+**TYPE-02 — IN REVIEW / этап A, [Draft PR #142](https://github.com/KazartsevEV/shelter-partner-directory/pull/142):** отдельная задача между 5 и 6; системная типографика CSS с A/B сравнением и приёмкой экрана сертификатов V2. [Подробное ТЗ](nomad360-typography-type02-tz.md).
 6. Маркетинговая упаковка RU/EN/KK, Free Embed / White Label и корректный юридический подвал.
 7. Трёхъязычное индексируемое SEO: языковые URL, метаданные, canonical/hreflang.
 8. Справка по функционалу в меню хедера на EN/RU/KK, с SEO-заголовками.
@@ -552,7 +552,7 @@ Codex должен зафиксировать:
 
 # TYPE-02. Типографика интерфейса (между задачами 5 и 6)
 
-**Статус: этап A в работе с разрешения пользователя.** Ветка `feature/type02-typography`, база `b1cc9b50`. Только опциональный эталон `#p2-stage-purchase`; работающие маршруты, финансовые движки и другие формы не изменяются. Отдельный Draft PR, остановка для выбора гарнитуры и визуальной приёмки. Этап B ещё не начат. [Отчёт A/B](reviews/type02-reference-review.md).
+**Статус: этап A предъявлен, [Draft PR #142](https://github.com/KazartsevEV/shelter-partner-directory/pull/142).** Ветка `feature/type02-typography`, база `b1cc9b50`. Только опциональный эталон `#p2-stage-purchase`; работающие маршруты, финансовые движки и другие формы не изменяются. Отдельный Draft PR, остановка для выбора гарнитуры и визуальной приёмки. Этап B ещё не начат. [Отчёт A/B](reviews/type02-reference-review.md).
 
 **Самостоятельная задача:** [детальное CSS-ТЗ TYPE-02](nomad360-typography-type02-tz.md). Эталонный экран V2 «Закупка и сертификаты», A/B Inter и очищенный IBM Plex Sans, согласованная шкала weight/size/line-height, затем V1/V2, hero, About и контакты. Сначала визуальная приёмка одного экрана, затем охват. **Отдельный PR; не начинать до приёмки задачи 5.**
 

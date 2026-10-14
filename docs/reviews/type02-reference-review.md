@@ -9,7 +9,7 @@
 - [A/B сравнение с оригинальными PNG](type02-reference/comparison.md): RU 390, KK 320, EN 1280 и полная матрица.
 - [Интерактивный просмотр](type02-reference/comparison.html): открыть вместе с каталогом `images`; язык, ширина и состояние выбираются независимо. Просмотр работает с сохранёнными снимками и не записывает расчёты пользователя.
 - [Полный протокол Chromium](type02-reference/protocol.json): computed styles, совпадение модели/черновика, контраст каждого текстового элемента, CDP-проверка шрифтов, состояния ошибок, восстановление, отключение шрифтов и reflow.
-- [Исходные шрифты и контрольные суммы](type02-reference/font-manifest.json), [объявления для просмотра](type02-reference/fonts.css). Все оригинальные PNG сохранены в `type02-reference/images/`; это снимки реальной формы, не рисунки и не декоративный HTML-калькулятор.
+- [Исходные шрифты и контрольные суммы](type02-reference/font-manifest.json), [объявления для просмотра](type02-reference/fonts.css). Все 84 оригинальных CI PNG сохранены в `type02-reference/images/`; это снимки реальной формы, не рисунки и не декоративный HTML-калькулятор. [Происхождение, SHA-256 ZIP/PNG и источников](type02-reference/ci-implementation.json).
 
 ## Первопричина и каскад
 
@@ -63,7 +63,13 @@ Chromium CDP `CSS.getPlatformFontsForNode` проверяет **Ә ә Ғ ғ Қ �
 - Минимальный измеренный контраст в секции **7,29:1**. Нет переполнения страницы, выходящих за экран элементов, обрезанных числовых input, потерянных ошибок или изменения расчётных чисел.
 - 225 финансовых/связанных unit-регрессий успешно; ещё 2 проверки неизменности защищённых исходников и оригинальных font assets успешно. CSS разобран PostCSS, новый JavaScript прошёл syntax check, workflow YAML проверен.
 
-CI запускает отдельный `TYPE-02 A typography reference` на точном PR-head; оригинальные результаты и 84 PNG доступны в `type02-reference-originals`. Фактический статус и SHA финального запуска фиксируются в описании PR и живой Issue #119. Зелёный CI подтверждает проверки этапа A; он не объявляет завершённым весь TYPE-02.
+[CI реализации c43b4ebd](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38599372688) прошёл: 225 + 2 unit/guard checks, 72 снимка, 6 восстановлений, 6 reflow и 12 blocked-font сценариев. CI checkout `6e6c93b8` и PR-head имеют одинаковое дерево `a0a1189f`. ZIP артефакта `11910774272` скачан и проверен по SHA-256; все 84 PNG и протокол опубликованы из этого ZIP без изменения. Последующая синхронизация guard/census и публикация доказательств не меняют код/CSS эталона. CI запускает отдельный `TYPE-02 A typography reference` на точном финальном PR-head. Фактический статус и SHA финального запуска фиксируются в описании PR и живой Issue #119. Зелёный CI подтверждает проверки этапа A; он не объявляет завершённым весь TYPE-02.
+
+## Синхронизация принятой базы в проверках
+
+Первый общий shopper CI на `c43b4ebd` выявил устаревший guard: он сравнивал `nomad360_traffic.js` после уже принятого PR #141 с версией старого финансового baseline `9e5a7f51`. Падение отдельно воспроизведено в неизменённом main `b1cc9b50`, до TYPE-02. [Первый RED](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38599372436).
+
+Только эталон счётчика закреплён на принятом `b1cc9b50`; сам виджет не менялся и не исключён из защиты. Все финансовые AST, арифметика и финансовые файлы продолжают сравниваться с исходным `9e5a7f51`. Отдельный TYPE-02 guard дополнительно сравнивает целиком все application JS/HTML и остальные CSS с текущей базой. Регенерирован детерминированный source census: CSS-хеш и уже изменённый в main код счётчика (5 новых технических литералов). Каталоги переводов и ключи не изменялись. После синхронизации semantic/oracle/scope guards — 10/10; `inventory --check` GREEN. Это поддержка CI текущей принятой базы, не реализация нового функционала.
 
 ## Обнаруженное прежнее ограничение
 
@@ -73,7 +79,7 @@ CI запускает отдельный `TYPE-02 A typography reference` на �
 
 ## Файлы и границы
 
-Презентация: `nomad360_design_system.css`. Review fonts: `vendor/fonts/type02/*`, `docs/reviews/type02-reference/fonts.css`. Проверки: `tests/type02_reference_browser.cjs`, `tests/type02_scope.test.cjs`, `.github/workflows/type02-reference.yml`. Документы: данный отчёт, PNG/протокол/manifest/сравнение, актуализированные статусы карты и TYPE-02 ТЗ.
+Презентация: `nomad360_design_system.css`. Review fonts: `vendor/fonts/type02/*`, `docs/reviews/type02-reference/fonts.css`. Проверки: `tests/type02_reference_browser.cjs`, `tests/type02_scope.test.cjs`, `.github/workflows/type02-reference.yml`. Документы: данный отчёт, PNG/протокол/manifest/сравнение, актуализированные статусы карты и TYPE-02 ТЗ. Поддержка CI базы: `tests/nomad360_locale_semantic.test.cjs` (единственный точный pin уже принятого счётчика) и детерминированные `docs/localization/l0/{catalog,summary}.json`, `entries/nomad360_traffic.js/001.json`.
 
 Все application JS, HTML, остальные CSS, финансовые движки, валюты, сохранения, PDF/Excel, лицензия приложения и реквизиты поддержки побайтово совпадают с базой; это проверяет `type02_scope.test.cjs`. Печать и скачиваемый HTML на этапе A не изменены; проверка принятой гарнитуры в них с отключёнными шрифтами входит в этап B.
 
