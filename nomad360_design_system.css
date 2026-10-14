@@ -419,11 +419,11 @@ body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
 }
 /* Never apply these to the approved header/footer; these selectors are scoped
    to calculator entry and calculation screens, including dynamic V2 markup. */
-body > section :is(.text-xs,.text-sm) {
+body > section :is(.text-xs,.text-sm):not(:where(.nd-type02-reference *)) {
   font-size:var(--nd-type-label) !important;
   line-height:1.52;
 }
-body > section .text-xs {
+body > section .text-xs:not(:where(.nd-type02-reference *)) {
   font-size:var(--nd-type-note) !important;
   font-weight:500;
 }
@@ -433,7 +433,7 @@ body > section :is(p,li,label,legend,summary,dd,dt) {
 body > section :is(label,legend,.font-semibold) {
   font-weight:600;
 }
-body > section :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea,.input-field) {
+body > section :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea,.input-field):not(:where(.nd-type02-reference *)) {
   font-family:var(--nd-font);
   font-size:var(--nd-type-field) !important;
   font-weight:500;
@@ -446,14 +446,14 @@ body > section :is(button,[role="button"]) {
   font-weight:600;
   line-height:1.35;
 }
-body > section :is(button.text-xs,button.text-sm,[role="button"].text-xs,[role="button"].text-sm) {
+body > section :is(button.text-xs,button.text-sm,[role="button"].text-xs,[role="button"].text-sm):not(:where(.nd-type02-reference *)) {
   font-size:var(--nd-type-label) !important;
   font-weight:600;
 }
 body > section :is(.text-slate-400,.text-slate-500,.text-slate-600,.text-gray-400,.text-gray-500,.text-gray-600):not(.bg-slate-900 *):not(.bg-emerald-900 *):not(.bg-amber-900 *):not(.bg-blue-700 *):not(.product-business-aggregate *):not(.bg-indigo-900 *) {
   color:var(--nd-muted);
 }
-body > section :is(h2,h3,h4,.text-xl,.text-2xl):not(#nomad360-hero h2):not(#nomad360-hero h3) {
+body > section :is(h2,h3,h4,.text-xl,.text-2xl):not(#nomad360-hero h2):not(#nomad360-hero h3):not(:where(.nd-type02-reference *)) {
   font-family:var(--nd-font);
   font-weight:700;
   letter-spacing:-.02em;
@@ -2216,6 +2216,89 @@ body:has(> #portfolio-v2-screen:not([hidden]):not(.hidden)){
 @media(min-width:1024px){
   #portfolio-v2-root .nd-v2-financial-grid,
   #portfolio-v2-root .nd-v2-period-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* TYPE-02 A: opt-in reference, activated only by the review harness on this
+   single real section. No calculator route adds this class. The five legacy
+   important utility rules above exclude it with zero-specificity :where().
+   One local token source; no change to hero, other forms, printing or drafts. */
+#p2-stage-purchase.nd-type02-reference {
+  --nd-font:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --nd-type-body:17px;
+  --nd-type-field:16px;
+  --nd-type-label:16px;
+  --nd-type-note:14px;
+  --nd-type-action:16px;
+  --nd-type-section:clamp(23px,2.1vw,26px);
+  --nd-type-card:19px;
+  --nd-weight-body:400;
+  --nd-weight-label:500;
+  --nd-weight-heading:600;
+  --nd-leading-body:1.55;
+  --nd-leading-label:1.42;
+  --nd-leading-note:1.5;
+  font-family:var(--nd-font);
+  font-size:var(--nd-type-body);
+  font-weight:var(--nd-weight-body);
+  line-height:var(--nd-leading-body);
+  font-synthesis:none;
+  letter-spacing:normal;
+}
+#p2-stage-purchase.nd-type02-reference[data-nd-type02-font="inter"] {
+  --nd-font:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+#p2-stage-purchase.nd-type02-reference > .nd-v2-title,
+#p2-stage-purchase.nd-type02-reference .nd-type-section {
+  font:var(--nd-weight-heading) var(--nd-type-section)/1.26 var(--nd-font);
+  letter-spacing:-.015em;
+  margin-bottom:12px;
+}
+#p2-stage-purchase.nd-type02-reference > .nd-v2-description,
+#p2-stage-purchase.nd-type02-reference .nd-type-body {
+  font:var(--nd-weight-body) var(--nd-type-body)/var(--nd-leading-body) var(--nd-font);
+  max-width:75ch;
+  text-wrap:pretty;
+}
+#p2-stage-purchase.nd-type02-reference .nd-v2-card-title {
+  font:var(--nd-weight-heading) var(--nd-type-card)/1.34 var(--nd-font);
+  letter-spacing:normal;
+}
+#p2-stage-purchase.nd-type02-reference .nd-v2-field > span:first-child,
+#p2-stage-purchase.nd-type02-reference [data-p2-resource-members] > span,
+#p2-stage-purchase.nd-type02-reference .nd-type-label {
+  font:var(--nd-weight-label) var(--nd-type-label)/var(--nd-leading-label) var(--nd-font);
+  margin-bottom:8px;
+  letter-spacing:normal;
+}
+#p2-stage-purchase.nd-type02-reference .input-field {
+  font:var(--nd-weight-body) var(--nd-type-field)/1.45 var(--nd-font);
+  font-variant-numeric:tabular-nums;
+  min-height:44px;
+}
+#p2-stage-purchase.nd-type02-reference .input-field::placeholder {
+  font-weight:var(--nd-weight-body);
+  opacity:1;
+}
+#p2-stage-purchase.nd-type02-reference .nd-v2-check-row {
+  font:var(--nd-weight-label) var(--nd-type-label)/var(--nd-leading-label) var(--nd-font);
+}
+#p2-stage-purchase.nd-type02-reference [data-p2-resource-members] > div:last-child,
+#p2-stage-purchase.nd-type02-reference .nd-v2-field > span:not(:first-child),
+#p2-stage-purchase.nd-type02-reference .nd-v2-selected-value,
+#p2-stage-purchase.nd-type02-reference .nd-type-note {
+  font:var(--nd-weight-body) var(--nd-type-note)/var(--nd-leading-note) var(--nd-font);
+}
+#p2-stage-purchase.nd-type02-reference .nd-v2-action,
+#p2-stage-purchase.nd-type02-reference .nd-type-action {
+  font:var(--nd-weight-heading) var(--nd-type-action)/1.35 var(--nd-font);
+  letter-spacing:normal;
+}
+/* The existing controller writes size/weight inline. Two deliberately local
+   overrides are required; aria-invalid, alert, color and border stay intact. */
+#p2-stage-purchase.nd-type02-reference [data-p2-inline-error] {
+  font-size:var(--nd-type-note) !important;
+  font-weight:var(--nd-weight-label) !important;
+  font-family:var(--nd-font);
 }
 
 /* V2 stage 3: action roles are explicit in the existing templates. Orange
