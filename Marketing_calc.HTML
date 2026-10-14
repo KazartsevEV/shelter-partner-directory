@@ -1055,7 +1055,7 @@
                         </div>
                         <div id="own-sales-commission-wrap" class="hidden mt-3" hidden data-product-collapsible>
                             <label class="block text-xs text-slate-500 mb-1">Комиссия, % от оборота</label>
-                            <input id="own-sales-commission-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="recalculateSalesCostSummary()">
+                            <input id="own-sales-commission-pct" type="number" min="0" step="0.001" value="0" class="input-field" oninput="recalculateSalesCostSummary()">
                             <p class="text-xs text-slate-400 mt-1">Процент применяется к цене продажи каждой 1 ед. товара через соответствующий канал.</p>
                         </div>
                     </div>
@@ -9052,11 +9052,160 @@
         }
 
 
+        // Task 5: one dated Kazakhstan scenario, entered through the real V1 UI.
+        // Values/assumptions: docs/demos/shopper-v1-assumptions.md. No finance formulas here.
+        async function populateRealisticShopperDemonstration(params) {
+            const creditDemo = params.get('finance') === 'credit';
+            const fill = (id, value) => {
+                const node = document.getElementById(id);
+                if (!node) throw new Error('Demo: missing field ' + id);
+                node.value = String(value);
+                node.dispatchEvent(new Event('input', {bubbles:true}));
+                node.dispatchEvent(new Event('change', {bubbles:true}));
+            };
+            const fillSelector = (selector, value) => {
+                const node = document.querySelector(selector);
+                if (!node) throw new Error('Demo: missing control ' + selector);
+                node.value = String(value);
+                node.dispatchEvent(new Event('input', {bubbles:true}));
+                node.dispatchEvent(new Event('change', {bubbles:true}));
+            };
+            const choose = selector => {
+                const node = [...document.querySelectorAll(selector)].find(e => !e.disabled && !e.closest('[data-completed-product-id]'));
+                if (!node) throw new Error('Demo: missing choice ' + selector);
+                node.click();
+            };
+            showProductBranch();
+            const banner = document.getElementById('product-demo-banner');
+            banner.hidden = true;banner.classList.add('hidden');
+            window.Nomad360Currency.adopt('KZT');
+            fill('product-name-input', 'Хлопковый шоппер · Казахстан · 220 г/м²');
+            submitProductIntro({preventDefault(){}});
+            choose('[data-product-source="own"]');
+            await new Promise(resolve => requestAnimationFrame(resolve));
+            choose('[data-material-cost-mode="calculate"]');
+            const supplies = [
+                ['Cotton fabric · 220 g/m², 1.6 m wide', 'Price benchmark: Tehnoart, Almaty', 1000, 0.3876, 'м', 'https://tehnoart.kz/p129436598-tkan-dvunitka-surovaya.html'],
+                ['Thread', 'Scenario budget', 25, 1, 'компл', ''],
+                ['Label', 'Scenario budget', 40, 1, 'шт', ''],
+                ['Paper packaging', 'Scenario budget', 50, 1, 'шт', '']
+            ];
+            document.getElementById('own-material-rows').replaceChildren();
+            for (const [name, supplier, price, qty, unit, url] of supplies) {
+                addMaterialRow();
+                const row = document.querySelector('.material-cost-row:last-child');
+                for (const [field, value] of [['name',name],['supplier',supplier],['price',price],['qty',qty],['unit',unit],['market-url',url]]) {
+                    const node = row.querySelector('.material-cost-' + field);
+                    node.value = String(value);
+                    node.dispatchEvent(new Event('input',{bubbles:true}));
+                }
+            }
+            choose('[data-yn-group="vatIncluded"][data-yn-value="no"]');
+            fill('own-vat-rate', 0); // Explicit scenario: domestic purchases with no input VAT.
+            choose('[data-yn-group="inboundIncluded"][data-yn-value="no"]');
+            fill('own-inbound-delivery-cost', 50);
+            choose('[data-yn-group="materialsImported"][data-yn-value="no"]');
+            fill('own-materials-batch-qty', 516);
+            recalculateMaterialsLandedCost();
+            choose('[data-yn-group="productionPremises"][data-yn-value="yes"]');
+            fill('own-production-premises-monthly', 80000);
+            choose('[data-yn-group="equipmentRental"][data-yn-value="yes"]');
+            if (!document.querySelector('.equipment-rental-row')) addEquipmentRentalRow();
+            fillSelector('.equipment-rental-name', 'Sewing machine, table and iron · rental budget');
+            fillSelector('.equipment-rental-qty', 1);
+            fillSelector('.equipment-rental-cost', 25000);
+            choose('[data-yn-group="equipmentPurchase"][data-yn-value="no"]');
+            choose('[data-production-labor-mode="workers"]');
+            fill('own-production-workers-country', 'KZ');
+            fill('own-production-workers-count', 1);
+            fill('own-production-worker-gross', 230000);
+            fill('own-production-defect-pct', 3);
+            choose('[data-yn-group="productionGas"][data-yn-value="no"]');
+            choose('[data-yn-group="productionElectricity"][data-yn-value="yes"]');
+            fill('own-production-electricity-tariff', 40);
+            fill('own-production-electricity-usage', 0.15);
+            choose('[data-yn-group="productionOverheads"][data-yn-value="yes"]');
+            fill('own-production-overheads-monthly', 15000);
+            fill('own-production-monthly-qty', 500);
+            recalculateProductionUnitCost();
+            choose('[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="me"]');
+            fill('own-warehouse-inbound-unit-cost', 20);
+            choose('[data-logistics-payer-key="warehouse"][data-logistics-payer-value="me"]');
+            fill('own-warehouse-cost', 0.5);
+            fill('own-warehouse-days', 1);
+            choose('[data-logistics-payer-key="customerDelivery"][data-logistics-payer-value="counterparty"]');
+            fill('own-customer-delivery-pct', 0);
+            fill('own-return-rate', 0);
+            fill('own-logistics-qty', 500);
+            recalculateLogisticsUnitCost();
+            choose('[data-yn-group="salesCommission"][data-yn-value="yes"]');
+            fill('own-sales-commission-pct', 1.102); // 0.95% of gross = 1.102% of ex-VAT receipts.
+            choose('[data-yn-group="payroll"][data-yn-value="yes"]');
+            fill('own-payroll-rewards', 60000);
+            choose('[data-yn-group="platformPenalties"][data-yn-value="no"]');
+            choose('[data-yn-group="employees"][data-yn-value="no"]');
+            fill('own-sales-monthly-qty', 500);
+            recalculateSalesCostSummary();
+            for (const [id, value] of [['budget',250000],['cpc',100],['ctr',2],['click-lead',20],['lead-sale',30],['management',50000]])
+                fill('own-product-ad-' + id, value);
+            recalculateProductAdFunnel();
+            choose('#assortment-complete-button');
+            const sku = '[data-business-product-id="1"]';
+            for (const [key, value] of [['supplyDays',7],['advancePct',50],['advanceLeadDays',3],['productionDays',30],['reservePct',10]])
+                fillSelector(sku + ' input[oninput*="' + key + '"]', value);
+            choose(sku + ' [data-funding-choice="' + (creditDemo?'credit':'cash') + '"]');
+            if (creditDemo) {
+                fillSelector(sku + ' input[oninput*="creditRatePct"]', 20);
+                fillSelector(sku + ' input[oninput*="creditTermMonths"]', 6);
+            }
+            fillSelector(sku + ' input[oninput*="updateAggregateMargin"]', 20);
+            choose('[data-yn-group="salesVat"][data-yn-value="yes"]');
+            fill('own-sales-vat-pct', 16);
+            choose(sku + ' [data-pricing-decision="tax"]');
+            choose('[data-business-tax-type="profit"]');
+            fill('own-business-tax-pct', 20);
+            choose('[data-tax-price-product-id="1"] [data-discount-choice="yes"]');
+            fillSelector('[data-tax-price-product-id="1"] input[oninput*="maxDiscountPct"]', 10);
+            fillSelector('[data-tax-price-product-id="1"] input[oninput*="minimumMarginPct"]', 10);
+            const model = calculateProductPortfolio();
+            const flow = calculateProductCashFlow(model);
+            if (!flow.ready || model.items.length !== 1) throw new Error('Demo: incomplete Kazakhstan case');
+            const label = (node, key, values={}) => {
+                node.setAttribute('data-i18n',key);
+                node.setAttribute('data-i18n-params',JSON.stringify(values));
+                node.textContent = window.Nomad360LocaleCore.t(key,window.Nomad360UI.getLanguage(),values);
+            };
+            label(banner.querySelector('.text-lg'),'demo.shopper.title');
+            label(banner.querySelector('p'),'demo.shopper.description');
+            for (const link of banner.querySelectorAll('a[href*="finance="]'))
+                label(link,link.href.includes('finance=credit')?'demo.shopper.creditLink':'demo.shopper.cashLink');
+            const details = document.createElement('div');
+            details.className = 'mt-3 space-y-2 text-sm';
+            for (const key of ['demo.shopper.taxScope','demo.shopper.paymentFee','demo.shopper.demandWarning']) {
+                const p = document.createElement('p');label(p,key);details.appendChild(p);
+            }
+            const source = document.createElement('a');
+            source.href = 'https://github.com/KazartsevEV/shelter-partner-directory/blob/feature/shopper-v1-realistic/docs/demos/shopper-v1-assumptions.md';
+            source.className = 'inline-block underline font-semibold';
+            source.target = '_blank';source.rel='noopener';label(source,'demo.shopper.sources');details.appendChild(source);
+            banner.appendChild(details);
+            document.title = 'ДЕМО · ' + 'хлопковый шоппер' + ' · Cash flow — ' + document.title;
+            await new Promise(resolve => requestAnimationFrame(resolve));
+            saveCurrentProductToPortfolio();
+            banner.hidden = false;banner.classList.remove('hidden');
+            banner.dataset.demoReady = 'true';
+            const focus = params.get('focus')==='inputs'
+                ? document.getElementById('product-materials-block')
+                : document.getElementById('product-portfolio-business-summary');
+            focus?.scrollIntoView({behavior:'instant',block:'start'});
+        }
+
         // Opt-in, nonpersistent demonstration. Never runs on the normal calculator URL.
         // The same public form and event handlers are exercised as in manual entry.
         async function populateShopperDemonstration() {
             const params = new URLSearchParams(window.location.search);
             if (params.get('demo') !== 'shopper') return;
+            if (params.get('second') !== 'shirt') return populateRealisticShopperDemonstration(params);
             const creditDemo = params.get('finance') === 'credit';
             const fill = (id, value) => {
                 const el = document.getElementById(id);

@@ -2358,3 +2358,22 @@ body #full-service-screen .nd-full-service-ledger-row > span{min-width:0}
 body #full-service-screen .nd-full-service-ledger-row > strong{
   white-space:nowrap;word-break:normal;overflow-wrap:normal;
 }
+
+/* Task 5: the KZT payroll budget and longer KK caption must both fit at
+   mobile widths. Stack these three summary rows; keep amounts and font size. */
+@media (max-width: 767px) {
+  body #own-production-workers-wrap .flex.justify-between {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:4px;
+  }
+  body #own-production-workers-wrap .flex.justify-between > span {
+    min-width:0;
+  }
+}
+@media (max-width: 430px) {
+  /* Six-digit gross pay must be fully visible in its editable input too. */
+  body #own-production-workers-wrap > .grid {
+    grid-template-columns:minmax(0,1fr);
+  }
+}

@@ -58,10 +58,10 @@ async function checkText(page,id,raw,language){
     // The banner appears before the demo finishes setting business tax/VAT.
     // Wait for the canonical populated price-list gate, not for visual paint.
     await page.waitForFunction(()=>{
-     if(!productPortfolio.length||productBusinessTaxType!=='turnover'||
+     if(!productPortfolio.length||productBusinessTaxType!=='profit'||
         productOwnChoices.salesVat!=='yes')return false;
-     if(Number(document.getElementById('own-sales-vat-pct')?.value)!==12||
-        Number(document.getElementById('own-business-tax-pct')?.value)!==6)return false;
+     if(Number(document.getElementById('own-sales-vat-pct')?.value)!==16||
+        Number(document.getElementById('own-business-tax-pct')?.value)!==20)return false;
      return calculatePriceListRange(productPortfolio[0]).ready;
     },null,{timeout:15000});
     const blocked=await page.evaluate(()=>{

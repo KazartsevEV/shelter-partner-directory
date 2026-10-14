@@ -1456,6 +1456,18 @@ messages.push(
  ["report.availableCash2","Available cash","Свободные деньги","Available Cash"]
 );
 const catalog=new Map(),aliases=new Map(),diagnostics=new Map();
+/* Dated task-5 scenario labels; product/material names are user data. */
+messages.push(
+ ["tax.profitTaxPercent", "Profit tax, %", "Налог на прибыль, %", "Profit Tax, %"],
+ ["demo.shopper.title", "DEMO: cotton tote · Kazakhstan / KZT", "ДЕМО: хлопковый шоппер · Казахстан / KZT", "ДЕМО: мақта шоппері · Қазақстан / KZT"],
+ ["demo.shopper.description", "516 material kits → 500 saleable bags; 150 projected orders per month. Cotton 220 g/m², one production employee. Scenario assumptions; your saved calculation is not replaced.", "516 комплектов материалов → 500 годных шопперов; прогноз 150 заказов в месяц. Хлопок 220 г/м², один производственный рабочий. Сценарные допущения; ваш сохранённый расчёт не заменяется.", "516 материал жиынтығы → 500 жарамды шоппер; болжам — айына 150 тапсырыс. Мақта 220 г/м², бір өндіріс қызметкері. Сценарийлік болжамдар; сақталған есебіңіз ауыстырылмайды."],
+ ["demo.shopper.cashLink", "Own funds · 5 months", "Свои деньги · 5 месяцев", "Өз қаражаты · 5 ай"],
+ ["demo.shopper.creditLink", "Loan · 6 months · principal at maturity", "Кредит · 6 месяцев · возврат тела в конце", "Несие · 6 ай · Loan Principal соңында өтеледі"],
+ ["demo.shopper.taxScope", "VAT on sales: 16%; profit tax: 20%. This scenario has no recoverable input VAT. Employer charges use the existing V1 planning estimate; statutory bases may differ.", "НДС с продаж — 16%, налог на прибыль — 20%. В этом сценарии входного НДС к зачёту нет. Начисления работодателя — плановая оценка V1; налоговые базы могут отличаться.", "Сатылым VAT — 16%, Profit Tax — 20%. Бұл сценарийде есепке жатқызылатын кіріс VAT жоқ. Employer Contributions — V1 жоспарлық бағасы; салық базалары өзгеше болуы мүмкін."],
+ ["demo.shopper.paymentFee", "Kaspi QR: 0.95% of the amount paid. With VAT 16%, V1 uses the equivalent 1.102% of revenue excluding VAT.", "Kaspi QR: 0,95% оплаченной покупателем суммы. При НДС 16% в V1 указан эквивалент — 1,102% выручки без НДС.", "Kaspi QR: сатып алушы төлеген соманың 0,95%-ы. VAT 16% болғанда V1-де VAT-сыз Revenue үшін 1,102% баламасы көрсетіледі."],
+ ["demo.shopper.demandWarning", "The funnel is a hypothesis, not proven demand at the calculated price. Remaining stock and loan repayment must be checked separately.", "Воронка — гипотеза, а не подтверждённый спрос по рассчитанной цене. Остатки товара и возврат кредита проверяются отдельно.", "Воронка — есептік бағадағы расталған сұраныс емес, болжам. Тауар қалдығы мен несиені өтеу бөлек тексеріледі."],
+ ["demo.shopper.sources", "Inputs, sources and model limitations", "Исходные данные, источники и ограничения модели", "Бастапқы деректер, дереккөздер және модель шектеулері"]
+);
 for(const [key,en,ru,kk] of messages){
  if(catalog.has(key)||aliases.has(ru))throw Error('Duplicate localization key: '+key);
  catalog.set(key,Object.freeze({en,ru,kk}));aliases.set(ru,key);
