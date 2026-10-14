@@ -1,6 +1,6 @@
 # Task 5 · cotton tote in real V1 · review
 
-14 October 2026. Base `main` / `4af9cbdebc902f2c9277fa1cc1c56319fb38a648`, after accepted localization #135 and task-map #138. Branch `feature/shopper-v1-realistic`. **Implementation presented for review; not accepted, not merged.** TYPE-02 and tasks 6–9 have not started. CI status will be recorded here after verification on the published HEAD. The initial task-specific run on `931d4454` reproduced payroll-row overflow on KK/320; the targeted mobile layout stacks caption and amount without changing fonts or formulas. A follow-up visual inspection also stacks the narrow worker-count/gross-pay input grid so the six-digit gross pay is fully visible; a text-width check covers entered numeric values.
+14 October 2026. Base `main` / `4af9cbdebc902f2c9277fa1cc1c56319fb38a648`, after accepted localization #135 and task-map #138. Branch `feature/shopper-v1-realistic`. **[Draft PR #139](https://github.com/KazartsevEV/shelter-partner-directory/pull/139) presented for review; not accepted, not merged.** TYPE-02 and tasks 6–9 have not started. Implementation `b2688994`: **11/11 working workflows, 12/12 working jobs GREEN**, historical visual skipped. [Exact job/run states](shopper-v1/ci-implementation.json), [actual log extracts](shopper-v1/ci-log-extracts.json), [dedicated CI](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38570457505). The initial task-specific run on `931d4454` reproduced payroll-row overflow on KK/320; the targeted mobile layout stacks caption and amount without changing fonts or formulas. A follow-up visual inspection also stacks the narrow worker-count/gross-pay input grid so the six-digit gross pay is fully visible; a text-width check covers entered numeric values.
 
 ## Result
 
@@ -44,7 +44,19 @@ At months 1 / 3 / 12, modeled total sales are 0 / 265 / 500. Month 1 includes st
 - Existing quantity-error checks use 516/500 instead of 106/100; the second-SKU probe preserves the new first SKU's 60 000 sales contractor and 50 000 management budget. The linked-V2 test now confirms rejection against an existing USD portfolio before testing import into a separate KZT portfolio. Assertions are retained.
 - The historical `second=shirt` two-SKU fixture stays unchanged. Normal URLs remain empty; older drafts and historical calculated values remain supported.
 
-Dedicated CI: `.github/workflows/shopper-v1.yml`; numerical/XLSX/HTML/loan-control artifact and separate RU/EN/KK screenshot artifacts, 14-day retention. Permanent review evidence will be linked below after the published run is examined. Screenshots are genuine Chromium captures of real controls and results.
+Dedicated CI: `.github/workflows/shopper-v1.yml`; numerical/XLSX/HTML/loan-control artifact and separate RU/EN/KK screenshot artifacts, 14-day retention. The published run was downloaded and inspected: all four ZIP SHA256 values match GitHub artifact digests. [Provenance](shopper-v1/artifact-provenance.json) records implementation HEAD `b2688994`, CI checkout `d8af7069` and base `4af9cbde`; the CI merge tree equals the implementation tree. Screenshots are genuine Chromium captures of real controls and results.
+
+## Permanent evidence
+
+[Full 36-case and loan-term protocol](shopper-v1/protocol.json) · [dated source facts](shopper-v1/source-facts.json) · [six independent XML workbook checks](shopper-v1/xlsx-validation.json) · [reproducible stdlib reader](shopper-v1/read-xlsx.py).
+
+All **183 screenshots** are in the dedicated CI's three language artifacts and numbers artifact. **37 original CI PNGs** are copied permanently, including complete sequences for RU/cash/390, KK/credit/320 and EN/cash/1280, 1/3/12-month loan controls and mobile price/payroll details. Images are not edited or regenerated for publication. The 6 original CI XLSX files are alongside them; each is independently read via ZIP/XML, with exact numeric prices, KZT, user name and absence of formulas verified. Run `python docs/reviews/shopper-v1/read-xlsx.py`.
+
+Control images: [KK/320 payroll](shopper-v1/cash-kk-320-production.png), [KK/320 loan results](shopper-v1/credit-kk-320-cash-flow.png), [last loan month](shopper-v1/credit-kk-320-cash-flow-last-month.png), [RU/390 complete materials](shopper-v1/cash-ru-390-materials.png), [EN/1280 VAT and prices](shopper-v1/cash-en-1280-prices.png). Wide month ledgers scroll inside the card; an additional capture shows their final columns. Automated checks cover all widths/languages; selected critical CI images were inspected manually, not every PNG.
+
+The first task CI's KK/320 payroll overflow is retained in [its failed log](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38567016621). It is fixed, without reducing fonts or changing numerical results. An intermediate live-provider regression failed its CNY/USD request; the unchanged provider checks subsequently passed **16/16** on `b2688994`, together with 144 converter scenarios and 18 layout controls. No live assertion or requirement was removed.
+
+Changed files: [manifest](shopper-v1/changed-files.txt). Most generated JSON changes are deterministic localization source offsets/hashes for the added initializer and messages. Application changes are confined to the demo initializer, fee-input precision, semantic labels and responsive payroll layout. Engine files and their calculation ASTs remain protected.
 
 ## Limits for acceptance
 

@@ -38,15 +38,17 @@ Monthly funnel: 2 500 clicks, 125 000 impressions, 500 leads, **150 projected or
 
 ## Tax scope and model boundaries
 
-Scenario taxpayer: a Kazakhstan LLP on the general regime, registered for VAT. **Output VAT 16%**, **corporate profit tax 20%**, from the Ministry of Finance [S2–S3]. VAT registration is an explicit assumption, not a claim that every small workshop must register.
+Scenario taxpayer: a Kazakhstan LLP on the general regime, registered for VAT. **Output VAT 16%**, **corporate profit tax 20%**, from the Ministry of Finance [S2–S3]. VAT registration is an explicit assumption, not a claim that every small workshop must register. Voluntary registration under the general regime before the mandatory turnover threshold is supported by KGD guidance [S9].
 
 Procurement assumption: domestic purchases from general-regime suppliers who are not VAT payers; no recoverable input VAT. The market benchmark [S1] does not establish the seller's tax status. The form therefore records material VAT as not applicable (0%). No refund or input credit is invented. If the actual seller issues a VAT invoice, the existing goods model's input-VAT treatment needs separate assessment before using the demo as that purchasing case.
 
-Kaspi Gold/QR payment benchmark: **0.95% of the customer payment**, updated 1 October 2026 [S4]. V1 variable fees apply to VAT-exclusive revenue. To preserve the same actual fee with output VAT 16%, use **1.102% = 0.95% × 1.16** in the model and explain this normalization beside the demo. It is not an extra fee, marketplace commission, installment campaign tariff or currency spread.
+Kaspi Gold/QR payment benchmark: **0.95% of the customer payment**, updated 1 October 2026 [S4]. V1 variable fees apply to VAT-exclusive revenue. To preserve the same actual fee with output VAT 16%, use **1.102% = 0.95% × 1.16** in the model and explain this normalization beside the demo. Assume all buyers pay through Kaspi Gold/QR; other-card tariffs are not silently mixed into this scenario. It is not an extra fee, marketplace commission, installment campaign tariff or currency spread.
 
 V1's accepted KZ employee estimator applies **17.5% of gross** (5 + 3 + 3.5 + 6), without statutory tax-base adjustments. For the assumed 230 000 gross it displays 40 250 employer charges and 270 250 total. These are the **existing model's planning amounts**, not a statutory payroll declaration. Sources [S5–S7] specify different bases and limits; independently compare them and retain the variance in the review rather than calling the flat 17.5% exact. Employee deductions are part of gross and must not be added again as an employer expense. The existing production rejection uplift is also a budget allocation, not a second payroll invoice.
 
 All model taxes remain planning amounts on the V1 calendar, not a representation of statutory filing or deposit dates. Prices from V1 must be reported as calculated prices and compared with market references; advertising conversion at that price is still unverified. Available Cash includes financing cash flows and is not personal income or accounting profit.
+
+Sales/support and advertising management are invoiced by registered business contractors on the general regime; these are total cash budgets, not a second employee or an individual civil-law payroll arrangement. Their own taxes are not added a second time to the business payment. Supplier/contractor regime and no-input-VAT status remain scenario assumptions, not verified facts about named vendors.
 
 ## Sources
 
@@ -61,6 +63,8 @@ All sources observed 14 October 2026. Store only a short factual extract/provena
 - **S7:** [State Social Insurance Fund · employee contribution base](https://gfss.kz/ru/плательщикам-социальных-отчислений/работодатели/): 5% of the prescribed base after mandatory employee pension contributions and statutory excluded income, subject to minimum/maximum bases. Primary fund guidance.
 
 - **S8:** [Ademi-Ai · Kazakhstan cotton tote](https://ademi-ai.kz/aksessuary/shopper_kazahstan): advertised 4 500 KZT, 100% cotton, designer print. A dated price comparator, not an identical specification or validated demand for this demo.
+
+- **S9:** [KGD · VAT registration from 2026](https://www.gov.kz/org/kgd/press/news/details/1096207?lang=ru): voluntary registration before the threshold remains available to eligible taxpayers on the general regime.
 
 ## Independent reconciliation · 14 October 2026
 
