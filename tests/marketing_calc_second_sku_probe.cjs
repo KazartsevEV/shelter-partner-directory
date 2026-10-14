@@ -134,7 +134,7 @@ const events=[];
    assert.equal(after.materialCosts[0],before.firstUnit);
    assert.equal(after.materialCosts[1],150);
    assert.equal(after.rent[0],before.firstRent);
-   assert.equal(after.salesStaff[0],1000);
+   assert.equal(after.salesStaff[0],60000);
    assert.equal(after.salesStaff[1],0);
    assert.equal(after.businessTaxType,'turnover');
    assert.equal(Number(after.taxPct),6);
@@ -143,7 +143,7 @@ const events=[];
    assert.equal(after.model.items.length,2);
    const weights=after.model.items.map(x=>x.revenueWeight);
    assert.ok(Math.abs(weights.reduce((a,b)=>a+b,0)-1)<1e-9);
-   assert.equal(after.model.sharedBusinessCosts,1000+120+60,'sales staff max not sum; marketer fees sum');
+   assert.equal(after.model.sharedBusinessCosts,60000+50000+60,'sales staff max not sum; marketer fees sum');
    assert.ok(after.cash.ready);
    events.push({finance,probe:'own-2sku',first:before,after:{
      names:after.names,salesStaff:after.salesStaff,management:after.management,

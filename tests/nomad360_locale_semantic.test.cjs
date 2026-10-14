@@ -37,15 +37,16 @@ test('receipt parameters, numbers and user-owned names are inserted literally; o
  A.equal(core.translate('Для ad_budget укажите, кто платит: я или принципал.','en'),'For ad_budget, select the payer: me or principal.');
  A.equal(core.translate('SKU-2026-10','kk'),'SKU-2026-10');
 });
-test('all calculation ASTs and pure financial assets remain unchanged; only named renderers may change',()=>{
+test('all calculation ASTs and pure financial assets remain unchanged; only named renderers and explicit demo initializers may change',()=>{
  const acorn=require('../scripts/localization/node_modules/acorn');
+ const demoInitializers=new Set(['populateShopperDemonstration','populateRealisticShopperDemonstration']);
  const allowedRenderers=new Set(['exportProductCalculationPdf','renderResalePurchaseComposition','renderProductPortfolio','renderProductBusinessSummary','updateProductPortfolioBusinessSummary','freezeCurrentProductOnPage']);
  function canonical(value){
   if(!value||typeof value!=='object')return value;
-  if(value.type==='FunctionDeclaration'&&allowedRenderers.has(value.id?.name))return null;
+  if(value.type==='FunctionDeclaration'&&(allowedRenderers.has(value.id?.name)||demoInitializers.has(value.id?.name)))return null;
   if(value.type==='ObjectExpression'&&['ru','en','kk'].every(language=>value.properties.some(p=>(p.key?.name??p.key?.value)===language&&p.value?.type==='ObjectExpression')))return {type:'LocaleDictionary'};
   if(value.type==='LogicalExpression'&&value.operator==='||'&&value.right.type==='ObjectExpression'&&JSON.stringify(value.left).includes('Nomad360LocaleCore')&&JSON.stringify(value.left).includes('locales'))return canonical(value.right);
-  if(Array.isArray(value))return value.map(canonical);
+  if(Array.isArray(value))return value.map(canonical).filter(value=>value!==null);
   return Object.fromEntries(Object.entries(value).filter(([key])=>!['start','end','loc','raw'].includes(key)).map(([key,x])=>[key,canonical(x)]));
  }
  const old=execFileSync('git',['show',SHA+':Marketing_calc.HTML'],{cwd:base,encoding:'utf8'}),now=fs.readFileSync(path.join(base,'Marketing_calc.HTML'),'utf8');
@@ -54,7 +55,7 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
  function arithmetic(source){
   const result=[];
   function hasString(n){if(!n||typeof n!=='object')return false;if(n.type==='Literal'&&typeof n.value==='string'||n.type==='TemplateLiteral')return true;return Object.values(n).some(v=>Array.isArray(v)?v.some(hasString):hasString(v))}
-  function walk(n){if(!n||typeof n!=='object')return;if(n.type==='BinaryExpression'&&['+','-','*','/','%','**'].includes(n.operator)&&!hasString(n))result.push(canonical(n));for(const v of Object.values(n))if(Array.isArray(v))v.forEach(walk);else if(v&&typeof v==='object')walk(v)}
+  function walk(n){if(!n||typeof n!=='object')return;if(n.type==='FunctionDeclaration'&&demoInitializers.has(n.id?.name))return;if(n.type==='BinaryExpression'&&['+','-','*','/','%','**'].includes(n.operator)&&!hasString(n))result.push(canonical(n));for(const v of Object.values(n))if(Array.isArray(v))v.forEach(walk);else if(v&&typeof v==='object')walk(v)}
   for(const m of source.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi))if(m[1].trim())walk(acorn.parse(m[1],{ecmaVersion:'latest'}));
   return result;
  }

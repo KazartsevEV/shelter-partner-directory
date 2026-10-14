@@ -113,13 +113,23 @@ const path=require('node:path');
 
   await page.goto(url+'?demo=shopper&finance=cash',{waitUntil:'domcontentloaded'});
   await page.locator('#product-demo-banner').waitFor({state:'visible'});
+  const previousUsd=await page.evaluate(()=>localStorage.getItem('marketingCalcLinkedPortfolioV2'));
+  assert.equal(await page.evaluate(()=>openLinkedPortfolioFromProducts()),false,
+    'KZT demo must not overwrite or merge with an existing USD portfolio');
+  assert.equal(await page.evaluate(()=>localStorage.getItem('marketingCalcLinkedPortfolioV2')),previousUsd);
+  // Start a separate empty V2 scenario, preserving the currency guard above.
+  await page.evaluate(()=>localStorage.removeItem('marketingCalcLinkedPortfolioV2'));
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('#product-demo-banner').waitFor({state:'visible'});
   const imported=await page.evaluate(()=>openLinkedPortfolioFromProducts());
   assert.equal(imported,true,'Completed V1 demo must transfer exact computed SKU');
   const transfer=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
   assert.equal(transfer.skus.length,1);
   assert.ok(transfer.skus[0].priceMax>transfer.skus[0].priceMin);
   assert.ok(transfer.skus[0].baseCac>0);
-  assert.equal(transfer.tax.type,'turnover');
+  assert.equal(transfer.tax.type,'profit');
+  assert.equal(transfer.tax.pct,20);
+  assert.equal(transfer.currency,'KZT');
   assert.deepEqual(errors,[]);
   console.log('LINKED_V2_BROWSER_GREEN',JSON.stringify({skus:2,profit:current.totals.netProfit,
    price:current.items[0].priceList,paid:current.items[0].priceGross,capital:current.cashflow.startupCapital}));

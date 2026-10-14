@@ -1,0 +1,75 @@
+name: Cotton tote V1 independent reconciliation and browser acceptance
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_locale_core.js'
+      - 'tests/shopper_v1_*'
+      - 'tests/fixtures/shopper-v1-*'
+      - 'tests/marketing_calc_prefilled_demo.test.cjs'
+      - 'docs/demos/**'
+      - '.github/workflows/shopper-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  shopper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - run: npm install --no-save --package-lock=false playwright@1.58.0 tailwindcss@3.4.17
+      - run: npx playwright install --with-deps chromium
+      - name: Syntax, independent daily budget and protected financial AST
+        run: |
+          node --check nomad360_locale_core.js
+          node --check tests/shopper_v1_oracle.cjs
+          node --check tests/shopper_v1_acceptance_browser.cjs
+          node --test tests/shopper_v1_oracle.test.cjs tests/nomad360_locale_semantic.test.cjs
+          node scripts/localization/inventory.cjs --check
+      - name: Offline utility CSS
+        run: |
+          mkdir -p artifacts/shopper-v1
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/shopper-utilities.css
+          npx tailwindcss -i /tmp/shopper-utilities.css --content './Marketing_calc.HTML,./nomad360_*.js,./portfolio_v2_*ui.js' -o artifacts/l0-utilities.css --minify
+      - name: Real filled V1, 36 cases, loan horizons, restore, PDF, XLSX and embedded edition
+        env:
+          NOMAD360_TEST_URL: http://127.0.0.1:8775/Marketing_calc.HTML
+        run: |
+          python3 -m http.server 8775 --bind 127.0.0.1 > /tmp/shopper-http.log 2>&1 &
+          node tests/marketing_calc_prefilled_demo.test.cjs
+          node tests/shopper_v1_acceptance_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shopper-v1-numbers-${{ github.sha }}
+          path: |
+            artifacts/shopper-v1/protocol.json
+            artifacts/shopper-v1/*.xlsx
+            artifacts/shopper-v1/*.html
+            artifacts/shopper-v1/credit-term-*.png
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shopper-v1-ru-${{ github.sha }}
+          path: artifacts/shopper-v1/*-ru-*.png
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shopper-v1-en-${{ github.sha }}
+          path: artifacts/shopper-v1/*-en-*.png
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shopper-v1-kk-${{ github.sha }}
+          path: artifacts/shopper-v1/*-kk-*.png
+          retention-days: 14
