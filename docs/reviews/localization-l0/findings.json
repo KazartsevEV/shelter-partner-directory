@@ -43,6 +43,23 @@
       "userNameOnly": false
     },
     {
+      "context": "production-workers-count-label",
+      "original": "Количество мастеров",
+      "classification": "requires-triage",
+      "languages": [
+        "en",
+        "kk"
+      ],
+      "stages": [
+        "v1-offline-full-hired",
+        "v1-online-full-hired"
+      ],
+      "cases": 24,
+      "rawTextObservedCases": 24,
+      "owner": "Marketing_calc.HTML",
+      "userNameOnly": false
+    },
+    {
       "context": "full-service-message",
       "original": "Некорректное значение: Мощность",
       "classification": "requires-triage",
