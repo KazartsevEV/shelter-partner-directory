@@ -31,7 +31,7 @@ async function browserCase(browser,locale,expected){
   await page.waitForFunction(v=>document.querySelector('#nomad360-calculation-list p')?.textContent?.trim()===v,lead);
   const bullets=await page.locator('#nomad360-calculation-list ul li').allTextContents();
   A.match(bullets[0],{ru:/Себестоимость/,en:/Cost per product/,kk:/өзіндік құны/}[expected.lang]);
-  A.match(bullets[5],{ru:/Денежный поток/,en:/Monthly cash flow/,kk:/Ай сайынғы ақша ағыны/}[expected.lang]);
+  A.match(bullets[5],{ru:/Денежный поток/,en:/Monthly cash flow/,kk:/Ай сайынғы Cash Flow/}[expected.lang]);
   A.equal(await page.locator('#home-screen').evaluate(el=>
     [...el.children].findIndex(child=>child.id==='nomad360-hero')+1===
     [...el.children].findIndex(child=>child.id==='nomad360-calculation-list')),true,

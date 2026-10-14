@@ -316,6 +316,9 @@ function setLanguage(next){
 }
 function boot(){
  lang=userLocale()||preferred();buildShell();
+ // The semantic registry loads before components. Apply the actual initial
+ // preference to the complete DOM after this component chooses its language.
+ root.Nomad360LocaleCore?.localizeAll();
  document.addEventListener('click',handleClick);
  document.addEventListener('change',event=>{
   if(event.target?.id==='nomad360-lang-select')setLanguage(event.target.value);
