@@ -41,7 +41,7 @@
 .nomad-wordmark span{color:var(--nh-accent)}
 .nomad-wordmark .nomad-lite{font-size:.58em;font-weight:700;letter-spacing:0;color:var(--nh-navy);white-space:nowrap}
 .nomad-lang{margin-left:auto;margin-right:12px}
-.nomad-lang select{height:44px;padding:0 10px;border:1px solid var(--nh-line);border-radius:0;background:#fff;color:var(--nh-navy);font:500 16px var(--nd-font,Inter,system-ui,sans-serif);cursor:pointer}
+.nomad-lang select{height:44px;padding:0 10px;border:1px solid var(--nh-line);border-radius:0;background:#fff;color:var(--nh-navy);font:600 16px var(--nd-font,Inter,system-ui,sans-serif);cursor:pointer}
 .nomad-burger{width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--nh-navy);background:#fff;color:var(--nh-navy);cursor:pointer}
 .nomad-burger[aria-expanded="true"]{background:var(--nh-navy);color:#fff}
 .nomad-burger .i-close,.nomad-burger[aria-expanded="true"] .i-open{display:none}
@@ -71,7 +71,7 @@
  .nomad-nav a[aria-current="page"]:after{display:none}
  .nomad-lang{order:2;align-self:stretch;display:flex;align-items:center;margin:0;padding:0 24px;border-left:1px solid var(--nh-line);border-right:1px solid var(--nh-line)}
  .nomad-lang select{height:44px;font-size:16px}
- .nomad-cta{order:3;height:44px;margin:0 0 0 24px;padding:0 22px;font-size:15px}
+ .nomad-cta{order:3;height:44px;margin:0 0 0 24px;padding:0 22px;font-size:16px}
 }
 /* Presentation only. Does not change existing calculator styles or finance. */
 .nomad-marketing{font-family:var(--nd-font,Inter,system-ui,sans-serif)}
@@ -200,7 +200,7 @@
 .nomad-pay-value{font-size:20px;font-weight:600;line-height:1.3;color:#fff;overflow-wrap:anywhere;text-decoration:none}
 a.nomad-pay-value{text-decoration:underline}
 .nomad-pay-hint{font-size:14px;line-height:1.5;color:#c3d0de}
-.nomad-copy{align-self:flex-start;margin-top:8px;min-height:44px;padding:0 16px;border:1px solid #fff;border-radius:0;background:transparent;color:#fff;font:500 16px var(--nd-font,Inter,system-ui,sans-serif);cursor:pointer}
+.nomad-copy{align-self:flex-start;margin-top:8px;min-height:44px;padding:0 16px;border:1px solid #fff;border-radius:0;background:transparent;color:#fff;font:600 16px var(--nd-font,Inter,system-ui,sans-serif);cursor:pointer}
 .nomad-copy:hover{background:#fff;color:#16375a}
 .nomad-copy.is-done{background:#b8573a;border-color:#b8573a;color:#fff}
 .nomad-pay-crypto .nomad-pay{flex-direction:row;align-items:flex-start;gap:18px}
@@ -358,7 +358,7 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-bank-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
 .nomad-bank-key{grid-column:1/-1;font-size:14px;color:#c3d0de}
 .nomad-bank-value{font-size:14px;line-height:1.5;font-weight:600;color:#fff;overflow-wrap:anywhere;min-width:0}
-.nomad-bank-row .nomad-copy{margin:0;min-height:44px;padding:0 9px;font-size:14px}
+.nomad-bank-row .nomad-copy{margin:0;min-height:44px;padding:0 9px;font-size:16px}
 .nomad-russian-transfer{margin-top:18px;border-top:1px solid var(--nf-line);padding-top:15px}
 .nomad-russian-transfer summary{
   cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:8px;
