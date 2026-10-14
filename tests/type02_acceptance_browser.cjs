@@ -71,6 +71,43 @@ async function pictures(page,variant,lang,width,route){
    }
    console.log('TYPE02_CASE '+lang+' '+width+' '+route);
   }
+  // TYPE-02: orange/navy CTA and readable advice typography on actual V1 DOM.
+  // The advice panel is conditional, so explicitly open it before inspecting.
+  for(const lang of langs)for(const width of [390,1280]){
+   const context=await browser.newContext({viewport:{width,height:1000}});
+   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+   await prepare(page,'after',lang,'v1');
+   await page.locator('[data-pricing-decision="think"]').first().click();
+   const panel=page.locator('#product-tax-block [data-business-advice]').first();
+   await panel.waitFor({state:'visible'});
+   const computed=await panel.evaluate(e=>{
+    const read=n=>{const s=getComputedStyle(n);return {bg:s.backgroundColor,color:s.color,size:parseFloat(s.fontSize),weight:s.fontWeight,line:s.lineHeight}};
+    const div=e.querySelectorAll(':scope > div');
+    return {panel:read(e),lead:read(div[0]),copy:read(div[1]),kicker:read(div[2]),
+      link:read(div[3].querySelector('a')),nonlink:read(div[3].querySelector('div')),
+      cta:read(e.querySelector(':scope > button')),note:read(e.querySelector(':scope > button > span')),
+      overflow:e.scrollWidth>e.clientWidth+1};
+   });
+   A.deepEqual(errors,[],'Business-advice view must not produce script errors');
+   A.equal(computed.panel.bg,'rgb(22, 55, 90)');
+   A.equal(computed.panel.color,'rgb(255, 255, 255)');
+   A.equal(computed.cta.bg,'rgb(237, 142, 99)');
+   A.equal(computed.cta.color,'rgb(22, 55, 90)');
+   A.equal(computed.note.color,'rgb(22, 55, 90)');
+   A.equal(computed.note.size,15);
+   A.equal(computed.note.weight,'400');
+   A.equal(computed.link.color,'rgb(237, 142, 99)');
+   A.equal(computed.link.size,16);
+   A.equal(computed.link.weight,'500');
+   A.equal(computed.lead.weight,'600');
+   A.equal(computed.copy.weight,'400');
+   A.equal(computed.nonlink.color,'rgb(255, 255, 255)');
+   A.equal(computed.overflow,false,'Advice panel must fit available width');
+   const file=`${lang}-${width}-after-v1-business-advice.png`;
+   await panel.screenshot({path:path.join(out,file)});
+   extras.push({type:'business-advice-brand-palette',lang,width,computed,file});
+   await context.close();
+  }
   for(const lang of langs){
    for(const width of [320,1280]){const context=await browser.newContext({viewport:{width,height:1000}}),page=await context.newPage();await prepare(page,'after',lang,'standalone','cash',true);const g=await page.evaluate(audit);A.equal(g.overflow,false);A.deepEqual(g.clipped,[]);A.ok(g.controls.every(c=>c.size>=16));extras.push({type:'font-fallback',lang,width,geometry:g});await context.close();}
    const context=await browser.newContext({viewport:{width:640,height:500},deviceScaleFactor:2}),page=await context.newPage();await prepare(page,'after',lang,'standalone');const g=await page.evaluate(audit);A.equal(g.overflow,false);A.deepEqual(g.clipped,[]);extras.push({type:'200-percent-layout-equivalent',lang,physicalWidth:1280,cssWidth:640,deviceScaleFactor:2,geometry:g});await context.close();
