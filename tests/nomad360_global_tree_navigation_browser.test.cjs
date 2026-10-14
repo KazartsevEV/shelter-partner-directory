@@ -157,8 +157,8 @@ function startTestServer(){
     }));
    A.equal(headings.length,2,'Both service mode cards are present at '+width);
    A.equal(headings[0].font,headings[1].font,'Matching mode title sizes at '+width);
-   A.ok(headings.every(h=>h.font>=28&&h.font<=36&&Number(h.weight)>=700),
-    'Prominent 28-36px bold mode labels at '+width+': '+JSON.stringify(headings));
+   A.ok(headings.every(h=>h.font>=28&&h.font<=36&&Number(h.weight)===600),
+    'TYPE-02 28-36px semibold mode labels at '+width+': '+JSON.stringify(headings));
    A.ok(headings.every(h=>h.cardHeight>=104&&h.cardHeight<=220&&
     h.cardLeft>=-1&&h.cardRight<=width+1&&h.titleLeft>=h.cardLeft-1&&
     h.titleRight<=h.cardRight+1&&h.descLeft>=h.cardLeft-1&&

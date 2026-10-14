@@ -1,6 +1,6 @@
 const A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url'),{chromium}=require('playwright');
 const root=path.join(__dirname,'..'),art=path.join(root,'artifacts','converter','layout');fs.mkdirSync(art,{recursive:true});
-const url=pathToFileURL(path.join(root,'Marketing_calc.HTML')).href;
+const url=process.env.NOMAD360_TEST_URL||pathToFileURL(path.join(root,'Marketing_calc.HTML')).href;
 // Check rendered word fragments, not just element boxes: a button can fit while
 // its localized label breaks inside a word (the original 320px KK regression).
 async function inspect(page){return page.evaluate(()=>{
@@ -25,13 +25,9 @@ async function inspect(page){return page.evaluate(()=>{
 });}
 async function open(browser,width,lang,baseline){
  const page=await browser.newPage({viewport:{width,height:1000}});
- await page.route(/^https?:\/\//,r=>r.abort());await page.goto(url,{waitUntil:'domcontentloaded'});
+ await page.route(/^https?:\/\//,r=>url.startsWith('http')&&r.request().url().startsWith(new URL('./',url).href)?r.continue():r.abort());await page.goto(baseline?new URL('./artifacts/converter-layout-baseline/Marketing_calc.HTML',url).href:url,{waitUntil:'domcontentloaded'});
  await page.addStyleTag({path:path.join(root,'artifacts','converter-utilities.css')});
  await page.waitForFunction(()=>window.Nomad360PaymentUI&&window.Nomad360UI?.getLanguage());
- if(baseline){
-  await page.locator('link[href="./nomad360_payments.css"]').evaluate(el=>el.disabled=true);
-  await page.addStyleTag({path:baseline});
- }
  await page.locator('#nomad360-lang-select').selectOption(lang);
  await page.locator('#start-own-product').click();await page.locator('#product-name-input').fill('Layout / материал');await page.locator('#product-name-input').press('Enter');await page.evaluate(()=>selectProductSource('own'));
  const known=page.locator('[data-material-cost-mode="known"]'),calc=page.locator('[data-material-cost-mode="calculate"]');
@@ -44,11 +40,11 @@ async function open(browser,width,lang,baseline){
  return {page,fx};
 }
 (async()=>{
- const browser=await chromium.launch({headless:true,args:['--no-sandbox']}),cases=[];let before;
+ const browser=await chromium.launch({headless:true,executablePath:process.env.NOMAD360_CHROMIUM_PATH||undefined,args:['--no-sandbox']}),cases=[];let before;
  try{
-  const baseline=process.env.NOMAD360_LAYOUT_BASELINE_CSS;
-  A.ok(baseline,'Provide the original CSS from PR HEAD 26d8d01f for a real baseline check');
-  const old=await open(browser,320,'kk',baseline);before=await inspect(old.page);
+  const baseline=fs.existsSync(path.join(root,'artifacts/converter-layout-baseline/Marketing_calc.HTML'));
+  A.ok(baseline,'Archive accepted pre-TYPE-02 main with the original 26d8d01f payments CSS');
+  const old=await open(browser,320,'kk',baseline);before=await inspect(old.page);fs.writeFileSync(path.join(art,'baseline-debug.json'),JSON.stringify(before,null,2));
   A.ok(before.issues.some(x=>x.type==='word-split'&&x.word.toLocaleLowerCase()==='анықтамалық'),'The original KK word split must reproduce');
   await old.fx.screenshot({path:path.join(art,'320-kk-before-fx.png')});await old.page.locator('#material-cost-entry-panel').screenshot({path:path.join(art,'320-kk-before-materials.png')});await old.page.close();
   console.log('CONVERTER_LAYOUT_BASELINE_RED_CONFIRMED',JSON.stringify(before.issues));
@@ -57,11 +53,11 @@ async function open(browser,width,lang,baseline){
    const {page,fx}=await open(browser,width,lang);const actual=await inspect(page);A.deepEqual(actual.issues,[],`${width}/${lang}`);
    A.equal(actual.buttons.length,4);A.equal(actual.columns.trim().split(/\s+/).length,width<768?1:2);
    if(width===320&&lang==='kk'){
-    const oldFetch=before.buttons.find(b=>b.label.includes('Анықтамалық')),newFetch=actual.buttons.find(b=>b.label.includes('Анықтамалық'));A.equal(newFetch.font,oldFetch.font);
+    const oldFetch=before.buttons.find(b=>b.label.includes('Анықтамалық')),newFetch=actual.buttons.find(b=>b.label.includes('Анықтамалық'));A.equal(oldFetch.font,'18px');A.equal(newFetch.font,'16px','Accepted TYPE-02 action role, still >=16px');
    }
    await fx.screenshot({path:path.join(art,`${width}-${lang}-after-fx.png`)});await page.locator('#material-cost-entry-panel').screenshot({path:path.join(art,`${width}-${lang}-after-materials.png`)});
    cases.push({width,lang,...actual,knownAndCalculateWorking:true,rawAmount:1000,normalizedAmount:2000});await page.close();
   }
-  fs.writeFileSync(path.join(art,'protocol.json'),JSON.stringify({baselineHead:'26d8d01f',before,cases},null,2));console.log('CONVERTER_LAYOUT_GREEN',JSON.stringify({cases:cases.length,wordSplits:0,fontUnchanged:true}));
+  fs.writeFileSync(path.join(art,'protocol.json'),JSON.stringify({baselineHead:'26d8d01f',before,cases},null,2));console.log('CONVERTER_LAYOUT_GREEN',JSON.stringify({cases:cases.length,wordSplits:0,actionFont:16,historicalActionFont:18}));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});
