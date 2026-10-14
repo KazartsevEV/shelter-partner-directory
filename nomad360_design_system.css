@@ -1254,12 +1254,12 @@ body .nd-v1-product :is(
 ):is(.yn-choice-selected,[aria-pressed="true"]) :is(span,strong){
   color:var(--nd-v1-navy);
 }
-/* Informational tips, rather than validation errors: consistent dark-navy
-   panels with orange type and links. Keep red warnings/error elements intact. */
+/* Informational tips retain the legacy navy/orange treatment.
+   Business advice has its own TYPE-02 contrast and typography rules in
+   nomad360_calculator_ui.css; do not blanket-force its text orange. */
 body .nd-v1-product :is(
   #product-source-unavailable,
-  #product-assortment-gate .bg-amber-50,
-  [data-business-advice]
+  #product-assortment-gate .bg-amber-50
 ),
 body .nd-v1-service #mode-context{
   background:var(--nd-v1-hint-navy) !important;
@@ -1269,8 +1269,7 @@ body .nd-v1-service #mode-context{
 }
 body .nd-v1-product :is(
   #product-source-unavailable,
-  #product-assortment-gate .bg-amber-50,
-  [data-business-advice]
+  #product-assortment-gate .bg-amber-50
 ) :is(strong,span,div,p,a,h2,h3),
 body .nd-v1-service #mode-context :is(strong,span,div,p,a,h2,h3){
   color:var(--nd-v1-focus-orange) !important;
