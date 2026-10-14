@@ -29,7 +29,7 @@ async function inspect(page,scenario,width,lang){
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.NOMAD360_CHROMIUM_PATH||undefined,args:['--no-sandbox']});
  try{for(const width of widths){
-  const page=await browser.newPage({viewport:{width,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await browser.newPage({locale:'kk-KZ',viewport:{width,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.route(/^https?:\/\//,r=>url.startsWith('http')&&r.request().url().startsWith(new URL('./',url).href)?r.continue():r.abort());
   await page.goto(url,{waitUntil:'domcontentloaded'});await page.addStyleTag({path:path.join(root,'artifacts/l0-utilities.css')});
   await page.evaluate(s=>{localStorage.setItem('marketingCalcPortfolioV2',JSON.stringify(s));openPortfolioV2(true);},state());await settle(page);

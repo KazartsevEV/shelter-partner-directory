@@ -2127,6 +2127,19 @@ function dynamicLookup(source,language){
  return source;
 }
 const weak=new WeakMap(), attrOriginal=new WeakMap();
+// Frozen V1 cards clone already translated form nodes. Preserve each node's
+// source provenance so later language changes translate from the original
+// message, rather than treating an EN/KK display string as a new RU source.
+function cloneLocalized(node){
+ const clone=node.cloneNode(true);
+ function copy(source,target){
+  const text=weak.get(source);if(text)weak.set(target,{...text});
+  const attrs=attrOriginal.get(source);
+  if(attrs)attrOriginal.set(target,Object.fromEntries(Object.entries(attrs).map(([name,value])=>[name,{...value}])));
+  for(let i=0;i<source.childNodes.length;i++)copy(source.childNodes[i],target.childNodes[i]);
+ }
+ copy(node,clone);return clone;
+}
 let pending=new Set(),scheduled=false,observer;
 function locale(){
  const code=root.Nomad360UI?.getLanguage?.()||'ru';
@@ -2311,7 +2324,7 @@ function auditVisibleGaps(targetLanguage=locale()){
  return gaps;
 }
 root.Nomad360LocaleCore=Object.freeze({
- locale,localizeAll,localizeElement:(node,language=locale())=>translateNode(node,language),
+ locale,localizeAll,cloneLocalized,localizeElement:(node,language=locale())=>translateNode(node,language),
  displayLocale:()=>locale()==='en'?'en-US':locale()==='kk'?'kk-KZ':'ru-RU',
  translationCount:catalog.size,hasTranslation:key=>direct.has(key)||catalog.has(key),
  t:message,section,locales,keyForLegacy:source=>aliases.get(source)||null,

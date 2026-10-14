@@ -6982,8 +6982,8 @@
             heading.appendChild(del);
             frozen.appendChild(heading);
 
-            const introClone = introCard.cloneNode(true);
-            const sourceClone = sourceBlock.cloneNode(true);
+            const introClone = window.Nomad360LocaleCore?.cloneLocalized(introCard) || introCard.cloneNode(true);
+            const sourceClone = window.Nomad360LocaleCore?.cloneLocalized(sourceBlock) || sourceBlock.cloneNode(true);
             [introClone, sourceClone].forEach(clone => {
                 // Remove live-only financial panels BEFORE removing IDs: otherwise
                 // the selectors below no longer match, cloning a hidden tax form
