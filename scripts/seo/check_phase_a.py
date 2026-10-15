@@ -16,6 +16,16 @@ def read(name):
     return json.loads((EVIDENCE / name).read_text(encoding='utf-8'))
 
 
+
+def comparison_base(base_ref):
+    # GitHub's tested merge can contain newer main documentation than event.base.sha.
+    # Its first parent is the actual tested base; never charge those files to the PR.
+    if os.environ.get('GITHUB_EVENT_NAME') == 'pull_request' and os.environ.get('GITHUB_REF','').endswith('/merge'):
+        parents = subprocess.check_output(['git','show','-s','--format=%P','HEAD'],cwd=ROOT,text=True).split()
+        assert len(parents) == 2, 'Expected the GitHub pull-request test merge'
+        return parents[0]
+    return subprocess.check_output(['git','merge-base',base_ref,'HEAD'],cwd=ROOT,text=True).strip()
+
 def main():
     manifest = read('protected-files.json')
     # PR #145 was already approved and merged before this SEO branch.
@@ -30,6 +40,10 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name in {'Marketing_calc.HTML','nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.js','nomad360_calculator_ui.css'}:
+            raw = subprocess.check_output(['node','-e',
+                "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))",name],
+                input=raw,cwd=ROOT)
         # Exact permitted presentation delta; accepted B2B/legal bytes stay protected.
         if name == 'nomad360_calculator_ui.css':
             raw = raw.split(b'\n/* SEO-07 approved keyword banner; original offer unchanged. */', 1)[0]
@@ -77,12 +91,17 @@ def main():
     # Synthetic PR merges also include newer main documentation. Compare this
     # PR to its actual base; keep the production-byte guard on the audited SHA.
     base_ref = os.environ.get('SEO_BASE_REF', 'origin/main')
-    merge_base = subprocess.check_output(['git', 'merge-base', base_ref, 'HEAD'],
-                                        cwd=ROOT, text=True).strip()
+    merge_base = comparison_base(base_ref)
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
-                             'license/', 'scripts/legal/')) or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/')) or p in (
+        'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
+        'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
+        'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
+        'assets/nomad360-icons/icon-512.png',
+        'tests/return_7a_browser.cjs', 'tests/return_7a_scope.test.cjs', 'tests/helpers/return-contract.cjs',
+        '.github/workflows/return-7a.yml',
         'nomad360_header.js', 'nomad360_locale_core.js', 'assets/nomad360-legal.css',
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',

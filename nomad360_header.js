@@ -585,11 +585,22 @@
   function copyButton(t, value, label) {
     return '<button type="button" class="nomad-copy" data-nomad-copy="'+esc(value)+'" data-label="'+esc(t.copy)+'" data-done="'+esc(t.copied)+'" aria-label="'+esc(t.copy+': '+label)+'">'+esc(t.copy)+'</button>';
   }
+  // RET-07A about icons: decorative local vectors; existing copy stays text.
+  function aboutIcon(index) {
+    const person='<circle cx="24" cy="25" r="10"/><path d="M8 68v-9c0-12 7-19 16-19s16 7 16 19v9M18 48l6 9 6-9"/>';
+    const tools=[
+      '<rect x="49" y="24" width="29" height="46" rx="4"/><path d="M55 32h17v8H55zM55 48h4m9 0h4m-17 9h4m9 0h4m-17 8h4m9 0h4"/>',
+      '<circle cx="63" cy="46" r="17"/><circle cx="63" cy="46" r="8"/><path d="M63 46l17-21m-1 1h-8m8 0v8M24 8V3m-7 19h2m10 0h2"/>',
+      '<rect x="45" y="24" width="36" height="36" rx="4"/><path d="M52 33h13m-13 7h21m-21 7h9m2 13v9m-11 0h22"/><path d="M68 12v10m-5-5h10"/>'
+    ];
+    return '<svg class="nomad-about-icon" viewBox="0 0 88 88" width="88" height="88" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">'+person+'<g class="nomad-about-icon-tool">'+tools[index]+'</g></svg>';
+  }
+  // RET-07A about icons end.
   function infoMarkup(t) {
     return '<section id="nomad360-about" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.about)+'</h2>'+
       '<div class="nomad-about-opening"><p class="nomad-about-brand">'+esc(t.aboutBrand)+'</p><p class="nomad-about-motto">'+t.aboutMotto.map(line=>'<span>'+esc(line)+'</span>').join('')+'</p></div>'+
-      '<ol class="nomad-about-flow" role="list">'+t.flow.map(step=>'<li><h3>'+esc(step.title)+'</h3><p>'+esc(step.question)+'</p></li>').join('')+'</ol>'+
+      '<ol class="nomad-about-flow" role="list">'+t.flow.map((step,index)=>'<li>'+aboutIcon(index)+'<h3>'+esc(step.title)+'</h3><p>'+esc(step.question)+'</p></li>').join('')+'</ol>'+
       '<p class="nomad-about-caption">'+esc(t.flowBefore)+'<em>'+esc(t.flowEmphasis)+'</em>'+esc(t.flowAfter)+'</p></section>'+
       '<section id="nomad360-contacts" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.contact)+'</h2><div class="nomad-links">'+
@@ -763,6 +774,9 @@
         inline.textContent=css.replace(/<\/style/gi,'<\\/style');
         link.replaceWith(inline);
       }
+      // RET-07A: independent embeds do not promote shortcuts to the original host.
+      doc.documentElement.setAttribute('data-nomad-embedded','');
+      doc.querySelector('script[src$="nomad360_return.js"]')?.remove();
       for(const old of Array.from(doc.querySelectorAll('script[src^="./"]'))){
         const filename=old.getAttribute('src');
         let code=await (await get(filename)).text();
@@ -867,7 +881,7 @@
     renderInformation();renderFooter();renderHeader();
     // SEO-07: reuse the header asset; the existing HTML bundler inlines this URL.
     const seoBanner=document.getElementById('nomad360-seo-banner');
-    if(seoBanner&&!seoBanner.querySelector('.nomad-seo-logo'))seoBanner.insertAdjacentHTML('beforeend','<img class="nomad-seo-logo" src="./nomad360_wolf_open_circle.png" alt="" width="140" height="140" loading="lazy">');
+    if(seoBanner&&!seoBanner.querySelector('.nomad-seo-logo'))seoBanner.insertAdjacentHTML('beforeend','<div class="nomad-seo-brand"><div class="nomad-seo-logo-mask"><img class="nomad-seo-logo" src="./nomad360_wolf_open_circle.png" alt="" width="140" height="140" loading="lazy"></div><h3 class="nomad-seo-tagline" lang="en"><span>Sky allows,</span> <span>guys deliver</span></h3></div>');
     const header=document.getElementById('nomad360-header');
     header.addEventListener('click',event=>{
       const button=event.target.closest('.nomad-burger');

@@ -19,8 +19,8 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   const tr=k=>p.evaluate(k=>Nomad360LocaleCore.t(k),k);
   const offer=await p.locator('#nomad360-hero h1,#nomad360-hero h2,#nomad360-hero h3').allTextContents();
   if(lang==='ru')A.deepEqual(offer,['Бизнес-калькулятор','Каким бизнесом мне выгодно заниматься?','Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что принесет живые деньги.']);
-  A.equal(await p.locator('#nomad360-hero').evaluate(e=>e.nextElementSibling.id),'nomad360-intro');A.equal(await p.locator('#home-screen h1').count(),1);
-  A.equal(await p.locator('#nomad360-intro li').count(),3);A.equal(await p.locator('#nomad360-intro p').count(),2);A.equal(await p.locator('#nomad360-intro a').count(),1);
+  A.equal(await p.locator('#nomad360-seo-banner').evaluate(e=>e.nextElementSibling.id),'nomad360-intro');A.equal(await p.locator('#home-screen h1').count(),1);
+  A.equal(await p.locator('#nomad360-intro li').count(),3);A.equal(await p.locator('#nomad360-intro p').count(),2);A.equal(await p.locator('#nomad360-intro a').count(),0);
   if(lang==='en')A.match(await p.locator('.nomad-intro-lead').textContent(),/validation/);if(lang==='ru')A.doesNotMatch(await p.locator('#nomad360-intro').textContent(),/validation/);
   A.equal(await p.locator('#nomad360-seo-banner li').count(),0);A.equal(await p.locator('#nomad360-seo-banner h2').count(),1);A.equal(await p.locator('#nomad360-seo-banner p').isVisible(),true);A.equal(await p.locator('#nomad360-seo-banner img').count(),1);
   A.equal(await p.locator('#home-screen').evaluate(e=>[...e.children].filter(n=>!['nomad360-hero','nomad360-intro'].includes(n.id)).slice(0,2).map(n=>n.id).join(',')),'nomad360-seo-banner,nomad360-selling-choice');

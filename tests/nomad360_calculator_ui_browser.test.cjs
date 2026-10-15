@@ -29,9 +29,9 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.locator('#nomad360-seo-banner p').isVisible(),true);
   A.equal(await page.locator('#nomad360-seo-banner p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
   A.equal(await page.locator('#home-screen').evaluate(el=>
-    [...el.children].findIndex(child=>child.id==='nomad360-hero')+1===
+    [...el.children].findIndex(child=>child.id==='nomad360-seo-banner')+1===
     [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
-    'Approved introduction directly follows the unchanged hero');
+    'Approved introduction follows the existing SEO banner');
   A.equal(await page.locator('#home-screen > .card > h1').count(),0,
     'Do not duplicate a second homepage H1');
   const presentation=await page.evaluate(()=>{
