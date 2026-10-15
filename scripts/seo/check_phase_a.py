@@ -54,6 +54,49 @@ def main():
     const seoBanner=document.getElementById('nomad360-seo-banner');
     if(seoBanner&&!seoBanner.querySelector('.nomad-seo-logo'))seoBanner.insertAdjacentHTML('beforeend','<img class="nomad-seo-logo" src="./nomad360_wolf_open_circle.png" alt="" width="140" height="140" loading="lazy">');
 ''', b'', 1)
+        # An independently approved later B2B-copy edit must not weaken the old
+        # SEO baseline: undo ONLY its exact white/orange consulting presentation
+        # before comparing the protected source with the accepted snapshot.
+        if name == 'nomad360_calculator_ui.css':
+            marker = b'\n/* Consulting offer: white question, orange benefits following the Nomad360 brand palette. */\n'
+            assert raw.count(marker) == 1
+            prefix, suffix = raw.split(marker, 1)
+            assert b'.nomad-footer .nomad-embed-b2b-benefits' in suffix
+            assert b'.nomad-embed-toggle{' in suffix
+            raw = prefix + b'\n' + suffix[suffix.index(b'.nomad-embed-toggle{'):]
+        if name == 'nomad360_header.js':
+            for updated, approved in [
+                ('Занимаетесь консалтингом?', 'Работаете в B2B? Привлеките полезный трафик бесплатно.'),
+                ('Do you work in consulting?', 'Work in B2B? Attract relevant traffic for free.'),
+                ('Консалтингпен айналысасыз ба?', 'B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз.'),
+            ]:
+                after, before = updated.encode(), approved.encode()
+                assert raw.count(b'"embedB2BTitle": "' + after) == 1
+                raw = raw.replace(b'"embedB2BTitle": "' + after, b'"embedB2BTitle": "' + before, 1)
+            lines = raw.splitlines(keepends=True)
+            assert sum(b'"embedB2BPoints": ' in line for line in lines) == 3
+            assert sum(b'"embedB2BFocus": ' in line for line in lines) == 3
+            raw = b''.join(line for line in lines if b'"embedB2BPoints": ' not in line and b'"embedB2BFocus": ' not in line)
+            start = b'    const b2bBenefits=t.embedB2BPoints.map(line=>{\n'
+            end = b'    }).join(\'\');\n'
+            assert raw.count(start) == 1 and raw.count(end) == 1
+            a = raw.index(start)
+            b = raw.index(end, a) + len(end)
+            raw = raw[:a] + raw[b:]
+            benefits_line = b'      \'<ul class="nomad-embed-b2b-benefits">\'+b2bBenefits+\'</ul>\'+\n'
+            assert raw.count(benefits_line) == 1
+            raw = raw.replace(benefits_line, b'', 1)
+        if name == 'nomad360_locale_core.js':
+            rows = raw.splitlines(keepends=True)
+            extra = b'"interface.header.embedB2BPoints.'
+            focus = b'"interface.header.embedB2BFocus"'
+            assert sum(extra in line for line in rows) == 5
+            assert sum(focus in line for line in rows) == 1
+            raw = b''.join(line for line in rows if extra not in line and focus not in line)
+            from_title = b' ["interface.header.embedB2BTitle","Do you work in consulting?","Занимаетесь консалтингом?","Консалтингпен айналысасыз ба?"],'
+            to_title = b' ["interface.header.embedB2BTitle","Work in B2B? Attract relevant traffic for free.","Работаете в B2B? Привлеките полезный трафик бесплатно.","B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз."],'
+            assert raw.count(from_title) == 1
+            raw = raw.replace(from_title, to_title, 1)
         if name in approved_marketing_files:
             approved = subprocess.check_output(
                 ['git', 'show', accepted_marketing_commit + ':' + name], cwd=ROOT)
