@@ -28,6 +28,8 @@ jobs:
         with:
           python-version: '3.12'
       - name: Verify preserved application and recorded observations
+        env:
+          SEO_BASE_REF: ${{ github.event.pull_request.base.sha || 'origin/main' }}
         run: |
           python scripts/seo/check_phase_a.py
           node --check scripts/seo/audit_browser.cjs

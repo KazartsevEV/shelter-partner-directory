@@ -62,3 +62,5 @@ Read-only сеть: `python scripts/seo/audit_live.py --output docs/seo/evidence
 Chromium: `node scripts/seo/audit_browser.cjs` (нужны Python и Playwright); локальные макеты: `node scripts/seo/check_mockups.cjs`. Для этой рабочей среды использованы NODE_PATH=/workspace/scratch/excel-tools/node_modules и PLAYWRIGHT_BROWSERS_PATH=/workspace/scratch/type02-browsers.
 
 Детерминированный CI фазы A проверяет сохранённые доказательства/защищённые файлы и макеты; живые ответы не выдаются за воспроизводимые фикстуры текущего CI. Полные финансовые регрессии требуются после реальной реализации фаз B–D.
+
+Обновление main `85d98d9` добавило ТЗ задачи 7А без изменений приложения. Оно сохранено в ветке. Начальный CI выявил ошибку scope-check (новый документ main попал в сравнение со старым baseline); теперь diff вычисляется относительно merge-base текущей базы PR. Разрешённые пути и production-hashes не ослаблялись.

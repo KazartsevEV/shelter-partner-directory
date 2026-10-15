@@ -3,6 +3,7 @@
 import csv
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 
@@ -18,7 +19,12 @@ def main():
     manifest = read('protected-files.json')
     for name, expected in manifest['files'].items():
         assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected, name
-    changed = subprocess.check_output(['git', 'diff', '--name-only', manifest['baseline'], '--'],
+    # Synthetic PR merges also include newer main documentation. Compare this
+    # PR to its actual base; keep the production-byte guard on the audited SHA.
+    base_ref = os.environ.get('SEO_BASE_REF', 'origin/main')
+    merge_base = subprocess.check_output(['git', 'merge-base', base_ref, 'HEAD'],
+                                        cwd=ROOT, text=True).strip()
+    changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/')) or p in (
         'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-phase-a-review.md',
