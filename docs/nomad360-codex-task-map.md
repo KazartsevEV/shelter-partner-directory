@@ -560,7 +560,7 @@ Codex должен зафиксировать:
 
 # Задача 6. **IN PROGRESS:** маркетинговая упаковка RU / EN / KK и юридический подвал
 
-**Статус: В РАБОТЕ с 15.10.2026 после принятого TYPE-02.** Ветка `feature/marketing-packaging`; [отчёт](reviews/marketing-packaging-review.md). Отдельный PR, стоп до пользовательской приёмки и разрешения на merge.
+**Статус: В РАБОТЕ с 15.10.2026 после принятого TYPE-02.** [Draft PR #144](https://github.com/KazartsevEV/shelter-partner-directory/pull/144), ветка `feature/marketing-packaging`; [отчёт](reviews/marketing-packaging-review.md). Отдельный PR, стоп до пользовательской приёмки и разрешения на merge.
 
 **Подробная спецификация утверждённой упаковки и текстов:** [MKT-L10N-01](nomad360-marketing-localization-tz.md). **Действующая полная лицензия для новых официальных выпусков:** [CALCULATOR_LICENSE.md](../CALCULATOR_LICENSE.md), редакция 2.3 EN/RU/KK. Не создавать конкурентный новый словарь текстов.
 

@@ -48,8 +48,8 @@ those files. Existing financial unit, numeric browser, currencies, Excel,
 localisation, shopper, restore and export checks are retained in CI.
 
 [Screenshots](marketing-packaging/index.md) and [numeric/layout protocol](marketing-packaging/protocol.json).
-Local final matrix: 21 cases, 108 PNG, three complete portable editions, six successful
-downloads. Do not interpret this as 108 manually inspected images.
+Local final matrix: 21 cases, 129 PNG, three complete portable editions, six successful
+downloads. Do not interpret this as 129 manually inspected images.
 
 ## Limits and handoff
 
@@ -76,3 +76,14 @@ Local checks: 30 source/font/semantic/diagnostic tests passed; existing packagin
 checks passed for all three languages, including PDF and financial parity.
 Localisation acceptance passed 54 cases with restore, user names, native PDF and
 frozen-action regression. Full route matrix is also run independently in CI.
+
+## Published implementation
+
+[Draft PR #144](https://github.com/KazartsevEV/shelter-partner-directory/pull/144).
+Application implementation: `f40287b8867a0cb8e7f48200eebef0d9057d3fa0`.
+The subsequent verification update adds expanded-offer/clipboard checks and
+updates the first-visit assertion to the latest approved collapsed-details
+contract. All later application-source hashes must remain identical to this
+implementation. Initial numeric CI stopped on the superseded always-visible
+outcome-list assertion, after its financial checks passed; that assertion is
+replaced by closed/open/choice-order checks, without removing numerical checks.

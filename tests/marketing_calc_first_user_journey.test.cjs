@@ -19,7 +19,10 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#product-demo-banner').isVisible(),false);
    assert.equal(await page.evaluate(()=>productPortfolio.length),0);
    assert.equal(await page.locator('#product-own-form').isVisible(),false);
-   assert.equal(await page.locator('#nomad360-calculation-list ul').isVisible(),true,'Outcome list is already visible');
+   assert.equal(await page.locator('#nomad360-calculation-list').evaluate(e=>e.open),false,'Outcome details are collapsed below the first choice (MKT-L10N-01)');
+   assert.equal(await page.locator('#nomad360-hero').evaluate(e=>e.nextElementSibling.id),'nomad360-selling-choice','Existing calculation choice immediately follows the approved offer');
+   await page.locator('#nomad360-calculation-list>summary').click();
+   assert.equal(await page.locator('#nomad360-calculation-list ul').isVisible(),true,'The six outcomes can be opened without starting a calculation');
    assert.match(await page.locator('#home-screen').textContent(),/живые деньги|денежный поток/i);
    // Detailed production and resale both use the primary, legible calculator.
    await page.locator('#start-own-product').click();

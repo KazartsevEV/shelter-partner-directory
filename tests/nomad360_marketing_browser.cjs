@@ -77,6 +77,18 @@ async function settle(page){await page.evaluate(()=>document.fonts.ready);await 
     if(name==='home')await page.locator('#nomad360-calculation-list').evaluate(e=>e.open=false);
     const file=`${lang}-${width}-${name}.png`;await page.locator(selector).screenshot({path:path.join(out,file),animations:'disabled'});screenshots.push(file);
    }
+   await page.locator('#nomad360-for-website details').evaluateAll(es=>es.forEach(e=>e.open=true));
+   const expanded=await page.evaluate(audit);A.ok(expanded.scrollWidth<=width+1);A.deepEqual(expanded.bad,[]);
+   const expandedContrast=await page.evaluate(()=>{const a=NomadContrast.audit(document.querySelector('#nomad360-for-website'));return {count:a.count,minimum:a.minimum,failures:a.failures};});
+   A.deepEqual(expandedContrast.failures,[]);
+   for(const card of ['.nomad-free-edition','.nomad-paid-edition'])A.ok(await page.locator(card+' details p').first().isVisible());
+   const expandedFile=`${lang}-${width}-offers-expanded.png`;await page.locator('#nomad360-for-website').screenshot({path:path.join(out,expandedFile)});screenshots.push(expandedFile);
+   if(width===390){
+    // Verify the actual clipboard action; never interact with the provider iframe.
+    await context.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});
+    const copy=page.locator('.nomad-pay-kaspi [data-nomad-copy]');await copy.click();
+    A.equal(await page.evaluate(()=>navigator.clipboard.readText()),'+7 777 129 56 93');
+   }
    if(width===390){
     // The error state must retain a working action, then a real complete download and retry.
     await page.route('**/Marketing_calc.HTML',r=>r.abort());
@@ -95,9 +107,9 @@ async function settle(page){await page.evaluate(()=>document.fonts.ready);await 
     await saved.locator('#nomad360-for-website').screenshot({path:path.join(out,`${lang}-390-portable.png`)});
     exports.push({lang,bytes:Buffer.byteLength(portable),downloads:2,complete:true});await saved.close();
    }
-   cases.push({lang,width,geometry,grid,contrast,screenshots});await context.close();
+   cases.push({lang,width,geometry,grid,contrast,expanded,expandedContrast,screenshots});await context.close();
   }
   fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({base:'cf17252fdb89cea7e83689f3ea7ebaa4363e2f86',cases,exports},null,2));
-  console.log('MARKETING_BROWSER_GREEN',JSON.stringify({cases:cases.length,screenshots:cases.length*5+exports.length,exports:exports.length,downloads:exports.length*2}));
+  console.log('MARKETING_BROWSER_GREEN',JSON.stringify({cases:cases.length,screenshots:cases.reduce((n,c)=>n+c.screenshots.length,0)+exports.length,exports:exports.length,downloads:exports.length*2}));
  }finally{await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error('MARKETING_BROWSER_RED',e);process.exitCode=1;});

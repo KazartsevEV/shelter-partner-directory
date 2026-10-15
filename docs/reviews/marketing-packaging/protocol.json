@@ -55,12 +55,25 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 320,
+        "scrollWidth": 320,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": []
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "ru-320-home.png",
         "ru-320-about.png",
         "ru-320-support.png",
         "ru-320-offers.png",
-        "ru-320-legal.png"
+        "ru-320-legal.png",
+        "ru-320-offers-expanded.png"
       ]
     },
     {
@@ -117,12 +130,25 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 360,
+        "scrollWidth": 360,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": []
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "ru-360-home.png",
         "ru-360-about.png",
         "ru-360-support.png",
         "ru-360-offers.png",
-        "ru-360-legal.png"
+        "ru-360-legal.png",
+        "ru-360-offers-expanded.png"
       ]
     },
     {
@@ -179,12 +205,25 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 390,
+        "scrollWidth": 390,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": []
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "ru-390-home.png",
         "ru-390-about.png",
         "ru-390-support.png",
         "ru-390-offers.png",
-        "ru-390-legal.png"
+        "ru-390-legal.png",
+        "ru-390-offers-expanded.png"
       ]
     },
     {
@@ -241,12 +280,25 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 430,
+        "scrollWidth": 430,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": []
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "ru-430-home.png",
         "ru-430-about.png",
         "ru-430-support.png",
         "ru-430-offers.png",
-        "ru-430-legal.png"
+        "ru-430-legal.png",
+        "ru-430-offers-expanded.png"
       ]
     },
     {
@@ -303,12 +355,25 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 768,
+        "scrollWidth": 768,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": []
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "ru-768-home.png",
         "ru-768-about.png",
         "ru-768-support.png",
         "ru-768-offers.png",
-        "ru-768-legal.png"
+        "ru-768-legal.png",
+        "ru-768-offers-expanded.png"
       ]
     },
     {
@@ -365,12 +430,25 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": []
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "ru-1280-home.png",
         "ru-1280-about.png",
         "ru-1280-support.png",
         "ru-1280-offers.png",
-        "ru-1280-legal.png"
+        "ru-1280-legal.png",
+        "ru-1280-offers-expanded.png"
       ]
     },
     {
@@ -427,12 +505,25 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": []
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "ru-1440-home.png",
         "ru-1440-about.png",
         "ru-1440-support.png",
         "ru-1440-offers.png",
-        "ru-1440-legal.png"
+        "ru-1440-legal.png",
+        "ru-1440-offers-expanded.png"
       ]
     },
     {
@@ -502,12 +593,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 320,
+        "scrollWidth": 320,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "en",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "en",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "en-320-home.png",
         "en-320-about.png",
         "en-320-support.png",
         "en-320-offers.png",
-        "en-320-legal.png"
+        "en-320-legal.png",
+        "en-320-offers-expanded.png"
       ]
     },
     {
@@ -577,12 +694,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 360,
+        "scrollWidth": 360,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "en",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "en",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "en-360-home.png",
         "en-360-about.png",
         "en-360-support.png",
         "en-360-offers.png",
-        "en-360-legal.png"
+        "en-360-legal.png",
+        "en-360-offers-expanded.png"
       ]
     },
     {
@@ -652,12 +795,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 390,
+        "scrollWidth": 390,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "en",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "en",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "en-390-home.png",
         "en-390-about.png",
         "en-390-support.png",
         "en-390-offers.png",
-        "en-390-legal.png"
+        "en-390-legal.png",
+        "en-390-offers-expanded.png"
       ]
     },
     {
@@ -727,12 +896,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 430,
+        "scrollWidth": 430,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "en",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "en",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "en-430-home.png",
         "en-430-about.png",
         "en-430-support.png",
         "en-430-offers.png",
-        "en-430-legal.png"
+        "en-430-legal.png",
+        "en-430-offers-expanded.png"
       ]
     },
     {
@@ -802,12 +997,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 768,
+        "scrollWidth": 768,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "en",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "en",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "en-768-home.png",
         "en-768-about.png",
         "en-768-support.png",
         "en-768-offers.png",
-        "en-768-legal.png"
+        "en-768-legal.png",
+        "en-768-offers-expanded.png"
       ]
     },
     {
@@ -877,12 +1098,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "en",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "en",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "en-1280-home.png",
         "en-1280-about.png",
         "en-1280-support.png",
         "en-1280-offers.png",
-        "en-1280-legal.png"
+        "en-1280-legal.png",
+        "en-1280-offers-expanded.png"
       ]
     },
     {
@@ -952,12 +1199,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "en",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "en",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "en-1440-home.png",
         "en-1440-about.png",
         "en-1440-support.png",
         "en-1440-offers.png",
-        "en-1440-legal.png"
+        "en-1440-legal.png",
+        "en-1440-offers-expanded.png"
       ]
     },
     {
@@ -1027,12 +1300,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 320,
+        "scrollWidth": 320,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "kk",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "kk",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "kk-320-home.png",
         "kk-320-about.png",
         "kk-320-support.png",
         "kk-320-offers.png",
-        "kk-320-legal.png"
+        "kk-320-legal.png",
+        "kk-320-offers-expanded.png"
       ]
     },
     {
@@ -1102,12 +1401,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 360,
+        "scrollWidth": 360,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "kk",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "kk",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "kk-360-home.png",
         "kk-360-about.png",
         "kk-360-support.png",
         "kk-360-offers.png",
-        "kk-360-legal.png"
+        "kk-360-legal.png",
+        "kk-360-offers-expanded.png"
       ]
     },
     {
@@ -1177,12 +1502,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 390,
+        "scrollWidth": 390,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "kk",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "kk",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "kk-390-home.png",
         "kk-390-about.png",
         "kk-390-support.png",
         "kk-390-offers.png",
-        "kk-390-legal.png"
+        "kk-390-legal.png",
+        "kk-390-offers-expanded.png"
       ]
     },
     {
@@ -1252,12 +1603,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 430,
+        "scrollWidth": 430,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "kk",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "kk",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "kk-430-home.png",
         "kk-430-about.png",
         "kk-430-support.png",
         "kk-430-offers.png",
-        "kk-430-legal.png"
+        "kk-430-legal.png",
+        "kk-430-offers-expanded.png"
       ]
     },
     {
@@ -1327,12 +1704,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 768,
+        "scrollWidth": 768,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "kk",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "kk",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "kk-768-home.png",
         "kk-768-about.png",
         "kk-768-support.png",
         "kk-768-offers.png",
-        "kk-768-legal.png"
+        "kk-768-legal.png",
+        "kk-768-offers-expanded.png"
       ]
     },
     {
@@ -1402,12 +1805,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "kk",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "kk",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "kk-1280-home.png",
         "kk-1280-about.png",
         "kk-1280-support.png",
         "kk-1280-offers.png",
-        "kk-1280-legal.png"
+        "kk-1280-legal.png",
+        "kk-1280-offers-expanded.png"
       ]
     },
     {
@@ -1477,12 +1906,38 @@
           "failures": []
         }
       },
+      "expanded": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "bad": [],
+        "gaps": [],
+        "diagnostics": [
+          {
+            "type": "missing-legacy-alias",
+            "key": "Я",
+            "language": "kk",
+            "details": ""
+          },
+          {
+            "type": "missing-legacy-alias",
+            "key": ".\n                                    Обновлено: 08.10.2026.",
+            "language": "kk",
+            "details": ""
+          }
+        ]
+      },
+      "expandedContrast": {
+        "count": 23,
+        "minimum": 5.005289140413254,
+        "failures": []
+      },
       "screenshots": [
         "kk-1440-home.png",
         "kk-1440-about.png",
         "kk-1440-support.png",
         "kk-1440-offers.png",
-        "kk-1440-legal.png"
+        "kk-1440-legal.png",
+        "kk-1440-offers-expanded.png"
       ]
     }
   ],

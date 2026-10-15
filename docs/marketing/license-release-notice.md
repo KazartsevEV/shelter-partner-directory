@@ -8,7 +8,9 @@ version 2.3 dated 12 October 2026. Its current text was introduced in
 This task aligns the official interface and complete downloadable HTML with
 that text; it does not change the licence itself. The exact first marketing
 implementation commit and the published merge, when authorised, are recorded
-in the [task review](../reviews/marketing-packaging-review.md).
+in the [task review](../reviews/marketing-packaging-review.md). The first task-6
+implementation commit is `f40287b8867a0cb8e7f48200eebef0d9057d3fa0`
+(15 October 2026); it is a review candidate until the owner accepts and publishes it.
 
 **EN.** Free use and embedding, including commercial-site embedding, cover the
 complete unmodified edition, retaining branding, attribution, product
