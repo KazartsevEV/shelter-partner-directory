@@ -9,7 +9,7 @@ test('Only the four requested presentation files may change; all financial sourc
   .replace(/\.nomad-embed-download:hover:not\(:disabled\)\{[^\n]*\}/g,'<B2B-DOWNLOAD-HOVER>')
   .replace(/\/\* (?:CTA-01:|B2B conversion hierarchy:)[\s\S]*?(?=\.nomad-embed-retry\[hidden\])/,'<B2B-CTA-COLORS>\n')
   .replace(/\/\* About: one compact four-line brand statement[^\n]*\n[\s\S]*?(?=\.nomad-about-flow\{)/,'')
-  .replace(/\/\* Consulting offer: white question[^\n]*\n[\s\S]*?(?=\.nomad-embed-toggle\{)/,'')
+  .replace(/(?:\.nomad-footer \.nomad-embed-actions\{max-width:none;margin-top:32px;gap:16px\}|\/\* B2B-BANNER: native responsive HTML,[^\n]*\n)[\s\S]*?(?=\.nomad-embed-toggle\{)/,'<B2B-PRESENTATION>\n')
   .replace(/\.nomad-kz-flag,\.nomad-ru-flag\{/g,'.nomad-kz-flag{')
   .replace(/\.nomad-pay-kaspi \.nomad-pay-hint,\.nomad-pay-ozon \.nomad-pay-hint\{/g,'.nomad-pay-kaspi .nomad-pay-hint{')
   .replace(/ \.nomad-pay-bank,\.nomad-pay-kaspi,\.nomad-pay-ozon\{/g,' .nomad-pay-bank,.nomad-pay-kaspi{');
@@ -19,7 +19,7 @@ test('Only the four requested presentation files may change; all financial sourc
 const boot=src=>{const win={};new Function('window','document',src)(win,{readyState:'loading',addEventListener(){}});return win.Nomad360LocaleCore;};
 test('Published hero, legal/privacy text, payment details and every financial translation remain unchanged',()=>{
  const old=boot(before('nomad360_locale_core.js')),current=boot(now('nomad360_locale_core.js'));
- const changed=new Set(['interface.header.embedB2BTitle','interface.header.embedButton','interface.header.customButton','interface.header.trafficTitle','interface.header.comparison.free','interface.header.comparison.own','interface.header.comparison.customerBrand','interface.header.comparison.customerQueries','interface.header.comparison.contacts','interface.header.licenseCopy']);
+ const changed=new Set(['interface.header.embedB2BTitle','interface.header.embedButton','interface.header.customButton','interface.header.trafficTitle','interface.header.comparison.free','interface.header.comparison.own','interface.header.comparison.customerBrand','interface.header.comparison.customerQueries','interface.header.comparison.contacts','interface.header.licenseCopy','interface.header.embedB2BPoints.0','interface.header.embedB2BPoints.1','interface.header.embedB2BPoints.2','interface.header.embedB2BPoints.3','interface.header.embedB2BPoints.4','interface.header.embedB2BFocus']);
  for(const key of old.keys())if(!changed.has(key))for(const language of ['ru','en','kk'])A.equal(current.t(key,language),old.t(key,language),language+' '+key);
  A.match(current.t('interface.shell.introLead','en'),/validation/);A.doesNotMatch(current.t('interface.shell.introLead','ru'),/validation/);
  A.equal(current.t('interface.header.comparison.own','ru'),'Собственный калькулятор');A.equal(current.t('interface.header.comparison.own','en'),'Your own calculator');
@@ -76,21 +76,35 @@ test('About adds only the agreed four-line brand introduction above the existing
  A.match(css,/\.nomad-about-motto span\{display:block\}/);
 });
 
-test('Consulting value proposition replaces B2B headline and is translated without changing the comparison',()=>{
+test('Localized consulting sales banner is exactly three numbered native cards with slogan',()=>{
  const src=now('nomad360_header.js'),css=now('nomad360_calculator_ui.css'),core=boot(now('nomad360_locale_core.js'));
  const titles={ru:'Занимаетесь консалтингом?',en:'Do you work in consulting?',kk:'Консалтингпен айналысасыз ба?'};
- const focuses={ru:'только конкретные вопросы',en:'Only specific questions',kk:'тек нақты сұрақтар'};
+ const focuses={ru:'конкретные вопросы',en:'specific questions',kk:'нақты сұрақтарды'};
+ const slogans={
+  ru:'Nomad360 оптимизирует время для вас и ваших клиентов, чтобы обогнать конкурентов.',
+  en:'Nomad360 saves time for you and your clients, helping you stay ahead of competitors.',
+  kk:'Nomad360 сіз бен клиенттеріңіздің уақытын үнемдеп, бәсекелестерден озып шығуға көмектеседі.'
+ };
+ const endings={ru:'в онлайн-чате.',en:'in live chat.',kk:'онлайн-чатта жауап беріңіз.'};
  for(const lang of ['ru','en','kk']){
   const copy=core.section('interface.header',lang);
   A.equal(copy.embedB2BTitle,titles[lang]);
+  A.equal(copy.embedB2BSlogan,slogans[lang]);
   A.equal(copy.embedB2BFocus,focuses[lang]);
-  A.equal(copy.embedB2BPoints.length,5);
+  A.equal(copy.embedB2BPoints.length,3);
+  A.ok(copy.embedB2BPoints[1].endsWith(endings[lang]));
   A.equal(copy.embedB2BPoints.filter(line=>line.includes(copy.embedB2BFocus)).length,1);
+  A.equal(copy.embedB2BPoints[2].includes(copy.embedB2BFocus),true);
+  A.equal(core.t('interface.header.embedB2BPoints.3',lang),'⟦interface.header.embedB2BPoints.3:'+lang+'⟧');
  }
- A.match(src,/<ul class="nomad-embed-b2b-benefits">/);
+ A.match(src,/<ol class="nomad-embed-b2b-benefits">/);
+ A.match(src,/class="nomad-embed-b2b-number"/);
+ A.match(src,/class="nomad-embed-b2b-icon"/);
  A.match(src,/<em>'\+esc\(focus\)\+'<\/em>/);
- A.match(css,/\.nomad-footer \.nomad-embed-b2b-benefits\{[^}]*color:#ed8e63;/);
- A.match(css,/\.nomad-footer \.nomad-embed-b2b-title\{[^}]*color:#fff;/);
+ A.match(src,/class="nomad-embed-b2b-slogan"/);
+ A.match(src,/nomad360_wolf_open_circle\.png/);
+ A.match(css,/#nomad360-embed\{[\s\S]*?background:#16375a/);
+ A.match(css,/\.nomad-embed-b2b-copy em\{font-style:italic/);
  A.match(src,/data-nomad-embed-toggle/);
  A.match(src,/id="nomad360-embed-comparison"/);
 });
