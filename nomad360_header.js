@@ -184,7 +184,9 @@
     "licenseCopy": "Nomad360 lite предоставляется бесплатно «как есть». Вы можете скачать и разместить полную неизменённую версию, в том числе на коммерческом сайте, сохранив бренд, авторство, ссылки, контакты и информацию о поддержке проекта. Изменения, ребрендинг и собственная версия возможны только по отдельному письменному соглашению. Гарантии не предоставляются.",
     "licenseLink": "Читать лицензию",
     "embedTitle": "Калькулятор для вашего сайта",
-    "embedB2BTitle": "Работаете в B2B? Привлеките полезный трафик бесплатно.",
+    "embedB2BTitle": "Занимаетесь консалтингом?",
+    "embedB2BPoints": ["Привлеките полезный трафик бесплатно.","Квалифицируйте запросы клиентов до первого касания.","Наш калькулятор ведет посетителя от идеи до бизнес-плана.","Для обсуждения со специалистами остаются только конкретные вопросы.","Nomad360 оптимизирует время для вас и ваших клиентов, чтобы обогнать конкурентов."],
+    "embedB2BFocus": "только конкретные вопросы",
     "trafficTitle": "Уникальные посетители GitHub-репозитория за последние 14 дней:",
     "embedButton": "Скачать бесплатную версию",
     "embedHint": "Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.",
@@ -371,7 +373,9 @@
     "licenseCopy": "Nomad360 lite is provided free of charge “as is”. You may download and embed the complete unmodified edition, including on a commercial website, while keeping its branding, attribution, links, contacts and developer-support information. Modifications, rebranding and custom editions require a separate written agreement. No warranties are provided.",
     "licenseLink": "Read license",
     "embedTitle": "Calculator for your website",
-    "embedB2BTitle": "Work in B2B? Attract relevant traffic for free.",
+    "embedB2BTitle": "Do you work in consulting?",
+    "embedB2BPoints": ["Attract relevant traffic for free.","Qualify client inquiries before the first contact.","Our calculator guides visitors from an idea to a business plan.","Only specific questions remain for discussion with specialists.","Nomad360 saves time for you and your clients, helping you stay ahead of competitors."],
+    "embedB2BFocus": "Only specific questions",
     "trafficTitle": "Unique GitHub repository visitors over the last 14 days:",
     "embedButton": "Download the free version",
     "embedHint": "Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.",
@@ -558,7 +562,9 @@
     "licenseCopy": "Nomad360 lite «сол күйінде» тегін ұсынылады. Толық өзгертілмеген нұсқаны коммерциялық сайтта да жүктеп алып, орналастыруға болады, бірақ бренд, авторлық атрибуция, сілтемелер, байланыс деректері және жобаға қолдау көрсету ақпараты сақталуы тиіс. Өзгерту, қайта брендтеу және жеке нұсқа жасау үшін бөлек жазбаша келісім қажет. Кепілдік берілмейді.",
     "licenseLink": "Лицензияны оқу",
     "embedTitle": "Сайтыңызға арналған калькулятор",
-    "embedB2BTitle": "B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз.",
+    "embedB2BTitle": "Консалтингпен айналысасыз ба?",
+    "embedB2BPoints": ["Пайдалы трафикті тегін тартыңыз.","Клиенттердің сұраныстарын алғашқы байланысқа дейін саралаңыз.","Біздің калькулятор келушіні идеядан бизнес-жоспарға дейін жетелейді.","Мамандармен талқылауға тек нақты сұрақтар ғана қалады.","Nomad360 сіз бен клиенттеріңіздің уақытын үнемдеп, бәсекелестерден озып шығуға көмектеседі."],
+    "embedB2BFocus": "тек нақты сұрақтар",
     "trafficTitle": "Соңғы 14 күндегі GitHub репозиторийінің бірегей келушілері:",
     "embedButton": "Тегін нұсқаны жүктеу",
     "embedHint": "Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.",
@@ -680,12 +686,18 @@
   function footerMarkup(t) {
     const row=(label,free,own)=>'<tr><th scope="row">'+esc(label)+'</th><td>'+esc(free)+'</td><td>'+esc(own)+'</td></tr>';
     const c=t.comparison;
+    const b2bBenefits=t.embedB2BPoints.map(line=>{
+      const focus=t.embedB2BFocus;
+      const at=focus?line.indexOf(focus):-1;
+      return '<li>'+(at<0?esc(line):esc(line.slice(0,at))+'<em>'+esc(focus)+'</em>'+esc(line.slice(at+focus.length)))+'</li>';
+    }).join('');
     return '<div class="nomad-footer-inner">'+
       '<section id="nomad360-support" class="nomad-donate" tabindex="-1"><h2>'+esc(t.supportTitle)+'</h2><p class="nomad-donate-lead">'+esc(t.supportLead)+'</p>'+
       payHostedCrypto(t)+payFiat(t)+'</section>'+
       '<details class="nomad-footer-products" id="nomad360-product-details"><summary>'+esc(t.fundsTitle)+'</summary><div class="nomad-products-grid">'+t.products.map(p=>productMarkup(t,p)).join('')+'</div></details>'+
       '<section id="nomad360-embed" class="nomad-embed-actions" tabindex="-1">'+
       '<h2 class="nomad-embed-b2b-title">'+esc(t.embedB2BTitle)+'</h2>'+
+      '<ul class="nomad-embed-b2b-benefits">'+b2bBenefits+'</ul>'+
       '<button type="button" class="nomad-embed-download nomad-embed-toggle" data-nomad-embed-toggle aria-expanded="false" aria-controls="nomad360-embed-comparison">'+esc(t.embedToggle)+'</button>'+
       '<div id="nomad360-embed-comparison" hidden><table class="nomad-embed-table" role="table"><caption class="nomad-sr">'+esc(c.caption)+'</caption><thead><tr><th scope="col">'+esc(c.feature)+'</th><th scope="col">'+esc(c.free)+'</th><th scope="col">'+esc(c.own)+'</th></tr></thead><tbody>'+
       row(c.cost,c.freePrice,c.paidPrice)+row(c.brand,c.nomadBrand,c.customerBrand)+row(c.seo,c.broadQueries,c.customerQueries)+row(c.leads,c.no,c.contacts)+
