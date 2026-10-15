@@ -5,7 +5,10 @@ const before=f=>execFileSync('git',['show',base+':'+f],{cwd:root,maxBuffer:8*102
 test('Only the four requested presentation files may change; all financial sources, HTML and licence stay exact',()=>{
  const editable=new Set(['nomad360_header.js','nomad360_calculator_ui.js','nomad360_locale_core.js','nomad360_calculator_ui.css']);
  const files=execFileSync('git',['ls-tree','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/\.(js|css|html)$/i.test(f)||f==='CALCULATOR_LICENSE.md');
- A.ok(now('nomad360_calculator_ui.css').startsWith(before('nomad360_calculator_ui.css')),'Accepted typography and support styling remain intact');
+ const maskB2BCta=css=>css
+  .replace(/\.nomad-embed-download:hover:not\(:disabled\)\{[^\n]*\}/g,'<B2B-DOWNLOAD-HOVER>')
+  .replace(/\/\* (?:CTA-01:|B2B conversion hierarchy:)[\s\S]*?(?=\.nomad-embed-retry\[hidden\])/,'<B2B-CTA-COLORS>\n');
+ A.ok(maskB2BCta(now('nomad360_calculator_ui.css')).startsWith(maskB2BCta(before('nomad360_calculator_ui.css'))),'Accepted typography and support styling remain intact outside the explicitly changed B2B CTA colors');
  A.ok(files.length>20);for(const file of files)if(!editable.has(file))A.equal(now(file),before(file),file);
 });
 const boot=src=>{const win={};new Function('window','document',src)(win,{readyState:'loading',addEventListener(){}});return win.Nomad360LocaleCore;};
@@ -23,4 +26,24 @@ test('Download, retry, clipboard, header navigation and financial export logic s
   return walk(acorn.parse(src,{ecmaVersion:'latest'}));
  }
  for(const [file,allowed] of [['nomad360_calculator_ui.js',new Set(['buildShell'])],['nomad360_header.js',new Set(['infoMarkup','footerMarkup','renderFooter','boot'])]])A.deepEqual(norm(now(file),allowed),norm(before(file),allowed),file);
+});
+
+
+test('B2B comparison copy is localized and only the custom-order CTA uses the orange action color',()=>{
+ const header=now('nomad360_header.js'),css=now('nomad360_calculator_ui.css');
+ for(const text of [
+  'Этот калькулятор «как есть»','Собственный калькулятор',
+  'Ваш бренд','Адаптация под ваши ключевые запросы',
+  'формы обратной связи, опционально — интеграция с CRM',
+  'Заказать кастомное решение',
+  'This calculator, as is','Your own calculator','Order a custom solution',
+  'Бұл калькулятор «сол күйінде»','Өз калькуляторыңыз','Жеке шешімге тапсырыс беру'
+ ])A.ok(header.includes(text),'Missing locale copy: '+text);
+ A.match(header,/data-nomad-download-html/);
+ A.match(header,/class="nomad-embed-contact" href="mailto:/);
+ A.match(header,/data-nomad-traffic-value/);
+ A.match(css,/\.nomad-embed-download\s*\{\s*background:#f4f7fc;/);
+ A.match(css,/\.nomad-footer \.nomad-embed-contact\s*\{\s*background:#ed8e63;/);
+ A.doesNotMatch(css,/\.nomad-embed-download\s*\{\s*background:#ed8e63;/);
+ A.match(css,/\.nomad-embed-retry\{[^}]*background:#f4f7fc;/);
 });
