@@ -446,6 +446,11 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-intro-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;background:#ed8e63;color:#16375a;text-align:center;text-decoration:none;font:600 16px/1.5 var(--nd-font);max-width:100%;box-sizing:border-box}
 .nomad-intro-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
 #nomad360-selling-choice{scroll-margin-top:100px}
+/* About: one compact four-line brand statement before the existing flow. */
+.nomad-about-opening{margin:0 0 18px}
+.nomad-info-block .nomad-about-brand{margin:0 0 12px;font:500 16px/1.55 var(--nd-font);color:#16375a}
+.nomad-info-block .nomad-about-motto{margin:0;font:600 16px/1.5 var(--nd-font);color:#16375a}
+.nomad-about-motto span{display:block}
 .nomad-about-flow{list-style:none;display:grid;gap:40px;padding:0;margin:24px 0}
 .nomad-about-flow>li{position:relative;min-width:0;padding:20px;border:1px solid #b4c5d6;background:#f4f7fc;display:flex;flex-direction:column;gap:12px}
 .nomad-about-flow>li:not(:last-child)::after{content:'↓';position:absolute;left:calc(50% - 10px);bottom:-36px;color:#16375a;font:600 26px/1 var(--nd-font)}
