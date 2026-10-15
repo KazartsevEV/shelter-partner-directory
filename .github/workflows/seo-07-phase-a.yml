@@ -1,0 +1,49 @@
+name: SEO-07 phase A review package
+
+on:
+  pull_request:
+    paths:
+      - 'docs/seo/**'
+      - 'scripts/seo/**'
+      - 'docs/reviews/seo-07-phase-a-review.md'
+      - 'docs/nomad360-codex-task-map.md'
+      - '.github/workflows/seo-07-phase-a.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify preserved application and recorded observations
+        run: |
+          python scripts/seo/check_phase_a.py
+          node --check scripts/seo/audit_browser.cjs
+          node --check scripts/seo/check_mockups.cjs
+          python -c "import ast,pathlib; [ast.parse(p.read_text()) for p in pathlib.Path('scripts/seo').glob('*.py')]"
+      - name: Install pinned review browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/seo-review-tools" --no-save --no-package-lock playwright@1.58.0
+          "$RUNNER_TEMP/seo-review-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Check both mockups without page JavaScript
+        env:
+          NODE_PATH: ${{ runner.temp }}/seo-review-tools/node_modules
+        run: node scripts/seo/check_mockups.cjs
+      - name: Upload phase A review receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-07-phase-a-review
+          path: docs/seo/
