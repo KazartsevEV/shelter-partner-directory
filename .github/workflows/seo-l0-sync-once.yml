@@ -1,0 +1,30 @@
+name: One-time L0 merge reconciliation for SEO-07
+on:
+  push:
+    branches: [feature/seo-07]
+    paths: ['.github/workflows/seo-l0-sync-once.yml']
+permissions:
+  contents: write
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install localization tools
+        run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - name: Regenerate L0 from merged B2B and SEO sources and self-remove
+        run: |
+          node scripts/localization/inventory.cjs
+          rm .github/workflows/seo-l0-sync-once.yml
+          git add -A docs/localization/l0 .github/workflows/seo-l0-sync-once.yml
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(l10n): regenerate L0 after merging B2B and SEO branches"
+            git push origin HEAD:feature/seo-07
+          fi
