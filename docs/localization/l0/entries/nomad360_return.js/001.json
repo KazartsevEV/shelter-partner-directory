@@ -39,22 +39,23 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:316:js-string",
+      "id": "nomad360_return.js:324:js-string",
       "file": "nomad360_return.js",
       "line": 6,
-      "offset": 316,
+      "offset": 324,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "assetBase",
-      "text": "https://kazartsevev.github.io/shelter-partner-directory/",
-      "coverage": "technical-or-latin-review"
+      "text": ".",
+      "coverage": "legacy-exact",
+      "catalog": "interface.header.flowAfter"
     },
     {
-      "id": "nomad360_return.js:538:js-string",
+      "id": "nomad360_return.js:534:js-string",
       "file": "nomad360_return.js",
       "line": 8,
-      "offset": 538,
+      "offset": 534,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -63,10 +64,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:583:js-string",
+      "id": "nomad360_return.js:579:js-string",
       "file": "nomad360_return.js",
       "line": 9,
-      "offset": 583,
+      "offset": 579,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -75,10 +76,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:645:js-regex",
+      "id": "nomad360_return.js:641:js-regex",
       "file": "nomad360_return.js",
       "line": 10,
-      "offset": 645,
+      "offset": 641,
       "kind": "js-regex",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -86,6 +87,18 @@
       "text": "[&<>\"']",
       "flags": "g",
       "review": "Regex is code, not visible text; variable lookup patterns require capture checks",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:658:js-string",
+      "file": "nomad360_return.js",
+      "line": 10,
+      "offset": 658,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "esc",
+      "text": "&",
       "coverage": "technical-or-latin-review"
     },
     {
@@ -97,19 +110,19 @@
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": "&",
+      "text": "&amp;",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:666:js-string",
+      "id": "nomad360_return.js:670:js-string",
       "file": "nomad360_return.js",
       "line": 10,
-      "offset": 666,
+      "offset": 670,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": "&amp;",
+      "text": "<",
       "coverage": "technical-or-latin-review"
     },
     {
@@ -121,19 +134,19 @@
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": "<",
+      "text": "&lt;",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:678:js-string",
+      "id": "nomad360_return.js:681:js-string",
       "file": "nomad360_return.js",
       "line": 10,
-      "offset": 678,
+      "offset": 681,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": "&lt;",
+      "text": ">",
       "coverage": "technical-or-latin-review"
     },
     {
@@ -145,19 +158,19 @@
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": ">",
+      "text": "&gt;",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:689:js-string",
+      "id": "nomad360_return.js:692:js-string",
       "file": "nomad360_return.js",
       "line": 10,
-      "offset": 689,
+      "offset": 692,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": "&gt;",
+      "text": "\"",
       "coverage": "technical-or-latin-review"
     },
     {
@@ -169,19 +182,19 @@
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": "\"",
+      "text": "&quot;",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:700:js-string",
+      "id": "nomad360_return.js:705:js-string",
       "file": "nomad360_return.js",
       "line": 10,
-      "offset": 700,
+      "offset": 705,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": "&quot;",
+      "text": "'",
       "coverage": "technical-or-latin-review"
     },
     {
@@ -193,26 +206,14 @@
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "esc",
-      "text": "'",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_return.js:713:js-string",
-      "file": "nomad360_return.js",
-      "line": 10,
-      "offset": 713,
-      "kind": "js-string",
-      "owner": "nomad360_return.js",
-      "stage": "L2",
-      "context": "esc",
       "text": "&#39;",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:761:js-string",
+      "id": "nomad360_return.js:757:js-string",
       "file": "nomad360_return.js",
       "line": 11,
-      "offset": 761,
+      "offset": 757,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -221,10 +222,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:772:js-string",
+      "id": "nomad360_return.js:768:js-string",
       "file": "nomad360_return.js",
       "line": 11,
-      "offset": 772,
+      "offset": 768,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -233,10 +234,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:777:js-string",
+      "id": "nomad360_return.js:773:js-string",
       "file": "nomad360_return.js",
       "line": 11,
-      "offset": 777,
+      "offset": 773,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -245,10 +246,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:782:js-string",
+      "id": "nomad360_return.js:778:js-string",
       "file": "nomad360_return.js",
       "line": 11,
-      "offset": 782,
+      "offset": 778,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -257,10 +258,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:812:js-string",
+      "id": "nomad360_return.js:808:js-string",
       "file": "nomad360_return.js",
       "line": 11,
-      "offset": 812,
+      "offset": 808,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -269,10 +270,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:867:js-string",
+      "id": "nomad360_return.js:874:js-string",
       "file": "nomad360_return.js",
       "line": 13,
-      "offset": 867,
+      "offset": 874,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -281,10 +282,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:878:js-string",
+      "id": "nomad360_return.js:885:js-string",
       "file": "nomad360_return.js",
       "line": 13,
-      "offset": 878,
+      "offset": 885,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -293,10 +294,70 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:903:js-string",
+      "id": "nomad360_return.js:908:js-string",
       "file": "nomad360_return.js",
       "line": 13,
-      "offset": 903,
+      "offset": 908,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "metadata",
+      "text": "application/manifest+json",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:941:js-string",
+      "file": "nomad360_return.js",
+      "line": 13,
+      "offset": 941,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "metadata",
+      "text": "icon",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:948:js-string",
+      "file": "nomad360_return.js",
+      "line": 13,
+      "offset": 948,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "metadata",
+      "text": "assets/nomad360-icons/nomad360.ico",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:985:js-string",
+      "file": "nomad360_return.js",
+      "line": 13,
+      "offset": 985,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "metadata",
+      "text": "image/x-icon",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:1000:js-string",
+      "file": "nomad360_return.js",
+      "line": 13,
+      "offset": 1000,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "metadata",
+      "text": "16x16 24x24 32x32 48x48 64x64 128x128 256x256",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:1050:js-string",
+      "file": "nomad360_return.js",
+      "line": 13,
+      "offset": 1050,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -305,22 +366,46 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:922:js-string",
+      "id": "nomad360_return.js:1069:js-string",
       "file": "nomad360_return.js",
       "line": 13,
-      "offset": 922,
+      "offset": 1069,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "metadata",
-      "text": "nomad360_wolf_open_circle.png",
+      "text": "assets/nomad360-icons/icon-180.png",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:986:js-string",
+      "id": "nomad360_return.js:1106:js-string",
+      "file": "nomad360_return.js",
+      "line": 13,
+      "offset": 1106,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "metadata",
+      "text": "image/png",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:1118:js-string",
+      "file": "nomad360_return.js",
+      "line": 13,
+      "offset": 1118,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "metadata",
+      "text": "180x180",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:1160:js-string",
       "file": "nomad360_return.js",
       "line": 14,
-      "offset": 986,
+      "offset": 1160,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -329,10 +414,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1003:js-string",
+      "id": "nomad360_return.js:1177:js-string",
       "file": "nomad360_return.js",
       "line": 14,
-      "offset": 1003,
+      "offset": 1177,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -341,10 +426,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1055:js-string",
+      "id": "nomad360_return.js:1229:js-string",
       "file": "nomad360_return.js",
       "line": 15,
-      "offset": 1055,
+      "offset": 1229,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -353,10 +438,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1119:js-string",
+      "id": "nomad360_return.js:1317:js-string",
       "file": "nomad360_return.js",
       "line": 15,
-      "offset": 1119,
+      "offset": 1317,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "metadata",
+      "text": "sizes",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:1350:js-string",
+      "file": "nomad360_return.js",
+      "line": 15,
+      "offset": 1350,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -365,10 +462,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1243:js-string",
+      "id": "nomad360_return.js:1474:js-string",
       "file": "nomad360_return.js",
       "line": 19,
-      "offset": 1243,
+      "offset": 1474,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -377,10 +474,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1319:js-string",
+      "id": "nomad360_return.js:1550:js-string",
       "file": "nomad360_return.js",
       "line": 20,
-      "offset": 1319,
+      "offset": 1550,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -389,10 +486,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1362:js-string",
+      "id": "nomad360_return.js:1593:js-string",
       "file": "nomad360_return.js",
       "line": 20,
-      "offset": 1362,
+      "offset": 1593,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -401,10 +498,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1383:js-string",
+      "id": "nomad360_return.js:1614:js-string",
       "file": "nomad360_return.js",
       "line": 21,
-      "offset": 1383,
+      "offset": 1614,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -413,10 +510,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1416:js-string",
+      "id": "nomad360_return.js:1647:js-string",
       "file": "nomad360_return.js",
       "line": 21,
-      "offset": 1416,
+      "offset": 1647,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -425,10 +522,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1449:js-string",
+      "id": "nomad360_return.js:1680:js-string",
       "file": "nomad360_return.js",
       "line": 21,
-      "offset": 1449,
+      "offset": 1680,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -437,10 +534,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1497:js-string",
+      "id": "nomad360_return.js:1728:js-string",
       "file": "nomad360_return.js",
       "line": 21,
-      "offset": 1497,
+      "offset": 1728,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -449,10 +546,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1515:js-string",
+      "id": "nomad360_return.js:1746:js-string",
       "file": "nomad360_return.js",
       "line": 21,
-      "offset": 1515,
+      "offset": 1746,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -461,10 +558,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1557:js-string",
+      "id": "nomad360_return.js:1788:js-string",
       "file": "nomad360_return.js",
       "line": 22,
-      "offset": 1557,
+      "offset": 1788,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -473,10 +570,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1597:js-string",
+      "id": "nomad360_return.js:1828:js-string",
       "file": "nomad360_return.js",
       "line": 22,
-      "offset": 1597,
+      "offset": 1828,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -485,10 +582,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1607:js-string",
+      "id": "nomad360_return.js:1838:js-string",
       "file": "nomad360_return.js",
       "line": 22,
-      "offset": 1607,
+      "offset": 1838,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -497,10 +594,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1653:js-string",
+      "id": "nomad360_return.js:1884:js-string",
       "file": "nomad360_return.js",
       "line": 23,
-      "offset": 1653,
+      "offset": 1884,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -509,10 +606,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1663:js-string",
+      "id": "nomad360_return.js:1894:js-string",
       "file": "nomad360_return.js",
       "line": 23,
-      "offset": 1663,
+      "offset": 1894,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -521,10 +618,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1669:js-string",
+      "id": "nomad360_return.js:1900:js-string",
       "file": "nomad360_return.js",
       "line": 23,
-      "offset": 1669,
+      "offset": 1900,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -533,10 +630,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1694:js-string",
+      "id": "nomad360_return.js:1925:js-string",
       "file": "nomad360_return.js",
       "line": 23,
-      "offset": 1694,
+      "offset": 1925,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -545,10 +642,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1778:js-string",
+      "id": "nomad360_return.js:2009:js-string",
       "file": "nomad360_return.js",
       "line": 23,
-      "offset": 1778,
+      "offset": 2009,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -557,10 +654,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1800:js-string",
+      "id": "nomad360_return.js:2031:js-string",
       "file": "nomad360_return.js",
       "line": 23,
-      "offset": 1800,
+      "offset": 2031,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -569,10 +666,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1822:js-string",
+      "id": "nomad360_return.js:2053:js-string",
       "file": "nomad360_return.js",
       "line": 23,
-      "offset": 1822,
+      "offset": 2053,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -581,10 +678,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1834:js-string",
+      "id": "nomad360_return.js:2065:js-string",
       "file": "nomad360_return.js",
       "line": 24,
-      "offset": 1834,
+      "offset": 2065,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -593,10 +690,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1872:js-string",
+      "id": "nomad360_return.js:2103:js-string",
       "file": "nomad360_return.js",
       "line": 24,
-      "offset": 1872,
+      "offset": 2103,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -605,10 +702,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1882:js-string",
+      "id": "nomad360_return.js:2113:js-string",
       "file": "nomad360_return.js",
       "line": 24,
-      "offset": 1882,
+      "offset": 2113,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -617,10 +714,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1924:js-string",
+      "id": "nomad360_return.js:2155:js-string",
       "file": "nomad360_return.js",
       "line": 24,
-      "offset": 1924,
+      "offset": 2155,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -629,10 +726,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1936:js-string",
+      "id": "nomad360_return.js:2167:js-string",
       "file": "nomad360_return.js",
       "line": 24,
-      "offset": 1936,
+      "offset": 2167,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -641,10 +738,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:1946:js-string",
+      "id": "nomad360_return.js:2177:js-string",
       "file": "nomad360_return.js",
       "line": 25,
-      "offset": 1946,
+      "offset": 2177,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -653,10 +750,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2046:js-string",
+      "id": "nomad360_return.js:2277:js-string",
       "file": "nomad360_return.js",
       "line": 25,
-      "offset": 2046,
+      "offset": 2277,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -665,10 +762,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2056:js-string",
+      "id": "nomad360_return.js:2287:js-string",
       "file": "nomad360_return.js",
       "line": 26,
-      "offset": 2056,
+      "offset": 2287,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -677,10 +774,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2137:js-string",
+      "id": "nomad360_return.js:2368:js-string",
       "file": "nomad360_return.js",
       "line": 26,
-      "offset": 2137,
+      "offset": 2368,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -689,10 +786,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2148:js-string",
+      "id": "nomad360_return.js:2379:js-string",
       "file": "nomad360_return.js",
       "line": 26,
-      "offset": 2148,
+      "offset": 2379,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -701,10 +798,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2158:js-string",
+      "id": "nomad360_return.js:2389:js-string",
       "file": "nomad360_return.js",
       "line": 26,
-      "offset": 2158,
+      "offset": 2389,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -713,10 +810,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2175:js-string",
+      "id": "nomad360_return.js:2406:js-string",
       "file": "nomad360_return.js",
       "line": 26,
-      "offset": 2175,
+      "offset": 2406,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -725,10 +822,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2316:js-string",
+      "id": "nomad360_return.js:2547:js-string",
       "file": "nomad360_return.js",
       "line": 31,
-      "offset": 2316,
+      "offset": 2547,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -737,10 +834,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2427:js-string",
+      "id": "nomad360_return.js:2658:js-string",
       "file": "nomad360_return.js",
       "line": 32,
-      "offset": 2427,
+      "offset": 2658,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -749,10 +846,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2592:js-string",
+      "id": "nomad360_return.js:2823:js-string",
       "file": "nomad360_return.js",
       "line": 35,
-      "offset": 2592,
+      "offset": 2823,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -761,10 +858,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2669:js-string",
+      "id": "nomad360_return.js:2900:js-string",
       "file": "nomad360_return.js",
       "line": 36,
-      "offset": 2669,
+      "offset": 2900,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -773,10 +870,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2675:js-string",
+      "id": "nomad360_return.js:2906:js-string",
       "file": "nomad360_return.js",
       "line": 36,
-      "offset": 2675,
+      "offset": 2906,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -785,10 +882,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2687:js-string",
+      "id": "nomad360_return.js:2918:js-string",
       "file": "nomad360_return.js",
       "line": 36,
-      "offset": 2687,
+      "offset": 2918,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -797,10 +894,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2702:js-string",
+      "id": "nomad360_return.js:2933:js-string",
       "file": "nomad360_return.js",
       "line": 36,
-      "offset": 2702,
+      "offset": 2933,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -809,10 +906,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2729:js-string",
+      "id": "nomad360_return.js:2960:js-string",
       "file": "nomad360_return.js",
       "line": 37,
-      "offset": 2729,
+      "offset": 2960,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -821,10 +918,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2812:js-string",
+      "id": "nomad360_return.js:3043:js-string",
       "file": "nomad360_return.js",
       "line": 37,
-      "offset": 2812,
+      "offset": 3043,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -833,10 +930,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2826:js-string",
+      "id": "nomad360_return.js:3057:js-string",
       "file": "nomad360_return.js",
       "line": 37,
-      "offset": 2826,
+      "offset": 3057,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -845,10 +942,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2842:js-string",
+      "id": "nomad360_return.js:3073:js-string",
       "file": "nomad360_return.js",
       "line": 37,
-      "offset": 2842,
+      "offset": 3073,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -857,10 +954,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2856:js-string",
+      "id": "nomad360_return.js:3087:js-string",
       "file": "nomad360_return.js",
       "line": 37,
-      "offset": 2856,
+      "offset": 3087,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -869,10 +966,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2870:js-string",
+      "id": "nomad360_return.js:3101:js-string",
       "file": "nomad360_return.js",
       "line": 37,
-      "offset": 2870,
+      "offset": 3101,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -881,10 +978,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2896:js-string",
+      "id": "nomad360_return.js:3127:js-string",
       "file": "nomad360_return.js",
       "line": 37,
-      "offset": 2896,
+      "offset": 3127,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -893,10 +990,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2907:js-string",
+      "id": "nomad360_return.js:3138:js-string",
       "file": "nomad360_return.js",
       "line": 38,
-      "offset": 2907,
+      "offset": 3138,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -905,10 +1002,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2982:js-string",
+      "id": "nomad360_return.js:3213:js-string",
       "file": "nomad360_return.js",
       "line": 38,
-      "offset": 2982,
+      "offset": 3213,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -917,10 +1014,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:2992:js-string",
+      "id": "nomad360_return.js:3223:js-string",
       "file": "nomad360_return.js",
       "line": 38,
-      "offset": 2992,
+      "offset": 3223,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -929,10 +1026,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3032:js-string",
+      "id": "nomad360_return.js:3263:js-string",
       "file": "nomad360_return.js",
       "line": 38,
-      "offset": 3032,
+      "offset": 3263,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -941,10 +1038,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3042:js-string",
+      "id": "nomad360_return.js:3273:js-string",
       "file": "nomad360_return.js",
       "line": 38,
-      "offset": 3042,
+      "offset": 3273,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -953,10 +1050,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3071:js-string",
+      "id": "nomad360_return.js:3302:js-string",
       "file": "nomad360_return.js",
       "line": 39,
-      "offset": 3071,
+      "offset": 3302,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -965,10 +1062,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3097:js-string",
+      "id": "nomad360_return.js:3328:js-string",
       "file": "nomad360_return.js",
       "line": 39,
-      "offset": 3097,
+      "offset": 3328,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -977,10 +1074,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3108:js-string",
+      "id": "nomad360_return.js:3339:js-string",
       "file": "nomad360_return.js",
       "line": 39,
-      "offset": 3108,
+      "offset": 3339,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -989,10 +1086,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3126:js-string",
+      "id": "nomad360_return.js:3357:js-string",
       "file": "nomad360_return.js",
       "line": 39,
-      "offset": 3126,
+      "offset": 3357,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1001,10 +1098,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3137:js-string",
+      "id": "nomad360_return.js:3368:js-string",
       "file": "nomad360_return.js",
       "line": 40,
-      "offset": 3137,
+      "offset": 3368,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1013,10 +1110,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3265:js-string",
+      "id": "nomad360_return.js:3496:js-string",
       "file": "nomad360_return.js",
       "line": 40,
-      "offset": 3265,
+      "offset": 3496,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1025,10 +1122,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3278:js-string",
+      "id": "nomad360_return.js:3509:js-string",
       "file": "nomad360_return.js",
       "line": 40,
-      "offset": 3278,
+      "offset": 3509,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1037,10 +1134,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3308:js-string",
+      "id": "nomad360_return.js:3539:js-string",
       "file": "nomad360_return.js",
       "line": 40,
-      "offset": 3308,
+      "offset": 3539,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1049,10 +1146,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3316:js-string",
+      "id": "nomad360_return.js:3547:js-string",
       "file": "nomad360_return.js",
       "line": 40,
-      "offset": 3316,
+      "offset": 3547,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1061,10 +1158,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3352:js-string",
+      "id": "nomad360_return.js:3583:js-string",
       "file": "nomad360_return.js",
       "line": 41,
-      "offset": 3352,
+      "offset": 3583,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1073,34 +1170,34 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3362:js-string",
+      "id": "nomad360_return.js:3593:js-string",
       "file": "nomad360_return.js",
       "line": 41,
-      "offset": 3362,
+      "offset": 3593,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "renderHelp",
-      "text": "<h3>",
+      "text": "<section><h3>",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3375:js-string",
+      "id": "nomad360_return.js:3615:js-string",
       "file": "nomad360_return.js",
       "line": 41,
-      "offset": 3375,
+      "offset": 3615,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
       "context": "renderHelp",
-      "text": "windowsFallbackTitle",
+      "text": "windowsIconTitle",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3400:js-string",
+      "id": "nomad360_return.js:3636:js-string",
       "file": "nomad360_return.js",
       "line": 41,
-      "offset": 3400,
+      "offset": 3636,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1109,10 +1206,82 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3417:js-string",
+      "id": "nomad360_return.js:3653:js-string",
       "file": "nomad360_return.js",
       "line": 41,
-      "offset": 3417,
+      "offset": 3653,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "renderHelp",
+      "text": "windowsIconHelp",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:3673:js-string",
+      "file": "nomad360_return.js",
+      "line": 41,
+      "offset": 3673,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "renderHelp",
+      "text": "</p><button type=\"button\" data-return-icon data-help-control=\"icon\">",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:3750:js-string",
+      "file": "nomad360_return.js",
+      "line": 41,
+      "offset": 3750,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "renderHelp",
+      "text": "windowsIconDownload",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:3774:js-string",
+      "file": "nomad360_return.js",
+      "line": 41,
+      "offset": 3774,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "renderHelp",
+      "text": "</button><p class=\"nomad-return-icon-status\" role=\"status\" aria-live=\"polite\"></p></section><h3>",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:3879:js-string",
+      "file": "nomad360_return.js",
+      "line": 41,
+      "offset": 3879,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "renderHelp",
+      "text": "windowsFallbackTitle",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:3904:js-string",
+      "file": "nomad360_return.js",
+      "line": 41,
+      "offset": 3904,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "renderHelp",
+      "text": "</h3><p>",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:3921:js-string",
+      "file": "nomad360_return.js",
+      "line": 41,
+      "offset": 3921,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1121,10 +1290,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3437:js-string",
+      "id": "nomad360_return.js:3941:js-string",
       "file": "nomad360_return.js",
       "line": 41,
-      "offset": 3437,
+      "offset": 3941,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1133,10 +1302,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3457:js-string",
+      "id": "nomad360_return.js:3961:js-string",
       "file": "nomad360_return.js",
       "line": 42,
-      "offset": 3457,
+      "offset": 3961,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1145,10 +1314,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3503:js-string",
+      "id": "nomad360_return.js:4007:js-string",
       "file": "nomad360_return.js",
       "line": 42,
-      "offset": 3503,
+      "offset": 4007,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1157,10 +1326,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3515:js-string",
+      "id": "nomad360_return.js:4019:js-string",
       "file": "nomad360_return.js",
       "line": 42,
-      "offset": 3515,
+      "offset": 4019,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1169,10 +1338,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3627:js-string",
+      "id": "nomad360_return.js:4131:js-string",
       "file": "nomad360_return.js",
       "line": 42,
-      "offset": 3627,
+      "offset": 4131,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1181,10 +1350,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3635:js-string",
+      "id": "nomad360_return.js:4139:js-string",
       "file": "nomad360_return.js",
       "line": 43,
-      "offset": 3635,
+      "offset": 4139,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1193,10 +1362,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3708:js-string",
+      "id": "nomad360_return.js:4212:js-string",
       "file": "nomad360_return.js",
       "line": 43,
-      "offset": 3708,
+      "offset": 4212,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1205,10 +1374,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3717:js-string",
+      "id": "nomad360_return.js:4221:js-string",
       "file": "nomad360_return.js",
       "line": 43,
-      "offset": 3717,
+      "offset": 4221,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1217,10 +1386,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3854:js-string",
+      "id": "nomad360_return.js:4358:js-string",
       "file": "nomad360_return.js",
       "line": 44,
-      "offset": 3854,
+      "offset": 4358,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1229,10 +1398,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3883:js-string",
+      "id": "nomad360_return.js:4387:js-string",
       "file": "nomad360_return.js",
       "line": 44,
-      "offset": 3883,
+      "offset": 4387,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1241,10 +1410,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3956:js-string",
+      "id": "nomad360_return.js:4460:js-string",
       "file": "nomad360_return.js",
       "line": 47,
-      "offset": 3956,
+      "offset": 4460,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1253,10 +1422,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3966:js-string",
+      "id": "nomad360_return.js:4470:js-string",
       "file": "nomad360_return.js",
       "line": 47,
-      "offset": 3966,
+      "offset": 4470,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1265,10 +1434,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:3972:js-string",
+      "id": "nomad360_return.js:4476:js-string",
       "file": "nomad360_return.js",
       "line": 47,
-      "offset": 3972,
+      "offset": 4476,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1277,10 +1446,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4076:js-string",
+      "id": "nomad360_return.js:4580:js-string",
       "file": "nomad360_return.js",
       "line": 50,
-      "offset": 4076,
+      "offset": 4580,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1289,10 +1458,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4094:js-string",
+      "id": "nomad360_return.js:4598:js-string",
       "file": "nomad360_return.js",
       "line": 50,
-      "offset": 4094,
+      "offset": 4598,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1301,10 +1470,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4132:js-string",
+      "id": "nomad360_return.js:4636:js-string",
       "file": "nomad360_return.js",
       "line": 50,
-      "offset": 4132,
+      "offset": 4636,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1313,10 +1482,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4172:js-string",
+      "id": "nomad360_return.js:4676:js-string",
       "file": "nomad360_return.js",
       "line": 50,
-      "offset": 4172,
+      "offset": 4676,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1325,10 +1494,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4220:js-string",
+      "id": "nomad360_return.js:4724:js-string",
       "file": "nomad360_return.js",
       "line": 50,
-      "offset": 4220,
+      "offset": 4724,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1337,10 +1506,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4238:js-string",
+      "id": "nomad360_return.js:4742:js-string",
       "file": "nomad360_return.js",
       "line": 50,
-      "offset": 4238,
+      "offset": 4742,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1349,10 +1518,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4286:js-string",
+      "id": "nomad360_return.js:4790:js-string",
       "file": "nomad360_return.js",
       "line": 50,
-      "offset": 4286,
+      "offset": 4790,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1361,10 +1530,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4299:js-string",
+      "id": "nomad360_return.js:4803:js-string",
       "file": "nomad360_return.js",
       "line": 50,
-      "offset": 4299,
+      "offset": 4803,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1373,10 +1542,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4359:js-string",
+      "id": "nomad360_return.js:4863:js-string",
       "file": "nomad360_return.js",
       "line": 51,
-      "offset": 4359,
+      "offset": 4863,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1385,10 +1554,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4394:js-string",
+      "id": "nomad360_return.js:4898:js-string",
       "file": "nomad360_return.js",
       "line": 51,
-      "offset": 4394,
+      "offset": 4898,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1397,10 +1566,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4433:js-string",
+      "id": "nomad360_return.js:4937:js-string",
       "file": "nomad360_return.js",
       "line": 51,
-      "offset": 4433,
+      "offset": 4937,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1409,10 +1578,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4494:js-string",
+      "id": "nomad360_return.js:4998:js-string",
       "file": "nomad360_return.js",
       "line": 52,
-      "offset": 4494,
+      "offset": 4998,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1421,10 +1590,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4531:js-string",
+      "id": "nomad360_return.js:5035:js-string",
       "file": "nomad360_return.js",
       "line": 53,
-      "offset": 4531,
+      "offset": 5035,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1433,10 +1602,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:4589:js-string",
+      "id": "nomad360_return.js:5093:js-string",
       "file": "nomad360_return.js",
       "line": 54,
-      "offset": 4589,
+      "offset": 5093,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1445,10 +1614,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5010:js-string",
+      "id": "nomad360_return.js:5514:js-string",
       "file": "nomad360_return.js",
       "line": 60,
-      "offset": 5010,
+      "offset": 5514,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1457,10 +1626,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5182:js-string",
+      "id": "nomad360_return.js:5761:js-string",
       "file": "nomad360_return.js",
-      "line": 65,
-      "offset": 5182,
+      "line": 66,
+      "offset": 5761,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L5",
@@ -1469,10 +1638,46 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5241:js-string",
+      "id": "nomad360_return.js:5806:js-string",
       "file": "nomad360_return.js",
-      "line": 65,
-      "offset": 5241,
+      "line": 66,
+      "offset": 5806,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "windowsDownload",
+      "text": "\r\nIconFile=",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:5830:js-string",
+      "file": "nomad360_return.js",
+      "line": 66,
+      "offset": 5830,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "windowsDownload",
+      "text": "assets/nomad360-icons/nomad360.ico",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:5881:js-string",
+      "file": "nomad360_return.js",
+      "line": 66,
+      "offset": 5881,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "windowsDownload",
+      "text": "\r\nIconIndex=0\r\n",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:5910:js-string",
+      "file": "nomad360_return.js",
+      "line": 66,
+      "offset": 5910,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L5",
@@ -1481,10 +1686,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5325:js-string",
+      "id": "nomad360_return.js:5994:js-string",
       "file": "nomad360_return.js",
-      "line": 65,
-      "offset": 5325,
+      "line": 66,
+      "offset": 5994,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L5",
@@ -1493,10 +1698,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5355:js-string",
+      "id": "nomad360_return.js:6024:js-string",
       "file": "nomad360_return.js",
-      "line": 66,
-      "offset": 5355,
+      "line": 67,
+      "offset": 6024,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L5",
@@ -1505,10 +1710,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5509:js-string",
+      "id": "nomad360_return.js:6178:js-string",
       "file": "nomad360_return.js",
-      "line": 67,
-      "offset": 5509,
+      "line": 68,
+      "offset": 6178,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L5",
@@ -1517,10 +1722,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5572:js-string",
+      "id": "nomad360_return.js:6241:js-string",
       "file": "nomad360_return.js",
-      "line": 68,
-      "offset": 5572,
+      "line": 69,
+      "offset": 6241,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L5",
@@ -1529,10 +1734,94 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5624:js-regex",
+      "id": "nomad360_return.js:6336:js-string",
       "file": "nomad360_return.js",
-      "line": 71,
-      "offset": 5624,
+      "line": 73,
+      "offset": 6336,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "downloadIcon",
+      "text": "assets/nomad360-icons/nomad360.ico",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:6406:js-string",
+      "file": "nomad360_return.js",
+      "line": 73,
+      "offset": 6406,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "downloadIcon",
+      "text": "Icon unavailable",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:6507:js-string",
+      "file": "nomad360_return.js",
+      "line": 74,
+      "offset": 6507,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "downloadIcon",
+      "text": "a",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:6534:js-string",
+      "file": "nomad360_return.js",
+      "line": 74,
+      "offset": 6534,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "downloadIcon",
+      "text": "Nomad360.ico",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:6683:js-string",
+      "file": "nomad360_return.js",
+      "line": 75,
+      "offset": 6683,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "downloadIcon",
+      "text": "Nomad360 icon download:",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:6757:js-string",
+      "file": "nomad360_return.js",
+      "line": 75,
+      "offset": 6757,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "downloadIcon",
+      "text": ".nomad-return-icon-status",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:6817:js-string",
+      "file": "nomad360_return.js",
+      "line": 75,
+      "offset": 6817,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L5",
+      "context": "downloadIcon",
+      "text": "windowsIconError",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:6879:js-regex",
+      "file": "nomad360_return.js",
+      "line": 78,
+      "offset": 6879,
       "kind": "js-regex",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1543,10 +1832,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5704:js-string",
+      "id": "nomad360_return.js:6959:js-string",
       "file": "nomad360_return.js",
-      "line": 71,
-      "offset": 5704,
+      "line": 78,
+      "offset": 6959,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1555,10 +1844,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5943:js-string",
+      "id": "nomad360_return.js:7198:js-string",
       "file": "nomad360_return.js",
-      "line": 75,
-      "offset": 5943,
+      "line": 82,
+      "offset": 7198,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1567,10 +1856,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5973:js-string",
+      "id": "nomad360_return.js:7228:js-string",
       "file": "nomad360_return.js",
-      "line": 75,
-      "offset": 5973,
+      "line": 82,
+      "offset": 7228,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1579,10 +1868,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5984:js-string",
+      "id": "nomad360_return.js:7239:js-string",
       "file": "nomad360_return.js",
-      "line": 75,
-      "offset": 5984,
+      "line": 82,
+      "offset": 7239,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1591,10 +1880,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:5995:js-string",
+      "id": "nomad360_return.js:7250:js-string",
       "file": "nomad360_return.js",
-      "line": 75,
-      "offset": 5995,
+      "line": 82,
+      "offset": 7250,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1603,10 +1892,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6033:js-string",
+      "id": "nomad360_return.js:7288:js-string",
       "file": "nomad360_return.js",
-      "line": 76,
-      "offset": 6033,
+      "line": 83,
+      "offset": 7288,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1615,10 +1904,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6160:js-string",
+      "id": "nomad360_return.js:7415:js-string",
       "file": "nomad360_return.js",
-      "line": 79,
-      "offset": 6160,
+      "line": 86,
+      "offset": 7415,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1627,10 +1916,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6203:js-string",
+      "id": "nomad360_return.js:7458:js-string",
       "file": "nomad360_return.js",
-      "line": 79,
-      "offset": 6203,
+      "line": 86,
+      "offset": 7458,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1639,10 +1928,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6260:js-string",
+      "id": "nomad360_return.js:7515:js-string",
       "file": "nomad360_return.js",
-      "line": 80,
-      "offset": 6260,
+      "line": 87,
+      "offset": 7515,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1651,10 +1940,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6336:js-string",
+      "id": "nomad360_return.js:7591:js-string",
       "file": "nomad360_return.js",
-      "line": 80,
-      "offset": 6336,
+      "line": 87,
+      "offset": 7591,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1663,10 +1952,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6379:js-string",
+      "id": "nomad360_return.js:7634:js-string",
       "file": "nomad360_return.js",
-      "line": 80,
-      "offset": 6379,
+      "line": 87,
+      "offset": 7634,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1675,10 +1964,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6465:js-string",
+      "id": "nomad360_return.js:7720:js-string",
       "file": "nomad360_return.js",
-      "line": 84,
-      "offset": 6465,
+      "line": 91,
+      "offset": 7720,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1687,10 +1976,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6518:js-string",
+      "id": "nomad360_return.js:7773:js-string",
       "file": "nomad360_return.js",
-      "line": 85,
-      "offset": 6518,
+      "line": 92,
+      "offset": 7773,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1699,10 +1988,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6590:js-string",
+      "id": "nomad360_return.js:7845:js-string",
       "file": "nomad360_return.js",
-      "line": 85,
-      "offset": 6590,
+      "line": 92,
+      "offset": 7845,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1711,10 +2000,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6628:js-string",
+      "id": "nomad360_return.js:7883:js-string",
       "file": "nomad360_return.js",
-      "line": 85,
-      "offset": 6628,
+      "line": 92,
+      "offset": 7883,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1723,10 +2012,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6675:js-string",
+      "id": "nomad360_return.js:7930:js-string",
       "file": "nomad360_return.js",
-      "line": 85,
-      "offset": 6675,
+      "line": 92,
+      "offset": 7930,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1735,10 +2024,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6690:js-string",
+      "id": "nomad360_return.js:7945:js-string",
       "file": "nomad360_return.js",
-      "line": 85,
-      "offset": 6690,
+      "line": 92,
+      "offset": 7945,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1747,10 +2036,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6716:js-string",
+      "id": "nomad360_return.js:7971:js-string",
       "file": "nomad360_return.js",
-      "line": 85,
-      "offset": 6716,
+      "line": 92,
+      "offset": 7971,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1759,10 +2048,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6778:js-string",
+      "id": "nomad360_return.js:8033:js-string",
       "file": "nomad360_return.js",
-      "line": 86,
-      "offset": 6778,
+      "line": 93,
+      "offset": 8033,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1771,10 +2060,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6851:js-string",
+      "id": "nomad360_return.js:8106:js-string",
       "file": "nomad360_return.js",
-      "line": 87,
-      "offset": 6851,
+      "line": 94,
+      "offset": 8106,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1783,10 +2072,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6923:js-string",
+      "id": "nomad360_return.js:8178:js-string",
       "file": "nomad360_return.js",
-      "line": 88,
-      "offset": 6923,
+      "line": 95,
+      "offset": 8178,
+      "kind": "js-string",
+      "owner": "nomad360_return.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "[data-return-icon]",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_return.js:8251:js-string",
+      "file": "nomad360_return.js",
+      "line": 96,
+      "offset": 8251,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1795,10 +2096,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6954:js-string",
+      "id": "nomad360_return.js:8282:js-string",
       "file": "nomad360_return.js",
-      "line": 88,
-      "offset": 6954,
+      "line": 96,
+      "offset": 8282,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1807,10 +2108,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:6998:js-string",
+      "id": "nomad360_return.js:8326:js-string",
       "file": "nomad360_return.js",
-      "line": 90,
-      "offset": 6998,
+      "line": 98,
+      "offset": 8326,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1819,10 +2120,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:7060:js-string",
+      "id": "nomad360_return.js:8388:js-string",
       "file": "nomad360_return.js",
-      "line": 91,
-      "offset": 7060,
+      "line": 99,
+      "offset": 8388,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1831,10 +2132,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:7119:js-string",
+      "id": "nomad360_return.js:8447:js-string",
       "file": "nomad360_return.js",
-      "line": 93,
-      "offset": 7119,
+      "line": 101,
+      "offset": 8447,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1843,10 +2144,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:7174:js-string",
+      "id": "nomad360_return.js:8502:js-string",
       "file": "nomad360_return.js",
-      "line": 93,
-      "offset": 7174,
+      "line": 101,
+      "offset": 8502,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1855,10 +2156,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:7257:js-string",
+      "id": "nomad360_return.js:8585:js-string",
       "file": "nomad360_return.js",
-      "line": 94,
-      "offset": 7257,
+      "line": 102,
+      "offset": 8585,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1867,10 +2168,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:7322:js-string",
+      "id": "nomad360_return.js:8650:js-string",
       "file": "nomad360_return.js",
-      "line": 94,
-      "offset": 7322,
+      "line": 102,
+      "offset": 8650,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1879,10 +2180,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:7411:js-string",
+      "id": "nomad360_return.js:8739:js-string",
       "file": "nomad360_return.js",
-      "line": 96,
-      "offset": 7411,
+      "line": 104,
+      "offset": 8739,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",
@@ -1891,10 +2192,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_return.js:7447:js-string",
+      "id": "nomad360_return.js:8775:js-string",
       "file": "nomad360_return.js",
-      "line": 96,
-      "offset": 7447,
+      "line": 104,
+      "offset": 8775,
       "kind": "js-string",
       "owner": "nomad360_return.js",
       "stage": "L2",

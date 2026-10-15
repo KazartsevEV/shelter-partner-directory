@@ -1492,6 +1492,12 @@ messages.push(
  ["report.ownerLoanFunding","Owner / loan funding","Внесено денег","Өз қаражаты / несие"],
  ["report.availableCash2","Available cash","Свободные деньги","Available Cash"]
 );
+messages.push(
+ ["return.windowsIconTitle","Shortcut icon","Значок ярлыка","Төте жол белгішесі"],
+ ["return.windowsIconHelp","If Windows shows a browser icon, download the Nomad360 icon below and keep it in a permanent folder. Right-click your desktop shortcut → Properties → Change Icon → Browse. Select Nomad360.ico, then OK → Apply. Keep the icon file in that folder.","Если Windows показывает значок браузера, скачайте значок Nomad360 ниже и сохраните его в постоянной папке. Нажмите правой кнопкой по ярлыку на рабочем столе → «Свойства» → «Сменить значок» → «Обзор». Выберите Nomad360.ico, затем «ОК» → «Применить». Не перемещайте файл значка из этой папки.","Windows браузер белгішесін көрсетсе, төмендегі Nomad360 белгішесін жүктеп алып, тұрақты қалтаға сақтаңыз. Жұмыс үстеліндегі төте жолды тінтуірдің оң жақ түймесімен басыңыз → «Сипаттар» → «Белгішені өзгерту» → «Шолу». Nomad360.ico файлын таңдап, «ОК» → «Қолдану» түймелерін басыңыз. Белгіше файлын осы қалтадан жылжытпаңыз."],
+ ["return.windowsIconDownload","Download Nomad360 icon (.ico)","Скачать значок Nomad360 (.ico)","Nomad360 белгішесін жүктеп алу (.ico)"],
+ ["return.windowsIconError","The icon could not be downloaded. Check your connection and try again.","Не удалось скачать значок. Проверьте подключение и попробуйте ещё раз.","Белгіше жүктелмеді. Байланысты тексеріп, қайталап көріңіз."],
+);
 const catalog=new Map(),aliases=new Map(),diagnostics=new Map();
 /* Dated task-5 scenario labels; product/material names are user data. */
 messages.push(

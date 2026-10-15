@@ -3,16 +3,16 @@
 'use strict';
 if(root.Nomad360Return||document.documentElement.hasAttribute('data-nomad-embedded'))return;
 const address='https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML';
-const assetBase='https://kazartsevev.github.io/shelter-partner-directory/';
+const assetBase=new URL('.',document.currentScript?.src||address).href;
 let deferredPrompt=null,installed=false,helpPlatform=null,help=null,statusKey=null;
 const lang=()=>root.Nomad360UI?.getLanguage()||document.documentElement.lang||'ru';
 const t=key=>root.Nomad360LocaleCore.t('return.'+key,lang());
 const esc=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const calculatorUrl=()=>address+'?lang='+(['ru','en','kk'].includes(lang())?lang():'ru');
 function metadata(){
- for(const [rel,href] of [['manifest','nomad360.webmanifest'],['apple-touch-icon','nomad360_wolf_open_circle.png']]){
+ for(const [rel,href,type,sizes] of [['manifest','nomad360.webmanifest','application/manifest+json',''],['icon','assets/nomad360-icons/nomad360.ico','image/x-icon','16x16 24x24 32x32 48x48 64x64 128x128 256x256'],['apple-touch-icon','assets/nomad360-icons/icon-180.png','image/png','180x180']]){
   if(document.querySelector('link[rel="'+rel+'"]'))continue;
-  const link=document.createElement('link');link.rel=rel;link.href=assetBase+href;link.setAttribute('data-nomad-return-metadata','');document.head.append(link);
+  const link=document.createElement('link');link.rel=rel;link.href=assetBase+href;link.type=type;if(sizes)link.setAttribute('sizes',sizes);link.setAttribute('data-nomad-return-metadata','');document.head.append(link);
  }
 }
 function render(){
@@ -38,7 +38,7 @@ function renderHelp(){
   '<button type="button" data-return-close data-help-control="close">'+esc(t('close'))+'</button></div><p>'+esc(t(helpPlatform+'Intro'))+'</p><ol>'+
   [1,2,3].map(n=>'<li>'+esc(t(helpPlatform+'Step'+n))+'</li>').join('')+'</ol>'+
   '<section class="nomad-return-usage" aria-labelledby="nomad360-return-usage-title"><h3 id="nomad360-return-usage-title">'+esc(t('useTitle'))+'</h3><p>'+esc(t(helpPlatform+'Use'))+'</p></section>'+
-  (helpPlatform==='windows'?'<h3>'+esc(t('windowsFallbackTitle'))+'</h3><p>'+esc(t('windowsFallback'))+'</p>':'')+extra+
+  (helpPlatform==='windows'?'<section><h3>'+esc(t('windowsIconTitle'))+'</h3><p>'+esc(t('windowsIconHelp'))+'</p><button type="button" data-return-icon data-help-control="icon">'+esc(t('windowsIconDownload'))+'</button><p class="nomad-return-icon-status" role="status" aria-live="polite"></p></section><h3>'+esc(t('windowsFallbackTitle'))+'</h3><p>'+esc(t('windowsFallback'))+'</p>':'')+extra+
   '<label for="nomad360-return-address">'+esc(t('address'))+'</label><input id="nomad360-return-address" readonly data-help-control="address" value="'+esc(calculatorUrl())+'">'+
   '<button type="button" data-return-copy data-help-control="copy">'+esc(t('copy'))+'</button><p class="nomad-return-copy-status" role="status" aria-live="polite"></p>';
  help.scrollTop=scroll;if(focus)help.querySelector('[data-help-control="'+focus+'"]')?.focus({preventScroll:true});
@@ -60,12 +60,19 @@ function openHelp(platform){
  renderHelp();if(!help.open)help.showModal();help.querySelector('[data-return-close]').focus();
 }
 function windowsDownload(){
- // A plain Internet Shortcut contains only the known HTTPS URL and no commands.
+ // Windows can ignore a web icon path: the dialog also offers the real ICO
+ // for choosing a local icon in shortcut Properties. No executable or command.
  try{
-  const blob=new Blob(['[InternetShortcut]\r\nURL='+calculatorUrl()+'\r\n'],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  const blob=new Blob(['[InternetShortcut]\r\nURL='+calculatorUrl()+'\r\nIconFile='+new URL('assets/nomad360-icons/nomad360.ico',address).href+'\r\nIconIndex=0\r\n'],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download='Nomad360-lite.url';document.body.append(a);a.click();a.remove();root.setTimeout(()=>URL.revokeObjectURL(url),60000);
  }catch(error){root.console?.info?.('Nomad360: use the manual shortcut instructions.');}
  openHelp('windows');
+}
+async function downloadIcon(){
+ try{
+  const response=await root.fetch(assetBase+'assets/nomad360-icons/nomad360.ico');if(!response.ok)throw new Error('Icon unavailable');
+  const url=URL.createObjectURL(await response.blob()),a=document.createElement('a');a.href=url;a.download='Nomad360.ico';document.body.append(a);a.click();a.remove();root.setTimeout(()=>URL.revokeObjectURL(url),60000);
+ }catch(error){root.console?.info?.('Nomad360 icon download:',error.message);const status=help?.querySelector('.nomad-return-icon-status');if(status)status.textContent=t('windowsIconError');}
 }
 async function androidInstall(){
  if(!/Android/i.test(root.navigator.userAgent)||!deferredPrompt||installed){openHelp('android');return;}
@@ -85,6 +92,7 @@ function boot(){
   const action=event.target.closest('[data-return-platform]');if(action){const platform=action.getAttribute('data-return-platform');if(platform==='windows')windowsDownload();else if(platform==='ios')openHelp('ios');else if(platform==='android')androidInstall();return;}
   if(event.target.closest('[data-return-close]')){help?.close();return;}
   if(event.target.closest('[data-return-copy]')){copyAddress();return;}
+  if(event.target.closest('[data-return-icon]')){downloadIcon();return;}
   if(event.target.closest('[data-return-help]'))openHelp('android');
  });
  document.addEventListener('nomad360:languagechange',render);

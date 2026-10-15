@@ -1,0 +1,112 @@
+{
+  "source": "nomad360_wolf_open_circle.png",
+  "sourceSha256": "072616c1ccb94722549f10ac65e0f2a9a5669faee666904ba25c2ef68dc682ee",
+  "build": "scripts/build-return-icons.py; Pillow==12.3.0; resize and composite only, no redrawing",
+  "assets": [
+    {
+      "file": "assets/nomad360-icons/icon-180.png",
+      "sha256": "792d42fd3437acab222163dd2bc68cd96ca69504a322a0e63acfac9219d433cd",
+      "bytes": 12599,
+      "format": "PNG",
+      "mode": "RGB",
+      "size": [
+        180,
+        180
+      ],
+      "corner": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    {
+      "file": "assets/nomad360-icons/icon-192.png",
+      "sha256": "9849e2620c55a421ab81f38d73ec0d453e36f8301e5a08b3573eb353e63aeeb5",
+      "bytes": 13965,
+      "format": "PNG",
+      "mode": "RGB",
+      "size": [
+        192,
+        192
+      ],
+      "corner": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    {
+      "file": "assets/nomad360-icons/icon-512.png",
+      "sha256": "f3eaa1c2553d3046569b99b7f84ec7acd4288c62685f64d62ae98681504b7a0a",
+      "bytes": 75679,
+      "format": "PNG",
+      "mode": "RGB",
+      "size": [
+        512,
+        512
+      ],
+      "corner": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    {
+      "file": "assets/nomad360-icons/nomad360.ico",
+      "sha256": "a5b5d4cfd10719e6a8dfa2483142342e89eafed45b456693cd73f5fae04d18ce",
+      "bytes": 38999,
+      "format": "ICO",
+      "mode": "RGB",
+      "size": [
+        256,
+        256
+      ],
+      "corner": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "sizes": [
+        [
+          16,
+          16
+        ],
+        [
+          24,
+          24
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          64,
+          64
+        ],
+        [
+          128,
+          128
+        ],
+        [
+          256,
+          256
+        ]
+      ]
+    }
+  ],
+  "verification": {
+    "unit": "Opaque RGB PNGs and all seven ICO entries decoded; white border/corner pixels; logo colours present",
+    "chromium": "26 cases; 21 UI cases and 5 synthetic installation events. Apple icon decoded on canvas; three real ICO downloads byte-identical to tested asset; localized failed-download state tested.",
+    "windows": "IconFile HTTPS hint plus local ICO download and Properties instructions; physical Windows rendering unverified",
+    "iosAndroid": "Physical installation unverified; correct metadata/assets supplied",
+    "published": false
+  }
+}

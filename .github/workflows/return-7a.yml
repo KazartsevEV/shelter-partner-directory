@@ -7,6 +7,8 @@ on:
       - 'nomad360*.js'
       - 'nomad360*.css'
       - 'nomad360.webmanifest'
+      - 'assets/nomad360-icons/**'
+      - 'scripts/build-return-icons.py'
       - 'tests/return_7a*'
       - 'tests/helpers/return-contract.cjs'
       - 'docs/reviews/return-7a/**'

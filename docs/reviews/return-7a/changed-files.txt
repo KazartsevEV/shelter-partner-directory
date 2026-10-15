@@ -1,5 +1,9 @@
 .github/workflows/return-7a.yml
 Marketing_calc.HTML
+assets/nomad360-icons/icon-180.png
+assets/nomad360-icons/icon-192.png
+assets/nomad360-icons/icon-512.png
+assets/nomad360-icons/nomad360.ico
 docs/localization/l0/candidates.json
 docs/localization/l0/catalog.json
 docs/localization/l0/entries/nomad360_calculator_ui.js/002.json
@@ -163,6 +167,7 @@ docs/reviews/return-7a/intro/ru-390.png
 docs/reviews/return-7a/intro/ru-768.png
 docs/reviews/return-7a/manifest.json
 docs/reviews/return-7a/scope-base-regression.json
+docs/reviews/return-7a/shortcut-icons.json
 docs/reviews/return-7a/sources.json
 nomad360.webmanifest
 nomad360_calculator_ui.css
@@ -170,6 +175,7 @@ nomad360_calculator_ui.js
 nomad360_header.js
 nomad360_locale_core.js
 nomad360_return.js
+scripts/build-return-icons.py
 scripts/seo/check_phase_a.py
 tests/helpers/return-contract.cjs
 tests/helpers/seo-html-contract.cjs

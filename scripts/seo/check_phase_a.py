@@ -97,6 +97,9 @@ def main():
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/')) or p in (
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
+        'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
+        'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
+        'assets/nomad360-icons/icon-512.png',
         'tests/return_7a_browser.cjs', 'tests/return_7a_scope.test.cjs', 'tests/helpers/return-contract.cjs',
         '.github/workflows/return-7a.yml',
         'nomad360_header.js', 'nomad360_locale_core.js', 'assets/nomad360-legal.css',

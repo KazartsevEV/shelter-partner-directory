@@ -7,7 +7,7 @@ const embed="      // RET-07A: independent embeds do not promote shortcuts to th
 function stripReturn(file,source){
  if(file==='Marketing_calc.HTML')return source.replace(script,'');
  if(file==='nomad360_calculator_ui.css')return source.split('\n/* RET-07A presentation additions. */')[0];
- if(file==='nomad360_locale_core.js')return source.replace(/^ \["return\.[^\n]+\n/gm,'');
+ if(file==='nomad360_locale_core.js')return source.replace(/messages\.push\(\n( \[\"return\.[^\n]+\n)+\);\n/g,'').replace(/^ \["return\.[^\n]+\n/gm,'');
  if(file==='nomad360_calculator_ui.js')return source.replace("  heroNode.querySelector('h3').after(intro.querySelector('.nomad-intro-cta'));\n",'').replace("  (document.getElementById('nomad360-seo-banner')||heroNode).after(intro);","  if(!intro.isConnected)heroNode.after(intro);");
  if(file==='nomad360_header.js')return source
   .replace(/  \/\/ RET-07A about icons:[\s\S]*?  \/\/ RET-07A about icons end\.\n/,'')
