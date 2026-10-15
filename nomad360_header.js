@@ -63,6 +63,8 @@
     "menu": "Открыть меню",
     "close": "Закрыть меню",
     "about": "О проекте",
+    "aboutBrand": "Nomad 360 - зонтичный бренд интеллектуальных сервисов для предпринимателей.",
+    "aboutMotto": ["Устанавливаем связи.", "Строим структуру.", "Открываем горизонты."],
     "aboutLead": "Nomad360 — амбициозный проект по развитию сервисов для предпринимателей и бизнеса.",
     "missionLabel": "Миссия",
     "mission": "Nomad360 освобождает личное время пользователя от рутины с помощью автоматизации процессов, чтобы это время работало на главное.",
@@ -248,6 +250,8 @@
     "menu": "Open menu",
     "close": "Close menu",
     "about": "About Nomad360",
+    "aboutBrand": "Nomad 360 is an umbrella brand of intelligent services for entrepreneurs.",
+    "aboutMotto": ["We build connections.", "We create structure.", "We open new horizons."],
     "aboutLead": "Nomad360 is an ambitious project developing services for entrepreneurs and businesses.",
     "missionLabel": "Mission",
     "mission": "Nomad360 frees the user’s personal time from routine by automating processes, so that time works for what matters.",
@@ -433,6 +437,8 @@
     "menu": "Мәзірді ашу",
     "close": "Мәзірді жабу",
     "about": "Nomad360 жобасы туралы",
+    "aboutBrand": "Nomad 360 — кәсіпкерлерге арналған зияткерлік сервистерді біріктіретін бренд.",
+    "aboutMotto": ["Байланыстар орнатамыз.", "Құрылым құрамыз.", "Жаңа көкжиектер ашамыз."],
     "aboutLead": "Nomad360 — кәсіпкерлер мен бизнеске арналған сервистерді дамытуға бағытталған өршіл жоба.",
     "missionLabel": "Миссия",
     "mission": "Nomad360 процестерді автоматтандыру арқылы пайдаланушының жеке уақытын күнделікті жұмыстан босатады, сонда бұл уақыт маңызды іске жұмыс істейді.",
@@ -581,7 +587,9 @@
   }
   function infoMarkup(t) {
     return '<section id="nomad360-about" class="nomad-info-block" tabindex="-1">'+
-      '<h2>'+esc(t.about)+'</h2><ol class="nomad-about-flow" role="list">'+t.flow.map(step=>'<li><h3>'+esc(step.title)+'</h3><p>'+esc(step.question)+'</p></li>').join('')+'</ol>'+
+      '<h2>'+esc(t.about)+'</h2>'+
+      '<div class="nomad-about-opening"><p class="nomad-about-brand">'+esc(t.aboutBrand)+'</p><p class="nomad-about-motto">'+t.aboutMotto.map(line=>'<span>'+esc(line)+'</span>').join('')+'</p></div>'+
+      '<ol class="nomad-about-flow" role="list">'+t.flow.map(step=>'<li><h3>'+esc(step.title)+'</h3><p>'+esc(step.question)+'</p></li>').join('')+'</ol>'+
       '<p class="nomad-about-caption">'+esc(t.flowBefore)+'<em>'+esc(t.flowEmphasis)+'</em>'+esc(t.flowAfter)+'</p></section>'+
       '<section id="nomad360-contacts" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.contact)+'</h2><div class="nomad-links">'+
