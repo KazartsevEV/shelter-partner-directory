@@ -58,18 +58,18 @@
 .nomad-sec a{color:var(--nh-navy);text-decoration:none}
 .nomad-sec a:hover,.nomad-nav a:hover{color:var(--nh-accent)}
 .nomad-header a:focus-visible,.nomad-header button:focus-visible,.nomad-header select:focus-visible{outline:2px solid var(--nh-accent);outline-offset:3px}
-@media(min-width:1200px){
+@media(min-width:1440px){
  .nomad-bar{padding:0 40px}
  .nomad-logo{width:58px;height:58px}
  .nomad-brand{gap:12px}
  .nomad-wordmark{font-size:29px}
  .nomad-burger,.nomad-sec{display:none}
  .nomad-header .nomad-panel,.nomad-header.is-open .nomad-panel{display:contents}
- .nomad-nav{order:1;flex-direction:row;align-items:stretch;gap:32px;margin-left:auto;padding-right:32px}
+ .nomad-nav{order:1;flex-direction:row;align-items:stretch;gap:18px;margin-left:auto;padding-right:18px}
  .nomad-nav a{height:80px;border-bottom:3px solid transparent;font-size:15px}
  .nomad-nav a[aria-current="page"]{border-bottom-color:var(--nh-accent)}
  .nomad-nav a[aria-current="page"]:after{display:none}
- .nomad-lang{order:2;align-self:stretch;display:flex;align-items:center;margin:0;padding:0 24px;border-left:1px solid var(--nh-line);border-right:1px solid var(--nh-line)}
+ .nomad-lang{order:2;align-self:stretch;display:flex;align-items:center;margin:0;padding:0 12px;border-left:1px solid var(--nh-line);border-right:1px solid var(--nh-line)}
  .nomad-lang select{height:44px;font-size:16px}
  .nomad-cta{order:3;height:44px;margin:0 0 0 24px;padding:0 22px;font-size:16px}
 }
@@ -436,3 +436,37 @@ a.nomad-pay-value{text-decoration:underline}
   #product-tax-block [data-business-advice] > div:first-of-type{font-size:17px}
   #product-tax-block [data-business-advice] > button{font-size:17px}
 }
+
+/* MKT-L10N-01: presentation uses the accepted Inter roles and CTA hierarchy. */
+.nomad-support-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;margin-top:28px;align-items:start}
+.nomad-support-grid .nomad-crypto-panel{margin:0;max-width:none}
+.nomad-support-methods{display:grid;gap:16px;min-width:0}
+.nomad-support-methods .nomad-pay-fiat{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin:0}
+.nomad-support-methods .nomad-russian-transfer{margin:0;padding:16px;border:1px solid var(--nf-line);border-radius:12px}
+.nomad-partners{scroll-margin-top:100px;margin-top:40px;padding-top:32px;border-top:1px solid var(--nf-line)}
+.nomad-partners .nomad-partner-audience{font:500 17px/1.5 var(--nd-font);color:#fff;margin:16px 0 12px}
+.nomad-partner-cards{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;margin-top:24px}
+.nomad-partner-card{display:flex;flex-direction:column;align-items:stretch;gap:16px;min-width:0;padding:24px;border:1px solid var(--nf-line);border-radius:14px;background:#1d4369;overflow-wrap:break-word}
+.nomad-partner-card h3{font:600 22px/1.35 var(--nd-font);margin:0}
+.nomad-partner-card .nomad-edition-price{font:700 28px/1.2 var(--nd-font);color:#fff;margin:0;white-space:nowrap}
+.nomad-partner-card p,.nomad-partner-card p+p{margin:0}
+.nomad-partner-card .nomad-embed-actions{margin-top:auto;max-width:none;gap:16px}
+.nomad-partner-card .nomad-embed-contact{margin-top:auto;min-height:48px;font:600 16px/1.4 var(--nd-font);padding:12px 16px;white-space:normal;height:auto}
+.nomad-partner-card .nomad-embed-download{font:600 16px/1.4 var(--nd-font);min-height:48px;white-space:normal;height:auto;padding:12px 16px}
+.nomad-partner-card .nomad-embed-hint{font:400 14px/1.55 var(--nd-font)}
+.nomad-footer .nomad-traffic-stats{margin-top:16px}
+@media(min-width:900px){
+ .nomad-support-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .nomad-partner-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:359px){.nomad-partner-card{padding:16px}}
+
+@media(min-width:1200px) and (max-width:1439px){.nomad-logo{width:58px;height:58px}.nomad-wordmark{font-size:29px}}
+/* The approved three-line offer leads directly to the existing choice. */
+#nomad360-calculation-list{margin-top:20px;margin-bottom:12px}
+#nomad360-calculation-list>summary{cursor:pointer;font:600 17px/1.45 var(--nd-font);color:#16375a;min-height:44px;align-content:center}
+#nomad360-result-context p{font:400 17px/1.55 var(--nd-font);color:#40546a;margin:16px 0 0}
+#nomad360-local-promise{margin:12px 0 20px;color:#fff;font:400 14px/1.55 var(--nd-font)}
+#nomad360-local-promise a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.nomad-offer-details summary{cursor:pointer;min-height:44px;align-content:center;color:#fff;font:500 16px/1.45 var(--nd-font);text-decoration:underline;text-underline-offset:3px}
+.nomad-offer-details>p,.nomad-offer-details>p+p{margin-top:12px}

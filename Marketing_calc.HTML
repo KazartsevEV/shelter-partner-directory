@@ -280,18 +280,6 @@
     </nav>
     <!-- ENTRY / ROUTING SCREENS -->
     <section id="home-screen" class="max-w-4xl mx-auto">
-        <div id="nomad360-calculation-list" class="card p-6 md:p-8 mb-4">
-            <p class="font-semibold text-slate-900 nd-type-section">После расчёта вы получите:</p>
-            <ul class="list-disc pl-5 mt-3 text-sm text-slate-600 space-y-2 nd-type-body">
-                <li>Себестоимость каждого товара или услуги — с учётом закупки, материалов и производства.</li>
-                <li>Расходы на сотрудников, оборудование, документы, логистику и хранение.</li>
-                <li>Стоимость привлечения клиента — с учётом рекламы, продаж и комиссий.</li>
-                <li>Расчётную цену с учётом налогов, кредита и желаемой маржинальности.</li>
-                <li>Прогноз выручки, прибыли и рентабельности бизнеса.</li>
-                <li>Денежный поток по месяцам и свободный остаток денег.</li>
-            </ul>
-        </div>
-
         <section id="nomad360-selling-choice" class="card p-6 md:p-8" aria-labelledby="nomad360-selling-heading">
             <h4 id="nomad360-selling-heading" data-i18n="business.whatYouSell" class="nd-type-section nd-main-choice-heading">Что вы продаете?</h4>
             <div class="nomad-choice-grid">
@@ -303,6 +291,18 @@
                     onclick="openPortfolioV2(Boolean(window.PortfolioV2UI?.load?.()))">У меня уже много разного</button>
             </div>
         </section>
+
+        <details id="nomad360-calculation-list" class="card p-6 md:p-8 mb-4">
+            <summary class="font-semibold text-slate-900 nd-type-section">После расчёта вы получите:</summary>
+            <ul class="list-disc pl-5 mt-3 text-sm text-slate-600 space-y-2 nd-type-body">
+                <li data-i18n="finance.monthlyCashFlowAndAvailableCashBalance">Денежный поток по месяцам и доступный остаток.</li>
+                <li data-i18n="finance.costPerProductOrServiceIncludingPurchasingMaterialsAndProduction">Себестоимость каждого товара или услуги — с учётом закупки, материалов и производства.</li>
+                <li data-i18n="finance.staffEquipmentDocumentationLogisticsAndStorageCosts">Расходы на сотрудников, оборудование, документы, логистику и хранение.</li>
+                <li data-i18n="marketing.customerAcquisitionCostIncludingAdvertisingSalesAndCommissions">Стоимость привлечения клиента — с учётом рекламы, продаж и комиссий.</li>
+                <li data-i18n="credit.calculatedSellingPriceIncludingTaxesLoansAndYourTargetMargin">Расчётная цена с учётом применимых налогов модели, финансирования и маржинальности.</li>
+                <li data-i18n="finance.projectedRevenueProfitAndBusinessProfitability">Прогноз выручки, прибыли и рентабельности бизнеса.</li>
+            </ul>
+        </details>
 
         <section id="business-currency-settings" class="card nd-currency-settings p-6 md:p-8 mt-4" data-nomad-no-translate>
             <label id="business-currency-question" data-i18n="business.currencyQuestion" for="business-currency" class="nd-type-section">В какой валюте будем рассчитывать бизнес?</label>

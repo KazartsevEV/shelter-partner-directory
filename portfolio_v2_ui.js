@@ -122,7 +122,7 @@ function render(){
  '<div class="nd-v2-eyebrow text-xs tracking-widest uppercase">Самостоятельная портфельная модель · v2</div>'+
  '<h1 class="nd-v2-title text-2xl font-black mt-2">Мои товары и реальные деньги</h1>'+
  '<p class="mt-2" data-nomad-no-translate data-business-currency-note>'+safe(root.Nomad360Currency?.caption()||model.currency)+'</p>'+
- '<p class="nd-v2-description text-sm mt-2">Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз. Здесь нет подставленных примеров.</p>'+
+ '<p class="nd-v2-description text-sm mt-2">Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4"><button class="nd-v2-action nd-v2-action-outline bg-white text-slate-900 px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-home>← Главная</button>'+
  '<button class="nd-v2-action nd-v2-action-primary nd-cta-primary px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-save>Сохранить расчёт</button>'+
  '<button class="nd-v2-action nd-v2-action-outline border border-white/40 px-3 py-2 rounded-lg text-sm" type="button" data-p2-new>+ Новый портфель</button></div>'+

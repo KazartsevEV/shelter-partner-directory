@@ -8,7 +8,7 @@ test('every established alias keeps its exact RU/EN/KK meaning after semantic mi
  const keys=core.keys();A.ok(keys.length>=1295);A.equal(new Set(keys).size,keys.length);
  const aliases=core.aliases().filter(alias=>baseline.hasTranslation(alias));
  A.equal(aliases.length,1292);
- const approved=new Set(['Чистая прибыль · базовый месяц','Чистая выручка (после эквайринга)','Чистая выручка','ROAS (возврат рекламы)','CAC (цена клиента полная)','CPA / CAC','Рекламный / Полный']);
+ const approved=new Set(['Чистая прибыль · базовый месяц','Чистая выручка (после эквайринга)','Чистая выручка','ROAS (возврат рекламы)','CAC (цена клиента полная)','CPA / CAC','Рекламный / Полный','Денежный поток по месяцам и свободный остаток денег.','Расчётную цену с учётом налогов, кредита и желаемой маржинальности.','Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз. Здесь нет подставленных примеров.']);
  for(const alias of aliases)for(const lang of ['ru','en','kk']){
   if(approved.has(alias))A.equal(core.translate(alias,lang),core.t(core.keyForLegacy(alias),lang),'approved label '+alias);
   else if(lang==='kk')A.deepEqual(core.translate(alias,lang).match(/\d+(?:[.,]\d+)*/g)||[],baseline.translate(alias,lang).match(/\d+(?:[.,]\d+)*/g)||[],'numeric tokens changed in KK: '+alias);
@@ -79,7 +79,7 @@ test('nested semantic component sections preserve arrays, immutable values and e
  A.deepEqual(core.section('interface.header','en').nav,['Calculator','AI Marketer','Content Factory','About','Contacts']);
  A.ok(Array.isArray(core.section('interface.header','kk').products));
  A.ok(Object.isFrozen(core.section('interface.header','kk').products));
- A.equal(core.section('interface.shell','en').privacy,'');
+ A.match(core.section('interface.shell','en').privacy,/third-party technical resources/);
  A.equal(core.section('interface.header','ru').products[1].goal,'');
  for(const language of ['ru','en','kk']){
   A.equal(core.section('export.excel',language).id,'SKU / ID');
