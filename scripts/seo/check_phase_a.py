@@ -32,7 +32,29 @@ def main():
         if name in approved_marketing_files:
             approved = subprocess.check_output(
                 ['git', 'show', accepted_marketing_commit + ':' + name], cwd=ROOT)
-            assert raw == approved, 'Approved PR #145 source changed: ' + name
+            if name == 'nomad360_header.js':
+                # Licence fix changes exactly three fall-back strings and one href.
+                # Every other byte from approved PR #145 remains protected.
+                def mask_license_footer(content):
+                    lines = content.decode('utf-8').splitlines()
+                    copy_rows = sum('"licenseCopy": ' in x for x in lines)
+                    link_rows = sum("'<details id=\\\"nomad360-license\\\"" in x for x in lines)
+                    assert copy_rows == 3 and link_rows == 1
+                    return '\n'.join('<ACCEPTED-LICENSE-EDIT>' if
+                                     ('"licenseCopy": ' in x or
+                                      "'<details id=\\\"nomad360-license\\\"" in x)
+                                     else x for x in lines)
+                assert mask_license_footer(raw) == mask_license_footer(approved), name
+            elif name == 'nomad360_locale_core.js':
+                def mask_license_locale(content):
+                    lines = content.decode('utf-8').splitlines()
+                    assert sum('"interface.header.licenseCopy"' in x for x in lines) == 1
+                    return '\n'.join('<ACCEPTED-LICENSE-ROW>' if
+                                     '"interface.header.licenseCopy"' in x else x
+                                     for x in lines)
+                assert mask_license_locale(raw) == mask_license_locale(approved), name
+            else:
+                assert raw == approved, 'Approved PR #145 source changed: ' + name
             continue
         if name == 'Marketing_calc.HTML':
             # Phase B adds exactly one canonical and one isolated language module.
@@ -46,7 +68,11 @@ def main():
                                         cwd=ROOT, text=True).strip()
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
-    assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/')) or p in (
+    assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
+                             'license/', 'scripts/legal/')) or p in (
+        'nomad360_header.js', 'nomad360_locale_core.js', 'assets/nomad360-legal.css',
+        'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
+        'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
         'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-phase-a-review.md',
         'docs/reviews/seo-07-phase-b-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css',
