@@ -172,7 +172,10 @@ def main():
         'tests/nomad360_locale_semantic.test.cjs',
         '.github/workflows/seo-07-phase-a.yml',
         'nomad360_simple_service_examples.js', 'tests/simple_service_examples_browser.cjs',
-        '.github/workflows/simple-service-examples.yml') for p in changed), changed
+        '.github/workflows/simple-service-examples.yml',
+        # 7B-1 adds a NEW standalone module and tests only; no SEO or VAT source edits.
+        'nomad360_sales_tax.js', 'tests/sales_tax_7b_pure.test.cjs',
+        '.github/workflows/sales-tax-7b-pure.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
