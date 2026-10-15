@@ -175,16 +175,20 @@ const server=createServer(async(req,res)=>{
   }),true,'Traffic widget must sit below the embed button');
   A.match(await license.textContent(),/Автоматическое обновление не поддерживается/);
   const visual=await license.evaluate(el=>{
-    const download=getComputedStyle(el.querySelector('.nomad-embed-download'));
+    const download=getComputedStyle(el.querySelector('[data-nomad-download-html]'));
+    const toggle=getComputedStyle(el.querySelector('[data-nomad-embed-toggle]'));
     const secondary=getComputedStyle(el.querySelector('.nomad-embed-contact'));
     return {
       downloadBackground:download.backgroundColor,downloadColor:download.color,
+      toggleBackground:toggle.backgroundColor,toggleColor:toggle.color,
       secondaryBackground:secondary.backgroundColor,secondaryColor:secondary.color,
       hintFont:parseFloat(getComputedStyle(el.querySelector('.nomad-embed-hint')).fontSize)
     };
   });
   A.equal(visual.downloadBackground,'rgb(244, 247, 252)','Free Embed download is the light secondary footer action');
   A.equal(visual.downloadColor,'rgb(22, 55, 90)','Free Embed label remains navy');
+  A.equal(visual.toggleBackground,'rgb(237, 142, 99)','RET-07A disclosure is orange');
+  A.equal(visual.toggleColor,'rgb(22, 55, 90)','RET-07A disclosure label is navy');
   A.equal(visual.secondaryBackground,'rgb(237, 142, 99)','Custom order is the orange primary CTA');
   A.equal(visual.secondaryColor,'rgb(22, 55, 90)','Custom order label uses navy');
   A.ok(visual.hintFont>=14,'Embed instruction must remain legible');
