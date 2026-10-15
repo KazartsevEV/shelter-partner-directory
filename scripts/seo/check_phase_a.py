@@ -194,7 +194,7 @@ def main():
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
         'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-phase-a-review.md',
-        'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'Marketing_calc.HTML',
+        'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
         'tests/nomad360_calculator_ui_browser.test.cjs',
         'tests/marketing_calc_first_user_journey.test.cjs',
