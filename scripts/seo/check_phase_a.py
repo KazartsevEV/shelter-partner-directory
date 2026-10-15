@@ -4,6 +4,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 
@@ -29,6 +30,16 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        # Exact permitted presentation delta; accepted B2B/legal bytes stay protected.
+        if name == 'nomad360_calculator_ui.css':
+            raw = raw.split(b'\n/* SEO-07 approved keyword banner; original offer unchanged. */', 1)[0]
+        if name == 'nomad360_locale_core.js':
+            raw = re.sub(rb'^ \["business\.ideaSeo(?:Title|Copy)",[^\n]+\n', b'', raw, flags=re.M)
+        if name == 'nomad360_header.js':
+            raw = raw.replace(b'''    // SEO-07: reuse the header asset; the existing HTML bundler inlines this URL.
+    const seoBanner=document.getElementById('nomad360-seo-banner');
+    if(seoBanner&&!seoBanner.querySelector('.nomad-seo-logo'))seoBanner.insertAdjacentHTML('beforeend','<img class="nomad-seo-logo" src="./nomad360_wolf_open_circle.png" alt="" width="140" height="140" loading="lazy">');
+''', b'', 1)
         if name in approved_marketing_files:
             approved = subprocess.check_output(
                 ['git', 'show', accepted_marketing_commit + ':' + name], cwd=ROOT)
@@ -57,6 +68,8 @@ def main():
                 assert raw == approved, 'Approved PR #145 source changed: ' + name
             continue
         if name == 'Marketing_calc.HTML':
+            raw = raw.replace((ROOT / 'tests/fixtures/seo-keyword-banner.html').read_bytes(),
+                              (ROOT / 'tests/fixtures/seo-original-results.html').read_bytes(), 1)
             # Phase B adds exactly one canonical and one isolated language module.
             raw = raw.replace(b'    <link rel="canonical" href="https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML">\n', b'', 1)
             raw = raw.replace(b'<script src="./nomad360_seo_language.js"></script>\n', b'', 1)
@@ -74,8 +87,10 @@ def main():
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
         'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-phase-a-review.md',
-        'docs/reviews/seo-07-phase-b-review.md', 'Marketing_calc.HTML',
-        'nomad360_seo_language.js', 'assets/nomad360-seo.css',
+        'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'Marketing_calc.HTML',
+        'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
+        'tests/nomad360_calculator_ui_browser.test.cjs',
+        'tests/fixtures/seo-keyword-banner.html', 'tests/fixtures/seo-original-results.html',
         'tests/helpers/seo-html-contract.cjs', 'tests/seo_language.test.cjs',
         'tests/nomad360_marketing_scope.test.cjs', 'tests/type02_scope.test.cjs',
         'tests/nomad360_locale_semantic.test.cjs',
