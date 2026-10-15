@@ -77,6 +77,7 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
   else{if(outcome==='installed-before-choice'){await p.evaluate(()=>{dispatchEvent(new Event('appinstalled'));__choice({outcome:'accepted'});});}await p.waitForFunction(()=>document.querySelector('.nomad-return-status')?.textContent.trim());const key=outcome==='installed-before-choice'?'installed':outcome;A.equal(await p.locator('.nomad-return-status').textContent(),await p.evaluate(k=>Nomad360LocaleCore.t('return.'+k),key));
    if(outcome==='accepted')A.notEqual(await p.locator('.nomad-return-status').textContent(),await p.evaluate(()=>Nomad360LocaleCore.t('return.installed')));
    if(outcome!=='installed-before-choice')await p.evaluate(()=>dispatchEvent(new Event('appinstalled')));await p.locator('[data-return-platform="android"]').click();A.equal(await p.evaluate(()=>__promptCount),1,'No repeated prompt after confirmed install');}
+  if(outcome==='installed-before-choice'){const status=p.locator('#nomad360-return p.nomad-return-status');const style=await status.evaluate(e=>({color:getComputedStyle(e).color,opacity:getComputedStyle(e).opacity,weight:getComputedStyle(e).fontWeight}));A.deepEqual(style,{color:'rgb(22, 55, 90)',opacity:'1',weight:'400'},'Confirmed installation is regular navy, never muted grey');}
   cases.push({syntheticInstallEvent:outcome,nativeDeviceTest:false});await ctx.close();
  }
  fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({stage,cases},null,2)+'\n');console.log('RET_7A_STAGE_GREEN',JSON.stringify({stage,cases:cases.length}));
