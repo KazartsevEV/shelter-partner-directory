@@ -25,7 +25,7 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   A.equal(await p.locator('#nomad360-calculation-list li').count(),6);A.equal(await p.locator('#nomad360-calculation-list ul').isVisible(),true);
   A.equal(await p.locator('#home-screen').evaluate(e=>[...e.children].filter(n=>!['nomad360-hero','nomad360-intro'].includes(n.id)).slice(0,2).map(n=>n.id).join(',')),'nomad360-calculation-list,nomad360-selling-choice');
   await p.locator('.nomad-intro-cta').focus();await p.keyboard.press('Enter');await settle(p);A.ok(await p.locator('#nomad360-selling-choice').evaluate(e=>{const r=e.getBoundingClientRect();return r.top>=0&&r.top<innerHeight;}));
-  const about=p.locator('#nomad360-about');A.equal(await about.locator('.nomad-about-flow>li').count(),3);A.equal(await about.locator(':scope>p').count(),1);A.equal(await about.locator('em').count(),1);A.equal(await about.locator('em').evaluate(e=>getComputedStyle(e).fontStyle),'italic');
+  const about=p.locator('#nomad360-about');A.equal(await about.locator('.nomad-about-opening .nomad-about-motto span').count(),3);A.equal(await about.locator('.nomad-about-flow>li').count(),3);A.equal(await about.locator(':scope>p').count(),1);A.equal(await about.locator('em').count(),1);A.equal(await about.locator('em').evaluate(e=>getComputedStyle(e).fontStyle),'italic');
   if(lang==='ru'){A.deepEqual(await about.locator('li h3').allTextContents(),['Калькулятор','AI Маркетолог','Контент Фабрика']);A.equal(await about.locator(':scope>p').textContent(),'Применяя автоматизацию с Nomad 360, вы можете достичь больших целей быстрее, освободив личное время на то, что действительно важно.');A.equal(await about.locator('em').textContent(),'действительно важно');}
   const flow=await about.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));if(width>=900)A.ok(flow[0].left<flow[1].left&&flow[1].left<flow[2].left&&Math.abs(flow[0].top-flow[2].top)<1);else A.ok(flow[0].top<flow[1].top&&flow[1].top<flow[2].top);
   const embed=p.locator('#nomad360-embed'),toggle=embed.locator('[data-nomad-embed-toggle]'),panel=embed.locator('#nomad360-embed-comparison');
@@ -35,10 +35,22 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   await shot('home','#home-screen');await shot('about','#nomad360-about');await shot('b2b-closed','#nomad360-embed');
   for(const id of ['nomad360-license','nomad360-data','nomad360-product-details'])A.equal(await p.locator('#'+id).evaluate(e=>e.open),false,id+' default closed');
   A.equal(await p.locator('#nomad360-official').locator('details').count(),0);A.equal(await p.locator('#nomad360-official a').isVisible(),true);A.equal((await p.locator('#nomad360-official a').textContent()).trim(),'nomad260393@gmail.com');A.equal(await p.locator('#nomad360-official p').count(),1);
+  const ozon=p.locator('#nomad360-support .nomad-pay-ozon');
+  A.equal(await ozon.count(),lang==='ru'?1:0,'Ozon card must exist only in RU, not just be hidden in EN/KK');
+  A.equal(await p.locator('#nomad360-support .nomad-russian-transfer').count(),0,'Legacy disclosure removed');
+  if(lang==='ru'){
+   A.equal(await ozon.locator('.nomad-ru-flag').textContent(),'🇷🇺');
+   A.equal(await ozon.locator('.nomad-pay-value').textContent(),'+7 977 986 74 41');
+   A.equal(await ozon.locator('[data-nomad-copy]').count(),1);
+   const fonts=await p.evaluate(()=>['.nomad-pay-kaspi','.nomad-pay-ozon'].map(sel=>['.nomad-pay-label','.nomad-pay-value','.nomad-copy'].map(child=>{
+     const st=getComputedStyle(document.querySelector(sel+' '+child));return [st.fontFamily,st.fontSize,st.fontWeight];
+   })));
+   A.deepEqual(fonts[1],fonts[0],'Ozon matches Kaspi typography for label, value and copy');
+  }
   await shot('footer-closed','.nomad-footer-meta');
   await toggle.focus();await p.keyboard.press('Enter');A.equal(await toggle.getAttribute('aria-expanded'),'true');A.equal(await panel.isVisible(),true);A.equal(downloads.length,0);A.equal(htmlRequests,1,'Disclosure must not start the HTML generator');
   if(width<=600){const rowWidths=await panel.locator('tbody th').evaluateAll(es=>es.map(e=>({width:e.getBoundingClientRect().width,parent:e.parentElement.getBoundingClientRect().width})));A.ok(rowWidths.every(x=>Math.abs(x.width-x.parent)<2),'Mobile row labels occupy the full row');}
-  A.equal(await panel.locator('tbody tr').count(),5);A.equal(await panel.locator('thead th').count(),3);A.equal(await panel.locator('thead th').nth(2).textContent(),lang==='ru'?'Хочу собственную версию':lang==='en'?'White Label':'Өз нұсқамды қалаймын');
+  A.equal(await panel.locator('tbody tr').count(),5);A.equal(await panel.locator('thead th').count(),3);A.equal(await panel.locator('thead th').nth(2).textContent(),lang==='ru'?'Собственный калькулятор':lang==='en'?'Your own calculator':'Өз калькуляторыңыз');
   await p.waitForFunction(()=>document.querySelector('[data-nomad-traffic-value]')?.textContent==='63');A.match(await panel.locator('[data-nomad-traffic-stats]').textContent(),/GitHub/);
   A.equal(await panel.locator('[data-nomad-download-html]').evaluate(e=>e.closest('td').querySelectorAll('[data-nomad-traffic-stats]').length),1);
   const mail=await panel.locator('.nomad-embed-contact').getAttribute('href');A.ok(mail.startsWith('mailto:nomad260393@gmail.com?subject='));
@@ -49,7 +61,7 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});const contrast=await p.evaluate(()=>Object.fromEntries(['#nomad360-intro','#nomad360-about','#nomad360-embed','.nomad-footer-meta'].map(s=>{const a=NomadContrast.audit(document.querySelector(s));return [s,{count:a.count,minimum:a.minimum,failures:a.failures}]})));for(const v of Object.values(contrast))A.deepEqual(v.failures,[]);
   const geometry=await p.evaluate(audit);A.equal(geometry.overflow,false);A.deepEqual(geometry.bad,[]);A.deepEqual(geometry.gaps,[]);A.deepEqual(errors,[]);
   if(width===390){
-   await ctx.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});await p.locator('.nomad-pay-kaspi [data-nomad-copy]').click();A.equal(await p.evaluate(()=>navigator.clipboard.readText()),'+7 777 129 56 93');
+   await ctx.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});await p.locator('.nomad-pay-kaspi [data-nomad-copy]').click();A.equal(await p.evaluate(()=>navigator.clipboard.readText()),'+7 777 129 56 93');if(lang==='ru'){await p.locator('.nomad-pay-ozon [data-nomad-copy]').click();A.equal(await p.evaluate(()=>navigator.clipboard.readText()),'+7 977 986 74 41');}
    // Existing header links must reveal their collapsed targets.
    const burger=p.locator('.nomad-burger');if(await burger.isVisible())await burger.click();await p.locator('[data-nomad-go="nomad360-ai"]').click();await settle(p);A.equal(await p.locator('#nomad360-product-details').evaluate(e=>e.open),true);
    await p.route('**/Marketing_calc.HTML',r=>r.abort());await p.locator('[data-nomad-download-html]').click();await p.waitForFunction(()=>!document.querySelector('[data-nomad-download-html]').disabled);A.equal(await p.locator('[data-nomad-embed-retry]').isVisible(),false);await p.unroute('**/Marketing_calc.HTML');
@@ -57,6 +69,7 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
    A.equal(await p.locator('[data-nomad-embed-status]').textContent(),await tr('interface.header.embedReady'));A.equal(await p.locator('[data-nomad-embed-retry]').isVisible(),true);wait=p.waitForEvent('download');await p.locator('[data-nomad-retry-download]').click();d=await wait;A.equal(await d.failure(),null);A.equal(fs.readFileSync(await d.path(),'utf8'),portable);
    const saved=await ctx.newPage();await saved.goto(base+'portable.html',{waitUntil:'domcontentloaded'});await saved.addStyleTag({path:path.join(out,'utilities.css')});await saved.evaluate(l=>Nomad360UI.setLanguage(l),lang);await settle(saved);
    for(const id of ['nomad360-intro','nomad360-about','nomad360-ai','nomad360-factory','nomad360-contacts','nomad360-support','nomad360-license','nomad360-data','nomad360-official'])A.equal(await saved.locator('#'+id).count(),1);
+   A.equal(await saved.locator('#nomad360-support .nomad-pay-ozon').count(),lang==='ru'?1:0,'Portable HTML retains RU-only Ozon visibility');
    A.match(await saved.locator('.nomad-logo').getAttribute('src'),/^data:image/);A.equal(await saved.locator('[data-nomad-embed-toggle]').getAttribute('aria-expanded'),'false');A.equal(await saved.locator('#nomad360-official a').isVisible(),true);A.equal((await saved.evaluate(audit)).overflow,false);
    await saved.locator('#nomad360-about').screenshot({path:path.join(out,`${lang}-390-portable.png`)});exports.push({lang,bytes:Buffer.byteLength(portable),downloads:2,complete:true});await saved.close();
   }
