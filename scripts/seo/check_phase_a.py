@@ -18,7 +18,12 @@ def read(name):
 def main():
     manifest = read('protected-files.json')
     for name, expected in manifest['files'].items():
-        assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected, name
+        raw = (ROOT / name).read_bytes()
+        if name == 'Marketing_calc.HTML':
+            # Phase B adds exactly one canonical and one isolated language module.
+            raw = raw.replace(b'    <link rel="canonical" href="https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML">\n', b'', 1)
+            raw = raw.replace(b'<script src="./nomad360_seo_language.js"></script>\n', b'', 1)
+        assert hashlib.sha256(raw).hexdigest() == expected, name
     # Synthetic PR merges also include newer main documentation. Compare this
     # PR to its actual base; keep the production-byte guard on the audited SHA.
     base_ref = os.environ.get('SEO_BASE_REF', 'origin/main')
@@ -26,8 +31,13 @@ def main():
                                         cwd=ROOT, text=True).strip()
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
-    assert all(p.startswith(('docs/seo/', 'scripts/seo/')) or p in (
+    assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/')) or p in (
         'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-phase-a-review.md',
+        'docs/reviews/seo-07-phase-b-review.md', 'Marketing_calc.HTML',
+        'nomad360_seo_language.js', 'assets/nomad360-seo.css',
+        'tests/helpers/seo-html-contract.cjs', 'tests/seo_language.test.cjs',
+        'tests/nomad360_marketing_scope.test.cjs', 'tests/type02_scope.test.cjs',
+        'tests/nomad360_locale_semantic.test.cjs',
         '.github/workflows/seo-07-phase-a.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)

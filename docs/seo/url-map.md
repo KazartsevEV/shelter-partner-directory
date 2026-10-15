@@ -2,6 +2,8 @@
 
 База: `main 919f9ad`, дата аудита 15.10.2026. [Наблюдаемые ответы](evidence/live-url-audit.json). Все 15 новых адресов пока HTTP 404. Ссылки self в таблице обозначают **предлагаемые конечные адреса**, а не опубликованные страницы.
 
+Фаза A принята. [Фаза B](../reviews/seo-07-phase-b-review.md) реализует EN и язык перехода в Draft ветке; опубликованная база в этой таблице ещё не менялась. Активный EN-манифест: `scripts/seo/pages.json`.
+
 ## Решение о размещении
 
 Origin `https://kazartsevev.github.io`, project path `/shelter-partner-directory/`. В будущей сборке это единая конфигурация, из которой строятся ссылки, canonical, hreflang и sitemap. Никаких URL в `https://kazartsevev.github.io/en/`.

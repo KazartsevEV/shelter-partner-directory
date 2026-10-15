@@ -8,6 +8,7 @@ test('Inter preserves application logic; current task-6 presentation files have 
  for(const p of protectedPaths){
   let now=fs.readFileSync(path.join(root,p)),old=execFileSync('git',['show',base+':'+p],{cwd:root});
   if(p==='Marketing_calc.HTML'){
+   now=Buffer.from(require('./helpers/seo-html-contract.cjs').stripSEO(now.toString()));
    const stripStyles=s=>s.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'<style>Presentation</style>');
    now=Buffer.from(stripStyles(now.toString()));old=Buffer.from(stripStyles(old.toString()));
   }

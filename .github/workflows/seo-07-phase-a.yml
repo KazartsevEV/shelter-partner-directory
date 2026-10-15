@@ -1,4 +1,4 @@
-name: SEO-07 phase A review package
+name: SEO-07 English and language handoff acceptance
 
 on:
   pull_request:
@@ -6,7 +6,14 @@ on:
       - 'docs/seo/**'
       - 'scripts/seo/**'
       - 'docs/reviews/seo-07-phase-a-review.md'
+      - 'docs/reviews/seo-07-phase-b-review.md'
       - 'docs/nomad360-codex-task-map.md'
+      - 'en/**'
+      - 'assets/nomad360-seo.css'
+      - 'Marketing_calc.HTML'
+      - 'nomad360_seo_language.js'
+      - 'tests/seo_language.test.cjs'
+      - 'tests/helpers/seo-html-contract.cjs'
       - '.github/workflows/seo-07-phase-a.yml'
   workflow_dispatch:
 
@@ -34,6 +41,9 @@ jobs:
           python scripts/seo/check_phase_a.py
           node --check scripts/seo/audit_browser.cjs
           node --check scripts/seo/check_mockups.cjs
+          node --check nomad360_seo_language.js
+          node --test tests/seo_language.test.cjs
+          python scripts/seo/build.py --check
           python -c "import ast,pathlib; [ast.parse(p.read_text()) for p in pathlib.Path('scripts/seo').glob('*.py')]"
       - name: Install pinned review browser
         run: |
@@ -43,9 +53,15 @@ jobs:
         env:
           NODE_PATH: ${{ runner.temp }}/seo-review-tools/node_modules
         run: node scripts/seo/check_mockups.cjs
+      - name: English source pages, shared logo, language priority and restored calculations
+        env:
+          NODE_PATH: ${{ runner.temp }}/seo-review-tools/node_modules
+        run: node scripts/seo/test_browser.cjs
       - name: Upload phase A review receipts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: seo-07-phase-a-review
-          path: docs/seo/
+          name: seo-07-english-acceptance
+          path: |
+            docs/seo/
+            artifacts/seo-phase-b/

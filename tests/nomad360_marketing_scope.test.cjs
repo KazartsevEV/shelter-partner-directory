@@ -6,7 +6,7 @@ test('Only the four requested presentation files may change; all financial sourc
  const editable=new Set(['nomad360_header.js','nomad360_calculator_ui.js','nomad360_locale_core.js','nomad360_calculator_ui.css']);
  const files=execFileSync('git',['ls-tree','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/\.(js|css|html)$/i.test(f)||f==='CALCULATOR_LICENSE.md');
  A.ok(now('nomad360_calculator_ui.css').startsWith(before('nomad360_calculator_ui.css')),'Accepted typography and support styling remain intact');
- A.ok(files.length>20);for(const file of files)if(!editable.has(file))A.equal(now(file),before(file),file);
+ A.ok(files.length>20);for(const file of files)if(!editable.has(file))A.equal(file==='Marketing_calc.HTML'?require('./helpers/seo-html-contract.cjs').stripSEO(now(file)):now(file),before(file),file);
 });
 const boot=src=>{const win={};new Function('window','document',src)(win,{readyState:'loading',addEventListener(){}});return win.Nomad360LocaleCore;};
 test('Published hero, legal/privacy text, payment details and every financial translation remain unchanged',()=>{

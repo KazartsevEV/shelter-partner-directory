@@ -29,7 +29,10 @@ async function fetchBytes(url){
    const url=route.request().url();
    if(!url.startsWith(base)&&!url.startsWith('https://cdn.tailwindcss.com/')){const u=new URL(url);network.push({url:u.origin+u.pathname,outcome:'blocked-external-in-audit'});return route.abort();}
    try{const r=await fetchBytes(url),body=Buffer.from(r.body,'base64'),file=path.resolve(root,new URL(url).pathname.replace('/shelter-partner-directory/',''));
-    const sameOrigin=url.startsWith(base),localMatch=sameOrigin&&file.startsWith(root+path.sep)&&fs.existsSync(file)&&fs.statSync(file).isFile()?body.equals(fs.readFileSync(file)):null;
+    let expected=fs.existsSync(file)&&fs.statSync(file).isFile()?fs.readFileSync(file):null;
+    // This remains the phase-A baseline audit after phase B changes HTML.
+    if(file===path.join(root,'Marketing_calc.HTML'))expected=(await run('git',['show','85d98d9:Marketing_calc.HTML'],{cwd:root,encoding:'buffer',maxBuffer:4*1024*1024})).stdout;
+    const sameOrigin=url.startsWith(base),localMatch=sameOrigin&&file.startsWith(root+path.sep)&&expected?body.equals(expected):null;
     network.push({url,outcome:r.status,sha256:crypto.createHash('sha256').update(body).digest('hex'),localMatch});
     if(sameOrigin)A.equal(localMatch,true,'Published asset must match the accepted main baseline');
     await route.fulfill({status:r.status,contentType:r.contentType,body});}

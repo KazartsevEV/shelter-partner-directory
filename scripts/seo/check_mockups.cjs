@@ -6,7 +6,7 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'docs/seo/evidence
  const server=http.createServer((req,res)=>{
   const file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));
   if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);return res.end();}
-  res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.woff2':'font/woff2'})[path.extname(file)]||'application/octet-stream');
+  res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.woff2':'font/woff2','.png':'image/png'})[path.extname(file)]||'application/octet-stream');
   fs.createReadStream(file).pipe(res);
  });await new Promise(r=>server.listen(0,'127.0.0.1',r));
  const base='http://127.0.0.1:'+server.address().port;
@@ -19,6 +19,8 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'docs/seo/evidence
   const data=await page.evaluate(()=>({h1:document.querySelectorAll('h1').length,lang:document.documentElement.lang,robots:document.querySelector('meta[name=robots]').content,overflow:document.documentElement.scrollWidth>innerWidth+1,text:document.querySelector('main').textContent.length}));
   A.equal(data.h1,1);A.equal(data.lang,'en');A.equal(data.robots,'noindex,nofollow');A.equal(data.overflow,false);A.ok(data.text>700);A.deepEqual(errors,[]);
   A.ok(requests.every(url=>url.startsWith(base+'/')),'Preview must not request external resources');
+  A.equal(await page.locator('.intro-logo').getAttribute('src'),'../../../nomad360_wolf_open_circle.png');
+  A.equal(requests.filter(u=>u.endsWith('/nomad360_wolf_open_circle.png')).length,1,'One existing logo request shared with header');
   await page.keyboard.press('Tab');A.equal(await page.locator('nav a').first().evaluate(e=>e===document.activeElement),true);
   A.equal(await page.locator('nav a').first().evaluate(e=>getComputedStyle(e).outlineStyle),'solid');
   for(const a of await page.locator('a[href]').all()){
