@@ -431,7 +431,8 @@ async function browserCase(browser,locale,expected){
      'Content Factory finale must match the AI Marketer slogan style');
    A.equal(await page.locator('#nomad360-factory .nomad-product-goal').count(),0);
    const footer=await page.locator('#nomad360-footer').textContent();
-  A.ok(footer.includes('+7 777 129 56 93')&&footer.includes('+7 977 986 74 41'));
+  A.ok(footer.includes('+7 777 129 56 93'),'Kaspi is present for every language');
+  A.equal(footer.includes('+7 977 986 74 41'),expected.lang==='ru','Ozon visible only in RU');
   A.equal(await page.locator('#nomad360-footer').count(),1,'Exactly one new footer');
   A.equal(await page.locator('body > footer').count(),1,'Remove the old duplicate legal footer');
   A.equal(await page.locator('#nomad360-footer .nomad-unit-note').textContent(),
@@ -441,8 +442,8 @@ async function browserCase(browser,locale,expected){
   A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
    A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),0,
      'Standalone USDT and BTC QR codes removed in favour of NOWPayments');
-  A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),6,
-    'Copy targets: KZ phone, 4 SWIFT fields and Ozon phone');
+  A.equal(await page.locator('#nomad360-footer .nomad-copy').count(),expected.lang==='ru'?6:5,
+    'Copy targets: Kaspi and four bank fields plus RU-only Ozon');
   A.equal(await page.locator('#nomad360-footer .nomad-donate-checkout-link').count(),0,
     'No Trybit outbound checkout action');
   A.equal(await page.locator('#nomad360-footer iframe.nomad-crypto-frame').getAttribute('src'),
@@ -451,8 +452,10 @@ async function browserCase(browser,locale,expected){
     'One always-present inline NOWPayments form');
   A.equal(await page.locator('#nomad360-footer .nomad-pay-bank summary').count(),1,
     'SWIFT data are in an accessible disclosure');
-  A.equal(await page.locator('#nomad360-footer .nomad-russian-transfer summary').count(),1,
-    'Ozon card details are folded last');
+  A.equal(await page.locator('#nomad360-footer .nomad-russian-transfer').count(),0,
+    'Old Russian disclosure no longer rendered');
+  A.equal(await page.locator('#nomad360-footer .nomad-pay-ozon').count(),expected.lang==='ru'?1:0,
+    'Russian Ozon card matches Kaspi and is absent for EN/KK');
   A.equal(await page.locator('#nomad360-footer #nomad360-license').count(),1,'License is in new footer');
   A.equal(await page.locator('#nomad360-footer #nomad360-data').count(),1,'Data statement is in new footer');
   A.equal(await page.locator('#nomad360-footer #nomad360-official').count(),1,'Official contact is in new footer');

@@ -34,20 +34,20 @@
     "comparison": {
       "caption": "Версии калькулятора",
       "feature": "Параметр",
-      "free": "Бесплатный калькулятор",
-      "own": "Хочу собственную версию",
+      "free": "Этот калькулятор «как есть»",
+      "own": "Собственный калькулятор",
       "cost": "Стоимость",
       "freePrice": "Бесплатно",
       "paidPrice": "От €600",
       "brand": "Оформление",
       "nomadBrand": "Бренд Nomad360",
-      "customerBrand": "Бренд заказчика",
+      "customerBrand": "Ваш бренд",
       "seo": "SEO",
       "broadQueries": "Широкие информационные запросы",
-      "customerQueries": "Ключевые запросы заказчика",
+      "customerQueries": "Адаптация под ваши ключевые запросы",
       "leads": "Страница для сбора лидов",
       "no": "Нет",
-      "contacts": "Контакты, email и вопросы посетителя",
+      "contacts": "Контакты и вопросы посетителя, формы обратной связи, опционально — интеграция с CRM",
       "action": "Действие"
     },
     "nav": [
@@ -63,6 +63,8 @@
     "menu": "Открыть меню",
     "close": "Закрыть меню",
     "about": "О проекте",
+    "aboutBrand": "Nomad 360 - зонтичный бренд интеллектуальных сервисов для предпринимателей.",
+    "aboutMotto": ["Устанавливаем связи.", "Строим структуру.", "Открываем горизонты."],
     "aboutLead": "Nomad360 — амбициозный проект по развитию сервисов для предпринимателей и бизнеса.",
     "missionLabel": "Миссия",
     "mission": "Nomad360 освобождает личное время пользователя от рутины с помощью автоматизации процессов, чтобы это время работало на главное.",
@@ -186,7 +188,7 @@
     "trafficTitle": "Уникальные посетители GitHub-репозитория за последние 14 дней:",
     "embedButton": "Скачать бесплатную версию",
     "embedHint": "Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.",
-    "customButton": "Заказать",
+    "customButton": "Заказать кастомное решение",
     "embedWorking": "Подготавливаем HTML…",
     "embedReady": "HTML готов к скачиванию",
     "embedRetryLead": "Если загрузка не началась,",
@@ -219,8 +221,8 @@
     "comparison": {
       "caption": "Calculator editions",
       "feature": "Feature",
-      "free": "Free calculator",
-      "own": "White Label",
+      "free": "This calculator, as is",
+      "own": "Your own calculator",
       "cost": "Price",
       "freePrice": "Free",
       "paidPrice": "From €600",
@@ -229,10 +231,10 @@
       "customerBrand": "Your brand",
       "seo": "SEO",
       "broadQueries": "Broad informational queries",
-      "customerQueries": "Your target search queries",
+      "customerQueries": "Adapted to your target search queries",
       "leads": "Lead collection page",
       "no": "No",
-      "contacts": "Visitor contacts, email and questions",
+      "contacts": "Visitor contact details and questions, contact forms, optional CRM integration",
       "action": "Action"
     },
     "nav": [
@@ -248,6 +250,8 @@
     "menu": "Open menu",
     "close": "Close menu",
     "about": "About Nomad360",
+    "aboutBrand": "Nomad 360 is an umbrella brand of intelligent services for entrepreneurs.",
+    "aboutMotto": ["We build connections.", "We create structure.", "We open new horizons."],
     "aboutLead": "Nomad360 is an ambitious project developing services for entrepreneurs and businesses.",
     "missionLabel": "Mission",
     "mission": "Nomad360 frees the user’s personal time from routine by automating processes, so that time works for what matters.",
@@ -371,7 +375,7 @@
     "trafficTitle": "Unique GitHub repository visitors over the last 14 days:",
     "embedButton": "Download the free version",
     "embedHint": "Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.",
-    "customButton": "Order",
+    "customButton": "Order a custom solution",
     "embedWorking": "Preparing HTML…",
     "embedReady": "HTML download ready",
     "embedRetryLead": "If the download did not start,",
@@ -404,20 +408,20 @@
     "comparison": {
       "caption": "Калькулятор нұсқалары",
       "feature": "Сипаттама",
-      "free": "Тегін калькулятор",
-      "own": "Өз нұсқамды қалаймын",
+      "free": "Бұл калькулятор «сол күйінде»",
+      "own": "Өз калькуляторыңыз",
       "cost": "Құны",
       "freePrice": "Тегін",
       "paidPrice": "€600 бастап",
       "brand": "Безендіру",
       "nomadBrand": "Nomad360 бренді",
-      "customerBrand": "Тапсырыс берушінің бренді",
+      "customerBrand": "Сіздің брендіңіз",
       "seo": "SEO",
       "broadQueries": "Жалпы ақпараттық іздеу сұраулары",
-      "customerQueries": "Тапсырыс берушінің негізгі іздеу сұраулары",
+      "customerQueries": "Сіздің негізгі іздеу сұрауларыңызға бейімдеу",
       "leads": "Lead жинауға арналған бет",
       "no": "Жоқ",
-      "contacts": "Келушінің байланыс деректері, email және сұрақтары",
+      "contacts": "Келушінің байланыс деректері мен сұрақтары, кері байланыс нысандары, CRM жүйесімен қосымша интеграция",
       "action": "Әрекет"
     },
     "nav": [
@@ -433,6 +437,8 @@
     "menu": "Мәзірді ашу",
     "close": "Мәзірді жабу",
     "about": "Nomad360 жобасы туралы",
+    "aboutBrand": "Nomad 360 — кәсіпкерлерге арналған зияткерлік сервистерді біріктіретін бренд.",
+    "aboutMotto": ["Байланыстар орнатамыз.", "Құрылым құрамыз.", "Жаңа көкжиектер ашамыз."],
     "aboutLead": "Nomad360 — кәсіпкерлер мен бизнеске арналған сервистерді дамытуға бағытталған өршіл жоба.",
     "missionLabel": "Миссия",
     "mission": "Nomad360 процестерді автоматтандыру арқылы пайдаланушының жеке уақытын күнделікті жұмыстан босатады, сонда бұл уақыт маңызды іске жұмыс істейді.",
@@ -556,7 +562,7 @@
     "trafficTitle": "Соңғы 14 күндегі GitHub репозиторийінің бірегей келушілері:",
     "embedButton": "Тегін нұсқаны жүктеу",
     "embedHint": "Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.",
-    "customButton": "Тапсырыс беру",
+    "customButton": "Жеке шешімге тапсырыс беру",
     "embedWorking": "HTML дайындалуда…",
     "embedReady": "HTML жүктеуге дайын",
     "embedRetryLead": "Егер жүктеу басталмаса,",
@@ -581,7 +587,9 @@
   }
   function infoMarkup(t) {
     return '<section id="nomad360-about" class="nomad-info-block" tabindex="-1">'+
-      '<h2>'+esc(t.about)+'</h2><ol class="nomad-about-flow" role="list">'+t.flow.map(step=>'<li><h3>'+esc(step.title)+'</h3><p>'+esc(step.question)+'</p></li>').join('')+'</ol>'+
+      '<h2>'+esc(t.about)+'</h2>'+
+      '<div class="nomad-about-opening"><p class="nomad-about-brand">'+esc(t.aboutBrand)+'</p><p class="nomad-about-motto">'+t.aboutMotto.map(line=>'<span>'+esc(line)+'</span>').join('')+'</p></div>'+
+      '<ol class="nomad-about-flow" role="list">'+t.flow.map(step=>'<li><h3>'+esc(step.title)+'</h3><p>'+esc(step.question)+'</p></li>').join('')+'</ol>'+
       '<p class="nomad-about-caption">'+esc(t.flowBefore)+'<em>'+esc(t.flowEmphasis)+'</em>'+esc(t.flowAfter)+'</p></section>'+
       '<section id="nomad360-contacts" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.contact)+'</h2><div class="nomad-links">'+
@@ -616,6 +624,12 @@
       '<p class="nomad-pay-hint">'+esc(t.kaspiPhoneHint)+'</p>'+
       '<a class="nomad-pay-value" href="'+PAY.kaspiTel+'">'+esc(PAY.kaspi)+'</a>'+
       copyButton(t,PAY.kaspi,t.kaspi)+'</article>'+
+      (language()==='ru'?
+        '<article class="nomad-pay nomad-pay-ozon" data-nomad-russian-support>'+
+        '<span class="nomad-pay-label"><span class="nomad-ru-flag" aria-hidden="true">🇷🇺</span> '+esc(t.ozonTransfer)+'</span>'+
+        '<p class="nomad-pay-hint">'+esc(t.ozonBank)+'</p>'+
+        '<a class="nomad-pay-value" href="'+PAY.ozonTel+'">'+esc(PAY.ozon)+'</a>'+
+        copyButton(t,PAY.ozon,t.ozonTransfer)+'</article>':'')+
       '<details class="nomad-pay nomad-pay-bank">'+
       '<summary class="nomad-fold-toggle"><span class="nomad-donate-globe" aria-hidden="true">🌐</span><span>'+esc(t.bankTransfer)+'</span><span class="nomad-fold-arrow" aria-hidden="true">⌄</span></summary>'+
       '<div class="nomad-bank-details">'+
@@ -623,6 +637,8 @@
       bankLine('SWIFT/BIC',PAY.swift)+bankLine('IBAN',PAY.iban)+
       '</div></details></div>';
   }
+  // Retained for parity with historic source. The RU-only payment option is
+  // now rendered alongside Kaspi in payFiat; this legacy disclosure is unused.
   function payRussian(t) {
     return '<details class="nomad-russian-transfer">'+
       '<summary>'+esc(t.ozonTransfer)+' <span aria-hidden="true">⌄</span></summary>'+
@@ -655,7 +671,7 @@
     const c=t.comparison;
     return '<div class="nomad-footer-inner">'+
       '<section id="nomad360-support" class="nomad-donate" tabindex="-1"><h2>'+esc(t.supportTitle)+'</h2><p class="nomad-donate-lead">'+esc(t.supportLead)+'</p>'+
-      payHostedCrypto(t)+payFiat(t)+payRussian(t)+'</section>'+
+      payHostedCrypto(t)+payFiat(t)+'</section>'+
       '<details class="nomad-footer-products" id="nomad360-product-details"><summary>'+esc(t.fundsTitle)+'</summary><div class="nomad-products-grid">'+t.products.map(p=>productMarkup(t,p)).join('')+'</div></details>'+
       '<section id="nomad360-embed" class="nomad-embed-actions" tabindex="-1">'+
       '<h2 class="nomad-embed-b2b-title">'+esc(t.embedB2BTitle)+'</h2>'+
