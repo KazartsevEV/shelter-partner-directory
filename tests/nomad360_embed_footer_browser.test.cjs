@@ -146,7 +146,7 @@ const server=createServer(async(req,res)=>{
     return !!embed&&!!terms&&!!contact&&
       !!(contact.compareDocumentPosition(terms)&Node.DOCUMENT_POSITION_FOLLOWING)&&
       terms.parentElement.querySelector('summary')?.textContent==='Лицензия и использование'&&
-      terms.querySelector('a')?.getAttribute('href')?.endsWith('/CALCULATOR_LICENSE.md');
+      terms.querySelector('a')?.getAttribute('href')==='https://kazartsevev.github.io/shelter-partner-directory/license/';
   }),true,'License and usage must be below the entire calculator embed block');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
    A.equal(await license.locator('[data-nomad-embed-retry]').isVisible(),false,

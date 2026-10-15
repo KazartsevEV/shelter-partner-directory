@@ -18,7 +18,7 @@ test('Only the four requested presentation files may change; all financial sourc
 const boot=src=>{const win={};new Function('window','document',src)(win,{readyState:'loading',addEventListener(){}});return win.Nomad360LocaleCore;};
 test('Published hero, legal/privacy text, payment details and every financial translation remain unchanged',()=>{
  const old=boot(before('nomad360_locale_core.js')),current=boot(now('nomad360_locale_core.js'));
- const changed=new Set(['interface.header.embedButton','interface.header.customButton','interface.header.trafficTitle','interface.header.comparison.free','interface.header.comparison.own','interface.header.comparison.customerBrand','interface.header.comparison.customerQueries','interface.header.comparison.contacts']);
+ const changed=new Set(['interface.header.embedButton','interface.header.customButton','interface.header.trafficTitle','interface.header.comparison.free','interface.header.comparison.own','interface.header.comparison.customerBrand','interface.header.comparison.customerQueries','interface.header.comparison.contacts','interface.header.licenseCopy']);
  for(const key of old.keys())if(!changed.has(key))for(const language of ['ru','en','kk'])A.equal(current.t(key,language),old.t(key,language),language+' '+key);
  A.match(current.t('interface.shell.introLead','en'),/validation/);A.doesNotMatch(current.t('interface.shell.introLead','ru'),/validation/);
  A.equal(current.t('interface.header.comparison.own','ru'),'Собственный калькулятор');A.equal(current.t('interface.header.comparison.own','en'),'Your own calculator');

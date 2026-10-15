@@ -181,7 +181,7 @@
     "dataTitle": "Данные и конфиденциальность",
     "dataCopy": "Расчёты выполняются в браузере. Финансовые данные остаются на вашем устройстве, черновики сохраняются в хранилище браузера, PDF формируется средствами браузера. Для удаления сохранённых данных очистите данные сайта. При загрузке используются Tailwind CDN и Google Fonts: они получают технические данные запроса, включая IP-адрес и сведения о браузере. Финансовые данные расчётов им не передаются. При отображении формы пожертвования NOWPayments получает технические данные браузера; введённые в форму платёжные сведения обрабатывает NOWPayments.",
     "licenseTitle": "Лицензия и использование",
-    "licenseCopy": "Использование, копирование, изменение и встраивание калькулятора разрешены при сохранении названия калькулятора и ссылки на оригинал согласно действующей лицензии.",
+    "licenseCopy": "Nomad360 lite предоставляется бесплатно «как есть». Вы можете скачать и разместить полную неизменённую версию, в том числе на коммерческом сайте, сохранив бренд, авторство, ссылки, контакты и информацию о поддержке проекта. Изменения, ребрендинг и собственная версия возможны только по отдельному письменному соглашению. Гарантии не предоставляются.",
     "licenseLink": "Читать лицензию",
     "embedTitle": "Калькулятор для вашего сайта",
     "embedB2BTitle": "Работаете в B2B? Привлеките полезный трафик бесплатно.",
@@ -368,7 +368,7 @@
     "dataTitle": "Data and privacy",
     "dataCopy": "Calculations run in your browser. Financial data stays on your device; drafts are saved in browser storage and PDFs are created by the browser. Clear site data to remove saved calculations. The page loads Tailwind CDN and Google Fonts, which receive technical request data including IP address and browser information. Your financial calculations are not sent to these providers. The embedded NOWPayments donation form receives browser connection data and processes any payment details entered in the form.",
     "licenseTitle": "License and usage",
-    "licenseCopy": "You may use, copy, modify and embed the calculator while preserving its name and a link to the original under the current license.",
+    "licenseCopy": "Nomad360 lite is provided free of charge “as is”. You may download and embed the complete unmodified edition, including on a commercial website, while keeping its branding, attribution, links, contacts and developer-support information. Modifications, rebranding and custom editions require a separate written agreement. No warranties are provided.",
     "licenseLink": "Read license",
     "embedTitle": "Calculator for your website",
     "embedB2BTitle": "Work in B2B? Attract relevant traffic for free.",
@@ -555,7 +555,7 @@
     "dataTitle": "Деректер және құпиялық",
     "dataCopy": "Есептеулер браузеріңізде орындалады. Қаржылық деректер құрылғыңызда қалады, нобайлар браузерде сақталады, PDF браузер арқылы жасалады. Сақталған есептерді жою үшін сайт деректерін тазалаңыз. Бетті жүктегенде Tailwind CDN және Google Fonts техникалық сұрау деректерін, соның ішінде IP мекенжайы мен браузер мәліметтерін алады. Қаржылық есеп деректері оларға берілмейді. NOWPayments қайырымдылық нысаны браузердің техникалық деректерін алады және нысанға енгізілген төлем мәліметтерін өңдейді.",
     "licenseTitle": "Лицензия және пайдалану",
-    "licenseCopy": "Қолданыстағы лицензия бойынша калькуляторды пайдалану, көшіру, өзгерту және енгізу кезінде оның атауын және түпнұсқаға сілтемені сақтау қажет.",
+    "licenseCopy": "Nomad360 lite «сол күйінде» тегін ұсынылады. Толық өзгертілмеген нұсқаны коммерциялық сайтта да жүктеп алып, орналастыруға болады, бірақ бренд, авторлық атрибуция, сілтемелер, байланыс деректері және жобаға қолдау көрсету ақпараты сақталуы тиіс. Өзгерту, қайта брендтеу және жеке нұсқа жасау үшін бөлек жазбаша келісім қажет. Кепілдік берілмейді.",
     "licenseLink": "Лицензияны оқу",
     "embedTitle": "Сайтыңызға арналған калькулятор",
     "embedB2BTitle": "B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз.",
@@ -684,7 +684,7 @@
       '<div class="nomad-embed-retry" data-nomad-embed-retry hidden>'+esc(t.embedRetryLead)+' <a class="nomad-embed-retry-link" data-nomad-retry-download download="'+embedFilename+'" href="#">'+esc(t.embedRetryAction)+'</a></div></td>'+
       '<td><a class="nomad-embed-contact" href="mailto:'+PAY.email+'?subject='+encodeURIComponent('Nomad360 — '+t.customButton)+'">'+esc(t.customButton)+'</a></td></tr></tbody></table><p class="nomad-embed-hint">'+esc(t.embedHint)+'</p></div></section>'+
       '<div class="nomad-footer-meta">'+
-      '<details id="nomad360-license" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.licenseTitle)+'</summary><div class="nomad-license-terms"><p>'+esc(t.licenseCopy)+'</p><p><a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p></div></details>'+
+      '<details id="nomad360-license" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.licenseTitle)+'</summary><div class="nomad-license-terms"><p>'+esc(t.licenseCopy)+'</p><p><a href="https://kazartsevev.github.io/shelter-partner-directory/license/'+(language()==='en'?'en/':language()==='kk'?'kk/':'')+'" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p></div></details>'+
       '<details id="nomad360-data" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.dataTitle)+'</summary><p>'+esc(t.dataCopy)+'</p></details>'+
       '<section id="nomad360-official" class="nomad-meta-block"><p><span>'+esc(t.officialTitle)+'</span> <a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
       '<div class="nomad-footer-bottom"><p class="nomad-unit-note">'+esc(root.Nomad360Currency?.caption()||'USD')+'</p><span>'+esc(t.rights)+'</span></div>'+

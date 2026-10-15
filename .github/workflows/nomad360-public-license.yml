@@ -1,0 +1,39 @@
+name: Nomad360 public licence acceptance
+on:
+  pull_request:
+    paths:
+      - 'CALCULATOR_LICENSE.md'
+      - 'license/**'
+      - 'assets/nomad360-legal.css'
+      - 'scripts/legal/**'
+      - 'nomad360_header.js'
+      - 'nomad360_locale_core.js'
+      - 'tests/nomad360_public_license.test.cjs'
+      - 'en/**'
+      - '.github/workflows/nomad360-public-license.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'CALCULATOR_LICENSE.md'
+      - 'license/**'
+      - 'assets/nomad360-legal.css'
+      - 'scripts/legal/**'
+      - 'nomad360_header.js'
+      - 'nomad360_locale_core.js'
+      - 'tests/nomad360_public_license.test.cjs'
+      - 'en/**'
+      - '.github/workflows/nomad360-public-license.yml'
+permissions:
+  contents: read
+jobs:
+  license:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate and validate legal content in three languages
+        run: |
+          python3 scripts/legal/build_license.py --check
+          node --test tests/nomad360_public_license.test.cjs
