@@ -38,11 +38,11 @@ def main():
                 def mask_license_footer(content):
                     lines = content.decode('utf-8').splitlines()
                     copy_rows = sum('"licenseCopy": ' in x for x in lines)
-                    link_rows = sum("'<details id=\\\"nomad360-license\\\"" in x for x in lines)
+                    link_rows = sum('nomad360-license" class="nomad-meta-block"' in x for x in lines)
                     assert copy_rows == 3 and link_rows == 1
                     return '\n'.join('<ACCEPTED-LICENSE-EDIT>' if
                                      ('"licenseCopy": ' in x or
-                                      "'<details id=\\\"nomad360-license\\\"" in x)
+                                      'nomad360-license" class="nomad-meta-block"' in x)
                                      else x for x in lines)
                 assert mask_license_footer(raw) == mask_license_footer(approved), name
             elif name == 'nomad360_locale_core.js':
