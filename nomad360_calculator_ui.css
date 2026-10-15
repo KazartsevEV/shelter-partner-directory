@@ -343,8 +343,8 @@ a.nomad-pay-value{text-decoration:underline}
  .nomad-crypto-embed{padding:5px 4px 6px}
 }
 .nomad-pay-fiat{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}
-.nomad-kz-flag{display:inline-block;font-size:19px;vertical-align:-2px;margin-right:3px}
-.nomad-pay-kaspi .nomad-pay-hint{margin-top:2px}
+.nomad-kz-flag,.nomad-ru-flag{display:inline-block;font-size:19px;vertical-align:-2px;margin-right:3px}
+.nomad-pay-kaspi .nomad-pay-hint,.nomad-pay-ozon .nomad-pay-hint{margin-top:2px}
 .nomad-pay-bank{display:block;min-width:0}
 .nomad-fold-toggle{
   display:flex;gap:10px;align-items:flex-start;cursor:pointer;
@@ -373,7 +373,7 @@ a.nomad-pay-value{text-decoration:underline}
 @media(max-width:900px){.nomad-pay-fiat{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:480px){
  .nomad-donate-globe{font-size:19px}
- .nomad-pay-bank,.nomad-pay-kaspi{padding:16px}
+ .nomad-pay-bank,.nomad-pay-kaspi,.nomad-pay-ozon{padding:16px}
 }
 
 /* Simple V1 services: spendable cumulative cash is the first result, before P&L. */
