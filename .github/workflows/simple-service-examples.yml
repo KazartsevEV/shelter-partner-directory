@@ -1,0 +1,34 @@
+name: Simple service examples and reset acceptance
+on:
+  pull_request:
+    paths:
+      - Marketing_calc.HTML
+      - nomad360_simple_service_examples.js
+      - nomad360_calculator_ui.css
+      - tests/simple_service_examples_browser.cjs
+      - .github/workflows/simple-service-examples.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  service-examples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and unchanged financial sources
+        run: |
+          node --check nomad360_simple_service_examples.js
+          node --check tests/simple_service_examples_browser.cjs
+          node --test tests/nomad360_marketing_scope.test.cjs tests/return_7a_scope.test.cjs
+      - name: Install headless browser
+        run: |
+          npm install --no-save --no-package-lock playwright@1.58.0
+          npx playwright install --with-deps chromium
+      - name: Real services, samples, reset, languages and installation colours
+        run: node tests/simple_service_examples_browser.cjs
