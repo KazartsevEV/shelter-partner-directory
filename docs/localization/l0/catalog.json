@@ -9,8 +9,8 @@
     },
     {
       "file": "nomad360_calculator_ui.css",
-      "sha256": "d72a10219575e0726f99dc3a6729c2f45a522ce973fed6541714d40e0db2fe5e",
-      "bytes": 275559,
+      "sha256": "8d8c3db2e75e5e1c2df10b15931d556f3044fafbffe52e785e090bbef59b16e3",
+      "bytes": 278384,
       "owner": "nomad360_calculator_ui.css"
     },
     {
@@ -45,14 +45,14 @@
     },
     {
       "file": "nomad360_header.js",
-      "sha256": "1b49d3cb65264e670b47750d8a8ad68ef1f32ba82809278ec634a6db6c003443",
-      "bytes": 56848,
+      "sha256": "7d3eed054768f4f271ad6ec9cbd053740caf98afa480c0e17f71ee46f46d6981",
+      "bytes": 58537,
       "owner": "nomad360_header.js"
     },
     {
       "file": "nomad360_locale_core.js",
-      "sha256": "0730f04c2753ab4d5973a5fb398bf68f95a18d2583ad12e927938602b8bdac41",
-      "bytes": 480333,
+      "sha256": "72f8e7dda7cc0103e03626ca3d7a43643e709a88599a63992548269e973f8fc9",
+      "bytes": 480529,
       "owner": "nomad360_locale_core.js"
     },
     {
@@ -1822,9 +1822,9 @@
       "kind": "module-key",
       "key": "embedB2BFocus",
       "translations": {
-        "ru": "только конкретные вопросы",
-        "en": "Only specific questions",
-        "kk": "тек нақты сұрақтар"
+        "ru": "конкретные вопросы",
+        "en": "specific questions",
+        "kk": "нақты сұрақтарды"
       }
     },
     {
@@ -1834,9 +1834,9 @@
       "kind": "module-key",
       "key": "embedB2BPoints.0",
       "translations": {
-        "ru": "Привлеките полезный трафик бесплатно.",
-        "en": "Attract relevant traffic for free.",
-        "kk": "Пайдалы трафикті тегін тартыңыз."
+        "ru": "Разместите наш калькулятор на своем сайте и привлеките целевой трафик.",
+        "en": "Add our calculator to your website and attract relevant traffic.",
+        "kk": "Біздің калькуляторды сайтыңызға орналастырып, мақсатты трафик тартыңыз."
       }
     },
     {
@@ -1846,9 +1846,9 @@
       "kind": "module-key",
       "key": "embedB2BPoints.1",
       "translations": {
-        "ru": "Квалифицируйте запросы клиентов до первого касания.",
-        "en": "Qualify client inquiries before the first contact.",
-        "kk": "Клиенттердің сұраныстарын алғашқы байланысқа дейін саралаңыз."
+        "ru": "Собирайте лиды прямо с калькулятора через собственные формы или отвечайте на вопросы пользователей в онлайн-чате.",
+        "en": "Collect leads directly through the calculator using your own forms, or answer users' questions in live chat.",
+        "kk": "Калькулятор арқылы өз нысандарыңызбен лидтер жинаңыз немесе пайдаланушылардың сұрақтарына онлайн-чатта жауап беріңіз."
       }
     },
     {
@@ -1858,29 +1858,17 @@
       "kind": "module-key",
       "key": "embedB2BPoints.2",
       "translations": {
-        "ru": "Наш калькулятор ведет посетителя от идеи до бизнес-плана.",
-        "en": "Our calculator guides visitors from an idea to a business plan.",
-        "kk": "Біздің калькулятор келушіні идеядан бизнес-жоспарға дейін жетелейді."
+        "ru": "Квалифицируйте запросы клиентов до первого касания, чтобы обсуждать конкретные вопросы.",
+        "en": "Qualify client inquiries before the first contact so you can discuss specific questions.",
+        "kk": "Клиенттердің сұрауларын алғашқы байланысқа дейін саралап, нақты сұрақтарды талқылаңыз."
       }
     },
     {
-      "id": "nomad360_header.js:COPY:711:embedB2BPoints.3",
+      "id": "nomad360_header.js:COPY:711:embedB2BSlogan",
       "file": "nomad360_header.js",
       "line": 14,
       "kind": "module-key",
-      "key": "embedB2BPoints.3",
-      "translations": {
-        "ru": "Для обсуждения со специалистами остаются только конкретные вопросы.",
-        "en": "Only specific questions remain for discussion with specialists.",
-        "kk": "Мамандармен талқылауға тек нақты сұрақтар ғана қалады."
-      }
-    },
-    {
-      "id": "nomad360_header.js:COPY:711:embedB2BPoints.4",
-      "file": "nomad360_header.js",
-      "line": 14,
-      "kind": "module-key",
-      "key": "embedB2BPoints.4",
+      "key": "embedB2BSlogan",
       "translations": {
         "ru": "Nomad360 оптимизирует время для вас и ваших клиентов, чтобы обогнать конкурентов.",
         "en": "Nomad360 saves time for you and your clients, helping you stay ahead of competitors.",
@@ -21550,53 +21538,9 @@
       }
     },
     {
-      "id": "interface.header.embedB2BPoints.0",
+      "id": "interface.header.embedB2BSlogan",
       "file": "nomad360_locale_core.js",
       "line": 1740,
-      "kind": "semantic-message",
-      "translations": {
-        "ru": "Привлеките полезный трафик бесплатно.",
-        "en": "Attract relevant traffic for free.",
-        "kk": "Пайдалы трафикті тегін тартыңыз."
-      }
-    },
-    {
-      "id": "interface.header.embedB2BPoints.1",
-      "file": "nomad360_locale_core.js",
-      "line": 1741,
-      "kind": "semantic-message",
-      "translations": {
-        "ru": "Квалифицируйте запросы клиентов до первого касания.",
-        "en": "Qualify client inquiries before the first contact.",
-        "kk": "Клиенттердің сұраныстарын алғашқы байланысқа дейін саралаңыз."
-      }
-    },
-    {
-      "id": "interface.header.embedB2BPoints.2",
-      "file": "nomad360_locale_core.js",
-      "line": 1742,
-      "kind": "semantic-message",
-      "translations": {
-        "ru": "Наш калькулятор ведет посетителя от идеи до бизнес-плана.",
-        "en": "Our calculator guides visitors from an idea to a business plan.",
-        "kk": "Біздің калькулятор келушіні идеядан бизнес-жоспарға дейін жетелейді."
-      }
-    },
-    {
-      "id": "interface.header.embedB2BPoints.3",
-      "file": "nomad360_locale_core.js",
-      "line": 1743,
-      "kind": "semantic-message",
-      "translations": {
-        "ru": "Для обсуждения со специалистами остаются только конкретные вопросы.",
-        "en": "Only specific questions remain for discussion with specialists.",
-        "kk": "Мамандармен талқылауға тек нақты сұрақтар ғана қалады."
-      }
-    },
-    {
-      "id": "interface.header.embedB2BPoints.4",
-      "file": "nomad360_locale_core.js",
-      "line": 1744,
       "kind": "semantic-message",
       "translations": {
         "ru": "Nomad360 оптимизирует время для вас и ваших клиентов, чтобы обогнать конкурентов.",
@@ -21605,20 +21549,53 @@
       }
     },
     {
-      "id": "interface.header.embedB2BFocus",
+      "id": "interface.header.embedB2BPoints.0",
       "file": "nomad360_locale_core.js",
-      "line": 1745,
+      "line": 1741,
       "kind": "semantic-message",
       "translations": {
-        "ru": "только конкретные вопросы",
-        "en": "Only specific questions",
-        "kk": "тек нақты сұрақтар"
+        "ru": "Разместите наш калькулятор на своем сайте и привлеките целевой трафик.",
+        "en": "Add our calculator to your website and attract relevant traffic.",
+        "kk": "Біздің калькуляторды сайтыңызға орналастырып, мақсатты трафик тартыңыз."
+      }
+    },
+    {
+      "id": "interface.header.embedB2BPoints.1",
+      "file": "nomad360_locale_core.js",
+      "line": 1742,
+      "kind": "semantic-message",
+      "translations": {
+        "ru": "Собирайте лиды прямо с калькулятора через собственные формы или отвечайте на вопросы пользователей в онлайн-чате.",
+        "en": "Collect leads directly through the calculator using your own forms, or answer users' questions in live chat.",
+        "kk": "Калькулятор арқылы өз нысандарыңызбен лидтер жинаңыз немесе пайдаланушылардың сұрақтарына онлайн-чатта жауап беріңіз."
+      }
+    },
+    {
+      "id": "interface.header.embedB2BPoints.2",
+      "file": "nomad360_locale_core.js",
+      "line": 1743,
+      "kind": "semantic-message",
+      "translations": {
+        "ru": "Квалифицируйте запросы клиентов до первого касания, чтобы обсуждать конкретные вопросы.",
+        "en": "Qualify client inquiries before the first contact so you can discuss specific questions.",
+        "kk": "Клиенттердің сұрауларын алғашқы байланысқа дейін саралап, нақты сұрақтарды талқылаңыз."
+      }
+    },
+    {
+      "id": "interface.header.embedB2BFocus",
+      "file": "nomad360_locale_core.js",
+      "line": 1744,
+      "kind": "semantic-message",
+      "translations": {
+        "ru": "конкретные вопросы",
+        "en": "specific questions",
+        "kk": "нақты сұрақтарды"
       }
     },
     {
       "id": "interface.header.trafficTitle",
       "file": "nomad360_locale_core.js",
-      "line": 1746,
+      "line": 1745,
       "kind": "semantic-message",
       "translations": {
         "ru": "Уникальные посетители GitHub-репозитория за последние 14 дней:",
@@ -21629,7 +21606,7 @@
     {
       "id": "interface.header.embedButton",
       "file": "nomad360_locale_core.js",
-      "line": 1747,
+      "line": 1746,
       "kind": "semantic-message",
       "translations": {
         "ru": "Скачать бесплатную версию",
@@ -21640,7 +21617,7 @@
     {
       "id": "interface.header.embedHint",
       "file": "nomad360_locale_core.js",
-      "line": 1748,
+      "line": 1747,
       "kind": "semantic-message",
       "translations": {
         "ru": "Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.",
@@ -21651,7 +21628,7 @@
     {
       "id": "interface.header.customButton",
       "file": "nomad360_locale_core.js",
-      "line": 1749,
+      "line": 1748,
       "kind": "semantic-message",
       "translations": {
         "ru": "Заказать кастомное решение",
@@ -21662,7 +21639,7 @@
     {
       "id": "interface.header.embedWorking",
       "file": "nomad360_locale_core.js",
-      "line": 1750,
+      "line": 1749,
       "kind": "semantic-message",
       "translations": {
         "ru": "Подготавливаем HTML…",
@@ -21673,7 +21650,7 @@
     {
       "id": "interface.header.embedReady",
       "file": "nomad360_locale_core.js",
-      "line": 1751,
+      "line": 1750,
       "kind": "semantic-message",
       "translations": {
         "ru": "HTML готов к скачиванию",
@@ -21684,7 +21661,7 @@
     {
       "id": "interface.header.embedRetryLead",
       "file": "nomad360_locale_core.js",
-      "line": 1752,
+      "line": 1751,
       "kind": "semantic-message",
       "translations": {
         "ru": "Если загрузка не началась,",
@@ -21695,7 +21672,7 @@
     {
       "id": "interface.header.embedRetryAction",
       "file": "nomad360_locale_core.js",
-      "line": 1753,
+      "line": 1752,
       "kind": "semantic-message",
       "translations": {
         "ru": "нажмите здесь",
@@ -21706,7 +21683,7 @@
     {
       "id": "interface.header.embedError",
       "file": "nomad360_locale_core.js",
-      "line": 1754,
+      "line": 1753,
       "kind": "semantic-message",
       "translations": {
         "ru": "Не удалось собрать HTML. Проверьте подключение и попробуйте ещё раз.",
@@ -21717,7 +21694,7 @@
     {
       "id": "interface.header.officialTitle",
       "file": "nomad360_locale_core.js",
-      "line": 1755,
+      "line": 1754,
       "kind": "semantic-message",
       "translations": {
         "ru": "Официальный контакт",
@@ -21728,7 +21705,7 @@
     {
       "id": "interface.header.officialCopy",
       "file": "nomad360_locale_core.js",
-      "line": 1756,
+      "line": 1755,
       "kind": "semantic-message",
       "translations": {
         "ru": "Почта проекта для вопросов, сотрудничества и обращений по лицензии.",
@@ -21739,7 +21716,7 @@
     {
       "id": "interface.header.unitNote",
       "file": "nomad360_locale_core.js",
-      "line": 1757,
+      "line": 1756,
       "kind": "semantic-message",
       "translations": {
         "ru": "* у.е. — деньги в вашей валюте.",
@@ -21750,7 +21727,7 @@
     {
       "id": "interface.header.rights",
       "file": "nomad360_locale_core.js",
-      "line": 1758,
+      "line": 1757,
       "kind": "semantic-message",
       "translations": {
         "ru": "© 2026 Nomad360",
@@ -21761,7 +21738,7 @@
     {
       "id": "navigation.steps.navigation",
       "file": "nomad360_locale_core.js",
-      "line": 1759,
+      "line": 1758,
       "kind": "semantic-message",
       "translations": {
         "ru": "Навигация по шагам расчёта",
@@ -21772,7 +21749,7 @@
     {
       "id": "navigation.steps.path",
       "file": "nomad360_locale_core.js",
-      "line": 1760,
+      "line": 1759,
       "kind": "semantic-message",
       "translations": {
         "ru": "Путь расчёта",
@@ -21783,7 +21760,7 @@
     {
       "id": "navigation.steps.home",
       "file": "nomad360_locale_core.js",
-      "line": 1761,
+      "line": 1760,
       "kind": "semantic-message",
       "translations": {
         "ru": "Главная",
@@ -21794,7 +21771,7 @@
     {
       "id": "navigation.steps.service",
       "file": "nomad360_locale_core.js",
-      "line": 1762,
+      "line": 1761,
       "kind": "semantic-message",
       "translations": {
         "ru": "Услуга",
@@ -21805,7 +21782,7 @@
     {
       "id": "navigation.steps.mode",
       "file": "nomad360_locale_core.js",
-      "line": 1763,
+      "line": 1762,
       "kind": "semantic-message",
       "translations": {
         "ru": "Режим расчёта",
@@ -21816,7 +21793,7 @@
     {
       "id": "navigation.steps.channel",
       "file": "nomad360_locale_core.js",
-      "line": 1764,
+      "line": 1763,
       "kind": "semantic-message",
       "translations": {
         "ru": "Онлайн / офлайн",
@@ -21827,7 +21804,7 @@
     {
       "id": "navigation.steps.online",
       "file": "nomad360_locale_core.js",
-      "line": 1765,
+      "line": 1764,
       "kind": "semantic-message",
       "translations": {
         "ru": "Онлайн",
@@ -21838,7 +21815,7 @@
     {
       "id": "navigation.steps.offline",
       "file": "nomad360_locale_core.js",
-      "line": 1766,
+      "line": 1765,
       "kind": "semantic-message",
       "translations": {
         "ru": "Офлайн",
@@ -21849,7 +21826,7 @@
     {
       "id": "navigation.steps.who",
       "file": "nomad360_locale_core.js",
-      "line": 1767,
+      "line": 1766,
       "kind": "semantic-message",
       "translations": {
         "ru": "Кто исполнитель",
@@ -21860,7 +21837,7 @@
     {
       "id": "navigation.steps.agent",
       "file": "nomad360_locale_core.js",
-      "line": 1768,
+      "line": 1767,
       "kind": "semantic-message",
       "translations": {
         "ru": "Я агент",
@@ -21871,7 +21848,7 @@
     {
       "id": "navigation.steps.commission",
       "file": "nomad360_locale_core.js",
-      "line": 1769,
+      "line": 1768,
       "kind": "semantic-message",
       "translations": {
         "ru": "Процент с продаж",
@@ -21882,7 +21859,7 @@
     {
       "id": "navigation.steps.complex",
       "file": "nomad360_locale_core.js",
-      "line": 1770,
+      "line": 1769,
       "kind": "semantic-message",
       "translations": {
         "ru": "Сложная мотивация",
@@ -21893,7 +21870,7 @@
     {
       "id": "navigation.steps.self",
       "file": "nomad360_locale_core.js",
-      "line": 1771,
+      "line": 1770,
       "kind": "semantic-message",
       "translations": {
         "ru": "Сам",
@@ -21904,7 +21881,7 @@
     {
       "id": "navigation.steps.hired",
       "file": "nomad360_locale_core.js",
-      "line": 1772,
+      "line": 1771,
       "kind": "semantic-message",
       "translations": {
         "ru": "Нанимаю",
@@ -21915,7 +21892,7 @@
     {
       "id": "navigation.steps.simple",
       "file": "nomad360_locale_core.js",
-      "line": 1773,
+      "line": 1772,
       "kind": "semantic-message",
       "translations": {
         "ru": "Упрощённый расчёт",
@@ -21926,7 +21903,7 @@
     {
       "id": "navigation.steps.full",
       "file": "nomad360_locale_core.js",
-      "line": 1774,
+      "line": 1773,
       "kind": "semantic-message",
       "translations": {
         "ru": "Полный расчёт",
@@ -21937,7 +21914,7 @@
     {
       "id": "navigation.steps.goods",
       "file": "nomad360_locale_core.js",
-      "line": 1775,
+      "line": 1774,
       "kind": "semantic-message",
       "translations": {
         "ru": "Товар",
@@ -21948,7 +21925,7 @@
     {
       "id": "navigation.steps.nameGood",
       "file": "nomad360_locale_core.js",
-      "line": 1776,
+      "line": 1775,
       "kind": "semantic-message",
       "translations": {
         "ru": "Название товара",
@@ -21959,7 +21936,7 @@
     {
       "id": "navigation.steps.nameService",
       "file": "nomad360_locale_core.js",
-      "line": 1777,
+      "line": 1776,
       "kind": "semantic-message",
       "translations": {
         "ru": "Название услуги",
@@ -21970,7 +21947,7 @@
     {
       "id": "navigation.steps.source",
       "file": "nomad360_locale_core.js",
-      "line": 1778,
+      "line": 1777,
       "kind": "semantic-message",
       "translations": {
         "ru": "Источник товара",
@@ -21981,7 +21958,7 @@
     {
       "id": "navigation.steps.expensesGood",
       "file": "nomad360_locale_core.js",
-      "line": 1779,
+      "line": 1778,
       "kind": "semantic-message",
       "translations": {
         "ru": "Расходы товара",
@@ -21992,7 +21969,7 @@
     {
       "id": "navigation.steps.expensesService",
       "file": "nomad360_locale_core.js",
-      "line": 1780,
+      "line": 1779,
       "kind": "semantic-message",
       "translations": {
         "ru": "Расходы услуги",
@@ -22003,7 +21980,7 @@
     {
       "id": "navigation.steps.summary",
       "file": "nomad360_locale_core.js",
-      "line": 1781,
+      "line": 1780,
       "kind": "semantic-message",
       "translations": {
         "ru": "Итоги бизнеса",
@@ -22014,7 +21991,7 @@
     {
       "id": "navigation.steps.portfolio",
       "file": "nomad360_locale_core.js",
-      "line": 1782,
+      "line": 1781,
       "kind": "semantic-message",
       "translations": {
         "ru": "Портфель V2",
@@ -22025,7 +22002,7 @@
     {
       "id": "navigation.steps.back",
       "file": "nomad360_locale_core.js",
-      "line": 1783,
+      "line": 1782,
       "kind": "semantic-message",
       "translations": {
         "ru": "Назад к",
@@ -22036,7 +22013,7 @@
     {
       "id": "currency.payment.label",
       "file": "nomad360_locale_core.js",
-      "line": 1784,
+      "line": 1783,
       "kind": "semantic-message",
       "translations": {
         "ru": "Валюта платежа",
@@ -22047,7 +22024,7 @@
     {
       "id": "currency.payment.note",
       "file": "nomad360_locale_core.js",
-      "line": 1785,
+      "line": 1784,
       "kind": "semantic-message",
       "translations": {
         "ru": "Укажите стоимость в валюте, в которой будете оплачивать товар или доставку.",
@@ -22058,7 +22035,7 @@
     {
       "id": "currency.payment.pending",
       "file": "nomad360_locale_core.js",
-      "line": 1786,
+      "line": 1785,
       "kind": "semantic-message",
       "translations": {
         "ru": "Для расчёта требуется конвертация. Выбор валюты не применяет обменный курс.",
@@ -22069,7 +22046,7 @@
     {
       "id": "currency.payment.invalid",
       "file": "nomad360_locale_core.js",
-      "line": 1787,
+      "line": 1786,
       "kind": "semantic-message",
       "translations": {
         "ru": "Проверьте сумму и валюту платежа.",
@@ -22080,7 +22057,7 @@
     {
       "id": "currency.payment.business",
       "file": "nomad360_locale_core.js",
-      "line": 1788,
+      "line": 1787,
       "kind": "semantic-message",
       "translations": {
         "ru": "Сумма в валюте бизнеса",
@@ -22091,7 +22068,7 @@
     {
       "id": "currency.payment.empty",
       "file": "nomad360_locale_core.js",
-      "line": 1789,
+      "line": 1788,
       "kind": "semantic-message",
       "translations": {
         "ru": "Укажите сумму платежа.",
@@ -22102,7 +22079,7 @@
     {
       "id": "export.excel.sheet",
       "file": "nomad360_locale_core.js",
-      "line": 1790,
+      "line": 1789,
       "kind": "semantic-message",
       "translations": {
         "ru": "Прайс-лист",
@@ -22113,7 +22090,7 @@
     {
       "id": "export.excel.notes",
       "file": "nomad360_locale_core.js",
-      "line": 1791,
+      "line": 1790,
       "kind": "semantic-message",
       "translations": {
         "ru": "Примечания",
@@ -22124,7 +22101,7 @@
     {
       "id": "export.excel.id",
       "file": "nomad360_locale_core.js",
-      "line": 1792,
+      "line": 1791,
       "kind": "semantic-message",
       "translations": {
         "ru": "SKU / ID",
@@ -22135,7 +22112,7 @@
     {
       "id": "export.excel.name",
       "file": "nomad360_locale_core.js",
-      "line": 1793,
+      "line": 1792,
       "kind": "semantic-message",
       "translations": {
         "ru": "Товар / услуга",
@@ -22146,7 +22123,7 @@
     {
       "id": "export.excel.type",
       "file": "nomad360_locale_core.js",
-      "line": 1794,
+      "line": 1793,
       "kind": "semantic-message",
       "translations": {
         "ru": "Тип",
@@ -22157,7 +22134,7 @@
     {
       "id": "export.excel.currency",
       "file": "nomad360_locale_core.js",
-      "line": 1795,
+      "line": 1794,
       "kind": "semantic-message",
       "translations": {
         "ru": "Валюта",
@@ -22168,7 +22145,7 @@
     {
       "id": "export.excel.base",
       "file": "nomad360_locale_core.js",
-      "line": 1796,
+      "line": 1795,
       "kind": "semantic-message",
       "translations": {
         "ru": "Прайс V2",
@@ -22179,7 +22156,7 @@
     {
       "id": "export.excel.baseNet",
       "file": "nomad360_locale_core.js",
-      "line": 1797,
+      "line": 1796,
       "kind": "semantic-message",
       "translations": {
         "ru": "Цена V2 без НДС",
@@ -22190,7 +22167,7 @@
     {
       "id": "export.excel.discount",
       "file": "nomad360_locale_core.js",
-      "line": 1798,
+      "line": 1797,
       "kind": "semantic-message",
       "translations": {
         "ru": "Индивидуальная скидка, %",
@@ -22201,7 +22178,7 @@
     {
       "id": "export.excel.customer",
       "file": "nomad360_locale_core.js",
-      "line": 1799,
+      "line": 1798,
       "kind": "semantic-message",
       "translations": {
         "ru": "Цена покупателю",
@@ -22212,7 +22189,7 @@
     {
       "id": "export.excel.status",
       "file": "nomad360_locale_core.js",
-      "line": 1800,
+      "line": 1799,
       "kind": "semantic-message",
       "translations": {
         "ru": "Статус",
@@ -22223,7 +22200,7 @@
     {
       "id": "export.excel.note",
       "file": "nomad360_locale_core.js",
-      "line": 1801,
+      "line": 1800,
       "kind": "semantic-message",
       "translations": {
         "ru": "Примечание",
@@ -22234,7 +22211,7 @@
     {
       "id": "export.excel.own",
       "file": "nomad360_locale_core.js",
-      "line": 1802,
+      "line": 1801,
       "kind": "semantic-message",
       "translations": {
         "ru": "Делаю сам",
@@ -22245,7 +22222,7 @@
     {
       "id": "export.excel.resale",
       "file": "nomad360_locale_core.js",
-      "line": 1803,
+      "line": 1802,
       "kind": "semantic-message",
       "translations": {
         "ru": "Покупаю у других",
@@ -22256,7 +22233,7 @@
     {
       "id": "export.excel.dropship",
       "file": "nomad360_locale_core.js",
-      "line": 1804,
+      "line": 1803,
       "kind": "semantic-message",
       "translations": {
         "ru": "Дропшиппинг",
@@ -22267,7 +22244,7 @@
     {
       "id": "export.excel.offline-service",
       "file": "nomad360_locale_core.js",
-      "line": 1805,
+      "line": 1804,
       "kind": "semantic-message",
       "translations": {
         "ru": "Офлайн-услуга",
@@ -22278,7 +22255,7 @@
     {
       "id": "export.excel.online-service",
       "file": "nomad360_locale_core.js",
-      "line": 1806,
+      "line": 1805,
       "kind": "semantic-message",
       "translations": {
         "ru": "Онлайн-услуга",
@@ -22289,7 +22266,7 @@
     {
       "id": "export.excel.CALCULATED",
       "file": "nomad360_locale_core.js",
-      "line": 1807,
+      "line": 1806,
       "kind": "semantic-message",
       "translations": {
         "ru": "Рассчитано",
@@ -22300,7 +22277,7 @@
     {
       "id": "export.excel.TARGET_MET",
       "file": "nomad360_locale_core.js",
-      "line": 1808,
+      "line": 1807,
       "kind": "semantic-message",
       "translations": {
         "ru": "Целевая маржа достигнута",
@@ -22311,7 +22288,7 @@
     {
       "id": "export.excel.MINIMUM_ONLY",
       "file": "nomad360_locale_core.js",
-      "line": 1809,
+      "line": 1808,
       "kind": "semantic-message",
       "translations": {
         "ru": "Только минимальная маржа",
@@ -22322,7 +22299,7 @@
     {
       "id": "export.excel.FIXED_V1",
       "file": "nomad360_locale_core.js",
-      "line": 1810,
+      "line": 1809,
       "kind": "semantic-message",
       "translations": {
         "ru": "Фиксированная цена V1",
@@ -22333,7 +22310,7 @@
     {
       "id": "export.excel.LOSS",
       "file": "nomad360_locale_core.js",
-      "line": 1811,
+      "line": 1810,
       "kind": "semantic-message",
       "translations": {
         "ru": "Убыток",
@@ -22344,7 +22321,7 @@
     {
       "id": "export.excel.PROVISIONAL",
       "file": "nomad360_locale_core.js",
-      "line": 1812,
+      "line": 1811,
       "kind": "semantic-message",
       "translations": {
         "ru": "Предварительно",
@@ -22355,7 +22332,7 @@
     {
       "id": "export.excel.INFEASIBLE",
       "file": "nomad360_locale_core.js",
-      "line": 1813,
+      "line": 1812,
       "kind": "semantic-message",
       "translations": {
         "ru": "Невыполнимо",
@@ -22366,7 +22343,7 @@
     {
       "id": "export.excel.source",
       "file": "nomad360_locale_core.js",
-      "line": 1814,
+      "line": 1813,
       "kind": "semantic-message",
       "translations": {
         "ru": "Источник: локальный расчёт Nomad360 V2. Значения зависят от исходных данных и сценарных допущений.",
@@ -22377,7 +22354,7 @@
     {
       "id": "export.excel.linked",
       "file": "nomad360_locale_core.js",
-      "line": 1815,
+      "line": 1814,
       "kind": "semantic-message",
       "translations": {
         "ru": "Прайс V2 и цена покупателю — действующие результаты движка с НДС. Индивидуальная скидка указана в процентных пунктах.",
@@ -22388,7 +22365,7 @@
     {
       "id": "export.excel.standalone",
       "file": "nomad360_locale_core.js",
-      "line": 1816,
+      "line": 1815,
       "kind": "semantic-message",
       "translations": {
         "ru": "Базовая цена V2 указана без НДС. Цена покупателю — действующий результат движка с НДС. Индивидуальная скидка в этой модели не поддерживается; её ячейки пустые.",
@@ -22399,7 +22376,7 @@
     {
       "id": "export.excel.offers",
       "file": "nomad360_locale_core.js",
-      "line": 1817,
+      "line": 1816,
       "kind": "semantic-message",
       "translations": {
         "ru": "Скидки комплектов и связанные продажи применяются отдельно; прайс показывает цены отдельных позиций.",
@@ -22410,7 +22387,7 @@
     {
       "id": "export.excel.provisional",
       "file": "nomad360_locale_core.js",
-      "line": 1818,
+      "line": 1817,
       "kind": "semantic-message",
       "translations": {
         "ru": "Амортизация разовых затрат не подтверждена; полная бухгалтерская маржа предварительная.",
@@ -22421,7 +22398,7 @@
     {
       "id": "export.excel.missing",
       "file": "nomad360_locale_core.js",
-      "line": 1819,
+      "line": 1818,
       "kind": "semantic-message",
       "translations": {
         "ru": "Пустая числовая ячейка означает отсутствие определённого значения в модели, а не ноль.",
@@ -22432,7 +22409,7 @@
     {
       "id": "export.excel.review",
       "file": "nomad360_locale_core.js",
-      "line": 1820,
+      "line": 1819,
       "kind": "semantic-message",
       "translations": {
         "ru": "Проверьте статус этой позиции перед использованием цены.",
@@ -22443,7 +22420,7 @@
     {
       "id": "service.cashflow.head",
       "file": "nomad360_locale_core.js",
-      "line": 1821,
+      "line": 1820,
       "kind": "semantic-message",
       "translations": {
         "ru": "Полная денежная модель услуги",
@@ -22454,7 +22431,7 @@
     {
       "id": "service.cashflow.price",
       "file": "nomad360_locale_core.js",
-      "line": 1822,
+      "line": 1821,
       "kind": "semantic-message",
       "translations": {
         "ru": "Цена с НДС",
@@ -22465,7 +22442,7 @@
     {
       "id": "service.cashflow.vat",
       "file": "nomad360_locale_core.js",
-      "line": 1823,
+      "line": 1822,
       "kind": "semantic-message",
       "translations": {
         "ru": "НДС, %",
@@ -22476,7 +22453,7 @@
     {
       "id": "service.cashflow.tax",
       "file": "nomad360_locale_core.js",
-      "line": 1824,
+      "line": 1823,
       "kind": "semantic-message",
       "translations": {
         "ru": "Налог",
@@ -22487,7 +22464,7 @@
     {
       "id": "service.cashflow.turnover",
       "file": "nomad360_locale_core.js",
-      "line": 1825,
+      "line": 1824,
       "kind": "semantic-message",
       "translations": {
         "ru": "С оборота",
@@ -22498,7 +22475,7 @@
     {
       "id": "service.cashflow.profit",
       "file": "nomad360_locale_core.js",
-      "line": 1826,
+      "line": 1825,
       "kind": "semantic-message",
       "translations": {
         "ru": "С прибыли",
@@ -22509,7 +22486,7 @@
     {
       "id": "service.cashflow.horizon",
       "file": "nomad360_locale_core.js",
-      "line": 1827,
+      "line": 1826,
       "kind": "semantic-message",
       "translations": {
         "ru": "Горизонт, месяцев",
@@ -22520,7 +22497,7 @@
     {
       "id": "service.cashflow.funding",
       "file": "nomad360_locale_core.js",
-      "line": 1828,
+      "line": 1827,
       "kind": "semantic-message",
       "translations": {
         "ru": "Финансирование",
@@ -22531,7 +22508,7 @@
     {
       "id": "service.cashflow.own",
       "file": "nomad360_locale_core.js",
-      "line": 1829,
+      "line": 1828,
       "kind": "semantic-message",
       "translations": {
         "ru": "Свои деньги",
@@ -22542,7 +22519,7 @@
     {
       "id": "service.cashflow.credit",
       "file": "nomad360_locale_core.js",
-      "line": 1830,
+      "line": 1829,
       "kind": "semantic-message",
       "translations": {
         "ru": "Кредит",
@@ -22553,7 +22530,7 @@
     {
       "id": "service.cashflow.reserve",
       "file": "nomad360_locale_core.js",
-      "line": 1831,
+      "line": 1830,
       "kind": "semantic-message",
       "translations": {
         "ru": "Резерв",
@@ -22564,7 +22541,7 @@
     {
       "id": "service.cashflow.capital",
       "file": "nomad360_locale_core.js",
-      "line": 1832,
+      "line": 1831,
       "kind": "semantic-message",
       "translations": {
         "ru": "Стартовый капитал",
@@ -22575,7 +22552,7 @@
     {
       "id": "service.cashflow.peak",
       "file": "nomad360_locale_core.js",
-      "line": 1833,
+      "line": 1832,
       "kind": "semantic-message",
       "translations": {
         "ru": "Пик дефицита",
@@ -22586,7 +22563,7 @@
     {
       "id": "service.cashflow.first",
       "file": "nomad360_locale_core.js",
-      "line": 1834,
+      "line": 1833,
       "kind": "semantic-message",
       "translations": {
         "ru": "Первый положительный CF",
@@ -22597,7 +22574,7 @@
     {
       "id": "service.cashflow.payback",
       "file": "nomad360_locale_core.js",
-      "line": 1835,
+      "line": 1834,
       "kind": "semantic-message",
       "translations": {
         "ru": "Окупаемость",
@@ -22608,7 +22585,7 @@
     {
       "id": "service.cashflow.noPayback",
       "file": "nomad360_locale_core.js",
-      "line": 1836,
+      "line": 1835,
       "kind": "semantic-message",
       "translations": {
         "ru": "Не окупится за выбранный горизонт",
@@ -22619,7 +22596,7 @@
     {
       "id": "service.cashflow.net",
       "file": "nomad360_locale_core.js",
-      "line": 1837,
+      "line": 1836,
       "kind": "semantic-message",
       "translations": {
         "ru": "Чистая прибыль",
@@ -22630,7 +22607,7 @@
     {
       "id": "service.cashflow.taxes",
       "file": "nomad360_locale_core.js",
-      "line": 1838,
+      "line": 1837,
       "kind": "semantic-message",
       "translations": {
         "ru": "Налоги",
@@ -22641,7 +22618,7 @@
     {
       "id": "service.cashflow.cash",
       "file": "nomad360_locale_core.js",
-      "line": 1839,
+      "line": 1838,
       "kind": "semantic-message",
       "translations": {
         "ru": "Деньги на руках",
@@ -22652,7 +22629,7 @@
     {
       "id": "service.cashflow.free",
       "file": "nomad360_locale_core.js",
-      "line": 1840,
+      "line": 1839,
       "kind": "semantic-message",
       "translations": {
         "ru": "Свободный остаток",
@@ -22663,7 +22640,7 @@
     {
       "id": "service.cashflow.debt",
       "file": "nomad360_locale_core.js",
-      "line": 1841,
+      "line": 1840,
       "kind": "semantic-message",
       "translations": {
         "ru": "Непогашенный кредит",
@@ -22674,7 +22651,7 @@
     {
       "id": "service.cashflow.rate",
       "file": "nomad360_locale_core.js",
-      "line": 1842,
+      "line": 1841,
       "kind": "semantic-message",
       "translations": {
         "ru": "Кредит, % годовых",
@@ -22685,7 +22662,7 @@
     {
       "id": "service.cashflow.term",
       "file": "nomad360_locale_core.js",
-      "line": 1843,
+      "line": 1842,
       "kind": "semantic-message",
       "translations": {
         "ru": "Срок кредита, мес.",
@@ -22696,7 +22673,7 @@
     {
       "id": "service.cashflow.month",
       "file": "nomad360_locale_core.js",
-      "line": 1844,
+      "line": 1843,
       "kind": "semantic-message",
       "translations": {
         "ru": "Месяц",
@@ -22707,7 +22684,7 @@
     {
       "id": "service.cashflow.revenue",
       "file": "nomad360_locale_core.js",
-      "line": 1845,
+      "line": 1844,
       "kind": "semantic-message",
       "translations": {
         "ru": "Выручка без НДС",
@@ -22718,7 +22695,7 @@
     {
       "id": "service.cashflow.cost",
       "file": "nomad360_locale_core.js",
-      "line": 1846,
+      "line": 1845,
       "kind": "semantic-message",
       "translations": {
         "ru": "Расходы",
@@ -22729,7 +22706,7 @@
     {
       "id": "service.cashflow.interest",
       "file": "nomad360_locale_core.js",
-      "line": 1847,
+      "line": 1846,
       "kind": "semantic-message",
       "translations": {
         "ru": "Проценты",
@@ -22740,7 +22717,7 @@
     {
       "id": "service.cashflow.taxCol",
       "file": "nomad360_locale_core.js",
-      "line": 1848,
+      "line": 1847,
       "kind": "semantic-message",
       "translations": {
         "ru": "Налог",
@@ -22751,7 +22728,7 @@
     {
       "id": "service.cashflow.amortCol",
       "file": "nomad360_locale_core.js",
-      "line": 1849,
+      "line": 1848,
       "kind": "semantic-message",
       "translations": {
         "ru": "Амортизация",
@@ -22762,7 +22739,7 @@
     {
       "id": "service.cashflow.profitCol",
       "file": "nomad360_locale_core.js",
-      "line": 1850,
+      "line": 1849,
       "kind": "semantic-message",
       "translations": {
         "ru": "Прибыль",
@@ -22773,7 +22750,7 @@
     {
       "id": "service.cashflow.flow",
       "file": "nomad360_locale_core.js",
-      "line": 1851,
+      "line": 1850,
       "kind": "semantic-message",
       "translations": {
         "ru": "Операционный CF",
@@ -22784,7 +22761,7 @@
     {
       "id": "service.cashflow.capex",
       "file": "nomad360_locale_core.js",
-      "line": 1852,
+      "line": 1851,
       "kind": "semantic-message",
       "translations": {
         "ru": "Оборудование",
@@ -22795,7 +22772,7 @@
     {
       "id": "service.cashflow.fundingIn",
       "file": "nomad360_locale_core.js",
-      "line": 1853,
+      "line": 1852,
       "kind": "semantic-message",
       "translations": {
         "ru": "Вложено / кредит",
@@ -22806,7 +22783,7 @@
     {
       "id": "service.cashflow.principal",
       "file": "nomad360_locale_core.js",
-      "line": 1854,
+      "line": 1853,
       "kind": "semantic-message",
       "translations": {
         "ru": "Тело кредита",
@@ -22817,7 +22794,7 @@
     {
       "id": "service.cashflow.netFlow",
       "file": "nomad360_locale_core.js",
-      "line": 1855,
+      "line": 1854,
       "kind": "semantic-message",
       "translations": {
         "ru": "Денежный поток",
@@ -22828,7 +22805,7 @@
     {
       "id": "service.cashflow.balance",
       "file": "nomad360_locale_core.js",
-      "line": 1856,
+      "line": 1855,
       "kind": "semantic-message",
       "translations": {
         "ru": "Остаток денег",
@@ -22839,7 +22816,7 @@
     {
       "id": "service.cashflow.save",
       "file": "nomad360_locale_core.js",
-      "line": 1857,
+      "line": 1856,
       "kind": "semantic-message",
       "translations": {
         "ru": "Сохранить расчёт",
@@ -22850,7 +22827,7 @@
     {
       "id": "service.cashflow.report",
       "file": "nomad360_locale_core.js",
-      "line": 1858,
+      "line": 1857,
       "kind": "semantic-message",
       "translations": {
         "ru": "Сохранить расчёт в PDF",
@@ -22861,7 +22838,7 @@
     {
       "id": "service.cashflow.back",
       "file": "nomad360_locale_core.js",
-      "line": 1859,
+      "line": 1858,
       "kind": "semantic-message",
       "translations": {
         "ru": "← К услуге",
@@ -22872,7 +22849,7 @@
     {
       "id": "service.cashflow.error",
       "file": "nomad360_locale_core.js",
-      "line": 1860,
+      "line": 1859,
       "kind": "semantic-message",
       "translations": {
         "ru": "Для расчёта завершите заполнение V1-услуги.",
@@ -22883,7 +22860,7 @@
     {
       "id": "service.cashflow.resume",
       "file": "nomad360_locale_core.js",
-      "line": 1861,
+      "line": 1860,
       "kind": "semantic-message",
       "translations": {
         "ru": "Продолжить сохранённый расчёт",
@@ -22894,7 +22871,7 @@
     {
       "id": "service.cashflow.saved",
       "file": "nomad360_locale_core.js",
-      "line": 1862,
+      "line": 1861,
       "kind": "semantic-message",
       "translations": {
         "ru": "Расчёт сохранён",
@@ -22905,7 +22882,7 @@
     {
       "id": "service.cashflow.portfolio",
       "file": "nomad360_locale_core.js",
-      "line": 1863,
+      "line": 1862,
       "kind": "semantic-message",
       "translations": {
         "ru": "Добавить в портфель V2",
@@ -22916,7 +22893,7 @@
     {
       "id": "service.cashflowGuide.step",
       "file": "nomad360_locale_core.js",
-      "line": 1864,
+      "line": 1863,
       "kind": "semantic-message",
       "translations": {
         "ru": "Условия расчёта",
@@ -22927,7 +22904,7 @@
     {
       "id": "service.cashflowGuide.stepHint",
       "file": "nomad360_locale_core.js",
-      "line": 1865,
+      "line": 1864,
       "kind": "semantic-message",
       "translations": {
         "ru": "Проверьте налог, период и источник денег. Итог обновляется сразу после изменения поля.",
@@ -22938,7 +22915,7 @@
     {
       "id": "service.cashflowGuide.summary",
       "file": "nomad360_locale_core.js",
-      "line": 1866,
+      "line": 1865,
       "kind": "semantic-message",
       "translations": {
         "ru": "Итог за выбранный период",
@@ -22949,7 +22926,7 @@
     {
       "id": "service.cashflowGuide.summaryHint",
       "file": "nomad360_locale_core.js",
-      "line": 1867,
+      "line": 1866,
       "kind": "semantic-message",
       "translations": {
         "ru": "Все суммы указаны в валюте расчёта. Прогноз может содержать дробные значения: это ожидаемое число клиентов.",
@@ -22960,7 +22937,7 @@
     {
       "id": "service.cashflowGuide.months",
       "file": "nomad360_locale_core.js",
-      "line": 1868,
+      "line": 1867,
       "kind": "semantic-message",
       "translations": {
         "ru": "Деньги по месяцам",
@@ -22971,7 +22948,7 @@
     {
       "id": "service.cashflowGuide.monthsHint",
       "file": "nomad360_locale_core.js",
-      "line": 1869,
+      "line": 1868,
       "kind": "semantic-message",
       "translations": {
         "ru": "Таблицу можно прокручивать горизонтально. Выручка указана без НДС, денежный поток — после расходов и налогов.",
@@ -22982,7 +22959,7 @@
     {
       "id": "service.cashflowGuide.details",
       "file": "nomad360_locale_core.js",
-      "line": 1870,
+      "line": 1869,
       "kind": "semantic-message",
       "translations": {
         "ru": "Показать остальные показатели",
@@ -22993,7 +22970,7 @@
     {
       "id": "service.cashflowGuide.priceOne",
       "file": "nomad360_locale_core.js",
-      "line": 1871,
+      "line": 1870,
       "kind": "semantic-message",
       "translations": {
         "ru": "Цена одной услуги с НДС",
@@ -23004,7 +22981,7 @@
     {
       "id": "service.cashflowGuide.forecast",
       "file": "nomad360_locale_core.js",
-      "line": 1872,
+      "line": 1871,
       "kind": "semantic-message",
       "translations": {
         "ru": "Прогноз клиентов",
@@ -23015,7 +22992,7 @@
     {
       "id": "service.cashflowGuide.foreFirst",
       "file": "nomad360_locale_core.js",
-      "line": 1873,
+      "line": 1872,
       "kind": "semantic-message",
       "translations": {
         "ru": "в первый месяц",
@@ -23026,7 +23003,7 @@
     {
       "id": "service.cashflowGuide.foreMax",
       "file": "nomad360_locale_core.js",
-      "line": 1874,
+      "line": 1873,
       "kind": "semantic-message",
       "translations": {
         "ru": "максимум в месяц",
@@ -23037,7 +23014,7 @@
     {
       "id": "service.cashflowGuide.foreEach",
       "file": "nomad360_locale_core.js",
-      "line": 1875,
+      "line": 1874,
       "kind": "semantic-message",
       "translations": {
         "ru": "в месяц",
@@ -23048,7 +23025,7 @@
     {
       "id": "service.cashflowGuide.taxRate",
       "file": "nomad360_locale_core.js",
-      "line": 1876,
+      "line": 1875,
       "kind": "semantic-message",
       "translations": {
         "ru": "Ставка налога, %",
@@ -23059,7 +23036,7 @@
     {
       "id": "service.cashflowGuide.creditOnly",
       "file": "nomad360_locale_core.js",
-      "line": 1877,
+      "line": 1876,
       "kind": "semantic-message",
       "translations": {
         "ru": "Параметры кредита",
@@ -23070,7 +23047,7 @@
     {
       "id": "service.cashflowGuide.creditHint",
       "file": "nomad360_locale_core.js",
-      "line": 1878,
+      "line": 1877,
       "kind": "semantic-message",
       "translations": {
         "ru": "Появляются только при выборе финансирования «Кредит».",
@@ -23081,7 +23058,7 @@
     {
       "id": "service.cashflowGuide.capitalNote",
       "file": "nomad360_locale_core.js",
-      "line": 1879,
+      "line": 1878,
       "kind": "semantic-message",
       "translations": {
         "ru": "Сколько денег потребуется для старта, включая резерв",
@@ -23092,7 +23069,7 @@
     {
       "id": "service.cashflowGuide.profitNote",
       "file": "nomad360_locale_core.js",
-      "line": 1880,
+      "line": 1879,
       "kind": "semantic-message",
       "translations": {
         "ru": "Прибыль за весь выбранный период после налогов",
@@ -23103,7 +23080,7 @@
     {
       "id": "service.cashflowGuide.freeNote",
       "file": "nomad360_locale_core.js",
-      "line": 1881,
+      "line": 1880,
       "kind": "semantic-message",
       "translations": {
         "ru": "Деньги к концу периода за вычетом резерва",
@@ -23114,7 +23091,7 @@
     {
       "id": "service.cashflowGuide.peakNote",
       "file": "nomad360_locale_core.js",
-      "line": 1882,
+      "line": 1881,
       "kind": "semantic-message",
       "translations": {
         "ru": "Максимальная потребность в деньгах",
@@ -23125,7 +23102,7 @@
     {
       "id": "service.cashflowGuide.firstNote",
       "file": "nomad360_locale_core.js",
-      "line": 1883,
+      "line": 1882,
       "kind": "semantic-message",
       "translations": {
         "ru": "Первый месяц с положительным операционным потоком",
@@ -23136,7 +23113,7 @@
     {
       "id": "service.cashflowGuide.paybackNote",
       "file": "nomad360_locale_core.js",
-      "line": 1884,
+      "line": 1883,
       "kind": "semantic-message",
       "translations": {
         "ru": "Когда накопленные поступления возместят затраты",
@@ -23147,7 +23124,7 @@
     {
       "id": "service.cashflowGuide.monthsUnit",
       "file": "nomad360_locale_core.js",
-      "line": 1885,
+      "line": 1884,
       "kind": "semantic-message",
       "translations": {
         "ru": "мес.",
@@ -23158,7 +23135,7 @@
     {
       "id": "service.cashflowGuide.monthShort",
       "file": "nomad360_locale_core.js",
-      "line": 1886,
+      "line": 1885,
       "kind": "semantic-message",
       "translations": {
         "ru": "мес.",
@@ -23169,7 +23146,7 @@
     {
       "id": "service.cashflowGuide.noPositive",
       "file": "nomad360_locale_core.js",
-      "line": 1887,
+      "line": 1886,
       "kind": "semantic-message",
       "translations": {
         "ru": "Нет за выбранный период",
@@ -23180,7 +23157,7 @@
     {
       "id": "service.cashflowGuide.ownFunding",
       "file": "nomad360_locale_core.js",
-      "line": 1888,
+      "line": 1887,
       "kind": "semantic-message",
       "translations": {
         "ru": "Свои вложения",
@@ -23191,7 +23168,7 @@
     {
       "id": "service.cashflowGuide.portfolioHelp",
       "file": "nomad360_locale_core.js",
-      "line": 1889,
+      "line": 1888,
       "kind": "semantic-message",
       "translations": {
         "ru": "Есть несколько товаров или услуг? Соберите общий портфель V2 с общими расходами.",
@@ -23202,7 +23179,7 @@
     {
       "id": "service.cashflowGuide.ledgerIn",
       "file": "nomad360_locale_core.js",
-      "line": 1890,
+      "line": 1889,
       "kind": "semantic-message",
       "translations": {
         "ru": "Выручка без НДС",
@@ -23213,7 +23190,7 @@
     {
       "id": "service.cashflowGuide.ledgerOut",
       "file": "nomad360_locale_core.js",
-      "line": 1891,
+      "line": 1890,
       "kind": "semantic-message",
       "translations": {
         "ru": "Платежи месяца",
@@ -23224,7 +23201,7 @@
     {
       "id": "service.cashflowGuide.ledgerDelta",
       "file": "nomad360_locale_core.js",
-      "line": 1892,
+      "line": 1891,
       "kind": "semantic-message",
       "translations": {
         "ru": "Разница поступлений и платежей",
@@ -23235,7 +23212,7 @@
     {
       "id": "service.cashflowGuide.ledgerBalance",
       "file": "nomad360_locale_core.js",
-      "line": 1893,
+      "line": 1892,
       "kind": "semantic-message",
       "translations": {
         "ru": "Осталось на конец месяца",
@@ -23246,7 +23223,7 @@
     {
       "id": "service.cashflowGuide.ledgerOwn",
       "file": "nomad360_locale_core.js",
-      "line": 1894,
+      "line": 1893,
       "kind": "semantic-message",
       "translations": {
         "ru": "Вложено своих денег",
@@ -23257,7 +23234,7 @@
     {
       "id": "service.cashflowGuide.ledgerLoan",
       "file": "nomad360_locale_core.js",
-      "line": 1895,
+      "line": 1894,
       "kind": "semantic-message",
       "translations": {
         "ru": "Получен кредит",
@@ -23268,7 +23245,7 @@
     {
       "id": "service.cashflowGuide.ledgerHintOwn",
       "file": "nomad360_locale_core.js",
-      "line": 1896,
+      "line": 1895,
       "kind": "semantic-message",
       "translations": {
         "ru": "Стартовые собственные средства входят в остаток отдельно. Платежи включают расходы, налоги и покупку оборудования.",
@@ -23279,7 +23256,7 @@
     {
       "id": "service.cashflowGuide.ledgerHintLoan",
       "file": "nomad360_locale_core.js",
-      "line": 1897,
+      "line": 1896,
       "kind": "semantic-message",
       "translations": {
         "ru": "Кредит входит в остаток отдельно. Проценты и погашение долга входят в платежи соответствующих месяцев.",
@@ -23290,7 +23267,7 @@
     {
       "id": "service.cashflowGuide.technical",
       "file": "nomad360_locale_core.js",
-      "line": 1898,
+      "line": 1897,
       "kind": "semantic-message",
       "translations": {
         "ru": "Показать полную таблицу расходов, налогов и денежных потоков",
@@ -23301,7 +23278,7 @@
     {
       "id": "service.cashflowGuide.actions",
       "file": "nomad360_locale_core.js",
-      "line": 1899,
+      "line": 1898,
       "kind": "semantic-message",
       "translations": {
         "ru": "Сохранение и следующий шаг",
@@ -23312,7 +23289,7 @@
     {
       "id": "service.cashflowGuide.firstPrefix",
       "file": "nomad360_locale_core.js",
-      "line": 1900,
+      "line": 1899,
       "kind": "semantic-message",
       "translations": {
         "ru": "Первый месяц",
@@ -23323,7 +23300,7 @@
     {
       "id": "service.cashflowGuide.forecastCaveat",
       "file": "nomad360_locale_core.js",
-      "line": 1901,
+      "line": 1900,
       "kind": "semantic-message",
       "translations": {
         "ru": "Дробное число означает ожидаемое количество клиентов, а не часть человека.",
@@ -23334,7 +23311,7 @@
     {
       "id": "portfolio.fullServiceSummary.capex",
       "file": "nomad360_locale_core.js",
-      "line": 1902,
+      "line": 1901,
       "kind": "semantic-message",
       "translations": {
         "ru": "Оборудование / CAPEX",
@@ -23345,7 +23322,7 @@
     {
       "id": "portfolio.fullServiceSummary.debt",
       "file": "nomad360_locale_core.js",
-      "line": 1903,
+      "line": 1902,
       "kind": "semantic-message",
       "translations": {
         "ru": "Долг на конец горизонта",
@@ -23356,7 +23333,7 @@
     {
       "id": "portfolio.fullServiceSummary.note",
       "file": "nomad360_locale_core.js",
-      "line": 1904,
+      "line": 1903,
       "kind": "semantic-message",
       "translations": {
         "ru": "Цены полных услуг сохранены из V1, выручка показана без НДС. Амортизация и тело кредита учитываются раздельно. Общие расходы оплачиваются один раз. Резерв не является расходом прибыли.",
@@ -25265,7 +25242,7 @@
     {
       "id": "pattern:64ce8c5e397941d6",
       "file": "nomad360_locale_core.js",
-      "line": 1946,
+      "line": 1945,
       "regex": "^Предложение (\\d+)$",
       "flags": "",
       "en": "Offer $1",
@@ -25275,7 +25252,7 @@
     {
       "id": "pattern:cbc028028c77e3b5",
       "file": "nomad360_locale_core.js",
-      "line": 1948,
+      "line": 1947,
       "regex": "^Чек (\\d+): нужен непустой список items\\.$",
       "flags": "",
       "en": "Receipt $1: items must contain at least one product.",
@@ -25285,7 +25262,7 @@
     {
       "id": "pattern:a034667066a48987",
       "file": "nomad360_locale_core.js",
-      "line": 1949,
+      "line": 1948,
       "regex": "^Чек (.+): неверная позиция (\\d+)\\.$",
       "flags": "",
       "en": "Receipt $1: invalid item $2.",
@@ -25295,7 +25272,7 @@
     {
       "id": "pattern:efd6a929cc9835cc",
       "file": "nomad360_locale_core.js",
-      "line": 1950,
+      "line": 1949,
       "regex": "^Номер чека должен быть заполнен и уникален: (.*)$",
       "flags": "",
       "en": "Receipt ID is required and must be unique: $1",
@@ -25305,7 +25282,7 @@
     {
       "id": "pattern:8d471408ad1772b8",
       "file": "nomad360_locale_core.js",
-      "line": 1952,
+      "line": 1951,
       "regex": "^Наблюдаемый средний чек по валютам \\(из цены файла, без предположений о НДС\\): (.+)$",
       "flags": "",
       "en": "Observed average order value by currency (based on file prices, without VAT assumptions): $1",
@@ -25315,7 +25292,7 @@
     {
       "id": "pattern:5476294c17176541",
       "file": "nomad360_locale_core.js",
-      "line": 1955,
+      "line": 1954,
       "regex": "^Некорректное значение V1: ([A-Za-z0-9_.-]+)$",
       "flags": "",
       "en": "Invalid V1 value: $1",
@@ -25325,7 +25302,7 @@
     {
       "id": "pattern:8013ec9e030bbe76",
       "file": "nomad360_locale_core.js",
-      "line": 1957,
+      "line": 1956,
       "regex": "^Процент V1 выше 100: ([A-Za-z0-9_.-]+)$",
       "flags": "",
       "en": "V1 percentage exceeds 100: $1",
@@ -25335,7 +25312,7 @@
     {
       "id": "pattern:255404a34650b3cd",
       "file": "nomad360_locale_core.js",
-      "line": 1959,
+      "line": 1958,
       "regex": "^Для ([A-Za-z0-9_.-]+) укажите, кто платит: я или принципал\\.$",
       "flags": "",
       "en": "For $1, select the payer: me or principal.",
@@ -25345,7 +25322,7 @@
     {
       "id": "pattern:33fd1800988c8674",
       "file": "nomad360_locale_core.js",
-      "line": 1961,
+      "line": 1960,
       "regex": "^Некорректное поле V1: ([A-Za-z0-9_.-]+)$",
       "flags": "",
       "en": "Invalid V1 field: $1",
@@ -25355,7 +25332,7 @@
     {
       "id": "pattern:cf26369e39363cde",
       "file": "nomad360_locale_core.js",
-      "line": 1963,
+      "line": 1962,
       "regex": "^В CSV отсутствует столбец ([a-z_]+)\\.$",
       "flags": "",
       "en": "CSV is missing the $1 column.",
@@ -25365,7 +25342,7 @@
     {
       "id": "pattern:0c23e3e2d97e91db",
       "file": "nomad360_locale_core.js",
-      "line": 1964,
+      "line": 1963,
       "regex": "^Повторяющийся заголовок CSV: (.+)$",
       "flags": "",
       "en": "Duplicate CSV column heading: $1",
@@ -25375,7 +25352,7 @@
     {
       "id": "pattern:7f6cb9a711ea350f",
       "file": "nomad360_locale_core.js",
-      "line": 1965,
+      "line": 1964,
       "regex": "^CSV строка (\\d+): неверное число колонок\\.$",
       "flags": "",
       "en": "CSV row $1: incorrect column count.",
@@ -25385,7 +25362,7 @@
     {
       "id": "pattern:4cceeff8d1ba32a2",
       "file": "nomad360_locale_core.js",
-      "line": 1966,
+      "line": 1965,
       "regex": "^Строка (\\d+) не является объектом\\.$",
       "flags": "",
       "en": "Row $1 is not an object.",
@@ -25395,7 +25372,7 @@
     {
       "id": "pattern:464d4fdc128c20c6",
       "file": "nomad360_locale_core.js",
-      "line": 1967,
+      "line": 1966,
       "regex": "^Строка (\\d+): заполните order_id, sku_id, channel, currency\\.$",
       "flags": "",
       "en": "Row $1: enter order_id, sku_id, channel and currency.",
@@ -25405,7 +25382,7 @@
     {
       "id": "pattern:af6a9e1ef8d1dd15",
       "file": "nomad360_locale_core.js",
-      "line": 1968,
+      "line": 1967,
       "regex": "^Строка (\\d+): дата должна быть YYYY-MM-DD\\.$",
       "flags": "",
       "en": "Row $1: date must be YYYY-MM-DD.",
@@ -25415,7 +25392,7 @@
     {
       "id": "pattern:ed80479754857445",
       "file": "nomad360_locale_core.js",
-      "line": 1969,
+      "line": 1968,
       "regex": "^Строка (\\d+): quantity — целое положительное, unit_price — неотрицательный\\.$",
       "flags": "",
       "en": "Row $1: quantity must be a positive integer and unit_price must be nonnegative.",
@@ -25425,7 +25402,7 @@
     {
       "id": "pattern:d5c601f5b2b2da86",
       "file": "nomad360_locale_core.js",
-      "line": 1970,
+      "line": 1969,
       "regex": "^Строка (\\d+): неизвестный статус ([^.\\n]+)$",
       "flags": "",
       "en": "Row $1: unknown status $2",
@@ -25435,7 +25412,7 @@
     {
       "id": "pattern:985e8738c646a7c4",
       "file": "nomad360_locale_core.js",
-      "line": 1971,
+      "line": 1970,
       "regex": "^Строка (\\d+): возвращено больше единиц, чем куплено\\.$",
       "flags": "",
       "en": "Row $1: returned quantity exceeds purchased quantity.",
@@ -25445,7 +25422,7 @@
     {
       "id": "pattern:8e9b98feb7fd1e11",
       "file": "nomad360_locale_core.js",
-      "line": 1972,
+      "line": 1971,
       "regex": "^line_id (.+) противоречит предыдущей строке\\.$",
       "flags": "",
       "en": "line_id $1 conflicts with a previous row.",
@@ -25455,7 +25432,7 @@
     {
       "id": "pattern:d45e36264d7bbd5c",
       "file": "nomad360_locale_core.js",
-      "line": 1973,
+      "line": 1972,
       "regex": "^Заказ (.+) содержит разные даты, валюты или каналы\\.$",
       "flags": "",
       "en": "Order $1 has inconsistent dates, currencies or channels.",
@@ -25465,7 +25442,7 @@
     {
       "id": "pattern:cd068b731b80c025",
       "file": "nomad360_locale_core.js",
-      "line": 1974,
+      "line": 1973,
       "regex": "^(\\d+) шт\\. · поставщик не указан$",
       "flags": "",
       "en": "$1 units · supplier not specified",
@@ -25475,7 +25452,7 @@
     {
       "id": "pattern:20d57efe8fec22e4",
       "file": "nomad360_locale_core.js",
-      "line": 1976,
+      "line": 1975,
       "regex": "^Всего позиций: (\\d+)$",
       "flags": "",
       "en": "Total line items: $1",
@@ -25485,7 +25462,7 @@
     {
       "id": "pattern:0d9a8fd8189679a1",
       "file": "nomad360_locale_core.js",
-      "line": 1978,
+      "line": 1977,
       "regex": "^([\\d.,\\s\\u00a0\\u202f]+) у\\.е\\.\\* закупки, без доставки$",
       "flags": "",
       "en": "$1 currency units* purchased, excluding delivery",
@@ -25495,7 +25472,7 @@
     {
       "id": "pattern:072143eebd23043e",
       "file": "nomad360_locale_core.js",
-      "line": 1980,
+      "line": 1979,
       "regex": "^([\\d.,\\s\\u00a0\\u202f]+) у\\.е\\.\\*$",
       "flags": "",
       "en": "$1 currency units*",
@@ -25505,7 +25482,7 @@
     {
       "id": "pattern:924ed8d60ad441ef",
       "file": "nomad360_locale_core.js",
-      "line": 1982,
+      "line": 1981,
       "regex": "^У товара (\\d+) нет названия\\.$",
       "flags": "",
       "en": "Product $1 has no name.",
@@ -25515,7 +25492,7 @@
     {
       "id": "pattern:634c1b571f649a8c",
       "file": "nomad360_locale_core.js",
-      "line": 1984,
+      "line": 1983,
       "regex": "^Исправьте поля, выделенные красным, рядом с местом ввода\\. Проверок осталось: (\\d+)\\.$",
       "flags": "",
       "en": "Fix the red-highlighted fields beside their inputs. Remaining checks: $1.",
@@ -25525,7 +25502,7 @@
     {
       "id": "pattern:c618ecfa683923c6",
       "file": "nomad360_locale_core.js",
-      "line": 1987,
+      "line": 1986,
       "regex": "^Уже учтено в V1, у\\.е\\. \\/ мес \\(доступно ([\\d.,\\s\\u00a0]+)\\)$",
       "flags": "",
       "en": "Already included in V1, currency units/month (available $1)",
@@ -25535,7 +25512,7 @@
     {
       "id": "pattern:d06590c86c63e5ee",
       "file": "nomad360_locale_core.js",
-      "line": 1990,
+      "line": 1989,
       "regex": "^(.+) — ([\\d.,\\s\\u00a0]+) \\/ мес\\.$",
       "flags": "",
       "en": "$1 — $2 / month",
@@ -25545,7 +25522,7 @@
     {
       "id": "pattern:2a4a6b0f628af526",
       "file": "nomad360_locale_core.js",
-      "line": 1992,
+      "line": 1991,
       "regex": "^(.+) · услуга$",
       "flags": "",
       "en": "$1 · service",
@@ -25555,7 +25532,7 @@
     {
       "id": "pattern:d1dca22e5a75155d",
       "file": "nomad360_locale_core.js",
-      "line": 1993,
+      "line": 1992,
       "regex": "^(.+) · товар$",
       "flags": "",
       "en": "$1 · product",
@@ -25565,7 +25542,7 @@
     {
       "id": "pattern:526e5c697610c47a",
       "file": "nomad360_locale_core.js",
-      "line": 1994,
+      "line": 1993,
       "regex": "^Товар (\\d+)$",
       "flags": "",
       "en": "Product $1",
@@ -25575,7 +25552,7 @@
     {
       "id": "pattern:0336e4af67b2ca79",
       "file": "nomad360_locale_core.js",
-      "line": 1995,
+      "line": 1994,
       "regex": "^Сумма долей по штукам: (.+)$",
       "flags": "",
       "en": "Unit-share total: $1",
@@ -25585,7 +25562,7 @@
     {
       "id": "pattern:0ce82bf0ca064f41",
       "file": "nomad360_locale_core.js",
-      "line": 1996,
+      "line": 1995,
       "regex": "^Помесячный cash flow · (\\d+) месяцев$",
       "flags": "",
       "en": "Monthly cash flow · $1 months",
@@ -25595,7 +25572,7 @@
     {
       "id": "pattern:47e72dfc35660cbd",
       "file": "nomad360_locale_core.js",
-      "line": 1997,
+      "line": 1996,
       "regex": "^Плановая скидка покупателю, % \\(макс\\. ([\\d.,\\s\\u00a0]+)%\\)$",
       "flags": "",
       "en": "Planned customer discount, % (max. $1%)",
@@ -25605,7 +25582,7 @@
     {
       "id": "pattern:af122372263cf7d2",
       "file": "nomad360_locale_core.js",
-      "line": 2000,
+      "line": 1999,
       "regex": "^Связь ([^\\n]+)$",
       "flags": "",
       "en": "Offer $1",
@@ -25615,7 +25592,7 @@
     {
       "id": "pattern:c384a1e79ec5a3d5",
       "file": "nomad360_locale_core.js",
-      "line": 2001,
+      "line": 2000,
       "regex": "^Заменённые начисления из V1: ([\\d.,\\s\\u00a0]+)$",
       "flags": "",
       "en": "Replaced V1 charges: $1",
@@ -25625,7 +25602,7 @@
     {
       "id": "pattern:12c15304586fb09e",
       "file": "nomad360_locale_core.js",
-      "line": 2003,
+      "line": 2002,
       "regex": "^Мощность ресурса: ([\\d.,\\s\\u00a0]+) \\/ ([\\d.,\\s\\u00a0]+), остаток ([\\d.,\\s\\u00a0]+)$",
       "flags": "",
       "en": "Resource utilization: $1 / $2, remaining $3",
@@ -25635,7 +25612,7 @@
     {
       "id": "pattern:8bc47062114e4856",
       "file": "nomad360_locale_core.js",
-      "line": 2006,
+      "line": 2005,
       "regex": "^Мощность ресурса: ([\\d.,\\s\\u00a0]+) \\/ без лимита, остаток ([\\d.,\\s\\u00a0]+)$",
       "flags": "",
       "en": "Resource utilization: $1 / unlimited, remaining $2",
@@ -25645,7 +25622,7 @@
     {
       "id": "pattern:66e83b32422a18fd",
       "file": "nomad360_locale_core.js",
-      "line": 2009,
+      "line": 2008,
       "regex": "^Экономика за (\\d+) мес\\. · расчётная цена за весь период$",
       "flags": "",
       "en": "Period economics for $1 months · full-period calculated price",
@@ -25655,7 +25632,7 @@
     {
       "id": "pattern:ac3d0523e242296b",
       "file": "nomad360_locale_core.js",
-      "line": 2012,
+      "line": 2011,
       "regex": "^Делаю сам · ID ([^ ]+)$",
       "flags": "",
       "en": "I produce it · ID $1",
@@ -25665,7 +25642,7 @@
     {
       "id": "pattern:469b6b9c3bb3680c",
       "file": "nomad360_locale_core.js",
-      "line": 2013,
+      "line": 2012,
       "regex": "^Покупаю у других · ID ([^ ]+)$",
       "flags": "",
       "en": "I buy it from others · ID $1",
@@ -25675,7 +25652,7 @@
     {
       "id": "pattern:02538108876365cd",
       "file": "nomad360_locale_core.js",
-      "line": 2014,
+      "line": 2013,
       "regex": "^Офлайн-услуга · ID ([^ ]+)$",
       "flags": "",
       "en": "Offline service · ID $1",
@@ -25685,7 +25662,7 @@
     {
       "id": "pattern:0cd249456b9ec145",
       "file": "nomad360_locale_core.js",
-      "line": 2015,
+      "line": 2014,
       "regex": "^Онлайн-услуга · ID ([^ ]+)$",
       "flags": "",
       "en": "Online service · ID $1",
@@ -25695,7 +25672,7 @@
     {
       "id": "pattern:bec28acf4975269d",
       "file": "nomad360_locale_core.js",
-      "line": 2016,
+      "line": 2015,
       "regex": "^Дропшиппинг · ID ([^ ]+)$",
       "flags": "",
       "en": "Dropshipping · ID $1",
@@ -25705,7 +25682,7 @@
     {
       "id": "pattern:eb7a5d9277ea3cff",
       "file": "nomad360_locale_core.js",
-      "line": 2017,
+      "line": 2016,
       "regex": "^Прогноз клиентов ([\\d.,\\s\\u00A0]+) больше физической вместимости ([\\d.,\\s\\u00A0]+) услуг \\/ месяц\\. Прайс нельзя подтвердить до изменения плана\\.$",
       "flags": "",
       "en": "Customer forecast $1 exceeds the physical capacity of $2 services per month. The price list cannot be confirmed until the plan is revised.",
@@ -25715,7 +25692,7 @@
     {
       "id": "pattern:1674e14d898b4c68",
       "file": "nomad360_locale_core.js",
-      "line": 2020,
+      "line": 2019,
       "regex": "^Прогноз ([\\d.,\\s\\u00A0]+) клиентов превышает доступные ([\\d.,\\s\\u00A0]+) процедур за месяц\\. Увеличьте количество рабочих мест \\/ мастеров или скорректируйте рекламу\\.$",
       "flags": "",
       "en": "Forecast demand of $1 customers exceeds $2 available monthly appointments. Add workstations or specialists, or adjust advertising.",
@@ -25725,7 +25702,7 @@
     {
       "id": "pattern:8453c2eb7beb9b8a",
       "file": "nomad360_locale_core.js",
-      "line": 2023,
+      "line": 2022,
       "regex": "^Закуплено ([\\d.,\\s\\u00A0]+) шт\\., но для склада указано ([\\d.,\\s\\u00A0]+) шт\\. Увеличьте закупку или уменьшите склад\\.$",
       "flags": "",
       "en": "Purchased $1 units, but $2 units are assigned to inventory. Increase procurement or reduce inventory.",
@@ -25735,7 +25712,7 @@
     {
       "id": "pattern:379fddb76648ca36",
       "file": "nomad360_locale_core.js",
-      "line": 2026,
+      "line": 2025,
       "regex": "^Нужно не менее ([\\d.,\\s\\u00A0]+) ед\\. материала для ([\\d.,\\s\\u00A0]+) годных изделий при браке ([\\d.,\\s\\u00A0]+)%\\. Цена единицы материала не меняется\\.$",
       "flags": "",
       "en": "At least $1 material units are needed for $2 good products with a $3% defect rate. Material unit price does not change.",
@@ -25745,7 +25722,7 @@
     {
       "id": "pattern:bfacef5c07898e49",
       "file": "nomad360_locale_core.js",
-      "line": 2029,
+      "line": 2028,
       "regex": "^Готового товара меньше, чем планируется положить на склад: ([\\d.,\\s\\u00A0]+) шт\\. при выпуске ([\\d.,\\s\\u00A0]+)\\. Уменьшите склад или увеличьте выпуск\\.$",
       "flags": "",
       "en": "Inventory plan is $1 units, but production is only $2. Reduce inventory or increase output.",
@@ -25755,7 +25732,7 @@
     {
       "id": "pattern:4357884eab04625f",
       "file": "nomad360_locale_core.js",
-      "line": 2032,
+      "line": 2031,
       "regex": "^План продаж партии \\(([\\d.,\\s\\u00A0]+) шт\\.\\) превышает складские остатки \\(([\\d.,\\s\\u00A0]+) шт\\.\\)\\. Уменьшите план либо увеличьте запас\\.$",
       "flags": "",
       "en": "Planned batch sales ($1 units) exceed available stock ($2 units). Reduce the sales plan or increase stock.",
@@ -25765,7 +25742,7 @@
     {
       "id": "pattern:ebd2c9ad9ee904a5",
       "file": "nomad360_locale_core.js",
-      "line": 2035,
+      "line": 2034,
       "regex": "^Прогноз продаж за месяц \\(([\\d.,\\s\\u00A0]+) шт\\.\\) превышает запас партии \\(([\\d.,\\s\\u00A0]+) шт\\.\\)\\. Скорректируйте рекламу или количество товара\\.$",
       "flags": "",
       "en": "Monthly sales forecast ($1 units) exceeds batch stock ($2 units). Adjust advertising or the quantity of goods.",
@@ -25775,7 +25752,7 @@
     {
       "id": "pattern:140c36aba6bf3530",
       "file": "nomad360_locale_core.js",
-      "line": 2038,
+      "line": 2037,
       "regex": "^Удорожание из-за брака \\(([\\d.,\\s\\u00A0]+)%\\)$",
       "flags": "",
       "en": "Defect-related cost increase ($1%)",
@@ -25785,7 +25762,7 @@
     {
       "id": "pattern:e8c0a59b08a58e0a",
       "file": "nomad360_locale_core.js",
-      "line": 2041,
+      "line": 2040,
       "regex": "^Прогноз клиентов для «([^»]*)» \\(([\\d.]+)\\) больше доступных ([\\d.]+) посещений в месяц\\.$",
       "flags": "",
       "en": "Customer forecast for “$1” ($2) exceeds available $3 monthly appointments.",
@@ -25795,7 +25772,7 @@
     {
       "id": "pattern:933e74a7fa800107",
       "file": "nomad360_locale_core.js",
-      "line": 2044,
+      "line": 2043,
       "regex": "^Наборы и upsell для «([^»]*)» суммарно охватывают больше 100% самостоятельных покупателей\\.$",
       "flags": "",
       "en": "Bundles and upsells for “$1” exceed 100% of independent buyers.",
@@ -25805,7 +25782,7 @@
     {
       "id": "pattern:56c035769de40a81",
       "file": "nomad360_locale_core.js",
-      "line": 2047,
+      "line": 2046,
       "regex": "^Отрицательный прогноз для «([^»]*)»\\.$",
       "flags": "",
       "en": "Negative demand forecast for “$1”.",
@@ -25815,7 +25792,7 @@
     {
       "id": "pattern:32d02ebdc5b0d9a6",
       "file": "nomad360_locale_core.js",
-      "line": 2050,
+      "line": 2049,
       "regex": "^Некорректное рассчитанное значение V1: ([A-Za-z0-9_.-]+)$",
       "flags": "",
       "en": "Invalid calculated V1 value: $1",
@@ -25825,7 +25802,7 @@
     {
       "id": "pattern:710b42ab1bb7fceb",
       "file": "nomad360_locale_core.js",
-      "line": 2052,
+      "line": 2051,
       "regex": "^Из V1 списывается больше расходов, чем было учтено: ([A-Za-z0-9_.-]+) для «([^»]*)»\\.$",
       "flags": "",
       "en": "V1 cost offset exceeds the original $1 expense for “$2”.",
@@ -25835,7 +25812,7 @@
     {
       "id": "pattern:9377517d0f6de5a4",
       "file": "nomad360_locale_core.js",
-      "line": 2055,
+      "line": 2054,
       "regex": "^Перенос общего расхода превышает сумму выбранного денежного блока V1 для «([^»]*)»\\.$",
       "flags": "",
       "en": "The shared-cost transfer exceeds the selected V1 cash expense for “$1”.",
@@ -25845,7 +25822,7 @@
     {
       "id": "pattern:c818f785d7ba687b",
       "file": "nomad360_locale_core.js",
-      "line": 2058,
+      "line": 2057,
       "regex": "^Товар «([^»]*)» поступит после выбранного горизонта\\. Увеличьте число месяцев, чтобы не переносить платежи на неверные даты\\.$",
       "flags": "",
       "en": "“$1” arrives after the forecast horizon. Increase the number of months to keep cash events on their actual dates.",
@@ -25855,7 +25832,7 @@
     {
       "id": "pattern:dfdbd0f18bf92eec",
       "file": "nomad360_locale_core.js",
-      "line": 2061,
+      "line": 2060,
       "regex": "^У онлайн-услуги «([^»]*)» период V1 не подтверждает (\\d+) месяцев\\. Нужен расчёт V1 на этот период\\.$",
       "flags": "",
       "en": "The V1 source period for online service “$1” does not verify $2 months. Recalculate V1 for that horizon.",
@@ -25865,7 +25842,7 @@
     {
       "id": "pattern:1bcd865b62c905e3",
       "file": "nomad360_locale_core.js",
-      "line": 2064,
+      "line": 2063,
       "regex": "^«([^»]*)» ещё не поставлен, но связь предполагает продажи\\.$",
       "flags": "",
       "en": "“$1” is not yet supplied, but a linked offer assumes sales.",
@@ -25875,7 +25852,7 @@
     {
       "id": "pattern:b282bd463b22ed5a",
       "file": "nomad360_locale_core.js",
-      "line": 2067,
+      "line": 2066,
       "regex": "^спрос на «([^»]*)» \\(([\\d.]+)\\) превышает оставшийся запас \\(([\\d.]+)\\)\\. Продажа связки не подтверждена\\.$",
       "flags": "",
       "en": "Demand for “$1” ($2) exceeds remaining stock ($3). The linked offer is not confirmed.",
@@ -25885,7 +25862,7 @@
     {
       "id": "pattern:93365956ff438f68",
       "file": "nomad360_locale_core.js",
-      "line": 2070,
+      "line": 2069,
       "regex": "^услуги «([^»]*)» требуют ([\\d.]+) посещений при мощности ([\\d.]+)\\.$",
       "flags": "",
       "en": "Service “$1” needs $2 visits but capacity is $3.",
@@ -25895,7 +25872,7 @@
     {
       "id": "pattern:39a6c45b594c3eeb",
       "file": "nomad360_locale_core.js",
-      "line": 2073,
+      "line": 2072,
       "regex": "^ресурс «([^»]*)» загружен на ([\\d.]+) при мощности ([\\d.]+)\\.$",
       "flags": "",
       "en": "Resource “$1” utilization is $2, above capacity $3.",
@@ -25905,7 +25882,7 @@
     {
       "id": "pattern:60432e3c622af9f4",
       "file": "nomad360_locale_core.js",
-      "line": 2076,
+      "line": 2075,
       "regex": "^ресурс «([^»]*)» требует ([\\d.]+) при мощности ([\\d.]+)\\.$",
       "flags": "",
       "en": "Resource “$1” requires $2 but capacity is $3.",
@@ -25915,7 +25892,7 @@
     {
       "id": "pattern:283f020ca4a8d4f6",
       "file": "nomad360_locale_core.js",
-      "line": 2079,
+      "line": 2078,
       "regex": "^Кампания «([^»]*)»: неизвестный график платежей\\.$",
       "flags": "",
       "en": "Campaign “$1”: unknown payment schedule.",
@@ -25925,7 +25902,7 @@
     {
       "id": "pattern:bddda2c15001bf10",
       "file": "nomad360_locale_core.js",
-      "line": 2082,
+      "line": 2081,
       "regex": "^Кампания «([^»]*)»: внешняя оплата требует отдельного подтверждённого контракта плательщика\\.$",
       "flags": "",
       "en": "Campaign “$1”: external payments require a verified payer agreement.",
@@ -25935,7 +25912,7 @@
     {
       "id": "pattern:ee14e5f835df489d",
       "file": "nomad360_locale_core.js",
-      "line": 2085,
+      "line": 2084,
       "regex": "^Из рекламы V1 списано больше исходного бюджета «([^»]*)»\\.$",
       "flags": "",
       "en": "Allocated V1 advertising exceeds the original budget of “$1”.",
@@ -25945,7 +25922,7 @@
     {
       "id": "pattern:0deb92cd778af7c8",
       "file": "nomad360_locale_core.js",
-      "line": 2088,
+      "line": 2087,
       "regex": "^У «([^»]*)» нет проверенного владельческого CAC V1 для назначения общей рекламы: исходный внешний спрос сохраняется, но эффективность новой рекламы неизвестна\\.$",
       "flags": "",
       "en": "“$1” has no verified owner-paid V1 CAC for pooled advertising: original demand remains but campaign effectiveness is unknown.",
@@ -25955,7 +25932,7 @@
     {
       "id": "pattern:e77c0b89b06abccc",
       "file": "nomad360_locale_core.js",
-      "line": 2091,
+      "line": 2090,
       "regex": "^общий рекламный бюджет не сошёлся по спросу и выручке; расчёт не подтверждён\\.$",
       "flags": "",
       "en": "Pooled advertising did not reconcile with demand and revenue; calculation is not validated.",
@@ -25965,7 +25942,7 @@
     {
       "id": "pattern:1be4c10b32b9538d",
       "file": "nomad360_locale_core.js",
-      "line": 2094,
+      "line": 2093,
       "regex": "^комплект требует ([\\d.]+) ед\\. «([^»]*)», доступно ([\\d.]+)\\.$",
       "flags": "",
       "en": "Bundle needs $1 units of “$2”; only $3 available.",
@@ -25975,7 +25952,7 @@
     {
       "id": "pattern:f2fbfd4f99632d79",
       "file": "nomad360_locale_core.js",
-      "line": 2097,
+      "line": 2096,
       "regex": "^мощность услуги «([^»]*)» исчерпана\\.$",
       "flags": "",
       "en": "Service “$1” has reached capacity.",
@@ -25985,7 +25962,7 @@
     {
       "id": "pattern:53dd36043f780079",
       "file": "nomad360_locale_core.js",
-      "line": 2100,
+      "line": 2099,
       "regex": "^нарушено сохранение рекламного бюджета\\.$",
       "flags": "",
       "en": "Advertising budget conservation failed.",
@@ -25995,7 +25972,7 @@
     {
       "id": "pattern:c42f972ef010d72c",
       "file": "nomad360_locale_core.js",
-      "line": 2103,
+      "line": 2102,
       "regex": "^За (\\d+) мес\\. «([^»]*)»: минимальная маржа ([\\d.]+)% недостижима в диапазоне V1 ([\\d.]+)–([\\d.]+)\\. При цене ([\\d.]+) маржа с учётом оставшихся процентов ([^;]+); расчётная необходимая цена (.+)\\.$",
       "flags": "",
       "en": "For $1 months, “$2”: minimum margin $3% is not feasible within V1 range $4–$5. At $6, margin including remaining interest is $7; required price is $8.",
@@ -26102,7 +26079,7 @@
     {
       "file": "entries/nomad360_header.js/003.json",
       "owner": "nomad360_header.js",
-      "count": 293
+      "count": 304
     },
     {
       "file": "entries/nomad360_locale_core.js/001.json",
@@ -26202,7 +26179,7 @@
     {
       "file": "entries/nomad360_locale_core.js/020.json",
       "owner": "nomad360_locale_core.js",
-      "count": 319
+      "count": 315
     },
     {
       "file": "entries/nomad360_navigation.js/001.json",
