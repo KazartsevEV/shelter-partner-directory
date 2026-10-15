@@ -36,7 +36,9 @@ function renderHelp(){
  const extra=helpPlatform==='ios'?'<p>'+esc(t('iosWebview'))+'</p>':'';
  help.innerHTML='<div class="nomad-return-dialog-head"><h2 id="nomad360-return-help-title">'+esc(t('helpTitle'))+' · '+({windows:'Windows',ios:'iOS',android:'Android'}[helpPlatform])+'</h2>'+
   '<button type="button" data-return-close data-help-control="close">'+esc(t('close'))+'</button></div><p>'+esc(t(helpPlatform+'Intro'))+'</p><ol>'+
-  [1,2,3].map(n=>'<li>'+esc(t(helpPlatform+'Step'+n))+'</li>').join('')+'</ol>'+extra+
+  [1,2,3].map(n=>'<li>'+esc(t(helpPlatform+'Step'+n))+'</li>').join('')+'</ol>'+
+  '<section class="nomad-return-usage" aria-labelledby="nomad360-return-usage-title"><h3 id="nomad360-return-usage-title">'+esc(t('useTitle'))+'</h3><p>'+esc(t(helpPlatform+'Use'))+'</p></section>'+
+  (helpPlatform==='windows'?'<h3>'+esc(t('windowsFallbackTitle'))+'</h3><p>'+esc(t('windowsFallback'))+'</p>':'')+extra+
   '<label for="nomad360-return-address">'+esc(t('address'))+'</label><input id="nomad360-return-address" readonly data-help-control="address" value="'+esc(calculatorUrl())+'">'+
   '<button type="button" data-return-copy data-help-control="copy">'+esc(t('copy'))+'</button><p class="nomad-return-copy-status" role="status" aria-live="polite"></p>';
  help.scrollTop=scroll;if(focus)help.querySelector('[data-help-control="'+focus+'"]')?.focus({preventScroll:true});

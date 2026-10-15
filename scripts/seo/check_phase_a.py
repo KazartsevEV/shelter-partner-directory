@@ -16,6 +16,16 @@ def read(name):
     return json.loads((EVIDENCE / name).read_text(encoding='utf-8'))
 
 
+
+def comparison_base(base_ref):
+    # GitHub's tested merge can contain newer main documentation than event.base.sha.
+    # Its first parent is the actual tested base; never charge those files to the PR.
+    if os.environ.get('GITHUB_EVENT_NAME') == 'pull_request' and os.environ.get('GITHUB_REF','').endswith('/merge'):
+        parents = subprocess.check_output(['git','show','-s','--format=%P','HEAD'],cwd=ROOT,text=True).split()
+        assert len(parents) == 2, 'Expected the GitHub pull-request test merge'
+        return parents[0]
+    return subprocess.check_output(['git','merge-base',base_ref,'HEAD'],cwd=ROOT,text=True).strip()
+
 def main():
     manifest = read('protected-files.json')
     # PR #145 was already approved and merged before this SEO branch.
@@ -81,8 +91,7 @@ def main():
     # Synthetic PR merges also include newer main documentation. Compare this
     # PR to its actual base; keep the production-byte guard on the audited SHA.
     base_ref = os.environ.get('SEO_BASE_REF', 'origin/main')
-    merge_base = subprocess.check_output(['git', 'merge-base', base_ref, 'HEAD'],
-                                        cwd=ROOT, text=True).strip()
+    merge_base = comparison_base(base_ref)
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',

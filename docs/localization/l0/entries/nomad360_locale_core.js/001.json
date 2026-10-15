@@ -23,50 +23,62 @@
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "return.title",
+      "text": "return.useTitle",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:592:js-string",
+      "id": "nomad360_locale_core.js:595:js-string",
       "file": "nomad360_locale_core.js",
       "line": 12,
-      "offset": 592,
+      "offset": 595,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Come back to us with new ideas!",
-      "catalog": "return.title",
+      "text": "How to use the shortcut",
+      "catalog": "return.useTitle",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:626:js-string",
+      "id": "nomad360_locale_core.js:621:js-string",
       "file": "nomad360_locale_core.js",
       "line": 12,
-      "offset": 626,
+      "offset": 621,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Возвращайтесь к нам с новыми идеями!",
-      "catalog": "return.title",
+      "text": "Как пользоваться ярлыком",
+      "catalog": "return.useTitle",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:665:js-string",
+      "id": "nomad360_locale_core.js:648:js-string",
       "file": "nomad360_locale_core.js",
       "line": 12,
-      "offset": 665,
+      "offset": 648,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Жаңа идеяларыңызбен қайта оралыңыз!",
-      "catalog": "return.title",
+      "text": "Төте жолды қалай пайдалану керек",
+      "catalog": "return.useTitle",
       "language": "kk",
       "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:687:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 13,
+      "offset": 687,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "return.windowsUse",
+      "coverage": "technical-or-latin-review"
     },
     {
       "id": "nomad360_locale_core.js:707:js-string",
@@ -77,14 +89,326 @@
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
+      "text": "Next time, double-click the same Nomad360 lite shortcut on your desktop to open the calculator again.",
+      "catalog": "return.windowsUse",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:811:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 13,
+      "offset": 811,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "В следующий раз дважды щёлкните по этому же ярлыку Nomad360 lite на рабочем столе — калькулятор откроется снова.",
+      "catalog": "return.windowsUse",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:926:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 13,
+      "offset": 926,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Келесі жолы жұмыс үстеліндегі сол Nomad360 lite төте жолын екі рет басыңыз — калькулятор қайта ашылады.",
+      "catalog": "return.windowsUse",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:1036:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 14,
+      "offset": 1036,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "return.iosUse",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_locale_core.js:1052:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 14,
+      "offset": 1052,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "After adding it, find the Nomad360 icon on your iPhone Home Screen and tap it. The calculator opens. Use that same icon whenever you want to return.",
+      "catalog": "return.iosUse",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:1203:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 14,
+      "offset": 1203,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "После добавления найдите значок Nomad360 на экране «Домой» iPhone и коснитесь его. Откроется калькулятор. В дальнейшем возвращайтесь через этот же значок.",
+      "catalog": "return.iosUse",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:1360:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 14,
+      "offset": 1360,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Қосқаннан кейін iPhone басты экранынан Nomad360 белгішесін тауып, оны түртіңіз. Калькулятор ашылады. Кейін осы белгіше арқылы қайта кіріңіз.",
+      "catalog": "return.iosUse",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:1507:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 15,
+      "offset": 1507,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "return.androidUse",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_locale_core.js:1527:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 15,
+      "offset": 1527,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "After adding it, find the Nomad360 icon on your phone Home screen and tap it. The calculator opens. Use that same icon whenever you want to return.",
+      "catalog": "return.androidUse",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:1677:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 15,
+      "offset": 1677,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "После добавления найдите значок Nomad360 на главном экране телефона и коснитесь его. Откроется калькулятор. В дальнейшем возвращайтесь через этот же значок.",
+      "catalog": "return.androidUse",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:1836:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 15,
+      "offset": 1836,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Қосқаннан кейін телефонның басты экранынан Nomad360 белгішесін тауып, оны түртіңіз. Калькулятор ашылады. Кейін осы белгіше арқылы қайта кіріңіз.",
+      "catalog": "return.androidUse",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:1987:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 16,
+      "offset": 1987,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "return.windowsFallbackTitle",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_locale_core.js:2017:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 16,
+      "offset": 2017,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "If the file did not download",
+      "catalog": "return.windowsFallbackTitle",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2048:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 16,
+      "offset": 2048,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Если файл не скачался",
+      "catalog": "return.windowsFallbackTitle",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2072:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 16,
+      "offset": 2072,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Файл жүктелмесе",
+      "catalog": "return.windowsFallbackTitle",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2094:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 17,
+      "offset": 2094,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "return.windowsFallback",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_locale_core.js:2119:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 17,
+      "offset": 2119,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Right-click your desktop → New → Shortcut. Paste the calculator address below, choose Next, name it Nomad360 lite and choose Finish. Then double-click your new shortcut. Keep browser and Windows security enabled.",
+      "catalog": "return.windowsFallback",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2334:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 17,
+      "offset": 2334,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Нажмите правой кнопкой по рабочему столу → «Создать» → «Ярлык». Вставьте адрес калькулятора ниже, нажмите «Далее», задайте имя Nomad360 lite и нажмите «Готово». Затем откройте новый ярлык двойным щелчком. Не отключайте защиту браузера или Windows.",
+      "catalog": "return.windowsFallback",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2584:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 17,
+      "offset": 2584,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Жұмыс үстелін тінтуірдің оң жақ түймесімен басыңыз → «Жасау» → «Төте жол». Төмендегі калькулятор мекенжайын енгізіп, «Келесі» түймесін басыңыз. Nomad360 lite атауын беріп, «Дайын» түймесін басыңыз. Жаңа төте жолды екі рет басып ашыңыз. Браузер мен Windows қорғанысын өшірмеңіз.",
+      "catalog": "return.windowsFallback",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2868:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 18,
+      "offset": 2868,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "return.title",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_locale_core.js:2883:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 18,
+      "offset": 2883,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Come back to us with new ideas!",
+      "catalog": "return.title",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2917:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 18,
+      "offset": 2917,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Возвращайтесь к нам с новыми идеями!",
+      "catalog": "return.title",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2956:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 18,
+      "offset": 2956,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
+      "text": "Жаңа идеяларыңызбен қайта оралыңыз!",
+      "catalog": "return.title",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_locale_core.js:2998:js-string",
+      "file": "nomad360_locale_core.js",
+      "line": 19,
+      "offset": 2998,
+      "kind": "js-string",
+      "owner": "nomad360_locale_core.js",
+      "stage": "L1",
+      "context": "messages",
       "text": "return.windows",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:724:js-string",
+      "id": "nomad360_locale_core.js:3015:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 13,
-      "offset": 724,
+      "line": 19,
+      "offset": 3015,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -95,10 +419,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:766:js-string",
+      "id": "nomad360_locale_core.js:3057:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 13,
-      "offset": 766,
+      "line": 19,
+      "offset": 3057,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -109,10 +433,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:810:js-string",
+      "id": "nomad360_locale_core.js:3101:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 13,
-      "offset": 810,
+      "line": 19,
+      "offset": 3101,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -123,10 +447,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:861:js-string",
+      "id": "nomad360_locale_core.js:3152:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 14,
-      "offset": 861,
+      "line": 20,
+      "offset": 3152,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -135,10 +459,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:874:js-string",
+      "id": "nomad360_locale_core.js:3165:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 14,
-      "offset": 874,
+      "line": 20,
+      "offset": 3165,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -149,10 +473,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:911:js-string",
+      "id": "nomad360_locale_core.js:3202:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 14,
-      "offset": 911,
+      "line": 20,
+      "offset": 3202,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -163,10 +487,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:935:js-string",
+      "id": "nomad360_locale_core.js:3226:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 14,
-      "offset": 935,
+      "line": 20,
+      "offset": 3226,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -177,10 +501,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:974:js-string",
+      "id": "nomad360_locale_core.js:3265:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 15,
-      "offset": 974,
+      "line": 21,
+      "offset": 3265,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -189,10 +513,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:991:js-string",
+      "id": "nomad360_locale_core.js:3282:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 15,
-      "offset": 991,
+      "line": 21,
+      "offset": 3282,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -203,10 +527,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1032:js-string",
+      "id": "nomad360_locale_core.js:3323:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 15,
-      "offset": 1032,
+      "line": 21,
+      "offset": 3323,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -217,10 +541,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1060:js-string",
+      "id": "nomad360_locale_core.js:3351:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 15,
-      "offset": 1060,
+      "line": 21,
+      "offset": 3351,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -231,10 +555,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1103:js-string",
+      "id": "nomad360_locale_core.js:3394:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 16,
-      "offset": 1103,
+      "line": 22,
+      "offset": 3394,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -243,10 +567,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:1118:js-string",
+      "id": "nomad360_locale_core.js:3409:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 16,
-      "offset": 1118,
+      "line": 22,
+      "offset": 3409,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -257,10 +581,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1160:js-string",
+      "id": "nomad360_locale_core.js:3451:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 16,
-      "offset": 1160,
+      "line": 22,
+      "offset": 3451,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -271,10 +595,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1205:js-string",
+      "id": "nomad360_locale_core.js:3496:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 16,
-      "offset": 1205,
+      "line": 22,
+      "offset": 3496,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -285,10 +609,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1255:js-string",
+      "id": "nomad360_locale_core.js:3546:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 17,
-      "offset": 1255,
+      "line": 23,
+      "offset": 3546,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -297,10 +621,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:1272:js-string",
+      "id": "nomad360_locale_core.js:3563:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 17,
-      "offset": 1272,
+      "line": 23,
+      "offset": 3563,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -311,10 +635,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1316:js-string",
+      "id": "nomad360_locale_core.js:3607:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 17,
-      "offset": 1316,
+      "line": 23,
+      "offset": 3607,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -325,10 +649,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1344:js-string",
+      "id": "nomad360_locale_core.js:3635:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 17,
-      "offset": 1344,
+      "line": 23,
+      "offset": 3635,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -339,10 +663,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1415:js-string",
+      "id": "nomad360_locale_core.js:3706:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 18,
-      "offset": 1415,
+      "line": 24,
+      "offset": 3706,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -351,10 +675,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:1434:js-string",
+      "id": "nomad360_locale_core.js:3725:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 18,
-      "offset": 1434,
+      "line": 24,
+      "offset": 3725,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -365,10 +689,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1458:js-string",
+      "id": "nomad360_locale_core.js:3749:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 18,
-      "offset": 1458,
+      "line": 24,
+      "offset": 3749,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -379,10 +703,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1481:js-string",
+      "id": "nomad360_locale_core.js:3772:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 18,
-      "offset": 1481,
+      "line": 24,
+      "offset": 3772,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -393,10 +717,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1518:js-string",
+      "id": "nomad360_locale_core.js:3809:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 19,
-      "offset": 1518,
+      "line": 25,
+      "offset": 3809,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -405,10 +729,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:1533:js-string",
+      "id": "nomad360_locale_core.js:3824:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 19,
-      "offset": 1533,
+      "line": 25,
+      "offset": 3824,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -419,10 +743,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1554:js-string",
+      "id": "nomad360_locale_core.js:3845:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 19,
-      "offset": 1554,
+      "line": 25,
+      "offset": 3845,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -433,10 +757,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1575:js-string",
+      "id": "nomad360_locale_core.js:3866:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 19,
-      "offset": 1575,
+      "line": 25,
+      "offset": 3866,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -447,10 +771,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1598:js-string",
+      "id": "nomad360_locale_core.js:3889:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 20,
-      "offset": 1598,
+      "line": 26,
+      "offset": 3889,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -459,10 +783,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:1612:js-string",
+      "id": "nomad360_locale_core.js:3903:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 20,
-      "offset": 1612,
+      "line": 26,
+      "offset": 3903,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -473,10 +797,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1642:js-string",
+      "id": "nomad360_locale_core.js:3933:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 20,
-      "offset": 1642,
+      "line": 26,
+      "offset": 3933,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -487,10 +811,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1675:js-string",
+      "id": "nomad360_locale_core.js:3966:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 20,
-      "offset": 1675,
+      "line": 26,
+      "offset": 3966,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -501,10 +825,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1711:js-string",
+      "id": "nomad360_locale_core.js:4002:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 21,
-      "offset": 1711,
+      "line": 27,
+      "offset": 4002,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -513,10 +837,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:1728:js-string",
+      "id": "nomad360_locale_core.js:4019:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 21,
-      "offset": 1728,
+      "line": 27,
+      "offset": 4019,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -527,10 +851,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1749:js-string",
+      "id": "nomad360_locale_core.js:4040:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 21,
-      "offset": 1749,
+      "line": 27,
+      "offset": 4040,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -541,10 +865,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1770:js-string",
+      "id": "nomad360_locale_core.js:4061:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 21,
-      "offset": 1770,
+      "line": 27,
+      "offset": 4061,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -555,10 +879,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1798:js-string",
+      "id": "nomad360_locale_core.js:4089:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 22,
-      "offset": 1798,
+      "line": 28,
+      "offset": 4089,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -567,10 +891,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:1814:js-string",
+      "id": "nomad360_locale_core.js:4105:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 22,
-      "offset": 1814,
+      "line": 28,
+      "offset": 4105,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -581,10 +905,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1832:js-string",
+      "id": "nomad360_locale_core.js:4123:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 22,
-      "offset": 1832,
+      "line": 28,
+      "offset": 4123,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -595,10 +919,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1852:js-string",
+      "id": "nomad360_locale_core.js:4143:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 22,
-      "offset": 1852,
+      "line": 28,
+      "offset": 4143,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -609,10 +933,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1878:js-string",
+      "id": "nomad360_locale_core.js:4169:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 23,
-      "offset": 1878,
+      "line": 29,
+      "offset": 4169,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -621,10 +945,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:1900:js-string",
+      "id": "nomad360_locale_core.js:4191:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 23,
-      "offset": 1900,
+      "line": 29,
+      "offset": 4191,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -635,10 +959,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1943:js-string",
+      "id": "nomad360_locale_core.js:4234:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 23,
-      "offset": 1943,
+      "line": 29,
+      "offset": 4234,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -649,10 +973,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:1986:js-string",
+      "id": "nomad360_locale_core.js:4277:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 23,
-      "offset": 1986,
+      "line": 29,
+      "offset": 4277,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -663,10 +987,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2031:js-string",
+      "id": "nomad360_locale_core.js:4322:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 24,
-      "offset": 2031,
+      "line": 30,
+      "offset": 4322,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -675,10 +999,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:2053:js-string",
+      "id": "nomad360_locale_core.js:4344:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 24,
-      "offset": 2053,
+      "line": 30,
+      "offset": 4344,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -689,10 +1013,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2153:js-string",
+      "id": "nomad360_locale_core.js:4444:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 24,
-      "offset": 2153,
+      "line": 30,
+      "offset": 4444,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -703,10 +1027,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2256:js-string",
+      "id": "nomad360_locale_core.js:4547:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 24,
-      "offset": 2256,
+      "line": 30,
+      "offset": 4547,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -717,10 +1041,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2375:js-string",
+      "id": "nomad360_locale_core.js:4666:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 25,
-      "offset": 2375,
+      "line": 31,
+      "offset": 4666,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -729,52 +1053,52 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:2397:js-string",
+      "id": "nomad360_locale_core.js:4688:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 25,
-      "offset": 2397,
+      "line": 31,
+      "offset": 4688,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Find Nomad360-lite.url in Downloads, move it to your desktop and open it with a double-click.",
+      "text": "Open your Downloads folder and find Nomad360-lite.url.",
       "catalog": "return.windowsStep1",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2493:js-string",
+      "id": "nomad360_locale_core.js:4745:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 25,
-      "offset": 2493,
+      "line": 31,
+      "offset": 4745,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Найдите Nomad360-lite.url в загрузках, переместите на рабочий стол и откройте двойным щелчком.",
+      "text": "Откройте папку «Загрузки» и найдите файл Nomad360-lite.url.",
       "catalog": "return.windowsStep1",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2590:js-string",
+      "id": "nomad360_locale_core.js:4807:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 25,
-      "offset": 2590,
+      "line": 31,
+      "offset": 4807,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Жүктелгендер ішінен Nomad360-lite.url файлын тауып, жұмыс үстеліне жылжытыңыз да, екі рет басып ашыңыз.",
+      "text": "«Жүктелгендер» қалтасын ашып, Nomad360-lite.url файлын табыңыз.",
       "catalog": "return.windowsStep1",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2700:js-string",
+      "id": "nomad360_locale_core.js:4877:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 26,
-      "offset": 2700,
+      "line": 32,
+      "offset": 4877,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -783,52 +1107,52 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:2722:js-string",
+      "id": "nomad360_locale_core.js:4899:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 26,
-      "offset": 2722,
+      "line": 32,
+      "offset": 4899,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "If the file did not download: right-click the desktop → New → Shortcut. Paste the calculator address below.",
+      "text": "Drag that file onto your desktop. This is your Nomad360 lite shortcut.",
       "catalog": "return.windowsStep2",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2832:js-string",
+      "id": "nomad360_locale_core.js:4972:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 26,
-      "offset": 2832,
+      "line": 32,
+      "offset": 4972,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Если файл не скачался: правый клик по рабочему столу → Создать → Ярлык. Вставьте адрес калькулятора ниже.",
+      "text": "Перетащите этот файл на рабочий стол. Это ваш ярлык Nomad360 lite.",
       "catalog": "return.windowsStep2",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:2940:js-string",
+      "id": "nomad360_locale_core.js:5041:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 26,
-      "offset": 2940,
+      "line": 32,
+      "offset": 5041,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Файл жүктелмесе: жұмыс үстелін тінтуірдің оң жақ түймесімен басыңыз → Жасау → Төте жол. Төмендегі калькулятор мекенжайын енгізіңіз.",
+      "text": "Осы файлды жұмыс үстеліне сүйреп апарыңыз. Бұл — Nomad360 lite төте жолы.",
       "catalog": "return.windowsStep2",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3078:js-string",
+      "id": "nomad360_locale_core.js:5121:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 27,
-      "offset": 3078,
+      "line": 33,
+      "offset": 5121,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -837,52 +1161,52 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:3100:js-string",
+      "id": "nomad360_locale_core.js:5143:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 27,
-      "offset": 3100,
+      "line": 33,
+      "offset": 5143,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Choose Next, name it Nomad360 lite, then Finish. Keep browser and Windows security enabled.",
+      "text": "Double-click the desktop shortcut. Nomad360 lite opens in your browser.",
       "catalog": "return.windowsStep3",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3194:js-string",
+      "id": "nomad360_locale_core.js:5217:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 27,
-      "offset": 3194,
+      "line": 33,
+      "offset": 5217,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Нажмите «Далее», задайте имя Nomad360 lite и нажмите «Готово». Не отключайте защиту браузера или Windows.",
+      "text": "Дважды щёлкните по ярлыку на рабочем столе. Nomad360 lite откроется в браузере.",
       "catalog": "return.windowsStep3",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3302:js-string",
+      "id": "nomad360_locale_core.js:5299:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 27,
-      "offset": 3302,
+      "line": 33,
+      "offset": 5299,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "«Келесі» түймесін басып, Nomad360 lite атауын беріңіз де, «Дайын» түймесін басыңыз. Браузер мен Windows қорғанысын өшірмеңіз.",
+      "text": "Жұмыс үстеліндегі төте жолды екі рет басыңыз. Nomad360 lite браузерде ашылады.",
       "catalog": "return.windowsStep3",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3434:js-string",
+      "id": "nomad360_locale_core.js:5384:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 28,
-      "offset": 3434,
+      "line": 34,
+      "offset": 5384,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -891,52 +1215,52 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:3452:js-string",
+      "id": "nomad360_locale_core.js:5402:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 28,
-      "offset": 3452,
+      "line": 34,
+      "offset": 5402,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Open the calculator in Safari or another browser that supports adding websites to the Home Screen.",
+      "text": "On iOS, add a Home Screen icon through your browser. Open the calculator in Safari or another browser that supports this.",
       "catalog": "return.iosIntro",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3553:js-string",
+      "id": "nomad360_locale_core.js:5526:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 28,
-      "offset": 3553,
+      "line": 34,
+      "offset": 5526,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Откройте калькулятор в Safari или другом браузере с поддержкой добавления сайтов на экран «Домой».",
+      "text": "На iOS добавьте значок на экран «Домой» через браузер. Откройте калькулятор в Safari или другом браузере с этой возможностью.",
       "catalog": "return.iosIntro",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3654:js-string",
+      "id": "nomad360_locale_core.js:5654:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 28,
-      "offset": 3654,
+      "line": 34,
+      "offset": 5654,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Калькуляторды Safari-де немесе сайттарды басты экранға қосуды қолдайтын басқа браузерде ашыңыз.",
+      "text": "iOS жүйесінде браузер арқылы басты экранға белгіше қосыңыз. Калькуляторды Safari-де немесе осы мүмкіндікті қолдайтын басқа браузерде ашыңыз.",
       "catalog": "return.iosIntro",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3756:js-string",
+      "id": "nomad360_locale_core.js:5801:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 29,
-      "offset": 3756,
+      "line": 35,
+      "offset": 5801,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -945,10 +1269,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:3774:js-string",
+      "id": "nomad360_locale_core.js:5819:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 29,
-      "offset": 3774,
+      "line": 35,
+      "offset": 5819,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -959,10 +1283,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3825:js-string",
+      "id": "nomad360_locale_core.js:5870:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 29,
-      "offset": 3825,
+      "line": 35,
+      "offset": 5870,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -973,10 +1297,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3884:js-string",
+      "id": "nomad360_locale_core.js:5929:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 29,
-      "offset": 3884,
+      "line": 35,
+      "offset": 5929,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -987,10 +1311,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:3956:js-string",
+      "id": "nomad360_locale_core.js:6001:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 30,
-      "offset": 3956,
+      "line": 36,
+      "offset": 6001,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -999,10 +1323,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:3974:js-string",
+      "id": "nomad360_locale_core.js:6019:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 30,
-      "offset": 3974,
+      "line": 36,
+      "offset": 6019,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1013,10 +1337,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4040:js-string",
+      "id": "nomad360_locale_core.js:6085:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 30,
-      "offset": 4040,
+      "line": 36,
+      "offset": 6085,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1027,10 +1351,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4129:js-string",
+      "id": "nomad360_locale_core.js:6174:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 30,
-      "offset": 4129,
+      "line": 36,
+      "offset": 6174,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1041,10 +1365,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4231:js-string",
+      "id": "nomad360_locale_core.js:6276:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 31,
-      "offset": 4231,
+      "line": 37,
+      "offset": 6276,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1053,10 +1377,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:4249:js-string",
+      "id": "nomad360_locale_core.js:6294:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 31,
-      "offset": 4249,
+      "line": 37,
+      "offset": 6294,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1067,10 +1391,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4306:js-string",
+      "id": "nomad360_locale_core.js:6351:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 31,
-      "offset": 4306,
+      "line": 37,
+      "offset": 6351,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1081,10 +1405,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4376:js-string",
+      "id": "nomad360_locale_core.js:6421:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 31,
-      "offset": 4376,
+      "line": 37,
+      "offset": 6421,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1095,10 +1419,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4457:js-string",
+      "id": "nomad360_locale_core.js:6502:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 32,
-      "offset": 4457,
+      "line": 38,
+      "offset": 6502,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1107,10 +1431,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:4477:js-string",
+      "id": "nomad360_locale_core.js:6522:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 32,
-      "offset": 4477,
+      "line": 38,
+      "offset": 6522,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1121,10 +1445,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4617:js-string",
+      "id": "nomad360_locale_core.js:6662:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 32,
-      "offset": 4617,
+      "line": 38,
+      "offset": 6662,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1135,10 +1459,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4743:js-string",
+      "id": "nomad360_locale_core.js:6788:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 32,
-      "offset": 4743,
+      "line": 38,
+      "offset": 6788,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1149,10 +1473,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:4881:js-string",
+      "id": "nomad360_locale_core.js:6926:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 33,
-      "offset": 4881,
+      "line": 39,
+      "offset": 6926,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1161,52 +1485,52 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:4903:js-string",
+      "id": "nomad360_locale_core.js:6948:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 33,
-      "offset": 4903,
+      "line": 39,
+      "offset": 6948,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Use the browser menu to add the calculator. A system installation prompt is available only in supported browsers.",
+      "text": "On Android, add an icon to your Home screen through the browser menu. If the browser offers a system installation prompt, confirm it.",
       "catalog": "return.androidIntro",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5019:js-string",
+      "id": "nomad360_locale_core.js:7084:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 33,
-      "offset": 5019,
+      "line": 39,
+      "offset": 7084,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Добавьте калькулятор через меню браузера. Системное окно установки доступно только в поддерживаемых браузерах.",
+      "text": "На Android добавьте значок на главный экран через меню браузера. Если браузер предлагает системную установку, подтвердите её.",
       "catalog": "return.androidIntro",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5132:js-string",
+      "id": "nomad360_locale_core.js:7212:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 33,
-      "offset": 5132,
+      "line": 39,
+      "offset": 7212,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
-      "text": "Калькуляторды браузер мәзірі арқылы қосыңыз. Жүйелік орнату терезесі тек қолдайтын браузерлерде қолжетімді.",
+      "text": "Android жүйесінде браузер мәзірі арқылы басты экранға белгіше қосыңыз. Браузер жүйелік орнатуды ұсынса, оны растаңыз.",
       "catalog": "return.androidIntro",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5246:js-string",
+      "id": "nomad360_locale_core.js:7336:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 34,
-      "offset": 5246,
+      "line": 40,
+      "offset": 7336,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1215,10 +1539,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:5268:js-string",
+      "id": "nomad360_locale_core.js:7358:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 34,
-      "offset": 5268,
+      "line": 40,
+      "offset": 7358,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1229,10 +1553,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5362:js-string",
+      "id": "nomad360_locale_core.js:7452:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 34,
-      "offset": 5362,
+      "line": 40,
+      "offset": 7452,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1243,10 +1567,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5460:js-string",
+      "id": "nomad360_locale_core.js:7550:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 34,
-      "offset": 5460,
+      "line": 40,
+      "offset": 7550,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1257,10 +1581,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5565:js-string",
+      "id": "nomad360_locale_core.js:7655:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 35,
-      "offset": 5565,
+      "line": 41,
+      "offset": 7655,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1269,10 +1593,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:5587:js-string",
+      "id": "nomad360_locale_core.js:7677:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 35,
-      "offset": 5587,
+      "line": 41,
+      "offset": 7677,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1283,10 +1607,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5671:js-string",
+      "id": "nomad360_locale_core.js:7761:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 35,
-      "offset": 5671,
+      "line": 41,
+      "offset": 7761,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1297,10 +1621,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5776:js-string",
+      "id": "nomad360_locale_core.js:7866:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 35,
-      "offset": 5776,
+      "line": 41,
+      "offset": 7866,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1311,10 +1635,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:5884:js-string",
+      "id": "nomad360_locale_core.js:7974:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 36,
-      "offset": 5884,
+      "line": 42,
+      "offset": 7974,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1323,10 +1647,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:5906:js-string",
+      "id": "nomad360_locale_core.js:7996:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 36,
-      "offset": 5906,
+      "line": 42,
+      "offset": 7996,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1337,10 +1661,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6025:js-string",
+      "id": "nomad360_locale_core.js:8115:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 36,
-      "offset": 6025,
+      "line": 42,
+      "offset": 8115,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1351,10 +1675,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6160:js-string",
+      "id": "nomad360_locale_core.js:8250:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 36,
-      "offset": 6160,
+      "line": 42,
+      "offset": 8250,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1365,10 +1689,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6298:js-string",
+      "id": "nomad360_locale_core.js:8388:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 37,
-      "offset": 6298,
+      "line": 43,
+      "offset": 8388,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1377,10 +1701,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:6316:js-string",
+      "id": "nomad360_locale_core.js:8406:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 37,
-      "offset": 6316,
+      "line": 43,
+      "offset": 8406,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1391,10 +1715,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6385:js-string",
+      "id": "nomad360_locale_core.js:8475:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 37,
-      "offset": 6385,
+      "line": 43,
+      "offset": 8475,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1405,10 +1729,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6446:js-string",
+      "id": "nomad360_locale_core.js:8536:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 37,
-      "offset": 6446,
+      "line": 43,
+      "offset": 8536,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1419,10 +1743,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6510:js-string",
+      "id": "nomad360_locale_core.js:8600:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 38,
-      "offset": 6510,
+      "line": 44,
+      "offset": 8600,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1431,10 +1755,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:6529:js-string",
+      "id": "nomad360_locale_core.js:8619:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 38,
-      "offset": 6529,
+      "line": 44,
+      "offset": 8619,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1445,10 +1769,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6600:js-string",
+      "id": "nomad360_locale_core.js:8690:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 38,
-      "offset": 6600,
+      "line": 44,
+      "offset": 8690,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1459,10 +1783,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6671:js-string",
+      "id": "nomad360_locale_core.js:8761:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 38,
-      "offset": 6671,
+      "line": 44,
+      "offset": 8761,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1473,10 +1797,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6740:js-string",
+      "id": "nomad360_locale_core.js:8830:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 39,
-      "offset": 6740,
+      "line": 45,
+      "offset": 8830,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1485,10 +1809,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:6759:js-string",
+      "id": "nomad360_locale_core.js:8849:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 39,
-      "offset": 6759,
+      "line": 45,
+      "offset": 8849,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1499,10 +1823,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6797:js-string",
+      "id": "nomad360_locale_core.js:8887:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 39,
-      "offset": 6797,
+      "line": 45,
+      "offset": 8887,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1513,10 +1837,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6829:js-string",
+      "id": "nomad360_locale_core.js:8919:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 39,
-      "offset": 6829,
+      "line": 45,
+      "offset": 8919,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1527,10 +1851,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6861:js-string",
+      "id": "nomad360_locale_core.js:8951:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 40,
-      "offset": 6861,
+      "line": 46,
+      "offset": 8951,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1539,10 +1863,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:6883:js-string",
+      "id": "nomad360_locale_core.js:8973:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 40,
-      "offset": 6883,
+      "line": 46,
+      "offset": 8973,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1553,10 +1877,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6909:js-string",
+      "id": "nomad360_locale_core.js:8999:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 40,
-      "offset": 6909,
+      "line": 46,
+      "offset": 8999,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1567,10 +1891,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6930:js-string",
+      "id": "nomad360_locale_core.js:9020:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 40,
-      "offset": 6930,
+      "line": 46,
+      "offset": 9020,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1581,10 +1905,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:6957:js-string",
+      "id": "nomad360_locale_core.js:9047:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 41,
-      "offset": 6957,
+      "line": 47,
+      "offset": 9047,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1593,10 +1917,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:6981:js-string",
+      "id": "nomad360_locale_core.js:9071:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 41,
-      "offset": 6981,
+      "line": 47,
+      "offset": 9071,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1607,10 +1931,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:7037:js-string",
+      "id": "nomad360_locale_core.js:9127:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 41,
-      "offset": 7037,
+      "line": 47,
+      "offset": 9127,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1621,10 +1945,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:7093:js-string",
+      "id": "nomad360_locale_core.js:9183:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 41,
-      "offset": 7093,
+      "line": 47,
+      "offset": 9183,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1635,10 +1959,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:7153:js-string",
+      "id": "nomad360_locale_core.js:9243:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 42,
-      "offset": 7153,
+      "line": 48,
+      "offset": 9243,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1647,10 +1971,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:7176:js-string",
+      "id": "nomad360_locale_core.js:9266:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 42,
-      "offset": 7176,
+      "line": 48,
+      "offset": 9266,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1661,10 +1985,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:7404:js-string",
+      "id": "nomad360_locale_core.js:9494:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 42,
-      "offset": 7404,
+      "line": 48,
+      "offset": 9494,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1675,10 +1999,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:7633:js-string",
+      "id": "nomad360_locale_core.js:9723:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 42,
-      "offset": 7633,
+      "line": 48,
+      "offset": 9723,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1689,10 +2013,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:7882:js-string",
+      "id": "nomad360_locale_core.js:9972:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 43,
-      "offset": 7882,
+      "line": 49,
+      "offset": 9972,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1701,10 +2025,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:7922:js-string",
+      "id": "nomad360_locale_core.js:10012:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 43,
-      "offset": 7922,
+      "line": 49,
+      "offset": 10012,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1715,10 +2039,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:7958:js-string",
+      "id": "nomad360_locale_core.js:10048:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 43,
-      "offset": 7958,
+      "line": 49,
+      "offset": 10048,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1729,10 +2053,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:7995:js-string",
+      "id": "nomad360_locale_core.js:10085:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 43,
-      "offset": 7995,
+      "line": 49,
+      "offset": 10085,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1743,10 +2067,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8031:js-string",
+      "id": "nomad360_locale_core.js:10121:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 44,
-      "offset": 8031,
+      "line": 50,
+      "offset": 10121,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1755,10 +2079,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8065:js-string",
+      "id": "nomad360_locale_core.js:10155:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 44,
-      "offset": 8065,
+      "line": 50,
+      "offset": 10155,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1769,10 +2093,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8095:js-string",
+      "id": "nomad360_locale_core.js:10185:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 44,
-      "offset": 8095,
+      "line": 50,
+      "offset": 10185,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1783,10 +2107,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8124:js-string",
+      "id": "nomad360_locale_core.js:10214:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 44,
-      "offset": 8124,
+      "line": 50,
+      "offset": 10214,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1797,10 +2121,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8161:js-string",
+      "id": "nomad360_locale_core.js:10251:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 45,
-      "offset": 8161,
+      "line": 51,
+      "offset": 10251,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1809,10 +2133,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8191:js-string",
+      "id": "nomad360_locale_core.js:10281:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 45,
-      "offset": 8191,
+      "line": 51,
+      "offset": 10281,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1823,10 +2147,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8215:js-string",
+      "id": "nomad360_locale_core.js:10305:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 45,
-      "offset": 8215,
+      "line": 51,
+      "offset": 10305,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1837,10 +2161,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8242:js-string",
+      "id": "nomad360_locale_core.js:10332:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 45,
-      "offset": 8242,
+      "line": 51,
+      "offset": 10332,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1851,10 +2175,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8271:js-string",
+      "id": "nomad360_locale_core.js:10361:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 46,
-      "offset": 8271,
+      "line": 52,
+      "offset": 10361,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1863,10 +2187,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8289:js-string",
+      "id": "nomad360_locale_core.js:10379:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 46,
-      "offset": 8289,
+      "line": 52,
+      "offset": 10379,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1877,10 +2201,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8305:js-string",
+      "id": "nomad360_locale_core.js:10395:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 46,
-      "offset": 8305,
+      "line": 52,
+      "offset": 10395,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1891,10 +2215,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8324:js-string",
+      "id": "nomad360_locale_core.js:10414:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 46,
-      "offset": 8324,
+      "line": 52,
+      "offset": 10414,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1905,10 +2229,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8346:js-string",
+      "id": "nomad360_locale_core.js:10436:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 47,
-      "offset": 8346,
+      "line": 53,
+      "offset": 10436,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1917,10 +2241,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8380:js-string",
+      "id": "nomad360_locale_core.js:10470:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 47,
-      "offset": 8380,
+      "line": 53,
+      "offset": 10470,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1931,10 +2255,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8405:js-string",
+      "id": "nomad360_locale_core.js:10495:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 47,
-      "offset": 8405,
+      "line": 53,
+      "offset": 10495,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1945,10 +2269,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8429:js-string",
+      "id": "nomad360_locale_core.js:10519:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 47,
-      "offset": 8429,
+      "line": 53,
+      "offset": 10519,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1959,10 +2283,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8460:js-string",
+      "id": "nomad360_locale_core.js:10550:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 48,
-      "offset": 8460,
+      "line": 54,
+      "offset": 10550,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1971,10 +2295,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8503:js-string",
+      "id": "nomad360_locale_core.js:10593:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 48,
-      "offset": 8503,
+      "line": 54,
+      "offset": 10593,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1985,10 +2309,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8546:js-string",
+      "id": "nomad360_locale_core.js:10636:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 48,
-      "offset": 8546,
+      "line": 54,
+      "offset": 10636,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -1999,10 +2323,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8577:js-string",
+      "id": "nomad360_locale_core.js:10667:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 48,
-      "offset": 8577,
+      "line": 54,
+      "offset": 10667,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2013,10 +2337,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8623:js-string",
+      "id": "nomad360_locale_core.js:10713:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 49,
-      "offset": 8623,
+      "line": 55,
+      "offset": 10713,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2025,10 +2349,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8639:js-string",
+      "id": "nomad360_locale_core.js:10729:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 49,
-      "offset": 8639,
+      "line": 55,
+      "offset": 10729,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2039,10 +2363,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8655:js-string",
+      "id": "nomad360_locale_core.js:10745:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 49,
-      "offset": 8655,
+      "line": 55,
+      "offset": 10745,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2053,10 +2377,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8673:js-string",
+      "id": "nomad360_locale_core.js:10763:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 49,
-      "offset": 8673,
+      "line": 55,
+      "offset": 10763,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2067,10 +2391,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8692:js-string",
+      "id": "nomad360_locale_core.js:10782:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 50,
-      "offset": 8692,
+      "line": 56,
+      "offset": 10782,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2079,10 +2403,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8727:js-string",
+      "id": "nomad360_locale_core.js:10817:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 50,
-      "offset": 8727,
+      "line": 56,
+      "offset": 10817,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2093,10 +2417,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8754:js-string",
+      "id": "nomad360_locale_core.js:10844:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 50,
-      "offset": 8754,
+      "line": 56,
+      "offset": 10844,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2107,10 +2431,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8780:js-string",
+      "id": "nomad360_locale_core.js:10870:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 50,
-      "offset": 8780,
+      "line": 56,
+      "offset": 10870,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2121,10 +2445,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8815:js-string",
+      "id": "nomad360_locale_core.js:10905:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 51,
-      "offset": 8815,
+      "line": 57,
+      "offset": 10905,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2133,10 +2457,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8838:js-string",
+      "id": "nomad360_locale_core.js:10928:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 51,
-      "offset": 8838,
+      "line": 57,
+      "offset": 10928,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2147,10 +2471,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8859:js-string",
+      "id": "nomad360_locale_core.js:10949:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 51,
-      "offset": 8859,
+      "line": 57,
+      "offset": 10949,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2161,10 +2485,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8885:js-string",
+      "id": "nomad360_locale_core.js:10975:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 51,
-      "offset": 8885,
+      "line": 57,
+      "offset": 10975,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2175,10 +2499,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8913:js-string",
+      "id": "nomad360_locale_core.js:11003:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 52,
-      "offset": 8913,
+      "line": 58,
+      "offset": 11003,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2187,10 +2511,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:8943:js-string",
+      "id": "nomad360_locale_core.js:11033:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 52,
-      "offset": 8943,
+      "line": 58,
+      "offset": 11033,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2201,10 +2525,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8964:js-string",
+      "id": "nomad360_locale_core.js:11054:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 52,
-      "offset": 8964,
+      "line": 58,
+      "offset": 11054,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2215,10 +2539,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:8983:js-string",
+      "id": "nomad360_locale_core.js:11073:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 52,
-      "offset": 8983,
+      "line": 58,
+      "offset": 11073,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2229,10 +2553,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9005:js-string",
+      "id": "nomad360_locale_core.js:11095:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 53,
-      "offset": 9005,
+      "line": 59,
+      "offset": 11095,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2241,10 +2565,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9026:js-string",
+      "id": "nomad360_locale_core.js:11116:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 53,
-      "offset": 9026,
+      "line": 59,
+      "offset": 11116,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2255,10 +2579,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9045:js-string",
+      "id": "nomad360_locale_core.js:11135:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 53,
-      "offset": 9045,
+      "line": 59,
+      "offset": 11135,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2269,10 +2593,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9065:js-string",
+      "id": "nomad360_locale_core.js:11155:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 53,
-      "offset": 9065,
+      "line": 59,
+      "offset": 11155,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2283,10 +2607,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9087:js-string",
+      "id": "nomad360_locale_core.js:11177:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 54,
-      "offset": 9087,
+      "line": 60,
+      "offset": 11177,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2295,10 +2619,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9115:js-string",
+      "id": "nomad360_locale_core.js:11205:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 54,
-      "offset": 9115,
+      "line": 60,
+      "offset": 11205,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2309,10 +2633,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9142:js-string",
+      "id": "nomad360_locale_core.js:11232:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 54,
-      "offset": 9142,
+      "line": 60,
+      "offset": 11232,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2323,10 +2647,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9163:js-string",
+      "id": "nomad360_locale_core.js:11253:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 54,
-      "offset": 9163,
+      "line": 60,
+      "offset": 11253,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2337,10 +2661,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9195:js-string",
+      "id": "nomad360_locale_core.js:11285:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 55,
-      "offset": 9195,
+      "line": 61,
+      "offset": 11285,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2349,10 +2673,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9206:js-string",
+      "id": "nomad360_locale_core.js:11296:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 55,
-      "offset": 9206,
+      "line": 61,
+      "offset": 11296,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2363,10 +2687,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9215:js-string",
+      "id": "nomad360_locale_core.js:11305:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 55,
-      "offset": 9215,
+      "line": 61,
+      "offset": 11305,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2377,10 +2701,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9229:js-string",
+      "id": "nomad360_locale_core.js:11319:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 55,
-      "offset": 9229,
+      "line": 61,
+      "offset": 11319,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2391,10 +2715,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9244:js-string",
+      "id": "nomad360_locale_core.js:11334:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 56,
-      "offset": 9244,
+      "line": 62,
+      "offset": 11334,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2403,10 +2727,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9265:js-string",
+      "id": "nomad360_locale_core.js:11355:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 56,
-      "offset": 9265,
+      "line": 62,
+      "offset": 11355,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2417,10 +2741,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9284:js-string",
+      "id": "nomad360_locale_core.js:11374:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 56,
-      "offset": 9284,
+      "line": 62,
+      "offset": 11374,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2431,10 +2755,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9306:js-string",
+      "id": "nomad360_locale_core.js:11396:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 56,
-      "offset": 9306,
+      "line": 62,
+      "offset": 11396,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2445,10 +2769,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9328:js-string",
+      "id": "nomad360_locale_core.js:11418:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 57,
-      "offset": 9328,
+      "line": 63,
+      "offset": 11418,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2457,10 +2781,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9350:js-string",
+      "id": "nomad360_locale_core.js:11440:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 57,
-      "offset": 9350,
+      "line": 63,
+      "offset": 11440,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2471,10 +2795,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9361:js-string",
+      "id": "nomad360_locale_core.js:11451:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 57,
-      "offset": 9361,
+      "line": 63,
+      "offset": 11451,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2485,10 +2809,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9372:js-string",
+      "id": "nomad360_locale_core.js:11462:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 57,
-      "offset": 9372,
+      "line": 63,
+      "offset": 11462,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2499,10 +2823,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9387:js-string",
+      "id": "nomad360_locale_core.js:11477:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 58,
-      "offset": 9387,
+      "line": 64,
+      "offset": 11477,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2511,10 +2835,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9414:js-string",
+      "id": "nomad360_locale_core.js:11504:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 58,
-      "offset": 9414,
+      "line": 64,
+      "offset": 11504,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2525,10 +2849,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9431:js-string",
+      "id": "nomad360_locale_core.js:11521:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 58,
-      "offset": 9431,
+      "line": 64,
+      "offset": 11521,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2539,10 +2863,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9447:js-string",
+      "id": "nomad360_locale_core.js:11537:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 58,
-      "offset": 9447,
+      "line": 64,
+      "offset": 11537,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2553,10 +2877,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9467:js-string",
+      "id": "nomad360_locale_core.js:11557:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 59,
-      "offset": 9467,
+      "line": 65,
+      "offset": 11557,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2565,10 +2889,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9509:js-string",
+      "id": "nomad360_locale_core.js:11599:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 59,
-      "offset": 9509,
+      "line": 65,
+      "offset": 11599,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2579,10 +2903,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9545:js-string",
+      "id": "nomad360_locale_core.js:11635:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 59,
-      "offset": 9545,
+      "line": 65,
+      "offset": 11635,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2593,10 +2917,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9576:js-string",
+      "id": "nomad360_locale_core.js:11666:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 59,
-      "offset": 9576,
+      "line": 65,
+      "offset": 11666,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2607,10 +2931,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9613:js-string",
+      "id": "nomad360_locale_core.js:11703:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 60,
-      "offset": 9613,
+      "line": 66,
+      "offset": 11703,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2619,10 +2943,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9654:js-string",
+      "id": "nomad360_locale_core.js:11744:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 60,
-      "offset": 9654,
+      "line": 66,
+      "offset": 11744,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2633,10 +2957,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9689:js-string",
+      "id": "nomad360_locale_core.js:11779:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 60,
-      "offset": 9689,
+      "line": 66,
+      "offset": 11779,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2647,10 +2971,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9722:js-string",
+      "id": "nomad360_locale_core.js:11812:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 60,
-      "offset": 9722,
+      "line": 66,
+      "offset": 11812,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2661,10 +2985,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9759:js-string",
+      "id": "nomad360_locale_core.js:11849:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 61,
-      "offset": 9759,
+      "line": 67,
+      "offset": 11849,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2673,10 +2997,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:9841:js-string",
+      "id": "nomad360_locale_core.js:11931:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 61,
-      "offset": 9841,
+      "line": 67,
+      "offset": 11931,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2687,10 +3011,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:9929:js-string",
+      "id": "nomad360_locale_core.js:12019:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 61,
-      "offset": 9929,
+      "line": 67,
+      "offset": 12019,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2701,10 +3025,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10014:js-string",
+      "id": "nomad360_locale_core.js:12104:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 61,
-      "offset": 10014,
+      "line": 67,
+      "offset": 12104,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2715,10 +3039,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10093:js-string",
+      "id": "nomad360_locale_core.js:12183:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 62,
-      "offset": 10093,
+      "line": 68,
+      "offset": 12183,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2727,10 +3051,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:10131:js-string",
+      "id": "nomad360_locale_core.js:12221:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 62,
-      "offset": 10131,
+      "line": 68,
+      "offset": 12221,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2741,10 +3065,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10171:js-string",
+      "id": "nomad360_locale_core.js:12261:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 62,
-      "offset": 10171,
+      "line": 68,
+      "offset": 12261,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2755,10 +3079,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10210:js-string",
+      "id": "nomad360_locale_core.js:12300:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 62,
-      "offset": 10210,
+      "line": 68,
+      "offset": 12300,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2769,10 +3093,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10248:js-string",
+      "id": "nomad360_locale_core.js:12338:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 63,
-      "offset": 10248,
+      "line": 69,
+      "offset": 12338,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2781,10 +3105,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:10283:js-string",
+      "id": "nomad360_locale_core.js:12373:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 63,
-      "offset": 10283,
+      "line": 69,
+      "offset": 12373,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2795,10 +3119,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10311:js-string",
+      "id": "nomad360_locale_core.js:12401:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 63,
-      "offset": 10311,
+      "line": 69,
+      "offset": 12401,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2809,10 +3133,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10340:js-string",
+      "id": "nomad360_locale_core.js:12430:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 63,
-      "offset": 10340,
+      "line": 69,
+      "offset": 12430,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2823,10 +3147,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10370:js-string",
+      "id": "nomad360_locale_core.js:12460:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 64,
-      "offset": 10370,
+      "line": 70,
+      "offset": 12460,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2835,10 +3159,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:10407:js-string",
+      "id": "nomad360_locale_core.js:12497:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 64,
-      "offset": 10407,
+      "line": 70,
+      "offset": 12497,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2849,10 +3173,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10440:js-string",
+      "id": "nomad360_locale_core.js:12530:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 64,
-      "offset": 10440,
+      "line": 70,
+      "offset": 12530,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2863,10 +3187,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10479:js-string",
+      "id": "nomad360_locale_core.js:12569:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 64,
-      "offset": 10479,
+      "line": 70,
+      "offset": 12569,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2877,10 +3201,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10521:js-string",
+      "id": "nomad360_locale_core.js:12611:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 65,
-      "offset": 10521,
+      "line": 71,
+      "offset": 12611,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2889,10 +3213,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:10550:js-string",
+      "id": "nomad360_locale_core.js:12640:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 65,
-      "offset": 10550,
+      "line": 71,
+      "offset": 12640,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2903,10 +3227,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10573:js-string",
+      "id": "nomad360_locale_core.js:12663:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 65,
-      "offset": 10573,
+      "line": 71,
+      "offset": 12663,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2917,10 +3241,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10600:js-string",
+      "id": "nomad360_locale_core.js:12690:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 65,
-      "offset": 10600,
+      "line": 71,
+      "offset": 12690,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2931,10 +3255,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10630:js-string",
+      "id": "nomad360_locale_core.js:12720:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 66,
-      "offset": 10630,
+      "line": 72,
+      "offset": 12720,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2943,10 +3267,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:10675:js-string",
+      "id": "nomad360_locale_core.js:12765:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 66,
-      "offset": 10675,
+      "line": 72,
+      "offset": 12765,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2957,10 +3281,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10713:js-string",
+      "id": "nomad360_locale_core.js:12803:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 66,
-      "offset": 10713,
+      "line": 72,
+      "offset": 12803,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2971,10 +3295,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10746:js-string",
+      "id": "nomad360_locale_core.js:12836:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 66,
-      "offset": 10746,
+      "line": 72,
+      "offset": 12836,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2985,10 +3309,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:10780:js-string",
+      "id": "nomad360_locale_core.js:12870:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 67,
-      "offset": 10780,
+      "line": 73,
+      "offset": 12870,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -2997,10 +3321,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:10880:js-string",
+      "id": "nomad360_locale_core.js:12970:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 67,
-      "offset": 10880,
+      "line": 73,
+      "offset": 12970,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3011,10 +3335,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:11033:js-string",
+      "id": "nomad360_locale_core.js:13123:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 67,
-      "offset": 11033,
+      "line": 73,
+      "offset": 13123,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3025,10 +3349,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:11189:js-string",
+      "id": "nomad360_locale_core.js:13279:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 67,
-      "offset": 11189,
+      "line": 73,
+      "offset": 13279,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3039,10 +3363,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:11320:js-string",
+      "id": "nomad360_locale_core.js:13410:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 68,
-      "offset": 11320,
+      "line": 74,
+      "offset": 13410,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3051,10 +3375,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:11361:js-string",
+      "id": "nomad360_locale_core.js:13451:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 68,
-      "offset": 11361,
+      "line": 74,
+      "offset": 13451,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3065,10 +3389,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:11401:js-string",
+      "id": "nomad360_locale_core.js:13491:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 68,
-      "offset": 11401,
+      "line": 74,
+      "offset": 13491,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3079,10 +3403,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:11442:js-string",
+      "id": "nomad360_locale_core.js:13532:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 68,
-      "offset": 11442,
+      "line": 74,
+      "offset": 13532,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3093,10 +3417,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:11495:js-string",
+      "id": "nomad360_locale_core.js:13585:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 69,
-      "offset": 11495,
+      "line": 75,
+      "offset": 13585,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3105,10 +3429,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:11596:js-string",
+      "id": "nomad360_locale_core.js:13686:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 69,
-      "offset": 11596,
+      "line": 75,
+      "offset": 13686,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3119,10 +3443,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:11720:js-string",
+      "id": "nomad360_locale_core.js:13810:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 69,
-      "offset": 11720,
+      "line": 75,
+      "offset": 13810,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3133,10 +3457,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:11868:js-string",
+      "id": "nomad360_locale_core.js:13958:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 69,
-      "offset": 11868,
+      "line": 75,
+      "offset": 13958,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3147,10 +3471,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12001:js-string",
+      "id": "nomad360_locale_core.js:14091:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 70,
-      "offset": 12001,
+      "line": 76,
+      "offset": 14091,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3159,10 +3483,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12036:js-string",
+      "id": "nomad360_locale_core.js:14126:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 70,
-      "offset": 12036,
+      "line": 76,
+      "offset": 14126,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3173,10 +3497,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12073:js-string",
+      "id": "nomad360_locale_core.js:14163:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 70,
-      "offset": 12073,
+      "line": 76,
+      "offset": 14163,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3187,10 +3511,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12107:js-string",
+      "id": "nomad360_locale_core.js:14197:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 70,
-      "offset": 12107,
+      "line": 76,
+      "offset": 14197,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3201,10 +3525,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12150:js-string",
+      "id": "nomad360_locale_core.js:14240:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 71,
-      "offset": 12150,
+      "line": 77,
+      "offset": 14240,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3213,10 +3537,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12182:js-string",
+      "id": "nomad360_locale_core.js:14272:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 71,
-      "offset": 12182,
+      "line": 77,
+      "offset": 14272,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3227,10 +3551,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12213:js-string",
+      "id": "nomad360_locale_core.js:14303:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 71,
-      "offset": 12213,
+      "line": 77,
+      "offset": 14303,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3241,10 +3565,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12256:js-string",
+      "id": "nomad360_locale_core.js:14346:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 71,
-      "offset": 12256,
+      "line": 77,
+      "offset": 14346,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3255,10 +3579,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12299:js-string",
+      "id": "nomad360_locale_core.js:14389:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 72,
-      "offset": 12299,
+      "line": 78,
+      "offset": 14389,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3267,10 +3591,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12331:js-string",
+      "id": "nomad360_locale_core.js:14421:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 72,
-      "offset": 12331,
+      "line": 78,
+      "offset": 14421,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3281,10 +3605,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12355:js-string",
+      "id": "nomad360_locale_core.js:14445:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 72,
-      "offset": 12355,
+      "line": 78,
+      "offset": 14445,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3295,10 +3619,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12396:js-string",
+      "id": "nomad360_locale_core.js:14486:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 72,
-      "offset": 12396,
+      "line": 78,
+      "offset": 14486,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3309,10 +3633,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12434:js-string",
+      "id": "nomad360_locale_core.js:14524:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 73,
-      "offset": 12434,
+      "line": 79,
+      "offset": 14524,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3321,10 +3645,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12453:js-string",
+      "id": "nomad360_locale_core.js:14543:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 73,
-      "offset": 12453,
+      "line": 79,
+      "offset": 14543,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3335,10 +3659,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12472:js-string",
+      "id": "nomad360_locale_core.js:14562:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 73,
-      "offset": 12472,
+      "line": 79,
+      "offset": 14562,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3349,10 +3673,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12492:js-string",
+      "id": "nomad360_locale_core.js:14582:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 73,
-      "offset": 12492,
+      "line": 79,
+      "offset": 14582,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3363,10 +3687,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12517:js-string",
+      "id": "nomad360_locale_core.js:14607:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 74,
-      "offset": 12517,
+      "line": 80,
+      "offset": 14607,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3375,10 +3699,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12536:js-string",
+      "id": "nomad360_locale_core.js:14626:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 74,
-      "offset": 12536,
+      "line": 80,
+      "offset": 14626,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3389,10 +3713,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12552:js-string",
+      "id": "nomad360_locale_core.js:14642:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 74,
-      "offset": 12552,
+      "line": 80,
+      "offset": 14642,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3403,10 +3727,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12571:js-string",
+      "id": "nomad360_locale_core.js:14661:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 74,
-      "offset": 12571,
+      "line": 80,
+      "offset": 14661,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3417,10 +3741,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12594:js-string",
+      "id": "nomad360_locale_core.js:14684:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 75,
-      "offset": 12594,
+      "line": 81,
+      "offset": 14684,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3429,10 +3753,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12617:js-string",
+      "id": "nomad360_locale_core.js:14707:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 75,
-      "offset": 12617,
+      "line": 81,
+      "offset": 14707,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3443,10 +3767,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12641:js-string",
+      "id": "nomad360_locale_core.js:14731:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 75,
-      "offset": 12641,
+      "line": 81,
+      "offset": 14731,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3457,10 +3781,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12671:js-string",
+      "id": "nomad360_locale_core.js:14761:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 75,
-      "offset": 12671,
+      "line": 81,
+      "offset": 14761,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3471,10 +3795,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12713:js-string",
+      "id": "nomad360_locale_core.js:14803:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 76,
-      "offset": 12713,
+      "line": 82,
+      "offset": 14803,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3483,10 +3807,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12739:js-string",
+      "id": "nomad360_locale_core.js:14829:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 76,
-      "offset": 12739,
+      "line": 82,
+      "offset": 14829,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3497,10 +3821,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12761:js-string",
+      "id": "nomad360_locale_core.js:14851:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 76,
-      "offset": 12761,
+      "line": 82,
+      "offset": 14851,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3511,10 +3835,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12787:js-string",
+      "id": "nomad360_locale_core.js:14877:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 76,
-      "offset": 12787,
+      "line": 82,
+      "offset": 14877,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3525,10 +3849,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12817:js-string",
+      "id": "nomad360_locale_core.js:14907:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 77,
-      "offset": 12817,
+      "line": 83,
+      "offset": 14907,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3537,10 +3861,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12846:js-string",
+      "id": "nomad360_locale_core.js:14936:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 77,
-      "offset": 12846,
+      "line": 83,
+      "offset": 14936,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3551,10 +3875,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12869:js-string",
+      "id": "nomad360_locale_core.js:14959:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 77,
-      "offset": 12869,
+      "line": 83,
+      "offset": 14959,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3565,10 +3889,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12896:js-string",
+      "id": "nomad360_locale_core.js:14986:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 77,
-      "offset": 12896,
+      "line": 83,
+      "offset": 14986,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3579,10 +3903,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12930:js-string",
+      "id": "nomad360_locale_core.js:15020:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 78,
-      "offset": 12930,
+      "line": 84,
+      "offset": 15020,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3591,10 +3915,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:12961:js-string",
+      "id": "nomad360_locale_core.js:15051:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 78,
-      "offset": 12961,
+      "line": 84,
+      "offset": 15051,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3605,10 +3929,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:12985:js-string",
+      "id": "nomad360_locale_core.js:15075:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 78,
-      "offset": 12985,
+      "line": 84,
+      "offset": 15075,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3619,10 +3943,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13016:js-string",
+      "id": "nomad360_locale_core.js:15106:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 78,
-      "offset": 13016,
+      "line": 84,
+      "offset": 15106,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3633,10 +3957,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13052:js-string",
+      "id": "nomad360_locale_core.js:15142:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 79,
-      "offset": 13052,
+      "line": 85,
+      "offset": 15142,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3645,10 +3969,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:13086:js-string",
+      "id": "nomad360_locale_core.js:15176:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 79,
-      "offset": 13086,
+      "line": 85,
+      "offset": 15176,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3659,10 +3983,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13111:js-string",
+      "id": "nomad360_locale_core.js:15201:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 79,
-      "offset": 13111,
+      "line": 85,
+      "offset": 15201,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3673,10 +3997,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13129:js-string",
+      "id": "nomad360_locale_core.js:15219:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 79,
-      "offset": 13129,
+      "line": 85,
+      "offset": 15219,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3687,10 +4011,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13153:js-string",
+      "id": "nomad360_locale_core.js:15243:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 80,
-      "offset": 13153,
+      "line": 86,
+      "offset": 15243,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3699,10 +4023,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:13181:js-string",
+      "id": "nomad360_locale_core.js:15271:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 80,
-      "offset": 13181,
+      "line": 86,
+      "offset": 15271,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3713,10 +4037,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13203:js-string",
+      "id": "nomad360_locale_core.js:15293:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 80,
-      "offset": 13203,
+      "line": 86,
+      "offset": 15293,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3727,10 +4051,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13235:js-string",
+      "id": "nomad360_locale_core.js:15325:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 80,
-      "offset": 13235,
+      "line": 86,
+      "offset": 15325,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3741,10 +4065,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13267:js-string",
+      "id": "nomad360_locale_core.js:15357:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 81,
-      "offset": 13267,
+      "line": 87,
+      "offset": 15357,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3753,10 +4077,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:13297:js-string",
+      "id": "nomad360_locale_core.js:15387:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 81,
-      "offset": 13297,
+      "line": 87,
+      "offset": 15387,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3767,10 +4091,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13326:js-string",
+      "id": "nomad360_locale_core.js:15416:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 81,
-      "offset": 13326,
+      "line": 87,
+      "offset": 15416,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3781,10 +4105,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13349:js-string",
+      "id": "nomad360_locale_core.js:15439:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 81,
-      "offset": 13349,
+      "line": 87,
+      "offset": 15439,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3795,10 +4119,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13382:js-string",
+      "id": "nomad360_locale_core.js:15472:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 82,
-      "offset": 13382,
+      "line": 88,
+      "offset": 15472,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3807,10 +4131,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:13405:js-string",
+      "id": "nomad360_locale_core.js:15495:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 82,
-      "offset": 13405,
+      "line": 88,
+      "offset": 15495,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3821,10 +4145,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13426:js-string",
+      "id": "nomad360_locale_core.js:15516:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 82,
-      "offset": 13426,
+      "line": 88,
+      "offset": 15516,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3835,10 +4159,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13449:js-string",
+      "id": "nomad360_locale_core.js:15539:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 82,
-      "offset": 13449,
+      "line": 88,
+      "offset": 15539,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3849,10 +4173,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13472:js-string",
+      "id": "nomad360_locale_core.js:15562:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 83,
-      "offset": 13472,
+      "line": 89,
+      "offset": 15562,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3861,10 +4185,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:13492:js-string",
+      "id": "nomad360_locale_core.js:15582:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 83,
-      "offset": 13492,
+      "line": 89,
+      "offset": 15582,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3875,10 +4199,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13511:js-string",
+      "id": "nomad360_locale_core.js:15601:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 83,
-      "offset": 13511,
+      "line": 89,
+      "offset": 15601,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3889,10 +4213,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13534:js-string",
+      "id": "nomad360_locale_core.js:15624:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 83,
-      "offset": 13534,
+      "line": 89,
+      "offset": 15624,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3903,10 +4227,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13559:js-string",
+      "id": "nomad360_locale_core.js:15649:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 84,
-      "offset": 13559,
+      "line": 90,
+      "offset": 15649,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3915,10 +4239,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:13575:js-string",
+      "id": "nomad360_locale_core.js:15665:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 84,
-      "offset": 13575,
+      "line": 90,
+      "offset": 15665,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3929,10 +4253,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13591:js-string",
+      "id": "nomad360_locale_core.js:15681:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 84,
-      "offset": 13591,
+      "line": 90,
+      "offset": 15681,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3943,10 +4267,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13602:js-string",
+      "id": "nomad360_locale_core.js:15692:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 84,
-      "offset": 13602,
+      "line": 90,
+      "offset": 15692,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3957,10 +4281,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13619:js-string",
+      "id": "nomad360_locale_core.js:15709:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 85,
-      "offset": 13619,
+      "line": 91,
+      "offset": 15709,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3969,10 +4293,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:13638:js-string",
+      "id": "nomad360_locale_core.js:15728:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 85,
-      "offset": 13638,
+      "line": 91,
+      "offset": 15728,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3983,10 +4307,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13650:js-string",
+      "id": "nomad360_locale_core.js:15740:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 85,
-      "offset": 13650,
+      "line": 91,
+      "offset": 15740,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -3997,10 +4321,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13662:js-string",
+      "id": "nomad360_locale_core.js:15752:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 85,
-      "offset": 13662,
+      "line": 91,
+      "offset": 15752,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4011,10 +4335,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13678:js-string",
+      "id": "nomad360_locale_core.js:15768:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 86,
-      "offset": 13678,
+      "line": 92,
+      "offset": 15768,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4023,10 +4347,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:13779:js-string",
+      "id": "nomad360_locale_core.js:15869:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 86,
-      "offset": 13779,
+      "line": 92,
+      "offset": 15869,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4037,10 +4361,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:13901:js-string",
+      "id": "nomad360_locale_core.js:15991:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 86,
-      "offset": 13901,
+      "line": 92,
+      "offset": 15991,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4051,10 +4375,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14028:js-string",
+      "id": "nomad360_locale_core.js:16118:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 86,
-      "offset": 14028,
+      "line": 92,
+      "offset": 16118,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4065,10 +4389,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14165:js-string",
+      "id": "nomad360_locale_core.js:16255:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 87,
-      "offset": 14165,
+      "line": 93,
+      "offset": 16255,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4077,10 +4401,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:14196:js-string",
+      "id": "nomad360_locale_core.js:16286:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 87,
-      "offset": 14196,
+      "line": 93,
+      "offset": 16286,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4091,10 +4415,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14227:js-string",
+      "id": "nomad360_locale_core.js:16317:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 87,
-      "offset": 14227,
+      "line": 93,
+      "offset": 16317,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4105,10 +4429,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14261:js-string",
+      "id": "nomad360_locale_core.js:16351:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 87,
-      "offset": 14261,
+      "line": 93,
+      "offset": 16351,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4119,10 +4443,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14303:js-string",
+      "id": "nomad360_locale_core.js:16393:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 88,
-      "offset": 14303,
+      "line": 94,
+      "offset": 16393,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4131,10 +4455,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:14386:js-string",
+      "id": "nomad360_locale_core.js:16476:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 88,
-      "offset": 14386,
+      "line": 94,
+      "offset": 16476,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4145,10 +4469,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14481:js-string",
+      "id": "nomad360_locale_core.js:16571:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 88,
-      "offset": 14481,
+      "line": 94,
+      "offset": 16571,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4159,10 +4483,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14594:js-string",
+      "id": "nomad360_locale_core.js:16684:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 88,
-      "offset": 14594,
+      "line": 94,
+      "offset": 16684,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4173,10 +4497,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14700:js-string",
+      "id": "nomad360_locale_core.js:16790:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 89,
-      "offset": 14700,
+      "line": 95,
+      "offset": 16790,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4185,10 +4509,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:14736:js-string",
+      "id": "nomad360_locale_core.js:16826:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 89,
-      "offset": 14736,
+      "line": 95,
+      "offset": 16826,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4199,10 +4523,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14767:js-string",
+      "id": "nomad360_locale_core.js:16857:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 89,
-      "offset": 14767,
+      "line": 95,
+      "offset": 16857,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4213,10 +4537,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14802:js-string",
+      "id": "nomad360_locale_core.js:16892:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 89,
-      "offset": 14802,
+      "line": 95,
+      "offset": 16892,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4227,10 +4551,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14846:js-string",
+      "id": "nomad360_locale_core.js:16936:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 90,
-      "offset": 14846,
+      "line": 96,
+      "offset": 16936,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4239,10 +4563,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:14872:js-string",
+      "id": "nomad360_locale_core.js:16962:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 90,
-      "offset": 14872,
+      "line": 96,
+      "offset": 16962,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4253,10 +4577,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14891:js-string",
+      "id": "nomad360_locale_core.js:16981:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 90,
-      "offset": 14891,
+      "line": 96,
+      "offset": 16981,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4267,10 +4591,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14912:js-string",
+      "id": "nomad360_locale_core.js:17002:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 90,
-      "offset": 14912,
+      "line": 96,
+      "offset": 17002,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4281,10 +4605,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:14936:js-string",
+      "id": "nomad360_locale_core.js:17026:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 91,
-      "offset": 14936,
+      "line": 97,
+      "offset": 17026,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4293,10 +4617,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:14970:js-string",
+      "id": "nomad360_locale_core.js:17060:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 91,
-      "offset": 14970,
+      "line": 97,
+      "offset": 17060,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4307,10 +4631,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15001:js-string",
+      "id": "nomad360_locale_core.js:17091:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 91,
-      "offset": 15001,
+      "line": 97,
+      "offset": 17091,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4321,10 +4645,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15033:js-string",
+      "id": "nomad360_locale_core.js:17123:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 91,
-      "offset": 15033,
+      "line": 97,
+      "offset": 17123,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4335,10 +4659,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15062:js-string",
+      "id": "nomad360_locale_core.js:17152:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 92,
-      "offset": 15062,
+      "line": 98,
+      "offset": 17152,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4347,10 +4671,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:15099:js-string",
+      "id": "nomad360_locale_core.js:17189:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 92,
-      "offset": 15099,
+      "line": 98,
+      "offset": 17189,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4361,10 +4685,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15127:js-string",
+      "id": "nomad360_locale_core.js:17217:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 92,
-      "offset": 15127,
+      "line": 98,
+      "offset": 17217,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4375,10 +4699,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15157:js-string",
+      "id": "nomad360_locale_core.js:17247:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 92,
-      "offset": 15157,
+      "line": 98,
+      "offset": 17247,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4389,10 +4713,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15189:js-string",
+      "id": "nomad360_locale_core.js:17279:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 93,
-      "offset": 15189,
+      "line": 99,
+      "offset": 17279,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4401,10 +4725,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:15219:js-string",
+      "id": "nomad360_locale_core.js:17309:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 93,
-      "offset": 15219,
+      "line": 99,
+      "offset": 17309,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4415,10 +4739,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15248:js-string",
+      "id": "nomad360_locale_core.js:17338:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 93,
-      "offset": 15248,
+      "line": 99,
+      "offset": 17338,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4429,10 +4753,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15281:js-string",
+      "id": "nomad360_locale_core.js:17371:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 93,
-      "offset": 15281,
+      "line": 99,
+      "offset": 17371,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4443,10 +4767,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15311:js-string",
+      "id": "nomad360_locale_core.js:17401:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 94,
-      "offset": 15311,
+      "line": 100,
+      "offset": 17401,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4455,10 +4779,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:15354:js-string",
+      "id": "nomad360_locale_core.js:17444:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 94,
-      "offset": 15354,
+      "line": 100,
+      "offset": 17444,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4469,10 +4793,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15392:js-string",
+      "id": "nomad360_locale_core.js:17482:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 94,
-      "offset": 15392,
+      "line": 100,
+      "offset": 17482,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4483,10 +4807,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15430:js-string",
+      "id": "nomad360_locale_core.js:17520:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 94,
-      "offset": 15430,
+      "line": 100,
+      "offset": 17520,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4497,10 +4821,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15476:js-string",
+      "id": "nomad360_locale_core.js:17566:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 95,
-      "offset": 15476,
+      "line": 101,
+      "offset": 17566,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4509,10 +4833,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:15544:js-string",
+      "id": "nomad360_locale_core.js:17634:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 95,
-      "offset": 15544,
+      "line": 101,
+      "offset": 17634,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4523,10 +4847,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15616:js-string",
+      "id": "nomad360_locale_core.js:17706:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 95,
-      "offset": 15616,
+      "line": 101,
+      "offset": 17706,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4537,10 +4861,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15699:js-string",
+      "id": "nomad360_locale_core.js:17789:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 95,
-      "offset": 15699,
+      "line": 101,
+      "offset": 17789,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4551,10 +4875,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15791:js-string",
+      "id": "nomad360_locale_core.js:17881:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 96,
-      "offset": 15791,
+      "line": 102,
+      "offset": 17881,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4563,10 +4887,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:15830:js-string",
+      "id": "nomad360_locale_core.js:17920:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 96,
-      "offset": 15830,
+      "line": 102,
+      "offset": 17920,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4577,10 +4901,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15861:js-string",
+      "id": "nomad360_locale_core.js:17951:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 96,
-      "offset": 15861,
+      "line": 102,
+      "offset": 17951,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4591,10 +4915,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15892:js-string",
+      "id": "nomad360_locale_core.js:17982:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 96,
-      "offset": 15892,
+      "line": 102,
+      "offset": 17982,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4605,10 +4929,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15932:js-string",
+      "id": "nomad360_locale_core.js:18022:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 97,
-      "offset": 15932,
+      "line": 103,
+      "offset": 18022,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4617,10 +4941,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:15942:js-string",
+      "id": "nomad360_locale_core.js:18032:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 97,
-      "offset": 15942,
+      "line": 103,
+      "offset": 18032,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4631,10 +4955,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15949:js-string",
+      "id": "nomad360_locale_core.js:18039:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 97,
-      "offset": 15949,
+      "line": 103,
+      "offset": 18039,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4645,10 +4969,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15960:js-string",
+      "id": "nomad360_locale_core.js:18050:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 97,
-      "offset": 15960,
+      "line": 103,
+      "offset": 18050,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4659,10 +4983,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:15977:js-string",
+      "id": "nomad360_locale_core.js:18067:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 98,
-      "offset": 15977,
+      "line": 104,
+      "offset": 18067,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4671,10 +4995,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:16044:js-string",
+      "id": "nomad360_locale_core.js:18134:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 98,
-      "offset": 16044,
+      "line": 104,
+      "offset": 18134,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4685,10 +5009,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16109:js-string",
+      "id": "nomad360_locale_core.js:18199:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 98,
-      "offset": 16109,
+      "line": 104,
+      "offset": 18199,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4699,10 +5023,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16161:js-string",
+      "id": "nomad360_locale_core.js:18251:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 98,
-      "offset": 16161,
+      "line": 104,
+      "offset": 18251,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4713,10 +5037,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16221:js-string",
+      "id": "nomad360_locale_core.js:18311:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 99,
-      "offset": 16221,
+      "line": 105,
+      "offset": 18311,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4725,10 +5049,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:16291:js-string",
+      "id": "nomad360_locale_core.js:18381:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 99,
-      "offset": 16291,
+      "line": 105,
+      "offset": 18381,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4739,10 +5063,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16360:js-string",
+      "id": "nomad360_locale_core.js:18450:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 99,
-      "offset": 16360,
+      "line": 105,
+      "offset": 18450,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4753,10 +5077,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16427:js-string",
+      "id": "nomad360_locale_core.js:18517:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 99,
-      "offset": 16427,
+      "line": 105,
+      "offset": 18517,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4767,10 +5091,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16506:js-string",
+      "id": "nomad360_locale_core.js:18596:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 100,
-      "offset": 16506,
+      "line": 106,
+      "offset": 18596,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4779,10 +5103,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:16592:js-string",
+      "id": "nomad360_locale_core.js:18682:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 100,
-      "offset": 16592,
+      "line": 106,
+      "offset": 18682,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4793,10 +5117,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16683:js-string",
+      "id": "nomad360_locale_core.js:18773:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 100,
-      "offset": 16683,
+      "line": 106,
+      "offset": 18773,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4807,10 +5131,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16796:js-string",
+      "id": "nomad360_locale_core.js:18886:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 100,
-      "offset": 16796,
+      "line": 106,
+      "offset": 18886,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4821,10 +5145,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16891:js-string",
+      "id": "nomad360_locale_core.js:18981:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 101,
-      "offset": 16891,
+      "line": 107,
+      "offset": 18981,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4833,10 +5157,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:16927:js-string",
+      "id": "nomad360_locale_core.js:19017:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 101,
-      "offset": 16927,
+      "line": 107,
+      "offset": 19017,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4847,10 +5171,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16955:js-string",
+      "id": "nomad360_locale_core.js:19045:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 101,
-      "offset": 16955,
+      "line": 107,
+      "offset": 19045,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4861,10 +5185,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:16985:js-string",
+      "id": "nomad360_locale_core.js:19075:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 101,
-      "offset": 16985,
+      "line": 107,
+      "offset": 19075,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4875,10 +5199,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17021:js-string",
+      "id": "nomad360_locale_core.js:19111:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 102,
-      "offset": 17021,
+      "line": 108,
+      "offset": 19111,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4887,10 +5211,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:17037:js-string",
+      "id": "nomad360_locale_core.js:19127:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 102,
-      "offset": 17037,
+      "line": 108,
+      "offset": 19127,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4901,10 +5225,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17053:js-string",
+      "id": "nomad360_locale_core.js:19143:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 102,
-      "offset": 17053,
+      "line": 108,
+      "offset": 19143,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4915,10 +5239,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17065:js-string",
+      "id": "nomad360_locale_core.js:19155:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 102,
-      "offset": 17065,
+      "line": 108,
+      "offset": 19155,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4929,10 +5253,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17086:js-string",
+      "id": "nomad360_locale_core.js:19176:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 103,
-      "offset": 17086,
+      "line": 109,
+      "offset": 19176,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4941,10 +5265,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:17102:js-string",
+      "id": "nomad360_locale_core.js:19192:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 103,
-      "offset": 17102,
+      "line": 109,
+      "offset": 19192,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4955,10 +5279,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17119:js-string",
+      "id": "nomad360_locale_core.js:19209:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 103,
-      "offset": 17119,
+      "line": 109,
+      "offset": 19209,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4969,10 +5293,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17140:js-string",
+      "id": "nomad360_locale_core.js:19230:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 103,
-      "offset": 17140,
+      "line": 109,
+      "offset": 19230,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4983,10 +5307,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17171:js-string",
+      "id": "nomad360_locale_core.js:19261:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 104,
-      "offset": 17171,
+      "line": 110,
+      "offset": 19261,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -4995,10 +5319,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:17214:js-string",
+      "id": "nomad360_locale_core.js:19304:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 104,
-      "offset": 17214,
+      "line": 110,
+      "offset": 19304,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -5009,10 +5333,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17263:js-string",
+      "id": "nomad360_locale_core.js:19353:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 104,
-      "offset": 17263,
+      "line": 110,
+      "offset": 19353,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -5023,10 +5347,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17322:js-string",
+      "id": "nomad360_locale_core.js:19412:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 104,
-      "offset": 17322,
+      "line": 110,
+      "offset": 19412,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -5037,10 +5361,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17377:js-string",
+      "id": "nomad360_locale_core.js:19467:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 105,
-      "offset": 17377,
+      "line": 111,
+      "offset": 19467,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -5049,10 +5373,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_locale_core.js:17415:js-string",
+      "id": "nomad360_locale_core.js:19505:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 105,
-      "offset": 17415,
+      "line": 111,
+      "offset": 19505,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
@@ -5063,340 +5387,16 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_locale_core.js:17457:js-string",
+      "id": "nomad360_locale_core.js:19547:js-string",
       "file": "nomad360_locale_core.js",
-      "line": 105,
-      "offset": 17457,
+      "line": 111,
+      "offset": 19547,
       "kind": "js-string",
       "owner": "nomad360_locale_core.js",
       "stage": "L1",
       "context": "messages",
       "text": "Добавить модель агента в портфель V2",
       "catalog": "ui.addTheAgentModelToTheV2Portfolio",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17496:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 105,
-      "offset": 17496,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Агент моделін V2 портфеліне қосу",
-      "catalog": "ui.addTheAgentModelToTheV2Portfolio",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17535:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 106,
-      "offset": 17535,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "ui.transferTheAgentEconomicsToV2",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_locale_core.js:17570:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 106,
-      "offset": 17570,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Transfer the agent economics to V2 →",
-      "catalog": "ui.transferTheAgentEconomicsToV2",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17609:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 106,
-      "offset": 17609,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Перенести экономику агента в V2 →",
-      "catalog": "ui.transferTheAgentEconomicsToV2",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17645:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 106,
-      "offset": 17645,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Агент экономикасын V2-ге көшіру →",
-      "catalog": "ui.transferTheAgentEconomicsToV2",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17685:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 107,
-      "offset": 17685,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "ui.agentAndPrincipalEconomicsPeriodTotals",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_locale_core.js:17729:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 107,
-      "offset": 17729,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Agent and principal economics (period totals)",
-      "catalog": "ui.agentAndPrincipalEconomicsPeriodTotals",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17777:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 107,
-      "offset": 17777,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Экономика агента и принципала (итоги за период)",
-      "catalog": "ui.agentAndPrincipalEconomicsPeriodTotals",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17827:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 107,
-      "offset": 17827,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Агент пен принципал экономикасы (кезең қорытындысы)",
-      "catalog": "ui.agentAndPrincipalEconomicsPeriodTotals",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17885:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 108,
-      "offset": 17885,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "ui.agentEconomics",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_locale_core.js:17905:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 108,
-      "offset": 17905,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Agent economics",
-      "catalog": "ui.agentEconomics",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17923:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 108,
-      "offset": 17923,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Экономика агента",
-      "catalog": "ui.agentEconomics",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17942:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 108,
-      "offset": 17942,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Агент экономикасы",
-      "catalog": "ui.agentEconomics",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:17966:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 109,
-      "offset": 17966,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "ui.howThePrincipalEarns",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_locale_core.js:17992:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 109,
-      "offset": 17992,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "How the principal earns",
-      "catalog": "ui.howThePrincipalEarns",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:18018:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 109,
-      "offset": 18018,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Как зарабатывает принципал",
-      "catalog": "ui.howThePrincipalEarns",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:18047:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 109,
-      "offset": 18047,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Принципал қалай табыс табады",
-      "catalog": "ui.howThePrincipalEarns",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:18082:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 110,
-      "offset": 18082,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "operations.ifThePrincipalSBusinessModelWorksTheyCanAffordYourServices",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_locale_core.js:18154:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 110,
-      "offset": 18154,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "If the principal's business model works, they can afford your services.",
-      "catalog": "operations.ifThePrincipalSBusinessModelWorksTheyCanAffordYourServices",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:18228:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 110,
-      "offset": 18228,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Если его модель бизнеса эффективна, он сможет оплачивать ваши услуги.",
-      "catalog": "operations.ifThePrincipalSBusinessModelWorksTheyCanAffordYourServices",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:18300:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 110,
-      "offset": 18300,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Принципалдың бизнес-моделі тиімді болса, ол сіздің қызметіңізге ақы төлей алады.",
-      "catalog": "operations.ifThePrincipalSBusinessModelWorksTheyCanAffordYourServices",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:18387:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 111,
-      "offset": 18387,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "finance.principalSEstimatedProfit",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_locale_core.js:18423:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 111,
-      "offset": 18423,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Principal's estimated profit",
-      "catalog": "finance.principalSEstimatedProfit",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_locale_core.js:18454:js-string",
-      "file": "nomad360_locale_core.js",
-      "line": 111,
-      "offset": 18454,
-      "kind": "js-string",
-      "owner": "nomad360_locale_core.js",
-      "stage": "L1",
-      "context": "messages",
-      "text": "Расчётная прибыль принципала",
-      "catalog": "finance.principalSEstimatedProfit",
       "language": "ru",
       "coverage": "catalog-entry"
     }

@@ -266,6 +266,7 @@ function buildShell(){
   intro.id='nomad360-intro';intro.className='nomad-marketing nomad-intro';intro.setAttribute('data-nomad-no-translate','');
   intro.innerHTML='<p class="nomad-intro-lead">'+esc(tr('introLead'))+'</p><ul>'+['introFree','introPractical','introPrivate'].map(k=>'<li>'+esc(tr(k))+'</li>').join('')+'</ul>'+
    '<p class="nomad-intro-result">'+esc(tr('introResult'))+'</p><a class="nomad-intro-cta" href="#nomad360-selling-choice">'+esc(tr('introAction'))+'</a>';
+  heroNode.querySelector('h3').after(intro.querySelector('.nomad-intro-cta'));
   (document.getElementById('nomad360-seo-banner')||heroNode).after(intro);
  }
  const foot=document.getElementById('nomad360-footer');
