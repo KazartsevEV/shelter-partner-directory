@@ -68,7 +68,7 @@ def render(config, page):
 {related}
 <p>Results describe the scenario you enter. They do not establish market demand or guarantee sales.</p>
 </main>
-<footer><div class="wrap"><p>Free, with no registration required. Calculations run in your browser. Optional exchange-rate requests and existing third-party resources have their own network behaviour.</p><nav aria-label="Footer">{link(base + 'Marketing_calc.HTML?lang=en#nomad360-data', 'Data and privacy')}{link(base + 'Marketing_calc.HTML?lang=en#nomad360-license', 'Licence and use')}</nav></div></footer>
+<footer><div class="wrap"><p>Free, with no registration required. Calculations run in your browser. Optional exchange-rate requests and existing third-party resources have their own network behaviour.</p><nav aria-label="Footer">{link(base + 'Marketing_calc.HTML?lang=en#nomad360-data', 'Data and privacy')}{link(base + 'license/en/', 'Licence and use')}</nav></div></footer>
 </body>
 </html>
 '''
