@@ -22,6 +22,9 @@ test('Published hero, legal/privacy text, payment details and every financial tr
  A.equal(current.t('interface.header.customButton','ru'),'Заказать кастомное решение');
  A.equal(current.t('interface.header.comparison.contacts','ru'),'Контакты и вопросы посетителя, формы обратной связи, опционально — интеграция с CRM');
  for(const key of ['aboutBrand','aboutMotto.0','aboutMotto.1','aboutMotto.2'])for(const locale of ['ru','en','kk'])A.doesNotMatch(current.t('interface.header.'+key,locale),/^⟦/);
+ A.deepEqual(Array.from(current.section('interface.header','ru').aboutMotto),['Устанавливаем связи.','Строим структуру.','Открываем горизонты.']);
+ A.deepEqual(Array.from(current.section('interface.header','en').aboutMotto),['We build connections.','We create structure.','We open new horizons.']);
+ A.equal(current.section('interface.header','kk').aboutMotto.length,3);
 });
 test('Download, retry, clipboard, header navigation and financial export logic stay exact outside named presentation renderers',()=>{
  const acorn=require('../scripts/localization/node_modules/acorn');
