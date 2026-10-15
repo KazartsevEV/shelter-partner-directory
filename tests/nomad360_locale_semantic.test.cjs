@@ -65,7 +65,9 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
   const old=execFileSync('git',['show',SHA+':'+file],{cwd:base,encoding:'utf8'}),now=fs.readFileSync(path.join(base,file),'utf8');
   A.deepEqual(canonical(acorn.parse(now,{ecmaVersion:'latest'})),canonical(acorn.parse(old,{ecmaVersion:'latest'})),file+' changed beyond message registry lookup');
  }
- const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!presentation.has(f));
+ // SEO-07 adds a new UI-only URL adapter, absent from the financial baseline.
+ // Its priority, URL preservation and untouched models have dedicated tests.
+ const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&f!=='nomad360_seo_language.js'&&!presentation.has(f));
  A.ok(files.length>=10);
  for(const file of [...files,'vendor/exceljs-4.4.0.min.js']){
   // PR #141 accepted a visitor-counter retry fix after the financial baseline.
