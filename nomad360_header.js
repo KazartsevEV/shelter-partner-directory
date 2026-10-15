@@ -865,6 +865,9 @@
   }
   function boot() {
     renderInformation();renderFooter();renderHeader();
+    // SEO-07: reuse the header asset; the existing HTML bundler inlines this URL.
+    const seoBanner=document.getElementById('nomad360-seo-banner');
+    if(seoBanner&&!seoBanner.querySelector('.nomad-seo-logo'))seoBanner.insertAdjacentHTML('beforeend','<img class="nomad-seo-logo" src="./nomad360_wolf_open_circle.png" alt="" width="140" height="140" loading="lazy">');
     const header=document.getElementById('nomad360-header');
     header.addEventListener('click',event=>{
       const button=event.target.closest('.nomad-burger');

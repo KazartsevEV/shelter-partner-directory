@@ -9,6 +9,8 @@
  * Column order: semantic key, EN meaning, RU text (also legacy alias), KK text.
  * EN terminology acceptance is pending L1 review and final L6 acceptance. */
 const messages=[
+ ["business.ideaSeoTitle","Business idea calculator: costs, profit and cash flow","Расчёт бизнес-идеи: затраты, прибыль и денежный поток","Бизнес-идеяны есептеу: шығындар, пайда және Cash Flow"],
+ ["business.ideaSeoCopy","Calculate product or service costs and selling price, customer acquisition costs, startup capital, projected profit and cash flow. Assess the commercial value of your idea to decide which business would be profitable for you.","Рассчитайте себестоимость и цену товара или услуги, расходы на привлечение клиента, стартовый капитал, прогноз прибыли и денежный поток. Оцените коммерческую ценность своей идеи и решите, каким бизнесом вам выгодно заниматься.","Тауардың немесе қызметтің өзіндік құны мен бағасын, клиент тарту шығындарын, бастапқы капиталды, пайда болжамын және Cash Flow көрсеткішін есептеңіз. Идеяңыздың коммерциялық құндылығын бағалап, қандай бизнеспен айналысу тиімді екенін шешіңіз."],
  ["finance.payerForEachIndividualExpense","Payer for each individual expense","Плательщик каждой расходной статьи","Әр шығын бабы бойынша төлеуші"],
  ["finance.materialsDirectExpenses","Materials / direct expenses","Материалы / прямые расходы","Материалдар / тікелей шығындар"],
  ["finance.otherDirectExpenses","Other direct expenses","Остальные прямые расходы","Басқа тікелей шығындар"],

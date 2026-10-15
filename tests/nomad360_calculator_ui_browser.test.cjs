@@ -24,14 +24,10 @@ async function browserCase(browser,locale,expected){
   };
   A.deepEqual(await page.locator('#nomad360-hero h1, #nomad360-hero h2, #nomad360-hero h3').allTextContents(),approved[expected.lang],
     'Approved H1 → H2 → H3 must have exact text and order');
-  A.equal(await page.locator('#nomad360-calculation-list ul > li').count(),6,
-    'Original six-point calculation list must remain visible');
-  A.equal(await page.locator('#nomad360-calculation-list ul').isVisible(),true);
-  const lead={ru:'После расчёта вы получите:',en:'After the calculation, you get:',kk:'Есеп нәтижесінде аласыз:'}[expected.lang];
-  await page.waitForFunction(v=>document.querySelector('#nomad360-calculation-list p')?.textContent?.trim()===v,lead);
-  const bullets=await page.locator('#nomad360-calculation-list ul li').allTextContents();
-  A.match(bullets[0],{ru:/Себестоимость/,en:/Cost per product/,kk:/өзіндік құны/}[expected.lang]);
-  A.match(bullets[5],{ru:/Денежный поток/,en:/Monthly cash flow/,kk:/Ай сайынғы Cash Flow/}[expected.lang]);
+  A.equal(await page.locator('#nomad360-seo-banner h2').count(),1,'One SEO banner replaces the former six-point list');
+  A.equal(await page.locator('#nomad360-seo-banner li').count(),0);
+  A.equal(await page.locator('#nomad360-seo-banner p').isVisible(),true);
+  A.equal(await page.locator('#nomad360-seo-banner p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
   A.equal(await page.locator('#home-screen').evaluate(el=>
     [...el.children].findIndex(child=>child.id==='nomad360-hero')+1===
     [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
@@ -66,7 +62,7 @@ async function browserCase(browser,locale,expected){
       hero1:computed('#nomad360-hero h1').color,
       hero2:computed('#nomad360-hero h2').color,
       hero3:computed('#nomad360-hero h3').color,
-      calcBackground:computed('#nomad360-calculation-list').backgroundColor,
+      calcBackground:computed('#nomad360-seo-banner').backgroundColor,
       primaryCardBackground:computed('#nomad360-selling-choice').backgroundColor,
       headerBackground:computed('#nomad360-header').backgroundColor,
       note:computed('#product-screen .nd-canvas-note').color,
@@ -77,7 +73,8 @@ async function browserCase(browser,locale,expected){
   A.ok(['hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
    A.equal(canvasColors.hero1,'rgb(237, 142, 99)','Business calculator eyebrow must be orange');
-  A.ok(['calcBackground','primaryCardBackground','headerBackground'].every(k=>
+  A.equal(canvasColors.calcBackground,'rgb(22, 55, 90)','Requested SEO banner uses the brand navy');
+  A.ok(['primaryCardBackground','headerBackground'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
 
   for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
@@ -113,7 +110,7 @@ async function browserCase(browser,locale,expected){
       font:root.getPropertyValue('--nd-font').trim(),
       body:root.getPropertyValue('--nd-type-body').trim(),
       note:root.getPropertyValue('--nd-type-note').trim(),
-      outcome:at('#nomad360-calculation-list li'),
+      outcome:at('#nomad360-seo-banner p'),
       noteCopy:at('#nomad360-home-secondary .nomad-recovery-note'),
       hero:at('#nomad360-hero h3'),
       recoveryTitle:at('#nomad360-home-secondary .nomad-recovery-title'),
@@ -212,8 +209,7 @@ async function browserCase(browser,locale,expected){
     'Resume calculation keeps sufficient contrast and a clear action label');
   A.equal(await page.locator('#nomad360-home-secondary').evaluate(e=>getComputedStyle(e).boxShadow),'none',
     'No legacy floating/nested homepage card shadow');
-  A.match(await page.locator('#nomad360-calculation-list li').first().evaluate(
-    e=>getComputedStyle(e,'::before').content),/counter\(deliverable/,'Outcomes use a numbered CSS counter');
+  A.equal(await page.locator('#nomad360-seo-banner img').count(),1,'SEO banner reuses the existing header logo');
   await choice.locator('#start-service').click();
   A.equal(await page.locator('#service-work-screen').isVisible(),true,'Service must open online/offline branch');
   const pathColors=await page.locator('#service-work-screen .nd-path-card').evaluateAll(buttons=>buttons.map(b=>({
