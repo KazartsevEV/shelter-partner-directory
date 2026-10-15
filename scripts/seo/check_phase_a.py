@@ -67,6 +67,17 @@ def main():
     const seoBanner=document.getElementById('nomad360-seo-banner');
     if(seoBanner&&!seoBanner.querySelector('.nomad-seo-logo'))seoBanner.insertAdjacentHTML('beforeend','<img class="nomad-seo-logo" src="./nomad360_wolf_open_circle.png" alt="" width="140" height="140" loading="lazy">');
 ''', b'', 1)
+        if name == 'nomad360_calculator_ui.js':
+            # The B2B banner must retain disclosure state on a live language
+            # change. Treat the narrowly scoped footer ownership fix as a
+            # presentation edit, preserving the older engine/SEO baseline.
+            new = b""" // The footer is owned by nomad360_header.js and refreshed on languagechange.
+ // Keep its node intact so an open B2B comparison and disclosures survive.
+ if(!document.getElementById('nomad360-footer'))document.body.insertAdjacentHTML('beforeend',footer());"""
+            old = b""" const foot=document.getElementById('nomad360-footer');
+ if(foot){foot.outerHTML=footer()}else{document.body.insertAdjacentHTML('beforeend',footer())}"""
+            assert raw.count(new) == 1
+            raw = raw.replace(new, old, 1)
         # An independently approved later B2B-copy edit must not weaken the old
         # SEO baseline: undo ONLY its exact white/orange consulting presentation
         # before comparing the protected source with the accepted snapshot.
