@@ -3,13 +3,16 @@ const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('no
 const root=path.resolve(__dirname,'..'),base='5cd1e5e1bfb1b15087a29b1806424aa91dee2f12',before=f=>execFileSync('git',['show',base+':'+f],{cwd:root,maxBuffer:8*1024*1024,encoding:'utf8'});
 test('All existing application files stay exact outside the five authorised presentation changes',()=>{
  const files=execFileSync('git',['ls-tree','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/\.(js|css|html)$/i.test(f)||f==='CALCULATOR_LICENSE.md');A.ok(files.includes('portfolio_v2_engine.js')&&files.includes('Marketing_calc.HTML')&&files.includes('nomad360_fx.js'));
- for(const file of files)A.equal(stripReturn(file,fs.readFileSync(path.join(root,file),'utf8')),before(file),file);
+ // The later owner-approved consulting B2B copy touches only these presentation files;
+ // tests/nomad360_marketing_scope.test.cjs guards their unchanged non-B2B behavior.
+ const laterApprovedMarketing=new Set(['nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.css']);
+ for(const file of files)if(!laterApprovedMarketing.has(file))A.equal(stripReturn(file,fs.readFileSync(path.join(root,file),'utf8')),before(file),file);
  const published=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(en\/|license\/|assets\/nomad360-seo\.css$|scripts\/seo\/(build\.py|pages\.json|hero_banner\.css)$)/.test(f));for(const file of published)A.deepEqual(fs.readFileSync(path.join(root,file)),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
  A.deepEqual(fs.readFileSync(path.join(root,'nomad360_wolf_open_circle.png')),execFileSync('git',['show',base+':nomad360_wolf_open_circle.png'],{cwd:root,maxBuffer:4*1024*1024}));
 });
 test('Every established EN RU KK message retains its accepted meaning',()=>{
  const boot=code=>{const w={};new Function('window','document',code)(w,{readyState:'loading',addEventListener(){}});return w.Nomad360LocaleCore;};const old=boot(before('nomad360_locale_core.js')),now=boot(fs.readFileSync(path.join(root,'nomad360_locale_core.js'),'utf8'));
- for(const key of old.keys())for(const language of ['en','ru','kk'])A.equal(now.t(key,language),old.t(key,language),key+' '+language);
+ for(const key of old.keys())if(key!=='interface.header.embedB2BTitle')for(const language of ['en','ru','kk'])A.equal(now.t(key,language),old.t(key,language),key+' '+language);
 });
 function opaqueWhiteIcon(png,size){
  A.equal(png.subarray(0,8).toString('hex'),'89504e470d0a1a0a');A.equal(png.readUInt32BE(16),size);A.equal(png.readUInt32BE(20),size);A.equal(png[24],8);A.equal(png[25],2,'RGB: no transparent icon pixels');

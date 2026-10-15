@@ -30,7 +30,14 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   const flow=await about.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));if(width>=900)A.ok(flow[0].left<flow[1].left&&flow[1].left<flow[2].left&&Math.abs(flow[0].top-flow[2].top)<1);else A.ok(flow[0].top<flow[1].top&&flow[1].top<flow[2].top);
   const embed=p.locator('#nomad360-embed'),toggle=embed.locator('[data-nomad-embed-toggle]'),panel=embed.locator('#nomad360-embed-comparison');
   A.equal(await toggle.getAttribute('aria-expanded'),'false');A.equal(await panel.isVisible(),false);A.equal(await embed.locator('button:visible').count(),1);
-  if(lang==='ru')A.equal(await embed.locator('h2').textContent(),'Работаете в B2B? Привлеките полезный трафик бесплатно.');
+  const consultingTitles={ru:'Занимаетесь консалтингом?',en:'Do you work in consulting?',kk:'Консалтингпен айналысасыз ба?'};
+  A.equal(await embed.locator('h2').textContent(),consultingTitles[lang]);
+  const benefits=embed.locator('.nomad-embed-b2b-benefits');A.equal(await benefits.locator('li').count(),5);
+  for(let i=0;i<5;i++)A.equal(await benefits.locator('li').nth(i).textContent(),await tr('interface.header.embedB2BPoints.'+i));
+  A.equal(await benefits.locator('em').count(),1);A.equal(await benefits.locator('em').textContent(),await tr('interface.header.embedB2BFocus'));
+  A.equal(await benefits.locator('em').evaluate(e=>getComputedStyle(e).fontStyle),'italic');
+  A.equal(await benefits.evaluate(e=>getComputedStyle(e).color),'rgb(237, 142, 99)');
+  A.equal(await embed.locator('h2').evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)');
   const files=[];async function shot(name,selector){const f=`${lang}-${width}-${name}.png`;await p.locator(selector).screenshot({path:path.join(out,f)});files.push(f);}
   await shot('home','#home-screen');await shot('about','#nomad360-about');await shot('b2b-closed','#nomad360-embed');
   for(const id of ['nomad360-license','nomad360-data','nomad360-product-details'])A.equal(await p.locator('#'+id).evaluate(e=>e.open),false,id+' default closed');

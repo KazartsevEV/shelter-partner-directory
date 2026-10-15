@@ -159,7 +159,7 @@ const server=createServer(async(req,res)=>{
    A.equal(await page.locator('.nomad-bar').evaluate(el=>el.scrollWidth<=el.clientWidth),true,
      'Branding must fit the mobile header');
   A.match(await license.textContent(),/Скачать бесплатную версию/);
-  A.match(await license.textContent(),/Работаете в B2B\? Привлеките полезный трафик бесплатно/);
+  A.match(await license.textContent(),/Занимаетесь консалтингом\?/);
   A.match(await license.textContent(),/Уникальные посетители GitHub-репозитория за последние 14 дней:/);
   const visitors=(await license.locator('[data-nomad-traffic-value]').textContent()).trim();
   A.match(visitors,/^(?:—|[0-9][0-9\s\u00a0\u202f]*)$/,
