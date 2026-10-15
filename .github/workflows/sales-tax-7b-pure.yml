@@ -1,0 +1,36 @@
+name: SALES-TAX-07B stage 1 — isolated math and frozen VAT
+on:
+  pull_request:
+    paths:
+      - 'nomad360_sales_tax.js'
+      - 'tests/sales_tax_7b_pure.test.cjs'
+      - '.github/workflows/sales-tax-7b-pure.yml'
+      - 'docs/nomad360-codex-task-map.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pure-and-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: No modifications to existing calculation engines or application UI
+        run: |
+          git fetch --no-tags origin main
+          if git diff --name-only origin/main...HEAD -- Marketing_calc.HTML portfolio_v2_engine.js portfolio_v2_linked_engine.js portfolio_v2_full_service.js portfolio_v2_temporal_cash.js portfolio_v2_period_price.js portfolio_v2_online_adapter.js nomad360_calculator_ui.js nomad360_calculator_ui.css nomad360_locale_core.js | grep .; then
+            echo "Existing financial or UI sources changed in the pure-math stage" >&2
+            exit 1
+          fi
+      - name: Strict pure-math syntax and unit contracts
+        run: |
+          node --check nomad360_sales_tax.js
+          node --check tests/sales_tax_7b_pure.test.cjs
+          node --test tests/sales_tax_7b_pure.test.cjs
+      - name: Full frozen VAT engine comparisons (48 cases)
+        run: node tests/sales_tax_7b_baseline.cjs
