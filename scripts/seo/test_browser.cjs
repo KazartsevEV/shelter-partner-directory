@@ -28,6 +28,10 @@ const snap=()=>({currency:Nomad360Currency.get(),product:productPortfolio[0],mod
   A.equal(await p.locator('a.cta').getAttribute('href'),record.primaryCtaHref);
   const logo=await p.locator('img').evaluateAll(es=>es.map(e=>({src:e.currentSrc,loaded:e.complete&&e.naturalWidth===1024,width:e.getBoundingClientRect().width})));
   A.equal(logo.length,2);A.equal(logo[0].src,logo[1].src);A.ok(logo.every(r=>r.loaded));A.equal(requests.filter(u=>u.endsWith('/nomad360_wolf_open_circle.png')).length,1,'Header/banner must share one image request');
+  A.equal(await p.locator('.intro-logo-mask .intro-logo').count(),1,'White circular mask preserves original wolf asset');
+  A.equal(await p.locator('.intro-brand-tagline').textContent(),'Sky allows, guys deliver');
+  A.equal(await p.locator('.intro-logo-mask').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');
+  A.ok(await p.locator('.intro-brand-mark').evaluate(e=>getComputedStyle(e).transform!=='none'),'Top banner logo is raised slightly');
   A.ok(requests.every(u=>u.startsWith(origin+'/')));A.equal(requests.filter(u=>/\.js(?:\?|$)/.test(u)).length,0);
   A.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
   await p.keyboard.press('Tab');A.equal(await p.locator('.skip-link').evaluate(e=>e===document.activeElement),true);
