@@ -237,7 +237,7 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-license-terms{max-width:460px;margin-top:24px;padding-top:18px;border-top:1px solid var(--nf-line)}
 .nomad-embed-title{margin:0;color:#fff;font:700 17px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif}
 .nomad-embed-download,.nomad-embed-contact{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;padding:11px 14px;border:1px solid #f4f7fc;background:#f4f7fc;color:#16375a;font:700 15px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif;text-decoration:none;text-align:center;cursor:pointer}
-.nomad-embed-download:hover:not(:disabled){background:#f3a17a;border-color:#f3a17a;color:#16375a}
+.nomad-embed-download:hover:not(:disabled){background:#d7e2ec;border-color:#d7e2ec;color:#16375a}
 .nomad-embed-download:disabled{opacity:.65;cursor:wait}
 .nomad-embed-contact{background:transparent;border-color:#f4f7fc;color:#fff}
 .nomad-embed-contact:hover{background:rgba(255,255,255,.12)}
@@ -246,33 +246,34 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-embed-status:empty{display:none}
 .nomad-embed-download:focus-visible,.nomad-embed-contact:focus-visible{outline:3px solid #f0b9a5;outline-offset:3px}
 
-/* CTA-01: only the conversion-oriented action is vermilion/orange.
-   Brand vermilion #b8573a is lightened for navy-label readability.
-   The custom-development link remains a white secondary action. */
+/* B2B conversion hierarchy: free HTML download and table disclosure are
+   light secondary actions; ordering a custom solution is the orange CTA.
+   The fallback link for a prepared free download stays light/secondary. */
 .nomad-embed-download {
-  background:#ed8e63;
-  border-color:#ed8e63;
+  background:#f4f7fc;
+  border-color:#f4f7fc;
   color:#16375a;
   font-size:17px;
   font-weight:700;
 }
 .nomad-footer .nomad-embed-contact {
-  background:transparent;
-  border-color:#f4f7fc;
-  color:#fff;
-  font-weight:600;
+  background:#ed8e63;
+  border-color:#ed8e63;
+  color:#16375a;
+  font-weight:700;
 }
 .nomad-footer .nomad-embed-contact:hover {
-  background:rgba(255,255,255,.12);
-  color:#fff;
+  background:#f3a17a;
+  border-color:#f3a17a;
+  color:#16375a;
 }
-.nomad-header .nomad-cta:focus-visible,.nomad-footer .nomad-embed-download:focus-visible {
+.nomad-header .nomad-cta:focus-visible,.nomad-footer .nomad-embed-download:focus-visible,.nomad-footer .nomad-embed-contact:focus-visible {
   outline:3px solid #f3a17a;
   outline-offset:3px;
 }
 
 /* Fallback link stays valid while the export page is open. */
-.nomad-embed-retry{padding:13px 15px;background:#ed8e63;border:1px solid #ed8e63;color:#16375a;font:600 15px/1.45 'IBM Plex Sans',Inter,system-ui,sans-serif}
+.nomad-embed-retry{padding:13px 15px;background:#f4f7fc;border:1px solid #f4f7fc;color:#16375a;font:600 15px/1.45 'IBM Plex Sans',Inter,system-ui,sans-serif}
 .nomad-embed-retry[hidden]{display:none}
 .nomad-footer .nomad-embed-retry-link{color:#16375a;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .nomad-footer .nomad-embed-retry-link:hover{color:#0d2945}
