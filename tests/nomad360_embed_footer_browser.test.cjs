@@ -214,8 +214,8 @@ const server=createServer(async(req,res)=>{
      background:getComputedStyle(el).backgroundColor,
      text:getComputedStyle(el.querySelector('a')).color
    }));
-   A.deepEqual(retryColors,{background:'rgb(237, 142, 99)',text:'rgb(22, 55, 90)'},
-     'Fallback CTA uses orange background and navy action text');
+   A.deepEqual(retryColors,{background:'rgb(244, 247, 252)',text:'rgb(22, 55, 90)'},
+     'Free HTML download fallback stays light, while custom order uses the orange CTA');
    const repeated=page.waitForEvent('download',{timeout:10000});
    await fallback.click();
    A.equal((await repeated).suggestedFilename(),'Nomad360-calculator-embed.html',
