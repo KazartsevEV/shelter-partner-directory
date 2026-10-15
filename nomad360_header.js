@@ -624,19 +624,18 @@
       '<p class="nomad-pay-hint">'+esc(t.kaspiPhoneHint)+'</p>'+
       '<a class="nomad-pay-value" href="'+PAY.kaspiTel+'">'+esc(PAY.kaspi)+'</a>'+
       copyButton(t,PAY.kaspi,t.kaspi)+'</article>'+
+      (language()==='ru'?
+        '<article class="nomad-pay nomad-pay-ozon" data-nomad-russian-support>'+
+        '<span class="nomad-pay-label"><span class="nomad-ru-flag" aria-hidden="true">🇷🇺</span> '+esc(t.ozonTransfer)+'</span>'+
+        '<p class="nomad-pay-hint">'+esc(t.ozonBank)+'</p>'+
+        '<a class="nomad-pay-value" href="'+PAY.ozonTel+'">'+esc(PAY.ozon)+'</a>'+
+        copyButton(t,PAY.ozon,t.ozonTransfer)+'</article>':'')+
       '<details class="nomad-pay nomad-pay-bank">'+
       '<summary class="nomad-fold-toggle"><span class="nomad-donate-globe" aria-hidden="true">🌐</span><span>'+esc(t.bankTransfer)+'</span><span class="nomad-fold-arrow" aria-hidden="true">⌄</span></summary>'+
       '<div class="nomad-bank-details">'+
       bankLine(t.bankRecipient,PAY.bankName)+bankLine(t.bankName,PAY.bank)+
       bankLine('SWIFT/BIC',PAY.swift)+bankLine('IBAN',PAY.iban)+
       '</div></details></div>';
-  }
-  function payRussian(t) {
-    return '<details class="nomad-russian-transfer">'+
-      '<summary>'+esc(t.ozonTransfer)+' <span aria-hidden="true">⌄</span></summary>'+
-      '<div class="nomad-russian-details"><strong>'+esc(t.ozonBank)+'</strong>'+
-      '<a href="'+PAY.ozonTel+'">'+esc(PAY.ozon)+'</a>'+
-      copyButton(t,PAY.ozon,t.ozon)+'</div></details>';
   }
   function productMarkup(t, p) {
     const items=p.items.map(i=>'<li><b>'+esc(i[0])+'.</b> '+esc(i[1])+'</li>').join('');
@@ -663,7 +662,7 @@
     const c=t.comparison;
     return '<div class="nomad-footer-inner">'+
       '<section id="nomad360-support" class="nomad-donate" tabindex="-1"><h2>'+esc(t.supportTitle)+'</h2><p class="nomad-donate-lead">'+esc(t.supportLead)+'</p>'+
-      payHostedCrypto(t)+payFiat(t)+payRussian(t)+'</section>'+
+      payHostedCrypto(t)+payFiat(t)+'</section>'+
       '<details class="nomad-footer-products" id="nomad360-product-details"><summary>'+esc(t.fundsTitle)+'</summary><div class="nomad-products-grid">'+t.products.map(p=>productMarkup(t,p)).join('')+'</div></details>'+
       '<section id="nomad360-embed" class="nomad-embed-actions" tabindex="-1">'+
       '<h2 class="nomad-embed-b2b-title">'+esc(t.embedB2BTitle)+'</h2>'+
