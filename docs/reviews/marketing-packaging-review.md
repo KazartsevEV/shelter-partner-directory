@@ -1,112 +1,93 @@
-# Task 6 — MKT-L10N-01 marketing packaging
+# Task 6 — current MKT-L10N-01 implementation
 
-Date: 15 October 2026. Base: `cf17252fdb89cea7e83689f3ea7ebaa4363e2f86`,
-including accepted TYPE-02 merge `e9071470` and the latest MKT-L10N-01
-approved 20-minute offer and concise-copy contract.
-Branch: `feature/marketing-packaging`. Draft PR #144, presented for review.
-[Current HEAD checks](https://github.com/KazartsevEV/shelter-partner-directory/pull/144/checks)
-are the source for the final CI verdict; evidence provenance is pinned below.
+15 October 2026 · PR #144 · branch `feature/marketing-packaging`.
+Specification: **main `538565e`**, read directly with the task map. Earlier
+marketing specifications and their test results do not establish acceptance
+for this revision. The current specification file is retained without edits.
 
-## Implemented scope
+## Changes
 
-- One existing hero, approved RU headings, EN “Business calculator”, equivalent KK and the approved 20-minute line.
-  The existing calculation choice immediately follows these three lines.
-  Six results and scenario explanations are expandable below the choice;
-  free/browser terms and privacy stay in their appropriate sections.
-- Six existing result items; Cash Flow and Available Cash first. Existing
-  product/service/portfolio entry points remain. Available Cash is not renamed
-  to net profit or owner income.
-- Umbrella-brand About with goal, values and three products/statuses. Future
-  product descriptions and contact destinations remain available.
-- One header anchor to two cards: complete Free Embed €0 and an indicative
-  White Label from €600, written agreement, scope and separately quoted extras.
-  Paid CTA opens a localised email draft; no form submission or delivery claim.
-- Licence footer summarises v2.3, current individual licensor and legal email;
-  full terms link and historical licence preserved. Legal source unchanged.
-- Support methods share a responsive grid: NOWPayments left, Kaspi/bank/Ozon
-  right on desktop; one column on mobile. Original iframe dimensions, scaling,
-  payment values, copy actions and links retained.
-- Only the specified final sentence removed from standalone V2 introduction.
-- Existing GitHub counter clearly identifies repository visits in project
-  information. No new analytics. [Measurement plan](../marketing/measurement-plan.md)
-  distinguishes clicks, downloads, received enquiries and confirmed donations.
+- Existing RU/EN/KK three-line offer, styling and placement preserved.
+- New requested introduction immediately below it: one sentence, exactly three
+  benefits, “Our calculator. Your result.” and one arrow to the existing
+  `#nomad360-selling-choice`. Existing six results and calculator blocks keep
+  their original order and content.
+- About: three sequential blocks, horizontal on desktop and vertical on mobile,
+  with the exact RU titles/questions. Only the requested sentence below the
+  diagram; only “действительно важно” is italic. EN/KK follow the same structure.
+- Existing B2B heading, one disclosure button, a comparison table closed by
+  default. The button toggles the table and never starts downloading. Exact
+  requested rows and RU/EN/KK action labels; RU “Хочу собственную версию”,
+  EN “White Label”. At narrow widths row labels span both value columns.
+- Free download calls the **unchanged** complete-HTML generator. Preparation,
+  ready/error status, actual download and retry link retained. Order uses the
+  existing mailto mechanism. The existing GitHub repository visitor counter
+  remains under the download action, with its original source, period and math.
+- Legal/privacy and existing long product information are closed disclosures.
+  Their text and links are preserved. Header navigation opens a collapsed target
+  before scrolling to it. Support methods remain in their original section.
+  The official contact is one always-visible label/email line.
 
-All text lives in the existing semantic registry. Compatibility module snapshots
-are synchronised; old static aliases remain resolvable. Financial terminology
-decisions T1–T4 and the L1 glossary are not reopened.
+No new offer cards, market segmentation, analytics, forms, servers, SEO campaign,
+licence interpretation or marketing strategy is included.
 
-## Evidence and verification
+## Preservation checks
 
-The dedicated Chromium test covers RU/EN/KK at 320, 360, 390, 430, 768, 1280
-and 1440 px. It checks actual headings/order, six results, two cards, mobile
-menu/Escape/keyboard focus/scroll, mailto contents, layout, text roles, contrast,
-licence/contacts, support disclosures, failed download recovery, real completed
-downloads, repeat links and rendering the complete portable application.
+Only four production files change: `nomad360_header.js`,
+`nomad360_calculator_ui.js`, `nomad360_locale_core.js`,
+`nomad360_calculator_ui.css`. The CSS appends rules to the accepted stylesheet.
+The original hero function and all existing financial translations are exact.
+Only existing download/order/counter labels change in the old catalogue;
+new semantic messages use its existing registry and synchronised snapshots.
 
-Source guard pins all financial assets and inline application scripts, script
-order, field IDs and the entire HTML head to the accepted base. It allows only
-moving/expanding the existing homepage list and the single requested V2 sentence to change in
-those files. Existing financial unit, numeric browser, currencies, Excel,
-localisation, shopper, restore and export checks are retained in CI.
+The published HTML and all four published presentation assets were downloaded
+and matched the corresponding main files byte-for-byte before implementation.
 
-[Screenshots](marketing-packaging/index.md) and [numeric/layout protocol](marketing-packaging/protocol.json).
-Original CI matrix on `6a9f21f`: 21 cases, 129 PNG, three complete portable editions, six successful
-downloads. Do not interpret this as 129 manually inspected images.
+The source guard pins every other top-level HTML/JS/CSS asset and the full
+licence to `538565e`. In particular, Marketing_calc.HTML, V1 inline scripts,
+V2, payment/currency engines, saved formats, financial exports and HTML head
+are unchanged. The download, retry, payment-detail, clipboard and header-renderer
+ASTs are protected separately. No financial model or user data is read by the
+new presentation blocks.
 
-## Limits and handoff
+## Browser evidence
 
-- Deterministic screenshots block external services; the NOWPayments body is
-  blank in these captures. They verify host geometry, not third-party checkout
-  or a donation. No real enquiry or donation is sent during verification.
-- Manual inspection covers RU 390 homepage, EN 1280 support/offers and KK 320
-  offers.
-  Language checks use the accepted specification and glossary; no independent
-  native-speaker or professional legal certification is claimed.
-- Browser download initiation is not production confirmation of a saved file.
-  No analytics provider, enquiry backend or donation webhook is connected.
-- HTML head is byte-identical to the base. SEO URLs, title/description,
-  canonical/hreflang and indexability belong to task 7.
-- The historical online-import failures remain separate debt. No claim that
-  marketing resolves them is made.
-- Licence [release notice](../marketing/license-release-notice.md) preserves
-  earlier permissions and records the legal review limitation.
+[Current screenshots](marketing-packaging/index.md) ·
+[Current protocol](marketing-packaging/protocol.json) ·
+[File hashes](marketing-packaging/implementation.json) ·
+[Changed files](marketing-packaging/changed-files.txt).
 
-Stop after this PR's checks and user acceptance. Do not merge or begin task 7
-without the applicable user instruction.
+Dedicated Chromium matrix: RU/EN/KK × 320, 360, 390, 430, 768, 1280, 1440 px;
+21 scenarios, 129 screenshots, three complete portable HTML editions and six
+completed downloads including retry. It checks intro/arrow, preserved result
+order, exact diagram text/italic, keyboard table toggle without download,
+comparison rows, counter placement, disclosure defaults, visible email,
+header links into collapsed information, clipboard, download failure/recovery,
+complete downloaded app, text roles, contrast and page overflow.
 
-Local checks: 30 source/font/semantic/diagnostic tests passed; existing packaging
-checks passed for all three languages, including PDF and financial parity.
-Localisation acceptance passed 54 cases with restore, user names, native PDF and
-frozen-action regression. Full route matrix is also run independently in CI.
+Local checks: 29 source/font/semantic/diagnostic tests passed; 486 route/language
+cases passed with zero visible gaps, zero page overflow and unchanged financial
+inputs/results. Existing packaging
+regression passed all three languages, PDF and financial parity. Existing full
+HTML/Excel download regression passed. Full route/language and financial checks
+also run independently in CI.
 
-## Published implementation
+[Current HEAD CI](https://github.com/KazartsevEV/shelter-partner-directory/pull/144/checks)
+is authoritative for the final CI verdict. No result from an older specification
+is substituted for those checks.
 
-[Draft PR #144](https://github.com/KazartsevEV/shelter-partner-directory/pull/144).
-Application implementation: `f40287b8867a0cb8e7f48200eebef0d9057d3fa0`.
-The subsequent verification update adds expanded-offer/clipboard checks and
-updates the first-visit assertion to the latest approved collapsed-details
-contract. All later application-source hashes must remain identical to this
-implementation. Initial numeric CI stopped on the superseded always-visible
-outcome-list assertion, after its financial checks passed; that assertion is
-replaced by closed/open/choice-order checks, without removing numerical checks.
+## Limits and acceptance
 
-Verification HEAD: `6a9f21f90b1c06cbfb34d51a68810cf0f8637635`. Application
-code is byte-identical to `f40287b` (see implementation manifest); only tests,
-documentation and evidence changed.
+The screenshot matrix blocks external resources, including the hosted donation
+iframe. Its original URL, dimensions, methods and renderer are retained; no
+real donation, order email or lead submission is sent during testing. The
+GitHub counter uses a clearly labelled fixture in deterministic browser tests;
+its production module and public snapshot are unchanged.
 
-CI links:
+Manual inspection covers RU 390 home/About, KK 320 expanded comparison and
+English desktop controls. It is not a claim that every PNG was inspected by a
+person or that an independent native-language/legal certification was performed.
+The old online-import failures remain separate debt.
 
-- [Dedicated marketing](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38707522275)
-- [Numeric Chromium](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38707522418)
-- [TYPE-02](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38707522309)
-- [Localisation](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38707522522)
-
-The permanent PNG and protocol above are **original bytes** from CI run
-`38707522275`, artifact `11958234875` (9,255,132-byte ZIP), SHA-256
-`bbd4c9bbcf294daa0e23e238e0d926b3cfc3ef795697c6b787fe42fc26f137e0`.
-The ZIP digest was verified before extraction. Per-file hashes are in
-[implementation.json](marketing-packaging/implementation.json). Manual control
-frames were also inspected from this exact CI artifact: RU 390 home, KK 320
-offers and EN 1280 support. The minimum sampled text contrast is 5.005:1;
-this covers the owned hero, offers, support and licence, including expanded
-offer conditions, and excludes the third-party iframe.
+This PR awaits user acceptance and a separate merge instruction. Task 7 is not
+started.

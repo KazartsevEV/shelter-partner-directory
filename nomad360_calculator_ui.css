@@ -58,18 +58,18 @@
 .nomad-sec a{color:var(--nh-navy);text-decoration:none}
 .nomad-sec a:hover,.nomad-nav a:hover{color:var(--nh-accent)}
 .nomad-header a:focus-visible,.nomad-header button:focus-visible,.nomad-header select:focus-visible{outline:2px solid var(--nh-accent);outline-offset:3px}
-@media(min-width:1440px){
+@media(min-width:1200px){
  .nomad-bar{padding:0 40px}
  .nomad-logo{width:58px;height:58px}
  .nomad-brand{gap:12px}
  .nomad-wordmark{font-size:29px}
  .nomad-burger,.nomad-sec{display:none}
  .nomad-header .nomad-panel,.nomad-header.is-open .nomad-panel{display:contents}
- .nomad-nav{order:1;flex-direction:row;align-items:stretch;gap:18px;margin-left:auto;padding-right:18px}
+ .nomad-nav{order:1;flex-direction:row;align-items:stretch;gap:32px;margin-left:auto;padding-right:32px}
  .nomad-nav a{height:80px;border-bottom:3px solid transparent;font-size:15px}
  .nomad-nav a[aria-current="page"]{border-bottom-color:var(--nh-accent)}
  .nomad-nav a[aria-current="page"]:after{display:none}
- .nomad-lang{order:2;align-self:stretch;display:flex;align-items:center;margin:0;padding:0 12px;border-left:1px solid var(--nh-line);border-right:1px solid var(--nh-line)}
+ .nomad-lang{order:2;align-self:stretch;display:flex;align-items:center;margin:0;padding:0 24px;border-left:1px solid var(--nh-line);border-right:1px solid var(--nh-line)}
  .nomad-lang select{height:44px;font-size:16px}
  .nomad-cta{order:3;height:44px;margin:0 0 0 24px;padding:0 22px;font-size:16px}
 }
@@ -437,36 +437,43 @@ a.nomad-pay-value{text-decoration:underline}
   #product-tax-block [data-business-advice] > button{font-size:17px}
 }
 
-/* MKT-L10N-01: presentation uses the accepted Inter roles and CTA hierarchy. */
-.nomad-support-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;margin-top:28px;align-items:start}
-.nomad-support-grid .nomad-crypto-panel{margin:0;max-width:none}
-.nomad-support-methods{display:grid;gap:16px;min-width:0}
-.nomad-support-methods .nomad-pay-fiat{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin:0}
-.nomad-support-methods .nomad-russian-transfer{margin:0;padding:16px;border:1px solid var(--nf-line);border-radius:12px}
-.nomad-partners{scroll-margin-top:100px;margin-top:40px;padding-top:32px;border-top:1px solid var(--nf-line)}
-.nomad-partners .nomad-partner-audience{font:500 17px/1.5 var(--nd-font);color:#fff;margin:16px 0 12px}
-.nomad-partner-cards{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;margin-top:24px}
-.nomad-partner-card{display:flex;flex-direction:column;align-items:stretch;gap:16px;min-width:0;padding:24px;border:1px solid var(--nf-line);border-radius:14px;background:#1d4369;overflow-wrap:break-word}
-.nomad-partner-card h3{font:600 22px/1.35 var(--nd-font);margin:0}
-.nomad-partner-card .nomad-edition-price{font:700 28px/1.2 var(--nd-font);color:#fff;margin:0;white-space:nowrap}
-.nomad-partner-card p,.nomad-partner-card p+p{margin:0}
-.nomad-partner-card .nomad-embed-actions{margin-top:auto;max-width:none;gap:16px}
-.nomad-partner-card .nomad-embed-contact{margin-top:auto;min-height:48px;font:600 16px/1.4 var(--nd-font);padding:12px 16px;white-space:normal;height:auto}
-.nomad-partner-card .nomad-embed-download{font:600 16px/1.4 var(--nd-font);min-height:48px;white-space:normal;height:auto;padding:12px 16px}
-.nomad-partner-card .nomad-embed-hint{font:400 14px/1.55 var(--nd-font)}
-.nomad-footer .nomad-traffic-stats{margin-top:16px}
-@media(min-width:900px){
- .nomad-support-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
- .nomad-partner-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* Task 6 / main 538565e: only the requested intro, project flow and disclosure UI. */
+.nomad-intro{margin:0 0 24px;color:#fff}
+.nomad-intro-lead{font:500 19px/1.5 var(--nd-font);margin:0 0 16px}
+.nomad-intro ul{list-style:disc;padding-left:24px;margin:0;display:grid;gap:10px;font:400 17px/1.5 var(--nd-font)}
+.nomad-intro-result{font:500 17px/1.5 var(--nd-font);margin:20px 0 12px}
+.nomad-intro-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;background:#ed8e63;color:#16375a;text-align:center;text-decoration:none;font:600 16px/1.5 var(--nd-font);max-width:100%;box-sizing:border-box}
+.nomad-intro-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+#nomad360-selling-choice{scroll-margin-top:100px}
+.nomad-about-flow{list-style:none;display:grid;gap:40px;padding:0;margin:24px 0}
+.nomad-about-flow>li{position:relative;min-width:0;padding:20px;border:1px solid #b4c5d6;background:#f4f7fc;display:flex;flex-direction:column;gap:12px}
+.nomad-about-flow>li:not(:last-child)::after{content:'↓';position:absolute;left:calc(50% - 10px);bottom:-36px;color:#16375a;font:600 26px/1 var(--nd-font)}
+.nomad-about-flow h3{font:600 20px/1.35 var(--nd-font);margin:0;color:#16375a}
+.nomad-about-flow p{font:400 17px/1.5 var(--nd-font);margin:0;color:#40546a}
+.nomad-about-caption{font:400 17px/1.55 var(--nd-font);color:#40546a}
+@media(min-width:900px){.nomad-about-flow{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}.nomad-about-flow>li:not(:last-child)::after{content:'→';left:auto;right:-28px;top:calc(50% - 13px);bottom:auto}}
+.nomad-footer .nomad-embed-actions{max-width:none;margin-top:32px;gap:16px}
+.nomad-footer .nomad-embed-b2b-title{font:600 clamp(20px,2.4vw,28px)/1.35 var(--nd-font);color:#fff;margin:0}
+.nomad-embed-toggle{max-width:480px}
+#nomad360-embed-comparison[hidden]{display:none}
+.nomad-embed-table{width:100%;table-layout:fixed;border-collapse:collapse;color:#fff;font:400 16px/1.5 var(--nd-font);margin-bottom:16px}
+.nomad-embed-table th,.nomad-embed-table td{border:1px solid var(--nf-line);padding:14px;vertical-align:top;overflow-wrap:break-word}
+.nomad-embed-table th{font-weight:500;text-align:left;background:rgba(255,255,255,.07)}
+.nomad-embed-table th:first-child{width:24%}
+.nomad-embed-table .nomad-traffic-stats{margin-top:16px}
+.nomad-embed-table .nomad-embed-download,.nomad-embed-table .nomad-embed-contact{font:600 16px/1.45 var(--nd-font);min-height:48px;white-space:normal;height:auto}
+.nomad-footer details.nomad-meta-block>summary,.nomad-footer-products>summary{cursor:pointer;min-height:44px;align-content:center;color:#fff;font:600 18px/1.4 var(--nd-font)}
+.nomad-footer details.nomad-meta-block>p,.nomad-footer details.nomad-meta-block>.nomad-license-terms,.nomad-footer-products>.nomad-products-grid{margin-top:16px}
+.nomad-footer summary:focus-visible{outline:2px solid #ed8e63;outline-offset:4px}
+#nomad360-official p{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:600px){
+ .nomad-embed-table,.nomad-embed-table thead,.nomad-embed-table tbody{display:block}
+ .nomad-embed-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .nomad-embed-table thead th:first-child{display:none}
+ .nomad-embed-table th,.nomad-embed-table td{width:auto;min-width:0;padding:10px}
+ .nomad-embed-table tbody th{grid-column:1/-1;width:auto}
+ .nomad-embed-table .nomad-embed-download,.nomad-embed-table .nomad-embed-contact{padding:10px 6px}
+ .nomad-embed-table .nomad-traffic-title{font-size:14px}
 }
-@media(max-width:359px){.nomad-partner-card{padding:16px}}
-
-@media(min-width:1200px) and (max-width:1439px){.nomad-logo{width:58px;height:58px}.nomad-wordmark{font-size:29px}}
-/* The approved three-line offer leads directly to the existing choice. */
-#nomad360-calculation-list{margin-top:20px;margin-bottom:12px}
-#nomad360-calculation-list>summary{cursor:pointer;font:600 17px/1.45 var(--nd-font);color:#16375a;min-height:44px;align-content:center}
-#nomad360-result-context p{font:400 17px/1.55 var(--nd-font);color:#40546a;margin:16px 0 0}
-#nomad360-local-promise{margin:12px 0 20px;color:#fff;font:400 14px/1.55 var(--nd-font)}
-#nomad360-local-promise a{color:inherit;text-decoration:underline;text-underline-offset:3px}
-.nomad-offer-details summary{cursor:pointer;min-height:44px;align-content:center;color:#fff;font:500 16px/1.45 var(--nd-font);text-decoration:underline;text-underline-offset:3px}
-.nomad-offer-details>p,.nomad-offer-details>p+p{margin-top:12px}
+.nomad-about-caption em{font-style:italic;font-synthesis:style}
+@media(max-width:600px){.nomad-embed-table tbody th:first-child{grid-column:1/-1;width:auto}}

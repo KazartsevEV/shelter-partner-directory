@@ -13,26 +13,43 @@
   };
   const COPY = (root.Nomad360LocaleCore?.locales("interface.header") || {
   "ru": {
-    "partnerUse": "Предложите посетителю рассчитать финансовый сценарий перед консультацией.",
-    "partnerDetails": "Кому и для чего подходит",
-    "offerDetails": "Состав и условия",
-    "shortAgreement": "Цена ориентировочная. Требуется отдельное письменное соглашение.",
-    "websiteLink": "Для вашего сайта",
-    "partnerContext": "Дайте посетителям самостоятельно оценить финансовый сценарий и используйте его для разговора с клиентом. Инструмент может пригодиться и консультантам по регистрации компаний и релокации предпринимателей. Он не проверяет налоговое или миграционное соответствие и не гарантирует трафик или заявки.",
-    "freeTitle": "Free Embed",
-    "freeBenefit": "Разместите на сайте инструмент для расчёта финансовых сценариев ваших посетителей.",
-    "freeCopy": "Разместите полный калькулятор Nomad360 lite на своём сайте бесплатно.",
-    "freeTerms": "Полная неизменённая версия сохраняет бренд, авторство, сведения о продуктах, ссылки, контакты, поддержку разработчика и лицензию v2.3. Разрешено размещение на коммерческих сайтах. Индивидуальное SEO, доработки, автоматические обновления и обязательная поддержка не включены.",
-    "paidTitle": "Версия под вашим брендом (White Label)",
-    "paidPrice": "От €600",
-    "paidBenefit": "Разместите финансовый калькулятор под брендом вашей компании.",
-    "paidScope": "Ориентир разового пакета для одного согласованного проекта: ваше название и логотип, цвета, согласованные контакты, право удалить фирменные блоки и донаты Nomad360, подготовленная к размещению версия.",
-    "paidAgreement": "Объём, число итераций, права, ограничения использования, сроки, цена, гарантии и приёмка определяются отдельным письменным соглашением. Указанная цена сама по себе не предоставляет лицензию.",
-    "paidExtras": "По отдельной смете: поисковые тексты и SEO, новые языки, CRM, формы заявок и их серверный обработчик, интеграции, изменения финансовой модели, хостинг, обновления и сопровождение.",
-    "mailHint": "Откроется черновик письма. Отправьте его из своей почты.",
-    "mailSubject": "Запрос версии Nomad360 White Label",
-    "mailBody": "Здравствуйте! Хочу обсудить версию Nomad360 под своим брендом.\nПроект / сайт:\nЖелаемые изменения:\nУдобный способ связи:\nПрошу согласовать объём, права, сроки и цену письменно.",
-    "licensor": "Лицензиар: Евгений Казарцев · Юридические и лицензионные обращения:",
+    "flow": [
+      {
+        "title": "Калькулятор",
+        "question": "«Чем заниматься?»"
+      },
+      {
+        "title": "AI Маркетолог",
+        "question": "«Кто и зачем купит у меня мой продукт за эти деньги?»"
+      },
+      {
+        "title": "Контент Фабрика",
+        "question": "«Цифровая упаковка моего продукта по требованию маркетолога»"
+      }
+    ],
+    "flowBefore": "Применяя автоматизацию с Nomad 360, вы можете достичь больших целей быстрее, освободив личное время на то, что ",
+    "flowEmphasis": "действительно важно",
+    "flowAfter": ".",
+    "embedToggle": "Разместить калькулятор у себя на сайте",
+    "comparison": {
+      "caption": "Версии калькулятора",
+      "feature": "Параметр",
+      "free": "Бесплатный калькулятор",
+      "own": "Хочу собственную версию",
+      "cost": "Стоимость",
+      "freePrice": "Бесплатно",
+      "paidPrice": "От €600",
+      "brand": "Оформление",
+      "nomadBrand": "Бренд Nomad360",
+      "customerBrand": "Бренд заказчика",
+      "seo": "SEO",
+      "broadQueries": "Широкие информационные запросы",
+      "customerQueries": "Ключевые запросы заказчика",
+      "leads": "Страница для сбора лидов",
+      "no": "Нет",
+      "contacts": "Контакты, email и вопросы посетителя",
+      "action": "Действие"
+    },
     "nav": [
       "Калькулятор",
       "AI-маркетолог",
@@ -46,29 +63,29 @@
     "menu": "Открыть меню",
     "close": "Закрыть меню",
     "about": "О проекте",
-    "aboutLead": "Nomad360 разрабатывает программы для аналитики, автоматизации процессов и самостоятельного принятия решений.",
-    "missionLabel": "Цель проекта",
-    "mission": "Освобождать время от рутинных задач, чтобы вы могли сосредоточиться на главном.",
-    "valueLabel": "Ценности",
-    "value": "Время. Ясность. Самостоятельность.",
+    "aboutLead": "Nomad360 — амбициозный проект по развитию сервисов для предпринимателей и бизнеса.",
+    "missionLabel": "Миссия",
+    "mission": "Nomad360 освобождает личное время пользователя от рутины с помощью автоматизации процессов, чтобы это время работало на главное.",
+    "valueLabel": "Ценность",
+    "value": "Время, ясная картина экономики своего дела, инструменты для собственных решений.",
     "goalsLabel": "Цели",
     "goals": [
       "Сократить время на повторяющиеся операции.",
       "Дать инструменты для анализа и управленческих решений.",
-      "Помогать принимать самостоятельные решения на основе понятных данных."
+      "Повысить самостоятельность предпринимателя в работе с бизнес-данными."
     ],
-    "servicesLabel": "Продукты",
+    "servicesLabel": "Сервисы",
     "services": [
       [
-        "Nomad360 lite",
-        "Бесплатно · Работает"
+        "Бизнес-калькулятор",
+        "Работает"
       ],
       [
-        "AI Marketer",
+        "AI-маркетолог",
         "В разработке"
       ],
       [
-        "Content Factory",
+        "Контент-фабрика",
         "В разработке"
       ]
     ],
@@ -94,7 +111,7 @@
     "products": [
       {
         "id": "nomad360-ai",
-        "title": "AI Marketer",
+        "title": "AI-маркетолог",
         "lead": "Интеллектуальная система управления маркетингом. Сокращает расходы бизнеса на рекламу и работу маркетолога.",
         "items": [
           [
@@ -127,7 +144,7 @@
       },
       {
         "id": "nomad360-factory",
-        "title": "Content Factory",
+        "title": "Контент-фабрика",
         "lead": "Автоматизированная система производства цифровых товаров для маркетплейсов.",
         "items": [
           [
@@ -160,16 +177,16 @@
       }
     ],
     "dataTitle": "Данные и конфиденциальность",
-    "dataCopy": "Основные финансовые расчёты выполняются в браузере. Черновики остаются в хранилище браузера; для их удаления очистите данные сайта. PDF, Excel и полный HTML для встраивания формируются локально. Tailwind CDN может получать технические данные запроса (IP-адрес и сведения о браузере); шрифты Inter включены в приложение. NOWPayments получает данные соединения и обрабатывает сведения о пожертвовании в своей форме. При запросе рыночного курса Frankfurter получает только выбранную валютную пару, без сумм и финансовой модели. С сайта может загружаться публичный снимок посещений GitHub-репозитория; он не измеряет использование калькулятора. Почтовые ссылки открывают вашу почтовую программу и ничего не отправляют автоматически. Новая маркетинговая аналитика и сбор заявок не подключены. У сторонних сервисов действуют собственные правила конфиденциальности.",
+    "dataCopy": "Расчёты выполняются в браузере. Финансовые данные остаются на вашем устройстве, черновики сохраняются в хранилище браузера, PDF формируется средствами браузера. Для удаления сохранённых данных очистите данные сайта. При загрузке используются Tailwind CDN и Google Fonts: они получают технические данные запроса, включая IP-адрес и сведения о браузере. Финансовые данные расчётов им не передаются. При отображении формы пожертвования NOWPayments получает технические данные браузера; введённые в форму платёжные сведения обрабатывает NOWPayments.",
     "licenseTitle": "Лицензия и использование",
-    "licenseCopy": "Nomad360 lite можно бесплатно использовать и встраивать в полном неизменённом виде, в том числе на коммерческих сайтах. Бренд Nomad360, атрибуция, сведения о продуктах, ссылки и возможности поддержки разработчика должны сохраняться. Для изменений и размещения под другим брендом требуется отдельное письменное разрешение. Предоставляется «как есть». Полные условия — по ссылке.",
-    "licenseLink": "Полная лицензия v2.3",
-    "embedTitle": "Ваши консультационные услуги. Наши технологии финансового моделирования.",
-    "embedB2BTitle": "Для бизнес-консультантов, бухгалтеров и финансовых советников.",
-    "trafficTitle": "Посетители GitHub-репозитория за последние 14 дней (не использование калькулятора):",
-    "embedButton": "Встроить Nomad360 бесплатно",
+    "licenseCopy": "Использование, копирование, изменение и встраивание калькулятора разрешены при сохранении названия калькулятора и ссылки на оригинал согласно действующей лицензии.",
+    "licenseLink": "Читать лицензию",
+    "embedTitle": "Калькулятор для вашего сайта",
+    "embedB2BTitle": "Работаете в B2B? Привлеките полезный трафик бесплатно.",
+    "trafficTitle": "Уникальные посетители GitHub-репозитория за последние 14 дней:",
+    "embedButton": "Скачать бесплатную версию",
     "embedHint": "Подсказка: опубликуйте код в редакторе сайта как кастомный блок. Автоматическое обновление не поддерживается. Требуется поддержка JavaScript.",
-    "customButton": "Получить версию под свой бренд",
+    "customButton": "Заказать",
     "embedWorking": "Подготавливаем HTML…",
     "embedReady": "HTML готов к скачиванию",
     "embedRetryLead": "Если загрузка не началась,",
@@ -178,29 +195,46 @@
     "officialTitle": "Официальный контакт",
     "officialCopy": "Почта проекта для вопросов, сотрудничества и обращений по лицензии.",
     "unitNote": "* у.е. — деньги в вашей валюте.",
-    "rights": "© 2026 Евгений Казарцев (Evgenii Kazartsev) · Nomad360"
+    "rights": "© 2026 Nomad360"
   },
   "en": {
-    "partnerUse": "Let visitors calculate a financial scenario before their consultation.",
-    "partnerDetails": "Where you can use it",
-    "offerDetails": "What is included and terms",
-    "shortAgreement": "Indicative price. Separate written agreement required.",
-    "websiteLink": "For Your Website",
-    "partnerContext": "Let visitors explore a financial scenario and use it as a starting point for a consultation. Company formation and entrepreneur relocation advisors may also find it useful. This does not verify tax or immigration compliance or guarantee traffic or leads.",
-    "freeTitle": "Free Embed",
-    "freeBenefit": "Give your visitors a practical financial calculator on your website.",
-    "freeCopy": "Add the complete Nomad360 lite calculator to your website for free.",
-    "freeTerms": "The complete, unmodified edition retains branding, attribution, product information, links, contacts, developer support options and licence v2.3. Commercial websites are welcome. No custom SEO, changes, automatic updates or support obligation are included.",
-    "paidTitle": "Your-brand edition (White Label)",
-    "paidPrice": "From €600",
-    "paidBenefit": "Offer financial scenario planning under your own brand.",
-    "paidScope": "Indicative one-time package for one agreed project: your name and logo, colours, agreed contacts, permission to remove Nomad360 brand blocks and donations, and a version prepared for hosting.",
-    "paidAgreement": "Scope, iteration count, rights, usage limits, timeline, price, warranties and acceptance require a separate written agreement. The advertised price does not grant a licence.",
-    "paidExtras": "Quoted separately: search copy and SEO, new languages, CRM, lead forms and their server handler, integrations, financial-model changes, hosting, updates and maintenance.",
-    "mailHint": "Opens an email draft. Send it from your email app.",
-    "mailSubject": "Nomad360 White Label enquiry",
-    "mailBody": "Hello! I would like to discuss a Nomad360 edition for my brand.\nProject / website:\nRequested changes:\nPreferred contact:\nPlease confirm scope, rights, timeline and price in a written agreement.",
-    "licensor": "Licensor: Evgenii Kazartsev · Legal and licensing notices:",
+    "flow": [
+      {
+        "title": "Calculator",
+        "question": "“What should I do?”"
+      },
+      {
+        "title": "AI Marketer",
+        "question": "“Who will buy my product at this price, and why?”"
+      },
+      {
+        "title": "Content Factory",
+        "question": "“Digital packaging for my product as requested by the marketer”"
+      }
+    ],
+    "flowBefore": "With Nomad 360 automation, you can reach bigger goals faster and free up personal time for what ",
+    "flowEmphasis": "really matters",
+    "flowAfter": ".",
+    "embedToggle": "Add the calculator to your website",
+    "comparison": {
+      "caption": "Calculator editions",
+      "feature": "Feature",
+      "free": "Free calculator",
+      "own": "White Label",
+      "cost": "Price",
+      "freePrice": "Free",
+      "paidPrice": "From €600",
+      "brand": "Branding",
+      "nomadBrand": "Nomad360 brand",
+      "customerBrand": "Your brand",
+      "seo": "SEO",
+      "broadQueries": "Broad informational queries",
+      "customerQueries": "Your target search queries",
+      "leads": "Lead collection page",
+      "no": "No",
+      "contacts": "Visitor contacts, email and questions",
+      "action": "Action"
+    },
     "nav": [
       "Calculator",
       "AI Marketer",
@@ -214,22 +248,22 @@
     "menu": "Open menu",
     "close": "Close menu",
     "about": "About Nomad360",
-    "aboutLead": "Nomad360 develops software for analytics, process automation and independent decision-making.",
-    "missionLabel": "Project Goal",
-    "mission": "Free up time spent on routine tasks so you can focus on what matters.",
-    "valueLabel": "What We Value",
-    "value": "Time. Clarity. Independence.",
+    "aboutLead": "Nomad360 is an ambitious project developing services for entrepreneurs and businesses.",
+    "missionLabel": "Mission",
+    "mission": "Nomad360 frees the user’s personal time from routine by automating processes, so that time works for what matters.",
+    "valueLabel": "Value",
+    "value": "Time, a clear picture of your business economics, and tools for your own decisions.",
     "goalsLabel": "Goals",
     "goals": [
       "Cut the time spent on repetitive operations.",
       "Provide tools for analysis and management decisions.",
-      "Support independent decisions using clear data."
+      "Increase entrepreneurs’ independence in working with business data."
     ],
-    "servicesLabel": "Our Products",
+    "servicesLabel": "Services",
     "services": [
       [
-        "Nomad360 lite",
-        "Free · Available now"
+        "Business calculator",
+        "Available"
       ],
       [
         "AI Marketer",
@@ -241,7 +275,7 @@
       ]
     ],
     "development": "In development",
-    "contact": "Contact",
+    "contact": "Contacts",
     "contactTopics": "Calculator questions, model customisation, cooperation, suggestions.",
     "supportTitle": "Support the project",
     "supportLead": "The calculator is free. Support is voluntary and funds the calculator, the AI Marketer and the Content Factory.",
@@ -328,16 +362,16 @@
       }
     ],
     "dataTitle": "Data and privacy",
-    "dataCopy": "Core financial calculations run in your browser. Drafts stay in browser storage; clear site data to delete them. PDF, Excel and the complete embed HTML are generated locally. Tailwind CDN may receive technical request data (IP address and browser details); Inter fonts are bundled. NOWPayments receives browser connection data and processes donation details in its own form. Frankfurter receives only the selected currency pair when you request a market rate, not amounts or the financial model. A public GitHub repository traffic snapshot may load from this site; it does not measure calculator use. Email links open your email app and send nothing automatically. No new marketing analytics or lead collection is connected. These third-party services follow their own privacy policies.",
+    "dataCopy": "Calculations run in your browser. Financial data stays on your device; drafts are saved in browser storage and PDFs are created by the browser. Clear site data to remove saved calculations. The page loads Tailwind CDN and Google Fonts, which receive technical request data including IP address and browser information. Your financial calculations are not sent to these providers. The embedded NOWPayments donation form receives browser connection data and processes any payment details entered in the form.",
     "licenseTitle": "License and usage",
-    "licenseCopy": "Nomad360 lite is free to use and embed in its complete, unmodified form, including on commercial websites. Nomad360 branding, attribution, product information, links and developer support options must remain visible and functional. Modifications, rebranding and removal of these elements require separate written permission. Provided “as is”; see the full licence.",
-    "licenseLink": "Full licence v2.3",
-    "embedTitle": "Your consulting expertise. Our financial modelling technology.",
-    "embedB2BTitle": "For business consultants, accountants and advisors.",
-    "trafficTitle": "GitHub repository visitors over the last 14 days (not calculator usage):",
-    "embedButton": "Embed Nomad360 for Free",
+    "licenseCopy": "You may use, copy, modify and embed the calculator while preserving its name and a link to the original under the current license.",
+    "licenseLink": "Read license",
+    "embedTitle": "Calculator for your website",
+    "embedB2BTitle": "Work in B2B? Attract relevant traffic for free.",
+    "trafficTitle": "Unique GitHub repository visitors over the last 14 days:",
+    "embedButton": "Download the free version",
     "embedHint": "Add the code as a custom HTML block in your website editor with JavaScript enabled. Automatic updates are not supported.",
-    "customButton": "Get Nomad360 for Your Brand",
+    "customButton": "Order",
     "embedWorking": "Preparing HTML…",
     "embedReady": "HTML download ready",
     "embedRetryLead": "If the download did not start,",
@@ -346,29 +380,46 @@
     "officialTitle": "Official contact",
     "officialCopy": "Project email for questions, cooperation and licence enquiries.",
     "unitNote": "* currency units — amounts are shown in your chosen currency.",
-    "rights": "© 2026 Evgenii Kazartsev · Nomad360"
+    "rights": "© 2026 Nomad360"
   },
   "kk": {
-    "partnerUse": "Келушіге кеңес алмас бұрын қаржылық сценарийді есептеуді ұсыныңыз.",
-    "partnerDetails": "Кімге және не үшін арналған",
-    "offerDetails": "Құрамы мен шарттары",
-    "shortAgreement": "Баға бағдар ретінде берілген. Бөлек жазбаша келісім қажет.",
-    "websiteLink": "Сайтыңызға арналған",
-    "partnerContext": "Келушілерге қаржылық сценарийді өз бетінше бағалауға мүмкіндік беріп, оны клиентпен кеңесуге негіз етіңіз. Құрал компания тіркеу және кәсіпкерлердің қоныс аударуы жөніндегі кеңесшілерге де пайдалы болуы мүмкін. Ол салық не көші-қон талаптарына сәйкестікті тексермейді және трафикке не өтінімдерге кепілдік бермейді.",
-    "freeTitle": "Free Embed",
-    "freeBenefit": "Сайтыңызға келушілердің қаржылық сценарийлерін есептеуге арналған құрал орналастырыңыз.",
-    "freeCopy": "Толық Nomad360 lite калькуляторын сайтыңызға тегін орналастырыңыз.",
-    "freeTerms": "Толық әрі өзгертілмеген нұсқада бренд, авторлық мәлімет, өнімдер туралы ақпарат, сілтемелер, байланыс, әзірлеушіні қолдау мүмкіндіктері және v2.3 лицензиясы сақталады. Коммерциялық сайттарға орналастыруға болады. Жеке SEO, өзгерістер, автоматты жаңарту және міндетті қолдау кірмейді.",
-    "paidTitle": "Өз брендіңіздегі нұсқа (White Label)",
-    "paidPrice": "€600 бастап",
-    "paidBenefit": "Қаржылық калькуляторды компанияңыздың брендімен орналастырыңыз.",
-    "paidScope": "Бір келісілген жобаға арналған біржолғы пакеттің бағдары: сіздің атауыңыз бен логотипіңіз, түстер, келісілген байланыс деректері, Nomad360 бренд блоктары мен қолдау мүмкіндіктерін алып тастауға рұқсат және орналастыруға дайын нұсқа.",
-    "paidAgreement": "Көлемі, түзету саны, құқықтар, пайдалану шектеулері, мерзім, баға, кепілдіктер және қабылдау бөлек жазбаша келісіммен анықталады. Көрсетілген баға өздігінен лицензия бермейді.",
-    "paidExtras": "Бөлек смета бойынша: іздеу мәтіндері мен SEO, жаңа тілдер, CRM, өтінім нысандары және олардың серверлік өңдеуі, интеграциялар, қаржылық модель өзгерістері, хостинг, жаңарту және сүйемелдеу.",
-    "mailHint": "Хат нобайы ашылады. Оны пошта бағдарламаңыздан өзіңіз жіберіңіз.",
-    "mailSubject": "Nomad360 White Label нұсқасы туралы сұрау",
-    "mailBody": "Сәлеметсіз бе! Өз брендімдегі Nomad360 нұсқасын талқылағым келеді.\nЖоба / сайт:\nҚажетті өзгерістер:\nЫңғайлы байланыс тәсілі:\nКөлемді, құқықтарды, мерзімді және бағаны жазбаша келісуді сұраймын.",
-    "licensor": "Лицензиар: Evgenii Kazartsev · Құқықтық және лицензиялық өтініштер:",
+    "flow": [
+      {
+        "title": "Калькулятор",
+        "question": "«Немен айналысу керек?»"
+      },
+      {
+        "title": "AI Marketer",
+        "question": "«Менің өнімімді осы бағаға кім және не үшін сатып алады?»"
+      },
+      {
+        "title": "Content Factory",
+        "question": "«Маркетологтың талабы бойынша өнімімді цифрлық түрде ұсыну»"
+      }
+    ],
+    "flowBefore": "Nomad 360 автоматтандыруын қолдана отырып, үлкен мақсаттарға тезірек жетіп, жеке уақытыңызды ",
+    "flowEmphasis": "шын мәнінде маңызды",
+    "flowAfter": " істерге арнай аласыз.",
+    "embedToggle": "Калькуляторды өз сайтыңызға орналастыру",
+    "comparison": {
+      "caption": "Калькулятор нұсқалары",
+      "feature": "Сипаттама",
+      "free": "Тегін калькулятор",
+      "own": "Өз нұсқамды қалаймын",
+      "cost": "Құны",
+      "freePrice": "Тегін",
+      "paidPrice": "€600 бастап",
+      "brand": "Безендіру",
+      "nomadBrand": "Nomad360 бренді",
+      "customerBrand": "Тапсырыс берушінің бренді",
+      "seo": "SEO",
+      "broadQueries": "Жалпы ақпараттық іздеу сұраулары",
+      "customerQueries": "Тапсырыс берушінің негізгі іздеу сұраулары",
+      "leads": "Lead жинауға арналған бет",
+      "no": "Жоқ",
+      "contacts": "Келушінің байланыс деректері, email және сұрақтары",
+      "action": "Әрекет"
+    },
     "nav": [
       "Калькулятор",
       "AI-маркетолог",
@@ -381,30 +432,30 @@
     "data": "Деректер",
     "menu": "Мәзірді ашу",
     "close": "Мәзірді жабу",
-    "about": "Nomad360 туралы",
-    "aboutLead": "Nomad360 аналитикаға, процестерді автоматтандыруға және өз бетінше шешім қабылдауға арналған бағдарламалар әзірлейді.",
-    "missionLabel": "Жобаның мақсаты",
-    "mission": "Маңызды істерге көңіл бөлу үшін күнделікті қайталанатын жұмыстан уақыт босату.",
-    "valueLabel": "Құндылықтар",
-    "value": "Уақыт. Айқындық. Дербестік.",
+    "about": "Nomad360 жобасы туралы",
+    "aboutLead": "Nomad360 — кәсіпкерлер мен бизнеске арналған сервистерді дамытуға бағытталған өршіл жоба.",
+    "missionLabel": "Миссия",
+    "mission": "Nomad360 процестерді автоматтандыру арқылы пайдаланушының жеке уақытын күнделікті жұмыстан босатады, сонда бұл уақыт маңызды іске жұмыс істейді.",
+    "valueLabel": "Құндылық",
+    "value": "Уақыт, өз ісіңіздің экономикасының айқын көрінісі және өз шешімдеріңізге арналған құралдар.",
     "goalsLabel": "Мақсаттар",
     "goals": [
       "Қайталанатын операцияларға кететін уақытты қысқарту.",
       "Талдау мен басқарушылық шешімдерге арналған құралдар беру.",
-      "Түсінікті деректерге сүйеніп, өз бетінше шешім қабылдауға көмектесу."
+      "Кәсіпкердің бизнес-деректермен жұмыстағы дербестігін арттыру."
     ],
-    "servicesLabel": "Өнімдер",
+    "servicesLabel": "Сервистер",
     "services": [
       [
-        "Nomad360 lite",
-        "Тегін · Қолжетімді"
+        "Бизнес-калькулятор",
+        "Жұмыс істейді"
       ],
       [
-        "AI Marketer",
+        "AI-маркетолог",
         "Әзірленуде"
       ],
       [
-        "Content Factory",
+        "Контент фабрикасы",
         "Әзірленуде"
       ]
     ],
@@ -430,7 +481,7 @@
     "products": [
       {
         "id": "nomad360-ai",
-        "title": "AI Marketer",
+        "title": "AI-маркетолог",
         "lead": "Маркетингті басқарудың интеллектуалды жүйесі. Бизнестің жарнамаға және маркетологқа жұмсайтын шығынын азайтады.",
         "items": [
           [
@@ -463,7 +514,7 @@
       },
       {
         "id": "nomad360-factory",
-        "title": "Content Factory",
+        "title": "Контент фабрикасы",
         "lead": "Маркетплейстерге арналған цифрлық тауарларды өндірудің автоматтандырылған жүйесі.",
         "items": [
           [
@@ -496,16 +547,16 @@
       }
     ],
     "dataTitle": "Деректер және құпиялық",
-    "dataCopy": "Негізгі қаржылық есептеулер браузерде орындалады. Нобайлар браузер жадында қалады; оларды жою үшін сайт деректерін тазалаңыз. PDF, Excel және енгізуге арналған толық HTML жергілікті жасалады. Tailwind CDN сұраудың техникалық деректерін (IP-мекенжай, браузер мәліметі) алуы мүмкін; Inter қаріптері қолданбаға енгізілген. NOWPayments қосылым деректерін алып, қайырымдылық мәліметтерін өз нысанында өңдейді. Нарықтық бағамды сұрағанда Frankfurter тек таңдалған валюта жұбын алады, сомалар мен қаржылық модель берілмейді. Сайттан GitHub репозиторийі келушілерінің ашық деректері жүктелуі мүмкін; бұл калькуляторды пайдалануды өлшемейді. Пошта сілтемелері пошта бағдарламаңызды ашады және ештеңені автоматты түрде жібермейді. Жаңа маркетинг аналитикасы мен өтінім жинау қосылмаған. Үшінші тарап қызметтерінің өз құпиялылық ережелері қолданылады.",
+    "dataCopy": "Есептеулер браузеріңізде орындалады. Қаржылық деректер құрылғыңызда қалады, нобайлар браузерде сақталады, PDF браузер арқылы жасалады. Сақталған есептерді жою үшін сайт деректерін тазалаңыз. Бетті жүктегенде Tailwind CDN және Google Fonts техникалық сұрау деректерін, соның ішінде IP мекенжайы мен браузер мәліметтерін алады. Қаржылық есеп деректері оларға берілмейді. NOWPayments қайырымдылық нысаны браузердің техникалық деректерін алады және нысанға енгізілген төлем мәліметтерін өңдейді.",
     "licenseTitle": "Лицензия және пайдалану",
-    "licenseCopy": "Nomad360 lite калькуляторын толық әрі өзгертілмеген күйінде, соның ішінде коммерциялық сайттарға да тегін енгізуге болады. Nomad360 бренді, атрибуция, өнімдер туралы мәлімет, сілтемелер және әзірлеушіні қолдау мүмкіндіктері сақталуға тиіс. Өзгерту және басқа брендпен тарату үшін бөлек жазбаша рұқсат қажет. «Сол күйінде» ұсынылады. Толық шарттар сілтемеде.",
-    "licenseLink": "Толық v2.3 лицензиясы",
-    "embedTitle": "Сіздің кеңес беру қызметіңіз. Біздің қаржылық модельдеу технологиямыз.",
-    "embedB2BTitle": "Бизнес-консультанттарға, бухгалтерлерге және қаржылық кеңесшілерге арналған.",
-    "trafficTitle": "Соңғы 14 күндегі GitHub репозиторийінің келушілері (калькуляторды пайдалану емес):",
-    "embedButton": "Nomad360 калькуляторын тегін енгізу",
+    "licenseCopy": "Қолданыстағы лицензия бойынша калькуляторды пайдалану, көшіру, өзгерту және енгізу кезінде оның атауын және түпнұсқаға сілтемені сақтау қажет.",
+    "licenseLink": "Лицензияны оқу",
+    "embedTitle": "Сайтыңызға арналған калькулятор",
+    "embedB2BTitle": "B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз.",
+    "trafficTitle": "Соңғы 14 күндегі GitHub репозиторийінің бірегей келушілері:",
+    "embedButton": "Тегін нұсқаны жүктеу",
     "embedHint": "Кодты сайт редакторында JavaScript қолдайтын арнайы HTML-блок ретінде жариялаңыз. Автоматты жаңарту қолдау көрсетілмейді.",
-    "customButton": "Өз брендіңізге арналған Nomad360 нұсқасын алу",
+    "customButton": "Тапсырыс беру",
     "embedWorking": "HTML дайындалуда…",
     "embedReady": "HTML жүктеуге дайын",
     "embedRetryLead": "Егер жүктеу басталмаса,",
@@ -514,10 +565,10 @@
     "officialTitle": "Ресми байланыс",
     "officialCopy": "Сұрақтар, ынтымақтастық және лицензия бойынша өтініштерге арналған жоба поштасы.",
     "unitNote": "* ш.б. — сіздің валютаңыздағы ақша.",
-    "rights": "© 2026 Evgenii Kazartsev · Nomad360"
+    "rights": "© 2026 Nomad360"
   }
 });
-  const TARGETS = ['home-screen','nomad360-ai','nomad360-factory','nomad360-about','nomad360-contacts','nomad360-for-website'];
+  const TARGETS = ['home-screen','nomad360-ai','nomad360-factory','nomad360-about','nomad360-contacts'];
   function esc(s) {
     return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
@@ -529,14 +580,9 @@
     return '<button type="button" class="nomad-copy" data-nomad-copy="'+esc(value)+'" data-label="'+esc(t.copy)+'" data-done="'+esc(t.copied)+'" aria-label="'+esc(t.copy+': '+label)+'">'+esc(t.copy)+'</button>';
   }
   function infoMarkup(t) {
-    const goals=t.goals.map(g=>'<li>'+esc(g)+'</li>').join('');
-    const services=t.services.map(s=>'<li>'+esc(s[0])+' — '+esc(s[1].toLowerCase())+'</li>').join('');
     return '<section id="nomad360-about" class="nomad-info-block" tabindex="-1">'+
-      '<h2>'+esc(t.about)+'</h2><p><strong>'+esc(t.aboutLead)+'</strong></p>'+
-      '<h3>'+esc(t.missionLabel)+'</h3><p>'+esc(t.mission)+'</p>'+
-      '<h3>'+esc(t.valueLabel)+'</h3><p>'+esc(t.value)+'</p>'+
-      '<h3>'+esc(t.goalsLabel)+'</h3><ul class="nomad-list">'+goals+'</ul>'+
-      '<h3>'+esc(t.servicesLabel)+'</h3><ul class="nomad-list">'+services+'</ul></section>'+
+      '<h2>'+esc(t.about)+'</h2><ol class="nomad-about-flow" role="list">'+t.flow.map(step=>'<li><h3>'+esc(step.title)+'</h3><p>'+esc(step.question)+'</p></li>').join('')+'</ol>'+
+      '<p class="nomad-about-caption">'+esc(t.flowBefore)+'<em>'+esc(t.flowEmphasis)+'</em>'+esc(t.flowAfter)+'</p></section>'+
       '<section id="nomad360-contacts" class="nomad-info-block" tabindex="-1">'+
       '<h2>'+esc(t.contact)+'</h2><div class="nomad-links">'+
       '<a href="https://t.me/Kazartsev_EV" target="_blank" rel="noopener noreferrer">Telegram · @Kazartsev_EV</a>'+
@@ -605,38 +651,26 @@
     embedDownloadUrl=null;
   });
   function footerMarkup(t) {
+    const row=(label,free,own)=>'<tr><th scope="row">'+esc(label)+'</th><td>'+esc(free)+'</td><td>'+esc(own)+'</td></tr>';
+    const c=t.comparison;
     return '<div class="nomad-footer-inner">'+
-      '<section id="nomad360-support" class="nomad-donate" tabindex="-1">'+
-      '<h2>'+esc(t.supportTitle)+'</h2><p class="nomad-donate-lead">'+esc(t.supportLead)+'</p>'+
-      '<div class="nomad-support-grid">'+payHostedCrypto(t)+'<div class="nomad-support-methods">'+payFiat(t)+payRussian(t)+'</div></div></section>'+
-      '<section class="nomad-footer-products"><h3>'+esc(t.fundsTitle)+'</h3><div class="nomad-products-grid">'+
-      t.products.map(p=>productMarkup(t,p)).join('')+'</div></section>'+
-      '<section id="nomad360-for-website" class="nomad-partners" tabindex="-1" aria-labelledby="nomad360-partner-title">'+
-      '<h2 id="nomad360-partner-title">'+esc(t.embedTitle)+'</h2>'+
-      '<p class="nomad-partner-audience">'+esc(t.embedB2BTitle)+'</p><p>'+esc(t.partnerUse)+'</p>'+
-      '<div class="nomad-partner-cards">'+
-      '<article class="nomad-partner-card nomad-free-edition"><h3>'+esc(t.freeTitle)+'</h3><p class="nomad-edition-price">€0</p>'+
-      '<p>'+esc(t.freeBenefit)+'</p><details class="nomad-offer-details"><summary>'+esc(t.offerDetails)+'</summary><p>'+esc(t.freeCopy)+'</p><p>'+esc(t.freeTerms)+'</p></details>'+
-      '<div class="nomad-embed-actions"><button type="button" class="nomad-embed-download" data-nomad-download-html>'+esc(t.embedButton)+'</button>'+
+      '<section id="nomad360-support" class="nomad-donate" tabindex="-1"><h2>'+esc(t.supportTitle)+'</h2><p class="nomad-donate-lead">'+esc(t.supportLead)+'</p>'+
+      payHostedCrypto(t)+payFiat(t)+payRussian(t)+'</section>'+
+      '<details class="nomad-footer-products" id="nomad360-product-details"><summary>'+esc(t.fundsTitle)+'</summary><div class="nomad-products-grid">'+t.products.map(p=>productMarkup(t,p)).join('')+'</div></details>'+
+      '<section id="nomad360-embed" class="nomad-embed-actions" tabindex="-1">'+
+      '<h2 class="nomad-embed-b2b-title">'+esc(t.embedB2BTitle)+'</h2>'+
+      '<button type="button" class="nomad-embed-download nomad-embed-toggle" data-nomad-embed-toggle aria-expanded="false" aria-controls="nomad360-embed-comparison">'+esc(t.embedToggle)+'</button>'+
+      '<div id="nomad360-embed-comparison" hidden><table class="nomad-embed-table" role="table"><caption class="nomad-sr">'+esc(c.caption)+'</caption><thead><tr><th scope="col">'+esc(c.feature)+'</th><th scope="col">'+esc(c.free)+'</th><th scope="col">'+esc(c.own)+'</th></tr></thead><tbody>'+
+      row(c.cost,c.freePrice,c.paidPrice)+row(c.brand,c.nomadBrand,c.customerBrand)+row(c.seo,c.broadQueries,c.customerQueries)+row(c.leads,c.no,c.contacts)+
+      '<tr><th scope="row">'+esc(c.action)+'</th><td><button type="button" class="nomad-embed-download" data-nomad-download-html>'+esc(t.embedButton)+'</button>'+
+      '<div class="nomad-traffic-stats" data-nomad-traffic-stats aria-live="polite"><p class="nomad-traffic-counter"><span class="nomad-traffic-title">'+esc(t.trafficTitle)+'</span> <strong class="nomad-traffic-value" data-nomad-traffic-value>—</strong></p></div>'+
       '<span class="nomad-embed-status" data-nomad-embed-status role="status" aria-live="polite"></span>'+
-      '<div class="nomad-embed-retry" data-nomad-embed-retry hidden>'+esc(t.embedRetryLead)+' '+
-      '<a class="nomad-embed-retry-link" data-nomad-retry-download download="'+embedFilename+'" href="#">'+esc(t.embedRetryAction)+'</a></div>'+
-      '<p class="nomad-embed-hint">'+esc(t.embedHint)+'</p></div></article>'+
-      '<article class="nomad-partner-card nomad-paid-edition"><h3>'+esc(t.paidTitle)+'</h3><p class="nomad-edition-price">'+esc(t.paidPrice)+'</p>'+
-      '<p>'+esc(t.paidBenefit)+'</p><p>'+esc(t.shortAgreement)+'</p><details class="nomad-offer-details"><summary>'+esc(t.offerDetails)+'</summary><p>'+esc(t.paidScope)+'</p><p>'+esc(t.paidAgreement)+'</p><p>'+esc(t.paidExtras)+'</p></details>'+
-      '<a class="nomad-embed-contact" href="mailto:'+PAY.email+'?subject='+encodeURIComponent(t.mailSubject)+'&amp;body='+encodeURIComponent(t.mailBody)+'">'+esc(t.customButton)+'</a>'+
-      '<p class="nomad-embed-hint">'+esc(t.mailHint)+'</p></article></div>'+
-      '<details class="nomad-offer-details nomad-partner-conditions"><summary>'+esc(t.partnerDetails)+'</summary><p>'+esc(t.partnerContext)+'</p></details></section>'+
+      '<div class="nomad-embed-retry" data-nomad-embed-retry hidden>'+esc(t.embedRetryLead)+' <a class="nomad-embed-retry-link" data-nomad-retry-download download="'+embedFilename+'" href="#">'+esc(t.embedRetryAction)+'</a></div></td>'+
+      '<td><a class="nomad-embed-contact" href="mailto:'+PAY.email+'?subject='+encodeURIComponent('Nomad360 — '+t.customButton)+'">'+esc(t.customButton)+'</a></td></tr></tbody></table><p class="nomad-embed-hint">'+esc(t.embedHint)+'</p></div></section>'+
       '<div class="nomad-footer-meta">'+
-      '<section id="nomad360-license" class="nomad-meta-block" tabindex="-1">'+
-      '<div class="nomad-license-terms"><h3>'+esc(t.licenseTitle)+'</h3><p>'+esc(t.licenseCopy)+'</p>'+
-      '<p>'+esc(t.licensor)+' <a href="mailto:'+PAY.email+'">'+PAY.email+'</a></p>'+
-      '<p><a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p></div></section>'+
-      '<section id="nomad360-data" class="nomad-meta-block" tabindex="-1"><h3>'+esc(t.dataTitle)+'</h3><p>'+esc(t.dataCopy)+'</p></section>'+
-      '<section id="nomad360-official" class="nomad-meta-block"><h3>'+esc(t.officialTitle)+'</h3><p>'+esc(t.officialCopy)+'</p>'+
-      '<p><a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p>'+
-      '<div class="nomad-traffic-stats" data-nomad-traffic-stats aria-live="polite"><p class="nomad-traffic-counter"><span class="nomad-traffic-title">'+esc(t.trafficTitle)+'</span> '+
-      '<strong class="nomad-traffic-value" data-nomad-traffic-value>—</strong></p></div></section></div>'+
+      '<details id="nomad360-license" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.licenseTitle)+'</summary><div class="nomad-license-terms"><p>'+esc(t.licenseCopy)+'</p><p><a href="https://github.com/KazartsevEV/shelter-partner-directory/blob/main/CALCULATOR_LICENSE.md" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p></div></details>'+
+      '<details id="nomad360-data" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.dataTitle)+'</summary><p>'+esc(t.dataCopy)+'</p></details>'+
+      '<section id="nomad360-official" class="nomad-meta-block"><p><span>'+esc(t.officialTitle)+'</span> <a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
       '<div class="nomad-footer-bottom"><p class="nomad-unit-note">'+esc(root.Nomad360Currency?.caption()||'USD')+'</p><span>'+esc(t.rights)+'</span></div>'+
       '<div class="nomad-sr" id="nomad360-copy-status" role="status" aria-live="polite"></div></div>';
   }
@@ -663,7 +697,11 @@
       document.body.append(footer);
     }
     footer.setAttribute('data-nomad-no-translate','');
+    const opened=[...footer.querySelectorAll('details[open]')].map(e=>e.id);
+    const comparisonOpen=footer.querySelector('[data-nomad-embed-toggle]')?.getAttribute('aria-expanded')==='true';
     footer.innerHTML=footerMarkup(COPY[language()]);
+    for(const id of opened){const details=document.getElementById(id);if(details)details.open=true;}
+    if(comparisonOpen){footer.querySelector('#nomad360-embed-comparison').hidden=false;footer.querySelector('[data-nomad-embed-toggle]').setAttribute('aria-expanded','true');}
     root.Nomad360Traffic?.render?.(footer,language());
     restoreEmbedDownloadLink();
     if(embedDownloadUrl){
@@ -673,7 +711,7 @@
   }
   /* Export the currently deployed HTML, not a live iframe. Inline every
      local script and stylesheet so that moving the HTML does not break relative
-     dependencies. Tailwind CDN stays external; Inter fonts are bundled in the CSS.
+     dependencies. Tailwind CDN / Google Fonts stay external network assets.
      Local calculations and storage remain on the visitor's own origin. */
   async function downloadEmbedHtml(button) {
     if(button.disabled)return;
@@ -788,7 +826,7 @@
       '</button>'+
       '<div class="nomad-panel" id="nomad360-header-panel">'+
       '<nav class="nomad-nav" aria-label="Nomad360">'+
-      t.nav.concat(t.websiteLink).map((label,i)=>'<a href="#'+TARGETS[i]+'" data-nomad-go="'+TARGETS[i]+'"'+(i===0?' aria-current="page"':'')+'>'+esc(label)+'</a>').join('')+
+      t.nav.map((label,i)=>'<a href="#'+TARGETS[i]+'" data-nomad-go="'+TARGETS[i]+'"'+(i===0?' aria-current="page"':'')+'>'+esc(label)+'</a>').join('')+
       '</nav>'+
       '<a class="nomad-cta" href="#nomad360-support" data-nomad-go="nomad360-support">'+esc(t.support)+'</a>'+
       '<div class="nomad-sec"><a href="#nomad360-license" data-nomad-go="nomad360-license">'+esc(t.license)+'</a>'+
@@ -823,20 +861,18 @@
       }
       const a=event.target.closest('[data-nomad-go]');
       if(!a)return;
-      event.preventDefault();
       const targetId=a.getAttribute('data-nomad-go');
       if(targetId==='home-screen'&&typeof root.showHome==='function')root.showHome();
       closeMenu(false);
       // Keep the navigation interaction functional for every calculator branch.
       root.requestAnimationFrame(()=>{
         const target=document.getElementById(targetId);
-        if(target){
-          if(targetId==='nomad360-for-website')target.focus({preventScroll:true});
-          target.scrollIntoView({block:'start',behavior:root.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
-        }
+        if(target){for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;target.scrollIntoView({block:'start',behavior:'smooth'});}
       });
     });
     document.addEventListener('click',event=>{
+      const toggle=event.target.closest('[data-nomad-embed-toggle]');
+      if(toggle){const panel=document.getElementById(toggle.getAttribute('aria-controls'));panel.hidden=!panel.hidden;toggle.setAttribute('aria-expanded',String(!panel.hidden));return;}
       const download=event.target.closest('[data-nomad-download-html]');
       if(download){downloadEmbedHtml(download);return;}
       const copy=event.target.closest('[data-nomad-copy]');

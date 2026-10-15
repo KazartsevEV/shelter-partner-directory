@@ -352,7 +352,7 @@ test('semantic catalog has no missing languages, duplicate keys or unexplained C
  for(const key of keys)for(const language of ['ru','en','kk']){
   const value=c.t(key,language,parameters);
   A.ok(!value.includes('⟦'),'missing translation: '+key+' '+language);
-  if(['interface.header.products.1.goal'].includes(key))A.equal(value,'','intentional empty legacy presentation field');
+  if(['interface.shell.privacy','interface.header.products.1.goal'].includes(key))A.equal(value,'','intentional empty legacy presentation field');
   else A.ok(value.trim(),'empty translation: '+key+' '+language);
   if(language==='en')A.ok(!/[А-Яа-яЁё]/.test(value),'untranslated Cyrillic in English: '+key);
  }

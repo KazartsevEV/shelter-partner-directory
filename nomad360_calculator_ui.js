@@ -3,20 +3,19 @@
 'use strict';
 const L=(root.Nomad360LocaleCore?.locales("interface.shell") || {
   "ru": {
-    "priceMeaning": "Узнайте цену при своих затратах, финансировании и маржинальности товара. Прибыль и денежный поток бизнеса рассчитываются отдельно.",
-    "marketStep": "Решите, что предложить, кому продавать и за что покупатель заплатит эту цену. Проверьте спрос, уточните исходные данные и пересчитайте.",
-    "audience": "Для начинающих предпринимателей, самостоятельных специалистов, малого и микробизнеса.",
-    "explanation": "Задайте расходы, условия продаж и финансирования. Посмотрите, как меняются прибыль и денежный остаток по месяцам.",
-    "promise": "Бесплатно · Без регистрации · Работает в браузере",
-    "dataLink": "Данные",
-    "slogan": "Ваш бизнес. Ваши цифры. Ваши решения.",
+    "introLead": "Nomad360 lite — дружелюбный инструмент для проверки коммерческой ценности бизнес-идей.",
+    "introFree": "Бесплатно: без регистрации и подписок.",
+    "introPractical": "Практично: интерактивные сценарии, множество позиций и валют.",
+    "introPrivate": "Приватно: все расчёты делаются в вашем браузере.",
+    "introResult": "Наш калькулятор. Ваш результат.",
+    "introAction": "↓ Перейти к расчёту бизнес-идеи",
     "brand": "NOMAD360",
     "eyebrow": "БИЗНЕС-КАЛЬКУЛЯТОР",
     "headline": "Бизнес-калькулятор",
     "sub": "Каким бизнесом мне выгодно заниматься?",
     "narrative": "Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что принесет живые деньги.",
     "mba": "Оценка перспектив бизнес-идеи и возможностей повысить эффективность действующего бизнеса.",
-    "privacy": "Финансовые расчёты выполняются в браузере. Сохранённые черновики остаются на вашем устройстве. Страница может загружать сторонние технические ресурсы и виджет поддержки; подробности — в разделе «Данные».",
+    "privacy": "",
     "print": "Сохранить расчёт в PDF",
     "listTitle": "Сформировать прайс-лист?",
     "listDesc": "Все товары и услуги портфеля с рассчитанными ценами V2 — в одном документе.",
@@ -79,20 +78,19 @@ const L=(root.Nomad360LocaleCore?.locales("interface.shell") || {
     "cadenceOnce": "Разово"
   },
   "en": {
-    "priceMeaning": "See the price required by your costs, funding and product margin. Business profit and Cash Flow are calculated separately.",
-    "marketStep": "Decide what to offer, whom to sell to and why customers would pay this price. Test demand, update assumptions and recalculate.",
-    "audience": "For first-time founders, independent entrepreneurs and small business owners.",
-    "explanation": "Enter your costs, sales assumptions and funding. Explore projected profit, monthly cash flow and available cash.",
-    "promise": "Free · No sign-up · Runs in your browser",
-    "dataLink": "Data & Privacy",
-    "slogan": "Your business. Your numbers. Your decisions.",
+    "introLead": "Nomad360 lite — a friendly tool for the commercial validation of business ideas.",
+    "introFree": "Free: no registration or subscriptions.",
+    "introPractical": "Practical: interactive scenarios, multiple items and currencies.",
+    "introPrivate": "Private: all calculations run in your browser.",
+    "introResult": "Our calculator. Your result.",
+    "introAction": "↓ Calculate your business idea",
     "brand": "NOMAD360",
     "eyebrow": "BUSINESS CALCULATOR",
     "headline": "Business calculator",
-    "sub": "What kind of business makes financial sense for me?",
+    "sub": "Which business would be most profitable for me?",
     "narrative": "Calculate your business idea or existing business in 20 minutes and see what will generate actual cash.",
     "mba": "Assess the financial outlook of a business idea or identify ways to improve an existing business.",
-    "privacy": "Financial calculations run locally in your browser. Saved drafts remain on your device. The page may load third-party technical resources and a donation widget; see Data & Privacy.",
+    "privacy": "",
     "print": "Save calculation as PDF",
     "listTitle": "Create a price list?",
     "listDesc": "All products and services with calculated V2 prices, together.",
@@ -155,20 +153,19 @@ const L=(root.Nomad360LocaleCore?.locales("interface.shell") || {
     "cadenceOnce": "One-time"
   },
   "kk": {
-    "priceMeaning": "Өз шығыныңыз, қаржыландыруыңыз және тауардың Margin көрсеткіші бойынша бағаны біліңіз. Бизнес пайдасы мен Cash Flow бөлек есептеледі.",
-    "marketStep": "Не ұсынатыныңызды, кімге сататыныңызды және сатып алушы осы бағаны не үшін төлейтінін шешіңіз. Сұранысты тексеріп, бастапқы деректерді нақтылаңыз да, қайта есептеңіз.",
-    "audience": "Ісін жаңадан бастаған кәсіпкерлерге, өз бетінше жұмыс істейтін мамандарға, шағын және микробизнес иелеріне арналған.",
-    "explanation": "Шығындарды, сатылым болжамдарын және қаржыландыруды енгізіңіз. Болжамды пайданы, айлық Cash Flow көрсеткішін және қолда бар ақша қалдығын қараңыз.",
-    "promise": "Тегін · Тіркеусіз · Браузерде жұмыс істейді",
-    "dataLink": "Деректер",
-    "slogan": "Сіздің бизнесіңіз. Сіздің сандарыңыз. Сіздің шешімдеріңіз.",
+    "introLead": "Nomad360 lite — бизнес-идеялардың коммерциялық құндылығын тексеруге арналған ыңғайлы құрал.",
+    "introFree": "Тегін: тіркелу мен жазылым қажет емес.",
+    "introPractical": "Практикалық: интерактивті сценарийлер, көптеген позициялар мен валюталар.",
+    "introPrivate": "Құпия: барлық есептеулер браузеріңізде орындалады.",
+    "introResult": "Біздің калькулятор. Сіздің нәтижеңіз.",
+    "introAction": "↓ Бизнес-идеяны есептеуге өту",
     "brand": "NOMAD360",
     "eyebrow": "БИЗНЕС-КАЛЬКУЛЯТОР",
     "headline": "Бизнес-калькулятор",
     "sub": "Маған қандай бизнеспен айналысқан тиімді?",
     "narrative": "Бизнес-идеяңызды немесе жұмыс істеп тұрған бизнесіңізді 20 минутта есептеп, нақты ақшаны қай бағыт әкелетінін анықтаңыз.",
     "mba": "Бизнес-идеяның қаржылық келешегін бағалау және қолданыстағы бизнестің тиімділігін арттыру жолдарын анықтау.",
-    "privacy": "Қаржылық есептеулер браузерде орындалады. Сақталған нобайлар құрылғыңызда қалады. Бет үшінші тараптың техникалық ресурстары мен қолдау виджетін жүктей алады; толық мәлімет «Деректер» бөлімінде.",
+    "privacy": "",
     "print": "Есепті PDF ретінде сақтау",
     "listTitle": "Прайс-парақ жасаймыз ба?",
     "listDesc": "Портфельдегі барлық тауар мен қызметтің есептелген V2 бағасы бір құжатта.",
@@ -263,14 +260,13 @@ function buildShell(){
  const home=document.getElementById('home-screen');
  if(home){const node=document.getElementById('nomad360-hero')||document.createElement('div');
   node.id='nomad360-hero';node.innerHTML=hero();if(!node.isConnected)home.prepend(node);}
- const list=document.getElementById('nomad360-calculation-list');
- if(list){
-  let context=document.getElementById('nomad360-result-context');
-  if(!context){context=document.createElement('div');context.id='nomad360-result-context';context.setAttribute('data-nomad-no-translate','');list.append(context);}
-  context.innerHTML=['audience','explanation','priceMeaning','marketStep'].map(k=>'<p>'+esc(tr(k))+'</p>').join('');
-  let promise=document.getElementById('nomad360-local-promise');
-  if(!promise){promise=document.createElement('p');promise.id='nomad360-local-promise';promise.setAttribute('data-nomad-no-translate','');list.after(promise);}
-  promise.innerHTML=esc(tr('promise'))+' · <a href="#nomad360-data">'+esc(tr('dataLink'))+'</a>';
+ const heroNode=document.getElementById('nomad360-hero');
+ if(heroNode){
+  const intro=document.getElementById('nomad360-intro')||document.createElement('section');
+  intro.id='nomad360-intro';intro.className='nomad-marketing nomad-intro';intro.setAttribute('data-nomad-no-translate','');
+  intro.innerHTML='<p class="nomad-intro-lead">'+esc(tr('introLead'))+'</p><ul>'+['introFree','introPractical','introPrivate'].map(k=>'<li>'+esc(tr(k))+'</li>').join('')+'</ul>'+
+   '<p class="nomad-intro-result">'+esc(tr('introResult'))+'</p><a class="nomad-intro-cta" href="#nomad360-selling-choice">'+esc(tr('introAction'))+'</a>';
+  if(!intro.isConnected)heroNode.after(intro);
  }
  const foot=document.getElementById('nomad360-footer');
  if(foot){foot.outerHTML=footer()}else{document.body.insertAdjacentHTML('beforeend',footer())}

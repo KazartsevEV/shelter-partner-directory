@@ -77,7 +77,7 @@ const server=createServer(async(req,res)=>{
     'Bank name Ozon is orange');
   A.equal(await support.evaluate(el=>{
     const last=el.querySelector('.nomad-russian-transfer');
-    const footerChildren=[...el.querySelector('.nomad-support-methods').children];
+    const footerChildren=[...el.children];
     return footerChildren[footerChildren.length-1]===last;
   }),true,'Russia card link is the LAST support option');
   A.doesNotMatch(await support.textContent(),/Bybit|Байбит|Байбит картасы/i);
@@ -138,14 +138,16 @@ const server=createServer(async(req,res)=>{
   await support.screenshot({path:path.join(snapshotDir,'donations-desktop-1440.png'),animations:'disabled'});
   await page.setViewportSize({width:390,height:844});
   const license=page.locator('#nomad360-footer');
+  await page.locator('[data-nomad-embed-toggle]').click();
+  await page.locator('#nomad360-license summary').click();
   A.equal(await license.evaluate(el=>{
     const embed=el.querySelector('.nomad-embed-actions');
     const terms=el.querySelector('.nomad-license-terms');
-    const contact=el.querySelector('.nomad-embed-contact');
+    const contact=embed?.querySelector('.nomad-embed-contact');
     return !!embed&&!!terms&&!!contact&&
       !!(contact.compareDocumentPosition(terms)&Node.DOCUMENT_POSITION_FOLLOWING)&&
-      terms.querySelector('h3')?.textContent==='Лицензия и использование'&&
-      !!terms.querySelector('a[href$="/CALCULATOR_LICENSE.md"]');
+      terms.parentElement.querySelector('summary')?.textContent==='Лицензия и использование'&&
+      terms.querySelector('a')?.getAttribute('href')?.endsWith('/CALCULATOR_LICENSE.md');
   }),true,'License and usage must be below the entire calculator embed block');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
    A.equal(await license.locator('[data-nomad-embed-retry]').isVisible(),false,
@@ -157,21 +159,21 @@ const server=createServer(async(req,res)=>{
    A.deepEqual(mobileBrand,{logo:'42px',word:'21px'},'Mobile header branding enlarged');
    A.equal(await page.locator('.nomad-bar').evaluate(el=>el.scrollWidth<=el.clientWidth),true,
      'Branding must fit the mobile header');
-  A.match(await license.textContent(),/Встроить Nomad360 бесплатно/);
-  A.match(await license.textContent(),/Для бизнес-консультантов, бухгалтеров и финансовых советников/);
-  A.match(await license.textContent(),/Посетители GitHub-репозитория/);
+  A.match(await license.textContent(),/Скачать бесплатную версию/);
+  A.match(await license.textContent(),/Работаете в B2B\? Привлеките полезный трафик бесплатно/);
+  A.match(await license.textContent(),/Уникальные посетители GitHub-репозитория за последние 14 дней:/);
   const visitors=(await license.locator('[data-nomad-traffic-value]').textContent()).trim();
   A.match(visitors,/^(?:—|[0-9][0-9\s\u00a0\u202f]*)$/,
     'Visitor counter may be unavailable or populated from the real 14-day snapshot');
   A.equal(await license.locator('[data-nomad-traffic-stats] a').count(),0,
     'Do not add a GitHub link to the visitor label');
   A.doesNotMatch(await license.locator('[data-nomad-traffic-stats]').textContent(),
-    /за 7 дней/i,'Only the clearly identified repository metric is retained');
+    /просмотры|за 7 дней/i,'Only one visitor metric in the footer');
   A.equal(await license.evaluate(el=>{
     const button=el.querySelector('[data-nomad-download-html]');
     const stats=el.querySelector('[data-nomad-traffic-stats]');
     return !!button&&!!stats&&!!(button.compareDocumentPosition(stats)&Node.DOCUMENT_POSITION_FOLLOWING);
-  }),true,'Repository metric stays below the offer, in official project information');
+  }),true,'Traffic widget must sit below the embed button');
   A.match(await license.textContent(),/Автоматическое обновление не поддерживается/);
   const visual=await license.evaluate(el=>{
     const download=getComputedStyle(el.querySelector('.nomad-embed-download'));
@@ -189,7 +191,7 @@ const server=createServer(async(req,res)=>{
   A.ok(visual.hintFont>=14,'Embed instruction must remain legible');
   const mail=await license.locator('.nomad-embed-contact').getAttribute('href');
   A.ok(mail.startsWith('mailto:nomad260393@gmail.com?subject='));
-  A.match(decodeURIComponent(mail),/Запрос версии Nomad360 White Label/);
+  A.match(decodeURIComponent(mail),/Nomad360 — Заказать/);
   const wait=page.waitForEvent('download',{timeout:45000});
   await license.locator('[data-nomad-download-html]').click();
   const download=await wait;
@@ -238,7 +240,7 @@ const server=createServer(async(req,res)=>{
   await stats.goto(url+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
   await stats.waitForFunction(()=>document.querySelector('[data-nomad-traffic-value]')?.textContent==='63');
   A.match(await stats.locator('[data-nomad-traffic-stats]').textContent(),
-    /Посетители GitHub-репозитория.*63/);
+    /Уникальные посетители GitHub-репозитория за последние 14 дней:.*63/);
   A.equal(await stats.locator('[data-nomad-traffic-stats] a').count(),0,
     'One statistic without a GitHub link');
   await stats.close();

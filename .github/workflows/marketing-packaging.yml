@@ -39,9 +39,9 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Deterministic local utilities and CSS syntax
         run: |
-          mkdir -p artifacts/marketing
+          mkdir -p artifacts/marketing-current
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/marketing-utilities.css
-          npx tailwindcss -i /tmp/marketing-utilities.css --content './Marketing_calc.HTML,./nomad360_*.js,./portfolio_v2_*ui.js' -o artifacts/marketing/utilities.css --minify
+          npx tailwindcss -i /tmp/marketing-utilities.css --content './Marketing_calc.HTML,./nomad360_*.js,./portfolio_v2_*ui.js' -o artifacts/marketing-current/utilities.css --minify
           node -e "require('postcss').parse(require('fs').readFileSync('nomad360_calculator_ui.css','utf8'))"
       - name: Seven widths, three languages, keyboard, actual downloads and complete portable edition
         run: node tests/nomad360_marketing_browser.cjs
@@ -52,8 +52,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: marketing-packaging
+          name: marketing-current-acceptance
           path: |
-            artifacts/marketing
+            artifacts/marketing-current
             artifacts/donation-footer
           retention-days: 14
