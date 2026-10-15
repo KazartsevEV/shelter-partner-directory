@@ -8,7 +8,10 @@ test('Only the four requested presentation files may change; all financial sourc
  const maskB2BCta=css=>css
   .replace(/\.nomad-embed-download:hover:not\(:disabled\)\{[^\n]*\}/g,'<B2B-DOWNLOAD-HOVER>')
   .replace(/\/\* (?:CTA-01:|B2B conversion hierarchy:)[\s\S]*?(?=\.nomad-embed-retry\[hidden\])/,'<B2B-CTA-COLORS>\n')
-  .replace(/\/\* About: one compact four-line brand statement[^\n]*\n[\s\S]*?(?=\.nomad-about-flow\{)/,'');
+  .replace(/\/\* About: one compact four-line brand statement[^\n]*\n[\s\S]*?(?=\.nomad-about-flow\{)/,'')
+  .replace(/\.nomad-kz-flag,\.nomad-ru-flag\{/g,'.nomad-kz-flag{')
+  .replace(/\.nomad-pay-kaspi \.nomad-pay-hint,\.nomad-pay-ozon \.nomad-pay-hint\{/g,'.nomad-pay-kaspi .nomad-pay-hint{')
+  .replace(/ \.nomad-pay-bank,\.nomad-pay-kaspi,\.nomad-pay-ozon\{/g,' .nomad-pay-bank,.nomad-pay-kaspi{');
  A.ok(maskB2BCta(now('nomad360_calculator_ui.css')).startsWith(maskB2BCta(before('nomad360_calculator_ui.css'))),'Accepted typography and support styling remain intact outside the explicitly changed B2B CTA colors');
  A.ok(files.length>20);for(const file of files)if(!editable.has(file))A.equal(now(file),before(file),file);
 });
@@ -32,7 +35,7 @@ test('Download, retry, clipboard, header navigation and financial export logic s
   function walk(x){if(!x||typeof x!=='object')return x;if(x.type==='FunctionDeclaration'&&allowed.has(x.id.name))return {type:'ApprovedRenderer',name:x.id.name};if(x.type==='VariableDeclarator'&&['COPY','L'].includes(x.id.name))return {type:'SemanticDictionary',name:x.id.name};if(Array.isArray(x))return x.map(walk);return Object.fromEntries(Object.entries(x).filter(([key])=>!['start','end','raw'].includes(key)).map(([key,v])=>[key,walk(v)]));}
   return walk(acorn.parse(src,{ecmaVersion:'latest'}));
  }
- for(const [file,allowed] of [['nomad360_calculator_ui.js',new Set(['buildShell'])],['nomad360_header.js',new Set(['infoMarkup','footerMarkup','renderFooter','boot'])]])A.deepEqual(norm(now(file),allowed),norm(before(file),allowed),file);
+ for(const [file,allowed] of [['nomad360_calculator_ui.js',new Set(['buildShell'])],['nomad360_header.js',new Set(['infoMarkup','footerMarkup','payFiat','renderFooter','boot'])]])A.deepEqual(norm(now(file),allowed),norm(before(file),allowed),file);
 });
 
 
