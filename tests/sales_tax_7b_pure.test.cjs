@@ -64,7 +64,7 @@ test('business turnover/profit tax and purchasing expenses are outside quote sco
 });
 
 test('invalid tax and price values fail rather than silently using a default',()=>{
-  for(const bad of ['',null,undefined,-1,Infinity,-Infinity,NaN,'NaN','eight',{},[]]){
+  for(const bad of ['',' ','  \t ',null,undefined,-1,Infinity,-Infinity,NaN,'NaN','eight',{},[]]){
     A.throws(()=>Tax.quote({mode:'sales_tax',enteredPrice:100,ratePct:bad}),/Invalid/);
     A.throws(()=>Tax.quote({mode:'sales_tax',enteredPrice:bad,ratePct:8}),/Invalid/);
   }
