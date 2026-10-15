@@ -637,6 +637,15 @@
       bankLine('SWIFT/BIC',PAY.swift)+bankLine('IBAN',PAY.iban)+
       '</div></details></div>';
   }
+  // Retained for parity with historic source. The RU-only payment option is
+  // now rendered alongside Kaspi in payFiat; this legacy disclosure is unused.
+  function payRussian(t) {
+    return '<details class="nomad-russian-transfer">'+
+      '<summary>'+esc(t.ozonTransfer)+' <span aria-hidden="true">⌄</span></summary>'+
+      '<div class="nomad-russian-details"><strong>'+esc(t.ozonBank)+'</strong>'+
+      '<a href="'+PAY.ozonTel+'">'+esc(PAY.ozon)+'</a>'+
+      copyButton(t,PAY.ozon,t.ozon)+'</div></details>';
+  }
   function productMarkup(t, p) {
     const items=p.items.map(i=>'<li><b>'+esc(i[0])+'.</b> '+esc(i[1])+'</li>').join('');
     return '<article id="'+p.id+'" class="nomad-product" tabindex="-1">'+
