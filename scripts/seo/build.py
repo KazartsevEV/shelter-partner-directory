@@ -92,7 +92,7 @@ def main():
     # SEO phase B layers approved hero presentation into the generated output.
     banner_start = '.brand{display:flex;align-items:center;gap:12px}'
     assert css.count(banner_start) == 1
-    css = css[:css.index(banner_start)] + (ROOT / 'scripts/seo/hero_banner.css').read_text(encoding='utf-8')
+    css = css[:css.index(banner_start)] + (ROOT / 'scripts/seo/hero_banner.css').read_text(encoding='utf-8').rstrip('\n') + '\n'
     css += '\n.brand{text-decoration:none}.skip-link{position:absolute;left:16px;top:-100px}.skip-link:focus{top:8px;z-index:2;background:white;padding:12px}\n'
     outputs['assets/nomad360-seo.css'] = css
     for name, contents in outputs.items():
