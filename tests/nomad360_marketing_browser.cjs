@@ -35,6 +35,18 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   await shot('home','#home-screen');await shot('about','#nomad360-about');await shot('b2b-closed','#nomad360-embed');
   for(const id of ['nomad360-license','nomad360-data','nomad360-product-details'])A.equal(await p.locator('#'+id).evaluate(e=>e.open),false,id+' default closed');
   A.equal(await p.locator('#nomad360-official').locator('details').count(),0);A.equal(await p.locator('#nomad360-official a').isVisible(),true);A.equal((await p.locator('#nomad360-official a').textContent()).trim(),'nomad260393@gmail.com');A.equal(await p.locator('#nomad360-official p').count(),1);
+  const ozon=p.locator('#nomad360-support .nomad-pay-ozon');
+  A.equal(await ozon.count(),lang==='ru'?1:0,'Ozon card must exist only in RU, not just be hidden in EN/KK');
+  A.equal(await p.locator('#nomad360-support .nomad-russian-transfer').count(),0,'Legacy disclosure removed');
+  if(lang==='ru'){
+   A.equal(await ozon.locator('.nomad-ru-flag').textContent(),'🇷🇺');
+   A.equal(await ozon.locator('.nomad-pay-value').textContent(),'+7 977 986 74 41');
+   A.equal(await ozon.locator('[data-nomad-copy]').count(),1);
+   const fonts=await p.evaluate(()=>['.nomad-pay-kaspi','.nomad-pay-ozon'].map(sel=>['.nomad-pay-label','.nomad-pay-value','.nomad-copy'].map(child=>{
+     const st=getComputedStyle(document.querySelector(sel+' '+child));return [st.fontFamily,st.fontSize,st.fontWeight];
+   })));
+   A.deepEqual(fonts[1],fonts[0],'Ozon matches Kaspi typography for label, value and copy');
+  }
   await shot('footer-closed','.nomad-footer-meta');
   await toggle.focus();await p.keyboard.press('Enter');A.equal(await toggle.getAttribute('aria-expanded'),'true');A.equal(await panel.isVisible(),true);A.equal(downloads.length,0);A.equal(htmlRequests,1,'Disclosure must not start the HTML generator');
   if(width<=600){const rowWidths=await panel.locator('tbody th').evaluateAll(es=>es.map(e=>({width:e.getBoundingClientRect().width,parent:e.parentElement.getBoundingClientRect().width})));A.ok(rowWidths.every(x=>Math.abs(x.width-x.parent)<2),'Mobile row labels occupy the full row');}
@@ -49,7 +61,7 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});const contrast=await p.evaluate(()=>Object.fromEntries(['#nomad360-intro','#nomad360-about','#nomad360-embed','.nomad-footer-meta'].map(s=>{const a=NomadContrast.audit(document.querySelector(s));return [s,{count:a.count,minimum:a.minimum,failures:a.failures}]})));for(const v of Object.values(contrast))A.deepEqual(v.failures,[]);
   const geometry=await p.evaluate(audit);A.equal(geometry.overflow,false);A.deepEqual(geometry.bad,[]);A.deepEqual(geometry.gaps,[]);A.deepEqual(errors,[]);
   if(width===390){
-   await ctx.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});await p.locator('.nomad-pay-kaspi [data-nomad-copy]').click();A.equal(await p.evaluate(()=>navigator.clipboard.readText()),'+7 777 129 56 93');
+   await ctx.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});await p.locator('.nomad-pay-kaspi [data-nomad-copy]').click();A.equal(await p.evaluate(()=>navigator.clipboard.readText()),'+7 777 129 56 93');if(lang==='ru'){await p.locator('.nomad-pay-ozon [data-nomad-copy]').click();A.equal(await p.evaluate(()=>navigator.clipboard.readText()),'+7 977 986 74 41');}
    // Existing header links must reveal their collapsed targets.
    const burger=p.locator('.nomad-burger');if(await burger.isVisible())await burger.click();await p.locator('[data-nomad-go="nomad360-ai"]').click();await settle(p);A.equal(await p.locator('#nomad360-product-details').evaluate(e=>e.open),true);
    await p.route('**/Marketing_calc.HTML',r=>r.abort());await p.locator('[data-nomad-download-html]').click();await p.waitForFunction(()=>!document.querySelector('[data-nomad-download-html]').disabled);A.equal(await p.locator('[data-nomad-embed-retry]').isVisible(),false);await p.unroute('**/Marketing_calc.HTML');
