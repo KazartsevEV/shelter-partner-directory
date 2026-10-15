@@ -46,7 +46,20 @@ def main():
                 input=raw,cwd=ROOT)
         # Exact permitted presentation delta; accepted B2B/legal bytes stay protected.
         if name == 'nomad360_calculator_ui.css':
-            raw = raw.split(b'\n/* SEO-07 approved keyword banner; original offer unchanged. */', 1)[0]
+            # Assert the exact new presentation styles in the *whole* CSS first.
+            # SEO-07's historical snapshot deliberately excludes all CSS after
+            # its banner marker, so checking those additions after truncation
+            # would always fail even when the shipped styles are correct.
+            status = b'\n/* Explicit status colour: no faded grey when installation was confirmed. */\n#nomad360-return p.nomad-return-status{color:#16375a!important;opacity:1!important;font:400 16px/1.5 var(--nd-font)}'
+            sample = b'/* Simple service examples only: user controls remain free to edit after selecting a sample. */\n'
+            assert raw.count(status) == 1
+            assert raw.count(sample) == 1
+            assert raw.count(b'.nomad-simple-demo-note{') == 1
+            marker_seo = b'\n/* SEO-07 approved keyword banner; original offer unchanged. */'
+            assert raw.count(marker_seo) == 1
+            assert raw.index(status) > raw.index(marker_seo)
+            assert raw.index(sample) > raw.index(marker_seo)
+            raw = raw.split(marker_seo, 1)[0]
         if name == 'nomad360_locale_core.js':
             raw = re.sub(rb'^ \["business\.ideaSeo(?:Title|Copy)",[^\n]+\n', b'', raw, flags=re.M)
         if name == 'nomad360_header.js':
@@ -57,18 +70,6 @@ def main():
         # An independently approved later B2B-copy edit must not weaken the old
         # SEO baseline: undo ONLY its exact white/orange consulting presentation
         # before comparing the protected source with the accepted snapshot.
-        if name == 'nomad360_calculator_ui.css':
-            # Accepted later UI-only styles: remove precisely two scoped additions
-            # before running the same immutable source-byte comparison.
-            status = b'\n/* Explicit status colour: no faded grey when installation was confirmed. */\n#nomad360-return p.nomad-return-status{color:#16375a!important;opacity:1!important;font:400 16px/1.5 var(--nd-font)}'
-            assert raw.count(status) == 1
-            raw = raw.replace(status, b'', 1)
-            marker_simple = b'/* Simple service examples only: user controls remain free to edit after selecting a sample. */\n'
-            next_rule = b'.nomad-return-dialog{box-sizing:border-box;'
-            assert raw.count(marker_simple) == 1 and raw.count(next_rule) == 1
-            first, remainder = raw.split(marker_simple, 1)
-            assert b'.nomad-simple-demo-note' in remainder
-            raw = first + remainder[remainder.index(next_rule):]
         if name == 'nomad360_calculator_ui.css':
             marker = b'\n/* Consulting offer: white question, orange benefits following the Nomad360 brand palette. */\n'
             assert raw.count(marker) == 1
