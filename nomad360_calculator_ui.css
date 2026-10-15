@@ -458,13 +458,76 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-about-flow p{font:400 17px/1.5 var(--nd-font);margin:0;color:#40546a}
 .nomad-about-caption{font:400 17px/1.55 var(--nd-font);color:#40546a}
 @media(min-width:900px){.nomad-about-flow{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}.nomad-about-flow>li:not(:last-child)::after{content:'→';left:auto;right:-28px;top:calc(50% - 13px);bottom:auto}}
-.nomad-footer .nomad-embed-actions{max-width:none;margin-top:32px;gap:16px}
-.nomad-footer .nomad-embed-b2b-title{font:600 clamp(20px,2.4vw,28px)/1.35 var(--nd-font);color:#fff;margin:0}
-/* Consulting offer: white question, orange benefits following the Nomad360 brand palette. */
-.nomad-footer .nomad-embed-b2b-benefits{margin:0 0 8px;padding-left:1.4rem;display:grid;gap:10px;color:#ed8e63;font:500 clamp(16px,1.8vw,19px)/1.5 var(--nd-font)}
-.nomad-footer .nomad-embed-b2b-benefits li{padding-left:2px;min-width:0;overflow-wrap:break-word}
-.nomad-footer .nomad-embed-b2b-benefits li::marker{color:#ed8e63}
-.nomad-footer .nomad-embed-b2b-benefits em{font-style:italic;font-weight:600}
+/* B2B-BANNER: native responsive HTML, visually paired with the upper SEO banner. */
+.nomad-footer #nomad360-embed{
+  box-sizing:border-box;min-width:0;max-width:none;margin-top:32px;gap:20px;
+  padding:clamp(18px,3.5vw,30px);background:#16375a;color:#fff;
+  border:1px solid rgba(255,255,255,.55);border-radius:10px;
+  font-family:var(--nd-font,Inter,system-ui,sans-serif);
+  box-shadow:0 12px 34px rgba(9,28,47,.18)
+}
+.nomad-embed-b2b-banner{display:grid;gap:22px;min-width:0}
+.nomad-embed-b2b-header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:center;min-width:0}
+.nomad-embed-b2b-headcopy{min-width:0}
+.nomad-footer #nomad360-embed .nomad-embed-b2b-title{
+  margin:0 0 12px;max-width:none;color:#fff;
+  font:700 clamp(24px,3.4vw,32px)/1.25 var(--nd-font,Inter,system-ui,sans-serif)
+}
+.nomad-footer #nomad360-embed .nomad-embed-b2b-slogan{
+  margin:0;max-width:65ch;color:#eef4fa;
+  font:500 clamp(16px,1.65vw,19px)/1.5 var(--nd-font,Inter,system-ui,sans-serif)
+}
+.nomad-embed-b2b-brand{display:flex;justify-content:center;align-items:center;min-width:0}
+.nomad-embed-b2b-logo-mask{
+  display:block;width:108px;height:108px;overflow:hidden;
+  background:#fff;border-radius:50%;box-shadow:0 6px 22px rgba(0,0,0,.14)
+}
+.nomad-embed-b2b-logo-mask img{display:block;width:100%;height:100%;object-fit:contain}
+.nomad-footer #nomad360-embed .nomad-embed-b2b-benefits{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
+  margin:0;padding:0;list-style:none
+}
+.nomad-footer #nomad360-embed .nomad-embed-b2b-card{
+  box-sizing:border-box;display:grid;grid-template-columns:48px minmax(0,1fr);
+  grid-template-rows:45px auto;align-content:start;column-gap:12px;row-gap:14px;
+  min-width:0;margin:0;padding:clamp(14px,1.75vw,20px);
+  background:#254d73;border:1px solid rgba(255,255,255,.27);
+  border-radius:10px;color:#fff;overflow-wrap:break-word
+}
+.nomad-embed-b2b-number{
+  display:inline-flex;justify-content:center;align-items:center;width:44px;height:44px;
+  border:2px solid #ed8e63;border-radius:50%;background:#ed8e63;
+  color:#16375a;font:700 23px/1 var(--nd-font,Inter,system-ui,sans-serif)
+}
+.nomad-embed-b2b-icon{display:flex;align-items:center;color:#f9b294}
+.nomad-embed-b2b-icon svg{display:block;width:38px;height:38px;flex:none}
+.nomad-embed-b2b-copy{
+  grid-column:1/-1;color:#fff;
+  font:500 clamp(16px,1.5vw,18px)/1.5 var(--nd-font,Inter,system-ui,sans-serif)
+}
+.nomad-embed-b2b-copy em{font-style:italic;font-weight:600;font-synthesis:style}
+@media(max-width:760px){
+  .nomad-footer #nomad360-embed .nomad-embed-b2b-benefits{grid-template-columns:minmax(0,1fr)}
+  .nomad-footer #nomad360-embed .nomad-embed-b2b-card{
+    grid-template-columns:44px 40px minmax(0,1fr);grid-template-rows:auto;align-items:start;row-gap:0
+  }
+  .nomad-embed-b2b-icon{grid-column:2}
+  .nomad-embed-b2b-copy{grid-column:3;align-self:center}
+}
+@media(max-width:430px){
+  .nomad-footer #nomad360-embed{padding:18px;gap:16px}
+  .nomad-embed-b2b-header{gap:12px}
+  .nomad-embed-b2b-logo-mask{width:66px;height:66px}
+  .nomad-footer #nomad360-embed .nomad-embed-b2b-title{font-size:22px}
+  .nomad-footer #nomad360-embed .nomad-embed-b2b-card{
+    grid-template-columns:40px minmax(0,1fr);grid-template-rows:38px auto;
+    gap:10px;padding:14px
+  }
+  .nomad-embed-b2b-number{width:36px;height:36px;font-size:20px}
+  .nomad-embed-b2b-icon{grid-column:2;grid-row:1}
+  .nomad-embed-b2b-icon svg{width:34px;height:34px}
+  .nomad-embed-b2b-copy{grid-column:1/-1;grid-row:2}
+}
 .nomad-embed-toggle{max-width:480px}
 #nomad360-embed-comparison[hidden]{display:none}
 .nomad-embed-table{width:100%;table-layout:fixed;border-collapse:collapse;color:#fff;font:400 16px/1.5 var(--nd-font);margin-bottom:16px}
