@@ -17,8 +17,23 @@ def read(name):
 
 def main():
     manifest = read('protected-files.json')
+    # PR #145 was already approved and merged before this SEO branch.
+    # Check its exact accepted bytes instead of misclassifying those three
+    # intentional marketing changes as SEO damage; retain the phase-A
+    # immutable SHA-256 baseline for every other protected file.
+    accepted_marketing_commit = '5c3df1fdfa12114366518c0271d7866a0f2dc8bf'
+    approved_marketing_files = {
+        'nomad360_calculator_ui.css',
+        'nomad360_header.js',
+        'nomad360_locale_core.js',
+    }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name in approved_marketing_files:
+            approved = subprocess.check_output(
+                ['git', 'show', accepted_marketing_commit + ':' + name], cwd=ROOT)
+            assert raw == approved, 'Approved PR #145 source changed: ' + name
+            continue
         if name == 'Marketing_calc.HTML':
             # Phase B adds exactly one canonical and one isolated language module.
             raw = raw.replace(b'    <link rel="canonical" href="https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML">\n', b'', 1)
