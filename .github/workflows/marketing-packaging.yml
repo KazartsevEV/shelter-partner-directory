@@ -1,0 +1,59 @@
+name: Marketing RU EN KK and complete embed acceptance
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_*.js'
+      - 'nomad360_*.css'
+      - 'portfolio_v2_ui.js'
+      - 'tests/nomad360_marketing*'
+      - 'tests/nomad360_embed_footer_browser.test.cjs'
+      - 'tests/nomad360_calculator_ui_browser.test.cjs'
+      - 'docs/reviews/marketing*'
+      - 'docs/marketing/**'
+      - '.github/workflows/marketing-packaging.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  marketing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - name: Exact financial and SEO source protection, fonts and semantic catalogue
+        run: |
+          node --check nomad360_header.js
+          node --check nomad360_calculator_ui.js
+          node --check nomad360_locale_core.js
+          node --check portfolio_v2_ui.js
+          node --test tests/nomad360_marketing_scope.test.cjs tests/type02_scope.test.cjs tests/nomad360_locale_semantic.test.cjs tests/nomad360_locale_diagnostics.test.cjs
+          node scripts/localization/inventory.cjs --check
+      - run: npm install --no-save --package-lock=false playwright@1.58.0 tailwindcss@3.4.17
+      - run: npx playwright install --with-deps chromium
+      - name: Deterministic local utilities and CSS syntax
+        run: |
+          mkdir -p artifacts/marketing-current
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/marketing-utilities.css
+          npx tailwindcss -i /tmp/marketing-utilities.css --content './Marketing_calc.HTML,./nomad360_*.js,./portfolio_v2_*ui.js' -o artifacts/marketing-current/utilities.css --minify
+          node -e "require('postcss').parse(require('fs').readFileSync('nomad360_calculator_ui.css','utf8'))"
+      - name: Seven widths, three languages, keyboard, actual downloads and complete portable edition
+        run: node tests/nomad360_marketing_browser.cjs
+      - name: Existing calculator paths and footer regression
+        run: |
+          node tests/nomad360_calculator_ui_browser.test.cjs
+          node tests/nomad360_embed_footer_browser.test.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: marketing-current-acceptance
+          path: |
+            artifacts/marketing-current
+            artifacts/donation-footer
+          retention-days: 14

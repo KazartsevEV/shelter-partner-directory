@@ -436,3 +436,44 @@ a.nomad-pay-value{text-decoration:underline}
   #product-tax-block [data-business-advice] > div:first-of-type{font-size:17px}
   #product-tax-block [data-business-advice] > button{font-size:17px}
 }
+
+/* Task 6 / main 538565e: only the requested intro, project flow and disclosure UI. */
+.nomad-intro{margin:0 0 24px;color:#fff}
+.nomad-intro-lead{font:500 19px/1.5 var(--nd-font);margin:0 0 16px}
+.nomad-intro ul{list-style:disc;padding-left:24px;margin:0;display:grid;gap:10px;font:400 17px/1.5 var(--nd-font)}
+.nomad-intro-result{font:500 17px/1.5 var(--nd-font);margin:20px 0 12px}
+.nomad-intro-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;background:#ed8e63;color:#16375a;text-align:center;text-decoration:none;font:600 16px/1.5 var(--nd-font);max-width:100%;box-sizing:border-box}
+.nomad-intro-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+#nomad360-selling-choice{scroll-margin-top:100px}
+.nomad-about-flow{list-style:none;display:grid;gap:40px;padding:0;margin:24px 0}
+.nomad-about-flow>li{position:relative;min-width:0;padding:20px;border:1px solid #b4c5d6;background:#f4f7fc;display:flex;flex-direction:column;gap:12px}
+.nomad-about-flow>li:not(:last-child)::after{content:'↓';position:absolute;left:calc(50% - 10px);bottom:-36px;color:#16375a;font:600 26px/1 var(--nd-font)}
+.nomad-about-flow h3{font:600 20px/1.35 var(--nd-font);margin:0;color:#16375a}
+.nomad-about-flow p{font:400 17px/1.5 var(--nd-font);margin:0;color:#40546a}
+.nomad-about-caption{font:400 17px/1.55 var(--nd-font);color:#40546a}
+@media(min-width:900px){.nomad-about-flow{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}.nomad-about-flow>li:not(:last-child)::after{content:'→';left:auto;right:-28px;top:calc(50% - 13px);bottom:auto}}
+.nomad-footer .nomad-embed-actions{max-width:none;margin-top:32px;gap:16px}
+.nomad-footer .nomad-embed-b2b-title{font:600 clamp(20px,2.4vw,28px)/1.35 var(--nd-font);color:#fff;margin:0}
+.nomad-embed-toggle{max-width:480px}
+#nomad360-embed-comparison[hidden]{display:none}
+.nomad-embed-table{width:100%;table-layout:fixed;border-collapse:collapse;color:#fff;font:400 16px/1.5 var(--nd-font);margin-bottom:16px}
+.nomad-embed-table th,.nomad-embed-table td{border:1px solid var(--nf-line);padding:14px;vertical-align:top;overflow-wrap:break-word}
+.nomad-embed-table th{font-weight:500;text-align:left;background:rgba(255,255,255,.07)}
+.nomad-embed-table th:first-child{width:24%}
+.nomad-embed-table .nomad-traffic-stats{margin-top:16px}
+.nomad-embed-table .nomad-embed-download,.nomad-embed-table .nomad-embed-contact{font:600 16px/1.45 var(--nd-font);min-height:48px;white-space:normal;height:auto}
+.nomad-footer details.nomad-meta-block>summary,.nomad-footer-products>summary{cursor:pointer;min-height:44px;align-content:center;color:#fff;font:600 18px/1.4 var(--nd-font)}
+.nomad-footer details.nomad-meta-block>p,.nomad-footer details.nomad-meta-block>.nomad-license-terms,.nomad-footer-products>.nomad-products-grid{margin-top:16px}
+.nomad-footer summary:focus-visible{outline:2px solid #ed8e63;outline-offset:4px}
+#nomad360-official p{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:600px){
+ .nomad-embed-table,.nomad-embed-table thead,.nomad-embed-table tbody{display:block}
+ .nomad-embed-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .nomad-embed-table thead th:first-child{display:none}
+ .nomad-embed-table th,.nomad-embed-table td{width:auto;min-width:0;padding:10px}
+ .nomad-embed-table tbody th{grid-column:1/-1;width:auto}
+ .nomad-embed-table .nomad-embed-download,.nomad-embed-table .nomad-embed-contact{padding:10px 6px}
+ .nomad-embed-table .nomad-traffic-title{font-size:14px}
+}
+.nomad-about-caption em{font-style:italic;font-synthesis:style}
+@media(max-width:600px){.nomad-embed-table tbody th:first-child{grid-column:1/-1;width:auto}}

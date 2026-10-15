@@ -34,8 +34,8 @@ async function browserCase(browser,locale,expected){
   A.match(bullets[5],{ru:/Денежный поток/,en:/Monthly cash flow/,kk:/Ай сайынғы Cash Flow/}[expected.lang]);
   A.equal(await page.locator('#home-screen').evaluate(el=>
     [...el.children].findIndex(child=>child.id==='nomad360-hero')+1===
-    [...el.children].findIndex(child=>child.id==='nomad360-calculation-list')),true,
-    'Calculation list must directly follow heading block');
+    [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
+    'Approved introduction directly follows the unchanged hero');
   A.equal(await page.locator('#home-screen > .card > h1').count(),0,
     'Do not duplicate a second homepage H1');
   const presentation=await page.evaluate(()=>{
@@ -98,7 +98,7 @@ async function browserCase(browser,locale,expected){
   A.deepEqual((await choice.locator('button').allTextContents()).map(x=>x.trim()),choiceTexts.slice(1,4));
   A.equal(await choice.locator('a').count(),0,'Third item must be a real button, not a text link');
   A.equal(await choice.locator('.nd-cta-primary').count(),3,'Primary routes use semantic CTA roles');
-  A.equal(await page.locator('#nomad360-license .nomad-embed-download').count(),1,
+  A.equal(await page.locator('#nomad360-embed [data-nomad-download-html]').count(),1,
     'CTA-01 preserves the real embed-download button');
   A.equal(await page.locator('link[href="./nomad360_design_system.css"]').count(),1);
   // TYPE-01: one brand font with an explicit readable type scale and high
