@@ -15,10 +15,13 @@ test('Only the four requested presentation files may change; all financial sourc
 const boot=src=>{const win={};new Function('window','document',src)(win,{readyState:'loading',addEventListener(){}});return win.Nomad360LocaleCore;};
 test('Published hero, legal/privacy text, payment details and every financial translation remain unchanged',()=>{
  const old=boot(before('nomad360_locale_core.js')),current=boot(now('nomad360_locale_core.js'));
- const changed=new Set(['interface.header.embedButton','interface.header.customButton','interface.header.trafficTitle']);
+ const changed=new Set(['interface.header.embedButton','interface.header.customButton','interface.header.trafficTitle','interface.header.comparison.free','interface.header.comparison.own','interface.header.comparison.customerBrand','interface.header.comparison.customerQueries','interface.header.comparison.contacts']);
  for(const key of old.keys())if(!changed.has(key))for(const language of ['ru','en','kk'])A.equal(current.t(key,language),old.t(key,language),language+' '+key);
  A.match(current.t('interface.shell.introLead','en'),/validation/);A.doesNotMatch(current.t('interface.shell.introLead','ru'),/validation/);
- A.equal(current.t('interface.header.comparison.own','ru'),'Хочу собственную версию');A.equal(current.t('interface.header.comparison.own','en'),'White Label');
+ A.equal(current.t('interface.header.comparison.own','ru'),'Собственный калькулятор');A.equal(current.t('interface.header.comparison.own','en'),'Your own calculator');
+ A.equal(current.t('interface.header.customButton','ru'),'Заказать кастомное решение');
+ A.equal(current.t('interface.header.comparison.contacts','ru'),'Контакты и вопросы посетителя, формы обратной связи, опционально — интеграция с CRM');
+ for(const key of ['aboutBrand','aboutMotto.0','aboutMotto.1','aboutMotto.2'])for(const locale of ['ru','en','kk'])A.doesNotMatch(current.t('interface.header.'+key,locale),/^⟦/);
 });
 test('Download, retry, clipboard, header navigation and financial export logic stay exact outside named presentation renderers',()=>{
  const acorn=require('../scripts/localization/node_modules/acorn');
