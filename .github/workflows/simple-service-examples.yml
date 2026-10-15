@@ -21,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install source parser for existing scoped regression tests
+        run: npm ci --prefix scripts/localization
       - name: Syntax and unchanged financial sources
         run: |
           node --check nomad360_simple_service_examples.js
