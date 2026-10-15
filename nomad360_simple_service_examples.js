@@ -25,9 +25,10 @@ const payers=[
 const copy={
   ru:{
     title:'Примеры упрощённого расчёта',
-    warning:'Сейчас в калькуляторе могут быть учебные цифры. Перед расчётом своего бизнеса нажмите «Сбросить значения»: поля очистятся.',
+    warning:'Эти цифры приведены только для примера. Перед расчётом своего бизнеса нажмите «Сбросить значения» — все поля очистятся.',
     changed:'Вы изменили учебные цифры. Для собственного расчёта сначала нажмите «Сбросить значения».',
     cleared:'Поля очищены. Укажите собственные значения: нули означают отсутствие соответствующих расходов; период — 1 месяц.',
+    own:'Вы вводите собственные значения. Это ваш расчёт, а не учебный пример.',
     loaded:'Загружен учебный пример, не прогноз доходности вашего бизнеса. Для своего расчёта сначала сбросьте значения.',
     names:{
       self:['Частные онлайн-консультации','Онлайн-уроки языка'],
@@ -40,6 +41,7 @@ const copy={
     warning:'The calculator may currently contain sample figures. Before calculating your own business, choose “Reset values” to clear the fields.',
     changed:'You have edited sample figures. Choose “Reset values” before entering your own business data.',
     cleared:'The fields are cleared. Enter your own data; zeros mean no such cost and the period is one month.',
+    own:'You are entering your own figures, not a learning example.',
     loaded:'A learning example is loaded, not a forecast of your business results. Reset the values before entering your data.',
     names:{
       self:['Independent online consulting','Private online language lessons'],
@@ -52,6 +54,7 @@ const copy={
     warning:'Калькуляторда қазір үлгі сандар болуы мүмкін. Өз бизнесіңізді есептемес бұрын «Мәндерді бастапқы күйге келтіру» батырмасын басып, өрістерді тазалаңыз.',
     changed:'Сіз үлгі сандарды өзгерттіңіз. Өз деректеріңізді енгізер алдында өрістерді тазалаңыз.',
     cleared:'Өрістер тазаланды. Өз мәліметтеріңізді енгізіңіз: нөл — тиісті шығын жоқ, кезең — бір ай.',
+    own:'Сіз өз деректеріңізді енгізіп жатырсыз. Бұл оқу мысалы емес.',
     loaded:'Оқу мысалы жүктелді, бұл сіздің бизнесіңіздің табыс болжамы емес. Өз есептеуіңізден бұрын мәндерді тазалаңыз.',
     names:{
       self:['Жеке онлайн кеңестер','Тілден жеке онлайн сабақтар'],
@@ -103,7 +106,7 @@ function boot(){
   const oldSelect=root.selectServiceMode;
   if(typeof oldSelect==='function')root.selectServiceMode=function(role){
     const value=oldSelect.call(this,role);
-    if(serviceFinancialMode==='simple'){currentExample=-1;currentNotice='warning';}
+    if(serviceFinancialMode==='simple'){currentExample=-1;if(currentNotice!=='cleared'&&currentNotice!=='own')currentNotice='warning';}
     render();return value;
   };
   // Override only the broken button's reset action; do not modify product/V2 resets.
@@ -113,9 +116,9 @@ function boot(){
     if(button)applyExample(Number(button.getAttribute('data-simple-demo')));
   });
   container.addEventListener('input',event=>{
-    if(event.target.closest('#inputs-container')&&currentNotice!=='cleared'){
-      currentNotice='changed';currentExample=-1;
-      const note=panel.querySelector('.nomad-simple-demo-note');if(note)note.textContent=t().changed;
+    if(event.target.closest('#inputs-container')){
+      currentNotice=currentNotice==='cleared'||currentNotice==='own'?'own':'changed';currentExample=-1;
+      const note=panel.querySelector('.nomad-simple-demo-note');if(note)note.textContent=t()[currentNotice];
       panel.querySelectorAll('[data-simple-demo]').forEach(button=>button.setAttribute('aria-pressed','false'));
     }
   });
