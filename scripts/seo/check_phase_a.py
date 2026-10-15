@@ -93,8 +93,8 @@ def main():
             assert sum(extra in line for line in rows) == 5
             assert sum(focus in line for line in rows) == 1
             raw = b''.join(line for line in rows if extra not in line and focus not in line)
-            from_title = b' ["interface.header.embedB2BTitle","Do you work in consulting?","Занимаетесь консалтингом?","Консалтингпен айналысасыз ба?"],'
-            to_title = b' ["interface.header.embedB2BTitle","Work in B2B? Attract relevant traffic for free.","Работаете в B2B? Привлеките полезный трафик бесплатно.","B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз."],'
+            from_title = ' ["interface.header.embedB2BTitle","Do you work in consulting?","Занимаетесь консалтингом?","Консалтингпен айналысасыз ба?"],'.encode('utf-8')
+            to_title = ' ["interface.header.embedB2BTitle","Work in B2B? Attract relevant traffic for free.","Работаете в B2B? Привлеките полезный трафик бесплатно.","B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз."],'.encode('utf-8')
             assert raw.count(from_title) == 1
             raw = raw.replace(from_title, to_title, 1)
         if name in approved_marketing_files:
