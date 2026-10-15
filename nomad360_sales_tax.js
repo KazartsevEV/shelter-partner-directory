@@ -19,7 +19,8 @@
 
   function amount(value, field) {
     // Do not quietly reinterpret empty/invalid user-entered taxes or prices.
-    if (value === '' || value === null || value === undefined ||
+    if (value === '' || (typeof value === 'string' && value.trim() === '') ||
+        value === null || value === undefined ||
         (typeof value !== 'number' && typeof value !== 'string') ||
         !Number.isFinite(Number(value)) || Number(value) < 0)
       throw new RangeError('Invalid '+field);
