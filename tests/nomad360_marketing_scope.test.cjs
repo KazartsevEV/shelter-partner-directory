@@ -7,7 +7,8 @@ test('Only the four requested presentation files may change; all financial sourc
  const files=execFileSync('git',['ls-tree','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/\.(js|css|html)$/i.test(f)||f==='CALCULATOR_LICENSE.md');
  const maskB2BCta=css=>css
   .replace(/\.nomad-embed-download:hover:not\(:disabled\)\{[^\n]*\}/g,'<B2B-DOWNLOAD-HOVER>')
-  .replace(/\/\* (?:CTA-01:|B2B conversion hierarchy:)[\s\S]*?(?=\.nomad-embed-retry\[hidden\])/,'<B2B-CTA-COLORS>\n');
+  .replace(/\/\* (?:CTA-01:|B2B conversion hierarchy:)[\s\S]*?(?=\.nomad-embed-retry\[hidden\])/,'<B2B-CTA-COLORS>\n')
+  .replace(/\/\* About: one compact four-line brand statement[^\n]*\n[\s\S]*?(?=\.nomad-about-flow\{)/,'');
  A.ok(maskB2BCta(now('nomad360_calculator_ui.css')).startsWith(maskB2BCta(before('nomad360_calculator_ui.css'))),'Accepted typography and support styling remain intact outside the explicitly changed B2B CTA colors');
  A.ok(files.length>20);for(const file of files)if(!editable.has(file))A.equal(now(file),before(file),file);
 });
@@ -46,4 +47,21 @@ test('B2B comparison copy is localized and only the custom-order CTA uses the or
  A.match(css,/\.nomad-footer \.nomad-embed-contact\s*\{\s*background:#ed8e63;/);
  A.doesNotMatch(css,/\.nomad-embed-download\s*\{\s*background:#ed8e63;/);
  A.match(css,/\.nomad-embed-retry\{[^}]*background:#f4f7fc;/);
+});
+
+
+test('About adds only the agreed four-line brand introduction above the existing three-stage flow',()=>{
+ const src=now('nomad360_header.js'),css=now('nomad360_calculator_ui.css');
+ for(const text of [
+  'Nomad 360 - зонтичный бренд интеллектуальных сервисов для предпринимателей.',
+  'Устанавливаем связи.','Строим структуру.','Открываем горизонты.',
+  'Nomad 360 is an umbrella brand of intelligent services for entrepreneurs.',
+  'We build connections.','We create structure.','We open new horizons.',
+  'Nomad 360 — кәсіпкерлерге арналған зияткерлік сервистерді біріктіретін бренд.',
+  'Байланыстар орнатамыз.','Құрылым құрамыз.','Жаңа көкжиектер ашамыз.'
+ ])A.ok(src.includes(text),'Missing About localized brand copy: '+text);
+ A.match(src,/<h2>'\+esc\(t\.about\)\+'<\/h2>'\+\s*'<div class="nomad-about-opening">/);
+ A.match(src,/<ol class="nomad-about-flow" role="list">/);
+ A.match(src,/<p class="nomad-about-caption">/);
+ A.match(css,/\.nomad-about-motto span\{display:block\}/);
 });
