@@ -1,0 +1,9 @@
+.brand{display:flex;align-items:center;gap:12px}.brand img{border-radius:6px}.intro{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:28px;align-items:center}.intro-copy{min-width:0}
+/* Preserve the original wolf artwork. The white circular mask is a separate
+   background layer; only the presentation container is moved upward. */
+.intro-brand-mark{align-self:center;display:flex;flex-direction:column;align-items:center;gap:14px;transform:translateY(-10px);min-width:0}
+.intro-logo-mask{position:relative;display:grid;place-items:center;isolation:isolate;overflow:hidden;background:#fff;border-radius:50%;width:192px;height:192px;flex-shrink:0}
+.intro-logo{position:relative;display:block;width:100%;height:100%;aspect-ratio:1;object-fit:contain}
+.intro-brand-tagline{margin:0;color:#fff;text-align:center;font:700 17px/1.35 Inter,system-ui,sans-serif;letter-spacing:.01em;max-width:210px;text-wrap:balance}
+@media(max-width:600px){.intro{grid-template-columns:minmax(0,1fr) 100px;gap:14px}.intro-copy{display:contents}.intro .eyebrow{grid-column:1;grid-row:1;margin:0}.intro-brand-mark{grid-column:2;grid-row:1;transform:translateY(-7px);gap:7px}.intro-logo-mask{width:78px;height:78px}.intro-brand-tagline{font-size:12px;line-height:1.25;max-width:100px}.intro h1,.intro p:not(.eyebrow),.intro .cta{grid-column:1/-1;margin-bottom:0}}
+
