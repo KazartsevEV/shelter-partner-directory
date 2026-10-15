@@ -8,7 +8,7 @@
 
 **Область:** калькуляторы V1/V2, валютный модуль, экспорт, локализация и демонстрационные сценарии. 
 
-**Текущая задача 7, фаза A:** база `main 919f9ad`, включая принятую задачу 6, [PR #144](https://github.com/KazartsevEV/shelter-partner-directory/pull/144), merge `51a58a81`. SEO-07 и карта прочитаны непосредственно из main; ветка `feature/seo-07`. [Аудит, семантика и URL-карта](reviews/seo-07-phase-a-review.md) готовятся к фазовой приёмке; приложение пока не меняется.
+**Текущая задача 7, фаза A:** база `main 919f9ad`, включая принятую задачу 6, [PR #144](https://github.com/KazartsevEV/shelter-partner-directory/pull/144), merge `51a58a81`. SEO-07 и карта прочитаны непосредственно из main; ветка `feature/seo-07`, [Draft PR #146](https://github.com/KazartsevEV/shelter-partner-directory/pull/146). [Аудит, семантика и URL-карта](reviews/seo-07-phase-a-review.md) предъявлены к фазовой приёмке; приложение пока не меняется.
 
 ## 1. Общий порядок работы 
 

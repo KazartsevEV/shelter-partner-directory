@@ -2,6 +2,8 @@
 
 15.10.2026 · ветка `feature/seo-07` · база `main 919f9ad430841a2d4dea5569c19a8edfb7da08e7`.
 
+[Draft PR #146](https://github.com/KazartsevEV/shelter-partner-directory/pull/146) · [CI текущего HEAD](https://github.com/KazartsevEV/shelter-partner-directory/pull/146/checks).
+
 **Это первая фаза задачи 7.** Новые публичные языковые страницы, sitemap и handoff ещё не реализованы. Приложение, оффер и финансовая модель не менялись. Требования прочитаны непосредственно из актуального main: [карта](../nomad360-codex-task-map.md), [SEO-07](../nomad360-seo-technical-spec.md).
 
 ## Что предъявляется
