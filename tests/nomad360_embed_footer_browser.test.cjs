@@ -184,10 +184,10 @@ const server=createServer(async(req,res)=>{
       hintFont:parseFloat(getComputedStyle(el.querySelector('.nomad-embed-hint')).fontSize)
     };
   });
-  A.equal(visual.downloadBackground,'rgb(237, 142, 99)','Embed is the orange primary footer CTA');
-  A.equal(visual.downloadColor,'rgb(22, 55, 90)','Primary CTA label uses navy');
-  A.equal(visual.secondaryBackground,'rgba(0, 0, 0, 0)','Custom request is not a second orange CTA');
-  A.equal(visual.secondaryColor,'rgb(255, 255, 255)','Footer secondary action stays white');
+  A.equal(visual.downloadBackground,'rgb(244, 247, 252)','Free Embed download is the light secondary footer action');
+  A.equal(visual.downloadColor,'rgb(22, 55, 90)','Free Embed label remains navy');
+  A.equal(visual.secondaryBackground,'rgb(237, 142, 99)','Custom order is the orange primary CTA');
+  A.equal(visual.secondaryColor,'rgb(22, 55, 90)','Custom order label uses navy');
   A.ok(visual.hintFont>=14,'Embed instruction must remain legible');
   const mail=await license.locator('.nomad-embed-contact').getAttribute('href');
   A.ok(mail.startsWith('mailto:nomad260393@gmail.com?subject='));
