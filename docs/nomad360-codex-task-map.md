@@ -24,7 +24,7 @@
 4. **DONE / PR #135 merged (`71048bfd`):** локализация RU/EN/KK L0–L6, 10/10 workflows, 11/11 рабочих jobs GREEN на точном PR-head; historical visual Skipped.
 5. **DONE / PR #139 merged (`e458115d`):** реалистичный шоппер V1, Казахстан/KZT, принят пользователем. Post-merge 5/5 workflows GREEN и Pages опубликован; [данные и источники](demos/shopper-v1-assumptions.md), [проверка](reviews/shopper-v1-review.md).
 **TYPE-02 — DONE / merged (Inter), [PR #142](https://github.com/KazartsevEV/shelter-partner-directory/pull/142):** отдельная задача между 5 и 6; системная типографика CSS с A/B сравнением и приёмкой экрана сертификатов V2. [Подробное ТЗ](nomad360-typography-type02-tz.md).
-6. **IN PROGRESS:** маркетинговая упаковка RU/EN/KK, Free Embed / White Label и корректный юридический подвал.
+6. **IN REVIEW / Draft PR #144:** маркетинговая упаковка RU/EN/KK, Free Embed / White Label и корректный юридический подвал.
 7. Трёхъязычное индексируемое SEO: языковые URL, метаданные, canonical/hreflang.
 8. Справка по функционалу в меню хедера на EN/RU/KK, с SEO-заголовками.
 9. Плавающая кнопка «Сообщить об ошибке», анонимная по возможности форма и отправка на почту проекта.
@@ -558,9 +558,9 @@ Codex должен зафиксировать:
 
 ---
 
-# Задача 6. **IN PROGRESS:** маркетинговая упаковка RU / EN / KK и юридический подвал
+# Задача 6. **IN REVIEW / Draft PR #144:** маркетинговая упаковка RU / EN / KK и юридический подвал
 
-**Статус: В РАБОТЕ с 15.10.2026 после принятого TYPE-02.** [Draft PR #144](https://github.com/KazartsevEV/shelter-partner-directory/pull/144), ветка `feature/marketing-packaging`; [отчёт](reviews/marketing-packaging-review.md). Отдельный PR, стоп до пользовательской приёмки и разрешения на merge.
+**Статус: РЕАЛИЗОВАНА / НА ПРОВЕРКЕ с 15.10.2026 после принятого TYPE-02.** [Draft PR #144](https://github.com/KazartsevEV/shelter-partner-directory/pull/144), ветка `feature/marketing-packaging`; [отчёт](reviews/marketing-packaging-review.md). Отдельный PR, стоп до пользовательской приёмки и разрешения на merge.
 
 **Подробная спецификация утверждённой упаковки и текстов:** [MKT-L10N-01](nomad360-marketing-localization-tz.md). **Действующая полная лицензия для новых официальных выпусков:** [CALCULATOR_LICENSE.md](../CALCULATOR_LICENSE.md), редакция 2.3 EN/RU/KK. Не создавать конкурентный новый словарь текстов.
 

@@ -3,7 +3,9 @@
 Date: 15 October 2026. Base: `cf17252fdb89cea7e83689f3ea7ebaa4363e2f86`,
 including accepted TYPE-02 merge `e9071470` and the latest MKT-L10N-01
 approved 20-minute offer and concise-copy contract.
-Branch: `feature/marketing-packaging`. Status: prepared for PR / CI.
+Branch: `feature/marketing-packaging`. Draft PR #144, presented for review.
+[Current HEAD checks](https://github.com/KazartsevEV/shelter-partner-directory/pull/144/checks)
+are the source for the final CI verdict; evidence provenance is pinned below.
 
 ## Implemented scope
 
@@ -48,7 +50,7 @@ those files. Existing financial unit, numeric browser, currencies, Excel,
 localisation, shopper, restore and export checks are retained in CI.
 
 [Screenshots](marketing-packaging/index.md) and [numeric/layout protocol](marketing-packaging/protocol.json).
-Local final matrix: 21 cases, 129 PNG, three complete portable editions, six successful
+Original CI matrix on `6a9f21f`: 21 cases, 129 PNG, three complete portable editions, six successful
 downloads. Do not interpret this as 129 manually inspected images.
 
 ## Limits and handoff
@@ -87,3 +89,24 @@ contract. All later application-source hashes must remain identical to this
 implementation. Initial numeric CI stopped on the superseded always-visible
 outcome-list assertion, after its financial checks passed; that assertion is
 replaced by closed/open/choice-order checks, without removing numerical checks.
+
+Verification HEAD: `6a9f21f90b1c06cbfb34d51a68810cf0f8637635`. Application
+code is byte-identical to `f40287b` (see implementation manifest); only tests,
+documentation and evidence changed.
+
+CI links:
+
+- [Dedicated marketing](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38707522275)
+- [Numeric Chromium](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38707522418)
+- [TYPE-02](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38707522309)
+- [Localisation](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38707522522)
+
+The permanent PNG and protocol above are **original bytes** from CI run
+`38707522275`, artifact `11958234875` (9,255,132-byte ZIP), SHA-256
+`bbd4c9bbcf294daa0e23e238e0d926b3cfc3ef795697c6b787fe42fc26f137e0`.
+The ZIP digest was verified before extraction. Per-file hashes are in
+[implementation.json](marketing-packaging/implementation.json). Manual control
+frames were also inspected from this exact CI artifact: RU 390 home, KK 320
+offers and EN 1280 support. The minimum sampled text contrast is 5.005:1;
+this covers the owned hero, offers, support and licence, including expanded
+offer conditions, and excludes the third-party iframe.
