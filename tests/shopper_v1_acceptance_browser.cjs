@@ -116,6 +116,8 @@ async function capture(page,stem){
    }
    if(finance==='cash'){
     // Downloaded full calculator must include this case and semantic strings.
+    await page.locator('[data-nomad-embed-toggle]').click();
+    A.equal(await page.locator('#nomad360-embed-comparison').isVisible(),true,'Current task-6 download action is inside the opened comparison');
     const event=page.waitForEvent('download');await page.locator('[data-nomad-download-html]').click();const dl=await event;const file=path.join(out,'nomad360-embedded.html');await dl.saveAs(file);const html=fs.readFileSync(file,'utf8');A.ok(html.includes('populateRealisticShopperDemonstration'));A.ok(html.includes('demo.shopper.title'));A.ok(!/<script[^>]+src="\.\//.test(html));
     // Serve the actual downloaded edition under an isolated origin path.
     await page.route('**/shopper-embedded.HTML*',r=>r.fulfill({status:200,contentType:'text/html',body:html}));

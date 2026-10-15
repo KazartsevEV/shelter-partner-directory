@@ -91,3 +91,9 @@ The old online-import failures remain separate debt.
 
 This PR awaits user acceptance and a separate merge instruction. Task 7 is not
 started.
+
+Application implementation: `eb45f9a90ba5720a10ca5b9fcbe0ace1c485e9c3`.
+The follow-up only adds the required comparison-opening step to the existing
+shopper and typography export tests. Their numeric, restore, XLSX, PDF and full
+HTML assertions remain unchanged. The original shopper CI had passed the
+financial scenarios before reaching the now-hidden download action.
