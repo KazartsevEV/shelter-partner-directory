@@ -40,12 +40,25 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name == 'nomad360_calculator_ui.css':
+            # Check full shipping CSS before the established RET-07A stripping
+            # helper removes later presentation sections.
+            status = b'\n/* Explicit status colour: no faded grey when installation was confirmed. */\n#nomad360-return p.nomad-return-status{color:#16375a!important;opacity:1!important;font:400 16px/1.5 var(--nd-font)}'
+            sample = b'/* Simple service examples only: user controls remain free to edit after selecting a sample. */\n'
+            ret = b'\n/* RET-07A presentation additions. */'
+            assert raw.count(status) == 1
+            assert raw.count(sample) == 1
+            assert raw.count(b'.nomad-simple-demo-note{') == 1
+            assert raw.count(ret) == 1
+            assert raw.index(status) > raw.index(ret)
+            assert raw.index(sample) > raw.index(ret)
         if name in {'Marketing_calc.HTML','nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.js','nomad360_calculator_ui.css'}:
             raw = subprocess.check_output(['node','-e',
                 "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))",name],
                 input=raw,cwd=ROOT)
         # Exact permitted presentation delta; accepted B2B/legal bytes stay protected.
         if name == 'nomad360_calculator_ui.css':
+            # Keep the historical immutable SEO snapshot comparison unchanged.
             raw = raw.split(b'\n/* SEO-07 approved keyword banner; original offer unchanged. */', 1)[0]
         if name == 'nomad360_locale_core.js':
             raw = re.sub(rb'^ \["business\.ideaSeo(?:Title|Copy)",[^\n]+\n', b'', raw, flags=re.M)
@@ -157,7 +170,9 @@ def main():
         'tests/helpers/seo-html-contract.cjs', 'tests/seo_language.test.cjs',
         'tests/nomad360_marketing_scope.test.cjs', 'tests/type02_scope.test.cjs',
         'tests/nomad360_locale_semantic.test.cjs',
-        '.github/workflows/seo-07-phase-a.yml') for p in changed), changed
+        '.github/workflows/seo-07-phase-a.yml',
+        'nomad360_simple_service_examples.js', 'tests/simple_service_examples_browser.cjs',
+        '.github/workflows/simple-service-examples.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
