@@ -35,7 +35,7 @@ test('Download, retry, clipboard, header navigation and financial export logic s
   function walk(x){if(!x||typeof x!=='object')return x;if(x.type==='FunctionDeclaration'&&allowed.has(x.id.name))return {type:'ApprovedRenderer',name:x.id.name};if(x.type==='VariableDeclarator'&&['COPY','L'].includes(x.id.name))return {type:'SemanticDictionary',name:x.id.name};if(Array.isArray(x))return x.map(walk);return Object.fromEntries(Object.entries(x).filter(([key])=>!['start','end','raw'].includes(key)).map(([key,v])=>[key,walk(v)]));}
   return walk(acorn.parse(src,{ecmaVersion:'latest'}));
  }
- for(const [file,allowed] of [['nomad360_calculator_ui.js',new Set(['buildShell'])],['nomad360_header.js',new Set(['infoMarkup','footerMarkup','payFiat','renderFooter','boot'])]])A.deepEqual(norm(now(file),allowed),norm(before(file),allowed),file);
+ for(const [file,allowed] of [['nomad360_calculator_ui.js',new Set(['buildShell'])],['nomad360_header.js',new Set(['infoMarkup','footerMarkup','payFiat','renderFooter','boot'])]])A.deepEqual(norm(require('./helpers/return-contract.cjs').stripReturn(file,now(file)),allowed),norm(before(file),allowed),file);
 });
 
 

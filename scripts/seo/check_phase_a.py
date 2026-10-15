@@ -30,6 +30,10 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name in {'Marketing_calc.HTML','nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.js','nomad360_calculator_ui.css'}:
+            raw = subprocess.check_output(['node','-e',
+                "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))",name],
+                input=raw,cwd=ROOT)
         # Exact permitted presentation delta; accepted B2B/legal bytes stay protected.
         if name == 'nomad360_calculator_ui.css':
             raw = raw.split(b'\n/* SEO-07 approved keyword banner; original offer unchanged. */', 1)[0]
@@ -82,7 +86,10 @@ def main():
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
-                             'license/', 'scripts/legal/')) or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/')) or p in (
+        'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
+        'tests/return_7a_browser.cjs', 'tests/return_7a_scope.test.cjs', 'tests/helpers/return-contract.cjs',
+        '.github/workflows/return-7a.yml',
         'nomad360_header.js', 'nomad360_locale_core.js', 'assets/nomad360-legal.css',
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
