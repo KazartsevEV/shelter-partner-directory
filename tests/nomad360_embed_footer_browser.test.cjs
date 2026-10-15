@@ -66,20 +66,19 @@ const server=createServer(async(req,res)=>{
     A.equal(await row.count(),1,label+' shown once');
     A.equal(await row.locator('[data-nomad-copy]').getAttribute('data-nomad-copy'),value);
   }
-  A.equal(await support.locator('.nomad-russian-transfer').getAttribute('open'),null);
-  await support.locator('.nomad-russian-transfer summary').click();
-  A.match(await support.locator('.nomad-russian-transfer').innerText(),/Озон Банк/);
-  A.match(await support.locator('.nomad-russian-transfer').innerText(),/\+7 977 986 74 41/);
-  A.equal(await support.locator('.nomad-russian-transfer [data-nomad-copy]')
-    .getAttribute('data-nomad-copy'),'+7 977 986 74 41');
-  A.equal(await support.locator('.nomad-russian-details strong')
-    .evaluate(node=>getComputedStyle(node).color),'rgb(237, 142, 99)',
-    'Bank name Ozon is orange');
+  const ozon=support.locator('.nomad-pay-ozon');
+  A.equal(await support.locator('.nomad-russian-transfer').count(),0,'Legacy collapsed Russian payment removed');
+  A.equal(await ozon.locator('.nomad-ru-flag').textContent(),'🇷🇺');
+  A.match(await ozon.innerText(),/Озон Банк/);
+  A.match(await ozon.innerText(),/\+7 977 986 74 41/);
+  A.equal(await ozon.locator('[data-nomad-copy]').getAttribute('data-nomad-copy'),'+7 977 986 74 41');
+  A.equal(await ozon.locator('.nomad-pay-value').count(),1);
+  A.equal(await ozon.locator('.nomad-pay-hint').count(),1);
   A.equal(await support.evaluate(el=>{
-    const last=el.querySelector('.nomad-russian-transfer');
-    const footerChildren=[...el.children];
-    return footerChildren[footerChildren.length-1]===last;
-  }),true,'Russia card link is the LAST support option');
+    const fiat=el.querySelector('.nomad-pay-fiat');
+    return !!fiat&&fiat.children[0].classList.contains('nomad-pay-kaspi')&&
+      fiat.children[1].classList.contains('nomad-pay-ozon');
+  }),true,'Russian card uses the same inline layout as Kaspi');
   A.doesNotMatch(await support.textContent(),/Bybit|Байбит|Байбит картасы/i);
   A.equal(await support.locator('.nomad-direct-crypto, .nomad-qr, .nomad-pay-crypto').count(),0,
     'NOWPayments widget replaces standalone USDT/BTC wallet links entirely');
@@ -89,7 +88,7 @@ const server=createServer(async(req,res)=>{
     await page.setViewportSize({width,height:844});
     const geometry=await support.evaluate(el=>({
       viewport:innerWidth,
-      maxRight:Math.max(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-crypto-panel, .nomad-crypto-frame, .nomad-bank-row, .nomad-russian-transfer')].map(n=>n.getBoundingClientRect().right)),
+      maxRight:Math.max(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-crypto-panel, .nomad-crypto-frame, .nomad-bank-row, .nomad-pay-ozon')].map(n=>n.getBoundingClientRect().right)),
       minLeft:Math.min(...[el,...el.querySelectorAll('.nomad-pay-fiat > *, .nomad-crypto-panel, .nomad-crypto-frame')].map(n=>n.getBoundingClientRect().left))
     }));
     A.ok(geometry.maxRight<=width+1&&geometry.minLeft>=-1,
@@ -131,7 +130,7 @@ const server=createServer(async(req,res)=>{
       'https://nowpayments.io/embeds/donation-widget?api_key=47aebf88-76b9-4871-9217-d3f5b46de839');
     A.equal(await support.locator('iframe.nomad-crypto-frame').count(),1);
     A.equal(await support.locator('.nomad-pay-bank summary').count(),1);
-    A.equal(await support.locator('.nomad-russian-transfer summary').count(),1);
+    A.equal(await support.locator('.nomad-pay-ozon').count(),lang==='ru'?1:0);
     A.doesNotMatch(await support.textContent(),/Bybit|Байбит/i);
   }
   await page.setViewportSize({width:1440,height:900});
