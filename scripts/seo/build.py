@@ -63,7 +63,7 @@ def render(config, page):
 <a class="skip-link" href="#main">Skip to content</a>
 <header><div class="wrap"><a class="brand" href="{e(home)}"><img src="{e(logo)}" alt="" width="42" height="42">Nomad360 lite</a><nav aria-label="Main navigation">{link(home, 'Overview')}{link(base + 'en/pricing/', 'Pricing')}{link(base + 'en/cash-flow/', 'Cash flow')}</nav></div></header>
 <main class="wrap" id="main">
-<section class="intro"><div class="intro-copy"><p class="eyebrow">{e(page['eyebrow'])}</p><h1>{e(page['h1'])}</h1><p>{e(page['lead'])}</p>{link(page['primaryCtaHref'], page['cta'], ' class="cta"')}</div><img class="intro-logo" src="{e(logo)}" alt="" width="200" height="200"></section>
+<section class="intro"><div class="intro-copy"><p class="eyebrow">{e(page['eyebrow'])}</p><h1>{e(page['h1'])}</h1><p>{e(page['lead'])}</p>{link(page['primaryCtaHref'], page['cta'], ' class="cta"')}</div><div class="intro-brand-mark"><span class="intro-logo-mask"><img class="intro-logo" src="{e(logo)}" alt="" width="200" height="200"></span><h2 class="intro-brand-tagline">Sky allows, guys deliver</h2></div></section>
 {''.join(body)}
 {related}
 <p>Results describe the scenario you enter. They do not establish market demand or guarantee sales.</p>
