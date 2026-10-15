@@ -99,8 +99,8 @@
     },
     {
       "file": "nomad360_simple_service_examples.js",
-      "sha256": "7e45473490cb459e67e831fde06443663a0d99a5497e7bad5731029482faf56f",
-      "bytes": 8761,
+      "sha256": "4f1e9abd22b4673ff0ff38950575b2c850cfdb8b43f0eba582a7060596ff6472",
+      "bytes": 9172,
       "owner": "nomad360_simple_service_examples.js"
     },
     {
@@ -24217,6 +24217,18 @@
       }
     },
     {
+      "id": "nomad360_simple_service_examples.js:copy:1627:own",
+      "file": "nomad360_simple_service_examples.js",
+      "line": 25,
+      "kind": "module-key",
+      "key": "own",
+      "translations": {
+        "ru": "Вы вводите собственные значения. Это ваш расчёт, а не учебный пример.",
+        "en": "You are entering your own figures, not a learning example.",
+        "kk": "Сіз өз деректеріңізді енгізіп жатырсыз. Бұл оқу мысалы емес."
+      }
+    },
+    {
       "id": "nomad360_simple_service_examples.js:copy:1627:title",
       "file": "nomad360_simple_service_examples.js",
       "line": 25,
@@ -24235,7 +24247,7 @@
       "kind": "module-key",
       "key": "warning",
       "translations": {
-        "ru": "Сейчас в калькуляторе могут быть учебные цифры. Перед расчётом своего бизнеса нажмите «Сбросить значения»: поля очистятся.",
+        "ru": "Эти цифры приведены только для примера. Перед расчётом своего бизнеса нажмите «Сбросить значения» — все поля очистятся.",
         "en": "The calculator may currently contain sample figures. Before calculating your own business, choose “Reset values” to clear the fields.",
         "kk": "Калькуляторда қазір үлгі сандар болуы мүмкін. Өз бизнесіңізді есептемес бұрын «Мәндерді бастапқы күйге келтіру» батырмасын басып, өрістерді тазалаңыз."
       }
@@ -26225,7 +26237,7 @@
     {
       "file": "entries/nomad360_simple_service_examples.js/001.json",
       "owner": "nomad360_simple_service_examples.js",
-      "count": 106
+      "count": 113
     },
     {
       "file": "entries/nomad360_traffic.js/001.json",
