@@ -3,10 +3,506 @@
   "file": "Marketing_calc.HTML",
   "entries": [
     {
-      "id": "Marketing_calc.HTML:557262:js-string",
+      "id": "Marketing_calc.HTML:556069:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9084,
-      "offset": 557262,
+      "line": 9062,
+      "offset": 556069,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "numberTag",
+      "text": "money",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556077:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9062,
+      "offset": 556077,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "numberTag",
+      "text": " data-nomad-display-money",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556141:js-template",
+      "file": "Marketing_calc.HTML",
+      "line": 9063,
+      "offset": 556141,
+      "kind": "js-template",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "cells",
+      "text": "<td class=\"td-val monthly-value-col border-b border-slate-100 ⟪color⟫\"⟪numberTag⟫>⟪txt⟫</td>",
+      "parameters": [
+        "color",
+        "numberTag",
+        "txt"
+      ],
+      "review": "Dynamic template: captures and user-owned values must be preserved",
+      "coverage": "dynamic-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556223:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 9063,
+      "offset": 556223,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "td",
+      "text": "⟪txt⟫",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "Marketing_calc.HTML:556367:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9067,
+      "offset": 556367,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalTxt",
+      "text": "money",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556415:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9067,
+      "offset": 556415,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalTxt",
+      "text": "int",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556514:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9068,
+      "offset": 556514,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalColor",
+      "text": "mCash",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556538:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9068,
+      "offset": 556538,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalColor",
+      "text": "mCum",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556561:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9068,
+      "offset": 556561,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalColor",
+      "text": "mAgentNet",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556589:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9068,
+      "offset": 556589,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalColor",
+      "text": "mAgentCum",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556640:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9069,
+      "offset": 556640,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalColor",
+      "text": "text-red-700",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556677:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9070,
+      "offset": 556677,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalColor",
+      "text": "text-blue-900",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556781:js-template",
+      "file": "Marketing_calc.HTML",
+      "line": 9073,
+      "offset": 556781,
+      "kind": "js-template",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalTag",
+      "text": " data-nomad-display-number=\"⟪totalVal⟫\" data-nomad-display-fractions=\"⟪meta.fmt==='int'?'0':'2'⟫\"⟪meta.fmt==='money'?' data-nomad-display-money':''⟫",
+      "parameters": [
+        "totalVal",
+        "meta.fmt==='int'?'0':'2'",
+        "meta.fmt==='money'?' data-nomad-display-money':''"
+      ],
+      "review": "Dynamic template: captures and user-owned values must be preserved",
+      "coverage": "dynamic-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556866:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9073,
+      "offset": 556866,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalTag",
+      "text": "int",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556872:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9073,
+      "offset": 556872,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalTag",
+      "text": "0",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556876:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9073,
+      "offset": 556876,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalTag",
+      "text": "2",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556894:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9073,
+      "offset": 556894,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalTag",
+      "text": "money",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556902:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9073,
+      "offset": 556902,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "totalTag",
+      "text": " data-nomad-display-money",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:556962:js-template",
+      "file": "Marketing_calc.HTML",
+      "line": 9074,
+      "offset": 556962,
+      "kind": "js-template",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "module",
+      "text": "<tr class=\"hover:bg-slate-50 transition-colors\">\n                    <td class=\"td-label monthly-label-col border-b border-slate-100 border-r border-slate-100 sticky left-0 bg-white z-10\">⟪meta.label⟫</td>\n                    ⟪cells⟫\n                    <td class=\"td-val monthly-value-col border-b border-slate-100 bg-slate-100 font-bold ⟪totalColor⟫ border-l border-slate-300\"⟪totalTag⟫>⟪totalTxt⟫</td>\n                </tr>",
+      "parameters": [
+        "meta.label",
+        "cells",
+        "totalColor",
+        "totalTag",
+        "totalTxt"
+      ],
+      "review": "Dynamic template: captures and user-owned values must be preserved",
+      "coverage": "dynamic-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:557150:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 9075,
+      "offset": 557150,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "td",
+      "text": "⟪meta.label⟫",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "Marketing_calc.HTML:557167:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 9075,
+      "offset": 557167,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "document",
+      "text": "⟪cells⟫",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "Marketing_calc.HTML:557351:markup-text",
+      "file": "Marketing_calc.HTML",
+      "line": 9077,
+      "offset": 557351,
+      "kind": "markup-text",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "td",
+      "text": "⟪totalTxt⟫",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "Marketing_calc.HTML:557724:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9086,
+      "offset": 557724,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "finance",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:557739:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9086,
+      "offset": 557739,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "credit",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:557892:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9089,
+      "offset": 557892,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "fill",
+      "text": "Demo: missing field ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558011:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9091,
+      "offset": 558011,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "fill",
+      "text": "input",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558083:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9092,
+      "offset": 558083,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "fill",
+      "text": "change",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558288:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9096,
+      "offset": 558288,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "fillSelector",
+      "text": "Demo: missing control ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558415:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9098,
+      "offset": 558415,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "fillSelector",
+      "text": "input",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558487:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9099,
+      "offset": 558487,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "fillSelector",
+      "text": "change",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558677:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9102,
+      "offset": 558677,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "node",
+      "text": "[data-completed-product-id]",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558753:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9103,
+      "offset": 558753,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "choose",
+      "text": "Demo: missing choice ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558919:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9107,
+      "offset": 558919,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "product-demo-banner",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:558997:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9108,
+      "offset": 558997,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "hidden",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:559050:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9109,
+      "offset": 559050,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "KZT",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:559075:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9110,
+      "offset": 559075,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "product-name-input",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:559097:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9110,
+      "offset": 559097,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "Хлопковый шоппер · Казахстан · 220 г/м²",
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "Marketing_calc.HTML:559214:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9112,
+      "offset": 559214,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "[data-product-source=\"own\"]",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:559339:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9114,
+      "offset": 559339,
+      "kind": "js-string",
+      "owner": "Marketing_calc.HTML",
+      "stage": "L2",
+      "context": "populateRealisticShopperDemonstration",
+      "text": "[data-material-cost-mode=\"calculate\"]",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "Marketing_calc.HTML:559429:js-string",
+      "file": "Marketing_calc.HTML",
+      "line": 9116,
+      "offset": 559429,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -15,10 +511,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557302:js-string",
+      "id": "Marketing_calc.HTML:559469:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9084,
-      "offset": 557302,
+      "line": 9116,
+      "offset": 559469,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -27,10 +523,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557353:js-string",
+      "id": "Marketing_calc.HTML:559520:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9084,
-      "offset": 557353,
+      "line": 9116,
+      "offset": 559520,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -40,10 +536,10 @@
       "catalog": "goods.m"
     },
     {
-      "id": "Marketing_calc.HTML:557358:js-string",
+      "id": "Marketing_calc.HTML:559525:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9084,
-      "offset": 557358,
+      "line": 9116,
+      "offset": 559525,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -52,10 +548,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557438:js-string",
+      "id": "Marketing_calc.HTML:559605:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9085,
-      "offset": 557438,
+      "line": 9117,
+      "offset": 559605,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -64,10 +560,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557448:js-string",
+      "id": "Marketing_calc.HTML:559615:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9085,
-      "offset": 557448,
+      "line": 9117,
+      "offset": 559615,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -76,10 +572,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557474:js-string",
+      "id": "Marketing_calc.HTML:559641:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9085,
-      "offset": 557474,
+      "line": 9117,
+      "offset": 559641,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -89,10 +585,10 @@
       "catalog": "goods.sets"
     },
     {
-      "id": "Marketing_calc.HTML:557505:js-string",
+      "id": "Marketing_calc.HTML:559672:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9086,
-      "offset": 557505,
+      "line": 9118,
+      "offset": 559672,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -101,10 +597,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557514:js-string",
+      "id": "Marketing_calc.HTML:559681:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9086,
-      "offset": 557514,
+      "line": 9118,
+      "offset": 559681,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -113,10 +609,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557540:js-string",
+      "id": "Marketing_calc.HTML:559707:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9086,
-      "offset": 557540,
+      "line": 9118,
+      "offset": 559707,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -126,10 +622,10 @@
       "catalog": "goods.pcs"
     },
     {
-      "id": "Marketing_calc.HTML:557568:js-string",
+      "id": "Marketing_calc.HTML:559735:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9087,
-      "offset": 557568,
+      "line": 9119,
+      "offset": 559735,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -138,10 +634,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557587:js-string",
+      "id": "Marketing_calc.HTML:559754:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9087,
-      "offset": 557587,
+      "line": 9119,
+      "offset": 559754,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -150,10 +646,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557613:js-string",
+      "id": "Marketing_calc.HTML:559780:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9087,
-      "offset": 557613,
+      "line": 9119,
+      "offset": 559780,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -163,10 +659,10 @@
       "catalog": "goods.pcs"
     },
     {
-      "id": "Marketing_calc.HTML:557674:js-string",
+      "id": "Marketing_calc.HTML:559841:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9089,
-      "offset": 557674,
+      "line": 9121,
+      "offset": 559841,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -175,10 +671,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557877:js-string",
+      "id": "Marketing_calc.HTML:560044:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9092,
-      "offset": 557877,
+      "line": 9124,
+      "offset": 560044,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -187,10 +683,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557958:js-string",
+      "id": "Marketing_calc.HTML:560125:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9093,
-      "offset": 557958,
+      "line": 9125,
+      "offset": 560125,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -199,10 +695,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557972:js-string",
+      "id": "Marketing_calc.HTML:560139:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9093,
-      "offset": 557972,
+      "line": 9125,
+      "offset": 560139,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -211,10 +707,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:557994:js-string",
+      "id": "Marketing_calc.HTML:560161:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9093,
-      "offset": 557994,
+      "line": 9125,
+      "offset": 560161,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -223,10 +719,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558010:js-string",
+      "id": "Marketing_calc.HTML:560177:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9093,
-      "offset": 558010,
+      "line": 9125,
+      "offset": 560177,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -235,10 +731,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558022:js-string",
+      "id": "Marketing_calc.HTML:560189:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9093,
-      "offset": 558022,
+      "line": 9125,
+      "offset": 560189,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -247,10 +743,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558036:js-string",
+      "id": "Marketing_calc.HTML:560203:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9093,
-      "offset": 558036,
+      "line": 9125,
+      "offset": 560203,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -259,10 +755,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558109:js-string",
+      "id": "Marketing_calc.HTML:560276:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9094,
-      "offset": 558109,
+      "line": 9126,
+      "offset": 560276,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -271,10 +767,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558234:js-string",
+      "id": "Marketing_calc.HTML:560401:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9096,
-      "offset": 558234,
+      "line": 9128,
+      "offset": 560401,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -283,10 +779,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558311:js-string",
+      "id": "Marketing_calc.HTML:560478:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9099,
-      "offset": 558311,
+      "line": 9131,
+      "offset": 560478,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -295,10 +791,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558382:js-string",
+      "id": "Marketing_calc.HTML:560549:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9100,
-      "offset": 558382,
+      "line": 9132,
+      "offset": 560549,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -307,10 +803,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558481:js-string",
+      "id": "Marketing_calc.HTML:560648:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9101,
-      "offset": 558481,
+      "line": 9133,
+      "offset": 560648,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -319,10 +815,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558556:js-string",
+      "id": "Marketing_calc.HTML:560723:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9102,
-      "offset": 558556,
+      "line": 9134,
+      "offset": 560723,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -331,10 +827,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558609:js-string",
+      "id": "Marketing_calc.HTML:560776:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9103,
-      "offset": 558609,
+      "line": 9135,
+      "offset": 560776,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -343,10 +839,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558686:js-string",
+      "id": "Marketing_calc.HTML:560853:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9104,
-      "offset": 558686,
+      "line": 9136,
+      "offset": 560853,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -355,10 +851,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558784:js-string",
+      "id": "Marketing_calc.HTML:560951:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9106,
-      "offset": 558784,
+      "line": 9138,
+      "offset": 560951,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -367,10 +863,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558863:js-string",
+      "id": "Marketing_calc.HTML:561030:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9107,
-      "offset": 558863,
+      "line": 9139,
+      "offset": 561030,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -379,10 +875,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:558925:js-string",
+      "id": "Marketing_calc.HTML:561092:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9108,
-      "offset": 558925,
+      "line": 9140,
+      "offset": 561092,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -391,10 +887,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559024:js-string",
+      "id": "Marketing_calc.HTML:561191:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9109,
-      "offset": 559024,
+      "line": 9141,
+      "offset": 561191,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -403,10 +899,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559100:js-string",
+      "id": "Marketing_calc.HTML:561267:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9110,
-      "offset": 559100,
+      "line": 9142,
+      "offset": 561267,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -415,10 +911,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559126:js-string",
+      "id": "Marketing_calc.HTML:561293:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9110,
-      "offset": 559126,
+      "line": 9142,
+      "offset": 561293,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -427,10 +923,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559202:js-string",
+      "id": "Marketing_calc.HTML:561369:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9111,
-      "offset": 559202,
+      "line": 9143,
+      "offset": 561369,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -439,10 +935,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559256:js-string",
+      "id": "Marketing_calc.HTML:561423:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9112,
-      "offset": 559256,
+      "line": 9144,
+      "offset": 561423,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -451,10 +947,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559309:js-string",
+      "id": "Marketing_calc.HTML:561476:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9113,
-      "offset": 559309,
+      "line": 9145,
+      "offset": 561476,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -463,10 +959,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559388:js-string",
+      "id": "Marketing_calc.HTML:561555:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9114,
-      "offset": 559388,
+      "line": 9146,
+      "offset": 561555,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -475,10 +971,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559448:js-string",
+      "id": "Marketing_calc.HTML:561615:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9115,
-      "offset": 559448,
+      "line": 9147,
+      "offset": 561615,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -487,10 +983,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559482:js-string",
+      "id": "Marketing_calc.HTML:561649:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9115,
-      "offset": 559482,
+      "line": 9147,
+      "offset": 561649,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -499,10 +995,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559506:js-string",
+      "id": "Marketing_calc.HTML:561673:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9116,
-      "offset": 559506,
+      "line": 9148,
+      "offset": 561673,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -511,10 +1007,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559559:js-string",
+      "id": "Marketing_calc.HTML:561726:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9117,
-      "offset": 559559,
+      "line": 9149,
+      "offset": 561726,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -523,10 +1019,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559616:js-string",
+      "id": "Marketing_calc.HTML:561783:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9118,
-      "offset": 559616,
+      "line": 9150,
+      "offset": 561783,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -535,10 +1031,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559668:js-string",
+      "id": "Marketing_calc.HTML:561835:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9119,
-      "offset": 559668,
+      "line": 9151,
+      "offset": 561835,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -547,10 +1043,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559743:js-string",
+      "id": "Marketing_calc.HTML:561910:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9120,
-      "offset": 559743,
+      "line": 9152,
+      "offset": 561910,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -559,10 +1055,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559825:js-string",
+      "id": "Marketing_calc.HTML:561992:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9121,
-      "offset": 559825,
+      "line": 9153,
+      "offset": 561992,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -571,10 +1067,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559884:js-string",
+      "id": "Marketing_calc.HTML:562051:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9122,
-      "offset": 559884,
+      "line": 9154,
+      "offset": 562051,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -583,10 +1079,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:559946:js-string",
+      "id": "Marketing_calc.HTML:562113:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9123,
-      "offset": 559946,
+      "line": 9155,
+      "offset": 562113,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -595,10 +1091,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560026:js-string",
+      "id": "Marketing_calc.HTML:562193:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9124,
-      "offset": 560026,
+      "line": 9156,
+      "offset": 562193,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -607,10 +1103,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560087:js-string",
+      "id": "Marketing_calc.HTML:562254:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9125,
-      "offset": 560087,
+      "line": 9157,
+      "offset": 562254,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -619,10 +1115,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560187:js-string",
+      "id": "Marketing_calc.HTML:562354:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9127,
-      "offset": 560187,
+      "line": 9159,
+      "offset": 562354,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -631,10 +1127,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560287:js-string",
+      "id": "Marketing_calc.HTML:562454:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9128,
-      "offset": 560287,
+      "line": 9160,
+      "offset": 562454,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -643,10 +1139,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560346:js-string",
+      "id": "Marketing_calc.HTML:562513:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9129,
-      "offset": 560346,
+      "line": 9161,
+      "offset": 562513,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -655,10 +1151,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560439:js-string",
+      "id": "Marketing_calc.HTML:562606:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9130,
-      "offset": 560439,
+      "line": 9162,
+      "offset": 562606,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -667,10 +1163,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560484:js-string",
+      "id": "Marketing_calc.HTML:562651:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9131,
-      "offset": 560484,
+      "line": 9163,
+      "offset": 562651,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -679,10 +1175,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560529:js-string",
+      "id": "Marketing_calc.HTML:562696:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9132,
-      "offset": 560529,
+      "line": 9164,
+      "offset": 562696,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -691,10 +1187,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560639:js-string",
+      "id": "Marketing_calc.HTML:562806:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9133,
-      "offset": 560639,
+      "line": 9165,
+      "offset": 562806,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -703,10 +1199,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560689:js-string",
+      "id": "Marketing_calc.HTML:562856:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9134,
-      "offset": 560689,
+      "line": 9166,
+      "offset": 562856,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -715,10 +1211,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560729:js-string",
+      "id": "Marketing_calc.HTML:562896:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9135,
-      "offset": 560729,
+      "line": 9167,
+      "offset": 562896,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -727,10 +1223,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560819:js-string",
+      "id": "Marketing_calc.HTML:562986:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9137,
-      "offset": 560819,
+      "line": 9169,
+      "offset": 562986,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -739,10 +1235,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560895:js-string",
+      "id": "Marketing_calc.HTML:563062:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9138,
-      "offset": 560895,
+      "line": 9170,
+      "offset": 563062,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -751,10 +1247,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:560997:js-string",
+      "id": "Marketing_calc.HTML:563164:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9139,
-      "offset": 560997,
+      "line": 9171,
+      "offset": 563164,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -763,10 +1259,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561065:js-string",
+      "id": "Marketing_calc.HTML:563232:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9140,
-      "offset": 561065,
+      "line": 9172,
+      "offset": 563232,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -775,10 +1271,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561115:js-string",
+      "id": "Marketing_calc.HTML:563282:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9141,
-      "offset": 561115,
+      "line": 9173,
+      "offset": 563282,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -787,10 +1283,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561194:js-string",
+      "id": "Marketing_calc.HTML:563361:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9142,
-      "offset": 561194,
+      "line": 9174,
+      "offset": 563361,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -799,10 +1295,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561263:js-string",
+      "id": "Marketing_calc.HTML:563430:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9143,
-      "offset": 561263,
+      "line": 9175,
+      "offset": 563430,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -811,10 +1307,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561377:js-string",
+      "id": "Marketing_calc.HTML:563544:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9145,
-      "offset": 561377,
+      "line": 9177,
+      "offset": 563544,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -823,10 +1319,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561395:js-string",
+      "id": "Marketing_calc.HTML:563562:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9145,
-      "offset": 561395,
+      "line": 9177,
+      "offset": 563562,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -835,10 +1331,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561407:js-string",
+      "id": "Marketing_calc.HTML:563574:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9145,
-      "offset": 561407,
+      "line": 9177,
+      "offset": 563574,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -847,10 +1343,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561417:js-string",
+      "id": "Marketing_calc.HTML:563584:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9145,
-      "offset": 561417,
+      "line": 9177,
+      "offset": 563584,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -859,10 +1355,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561435:js-string",
+      "id": "Marketing_calc.HTML:563602:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9145,
-      "offset": 561435,
+      "line": 9177,
+      "offset": 563602,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -871,10 +1367,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561452:js-string",
+      "id": "Marketing_calc.HTML:563619:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9145,
-      "offset": 561452,
+      "line": 9177,
+      "offset": 563619,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -883,10 +1379,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561495:js-string",
+      "id": "Marketing_calc.HTML:563662:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9146,
-      "offset": 561495,
+      "line": 9178,
+      "offset": 563662,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -895,10 +1391,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561588:js-string",
+      "id": "Marketing_calc.HTML:563755:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9148,
-      "offset": 561588,
+      "line": 9180,
+      "offset": 563755,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -907,10 +1403,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561644:js-string",
+      "id": "Marketing_calc.HTML:563811:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9149,
-      "offset": 561644,
+      "line": 9181,
+      "offset": 563811,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -919,10 +1415,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561719:js-string",
+      "id": "Marketing_calc.HTML:563886:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9150,
-      "offset": 561719,
+      "line": 9182,
+      "offset": 563886,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -931,10 +1427,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561736:js-string",
+      "id": "Marketing_calc.HTML:563903:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9150,
-      "offset": 561736,
+      "line": 9182,
+      "offset": 563903,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -943,10 +1439,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561754:js-string",
+      "id": "Marketing_calc.HTML:563921:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9150,
-      "offset": 561754,
+      "line": 9182,
+      "offset": 563921,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -955,10 +1451,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561776:js-string",
+      "id": "Marketing_calc.HTML:563943:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9150,
-      "offset": 561776,
+      "line": 9182,
+      "offset": 563943,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -967,10 +1463,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561798:js-string",
+      "id": "Marketing_calc.HTML:563965:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9150,
-      "offset": 561798,
+      "line": 9182,
+      "offset": 563965,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -979,10 +1475,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561852:js-string",
+      "id": "Marketing_calc.HTML:564019:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9151,
-      "offset": 561852,
+      "line": 9183,
+      "offset": 564019,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -991,10 +1487,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561880:js-string",
+      "id": "Marketing_calc.HTML:564047:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9151,
-      "offset": 561880,
+      "line": 9183,
+      "offset": 564047,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1003,10 +1499,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561919:js-string",
+      "id": "Marketing_calc.HTML:564086:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9152,
-      "offset": 561919,
+      "line": 9184,
+      "offset": 564086,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1015,10 +1511,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561959:js-string",
+      "id": "Marketing_calc.HTML:564126:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9152,
-      "offset": 561959,
+      "line": 9184,
+      "offset": 564126,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1027,10 +1523,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561968:js-string",
+      "id": "Marketing_calc.HTML:564135:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9152,
-      "offset": 561968,
+      "line": 9184,
+      "offset": 564135,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1039,10 +1535,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:561978:js-string",
+      "id": "Marketing_calc.HTML:564145:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9152,
-      "offset": 561978,
+      "line": 9184,
+      "offset": 564145,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1051,10 +1547,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562050:js-string",
+      "id": "Marketing_calc.HTML:564217:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9154,
-      "offset": 562050,
+      "line": 9186,
+      "offset": 564217,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1063,10 +1559,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562126:js-string",
+      "id": "Marketing_calc.HTML:564293:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9155,
-      "offset": 562126,
+      "line": 9187,
+      "offset": 564293,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1075,10 +1571,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562214:js-string",
+      "id": "Marketing_calc.HTML:564381:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9157,
-      "offset": 562214,
+      "line": 9189,
+      "offset": 564381,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1087,10 +1583,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562282:js-string",
+      "id": "Marketing_calc.HTML:564449:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9158,
-      "offset": 562282,
+      "line": 9190,
+      "offset": 564449,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1099,10 +1595,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562351:js-string",
+      "id": "Marketing_calc.HTML:564518:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9159,
-      "offset": 562351,
+      "line": 9191,
+      "offset": 564518,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1111,10 +1607,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562402:js-string",
+      "id": "Marketing_calc.HTML:564569:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9160,
-      "offset": 562402,
+      "line": 9192,
+      "offset": 564569,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1123,10 +1619,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562456:js-string",
+      "id": "Marketing_calc.HTML:564623:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9161,
-      "offset": 562456,
+      "line": 9193,
+      "offset": 564623,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1135,10 +1631,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562511:js-string",
+      "id": "Marketing_calc.HTML:564678:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9162,
-      "offset": 562511,
+      "line": 9194,
+      "offset": 564678,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1147,10 +1643,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562559:js-string",
+      "id": "Marketing_calc.HTML:564726:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9163,
-      "offset": 562559,
+      "line": 9195,
+      "offset": 564726,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1159,10 +1655,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562649:js-string",
+      "id": "Marketing_calc.HTML:564816:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9164,
-      "offset": 562649,
+      "line": 9196,
+      "offset": 564816,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1171,10 +1667,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:562747:js-string",
+      "id": "Marketing_calc.HTML:564914:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9165,
-      "offset": 562747,
+      "line": 9197,
+      "offset": 564914,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1183,10 +1679,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563008:js-string",
+      "id": "Marketing_calc.HTML:565175:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9168,
-      "offset": 563008,
+      "line": 9200,
+      "offset": 565175,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1195,10 +1691,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563133:js-string",
+      "id": "Marketing_calc.HTML:565300:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9170,
-      "offset": 563133,
+      "line": 9202,
+      "offset": 565300,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1207,10 +1703,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563185:js-string",
+      "id": "Marketing_calc.HTML:565352:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9171,
-      "offset": 563185,
+      "line": 9203,
+      "offset": 565352,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1219,10 +1715,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563391:js-string",
+      "id": "Marketing_calc.HTML:565558:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9174,
-      "offset": 563391,
+      "line": 9206,
+      "offset": 565558,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1231,10 +1727,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563403:js-string",
+      "id": "Marketing_calc.HTML:565570:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9174,
-      "offset": 563403,
+      "line": 9206,
+      "offset": 565570,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1243,10 +1739,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563465:js-string",
+      "id": "Marketing_calc.HTML:565632:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9175,
-      "offset": 563465,
+      "line": 9207,
+      "offset": 565632,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1255,10 +1751,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563470:js-string",
+      "id": "Marketing_calc.HTML:565637:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9175,
-      "offset": 563470,
+      "line": 9207,
+      "offset": 565637,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1267,10 +1763,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563554:js-string",
+      "id": "Marketing_calc.HTML:565721:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9176,
-      "offset": 563554,
+      "line": 9208,
+      "offset": 565721,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1279,10 +1775,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563624:js-string",
+      "id": "Marketing_calc.HTML:565791:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9177,
-      "offset": 563624,
+      "line": 9209,
+      "offset": 565791,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1291,10 +1787,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563642:js-string",
+      "id": "Marketing_calc.HTML:565809:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9177,
-      "offset": 563642,
+      "line": 9209,
+      "offset": 565809,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1303,10 +1799,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563668:js-string",
+      "id": "Marketing_calc.HTML:565835:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9177,
-      "offset": 563668,
+      "line": 9209,
+      "offset": 565835,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1315,10 +1811,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563745:js-string",
+      "id": "Marketing_calc.HTML:565912:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9178,
-      "offset": 563745,
+      "line": 9210,
+      "offset": 565912,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1327,10 +1823,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563785:js-string",
+      "id": "Marketing_calc.HTML:565952:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9179,
-      "offset": 563785,
+      "line": 9211,
+      "offset": 565952,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1339,10 +1835,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563842:js-string",
+      "id": "Marketing_calc.HTML:566009:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9180,
-      "offset": 563842,
+      "line": 9212,
+      "offset": 566009,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1351,10 +1847,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563866:js-string",
+      "id": "Marketing_calc.HTML:566033:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9180,
-      "offset": 563866,
+      "line": 9212,
+      "offset": 566033,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1363,10 +1859,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563892:js-string",
+      "id": "Marketing_calc.HTML:566059:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9180,
-      "offset": 563892,
+      "line": 9212,
+      "offset": 566059,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1375,10 +1871,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:563974:js-string",
+      "id": "Marketing_calc.HTML:566141:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9181,
-      "offset": 563974,
+      "line": 9213,
+      "offset": 566141,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1387,10 +1883,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564080:js-string",
+      "id": "Marketing_calc.HTML:566247:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9183,
-      "offset": 564080,
+      "line": 9215,
+      "offset": 566247,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1399,10 +1895,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564112:js-string",
+      "id": "Marketing_calc.HTML:566279:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9184,
-      "offset": 564112,
+      "line": 9216,
+      "offset": 566279,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1411,10 +1907,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564274:js-string",
+      "id": "Marketing_calc.HTML:566441:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9185,
-      "offset": 564274,
+      "line": 9217,
+      "offset": 566441,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1423,10 +1919,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564342:js-string",
+      "id": "Marketing_calc.HTML:566509:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9186,
-      "offset": 564342,
+      "line": 9218,
+      "offset": 566509,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1435,10 +1931,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564362:js-string",
+      "id": "Marketing_calc.HTML:566529:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9186,
-      "offset": 564362,
+      "line": 9218,
+      "offset": 566529,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1447,10 +1943,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564386:js-string",
+      "id": "Marketing_calc.HTML:566553:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9186,
-      "offset": 564386,
+      "line": 9218,
+      "offset": 566553,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1459,10 +1955,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564509:js-string",
+      "id": "Marketing_calc.HTML:566676:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9188,
-      "offset": 564509,
+      "line": 9220,
+      "offset": 566676,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1472,10 +1968,10 @@
       "catalog": "ui.demo"
     },
     {
-      "id": "Marketing_calc.HTML:564521:js-string",
+      "id": "Marketing_calc.HTML:566688:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9188,
-      "offset": 564521,
+      "line": 9220,
+      "offset": 566688,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1484,10 +1980,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:564542:js-string",
+      "id": "Marketing_calc.HTML:566709:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9188,
-      "offset": 564542,
+      "line": 9220,
+      "offset": 566709,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1496,10 +1992,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564755:js-string",
+      "id": "Marketing_calc.HTML:566922:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9191,
-      "offset": 564755,
+      "line": 9223,
+      "offset": 566922,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1508,10 +2004,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564805:js-string",
+      "id": "Marketing_calc.HTML:566972:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9192,
-      "offset": 564805,
+      "line": 9224,
+      "offset": 566972,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1520,10 +2016,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564850:js-string",
+      "id": "Marketing_calc.HTML:567017:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9193,
-      "offset": 564850,
+      "line": 9225,
+      "offset": 567017,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1532,10 +2028,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564861:js-string",
+      "id": "Marketing_calc.HTML:567028:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9193,
-      "offset": 564861,
+      "line": 9225,
+      "offset": 567028,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1544,10 +2040,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564912:js-string",
+      "id": "Marketing_calc.HTML:567079:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9194,
-      "offset": 564912,
+      "line": 9226,
+      "offset": 567079,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1556,10 +2052,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:564981:js-string",
+      "id": "Marketing_calc.HTML:567148:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9195,
-      "offset": 564981,
+      "line": 9227,
+      "offset": 567148,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1568,10 +2064,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565064:js-string",
+      "id": "Marketing_calc.HTML:567231:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9196,
-      "offset": 565064,
+      "line": 9228,
+      "offset": 567231,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1580,10 +2076,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565080:js-string",
+      "id": "Marketing_calc.HTML:567247:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9196,
-      "offset": 565080,
+      "line": 9228,
+      "offset": 567247,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1592,10 +2088,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565431:js-string",
+      "id": "Marketing_calc.HTML:567598:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9203,
-      "offset": 565431,
+      "line": 9235,
+      "offset": 567598,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1604,10 +2100,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565443:js-string",
+      "id": "Marketing_calc.HTML:567610:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9203,
-      "offset": 565443,
+      "line": 9235,
+      "offset": 567610,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1616,10 +2112,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565489:js-string",
+      "id": "Marketing_calc.HTML:567656:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9204,
-      "offset": 565489,
+      "line": 9236,
+      "offset": 567656,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1628,10 +2124,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565503:js-string",
+      "id": "Marketing_calc.HTML:567670:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9204,
-      "offset": 565503,
+      "line": 9236,
+      "offset": 567670,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1640,10 +2136,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565608:js-string",
+      "id": "Marketing_calc.HTML:567775:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9205,
-      "offset": 565608,
+      "line": 9237,
+      "offset": 567775,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1652,10 +2148,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565623:js-string",
+      "id": "Marketing_calc.HTML:567790:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9205,
-      "offset": 565623,
+      "line": 9237,
+      "offset": 567790,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1664,10 +2160,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565772:js-string",
+      "id": "Marketing_calc.HTML:567939:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9208,
-      "offset": 565772,
+      "line": 9240,
+      "offset": 567939,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1676,10 +2172,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565890:js-string",
+      "id": "Marketing_calc.HTML:568057:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9210,
-      "offset": 565890,
+      "line": 9242,
+      "offset": 568057,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1688,10 +2184,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:565963:js-string",
+      "id": "Marketing_calc.HTML:568130:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9211,
-      "offset": 565963,
+      "line": 9243,
+      "offset": 568130,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1700,10 +2196,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:566167:js-string",
+      "id": "Marketing_calc.HTML:568334:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9215,
-      "offset": 566167,
+      "line": 9247,
+      "offset": 568334,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1712,10 +2208,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:566291:js-string",
+      "id": "Marketing_calc.HTML:568458:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9217,
-      "offset": 566291,
+      "line": 9249,
+      "offset": 568458,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1724,10 +2220,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:566613:js-string",
+      "id": "Marketing_calc.HTML:568780:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9222,
-      "offset": 566613,
+      "line": 9254,
+      "offset": 568780,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1736,10 +2232,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:566704:js-string",
+      "id": "Marketing_calc.HTML:568871:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9224,
-      "offset": 566704,
+      "line": 9256,
+      "offset": 568871,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1748,10 +2244,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:566844:js-string",
+      "id": "Marketing_calc.HTML:569011:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9228,
-      "offset": 566844,
+      "line": 9260,
+      "offset": 569011,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1760,10 +2256,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:566866:js-string",
+      "id": "Marketing_calc.HTML:569033:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9228,
-      "offset": 566866,
+      "line": 9260,
+      "offset": 569033,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1772,10 +2268,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:566982:js-string",
+      "id": "Marketing_calc.HTML:569149:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9230,
-      "offset": 566982,
+      "line": 9262,
+      "offset": 569149,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1784,10 +2280,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567267:js-string",
+      "id": "Marketing_calc.HTML:569434:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9235,
-      "offset": 567267,
+      "line": 9267,
+      "offset": 569434,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1796,10 +2292,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567322:js-string",
+      "id": "Marketing_calc.HTML:569489:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9236,
-      "offset": 567322,
+      "line": 9268,
+      "offset": 569489,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1808,10 +2304,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567369:js-string",
+      "id": "Marketing_calc.HTML:569536:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9237,
-      "offset": 567369,
+      "line": 9269,
+      "offset": 569536,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1820,10 +2316,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567443:js-string",
+      "id": "Marketing_calc.HTML:569610:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9238,
-      "offset": 567443,
+      "line": 9270,
+      "offset": 569610,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1832,10 +2328,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567521:js-string",
+      "id": "Marketing_calc.HTML:569688:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9239,
-      "offset": 567521,
+      "line": 9271,
+      "offset": 569688,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1844,10 +2340,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567598:js-string",
+      "id": "Marketing_calc.HTML:569765:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9240,
-      "offset": 567598,
+      "line": 9272,
+      "offset": 569765,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1856,10 +2352,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567777:js-string",
+      "id": "Marketing_calc.HTML:569944:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9244,
-      "offset": 567777,
+      "line": 9276,
+      "offset": 569944,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1868,10 +2364,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567856:js-string",
+      "id": "Marketing_calc.HTML:570023:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9245,
-      "offset": 567856,
+      "line": 9277,
+      "offset": 570023,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1880,10 +2376,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567917:js-string",
+      "id": "Marketing_calc.HTML:570084:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9246,
-      "offset": 567917,
+      "line": 9278,
+      "offset": 570084,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1892,10 +2388,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:567994:js-string",
+      "id": "Marketing_calc.HTML:570161:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9247,
-      "offset": 567994,
+      "line": 9279,
+      "offset": 570161,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1904,10 +2400,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568073:js-string",
+      "id": "Marketing_calc.HTML:570240:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9248,
-      "offset": 568073,
+      "line": 9280,
+      "offset": 570240,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1916,10 +2412,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568168:js-string",
+      "id": "Marketing_calc.HTML:570335:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9249,
-      "offset": 568168,
+      "line": 9281,
+      "offset": 570335,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1928,10 +2424,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568262:js-string",
+      "id": "Marketing_calc.HTML:570429:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9251,
-      "offset": 568262,
+      "line": 9283,
+      "offset": 570429,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1940,10 +2436,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568316:js-string",
+      "id": "Marketing_calc.HTML:570483:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9252,
-      "offset": 568316,
+      "line": 9284,
+      "offset": 570483,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1952,10 +2448,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568378:js-string",
+      "id": "Marketing_calc.HTML:570545:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9254,
-      "offset": 568378,
+      "line": 9286,
+      "offset": 570545,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1964,10 +2460,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568431:js-string",
+      "id": "Marketing_calc.HTML:570598:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9255,
-      "offset": 568431,
+      "line": 9287,
+      "offset": 570598,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1976,10 +2472,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568485:js-string",
+      "id": "Marketing_calc.HTML:570652:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9256,
-      "offset": 568485,
+      "line": 9288,
+      "offset": 570652,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -1988,10 +2484,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568537:js-string",
+      "id": "Marketing_calc.HTML:570704:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9257,
-      "offset": 568537,
+      "line": 9289,
+      "offset": 570704,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2000,10 +2496,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568612:js-string",
+      "id": "Marketing_calc.HTML:570779:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9258,
-      "offset": 568612,
+      "line": 9290,
+      "offset": 570779,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2012,10 +2508,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568694:js-string",
+      "id": "Marketing_calc.HTML:570861:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9259,
-      "offset": 568694,
+      "line": 9291,
+      "offset": 570861,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2024,10 +2520,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568752:js-string",
+      "id": "Marketing_calc.HTML:570919:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9260,
-      "offset": 568752,
+      "line": 9292,
+      "offset": 570919,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2036,10 +2532,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568811:js-string",
+      "id": "Marketing_calc.HTML:570978:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9261,
-      "offset": 568811,
+      "line": 9293,
+      "offset": 570978,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2048,10 +2544,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:568890:js-string",
+      "id": "Marketing_calc.HTML:571057:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9262,
-      "offset": 568890,
+      "line": 9294,
+      "offset": 571057,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2060,10 +2556,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569065:js-string",
+      "id": "Marketing_calc.HTML:571232:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9266,
-      "offset": 569065,
+      "line": 9298,
+      "offset": 571232,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2072,10 +2568,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569165:js-string",
+      "id": "Marketing_calc.HTML:571332:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9267,
-      "offset": 569165,
+      "line": 9299,
+      "offset": 571332,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2084,10 +2580,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569224:js-string",
+      "id": "Marketing_calc.HTML:571391:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9268,
-      "offset": 569224,
+      "line": 9300,
+      "offset": 571391,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2096,10 +2592,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569317:js-string",
+      "id": "Marketing_calc.HTML:571484:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9269,
-      "offset": 569317,
+      "line": 9301,
+      "offset": 571484,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2108,10 +2604,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569362:js-string",
+      "id": "Marketing_calc.HTML:571529:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9270,
-      "offset": 569362,
+      "line": 9302,
+      "offset": 571529,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2120,10 +2616,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569407:js-string",
+      "id": "Marketing_calc.HTML:571574:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9271,
-      "offset": 569407,
+      "line": 9303,
+      "offset": 571574,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2132,10 +2628,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569507:js-string",
+      "id": "Marketing_calc.HTML:571674:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9272,
-      "offset": 569507,
+      "line": 9304,
+      "offset": 571674,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2144,10 +2640,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569557:js-string",
+      "id": "Marketing_calc.HTML:571724:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9273,
-      "offset": 569557,
+      "line": 9305,
+      "offset": 571724,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2156,10 +2652,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569597:js-string",
+      "id": "Marketing_calc.HTML:571764:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9274,
-      "offset": 569597,
+      "line": 9306,
+      "offset": 571764,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2168,10 +2664,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569770:js-string",
+      "id": "Marketing_calc.HTML:571937:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9278,
-      "offset": 569770,
+      "line": 9310,
+      "offset": 571937,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2180,10 +2676,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569846:js-string",
+      "id": "Marketing_calc.HTML:572013:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9279,
-      "offset": 569846,
+      "line": 9311,
+      "offset": 572013,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2192,10 +2688,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569898:js-string",
+      "id": "Marketing_calc.HTML:572065:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9280,
-      "offset": 569898,
+      "line": 9312,
+      "offset": 572065,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2204,10 +2700,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:569966:js-string",
+      "id": "Marketing_calc.HTML:572133:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9281,
-      "offset": 569966,
+      "line": 9313,
+      "offset": 572133,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2216,10 +2712,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570015:js-string",
+      "id": "Marketing_calc.HTML:572182:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9282,
-      "offset": 570015,
+      "line": 9314,
+      "offset": 572182,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2228,10 +2724,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570093:js-string",
+      "id": "Marketing_calc.HTML:572260:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9283,
-      "offset": 570093,
+      "line": 9315,
+      "offset": 572260,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2240,10 +2736,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570146:js-string",
+      "id": "Marketing_calc.HTML:572313:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9284,
-      "offset": 570146,
+      "line": 9316,
+      "offset": 572313,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2252,10 +2748,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570215:js-string",
+      "id": "Marketing_calc.HTML:572382:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9285,
-      "offset": 570215,
+      "line": 9317,
+      "offset": 572382,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2264,10 +2760,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570387:js-string",
+      "id": "Marketing_calc.HTML:572554:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9289,
-      "offset": 570387,
+      "line": 9321,
+      "offset": 572554,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2276,10 +2772,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570435:js-string",
+      "id": "Marketing_calc.HTML:572602:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9290,
-      "offset": 570435,
+      "line": 9322,
+      "offset": 572602,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2288,10 +2784,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570478:js-string",
+      "id": "Marketing_calc.HTML:572645:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9291,
-      "offset": 570478,
+      "line": 9323,
+      "offset": 572645,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2300,10 +2796,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570521:js-string",
+      "id": "Marketing_calc.HTML:572688:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9292,
-      "offset": 570521,
+      "line": 9324,
+      "offset": 572688,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2312,10 +2808,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570572:js-string",
+      "id": "Marketing_calc.HTML:572739:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9293,
-      "offset": 570572,
+      "line": 9325,
+      "offset": 572739,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2324,10 +2820,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570622:js-string",
+      "id": "Marketing_calc.HTML:572789:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9294,
-      "offset": 570622,
+      "line": 9326,
+      "offset": 572789,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2336,10 +2832,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570796:js-string",
+      "id": "Marketing_calc.HTML:572963:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9298,
-      "offset": 570796,
+      "line": 9330,
+      "offset": 572963,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2348,10 +2844,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570852:js-string",
+      "id": "Marketing_calc.HTML:573019:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9299,
-      "offset": 570852,
+      "line": 9331,
+      "offset": 573019,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2360,10 +2856,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570944:js-string",
+      "id": "Marketing_calc.HTML:573111:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9301,
-      "offset": 570944,
+      "line": 9333,
+      "offset": 573111,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2372,10 +2868,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570963:js-string",
+      "id": "Marketing_calc.HTML:573130:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9301,
-      "offset": 570963,
+      "line": 9333,
+      "offset": 573130,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2384,10 +2880,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:570999:js-string",
+      "id": "Marketing_calc.HTML:573166:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9302,
-      "offset": 570999,
+      "line": 9334,
+      "offset": 573166,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2396,10 +2892,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571023:js-string",
+      "id": "Marketing_calc.HTML:573190:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9302,
-      "offset": 571023,
+      "line": 9334,
+      "offset": 573190,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2408,10 +2904,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571047:js-string",
+      "id": "Marketing_calc.HTML:573214:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9302,
-      "offset": 571047,
+      "line": 9334,
+      "offset": 573214,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2420,10 +2916,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571099:js-string",
+      "id": "Marketing_calc.HTML:573266:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9303,
-      "offset": 571099,
+      "line": 9335,
+      "offset": 573266,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2432,10 +2928,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571127:js-string",
+      "id": "Marketing_calc.HTML:573294:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9303,
-      "offset": 571127,
+      "line": 9335,
+      "offset": 573294,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2444,10 +2940,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571167:js-string",
+      "id": "Marketing_calc.HTML:573334:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9305,
-      "offset": 571167,
+      "line": 9337,
+      "offset": 573334,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2456,10 +2952,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571209:js-string",
+      "id": "Marketing_calc.HTML:573376:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9305,
-      "offset": 571209,
+      "line": 9337,
+      "offset": 573376,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2468,10 +2964,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571220:js-string",
+      "id": "Marketing_calc.HTML:573387:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9305,
-      "offset": 571220,
+      "line": 9337,
+      "offset": 573387,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2480,10 +2976,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571230:js-string",
+      "id": "Marketing_calc.HTML:573397:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9305,
-      "offset": 571230,
+      "line": 9337,
+      "offset": 573397,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2492,10 +2988,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571302:js-string",
+      "id": "Marketing_calc.HTML:573469:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9307,
-      "offset": 571302,
+      "line": 9339,
+      "offset": 573469,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2504,10 +3000,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571378:js-string",
+      "id": "Marketing_calc.HTML:573545:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9308,
-      "offset": 571378,
+      "line": 9340,
+      "offset": 573545,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2516,10 +3012,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571466:js-string",
+      "id": "Marketing_calc.HTML:573633:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9310,
-      "offset": 571466,
+      "line": 9342,
+      "offset": 573633,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2528,10 +3024,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571534:js-string",
+      "id": "Marketing_calc.HTML:573701:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9311,
-      "offset": 571534,
+      "line": 9343,
+      "offset": 573701,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2540,10 +3036,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571603:js-string",
+      "id": "Marketing_calc.HTML:573770:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9312,
-      "offset": 571603,
+      "line": 9344,
+      "offset": 573770,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2552,10 +3048,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571654:js-string",
+      "id": "Marketing_calc.HTML:573821:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9313,
-      "offset": 571654,
+      "line": 9345,
+      "offset": 573821,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2564,10 +3060,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571708:js-string",
+      "id": "Marketing_calc.HTML:573875:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9314,
-      "offset": 571708,
+      "line": 9346,
+      "offset": 573875,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2576,10 +3072,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571765:js-string",
+      "id": "Marketing_calc.HTML:573932:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9315,
-      "offset": 571765,
+      "line": 9347,
+      "offset": 573932,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2588,10 +3084,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571818:js-string",
+      "id": "Marketing_calc.HTML:573985:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9316,
-      "offset": 571818,
+      "line": 9348,
+      "offset": 573985,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2600,10 +3096,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:571916:js-string",
+      "id": "Marketing_calc.HTML:574083:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9317,
-      "offset": 571916,
+      "line": 9349,
+      "offset": 574083,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2612,10 +3108,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572034:js-string",
+      "id": "Marketing_calc.HTML:574201:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9319,
-      "offset": 572034,
+      "line": 9351,
+      "offset": 574201,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2624,10 +3120,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572048:js-string",
+      "id": "Marketing_calc.HTML:574215:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9319,
-      "offset": 572048,
+      "line": 9351,
+      "offset": 574215,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2636,10 +3132,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572145:js-string",
+      "id": "Marketing_calc.HTML:574312:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9321,
-      "offset": 572145,
+      "line": 9353,
+      "offset": 574312,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2648,10 +3144,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572203:js-string",
+      "id": "Marketing_calc.HTML:574370:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9322,
-      "offset": 572203,
+      "line": 9354,
+      "offset": 574370,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2660,10 +3156,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572356:js-string",
+      "id": "Marketing_calc.HTML:574523:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9324,
-      "offset": 572356,
+      "line": 9356,
+      "offset": 574523,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2672,10 +3168,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572389:js-string",
+      "id": "Marketing_calc.HTML:574556:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9324,
-      "offset": 572389,
+      "line": 9356,
+      "offset": 574556,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2684,10 +3180,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:572529:js-string",
+      "id": "Marketing_calc.HTML:574696:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9327,
-      "offset": 572529,
+      "line": 9359,
+      "offset": 574696,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2696,10 +3192,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572588:js-string",
+      "id": "Marketing_calc.HTML:574755:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9328,
-      "offset": 572588,
+      "line": 9360,
+      "offset": 574755,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2708,10 +3204,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572639:js-string",
+      "id": "Marketing_calc.HTML:574806:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9329,
-      "offset": 572639,
+      "line": 9361,
+      "offset": 574806,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2720,10 +3216,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572717:js-string",
+      "id": "Marketing_calc.HTML:574884:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9330,
-      "offset": 572717,
+      "line": 9362,
+      "offset": 574884,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2732,10 +3228,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572799:js-string",
+      "id": "Marketing_calc.HTML:574966:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9331,
-      "offset": 572799,
+      "line": 9363,
+      "offset": 574966,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2744,10 +3240,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:572880:js-string",
+      "id": "Marketing_calc.HTML:575047:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9332,
-      "offset": 572880,
+      "line": 9364,
+      "offset": 575047,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2756,10 +3252,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573195:js-string",
+      "id": "Marketing_calc.HTML:575362:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9337,
-      "offset": 573195,
+      "line": 9369,
+      "offset": 575362,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2768,10 +3264,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573279:js-string",
+      "id": "Marketing_calc.HTML:575446:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9338,
-      "offset": 573279,
+      "line": 9370,
+      "offset": 575446,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2780,10 +3276,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573360:js-string",
+      "id": "Marketing_calc.HTML:575527:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9339,
-      "offset": 573360,
+      "line": 9371,
+      "offset": 575527,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2792,10 +3288,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573443:js-string",
+      "id": "Marketing_calc.HTML:575610:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9340,
-      "offset": 573443,
+      "line": 9372,
+      "offset": 575610,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2804,10 +3300,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573504:js-string",
+      "id": "Marketing_calc.HTML:575671:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9341,
-      "offset": 573504,
+      "line": 9373,
+      "offset": 575671,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2816,10 +3312,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573560:js-string",
+      "id": "Marketing_calc.HTML:575727:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9342,
-      "offset": 573560,
+      "line": 9374,
+      "offset": 575727,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2828,10 +3324,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573639:js-string",
+      "id": "Marketing_calc.HTML:575806:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9343,
-      "offset": 573639,
+      "line": 9375,
+      "offset": 575806,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2840,10 +3336,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573725:js-string",
+      "id": "Marketing_calc.HTML:575892:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9344,
-      "offset": 573725,
+      "line": 9376,
+      "offset": 575892,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2852,10 +3348,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573787:js-string",
+      "id": "Marketing_calc.HTML:575954:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9345,
-      "offset": 573787,
+      "line": 9377,
+      "offset": 575954,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2864,10 +3360,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573850:js-string",
+      "id": "Marketing_calc.HTML:576017:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9346,
-      "offset": 573850,
+      "line": 9378,
+      "offset": 576017,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2876,10 +3372,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:573933:js-string",
+      "id": "Marketing_calc.HTML:576100:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9347,
-      "offset": 573933,
+      "line": 9379,
+      "offset": 576100,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2888,10 +3384,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574130:js-string",
+      "id": "Marketing_calc.HTML:576297:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9351,
-      "offset": 574130,
+      "line": 9383,
+      "offset": 576297,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2900,10 +3396,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574234:js-string",
+      "id": "Marketing_calc.HTML:576401:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9352,
-      "offset": 574234,
+      "line": 9384,
+      "offset": 576401,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2912,10 +3408,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574297:js-string",
+      "id": "Marketing_calc.HTML:576464:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9353,
-      "offset": 574297,
+      "line": 9385,
+      "offset": 576464,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2924,10 +3420,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574394:js-string",
+      "id": "Marketing_calc.HTML:576561:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9354,
-      "offset": 574394,
+      "line": 9386,
+      "offset": 576561,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2936,10 +3432,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574443:js-string",
+      "id": "Marketing_calc.HTML:576610:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9355,
-      "offset": 574443,
+      "line": 9387,
+      "offset": 576610,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2948,10 +3444,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574492:js-string",
+      "id": "Marketing_calc.HTML:576659:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9356,
-      "offset": 574492,
+      "line": 9388,
+      "offset": 576659,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2960,10 +3456,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574596:js-string",
+      "id": "Marketing_calc.HTML:576763:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9357,
-      "offset": 574596,
+      "line": 9389,
+      "offset": 576763,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2972,10 +3468,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574650:js-string",
+      "id": "Marketing_calc.HTML:576817:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9358,
-      "offset": 574650,
+      "line": 9390,
+      "offset": 576817,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2984,10 +3480,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574694:js-string",
+      "id": "Marketing_calc.HTML:576861:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9359,
-      "offset": 574694,
+      "line": 9391,
+      "offset": 576861,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -2996,10 +3492,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:574927:js-string",
+      "id": "Marketing_calc.HTML:577094:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9364,
-      "offset": 574927,
+      "line": 9396,
+      "offset": 577094,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3008,10 +3504,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575007:js-string",
+      "id": "Marketing_calc.HTML:577174:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9365,
-      "offset": 575007,
+      "line": 9397,
+      "offset": 577174,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3020,10 +3516,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575063:js-string",
+      "id": "Marketing_calc.HTML:577230:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9366,
-      "offset": 575063,
+      "line": 9398,
+      "offset": 577230,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3032,10 +3528,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575136:js-string",
+      "id": "Marketing_calc.HTML:577303:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9367,
-      "offset": 575136,
+      "line": 9399,
+      "offset": 577303,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3044,10 +3540,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575218:js-string",
+      "id": "Marketing_calc.HTML:577385:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9368,
-      "offset": 575218,
+      "line": 9400,
+      "offset": 577385,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3056,10 +3552,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575275:js-string",
+      "id": "Marketing_calc.HTML:577442:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9369,
-      "offset": 575275,
+      "line": 9401,
+      "offset": 577442,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3068,10 +3564,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575348:js-string",
+      "id": "Marketing_calc.HTML:577515:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9370,
-      "offset": 575348,
+      "line": 9402,
+      "offset": 577515,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3080,10 +3576,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575400:js-string",
+      "id": "Marketing_calc.HTML:577567:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9372,
-      "offset": 575400,
+      "line": 9404,
+      "offset": 577567,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3092,10 +3588,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575452:js-string",
+      "id": "Marketing_calc.HTML:577619:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9373,
-      "offset": 575452,
+      "line": 9405,
+      "offset": 577619,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3104,10 +3600,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575499:js-string",
+      "id": "Marketing_calc.HTML:577666:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9374,
-      "offset": 575499,
+      "line": 9406,
+      "offset": 577666,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3116,10 +3612,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575546:js-string",
+      "id": "Marketing_calc.HTML:577713:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9375,
-      "offset": 575546,
+      "line": 9407,
+      "offset": 577713,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3128,10 +3624,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575601:js-string",
+      "id": "Marketing_calc.HTML:577768:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9376,
-      "offset": 575601,
+      "line": 9408,
+      "offset": 577768,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3140,10 +3636,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575655:js-string",
+      "id": "Marketing_calc.HTML:577822:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9377,
-      "offset": 575655,
+      "line": 9409,
+      "offset": 577822,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3152,10 +3648,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575759:js-string",
+      "id": "Marketing_calc.HTML:577926:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9380,
-      "offset": 575759,
+      "line": 9412,
+      "offset": 577926,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3164,10 +3660,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575822:js-string",
+      "id": "Marketing_calc.HTML:577989:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9381,
-      "offset": 575822,
+      "line": 9413,
+      "offset": 577989,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3176,10 +3672,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575922:js-string",
+      "id": "Marketing_calc.HTML:578089:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9383,
-      "offset": 575922,
+      "line": 9415,
+      "offset": 578089,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3188,10 +3684,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575941:js-string",
+      "id": "Marketing_calc.HTML:578108:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9383,
-      "offset": 575941,
+      "line": 9415,
+      "offset": 578108,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3200,10 +3696,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:575981:js-string",
+      "id": "Marketing_calc.HTML:578148:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9384,
-      "offset": 575981,
+      "line": 9416,
+      "offset": 578148,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3212,10 +3708,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576005:js-string",
+      "id": "Marketing_calc.HTML:578172:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9384,
-      "offset": 576005,
+      "line": 9416,
+      "offset": 578172,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3224,10 +3720,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576029:js-string",
+      "id": "Marketing_calc.HTML:578196:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9384,
-      "offset": 576029,
+      "line": 9416,
+      "offset": 578196,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3236,10 +3732,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576088:js-string",
+      "id": "Marketing_calc.HTML:578255:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9385,
-      "offset": 576088,
+      "line": 9417,
+      "offset": 578255,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3248,10 +3744,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576116:js-string",
+      "id": "Marketing_calc.HTML:578283:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9385,
-      "offset": 576116,
+      "line": 9417,
+      "offset": 578283,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3260,10 +3756,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576162:js-string",
+      "id": "Marketing_calc.HTML:578329:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9386,
-      "offset": 576162,
+      "line": 9418,
+      "offset": 578329,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3272,10 +3768,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576204:js-string",
+      "id": "Marketing_calc.HTML:578371:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9386,
-      "offset": 576204,
+      "line": 9418,
+      "offset": 578371,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3284,10 +3780,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576215:js-string",
+      "id": "Marketing_calc.HTML:578382:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9386,
-      "offset": 576215,
+      "line": 9418,
+      "offset": 578382,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3296,10 +3792,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576225:js-string",
+      "id": "Marketing_calc.HTML:578392:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9386,
-      "offset": 576225,
+      "line": 9418,
+      "offset": 578392,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3308,10 +3804,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576308:js-string",
+      "id": "Marketing_calc.HTML:578475:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9388,
-      "offset": 576308,
+      "line": 9420,
+      "offset": 578475,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3320,10 +3816,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576391:js-string",
+      "id": "Marketing_calc.HTML:578558:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9389,
-      "offset": 576391,
+      "line": 9421,
+      "offset": 578558,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3332,10 +3828,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576490:js-string",
+      "id": "Marketing_calc.HTML:578657:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9391,
-      "offset": 576490,
+      "line": 9423,
+      "offset": 578657,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3344,10 +3840,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576562:js-string",
+      "id": "Marketing_calc.HTML:578729:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9392,
-      "offset": 576562,
+      "line": 9424,
+      "offset": 578729,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3356,10 +3852,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576635:js-string",
+      "id": "Marketing_calc.HTML:578802:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9393,
-      "offset": 576635,
+      "line": 9425,
+      "offset": 578802,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3368,10 +3864,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576693:js-string",
+      "id": "Marketing_calc.HTML:578860:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9394,
-      "offset": 576693,
+      "line": 9426,
+      "offset": 578860,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3380,10 +3876,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576751:js-string",
+      "id": "Marketing_calc.HTML:578918:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9395,
-      "offset": 576751,
+      "line": 9427,
+      "offset": 578918,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3392,10 +3888,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576812:js-string",
+      "id": "Marketing_calc.HTML:578979:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9396,
-      "offset": 576812,
+      "line": 9428,
+      "offset": 578979,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3404,10 +3900,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576869:js-string",
+      "id": "Marketing_calc.HTML:579036:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9397,
-      "offset": 576869,
+      "line": 9429,
+      "offset": 579036,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3416,10 +3912,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:576971:js-string",
+      "id": "Marketing_calc.HTML:579138:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9398,
-      "offset": 576971,
+      "line": 9430,
+      "offset": 579138,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3428,10 +3924,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:577229:js-string",
+      "id": "Marketing_calc.HTML:579396:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9403,
-      "offset": 577229,
+      "line": 9435,
+      "offset": 579396,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3440,10 +3936,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:577410:js-string",
+      "id": "Marketing_calc.HTML:579577:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9405,
-      "offset": 577410,
+      "line": 9437,
+      "offset": 579577,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3452,10 +3948,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:577584:js-string",
+      "id": "Marketing_calc.HTML:579751:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9409,
-      "offset": 577584,
+      "line": 9441,
+      "offset": 579751,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3464,10 +3960,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:577674:js-string",
+      "id": "Marketing_calc.HTML:579841:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9411,
-      "offset": 577674,
+      "line": 9443,
+      "offset": 579841,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3476,10 +3972,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:577724:js-string",
+      "id": "Marketing_calc.HTML:579891:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9412,
-      "offset": 577724,
+      "line": 9444,
+      "offset": 579891,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3489,10 +3985,10 @@
       "catalog": "operations.demoTwoFilledInProductsToteBagTShirt"
     },
     {
-      "id": "Marketing_calc.HTML:577818:js-string",
+      "id": "Marketing_calc.HTML:579985:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9413,
-      "offset": 577818,
+      "line": 9445,
+      "offset": 579985,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3501,10 +3997,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:577861:js-string",
+      "id": "Marketing_calc.HTML:580028:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9414,
-      "offset": 577861,
+      "line": 9446,
+      "offset": 580028,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3513,10 +4009,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:578186:js-string",
+      "id": "Marketing_calc.HTML:580353:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9415,
-      "offset": 578186,
+      "line": 9447,
+      "offset": 580353,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3525,10 +4021,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578266:js-string",
+      "id": "Marketing_calc.HTML:580433:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9416,
-      "offset": 578266,
+      "line": 9448,
+      "offset": 580433,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3537,10 +4033,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578325:js-string",
+      "id": "Marketing_calc.HTML:580492:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9417,
-      "offset": 578325,
+      "line": 9449,
+      "offset": 580492,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3549,10 +4045,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578469:js-string",
+      "id": "Marketing_calc.HTML:580636:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9419,
-      "offset": 578469,
+      "line": 9451,
+      "offset": 580636,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3561,10 +4057,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578479:js-string",
+      "id": "Marketing_calc.HTML:580646:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9419,
-      "offset": 578479,
+      "line": 9451,
+      "offset": 580646,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3573,10 +4069,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578627:js-string",
+      "id": "Marketing_calc.HTML:580794:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9424,
-      "offset": 578627,
+      "line": 9456,
+      "offset": 580794,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3586,10 +4082,10 @@
       "catalog": "ui.demo"
     },
     {
-      "id": "Marketing_calc.HTML:578653:js-string",
+      "id": "Marketing_calc.HTML:580820:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9424,
-      "offset": 578653,
+      "line": 9456,
+      "offset": 580820,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3598,10 +4094,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:578672:js-string",
+      "id": "Marketing_calc.HTML:580839:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9424,
-      "offset": 578672,
+      "line": 9456,
+      "offset": 580839,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3610,10 +4106,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "Marketing_calc.HTML:578694:js-string",
+      "id": "Marketing_calc.HTML:580861:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9424,
-      "offset": 578694,
+      "line": 9456,
+      "offset": 580861,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3622,10 +4118,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578841:js-string",
+      "id": "Marketing_calc.HTML:581008:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9426,
-      "offset": 578841,
+      "line": 9458,
+      "offset": 581008,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3634,10 +4130,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578854:js-string",
+      "id": "Marketing_calc.HTML:581021:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9426,
-      "offset": 578854,
+      "line": 9458,
+      "offset": 581021,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3646,10 +4142,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578905:js-string",
+      "id": "Marketing_calc.HTML:581072:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9427,
-      "offset": 578905,
+      "line": 9459,
+      "offset": 581072,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3658,10 +4154,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:578974:js-string",
+      "id": "Marketing_calc.HTML:581141:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9428,
-      "offset": 578974,
+      "line": 9460,
+      "offset": 581141,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3670,10 +4166,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579059:js-string",
+      "id": "Marketing_calc.HTML:581226:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9429,
-      "offset": 579059,
+      "line": 9461,
+      "offset": 581226,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3682,10 +4178,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579077:js-string",
+      "id": "Marketing_calc.HTML:581244:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9429,
-      "offset": 579077,
+      "line": 9461,
+      "offset": 581244,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3694,10 +4190,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579134:js-string",
+      "id": "Marketing_calc.HTML:581301:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9432,
-      "offset": 579134,
+      "line": 9464,
+      "offset": 581301,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3706,10 +4202,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579188:js-string",
+      "id": "Marketing_calc.HTML:581355:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9433,
-      "offset": 579188,
+      "line": 9465,
+      "offset": 581355,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3718,10 +4214,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579220:js-string",
+      "id": "Marketing_calc.HTML:581387:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9433,
-      "offset": 579220,
+      "line": 9465,
+      "offset": 581387,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3730,10 +4226,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579269:js-string",
+      "id": "Marketing_calc.HTML:581436:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9434,
-      "offset": 579269,
+      "line": 9466,
+      "offset": 581436,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3742,10 +4238,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579307:js-string",
+      "id": "Marketing_calc.HTML:581474:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9434,
-      "offset": 579307,
+      "line": 9466,
+      "offset": 581474,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3754,10 +4250,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579436:js-string",
+      "id": "Marketing_calc.HTML:581603:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9437,
-      "offset": 579436,
+      "line": 9469,
+      "offset": 581603,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3766,10 +4262,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579490:js-string",
+      "id": "Marketing_calc.HTML:581657:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9438,
-      "offset": 579490,
+      "line": 9470,
+      "offset": 581657,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3778,10 +4274,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579522:js-string",
+      "id": "Marketing_calc.HTML:581689:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9438,
-      "offset": 579522,
+      "line": 9470,
+      "offset": 581689,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3790,10 +4286,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579571:js-string",
+      "id": "Marketing_calc.HTML:581738:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9439,
-      "offset": 579571,
+      "line": 9471,
+      "offset": 581738,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3802,10 +4298,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579609:js-string",
+      "id": "Marketing_calc.HTML:581776:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9439,
-      "offset": 579609,
+      "line": 9471,
+      "offset": 581776,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3814,10 +4310,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579738:js-string",
+      "id": "Marketing_calc.HTML:581905:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9442,
-      "offset": 579738,
+      "line": 9474,
+      "offset": 581905,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3826,10 +4322,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:579804:js-string",
+      "id": "Marketing_calc.HTML:581971:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9443,
-      "offset": 579804,
+      "line": 9475,
+      "offset": 581971,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3838,10 +4334,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580027:js-string",
+      "id": "Marketing_calc.HTML:582194:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9448,
-      "offset": 580027,
+      "line": 9480,
+      "offset": 582194,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3850,10 +4346,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580039:js-string",
+      "id": "Marketing_calc.HTML:582206:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9448,
-      "offset": 580039,
+      "line": 9480,
+      "offset": 582206,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3862,10 +4358,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580061:js-string",
+      "id": "Marketing_calc.HTML:582228:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9448,
-      "offset": 580061,
+      "line": 9480,
+      "offset": 582228,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3874,10 +4370,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580075:js-string",
+      "id": "Marketing_calc.HTML:582242:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9448,
-      "offset": 580075,
+      "line": 9480,
+      "offset": 582242,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3886,10 +4382,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580163:js-string",
+      "id": "Marketing_calc.HTML:582330:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9450,
-      "offset": 580163,
+      "line": 9482,
+      "offset": 582330,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3898,10 +4394,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580175:js-string",
+      "id": "Marketing_calc.HTML:582342:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9450,
-      "offset": 580175,
+      "line": 9482,
+      "offset": 582342,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3910,10 +4406,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580197:js-string",
+      "id": "Marketing_calc.HTML:582364:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9450,
-      "offset": 580197,
+      "line": 9482,
+      "offset": 582364,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3922,10 +4418,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580210:js-string",
+      "id": "Marketing_calc.HTML:582377:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9450,
-      "offset": 580210,
+      "line": 9482,
+      "offset": 582377,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3934,10 +4430,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580310:js-string",
+      "id": "Marketing_calc.HTML:582477:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9453,
-      "offset": 580310,
+      "line": 9485,
+      "offset": 582477,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3946,10 +4442,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580322:js-string",
+      "id": "Marketing_calc.HTML:582489:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9453,
-      "offset": 580322,
+      "line": 9485,
+      "offset": 582489,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3958,10 +4454,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580433:js-string",
+      "id": "Marketing_calc.HTML:582600:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9455,
-      "offset": 580433,
+      "line": 9487,
+      "offset": 582600,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3970,10 +4466,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580536:js-string",
+      "id": "Marketing_calc.HTML:582703:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9456,
-      "offset": 580536,
+      "line": 9488,
+      "offset": 582703,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3982,10 +4478,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580689:js-string",
+      "id": "Marketing_calc.HTML:582856:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9459,
-      "offset": 580689,
+      "line": 9491,
+      "offset": 582856,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -3994,10 +4490,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580745:js-string",
+      "id": "Marketing_calc.HTML:582912:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9460,
-      "offset": 580745,
+      "line": 9492,
+      "offset": 582912,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -4007,10 +4503,10 @@
       "catalog": "ui.couldNotLoadDemo"
     },
     {
-      "id": "Marketing_calc.HTML:580893:js-string",
+      "id": "Marketing_calc.HTML:583060:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9466,
-      "offset": 580893,
+      "line": 9498,
+      "offset": 583060,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -4019,10 +4515,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580952:js-string",
+      "id": "Marketing_calc.HTML:583119:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9467,
-      "offset": 580952,
+      "line": 9499,
+      "offset": 583119,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",
@@ -4031,10 +4527,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "Marketing_calc.HTML:580992:js-string",
+      "id": "Marketing_calc.HTML:583159:js-string",
       "file": "Marketing_calc.HTML",
-      "line": 9467,
-      "offset": 580992,
+      "line": 9499,
+      "offset": 583159,
       "kind": "js-string",
       "owner": "Marketing_calc.HTML",
       "stage": "L2",

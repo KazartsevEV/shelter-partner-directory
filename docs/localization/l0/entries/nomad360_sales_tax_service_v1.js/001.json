@@ -63,51 +63,40 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:599:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:686:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 12,
-      "offset": 599,
+      "line": 14,
+      "offset": 686,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
-      "context": "module",
-      "text": "sales_tax_preview",
-      "coverage": "technical-or-latin-review"
+      "context": "messages",
+      "text": "Налог с продаж для услуг V1",
+      "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:622:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:723:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 12,
-      "offset": 622,
+      "line": 14,
+      "offset": 723,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
-      "context": "module",
-      "text": "1",
-      "coverage": "technical-or-latin-review"
+      "context": "messages",
+      "text": "НДС (VAT / IVA)",
+      "coverage": "legacy-exact",
+      "catalog": "tax.v2VatLabel"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:652:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:741:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 13,
-      "offset": 652,
+      "line": 14,
+      "offset": 741,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
-      "context": "module",
-      "text": "sales_tax",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:708:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 13,
-      "offset": 708,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "module",
-      "text": "offline-service",
+      "context": "messages",
+      "text": "Sales Tax",
       "coverage": "technical-or-latin-review"
     },
     {
@@ -118,63 +107,15 @@
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
-      "context": "module",
-      "text": "sales_tax",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:798:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 798,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "messages",
-      "text": "Налог с продаж для услуг V1",
-      "coverage": "unmapped-candidate"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:835:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 835,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "messages",
-      "text": "НДС (VAT / IVA)",
-      "coverage": "unmapped-candidate"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:853:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 853,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "messages",
-      "text": "Sales Tax",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:865:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 865,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
       "context": "messages",
       "text": "Без налога с продаж",
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:893:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:781:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 893,
+      "line": 14,
+      "offset": 781,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -184,10 +125,10 @@
       "catalog": "tax.v2SalesTaxRate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:920:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:808:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 920,
+      "line": 14,
+      "offset": 808,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -196,10 +137,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1103:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:991:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1103,
+      "line": 14,
+      "offset": 991,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -208,10 +149,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1203:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1091:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1203,
+      "line": 14,
+      "offset": 1091,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -220,10 +161,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1250:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1138:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1250,
+      "line": 14,
+      "offset": 1138,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -232,10 +173,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1287:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1175:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1287,
+      "line": 14,
+      "offset": 1175,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -244,10 +185,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1305:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1193:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1305,
+      "line": 14,
+      "offset": 1193,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -256,10 +197,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1332:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1220:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1332,
+      "line": 14,
+      "offset": 1220,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -268,10 +209,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1373:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1261:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1373,
+      "line": 14,
+      "offset": 1261,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -280,10 +221,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1415:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1303:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1415,
+      "line": 14,
+      "offset": 1303,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -292,10 +233,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1456:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1344:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1456,
+      "line": 14,
+      "offset": 1344,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -304,10 +245,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1546:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1434:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 16,
-      "offset": 1546,
+      "line": 14,
+      "offset": 1434,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -316,10 +257,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1602:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1490:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 1602,
+      "line": 15,
+      "offset": 1490,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -328,10 +269,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1632:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1520:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 1632,
+      "line": 15,
+      "offset": 1520,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -340,10 +281,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1644:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1532:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 1644,
+      "line": 15,
+      "offset": 1532,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -352,10 +293,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1656:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1544:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 1656,
+      "line": 15,
+      "offset": 1544,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -364,10 +305,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1677:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1565:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 1677,
+      "line": 15,
+      "offset": 1565,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -376,10 +317,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1702:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1590:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 1702,
+      "line": 15,
+      "offset": 1590,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -388,10 +329,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1875:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1763:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 1875,
+      "line": 15,
+      "offset": 1763,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -400,10 +341,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:1965:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1853:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 1965,
+      "line": 15,
+      "offset": 1853,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -412,10 +353,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2005:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1893:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 2005,
+      "line": 15,
+      "offset": 1893,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -424,10 +365,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2041:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1929:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 2041,
+      "line": 15,
+      "offset": 1929,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -436,10 +377,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2059:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1947:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 2059,
+      "line": 15,
+      "offset": 1947,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -448,10 +389,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2085:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:1973:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 2085,
+      "line": 15,
+      "offset": 1973,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -460,10 +401,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2117:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2005:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 2117,
+      "line": 15,
+      "offset": 2005,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -472,10 +413,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2158:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2046:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 2158,
+      "line": 15,
+      "offset": 2046,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -484,10 +425,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2208:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2096:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 2208,
+      "line": 15,
+      "offset": 2096,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -496,10 +437,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2304:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2192:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 17,
-      "offset": 2304,
+      "line": 15,
+      "offset": 2192,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -508,10 +449,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2361:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2249:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2361,
+      "line": 16,
+      "offset": 2249,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -520,10 +461,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2405:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2293:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2405,
+      "line": 16,
+      "offset": 2293,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -532,10 +473,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2423:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2311:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2423,
+      "line": 16,
+      "offset": 2311,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -544,10 +485,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2435:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2323:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2435,
+      "line": 16,
+      "offset": 2323,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -556,10 +497,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2470:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2358:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2470,
+      "line": 16,
+      "offset": 2358,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -568,10 +509,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2503:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2391:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2503,
+      "line": 16,
+      "offset": 2391,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -580,10 +521,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2690:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2578:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2690,
+      "line": 16,
+      "offset": 2578,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -592,10 +533,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2779:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2667:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2779,
+      "line": 16,
+      "offset": 2667,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -604,10 +545,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2827:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2715:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2827,
+      "line": 16,
+      "offset": 2715,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -616,10 +557,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2868:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2756:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2868,
+      "line": 16,
+      "offset": 2756,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -628,10 +569,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2886:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2774:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2886,
+      "line": 16,
+      "offset": 2774,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -640,10 +581,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2917:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2805:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2917,
+      "line": 16,
+      "offset": 2805,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -652,10 +593,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2958:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2846:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2958,
+      "line": 16,
+      "offset": 2846,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -664,10 +605,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:2991:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2879:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 2991,
+      "line": 16,
+      "offset": 2879,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -676,10 +617,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3036:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2924:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 3036,
+      "line": 16,
+      "offset": 2924,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -688,10 +629,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3110:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:2998:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 18,
-      "offset": 3110,
+      "line": 16,
+      "offset": 2998,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -700,10 +641,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3187:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3075:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 20,
-      "offset": 3187,
+      "line": 18,
+      "offset": 3075,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -712,10 +653,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3192:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3080:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 20,
-      "offset": 3192,
+      "line": 18,
+      "offset": 3080,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -724,10 +665,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3197:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3085:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 20,
-      "offset": 3197,
+      "line": 18,
+      "offset": 3085,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -736,10 +677,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3313:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3201:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 21,
-      "offset": 3313,
+      "line": 19,
+      "offset": 3201,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -748,10 +689,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3325:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3213:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 21,
-      "offset": 3325,
+      "line": 19,
+      "offset": 3213,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -760,10 +701,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3337:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3225:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 21,
-      "offset": 3337,
+      "line": 19,
+      "offset": 3225,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -772,10 +713,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3464:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3352:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 23,
-      "offset": 3464,
+      "line": 21,
+      "offset": 3352,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -784,10 +725,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3528:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3416:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 24,
-      "offset": 3528,
+      "line": 22,
+      "offset": 3416,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -796,10 +737,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3579:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3467:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 25,
-      "offset": 3579,
+      "line": 23,
+      "offset": 3467,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L3",
@@ -808,10 +749,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:3650:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3538:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 26,
-      "offset": 3650,
+      "line": 24,
+      "offset": 3538,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -820,10 +761,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4062:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3950:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 31,
-      "offset": 4062,
+      "line": 29,
+      "offset": 3950,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -832,10 +773,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4094:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:3982:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 31,
-      "offset": 4094,
+      "line": 29,
+      "offset": 3982,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -844,10 +785,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4161:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4049:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 32,
-      "offset": 4161,
+      "line": 30,
+      "offset": 4049,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -856,10 +797,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4419:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4307:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 40,
-      "offset": 4419,
+      "line": 38,
+      "offset": 4307,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -868,10 +809,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4474:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4362:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 40,
-      "offset": 4474,
+      "line": 38,
+      "offset": 4362,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -880,10 +821,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4524:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4412:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 41,
-      "offset": 4524,
+      "line": 39,
+      "offset": 4412,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -892,10 +833,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4654:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4542:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 42,
-      "offset": 4654,
+      "line": 40,
+      "offset": 4542,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -904,10 +845,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4708:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4596:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 42,
-      "offset": 4708,
+      "line": 40,
+      "offset": 4596,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -916,10 +857,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4781:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4669:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 43,
-      "offset": 4781,
+      "line": 41,
+      "offset": 4669,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -928,10 +869,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4836:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4724:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 43,
-      "offset": 4836,
+      "line": 41,
+      "offset": 4724,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -940,10 +881,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4849:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4737:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 43,
-      "offset": 4849,
+      "line": 41,
+      "offset": 4737,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -952,10 +893,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4892:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4780:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 44,
-      "offset": 4892,
+      "line": 42,
+      "offset": 4780,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -964,10 +905,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4992:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4880:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 45,
-      "offset": 4992,
+      "line": 43,
+      "offset": 4880,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -976,10 +917,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:4998:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4886:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 45,
-      "offset": 4998,
+      "line": 43,
+      "offset": 4886,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -988,10 +929,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5010:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4898:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 45,
-      "offset": 5010,
+      "line": 43,
+      "offset": 4898,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1000,10 +941,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5040:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4928:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 45,
-      "offset": 5040,
+      "line": 43,
+      "offset": 4928,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1012,10 +953,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5108:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:4996:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 46,
-      "offset": 5108,
+      "line": 44,
+      "offset": 4996,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1024,10 +965,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5161:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5049:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 46,
-      "offset": 5161,
+      "line": 44,
+      "offset": 5049,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1036,10 +977,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5194:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5082:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 47,
-      "offset": 5194,
+      "line": 45,
+      "offset": 5082,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1048,10 +989,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5260:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5148:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 47,
-      "offset": 5260,
+      "line": 45,
+      "offset": 5148,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1060,10 +1001,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5314:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5202:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 48,
-      "offset": 5314,
+      "line": 46,
+      "offset": 5202,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1072,10 +1013,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5358:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5246:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 48,
-      "offset": 5358,
+      "line": 46,
+      "offset": 5246,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1084,10 +1025,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5377:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5265:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 48,
-      "offset": 5377,
+      "line": 46,
+      "offset": 5265,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1096,10 +1037,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5392:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5280:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 48,
-      "offset": 5392,
+      "line": 46,
+      "offset": 5280,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1108,10 +1049,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5415:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5303:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 48,
-      "offset": 5415,
+      "line": 46,
+      "offset": 5303,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1120,10 +1061,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5447:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5335:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 49,
-      "offset": 5447,
+      "line": 47,
+      "offset": 5335,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1132,10 +1073,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5567:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5455:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 51,
-      "offset": 5567,
+      "line": 49,
+      "offset": 5455,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1144,10 +1085,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5616:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5504:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 51,
-      "offset": 5616,
+      "line": 49,
+      "offset": 5504,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1156,10 +1097,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5623:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5511:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 51,
-      "offset": 5623,
+      "line": 49,
+      "offset": 5511,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1168,10 +1109,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5652:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5540:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 51,
-      "offset": 5652,
+      "line": 49,
+      "offset": 5540,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1180,10 +1121,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5723:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5611:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 52,
-      "offset": 5723,
+      "line": 50,
+      "offset": 5611,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1192,10 +1133,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5779:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5667:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 52,
-      "offset": 5779,
+      "line": 50,
+      "offset": 5667,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1204,10 +1145,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5839:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5727:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 53,
-      "offset": 5839,
+      "line": 51,
+      "offset": 5727,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1216,10 +1157,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5886:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5774:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 53,
-      "offset": 5886,
+      "line": 51,
+      "offset": 5774,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1228,10 +1169,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:5979:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5867:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 55,
-      "offset": 5979,
+      "line": 53,
+      "offset": 5867,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1240,10 +1181,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6095:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:5983:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 56,
-      "offset": 6095,
+      "line": 54,
+      "offset": 5983,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1252,10 +1193,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6112:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6000:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 56,
-      "offset": 6112,
+      "line": 54,
+      "offset": 6000,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1264,10 +1205,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6201:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6089:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 57,
-      "offset": 6201,
+      "line": 55,
+      "offset": 6089,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1276,10 +1217,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6217:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6105:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 57,
-      "offset": 6217,
+      "line": 55,
+      "offset": 6105,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1288,10 +1229,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6424:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6312:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 62,
-      "offset": 6424,
+      "line": 60,
+      "offset": 6312,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1300,34 +1241,34 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6476:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6364:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 61,
+      "offset": 6364,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "updateWidget",
+      "text": "[data-st-mode]",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:6456:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 62,
+      "offset": 6456,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "updateWidget",
+      "text": "[data-st-mode]",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:6513:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 63,
-      "offset": 6476,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "updateWidget",
-      "text": "[data-st-mode]",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:6568:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 64,
-      "offset": 6568,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "updateWidget",
-      "text": "[data-st-mode]",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:6625:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 65,
-      "offset": 6625,
+      "offset": 6513,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1336,10 +1277,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6689:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6577:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 66,
-      "offset": 6689,
+      "line": 64,
+      "offset": 6577,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1348,10 +1289,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6764:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6652:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 67,
-      "offset": 6764,
+      "line": 65,
+      "offset": 6652,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1360,34 +1301,34 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:6830:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6718:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 66,
+      "offset": 6718,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "updateWidget",
+      "text": "[data-st-error]",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:6768:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 67,
+      "offset": 6768,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "updateWidget",
+      "text": "[data-st-error]",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:6833:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 68,
-      "offset": 6830,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "updateWidget",
-      "text": "[data-st-error]",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:6880:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 69,
-      "offset": 6880,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "updateWidget",
-      "text": "[data-st-error]",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:6945:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 70,
-      "offset": 6945,
+      "offset": 6833,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1396,10 +1337,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:7002:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6890:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 71,
-      "offset": 7002,
+      "line": 69,
+      "offset": 6890,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1408,10 +1349,34 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:7139:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:6957:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 76,
-      "offset": 7139,
+      "line": 69,
+      "offset": 6957,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "updateWidget",
+      "text": "tax.v2NoticeFull",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:7010:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 69,
+      "offset": 7010,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "updateWidget",
+      "text": "ru",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:7127:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 74,
+      "offset": 7127,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1420,10 +1385,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:7255:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:7243:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 80,
-      "offset": 7255,
+      "line": 78,
+      "offset": 7243,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1432,10 +1397,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:7332:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:7320:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 82,
-      "offset": 7332,
+      "line": 80,
+      "offset": 7320,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1444,10 +1409,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:7701:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:7689:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 90,
-      "offset": 7701,
+      "line": 88,
+      "offset": 7689,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1456,22 +1421,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:7840:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:7828:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 91,
+      "offset": 7828,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "replaceItemVat",
+      "text": "no",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:7919:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 93,
-      "offset": 7840,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "replaceItemVat",
-      "text": "no",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:7931:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 95,
-      "offset": 7931,
+      "offset": 7919,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1480,10 +1445,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:7961:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:7949:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 95,
-      "offset": 7961,
+      "line": 93,
+      "offset": 7949,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1492,22 +1457,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8027:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8015:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 95,
+      "offset": 8015,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "replaceItemVat",
+      "text": "no",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:8110:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 97,
-      "offset": 8027,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "replaceItemVat",
-      "text": "no",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:8122:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 99,
-      "offset": 8122,
+      "offset": 8110,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1516,10 +1481,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8151:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8139:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 99,
-      "offset": 8151,
+      "line": 97,
+      "offset": 8139,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1528,10 +1493,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8401:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8389:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 103,
-      "offset": 8401,
+      "line": 101,
+      "offset": 8389,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1540,10 +1505,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8572:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8560:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 108,
-      "offset": 8572,
+      "line": 106,
+      "offset": 8560,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1552,10 +1517,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8613:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8601:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 109,
-      "offset": 8613,
+      "line": 107,
+      "offset": 8601,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1564,10 +1529,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8673:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8661:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 110,
-      "offset": 8673,
+      "line": 108,
+      "offset": 8661,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1576,10 +1541,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8736:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8724:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 111,
-      "offset": 8736,
+      "line": 109,
+      "offset": 8724,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1588,10 +1553,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8993:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8981:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 120,
-      "offset": 8993,
+      "line": 118,
+      "offset": 8981,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1600,10 +1565,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:8999:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8987:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 120,
-      "offset": 8999,
+      "line": 118,
+      "offset": 8987,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1612,10 +1577,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:9011:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:8999:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 120,
-      "offset": 9011,
+      "line": 118,
+      "offset": 8999,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1624,10 +1589,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:9042:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:9030:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 120,
-      "offset": 9042,
+      "line": 118,
+      "offset": 9030,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1636,10 +1601,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:9133:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:9121:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 123,
-      "offset": 9133,
+      "line": 121,
+      "offset": 9121,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1648,10 +1613,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:9139:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:9127:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 123,
-      "offset": 9139,
+      "line": 121,
+      "offset": 9127,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1660,10 +1625,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:9145:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:9133:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 123,
-      "offset": 9145,
+      "line": 121,
+      "offset": 9133,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1672,10 +1637,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:9767:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:9755:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 137,
-      "offset": 9767,
+      "line": 135,
+      "offset": 9755,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1684,10 +1649,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10018:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10006:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 140,
-      "offset": 10018,
+      "line": 138,
+      "offset": 10006,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1696,10 +1661,46 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10091:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10079:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 140,
+      "offset": 10079,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderFull",
+      "text": ": ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:10108:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 140,
+      "offset": 10108,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderFull",
+      "text": ": ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:10146:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 141,
+      "offset": 10146,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderFull",
+      "text": ": ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:10213:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 142,
-      "offset": 10091,
+      "offset": 10213,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1708,46 +1709,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10120:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10338:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 142,
-      "offset": 10120,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderFull",
-      "text": ": ",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:10158:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 143,
-      "offset": 10158,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderFull",
-      "text": ": ",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:10225:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 144,
-      "offset": 10225,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderFull",
-      "text": ": ",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:10350:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 147,
-      "offset": 10350,
+      "line": 145,
+      "offset": 10338,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1756,10 +1721,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10356:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10344:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 147,
-      "offset": 10356,
+      "line": 145,
+      "offset": 10344,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1768,10 +1733,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10363:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10351:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 147,
-      "offset": 10363,
+      "line": 145,
+      "offset": 10351,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1780,10 +1745,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10428:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10416:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 148,
-      "offset": 10428,
+      "line": 146,
+      "offset": 10416,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1792,10 +1757,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10492:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10480:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 149,
-      "offset": 10492,
+      "line": 147,
+      "offset": 10480,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1804,10 +1769,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10528:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10516:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 149,
-      "offset": 10528,
+      "line": 147,
+      "offset": 10516,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1816,10 +1781,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10593:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10581:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 150,
-      "offset": 10593,
+      "line": 148,
+      "offset": 10581,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1828,10 +1793,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10723:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10711:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 154,
-      "offset": 10723,
+      "line": 152,
+      "offset": 10711,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1840,10 +1805,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10783:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10771:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 155,
-      "offset": 10783,
+      "line": 153,
+      "offset": 10771,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1852,10 +1817,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10821:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10809:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 155,
-      "offset": 10821,
+      "line": 153,
+      "offset": 10809,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1864,10 +1829,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10921:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10909:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 158,
-      "offset": 10921,
+      "line": 156,
+      "offset": 10909,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1876,10 +1841,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:10971:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:10959:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 158,
-      "offset": 10971,
+      "line": 156,
+      "offset": 10959,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1888,10 +1853,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:11041:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:11029:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 159,
-      "offset": 11041,
+      "line": 157,
+      "offset": 11029,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1900,10 +1865,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:11121:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:11109:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 160,
-      "offset": 11121,
+      "line": 158,
+      "offset": 11109,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1912,10 +1877,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:11881:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:11869:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 172,
-      "offset": 11881,
+      "line": 170,
+      "offset": 11869,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1924,10 +1889,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:11920:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:11908:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 172,
-      "offset": 11920,
+      "line": 170,
+      "offset": 11908,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1936,10 +1901,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:11974:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:11962:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 173,
-      "offset": 11974,
+      "line": 171,
+      "offset": 11962,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1948,10 +1913,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:12022:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:12010:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 173,
-      "offset": 12022,
+      "line": 171,
+      "offset": 12010,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1960,10 +1925,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:12323:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:12311:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 179,
-      "offset": 12323,
+      "line": 177,
+      "offset": 12311,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1972,10 +1937,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:12560:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:12548:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 182,
-      "offset": 12560,
+      "line": 180,
+      "offset": 12548,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1984,10 +1949,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:13594:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:13582:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 204,
-      "offset": 13594,
+      "line": 202,
+      "offset": 13582,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -1996,10 +1961,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:13679:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:13667:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 205,
-      "offset": 13679,
+      "line": 203,
+      "offset": 13667,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2008,10 +1973,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:13736:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:13724:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 208,
-      "offset": 13736,
+      "line": 206,
+      "offset": 13724,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2020,10 +1985,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:13895:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:13883:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 215,
-      "offset": 13895,
+      "line": 213,
+      "offset": 13883,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2032,10 +1997,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:13925:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:13913:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 215,
-      "offset": 13925,
+      "line": 213,
+      "offset": 13913,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2044,22 +2009,34 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14216:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:14212:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 220,
+      "offset": 14212,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "offline-service",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:14274:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 221,
+      "offset": 14274,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "sales_tax",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:14366:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 222,
-      "offset": 14216,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "module",
-      "text": "offline-service",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:14263:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 223,
-      "offset": 14263,
+      "offset": 14366,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2068,22 +2045,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14340:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:14528:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 224,
-      "offset": 14340,
+      "line": 228,
+      "offset": 14528,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
-      "context": "module",
-      "text": "sales_tax",
+      "context": "restoreFull",
+      "text": "vat",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14522:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:14534:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 230,
-      "offset": 14522,
+      "line": 228,
+      "offset": 14534,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2092,10 +2069,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14581:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:14546:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 230,
-      "offset": 14581,
+      "line": 228,
+      "offset": 14546,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "restoreFull",
+      "text": "none",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:14634:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 229,
+      "offset": 14634,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2104,22 +2093,34 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14609:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:14693:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 230,
+      "offset": 14693,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "restoreFull",
+      "text": "sales_tax",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:14754:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 231,
-      "offset": 14609,
+      "offset": 14754,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
       "context": "restoreFull",
-      "text": "sales_tax",
+      "text": "vat",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14772:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:14879:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 233,
-      "offset": 14772,
+      "offset": 14879,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2128,10 +2129,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14800:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:14907:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 233,
-      "offset": 14800,
+      "offset": 14907,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2140,10 +2141,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14845:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:14954:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 234,
-      "offset": 14845,
+      "offset": 14954,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2152,10 +2153,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14898:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15009:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 235,
-      "offset": 14898,
+      "offset": 15009,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2164,10 +2165,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:14984:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15099:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 237,
-      "offset": 14984,
+      "offset": 15099,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2176,10 +2177,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:15168:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15312:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 242,
-      "offset": 15168,
+      "line": 243,
+      "offset": 15312,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2188,10 +2189,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:15456:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15593:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 249,
-      "offset": 15456,
+      "line": 250,
+      "offset": 15593,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2200,10 +2201,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:15512:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15605:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 250,
-      "offset": 15512,
+      "offset": 15605,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "none",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:15673:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 251,
+      "offset": 15673,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2212,10 +2225,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:15539:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15700:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 250,
-      "offset": 15539,
+      "line": 251,
+      "offset": 15700,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2224,10 +2237,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:15792:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15953:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 257,
-      "offset": 15792,
+      "line": 258,
+      "offset": 15953,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2236,22 +2249,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:15829:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 257,
-      "offset": 15829,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "module",
-      "text": "sales_tax",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:15867:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15973:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 258,
-      "offset": 15867,
+      "offset": 15973,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "vat",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:15979:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 258,
+      "offset": 15979,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2260,10 +2273,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:15984:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:15991:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 259,
-      "offset": 15984,
+      "line": 258,
+      "offset": 15991,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "none",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:16158:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 260,
+      "offset": 16158,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2272,10 +2297,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:16189:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:16170:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 264,
-      "offset": 16189,
+      "line": 260,
+      "offset": 16170,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "none",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:16387:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 265,
+      "offset": 16387,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2284,22 +2321,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:16233:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:16399:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 264,
-      "offset": 16233,
+      "line": 265,
+      "offset": 16399,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
       "context": "module",
-      "text": "sales_tax",
+      "text": "none",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:16260:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:16474:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 264,
-      "offset": 16260,
+      "line": 265,
+      "offset": 16474,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2308,10 +2345,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:16409:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:16626:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 268,
-      "offset": 16409,
+      "line": 270,
+      "offset": 16626,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2320,22 +2357,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:16709:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:16855:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 274,
-      "offset": 16709,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "module",
-      "text": "sales_tax",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:16838:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 276,
-      "offset": 16838,
+      "line": 277,
+      "offset": 16855,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2344,10 +2369,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:16924:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:16946:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 276,
-      "offset": 16924,
+      "line": 278,
+      "offset": 16946,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2356,10 +2381,58 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17163:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:16997:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 285,
-      "offset": 17163,
+      "line": 281,
+      "offset": 16997,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "sales_tax",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:17009:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 281,
+      "offset": 17009,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "none",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:17144:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 283,
+      "offset": 17144,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "sales_tax",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:17190:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 283,
+      "offset": 17190,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "sales_tax",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:17456:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 291,
+      "offset": 17456,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2368,10 +2441,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17169:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:17462:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 285,
-      "offset": 17169,
+      "line": 291,
+      "offset": 17462,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2380,10 +2453,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17181:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:17474:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 285,
-      "offset": 17181,
+      "line": 291,
+      "offset": 17474,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2392,10 +2465,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17300:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:17593:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 287,
-      "offset": 17300,
+      "line": 293,
+      "offset": 17593,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2404,10 +2477,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17343:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:17636:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 287,
-      "offset": 17343,
+      "line": 293,
+      "offset": 17636,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2416,10 +2489,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17635:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:17928:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 293,
-      "offset": 17635,
+      "line": 299,
+      "offset": 17928,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2428,10 +2501,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17662:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:17955:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 293,
-      "offset": 17662,
+      "line": 299,
+      "offset": 17955,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2440,10 +2513,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17784:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:18077:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 296,
-      "offset": 17784,
+      "line": 302,
+      "offset": 18077,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2452,82 +2525,58 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:17957:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 300,
-      "offset": 17957,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderSimple",
-      "text": "sales_tax",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:18006:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 302,
-      "offset": 18006,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderSimple",
-      "text": ": ",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:18035:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 302,
-      "offset": 18035,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderSimple",
-      "text": ": ",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:18066:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 302,
-      "offset": 18066,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderSimple",
-      "text": ": ",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:18115:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 303,
-      "offset": 18115,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderSimple",
-      "text": "agent",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:18143:js-string",
-      "file": "nomad360_sales_tax_service_v1.js",
-      "line": 303,
-      "offset": 18143,
-      "kind": "js-string",
-      "owner": "nomad360_sales_tax_service_v1.js",
-      "stage": "L2",
-      "context": "renderSimple",
-      "text": ": ",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_sales_tax_service_v1.js:18273:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:18250:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 306,
-      "offset": 18273,
+      "offset": 18250,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderSimple",
+      "text": "sales_tax",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:18299:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 308,
+      "offset": 18299,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderSimple",
+      "text": ": ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:18328:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 308,
+      "offset": 18328,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderSimple",
+      "text": ": ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:18359:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 308,
+      "offset": 18359,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderSimple",
+      "text": ": ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:18408:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 309,
+      "offset": 18408,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2536,10 +2585,34 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:18496:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:18436:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 309,
+      "offset": 18436,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderSimple",
+      "text": ": ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:18566:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
       "line": 312,
-      "offset": 18496,
+      "offset": 18566,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "renderSimple",
+      "text": "agent",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:18789:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 318,
+      "offset": 18789,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2548,10 +2621,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:18529:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:18822:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 313,
-      "offset": 18529,
+      "line": 319,
+      "offset": 18822,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2560,10 +2633,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:18636:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:18929:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 314,
-      "offset": 18636,
+      "line": 320,
+      "offset": 18929,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2572,10 +2645,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:18755:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19048:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 316,
-      "offset": 18755,
+      "line": 322,
+      "offset": 19048,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2584,10 +2657,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:18835:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19128:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 316,
-      "offset": 18835,
+      "line": 322,
+      "offset": 19128,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2596,10 +2669,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:18959:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19252:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 322,
-      "offset": 18959,
+      "line": 328,
+      "offset": 19252,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2608,10 +2681,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:18979:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19272:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 322,
-      "offset": 18979,
+      "line": 328,
+      "offset": 19272,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2620,10 +2693,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19014:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19307:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 323,
-      "offset": 19014,
+      "line": 329,
+      "offset": 19307,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2632,10 +2705,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19034:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19327:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 323,
-      "offset": 19034,
+      "line": 329,
+      "offset": 19327,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2644,10 +2717,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19109:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19402:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 324,
-      "offset": 19109,
+      "line": 330,
+      "offset": 19402,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2656,10 +2729,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19208:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19501:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 325,
-      "offset": 19208,
+      "line": 331,
+      "offset": 19501,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2668,10 +2741,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19288:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19581:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 326,
-      "offset": 19288,
+      "line": 332,
+      "offset": 19581,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2680,10 +2753,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19378:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19671:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 327,
-      "offset": 19378,
+      "line": 333,
+      "offset": 19671,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2692,10 +2765,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19446:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19721:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 328,
-      "offset": 19446,
+      "line": 334,
+      "offset": 19721,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "vat",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:19727:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 334,
+      "offset": 19727,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2704,10 +2789,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19502:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:19739:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 328,
-      "offset": 19502,
+      "line": 334,
+      "offset": 19739,
+      "kind": "js-string",
+      "owner": "nomad360_sales_tax_service_v1.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "none",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_sales_tax_service_v1.js:19818:js-string",
+      "file": "nomad360_sales_tax_service_v1.js",
+      "line": 334,
+      "offset": 19818,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2716,10 +2813,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19813:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:20129:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 338,
-      "offset": 19813,
+      "line": 344,
+      "offset": 20129,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
@@ -2728,10 +2825,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_sales_tax_service_v1.js:19849:js-string",
+      "id": "nomad360_sales_tax_service_v1.js:20165:js-string",
       "file": "nomad360_sales_tax_service_v1.js",
-      "line": 338,
-      "offset": 19849,
+      "line": 344,
+      "offset": 20165,
       "kind": "js-string",
       "owner": "nomad360_sales_tax_service_v1.js",
       "stage": "L2",
