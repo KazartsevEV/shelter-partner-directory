@@ -38,7 +38,9 @@
     if(config.boundsIncludeTax===true){
       const factor=1+Number(config.ratePct||0)/100;
       next.skus.forEach(s=>{
-        if(s.fullServiceRole==='agent'||s.serviceRole==='agent')return;
+        // Full-service V1 overwrites the quote bounds with its contractual
+        // tax-exclusive fixed fee; unlike goods these are never buyer-tax gross.
+        if(s.fullServiceV2||s.fixedPriceFromV1||s.fullServiceRole==='agent'||s.serviceRole==='agent')return;
         for(const key of ['priceMin','priceMax','priceSelected']){
           if(Number.isFinite(Number(s[key])))s[key]=Number(s[key])/factor;
         }
