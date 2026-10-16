@@ -5,7 +5,9 @@ test('All existing application files stay exact outside the five authorised pres
  const files=execFileSync('git',['ls-tree','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/\.(js|css|html)$/i.test(f)||f==='CALCULATOR_LICENSE.md');A.ok(files.includes('portfolio_v2_engine.js')&&files.includes('Marketing_calc.HTML')&&files.includes('nomad360_fx.js'));
  // The later owner-approved consulting B2B copy touches only these presentation files;
  // tests/nomad360_marketing_scope.test.cjs guards their unchanged non-B2B behavior.
- const laterApprovedMarketing=new Set(['nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.css']);
+ // 7Б-5 modifies the two accepted export renderers only; their original VAT numbers
+ // are protected by frozen VAT and stage-5 export compatibility tests.
+ const laterApprovedMarketing=new Set(['nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.css','nomad360_price_export.js','nomad360_calculator_ui.js']);
  for(const file of files)if(!laterApprovedMarketing.has(file)){
   const actual=fs.readFileSync(path.join(root,file),'utf8');
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(file)){
