@@ -36,7 +36,12 @@ async function checkDownload(page,kind,stem,requests){
  const browser=await chromium.launch({headless:true,executablePath:process.env.NOMAD360_CHROMIUM_PATH||undefined,args:['--no-sandbox']}),cases=[];
  try{
  for(const width of [320,360,390,430,768,1280])for(const lang of ['ru','en','kk'])for(const kind of ['linked','standalone']){
-  const page=await browser.newPage({viewport:{width,height:900},acceptDownloads:true}),errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url())});
+  const page=await browser.newPage({viewport:{width,height:900},acceptDownloads:true}),errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{
+   // The existing donation iframe loads independently of local XLSX export.
+   // Ignore only its known embed navigation; all other HTTP requests remain failures.
+   const url=r.url();
+   if(/^https?:/.test(url)&&!url.startsWith('https://nowpayments.io/embeds/donation-widget?'))requests.push(url);
+  });
   await page.route(/^https?:\/\//,r=>entry.startsWith('http')&&r.request().url().startsWith(new URL('./',entry).href)?r.continue():r.abort());await page.goto(entry,{waitUntil:'domcontentloaded'});await page.addStyleTag({path:path.join(root,'artifacts','excel-utilities.css')});
   await page.waitForFunction(()=>window.Nomad360PriceExport&&window.ExcelJS&&window.Nomad360UI);await page.locator('#nomad360-lang-select').selectOption(lang);
   if(kind==='linked'){
