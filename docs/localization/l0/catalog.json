@@ -3,9 +3,21 @@
   "sources": [
     {
       "file": "Marketing_calc.HTML",
-      "sha256": "8a00cbef6694940cb8a23bdbd90b98c0cf58b24034b5025319fe1a9f933ffb0f",
-      "bytes": 620347,
+      "sha256": "8e26fde1f5cce409d2a0506fcd94b4af78c5cac08e9bf1192978603da286ed53",
+      "bytes": 620457,
       "owner": "Marketing_calc.HTML"
+    },
+    {
+      "file": "nomad360_bug_report.css",
+      "sha256": "a71b84640fad90696dcd5fe4b01ab5438ef46510e73ff3883bb42e4b08010612",
+      "bytes": 3997,
+      "owner": "nomad360_bug_report.css"
+    },
+    {
+      "file": "nomad360_bug_report.js",
+      "sha256": "4dfce1a34720330e52c205ab52859137ca5cb9e687cc1b895ced36cc6102698c",
+      "bytes": 11779,
+      "owner": "nomad360_bug_report.js"
     },
     {
       "file": "nomad360_calculator_ui.css",
@@ -222,7 +234,7 @@
     {
       "id": "Marketing_calc.HTML:labels:20125:button",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "button",
       "translations": {
@@ -234,7 +246,7 @@
     {
       "id": "Marketing_calc.HTML:labels:20125:desc",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "desc",
       "translations": {
@@ -246,7 +258,7 @@
     {
       "id": "Marketing_calc.HTML:labels:20125:intro",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "intro",
       "translations": {
@@ -258,7 +270,7 @@
     {
       "id": "Marketing_calc.HTML:labels:20125:offline",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "offline",
       "translations": {
@@ -270,13 +282,229 @@
     {
       "id": "Marketing_calc.HTML:labels:20125:online",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "online",
       "translations": {
         "ru": "Полный расчёт онлайн-услуги",
         "en": "Full calculation for one online service",
         "kk": "Бір онлайн қызметтің толық есебі"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:close",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "close",
+      "translations": {
+        "ru": "Закрыть",
+        "en": "Close",
+        "kk": "Жабу"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:description",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "description",
+      "translations": {
+        "ru": "Опишите проблему с калькулятором. Аккаунт и имя не нужны.",
+        "en": "Describe a problem with the calculator. No account or name is needed.",
+        "kk": "Калькулятордағы мәселені сипаттаңыз. Аккаунт пен аты-жөніңіз қажет емес."
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:email",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "email",
+      "translations": {
+        "ru": "Email для ответа (необязательно)",
+        "en": "Reply email (optional)",
+        "kk": "Жауапқа арналған email (міндетті емес)"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:emailHint",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "emailHint",
+      "translations": {
+        "ru": "name@example.com",
+        "en": "name@example.com",
+        "kk": "name@example.com"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:failure",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "failure",
+      "translations": {
+        "ru": "Не удалось отправить сообщение. Попробуйте ещё раз.",
+        "en": "The report could not be sent. Please try again.",
+        "kk": "Хабарлама жіберілмеді. Қайталап көріңіз."
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:message",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "message",
+      "translations": {
+        "ru": "Что не работает?",
+        "en": "What went wrong?",
+        "kk": "Қандай қате болды?"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:messageHint",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "messageHint",
+      "translations": {
+        "ru": "Опишите ошибку",
+        "en": "Describe the bug",
+        "kk": "Қатені сипаттаңыз"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:privacy",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "privacy",
+      "translations": {
+        "ru": "Будут переданы только описание ошибки, шаги, email (если указан), язык интерфейса и ширина экрана. Расчёты, сохранения, товары и документы не передаются. Обработчик может видеть IP-адрес и домен сайта.",
+        "en": "Only your description, steps, email (if provided), interface language and screen width are sent. Calculations, saved drafts, products and documents are never sent. The provider may see your IP address and the site domain.",
+        "kk": "Тек қате сипаттамасы, қадамдар, email (көрсетілсе), интерфейс тілі және экран ені жіберіледі. Есептеулер, сақталған деректер, тауарлар және құжаттар жіберілмейді. Қызмет көрсетуші IP-мекенжайыңызды және сайт доменін көруі мүмкін."
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:required",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "required",
+      "translations": {
+        "ru": "Опишите ошибку перед отправкой.",
+        "en": "Please describe the problem before sending.",
+        "kk": "Жіберер алдында қатені сипаттаңыз."
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:send",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "send",
+      "translations": {
+        "ru": "Отправить",
+        "en": "Send report",
+        "kk": "Жіберу"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:sending",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "sending",
+      "translations": {
+        "ru": "Отправляем…",
+        "en": "Sending…",
+        "kk": "Жіберілуде…"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:steps",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "steps",
+      "translations": {
+        "ru": "Как повторить проблему? (необязательно)",
+        "en": "Steps to reproduce (optional)",
+        "kk": "Қатені қайталау қадамдары (міндетті емес)"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:stepsHint",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "stepsHint",
+      "translations": {
+        "ru": "Что вы сделали перед появлением ошибки?",
+        "en": "What did you do before the problem appeared?",
+        "kk": "Қате шыққанға дейін не істедіңіз?"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:success",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "success",
+      "translations": {
+        "ru": "Спасибо! Сообщение отправлено.",
+        "en": "Thank you! Your report has been sent.",
+        "kk": "Рақмет! Хабарламаңыз жіберілді."
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:title",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "title",
+      "translations": {
+        "ru": "Сообщить об ошибке",
+        "en": "Report a bug",
+        "kk": "Қате туралы хабарлау"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:tooMany",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "tooMany",
+      "translations": {
+        "ru": "Слишком много запросов. Повторите позже.",
+        "en": "Too many requests. Please try again later.",
+        "kk": "Сұрау тым көп. Кейінірек қайталаңыз."
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:trigger",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "trigger",
+      "translations": {
+        "ru": "Сообщить об ошибке",
+        "en": "Report a bug",
+        "kk": "Қате туралы хабарлау"
+      }
+    },
+    {
+      "id": "nomad360_bug_report.js:COPY:362:unavailable",
+      "file": "nomad360_bug_report.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "unavailable",
+      "translations": {
+        "ru": "Отправка пока не подключена. Форма доступна для ознакомления.",
+        "en": "Sending is not configured yet. You can preview the form.",
+        "kk": "Жіберу қызметі әлі қосылмаған. Форманы қарап шығуға болады."
       }
     },
     {
@@ -26302,6 +26530,11 @@
       "file": "entries/Marketing_calc.HTML/011.json",
       "owner": "Marketing_calc.HTML",
       "count": 375
+    },
+    {
+      "file": "entries/nomad360_bug_report.js/001.json",
+      "owner": "nomad360_bug_report.js",
+      "count": 150
     },
     {
       "file": "entries/nomad360_calculator_ui.css/001.json",

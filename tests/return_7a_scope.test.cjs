@@ -18,7 +18,7 @@ test('All existing application files stay exact outside the five authorised pres
    continue;
   }
   const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
-   const normalized=stripReturn(file,actual.replace(
+   const normalized=stripReturn(file,(file==='Marketing_calc.HTML'?require('./helpers/task09-html-scope.cjs').stripTask09Html(actual):actual).replace(
    file==='Marketing_calc.HTML'?'<script src="./nomad360_sales_tax_service_v1.js"></script>\n':
     '\u0000stage3-noop\u0000',''));
    A.equal(file==='Marketing_calc.HTML'?mask(normalized):normalized,
