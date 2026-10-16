@@ -179,9 +179,22 @@ def main():
                 def mask_license_locale(content):
                     lines = content.decode('utf-8').splitlines()
                     assert sum('"interface.header.licenseCopy"' in x for x in lines) == 1
+                    # 7B-4 adds seven named display-only translations. Permit
+                    # exactly these new keys, without accepting edits to any
+                    # existing translations or application/financial code.
+                    tax_keys = {
+                        'tax.v2SalesTaxLabel', 'tax.v2NoneLabel',
+                        'tax.v2SalesTaxRate', 'tax.v2BuyerSummary',
+                        'tax.v2DeductionsNotice', 'tax.v2DeductionsNoticeLinked',
+                        'tax.v2TaxMode'
+                    }
+                    tax_rows = [x for x in lines if re.match(r'^ \\["tax\\.v2[^\"]+",', x)]
+                    actual_keys = [re.match(r'^ \\["([^\"]+)"', x).group(1) for x in tax_rows]
+                    assert len(actual_keys) == len(set(actual_keys))
+                    assert set(actual_keys) in (set(), tax_keys), 'Unapproved 7B-4 locale row'
                     return '\n'.join('<ACCEPTED-LICENSE-ROW>' if
                                      '"interface.header.licenseCopy"' in x else x
-                                     for x in lines)
+                                     for x in lines if x not in tax_rows)
                 assert mask_license_locale(raw) == mask_license_locale(approved), name
             else:
                 assert raw == approved, 'Approved PR #145 source changed: ' + name
