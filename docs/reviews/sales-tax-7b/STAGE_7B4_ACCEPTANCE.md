@@ -75,6 +75,12 @@ node tests/sales_tax_7b_services_browser.cjs
 - [Numeric Chromium audit — run 38909164315](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38909164315): `browser-audit` успешно.
 - [Агентская матрица — run 38906386473](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38906386473): `7B4_AGENT_PRINCIPAL_MATRIX`, 8 маршрутов × 3 месяца; числа зафиксированы выше.
 
+### Примечание к историческому CI 7Б-1
+
+Первый заключительный прогон на `6bfd02f` выявил [ошибку stage-1 scope gate (run 38914160199)](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38914160199): правка общей карты 7Б запускала workflow **7Б-1**, где исторический запрет изменений UI ошибочно применялся к законным интеграциям 7Б-4 (`Marketing_calc.HTML`, `nomad360_locale_core.js`). Числовые тесты и frozen VAT не успели выполниться из-за этого раннего guard.
+
+В [`.github/workflows/sales-tax-7b-pure.yml`](../../../../.github/workflows/sales-tax-7b-pure.yml) guard ограничен изменениями **самих файлов чистой математики 7Б-1**, а шесть защищённых исторических финансовых engines проверяются независимо на любой последующей стадии. Шаги строгих unit-тестов 7Б-1 и `tests/sales_tax_7b_baseline.cjs` оставлены обязательными и без изменений; эталоны/пороги не смягчались. Для окончательной приёмки требуется новый полностью успешный запуск после этого исправления.
+
 **Заключительная проверка после синхронизации и правок документации:** [живые проверки PR #165](https://github.com/KazartsevEV/shelter-partner-directory/pull/165/checks), [профильный workflow](https://github.com/KazartsevEV/shelter-partner-directory/actions/workflows/sales-tax-7b-v2.yml). Прежде чем объединять PR, сверить последний HEAD и результаты всех обязательных workflow заново; предыдущий GREEN не подменяет эту проверку.
 
 **Нельзя объединять** при красном обязательном workflow, изменённых frozen VAT-эталонах, утрате контекста принципала или непроверенной помесячной математике. Прежние VAT-формулы, числовые допуски и эталоны не менять. UI/экспорт/восстановление старых черновиков в окончательном виде относятся к отдельной задаче 7Б-5; заключительная сквозная приёмка всей 7Б — 7Б-6.
