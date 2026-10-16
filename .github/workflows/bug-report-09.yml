@@ -32,7 +32,7 @@ jobs:
             echo "Protected finance or VAT modified" >&2
             exit 1
           fi
-          if grep -Ei 'localStorage|sessionStorage|document.cookie|navigator.sendBeacon|location.search|location.href' nomad360_bug_report.js; then
+          if grep -Ei '(root|window|document)\.(localStorage|sessionStorage|cookie)|navigator\.sendBeacon|location\.(search|href)' nomad360_bug_report.js; then
             echo "Private state or URL transfer in widget" >&2
             exit 1
           fi

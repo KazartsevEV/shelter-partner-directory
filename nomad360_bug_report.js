@@ -116,6 +116,13 @@ function boot(){
    message.focus();
   }
  }
+ function syncKeyboard(){
+  const view=root.visualViewport;
+  launcher.classList.toggle('is-keyboard',!!view && view.height<root.innerHeight-160);
+ }
+ root.visualViewport?.addEventListener('resize',syncKeyboard);
+ root.visualViewport?.addEventListener('scroll',syncKeyboard);
+ syncKeyboard();
  launcher.addEventListener('click',start);
  close.addEventListener('click',()=>dialog.close());
  dialog.addEventListener('close',()=>{if(!sending)launcher.focus();});
@@ -161,7 +168,7 @@ function boot(){
   finally{
    root.clearTimeout(timer);sending=false;submit.removeAttribute('aria-busy');
    submit.disabled=completed||!endpoint();
-   if(!completed)submit.textContent=COPY[language()].send;
+   submit.textContent=COPY[language()].send;
   }
  });
  localize();

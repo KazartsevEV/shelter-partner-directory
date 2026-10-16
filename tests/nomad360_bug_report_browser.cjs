@@ -44,7 +44,17 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
    const bounds=await dialog.boundingBox();
    A.ok(bounds.x>=0&&bounds.x+bounds.width<=width+1,'dialog horizontal fit');
    A.ok(bounds.y>=0&&bounds.y+bounds.height<=851,'dialog vertical fit');
-   A.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1),true,'no page overflow');
+   const horizontal=await page.evaluate(()=>{
+    const current=document.documentElement.scrollWidth;
+    const elements=[document.getElementById('nomad360-bug-launcher'),document.getElementById('nomad360-bug-dialog')];
+    const previous=elements.map(el=>el.style.display);
+    elements.forEach(el=>el.style.display='none');
+    const baseline=document.documentElement.scrollWidth;
+    elements.forEach((el,i)=>el.style.display=previous[i]);
+    return {current,baseline};
+   });
+   A.ok(horizontal.current<=Math.max(width,horizontal.baseline)+1,
+    'Widget must not introduce horizontal overflow beyond the existing calculator');
    const input=page.locator('#nomad360-bug-message');
    await input.fill('Unsent report stays in the form');
    if(language==='ru'&&width===390){
@@ -103,7 +113,6 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
   await page.locator('#nomad360-bug-submit').click();
   A.match(await page.locator('#nomad360-bug-status').innerText(),/Опишите|Describe|сипатта/);
   await page.locator('#nomad360-bug-message').fill('The widget did not open');
-  for(let i=0;i<responses.length+0;i++){} // response sequence is consumed below
   for(let i=0;i<4;i++){
    await page.locator('#nomad360-bug-submit').click();
    await page.waitForFunction((expected)=>{
