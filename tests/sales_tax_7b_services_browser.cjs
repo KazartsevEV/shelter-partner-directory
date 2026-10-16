@@ -26,7 +26,7 @@ async function full(page,channel,role){
   await page.locator('#service-agent-fee-pct').fill('20');
   await page.locator('#service-agent-partner-vat').fill('10');
   await page.locator('#service-agent-partner-tax-pct').fill('5');
-  await page.locator('#service-agent-line-payers select[data-agent-line-key="advertising"]').selectOption('partner');
+
  }else{
   await page.locator('[data-material-cost-mode="known"]').click();
   await page.locator('#own-materials-cost').fill('8');
@@ -38,6 +38,7 @@ async function full(page,channel,role){
  for(const [id,v] of Object.entries({'own-product-ad-budget':900,'own-product-ad-cpc':4.5,
   'own-product-ad-ctr':2,'own-product-ad-click-lead':20,'own-product-ad-lead-sale':50}))
   await page.locator('#'+id).fill(String(v));
+ if(role==='agent')await page.locator('#service-agent-line-payers select[data-agent-line-key="advertising"]').selectOption('partner');
  if(channel==='offline')await page.locator('#offline-service-monthly-capacity').fill('40');
  return page.evaluate(()=>{
   selectProductYesNo('salesVat','yes');document.getElementById('own-sales-vat-pct').value='12';
