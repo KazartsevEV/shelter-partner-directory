@@ -9,6 +9,15 @@ const benefitArt=[
  '<path d="M3 10h34M3 24h34M3 38h34"/><path class="nomad-benefit-accent" d="M15 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM28 19a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM12 33a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/>',
  '<rect x="7" y="20" width="26" height="23" rx="3"/><path d="M12 20v-9a8 8 0 0 1 16 0v9"/><path class="nomad-benefit-accent" d="M20 28v8"/>'
 ];
+// Visual emphasis is local to the live heading; its original localized text stays unchanged.
+function emphasizeHeroTitle(hero){
+ const h=hero?.querySelector('h2');if(!h)return;
+ const full=h.textContent||'';
+ const hit=full.match(/мне выгодно|most profitable|тиімді/i);
+ if(!hit)return;
+ const span=document.createElement('span');span.className='nomad-hero-title-accent';span.textContent=hit[0];
+ h.replaceChildren(document.createTextNode(full.slice(0,hit.index)),span,document.createTextNode(full.slice(hit.index+hit[0].length)));
+}
 function decorateBenefits(intro){
  const lead=intro.querySelector('.nomad-intro-lead');
  if(lead&&!lead.querySelector('strong')&&lead.textContent.startsWith('Nomad360 lite')){const text=lead.textContent;const strong=document.createElement('strong');strong.textContent='Nomad360 lite';lead.replaceChildren(strong,document.createTextNode(text.slice(13)));}
@@ -37,6 +46,7 @@ function fold(node,id,label){
 function decorate(){
  const hero=byId('nomad360-hero'),seo=byId('nomad360-seo-banner'),intro=byId('nomad360-intro');
  const main=group('nomad360-commercial-banner',[hero,seo,intro],'nomad-banner nomad-banner-hero');
+ emphasizeHeroTitle(hero);
  if(main&&intro&&seo){
   // Retain indexed source, IDs and original SEO copy, within the same composition.
   seo.querySelector('.nomad-seo-copy')?.remove();
