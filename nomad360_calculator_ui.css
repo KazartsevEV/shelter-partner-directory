@@ -646,8 +646,8 @@ body #nomad360-information .nomad-links a{display:inline-flex;align-items:center
 #nomad360-return-support #nomad360-return{border:0;background:transparent;color:#fff;padding:0;margin:0 0 24px;width:55%;border-radius:0}
 #nomad360-return-support .nomad-return h2{color:#fff;font-size:clamp(26px,2.8vw,36px);line-height:1.22;margin:0 0 24px}
 #nomad360-return-support .nomad-return-actions{gap:12px;margin:0 0 20px}
-#nomad360-return-support .nomad-return-button{background:var(--nb-orange);color:var(--nb-blue);border:1px solid var(--nb-orange);padding:12px 10px;font-size:16px;border-radius:6px}
-#nomad360-return-support .nomad-return-button:hover{background:#f29d76}
+#nomad360-return-support .nomad-return-button{background:rgba(0,0,0,.15);color:#fff;border:1px solid var(--nb-line);border-left:3px solid var(--nb-orange);padding:12px 10px;font-size:16px;border-radius:6px}
+#nomad360-return-support .nomad-return-button:hover{background:rgba(0,0,0,.35)}
 #nomad360-return-support .nomad-return-note{font-size:17px;font-weight:400;color:#fff;line-height:1.5;margin:10px 0}
 #nomad360-return-support #nomad360-return p.nomad-return-status{color:#fff!important}
 #nomad360-return-support .nomad-return-help{color:#fff;background:transparent;border-color:var(--nb-line)}
@@ -725,7 +725,7 @@ body #nomad360-information .nomad-links a{display:inline-flex;align-items:center
  body #nomad360-commercial-banner .nomad-seo-logo-mask{width:64px;height:64px;flex:none}
  body #nomad360-commercial-banner .nomad-seo-tagline{font-size:16px;text-align:left}
  body #nomad360-information.nomad-banner-about{padding:24px 4px}
- #nomad360-information::before{height:380px;background-size:auto 380px;background-position:calc(100% + 54px) top;mask-image:linear-gradient(90deg,transparent 10%,rgba(0,0,0,.1) 72%,#000 92%),linear-gradient(to bottom,#000 25%,transparent 100%)}
+ #nomad360-information::before{height:460px;background-image:linear-gradient(90deg,rgba(22,55,90,.88),rgba(22,55,90,.10)),url('./assets/nomad360-banners/about.webp');background-size:100% 100%,auto 480px;background-position:center,68% top;background-repeat:no-repeat;mask-image:linear-gradient(to bottom,#000 22%,transparent 100%);mask-composite:intersect}
  body #nomad360-information h2{font-size:28px;margin-bottom:20px}
  body #nomad360-information #nomad360-about>h2{max-width:70%}
  body #nomad360-information .nomad-about-opening{max-width:78%;margin-bottom:24px}
@@ -747,7 +747,7 @@ body #nomad360-information .nomad-links a{display:inline-flex;align-items:center
  #nomad360-return-support #nomad360-return::before{content:'';position:absolute;z-index:-1;inset:auto -4px 0;aspect-ratio:841/1870;background:url('./assets/nomad360-banners/support-mobile.webp') center bottom/100% auto no-repeat;mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.12) 40%,#000 49%,#000 85%,transparent 100%)}
  #nomad360-return-support #nomad360-support,#nomad360-return-support #nomad360-product-details>summary{width:100%;max-width:100%}
  #nomad360-return-support .nomad-return-actions{grid-template-columns:minmax(0,1fr);gap:10px}
- #nomad360-return-support .nomad-return-button{padding:12px 16px;font-size:17px;text-align:left}
+ #nomad360-return-support .nomad-return-button{padding:12px 16px;font-size:16px;line-height:1.45;text-align:left;min-height:52px}
  #nomad360-footer .nomad-banner-legal{grid-template-columns:minmax(0,1fr);gap:12px;padding:20px 4px}
  #nomad360-footer #nomad360-embed.nomad-banner-consulting{padding:220px 4px 24px;gap:24px}
  #nomad360-embed.nomad-banner-consulting::before{height:870px;background-image:url('./assets/nomad360-banners/consulting-mobile.webp');background-size:100% auto;background-position:center top;mask-image:linear-gradient(to bottom,#000 20%,rgba(0,0,0,.4) 42%,transparent 100%)}
@@ -756,7 +756,7 @@ body #nomad360-information .nomad-links a{display:inline-flex;align-items:center
  #nomad360-footer #nomad360-embed .nomad-embed-b2b-title{font-size:30px}
  #nomad360-footer #nomad360-embed .nomad-embed-b2b-slogan{font-size:18px}
  #nomad360-footer #nomad360-embed .nomad-embed-b2b-benefits{grid-template-columns:minmax(0,1fr);gap:20px}
- #nomad360-footer #nomad360-embed .nomad-embed-b2b-card{grid-template-columns:36px 40px minmax(0,1fr);grid-template-rows:auto 1fr;padding-top:20px;gap:16px}
+ #nomad360-footer #nomad360-embed .nomad-embed-b2b-card{grid-template-columns:36px 40px minmax(0,1fr);grid-template-rows:auto 1fr;padding:18px 16px;gap:12px;background:rgba(0,0,0,.19);border:1px solid rgba(255,255,255,.24);border-radius:12px}
  #nomad360-footer #nomad360-embed .nomad-embed-b2b-number{width:36px;height:36px;font-size:20px}
  #nomad360-footer #nomad360-embed .nomad-embed-b2b-icon{justify-self:start}
  #nomad360-footer #nomad360-embed .nomad-embed-b2b-copy{grid-column:1/-1;font-size:17px}
