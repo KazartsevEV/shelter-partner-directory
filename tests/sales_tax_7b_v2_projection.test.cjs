@@ -84,7 +84,7 @@ test('Linked V1 import: clear input VAT without changing SKU price limits or own
 test('Discounts and bundles are already in net V2 revenue: no double application',()=>{
  const input={ready:true,items:[{id:'a',revenue:90,discountSelected:10},
     {id:'b',revenue:270,bundleExposure:.10}],
-  totals:{netProfit:42},cashflow:{periodPnl:{months:[{},{}],bySku:{
+  totals:{netProfit:42},cashflow:{periodPnl:{ready:true,months:[{},{}],bySku:{
    a:{months:[{revenue:50},{revenue:40}]},
    b:{months:[{revenue:150},{revenue:120}]}
   }}}};
@@ -100,7 +100,7 @@ test('Discounts and bundles are already in net V2 revenue: no double application
 });
 test('Agent principal is the Sales Tax base, never the owner commission',()=>{
  const input={ready:true,items:[{id:'agent',fullServiceRole:'agent',revenue:200}],
-  totals:{revenue:200,netProfit:150},cashflow:{periodPnl:{months:[{},{}],bySku:{
+  totals:{revenue:200,netProfit:150},cashflow:{periodPnl:{ready:true,months:[{},{}],bySku:{
    agent:{months:[{revenue:120},{revenue:80}],
      partner:{revenue:1000,months:[{revenue:600},{revenue:400}]}}
   }}}};
