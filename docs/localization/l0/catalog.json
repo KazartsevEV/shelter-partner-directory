@@ -3,8 +3,8 @@
   "sources": [
     {
       "file": "Marketing_calc.HTML",
-      "sha256": "df91fab5638a37a19151fe64dae6c2b780cc13310de5553cf4078613fd609392",
-      "bytes": 617805,
+      "sha256": "4c50fdbb9d43672d1b8b0b6654efe8e2ef444107d9fcaa7385c466e5450ef915",
+      "bytes": 617904,
       "owner": "Marketing_calc.HTML"
     },
     {
@@ -90,6 +90,18 @@
       "sha256": "d015af4d3073905dcc3e9c14c8e60f7870e0b750da0e314160baddfedd1ddb16",
       "bytes": 8826,
       "owner": "nomad360_return.js"
+    },
+    {
+      "file": "nomad360_sales_tax.js",
+      "sha256": "fb4ad6d673b5312e6cb56bafcde0719c7bd763c753efb047a0b1372afe509a8f",
+      "bytes": 2858,
+      "owner": "nomad360_sales_tax.js"
+    },
+    {
+      "file": "nomad360_sales_tax_v1.js",
+      "sha256": "2c798f70dd88ff1ce23c4de690c6761dcf2c4dbabbdbe85427b92124ee4de012",
+      "bytes": 14411,
+      "owner": "nomad360_sales_tax_v1.js"
     },
     {
       "file": "nomad360_seo_language.js",
@@ -24086,6 +24098,150 @@
       }
     },
     {
+      "id": "nomad360_sales_tax_v1.js:copy:586:buyer",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "buyer",
+      "translations": {
+        "ru": "Итоговая цена для покупателя",
+        "en": "Final customer price",
+        "kk": "Сатып алушының соңғы бағасы"
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:heading",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "heading",
+      "translations": {
+        "ru": "Режим налога с продаж",
+        "en": "Sales tax regime",
+        "kk": "Сатудан алынатын салық режимі"
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:hint",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "hint",
+      "translations": {
+        "ru": "Sales Tax начисляется после скидки. Он не является выручкой и не вычитается из прибыли дважды. Индивидуальные вычеты и льготы не учитываются — обратитесь к бухгалтеру.",
+        "en": "Sales Tax is added after discounts. It is not business revenue and is not deducted twice. Individual deductions and reliefs are not included; consult an accountant.",
+        "kk": "Sales Tax жеңілдіктен кейін қосылады, кәсіпорынның табысы емес. Жеке шегерімдер мен жеңілдіктер ескерілмейді. Бухгалтермен кеңесіңіз."
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:modes.0",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "modes.0",
+      "translations": {
+        "ru": "НДС (VAT / IVA)",
+        "en": "VAT / IVA",
+        "kk": "ҚҚС (VAT / IVA)"
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:modes.1",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "modes.1",
+      "translations": {
+        "ru": "Sales Tax",
+        "en": "Sales Tax",
+        "kk": "Sales Tax"
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:modes.2",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "modes.2",
+      "translations": {
+        "ru": "Без налога с продаж",
+        "en": "No sales tax",
+        "kk": "Сатудан алынатын салық жоқ"
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:need",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "need",
+      "translations": {
+        "ru": "Введите корректную ставку Sales Tax, %. Пустое значение недопустимо.",
+        "en": "Enter a valid Sales Tax rate. Empty rates are not accepted.",
+        "kk": "Sales Tax мөлшерлемесін дұрыс енгізіңіз. Бос мән жарамайды."
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:noPDF",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "noPDF",
+      "translations": {
+        "ru": "Экспорт Sales Tax будет подключён на этапе 7Б-5. Продолжайте работу в V1.",
+        "en": "Sales Tax PDF export follows in stage 7B-5. Continue in V1.",
+        "kk": "Sales Tax PDF экспорты 7Б-5 кезеңінде енгізіледі."
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:noV2",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "noV2",
+      "translations": {
+        "ru": "Перенос Sales Tax в V2 появится на этапе 7Б-4. Не изменяем вашу модель молча.",
+        "en": "Sales Tax V2 transfer is coming in stage 7B-4. Your scenario will not be silently changed.",
+        "kk": "V2-ге Sales Tax көшіру 7Б-4 кезеңінде енгізіледі."
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:rate",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "rate",
+      "translations": {
+        "ru": "Ставка Sales Tax, %",
+        "en": "Sales Tax rate, %",
+        "kk": "Sales Tax мөлшерлемесі, %"
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:tax",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "tax",
+      "translations": {
+        "ru": "Sales Tax",
+        "en": "Sales Tax",
+        "kk": "Sales Tax"
+      }
+    },
+    {
+      "id": "nomad360_sales_tax_v1.js:copy:586:unsupported",
+      "file": "nomad360_sales_tax_v1.js",
+      "line": 13,
+      "kind": "module-key",
+      "key": "unsupported",
+      "translations": {
+        "ru": "Для смешанных портфелей и услуг Sales Tax появится на следующем этапе.",
+        "en": "Sales Tax for services and mixed portfolios will follow in a later stage.",
+        "kk": "Қызметтер мен аралас портфельдер үшін Sales Tax келесі кезеңде енгізіледі."
+      }
+    },
+    {
       "id": "nomad360_simple_service_examples.js:copy:1627:changed",
       "file": "nomad360_simple_service_examples.js",
       "line": 25,
@@ -26205,6 +26361,16 @@
       "file": "entries/nomad360_return.js/001.json",
       "owner": "nomad360_return.js",
       "count": 183
+    },
+    {
+      "file": "entries/nomad360_sales_tax.js/001.json",
+      "owner": "nomad360_sales_tax.js",
+      "count": 29
+    },
+    {
+      "file": "entries/nomad360_sales_tax_v1.js/001.json",
+      "owner": "nomad360_sales_tax_v1.js",
+      "count": 147
     },
     {
       "file": "entries/nomad360_seo_language.js/001.json",
