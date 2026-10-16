@@ -188,8 +188,8 @@ def main():
                         'tax.v2DeductionsNotice', 'tax.v2DeductionsNoticeLinked',
                         'tax.v2TaxMode'
                     }
-                    tax_rows = [x for x in lines if re.match(r'^ \\["tax\\.v2[^\"]+",', x)]
-                    actual_keys = [re.match(r'^ \\["([^\"]+)"', x).group(1) for x in tax_rows]
+                    tax_rows = [x for x in lines if x.startswith(' ["tax.v2')]
+                    actual_keys = [x.split('"')[1] for x in tax_rows]
                     assert len(actual_keys) == len(set(actual_keys))
                     assert set(actual_keys) in (set(), tax_keys), 'Unapproved 7B-4 locale row'
                     return '\n'.join('<ACCEPTED-LICENSE-ROW>' if
