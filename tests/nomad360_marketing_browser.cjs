@@ -32,12 +32,21 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   A.equal(await toggle.getAttribute('aria-expanded'),'false');A.equal(await panel.isVisible(),false);A.equal(await embed.locator('button:visible').count(),1);
   const consultingTitles={ru:'Занимаетесь консалтингом?',en:'Do you work in consulting?',kk:'Консалтингпен айналысасыз ба?'};
   A.equal(await embed.locator('h2').textContent(),consultingTitles[lang]);
-  const benefits=embed.locator('.nomad-embed-b2b-benefits');A.equal(await benefits.locator('li').count(),5);
-  for(let i=0;i<5;i++)A.equal(await benefits.locator('li').nth(i).textContent(),await tr('interface.header.embedB2BPoints.'+i));
+  const benefits=embed.locator('.nomad-embed-b2b-benefits');A.equal(await benefits.locator('li').count(),3);
+  for(let i=0;i<3;i++){
+   A.equal(await benefits.locator('li').nth(i).textContent().then(t=>t.trim()),String(i+1)+await tr('interface.header.embedB2BPoints.'+i));
+   A.equal(await benefits.locator('li').nth(i).locator('svg[aria-hidden]').count(),0);
+   A.equal(await benefits.locator('li').nth(i).locator('[aria-hidden="true"] svg').count(),1);
+  }
   A.equal(await benefits.locator('em').count(),1);A.equal(await benefits.locator('em').textContent(),await tr('interface.header.embedB2BFocus'));
   A.equal(await benefits.locator('em').evaluate(e=>getComputedStyle(e).fontStyle),'italic');
-  A.equal(await benefits.evaluate(e=>getComputedStyle(e).color),'rgb(237, 142, 99)');
+  A.equal(await embed.locator('.nomad-embed-b2b-slogan').textContent(),await tr('interface.header.embedB2BSlogan'));
+  A.equal(await embed.locator('.nomad-embed-b2b-logo-mask img').getAttribute('src'),'./nomad360_wolf_open_circle.png');
+  A.equal(await embed.evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(22, 55, 90)');
   A.equal(await embed.locator('h2').evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)');
+  const cardRects=await benefits.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
+  if(width>=900)A.ok(cardRects[0].left<cardRects[1].left&&cardRects[1].left<cardRects[2].left,'B2B desktop cards in row');
+  if(width<=760)A.ok(cardRects[0].top<cardRects[1].top&&cardRects[1].top<cardRects[2].top,'B2B mobile cards stacked');
   const files=[];async function shot(name,selector){const f=`${lang}-${width}-${name}.png`;await p.locator(selector).screenshot({path:path.join(out,f)});files.push(f);}
   await shot('home','#home-screen');await shot('about','#nomad360-about');await shot('b2b-closed','#nomad360-embed');
   for(const id of ['nomad360-license','nomad360-data','nomad360-product-details'])A.equal(await p.locator('#'+id).evaluate(e=>e.open),false,id+' default closed');
@@ -61,7 +70,21 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   await p.waitForFunction(()=>document.querySelector('[data-nomad-traffic-value]')?.textContent==='63');A.match(await panel.locator('[data-nomad-traffic-stats]').textContent(),/GitHub/);
   A.equal(await panel.locator('[data-nomad-download-html]').evaluate(e=>e.closest('td').querySelectorAll('[data-nomad-traffic-stats]').length),1);
   const mail=await panel.locator('.nomad-embed-contact').getAttribute('href');A.ok(mail.startsWith('mailto:nomad260393@gmail.com?subject='));
-  await shot('b2b-open','#nomad360-embed');await toggle.click();A.equal(await panel.isVisible(),false);await toggle.click();
+  await shot('b2b-open','#nomad360-embed');
+  if(width===390){
+   const next=lang==='ru'?'en':lang==='en'?'kk':'ru';
+   await p.evaluate(next=>Nomad360UI.setLanguage(next),next);await settle(p);
+   A.equal(await embed.locator('h2').textContent(),consultingTitles[next]);
+   A.equal(await embed.locator('.nomad-embed-b2b-slogan').textContent(),await tr('interface.header.embedB2BSlogan'));
+   A.equal(await benefits.locator('li').count(),3);
+   A.equal(await benefits.locator('li').nth(1).textContent().then(x=>x.trim()),'2'+await tr('interface.header.embedB2BPoints.1'));
+   A.equal(await toggle.getAttribute('aria-expanded'),'true','Open comparison survives language switch');
+   A.equal(await panel.isVisible(),true);
+   await p.evaluate(lang=>Nomad360UI.setLanguage(lang),lang);await settle(p);
+   A.equal(await embed.locator('h2').textContent(),consultingTitles[lang]);
+   A.equal(await panel.isVisible(),true);
+  }
+  await toggle.click();A.equal(await panel.isVisible(),false);await toggle.click();
   for(const id of ['nomad360-license','nomad360-data']){const d=p.locator('#'+id);await d.locator('summary').focus();await p.keyboard.press('Enter');A.equal(await d.evaluate(e=>e.open),true);}
   A.equal((await p.locator('#nomad360-license .nomad-license-terms>p').first().textContent()),await tr('interface.header.licenseCopy'));A.equal(await p.locator('#nomad360-data>p').textContent(),await tr('interface.header.dataCopy'));A.equal(await p.locator('#nomad360-license .nomad-license-terms a').getAttribute('href'),'https://kazartsevev.github.io/shelter-partner-directory/license/'+(lang==='en'?'en/':lang==='kk'?'kk/':''));
   await shot('footer-open','.nomad-footer-meta');

@@ -72,11 +72,24 @@ def main():
         # before comparing the protected source with the accepted snapshot.
         if name == 'nomad360_calculator_ui.css':
             marker = b'\n/* Consulting offer: white question, orange benefits following the Nomad360 brand palette. */\n'
-            assert raw.count(marker) == 1
-            prefix, suffix = raw.split(marker, 1)
-            assert b'.nomad-footer .nomad-embed-b2b-benefits' in suffix
-            assert b'.nomad-embed-toggle{' in suffix
-            raw = prefix + b'\n' + suffix[suffix.index(b'.nomad-embed-toggle{'):]
+            if raw.count(marker) == 1:
+                prefix, suffix = raw.split(marker, 1)
+                assert b'.nomad-footer .nomad-embed-b2b-benefits' in suffix
+                assert b'.nomad-embed-toggle{' in suffix
+                raw = prefix + b'\n' + suffix[suffix.index(b'.nomad-embed-toggle{'):]
+            else:
+                # B2B-BANNER is an explicitly approved presentation-only delta.
+                # Restore just the old consulting CSS from its frozen accepted SHA,
+                # preserving the protected remainder of the file byte-for-byte.
+                new_marker = b'\n/* B2B-BANNER: native responsive HTML, visually paired with the upper SEO banner. */\n'
+                assert raw.count(new_marker) == 1
+                begin = raw.index(new_marker)
+                end = raw.index(b'.nomad-embed-toggle{', begin)
+                approved_css = subprocess.check_output(
+                    ['git', 'show', accepted_marketing_commit + ':nomad360_calculator_ui.css'], cwd=ROOT)
+                reference_start = approved_css.index(b'.nomad-footer .nomad-embed-actions{')
+                reference_end = approved_css.index(b'.nomad-embed-toggle{', reference_start)
+                raw = raw[:begin] + b'\n' + approved_css[reference_start:reference_end] + raw[end:]
         if name == 'nomad360_header.js':
             for updated, approved in [
                 ('Занимаетесь консалтингом?', 'Работаете в B2B? Привлеките полезный трафик бесплатно.'),
@@ -89,23 +102,42 @@ def main():
             lines = raw.splitlines(keepends=True)
             assert sum(b'"embedB2BPoints": ' in line for line in lines) == 3
             assert sum(b'"embedB2BFocus": ' in line for line in lines) == 3
-            raw = b''.join(line for line in lines if b'"embedB2BPoints": ' not in line and b'"embedB2BFocus": ' not in line)
-            start = b'    const b2bBenefits=t.embedB2BPoints.map(line=>{\n'
+            assert sum(b'"embedB2BSlogan": ' in line for line in lines) in (0, 3)
+            raw = b''.join(line for line in lines if not any(
+                token in line for token in (b'"embedB2BPoints": ', b'"embedB2BFocus": ', b'"embedB2BSlogan": ')))
+            new_start = b'    // Inline SVG icons are decoration: every sales message stays translatable HTML.\n'
+            old_start = b'    const b2bBenefits=t.embedB2BPoints.map(line=>{\n'
+            start = new_start if new_start in raw else old_start
             end = b'    }).join(\'\');\n'
             assert raw.count(start) == 1 and raw.count(end) == 1
             a = raw.index(start)
             b = raw.index(end, a) + len(end)
             raw = raw[:a] + raw[b:]
             benefits_line = b'      \'<ul class="nomad-embed-b2b-benefits">\'+b2bBenefits+\'</ul>\'+\n'
-            assert raw.count(benefits_line) == 1
-            raw = raw.replace(benefits_line, b'', 1)
+            if benefits_line in raw:
+                raw = raw.replace(benefits_line, b'', 1)
+            else:
+                # Replace only the B2B HTML header/cards/brand, up to the unchanged
+                # toggle. Keep every comparison, download and legal element intact.
+                new_section = b'      \'<section id="nomad360-embed" class="nomad-embed-actions" tabindex="-1" aria-labelledby="nomad360-embed-heading">\'+\n'
+                button = b'      \'<button type="button" class="nomad-embed-download nomad-embed-toggle"'
+                assert raw.count(new_section) == 1 and raw.count(button) == 1
+                approved_header = subprocess.check_output(
+                    ['git', 'show', accepted_marketing_commit + ':nomad360_header.js'], cwd=ROOT)
+                old_section = b'      \'<section id="nomad360-embed" class="nomad-embed-actions" tabindex="-1">\'+\n'
+                assert approved_header.count(old_section) == 1 and approved_header.count(button) == 1
+                a, b = raw.index(new_section), raw.index(button, raw.index(new_section))
+                c, d = approved_header.index(old_section), approved_header.index(button, approved_header.index(old_section))
+                raw = raw[:a] + approved_header[c:d] + raw[b:]
         if name == 'nomad360_locale_core.js':
             rows = raw.splitlines(keepends=True)
             extra = b'"interface.header.embedB2BPoints.'
             focus = b'"interface.header.embedB2BFocus"'
-            assert sum(extra in line for line in rows) == 5
+            assert sum(extra in line for line in rows) in (3, 5)
             assert sum(focus in line for line in rows) == 1
-            raw = b''.join(line for line in rows if extra not in line and focus not in line)
+            assert sum(b'"interface.header.embedB2BSlogan"' in line for line in rows) in (0, 1)
+            raw = b''.join(line for line in rows if extra not in line and focus not in line
+                           and b'"interface.header.embedB2BSlogan"' not in line)
             from_title = ' ["interface.header.embedB2BTitle","Do you work in consulting?","Занимаетесь консалтингом?","Консалтингпен айналысасыз ба?"],'.encode('utf-8')
             to_title = ' ["interface.header.embedB2BTitle","Work in B2B? Attract relevant traffic for free.","Работаете в B2B? Привлеките полезный трафик бесплатно.","B2B саласында жұмыс істейсіз бе? Пайдалы трафикті тегін тартыңыз."],'.encode('utf-8')
             assert raw.count(from_title) == 1
@@ -162,9 +194,10 @@ def main():
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
         'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-phase-a-review.md',
-        'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'Marketing_calc.HTML',
+        'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
         'tests/nomad360_calculator_ui_browser.test.cjs',
+        'tests/nomad360_price_export_browser.test.cjs',
         'tests/marketing_calc_first_user_journey.test.cjs',
         'tests/fixtures/seo-keyword-banner.html', 'tests/fixtures/seo-original-results.html',
         'tests/helpers/seo-html-contract.cjs', 'tests/seo_language.test.cjs',
@@ -176,8 +209,8 @@ def main():
         # 7B-1 adds a NEW standalone module and tests only; no SEO or VAT source edits.
         'nomad360_sales_tax.js', 'tests/sales_tax_7b_pure.test.cjs',
         '.github/workflows/sales-tax-7b-pure.yml',
-        # 7B-2 only loads two independent modules; the HTML checker above
-        # strips those exact tags before checking the historical SHA-256.
+        # 7B-2: protected HTML is checked byte-for-byte after the two exact
+        # standalone script tags are removed by return-contract.cjs.
         'nomad360_sales_tax_v1.js', 'tests/sales_tax_7b_goods_browser.cjs',
         '.github/workflows/sales-tax-7b-goods.yml',
         'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs') for p in changed), changed
