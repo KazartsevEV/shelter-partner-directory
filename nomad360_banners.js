@@ -4,6 +4,21 @@
 if(root.Nomad360Banners)return;
 const byId=id=>document.getElementById(id);
 const remembered=new Map();
+const benefitArt=[
+ '<path d="M5 16h30v8H5zM8 24v18h24V24M20 16v26"/><path class="nomad-benefit-accent" d="M20 16c-14 0-13-15-5-10 4 3 5 10 5 10Zm0 0C34 16 33 1 25 6c-4 3-5 10-5 10Z"/>',
+ '<path d="M3 10h34M3 24h34M3 38h34"/><path class="nomad-benefit-accent" d="M15 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM28 19a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM12 33a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/>',
+ '<rect x="7" y="20" width="26" height="23" rx="3"/><path d="M12 20v-9a8 8 0 0 1 16 0v9"/><path class="nomad-benefit-accent" d="M20 28v8"/>'
+];
+function decorateBenefits(intro){
+ const lead=intro.querySelector('.nomad-intro-lead');
+ if(lead&&!lead.querySelector('strong')&&lead.textContent.startsWith('Nomad360 lite')){const text=lead.textContent;const strong=document.createElement('strong');strong.textContent='Nomad360 lite';lead.replaceChildren(strong,document.createTextNode(text.slice(13)));}
+ intro.querySelectorAll('li').forEach((item,index)=>{
+  if(item.querySelector('.nomad-benefit-icon'))return;
+  const text=item.textContent,split=text.indexOf(':'),copy=document.createElement('span');copy.className='nomad-benefit-copy';
+  if(split>=0){const title=document.createElement('strong');title.textContent=text.slice(0,split+1);copy.append(title,document.createTextNode(text.slice(split+1)));}else copy.textContent=text;
+  const icon=document.createElementNS('http://www.w3.org/2000/svg','svg');icon.setAttribute('viewBox','0 0 40 48');icon.setAttribute('aria-hidden','true');icon.setAttribute('focusable','false');icon.classList.add('nomad-benefit-icon');icon.innerHTML=benefitArt[index];item.replaceChildren(icon,copy);
+ });
+}
 function group(id,nodes,className){
  const present=nodes.filter(Boolean);if(!present.length)return null;
  let box=byId(id);if(!box){box=document.createElement('div');box.id=id;box.className=className;present[0].before(box);}
@@ -26,6 +41,7 @@ function decorate(){
   // Retain indexed source, IDs and original SEO copy, within the same composition.
   seo.querySelector('.nomad-seo-copy')?.remove();
   const lead=intro.querySelector('.nomad-intro-lead');if(lead&&lead.tagName!=='H2'){const heading=document.createElement('h2');heading.id='nomad360-seo-heading';heading.className=lead.className;heading.textContent=lead.textContent;lead.replaceWith(heading);}
+  decorateBenefits(intro);
   seo.prepend(intro);const brand=seo.querySelector('.nomad-seo-brand');if(brand)seo.append(brand);
  }
  const information=byId('nomad360-information'),about=byId('nomad360-about');

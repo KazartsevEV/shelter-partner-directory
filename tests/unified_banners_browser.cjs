@@ -2,7 +2,7 @@
 // One driver captures the untouched main and exercises the same actions after styling.
 const A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http'),crypto=require('node:crypto'),{execFileSync}=require('node:child_process'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),capture=process.argv.includes('--capture'),live=process.argv.includes('--live');
-const dir=path.join(root,'docs/reviews/unified-banners-01',capture?'baseline'+(live?'/live':'/local'):'after');fs.mkdirSync(dir,{recursive:true});
+const dir=path.join(root,'docs/reviews/unified-banners-01',capture?'baseline'+(live?'/live':'/local'):'revision-2');fs.mkdirSync(dir,{recursive:true});
 const regions=['nomad360-hero','nomad360-seo-banner','nomad360-intro','nomad360-about','nomad360-contacts','nomad360-return','nomad360-support','nomad360-product-details','nomad360-license','nomad360-data','nomad360-embed'];
 const stable=['#nomad360-support h2','.nomad-donate-lead','#nomad360-return h2','.nomad-return-note','#nomad360-product-details summary','#nomad360-license summary','.nomad-license-terms','#nomad360-data','#nomad360-embed-heading','.nomad-embed-b2b-slogan','.nomad-embed-b2b-copy','.nomad-embed-table','.nomad-embed-hint','#nomad360-contacts'];
 (async()=>{
@@ -13,9 +13,29 @@ const stable=['#nomad360-support h2','.nomad-donate-lead','#nomad360-return h2',
  const ctx=await browser.newContext({viewport:{width,height:1000},ignoreHTTPSErrors:live,acceptDownloads:true,reducedMotion:'reduce',permissions:['clipboard-read','clipboard-write']}),p=await ctx.newPage(),errors=[];p.setDefaultTimeout(30000);p.on('pageerror',e=>errors.push(e.message));
  if(!live)await ctx.route(/^https?:\/\//,r=>r.request().url().startsWith(base)?r.continue():r.abort());
  await p.goto(base+'Marketing_calc.HTML?lang='+lang,{waitUntil:'domcontentloaded'});if(!live)await p.addStyleTag({path:path.join(root,'artifacts/unified-banners/utilities.css')});await p.evaluate(()=>document.fonts.ready);await p.waitForSelector('#nomad360-return');
+ if(!capture){
+ await p.evaluate(async()=>Promise.all(['hero','about','support','consulting','support-mobile','consulting-mobile'].map(async name=>{const im=new Image();im.src='./assets/nomad360-banners/'+name+'.webp';await im.decode();})));
+ const visual=await p.evaluate(()=>{
+  const $=s=>document.querySelector(s),rect=s=>$(s).getBoundingClientRect(),style=s=>getComputedStyle($(s));
+  const lead=rect('.nomad-intro-lead'),list=rect('#nomad360-intro ul'),result=rect('.nomad-intro-result'),intro=rect('#nomad360-intro'),banner=rect('#nomad360-commercial-banner');
+  const ret=rect('#nomad360-return'),notes=[...document.querySelectorAll('#nomad360-return p')].filter(e=>e.getClientRects().length).map(e=>e.getBoundingClientRect().bottom);
+  return {blue:style('body').getPropertyValue('--nd-ink').trim(),fills:['#nomad360-commercial-banner','#nomad360-seo-banner','#nomad360-information','#nomad360-return-support','#nomad360-embed','#nomad360-legal-strip'].map(s=>style(s).backgroundColor),
+   leadGap:list.top-lead.bottom,resultGap:result.top-list.bottom,leadWeight:style('.nomad-intro-lead').fontWeight,leadSize:parseFloat(style('.nomad-intro-lead').fontSize),
+   leadPadding:style('#nomad360-seo-banner').paddingLeft,introWidth:intro.width,bannerWidth:banner.width,border:style('#nomad360-seo-banner').borderLeftWidth,
+   benefitIcons:document.querySelectorAll('.nomad-benefit-icon[aria-hidden="true"]').length,benefitTitles:document.querySelectorAll('.nomad-benefit-copy strong').length,
+   aboutBorders:[...document.querySelectorAll('.nomad-about-flow>li')].map(e=>getComputedStyle(e).borderRightWidth),aboutBackgrounds:[...document.querySelectorAll('.nomad-about-flow,.nomad-about-card,.nomad-embed-b2b-card')].map(e=>getComputedStyle(e).backgroundColor),
+   noteBottom:Math.max(...notes),animalHeadTop:ret.bottom-(ret.width+8)*1870/841*.52};
+ });
+ A.equal(visual.blue,'#16375a');A.ok(visual.fills.every(c=>c==='rgb(22, 55, 90)'),JSON.stringify(visual.fills));
+ A.ok(visual.leadGap>=23.5,'Heading and benefits keep a real 24 px gap');A.ok(visual.resultGap>=23.5,'Benefits and result keep a real 24 px gap');
+ A.equal(visual.border,'0px','No nested framed blue card');A.equal(visual.benefitIcons,3);A.equal(visual.benefitTitles,3);
+ A.ok(visual.aboutBackgrounds.every(c=>c==='rgba(0, 0, 0, 0)'),'No separate blue slabs over the scenery');
+ if(width<=600){A.equal(visual.leadPadding,'0px');A.ok(visual.introWidth>=visual.bannerWidth-9);A.equal(visual.leadWeight,'400');A.ok(visual.leadSize>=20);A.ok(visual.aboutBorders.every(v=>v==='0px'));A.ok(visual.noteBottom+16<visual.animalHeadTop,'Mobile notes stay above the leopard head');}
+ fs.writeFileSync(path.join(dir,`${lang}-${width}-visual.json`),JSON.stringify(visual,null,2)+'\n');
+ }
  const before=await p.evaluate(({regions,stable})=>({texts:Object.fromEntries(stable.map(s=>[s,[...document.querySelectorAll(s)].map(e=>e.textContent.trim())])),links:[...document.querySelectorAll('#nomad360-contacts a,#nomad360-license a,.nomad-embed-contact')].map(e=>({text:e.textContent,href:e.getAttribute('href')})),payments:[...document.querySelectorAll('[data-nomad-copy]')].map(e=>e.dataset.nomadCopy),iframe:document.querySelector('.nomad-crypto-frame').src,dom:Object.fromEntries(regions.map(id=>{const e=document.getElementById(id);return [id,e?[...e.querySelectorAll('*')].map(n=>({tag:n.tagName,id:n.id,class:n.className?.baseVal??n.className,text:n.children.length?undefined:n.textContent,href:n.getAttribute('href'),style:Object.fromEntries(['fontFamily','fontSize','lineHeight','color','backgroundColor','display'].map(k=>[k,getComputedStyle(n)[k]]))})):null];}))}),{regions,stable});
  A.ok(before.iframe.startsWith('https://nowpayments.io/'),'Real hosted NOWPayments URL retained');
- for(const id of (!capture?['nomad360-commercial-banner','nomad360-information','nomad360-return-support','nomad360-legal-strip',...regions]:regions)){const e=p.locator('#'+id);if(await e.count())await e.screenshot({path:path.join(dir,`${lang}-${width}-${id}-closed.png`)});}
+ for(const id of (!capture?['nomad360-commercial-banner','nomad360-information','nomad360-return-support','nomad360-legal-strip','nomad360-embed']:regions)){const e=p.locator('#'+id);if(await e.count())await e.screenshot({path:path.join(dir,`${lang}-${width}-${id}-closed.png`)});}
  await p.locator('[data-nomad-embed-toggle]').click();A.equal(await p.locator('#nomad360-embed-comparison').isVisible(),true);
  await p.evaluate(()=>document.querySelectorAll('#nomad360-footer details').forEach(e=>e.open=true));
  for(const id of ['nomad360-support','nomad360-product-details','nomad360-license','nomad360-data','nomad360-embed'])await p.locator('#'+id).screenshot({path:path.join(dir,`${lang}-${width}-${id}-open.png`)});

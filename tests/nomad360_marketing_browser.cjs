@@ -42,7 +42,7 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   A.equal(await benefits.locator('em').evaluate(e=>getComputedStyle(e).fontStyle),'italic');
   A.equal(await embed.locator('.nomad-embed-b2b-slogan').textContent(),await tr('interface.header.embedB2BSlogan'));
   A.equal(await embed.locator('.nomad-embed-b2b-logo-mask img').count(),0);
-  A.equal(await embed.evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(16, 45, 70)');
+  A.equal(await embed.evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(22, 55, 90)');
   A.equal(await embed.locator('h2').evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)');
   const cardRects=await benefits.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
   if(width>=900)A.ok(cardRects[0].left<cardRects[1].left&&cardRects[1].left<cardRects[2].left,'B2B desktop cards in row');
