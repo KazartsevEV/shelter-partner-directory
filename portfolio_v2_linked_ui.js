@@ -83,7 +83,10 @@ function enter(){
  render();
 }
 function importFromV1(payload){
- const fresh=Engine.fromV1(payload),prior=state||read();
+ const base=Engine.fromV1(payload),prior=state||read();
+ const transfer=root.Nomad360SalesTaxV2?.transferred?.();
+ const fresh=transfer?root.Nomad360SalesTaxV2.inherit(base,transfer):base;
+ root.Nomad360SalesTaxV2?.compatible?.(prior,fresh);
  if(prior)root.Nomad360Currency?.assertSame(prior.currency);
  // Preserve the approved V1 service operating horizon after SKU merging.
  // Do not invent additional sales during the longer loan repayment tail.
@@ -129,8 +132,11 @@ function appendOnline(sku){
  const previous=state||read();
  if(previous)root.Nomad360Currency?.assertSame(previous.currency);
  sku={...sku,currency:root.Nomad360Currency?.get()||'USD'};
- const next=previous?JSON.parse(JSON.stringify(previous)):Engine.fromV1({
-   tax:sku.ownerTax,skus:[sku],currency:sku.currency});
+ const transfer=root.Nomad360SalesTaxV2?.transferred?.();
+ const base=Engine.fromV1({tax:sku.ownerTax,skus:[sku],currency:sku.currency});
+ const fresh=transfer?root.Nomad360SalesTaxV2.inherit(base,transfer):base;
+ root.Nomad360SalesTaxV2?.compatible?.(previous,fresh);
+ const next=previous?JSON.parse(JSON.stringify(previous)):fresh;
  if(previous){
    if(next.skus.some(s=>s.id===sku.id))throw Error('Такой ID услуги уже включён в портфель.');
    next.skus.push({...JSON.parse(JSON.stringify(sku)),priceSelected:sku.priceMax,discountSelected:0});
@@ -150,8 +156,12 @@ function appendFullService(sku){
  if(previous&&(previous.tax?.type!==sku.ownerTax?.type||
     Math.abs(Number(previous.tax?.pct)-Number(sku.ownerTax?.pct))>.0000001))
    throw Error('Налог предприятия в портфеле отличается от налога полной услуги. Укажите единый налоговый режим.');
- const next=previous?JSON.parse(JSON.stringify(previous)):Engine.fromV1({
+ const transfer=root.Nomad360SalesTaxV2?.transferred?.();
+ const base=Engine.fromV1({
    tax:{type:sku.ownerTax.type,pct:sku.ownerTax.pct},skus:[sku],currency:sku.currency});
+ const fresh=transfer?root.Nomad360SalesTaxV2.inherit(base,transfer):base;
+ root.Nomad360SalesTaxV2?.compatible?.(previous,fresh);
+ const next=previous?JSON.parse(JSON.stringify(previous)):fresh;
  if(previous){
    if(next.skus.some(s=>s.id===sku.id))
      throw Error('Расчёт этой услуги уже есть в портфеле. Удалите старую версию перед заменой.');
@@ -250,7 +260,10 @@ function resourceCard(r,i){
 }
 function render(){
  const host=document.getElementById('portfolio-v2-root');if(!host||!state)return;
- const scenario=Engine.build(state);
+ const taxMode=state.tax?.taxRegime||'vat',taxRate=state.tax?.salesTaxPct;
+ let scenario;
+ try{scenario=Engine.build(root.Nomad360SalesTaxV2?.prepareLinked(state,{mode:taxMode,ratePct:taxRate})||state);}
+ catch(error){scenario={ready:false,items:[],errors:['Проверьте ставку Sales Tax: '+error.message]};}
  const byId=new Map((scenario.items||[]).map(v=>[v.id,v]));
  const skus=state.skus.map((s,i)=>'<article class="nd-v2-product-card rounded-xl border border-slate-200 p-4" data-linked-sku="'+i+'">'+
  '<div class="nd-v2-card-heading flex items-start justify-between gap-3"><div class="nd-v2-card-title nd-v2-title font-bold text-lg" data-nomad-no-translate>'+safe(s.name)+'</div>'+
@@ -288,6 +301,15 @@ function render(){
  '<p class="nd-v2-description text-sm mt-2">Ресурсы общие для товаров и услуг; складские расходы относятся только к товарам. Списывайте старые начисления V1, чтобы не учитывать их повторно.</p>'+
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
  '<button type="button" data-linked-add class="nd-v2-action nd-v2-action-secondary w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
+ '<section class="nd-v2-section rounded-2xl border border-slate-200 p-4 mb-5" data-linked-sales-tax>'+
+ '<h2 class="nd-v2-title text-lg font-bold">Налог на продажу</h2>'+
+ '<label class="nd-v2-field block text-sm mt-2">Режим налога<select class="input-field mt-1" data-linked-tax-mode>'+
+ [['vat','НДС (VAT / IVA)'],['sales_tax','Sales Tax'],['none','Без налога на продажу']].map(([key,label])=>
+  '<option value="'+key+'" '+((state.tax?.taxRegime||'vat')===key?'selected':'')+'>'+label+'</option>').join('')+
+ '</select></label>'+
+ ((state.tax?.taxRegime||'vat')==='sales_tax'?
+  '<label class="nd-v2-field block text-sm mt-2">Ставка Sales Tax, %<input class="input-field mt-1" type="number" step="0.01" min="0" inputmode="decimal" data-linked-tax-rate value="'+safe(state.tax?.salesTaxPct??'')+'"></label>':'')+
+ '<p class="text-xs mt-2">Индивидуальные налоговые вычеты и льготы не учитываются. Для оптимизации налогообложения проконсультируйтесь с бухгалтером.</p></section>'+
  '<section class="nd-v2-section rounded-2xl border border-sky-200 p-4 mb-5" data-temporal-controls>'+
  '<h2 class="nd-v2-title text-lg font-bold">План продаж и загрузка по месяцам</h2>'+
   (inheritedServicePeriod(state)!==null?
@@ -310,7 +332,16 @@ function render(){
 }
 function updateResult(){
  const el=document.getElementById('linked-results');if(!el||!state)return;
- const out=Engine.build(state);
+ const taxMode=state.tax?.taxRegime||'vat',taxRate=state.tax?.salesTaxPct;
+ let out;
+ try{
+  const input=root.Nomad360SalesTaxV2?.prepareLinked(state,{mode:taxMode,ratePct:taxRate})||state;
+  const raw=Engine.build(input);
+  out=raw.ready&&taxMode!=='vat'?root.Nomad360SalesTaxV2.project(raw,{mode:taxMode,ratePct:taxRate}):raw;
+ }catch(error){
+  el.textContent='Невозможно подтвердить Sales Tax: '+error.message;
+  el.setAttribute('role','alert');return;
+ }
  const preview=document.getElementById('linked-temporal-result');
  if(preview){
   const plan=out.temporal;
@@ -390,7 +421,7 @@ function updateResult(){
  const periodOptimized=out.cashflow?.periodPnl?.pricePolicy==='full-period-actual-sku-margin-pricing';
  // These are comparable one-month scenario rates, not actual whole-horizon
  // sales or accounting results. The temporal ledger below owns period totals.
- const cards=[['План продаж / месяц',t.forecast],['Выручка без НДС / месяц',t.revenue],
+ const cards=[['План продаж / месяц',t.forecast],[taxMode==='vat'?'Выручка без НДС / месяц':'Выручка без налога с продаж / месяц',t.revenue],
   ['Рекламный бюджет / месяц',t.media],['Себестоимость / месяц',t.cogs],
   ['Общие расходы / месяц',t.monthlyResources],['EBITDA / месяц',t.ebitda],
   ['Налог бизнеса / месяц',t.tax],['Чистая прибыль / месяц',t.netProfit]];
@@ -511,7 +542,16 @@ function updateResult(){
     m.cumulative,m.freeCumulative]
     .map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+(i===0?'':' data-nomad-display-number="'+safe(v)+'"')+'>'+(i===0?v:money(v))+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
- el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+
+ const taxPanel=taxMode!=='vat'&&out.salesTaxSummary?
+  '<section data-linked-sales-tax-summary class="mt-4 p-3 border border-white/25 rounded-lg">'+
+  '<h3 class="font-bold">Sales Tax — транзитный налог покупателей</h3>'+
+  out.salesTaxSummary.lines.map(q=>'<div data-tax-sku="'+safe(q.id)+'">'+safe(q.id)+
+   ': без налога '+money(q.net)+'; Sales Tax '+money(q.salesTax)+
+   '; покупатель '+money(q.customerTotal)+'</div>').join('')+
+  '<div class="font-bold mt-2">Итого покупателей '+money(out.salesTaxSummary.customerTotal)+
+   '; Sales Tax '+money(out.salesTaxSummary.salesTax)+'</div>'+
+  '</section>':'';
+ el.innerHTML='<h2 class="text-xl font-black">4. Прайс и экономика портфеля</h2>'+taxPanel+
  '<p class="text-xs text-slate-200 mt-2">Карточки: месячные показатели модели V2. Денежная таблица ниже: продажи и платежи за весь рассчитанный период.</p>'+
  '<div class="nd-v2-financial-grid grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+cards.map(([label,value])=>
   '<div class="nd-v2-financial-cell rounded-lg bg-white/10 p-3"><div class="text-xs text-slate-200">'+safe(label)+'</div>'+
@@ -556,6 +596,18 @@ function setPath(path,value){
 }
 function onEvent(e){
  const field=e.target;
+ if(field.matches?.('[data-linked-tax-mode]')&&e.type==='change'){
+  state.tax=state.tax||{};
+  state.tax.taxRegime=field.value;
+  if(field.value==='sales_tax'&&state.tax.salesTaxPct===undefined)state.tax.salesTaxPct='';
+  save();render();return;
+ }
+ if(field.matches?.('[data-linked-tax-rate]')){
+  if(e.type==='input'||e.type==='change'){
+   state.tax.salesTaxPct=field.value;save();updateResult();
+  }
+  return;
+ }
  if(field.dataset?.linkedMember!==undefined&&e.type==='change'){
   const r=state.resources[Number(field.dataset.linkedMember)];
   if(field.checked&&!r.skuIds.includes(field.value))r.skuIds.push(field.value);
