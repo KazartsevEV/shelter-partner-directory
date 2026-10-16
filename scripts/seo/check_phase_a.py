@@ -313,9 +313,9 @@ def main():
         # UNIFIED-BANNERS-01: presentation scope only. Exact source hunks and
         # every pre-change finance byte are guarded by unified_banners_scope.
         'nomad360_banners.js', 'tests/unified_banners_browser.cjs',
-        'tests/unified_banners_scope.test.cjs', 'tests/unified_banners_vat_receipts.cjs',
+        'tests/unified_banners_scope.test.cjs', 'tests/unified_banners_vat_receipts.cjs', 'tests/unified_banners_contrast.cjs',
         'tests/seo_language.test.cjs',
-        'tests/helpers/unified-banners-contract.cjs',
+        'tests/helpers/unified-banners-contract.cjs', 'tests/helpers/rendered-contrast.cjs',
         '.github/workflows/unified-banners.yml',
         'tests/nomad360_calculator_ui_browser.test.cjs',
         'tests/nomad360_embed_footer_browser.test.cjs',

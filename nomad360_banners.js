@@ -57,6 +57,7 @@ function decorate(){
  const select=byId('nomad360-lang-select');if(select){const chosen=select.value;for(const lang of ['en','ru','kk']){const option=select.querySelector('option[value="'+lang+'"]');if(option)select.append(option);}select.value=chosen;}
 }
 function jump(id){
+ if(id==='nomad360-selling-choice'&&!byId('home-screen')?.getClientRects().length&&typeof root.showHome==='function')root.showHome();
  const target=byId(id);if(!target)return;
  for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;
  if(!target.hasAttribute('tabindex'))target.tabIndex=-1;
@@ -72,7 +73,11 @@ function boot(){
  document.addEventListener('click',event=>{
   const a=event.target.closest('a[href^="#"]');if(!a)return;
   const id=a.getAttribute('href').slice(1);
-  if(['nomad360-ai','nomad360-factory','nomad360-license','nomad360-data','nomad360-selling-choice'].includes(id))root.requestAnimationFrame(()=>jump(id));
+  if(['nomad360-ai','nomad360-factory','nomad360-license','nomad360-data','nomad360-selling-choice'].includes(id)&&!event.ctrlKey&&!event.metaKey&&!event.altKey&&!event.shiftKey){
+   // One focus transition: native hash focus + a later RAF could steal focus
+   // back after a fast keyboard user had already moved to the next card.
+   event.preventDefault();if(root.location.hash!=='#'+id)root.history.pushState(root.history.state,'','#'+id);jump(id);
+  }
  });
  root.addEventListener('hashchange',()=>jump(root.location.hash.slice(1)));
  if(root.location.hash)root.requestAnimationFrame(()=>jump(root.location.hash.slice(1)));

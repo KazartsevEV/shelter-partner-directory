@@ -19,8 +19,8 @@ const win={};new Function('window','document',execFileSync('git',['show','85d98d
   A.deepEqual(await p.locator('#nomad360-hero h1,#nomad360-hero h2,#nomad360-hero h3').allTextContents(),['headline','sub','narrative'].map(k=>original.t('interface.shell.'+k,lang)),'The exact original offer must stay intact');
   const banner=p.locator('#nomad360-seo-banner');await banner.scrollIntoViewIfNeeded();
   A.equal(await p.locator('#nomad360-calculation-list').count(),0,'The previous six-point block is removed');
-  A.equal(await banner.locator('li').count(),0);A.equal(await banner.locator('h2').count(),1);A.equal(await banner.locator('p').count(),1);
-  for(const [selector,key] of [['h2','business.ideaSeoTitle'],['p','business.ideaSeoCopy']])A.equal(await banner.locator(selector).textContent(),await p.evaluate(([key,lang])=>Nomad360LocaleCore.t(key,lang),[key,lang]));
+  A.equal(await banner.locator('li').count(),3);A.equal(await banner.locator('h2').count(),1);A.equal(await banner.locator('p').count(),1);
+  for(const [selector,key] of [['h2','interface.shell.introLead'],['p','interface.shell.introResult']])A.equal(await banner.locator(selector).textContent(),await p.evaluate(([key,lang])=>Nomad360LocaleCore.t(key,lang),[key,lang]));
   await p.waitForFunction(()=>document.querySelector('.nomad-seo-logo')?.complete&&document.querySelector('.nomad-seo-logo')?.naturalWidth===1024);
   A.equal(await banner.locator('img').getAttribute('src'),await p.locator('#nomad360-header .nomad-logo').getAttribute('src'));
   A.equal(requests.filter(u=>u.endsWith('/nomad360_wolf_open_circle.png')).length,1,'One shared original image URL');

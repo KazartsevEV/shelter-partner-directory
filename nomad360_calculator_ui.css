@@ -724,3 +724,7 @@ body #nomad360-commercial-banner #nomad360-seo-banner{background:#16375a}
  #nomad360-information.nomad-banner-about #nomad360-about>h2{padding-bottom:0;margin-bottom:24px}
  #nomad360-information.nomad-banner-about #nomad360-about>h2::after{content:'';display:block;margin:24px -20px 0;aspect-ratio:563/475;background:url('./assets/nomad360-banners/about.webp') center/cover no-repeat}
 }
+@media(min-width:601px){.nomad-banner-hero{background-image:linear-gradient(90deg,rgba(8,46,80,.32) 0%,rgba(8,46,80,.32) 58%,transparent 76%),url('./assets/nomad360-banners/hero.webp');background-size:100% 100%,100% auto;background-position:0 0,right top}}
+@media(min-width:601px){#nomad360-return-support::before{background-image:linear-gradient(90deg,rgba(8,38,61,.97) 0%,rgba(8,38,61,.97) 57%,transparent 67%),url('./assets/nomad360-banners/support.webp')}}
+@media(min-width:601px) and (max-width:900px){#nomad360-return-support #nomad360-return,#nomad360-return-support #nomad360-support{width:55%}}
+@media(min-width:601px){body #nomad360-information.nomad-banner-about{background-image:linear-gradient(90deg,#082b49 30%,rgba(8,43,73,.96) 55%,transparent 62%),url('./assets/nomad360-banners/about.webp')}}
