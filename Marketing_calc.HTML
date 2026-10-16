@@ -2645,6 +2645,7 @@
 
             const previousTaxType = productBusinessTaxType;
             const previousTaxPct = document.getElementById('own-business-tax-pct')?.value ?? '';
+            const previousRegime=productSalesTaxRegime,previousSalesRate=productSalesTaxRateRaw;
 
             resetCurrentProductForNext();
 
@@ -2699,6 +2700,9 @@
             }
 
             productBusinessTaxType = previousTaxType;
+            productSalesTaxRegime=item.taxRegime??previousRegime;
+            productSalesTaxRateRaw=item.salesTaxPct===undefined?previousSalesRate:String(item.salesTaxPct);
+            syncV1SalesTaxUI();
             if (previousTaxPct !== '') {
                 const taxPct = document.getElementById('own-business-tax-pct');
                 if (taxPct) taxPct.value = previousTaxPct;
@@ -3025,7 +3029,9 @@
                     Array.from(document.querySelectorAll('#product-own-form input[id], #product-own-form select[id], #offline-service-monthly-capacity'))
                         .map(el => [el.id, el.value])
                 ),
-                uiState: captureProductOwnUiState()
+                uiState: captureProductOwnUiState(),
+                ...(productSalesTaxRegime!==null && productSource!=='offline-service' ?
+                    {taxRegime:productSalesTaxRegime,salesTaxPct:productSalesTaxRateRaw} : {})
             };
         }
 
@@ -3055,6 +3061,7 @@
                 saveCurrentProductToPortfolio();
             const taxType=productBusinessTaxType;
             const taxPct=document.getElementById('own-business-tax-pct')?.value??'';
+            const saleRegime=productSalesTaxRegime, saleRate=productSalesTaxRateRaw;
             const vatChoice=productOwnChoices.salesVat;
             const vatPct=document.getElementById('own-sales-vat-pct')?.value??'';
             const index=productPortfolio.findIndex(x=>Number(x.id)===id);
@@ -3064,6 +3071,8 @@
             if(active){
                 resetCurrentProductForNext();
                 productBusinessTaxType=taxType;
+                productSalesTaxRegime=saleRegime;productSalesTaxRateRaw=saleRate;
+                syncV1SalesTaxUI();
                 if(taxPct!=='')document.getElementById('own-business-tax-pct').value=taxPct;
                 if(vatChoice)productOwnChoices.salesVat=vatChoice;
                 if(vatPct!=='')document.getElementById('own-sales-vat-pct').value=vatPct;
@@ -3099,7 +3108,8 @@
                         taxType:productBusinessTaxType,
                         businessTaxPct:Number(document.getElementById('own-business-tax-pct')?.value)||0,
                         salesVat:productOwnChoices.salesVat||'no',
-                        salesVatPct:Number(document.getElementById('own-sales-vat-pct')?.value)||0
+                        salesVatPct:Number(document.getElementById('own-sales-vat-pct')?.value)||0,
+                        ...(productSalesTaxRegime!==null?{taxRegime:productSalesTaxRegime,salesTaxPct:productSalesTaxRateRaw}:{})
                     }));
                 } catch(e){console.warn('Nomad360: unable to persist V1 removal',e);}
             }
@@ -5962,6 +5972,11 @@
                     productOwnChoices.salesVat=saved.salesVat;
                 const vatPct=document.getElementById('own-sales-vat-pct');
                 if(vatPct)vatPct.value=String(saved.salesVatPct??0);
+                if(['vat','sales_tax','none'].includes(saved.taxRegime)){
+                    productSalesTaxRegime=saved.taxRegime;
+                    productSalesTaxRateRaw=String(saved.salesTaxPct??'');
+                }
+                syncV1SalesTaxUI();
             }
             configureOfflineServiceView();
             const extra = document.getElementById('product-source-unavailable');
@@ -6002,6 +6017,10 @@
             }
             const vatPct = document.getElementById('own-sales-vat-pct');
             if (vatPct) vatPct.value = String(saved.salesVatPct ?? 0);
+            if(['vat','sales_tax','none'].includes(saved.taxRegime)){
+                productSalesTaxRegime=saved.taxRegime;productSalesTaxRateRaw=String(saved.salesTaxPct??'');
+            }
+            syncV1SalesTaxUI();
 
             showProductBranch();
             renderProductPortfolio();
@@ -6020,6 +6039,9 @@
                 if (status) status.textContent = message;
                 if (draftStatus) draftStatus.textContent = message;
             };
+            if(v1SalesTaxActive() && v1SalesTaxError()){
+                report(v1SalesTaxError());return false;
+            }
             if (new URLSearchParams(window.location.search).get('demo') === 'shopper') {
                 report('Это учебный пример. Чтобы сохранять свои данные, начните собственный расчёт с нуля.');
                 return false;
@@ -6040,7 +6062,8 @@
                     taxType: productBusinessTaxType,
                     businessTaxPct: productNumber('own-business-tax-pct'),
                     salesVat: productOwnChoices.salesVat || 'no',
-                    salesVatPct: productNumber('own-sales-vat-pct')
+                    salesVatPct: productNumber('own-sales-vat-pct'),
+                    ...(productSalesTaxRegime!==null?{taxRegime:productSalesTaxRegime,salesTaxPct:productSalesTaxRateRaw}:{})
                 };
                 localStorage.setItem(savedProductStorageKey, JSON.stringify(payload));
                 const savedHtml = 'Сохранено в этом браузере. ' +
@@ -6987,6 +7010,8 @@
             productOwnInboundDeliveryManual = false;
             resaleWarehouseQtyManual = false;
             productBusinessTaxType = null;
+            productSalesTaxRegime=null;productSalesTaxRateRaw='';
+            syncV1SalesTaxUI();
             productionLaborMode = 'self';
             serviceAgentPayerChoices={};
             serviceAgentRowSequence={material:0,rental:0,purchase:0};
@@ -7164,6 +7189,7 @@
 
             const savedBusinessTaxType = productBusinessTaxType;
             const savedBusinessTaxPct = document.getElementById('own-business-tax-pct')?.value ?? '';
+            const savedRegime=productSalesTaxRegime,savedSalesRate=productSalesTaxRateRaw;
             const savedSalesVat = productOwnChoices.salesVat || null;
             const savedSalesVatPct = document.getElementById('own-sales-vat-pct')?.value ?? '';
 
@@ -7178,6 +7204,8 @@
 
             // Taxes/VAT belong to business pricing and must not disappear on SKU navigation.
             productBusinessTaxType = savedBusinessTaxType;
+            productSalesTaxRegime=savedRegime;productSalesTaxRateRaw=savedSalesRate;
+            syncV1SalesTaxUI();
             if (savedBusinessTaxPct !== '') {
                 document.getElementById('own-business-tax-pct').value = savedBusinessTaxPct;
             }
