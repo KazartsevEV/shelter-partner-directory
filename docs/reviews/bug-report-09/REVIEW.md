@@ -1,44 +1,53 @@
-# TASK-09 — Floating 'Report a bug' widget
+# TASK-09 — Floating “Report a bug” widget
 
-**Branch:** `feature/bug-report-widget-09`, based on `40c792ef06e754ea2ce44f64e68f717f27e8cdb7` (main after 7Б-6).
-**Status (2026-10-17):** UI, privacy and mocked-transport acceptance GREEN on `2f64ddba` ([task 09 CI](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38959953956), both jobs success). Six-viewport touch regression was added in `646f470c` and requires separate current-HEAD CI confirmation. **Real Formspree email delivery remains BLOCKED pending account access and a verified form ID**; PR remains Draft. No actual Gmail receipt is claimed.
+**Branch:** `feature/bug-report-widget-09` (PR [#174](https://github.com/KazartsevEV/shelter-partner-directory/pull/174)); base `40c792ef06e754ea2ce44f64e68f717f27e8cdb7`.
 
-## Product contract and implementation
+**Status (2026-10-17):** Owner-approved Formspree public form `https://formspree.io/f/mwlvadod` is wired into the isolated bug-report module. **LIVE transport acceptance and real Gmail notification delivered**, in addition to the successful mocked-browser matrix. User-facing calculator deployment, a real public-browser submission from the deployed page, independent physical mobile/screen-reader acceptance and explicit owner permission to merge remain outstanding. **PR stays Draft.**
 
-- Small fixed loudspeaker launcher at the right, accessible native modal dialog with Escape, keyboard focus, visible close button, RU/EN/KK; widths 320, 390, 768 and 1280.
-- Required bug explanation (up to 4000 chars), optional reproduction steps (up to 3000 chars), optional contact email (up to 254 chars); no name or account. Uses only validated explicit user inputs.
-- Visible privacy note: transmitted keys are only `message`, optional `steps`, optional `email`, `interface_language`, `viewport_width`, constant `_subject`. The form handler may see IP. No `location.href`, query, user-agent fingerprint, cookies, localStorage, calculations, SKU, financial data, attachments or hidden screenshot transfer.
-- Submit is disabled when no endpoint is configured; only an approved Formspree endpoint `https://formspree.io/f/<id>` is accepted. No endpoint is configured on the site in this PR, per roadmap's approval-first rule. Formspree identifier is a public routing ID, not a secret.
-- Transport, after approval: POST with explicit `FormData` allowlist, no credentials, `Referrer-Policy: no-referrer`, 15-second timeout. Requires HTTP 2xx AND JSON `{ok:true}` for success. 429/network/invalid response are failure and allow retry. No false success.
-- Downloadable standalone HTML disables the widget in `data-nomad-embedded` context, preventing third-party copies from sending reports to the project's mailbox.
-- No VAT/financial calculation, tariff, workflow selection, autosave, existing localized text or numerical allowance is modified.
+## Product contract and scope
 
-## External provider recommendation — requires explicit approval
+- Right-hand fixed loudspeaker launcher, native accessible `dialog`, explicit close / Escape / focus restoration, RU/EN/KK updates without losing unsent text, responsive layout.
+- Required message (up to 4000 characters), optional reproduction steps (3000) and optional reply email (254); no account or required name.
+- Explicit FormData allowlist: `message`, optional `steps`, optional `email`, `interface_language`, `viewport_width`, fixed `_subject`. No URL path/query, user agent fingerprint, cookies, localStorage, financial drafts, SKU values, attachments, screenshots, documents or other finance data are put in the form body.
+- The provider may see the sender's network IP and referring **site origin**. For compatibility with Formspree's domain restriction, cross-origin requests use `strict-origin-when-cross-origin`: browser referer is only the origin, not page path/query. See [Formspree domain restriction guidance](https://help.formspree.io/articles/form-and-project-settings/restrict-to-domain). Strict `no-referrer` would cause domain-restricted submissions to be classified as spam.
+- An explicitly owner-approved **public routing ID**, `mwlvadod`, is configured only in `nomad360_bug_report.js`. No password, API secret, private token or email routing address appears in the HTML. Protected calculator markup remains unchanged except the two original stylesheet/script includes.
+- POST without credentials. UI success requires both HTTP 2xx **and** JSON `{ok:true}`; 429, HTTP 500, 200 `{ok:false}`, malformed response and network error do not show false success and permit retry.
+- Autonomous downloadable partner HTML does not initialize this Nomad-owned support widget. No financial engine, VAT fixtures, Sales Tax calculations, pricing logic, autosave or stored draft format changed.
 
-**Formspree:** https://formspree.io/plans — Free tier $0, up to 50 submissions/month, up to two linked notification emails, 30-day archived submissions, basic spam filtering, domain restriction and optional reCAPTCHA; Personal tier $15/month or $120/year ($10/mo paid annually), 200 submissions/month. External form processor receives the actual user message and processing/network metadata such as IP; not absolutely anonymous. Configure a Formspree form in the owner's account and link notification email `nomad260393@gmail.com`, enable spam filtering, restrict to calculator domain, then provide the *form ID* for owner-approved activation. See https://help.formspree.io/articles/account-management/account-limits and https://help.formspree.io/articles/building-your-form/submit-forms-with-javascript-ajax.
+## Live service and receipt — verified
 
-**Owner gate:** Do not publish an unapproved endpoint or declare the final DoD complete until a real test message is confirmed received at `nomad260393@gmail.com`. The Draft PR contains form/UX work only and mock network tests.
+The owner created and supplied Formspree's public endpoint `https://formspree.io/f/mwlvadod` on the Free plan. The endpoint is integrated in PR #174 and not yet published to `main` / GitHub Pages.
 
-## Acceptance matrix
+- **Actual transport probe:** a single owner-authorized POST with multipart `FormData` containing a synthetic text-only report, language `ru`, viewport 390 and no visitor email. It used `Accept: application/json` and the intended site's Referer origin `https://kazartsevev.github.io/`. The probe ran in [GitHub Actions job for HEAD `539f3d25`](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38965249716) and reported `FORM_SPREE_LIVE_ACCEPTANCE` with **HTTP 200, `ok:true`, `providerOk:true`**, no errors. Trace: `TASK09-LIVE-SMOKE-1792184168256`.
+- **Mailbox verification:** the connected Gmail mailbox `nomad260393@gmail.com` received a real message from `noreply@formspree.io`, subject **“Nomad360 lite bug report - TASK09 live acceptance”**, timestamp 2026-10-16 20:56:08 UTC. [Open actual Gmail notification](https://mail.google.com/mail/u/?authuser=nomad260393%40gmail.com#all/1a14680371e017ca).
+- This proves the approved endpoint accepts anonymous reports and generates the owner's notification email. It **does not** prove that a user's post-merge browser request or an email containing arbitrary content will always be delivered. The temporary live-smoke job and its temporary L0-generation workflow have been removed; future PR CI is mock-only and will not consume Formspree quota.
+- The connected Gmail inbox also contained a Formspree account-linked email verification notice. Email receipt above is verified; the account linked-email verification status, notification workflow and domain-restriction setting inside Formspree's authenticated dashboard have **not** been independently inspected. Basic provider spam protection is available; do not claim that reCAPTCHA/Turnstile or domain restriction was enabled.
 
-| Check | Implementation | Evidence / result |
-| --- | --- | --- |
-| User language and labels | RU / EN / KK, in-place language switch | GREEN, [task 09 CI](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38959953956) |
-| Width and overlay | 320/390/768/1280, no added horizontal overflow | GREEN on previous 12-case Chromium matrix; new 320/360/390/430/768/1280 **touch/mobile** matrix added on `646f470c`, CI to confirm |
-| Keyboard/accessibility | aria-label, native dialog, Escape, focus restoration | GREEN in Chromium automation; not an independent screen-reader or physical-phone test |
-| No financial/personal fields | allowlist payload, intercepted POST and fake private localStorage | GREEN |
-| Successful handler response | mocked HTTP 200 `{ok:true}` only | GREEN **mock**, not email delivery |
-| Handler failure | mocked HTTP 500, deceptive 200 `{ok:false}`, 429, retry | GREEN |
-| Unconfigured handler | sending disabled, honest no-service message | GREEN |
-| Backward finance/VAT behavior | original frozen VAT engine and Sales Tax tests | GREEN, guard workflow and other financial CI on previous HEAD |
-| Actual Gmail email delivery | real Formspree handler not created/linked | **BLOCKED — sign in, create form, configure inbox, verify delivered email** |
+## Automated acceptance
 
-**Workflow state by exact HEAD:** previous `2f64ddba` had 21 of 22 workflows successful and one typography workflow still in progress at inspection; 0 failures. The task-09 workflow's two jobs both succeeded and generated [12 screenshots](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38959953956/artifacts/12072805242). The new `646f470c` increases the browser matrix to 18 cases with touch/mobile emulation; its CI is distinct and must be read before declaring HEAD GREEN.
+| Check | Result / evidence |
+| --- | --- |
+| RU / EN / KK × 320/360/390/430/768/1280 px | **18 browser cases GREEN**, including mobile touch emulation, native modal, no added overflow; [head `539f3d25` task-09 workflow](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38965249716) |
+| Accessible controls and behavior | **GREEN**: labels, Escape, focus return, close, dynamic language switch |
+| Safe payload and anonymous send | **GREEN**: allowlist, no finance/localStorage in intercepted request; no email or steps required |
+| Handler failure/retry | **GREEN, mocked**: HTTP 500, fake success body, HTTP 429, subsequent valid receipt |
+| Valid handler configuration | **GREEN**: approved ID enables send, arbitrary non-Formspree hostname rejected, no secret |
+| Real handler `2xx/{ok:true}` | **GREEN, external live POST**; see trace above |
+| Real Gmail delivery | **GREEN**: notification actually found in owner's mailbox |
+| Frozen VAT and protected finance scope | **GREEN** within task-09 workflow's dedicated finance job on the live test commit |
+| Global regression suite | On `539f3d25`, 13/22 workflows success, 0 failure, 9 pending at the last inspection; newer report-only/current commits require their own final CI confirmation |
+| Formspree dashboard security settings | **NOT VERIFIED**: domain restriction / enhanced captcha / exact workflow options |
+| Public production page, physical phones / screen reader | **NOT YET ACCEPTED**: changes are in Draft branch only |
 
-**Provider setup and delivery gate:** Sign in to Formspree under an owner-controlled account; create a form named `Nomad360 Lite — Bug Reports`; set its notification target to `nomad260393@gmail.com` and verify address as required; enable basic spam filtering and reCAPTCHA if appropriate; restrict accepted domains to the actual production calculator domain. Copy only the form's publicly safe `https://formspree.io/f/<form-id>` endpoint into the page attribute `data-nomad-bug-endpoint` in a subsequent commit; never use private API tokens in the frontend. Submit one real report through the calculator and verify both the Formspree submission record **and actual receipt in Gmail**. Recheck RU/EN/KK, mobile layout, an anonymous report without reply email, provider failures, 429, and protected finance baseline. Do not merge without user acceptance.
+[All files and diff](https://github.com/KazartsevEV/shelter-partner-directory/pull/174/files) · [18 current screenshot artifacts](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38965249716/artifacts/12074303441) · [Original task map](https://github.com/KazartsevEV/shelter-partner-directory/blob/main/docs/nomad360-codex-task-map.md).
 
-**Operational limitation:** Formspree's Free tier has a monthly cap; over-limit messages may be stored by Formspree without email notification. HTTP 2xx / `{ok:true}` confirms **acceptance by Formspree**, not the ultimate arrival of a notification in Gmail. Monitor provider usage and its over-limit alerts; do not claim guaranteed mailbox delivery. The privacy disclosure already says that the provider may see IP/network information.
+## Final merge gate
 
-## Scope: what is not being built
+1. Confirm that the user-selected Gmail address remains the target in Formspree Workflow and, if a linked-address verification is still pending, complete it. Enable/test provider anti-spam as appropriate. The [domain restriction](https://help.formspree.io/articles/form-and-project-settings/restrict-to-domain) (if enabled) must match `kazartsevev.github.io`; never substitute site path or leave `no-referrer`.
+2. Review the visual screenshots and native mobile/screen-reader behavior. Test real user-submitted browser report from public environment before announcing end-to-end production acceptance; do not conflate CI stubs with published-site testing.
+3. Verify **final HEAD** overall CI with 0 failures; preserve original frozen VAT and Sales Tax numerical baselines. Update counts if new checks complete.
+4. Keep PR #174 **Draft** until user explicitly approves and authorizes merge. Do not change `main` or start a subsequent task here.
 
-No server database, account, analytics pixel, automatic screenshot, financial logging, hidden capture of drafts or products; the support widget is separate from item 8 (site help) and 7В (commercial banner).
+## Operational limitations
+
+Free tier has a monthly submission allowance. A successful handler HTTP receipt does not guarantee every email notification will arrive in Gmail; monitor Formspree submissions, spam, quota and target mailbox. Provider sees technical network data and the originating domain. Screenshots are not collected automatically; users' calculations remain local.
