@@ -42,18 +42,57 @@ function document(context,language='en'){
  const {state,out,kind}=context||{},t=copy[language];
  if(!t||!state||!out?.ready||!Array.isArray(out.items)||!out.items.length||!['linked','standalone'].includes(kind))throw Error('Price list is not ready');
  const currency=state.currency||'USD';if(!/^[A-Z]{3}$/.test(currency))throw Error('Invalid business currency');
- const columns=[t.id,t.name,t.type,t.currency,kind==='linked'?t.base:t.baseNet,t.discount,t.customer,t.status];
- const notes=[t.source,kind==='linked'?t.linked:t.standalone,t.missing];if(kind==='linked')notes.splice(2,0,t.offers);
+ const taxMode=state.tax?.taxRegime||'vat';
+ if(!['vat','sales_tax','none'].includes(taxMode))throw Error('Invalid sales tax regime');
+ // The accepted 7B-4 projection is the only authority for pass-through Sales Tax.
+ // Do not infer it from a commission, divide input VAT or discount a second time.
+ const summary=out.salesTaxSummary;
+ const rate=taxMode==='sales_tax'?state.tax?.salesTaxPct:null;
+ if(taxMode!=='vat'){
+  if(!summary||summary.mode!==taxMode||
+    (taxMode==='sales_tax'&&Number(summary.ratePct)!==Number(rate)))
+   throw Error('Missing or stale Sales Tax projection');
+ }
+ const salesQuote=taxMode==='sales_tax'?
+  (globalThis.Nomad360SalesTax || (typeof require==='function'?require('./nomad360_sales_tax.js'):null)):null;
+ if(taxMode==='sales_tax'&&!salesQuote?.quote)throw Error('Sales Tax quote unavailable');
+ if(taxMode==='sales_tax')salesQuote.quote({mode:'sales_tax',enteredPrice:0,ratePct:rate});
+ const labels=globalThis.Nomad360LocaleCore?.locales?.('tax')?.[language]||{};
+ const columns=[t.id,t.name,t.type,t.currency,kind==='linked'||taxMode!=='vat'?t.base:t.baseNet,t.discount,t.customer,t.status];
+ const notes=[t.source,taxMode==='vat'?(kind==='linked'?t.linked:t.standalone):
+   (labels.v2BuyerSummary||'Sales Tax')+'. '+(labels.v2DeductionsNotice||''),t.missing];
+ if(kind==='linked')notes.splice(2,0,t.offers);
  const provisional=out.cashflow?.periodPnl?.accountingCompleteness==='PROVISIONAL';if(provisional)notes.push(t.provisional);
  const rows=out.items.map(item=>{
   const status=kind==='standalone'?'CALCULATED':item.status;
   if(['MINIMUM_ONLY','LOSS','PROVISIONAL','INFEASIBLE'].includes(status))notes.push(text(item.id)+' · '+text(item.name)+': '+(t[status]||status)+'. '+t.review);
   const source=item.source||item.sourcing?.source;
+  const basePrice=number(kind==='linked'?item.priceList:item.price);
+  const historicCustomer=number(kind==='linked'?item.priceGross:item.priceWithVat);
+  let buyer=historicCustomer;
+  if(taxMode==='sales_tax'){
+   const line=summary.lines?.find(line=>String(line.id)===String(item.id));
+   if(!line||!Number.isFinite(line.net)||!Number.isFinite(line.salesTax))
+    throw Error('Missing SKU Sales Tax ledger');
+   // Agent fee is NOT the principal's retail price. The V2 projection has
+   // independently verified aggregate principal revenue, not a unit quote.
+   buyer=line.base==='principal'?null:
+    historicCustomer===null?null:number(salesQuote.quote({
+     mode:'sales_tax',enteredPrice:historicCustomer,ratePct:rate}).customerTotal);
+  }
   return [text(item.id),text(item.name),t[source]||text(source),currency,
-   number(kind==='linked'?item.priceList:item.price),number(kind==='linked'?item.discountSelected:null),
-   number(kind==='linked'?item.priceGross:item.priceWithVat),t[status]||text(status)];
+   basePrice,number(kind==='linked'?item.discountSelected:null),
+   buyer,t[status]||text(status)];
  });
- return {language,currency,kind,sheet:t.sheet,notesSheet:t.notes,noteColumn:t.note,columns,rows,notes};
+ if(taxMode!=='vat'){
+  for(const line of summary.lines||[])
+   notes.push(text(line.id)+' · '+(labels.v2SalesTaxLabel||'Sales Tax')+
+    ': '+text(line.salesTax)+'; '+t.customer+': '+text(line.customerTotal));
+  notes.push((labels.v2BuyerSummary||'Sales Tax')+': '+
+   text(summary.customerTotal)+'; Sales Tax: '+text(summary.salesTax));
+ }
+ return {language,currency,kind,taxMode,ratePct:taxMode==='sales_tax'?Number(rate):null,
+   sheet:t.sheet,notesSheet:t.notes,noteColumn:t.note,columns,rows,notes};
 }
 async function write(doc,ExcelJS){
  if(!ExcelJS?.Workbook)throw Error('Local Excel library is unavailable');
