@@ -3978,7 +3978,8 @@
       "stage": "L4",
       "context": "render",
       "text": "Налог на продажу",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "tax.v2SalesTaxLabel"
     },
     {
       "id": "portfolio_v2_ui.js:15990:js-string",
@@ -4074,7 +4075,8 @@
       "stage": "L4",
       "context": "render",
       "text": "Без налога на продажу",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "tax.v2NoneLabel"
     },
     {
       "id": "portfolio_v2_ui.js:16146:js-string",
@@ -4147,7 +4149,8 @@
       "stage": "L4",
       "context": "render",
       "text": "Ставка Sales Tax, %",
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "tax.v2SalesTaxRate"
     },
     {
       "id": "portfolio_v2_ui.js:16317:js-string",
@@ -4347,7 +4350,8 @@
       "text": "Индивидуальные налоговые вычеты и льготы в расчёте не учитываются. Для оптимизации налогообложения проконсультируйтесь с бухгалтером.",
       "protectedNode": false,
       "embedded": true,
-      "coverage": "unmapped-candidate"
+      "coverage": "legacy-exact",
+      "catalog": "tax.v2DeductionsNotice"
     },
     {
       "id": "portfolio_v2_ui.js:17019:markup-text",
