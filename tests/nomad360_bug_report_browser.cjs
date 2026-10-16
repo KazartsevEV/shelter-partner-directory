@@ -27,8 +27,8 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
    page.on('pageerror',e=>errors.push(e.message));
    await page.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.abort());
    await page.goto(base+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
-   A.equal(await page.locator('html').getAttribute('data-nomad-bug-endpoint'),
-    'https://formspree.io/f/mwlvadod','approved public Formspree endpoint');
+   A.equal(await page.locator('html').getAttribute('data-nomad-bug-endpoint'),null,
+    'No protected calculator HTML changed just to configure a provider');
    await page.locator('#nomad360-lang-select').selectOption(language);
    const launcher=page.locator('#nomad360-bug-launcher');
    await launcher.waitFor({state:'visible'});
