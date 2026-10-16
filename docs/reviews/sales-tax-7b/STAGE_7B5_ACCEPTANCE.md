@@ -24,3 +24,44 @@
 ## Ворота merge
 
 **Не объединять до завершения всех пунктов и GREEN обязательных workflow.** Цифры из 7Б-4: principal turnover 1800 / fee 360 / sales tax 144 / buyer total 1944; 8 agent routes × 3 months; VAT baseline независим. Финальную числовую таблицу и точные ссылки на CI дополнить до приёмки.
+
+
+## Числовой протокол для финальной приёмки 7Б-5
+
+**Статус таблицы:** модельные контрольные значения зафиксированы, но итоговую маркировку `7Б-5 GREEN` ставить исключительно после всех обязательных workflow на ОДНОМ финальном HEAD. Цифры из 7Б-4 — независимая принятая математическая база, новые экспортные проверки не подменяют её.
+
+| Сценарий | Нетто | Sales Tax | К оплате покупателем | Финансовое правило | Контроль |
+| --- | ---: | ---: | ---: | --- | --- |
+| Прайс SKU, лист 100, скидка 10%, ставка 8% | 90.00 | 7.20 | 97.20 | скидка один раз, потом транзитные 8% | `sales_tax_7b5_price_export.test.cjs` |
+| Прайс SKU, ставка Sales Tax 0% | 100.00 | 0.00 | 100.00 | ноль — число, не пропуск | тот же тест |
+| No Sales Tax, историческая цена после скидки | 90.00 | 0.00 | 90.00 | без начисления и без скрытого VAT | тот же тест |
+| Принципал смешанного портфеля, 8% | 1 800.00 | 144.00 | 1 944.00 | комиссия агента **360.00 отдельно** | принятый `sales_tax_7b_v2_projection.test.cjs`, новый XLSX/PDF |
+| V2 standalone, 2 SKU, кредит, 8% | 1 942.86 | 155.43 | 2 098.29 | неизменный свободный CF **719.57** | эталон 7Б-4 + новый E2E |
+| Linked cross-sell, 8% | 7 004.50 | 560.36 | 7 564.87 | CF **3 402.35** | эталон 7Б-4 |
+| Linked upsell, 8% | 6 869.58 | 549.57 | 7 419.15 | CF **3 192.83** | эталон 7Б-4 |
+| Linked bundle, 8% | 7 229.21 | 578.34 | 7 807.55 | CF **3 635.57** | эталон 7Б-4 |
+| Агент/принципал, 8 маршрутов × 3 мес. | 5 454.55 | 436.36 | 5 890.91 | комиссии **1 200.00**, 24 месяца | принятый `v1_service_v2_numeric_parity.test.cjs` |
+
+Числа в таблице представляют отображение с двумя знаками; программные проверки используют полную точность исходных результатов и допускают только ранее согласованные округления. В агентском прайс-листе **неизвестная** цена за единицу продажи принципала остаётся пустой: нельзя выдавать комиссию агента за покупательский ценник.
+
+### Матрица экспорта, локализации и сохранений
+
+| Обязательное действие | Проверки | Статус до финального CI |
+| --- | --- | --- |
+| Старые V1 товары (own, resale, dropship), сохранения VAT и Sales Tax | `sales_tax_7b_goods_browser.cjs`, `sales_tax_7b_vat_browser.cjs` | требуется GREEN на финальном HEAD |
+| V1 full self/hired/agent, online/offline; V1 simple | `sales_tax_7b_services_browser.cjs`, `sales_tax_7b5_v1_pdf_browser.cjs` | требуется GREEN |
+| Новый PDF V1 без тестового URL; `none` с сохранением и восстановлением | `sales_tax_7b5_v1_pdf_browser.cjs`, 3 языка × 2 ширины | требуется GREEN |
+| V2 standalone/linked; ставки 8% и историческая VAT | `sales_tax_7b_v2_browser.cjs`, `sales_tax_7b5_price_export.test.cjs` | требуется GREEN |
+| Excel XLSX, печатный прайс PDF и reload на RU/EN/KK | `sales_tax_7b5_v2_export_browser.cjs`, `nomad360_price_export_browser.test.cjs` | требуется GREEN |
+| Автономный HTML и встроенные V1/V2 Sales Tax + Excel без внешнего JS | `sales_tax_7b5_v2_export_browser.cjs`, `type02_exports_browser.cjs` | требуется GREEN |
+| Смена языка не переписывает сохранения, платежные валюты, кредит и базовые суммы | V2 browser, locale / currencies / frozen VAT workflows | требуется GREEN |
+| Никакой новой белой карточки со стрелкой вместо штатной навигации | `nomad360_global_tree_navigation_browser.test.cjs` | требуется GREEN |
+| Штатный каталог L0 / no missing translations | `node scripts/localization/inventory.cjs --check` | выполнить после последнего изменения источников |
+
+**Критерии отрицательной приёмки:** любое несовпадение суммы XLSX и печатного прайса для того же SKU, ложная цена принципала вместо комиссии, утрата VAT-ставки при переходе режимов, блокировка восстановления старого черновика, внешняя JS-зависимость автономного HTML или хотя бы одна неуспешная обязательная проверка. В этих случаях PR остаётся Draft, `main` не меняется.
+
+### Ссылки для проверки
+
+- [PR #169 и все workflow текущего коммита](https://github.com/KazartsevEV/shelter-partner-directory/pull/169/checks).
+- [Workflow 7Б-5](https://github.com/KazartsevEV/shelter-partner-directory/blob/feature/sales-tax-7b-5-ui-export/.github/workflows/sales-tax-7b5-export.yml).
+- [Принятые числовые эталоны 7Б-4](https://github.com/KazartsevEV/shelter-partner-directory/blob/main/docs/reviews/sales-tax-7b/STAGE_7B4_ACCEPTANCE.md).
