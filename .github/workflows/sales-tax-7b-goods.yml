@@ -1,0 +1,34 @@
+name: SALES-TAX-07B stage 2 goods V1
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'tests/sales_tax_7b_goods_browser.cjs'
+      - '.github/workflows/sales-tax-7b-goods.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  goods-v1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Baseline VAT and new pure math
+        run: |
+          node --check tests/sales_tax_7b_goods_browser.cjs
+          node --test tests/sales_tax_7b_pure.test.cjs
+          node tests/sales_tax_7b_baseline.cjs
+      - name: Install pinned Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/sales-tax-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/sales-tax-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: V1 own resale and dropship browser acceptance
+        env:
+          NODE_PATH: ${{ runner.temp }}/sales-tax-tools/node_modules
+        run: node tests/sales_tax_7b_goods_browser.cjs
