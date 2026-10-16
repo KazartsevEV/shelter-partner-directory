@@ -175,7 +175,12 @@ def main():
         '.github/workflows/simple-service-examples.yml',
         # 7B-1 adds a NEW standalone module and tests only; no SEO or VAT source edits.
         'nomad360_sales_tax.js', 'tests/sales_tax_7b_pure.test.cjs',
-        '.github/workflows/sales-tax-7b-pure.yml') for p in changed), changed
+        '.github/workflows/sales-tax-7b-pure.yml',
+        # 7B-2 only loads two independent modules; the HTML checker above
+        # strips those exact tags before checking the historical SHA-256.
+        'nomad360_sales_tax_v1.js', 'tests/sales_tax_7b_goods_browser.cjs',
+        '.github/workflows/sales-tax-7b-goods.yml',
+        'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
