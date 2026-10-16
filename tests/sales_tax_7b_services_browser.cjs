@@ -80,8 +80,17 @@ async function simple(page,role){
      visible:document.querySelector('[data-sales-tax-service="full"] [data-st-details]').textContent,
      quote:Nomad360SalesTaxServiceV1.quote(100,'sales_tax','8',10)};
    });
-   A.deepEqual(after.model,before.model,channel+'/'+role+' model PnL unchanged');
-   A.deepEqual(after.cash,before.cash,channel+'/'+role+' cash unchanged');
+   if(role==='agent'){
+    // Correct exception to baseline parity: in VAT mode principal gross 100
+    // contains VAT 10%, and agent fee 20 contains VAT 12%.
+    // In Sales Tax mode both old VAT deductions disappear; Sales Tax is transit.
+    A.ok(near(after.model.items[0].price,20),'agent fee must exclude no VAT under Sales Tax');
+    A.ok(near(after.cash.months[0].partnerRevenue,2000),'principal gross 100 x 20, no legacy 10% VAT');
+    A.ok(near(after.agency.partnerVatPct,0));
+   }else{
+    A.deepEqual(after.model,before.model,channel+'/'+role+' unchanged non-agent model');
+    A.deepEqual(after.cash,before.cash,channel+'/'+role+' unchanged non-agent cash');
+   }
    A.equal(after.vat,'12');
    A.equal(after.mode.error,'');
    A.ok(near(after.quote.customerTotal,97.2));
@@ -112,12 +121,17 @@ async function simple(page,role){
       model:m,cash:calculateProductCashFlow(m)};
    });
    A.equal(resumed.state.mode,'sales_tax');A.equal(resumed.state.rate,'8');
-   A.deepEqual(resumed.model,before.model);A.deepEqual(resumed.cash,before.cash);
+   A.deepEqual(resumed.model,after.model);A.deepEqual(resumed.cash,after.cash);
    const vat=await page.evaluate(()=>{Nomad360SalesTaxServiceV1.selectFull('vat');return {
     rate:document.getElementById('own-sales-vat-pct').value,
     choice:productOwnChoices.salesVat
    }});
    A.equal(vat.rate,'12');A.equal(vat.choice,'yes');
+   if(role==='agent'){
+    A.equal(await page.locator('#service-agent-partner-vat').inputValue(),'10');
+    const fee=await page.evaluate(()=>calculateProductPortfolio().items[0]?.price);
+    A.ok(near(fee,20/1.12),'VAT restores original agent commission basis');
+   }
    A.deepEqual(errors,[],channel+'/'+role+' browser errors');
    await ctx.close();complete++;
   }
