@@ -595,6 +595,7 @@ body #home-screen{max-width:1216px}
 body #nomad360-commercial-banner #nomad360-hero{max-width:50%;padding:0;margin:0 0 32px;background:transparent}
 body #nomad360-commercial-banner #nomad360-hero h1{font-size:16px;line-height:1.4;letter-spacing:.04em;color:var(--nb-orange);margin:0 0 16px}
 body #nomad360-commercial-banner #nomad360-hero h2{font-size:clamp(32px,3.8vw,48px);line-height:1.14;font-weight:700;color:#fff;letter-spacing:-.025em;margin:0 0 20px;text-wrap:balance}
+body #nomad360-commercial-banner #nomad360-hero h2 .nomad-hero-title-accent{color:var(--nb-orange)}
 body #nomad360-commercial-banner #nomad360-hero h3{font-size:19px;line-height:1.55;color:#fff;font-weight:400;max-width:510px;margin:0}
 body #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta{margin:24px 0 0;padding:14px 20px;border-radius:6px;min-height:52px;background:var(--nb-orange);color:var(--nb-blue);font-size:17px;line-height:1.4}
 body #nomad360-commercial-banner #nomad360-seo-banner{display:grid;grid-template-columns:minmax(0,1fr) 150px;align-items:center;gap:32px;margin:0;padding:28px 0 0;background:transparent;border:0;border-top:1px solid var(--nb-line);border-radius:0}
@@ -705,9 +706,9 @@ body #nomad360-information .nomad-links a{display:inline-flex;align-items:center
 @media(max-width:600px){
  .nomad-banner{--nb-pad:20px}
  #nomad360-commercial-banner{padding:20px 4px 24px}
- #nomad360-commercial-banner::before{background-size:100% 100%,auto 100%;background-position:0 0,left bottom}
- body #nomad360-commercial-banner #nomad360-hero h3{position:relative;padding-top:150px;isolation:isolate}
- body #nomad360-commercial-banner #nomad360-hero h3::before{content:'';position:absolute;z-index:-1;inset:0 -4px auto;height:310px;background:url('./assets/nomad360-banners/hero.webp') 85% top/auto 310px no-repeat;mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 35%,transparent 90%)}
+ #nomad360-commercial-banner::before{background-image:linear-gradient(to bottom,rgba(10,36,73,.62) 0%,rgba(10,36,73,.40) 200px,rgba(10,36,73,.60) 410px,var(--nb-blue) 640px),url('./assets/nomad360-banners/hero.webp');background-size:100% 100%,auto 570px;background-position:0 0,58% 42px;background-repeat:no-repeat}
+ body #nomad360-commercial-banner #nomad360-hero h3{position:relative;padding-top:0;isolation:isolate}
+ body #nomad360-commercial-banner #nomad360-hero h3::before{content:none}
  body #nomad360-commercial-banner #nomad360-hero{max-width:100%;padding:0;margin:0 0 28px}
  body #nomad360-commercial-banner #nomad360-hero h1{font-size:14px;margin-bottom:14px}
  body #nomad360-commercial-banner #nomad360-hero h2{font-size:32px;margin-bottom:20px;max-width:18ch}
