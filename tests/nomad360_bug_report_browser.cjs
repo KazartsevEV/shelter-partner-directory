@@ -111,7 +111,10 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
   await page.locator('#nomad360-bug-launcher').click();
   A.equal(await page.locator('#nomad360-bug-submit').isDisabled(),false);
   await page.locator('#nomad360-bug-submit').click();
-  A.match(await page.locator('#nomad360-bug-status').innerText(),/Опишите|Describe|сипатта/);
+  A.equal(await page.locator('#nomad360-bug-status').getAttribute('data-result'),'required',
+   'empty message must be rejected before transport');
+  A.ok((await page.locator('#nomad360-bug-status').innerText()).trim().length>10,
+   'localized validation must be announced');
   await page.locator('#nomad360-bug-message').fill('The widget did not open');
   for(let i=0;i<4;i++){
    await page.locator('#nomad360-bug-submit').click();
