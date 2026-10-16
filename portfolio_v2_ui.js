@@ -3,6 +3,7 @@
 (function(root){
 'use strict';
 const Engine=root.PortfolioV2Engine;
+const taxText=()=>root.Nomad360LocaleCore?.locales?.('tax')?.[root.Nomad360UI?.getLanguage?.()||'ru']||{};
 const storageKey='marketingCalcPortfolioV2';
 let model=null,sequence=1;
 const kinds={own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг'};
@@ -152,13 +153,13 @@ function render(){
  '<div class="nd-v2-form-grid grid grid-cols-2 gap-3">'+
  selField('Налог бизнеса','tax.type',model.tax.type,[['turnover','С оборота'],['profit','С прибыли']])+
  numberField('Ставка налога, %','tax.pct',model.tax.pct)+
- selField('Налог на продажу','tax.taxRegime',model.tax.taxRegime||'vat', [['vat','НДС (VAT / IVA)'],['sales_tax','Sales Tax'],['none','Без налога на продажу']])+ ((model.tax.taxRegime||'vat')==='vat'?numberField('НДС для цены покупателя, % (транзитный)','tax.vatPct',model.tax.vatPct):  (model.tax.taxRegime==='sales_tax'?numberField('Ставка Sales Tax, %','tax.salesTaxPct',model.tax.salesTaxPct??''):''))+
+ selField(taxText().v2TaxMode||'Режим налога','tax.taxRegime',model.tax.taxRegime||'vat', [['vat',taxText().v2VatLabel||'НДС (VAT / IVA)'],['sales_tax','Sales Tax'],['none',taxText().v2NoneLabel||'Без налога на продажу']])+ ((model.tax.taxRegime||'vat')==='vat'?numberField('НДС для цены покупателя, % (транзитный)','tax.vatPct',model.tax.vatPct):  (model.tax.taxRegime==='sales_tax'?numberField(taxText().v2SalesTaxRate||'Ставка Sales Tax, %','tax.salesTaxPct',model.tax.salesTaxPct??''):''))+
  numberField('Защитный резерв, % от кассового разрыва','funding.reservePct',model.funding.reservePct)+
  selField('Источник капитала','funding.kind',model.funding.kind,[['cash','Свои деньги'],['credit','Кредит']])+
  (model.funding.kind==='credit'?
  numberField('Ставка кредита, % годовых','funding.annualRatePct',model.funding.annualRatePct)+
  numberField('Срок кредита, месяцев','funding.months',model.funding.months):'')+
- '</div><p class="nd-v2-description text-xs mt-3">Индивидуальные налоговые вычеты и льготы в расчёте не учитываются. Для оптимизации налогообложения проконсультируйтесь с бухгалтером.</p><p class="nd-v2-description text-xs mt-3">Кредит: ежемесячные проценты и возврат всего тела в последний месяц (bullet). Тело кредита — выплата денежных средств, а не налоговый расход. Внесённые собственные деньги — тоже не прибыль.</p>',
+ '</div><p class="nd-v2-description text-xs mt-3" data-v2-tax-advisory>'+safe(taxText().v2NoticeFull||taxText().v2DeductionsNotice)+'</p><p class="nd-v2-description text-xs mt-3">Кредит: ежемесячные проценты и возврат всего тела в последний месяц (bullet). Тело кредита — выплата денежных средств, а не налоговый расход. Внесённые собственные деньги — тоже не прибыль.</p>',
  'p2-stage-financing')+
  '<section id="p2-results" class="nd-v2-result-frame rounded-2xl text-white p-5 mb-6" aria-live="polite"></section>';
  const status=document.getElementById('p2-draft-status');if(status)status.textContent='Изменения сохраняются в этом браузере';
@@ -251,7 +252,7 @@ function updateResult(){
  }
  const r=taxMode==='vat'?out:root.Nomad360SalesTaxV2.project(out,{mode:taxMode,ratePct:taxRate});
  const taxLines=taxMode!=='vat'?'<section data-p2-sales-tax-summary class="rounded-xl border border-white/25 p-3 mt-3">'+
- '<h3 class="font-bold">Налог с продаж — итог для покупателя</h3>'+
+ '<h3 class="font-bold">'+safe(taxText().v2BuyerSummary||'Налог с продаж — итог для покупателя')+'</h3>'+
  r.salesTaxSummary.lines.map(q=>'<p data-tax-sku="'+safe(q.id)+'">Выручка '+money(q.net)+
  ' + Sales Tax '+money(q.salesTax)+' = покупатель платит '+money(q.customerTotal)+'</p>').join('')+
  '<p><b>Итого Sales Tax '+money(r.salesTaxSummary.salesTax)+
@@ -405,6 +406,7 @@ function mount(){
  const el=document.getElementById('portfolio-v2-root');
  if(el){el.addEventListener('input',handleEvent);el.addEventListener('change',handleEvent);el.addEventListener('click',handleEvent);}
  updateEntry();
+ document.addEventListener('nomad360:languagechange',()=>{if(model)render();});
 }
 root.PortfolioV2UI=Object.freeze({open,load,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
 root.openPortfolioV2=function(resume=false){open({resume});};
