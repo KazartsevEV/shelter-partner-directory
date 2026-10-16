@@ -18,7 +18,7 @@ const copy={
 let mode=null,rawRate='',internal=false,widget=null,legacyCard=null;
 const language=()=>copy[root.Nomad360UI?.getLanguage?.()]||copy.ru;
 const hasService=()=>productSource==='offline-service'||productPortfolio.some(x=>!GOODS.has(x.source));
-const active=()=>mode==='sales_tax';
+const active=()=>mode==='sales_tax'&&!hasService();
 function error(){
  if(!active())return '';
  if(hasService())return language().unsupported;
