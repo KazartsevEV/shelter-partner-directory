@@ -170,6 +170,10 @@ def main():
                 assert raw == approved, 'Approved PR #145 source changed: ' + name
             continue
         if name == 'Marketing_calc.HTML':
+            # Stage 7B-3 contributes exactly one optional service module loader.
+            stage3 = b'<script src="./nomad360_sales_tax_service_v1.js"></script>\n'
+            assert raw.count(stage3) == 1
+            raw = raw.replace(stage3, b'', 1)
             raw = raw.replace((ROOT / 'tests/fixtures/seo-keyword-banner.html').read_bytes(),
                               (ROOT / 'tests/fixtures/seo-original-results.html').read_bytes(), 1)
             # Phase B adds exactly one canonical and one isolated language module.
@@ -213,6 +217,10 @@ def main():
         # standalone script tags are removed by return-contract.cjs.
         'nomad360_sales_tax_v1.js', 'tests/sales_tax_7b_goods_browser.cjs',
         '.github/workflows/sales-tax-7b-goods.yml',
+        # Stage 7B-3: separate, self-tested service adapter and exact scope guards.
+        'nomad360_sales_tax_service_v1.js', 'tests/sales_tax_7b_services_browser.cjs',
+        '.github/workflows/sales-tax-7b-services.yml',
+        'tests/return_7a_scope.test.cjs', 'scripts/seo/check_phase_a.py',
         'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
