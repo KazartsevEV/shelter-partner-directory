@@ -20,8 +20,9 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  let matrix=0,posted=0;
  try{
-  for(const language of ['ru','en','kk'])for(const width of [320,390,768,1280]){
-   const context=await browser.newContext({viewport:{width,height:850},acceptDownloads:true});
+  for(const language of ['ru','en','kk'])for(const width of [320,360,390,430,768,1280]){
+   const context=await browser.newContext({viewport:{width,height:850},acceptDownloads:true,
+    isMobile:width<=430,hasTouch:width<=430});
    const page=await context.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
    await page.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.abort());
@@ -33,7 +34,8 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
    const trigger=await launcher.boundingBox();
    A.ok(trigger.x>=0&&trigger.x+trigger.width<=width+1,language+' '+width+' widget in viewport');
    A.ok(trigger.y>=0&&trigger.height>=44,language+' '+width+' widget tappable');
-   await launcher.click();
+   if(width<=430)await launcher.tap();
+   else await launcher.click();
    const dialog=page.locator('#nomad360-bug-dialog');
    A.equal(await dialog.evaluate(x=>x.open),true);
    A.equal(await dialog.getAttribute('aria-labelledby'),'nomad360-bug-heading');
@@ -128,7 +130,7 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
   A.equal(posted,4,'all attempts went to mocked endpoint, not the network');
   A.equal(await page.locator('#nomad360-bug-message').inputValue(),'','reset after confirmed receipt');
   await context.close();
-  console.log('BUG_REPORT_WIDGET_GREEN '+JSON.stringify({matrix,posted,locales:3,widths:[320,390,768,1280],
+  console.log('BUG_REPORT_WIDGET_GREEN '+JSON.stringify({matrix,posted,locales:3,widths:[320,360,390,430,768,1280],
    accidentalTransmit:0,verifiedErrors:3,confirmedReceipts:1}));
  }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
 })().catch(e=>{console.error('BUG_REPORT_WIDGET_RED',e.stack||e);process.exitCode=1;});
