@@ -19,8 +19,9 @@ test('Only the four requested presentation files may change; all financial sourc
  const stage4='6c5c0e3a4927fb50b88ab99914145bb9016bb24a';
  A.ok(files.length>20);for(const file of files)if(!editable.has(file)){
    if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(file)){
-     A.equal(now(file),execFileSync('git',['show',stage4+':'+file],{cwd:root,encoding:'utf8'}),
-       '7Б-4 accepted explicit UI surface: '+file);
+     A.equal(require('./helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(file,now(file)),
+       execFileSync('git',['show',stage4+':'+file],{cwd:root,encoding:'utf8'}),
+       '7Б-4 V2 UI is byte-exact outside approved 7Б-5 tax hunks: '+file);
      continue;
    }
    const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
