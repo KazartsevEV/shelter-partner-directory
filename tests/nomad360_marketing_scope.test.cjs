@@ -3,7 +3,9 @@ const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('no
 const root=path.resolve(__dirname,'..'),base='538565e';
 const before=f=>execFileSync('git',['show',base+':'+f],{cwd:root,maxBuffer:8*1024*1024,encoding:'utf8'}),now=f=>fs.readFileSync(path.join(root,f),'utf8');
 test('Only the four requested presentation files may change; all financial sources, HTML and licence stay exact',()=>{
- const editable=new Set(['nomad360_header.js','nomad360_calculator_ui.js','nomad360_locale_core.js','nomad360_calculator_ui.css']);
+ // Stage 7Б-5 expressly extends XLSX/PDF tax projections. All accepted marketing
+ // text still has independent exact checks below; VAT export remains tested separately.
+ const editable=new Set(['nomad360_header.js','nomad360_calculator_ui.js','nomad360_locale_core.js','nomad360_calculator_ui.css','nomad360_price_export.js']);
  const files=execFileSync('git',['ls-tree','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/\.(js|css|html)$/i.test(f)||f==='CALCULATOR_LICENSE.md');
  const maskB2BCta=css=>css
   .replace(/\.nomad-embed-download:hover:not\(:disabled\)\{[^\n]*\}/g,'<B2B-DOWNLOAD-HOVER>')
@@ -47,7 +49,7 @@ test('Download, retry, clipboard, header navigation and financial export logic s
   function walk(x){if(!x||typeof x!=='object')return x;if(x.type==='FunctionDeclaration'&&allowed.has(x.id.name))return {type:'ApprovedRenderer',name:x.id.name};if(x.type==='VariableDeclarator'&&['COPY','L'].includes(x.id.name))return {type:'SemanticDictionary',name:x.id.name};if(Array.isArray(x))return x.map(walk);return Object.fromEntries(Object.entries(x).filter(([key])=>!['start','end','raw'].includes(key)).map(([key,v])=>[key,walk(v)]));}
   return walk(acorn.parse(src,{ecmaVersion:'latest'}));
  }
- for(const [file,allowed] of [['nomad360_calculator_ui.js',new Set(['buildShell'])],['nomad360_header.js',new Set(['infoMarkup','footerMarkup','payFiat','renderFooter','boot'])]])A.deepEqual(norm(require('./helpers/return-contract.cjs').stripReturn(file,now(file)),allowed),norm(before(file),allowed),file);
+ for(const [file,allowed] of [['nomad360_calculator_ui.js',new Set(['buildShell','table','printable'])],['nomad360_header.js',new Set(['infoMarkup','footerMarkup','payFiat','renderFooter','boot'])]])A.deepEqual(norm(require('./helpers/return-contract.cjs').stripReturn(file,now(file)),allowed),norm(before(file),allowed),file);
 });
 
 
