@@ -20,8 +20,9 @@ test('Inter preserves application logic; current task-6 presentation files have 
   }
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(p)){
    const stage4='cf2a9766d88927d929d54e8afed77f6fa99b79a8';
-   now=execFileSync('git',['show',stage4+':'+p],{cwd:root});
-   old=Buffer.from(now);
+   const approved=execFileSync('git',['show',stage4+':'+p],{cwd:root});
+   A.deepEqual(now,approved,'only the accepted 7Б-4 UI changes: '+p);
+   continue;
   }
   if(p==='portfolio_v2_linked_ui.js'){
    const src=now.toString();A.equal(src.split('nd-v2-description nd-type-note').length-1,1);
