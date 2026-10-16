@@ -85,8 +85,8 @@ test('Discounts and bundles are already in net V2 revenue: no double application
  const input={ready:true,items:[{id:'a',revenue:90,discountSelected:10},
     {id:'b',revenue:270,bundleExposure:.10}],
   totals:{netProfit:42},cashflow:{periodPnl:{ready:true,months:[{},{}],bySku:{
-   a:{months:[{revenue:50},{revenue:40}]},
-   b:{months:[{revenue:150},{revenue:120}]}
+   a:{revenue:90,months:[{revenue:50},{revenue:40}]},
+   b:{revenue:270,months:[{revenue:150},{revenue:120}]}
   }}}};
  const frozen=JSON.stringify(input);
  const out=Tax.project(input,{mode:'sales_tax',ratePct:8});
