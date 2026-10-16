@@ -27,7 +27,7 @@ test('Portable file URLs retain their original path and demo parameters',()=>{
 test('Application HTML changes only the approved results banner, canonical and isolated language module',()=>{
  const {stripSEO,canonical,language,banner}=require('./helpers/seo-html-contract.cjs');const source=fs.readFileSync(path.join(root,'Marketing_calc.HTML'),'utf8');
  const old=execFileSync('git',['show','85d98d9:Marketing_calc.HTML'],{cwd:root,encoding:'utf8'});
- A.equal(source.split(canonical).length-1,1);A.equal(source.split(language).length-1,1);A.equal(stripSEO(source.replace('<script src="./nomad360_sales_tax_service_v1.js"></script>\n','')),old);
+ A.equal(source.split(canonical).length-1,1);A.equal(source.split(language).length-1,1);A.equal(stripSEO(source.replace('<script src="./nomad360_sales_tax_service_v1.js"></script>\n','').replace('<script src="./nomad360_sales_tax_v2.js"></script>\n','')),old);
  A.equal(source.split(banner).length-1,1);
  A.ok(source.indexOf('nomad360_seo_language.js')>source.indexOf('<script src="./nomad360_calculator_ui.js"'));
 });

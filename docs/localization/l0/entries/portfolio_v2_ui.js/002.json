@@ -3,10 +3,442 @@
   "file": "portfolio_v2_ui.js",
   "entries": [
     {
-      "id": "portfolio_v2_ui.js:21318:js-string",
+      "id": "portfolio_v2_ui.js:21613:js-string",
       "file": "portfolio_v2_ui.js",
       "line": 250,
-      "offset": 21318,
+      "offset": 21613,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "standalone",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:21657:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 252,
+      "offset": 21657,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "vat",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:21762:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 253,
+      "offset": 21762,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "vat",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:21768:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 253,
+      "offset": 21768,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "<section data-p2-sales-tax-summary class=\"rounded-xl border border-white/25 p-3 mt-3\">",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:21859:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 254,
+      "offset": 21859,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "<h3 class=\"font-bold\">Налог с продаж — итог для покупателя</h3>",
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_ui.js:21881:markup-text",
+      "file": "portfolio_v2_ui.js",
+      "line": 254,
+      "offset": 21881,
+      "kind": "markup-text",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "h3",
+      "text": "Налог с продаж — итог для покупателя",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "legacy-exact",
+      "catalog": "tax.v2BuyerSummary"
+    },
+    {
+      "id": "portfolio_v2_ui.js:21958:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "offset": 21958,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "taxLines",
+      "text": "<p data-tax-sku=\"",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:21989:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "offset": 21989,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "taxLines",
+      "text": "\">Выручка ",
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22017:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 256,
+      "offset": 22017,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "taxLines",
+      "text": " + Sales Tax ",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22051:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 256,
+      "offset": 22051,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "taxLines",
+      "text": " = покупатель платит ",
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22098:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 256,
+      "offset": 22098,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "taxLines",
+      "text": "</p>",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22117:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 257,
+      "offset": 22117,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "<p><b>Итого Sales Tax ",
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22123:markup-text",
+      "file": "portfolio_v2_ui.js",
+      "line": 257,
+      "offset": 22123,
+      "kind": "markup-text",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "b",
+      "text": "Итого Sales Tax",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22178:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 258,
+      "offset": 22178,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "; сумма покупателей ",
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22240:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 258,
+      "offset": 22240,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "</b></p></section>",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22279:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22279,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Товар",
+      "coverage": "legacy-exact",
+      "catalog": "navigation.steps.goods"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22297:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22297,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "vat",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22303:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22303,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Цена без НДС",
+      "coverage": "legacy-exact",
+      "catalog": "tax.priceExcludingVat"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22318:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22318,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Цена без налога с продаж",
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22345:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22345,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Себест.",
+      "coverage": "legacy-exact",
+      "catalog": "ui.cogs"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22355:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22355,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Mix шт.",
+      "coverage": "legacy-exact",
+      "catalog": "ui.unitMix"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22365:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22365,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Mix выручки",
+      "coverage": "legacy-exact",
+      "catalog": "finance.revenueMix"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22379:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22379,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Weighted CAC",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22394:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22394,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Прогноз, шт/мес",
+      "coverage": "legacy-exact",
+      "catalog": "ui.forecastUnitsMonth"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22412:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22412,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Рекламный бюджет",
+      "coverage": "legacy-exact",
+      "catalog": "marketing.advertisingBudget"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22431:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22431,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "EBITDA SKU",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22444:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 259,
+      "offset": 22444,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "ROAS",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22483:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 260,
+      "offset": 22483,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "skuRows",
+      "text": "<tr class=\"border-t border-white/20\">",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22709:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 263,
+      "offset": 22709,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "skuRows",
+      "text": "—",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22727:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 263,
+      "offset": 22727,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "skuRows",
+      "text": "×",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22748:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 263,
+      "offset": 22748,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "skuRows",
+      "text": "<td class=\"px-2 py-3 whitespace-nowrap\"",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22802:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 263,
+      "offset": 22802,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "skuRows",
+      "text": " data-nomad-no-translate",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22833:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 263,
+      "offset": 22833,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "skuRows",
+      "text": ">",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22839:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 263,
+      "offset": 22839,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "skuRows",
+      "text": "</td>",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22857:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 263,
+      "offset": 22857,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "skuRows",
+      "text": "</tr>",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:22894:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 264,
+      "offset": 22894,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -16,10 +448,10 @@
       "catalog": "service.cashflow.month"
     },
     {
-      "id": "portfolio_v2_ui.js:21326:js-string",
+      "id": "portfolio_v2_ui.js:22902:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21326,
+      "line": 264,
+      "offset": 22902,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -29,10 +461,10 @@
       "catalog": "ui.sales"
     },
     {
-      "id": "portfolio_v2_ui.js:21336:js-string",
+      "id": "portfolio_v2_ui.js:22912:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21336,
+      "line": 264,
+      "offset": 22912,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -42,10 +474,10 @@
       "catalog": "ui.payments"
     },
     {
-      "id": "portfolio_v2_ui.js:21346:js-string",
+      "id": "portfolio_v2_ui.js:22922:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21346,
+      "line": 264,
+      "offset": 22922,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -55,10 +487,10 @@
       "catalog": "finance.operatingCashFlow"
     },
     {
-      "id": "portfolio_v2_ui.js:21371:js-string",
+      "id": "portfolio_v2_ui.js:22947:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21371,
+      "line": 264,
+      "offset": 22947,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -68,10 +500,10 @@
       "catalog": "credit.loanOwner"
     },
     {
-      "id": "portfolio_v2_ui.js:21387:js-string",
+      "id": "portfolio_v2_ui.js:22963:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21387,
+      "line": 264,
+      "offset": 22963,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -81,10 +513,10 @@
       "catalog": "service.cashflow.interest"
     },
     {
-      "id": "portfolio_v2_ui.js:21398:js-string",
+      "id": "portfolio_v2_ui.js:22974:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21398,
+      "line": 264,
+      "offset": 22974,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -94,10 +526,10 @@
       "catalog": "credit.principalRepayment"
     },
     {
-      "id": "portfolio_v2_ui.js:21413:js-string",
+      "id": "portfolio_v2_ui.js:22989:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21413,
+      "line": 264,
+      "offset": 22989,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -107,10 +539,10 @@
       "catalog": "finance.netCashFlow"
     },
     {
-      "id": "portfolio_v2_ui.js:21425:js-string",
+      "id": "portfolio_v2_ui.js:23001:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21425,
+      "line": 264,
+      "offset": 23001,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -120,10 +552,10 @@
       "catalog": "finance.cumulativeCashFlow"
     },
     {
-      "id": "portfolio_v2_ui.js:21442:js-string",
+      "id": "portfolio_v2_ui.js:23018:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 250,
-      "offset": 21442,
+      "line": 264,
+      "offset": 23018,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -133,10 +565,10 @@
       "catalog": "finance.availableCash"
     },
     {
-      "id": "portfolio_v2_ui.js:21491:js-string",
+      "id": "portfolio_v2_ui.js:23067:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 251,
-      "offset": 21491,
+      "line": 265,
+      "offset": 23067,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -145,10 +577,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:21750:js-string",
+      "id": "portfolio_v2_ui.js:23326:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 255,
-      "offset": 21750,
+      "line": 269,
+      "offset": 23326,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -157,10 +589,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:21795:js-string",
+      "id": "portfolio_v2_ui.js:23371:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 255,
-      "offset": 21795,
+      "line": 269,
+      "offset": 23371,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -169,10 +601,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:21813:js-string",
+      "id": "portfolio_v2_ui.js:23389:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 255,
-      "offset": 21813,
+      "line": 269,
+      "offset": 23389,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -181,10 +613,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:21871:js-string",
+      "id": "portfolio_v2_ui.js:23447:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 256,
-      "offset": 21871,
+      "line": 270,
+      "offset": 23447,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -193,10 +625,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:21965:js-string",
+      "id": "portfolio_v2_ui.js:23541:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 256,
-      "offset": 21965,
+      "line": 270,
+      "offset": 23541,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -205,10 +637,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22007:js-string",
+      "id": "portfolio_v2_ui.js:23583:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 257,
-      "offset": 22007,
+      "line": 271,
+      "offset": 23583,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -217,10 +649,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22044:js-string",
+      "id": "portfolio_v2_ui.js:23620:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 257,
-      "offset": 22044,
+      "line": 271,
+      "offset": 23620,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -229,10 +661,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22051:js-string",
+      "id": "portfolio_v2_ui.js:23627:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 257,
-      "offset": 22051,
+      "line": 271,
+      "offset": 23627,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -242,10 +674,10 @@
       "catalog": "ui.times"
     },
     {
-      "id": "portfolio_v2_ui.js:22057:js-string",
+      "id": "portfolio_v2_ui.js:23633:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 257,
-      "offset": 22057,
+      "line": 271,
+      "offset": 23633,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -255,10 +687,10 @@
       "catalog": "ui.month3"
     },
     {
-      "id": "portfolio_v2_ui.js:22066:js-string",
+      "id": "portfolio_v2_ui.js:23642:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 257,
-      "offset": 22066,
+      "line": 271,
+      "offset": 23642,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -267,10 +699,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22135:js-string",
+      "id": "portfolio_v2_ui.js:23711:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 258,
-      "offset": 22135,
+      "line": 272,
+      "offset": 23711,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -279,10 +711,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22211:js-string",
+      "id": "portfolio_v2_ui.js:23787:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 258,
-      "offset": 22211,
+      "line": 272,
+      "offset": 23787,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -291,10 +723,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22218:markup-text",
+      "id": "portfolio_v2_ui.js:23794:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 258,
-      "offset": 22218,
+      "line": 272,
+      "offset": 23794,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -305,10 +737,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:22243:js-string",
+      "id": "portfolio_v2_ui.js:23819:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 258,
-      "offset": 22243,
+      "line": 272,
+      "offset": 23819,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -317,10 +749,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22249:js-string",
+      "id": "portfolio_v2_ui.js:23825:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 258,
-      "offset": 22249,
+      "line": 272,
+      "offset": 23825,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -329,10 +761,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22295:js-string",
+      "id": "portfolio_v2_ui.js:23880:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 260,
-      "offset": 22295,
+      "line": 274,
+      "offset": 23880,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -341,10 +773,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22379:js-string",
+      "id": "portfolio_v2_ui.js:23964:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 261,
-      "offset": 22379,
+      "line": 275,
+      "offset": 23964,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -353,10 +785,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:22426:js-string",
+      "id": "portfolio_v2_ui.js:24011:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 261,
-      "offset": 22426,
+      "line": 275,
+      "offset": 24011,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -366,10 +798,10 @@
       "catalog": "pricing.weightedProductProfitMargin"
     },
     {
-      "id": "portfolio_v2_ui.js:22490:js-string",
+      "id": "portfolio_v2_ui.js:24075:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 262,
-      "offset": 22490,
+      "line": 276,
+      "offset": 24075,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -379,10 +811,10 @@
       "catalog": "ui.startupFunding"
     },
     {
-      "id": "portfolio_v2_ui.js:22533:js-string",
+      "id": "portfolio_v2_ui.js:24118:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 262,
-      "offset": 22533,
+      "line": 276,
+      "offset": 24118,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -392,10 +824,10 @@
       "catalog": "service.cashflow.reserve"
     },
     {
-      "id": "portfolio_v2_ui.js:22566:js-string",
+      "id": "portfolio_v2_ui.js:24151:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 263,
-      "offset": 22566,
+      "line": 277,
+      "offset": 24151,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -405,10 +837,10 @@
       "catalog": "marketing.businessRoas"
     },
     {
-      "id": "portfolio_v2_ui.js:22595:js-string",
+      "id": "portfolio_v2_ui.js:24180:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 263,
-      "offset": 22595,
+      "line": 277,
+      "offset": 24180,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -418,10 +850,10 @@
       "catalog": "ui.ebitdaBaselineMonth"
     },
     {
-      "id": "portfolio_v2_ui.js:22641:js-string",
+      "id": "portfolio_v2_ui.js:24226:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 264,
-      "offset": 22641,
+      "line": 278,
+      "offset": 24226,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -431,10 +863,10 @@
       "catalog": "finance.cumulativeCashFlow"
     },
     {
-      "id": "portfolio_v2_ui.js:22672:js-string",
+      "id": "portfolio_v2_ui.js:24257:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 264,
-      "offset": 22672,
+      "line": 278,
+      "offset": 24257,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -444,10 +876,10 @@
       "catalog": "finance.availableCash"
     },
     {
-      "id": "portfolio_v2_ui.js:22717:js-string",
+      "id": "portfolio_v2_ui.js:24302:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 265,
-      "offset": 22717,
+      "line": 279,
+      "offset": 24302,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -456,10 +888,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22771:js-string",
+      "id": "portfolio_v2_ui.js:24356:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 265,
-      "offset": 22771,
+      "line": 279,
+      "offset": 24356,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -468,10 +900,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22805:js-string",
+      "id": "portfolio_v2_ui.js:24390:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 265,
-      "offset": 22805,
+      "line": 279,
+      "offset": 24390,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -480,10 +912,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22833:js-string",
+      "id": "portfolio_v2_ui.js:24418:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 266,
-      "offset": 22833,
+      "line": 280,
+      "offset": 24418,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -492,10 +924,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22833:markup-text",
+      "id": "portfolio_v2_ui.js:24418:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 266,
-      "offset": 22833,
+      "line": 280,
+      "offset": 24418,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -506,10 +938,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:22871:js-string",
+      "id": "portfolio_v2_ui.js:24456:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 266,
-      "offset": 22871,
+      "line": 280,
+      "offset": 24456,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -518,10 +950,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22967:js-string",
+      "id": "portfolio_v2_ui.js:24552:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 267,
-      "offset": 22967,
+      "line": 281,
+      "offset": 24552,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -530,10 +962,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:22981:js-string",
+      "id": "portfolio_v2_ui.js:24566:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 267,
-      "offset": 22981,
+      "line": 281,
+      "offset": 24566,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -542,10 +974,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:23006:js-string",
+      "id": "portfolio_v2_ui.js:24591:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 267,
-      "offset": 23006,
+      "line": 281,
+      "offset": 24591,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -554,37 +986,85 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:23017:js-string",
+      "id": "portfolio_v2_ui.js:24602:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 268,
-      "offset": 23017,
+      "line": 282,
+      "offset": 24602,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
       "context": "updateResult",
-      "text": "<p class=\"text-xs text-emerald-50 mt-3\">Цена без НДС рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.</p>",
+      "text": "<p class=\"text-xs text-emerald-50 mt-3\">",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:24656:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 282,
+      "offset": 24656,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "vat",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "portfolio_v2_ui.js:24662:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 282,
+      "offset": 24662,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Цена без НДС",
+      "coverage": "legacy-exact",
+      "catalog": "tax.priceExcludingVat"
+    },
+    {
+      "id": "portfolio_v2_ui.js:24677:js-string",
+      "file": "portfolio_v2_ui.js",
+      "line": 282,
+      "offset": 24677,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": "Цена без налога с продаж",
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:23057:markup-text",
+      "id": "portfolio_v2_ui.js:24705:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 268,
-      "offset": 23057,
+      "line": 282,
+      "offset": 24705,
+      "kind": "js-string",
+      "owner": "portfolio_v2_ui.js",
+      "stage": "L4",
+      "context": "updateResult",
+      "text": " рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.</p>",
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "portfolio_v2_ui.js:24705:markup-text",
+      "file": "portfolio_v2_ui.js",
+      "line": 282,
+      "offset": 24705,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
-      "context": "p",
-      "text": "Цена без НДС рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.",
+      "context": "document",
+      "text": "рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.",
       "protectedNode": false,
       "embedded": true,
-      "coverage": "legacy-exact",
-      "catalog": "tax.theVatExclusivePriceUsesBaselineCacAndTargetMarginActualSkuMarginAfterWeightedCacMayDiffer"
+      "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:23283:js-string",
+      "id": "portfolio_v2_ui.js:24919:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 269,
-      "offset": 23283,
+      "line": 283,
+      "offset": 24919,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -593,10 +1073,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:23310:markup-text",
+      "id": "portfolio_v2_ui.js:24946:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 269,
-      "offset": 23310,
+      "line": 283,
+      "offset": 24946,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -608,10 +1088,10 @@
       "catalog": "pricing.portfolioPricesRevenueWeightsAndCosts"
     },
     {
-      "id": "portfolio_v2_ui.js:23351:js-string",
+      "id": "portfolio_v2_ui.js:24987:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 270,
-      "offset": 23351,
+      "line": 284,
+      "offset": 24987,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -620,10 +1100,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:23454:js-string",
+      "id": "portfolio_v2_ui.js:25090:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 271,
-      "offset": 23454,
+      "line": 285,
+      "offset": 25090,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -632,10 +1112,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:23505:js-string",
+      "id": "portfolio_v2_ui.js:25141:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 271,
-      "offset": 23505,
+      "line": 285,
+      "offset": 25141,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -644,10 +1124,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:23523:js-string",
+      "id": "portfolio_v2_ui.js:25159:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 271,
-      "offset": 23523,
+      "line": 285,
+      "offset": 25159,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -656,10 +1136,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:23554:js-string",
+      "id": "portfolio_v2_ui.js:25190:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 271,
-      "offset": 23554,
+      "line": 285,
+      "offset": 25190,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -668,10 +1148,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:23581:js-string",
+      "id": "portfolio_v2_ui.js:25217:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 272,
-      "offset": 23581,
+      "line": 286,
+      "offset": 25217,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -680,10 +1160,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:23605:markup-text",
+      "id": "portfolio_v2_ui.js:25241:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 272,
-      "offset": 23605,
+      "line": 286,
+      "offset": 25241,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -695,10 +1175,10 @@
       "catalog": "marketing.totalMonthlyAdvertising"
     },
     {
-      "id": "portfolio_v2_ui.js:23664:js-string",
+      "id": "portfolio_v2_ui.js:25300:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 272,
-      "offset": 23664,
+      "line": 286,
+      "offset": 25300,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -707,10 +1187,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:23673:markup-text",
+      "id": "portfolio_v2_ui.js:25309:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 272,
-      "offset": 23673,
+      "line": 286,
+      "offset": 25309,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -722,10 +1202,10 @@
       "catalog": "ui.allocatedToSkus"
     },
     {
-      "id": "portfolio_v2_ui.js:23739:js-string",
+      "id": "portfolio_v2_ui.js:25375:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 272,
-      "offset": 23739,
+      "line": 286,
+      "offset": 25375,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -734,10 +1214,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:23748:markup-text",
+      "id": "portfolio_v2_ui.js:25384:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 272,
-      "offset": 23748,
+      "line": 286,
+      "offset": 25384,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -748,10 +1228,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:23808:js-string",
+      "id": "portfolio_v2_ui.js:25444:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 272,
-      "offset": 23808,
+      "line": 286,
+      "offset": 25444,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -760,10 +1240,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:23808:markup-text",
+      "id": "portfolio_v2_ui.js:25444:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 272,
-      "offset": 23808,
+      "line": 286,
+      "offset": 25444,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -775,10 +1255,10 @@
       "catalog": "interface.header.flowAfter"
     },
     {
-      "id": "portfolio_v2_ui.js:23818:js-string",
+      "id": "portfolio_v2_ui.js:25454:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 273,
-      "offset": 23818,
+      "line": 287,
+      "offset": 25454,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -787,10 +1267,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:23845:markup-text",
+      "id": "portfolio_v2_ui.js:25481:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 273,
-      "offset": 23845,
+      "line": 287,
+      "offset": 25481,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -802,10 +1282,10 @@
       "catalog": "ui.sharedResourcesOnePaymentSeveralUsers"
     },
     {
-      "id": "portfolio_v2_ui.js:23905:js-string",
+      "id": "portfolio_v2_ui.js:25541:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 274,
-      "offset": 23905,
+      "line": 288,
+      "offset": 25541,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -814,10 +1294,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:24001:markup-text",
+      "id": "portfolio_v2_ui.js:25637:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 274,
-      "offset": 24001,
+      "line": 288,
+      "offset": 25637,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -829,10 +1309,10 @@
       "catalog": "ui.resource"
     },
     {
-      "id": "portfolio_v2_ui.js:24028:markup-text",
+      "id": "portfolio_v2_ui.js:25664:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 274,
-      "offset": 24028,
+      "line": 288,
+      "offset": 25664,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -844,10 +1324,10 @@
       "catalog": "ui.amount"
     },
     {
-      "id": "portfolio_v2_ui.js:24054:markup-text",
+      "id": "portfolio_v2_ui.js:25690:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 274,
-      "offset": 24054,
+      "line": 288,
+      "offset": 25690,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -859,10 +1339,10 @@
       "catalog": "ui.frequency2"
     },
     {
-      "id": "portfolio_v2_ui.js:24082:markup-text",
+      "id": "portfolio_v2_ui.js:25718:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 274,
-      "offset": 24082,
+      "line": 288,
+      "offset": 25718,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -874,10 +1354,10 @@
       "catalog": "ui.allocatedTo"
     },
     {
-      "id": "portfolio_v2_ui.js:24136:js-string",
+      "id": "portfolio_v2_ui.js:25772:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 274,
-      "offset": 24136,
+      "line": 288,
+      "offset": 25772,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -886,10 +1366,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:24163:js-string",
+      "id": "portfolio_v2_ui.js:25799:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 275,
-      "offset": 24163,
+      "line": 289,
+      "offset": 25799,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -898,10 +1378,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:24302:js-string",
+      "id": "portfolio_v2_ui.js:25938:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 276,
-      "offset": 24302,
+      "line": 290,
+      "offset": 25938,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -910,10 +1390,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:24329:markup-text",
+      "id": "portfolio_v2_ui.js:25965:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 276,
-      "offset": 24329,
+      "line": 290,
+      "offset": 25965,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -924,10 +1404,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:24371:js-string",
+      "id": "portfolio_v2_ui.js:26007:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 276,
-      "offset": 24371,
+      "line": 290,
+      "offset": 26007,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -936,10 +1416,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:24371:markup-text",
+      "id": "portfolio_v2_ui.js:26007:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 276,
-      "offset": 24371,
+      "line": 290,
+      "offset": 26007,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -950,10 +1430,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:24389:js-string",
+      "id": "portfolio_v2_ui.js:26025:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 277,
-      "offset": 24389,
+      "line": 291,
+      "offset": 26025,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -962,10 +1442,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:24496:js-string",
+      "id": "portfolio_v2_ui.js:26132:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 278,
-      "offset": 24496,
+      "line": 292,
+      "offset": 26132,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -974,10 +1454,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:24547:js-string",
+      "id": "portfolio_v2_ui.js:26183:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 278,
-      "offset": 24547,
+      "line": 292,
+      "offset": 26183,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -986,10 +1466,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:24565:js-string",
+      "id": "portfolio_v2_ui.js:26201:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 278,
-      "offset": 24565,
+      "line": 292,
+      "offset": 26201,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -998,10 +1478,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:24597:js-string",
+      "id": "portfolio_v2_ui.js:26233:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 278,
-      "offset": 24597,
+      "line": 292,
+      "offset": 26233,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1010,10 +1490,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:24624:js-string",
+      "id": "portfolio_v2_ui.js:26260:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 279,
-      "offset": 24624,
+      "line": 293,
+      "offset": 26260,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1022,10 +1502,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:24648:markup-text",
+      "id": "portfolio_v2_ui.js:26284:markup-text",
       "file": "portfolio_v2_ui.js",
-      "line": 279,
-      "offset": 24648,
+      "line": 293,
+      "offset": 26284,
       "kind": "markup-text",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1037,10 +1517,10 @@
       "catalog": "credit.availableCashEqualsCumulativeCashBalanceIncludingOwnerFundingOrLoanMinusProtectedReserveIt"
     },
     {
-      "id": "portfolio_v2_ui.js:24931:js-string",
+      "id": "portfolio_v2_ui.js:26567:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 280,
-      "offset": 24931,
+      "line": 294,
+      "offset": 26567,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1049,10 +1529,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:25020:js-string",
+      "id": "portfolio_v2_ui.js:26656:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 283,
-      "offset": 25020,
+      "line": 297,
+      "offset": 26656,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1062,10 +1542,10 @@
       "catalog": "interface.header.flowAfter"
     },
     {
-      "id": "portfolio_v2_ui.js:25117:js-string",
+      "id": "portfolio_v2_ui.js:26753:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 284,
-      "offset": 25117,
+      "line": 298,
+      "offset": 26753,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1074,10 +1554,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:25461:js-string",
+      "id": "portfolio_v2_ui.js:27097:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 290,
-      "offset": 25461,
+      "line": 304,
+      "offset": 27097,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1087,10 +1567,10 @@
       "catalog": "interface.header.flowAfter"
     },
     {
-      "id": "portfolio_v2_ui.js:25662:js-string",
+      "id": "portfolio_v2_ui.js:27298:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 297,
-      "offset": 25662,
+      "line": 311,
+      "offset": 27298,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1099,10 +1579,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:25763:js-string",
+      "id": "portfolio_v2_ui.js:27399:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 300,
-      "offset": 25763,
+      "line": 314,
+      "offset": 27399,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1111,10 +1591,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:25788:js-string",
+      "id": "portfolio_v2_ui.js:27424:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 300,
-      "offset": 25788,
+      "line": 314,
+      "offset": 27424,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1123,10 +1603,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:25803:js-string",
+      "id": "portfolio_v2_ui.js:27439:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 300,
-      "offset": 25803,
+      "line": 314,
+      "offset": 27439,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1135,10 +1615,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "portfolio_v2_ui.js:26347:js-string",
+      "id": "portfolio_v2_ui.js:27983:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 310,
-      "offset": 26347,
+      "line": 324,
+      "offset": 27983,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1147,10 +1627,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:26852:js-string",
+      "id": "portfolio_v2_ui.js:28488:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 325,
-      "offset": 26852,
+      "line": 339,
+      "offset": 28488,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1159,10 +1639,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:26885:js-string",
+      "id": "portfolio_v2_ui.js:28521:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 325,
-      "offset": 26885,
+      "line": 339,
+      "offset": 28521,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1171,10 +1651,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27202:js-string",
+      "id": "portfolio_v2_ui.js:28838:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 331,
-      "offset": 27202,
+      "line": 345,
+      "offset": 28838,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1183,10 +1663,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27276:js-string",
+      "id": "portfolio_v2_ui.js:28912:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 332,
-      "offset": 27276,
+      "line": 346,
+      "offset": 28912,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1195,10 +1675,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27304:js-string",
+      "id": "portfolio_v2_ui.js:28940:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 332,
-      "offset": 27304,
+      "line": 346,
+      "offset": 28940,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1208,10 +1688,10 @@
       "catalog": "ui.sharedResource"
     },
     {
-      "id": "portfolio_v2_ui.js:27348:js-string",
+      "id": "portfolio_v2_ui.js:28984:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 333,
-      "offset": 27348,
+      "line": 347,
+      "offset": 28984,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1220,10 +1700,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27372:js-string",
+      "id": "portfolio_v2_ui.js:29008:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 333,
-      "offset": 27372,
+      "line": 347,
+      "offset": 29008,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1232,10 +1712,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27392:js-string",
+      "id": "portfolio_v2_ui.js:29028:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 333,
-      "offset": 27392,
+      "line": 347,
+      "offset": 29028,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1244,10 +1724,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27401:js-string",
+      "id": "portfolio_v2_ui.js:29037:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 333,
-      "offset": 27401,
+      "line": 347,
+      "offset": 29037,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1256,10 +1736,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27408:js-string",
+      "id": "portfolio_v2_ui.js:29044:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 333,
-      "offset": 27408,
+      "line": 347,
+      "offset": 29044,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1268,10 +1748,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27433:js-string",
+      "id": "portfolio_v2_ui.js:29069:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 334,
-      "offset": 27433,
+      "line": 348,
+      "offset": 29069,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1280,10 +1760,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27588:js-string",
+      "id": "portfolio_v2_ui.js:29224:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 338,
-      "offset": 27588,
+      "line": 352,
+      "offset": 29224,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1292,10 +1772,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27636:js-string",
+      "id": "portfolio_v2_ui.js:29272:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 339,
-      "offset": 27636,
+      "line": 353,
+      "offset": 29272,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1304,10 +1784,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:27677:js-string",
+      "id": "portfolio_v2_ui.js:29313:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 340,
-      "offset": 27677,
+      "line": 354,
+      "offset": 29313,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1316,10 +1796,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28200:js-string",
+      "id": "portfolio_v2_ui.js:29836:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 348,
-      "offset": 28200,
+      "line": 362,
+      "offset": 29836,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1328,10 +1808,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28219:js-string",
+      "id": "portfolio_v2_ui.js:29855:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 348,
-      "offset": 28219,
+      "line": 362,
+      "offset": 29855,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1340,10 +1820,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28418:js-string",
+      "id": "portfolio_v2_ui.js:30054:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 351,
-      "offset": 28418,
+      "line": 365,
+      "offset": 30054,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1352,10 +1832,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28466:js-string",
+      "id": "portfolio_v2_ui.js:30102:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 352,
-      "offset": 28466,
+      "line": 366,
+      "offset": 30102,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1364,10 +1844,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28491:js-string",
+      "id": "portfolio_v2_ui.js:30127:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 352,
-      "offset": 28491,
+      "line": 366,
+      "offset": 30127,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1376,10 +1856,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28542:js-string",
+      "id": "portfolio_v2_ui.js:30178:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 353,
-      "offset": 28542,
+      "line": 367,
+      "offset": 30178,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1389,10 +1869,10 @@
       "catalog": "interface.header.flowAfter"
     },
     {
-      "id": "portfolio_v2_ui.js:28615:js-string",
+      "id": "portfolio_v2_ui.js:30251:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 355,
-      "offset": 28615,
+      "line": 369,
+      "offset": 30251,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1401,10 +1881,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28640:js-string",
+      "id": "portfolio_v2_ui.js:30276:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 355,
-      "offset": 28640,
+      "line": 369,
+      "offset": 30276,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1413,10 +1893,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28901:js-string",
+      "id": "portfolio_v2_ui.js:30537:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 359,
-      "offset": 28901,
+      "line": 373,
+      "offset": 30537,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1425,10 +1905,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:28923:js-string",
+      "id": "portfolio_v2_ui.js:30559:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 359,
-      "offset": 28923,
+      "line": 373,
+      "offset": 30559,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1437,10 +1917,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29067:js-string",
+      "id": "portfolio_v2_ui.js:30703:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 364,
-      "offset": 29067,
+      "line": 378,
+      "offset": 30703,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1449,10 +1929,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29178:js-string",
+      "id": "portfolio_v2_ui.js:30814:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 367,
-      "offset": 29178,
+      "line": 381,
+      "offset": 30814,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1461,10 +1941,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29260:js-string",
+      "id": "portfolio_v2_ui.js:30896:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 370,
-      "offset": 29260,
+      "line": 384,
+      "offset": 30896,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1473,10 +1953,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29282:js-string",
+      "id": "portfolio_v2_ui.js:30918:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 370,
-      "offset": 29282,
+      "line": 384,
+      "offset": 30918,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1485,10 +1965,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29323:js-string",
+      "id": "portfolio_v2_ui.js:30959:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 371,
-      "offset": 29323,
+      "line": 385,
+      "offset": 30959,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1497,10 +1977,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29378:js-string",
+      "id": "portfolio_v2_ui.js:31014:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 372,
-      "offset": 29378,
+      "line": 386,
+      "offset": 31014,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1509,10 +1989,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29695:js-string",
+      "id": "portfolio_v2_ui.js:31331:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 380,
-      "offset": 29695,
+      "line": 394,
+      "offset": 31331,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1521,10 +2001,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29732:js-string",
+      "id": "portfolio_v2_ui.js:31368:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 381,
-      "offset": 29732,
+      "line": 395,
+      "offset": 31368,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1533,10 +2013,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29762:js-string",
+      "id": "portfolio_v2_ui.js:31398:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 382,
-      "offset": 29762,
+      "line": 396,
+      "offset": 31398,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1545,10 +2025,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29815:js-string",
+      "id": "portfolio_v2_ui.js:31451:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 383,
-      "offset": 29815,
+      "line": 397,
+      "offset": 31451,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1557,10 +2037,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29859:js-string",
+      "id": "portfolio_v2_ui.js:31495:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 384,
-      "offset": 29859,
+      "line": 398,
+      "offset": 31495,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1569,10 +2049,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29927:js-string",
+      "id": "portfolio_v2_ui.js:31563:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 385,
-      "offset": 29927,
+      "line": 399,
+      "offset": 31563,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1581,10 +2061,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:29991:js-string",
+      "id": "portfolio_v2_ui.js:31627:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 386,
-      "offset": 29991,
+      "line": 400,
+      "offset": 31627,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1593,10 +2073,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30034:js-string",
+      "id": "portfolio_v2_ui.js:31670:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 386,
-      "offset": 30034,
+      "line": 400,
+      "offset": 31670,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1605,10 +2085,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30096:js-string",
+      "id": "portfolio_v2_ui.js:31732:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 387,
-      "offset": 30096,
+      "line": 401,
+      "offset": 31732,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1617,10 +2097,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30195:js-string",
+      "id": "portfolio_v2_ui.js:31831:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 388,
-      "offset": 30195,
+      "line": 402,
+      "offset": 31831,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1629,10 +2109,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30240:js-string",
+      "id": "portfolio_v2_ui.js:31876:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 388,
-      "offset": 30240,
+      "line": 402,
+      "offset": 31876,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1641,10 +2121,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30353:js-string",
+      "id": "portfolio_v2_ui.js:31989:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 391,
-      "offset": 30353,
+      "line": 405,
+      "offset": 31989,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1653,10 +2133,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30403:js-string",
+      "id": "portfolio_v2_ui.js:32039:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 392,
-      "offset": 30403,
+      "line": 406,
+      "offset": 32039,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1665,10 +2145,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30444:js-string",
+      "id": "portfolio_v2_ui.js:32080:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 392,
-      "offset": 30444,
+      "line": 406,
+      "offset": 32080,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1677,10 +2157,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30486:js-string",
+      "id": "portfolio_v2_ui.js:32122:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 392,
-      "offset": 30486,
+      "line": 406,
+      "offset": 32122,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1689,10 +2169,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30838:js-string",
+      "id": "portfolio_v2_ui.js:32474:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 397,
-      "offset": 30838,
+      "line": 411,
+      "offset": 32474,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1701,10 +2181,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:30874:js-string",
+      "id": "portfolio_v2_ui.js:32510:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 397,
-      "offset": 30874,
+      "line": 411,
+      "offset": 32510,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1713,10 +2193,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:31130:js-string",
+      "id": "portfolio_v2_ui.js:32766:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 405,
-      "offset": 31130,
+      "line": 419,
+      "offset": 32766,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1725,10 +2205,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:31180:js-string",
+      "id": "portfolio_v2_ui.js:32816:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 406,
-      "offset": 31180,
+      "line": 420,
+      "offset": 32816,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1737,10 +2217,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:31255:js-string",
+      "id": "portfolio_v2_ui.js:32891:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 407,
-      "offset": 31255,
+      "line": 421,
+      "offset": 32891,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1749,10 +2229,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:31291:js-string",
+      "id": "portfolio_v2_ui.js:32927:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 407,
-      "offset": 31291,
+      "line": 421,
+      "offset": 32927,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1761,10 +2241,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:31417:js-string",
+      "id": "portfolio_v2_ui.js:33053:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 411,
-      "offset": 31417,
+      "line": 425,
+      "offset": 33053,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1773,10 +2253,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32001:js-string",
+      "id": "portfolio_v2_ui.js:33637:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 418,
-      "offset": 32001,
+      "line": 432,
+      "offset": 33637,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1785,10 +2265,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32153:js-string",
+      "id": "portfolio_v2_ui.js:33789:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 421,
-      "offset": 32153,
+      "line": 435,
+      "offset": 33789,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1797,10 +2277,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32176:js-string",
+      "id": "portfolio_v2_ui.js:33812:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 421,
-      "offset": 32176,
+      "line": 435,
+      "offset": 33812,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1809,10 +2289,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32222:js-string",
+      "id": "portfolio_v2_ui.js:33858:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 422,
-      "offset": 32222,
+      "line": 436,
+      "offset": 33858,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1821,10 +2301,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32236:js-string",
+      "id": "portfolio_v2_ui.js:33872:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 422,
-      "offset": 32236,
+      "line": 436,
+      "offset": 33872,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1833,10 +2313,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32262:js-string",
+      "id": "portfolio_v2_ui.js:33898:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 422,
-      "offset": 32262,
+      "line": 436,
+      "offset": 33898,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1845,10 +2325,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32495:js-string",
+      "id": "portfolio_v2_ui.js:34131:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 429,
-      "offset": 32495,
+      "line": 443,
+      "offset": 34131,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1857,10 +2337,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32538:js-string",
+      "id": "portfolio_v2_ui.js:34174:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 430,
-      "offset": 32538,
+      "line": 444,
+      "offset": 34174,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",
@@ -1869,10 +2349,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "portfolio_v2_ui.js:32592:js-string",
+      "id": "portfolio_v2_ui.js:34228:js-string",
       "file": "portfolio_v2_ui.js",
-      "line": 431,
-      "offset": 32592,
+      "line": 445,
+      "offset": 34228,
       "kind": "js-string",
       "owner": "portfolio_v2_ui.js",
       "stage": "L4",

@@ -253,3 +253,64 @@ test('Full V1 zero-first-month demand fails closed with an actionable explanatio
   A.equal(JSON.stringify(ledger).includes('Infinity'),false);
   A.equal(JSON.stringify(ledger).includes('NaN'),false);
 });
+
+
+test('7B-4 real V1→V2 agent principal/commission/Sales Tax matrix: 8 routes × 3 months',()=>{
+  const SalesTax=require('../nomad360_sales_tax_v2.js');
+  const close=(actual,expected,label)=>{
+    A.ok(Number.isFinite(actual)&&Number.isFinite(expected)&&
+      Math.abs(actual-expected)<=EPS,label+' '+actual+' != '+expected);
+  };
+  let routes=0,monthly=0;
+  const report=[];
+  for(const channel of ['online','offline'])
+    for(const funding of ['cash','credit'])
+      for(const taxType of ['turnover','profit']){
+        // Zero historical VAT is intentional: same untouched user inputs
+        // for no-VAT vs Sales Tax isolate new transit tax exactly.
+        const route=metrics(channel,'agent',funding,taxType,false),raw=route.v2;
+        const imported=SalesTax.prepareLinked(Linked.fromV1({
+          tax:{type:taxType,pct:6},skus:[route.sku]
+        }),{mode:'sales_tax',ratePct:8});
+        imported.forecastMonths=route.sku.fullServiceHorizon;
+        imported.recurringDemandApproved=true;
+        const recalculated=Linked.build(imported);
+        A.equal(recalculated.ready,true,JSON.stringify(recalculated.errors));
+        const projected=SalesTax.project(recalculated,{mode:'sales_tax',ratePct:8});
+        A.strictEqual(projected.cashflow,recalculated.cashflow,'original month ledger untouched');
+        A.strictEqual(projected.totals,recalculated.totals,'owner P&L remains unchanged');
+        close(projected.totals.revenue,raw.totals.revenue,route.tag+' owner fee');
+        close(projected.totals.netProfit,raw.totals.netProfit,route.tag+' net profit');
+        close(projected.cashflow.freeCash,raw.cashflow.freeCash,route.tag+' cash flow');
+        const agent=projected.salesTaxSummary.lines.find(x=>x.id==='v1-1');
+        A.ok(agent&&agent.base==='principal',route.tag+' principal tax base');
+        const ledgers=raw.cashflow.periodPnl.bySku['v1-1'];
+        close(ledgers.revenue,route.v1Monthly.reduce((a,m)=>a+(m.inflow-m.financedInflow),0),
+          route.tag+' owner fees, never principal GMV');
+        close(agent.net,ledgers.partner.revenue,route.tag+' principal net sales');
+        close(agent.salesTax,agent.net*.08,route.tag+' transit Sales Tax exactly once');
+        close(agent.customerTotal,agent.net*1.08,route.tag+' customer pays net plus 8%');
+        A.equal(projected.salesTaxSummary.byMonth.length,route.v1Monthly.length);
+        for(let k=0;k<route.v1Monthly.length;k++){
+          const source=route.v1Monthly[k];
+          const principal=ledgers.partner.months[k];
+          const owner=ledgers.months[k];
+          const buyer=projected.salesTaxSummary.byMonth[k];
+          close(principal.revenue,source.partnerRevenue,route.tag+' V1 principal month '+k);
+          close(owner.revenue,source.inflow-source.financedInflow,
+            route.tag+' V1 agent commission month '+k);
+          close(buyer.net,principal.revenue,route.tag+' principal base month '+k);
+          close(buyer.salesTax,principal.revenue*.08,route.tag+' transit tax month '+k);
+          close(buyer.customerTotal,principal.revenue*1.08,route.tag+' buyer month '+k);
+          close(projected.cashflow.months[k].freeCumulative,raw.cashflow.months[k].freeCumulative,
+            route.tag+' unchanged owner Cash Flow month '+k);
+          monthly++;
+        }
+        report.push({route:route.tag,principal:agent.net,commission:ledgers.revenue,
+          tax:agent.salesTax,buyer:agent.customerTotal,months:route.v1Monthly.length});
+        routes++;
+      }
+  A.equal(routes,8);
+  A.equal(monthly,24);
+  console.log('7B4_AGENT_PRINCIPAL_MATRIX '+JSON.stringify({routes,monthly,report}));
+});

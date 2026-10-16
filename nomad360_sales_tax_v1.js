@@ -243,6 +243,9 @@ root.exportProductCalculationPdf=function(){
 };
 root.openLinkedPortfolioFromProducts=function(){
  if(active()){
+   if(!error()&&root.Nomad360SalesTaxV2?.withTransfer)
+     return root.Nomad360SalesTaxV2.withTransfer({mode:'sales_tax',ratePct:rawRate,boundsIncludeTax:true},
+       ()=>legacy.v2.apply(this,arguments));
    const el=document.getElementById('linked-v2-entry-error');
    if(el){el.textContent=language().noV2;el.hidden=false;el.classList.remove('hidden');}
    return false;

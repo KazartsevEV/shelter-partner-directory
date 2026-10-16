@@ -152,13 +152,13 @@ function render(){
  '<div class="nd-v2-form-grid grid grid-cols-2 gap-3">'+
  selField('Налог бизнеса','tax.type',model.tax.type,[['turnover','С оборота'],['profit','С прибыли']])+
  numberField('Ставка налога, %','tax.pct',model.tax.pct)+
- numberField('НДС для цены покупателя, % (транзитный)','tax.vatPct',model.tax.vatPct)+
+ selField('Налог на продажу','tax.taxRegime',model.tax.taxRegime||'vat', [['vat','НДС (VAT / IVA)'],['sales_tax','Sales Tax'],['none','Без налога на продажу']])+ ((model.tax.taxRegime||'vat')==='vat'?numberField('НДС для цены покупателя, % (транзитный)','tax.vatPct',model.tax.vatPct):  (model.tax.taxRegime==='sales_tax'?numberField('Ставка Sales Tax, %','tax.salesTaxPct',model.tax.salesTaxPct??''):''))+
  numberField('Защитный резерв, % от кассового разрыва','funding.reservePct',model.funding.reservePct)+
  selField('Источник капитала','funding.kind',model.funding.kind,[['cash','Свои деньги'],['credit','Кредит']])+
  (model.funding.kind==='credit'?
  numberField('Ставка кредита, % годовых','funding.annualRatePct',model.funding.annualRatePct)+
  numberField('Срок кредита, месяцев','funding.months',model.funding.months):'')+
- '</div><p class="nd-v2-description text-xs mt-3">Кредит: ежемесячные проценты и возврат всего тела в последний месяц (bullet). Тело кредита — выплата денежных средств, а не налоговый расход. Внесённые собственные деньги — тоже не прибыль.</p>',
+ '</div><p class="nd-v2-description text-xs mt-3">Индивидуальные налоговые вычеты и льготы в расчёте не учитываются. Для оптимизации налогообложения проконсультируйтесь с бухгалтером.</p><p class="nd-v2-description text-xs mt-3">Кредит: ежемесячные проценты и возврат всего тела в последний месяц (bullet). Тело кредита — выплата денежных средств, а не налоговый расход. Внесённые собственные деньги — тоже не прибыль.</p>',
  'p2-stage-financing')+
  '<section id="p2-results" class="nd-v2-result-frame rounded-2xl text-white p-5 mb-6" aria-live="polite"></section>';
  const status=document.getElementById('p2-draft-status');if(status)status.textContent='Изменения сохраняются в этом браузере';
@@ -226,7 +226,15 @@ function displayInlineValidation(fieldErrors) {
 }
 function updateResult(){
  if(!model)return;const el=document.getElementById('p2-results');if(!el)return;
- const out=root.Nomad360PaymentUI?.buildPortfolio(model)||Engine.build(model);
+ const taxMode=model.tax?.taxRegime||'vat',taxRate=model.tax?.salesTaxPct;
+ let prepared;
+ try{prepared=root.Nomad360SalesTaxV2?.prepareStandalone(model,{mode:taxMode,ratePct:taxRate})||model;}
+ catch(error){
+   displayInlineValidation([{path:'tax.salesTaxPct',message:'Введите корректную ставку Sales Tax, %. '+error.message}]);
+   el.textContent='Проверьте ставку Sales Tax: расчёт приостановлен.';
+   return;
+ }
+ const out=root.Nomad360PaymentUI?.buildPortfolio(prepared)||Engine.build(prepared);
  if(out.paymentPending){el.innerHTML='<p class="nd-payment-pending" data-nomad-no-translate role="alert">'+safe(root.Nomad360PaymentUI.pendingMessage())+'</p>';root.Nomad360UI?.syncPortfolioActions?.(out,model,'standalone');return;}
  displayInlineValidation(out.fieldErrors);
  const funnel=out.marketing;
@@ -241,8 +249,14 @@ function updateResult(){
      (out.errors.length?'Проверок осталось: '+out.errors.length+'.':'')+'</p>';
    root.Nomad360UI?.syncPortfolioActions?.(out,model,'standalone');return;
  }
- const r=out;
- const heads=['Товар','Цена без НДС','Себест.','Mix шт.','Mix выручки','Weighted CAC','Прогноз, шт/мес','Рекламный бюджет','EBITDA SKU','ROAS'];
+ const r=taxMode==='vat'?out:root.Nomad360SalesTaxV2.project(out,{mode:taxMode,ratePct:taxRate});
+ const taxLines=taxMode!=='vat'?'<section data-p2-sales-tax-summary class="rounded-xl border border-white/25 p-3 mt-3">'+
+ '<h3 class="font-bold">Налог с продаж — итог для покупателя</h3>'+
+ r.salesTaxSummary.lines.map(q=>'<p data-tax-sku="'+safe(q.id)+'">Выручка '+money(q.net)+
+ ' + Sales Tax '+money(q.salesTax)+' = покупатель платит '+money(q.customerTotal)+'</p>').join('')+
+ '<p><b>Итого Sales Tax '+money(r.salesTaxSummary.salesTax)+
+ '; сумма покупателей '+money(r.salesTaxSummary.customerTotal)+'</b></p></section>':'';
+ const heads=['Товар',taxMode==='vat'?'Цена без НДС':'Цена без налога с продаж','Себест.','Mix шт.','Mix выручки','Weighted CAC','Прогноз, шт/мес','Рекламный бюджет','EBITDA SKU','ROAS'];
  const skuRows=r.items.map(s=>'<tr class="border-t border-white/20">'+
  [safe(s.name),money(s.price),money(s.unitCost),pct(s.mix*100),pct(s.revenueWeight*100),
  money(s.weightedCAC),money(s.forecastOrders),money(s.adBudget),money(s.ebitda),
@@ -256,7 +270,7 @@ function updateResult(){
  const resourceRows=r.resources.map(v=>'<tr class="border-t border-white/20"><td class="p-2" data-nomad-no-translate>'+safe(v.label)+'</td><td class="p-2">'+
  money(v.amount)+'</td><td class="p-2">'+(v.cadence==='once'?'раз':'месяц')+'</td><td class="p-2">'+
  Object.entries(v.bySku).map(([id,amount])=>'<span data-nomad-no-translate>'+safe(r.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(amount)).join('; ')+'</td></tr>').join('');
- el.innerHTML=intro+
+ el.innerHTML=intro+taxLines+
  '<div class="nd-v2-financial-grid grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+
  [['Чистая прибыль · базовый месяц',r.netProfit],['Рентабельность товара (взвешенная), %',r.weightedMarginPct],
  ['Деньги на запуск',r.financing.principal],['Резерв',r.financing.reserve],
@@ -265,7 +279,7 @@ function updateResult(){
  .map(([t,v],i)=>'<div class="nd-v2-financial-cell rounded-xl '+(i===7?'bg-emerald-200 text-emerald-950':'bg-white/15 text-white')+
  ' p-3"><div class="text-xs">'+safe(t)+'</div><div class="nd-v2-number-value text-xl font-black mt-1">'+
  (i===1?pct(v):i===4?money(v)+'×':money(v))+'</div></div>').join('')+'</div>'+
- '<p class="text-xs text-emerald-50 mt-3">Цена без НДС рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.</p>'+
+ '<p class="text-xs text-emerald-50 mt-3">'+(taxMode==='vat'?'Цена без НДС':'Цена без налога с продаж')+' рассчитывается по базовому CAC и целевой марже. Фактическая SKU-маржа после Weighted CAC может отличаться от целевой. Начальные закупки — денежный аванс, а COGS признаётся при продаже, без двойного счёта.</p>'+
  '<h3 class="font-bold mt-5">Портфель: цены, доли и нагрузка</h3>'+
  '<div class="overflow-x-auto mt-2"><table class="text-xs text-left w-full"><thead><tr>'+
  heads.map(h=>'<th class="px-2 py-3 whitespace-nowrap">'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+skuRows+'</tbody></table></div>'+

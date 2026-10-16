@@ -40,6 +40,15 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name == 'Marketing_calc.HTML':
+            assert raw.count(b'<script src="./nomad360_sales_tax_v2.js"></script>\n') == 1
+        if name in ('portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js'):
+            # Only the exact reviewed stage-4 UI integration is exempt from
+            # historical pre-Sales-Tax bytes. A later unapproved edit is RED.
+            approved = subprocess.check_output(
+                ['git', 'show', '6c5c0e3a4927fb50b88ab99914145bb9016bb24a:' + name], cwd=ROOT)
+            assert raw == approved, 'Unreviewed stage-4 V2 UI delta: ' + name
+            continue
         if name == 'nomad360_repo_traffic.json':
             # The Insights bot refreshes this file directly on main.
             # On a PR merge require exact equality with the tested base,
@@ -170,9 +179,22 @@ def main():
                 def mask_license_locale(content):
                     lines = content.decode('utf-8').splitlines()
                     assert sum('"interface.header.licenseCopy"' in x for x in lines) == 1
+                    # 7B-4 adds seven named display-only translations. Permit
+                    # exactly these new keys, without accepting edits to any
+                    # existing translations or application/financial code.
+                    tax_keys = {
+                        'tax.v2SalesTaxLabel', 'tax.v2NoneLabel',
+                        'tax.v2SalesTaxRate', 'tax.v2BuyerSummary',
+                        'tax.v2DeductionsNotice', 'tax.v2DeductionsNoticeLinked',
+                        'tax.v2TaxMode'
+                    }
+                    tax_rows = [x for x in lines if x.startswith(' ["tax.v2')]
+                    actual_keys = [x.split('"')[1] for x in tax_rows]
+                    assert len(actual_keys) == len(set(actual_keys))
+                    assert set(actual_keys) in (set(), tax_keys), 'Unapproved 7B-4 locale row'
                     return '\n'.join('<ACCEPTED-LICENSE-ROW>' if
                                      '"interface.header.licenseCopy"' in x else x
-                                     for x in lines)
+                                     for x in lines if x not in tax_rows)
                 assert mask_license_locale(raw) == mask_license_locale(approved), name
             else:
                 assert raw == approved, 'Approved PR #145 source changed: ' + name
@@ -180,6 +202,8 @@ def main():
         if name == 'Marketing_calc.HTML':
             # Stage 7B-3 contributes exactly one optional service module loader.
             stage3 = b'<script src="./nomad360_sales_tax_service_v1.js"></script>\n'
+            # Stage 4 loader has already been removed by stripReturn above.
+            assert b'<script src="./nomad360_sales_tax_v2.js"></script>' not in raw
             assert raw.count(stage3) == 1
             raw = raw.replace(stage3, b'', 1)
             raw = raw.replace((ROOT / 'tests/fixtures/seo-keyword-banner.html').read_bytes(),
@@ -227,9 +251,15 @@ def main():
         '.github/workflows/sales-tax-7b-goods.yml',
         # Stage 7B-3: separate, self-tested service adapter and exact scope guards.
         'nomad360_sales_tax_service_v1.js', 'tests/sales_tax_7b_services_browser.cjs',
+        'nomad360_sales_tax_v2.js', 'tests/sales_tax_7b_v2_projection.test.cjs',
+        'tests/sales_tax_7b_v2_browser.cjs', '.github/workflows/sales-tax-7b-v2.yml',
+        '.github/workflows/sales-tax-7b4-refresh-l0.yml',
+        'portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js',
         '.github/workflows/sales-tax-7b-services.yml',
         'tests/return_7a_scope.test.cjs', 'scripts/seo/check_phase_a.py',
-        'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs') for p in changed), changed
+        'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs',
+        'tests/v1_service_v2_numeric_parity.test.cjs',
+        'docs/reviews/sales-tax-7b/STAGE_7B4_ACCEPTANCE.md') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10

@@ -270,6 +270,9 @@ root.exportProductCalculationPdf=function(){
 };
 root.openLinkedPortfolioFromProducts=function(){
  if(fullActive()&&fullService()){
+  if(!fullError()&&root.Nomad360SalesTaxV2?.withTransfer)
+    return root.Nomad360SalesTaxV2.withTransfer({mode:'sales_tax',ratePct:rate,boundsIncludeTax:true},
+      ()=>original.v2.apply(this,arguments));
   const e=document.getElementById('linked-v2-entry-error');if(e){setText(e,lang().v2);e.hidden=false;e.classList.remove('hidden');}
   return false;
  }
@@ -307,6 +310,9 @@ root.calculate=function(){
 };
 root.openLinkedPortfolioFromOnline=function(){
  if(simpleActive()&&serviceFinancialMode==='simple'){
+  if(valid(simpleRate,'sales_tax')&&root.Nomad360SalesTaxV2?.withTransfer)
+    return root.Nomad360SalesTaxV2.withTransfer({mode:'sales_tax',ratePct:simpleRate},
+      ()=>original.onlineV2.apply(this,arguments));
   const e=document.getElementById('online-v2-error');if(e){setText(e,lang().v2);e.hidden=false;e.classList.remove('hidden');}
   return false;
  }
