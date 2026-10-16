@@ -139,6 +139,27 @@ async function pageFor(browser,base,width=390){
    A.ok(near(got.rawCash,got.projectCash),mode+' cash unaffected');
    A.ok(got.basket.events.some(e=>e.mode===mode),mode+' calculated offer');
    A.equal(got.state.tax.taxRegime,'sales_tax');
+   const prices=await p.evaluate(()=>{
+     const state=LinkedPortfolioV2UI.getState();
+     const result=LinkedPortfolioV2Engine.build(Nomad360SalesTaxV2.prepareLinked(
+       state,{mode:'sales_tax',ratePct:state.tax.salesTaxPct}));
+     return {items:result.items.map(x=>({
+       id:x.id,price:x.priceList,min:x.priceMin,max:x.priceMax,
+       floor:x.requiredFloorPrice,target:x.requiredTargetPrice,
+       periodMargin:x.actualAfterTaxMargin})),
+       complete:result.cashflow?.periodPnl?.ready,
+       tax:result.totals?.tax,periodRevenue:result.cashflow?.periodPnl?.revenue,
+       cash:result.cashflow?.freeCash};
+   });
+   A.equal(prices.complete,true,mode+' period P&L is ready');
+   A.ok(prices.items.length>=2);
+   for(const q of prices.items){
+     A.ok(q.price>=q.min-1e-6&&q.price<=q.max+1e-6,
+       mode+'/'+q.id+' computed target price stays within confirmed V1 boundaries');
+     A.ok(Number.isFinite(q.periodMargin),mode+'/'+q.id+' margin calculated');
+     A.ok(Number.isFinite(q.floor),mode+'/'+q.id+' min margin price diagnostic calculated');
+   }
+   A.ok(near(prices.cash,got.rawCash),mode+' financing and Cash Flow preserved');
    A.deepEqual(errors,[],mode+' browser runtime errors');
    proofs.push({route:'linked '+mode,net:got.projectedNet,tax:got.projectedTax,
      buyer:got.projectedGross,freeCash:got.rawCash});
