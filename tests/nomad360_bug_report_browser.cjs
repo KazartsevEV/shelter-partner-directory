@@ -27,6 +27,8 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
    page.on('pageerror',e=>errors.push(e.message));
    await page.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.abort());
    await page.goto(base+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+   A.equal(await page.locator('html').getAttribute('data-nomad-bug-endpoint'),
+    'https://formspree.io/f/mwlvadod','approved public Formspree endpoint');
    await page.locator('#nomad360-lang-select').selectOption(language);
    const launcher=page.locator('#nomad360-bug-launcher');
    await launcher.waitFor({state:'visible'});
@@ -39,10 +41,12 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
    const dialog=page.locator('#nomad360-bug-dialog');
    A.equal(await dialog.evaluate(x=>x.open),true);
    A.equal(await dialog.getAttribute('aria-labelledby'),'nomad360-bug-heading');
-   A.equal(await page.locator('#nomad360-bug-submit').isDisabled(),true,
-    'Do not send before owner chooses and configures provider');
+   A.equal(await page.locator('#nomad360-bug-submit').isDisabled(),false,
+    'The owner-approved provider must enable sending');
+   A.equal(await page.locator('#nomad360-bug-status').innerText(),'',
+    'No unavailable-provider message after activation');
    A.ok(await page.locator('#nomad360-bug-privacy').innerText());
-   A.ok((await page.locator('#nomad360-bug-status').innerText()).length>10);
+
    const bounds=await dialog.boundingBox();
    A.ok(bounds.x>=0&&bounds.x+bounds.width<=width+1,'dialog horizontal fit');
    A.ok(bounds.y>=0&&bounds.y+bounds.height<=851,'dialog vertical fit');
@@ -66,7 +70,7 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
     });
     A.equal(await input.inputValue(),'Unsent report stays in the form','language must not wipe user text');
     A.equal(await page.locator('#nomad360-bug-heading').innerText(),'Report a bug');
-    A.equal(await page.locator('#nomad360-bug-submit').isDisabled(),true);
+    A.equal(await page.locator('#nomad360-bug-submit').isDisabled(),false);
    }
    await page.screenshot({path:path.join(out,'bug-'+language+'-'+width+'.png')});
    await page.keyboard.press('Escape');
