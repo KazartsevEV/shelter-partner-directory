@@ -50,7 +50,11 @@ function buildWidget(target,id){
  const details=section('p');details.dataset.stDetails='';details.style.cssText='margin-top:10px;white-space:pre-line';
  const hint=section('p');hint.dataset.stHint='';hint.style.cssText='margin-top:12px;font-size:13px';
  box.append(label,select,row,error,details,hint);
- if(id==='full')host.insertBefore(box,host.firstChild);else host.insertBefore(box,host.firstChild);
+ // The online calculator's first child owns the native inline back arrow.
+ // Keep it first; otherwise navigation falls back to a duplicated white card.
+ if(id==='full')host.insertBefore(box,host.firstChild);
+ else if(host.firstElementChild)host.firstElementChild.after(box);
+ else host.append(box);
  select.addEventListener('change',e=>id==='full'?selectFull(e.target.value):selectSimple(e.target.value));
  input.addEventListener('input',e=>id==='full'?setFullRate(e.target.value):setSimpleRate(e.target.value));
  return box;
