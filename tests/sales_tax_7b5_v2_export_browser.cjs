@@ -64,6 +64,29 @@ async function readState(p,kind){return p.evaluate(kind=>{
   await p.evaluate(kind=>kind==='linked'?LinkedPortfolioV2UI.resume():PortfolioV2UI.open({resume:true}),kind);
   const restored=await readState(p,kind);A.deepEqual(restored.state,before.state);A.deepEqual(restored.out,before.out);
   A.deepEqual(errors,[]);
+  if(kind==='linked'&&lang==='en'&&width===1280){
+   const dir=path.join(root,'artifacts','sales-tax-7b5');fs.mkdirSync(dir,{recursive:true});
+   await p.locator('[data-nomad-embed-toggle]').click();
+   const event=p.waitForEvent('download');await p.locator('[data-nomad-download-html]').click();
+   const portable=await event,file=path.join(dir,'sales-tax-portable.html');await portable.saveAs(file);
+   const html=fs.readFileSync(file,'utf8');
+   A.ok(html.length>100000,'actual self-contained HTML must be downloaded');
+   A.ok(!html.includes('<script src="./nomad360_sales_tax_v2.js">'),'V2 tax module bundled inline');
+   A.ok(!html.includes('<script src="./nomad360_price_export.js">'),'exporter bundled inline');
+   const offline=await ctx.newPage(),offlineErrors=[];
+   offline.on('pageerror',e=>offlineErrors.push(e.message));
+   await offline.route(/^https?:\/\//,r=>r.abort());
+   await offline.goto(require('node:url').pathToFileURL(file).href,{waitUntil:'domcontentloaded'});
+   const loaded=await offline.evaluate(()=>({
+    tax:typeof Nomad360SalesTax?.quote,projection:typeof Nomad360SalesTaxV2?.project,
+    excel:typeof Nomad360PriceExport?.write,
+    v1:typeof Nomad360SalesTaxV1?.select,
+    services:typeof Nomad360SalesTaxServiceV1?.selectFull
+   }));
+   A.deepEqual(loaded,{tax:'function',projection:'function',excel:'function',v1:'function',services:'function'});
+   A.deepEqual(offlineErrors,[],'portable offline HTML JavaScript');
+   await offline.close();
+  }
   receipts.push({kind,lang,width,skus:before.doc.rows.length,tax:before.out.salesTaxSummary.salesTax,buyer:before.out.salesTaxSummary.customerTotal,excel:true,pdf:true,restore:true,languagePreserved:true});
   await ctx.close();
  }
