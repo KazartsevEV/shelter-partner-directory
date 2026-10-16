@@ -281,7 +281,7 @@ def main():
         'docs/reviews/sales-tax-7b/STAGE_7B4_ACCEPTANCE.md',
         # 7B-5: independent tax UI, historical drafts and prices across exports.
         'nomad360_price_export.js', 'tests/sales_tax_7b5_price_export.test.cjs',
-        'tests/sales_tax_7b5_v1_pdf_browser.cjs',
+        'tests/sales_tax_7b5_v1_pdf_browser.cjs', 'tests/sales_tax_7b5_v2_export_browser.cjs',
         'tests/helpers/sales-tax-7b5-pdf-scope.cjs',
         'tests/helpers/sales-tax-7b5-v2-scope.cjs',
         'tests/type02_acceptance_browser.cjs',
