@@ -31,6 +31,7 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
      await fill(page,'resale-buy-total',source==='dropship'?20:1200);
      if(source==='dropship')await fill(page,'dropship-delivery-days',15);
    }else{
+     await page.locator('[data-product-source="own"]').click();
      await page.locator('[data-material-cost-mode="known"]').click();
      await fill(page,'own-materials-cost',8);
    }
