@@ -28,13 +28,22 @@
   function withTransfer(config,action){
     if(typeof action!=='function')throw new TypeError('Transfer action required');
     const previous=transfer;
-    transfer=options(config);
+    transfer={...options(config),boundsIncludeTax:config?.boundsIncludeTax===true};
     try{return action();}finally{transfer=previous;}
   }
   function transferred(){return transfer&&{...transfer};}
   function inherit(state,config=transfer){
     if(!config||config.mode==='vat')return state;
     const next=prepareLinked(state,config);
+    if(config.boundsIncludeTax===true){
+      const factor=1+Number(config.ratePct||0)/100;
+      next.skus.forEach(s=>{
+        if(s.fullServiceRole==='agent'||s.serviceRole==='agent')return;
+        for(const key of ['priceMin','priceMax','priceSelected']){
+          if(Number.isFinite(Number(s[key])))s[key]=Number(s[key])/factor;
+        }
+      });
+    }
     if(next.tax?.taxRegime!==config.mode)throw Error('V2 transfer lost tax regime');
     return next;
   }
@@ -79,12 +88,17 @@
     const rows=result.items.map(item=>{
       const agency=item.fullServiceRole==='agent'||item.onlineRole==='agent';
       const counterpart=agency?bySku[item.id]?.partner:null;
-      // The principal's GMV is not agent revenue. Without a proven partner
-      // counter-ledger, do not invent buyer Sales Tax from commission.
-      if(agency&&(!counterpart||!Number.isFinite(counterpart.revenue)))
+      const online=item.onlineRole==='agent'?item.onlineProvenance:null;
+      const ratio=online&&Number(online.ownerRevenueInPeriod)>0&&
+        Number.isFinite(Number(online.partnerGrossRevenue))?
+        Number(online.partnerGrossRevenue)/Number(online.ownerRevenueInPeriod):null;
+      // Full-service agent: use real principal ledger. Simple online
+      // agent: scale verified V1 principal receipts by the actual V2 owner
+      // fee, preserving the independently calculated business P&L.
+      if(agency&&!counterpart&&!(item.onlineRole==='agent'&&Number.isFinite(ratio)))
         throw new RangeError('Principal customer sales ledger required for agent Sales Tax');
-      const base=nonNegative(agency?counterpart.revenue:
-        entirePeriod?bySku[item.id]?.revenue:item.revenue,'V2 revenue');
+      const ownerBase=entirePeriod?bySku[item.id]?.revenue:item.revenue;
+      const base=nonNegative(counterpart?.revenue??(agency?ownerBase*ratio:ownerBase),'V2 revenue');
       const q=tax.quote({mode:o.mode,enteredPrice:base,ratePct:o.ratePct});
       return {id:item.id,base:agency?'principal':'owner',net:q.net,
         salesTax:q.tax,customerTotal:q.customerTotal};
@@ -103,10 +117,18 @@
         let base=0;
         for(const item of result.items){
           const agent=item.fullServiceRole==='agent'||item.onlineRole==='agent';
-          const ledger=bySku[item.id]?.[agent?'partner':'months'];
-          const month=agent?ledger?.months?.[k]:ledger?.[k];
+          const source=bySku[item.id];
+          const month=agent?source?.partner?.months?.[k]||source?.months?.[k]:
+            source?.months?.[k];
           if(!month)throw new RangeError('Missing V2 month SKU tax basis');
-          base+=nonNegative(month.revenue,'month revenue');
+          if(agent&&!source?.partner){
+            const p=item.onlineProvenance;
+            const owner=Number(p?.ownerRevenueInPeriod);
+            const principal=Number(p?.partnerGrossRevenue);
+            if(!(owner>0&&Number.isFinite(principal)))
+              throw new RangeError('Missing online principal V1 ledger');
+            base+=nonNegative(month.revenue*principal/owner,'principal month revenue');
+          }else base+=nonNegative(month.revenue,'month revenue');
         }
         const q=tax.quote({mode:o.mode,enteredPrice:base,ratePct:o.ratePct});
         byMonth.push({month:k+1,net:q.net,salesTax:q.tax,customerTotal:q.customerTotal});
