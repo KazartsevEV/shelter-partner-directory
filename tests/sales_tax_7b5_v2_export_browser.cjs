@@ -36,7 +36,10 @@ async function readState(p,kind){return p.evaluate(kind=>{
    await p.evaluate(f=>{
     const payload={currency:'KZT',skus:f.skus.filter(s=>s.source!=='online-service'),tax:{...f.tax,taxRegime:'sales_tax',salesTaxPct:'8'}};
     LinkedPortfolioV2UI.importFromV1(payload);
-    LinkedPortfolioV2UI.appendOnline(f.skus.find(s=>s.source==='online-service'));
+    // Preserve the real V1→V2 handoff contract instead of bypassing strict
+    // single-regime/single-rate validation for an agent sourced from V1.
+    Nomad360SalesTaxV2.withTransfer({mode:'sales_tax',ratePct:8},()=>
+      LinkedPortfolioV2UI.appendOnline(f.skus.find(s=>s.source==='online-service')));
     const state=LinkedPortfolioV2UI.getState();state.tax={...state.tax,taxRegime:'sales_tax',salesTaxPct:'8'};
     state.resources=f.resources;state.offers=f.offers;state.forecastMonths=f.forecastMonths;state.recurringDemandApproved=true;
     localStorage.setItem('marketingCalcLinkedPortfolioV2',JSON.stringify(state));LinkedPortfolioV2UI.resume();
