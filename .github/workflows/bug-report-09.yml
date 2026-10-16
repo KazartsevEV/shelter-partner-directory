@@ -46,38 +46,6 @@ jobs:
           if ! grep -Fq "referrerPolicy:'strict-origin-when-cross-origin'" nomad360_bug_report.js; then
             echo "Formspree domain restriction needs the site origin (no path/query)" >&2; exit 1
           fi
-      - name: One-time real Formspree transport acceptance (owner approved)
-        env:
-          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          # Use the actual PR head commit, not GitHub's synthetic merge commit.
-          if [ "$(git log -1 --format=%s "$PR_HEAD_SHA")" != "test(task09): live Formspree delivery smoke" ]; then
-            echo "Not the explicitly designated one-time live transport commit"; exit 0
-          fi
-          node - <<'NODE'
-          (async()=>{
-            const body=new FormData();
-            const trace='TASK09-LIVE-SMOKE-'+Date.now();
-            body.append('message','Nomad360 Task 09 single live delivery verification. This is a test, not a visitor report. '+trace);
-            body.append('interface_language','ru');
-            body.append('viewport_width','390');
-            body.append('_subject','Nomad360 lite bug report - TASK09 live acceptance');
-            const response=await fetch('https://formspree.io/f/mwlvadod',{
-              method:'POST',body,headers:{
-                Accept:'application/json',
-                Referer:'https://kazartsevev.github.io/'
-              },redirect:'manual',signal:AbortSignal.timeout(15000)
-            });
-            const raw=await response.text();
-            let receipt;
-            try{receipt=JSON.parse(raw)}catch{receipt=null}
-            console.log('FORM_SPREE_LIVE_ACCEPTANCE',JSON.stringify({
-              trace,http:response.status,ok:response.ok,providerOk:receipt?.ok===true,
-              errors:receipt?.errors||null
-            }));
-            if(!response.ok||receipt?.ok!==true)process.exitCode=1;
-          })().catch(err=>{console.error('FORM_SPREE_LIVE_FAILURE',err.message);process.exitCode=1});
-          NODE
       - name: Financial regressions and original frozen VAT
         run: |
           node tests/sales_tax_7b_baseline.cjs
