@@ -10,7 +10,8 @@ const embed="      // RET-07A: independent embeds do not promote shortcuts to th
 function stripReturn(file,source){
  if(file==='Marketing_calc.HTML')return source.replace(script,'').replace('<script src="./nomad360_simple_service_examples.js"></script>\n','')
   .replace('<script src="./nomad360_sales_tax.js"></script>\n','')
-  .replace('<script src="./nomad360_sales_tax_v1.js"></script>\n','');
+  .replace('<script src="./nomad360_sales_tax_v1.js"></script>\n','')
+  .replace('<script src="./nomad360_sales_tax_v2.js"></script>\n','');
  if(file==='nomad360_calculator_ui.css')return source.split('\n/* RET-07A presentation additions. */')[0];
  if(file==='nomad360_locale_core.js')return source.replace(/messages\.push\(\n( \[\"return\.[^\n]+\n)+\);\n/g,'').replace(/^ \["return\.[^\n]+\n/gm,'');
  if(file==='nomad360_calculator_ui.js')return source.replace(b2bFooterAfter,b2bFooterBefore).replace("  heroNode.querySelector('h3').after(intro.querySelector('.nomad-intro-cta'));\n",'').replace("  (document.getElementById('nomad360-seo-banner')||heroNode).after(intro);","  if(!intro.isConnected)heroNode.after(intro);");
