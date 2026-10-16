@@ -1,0 +1,38 @@
+name: Temporary task 09 localization inventory refresh
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_bug_report.js'
+      - 'nomad360_bug_report.css'
+      - '.github/workflows/bug-report-09-l0-refresh.yml'
+permissions:
+  contents: write
+jobs:
+  refresh-inventory:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'feature/bug-report-widget-09' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/bug-report-widget-09
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Rebuild precise existing L0 catalog for the two new UI assets
+        run: |
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          node scripts/localization/inventory.cjs
+          node scripts/localization/inventory.cjs --check
+      - name: Commit changed localization inventory on feature branch only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A docs/localization/l0
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(task09): regenerate L0 inventory for bug widget"
+            git push origin HEAD:feature/bug-report-widget-09
+          fi
