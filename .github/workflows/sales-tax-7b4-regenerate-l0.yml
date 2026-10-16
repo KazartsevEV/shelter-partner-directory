@@ -19,7 +19,7 @@ jobs:
           node-version: '22'
       - name: Generate canonical L0 inventory (not a bypass)
         run: |
-          npm ci --ignore-scripts
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
           node scripts/localization/inventory.cjs
           node scripts/localization/inventory.cjs --check
       - name: Commit only generated inventory files
