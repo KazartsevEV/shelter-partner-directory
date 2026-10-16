@@ -3,8 +3,8 @@
   "sources": [
     {
       "file": "Marketing_calc.HTML",
-      "sha256": "a077a0ff56689d06cca46cc81a6704bd92b8c3bdd0e1caf288cc059d165fb926",
-      "bytes": 617963,
+      "sha256": "5bbd6b6f7f064120251e1c13b1aa68bf5085b9e7551f44d9ec75ccb9519c9217",
+      "bytes": 618014,
       "owner": "Marketing_calc.HTML"
     },
     {
@@ -99,15 +99,21 @@
     },
     {
       "file": "nomad360_sales_tax_service_v1.js",
-      "sha256": "addbbb72b5ba8659fd3a42a2a756e4e134d26fd6b6dcad81ffa2f207ecf74b39",
-      "bytes": 20420,
+      "sha256": "eaf91267cea2ebabc35b167cbbfd7ebabbc0792785c105e309f7b7beb0f91a07",
+      "bytes": 20841,
       "owner": "nomad360_sales_tax_service_v1.js"
     },
     {
       "file": "nomad360_sales_tax_v1.js",
-      "sha256": "037a5157a6414bac01124155f78b48d85639599221b18ec194cb3f08e96aafb5",
-      "bytes": 14574,
+      "sha256": "b9dfb4c915e6a410faba562e7b3df687d67f6b55e3c0b74b7b8cf2baf0a70d5d",
+      "bytes": 14781,
       "owner": "nomad360_sales_tax_v1.js"
+    },
+    {
+      "file": "nomad360_sales_tax_v2.js",
+      "sha256": "e21aff88c4b8f7795fd69f19056ad24cc16b843e6299c4c00eaa72ab791eefe6",
+      "bytes": 7351,
+      "owner": "nomad360_sales_tax_v2.js"
     },
     {
       "file": "nomad360_seo_language.js",
@@ -159,8 +165,8 @@
     },
     {
       "file": "portfolio_v2_linked_ui.js",
-      "sha256": "cfb6cc27199538a5d738dd01a7d10f60b3e904769a7860b802979273d93fd08d",
-      "bytes": 52575,
+      "sha256": "bfac94363f884a5b189dd0958b48ac36dda72c5869e301fe40dc4a4719e41d3c",
+      "bytes": 56229,
       "owner": "portfolio_v2_linked_ui.js"
     },
     {
@@ -207,8 +213,8 @@
     },
     {
       "file": "portfolio_v2_ui.js",
-      "sha256": "ff8b26e5c47626af5fcf48b49cd864f7f2ffdc0b88d8aae6959f869e87f6eee4",
-      "bytes": 37495,
+      "sha256": "dfc26e311ea41eba245dfd0170aa2d3d7d1685411277dafc6bb119400a7b11c1",
+      "bytes": 39461,
       "owner": "portfolio_v2_ui.js"
     }
   ],
@@ -25364,9 +25370,9 @@
       }
     },
     {
-      "id": "portfolio_v2_linked_ui.js:fullWords:30976:capex",
+      "id": "portfolio_v2_linked_ui.js:fullWords:33303:capex",
       "file": "portfolio_v2_linked_ui.js",
-      "line": 418,
+      "line": 449,
       "kind": "module-key",
       "key": "capex",
       "translations": {
@@ -25376,9 +25382,9 @@
       }
     },
     {
-      "id": "portfolio_v2_linked_ui.js:fullWords:30976:debt",
+      "id": "portfolio_v2_linked_ui.js:fullWords:33303:debt",
       "file": "portfolio_v2_linked_ui.js",
-      "line": 418,
+      "line": 449,
       "kind": "module-key",
       "key": "debt",
       "translations": {
@@ -25388,9 +25394,9 @@
       }
     },
     {
-      "id": "portfolio_v2_linked_ui.js:fullWords:30976:note",
+      "id": "portfolio_v2_linked_ui.js:fullWords:33303:note",
       "file": "portfolio_v2_linked_ui.js",
-      "line": 418,
+      "line": 449,
       "kind": "module-key",
       "key": "note",
       "translations": {
@@ -26376,12 +26382,17 @@
     {
       "file": "entries/nomad360_sales_tax_service_v1.js/001.json",
       "owner": "nomad360_sales_tax_service_v1.js",
-      "count": 225
+      "count": 228
     },
     {
       "file": "entries/nomad360_sales_tax_v1.js/001.json",
       "owner": "nomad360_sales_tax_v1.js",
-      "count": 144
+      "count": 145
+    },
+    {
+      "file": "entries/nomad360_sales_tax_v2.js/001.json",
+      "owner": "nomad360_sales_tax_v2.js",
+      "count": 51
     },
     {
       "file": "entries/nomad360_seo_language.js/001.json",
@@ -26436,7 +26447,12 @@
     {
       "file": "entries/portfolio_v2_linked_ui.js/002.json",
       "owner": "portfolio_v2_linked_ui.js",
-      "count": 385
+      "count": 400
+    },
+    {
+      "file": "entries/portfolio_v2_linked_ui.js/003.json",
+      "owner": "portfolio_v2_linked_ui.js",
+      "count": 41
     },
     {
       "file": "entries/portfolio_v2_mba_observed.js/001.json",
@@ -26481,7 +26497,7 @@
     {
       "file": "entries/portfolio_v2_ui.js/002.json",
       "owner": "portfolio_v2_ui.js",
-      "count": 151
+      "count": 190
     }
   ]
 }
