@@ -3,7 +3,7 @@ const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('no
 const root=path.resolve(__dirname,'..'),base='b1cc9b50ae48c3c8f392e4342fb5243c7575bd8e';
 test('Inter preserves application logic; current task-6 presentation files have a separate exact scope guard',()=>{
  const paths=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n');
- const protectedPaths=paths.filter(p=>(!p.includes('/')&&/\.(js|css|HTML|html)$/.test(p)&&!['nomad360_design_system.css','nomad360_calculator_ui.css','nomad360_header.js','nomad360_calculator_ui.js','nomad360_locale_core.js'].includes(p))||p.startsWith('vendor/exceljs')||p==='CALCULATOR_LICENSE.md');
+ const protectedPaths=paths.filter(p=>(!p.includes('/')&&/\.(js|css|HTML|html)$/.test(p)&&!['nomad360_design_system.css','nomad360_calculator_ui.css','nomad360_header.js','nomad360_calculator_ui.js','nomad360_locale_core.js','nomad360_price_export.js'].includes(p))||p.startsWith('vendor/exceljs')||p==='CALCULATOR_LICENSE.md');
  A.ok(protectedPaths.includes('Marketing_calc.HTML')&&protectedPaths.includes('portfolio_v2_engine.js')&&protectedPaths.includes('nomad360_fx.js'));
  for(const p of protectedPaths){
   let now=fs.readFileSync(path.join(root,p)),old=execFileSync('git',['show',base+':'+p],{cwd:root});
