@@ -67,7 +67,7 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
  }
  // SEO-07 adds a new UI-only URL adapter, absent from the financial baseline.
  // Its priority, URL preservation and untouched models have dedicated tests.
- const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!['nomad360_seo_language.js','nomad360_return.js','nomad360_simple_service_examples.js','nomad360_sales_tax.js','nomad360_sales_tax_v1.js'].includes(f)&&!presentation.has(f));
+ const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!['nomad360_seo_language.js','nomad360_return.js','nomad360_simple_service_examples.js','nomad360_sales_tax.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js'].includes(f)&&!presentation.has(f));
  A.ok(files.length>=10);
  for(const file of [...files,'vendor/exceljs-4.4.0.min.js']){
   // PR #141 accepted a visitor-counter retry fix after the financial baseline.

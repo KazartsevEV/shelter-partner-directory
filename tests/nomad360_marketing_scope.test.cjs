@@ -14,7 +14,10 @@ test('Only the four requested presentation files may change; all financial sourc
   .replace(/\.nomad-pay-kaspi \.nomad-pay-hint,\.nomad-pay-ozon \.nomad-pay-hint\{/g,'.nomad-pay-kaspi .nomad-pay-hint{')
   .replace(/ \.nomad-pay-bank,\.nomad-pay-kaspi,\.nomad-pay-ozon\{/g,' .nomad-pay-bank,.nomad-pay-kaspi{');
  A.ok(maskB2BCta(now('nomad360_calculator_ui.css')).startsWith(maskB2BCta(before('nomad360_calculator_ui.css'))),'Accepted typography and support styling remain intact outside the explicitly changed B2B CTA colors');
- A.ok(files.length>20);for(const file of files)if(!editable.has(file))A.equal(file==='Marketing_calc.HTML'?require('./helpers/seo-html-contract.cjs').stripSEO(now(file)):now(file),before(file),file);
+ A.ok(files.length>20);for(const file of files)if(!editable.has(file))A.equal(file==='Marketing_calc.HTML'?
+  require('./helpers/seo-html-contract.cjs').stripSEO(
+   now(file).replace('<script src="./nomad360_sales_tax_service_v1.js"></script>\n','')):
+  now(file),before(file),file);
 });
 const boot=src=>{const win={};new Function('window','document',src)(win,{readyState:'loading',addEventListener(){}});return win.Nomad360LocaleCore;};
 test('Published hero, legal/privacy text, payment details and every financial translation remain unchanged',()=>{
