@@ -467,6 +467,7 @@ function setLanguage(next){
  lang=next;
  // V2 language listeners may replace their form root after the shell updates.
  const restorePricePreview=document.getElementById('nomad360-price-preview')?.hidden===false;
+ const originalPrintMode=document.getElementById('nomad360-print-sheet')?.dataset.mode;
  try{localStorage.setItem(localeKey,next)}catch(_){}
  buildShell();
  const payload=readyOutput();
@@ -481,6 +482,15 @@ function setLanguage(next){
  document.dispatchEvent(new CustomEvent('nomad360:languagechange',{detail:{lang}}));
  // Re-open only a preview the user had already expanded before the rerender.
  if(restorePricePreview&&document.getElementById('nomad360-price-preview')?.hidden)showPreview();
+ // Rendering a new V2 root can remove a print sheet before the V2 model
+ // finishes restoring. Rebuild the already requested document, never print.
+ const current=readyOutput();
+ if(originalPrintMode&&['price','report'].includes(originalPrintMode)&&current?.out?.ready&&
+    !document.getElementById('nomad360-print-sheet')){
+  const restored=document.createElement('section');restored.id='nomad360-print-sheet';
+  restored.dataset.mode=originalPrintMode;restored.innerHTML=printable(originalPrintMode,current);
+  document.body.append(restored);root.Nomad360LocaleCore?.localizeElement(restored);
+ }
 }
 function boot(){
  lang=userLocale()||preferred();buildShell();
