@@ -6,7 +6,18 @@ test('All existing application files stay exact outside the five authorised pres
  // The later owner-approved consulting B2B copy touches only these presentation files;
  // tests/nomad360_marketing_scope.test.cjs guards their unchanged non-B2B behavior.
  const laterApprovedMarketing=new Set(['nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.css']);
- for(const file of files)if(!laterApprovedMarketing.has(file))A.equal(stripReturn(file,fs.readFileSync(path.join(root,file),'utf8').replace(file==='Marketing_calc.HTML'?'<script src="./nomad360_sales_tax_service_v1.js"></script>\n':'\u0000stage3-noop\u0000','')),before(file),file);
+ for(const file of files)if(!laterApprovedMarketing.has(file)){
+  const actual=fs.readFileSync(path.join(root,file),'utf8');
+  if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(file)){
+   const audited=execFileSync('git',['show','6c5c0e3a4927fb50b88ab99914145bb9016bb24a:'+file],
+     {cwd:root,encoding:'utf8'});
+   A.equal(actual,audited,'7Б-4 isolated accepted V2 interface bytes: '+file);
+   continue;
+  }
+  A.equal(stripReturn(file,actual.replace(
+   file==='Marketing_calc.HTML'?'<script src="./nomad360_sales_tax_service_v1.js"></script>\n':
+    '\u0000stage3-noop\u0000','')),before(file),file);
+ }
  const published=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(en\/|license\/|assets\/nomad360-seo\.css$|scripts\/seo\/(build\.py|pages\.json|hero_banner\.css)$)/.test(f));for(const file of published)A.deepEqual(fs.readFileSync(path.join(root,file)),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
  A.deepEqual(fs.readFileSync(path.join(root,'nomad360_wolf_open_circle.png')),execFileSync('git',['show',base+':nomad360_wolf_open_circle.png'],{cwd:root,maxBuffer:4*1024*1024}));
 });
