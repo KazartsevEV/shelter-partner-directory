@@ -1,0 +1,35 @@
+name: 7B4 one-time localization inventory refresh
+on:
+  push:
+    branches:
+      - feature/sales-tax-7b-4-v2
+    paths:
+      - .github/workflows/sales-tax-7b4-refresh-l0.yml
+permissions:
+  contents: write
+jobs:
+  update-l0:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/sales-tax-7b-4-v2
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Rebuild exact machine-generated localization inventory
+        run: |
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          node scripts/localization/inventory.cjs
+          node scripts/localization/inventory.cjs --check
+      - name: Commit generated output only on this feature branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/localization/l0/
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(7Б-4): regenerate L0 source inventory from updated JS/HTML"
+            git push origin HEAD:feature/sales-tax-7b-4-v2
+          fi
