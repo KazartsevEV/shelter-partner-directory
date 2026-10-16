@@ -9,6 +9,7 @@
  * Column order: semantic key, EN meaning, RU text (also legacy alias), KK text.
  * EN terminology acceptance is pending L1 review and final L6 acceptance. */
 const messages=[
+ ["tax.v2TaxMode","Tax mode","Режим налога","Салық режимі"],
  ["tax.v2SalesTaxLabel","Sales tax","Налог на продажу","Сатудан алынатын салық"],
  ["tax.v2NoneLabel","No sales tax","Без налога на продажу","Сатудан алынатын салық жоқ"],
  ["tax.v2SalesTaxRate","Sales Tax rate, %","Ставка Sales Tax, %","Sales Tax мөлшерлемесі, %"],
