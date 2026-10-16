@@ -4,6 +4,7 @@
 **PR:** [#165](https://github.com/KazartsevEV/shelter-partner-directory/pull/165)  
 **Замороженный эталон VAT:** `12c1ad7d8490c08f0f11b2899b6df4e801d024a5` (48 движковых эталонов, 78 Chromium-сценариев; эталоны и числовые допуски не изменялись).  
 **Исходная база этапа 7Б-4:** merge 7Б-3 `e29d5642c2c4ff7b66066aa4e7182264e5f71399`.
+**Синхронизация с `main`:** merge-коммит [`ef0e418`](https://github.com/KazartsevEV/shelter-partner-directory/commit/ef0e418fe460cd121b88e3fd0562b90a53f36836) добавил `da80dc8` (документация и утверждённые баннерные эталоны, без пересечений с файлами налогового PR). 12 файлов текущего `main` перенесены без потерь.
 
 ## Объём и финансовый контракт
 
@@ -65,6 +66,16 @@ node tests/sales_tax_7b_services_browser.cjs
 
 Профильная CI: `.github/workflows/sales-tax-7b-v2.yml`. Полный CI: все действующие workflow на последнем HEAD PR, включая товары V1, услуги V1, frozen VAT, локализацию, маркетинг, Inter, SEO и Chromium-аудит.
 
-## Ворота merge
+## Ворота merge и результаты общего CI
 
-Числовая матрица и профильный CI stage-4 подтверждены GREEN на \`d2ea4cc\`. На окончательном HEAD выполняется повторный полный комплект CI. **Этот раздел должен быть обновлён ссылками и точным итогом на окончательном HEAD до merge.** Не объединять PR при любом красном обязательном workflow, изменённых VAT-эталонах, утрате контекста принципала или непроверенной помесячной математике. UI/экспорт/восстановление старых черновиков в окончательном виде остаются отдельной задачей 7Б-5, сквозная финальная приёмка — 7Б-6.
+**Подтверждено на pre-sync HEAD [`6551e5c`](https://github.com/KazartsevEV/shelter-partner-directory/commit/6551e5cc837d57229cbe1cbc0e1d1a67f02b3e13):** все 22 зарегистрированных workflow завершились: **21 `success`, 1 `skipped` (условный `V2 buttons visual review`), 0 `failure`**. `skipped` не является визуальной приёмкой. Обязательные VAT baseline, Sales Tax V1 goods/services, standalone/linked V2, numeric audit, localization, SEO и marketing завершились `success`.
+
+- [Stage-4 V2 — run 38909164555](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38909164555): `v2-tax-projection` и все шаги, включая frozen VAT, V2 engines, матрицу агента и Chromium, успешны.
+- [Localization census — run 38909164289](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38909164289): `inventory`, semantic и Chromium успешно.
+- [Numeric Chromium audit — run 38909164315](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38909164315): `browser-audit` успешно.
+- [Агентская матрица — run 38906386473](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38906386473): `7B4_AGENT_PRINCIPAL_MATRIX`, 8 маршрутов × 3 месяца; числа зафиксированы выше.
+
+**Заключительная проверка после синхронизации и правок документации:** [живые проверки PR #165](https://github.com/KazartsevEV/shelter-partner-directory/pull/165/checks), [профильный workflow](https://github.com/KazartsevEV/shelter-partner-directory/actions/workflows/sales-tax-7b-v2.yml). Прежде чем объединять PR, сверить последний HEAD и результаты всех обязательных workflow заново; предыдущий GREEN не подменяет эту проверку.
+
+**Нельзя объединять** при красном обязательном workflow, изменённых frozen VAT-эталонах, утрате контекста принципала или непроверенной помесячной математике. Прежние VAT-формулы, числовые допуски и эталоны не менять. UI/экспорт/восстановление старых черновиков в окончательном виде относятся к отдельной задаче 7Б-5; заключительная сквозная приёмка всей 7Б — 7Б-6.
+
