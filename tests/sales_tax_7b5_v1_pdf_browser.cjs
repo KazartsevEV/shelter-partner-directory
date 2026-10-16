@@ -45,7 +45,7 @@ function server(){return http.createServer((req,res)=>{
    A.ok(check.text.includes('Sales Tax'),language+'/'+width+' explicit Sales Tax on printed document');
    A.ok(check.text.includes('NOMAD360'));
    A.ok(check.unchanged,'projection did not alter existing VAT-era finance');
-   A.ok(near(check.tax.salesTax,check.tax.net*.08));
+   A.ok(near(check.tax.tax,check.tax.net*.08));
    const none=await p.evaluate(()=>{
     Nomad360SalesTaxV1.select('none');
     const output=saveProductCalculationToBrowser();
@@ -58,7 +58,7 @@ function server(){return http.createServer((req,res)=>{
    await p.goto(base+'Marketing_calc.HTML?resume=1',{waitUntil:'domcontentloaded'});
    A.equal(await p.evaluate(()=>Nomad360SalesTaxV1.getState().mode),'none','none survives reload');
    A.deepEqual(errors,[],language+'/'+width+' runtime errors');
-   runs.push({language,width,tax:check.tax.salesTax,buyer:check.tax.customerTotal,noneRestored:true});
+   runs.push({language,width,tax:check.tax.tax,buyer:check.tax.customerTotal,noneRestored:true});
    await ctx.close();
   }
   console.log('7B5_V1_PDF_AND_NONE_GREEN '+JSON.stringify(runs));
