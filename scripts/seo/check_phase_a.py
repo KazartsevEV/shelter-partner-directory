@@ -230,7 +230,7 @@ def main():
             approved = subprocess.check_output(
                 ['git','show','817e5e14ae65091f474442a672831d93a3ea8f28:' + name], cwd=ROOT)
             assert hashlib.sha256(approved).hexdigest() == expected, 'Accepted exporter baseline drift'
-            document_fn = re.compile(rb'(?ms)^function document\\([^\\n]*\\)\\{.*?^\\}\\n')
+            document_fn = re.compile(rb'(?ms)^function document\([^\n]*\)\{.*?^\}\n')
             assert len(document_fn.findall(raw)) == len(document_fn.findall(approved)) == 1
             assert document_fn.sub(b'function document(/* 7B5 projection */){}\n', raw) == (
                 document_fn.sub(b'function document(/* 7B5 projection */){}\n', approved)), name
