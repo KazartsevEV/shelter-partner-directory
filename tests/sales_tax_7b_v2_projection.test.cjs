@@ -71,7 +71,12 @@ test('Linked V1 import: clear input VAT without changing SKU price limits or own
  const v2=Tax.project(model,{mode:'sales_tax',ratePct:8});
  near(v2.salesTaxSummary.salesTax,v2.totals.revenue*.08);
  near(v2.salesTaxSummary.customerTotal,v2.totals.revenue*1.08);
- near(v2.salesTaxSummary.byMonth.reduce((a,m)=>a+m.salesTax,0),v2.salesTaxSummary.salesTax);
+ // Linked V2 may have a priced scenario without an approved temporal
+ // horizon. Never fabricate monthly sales/tax for an absent period ledger.
+ if(model.cashflow?.periodPnl?.months?.length)
+  near(v2.salesTaxSummary.byMonth.reduce((a,m)=>a+m.salesTax,0),
+    model.cashflow.periodPnl.revenue*.08);
+ else A.equal(v2.salesTaxSummary.byMonth.length,0,'no invented months');
  A.strictEqual(v2.cashflow,model.cashflow);
  A.strictEqual(v2.totals,model.totals);
  A.equal(v2.salesTaxSummary.lines.length,2);
