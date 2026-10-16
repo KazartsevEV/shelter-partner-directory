@@ -1,6 +1,6 @@
 /* Nomad360 bug reporting: isolated, opt-in text only.
  * No access to calculator inputs, localStorage, user documents or finance engines.
- * Delivery intentionally disabled until owner approves and configures a form provider.
+ * Public Formspree endpoint approved by the owner; no form-provider secrets are used.
  */
 (function(root){
 'use strict';
