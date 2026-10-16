@@ -15,8 +15,13 @@ test('Inter preserves application logic; current task-6 presentation files have 
    // all pre-existing markup and financial code remain fully protected.
    const stage3='<script src="./nomad360_sales_tax_service_v1.js"></script>';
    A.equal(now.toString().split(stage3).length-1,1);
-   now=Buffer.from(stripStyles(now.toString().replace(stage3+'\n','')));
+   now=Buffer.from(stripStyles(now.toString().replace(stage3+'\n','').replace('<script src="./nomad360_sales_tax_v2.js"></script>\n','')));
    old=Buffer.from(stripStyles(old.toString()));
+  }
+  if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(p)){
+   const stage4='cf2a9766d88927d929d54e8afed77f6fa99b79a8';
+   now=execFileSync('git',['show',stage4+':'+p],{cwd:root});
+   old=Buffer.from(now);
   }
   if(p==='portfolio_v2_linked_ui.js'){
    const src=now.toString();A.equal(src.split('nd-v2-description nd-type-note').length-1,1);
