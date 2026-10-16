@@ -40,6 +40,12 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
      'own-product-ad-click-lead':20,'own-product-ad-lead-sale':50
    }))await fill(page,id,value);
    await page.evaluate(()=>{
+     // A viable goods batch: purchased >= produced >= stocked >= planned sales,
+     // and warehouse stock covers the 20 expected orders from the ad funnel.
+     if(productSource!=='dropship')for(const id of [
+       'own-materials-batch-qty','own-production-monthly-qty',
+       'own-logistics-qty','own-sales-monthly-qty'
+     ])document.getElementById(id).value='60';
      selectProductYesNo('salesVat','yes');
      document.getElementById('own-sales-vat-pct').value='12';
      setProductBusinessTaxType('turnover');
@@ -54,7 +60,8 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
    const before=await page.evaluate(()=>({
      model:calculateProductPortfolio(),cash:calculateProductCashFlow(calculateProductPortfolio()),
      state:Nomad360SalesTaxV1.getState().mode,
-     rate:document.getElementById('own-sales-vat-pct').value
+     rate:document.getElementById('own-sales-vat-pct').value,
+     issues:productPortfolio.map(aggregateQuantityIssues)
    }));
    A.equal(before.state,null);A.equal(before.rate,'12');
    if(!before.model.pricingReady)console.log('V1_GOODS_INCOMPLETE_INPUTS',JSON.stringify({
@@ -65,7 +72,8 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
      taxRate:await page.locator('#own-business-tax-pct').inputValue(),
      formSource:await page.evaluate(()=>productSource)
    }));
-   A.equal(before.model.pricingReady,true);
+   A.equal(before.model.pricingReady,true,source+'/'+width+' '+JSON.stringify(before.issues));
+   A.deepEqual(before.issues,[[]],source+'/'+width+' quantity validity');
    // Some minimally entered V1 goods lack a completed financing/supply schedule.
    // Preserve the ENTIRE cash-flow result exactly before vs after the new tax;
    // the frozen VAT browser suite separately verifies fully ready cycles.
@@ -82,6 +90,7 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
    });
    A.equal(after.mode,'sales_tax');A.equal(after.rate,'8');
    A.equal(after.legacyChoice,'no','VAT is not reused for Sales Tax');
+   A.equal(await page.locator('#own-sales-vat-pct').inputValue(),'12','VAT rate is retained independently');
    A.equal(after.errors,'');A.deepEqual(after.model,before.model);
    A.deepEqual(after.cash,before.cash);
    A.ok(after.p.priceBeforeTax>0);
@@ -90,6 +99,21 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
    A.equal(after.quote.net,90);
    A.ok(Math.abs(after.quote.tax-7.2)<1e-9);
    A.ok(Math.abs(after.quote.customerTotal-97.2)<1e-9);
+   const roundTrip=await page.evaluate(()=>{
+     Nomad360SalesTaxV1.select('vat');
+     const p=aggregatePricingMetrics(productPortfolio[0]);
+     const vat={choice:productOwnChoices.salesVat,rate:document.getElementById('own-sales-vat-pct').value,
+       before:p.priceBeforeTax,withVat:p.priceBeforeTaxWithVat};
+     Nomad360SalesTaxV1.select('none');
+     const none={choice:productOwnChoices.salesVat,rate:document.getElementById('own-sales-vat-pct').value};
+     Nomad360SalesTaxV1.select('sales_tax');
+     return {vat,none,rate:document.getElementById('own-sales-vat-pct').value};
+   });
+   A.deepEqual([roundTrip.vat.choice,roundTrip.none.choice],['yes','no']);
+   A.equal(roundTrip.vat.rate,'12');
+   A.equal(roundTrip.none.rate,'12');
+   A.equal(roundTrip.rate,'12');
+   A.ok(Math.abs(roundTrip.vat.withVat-roundTrip.vat.before*1.12)<1e-8);
    if(after.range.ready){
      A.ok(after.range.minPrice>0&&after.range.maxPrice>=after.range.minPrice);
    }
@@ -113,6 +137,7 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
    A.equal(saved.ok,true);
    A.equal(saved.draft.taxRegime,'sales_tax');
    A.equal(saved.draft.salesTaxPct,'8');
+   A.equal(saved.draft.salesVatPct,12,'VAT rate survives saving a separate Sales Tax regime');
    A.equal(saved.draft.productPortfolio[0].taxRegime,'sales_tax');
    await page.goto(base+'Marketing_calc.HTML?resume=1&sales_tax_preview=1',{waitUntil:'domcontentloaded'});
    const restored=await page.evaluate(()=>({
@@ -122,6 +147,15 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
    A.equal(restored.mode,'sales_tax');A.equal(restored.rate,'8');
    A.equal(restored.quote.customerTotal,108);
    A.ok(restored.p.taxAdjustedPriceWithVat>restored.p.taxAdjustedPrice);
+   const resumedVat=await page.evaluate(()=>{
+     Nomad360SalesTaxV1.select('vat');
+     const p=aggregatePricingMetrics(productPortfolio[0]);
+     return {rate:document.getElementById('own-sales-vat-pct').value,
+       choice:productOwnChoices.salesVat,net:p.priceBeforeTax,buyer:p.priceBeforeTaxWithVat};
+   });
+   A.equal(resumedVat.rate,'12','old VAT rate remains after Sales Tax restore');
+   A.equal(resumedVat.choice,'yes');
+   A.ok(Math.abs(resumedVat.buyer-resumedVat.net*1.12)<1e-8);
    A.equal(errors.length,0,JSON.stringify(errors));
    cases++;
    await ctx.close();
