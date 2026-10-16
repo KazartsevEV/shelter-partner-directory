@@ -292,7 +292,7 @@ function updateResult(){
  '<div class="overflow-x-auto mt-2"><table class="text-xs text-left w-full"><thead><tr>'+
  cashHeads.map(h=>'<th class="px-2 py-3 whitespace-nowrap">'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+cashRows+'</tbody></table></div>'+
  '<p class="text-xs mt-3">«Живые деньги» = накопленный денежный остаток с учётом начального собственного взноса или кредита, минус защищённый резерв. Это не прибыль. Проценты уплачиваются ежемесячно, тело кредита — в последний месяц. Месяц = 30 дней.</p>';
- root.Nomad360UI?.syncPortfolioActions?.(out,model,'standalone');
+ root.Nomad360UI?.syncPortfolioActions?.(r,model,'standalone');
 }
 function applyPaymentConversion(path,quote){
  const [,i,key]=path.split('.'),sku=model.skus[Number(i)];
