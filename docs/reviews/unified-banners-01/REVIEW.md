@@ -1,34 +1,67 @@
-# UNIFIED-BANNERS-01 — review
+# UNIFIED-BANNERS-01 — результат задачи 7В
 
-Status: **Draft, final parity/CI in progress. No merge or production deployment.**
+**Готово к пользовательской проверке; PR остаётся Draft, merge и публикация в main не выполнялись.**
 
-Source main: `40c792ef06e754ea2ce44f64e68f717f27e8cdb7`. Pre-change evidence committed separately as `546dc8b`; production implementation `c9c5d464173603def27270d7418a3be2065ab70b`.
+- Исходный main: `40c792ef06e754ea2ce44f64e68f717f27e8cdb7`.
+- Отдельный коммит ДО правок сайта: `546dc8b9e4995c0266916d963ab0733bf4ef899b`.
+- Итоговая реализация: `aa1c6425e033900bbe4d0ea9125e0535ced845b7`.
+- Следующий коммит публикует только отчёт/протоколы/снимки. [SHA-256 итоговых исходников](after-checks/implementation-sha256.json) связывает локальные проверки с реализацией.
+- [PR #175 и фактические результаты CI](https://github.com/KazartsevEV/shelter-partner-directory/pull/175/checks). Зелёный CI не заменяет визуальную приёмку владельца.
 
-The current unified specification is `docs/nomad360-unified-banners-task.md`; historical separate banner drafts were not implemented as parallel tasks. This PR preserves the approved offer, “Каким бизнесом мне выгодно заниматься?”, the 20-minute narrative and exactly one existing main CTA. It changes presentation only.
+Работа выполнена по единственному актуальному ТЗ `docs/nomad360-unified-banners-task.md`. Старые самостоятельные баннерные Draft PR не использовались как параллельные задания. Суть оффера сохранена дословно: **«Каким бизнесом мне выгодно заниматься?»**, подзаголовок про 20 минут и живые деньги, одна основная CTA.
 
-## Implementation
+## Матрица требований
 
-| Requirement | Result |
+| Требование | Реализация |
 | --- | --- |
-| One hero / intro / SEO composition | Shared mountain/sun scenery, one CTA, one intro; original indexed HTML is updated to the approved intro text, IDs/metadata/language handoff preserved. Redundant old SEO heading/copy no longer appears. |
-| About and contacts | Existing umbrella-brand text and automation caption retained; caption above three fully linked cards, approved existing mottos placed individually. Cold white moon scene; contacts remain their own section. |
-| Return / support | Original shortcuts and instructions, no-app/funding copy, live NOWPayments and exact payment values; methods collapsed individually by default, details expand naturally. Irbis/full tail preserved. |
-| Legal strip | Existing license/data disclosures moved before B2B, existing internal license pages retained; official email/currency/copyright remain. |
-| B2B | Original three localized cards, online-chat wording, emphasis and actions preserved; wolf removed only here, Alatau rams added. Free/White Label, €600, actual downloads/retry/mailto/traffic retained. |
-| RU/EN/KK | Existing catalogs reused without changing their accepted translations. Single switch, EN/RU/KK option order, selected language retained, disclosures/comparison survive switching. |
-| Accessibility | Native links/details, complete linked cards, direct hashes open ancestors and focus the target, visible focus and reduced-motion behavior. |
-| Portable HTML | Four local scenery assets are inlined by the existing bundler; no new hosting dependency or financial network request. |
+| Единый главный баннер | Горы/солнце/река; hero, SEO и интро в одной композиции, одна CTA. В исходном индексируемом HTML и в DOM — утверждённое введение, три преимущества и итоговая фраза; прежние повторяющие заголовок/абзац удалены. ID и SEO metadata сохранены. |
+| «О проекте» и контакты | Холодная белая луна и Мангышлак. Существующие брендовый текст и фраза об автоматизации сохранены; фраза перенесена над карточками. Три прежних девиза распределены по соответствующим продуктам, без общего дубля. Каждая карточка целиком — ссылка. Контакты остаются отдельной секцией. |
+| Возврат и поддержка | Ирбис с целым длинным хвостом. Три прежних ярлыка/инструкции, точные строки про отсутствие приложения и финансирование сохранены. NOWPayments, Kaspi, RU-only Ozon и банк свёрнуты отдельно. Раскрытие показывает настоящие прежние элементы и реквизиты. |
+| Нейтральная полоса | Прежние License/Data перенесены перед B2B, не продублированы. Полный текст доступен на сайте; ссылки на существующие внутренние языковые страницы лицензии, официальный email, валюта и копирайт сохранены. |
+| B2B | Существующая версия из трёх карточек, онлайн-чат, утверждённый курсив и действия сохранены. Два барана Алатау; волк удалён только из B2B. Free/White Label, €600, download/retry/mailto и счётчик работают как раньше. |
+| RU/EN/KK | Используются прежние каталоги без изменения принятых переводов. Один переключатель EN/RU/KK, выбранная локаль сохраняется. Раскрытия и открытая таблица переживают переключение языка. |
+| Доступность | Нативные ссылки/details, видимый focus, reduced motion. Прямые hash-ссылки раскрывают родителей и фокусируют цель. Двойной перенос фокуса при быстром Enter устранён; переход к калькулятору открывает существующий home без потери сохранения. |
+| Автономный HTML | Четыре локальных пейзажа включаются в HTML как data URL существующим сборщиком; оригинальный логотип переиспользуется. Новых сервисов и финансовых запросов нет. |
 
-## Baseline and validation
+## До/после и проверки
 
-[Pre-change protocol](baseline/BASELINE.md): local and actual deployed website each 12 cases; all affected closed/open areas, dialogs, DOM styles, copy, hrefs, actual clipboard values and NOWPayments URL captured before source edits. Deployed affected files exactly matched source main. Independent pre-change 95 finance tests, historical VAT 48 engines / 78 Chromium routes, Sales Tax and actual PDF/XLSX/portable HTML were GREEN.
+[Исходный протокол](baseline/BASELINE.md) создан **до первой правки HTML/CSS/JS**. Текущий опубликованный сайт и main проверены отдельно: пять затрагиваемых исходников совпали побайтно. Сохранены 24 исходных случая (12 local + 12 live), **456 PNG**, DOM-карты, computed styles, тексты, href, реальные clipboard-значения, URL NOWPayments, все раскрытия и справки ярлыков.
 
-Current validations already GREEN: 26 scope/language tests, 20 localization extraction/diagnostics tests, SEO protected-source audit; original return browser matrix 26 cases (21 viewports/locales plus five synthetic install branches); existing calculator UI and real portable HTML/XLSX regression. Final 21-case screenshot/action matrix and exact 78-receipt comparison are running; final results will replace this status before handoff.
+[Галерея desktop/mobile RU/EN/KK](SCREENSHOTS.md) · [финальные протоколы и 483 PNG](after/) · [логи проверок](after-checks/).
 
-## Composition adaptations and limits
+| Проверка | Результат локального повторного прогона |
+| --- | --- |
+| Баннеры, клики/Enter, hash/focus, сохранение раскрытий, clipboard и ярлыки | **21/21**, RU/EN/KK × 320/360/390/430/768/1280/1440; нет дублей ID, пропавшего текста, page overflow и JS ошибок |
+| Контраст по реальному фону Chromium | **42/42**, закрытые/открытые состояния; минимум **4,979:1**, порог 4,5:1 не снижен |
+| Финансовые unit/oracle | **95/95**, до и после |
+| Исторические VAT engines | **48/48**, прежние эталоны не изменялись |
+| Исторический VAT Chromium | **78/78**, включая V1→V2, восстановление, шесть XLSX и шесть PDF |
+| Полные протоколы VAT непосредственно до/после дизайна | **78/78 SHA-256 совпадают**: результаты, сохранённые данные, UI-state, прайс/экспорт и переходы; не только отдельные итоговые числа |
+| Sales Tax: товары / услуги / V2 | **6 / 9 / 5**, GREEN |
+| V1 PDF и возврат к none / V2 XLSX/PDF/restore | **6 / 12**, GREEN |
+| Примеры простых услуг | **36/36**, GREEN |
+| Локализация всех существующих путей | **486/486 + 54/54**, без gaps, потери пользовательских имён, денежных переносов, изменений входов и результатов |
+| Ярлыки, инструкция, клавиатура, download и install-event ветки | **26/26**, включая пять явно синтетических браузерных install-событий |
+| Маркетинг и реальный автономный HTML | **21/21**, 129 снимков, три автономных версии, шесть скачиваний |
+| SEO/оригинальный оффер/общий логотип | **21/21**, три автономные версии |
+| TYPE-02 до/после | **48/48**, 132 снимка, 18 дополнительных проверок, numeric changes = 0; полный прежний workflow дополнительно запускается в CI |
+| Старые scope/semantic/font/SEO контракты | **26/26**, плюс 20 extraction/diagnostics; syntax, inventory --check и diff --check GREEN |
 
-- Inter, brand blue, white text and orange actions take priority over raster mockup typography. Images contain no fake UI.
-- Mobile places the moon, irbis and rams in separate scenery areas where overlay text would impair contrast. No text overlaps heads or the moon. Normal vertical scrolling remains; no attempt to fit all expanded payment UI into one screen.
-- Original source SEO copy was replaced with the explicitly approved introduction to eliminate repetition; canonical/hreflang/navigation and semantic anchor IDs are unchanged.
-- The SEO path allowlist now names only this task's module/assets/tests/evidence. A separate exact-hunk guard checks all old production files, and the baseline evidence itself is immutable. No financial tolerance or historical expected value was changed.
-- Chromium is not a physical iOS/Android/Windows installation test. No payment was made. Main remains unchanged pending owner acceptance.
+Два новых jobs `visual-and-actions` и `finance-and-exports` повторяют профильные проверки в [workflow](../../../.github/workflows/unified-banners.yml). Остальные действующие workflows не отключены. Актуальные статусы именно опубликованного HEAD доступны в [Checks PR #175](https://github.com/KazartsevEV/shelter-partner-directory/pull/175/checks); результаты первой неуспешной итерации не выдаются за GREEN.
+
+## Изменённые файлы и защита области
+
+[Полный список](changed-files.txt). Production: `Marketing_calc.HTML` (только утверждённое введение и loader), новый `nomad360_banners.js`, добавочный раздел `nomad360_calculator_ui.css`, узкое расширение упаковки CSS-ассетов в `nomad360_header.js`, четыре декоративных WebP. Остальное — тесты, точные fixtures/hunk guards, обновляемый source census L0, workflow и доказательства.
+
+Все прежние финансовые, валютные, налоговые, кредитные исходники, словари, original wolf PNG и юридические тексты **побайтно защищены**. `unified_banners_scope.test.cjs` проверяет каждый исходный файл, разрешает только конкретные записанные presentation-hunks и сверяет неизменность исходных доказательств с отдельным capture-коммитом. Финансовые expected values/допуски не менялись.
+
+Старые тесты ожидали отдельное SEO-интро, волка в B2B и тёмную подпись на белом блоке ярлыков. Их конкретные DOM/цветовые ожидания приведены к утверждённому ТЗ. Старый инструмент контраста отказывался работать с изображениями; его не отключили: для пейзажей добавлен строгий замер реального фона Chromium с временно прозрачными буквами, прежний порог 4,5:1. Невидимые native-details/скринридерные подписи и декоративные emoji не выдаются за видимый текст. Этот замер обнаружил реальные участки недостаточного контраста; локальные подложки исправлены.
+
+## Визуальные адаптации и ограничения
+
+- Inter, белый текст, фирменный синий и оранжевые действия важнее размеров букв растрового эскиза. Изображения очищены от нарисованного интерфейса; происхождение и оптимизация — [README ассетов](../../../assets/nomad360-banners/README.md).
+- На mobile пейзажи вынесены из-под заголовков, чтобы луна/головы/хвост были видны и не снижали разборчивость. Текст не уменьшался ради одного экрана. Открытые способы поддержки увеличивают высоту естественно.
+- На desktop сохранены разные природные сцены; затемнение локальное под текстом, а не одинаковый фильтр на весь сайт. После осмотра исправлены наложение заголовка на луну, контраст вопроса и длинных KK-пояснений.
+- Сайт и элементы управления читаются и работают при штатном вертикальном скролле; макеты адаптированы под полезное содержание, а не вставлены целыми растровыми страницами.
+- Chromium не заменяет установку на физических Windows/iOS/Android. Платёж не проводился. В детерминированных тестах внешние запросы блокируются; iframe сохраняет настоящий согласованный NOWPayments URL, а live-baseline снят отдельно. Доступность стороннего платёжного провайдера не является новым обещанием.
+- Справка задачи 8, баг-форма задачи 9 и финансовый US demo не начинались. Визуальная приёмка и отдельное разрешение на merge остаются за владельцем.
