@@ -28,7 +28,7 @@ def strip_task09_html(raw):
     css = b'    <link rel="stylesheet" href="./nomad360_bug_report.css">\n'
     script = b'<script src="./nomad360_bug_report.js"></script>\n'
     css_anchor = b'<link rel="stylesheet" href="./nomad360_calculator_ui.css">\n' + css
-    script_anchor = b'<script src="./nomad360_sales_tax_service_v1.js"></script>\n' + script
+    script_anchor = script + b'</body>'
     assert raw.count(css) == raw.count(script) == 1, 'Task09 unexpected loader count'
     assert css_anchor in raw and script_anchor in raw, 'Task09 loader moved'
     return raw.replace(css, b'', 1).replace(script, b'', 1)

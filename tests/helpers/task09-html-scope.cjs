@@ -5,7 +5,7 @@ const A=require('node:assert/strict');
 const css='    <link rel="stylesheet" href="./nomad360_bug_report.css">\n';
 const script='<script src="./nomad360_bug_report.js"></script>\n';
 const cssAnchor='<link rel="stylesheet" href="./nomad360_calculator_ui.css">\n'+css;
-const scriptAnchor='<script src="./nomad360_sales_tax_service_v1.js"></script>\n'+script;
+const scriptAnchor=script+'</body>';
 function stripTask09Html(source){
  const cssCount=source.split(css).length-1,scriptCount=source.split(script).length-1;
  A.equal(cssCount,scriptCount,'Both Task09 assets must be paired');
