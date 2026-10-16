@@ -125,3 +125,46 @@ test('None means no sales tax; invalid Sales Tax rates fail closed',()=>{
  }
  A.throws(()=>Tax.prepareStandalone(state,{mode:'bogus'}),RangeError);
 });
+
+
+test('7B-4 real five-SKU linked engine: online agent principal turnover, owner commission and 3 months',()=>{
+ const {fixture}=require('./portfolio_v2_f3_fixture.cjs');
+ const f=fixture(),s=Linked.fromV1({skus:f.skus,tax:f.tax});
+ Object.assign(s,{resources:f.resources,offers:f.offers,forecastMonths:3,
+   recurringDemandApproved:true});
+ const baseline=Linked.build(s);
+ A.equal(baseline.ready,true,JSON.stringify(baseline.errors));
+ const withTax=Linked.build(Tax.prepareLinked(s,{mode:'sales_tax',ratePct:8}));
+ A.equal(withTax.ready,true,JSON.stringify(withTax.errors));
+ const actual=Tax.project(withTax,{mode:'sales_tax',ratePct:8});
+ const agency=actual.salesTaxSummary.lines.find(x=>x.id==='agent');
+ A.equal(agency.base,'principal');
+ near(agency.net,1800);near(agency.salesTax,144);near(agency.customerTotal,1944);
+ near(withTax.cashflow.periodPnl.bySku.agent.revenue,360);
+ near(withTax.cashflow.periodPnl.bySku.agent.taxAccrued,36);
+ near(withTax.cashflow.periodPnl.bySku.agent.revenue,
+   baseline.cashflow.periodPnl.bySku.agent.revenue);
+ near(withTax.cashflow.periodPnl.revenue,baseline.cashflow.periodPnl.revenue);
+ near(withTax.cashflow.periodPnl.netProfit,baseline.cashflow.periodPnl.netProfit);
+ near(withTax.cashflow.freeCash,baseline.cashflow.freeCash);
+ A.equal(actual.salesTaxSummary.byMonth.length,3);
+ for(let month=0;month<3;month++){
+   const ownerMonth=withTax.cashflow.periodPnl.bySku.agent.months[month].revenue;
+   near(ownerMonth,120);
+   // Independent approved V1 fixture: 18 principal orders × 100 / 3 months.
+   const principalMonth=600;
+   const otherMonth=Object.entries(withTax.cashflow.periodPnl.bySku)
+     .filter(([id])=>id!=='agent')
+     .reduce((sum,[,sku])=>sum+sku.months[month].revenue,0);
+   const expectedBuyerNet=otherMonth+principalMonth;
+   near(actual.salesTaxSummary.byMonth[month].net,expectedBuyerNet);
+   near(actual.salesTaxSummary.byMonth[month].salesTax,expectedBuyerNet*.08);
+   near(actual.salesTaxSummary.byMonth[month].customerTotal,expectedBuyerNet*1.08);
+   near(actual.cashflow.months[month].freeCumulative,
+     baseline.cashflow.months[month].freeCumulative);
+ }
+ console.log('7B4_ONLINE_AGENT_REAL_GREEN '+JSON.stringify({
+   principalNet:agency.net,agentCommission:withTax.cashflow.periodPnl.bySku.agent.revenue,
+   transitTax:agency.salesTax,customerTotal:agency.customerTotal,months:3
+ }));
+});
