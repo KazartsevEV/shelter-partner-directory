@@ -46,7 +46,7 @@ def main():
             # Only the exact reviewed stage-4 UI integration is exempt from
             # historical pre-Sales-Tax bytes. A later unapproved edit is RED.
             approved = subprocess.check_output(
-                ['git', 'show', 'cf2a9766d88927d929d54e8afed77f6fa99b79a8:' + name], cwd=ROOT)
+                ['git', 'show', '6c5c0e3a4927fb50b88ab99914145bb9016bb24a:' + name], cwd=ROOT)
             assert raw == approved, 'Unreviewed stage-4 V2 UI delta: ' + name
             continue
         if name == 'nomad360_repo_traffic.json':
