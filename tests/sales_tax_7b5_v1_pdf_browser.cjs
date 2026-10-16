@@ -48,6 +48,8 @@ function server(){return http.createServer((req,res)=>{
    A.ok(near(check.tax.tax,check.tax.net*.08));
    const none=await p.evaluate(()=>{
     Nomad360SalesTaxV1.select('none');
+    // The shopper URL deliberately blocks draft writes; drop demo mode without touching inputs.
+    history.replaceState(history.state,'',location.pathname);
     const output=saveProductCalculationToBrowser();
     const data=JSON.parse(localStorage.getItem('marketingCalcProductResultV1')||'null');
     return {output,mode:Nomad360SalesTaxV1.getState(),draft:data,vatRate:document.getElementById('own-sales-vat-pct')?.value};
