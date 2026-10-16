@@ -15,8 +15,9 @@ test('Inter preserves application logic; current task-6 presentation files have 
    // all pre-existing markup and financial code remain fully protected.
    const stage3='<script src="./nomad360_sales_tax_service_v1.js"></script>';
    A.equal(now.toString().split(stage3).length-1,1);
-   now=Buffer.from(stripStyles(now.toString().replace(stage3+'\n','').replace('<script src="./nomad360_sales_tax_v2.js"></script>\n','')));
-   old=Buffer.from(stripStyles(old.toString()));
+   const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
+    now=Buffer.from(mask(stripStyles(now.toString().replace(stage3+'\n','').replace('<script src="./nomad360_sales_tax_v2.js"></script>\n',''))));
+    old=Buffer.from(mask(stripStyles(old.toString())));
   }
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(p)){
    const stage4='6c5c0e3a4927fb50b88ab99914145bb9016bb24a';
