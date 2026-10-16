@@ -31,5 +31,7 @@ jobs:
           git add docs/localization/l0/
           if ! git diff --cached --quiet; then
             git commit -m "chore(7Б-4): regenerate L0 source inventory from updated JS/HTML"
+            git fetch origin feature/sales-tax-7b-4-v2
+            git rebase origin/feature/sales-tax-7b-4-v2
             git push origin HEAD:feature/sales-tax-7b-4-v2
           fi
