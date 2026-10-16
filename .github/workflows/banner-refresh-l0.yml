@@ -4,6 +4,8 @@ on:
     branches: [feature/unified-banners-01]
     paths:
       - Marketing_calc.HTML
+      - nomad360_banners.js
+      - nomad360_calculator_ui.css
 permissions:
   contents: write
 jobs:
