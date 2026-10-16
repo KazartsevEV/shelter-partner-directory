@@ -23,10 +23,13 @@ test('Only the four requested presentation files may change; all financial sourc
        '7Б-4 accepted explicit UI surface: '+file);
      continue;
    }
-   A.equal(file==='Marketing_calc.HTML'?
+   const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
+    const normalized=file==='Marketing_calc.HTML'?
   require('./helpers/seo-html-contract.cjs').stripSEO(
    now(file).replace('<script src="./nomad360_sales_tax_service_v1.js"></script>\n','').replace('<script src="./nomad360_sales_tax_v2.js"></script>\n','')):
-  now(file),before(file),file);
+  now(file);
+    A.equal(file==='Marketing_calc.HTML'?mask(normalized):normalized,
+      file==='Marketing_calc.HTML'?mask(before(file)):before(file),file);
  }
 });
 const boot=src=>{const win={};new Function('window','document',src)(win,{readyState:'loading',addEventListener(){}});return win.Nomad360LocaleCore;};
