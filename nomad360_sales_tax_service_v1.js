@@ -271,7 +271,7 @@ root.exportProductCalculationPdf=function(){
 root.openLinkedPortfolioFromProducts=function(){
  if(fullActive()&&fullService()){
   if(!fullError()&&root.Nomad360SalesTaxV2?.withTransfer)
-    return root.Nomad360SalesTaxV2.withTransfer({mode:'sales_tax',ratePct:rate},
+    return root.Nomad360SalesTaxV2.withTransfer({mode:'sales_tax',ratePct:rate,boundsIncludeTax:true},
       ()=>original.v2.apply(this,arguments));
   const e=document.getElementById('linked-v2-entry-error');if(e){setText(e,lang().v2);e.hidden=false;e.classList.remove('hidden');}
   return false;
