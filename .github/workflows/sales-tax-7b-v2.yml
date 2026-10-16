@@ -4,6 +4,10 @@ on:
     paths:
       - 'nomad360_sales_tax_v2.js'
       - 'tests/sales_tax_7b_v2_projection.test.cjs'
+      - 'tests/sales_tax_7b_v2_browser.cjs'
+      - 'portfolio_v2_ui.js'
+      - 'portfolio_v2_linked_ui.js'
+      - 'Marketing_calc.HTML'
       - '.github/workflows/sales-tax-7b-v2.yml'
   workflow_dispatch:
 permissions:
@@ -27,3 +31,12 @@ jobs:
       - name: V2 Sales Tax pure contracts and both historical V2 models
         run: |
           node --test tests/sales_tax_7b_v2_projection.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_online_adapter.test.cjs
+
+      - name: Install pinned Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tax-v2-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/tax-v2-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Real standalone V2, V1 linked handoff, cross-sell, upsell and bundle
+        env:
+          NODE_PATH: ${{ runner.temp }}/tax-v2-tools/node_modules
+        run: node tests/sales_tax_7b_v2_browser.cjs
