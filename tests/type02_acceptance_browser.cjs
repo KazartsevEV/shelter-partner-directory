@@ -11,7 +11,8 @@ function standalone(){return {version:2,currency:'KZT',businessCurrency:'KZT',as
 function linked(){const p=fixture();return {...Linked.fromV1({...p,currency:'USD'}),resources:p.resources,offers:p.offers,forecastMonths:p.forecastMonths,recurringDemandApproved:true,importedAt:'2026-10-12T00:00:00Z'};}
 function snapshot(route){
  if(route==='v1')return {currency:Nomad360Currency.get(),product:productPortfolio[0],model:calculateProductPortfolio(),cash:calculateProductCashFlow(calculateProductPortfolio()),cycle:aggregatePlanMetrics(productPortfolio[0]),credit:calculateAggregateCredit(productPortfolio[0]),priceList:calculatePriceListRange(productPortfolio[0])};
- if(route==='home')return {currency:Nomad360Currency.get(),inputs:[...document.querySelectorAll('input,select,textarea')].filter(e=>e.id!=='nomad360-lang-select'&&!e.closest('[data-sales-tax-v1-widget],[data-sales-tax-service]')).map(e=>[e.id,e.value,e.checked])};
+ // Task 09 fields are isolated support UI, not calculator inputs or finances.
+ if(route==='home')return {currency:Nomad360Currency.get(),inputs:[...document.querySelectorAll('input,select,textarea')].filter(e=>e.id!=='nomad360-lang-select'&&!e.closest('[data-sales-tax-v1-widget],[data-sales-tax-service],#nomad360-bug-dialog')).map(e=>[e.id,e.value,e.checked])};
  const state=(route==='standalone'?PortfolioV2UI:LinkedPortfolioV2UI).getState();return {state,financial:route==='standalone'?Nomad360PaymentUI.buildPortfolio(state):LinkedPortfolioV2Engine.build(state),stored:localStorage.getItem(route==='standalone'?'marketingCalcPortfolioV2':'marketingCalcLinkedPortfolioV2')};
 }
 function audit(){
