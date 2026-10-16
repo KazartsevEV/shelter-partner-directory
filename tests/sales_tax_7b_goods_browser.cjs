@@ -57,6 +57,14 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
      rate:document.getElementById('own-sales-vat-pct').value
    }));
    A.equal(before.state,null);A.equal(before.rate,'12');
+   if(!before.model.pricingReady)console.log('V1_GOODS_INCOMPLETE_INPUTS',JSON.stringify({
+     source,width,models:before.model.items.map(x=>({
+       id:x.id,source:x.source,price:x.price,baseCac:x.baseCac,
+       forecastSales:x.forecastSales,unitCost:x.unitCost
+     })),taxType:await page.evaluate(()=>productBusinessTaxType),
+     taxRate:await page.locator('#own-business-tax-pct').inputValue(),
+     formSource:await page.evaluate(()=>productSource)
+   }));
    A.equal(before.model.pricingReady,true);
    // Some minimally entered V1 goods lack a completed financing/supply schedule.
    // Preserve the ENTIRE cash-flow result exactly before vs after the new tax;
