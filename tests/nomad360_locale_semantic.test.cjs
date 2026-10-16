@@ -60,7 +60,9 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
   return result;
  }
  A.deepEqual(arithmetic(now),arithmetic(old),'arithmetic changed even inside a renderer');
- const presentation=new Set(['nomad360_currency.js','nomad360_navigation.js','nomad360_price_export.js']);
+ // 7Б-5 intentionally updates the exporter; historical VAT semantics are checked
+ // in frozen VAT and dedicated XLSX/PDF parity tests, not the 7Б-0 AST equality.
+ const presentation=new Set(['nomad360_currency.js','nomad360_navigation.js']);
  for(const file of presentation){
   const old=execFileSync('git',['show',SHA+':'+file],{cwd:base,encoding:'utf8'}),now=fs.readFileSync(path.join(base,file),'utf8');
   A.deepEqual(canonical(acorn.parse(now,{ecmaVersion:'latest'})),canonical(acorn.parse(old,{ecmaVersion:'latest'})),file+' changed beyond message registry lookup');
