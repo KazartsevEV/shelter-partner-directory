@@ -2312,10 +2312,24 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41350:js-string",
+      "id": "nomad360_header.js:41441:js-regex",
       "file": "nomad360_header.js",
-      "line": 799,
-      "offset": 41350,
+      "line": 800,
+      "offset": 41441,
+      "kind": "js-regex",
+      "owner": "nomad360_header.js",
+      "stage": "L5",
+      "context": "downloadEmbedHtml",
+      "text": "url\\(['\"]?(\\.\\/assets\\/nomad360-banners\\/[a-z-]+\\.webp)['\"]?\\)",
+      "flags": "g",
+      "review": "Regex is code, not visible text; variable lookup patterns require capture checks",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_header.js:41948:js-string",
+      "file": "nomad360_header.js",
+      "line": 809,
+      "offset": 41948,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2324,10 +2338,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41388:js-string",
+      "id": "nomad360_header.js:41986:js-string",
       "file": "nomad360_header.js",
-      "line": 800,
-      "offset": 41388,
+      "line": 810,
+      "offset": 41986,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2336,10 +2350,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41459:js-regex",
+      "id": "nomad360_header.js:42057:js-regex",
       "file": "nomad360_header.js",
-      "line": 801,
-      "offset": 41459,
+      "line": 811,
+      "offset": 42057,
       "kind": "js-regex",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2350,10 +2364,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41472:js-string",
+      "id": "nomad360_header.js:42070:js-string",
       "file": "nomad360_header.js",
-      "line": 801,
-      "offset": 41472,
+      "line": 811,
+      "offset": 42070,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2362,10 +2376,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41651:js-string",
+      "id": "nomad360_header.js:42249:js-string",
       "file": "nomad360_header.js",
-      "line": 805,
-      "offset": 41651,
+      "line": 815,
+      "offset": 42249,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2374,10 +2388,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41702:js-string",
+      "id": "nomad360_header.js:42300:js-string",
       "file": "nomad360_header.js",
-      "line": 806,
-      "offset": 41702,
+      "line": 816,
+      "offset": 42300,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2386,10 +2400,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41805:js-string",
+      "id": "nomad360_header.js:42403:js-string",
       "file": "nomad360_header.js",
-      "line": 807,
-      "offset": 41805,
+      "line": 817,
+      "offset": 42403,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2398,10 +2412,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41869:js-string",
+      "id": "nomad360_header.js:42467:js-string",
       "file": "nomad360_header.js",
-      "line": 808,
-      "offset": 41869,
+      "line": 818,
+      "offset": 42467,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2410,10 +2424,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:41952:js-string",
+      "id": "nomad360_header.js:42550:js-string",
       "file": "nomad360_header.js",
-      "line": 810,
-      "offset": 41952,
+      "line": 820,
+      "offset": 42550,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2422,10 +2436,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:42007:js-string",
+      "id": "nomad360_header.js:42605:js-string",
       "file": "nomad360_header.js",
-      "line": 811,
-      "offset": 42007,
+      "line": 821,
+      "offset": 42605,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2434,10 +2448,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:42087:js-string",
+      "id": "nomad360_header.js:42685:js-string",
       "file": "nomad360_header.js",
-      "line": 812,
-      "offset": 42087,
+      "line": 822,
+      "offset": 42685,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2446,10 +2460,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:42126:js-string",
+      "id": "nomad360_header.js:42724:js-string",
       "file": "nomad360_header.js",
-      "line": 813,
-      "offset": 42126,
+      "line": 823,
+      "offset": 42724,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2458,10 +2472,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:42198:js-regex",
+      "id": "nomad360_header.js:42796:js-regex",
       "file": "nomad360_header.js",
-      "line": 814,
-      "offset": 42198,
+      "line": 824,
+      "offset": 42796,
       "kind": "js-regex",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2472,10 +2486,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:42212:js-string",
+      "id": "nomad360_header.js:42810:js-string",
       "file": "nomad360_header.js",
-      "line": 814,
-      "offset": 42212,
+      "line": 824,
+      "offset": 42810,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2484,10 +2498,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:42520:js-string",
+      "id": "nomad360_header.js:43118:js-string",
       "file": "nomad360_header.js",
-      "line": 820,
-      "offset": 42520,
+      "line": 830,
+      "offset": 43118,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2496,10 +2510,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:42577:js-string",
+      "id": "nomad360_header.js:43175:js-string",
       "file": "nomad360_header.js",
-      "line": 820,
-      "offset": 42577,
+      "line": 830,
+      "offset": 43175,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2508,10 +2522,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:42686:js-string",
+      "id": "nomad360_header.js:43284:js-string",
       "file": "nomad360_header.js",
-      "line": 822,
-      "offset": 42686,
+      "line": 832,
+      "offset": 43284,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2520,10 +2534,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43014:js-string",
+      "id": "nomad360_header.js:43612:js-string",
       "file": "nomad360_header.js",
-      "line": 832,
-      "offset": 43014,
+      "line": 842,
+      "offset": 43612,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2532,10 +2546,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43160:js-string",
+      "id": "nomad360_header.js:43758:js-string",
       "file": "nomad360_header.js",
-      "line": 836,
-      "offset": 43160,
+      "line": 846,
+      "offset": 43758,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2544,10 +2558,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43400:js-string",
+      "id": "nomad360_header.js:43998:js-string",
       "file": "nomad360_header.js",
-      "line": 842,
-      "offset": 43400,
+      "line": 852,
+      "offset": 43998,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2556,10 +2570,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43454:js-string",
+      "id": "nomad360_header.js:44052:js-string",
       "file": "nomad360_header.js",
-      "line": 843,
-      "offset": 43454,
+      "line": 853,
+      "offset": 44052,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2568,10 +2582,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43495:js-string",
+      "id": "nomad360_header.js:44093:js-string",
       "file": "nomad360_header.js",
-      "line": 844,
-      "offset": 43495,
+      "line": 854,
+      "offset": 44093,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2580,10 +2594,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43615:js-string",
+      "id": "nomad360_header.js:44213:js-string",
       "file": "nomad360_header.js",
-      "line": 846,
-      "offset": 43615,
+      "line": 856,
+      "offset": 44213,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2592,10 +2606,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43650:js-string",
+      "id": "nomad360_header.js:44248:js-string",
       "file": "nomad360_header.js",
-      "line": 846,
-      "offset": 43650,
+      "line": 856,
+      "offset": 44248,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2604,10 +2618,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43773:js-string",
+      "id": "nomad360_header.js:44371:js-string",
       "file": "nomad360_header.js",
-      "line": 851,
-      "offset": 43773,
+      "line": 861,
+      "offset": 44371,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2616,10 +2630,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43849:js-string",
+      "id": "nomad360_header.js:44447:js-string",
       "file": "nomad360_header.js",
-      "line": 852,
-      "offset": 43849,
+      "line": 862,
+      "offset": 44447,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2628,10 +2642,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43890:js-string",
+      "id": "nomad360_header.js:44488:js-string",
       "file": "nomad360_header.js",
-      "line": 853,
-      "offset": 43890,
+      "line": 863,
+      "offset": 44488,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2640,10 +2654,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:43945:js-string",
+      "id": "nomad360_header.js:44543:js-string",
       "file": "nomad360_header.js",
-      "line": 854,
-      "offset": 43945,
+      "line": 864,
+      "offset": 44543,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2652,10 +2666,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44025:js-string",
+      "id": "nomad360_header.js:44623:js-string",
       "file": "nomad360_header.js",
-      "line": 855,
-      "offset": 44025,
+      "line": 865,
+      "offset": 44623,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2664,10 +2678,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44153:js-string",
+      "id": "nomad360_header.js:44751:js-string",
       "file": "nomad360_header.js",
-      "line": 858,
-      "offset": 44153,
+      "line": 868,
+      "offset": 44751,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2676,10 +2690,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44200:js-string",
+      "id": "nomad360_header.js:44798:js-string",
       "file": "nomad360_header.js",
-      "line": 859,
-      "offset": 44200,
+      "line": 869,
+      "offset": 44798,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2688,10 +2702,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44350:js-string",
+      "id": "nomad360_header.js:44948:js-string",
       "file": "nomad360_header.js",
-      "line": 865,
-      "offset": 44350,
+      "line": 875,
+      "offset": 44948,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2700,10 +2714,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44423:js-string",
+      "id": "nomad360_header.js:45021:js-string",
       "file": "nomad360_header.js",
-      "line": 867,
-      "offset": 44423,
+      "line": 877,
+      "offset": 45021,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2712,10 +2726,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44444:js-string",
+      "id": "nomad360_header.js:45042:js-string",
       "file": "nomad360_header.js",
-      "line": 867,
-      "offset": 44444,
+      "line": 877,
+      "offset": 45042,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2724,10 +2738,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44479:js-string",
+      "id": "nomad360_header.js:45077:js-string",
       "file": "nomad360_header.js",
-      "line": 867,
-      "offset": 44479,
+      "line": 877,
+      "offset": 45077,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2736,10 +2750,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44521:js-string",
+      "id": "nomad360_header.js:45119:js-string",
       "file": "nomad360_header.js",
-      "line": 868,
-      "offset": 44521,
+      "line": 878,
+      "offset": 45119,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2748,10 +2762,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44638:js-string",
+      "id": "nomad360_header.js:45236:js-string",
       "file": "nomad360_header.js",
-      "line": 871,
-      "offset": 44638,
+      "line": 881,
+      "offset": 45236,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2760,10 +2774,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44850:js-string",
+      "id": "nomad360_header.js:45448:js-string",
       "file": "nomad360_header.js",
-      "line": 874,
-      "offset": 44850,
+      "line": 884,
+      "offset": 45448,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2772,10 +2786,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44901:js-string",
+      "id": "nomad360_header.js:45499:js-string",
       "file": "nomad360_header.js",
-      "line": 875,
-      "offset": 44901,
+      "line": 885,
+      "offset": 45499,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2784,10 +2798,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:44934:js-string",
+      "id": "nomad360_header.js:45532:js-string",
       "file": "nomad360_header.js",
-      "line": 876,
-      "offset": 44934,
+      "line": 886,
+      "offset": 45532,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2796,10 +2810,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45005:markup-attribute",
+      "id": "nomad360_header.js:45603:markup-attribute",
       "file": "nomad360_header.js",
-      "line": 876,
-      "offset": 45005,
+      "line": 886,
+      "offset": 45603,
       "kind": "markup-attribute",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2811,10 +2825,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_header.js:45042:js-string",
+      "id": "nomad360_header.js:45640:js-string",
       "file": "nomad360_header.js",
-      "line": 877,
-      "offset": 45042,
+      "line": 887,
+      "offset": 45640,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2823,10 +2837,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45144:js-string",
+      "id": "nomad360_header.js:45742:js-string",
       "file": "nomad360_header.js",
-      "line": 878,
-      "offset": 45144,
+      "line": 888,
+      "offset": 45742,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2835,10 +2849,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45173:markup-text",
+      "id": "nomad360_header.js:45771:markup-text",
       "file": "nomad360_header.js",
-      "line": 878,
-      "offset": 45173,
+      "line": 888,
+      "offset": 45771,
       "kind": "markup-text",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2849,10 +2863,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_header.js:45184:markup-text",
+      "id": "nomad360_header.js:45782:markup-text",
       "file": "nomad360_header.js",
-      "line": 878,
-      "offset": 45184,
+      "line": 888,
+      "offset": 45782,
       "kind": "markup-text",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2863,10 +2877,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_header.js:45220:markup-text",
+      "id": "nomad360_header.js:45818:markup-text",
       "file": "nomad360_header.js",
-      "line": 878,
-      "offset": 45220,
+      "line": 888,
+      "offset": 45818,
       "kind": "markup-text",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2877,10 +2891,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_header.js:45254:js-string",
+      "id": "nomad360_header.js:45852:js-string",
       "file": "nomad360_header.js",
-      "line": 879,
-      "offset": 45254,
+      "line": 889,
+      "offset": 45852,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2889,10 +2903,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45320:js-string",
+      "id": "nomad360_header.js:45918:js-string",
       "file": "nomad360_header.js",
-      "line": 880,
-      "offset": 45320,
+      "line": 890,
+      "offset": 45918,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2901,10 +2915,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45405:js-string",
+      "id": "nomad360_header.js:46003:js-string",
       "file": "nomad360_header.js",
-      "line": 880,
-      "offset": 45405,
+      "line": 890,
+      "offset": 46003,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2913,10 +2927,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45470:js-string",
+      "id": "nomad360_header.js:46068:js-string",
       "file": "nomad360_header.js",
-      "line": 880,
-      "offset": 45470,
+      "line": 890,
+      "offset": 46068,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2925,10 +2939,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45482:js-string",
+      "id": "nomad360_header.js:46080:js-string",
       "file": "nomad360_header.js",
-      "line": 881,
-      "offset": 45482,
+      "line": 891,
+      "offset": 46080,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2937,10 +2951,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45678:js-string",
+      "id": "nomad360_header.js:46276:js-string",
       "file": "nomad360_header.js",
-      "line": 882,
-      "offset": 45678,
+      "line": 892,
+      "offset": 46276,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2949,10 +2963,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45872:js-string",
+      "id": "nomad360_header.js:46470:js-string",
       "file": "nomad360_header.js",
-      "line": 883,
-      "offset": 45872,
+      "line": 893,
+      "offset": 46470,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2961,10 +2975,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45891:js-string",
+      "id": "nomad360_header.js:46489:js-string",
       "file": "nomad360_header.js",
-      "line": 884,
-      "offset": 45891,
+      "line": 894,
+      "offset": 46489,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2973,10 +2987,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45953:js-string",
+      "id": "nomad360_header.js:46551:js-string",
       "file": "nomad360_header.js",
-      "line": 885,
-      "offset": 45953,
+      "line": 895,
+      "offset": 46551,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -2985,10 +2999,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:45976:markup-attribute",
+      "id": "nomad360_header.js:46574:markup-attribute",
       "file": "nomad360_header.js",
-      "line": 885,
-      "offset": 45976,
+      "line": 895,
+      "offset": 46574,
       "kind": "markup-attribute",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3000,10 +3014,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_header.js:46029:js-string",
+      "id": "nomad360_header.js:46627:js-string",
       "file": "nomad360_header.js",
-      "line": 886,
-      "offset": 46029,
+      "line": 896,
+      "offset": 46627,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3012,10 +3026,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46053:js-string",
+      "id": "nomad360_header.js:46651:js-string",
       "file": "nomad360_header.js",
-      "line": 886,
-      "offset": 46053,
+      "line": 896,
+      "offset": 46651,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3024,10 +3038,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46084:js-string",
+      "id": "nomad360_header.js:46682:js-string",
       "file": "nomad360_header.js",
-      "line": 886,
-      "offset": 46084,
+      "line": 896,
+      "offset": 46682,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3036,10 +3050,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46095:js-string",
+      "id": "nomad360_header.js:46693:js-string",
       "file": "nomad360_header.js",
-      "line": 886,
-      "offset": 46095,
+      "line": 896,
+      "offset": 46693,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3048,10 +3062,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46122:js-string",
+      "id": "nomad360_header.js:46720:js-string",
       "file": "nomad360_header.js",
-      "line": 886,
-      "offset": 46122,
+      "line": 896,
+      "offset": 46720,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3060,10 +3074,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46137:js-string",
+      "id": "nomad360_header.js:46735:js-string",
       "file": "nomad360_header.js",
-      "line": 886,
-      "offset": 46137,
+      "line": 896,
+      "offset": 46735,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3072,10 +3086,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46161:js-string",
+      "id": "nomad360_header.js:46759:js-string",
       "file": "nomad360_header.js",
-      "line": 887,
-      "offset": 46161,
+      "line": 897,
+      "offset": 46759,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3084,10 +3098,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46177:js-string",
+      "id": "nomad360_header.js:46775:js-string",
       "file": "nomad360_header.js",
-      "line": 888,
-      "offset": 46177,
+      "line": 898,
+      "offset": 46775,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3096,10 +3110,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46274:js-string",
+      "id": "nomad360_header.js:46872:js-string",
       "file": "nomad360_header.js",
-      "line": 888,
-      "offset": 46274,
+      "line": 898,
+      "offset": 46872,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3108,10 +3122,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46288:js-string",
+      "id": "nomad360_header.js:46886:js-string",
       "file": "nomad360_header.js",
-      "line": 889,
-      "offset": 46288,
+      "line": 899,
+      "offset": 46886,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3120,10 +3134,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46390:js-string",
+      "id": "nomad360_header.js:46988:js-string",
       "file": "nomad360_header.js",
-      "line": 889,
-      "offset": 46390,
+      "line": 899,
+      "offset": 46988,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3132,10 +3146,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46404:js-string",
+      "id": "nomad360_header.js:47002:js-string",
       "file": "nomad360_header.js",
-      "line": 890,
-      "offset": 46404,
+      "line": 900,
+      "offset": 47002,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3144,10 +3158,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46474:js-string",
+      "id": "nomad360_header.js:47072:js-string",
       "file": "nomad360_header.js",
-      "line": 890,
-      "offset": 46474,
+      "line": 900,
+      "offset": 47072,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3156,10 +3170,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46494:js-string",
+      "id": "nomad360_header.js:47092:js-string",
       "file": "nomad360_header.js",
-      "line": 891,
-      "offset": 46494,
+      "line": 901,
+      "offset": 47092,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3168,10 +3182,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46547:js-string",
+      "id": "nomad360_header.js:47145:js-string",
       "file": "nomad360_header.js",
-      "line": 892,
-      "offset": 46547,
+      "line": 902,
+      "offset": 47145,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3180,10 +3194,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46617:js-string",
+      "id": "nomad360_header.js:47215:js-string",
       "file": "nomad360_header.js",
-      "line": 893,
-      "offset": 46617,
+      "line": 903,
+      "offset": 47215,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3192,10 +3206,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46713:js-string",
+      "id": "nomad360_header.js:47311:js-string",
       "file": "nomad360_header.js",
-      "line": 896,
-      "offset": 46713,
+      "line": 906,
+      "offset": 47311,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3204,10 +3218,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46800:js-string",
+      "id": "nomad360_header.js:47398:js-string",
       "file": "nomad360_header.js",
-      "line": 898,
-      "offset": 46800,
+      "line": 908,
+      "offset": 47398,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3216,10 +3230,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46840:js-string",
+      "id": "nomad360_header.js:47438:js-string",
       "file": "nomad360_header.js",
-      "line": 899,
-      "offset": 46840,
+      "line": 909,
+      "offset": 47438,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3228,10 +3242,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46890:js-string",
+      "id": "nomad360_header.js:47488:js-string",
       "file": "nomad360_header.js",
-      "line": 900,
-      "offset": 46890,
+      "line": 910,
+      "offset": 47488,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3240,10 +3254,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46950:js-string",
+      "id": "nomad360_header.js:47548:js-string",
       "file": "nomad360_header.js",
-      "line": 902,
-      "offset": 46950,
+      "line": 912,
+      "offset": 47548,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3252,10 +3266,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:46966:js-string",
+      "id": "nomad360_header.js:47564:js-string",
       "file": "nomad360_header.js",
-      "line": 902,
-      "offset": 46966,
+      "line": 912,
+      "offset": 47564,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3264,10 +3278,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47002:js-string",
+      "id": "nomad360_header.js:47600:js-string",
       "file": "nomad360_header.js",
-      "line": 903,
-      "offset": 47002,
+      "line": 913,
+      "offset": 47600,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3276,10 +3290,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47293:js-string",
+      "id": "nomad360_header.js:47891:js-string",
       "file": "nomad360_header.js",
-      "line": 910,
-      "offset": 47293,
+      "line": 920,
+      "offset": 47891,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3288,10 +3302,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47360:js-string",
+      "id": "nomad360_header.js:47958:js-string",
       "file": "nomad360_header.js",
-      "line": 911,
-      "offset": 47360,
+      "line": 921,
+      "offset": 47958,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3300,10 +3314,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47408:js-string",
+      "id": "nomad360_header.js:48006:js-string",
       "file": "nomad360_header.js",
-      "line": 911,
-      "offset": 47408,
+      "line": 921,
+      "offset": 48006,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3312,10 +3326,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47420:js-string",
+      "id": "nomad360_header.js:48018:js-string",
       "file": "nomad360_header.js",
-      "line": 911,
-      "offset": 47420,
+      "line": 921,
+      "offset": 48018,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3324,10 +3338,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47647:markup-text",
+      "id": "nomad360_header.js:48245:markup-text",
       "file": "nomad360_header.js",
-      "line": 911,
-      "offset": 47647,
+      "line": 921,
+      "offset": 48245,
       "kind": "markup-text",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3338,10 +3352,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_header.js:47672:markup-text",
+      "id": "nomad360_header.js:48270:markup-text",
       "file": "nomad360_header.js",
-      "line": 911,
-      "offset": 47672,
+      "line": 921,
+      "offset": 48270,
       "kind": "markup-text",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3352,10 +3366,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_header.js:47748:js-string",
+      "id": "nomad360_header.js:48346:js-string",
       "file": "nomad360_header.js",
-      "line": 912,
-      "offset": 47748,
+      "line": 922,
+      "offset": 48346,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3364,10 +3378,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47796:js-string",
+      "id": "nomad360_header.js:48394:js-string",
       "file": "nomad360_header.js",
-      "line": 913,
-      "offset": 47796,
+      "line": 923,
+      "offset": 48394,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3376,10 +3390,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47853:js-string",
+      "id": "nomad360_header.js:48451:js-string",
       "file": "nomad360_header.js",
-      "line": 914,
-      "offset": 47853,
+      "line": 924,
+      "offset": 48451,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3388,10 +3402,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47935:js-string",
+      "id": "nomad360_header.js:48533:js-string",
       "file": "nomad360_header.js",
-      "line": 916,
-      "offset": 47935,
+      "line": 926,
+      "offset": 48533,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3400,10 +3414,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:47979:js-string",
+      "id": "nomad360_header.js:48577:js-string",
       "file": "nomad360_header.js",
-      "line": 917,
-      "offset": 47979,
+      "line": 927,
+      "offset": 48577,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3412,10 +3426,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48024:js-string",
+      "id": "nomad360_header.js:48622:js-string",
       "file": "nomad360_header.js",
-      "line": 918,
-      "offset": 48024,
+      "line": 928,
+      "offset": 48622,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3424,10 +3438,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48083:js-string",
+      "id": "nomad360_header.js:48681:js-string",
       "file": "nomad360_header.js",
-      "line": 919,
-      "offset": 48083,
+      "line": 929,
+      "offset": 48681,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3436,10 +3450,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48118:js-string",
+      "id": "nomad360_header.js:48716:js-string",
       "file": "nomad360_header.js",
-      "line": 919,
-      "offset": 48118,
+      "line": 929,
+      "offset": 48716,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3448,10 +3462,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48126:js-string",
+      "id": "nomad360_header.js:48724:js-string",
       "file": "nomad360_header.js",
-      "line": 919,
-      "offset": 48126,
+      "line": 929,
+      "offset": 48724,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3460,10 +3474,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48195:js-string",
+      "id": "nomad360_header.js:48793:js-string",
       "file": "nomad360_header.js",
-      "line": 922,
-      "offset": 48195,
+      "line": 932,
+      "offset": 48793,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3472,10 +3486,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48271:js-string",
+      "id": "nomad360_header.js:48869:js-string",
       "file": "nomad360_header.js",
-      "line": 924,
-      "offset": 48271,
+      "line": 934,
+      "offset": 48869,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3484,10 +3498,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48309:js-string",
+      "id": "nomad360_header.js:48907:js-string",
       "file": "nomad360_header.js",
-      "line": 925,
-      "offset": 48309,
+      "line": 935,
+      "offset": 48907,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3496,10 +3510,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48347:js-string",
+      "id": "nomad360_header.js:48945:js-string",
       "file": "nomad360_header.js",
-      "line": 925,
-      "offset": 48347,
+      "line": 935,
+      "offset": 48945,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3508,10 +3522,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48661:js-string",
+      "id": "nomad360_header.js:49259:js-string",
       "file": "nomad360_header.js",
-      "line": 930,
-      "offset": 48661,
+      "line": 940,
+      "offset": 49259,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3520,10 +3534,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48715:js-string",
+      "id": "nomad360_header.js:49313:js-string",
       "file": "nomad360_header.js",
-      "line": 930,
-      "offset": 48715,
+      "line": 940,
+      "offset": 49313,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3532,10 +3546,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48732:js-string",
+      "id": "nomad360_header.js:49330:js-string",
       "file": "nomad360_header.js",
-      "line": 930,
-      "offset": 48732,
+      "line": 940,
+      "offset": 49330,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3544,10 +3558,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48793:js-string",
+      "id": "nomad360_header.js:49391:js-string",
       "file": "nomad360_header.js",
-      "line": 933,
-      "offset": 48793,
+      "line": 943,
+      "offset": 49391,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3556,10 +3570,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48850:js-string",
+      "id": "nomad360_header.js:49448:js-string",
       "file": "nomad360_header.js",
-      "line": 934,
-      "offset": 48850,
+      "line": 944,
+      "offset": 49448,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3568,10 +3582,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:48953:js-string",
+      "id": "nomad360_header.js:49551:js-string",
       "file": "nomad360_header.js",
-      "line": 935,
-      "offset": 48953,
+      "line": 945,
+      "offset": 49551,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3580,10 +3594,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49018:js-string",
+      "id": "nomad360_header.js:49616:js-string",
       "file": "nomad360_header.js",
-      "line": 935,
-      "offset": 49018,
+      "line": 945,
+      "offset": 49616,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3592,10 +3606,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49108:js-string",
+      "id": "nomad360_header.js:49706:js-string",
       "file": "nomad360_header.js",
-      "line": 936,
-      "offset": 49108,
+      "line": 946,
+      "offset": 49706,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3604,10 +3618,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49233:js-string",
+      "id": "nomad360_header.js:49831:js-string",
       "file": "nomad360_header.js",
-      "line": 938,
-      "offset": 49233,
+      "line": 948,
+      "offset": 49831,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3616,10 +3630,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49388:js-string",
+      "id": "nomad360_header.js:49986:js-string",
       "file": "nomad360_header.js",
-      "line": 942,
-      "offset": 49388,
+      "line": 952,
+      "offset": 49986,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3628,10 +3642,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49428:js-string",
+      "id": "nomad360_header.js:50026:js-string",
       "file": "nomad360_header.js",
-      "line": 943,
-      "offset": 49428,
+      "line": 953,
+      "offset": 50026,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3640,10 +3654,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49492:js-string",
+      "id": "nomad360_header.js:50090:js-string",
       "file": "nomad360_header.js",
-      "line": 945,
-      "offset": 49492,
+      "line": 955,
+      "offset": 50090,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3652,10 +3666,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49694:js-string",
+      "id": "nomad360_header.js:50292:js-string",
       "file": "nomad360_header.js",
-      "line": 949,
-      "offset": 49694,
+      "line": 959,
+      "offset": 50292,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3664,10 +3678,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49766:js-string",
+      "id": "nomad360_header.js:50364:js-string",
       "file": "nomad360_header.js",
-      "line": 951,
-      "offset": 49766,
+      "line": 961,
+      "offset": 50364,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",
@@ -3676,10 +3690,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_header.js:49802:js-string",
+      "id": "nomad360_header.js:50400:js-string",
       "file": "nomad360_header.js",
-      "line": 951,
-      "offset": 49802,
+      "line": 961,
+      "offset": 50400,
       "kind": "js-string",
       "owner": "nomad360_header.js",
       "stage": "L5",

@@ -795,7 +795,17 @@
       });
       for(const link of Array.from(doc.querySelectorAll('link[rel="stylesheet"][href^="./"]'))){
         const filename=link.getAttribute('href');
-        const css=await (await get(filename)).text();
+        let css=await (await get(filename)).text();
+        // UNIFIED-BANNERS-01: keep local decorative resources inside portable HTML.
+        const scenery=new Set([...css.matchAll(/url\(['"]?(\.\/assets\/nomad360-banners\/[a-z-]+\.webp)['"]?\)/g)].map(m=>m[1]));
+        for(const asset of scenery){
+          const blob=await (await get(asset)).blob();
+          const data=await new Promise((resolve,reject)=>{
+            const reader=new root.FileReader();reader.onload=()=>resolve(reader.result);
+            reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob);
+          });
+          css=css.replaceAll(asset,data);
+        }
         const inline=doc.createElement('style');
         inline.setAttribute('data-nomad-bundled',filename);
         inline.textContent=css.replace(/<\/style/gi,'<\\/style');

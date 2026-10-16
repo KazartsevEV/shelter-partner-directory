@@ -1,0 +1,18 @@
+{
+  "Marketing_calc.HTML": [
+    {
+      "before": "                <h2 id=\"nomad360-seo-heading\" data-i18n=\"business.ideaSeoTitle\">Расчёт бизнес-идеи: затраты, прибыль и денежный поток</h2>\n                <p data-i18n=\"business.ideaSeoCopy\">Рассчитайте себестоимость и цену товара или услуги, расходы на привлечение клиента, стартовый капитал, прогноз прибыли и денежный поток. Оцените коммерческую ценность своей идеи и решите, каким бизнесом вам выгодно заниматься.</p>\n",
+      "after": "                <h2 id=\"nomad360-seo-heading\" data-i18n=\"interface.shell.introLead\">Nomad360 lite — дружелюбный инструмент для проверки коммерческой ценности бизнес-идей.</h2>\n                <ul>\n                    <li data-i18n=\"interface.shell.introFree\">Бесплатно: без регистрации и подписок.</li>\n                    <li data-i18n=\"interface.shell.introPractical\">Практично: интерактивные сценарии, множество позиций и валют.</li>\n                    <li data-i18n=\"interface.shell.introPrivate\">Приватно: все расчёты делаются в вашем браузере.</li>\n                </ul>\n                <p data-i18n=\"interface.shell.introResult\">Наш калькулятор. Ваш результат.</p>\n"
+    },
+    {
+      "before": "",
+      "after": "<script src=\"./nomad360_banners.js\"></script>\n"
+    }
+  ],
+  "nomad360_header.js": [
+    {
+      "before": "        const css=await (await get(filename)).text();\n",
+      "after": "        let css=await (await get(filename)).text();\n        // UNIFIED-BANNERS-01: keep local decorative resources inside portable HTML.\n        const scenery=new Set([...css.matchAll(/url\\(['\"]?(\\.\\/assets\\/nomad360-banners\\/[a-z-]+\\.webp)['\"]?\\)/g)].map(m=>m[1]));\n        for(const asset of scenery){\n          const blob=await (await get(asset)).blob();\n          const data=await new Promise((resolve,reject)=>{\n            const reader=new root.FileReader();reader.onload=()=>resolve(reader.result);\n            reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob);\n          });\n          css=css.replaceAll(asset,data);\n        }\n"
+    }
+  ]
+}

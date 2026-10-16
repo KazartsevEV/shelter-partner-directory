@@ -12,6 +12,7 @@ const printMode=" const originalPrintMode=document.getElementById('nomad360-prin
 const printRestore=" // Rendering a new V2 root can remove a print sheet before the V2 model\n // finishes restoring. Rebuild the already requested document, never print.\n const current=readyOutput();\n if(originalPrintMode&&['price','report'].includes(originalPrintMode)&&current?.out?.ready&&\n    !document.getElementById('nomad360-print-sheet')){\n  const restored=document.createElement('section');restored.id='nomad360-print-sheet';\n  restored.dataset.mode=originalPrintMode;restored.innerHTML=printable(originalPrintMode,current);\n  document.body.append(restored);root.Nomad360LocaleCore?.localizeElement(restored);\n }\n";
 const embed="      // RET-07A: independent embeds do not promote shortcuts to the original host.\n      doc.documentElement.setAttribute('data-nomad-embedded','');\n      doc.querySelector('script[src$=\"nomad360_return.js\"]')?.remove();\n";
 function stripReturn(file,source){
+ source=require('./unified-banners-contract.cjs').stripBanners(file,source);
  if(file==='Marketing_calc.HTML')return source.replace(script,'').replace('<script src="./nomad360_simple_service_examples.js"></script>\n','')
   .replace('<script src="./nomad360_sales_tax.js"></script>\n','')
   .replace('<script src="./nomad360_sales_tax_v1.js"></script>\n','')
