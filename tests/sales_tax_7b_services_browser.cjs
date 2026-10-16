@@ -198,6 +198,20 @@ async function simple(page,role){
     const fee=await page.evaluate(()=>calculateProductPortfolio().items[0]?.price);
     A.ok(near(fee,20/1.12),'VAT restores original agent commission basis');
    }
+   // Stage 7Б-4: from the finished full V1 service, transfer the exact
+   // selected Sales Tax and verify the linked SKU/agency provenance.
+   const linked=await page.evaluate(()=>{
+     Nomad360SalesTaxServiceV1.selectFull('sales_tax');
+     const moved=openLinkedPortfolioFromProducts();
+     const state=LinkedPortfolioV2UI.getState();
+     return {moved,tax:state?.tax,sku:state?.skus?.[0],
+       visible:document.querySelector('#portfolio-v2-screen')?.classList.contains('hidden')===false};
+   });
+   A.equal(linked.moved,true,channel+'/'+role+' full-service transfer');
+   A.equal(linked.tax?.taxRegime,'sales_tax');
+   A.equal(Number(linked.tax?.salesTaxPct),8);
+   A.equal(linked.sku?.fullServiceRole,role);
+   A.equal(linked.visible,true,channel+'/'+role+' linked screen opened');
    A.deepEqual(errors,[],channel+'/'+role+' browser errors');
    await ctx.close();complete++;
   }
