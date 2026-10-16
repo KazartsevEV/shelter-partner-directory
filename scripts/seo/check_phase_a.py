@@ -257,7 +257,9 @@ def main():
         'portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js',
         '.github/workflows/sales-tax-7b-services.yml',
         'tests/return_7a_scope.test.cjs', 'scripts/seo/check_phase_a.py',
-        'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs') for p in changed), changed
+        'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs',
+        'tests/v1_service_v2_numeric_parity.test.cjs',
+        'docs/reviews/sales-tax-7b/STAGE_7B4_ACCEPTANCE.md') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
