@@ -293,7 +293,8 @@ function table(items,out,currency=root.Nomad360Currency?.get()||'USD',kind='link
  const standalone=kind==='standalone',show=v=>typeof v==='number'&&Number.isFinite(v)?fmt(v):'—';
  const state=exportContext?.state||{currency};
  const doc=root.Nomad360PriceExport.document({state:{...state,currency},out,kind},lang);
- const baseTitle=doc.columns[4];
+ // Existing linked VAT print heading differs from the Excel sheet in KK.
+ const baseTitle=doc.taxMode==='vat'&&kind==='linked'?tr('base'):doc.columns[4];
  return '<table class="nomad-export-table"><thead><tr>'+
  [tr('item'),tr('type'),baseTitle+' ('+currency+')',tr('discount'),tr('customer')+' ('+currency+')'].map(s=>'<th>'+esc(s)+'</th>').join('')+
  '</tr></thead><tbody>'+items.map((item,i)=>{
