@@ -224,6 +224,24 @@ def main():
             # Phase B adds exactly one canonical and one isolated language module.
             raw = raw.replace(b'    <link rel="canonical" href="https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML">\n', b'', 1)
             raw = raw.replace(b'<script src="./nomad360_seo_language.js"></script>\n', b'', 1)
+        if name == 'nomad360_calculator_ui.js':
+            # Later approved 7B-5 changes only table, printable and language
+            # lifecycle renderers. Pin every OTHER byte to the accepted 7B-4
+            # source, which itself must match the frozen SEO protected SHA.
+            accepted = subprocess.check_output(
+                ['git','show','817e5e14ae65091f474442a672831d93a3ea8f28:' + name], cwd=ROOT)
+            accepted = subprocess.check_output(['node','-e',
+                "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))",name],
+                input=accepted,cwd=ROOT)
+            assert hashlib.sha256(accepted).hexdigest() == expected, 'Stage 4 SEO protected source drift'
+            def mask_approved_print_functions(source):
+                for label in (b'table', b'printable', b'setLanguage'):
+                    matcher = re.compile(rb'(?ms)^function ' + label + rb'\\([^\\n]*\\)\\{.*?^\\}\\n')
+                    assert len(matcher.findall(source)) == 1, 'Unbounded export function: ' + label.decode()
+                    source = matcher.sub(b'function ' + label + b'(/* 7B5 approved */){}\\n', source, count=1)
+                return source
+            assert mask_approved_print_functions(raw) == mask_approved_print_functions(accepted), name
+            continue
         if name == 'Marketing_calc.HTML':
             # Preserve the exact SEO-era source outside the approved 7B-5 PDF function.
             old = subprocess.check_output(['git','show','85d98d9:Marketing_calc.HTML'], cwd=ROOT)
