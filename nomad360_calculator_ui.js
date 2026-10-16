@@ -465,6 +465,8 @@ function handleClick(event){
 function setLanguage(next){
  if(!L[next])return;
  lang=next;
+ // V2 language listeners may replace their form root after the shell updates.
+ const restorePricePreview=document.getElementById('nomad360-price-preview')?.hidden===false;
  try{localStorage.setItem(localeKey,next)}catch(_){}
  buildShell();
  const payload=readyOutput();
@@ -477,6 +479,8 @@ function setLanguage(next){
   sheet.innerHTML=printable(sheet.dataset.mode,payload);
   root.Nomad360LocaleCore?.localizeElement(sheet);
  document.dispatchEvent(new CustomEvent('nomad360:languagechange',{detail:{lang}}));
+ // Re-open only a preview the user had already expanded before the rerender.
+ if(restorePricePreview&&document.getElementById('nomad360-price-preview')?.hidden)showPreview();
 }
 function boot(){
  lang=userLocale()||preferred();buildShell();
