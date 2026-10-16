@@ -10,7 +10,13 @@ test('Inter preserves application logic; current task-6 presentation files have 
   if(p==='Marketing_calc.HTML'){
    now=Buffer.from(require('./helpers/seo-html-contract.cjs').stripSEO(now.toString()));
    const stripStyles=s=>s.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'<style>Presentation</style>');
-   now=Buffer.from(stripStyles(now.toString()));old=Buffer.from(stripStyles(old.toString()));
+   // SALES-TAX-07B stage 3 adds one isolated preview-only service script.
+   // Remove exactly that loader for the historical HTML byte-parity guard;
+   // all pre-existing markup and financial code remain fully protected.
+   const stage3='<script src="./nomad360_sales_tax_service_v1.js"></script>';
+   A.equal(now.toString().split(stage3).length-1,1);
+   now=Buffer.from(stripStyles(now.toString().replace(stage3+'\n','')));
+   old=Buffer.from(stripStyles(old.toString()));
   }
   if(p==='portfolio_v2_linked_ui.js'){
    const src=now.toString();A.equal(src.split('nd-v2-description nd-type-note').length-1,1);
