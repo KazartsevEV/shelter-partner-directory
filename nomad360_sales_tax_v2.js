@@ -24,6 +24,28 @@
     const quote=tax.quote({mode,enteredPrice:0,ratePct:config?.ratePct});
     return {mode,ratePct:quote.ratePct};
   }
+  let transfer=null;
+  function withTransfer(config,action){
+    if(typeof action!=='function')throw new TypeError('Transfer action required');
+    const previous=transfer;
+    transfer=options(config);
+    try{return action();}finally{transfer=previous;}
+  }
+  function transferred(){return transfer&&{...transfer};}
+  function inherit(state,config=transfer){
+    if(!config||config.mode==='vat')return state;
+    const next=prepareLinked(state,config);
+    if(next.tax?.taxRegime!==config.mode)throw Error('V2 transfer lost tax regime');
+    return next;
+  }
+  function compatible(previous,next){
+    const regime=x=>x?.tax?.taxRegime||'vat';
+    if(previous&&regime(previous)!==regime(next))
+      throw Error('Налог с продаж в портфеле различается. Создайте отдельный портфель.');
+    if(previous&&regime(next)==='sales_tax'&&
+       Number(previous.tax?.salesTaxPct)!==Number(next.tax?.salesTaxPct))
+      throw Error('В портфеле должна использоваться одна ставка Sales Tax.');
+  }
   function prepareStandalone(state,config){
     const o=options(config);
     if(o.mode==='vat')return state; // Existing VAT engine is source of truth.
@@ -52,6 +74,8 @@
       throw new TypeError('Ready V2 result required');
     const period=result.cashflow?.periodPnl;
     const bySku=period?.bySku||{};
+    const standalone=Array.isArray(result.months)&&!result.cashflow;
+    const entirePeriod=period?.ready===true;
     const rows=result.items.map(item=>{
       const agency=item.fullServiceRole==='agent'||item.onlineRole==='agent';
       const counterpart=agency?bySku[item.id]?.partner:null;
@@ -59,7 +83,8 @@
       // counter-ledger, do not invent buyer Sales Tax from commission.
       if(agency&&(!counterpart||!Number.isFinite(counterpart.revenue)))
         throw new RangeError('Principal customer sales ledger required for agent Sales Tax');
-      const base=nonNegative(agency?counterpart.revenue:item.revenue,'V2 revenue');
+      const base=nonNegative(agency?counterpart.revenue:
+        entirePeriod?bySku[item.id]?.revenue:item.revenue,'V2 revenue');
       const q=tax.quote({mode:o.mode,enteredPrice:base,ratePct:o.ratePct});
       return {id:item.id,base:agency?'principal':'owner',net:q.net,
         salesTax:q.tax,customerTotal:q.customerTotal};
@@ -67,7 +92,13 @@
     const total=key=>rows.reduce((n,row)=>n+row[key],0);
     const items=result.items.map((item,i)=>({...item,customerTax:rows[i]}));
     const byMonth=[];
-    if(period&&Array.isArray(period.months)){
+    if(standalone){
+      const grossByMonth=result.months.map(m=>nonNegative(m.receipt,'V2 cash receipts'));
+      // Standalone V2 receipts may be delayed and are NOT a tax invoice series.
+      // Do not fabricate month-by-month tax merely from cash timing.
+      void grossByMonth;
+    }
+    if(entirePeriod&&Array.isArray(period.months)){
       for(let k=0;k<period.months.length;k++){
         let base=0;
         for(const item of result.items){
@@ -87,5 +118,5 @@
       lines:rows,net:total('net'),salesTax:total('salesTax'),
       customerTotal:total('customerTotal'),byMonth}};
   }
-  return Object.freeze({options,prepareStandalone,prepareLinked,project});
+  return Object.freeze({options,prepareStandalone,prepareLinked,project,withTransfer,transferred,inherit,compatible});
 });
