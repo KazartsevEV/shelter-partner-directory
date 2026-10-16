@@ -3,10 +3,10 @@
  * V2 output projection. UI, storage, V1-to-V2 and reporting follow separately.
  */
 (function(root,factory){
-  const tax=typeof module!=='undefined'&&module.exports
-    ?require('./nomad360_sales_tax.js'):root.Nomad360SalesTax;
+  const node=typeof window==='undefined'&&typeof module!=='undefined'&&!!module.exports;
+  const tax=node?require('./nomad360_sales_tax.js'):root.Nomad360SalesTax;
   const api=factory(tax);
-  if(typeof module!=='undefined'&&module.exports)module.exports=api;
+  if(node)module.exports=api;
   if(root)root.Nomad360SalesTaxV2=api;
 })(typeof globalThis==='object'?globalThis:this,function(tax){
   'use strict';
