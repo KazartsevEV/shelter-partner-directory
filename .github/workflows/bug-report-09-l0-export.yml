@@ -1,0 +1,27 @@
+name: Nomad360 task 09 L0 regenerate evidence (temporary)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/bug-report-09-l0-export.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - name: Rebuild deterministic source census
+        run: |
+          node scripts/localization/inventory.cjs
+          tar -czf task09-localization-generated.tgz docs/localization/l0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: task09-generated-l0
+          path: task09-localization-generated.tgz
+          retention-days: 7
