@@ -72,6 +72,8 @@ const labels={ru:'Сообщить об ошибке',en:'Report a bug',kk:'Қа
     A.equal(await page.locator('#nomad360-bug-heading').innerText(),'Report a bug');
     A.equal(await page.locator('#nomad360-bug-submit').isDisabled(),false);
    }
+   // Stabilize touch UI after Playwright tap before capturing visual evidence.
+   await page.waitForTimeout(width<=430?500:100);
    await page.screenshot({path:path.join(out,'bug-'+language+'-'+width+'.png')});
    await page.keyboard.press('Escape');
    A.equal(await dialog.evaluate(x=>x.open),false,'ESC closes modal');
