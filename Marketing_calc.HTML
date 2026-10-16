@@ -4287,8 +4287,13 @@
             const vatReady = salesVatEnabled && vatPct > 0;
             const vatRate = vatReady ? vatPct / 100 : 0;
 
-            const priceBeforeTaxWithVat =
-                row.price === null || !vatReady
+            // VAT legacy branch is byte-for-byte identical. Only explicit Sales Tax
+            // calculates a buyer-side surcharge using the isolated new helper.
+            const v1SalesTax= v1SalesTaxActive() && ['own','resale','dropship'].includes(item.source);
+            const taxQuote=v1SalesTax?v1SalesTaxQuote(row.price):null;
+            const priceBeforeTaxWithVat = v1SalesTax
+                ? (taxQuote?.customerTotal ?? null)
+                : row.price === null || !vatReady
                     ? null
                     : row.price * (1 + vatRate);
 
@@ -4297,8 +4302,10 @@
                     ? null
                     : row.price * model.taxPriceMultiplier;
 
-            const taxAdjustedPriceWithVat =
-                taxAdjustedPrice === null || !vatReady
+            const adjustedSalesQuote=v1SalesTax?v1SalesTaxQuote(taxAdjustedPrice):null;
+            const taxAdjustedPriceWithVat = v1SalesTax
+                ? (adjustedSalesQuote?.customerTotal ?? null)
+                : taxAdjustedPrice === null || !vatReady
                     ? null
                     : taxAdjustedPrice * (1 + vatRate);
 
@@ -4310,7 +4317,8 @@
                 taxAdjustedPriceWithVat,
                 salesVatChoice,
                 vatPct,
-                vatReady,
+                vatReady: v1SalesTax ? !!taxQuote : vatReady,
+                ...(v1SalesTax?{salesTaxRatePct:taxQuote?.ratePct??null,salesTaxAmount:adjustedSalesQuote?.tax??null}:{}),
                 salesMix: row.salesMix,
                 revenueWeight: row.revenueWeight,
                 baseCac: row.baseCac,
@@ -4422,7 +4430,11 @@
             const vatLabel = section.querySelector('[data-vat-price-label]');
             const vatValue = section.querySelector('[data-vat-price-value]');
             if (vatLabel && vatValue) {
-                if (!p.salesVatChoice) {
+                if(v1SalesTaxActive() && ['own','resale','dropship'].includes(item.source)){
+                    vatLabel.textContent='Цена с Sales Tax';
+                    vatValue.textContent=p.taxAdjustedPriceWithVat===null?'Укажите ставку Sales Tax':
+                        aggregatePriceText(p.taxAdjustedPriceWithVat);
+                } else if (!p.salesVatChoice) {
                     vatLabel.textContent = 'Цена с НДС';
                     vatValue.textContent = '—';
                 } else if (p.salesVatChoice === 'no') {
@@ -5087,6 +5099,8 @@
             if (minimumMarginPct > targetMarginPct) {
                 return { ready: false, error: 'Минимальная маржинальность не должна быть выше вашей целевой маржинальности.', minPrice: null, maxPrice: null };
             }
+            if(v1SalesTaxActive() && v1SalesTaxError())
+                return {ready:false,error:v1SalesTaxError(),minPrice:null,maxPrice:null};
             if (!pricing.salesVatChoice || (pricing.salesVatChoice === 'yes' && !pricing.vatReady)) {
                 return { ready: false, error: 'Укажите, применяется ли НДС, и его ставку.', minPrice: null, maxPrice: null };
             }
@@ -5098,7 +5112,11 @@
                 Math.max(0, Number(item.salesVariablePct) || 0) +
                 Math.max(0, Number(item.penaltiesPct) || 0)
             ) / 100;
-            const vatRate = pricing.salesVatChoice === 'yes' ? pricing.vatPct / 100 : 0;
+            // The resulting buyer-price factor is shared, not the tax accounting.
+            // For Sales Tax there is NO input credit and the base stays unchanged.
+            const vatRate = v1SalesTaxActive()
+                ? Number(productSalesTaxRateRaw)/100 :
+                pricing.salesVatChoice === 'yes' ? pricing.vatPct / 100 : 0;
 
             // Shared fixed costs are a monthly business obligation, allocated across
             // all forecast sold units; loan interest is already SKU-specific.
@@ -5224,6 +5242,10 @@
                 if(errorNode){errorNode.textContent=message;errorNode.hidden=!message;errorNode.classList.toggle('hidden',!message);}
             };
             report('');
+            if(v1SalesTaxActive()){
+                report('Перед переходом в V2 необходим этап 7Б-4: перенос режима Sales Tax. Текущий расчёт сохраните в V1.');
+                return false;
+            }
             if(productName&&['own','resale','dropship','offline-service'].includes(productSource))saveCurrentProductToPortfolio();
             const model=calculateProductPortfolio();
             if(model.paymentPending){report(window.Nomad360PaymentUI?.pendingMessage()||'');return false;}
@@ -5526,7 +5548,7 @@
                     <div class="font-black text-xl tracking-wide">ЖИВЫЕ ДЕНЬГИ</div>
                     <div class="font-semibold mt-1">Денежный поток, которым можно распоряжаться, после налогов, кредитных платежей и обязательного резерва.</div>
                     <div class="text-2xl font-black mt-2">${cashFlow.ready ? money(cashFlow.freeCumulativeEnd) : '—'}</div>
-                    <div class="text-xs mt-1">Минус означает кассовый разрыв. В поступлениях учтены ваши первоначальные вложения или полученный кредит: это финансирование, а не прибыль. Резерв остаётся вашим, но защищён от расходования. Транзитный НДС исключён.</div>
+                    <div class="text-xs mt-1">Минус означает кассовый разрыв. В поступлениях учтены ваши первоначальные вложения или полученный кредит: это финансирование, а не прибыль. Резерв остаётся вашим, но защищён от расходования. ${v1SalesTaxActive()?'Транзитный Sales Tax исключён.':'Транзитный НДС исключён.'}</div>
                 </div>`}
                 ${cashFlowTable}
                 ${agencyReport}
@@ -5546,7 +5568,7 @@
 
             // The price/discount/list-price tail must remain visible even before
             // the tax type is chosen. Only numeric results require completed inputs.
-            const vatEnabled = productOwnChoices.salesVat === 'yes';
+            const vatEnabled = productOwnChoices.salesVat === 'yes'||v1SalesTaxActive();
             priceBox.innerHTML = productPortfolio.map(item => {
                 const p = aggregatePricingMetrics(item);
                 const savedDiscountChoice = item?.planning?.discountChoice;
@@ -5567,9 +5589,9 @@
                     .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
                     .replaceAll('"','&quot;').replaceAll("'",'&#039;');
 
-                const vatRatePct = vatEnabled
-                    ? Math.max(0, productNumber('own-sales-vat-pct'))
-                    : 0;
+                const vatRatePct = v1SalesTaxActive()
+                    ? (v1SalesTaxError()?null:Number(productSalesTaxRateRaw)):
+                    vatEnabled ? Math.max(0, productNumber('own-sales-vat-pct')) : 0;
                 const vatAmount =
                     vatEnabled &&
                     p.taxAdjustedPrice !== null &&
@@ -5596,8 +5618,8 @@
                         <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                             <span class="aggregate-muted">Цена товара</span>
                             <span class="font-bold text-right">${aggregatePriceNumber(p.taxAdjustedPrice,'money')}</span>
-                            <span class="aggregate-muted">НДС</span>
-                            <span class="font-bold text-right">${vatEnabled ? aggregatePriceNumber(vatRatePct,'percent') + ' = ' + aggregatePriceNumber(vatAmount,'money') : 'не применяется'}</span>
+                            <span class="aggregate-muted">${v1SalesTaxActive()?'Sales Tax':'НДС'}</span>
+                            <span class="font-bold text-right">${vatEnabled&&vatRatePct!==null ? aggregatePriceNumber(vatRatePct,'percent') + ' = ' + aggregatePriceNumber(vatAmount,'money') : vatEnabled?'Укажите ставку':'не применяется'}</span>
                         </div>
 
                         <div class="mt-4 pt-4 border-t aggregate-separator">
@@ -6036,6 +6058,12 @@
         }
 
         function exportProductCalculationPdf() {
+            // Until 7B-5 the V1 PDF still uses historical VAT terminology.
+            if(v1SalesTaxActive()){
+                const status=document.getElementById('product-browser-save-status');
+                if(status)status.textContent='Экспорт Sales Tax будет включён после этапа 7Б-5. Данные V1 сохранены в браузере.';
+                return false;
+            }
             // All site print media intentionally hide the interactive body.
             // Native V1 must prepare its own #nomad360-print-sheet or the PDF
             // contains a blank page. The same exporter serves goods/services.
