@@ -36,16 +36,16 @@ jobs:
             echo "Private state or URL transfer in widget" >&2
             exit 1
           fi
-          # The owner approved precisely this public routing endpoint, never credentials.
-          node - <<'NODE'
-          const fs=require('node:fs');
-          const html=fs.readFileSync('Marketing_calc.HTML','utf8');
-          const values=[...html.matchAll(/data-nomad-bug-endpoint\s*=\s*"([^"]*)"/g)].map(m=>m[1]);
-          if(values.length!==1||values[0]!=='https://formspree.io/f/mwlvadod'){
-            console.error('Unapproved or duplicated bug-report endpoint',values);
-            process.exit(1);
-          }
-          NODE
+          # Do not modify frozen application HTML; the Formspree ID is public and scoped to the widget.
+          if grep -q 'data-nomad-bug-endpoint=' Marketing_calc.HTML; then
+            echo "Do not modify protected calculator HTML to configure the handler" >&2; exit 1
+          fi
+          if ! grep -Fq "const APPROVED_FORM_ID='mwlvadod';" nomad360_bug_report.js; then
+            echo "Owner-approved public routing ID missing/changed" >&2; exit 1
+          fi
+          if ! grep -Fq "referrerPolicy:'strict-origin-when-cross-origin'" nomad360_bug_report.js; then
+            echo "Formspree domain restriction needs the site origin (no path/query)" >&2; exit 1
+          fi
       - name: One-time real Formspree transport acceptance (owner approved)
         run: |
           # One live test message, on this designated commit only. Never on subsequent PR updates.
