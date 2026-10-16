@@ -13,7 +13,8 @@ test('All existing application files stay exact outside the five authorised pres
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(file)){
    const audited=execFileSync('git',['show','6c5c0e3a4927fb50b88ab99914145bb9016bb24a:'+file],
      {cwd:root,encoding:'utf8'});
-   A.equal(actual,audited,'7Б-4 isolated accepted V2 interface bytes: '+file);
+   A.equal(require('./helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(file,actual),
+      audited,'7Б-4 V2 UI is byte-exact outside 7Б-5 tax hunks: '+file);
    continue;
   }
   const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
