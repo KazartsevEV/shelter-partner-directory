@@ -58,10 +58,9 @@ function document(context,language='en'){
  if(taxMode==='sales_tax'&&!salesQuote?.quote)throw Error('Sales Tax quote unavailable');
  if(taxMode==='sales_tax')salesQuote.quote({mode:'sales_tax',enteredPrice:0,ratePct:rate});
  const labels=globalThis.Nomad360LocaleCore?.locales?.('tax')?.[language]||{};
- // Historical KK VAT label is byte-sensitive in the accepted frozen report.
- // Keep that label while Sales Tax can use its current language-specific V2 label.
- const baseLabel=taxMode==='vat'&&kind==='linked'&&language==='kk'?'V2 баға тізімі':t.base;
- const columns=[t.id,t.name,t.type,t.currency,kind==='linked'||taxMode!=='vat'?baseLabel:t.baseNet,t.discount,t.customer,t.status];
+ // Keep the established VAT Excel terminology byte-identical; UI print may
+ // use its independently accepted translated heading.
+ const columns=[t.id,t.name,t.type,t.currency,kind==='linked'||taxMode!=='vat'?t.base:t.baseNet,t.discount,t.customer,t.status];
  const notes=[t.source,taxMode==='vat'?(kind==='linked'?t.linked:t.standalone):
    (labels.v2BuyerSummary||'Sales Tax')+'. '+(labels.v2DeductionsNotice||''),t.missing];
  if(kind==='linked')notes.splice(2,0,t.offers);
