@@ -3,6 +3,21 @@
 'use strict';
 const Engine=root.LinkedPortfolioV2Engine;
 const storageKey='marketingCalcLinkedPortfolioV2';
+// Display-only buyer quote. Agency commission is not the principal's sale.
+function buyerUnit(item){
+ if(!item)return null;
+ const mode=state?.tax?.taxRegime||'vat';
+ if(mode==='vat')return item.priceGross;
+ const rate=state?.tax?.salesTaxPct;
+ let net=item.priceGross;
+ if(item.fullServiceRole==='agent')net=item.fullServiceAgency?.grossPrice;
+ else if(item.onlineRole==='agent')net=
+   Number(item.onlineProvenance?.partnerGrossRevenue)/
+   Number(item.onlineProvenance?.dealsInPeriod);
+ if(!Number.isFinite(Number(net)))return null;
+ try{return root.Nomad360SalesTax.quote({mode,enteredPrice:Number(net),ratePct:rate}).customerTotal;}
+ catch(_){return null;}
+}
 const kinds=[['premises','Помещение / аренда'],['workers','Работники / производство'],
  ['warehouse','Общий склад'],['equipment','Оборудование'],['certification','Сертификат'],
  ['salesStaff','Команда продаж'],['marketingManager','Ведение рекламы'],
@@ -279,7 +294,7 @@ function render(){
  'max="'+safe(s.maxDiscountPct)+'"')+'</div>'+
  '<div class="nd-v2-price-summary rounded-xl p-3 mt-3" data-linked-live="'+safe(s.id)+'">'+
  '<div class="text-xs">Автоматическая цена прайса V2</div><div class="text-xl font-black" data-linked-price-list>'+money(byId.get(s.id)?.priceList)+'</div>'+
- '<div class="text-xs mt-2">Покупатель платит за отдельную позицию (без скидки комбо)</div><div class="text-xl font-black" data-linked-price-paid>'+money(byId.get(s.id)?.priceGross)+'</div></div>'+
+ '<div class="text-xs mt-2">Покупатель платит за отдельную позицию (без скидки комбо)</div><div class="text-xl font-black" data-linked-price-paid>'+money(buyerUnit(byId.get(s.id)))+'</div></div>'+
  '<div class="nd-v2-description text-xs mt-2" data-linked-unit-meta></div>'+
  '<p class="nd-v2-description text-xs mt-2">Цену рассчитывает V2 по продажам, денежному весу, рекламной и общей нагрузке. Диапазон цены V1 не меняется.</p>'+
  '</article>').join('');
@@ -372,9 +387,9 @@ function updateResult(){
     list.setAttribute('data-nomad-display-number',String(sku.priceList));
    else list.removeAttribute('data-nomad-display-number');
   }
-  if(paid){paid.textContent=money(sku?.priceGross);
-   if(Number.isFinite(Number(sku?.priceGross))&&sku?.priceGross!==undefined&&sku?.priceGross!==null)
-    paid.setAttribute('data-nomad-display-number',String(sku.priceGross));
+  if(paid){const customer=buyerUnit(sku);paid.textContent=money(customer);
+   if(customer!==null&&Number.isFinite(customer))
+    paid.setAttribute('data-nomad-display-number',String(customer));
    else paid.removeAttribute('data-nomad-display-number');
   }
   const meta=node.closest('[data-linked-sku]')?.querySelector('[data-linked-unit-meta]');
@@ -430,7 +445,7 @@ function updateResult(){
    '<th class="p-2 text-right">'+label+'</th>').join('')+'</tr></thead><tbody>'+
   out.items.map(s=>'<tr class="border-t border-white/20">'+
    [safe(s.name),money(s.priceMin)+'–'+money(s.priceMax),money(s.priceList),
-    money(s.discountSelected)+'%',money(s.priceGross),money(s.forecastOrders),
+    money(s.discountSelected)+'%',money(buyerUnit(s)),money(s.forecastOrders),
     money(s.revenueWeight*100)+'%',money(s.adBudgetEffective),s.actualAfterTaxMargin===null?'нет продаж':money(s.actualAfterTaxMargin)+'%']
    .map((v,i)=>'<td class="p-2 text-right whitespace-nowrap"'+(i===0?' data-nomad-no-translate':'')+'>'+v+'</td>').join('')+'</tr>').join('')+
   '</tbody></table></div>';
