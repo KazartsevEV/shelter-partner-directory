@@ -55,6 +55,29 @@ async function readState(p,kind){return p.evaluate(kind=>{
   A.equal(await p.evaluate(()=>window.__prints),1);
   const print=await p.locator('#nomad360-print-sheet').innerText();
   A.ok(print.includes('Sales Tax'),'print states actual tax');
+  const printBuyerPrices=await p.locator('#nomad360-print-sheet [data-nomad-customer-price]').allTextContents();
+  A.equal(printBuyerPrices.length,before.doc.rows.length,'every PDF item must match Excel rows');
+  const parseBuyer=s=>{
+   const v=s.replace(/[^0-9.,-]/g,'');
+   if(!v)return null;
+   const dec=Math.max(v.lastIndexOf('.'),v.lastIndexOf(','));
+   return Number(dec<0?v:v.slice(0,dec).replace(/[.,]/g,'')+'.'+v.slice(dec+1).replace(/[.,]/g,''));
+  };
+  for(let i=0;i<before.doc.rows.length;i++){
+   const expected=before.doc.rows[i][6],actual=parseBuyer(printBuyerPrices[i]);
+   if(expected===null)A.equal(actual,null,'principal customer unit price cannot be inferred from an agent fee');
+   else A.ok(near(actual,expected),'PDF/Excel buyer price mismatch for '+before.doc.rows[i][0]+': '+actual+' vs '+expected);
+  }
+  if(kind==='linked'){
+   A.equal(await p.evaluate(()=>Nomad360UI.savePrint('report')),true);
+   const report=await p.locator('#nomad360-print-sheet').innerText();
+   const hasPrincipal=Object.values(before.out.cashflow?.periodPnl?.bySku||{}).some(x=>x?.partner?.months?.length);
+   if(hasPrincipal){
+    const principalTitle=await p.evaluate(language=>Nomad360LocaleCore.t('ui.principalEconomicsByMonth',language),lang);
+    A.ok(report.includes(principalTitle),'principal report heading uses active locale');
+    A.ok(!report.includes('Выручка принципала без НДС'),'Sales Tax must not be called VAT');
+   }
+  }
   const download=p.waitForEvent('download');
   A.equal(await p.evaluate(()=>Nomad360UI.saveExcel()),true);
   const d=await download,bytes=fs.readFileSync(await d.path()),workbook=new Excel.Workbook();await workbook.xlsx.load(bytes);
@@ -87,6 +110,8 @@ async function readState(p,kind){return p.evaluate(kind=>{
     services:typeof Nomad360SalesTaxServiceV1?.selectFull
    }));
    A.deepEqual(loaded,{tax:'function',projection:'function',excel:'function',v1:'function',services:'function'});
+   const offlineQuote=await offline.evaluate(()=>Nomad360SalesTax.quote({mode:'sales_tax',ratePct:8,enteredPrice:90}));
+   A.ok(near(offlineQuote.tax,7.2)&&near(offlineQuote.customerTotal,97.2),'autonomous HTML calculates Sales Tax offline');
    A.deepEqual(offlineErrors,[],'portable offline HTML JavaScript');
    await offline.close();
   }

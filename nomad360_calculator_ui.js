@@ -311,6 +311,8 @@ function printable(mode,context){
  const {state,out,kind}=context,p=out.cashflow?.periodPnl,cf=out.cashflow;
  const taxMode=state.tax?.taxRegime||'vat';
  const taxWords=root.Nomad360LocaleCore?.locales?.('tax')?.[lang]||{};
+ const semantic=key=>root.Nomad360LocaleCore.t(key,lang);
+ const revenueTitle=taxMode==='vat'?tr('revenue'):semantic('finance.revenue');
  const title=mode==='price'?tr('listAction'):tr('report');
  let html='<header class="nomad-print-head"><div>NOMAD360</div><h1>'+esc(title)+'</h1>'+
  '<p>'+tr('horizon')+': '+esc(state.forecastMonths||state.marketing?.periodMonths||1)+' '+tr('months')+' · '+esc(state.currency||root.Nomad360Currency?.get()||'USD')+'</p></header>'+
@@ -319,7 +321,7 @@ function printable(mode,context){
   const summary=out.salesTaxSummary;
   html+='<h2>'+esc(taxWords.v2BuyerSummary||'Sales Tax')+'</h2>'+
    '<table class="nomad-export-table"><thead><tr>'+
-   [tr('item'),tr('revenue'),'Sales Tax',tr('customer')].map(x=>'<th>'+esc(x)+'</th>').join('')+
+   [tr('item'),revenueTitle,'Sales Tax',tr('customer')].map(x=>'<th>'+esc(x)+'</th>').join('')+
    '</tr></thead><tbody>'+summary.lines.map(line=>
     '<tr><td data-nomad-no-translate>'+esc(out.items.find(x=>String(x.id)===String(line.id))?.name||line.id)+'</td>'+
     [line.net,line.salesTax,line.customerTotal].map(x=>'<td class="n">'+fmt(x)+'</td>').join('')+
@@ -330,7 +332,7 @@ function printable(mode,context){
  }
  if(mode==='report'){
  const reportValues=[
-  [taxMode==='vat'?tr('revenue'):tr('revenue').replace(/VAT|НДС|ҚҚС/gi,'').trim(),p?.revenue??out.totals.revenue],
+  [revenueTitle,p?.revenue??out.totals.revenue],
   [tr('profit'),p?.netProfit??out.totals.netProfit],
   [tr('margin'),p?.netMargin??null]
  ];
@@ -339,18 +341,18 @@ function printable(mode,context){
  (value===null?'—':fmt(value)+(i===2?'%':''))+'</td></tr>').join('')+
  '</tbody></table>';
  if(p?.months?.length)html+='<h2>'+tr('summary')+' · '+tr('months')+'</h2><table class="nomad-export-table"><thead><tr>'+
- [tr('month'),tr('revenue'),tr('expense'),tr('profit'),tr('tax')].map(x=>'<th>'+esc(x)+'</th>').join('')+
+ [tr('month'),revenueTitle,tr('expense'),tr('profit'),tr('tax')].map(x=>'<th>'+esc(x)+'</th>').join('')+
  '</tr></thead><tbody>'+p.months.map(m=>'<tr><td>'+m.month+'</td>'+
  '<td class="n">'+fmt(m.revenue)+'</td><td class="n">'+fmt(m.revenue-m.preTaxProfit)+'</td>'+
  '<td class="n">'+fmt(m.netProfit)+'</td><td class="n">'+fmt(m.taxAccrued)+'</td></tr>').join('')+'</tbody></table>';
  if(p?.bySku)for(const sku of Object.values(p.bySku)){
    if(!sku?.partner?.months?.length)continue;
-   html+='<h2>Экономика принципала · <span data-nomad-no-translate>'+esc(
+   html+='<h2>'+esc(semantic('ui.principalEconomicsByMonth'))+' · <span data-nomad-no-translate>'+esc(
      out.items.find(item=>item.id===sku.id)?.name||sku.id)+'</span></h2>'+
-     '<p class="nomad-footnote">Оборот и налог принципала отдельно от агентского дохода. Амортизация оборудования относится к прибыли; его покупка — к денежному потоку.</p>'+
+     '<p class="nomad-footnote">'+esc(semantic('tax.principalTurnoverIsSeparateFromTheAgentFeePrincipalTaxUsesTheRateYouSelected'))+' '+esc(semantic('finance.oneOffInvestmentsAreIncludedInCashFlowButDepreciationIsNotAutomaticallyAccruedInEbitda'))+'</p>'+
      '<table class="nomad-export-table"><thead><tr>'+
-     ['Месяц','Выручка принципала без НДС','Расходы с агентом',
-      'Налог принципала','Прибыль принципала','Капитальные вложения'].map(esc)
+     [tr('month'),revenueTitle,tr('expense'),semantic('tax.principalTax'),
+      tr('profit'),semantic('finance.oneTimeCapitalPaymentsCashFlow')].map(esc)
       .map(x=>'<th>'+x+'</th>').join('')+
      '</tr></thead><tbody>'+sku.partner.months.map(m=>'<tr>'+
      [m.month,m.revenue,m.costs,m.tax,m.profit,m.capex].map((value,i)=>
@@ -477,9 +479,10 @@ function setLanguage(next){
  // Refresh an already-prepared print document in the newly selected UI locale,
  // without opening a print dialog or writing any financial input.
  const sheet=document.getElementById('nomad360-print-sheet');
- if(sheet&&payload&&['price','report'].includes(sheet.dataset.mode))
+ if(sheet&&payload&&['price','report'].includes(sheet.dataset.mode)){
   sheet.innerHTML=printable(sheet.dataset.mode,payload);
   root.Nomad360LocaleCore?.localizeElement(sheet);
+ }
  document.dispatchEvent(new CustomEvent('nomad360:languagechange',{detail:{lang}}));
  // Re-open only a preview the user had already expanded before the rerender.
  if(restorePricePreview&&document.getElementById('nomad360-price-preview')?.hidden)showPreview();
