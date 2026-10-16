@@ -40,6 +40,13 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name in ('portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js'):
+            # Only the exact reviewed stage-4 UI integration is exempt from
+            # historical pre-Sales-Tax bytes. A later unapproved edit is RED.
+            approved = subprocess.check_output(
+                ['git', 'show', 'cf2a9766d88927d929d54e8afed77f6fa99b79a8:' + name], cwd=ROOT)
+            assert raw == approved, 'Unreviewed stage-4 V2 UI delta: ' + name
+            continue
         if name == 'nomad360_repo_traffic.json':
             # The Insights bot refreshes this file directly on main.
             # On a PR merge require exact equality with the tested base,
@@ -180,6 +187,9 @@ def main():
         if name == 'Marketing_calc.HTML':
             # Stage 7B-3 contributes exactly one optional service module loader.
             stage3 = b'<script src="./nomad360_sales_tax_service_v1.js"></script>\n'
+            stage4 = b'<script src="./nomad360_sales_tax_v2.js"></script>\n'
+            assert raw.count(stage4) == 1
+            raw = raw.replace(stage4, b'', 1)
             assert raw.count(stage3) == 1
             raw = raw.replace(stage3, b'', 1)
             raw = raw.replace((ROOT / 'tests/fixtures/seo-keyword-banner.html').read_bytes(),
@@ -227,6 +237,10 @@ def main():
         '.github/workflows/sales-tax-7b-goods.yml',
         # Stage 7B-3: separate, self-tested service adapter and exact scope guards.
         'nomad360_sales_tax_service_v1.js', 'tests/sales_tax_7b_services_browser.cjs',
+        'nomad360_sales_tax_v2.js', 'tests/sales_tax_7b_v2_projection.test.cjs',
+        'tests/sales_tax_7b_v2_browser.cjs', '.github/workflows/sales-tax-7b-v2.yml',
+        '.github/workflows/sales-tax-7b4-refresh-l0.yml',
+        'portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js',
         '.github/workflows/sales-tax-7b-services.yml',
         'tests/return_7a_scope.test.cjs', 'scripts/seo/check_phase_a.py',
         'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs') for p in changed), changed
