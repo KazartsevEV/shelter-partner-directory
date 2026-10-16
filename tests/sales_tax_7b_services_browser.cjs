@@ -26,6 +26,8 @@ async function full(page,channel,role){
   await page.locator('#service-agent-fee-pct').fill('20');
   await page.locator('#service-agent-partner-vat').fill('10');
   await page.locator('#service-agent-partner-tax-pct').fill('5');
+  await page.locator('[data-material-cost-mode="known"]').click();
+  await page.locator('#own-materials-cost').fill('8');
 
  }else{
   await page.locator('[data-material-cost-mode="known"]').click();
@@ -38,7 +40,10 @@ async function full(page,channel,role){
  for(const [id,v] of Object.entries({'own-product-ad-budget':900,'own-product-ad-cpc':4.5,
   'own-product-ad-ctr':2,'own-product-ad-click-lead':20,'own-product-ad-lead-sale':50}))
   await page.locator('#'+id).fill(String(v));
- if(role==='agent')await page.locator('#service-agent-line-payers select[data-agent-line-key="advertising"]').selectOption('partner');
+ if(role==='agent'){
+  await page.locator('#service-agent-line-payers select[data-agent-line-key="advertising"]').selectOption('partner');
+  await page.locator('#service-agent-line-payers select[data-agent-line-key="material.known"]').selectOption('agent');
+ }
  if(channel==='offline')await page.locator('#offline-service-monthly-capacity').fill('40');
  return page.evaluate(()=>{
   selectProductYesNo('salesVat','yes');document.getElementById('own-sales-vat-pct').value='12';
@@ -64,7 +69,7 @@ async function simple(page,role){
 (async()=>{
  const s=server();await new Promise(ok=>s.listen(0,'127.0.0.1',ok));
  const base='http://127.0.0.1:'+s.address().port+'/',browser=await chromium.launch({headless:true,args:['--no-sandbox']});
- let complete=0;
+ let complete=0;const audit=[];
  try{
   for(const channel of channels)for(const role of roles){
    const ctx=await browser.newContext({viewport:{width:channel==='online'?390:1280,height:900}}),page=await ctx.newPage(),errors=[];
@@ -104,6 +109,60 @@ async function simple(page,role){
     A.ok(near(after.p.priceBeforeTaxWithVat,after.p.priceBeforeTax*1.08));
     A.ok(near(after.p.salesTaxAmount,after.p.taxAdjustedPrice*.08));
    }
+   
+   // Three-month credit: a transit tax must leave loan schedule and net cash unchanged.
+   const credit=await page.evaluate(()=>{
+    const item=productPortfolio[0],old={...item.planning};
+    Object.assign(item.planning,{fundingMode:'credit',creditRatePct:12,creditTermMonths:3});
+    const m8=calculateProductPortfolio(),c8=calculateProductCashFlow(m8);
+    Nomad360SalesTaxServiceV1.setFullRate('0');
+    const m0=calculateProductPortfolio(),c0=calculateProductCashFlow(m0);
+    Nomad360SalesTaxServiceV1.setFullRate('8');
+    item.planning=old;renderProductBusinessSummary();refreshAllAggregatePricing();
+    return {m8,c8,m0,c0};
+   });
+   A.equal(credit.m8.pricingReady,true,channel+'/'+role+' credit pricing');
+   A.equal(credit.c8.ready,true,channel+'/'+role+' credit cash');
+   A.deepEqual(credit.m8,credit.m0,channel+'/'+role+' financing/P&L rate neutrality');
+   A.deepEqual(credit.c8,credit.c0,channel+'/'+role+' financing/Cash Flow rate neutrality');
+   if(role!=='agent'){
+    A.ok(credit.c8.months.some(m=>m.interestPaid>0),channel+'/'+role+' interest');
+    A.ok(credit.c8.months.some(m=>m.principalRepaid>0),channel+'/'+role+' principal');
+   }
+   let payers=null;
+   if(role==='agent'){
+    // Two independent payers with nonzero advertising and materials.
+    payers=await page.evaluate(()=>{
+     const keys=['advertising','material.known'];
+     const controls=keys.map(k=>document.querySelector('#service-agent-line-payers select[data-agent-line-key="'+k+'"]'));
+     if(controls.some(x=>!x))throw Error('Missing payer controls');
+     const snap=()=>{
+      const sku=productPortfolio[0],model=calculateProductPortfolio();
+      const m=calculateProductCashFlow(model).months[0];
+      return {choices:sku.serviceAgency.lineItems.filter(x=>keys.includes(x.key)).map(x=>[x.key,x.payer]),
+       partnerRevenue:m.partnerRevenue,partnerCosts:m.partnerCosts,outflow:m.outflow,taxPaid:m.taxPaid,price:model.items[0].price};
+     };
+     const original=snap();
+     for(const x of controls){x.value=x.value==='agent'?'partner':'agent';x.dispatchEvent(new Event('change',{bubbles:true}));}
+     saveCurrentProductToPortfolio();const switched=snap();
+     for(const x of controls){x.value=x.value==='agent'?'partner':'agent';x.dispatchEvent(new Event('change',{bubbles:true}));}
+     saveCurrentProductToPortfolio();return {original,switched,restored:snap()};
+    });
+    A.equal(payers.original.choices.find(x=>x[0]==='advertising')?.[1],'partner');
+    A.equal(payers.original.choices.find(x=>x[0]==='material.known')?.[1],'agent');
+    A.ok(payers.switched.partnerCosts<payers.original.partnerCosts,channel+'/agent principal costs');
+    A.ok(payers.switched.outflow>payers.original.outflow,channel+'/agent cash outflow');
+    A.ok(near(payers.switched.partnerRevenue,payers.original.partnerRevenue));
+    A.ok(near(payers.switched.taxPaid,payers.original.taxPaid),'agent turnover tax uses fee only');
+    A.deepEqual(payers.restored,payers.original,channel+'/agent payer restoration');
+   }
+   const sale=role==='agent'?100:after.p.taxAdjustedPrice;
+   audit.push({route:channel+'/'+role,mode:'full',net:sale,tax:sale*0.08,buyer:sale*1.08,
+    agentFee:role==='agent'?after.model.items[0].price:null,
+    creditInterest:credit.c8.months.reduce((a,m)=>a+(m.interestPaid||0),0),
+    creditRepayment:credit.c8.months.reduce((a,m)=>a+(m.principalRepaid||0),0),
+    creditFreeCash:credit.c8.freeCumulativeEnd,
+    agentPayers:payers?.original.choices||null});
    const zero=await page.evaluate(()=>{Nomad360SalesTaxServiceV1.setFullRate('0');return Nomad360SalesTaxServiceV1.getFull().error;});
    A.equal(zero,'');
    await page.evaluate(()=>Nomad360SalesTaxServiceV1.setFullRate(''));
@@ -115,6 +174,9 @@ async function simple(page,role){
    A.equal(saved.draft.taxRegime,'sales_tax');A.equal(saved.draft.salesTaxPct,'8');
    A.equal(saved.draft.productPortfolio[0].taxRegime,'sales_tax');
    A.equal(saved.draft.salesVatPct,12,'preserve previous VAT input');
+   if(role==='agent')A.deepEqual(saved.draft.productPortfolio[0].serviceAgency.lineItems
+    .filter(x=>['advertising','material.known'].includes(x.key)).map(x=>[x.key,x.payer]),
+    payers.original.choices,'saved agency payers');
    await page.goto(base+'Marketing_calc.HTML?resume=1',{waitUntil:'domcontentloaded'});
    const resumed=await page.evaluate(()=>{
     const item=productPortfolio[0],m=calculateProductPortfolio();
@@ -123,6 +185,9 @@ async function simple(page,role){
    });
    A.equal(resumed.state.mode,'sales_tax');A.equal(resumed.state.rate,'8');
    A.deepEqual(resumed.model,after.model);A.deepEqual(resumed.cash,after.cash);
+   if(role==='agent')A.deepEqual((await page.evaluate(()=>productPortfolio[0].serviceAgency.lineItems))
+    .filter(x=>['advertising','material.known'].includes(x.key)).map(x=>[x.key,x.payer]),
+    payers.original.choices,'restored agency payers');
    const vat=await page.evaluate(()=>{Nomad360SalesTaxServiceV1.selectFull('vat');return {
     rate:document.getElementById('own-sales-vat-pct').value,
     choice:productOwnChoices.salesVat
@@ -152,6 +217,9 @@ async function simple(page,role){
     mode:Nomad360SalesTaxServiceV1.getSimple(),v2:openLinkedPortfolioFromOnline()
    }));
    A.deepEqual(state.snapshot,original.snapshot);
+   const net=original.snapshot.period.grossRevenue;
+   audit.push({route:'online/'+role,mode:'simple',net,tax:net*.08,buyer:net*1.08,
+    freeCash:state.cash});
    A.equal(state.cash,original.cash);A.equal(state.mode.rate,'8');
    A.ok(state.detail.includes('Sales Tax'));
    A.equal(state.v2,false,'do not silently transfer unsupported tax regime');
@@ -164,6 +232,7 @@ async function simple(page,role){
    A.deepEqual(errors,[],role+' browser errors');
    await ctx.close();complete++;
   }
-  console.log('SALES_TAX_7B3_SERVICES_GREEN '+JSON.stringify({complete,full:6,simple:3}));
+  console.log('SALES_TAX_7B3_NUMERIC '+JSON.stringify(audit));
+  console.log('SALES_TAX_7B3_SERVICES_GREEN '+JSON.stringify({complete,full:6,simple:3,credit:6,agencyPayerCases:2}));
  }finally{await browser.close();await new Promise(ok=>s.close(ok));}
 })().catch(e=>{console.error('SALES_TAX_7B3_SERVICES_RED',e.stack);process.exitCode=1;});
