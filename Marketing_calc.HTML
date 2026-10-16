@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./nomad360_calculator_ui.css">
     <script src="./nomad360_locale_core.js"></script>
     <script src="./nomad360_currency.js"></script>
+    <script src="./nomad360_sales_tax.js"></script>
     <link rel="stylesheet" href="./nomad360_payments.css">
     <script src="./nomad360_payments.js"></script>
     <script src="./nomad360_fx.js"></script>
@@ -1414,6 +1415,21 @@
 
             <div id="product-tax-block" class="card product-business-aggregate p-6 md:p-8 hidden" hidden>
                 <div class="rounded-xl border border-emerald-200/40 bg-white/10 p-4 mb-5">
+                    <div data-v1-goods-sales-tax hidden data-nomad-no-translate class="mb-4">
+                        <label class="block text-sm font-bold mb-2" data-v1-tax-title>Режим налога с продаж</label>
+                        <select aria-label="Sales tax regime" data-v1-sales-tax-regime class="input-field" onchange="selectV1SalesTaxRegime(this.value)">
+                            <option value="vat">НДС (VAT / IVA)</option>
+                            <option value="sales_tax">Sales Tax</option>
+                            <option value="none">Без налога с продаж</option>
+                        </select>
+                        <div data-v1-sales-tax-rate-wrap hidden class="mt-3">
+                            <label class="block text-sm font-bold mb-1" data-v1-sales-tax-label>Ставка Sales Tax, %</label>
+                            <input data-v1-sales-tax-rate type="number" min="0" step="0.01" inputmode="decimal" placeholder="8" class="input-field" oninput="setV1SalesTaxRate(this.value)">
+                        </div>
+                        <p data-v1-sales-tax-error role="alert" hidden class="mt-2 text-sm font-semibold text-red-700"></p>
+                        <p data-v1-sales-tax-hint class="mt-3 text-sm">Sales Tax добавляется после скидки, не является выручкой и не уменьшает прибыль второй раз.</p>
+                    </div>
+                    <div data-v1-legacy-vat>
                     <div class="font-bold text-base">НДС для портфеля</div>
                     <div class="text-xs aggregate-muted mb-3">Сейчас калькулятор использует одну ставку НДС для всех товаров. Разные ставки для отдельных SKU требуют отдельной модели.</div>
                     <div class="flex gap-2">
@@ -1423,6 +1439,7 @@
                     <div id="own-sales-vat-wrap" class="hidden mt-3" hidden data-product-collapsible>
                         <label class="block text-xs mb-1">Ставка НДС портфеля, %</label>
                         <input id="own-sales-vat-pct" type="number" min="0" step="0.01" value="0" class="input-field" oninput="refreshAllAggregatePricing()">
+                    </div>
                     </div>
                 </div>
                 <div id="product-business-summary-list"></div>
@@ -2143,6 +2160,10 @@
         let resaleWarehouseQtyManual = false;
         const productOwnChoices = {};
         let productBusinessTaxType = null;
+        // Stage 7B-2 is preview-gated until services, V2 and exports are complete.
+        // Null is the exact legacy VAT/no-VAT route; never infer a Sales Tax rate.
+        let productSalesTaxRegime = null;
+        let productSalesTaxRateRaw = '';
         let productionLaborMode = 'self';
         let materialCostMode = null;
         let materialRowSeq = 0;
@@ -4146,6 +4167,91 @@
                 adjustedNetProfit
             };
         }
+
+        function v1SalesTaxGoodsOnly(){
+            return productSource!=='offline-service' &&
+                !productPortfolio.some(item=>item.source==='offline-service');
+        }
+        function v1SalesTaxActive(){
+            return productSalesTaxRegime==='sales_tax';
+        }
+        function v1SalesTaxError(){
+            if(!v1SalesTaxActive())return '';
+            if(!v1SalesTaxGoodsOnly())return 'Sales Tax для услуг будет подключён на этапе 7Б-3. Смешанные портфели пока недоступны.';
+            try{
+                window.Nomad360SalesTax.quote({mode:'sales_tax',enteredPrice:100,ratePct:productSalesTaxRateRaw});
+                return '';
+            }catch(_){
+                return 'Укажите корректную неотрицательную ставку Sales Tax. Пустое значение недопустимо.';
+            }
+        }
+        function v1SalesTaxQuote(net,discountPct=0){
+            if(net===null||net===undefined||!Number.isFinite(Number(net))||v1SalesTaxError())return null;
+            try{
+                return window.Nomad360SalesTax.quote({
+                    mode:'sales_tax',enteredPrice:Number(net),ratePct:productSalesTaxRateRaw,
+                    priceBasis:'exclusive',discountPct
+                });
+            }catch(_){return null;}
+        }
+        function v1SalesTaxCopy(){
+            const lang=window.Nomad360UI?.getLanguage?.()||'ru';
+            return ({
+                ru:['Режим налога с продаж','НДС (VAT / IVA)','Sales Tax','Без налога с продаж',
+                    'Ставка Sales Tax, %','Sales Tax начисляется после скидки и не входит в выручку или прибыль. Данные учебные; вычеты и льготы не учитываются. Для оптимизации налогов обратитесь к бухгалтеру.','Налог с продаж для покупателя'],
+                en:['Sales tax regime','VAT / IVA','Sales Tax','No sales tax',
+                    'Sales Tax rate, %','Sales Tax is added after discounts and is excluded from business revenue and profit. Individual deductions and reliefs are not included; consult an accountant.','Sales tax charged to customer'],
+                kk:['Сатудан алынатын салық режимі','ҚҚС (VAT / IVA)','Sales Tax','Сатудан алынатын салық жоқ',
+                    'Sales Tax мөлшерлемесі, %','Sales Tax жеңілдіктен кейін қосылады және кәсіпорынның кірісі мен пайдасына кірмейді. Жеке шегерімдер мен жеңілдіктер ескерілмейді; бухгалтермен кеңесіңіз.','Сатып алушы төлейтін салық']
+            })[lang]||(['Режим налога с продаж','НДС (VAT / IVA)','Sales Tax','Без налога с продаж','Ставка Sales Tax, %','Налог с продаж добавляется после скидки.','Sales Tax']);
+        }
+        function syncV1SalesTaxUI(){
+            const box=document.querySelector('[data-v1-goods-sales-tax]');
+            if(!box)return;
+            const enabled=new URLSearchParams(location.search).get('sales_tax_preview')==='1' ||
+                productSalesTaxRegime==='sales_tax';
+            const allowed=v1SalesTaxGoodsOnly();
+            box.hidden=!(enabled&&allowed);
+            const lang=v1SalesTaxCopy();
+            box.querySelector('[data-v1-tax-title]').textContent=lang[0];
+            const select=box.querySelector('[data-v1-sales-tax-regime]');
+            [...select.options].forEach((option,i)=>option.textContent=lang[i+1]);
+            select.value=productSalesTaxRegime||(
+                productOwnChoices.salesVat==='no'?'none':'vat');
+            box.querySelector('[data-v1-sales-tax-label]').textContent=lang[4];
+            box.querySelector('[data-v1-sales-tax-hint]').textContent=lang[5];
+            const rate=box.querySelector('[data-v1-sales-tax-rate]');
+            if(rate.value!==productSalesTaxRateRaw)rate.value=productSalesTaxRateRaw;
+            box.querySelector('[data-v1-sales-tax-rate-wrap]').hidden=!v1SalesTaxActive();
+            const legacy=document.querySelector('[data-v1-legacy-vat]');
+            if(legacy)legacy.hidden=v1SalesTaxActive()||productSalesTaxRegime==='none';
+            const error=box.querySelector('[data-v1-sales-tax-error]'),message=v1SalesTaxError();
+            error.hidden=!message;error.textContent=message;
+        }
+        function selectV1SalesTaxRegime(mode){
+            if(!['vat','sales_tax','none'].includes(mode))return false;
+            if(!v1SalesTaxGoodsOnly()&&mode==='sales_tax')return false;
+            productSalesTaxRegime=mode;
+            if(mode!=='vat'){
+                productOwnChoices.salesVat='no';
+                setProductChoiceVisual('salesVat','no');
+                syncProductOwnVisibility('salesVat');
+            }
+            if(mode==='vat' && productOwnChoices.salesVat==='no'){
+                productOwnChoices.salesVat='yes';
+                setProductChoiceVisual('salesVat','yes');
+                syncProductOwnVisibility('salesVat');
+            }
+            syncV1SalesTaxUI();
+            refreshAllAggregatePricing();
+            return true;
+        }
+        function setV1SalesTaxRate(value){
+            productSalesTaxRateRaw=String(value);
+            syncV1SalesTaxUI();
+            refreshAllAggregatePricing();
+        }
+        document.addEventListener('nomad360:languagechange',syncV1SalesTaxUI);
 
         function aggregatePricingMetrics(item) {
             const model = calculateProductPortfolio();
@@ -6835,6 +6941,7 @@
                 renderProductBusinessSummary();
                 if (addButton) addButton.classList.add('hidden');
                 if (taxBlock) {
+                    syncV1SalesTaxUI();
                     taxBlock.hidden = false;
                     taxBlock.classList.remove('hidden');
                     taxBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -8206,6 +8313,8 @@
             syncProductOwnVisibility(group);
 
             if (group === 'salesVat') {
+                if(productSalesTaxRegime!==null)productSalesTaxRegime=null;
+                syncV1SalesTaxUI();
                 if (value !== 'yes') {
                     const vatField = document.getElementById('own-sales-vat-pct');
                     if (vatField) vatField.value = 0;
