@@ -38,7 +38,7 @@ function render(){
  [...select.options].forEach((o,i)=>o.textContent=t.modes[i]);
  select.value=mode||((productOwnChoices.salesVat==='no')?'none':'vat');
  widget.querySelector('[data-st-rate-title]').textContent=t.rate;
- widget.querySelector('[data-st-hint]').textContent=t.hint;
+ widget.querySelector('[data-st-hint]').textContent=t.hint+' '+(root.Nomad360LocaleCore?.t?.('tax.v2NoticeFull',root.Nomad360UI?.getLanguage?.()||'ru')||'');
  const rate=widget.querySelector('[data-st-rate]');
  if(rate.value!==rawRate)rate.value=rawRate;
  widget.querySelector('[data-st-rate-wrap]').hidden=!active();
