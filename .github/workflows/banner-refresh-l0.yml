@@ -6,6 +6,7 @@ on:
       - Marketing_calc.HTML
       - nomad360_banners.js
       - nomad360_calculator_ui.css
+      - .github/workflows/banner-refresh-l0.yml
 permissions:
   contents: write
 jobs:
@@ -19,7 +20,11 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
-      - run: node scripts/localization/inventory.cjs
+      - name: Refresh from current branch head (not stale CI checkout)
+        run: |
+          git fetch origin feature/unified-banners-01
+          git checkout -B feature/unified-banners-01 origin/feature/unified-banners-01
+          node scripts/localization/inventory.cjs
       - name: Commit generated L0 files only
         run: |
           git config user.name "github-actions[bot]"
