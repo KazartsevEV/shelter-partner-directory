@@ -66,7 +66,7 @@ function updateWidget(box,kind,val,active,detail,errorText,hint){
  setText(box.querySelector('[data-st-error]'),errorText);
  box.querySelector('[data-st-error]').hidden=!errorText;
  setText(box.querySelector('[data-st-details]'),detail);
- setText(box.querySelector('[data-st-hint]'),hint||t.hint);
+ setText(box.querySelector('[data-st-hint]'),(hint||t.hint)+' '+(root.Nomad360LocaleCore?.t?.('tax.v2NoticeFull',root.Nomad360UI?.getLanguage?.()||'ru')||''));
 }
 function fullError(){
  if(!fullActive())return '';
