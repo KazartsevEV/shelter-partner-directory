@@ -66,6 +66,20 @@ node tests/sales_tax_7b_services_browser.cjs
 
 Профильная CI: `.github/workflows/sales-tax-7b-v2.yml`. Полный CI: все действующие workflow на последнем HEAD PR, включая товары V1, услуги V1, frozen VAT, локализацию, маркетинг, Inter, SEO и Chromium-аудит.
 
+## Финальная приёмка и merge (16.10.2026)
+
+**Задача 7Б-4 принята и объединена:** [PR #165](https://github.com/KazartsevEV/shelter-partner-directory/pull/165) → [merge `9af19b7`](https://github.com/KazartsevEV/shelter-partner-directory/commit/9af19b7bfd43a769d2b05635cf5b887be67d34d0). Последний проверенный PR HEAD: [`aedc2e8`](https://github.com/KazartsevEV/shelter-partner-directory/commit/aedc2e89ac1de56815e0299f78faec5de56ea0ca).
+
+**Финальные GitHub Actions на этом точном HEAD:** 23 завершённых workflow = **22 `success`, 1 `skipped`, 0 `failure`**, нет ожидающих/запущенных. Условно пропущен только исторический `V2 buttons visual review`; его результат не выдаётся за проведённую визуальную приёмку.
+
+- [V2 stage-4 — run 38914816143](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38914816143) — GREEN.
+- [Stage-1 чистая формула + VAT — run 38914815968](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38914815968) — GREEN после исправления scope guard.
+- [Frozen VAT baseline — run 38914816399](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38914816399) — GREEN.
+- [Localization + browser census — run 38914816054](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38914816054) — GREEN.
+- [Все 23 workflow / CI итогового PR](https://github.com/KazartsevEV/shelter-partner-directory/pull/165/checks).
+
+Проверено перед merge: отставание от `main` = 0; защищённые `portfolio_v2_*_engine` и связанные финансовые engines не менялись; матрица агент/принципал (8 маршрутов × 3 месяца), покупательский налог, VAT baseline, чистый Cash Flow — все GREEN. UI, старые сохранения и Excel/PDF/HTML завершаются отдельно в 7Б-5, итоговый сквозной аудит — 7Б-6.
+
 ## Ворота merge и результаты общего CI
 
 **Подтверждено на pre-sync HEAD [`6551e5c`](https://github.com/KazartsevEV/shelter-partner-directory/commit/6551e5cc837d57229cbe1cbc0e1d1a67f02b3e13):** все 22 зарегистрированных workflow завершились: **21 `success`, 1 `skipped` (условный `V2 buttons visual review`), 0 `failure`**. `skipped` не является визуальной приёмкой. Обязательные VAT baseline, Sales Tax V1 goods/services, standalone/linked V2, numeric audit, localization, SEO и marketing завершились `success`.
@@ -79,9 +93,9 @@ node tests/sales_tax_7b_services_browser.cjs
 
 Первый заключительный прогон на `6bfd02f` выявил [ошибку stage-1 scope gate (run 38914160199)](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38914160199): правка общей карты 7Б запускала workflow **7Б-1**, где исторический запрет изменений UI ошибочно применялся к законным интеграциям 7Б-4 (`Marketing_calc.HTML`, `nomad360_locale_core.js`). Числовые тесты и frozen VAT не успели выполниться из-за этого раннего guard.
 
-В [`.github/workflows/sales-tax-7b-pure.yml`](../../../../.github/workflows/sales-tax-7b-pure.yml) guard ограничен изменениями **самих файлов чистой математики 7Б-1**, а шесть защищённых исторических финансовых engines проверяются независимо на любой последующей стадии. Шаги строгих unit-тестов 7Б-1 и `tests/sales_tax_7b_baseline.cjs` оставлены обязательными и без изменений; эталоны/пороги не смягчались. Для окончательной приёмки требуется новый полностью успешный запуск после этого исправления.
+В [`.github/workflows/sales-tax-7b-pure.yml`](../../../../.github/workflows/sales-tax-7b-pure.yml) guard ограничен изменениями **самих файлов чистой математики 7Б-1**, а шесть защищённых исторических финансовых engines проверяются независимо на любой последующей стадии. Шаги строгих unit-тестов 7Б-1 и `tests/sales_tax_7b_baseline.cjs` оставлены обязательными и без изменений; эталоны/пороги не смягчались. Новый запуск после исправления выполнен успешно: stage-1 run 38914815968, frozen VAT run 38914816399.
 
-**Заключительная проверка после синхронизации и правок документации:** [живые проверки PR #165](https://github.com/KazartsevEV/shelter-partner-directory/pull/165/checks), [профильный workflow](https://github.com/KazartsevEV/shelter-partner-directory/actions/workflows/sales-tax-7b-v2.yml). Прежде чем объединять PR, сверить последний HEAD и результаты всех обязательных workflow заново; предыдущий GREEN не подменяет эту проверку.
+**Заключительная проверка выполнена на \`aedc2e8\`:** [проверки PR #165](https://github.com/KazartsevEV/shelter-partner-directory/pull/165/checks), [профильный workflow](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/38914816143). Все обязательные workflow GREEN, после чего PR объединён.
 
 **Нельзя объединять** при красном обязательном workflow, изменённых frozen VAT-эталонах, утрате контекста принципала или непроверенной помесячной математике. Прежние VAT-формулы, числовые допуски и эталоны не менять. UI/экспорт/восстановление старых черновиков в окончательном виде относятся к отдельной задаче 7Б-5; заключительная сквозная приёмка всей 7Б — 7Б-6.
 
