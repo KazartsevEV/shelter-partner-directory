@@ -46,6 +46,7 @@ jobs:
       - name: Existing V1 goods, full and simple services, and V2 Sales Tax browser
         run: |
           node tests/sales_tax_7b5_v1_pdf_browser.cjs
+          node tests/sales_tax_7b5_v2_export_browser.cjs
           node tests/sales_tax_7b_goods_browser.cjs
           node tests/sales_tax_7b_services_browser.cjs
           node tests/sales_tax_7b_v2_browser.cjs
