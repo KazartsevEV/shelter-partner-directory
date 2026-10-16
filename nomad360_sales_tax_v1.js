@@ -65,13 +65,23 @@ const legacy={
  pdf:original('exportProductCalculationPdf'),
  v2:original('openLinkedPortfolioFromProducts')
 };
+// The legacy "no VAT" handler resets the VAT input. Sales Tax and "none"
+ // must not destroy the user's independent VAT rate, including after resume.
+function selectLegacyVat(choice){
+ const field=document.getElementById('own-sales-vat-pct');
+ const oldRate=field?.value;
+ internal=true;
+ try{legacy.select('salesVat',choice);}
+ finally{
+  if(field&&oldRate!==undefined)field.value=oldRate;
+  internal=false;
+ }
+}
 function choose(next){
  if(!['vat','sales_tax','none'].includes(next))return false;
  if(next==='sales_tax'&&hasService())return false;
  mode=next;
- internal=true;
- try{legacy.select('salesVat',next==='vat'?'yes':'no');}
- finally{internal=false;}
+ selectLegacyVat(next==='vat'?'yes':'no');
  render();
  legacy.render();
  refreshAllAggregatePricing();
@@ -174,8 +184,7 @@ root.saveProductCalculationToBrowser=function(){
 function restoreFrom(saved){
  if(saved?.taxRegime==='sales_tax'){
    mode='sales_tax';rawRate=String(saved.salesTaxPct??'');
-   internal=true;
-   try{legacy.select('salesVat','no');}finally{internal=false;}
+   selectLegacyVat('no');
  }else{mode=null;rawRate='';}
  render();
 }
@@ -190,7 +199,7 @@ root.startFreshProductCalculation=function(){
  // Saved append flows retain their original shared Sales Tax settings.
  if(productPortfolio.length&&prev==='sales_tax'){
    mode=prev;rawRate=prevRate;
-   internal=true;try{legacy.select('salesVat','no');}finally{internal=false;}
+   selectLegacyVat('no');
  }else{mode=null;rawRate='';}
  render();return result;
 };
@@ -205,8 +214,8 @@ root.addAnotherProduct=function(){
  const beforeMode=mode,beforeRate=rawRate;
  const result=legacy.append.apply(this,arguments);
  if(result&&beforeMode==='sales_tax'){
-   mode=beforeMode;rawRate=beforeRate;internal=true;
-   try{legacy.select('salesVat','no');}finally{internal=false;}
+   mode=beforeMode;rawRate=beforeRate;
+   selectLegacyVat('no');
    render();
  }
  return result;
@@ -215,8 +224,8 @@ root.deleteCalculatedProduct=function(){
  const wasMode=mode,wasRate=rawRate;
  const result=legacy.delete.apply(this,arguments);
  if(result&&wasMode==='sales_tax'&&productPortfolio.length){
-   mode=wasMode;rawRate=wasRate;internal=true;
-   try{legacy.select('salesVat','no');}finally{internal=false;}
+   mode=wasMode;rawRate=wasRate;
+   selectLegacyVat('no');
    render();
  }
  return result;
