@@ -9,6 +9,12 @@
  * Column order: semantic key, EN meaning, RU text (also legacy alias), KK text.
  * EN terminology acceptance is pending L1 review and final L6 acceptance. */
 const messages=[
+ ["tax.v2SalesTaxLabel","Sales tax","Налог на продажу","Сатудан алынатын салық"],
+ ["tax.v2NoneLabel","No sales tax","Без налога на продажу","Сатудан алынатын салық жоқ"],
+ ["tax.v2SalesTaxRate","Sales Tax rate, %","Ставка Sales Tax, %","Sales Tax мөлшерлемесі, %"],
+ ["tax.v2BuyerSummary","Sales tax — buyer total","Налог с продаж — итог для покупателя","Сату салығы — сатып алушының төлемі"],
+ ["tax.v2DeductionsNotice","Individual tax deductions and reliefs are not included in this estimate. Consult an accountant to optimize your taxes.","Индивидуальные налоговые вычеты и льготы в расчёте не учитываются. Для оптимизации налогообложения проконсультируйтесь с бухгалтером.","Бұл есепте жеке салық шегерімдері мен жеңілдіктері ескерілмейді. Салық салуды оңтайландыру үшін бухгалтермен кеңесіңіз."],
+ ["tax.v2DeductionsNoticeLinked","Individual tax deductions and reliefs are not included. Consult an accountant to optimize your taxes.","Индивидуальные налоговые вычеты и льготы не учитываются. Для оптимизации налогообложения проконсультируйтесь с бухгалтером.","Жеке салық шегерімдері мен жеңілдіктері ескерілмейді. Салық салуды оңтайландыру үшін бухгалтермен кеңесіңіз."],
  ["return.useTitle","How to use the shortcut","Как пользоваться ярлыком","Төте жолды қалай пайдалану керек"],
  ["return.windowsUse","Next time, double-click the same Nomad360 lite shortcut on your desktop to open the calculator again.","В следующий раз дважды щёлкните по этому же ярлыку Nomad360 lite на рабочем столе — калькулятор откроется снова.","Келесі жолы жұмыс үстеліндегі сол Nomad360 lite төте жолын екі рет басыңыз — калькулятор қайта ашылады."],
  ["return.iosUse","After adding it, find the Nomad360 icon on your iPhone Home Screen and tap it. The calculator opens. Use that same icon whenever you want to return.","После добавления найдите значок Nomad360 на экране «Домой» iPhone и коснитесь его. Откроется калькулятор. В дальнейшем возвращайтесь через этот же значок.","Қосқаннан кейін iPhone басты экранынан Nomad360 белгішесін тауып, оны түртіңіз. Калькулятор ашылады. Кейін осы белгіше арқылы қайта кіріңіз."],
