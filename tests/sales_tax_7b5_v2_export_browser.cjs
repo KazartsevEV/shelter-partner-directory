@@ -79,7 +79,9 @@ async function readState(p,kind){return p.evaluate(kind=>{
    }
   }
   const download=p.waitForEvent('download');
-  A.equal(await p.evaluate(()=>Nomad360UI.saveExcel()),true);
+  // Do not await an export promise inside page.evaluate: the browser may tear
+  // down that execution context while committing the Blob download.
+  await p.evaluate(()=>{setTimeout(()=>{void Nomad360UI.saveExcel();},0);});
   const d=await download,bytes=fs.readFileSync(await d.path()),workbook=new Excel.Workbook();await workbook.xlsx.load(bytes);
   A.equal(workbook.worksheets[0].rowCount,before.doc.rows.length+1);
   for(let i=0;i<before.doc.rows.length;i++)for(const cell of [5,6,7]){
