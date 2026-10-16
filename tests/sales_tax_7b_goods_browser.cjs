@@ -52,21 +52,21 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
    });
    const before=await page.evaluate(()=>({
      model:calculateProductPortfolio(),cash:calculateProductCashFlow(calculateProductPortfolio()),
-     state:productSalesTaxRegime,
+     state:Nomad360SalesTaxV1.getState().mode,
      rate:document.getElementById('own-sales-vat-pct').value
    }));
    A.equal(before.state,null);A.equal(before.rate,'12');
    A.equal(before.model.pricingReady,true);
    A.equal(before.cash.ready,true);
-   A.equal(await page.evaluate(()=>selectV1SalesTaxRegime('sales_tax')),true);
-   await page.evaluate(()=>setV1SalesTaxRate('8'));
+   A.equal(await page.evaluate(()=>Nomad360SalesTaxV1.select('sales_tax')),true);
+   await page.evaluate(()=>Nomad360SalesTaxV1.setRate('8'));
    const after=await page.evaluate(()=>{
     const model=calculateProductPortfolio(),cash=calculateProductCashFlow(model);
     const row=model.items[0],p=aggregatePricingMetrics(productPortfolio[0]);
     const range=calculatePriceListRange(productPortfolio[0]);
-    return {model,cash,p,range,mode:productSalesTaxRegime,
-      rate:productSalesTaxRateRaw,legacyChoice:productOwnChoices.salesVat,
-      quote:v1SalesTaxQuote(100,10),errors:v1SalesTaxError()};
+    return {model,cash,p,range,mode:Nomad360SalesTaxV1.getState().mode,
+      rate:Nomad360SalesTaxV1.getState().rate,legacyChoice:productOwnChoices.salesVat,
+      quote:Nomad360SalesTaxV1.quote(100,10),errors:Nomad360SalesTaxV1.getState().error};
    });
    A.equal(after.mode,'sales_tax');A.equal(after.rate,'8');
    A.equal(after.legacyChoice,'no','VAT is not reused for Sales Tax');
@@ -82,18 +82,18 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
      A.ok(after.range.minPrice>0&&after.range.maxPrice>=after.range.minPrice);
    }
    const rateZero=await page.evaluate(()=>{
-     setV1SalesTaxRate('0');const p=aggregatePricingMetrics(productPortfolio[0]);
+     Nomad360SalesTaxV1.setRate('0');const p=aggregatePricingMetrics(productPortfolio[0]);
      return {net:p.taxAdjustedPrice,buyer:p.taxAdjustedPriceWithVat};
    });
    A.equal(rateZero.buyer,rateZero.net);
-   await page.evaluate(()=>setV1SalesTaxRate(''));
+   await page.evaluate(()=>Nomad360SalesTaxV1.setRate(''));
    const bad=await page.evaluate(()=>({
-     message:v1SalesTaxError(),buyer:aggregatePricingMetrics(productPortfolio[0]).taxAdjustedPriceWithVat,
+     message:Nomad360SalesTaxV1.getState().error,buyer:aggregatePricingMetrics(productPortfolio[0]).taxAdjustedPriceWithVat,
      range:calculatePriceListRange(productPortfolio[0]),saved:saveProductCalculationToBrowser()
    }));
    A.ok(bad.message.includes('ставку Sales Tax'));
    A.equal(bad.buyer,null);A.equal(bad.range.ready,false);A.equal(bad.saved,false);
-   await page.evaluate(()=>setV1SalesTaxRate('8'));
+   await page.evaluate(()=>Nomad360SalesTaxV1.setRate('8'));
    const saved=await page.evaluate(()=>({
      ok:saveProductCalculationToBrowser(),
      draft:JSON.parse(localStorage.getItem('marketingCalcProductResultV1'))
@@ -104,8 +104,8 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
    A.equal(saved.draft.productPortfolio[0].taxRegime,'sales_tax');
    await page.goto(base+'Marketing_calc.HTML?resume=1&sales_tax_preview=1',{waitUntil:'domcontentloaded'});
    const restored=await page.evaluate(()=>({
-     mode:productSalesTaxRegime,rate:productSalesTaxRateRaw,
-     quote:v1SalesTaxQuote(100),p:aggregatePricingMetrics(productPortfolio[0])
+     mode:Nomad360SalesTaxV1.getState().mode,rate:Nomad360SalesTaxV1.getState().rate,
+     quote:Nomad360SalesTaxV1.quote(100),p:aggregatePricingMetrics(productPortfolio[0])
    }));
    A.equal(restored.mode,'sales_tax');A.equal(restored.rate,'8');
    A.equal(restored.quote.customerTotal,108);
