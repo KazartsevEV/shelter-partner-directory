@@ -35,7 +35,7 @@ The owner created and supplied Formspree's public endpoint `https://formspree.io
 | Real handler `2xx/{ok:true}` | **GREEN, external live POST**; see trace above |
 | Real Gmail delivery | **GREEN**: notification actually found in owner's mailbox |
 | Frozen VAT and protected finance scope | **GREEN** within task-09 workflow's dedicated finance job on the live test commit |
-| Global regression suite | **22/22 GREEN, 0 failed, 0 pending** on fully completed source HEAD [`4ae96ea75a9e`](https://github.com/KazartsevEV/shelter-partner-directory/commit/4ae96ea75a9ea2b80712d425312f7559238a58ca). The subsequent browser-evidence stabilization is at `7b4dca51e36c`: **20/22 GREEN, 0 failed, 2 long-running browser workflows in progress** at this report update. Never interpret the earlier 22/22 as a final-head claim until the new runs finish. |
+| Global regression suite | **22/22 GREEN, 0 failed, 0 pending** on source-code HEAD [`7b4dca51e36c`](https://github.com/KazartsevEV/shelter-partner-directory/commit/7b4dca51e36cbac8b9e68b5d58ddf968fc0c85ea), **after** the browser-evidence stabilization and CSS rollback; the earlier source HEAD [`4ae96ea75a9e`](https://github.com/KazartsevEV/shelter-partner-directory/commit/4ae96ea75a9ea2b80712d425312f7559238a58ca) also had 22/22 GREEN. The latest report-only commit(s) must pass their own CI before merge. |
 | Formspree dashboard security settings | **NOT VERIFIED (account access required)**: actual `Restrict to Domain`, CAPTCHA and notification workflow toggles. Formspree documents domain restriction and CAPTCHA as available on all plans; availability **does not prove** this account enables them. |
 | Public production page, physical phones / screen reader | **NOT YET ACCEPTED**: changes are in Draft branch only |
 
@@ -53,7 +53,7 @@ The owner created and supplied Formspree's public endpoint `https://formspree.io
 
 1. Confirm that the user-selected Gmail address remains the target in Formspree Workflow and, if a linked-address verification is still pending, complete it. Enable/test provider anti-spam as appropriate. The [domain restriction](https://help.formspree.io/articles/form-and-project-settings/restrict-to-domain) (if enabled) must match `kazartsevev.github.io`; never substitute site path or leave `no-referrer`.
 2. Review the visual screenshots and native mobile/screen-reader behavior. Test real user-submitted browser report from public environment before announcing end-to-end production acceptance; do not conflate CI stubs with published-site testing.
-3. Verify **final HEAD** overall CI with 0 failures; preserve original frozen VAT and Sales Tax numerical baselines. The 22/22 completed success above is for `4ae96ea`; CI on the newer screenshot stabilization and this report-only commit must be checked independently before merger.
+3. Verify **final HEAD** overall CI with 0 failures; preserve original frozen VAT and Sales Tax numerical baselines. The 22/22 completed success above includes the stabilized code HEAD `7b4dca51`; this report-only commit creates a newer Git SHA and must also be checked independently before merger.
 4. Keep PR #174 **Draft** until user explicitly approves and authorizes merge. Do not change `main` or start a subsequent task here.
 
 ## Operational limitations
