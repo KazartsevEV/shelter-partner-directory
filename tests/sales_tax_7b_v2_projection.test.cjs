@@ -53,8 +53,10 @@ test('Standalone two-SKU Sales Tax: 100 net +8 tax, P&L and credit unchanged',()
   near(i.customerTax.customerTotal,i.revenue*1.08);
   near(i.priceWithVat,i.price); // old VAT intentionally switched off
  }
- A.strictEqual(projected.cashflow,model.cashflow);
- A.strictEqual(projected.totals,model.totals);
+ A.strictEqual(projected.months,model.months,'standalone payment schedule stays the original object');
+ A.strictEqual(projected.financing,model.financing,'original capital/loan schedule');
+ A.equal(projected.netProfit,model.netProfit,'original net profit');
+ A.equal(projected.tax,model.tax,'original independent business tax');
  A.equal(JSON.stringify(model.items[0].customerTax),undefined);
 });
 test('Linked V1 import: clear input VAT without changing SKU price limits or owner tax',()=>{
