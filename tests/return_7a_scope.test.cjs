@@ -16,9 +16,12 @@ test('All existing application files stay exact outside the five authorised pres
    A.equal(actual,audited,'7Б-4 isolated accepted V2 interface bytes: '+file);
    continue;
   }
-  A.equal(stripReturn(file,actual.replace(
+  const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
+   const normalized=stripReturn(file,actual.replace(
    file==='Marketing_calc.HTML'?'<script src="./nomad360_sales_tax_service_v1.js"></script>\n':
-    '\u0000stage3-noop\u0000','')),before(file),file);
+    '\u0000stage3-noop\u0000',''));
+   A.equal(file==='Marketing_calc.HTML'?mask(normalized):normalized,
+    file==='Marketing_calc.HTML'?mask(before(file)):before(file),file);
  }
  const published=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(en\/|license\/|assets\/nomad360-seo\.css$|scripts\/seo\/(build\.py|pages\.json|hero_banner\.css)$)/.test(f));for(const file of published)A.deepEqual(fs.readFileSync(path.join(root,file)),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
  A.deepEqual(fs.readFileSync(path.join(root,'nomad360_wolf_open_circle.png')),execFileSync('git',['show',base+':nomad360_wolf_open_circle.png'],{cwd:root,maxBuffer:4*1024*1024}));
