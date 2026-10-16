@@ -65,7 +65,7 @@
 .nomad-bug-dialog #nomad360-bug-status[data-result="required"]{color:#a22e2e}
 .nomad-bug-dialog #nomad360-bug-status[data-result="success"]{color:#126445}
 @media(max-width:600px){
- .nomad-bug-launcher{right:max(10px,env(safe-area-inset-right));bottom:max(86px,calc(70px + env(safe-area-inset-bottom)));font-size:13px;padding:9px 12px;min-height:46px}
+ .nomad-bug-launcher{right:max(10px,env(safe-area-inset-right));bottom:max(86px,calc(70px + env(safe-area-inset-bottom)));font-size:14px;padding:9px 12px;min-height:46px}
  .nomad-bug-dialog{padding:17px;max-height:calc(100dvh - 16px);width:calc(100vw - 16px)}
  .nomad-bug-heading h2{font-size:20px}
 }
