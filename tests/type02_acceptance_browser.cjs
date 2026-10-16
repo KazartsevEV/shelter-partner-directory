@@ -11,7 +11,8 @@ function standalone(){return {version:2,currency:'KZT',businessCurrency:'KZT',as
 function linked(){const p=fixture();return {...Linked.fromV1({...p,currency:'USD'}),resources:p.resources,offers:p.offers,forecastMonths:p.forecastMonths,recurringDemandApproved:true,importedAt:'2026-10-12T00:00:00Z'};}
 function snapshot(route){
  if(route==='v1')return {currency:Nomad360Currency.get(),product:productPortfolio[0],model:calculateProductPortfolio(),cash:calculateProductCashFlow(calculateProductPortfolio()),cycle:aggregatePlanMetrics(productPortfolio[0]),credit:calculateAggregateCredit(productPortfolio[0]),priceList:calculatePriceListRange(productPortfolio[0])};
- if(route==='home')return {currency:Nomad360Currency.get(),inputs:[...document.querySelectorAll('input,select,textarea')].filter(e=>e.id!=='nomad360-lang-select'&&!e.closest('[data-sales-tax-v1-widget],[data-sales-tax-service]')).map(e=>[e.id,e.value,e.checked])};
+ // Task 09 fields are isolated support UI, not calculator inputs or finances.
+ if(route==='home')return {currency:Nomad360Currency.get(),inputs:[...document.querySelectorAll('input,select,textarea')].filter(e=>e.id!=='nomad360-lang-select'&&!e.closest('[data-sales-tax-v1-widget],[data-sales-tax-service],#nomad360-bug-dialog')).map(e=>[e.id,e.value,e.checked])};
  const state=(route==='standalone'?PortfolioV2UI:LinkedPortfolioV2UI).getState();return {state,financial:route==='standalone'?Nomad360PaymentUI.buildPortfolio(state):LinkedPortfolioV2Engine.build(state),stored:localStorage.getItem(route==='standalone'?'marketingCalcPortfolioV2':'marketingCalcLinkedPortfolioV2')};
 }
 function audit(){
@@ -20,7 +21,7 @@ function audit(){
  const ctx=document.createElement('canvas').getContext('2d');
  const clipped=[...document.querySelectorAll('input[type=number]')].filter(visible).filter(e=>{const s=getComputedStyle(e);ctx.font=s.font;return ctx.measureText(e.value).width>e.clientWidth-parseFloat(s.paddingLeft)-parseFloat(s.paddingRight)-16+1;}).map(e=>({key:e.id||e.dataset.p2Path||e.dataset.linkedPath,value:e.value}));
  const text=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
- while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true]'))continue;const s=getComputedStyle(e);text.push({tag:e.tagName,id:e.id,cls:e.className,text:n.textContent.trim().slice(0,110),size:parseFloat(s.fontSize),weight:s.fontWeight,font:s.fontFamily});}
+ while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true],#nomad360-bug-launcher,#nomad360-bug-dialog'))continue;const s=getComputedStyle(e);text.push({tag:e.tagName,id:e.id,cls:e.className,text:n.textContent.trim().slice(0,110),size:parseFloat(s.fontSize),weight:s.fontWeight,font:s.fontFamily});}
  const money=[...document.querySelectorAll('.nd-v2-number-value,[data-nomad-display-number]')].filter(visible).filter(e=>{const r=document.createRange();r.selectNodeContents(e);if(e.matches('[data-nomad-display-number]')&&e.firstChild?.nodeType===Node.TEXT_NODE)r.setEnd(e.firstChild,e.firstChild.textContent.replace(/\s[A-Z]{3}$/,'').length);return new Set([...r.getClientRects()].filter(r=>r.width&&r.height).map(r=>Math.round(r.top))).size>1;}).map(e=>({text:e.textContent,html:e.outerHTML}));
  return {overflow:document.documentElement.scrollWidth>innerWidth+1,scrollWidth:document.documentElement.scrollWidth,controls,clipped,money,text,gaps:Nomad360LocaleCore.auditVisibleGaps()};
 }

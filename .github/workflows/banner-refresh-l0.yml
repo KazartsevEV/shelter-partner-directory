@@ -1,0 +1,29 @@
+name: Refresh merged banner L0 inventory
+on:
+  push:
+    branches: [feature/unified-banners-01]
+    paths:
+      - Marketing_calc.HTML
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - run: node scripts/localization/inventory.cjs
+      - name: Commit generated L0 files only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/localization/l0
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(banners): refresh L0 catalog after task09 merge"
+            git push origin HEAD:feature/unified-banners-01
+          fi
