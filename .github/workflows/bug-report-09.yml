@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Reject finance edits, private state transport and unapproved provider
+      - name: Reject finance edits, private state transport and unapproved destinations
         run: |
           node --check nomad360_bug_report.js
           node --check tests/nomad360_bug_report_browser.cjs
@@ -36,10 +36,16 @@ jobs:
             echo "Private state or URL transfer in widget" >&2
             exit 1
           fi
-          if grep -q 'data-nomad-bug-endpoint=' Marketing_calc.HTML; then
-            echo "Provider endpoint needs owner approval" >&2
-            exit 1
-          fi
+          # The owner approved precisely this public routing endpoint, never credentials.
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const html=fs.readFileSync('Marketing_calc.HTML','utf8');
+          const values=[...html.matchAll(/data-nomad-bug-endpoint\s*=\s*"([^"]*)"/g)].map(m=>m[1]);
+          if(values.length!==1||values[0]!=='https://formspree.io/f/mwlvadod'){
+            console.error('Unapproved or duplicated bug-report endpoint',values);
+            process.exit(1);
+          }
+          NODE
       - name: Financial regressions and original frozen VAT
         run: |
           node tests/sales_tax_7b_baseline.cjs
