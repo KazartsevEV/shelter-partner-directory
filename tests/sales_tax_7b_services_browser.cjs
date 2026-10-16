@@ -98,7 +98,7 @@ async function simple(page,role){
    A.ok(after.visible.includes('Sales Tax'));
    if(role==='agent'){
     A.ok(after.visible.includes('108'),'principal buyer pays 100 + 8');
-    A.ok(near(after.p.priceBeforeTax,before.model.items[0].price),'agent commission untouched');
+    A.ok(near(after.p.priceBeforeTax,20),'agent commission is 20 net under Sales Tax, not 20/1.12 VAT');
     A.ok(near(Number(after.agency.grossPrice),100));
    }else{
     A.ok(near(after.p.priceBeforeTaxWithVat,after.p.priceBeforeTax*1.08));
