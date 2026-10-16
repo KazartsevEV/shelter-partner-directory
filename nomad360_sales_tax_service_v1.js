@@ -48,7 +48,7 @@ function buildWidget(target,id){
  row.append(rateLabel,input);
  const error=section('p');error.dataset.stError='';error.setAttribute('role','alert');error.style.cssText='color:#b91c1c;font-weight:700;margin-top:8px';
  const details=section('p');details.dataset.stDetails='';details.style.cssText='margin-top:10px;white-space:pre-line';
- const hint=section('p');hint.dataset.stHint='';hint.style.cssText='margin-top:12px;font-size:13px';
+ const hint=section('p');hint.dataset.stHint='';hint.style.cssText='margin-top:12px;font-size:14px;line-height:1.5';
  box.append(label,select,row,error,details,hint);
  // The online calculator's first child owns the native inline back arrow.
  // Keep it first; otherwise navigation falls back to a duplicated white card.
