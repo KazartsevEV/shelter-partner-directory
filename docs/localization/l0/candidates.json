@@ -7164,6 +7164,20 @@
       "coverage": "unmapped-candidate"
     },
     {
+      "id": "nomad360_banners.js:978:js-regex",
+      "file": "nomad360_banners.js",
+      "line": 16,
+      "offset": 978,
+      "kind": "js-regex",
+      "owner": "nomad360_banners.js",
+      "stage": "L2",
+      "context": "emphasizeHeroTitle",
+      "text": "мне выгодно|most profitable|тиімді",
+      "flags": "i",
+      "review": "Regex is code, not visible text; variable lookup patterns require capture checks",
+      "coverage": "dynamic-review"
+    },
+    {
       "id": "nomad360_bug_report.js:5118:markup-text",
       "file": "nomad360_bug_report.js",
       "line": 69,
@@ -7202,10 +7216,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_calculator_ui.css:296394:css-content",
+      "id": "nomad360_calculator_ui.css:296617:css-content",
       "file": "nomad360_calculator_ui.css",
-      "line": 736,
-      "offset": 296394,
+      "line": 737,
+      "offset": 296617,
       "kind": "css-content",
       "owner": "nomad360_calculator_ui.css",
       "stage": "L5",
