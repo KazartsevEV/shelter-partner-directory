@@ -26,7 +26,8 @@ const stable=['#nomad360-support h2','.nomad-donate-lead','#nomad360-return h2',
    aboutBorders:[...document.querySelectorAll('.nomad-about-flow>li')].map(e=>getComputedStyle(e).borderRightWidth),aboutBackgrounds:[...document.querySelectorAll('.nomad-about-flow,.nomad-about-card,.nomad-embed-b2b-card')].map(e=>getComputedStyle(e).backgroundColor),
    noteBottom:Math.max(...notes),animalHeadTop:ret.bottom-(ret.width+8)*1870/841*.52};
  });
- A.equal(visual.blue,'#16375a');A.ok(visual.fills.every(c=>c==='rgb(22, 55, 90)'),JSON.stringify(visual.fills));
+ A.equal(visual.blue,'#16375a');A.deepEqual(visual.fills,['rgb(22, 55, 90)','rgba(0, 0, 0, 0)','rgb(22, 55, 90)','rgb(22, 55, 90)','rgb(22, 55, 90)','rgb(22, 55, 90)'],'The hero copy is transparent over artwork; all UI blue surfaces use the approved token');
+ const subtitleBounds=await p.locator('.nomad-embed-b2b-slogan').evaluate(e=>{const box=e.parentElement.getBoundingClientRect(),range=document.createRange();range.selectNodeContents(e);return [...range.getClientRects()].every(r=>r.left>=box.left-.5&&r.right<=box.right+.5);});A.equal(subtitleBounds,true,'Every subtitle line stays inside its text column');
  A.ok(visual.leadGap>=23.5,'Heading and benefits keep a real 24 px gap');A.ok(visual.resultGap>=23.5,'Benefits and result keep a real 24 px gap');
  A.equal(visual.border,'0px','No nested framed blue card');A.equal(visual.benefitIcons,3);A.equal(visual.benefitTitles,3);
  A.ok(visual.aboutBackgrounds.every(c=>c==='rgba(0, 0, 0, 0)'),'No separate blue slabs over the scenery');
