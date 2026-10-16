@@ -26,6 +26,13 @@ test('new banner module owns only DOM presentation and uses accepted translation
  for(const name of ['hero','about','support','consulting'])A.ok(fs.statSync(path.join(root,'assets/nomad360-banners/'+name+'.webp')).size>1000);
 });
 
+test('banner UI introduces no alternative blue palette',()=>{
+ const css=read('nomad360_calculator_ui.css').split('/* UNIFIED-BANNERS-01: scoped presentation;')[1];
+ const allowed=new Set(['#16375a','#ed8e63','#f29d76','#fff','#000']);
+ for(const color of css.match(/#[0-9a-f]{3,8}\b/gi)||[])A.ok(allowed.has(color.toLowerCase()),'Unapproved UI color: '+color);
+ A.match(css,/background:var\(--nb-blue\)/);A.match(css,/background:transparent;border:0;border-top/,'Hero copy has no opaque blue backing');
+});
+
 test('pre-change baseline evidence remains identical to its separate capture commit',()=>{
  const basePath='docs/reviews/unified-banners-01/baseline/';
  const files=execFileSync('git',['ls-tree','-r','546dc8b','--',basePath],{cwd:root,encoding:'utf8'}).trim().split('\n');
