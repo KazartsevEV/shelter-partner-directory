@@ -44,6 +44,7 @@ jobs:
         run: |
           node tests/unified_banners_browser.cjs
           node tests/unified_banners_contrast.cjs
+          node tests/unified_banners_financial_links.cjs
       - name: Existing real downloads, keyboard, native-event branches and portable HTML
         run: |
           RET_STAGE=all node tests/return_7a_browser.cjs
