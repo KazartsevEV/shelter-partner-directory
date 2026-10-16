@@ -15,7 +15,7 @@ async function expected(page,kind){return page.evaluate(kind=>{
  return {state,out,kind};
 },kind);}
 async function checkDownload(page,kind,stem,requests){
- await page.locator('[data-nomad-excel]').last().scrollIntoViewIfNeeded();await page.waitForLoadState('networkidle');
+ // Export readiness is asserted from the calculator state and the enabled control.\n // Waiting for global networkidle is nondeterministic with unrelated background requests.\n await page.locator('[data-nomad-excel]').last().scrollIntoViewIfNeeded();\n A.equal(await page.locator('[data-nomad-excel]').last().isEnabled(),true);
  const c=await expected(page,kind),state=JSON.stringify(c.state),requestCount=requests.length;
  const lang=await page.evaluate(()=>Nomad360UI.getLanguage());const event=page.waitForEvent('download');await page.locator('[data-nomad-excel]').last().click();const dl=await event;
  A.equal(dl.suggestedFilename(),'nomad360-price-'+c.state.currency+'.xlsx');const target=path.join(art,stem+'.xlsx');await dl.saveAs(target);
