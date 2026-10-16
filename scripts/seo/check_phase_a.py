@@ -40,6 +40,8 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name == 'Marketing_calc.HTML':
+            assert raw.count(b'<script src="./nomad360_sales_tax_v2.js"></script>\n') == 1
         if name in ('portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js'):
             # Only the exact reviewed stage-4 UI integration is exempt from
             # historical pre-Sales-Tax bytes. A later unapproved edit is RED.
@@ -187,9 +189,8 @@ def main():
         if name == 'Marketing_calc.HTML':
             # Stage 7B-3 contributes exactly one optional service module loader.
             stage3 = b'<script src="./nomad360_sales_tax_service_v1.js"></script>\n'
-            stage4 = b'<script src="./nomad360_sales_tax_v2.js"></script>\n'
-            assert raw.count(stage4) == 1
-            raw = raw.replace(stage4, b'', 1)
+            # Stage 4 loader has already been removed by stripReturn above.
+            assert b'<script src="./nomad360_sales_tax_v2.js"></script>' not in raw
             assert raw.count(stage3) == 1
             raw = raw.replace(stage3, b'', 1)
             raw = raw.replace((ROOT / 'tests/fixtures/seo-keyword-banner.html').read_bytes(),
