@@ -11,6 +11,16 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / 'docs/seo/evidence'
 
+def mask_stage_7b5_pdf(raw):
+    # Exact bounded exception: only the V1 print renderer may differ.
+    start = b'function exportProductCalculationPdf() {'
+    end = b'\n        function aggregateDaysText('
+    assert raw.count(start) == 1
+    a = raw.index(start)
+    b = raw.index(end, a + len(start))
+    return raw[:a] + b'<ACCEPTED-7B5-PDF-RENDERER>' + raw[b:]
+
+
 
 def read(name):
     return json.loads((EVIDENCE / name).read_text(encoding='utf-8'))
@@ -47,7 +57,10 @@ def main():
             # historical pre-Sales-Tax bytes. A later unapproved edit is RED.
             approved = subprocess.check_output(
                 ['git', 'show', '6c5c0e3a4927fb50b88ab99914145bb9016bb24a:' + name], cwd=ROOT)
-            assert raw == approved, 'Unreviewed stage-4 V2 UI delta: ' + name
+            source = subprocess.check_output(['node', '-e',
+                "process.stdout.write(require('./tests/helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(process.argv[1],require('node:fs').readFileSync(0,'utf8')))", name],
+                input=raw, cwd=ROOT)
+            assert source == approved, 'Unreviewed V2 UI delta outside exact 7B-5 tax hunks: ' + name
             continue
         if name == 'nomad360_repo_traffic.json':
             # The Insights bot refreshes this file directly on main.
@@ -186,7 +199,7 @@ def main():
                         'tax.v2SalesTaxLabel', 'tax.v2NoneLabel',
                         'tax.v2SalesTaxRate', 'tax.v2BuyerSummary',
                         'tax.v2DeductionsNotice', 'tax.v2DeductionsNoticeLinked',
-                        'tax.v2TaxMode'
+                        'tax.v2TaxMode', 'tax.v2VatLabel', 'tax.v2NoticeFull'
                     }
                     tax_rows = [x for x in lines if x.startswith(' ["tax.v2')]
                     actual_keys = [x.split('"')[1] for x in tax_rows]
@@ -211,7 +224,42 @@ def main():
             # Phase B adds exactly one canonical and one isolated language module.
             raw = raw.replace(b'    <link rel="canonical" href="https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML">\n', b'', 1)
             raw = raw.replace(b'<script src="./nomad360_seo_language.js"></script>\n', b'', 1)
-        assert hashlib.sha256(raw).hexdigest() == expected, name
+        if name == 'nomad360_price_export.js':
+            # Sales Tax extends the DOCUMENT projection only, not XLSX writer
+            # or the accepted locale table. Audit every other byte against 7B-4.
+            approved = subprocess.check_output(
+                ['git','show','817e5e14ae65091f474442a672831d93a3ea8f28:' + name], cwd=ROOT)
+            assert hashlib.sha256(approved).hexdigest() == expected, 'Accepted exporter baseline drift'
+            document_fn = re.compile(rb'(?ms)^function document\([^\n]*\)\{.*?^\}\n')
+            assert len(document_fn.findall(raw)) == len(document_fn.findall(approved)) == 1
+            assert document_fn.sub(b'function document(/* 7B5 projection */){}\n', raw) == (
+                document_fn.sub(b'function document(/* 7B5 projection */){}\n', approved)), name
+            continue
+        if name == 'nomad360_calculator_ui.js':
+            # Later approved 7B-5 changes only table, printable and language
+            # lifecycle renderers. Pin every OTHER byte to the accepted 7B-4
+            # source, which itself must match the frozen SEO protected SHA.
+            accepted = subprocess.check_output(
+                ['git','show','817e5e14ae65091f474442a672831d93a3ea8f28:' + name], cwd=ROOT)
+            accepted = subprocess.check_output(['node','-e',
+                "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))",name],
+                input=accepted,cwd=ROOT)
+            assert hashlib.sha256(accepted).hexdigest() == expected, 'Stage 4 SEO protected source drift'
+            def mask_approved_print_functions(source):
+                for label in (b'table', b'printable', b'setLanguage'):
+                    matcher = re.compile(rb'(?ms)^function ' + label + rb'\([^\n]*\)\{.*?^\}\n')
+                    assert len(matcher.findall(source)) == 1, 'Unbounded export function: ' + label.decode()
+                    source = matcher.sub(b'function ' + label + b'(/* 7B5 approved */){}\n', source, count=1)
+                return source
+            assert mask_approved_print_functions(raw) == mask_approved_print_functions(accepted), name
+            continue
+        if name == 'Marketing_calc.HTML':
+            # Preserve the exact SEO-era source outside the approved 7B-5 PDF function.
+            old = subprocess.check_output(['git','show','85d98d9:Marketing_calc.HTML'], cwd=ROOT)
+            assert hashlib.sha256(old).hexdigest() == expected, 'SEO historic baseline drift'
+            assert mask_stage_7b5_pdf(raw) == mask_stage_7b5_pdf(old), name
+        else:
+            assert hashlib.sha256(raw).hexdigest() == expected, name
     # Synthetic PR merges also include newer main documentation. Compare this
     # PR to its actual base; keep the production-byte guard on the audited SHA.
     base_ref = os.environ.get('SEO_BASE_REF', 'origin/main')
@@ -259,7 +307,15 @@ def main():
         'tests/return_7a_scope.test.cjs', 'scripts/seo/check_phase_a.py',
         'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs',
         'tests/v1_service_v2_numeric_parity.test.cjs',
-        'docs/reviews/sales-tax-7b/STAGE_7B4_ACCEPTANCE.md') for p in changed), changed
+        'docs/reviews/sales-tax-7b/STAGE_7B4_ACCEPTANCE.md',
+        # 7B-5: independent tax UI, historical drafts and prices across exports.
+        'nomad360_price_export.js', 'tests/sales_tax_7b5_price_export.test.cjs',
+        'tests/sales_tax_7b5_v1_pdf_browser.cjs', 'tests/sales_tax_7b5_v2_export_browser.cjs',
+        'tests/helpers/sales-tax-7b5-pdf-scope.cjs',
+        'tests/helpers/sales-tax-7b5-v2-scope.cjs',
+        'tests/type02_acceptance_browser.cjs',
+        '.github/workflows/sales-tax-7b5-export.yml',
+        'docs/reviews/sales-tax-7b/STAGE_7B5_ACCEPTANCE.md') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10

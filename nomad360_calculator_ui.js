@@ -291,26 +291,48 @@ function status(item,out){
 }
 function table(items,out,currency=root.Nomad360Currency?.get()||'USD',kind='linked'){
  const standalone=kind==='standalone',show=v=>typeof v==='number'&&Number.isFinite(v)?fmt(v):'—';
- const baseTitle=standalone?root.Nomad360PriceExport.document({state:{currency},out,kind},lang).columns[4]:tr('base');
+ const state=exportContext?.state||{currency};
+ const doc=root.Nomad360PriceExport.document({state:{...state,currency},out,kind},lang);
+ // Existing linked VAT print heading differs from the Excel sheet in KK.
+ const baseTitle=doc.taxMode==='vat'&&kind==='linked'?tr('base'):doc.columns[4];
  return '<table class="nomad-export-table"><thead><tr>'+
  [tr('item'),tr('type'),baseTitle+' ('+currency+')',tr('discount'),tr('customer')+' ('+currency+')'].map(s=>'<th>'+esc(s)+'</th>').join('')+
- '</tr></thead><tbody>'+items.map(item=>
- '<tr><td data-nomad-no-translate>'+esc(item.name)+'</td><td>'+esc(tr(sourceType[item.source||item.sourcing?.source]||'item'))+'</td>'+
- '<td class="n" data-nomad-list-price>'+show(standalone?item.price:item.priceList)+'</td><td class="n">'+(standalone?'—':show(item.discountSelected)+'%')+'</td>'+
- '<td class="n" data-nomad-customer-price><strong>'+show(standalone?item.priceWithVat:item.priceGross)+'</strong></td></tr>').join('')+
+ '</tr></thead><tbody>'+items.map((item,i)=>{
+  const row=doc.rows[i];
+  return '<tr><td data-nomad-no-translate>'+esc(item.name)+'</td><td>'+esc(tr(sourceType[item.source||item.sourcing?.source]||'item'))+'</td>'+
+  '<td class="n" data-nomad-list-price>'+show(row[4])+'</td><td class="n">'+(standalone?'—':show(row[5])+'%')+'</td>'+
+  '<td class="n" data-nomad-customer-price><strong>'+show(row[6])+'</strong></td></tr>';
+ }).join('')+
  '</tbody></table>'+
  (out.cashflow?.periodPnl?.accountingCompleteness==='PROVISIONAL'?'<p class="nomad-alert">'+tr('warning')+'</p>':'')+
- '<p class="nomad-footnote">'+(standalone?esc(root.Nomad360PriceExport.document({state:{currency},out,kind},lang).notes[1]):tr('offer'))+'</p>';
+ '<p class="nomad-footnote">'+esc(doc.taxMode==='vat'?(standalone?doc.notes[1]:tr('offer')):doc.notes[1])+'</p>';
 }
 function printable(mode,context){
  const {state,out,kind}=context,p=out.cashflow?.periodPnl,cf=out.cashflow;
+ const taxMode=state.tax?.taxRegime||'vat';
+ const taxWords=root.Nomad360LocaleCore?.locales?.('tax')?.[lang]||{};
+ const semantic=key=>root.Nomad360LocaleCore.t(key,lang);
+ const revenueTitle=taxMode==='vat'?tr('revenue'):semantic('finance.revenue');
  const title=mode==='price'?tr('listAction'):tr('report');
  let html='<header class="nomad-print-head"><div>NOMAD360</div><h1>'+esc(title)+'</h1>'+
  '<p>'+tr('horizon')+': '+esc(state.forecastMonths||state.marketing?.periodMonths||1)+' '+tr('months')+' · '+esc(state.currency||root.Nomad360Currency?.get()||'USD')+'</p></header>'+
  table(out.items,out,state.currency||'USD',kind);
+ if(taxMode!=='vat'&&out.salesTaxSummary){
+  const summary=out.salesTaxSummary;
+  html+='<h2>'+esc(taxWords.v2BuyerSummary||'Sales Tax')+'</h2>'+
+   '<table class="nomad-export-table"><thead><tr>'+
+   [tr('item'),revenueTitle,'Sales Tax',tr('customer')].map(x=>'<th>'+esc(x)+'</th>').join('')+
+   '</tr></thead><tbody>'+summary.lines.map(line=>
+    '<tr><td data-nomad-no-translate>'+esc(out.items.find(x=>String(x.id)===String(line.id))?.name||line.id)+'</td>'+
+    [line.net,line.salesTax,line.customerTotal].map(x=>'<td class="n">'+fmt(x)+'</td>').join('')+
+    '</tr>').join('')+
+   '<tr><th>'+esc(tr('summary'))+'</th>'+
+   [summary.net,summary.salesTax,summary.customerTotal].map(x=>'<td class="n">'+fmt(x)+'</td>').join('')+
+   '</tr></tbody></table>';
+ }
  if(mode==='report'){
  const reportValues=[
-  [tr('revenue'),p?.revenue??out.totals.revenue],
+  [revenueTitle,p?.revenue??out.totals.revenue],
   [tr('profit'),p?.netProfit??out.totals.netProfit],
   [tr('margin'),p?.netMargin??null]
  ];
@@ -319,18 +341,18 @@ function printable(mode,context){
  (value===null?'—':fmt(value)+(i===2?'%':''))+'</td></tr>').join('')+
  '</tbody></table>';
  if(p?.months?.length)html+='<h2>'+tr('summary')+' · '+tr('months')+'</h2><table class="nomad-export-table"><thead><tr>'+
- [tr('month'),tr('revenue'),tr('expense'),tr('profit'),tr('tax')].map(x=>'<th>'+esc(x)+'</th>').join('')+
+ [tr('month'),revenueTitle,tr('expense'),tr('profit'),tr('tax')].map(x=>'<th>'+esc(x)+'</th>').join('')+
  '</tr></thead><tbody>'+p.months.map(m=>'<tr><td>'+m.month+'</td>'+
  '<td class="n">'+fmt(m.revenue)+'</td><td class="n">'+fmt(m.revenue-m.preTaxProfit)+'</td>'+
  '<td class="n">'+fmt(m.netProfit)+'</td><td class="n">'+fmt(m.taxAccrued)+'</td></tr>').join('')+'</tbody></table>';
  if(p?.bySku)for(const sku of Object.values(p.bySku)){
    if(!sku?.partner?.months?.length)continue;
-   html+='<h2>Экономика принципала · <span data-nomad-no-translate>'+esc(
+   html+='<h2>'+esc(semantic('ui.principalEconomicsByMonth'))+' · <span data-nomad-no-translate>'+esc(
      out.items.find(item=>item.id===sku.id)?.name||sku.id)+'</span></h2>'+
-     '<p class="nomad-footnote">Оборот и налог принципала отдельно от агентского дохода. Амортизация оборудования относится к прибыли; его покупка — к денежному потоку.</p>'+
+     '<p class="nomad-footnote">'+esc(semantic('tax.principalTurnoverIsSeparateFromTheAgentFeePrincipalTaxUsesTheRateYouSelected'))+' '+esc(semantic('finance.oneOffInvestmentsAreIncludedInCashFlowButDepreciationIsNotAutomaticallyAccruedInEbitda'))+'</p>'+
      '<table class="nomad-export-table"><thead><tr>'+
-     ['Месяц','Выручка принципала без НДС','Расходы с агентом',
-      'Налог принципала','Прибыль принципала','Капитальные вложения'].map(esc)
+     [tr('month'),revenueTitle,tr('expense'),semantic('tax.principalTax'),
+      tr('profit'),semantic('finance.oneTimeCapitalPaymentsCashFlow')].map(esc)
       .map(x=>'<th>'+x+'</th>').join('')+
      '</tr></thead><tbody>'+sku.partner.months.map(m=>'<tr>'+
      [m.month,m.revenue,m.costs,m.tax,m.profit,m.capex].map((value,i)=>
@@ -345,7 +367,7 @@ function printable(mode,context){
  if(out.resources?.length)html+='<h2>'+tr('resources')+'</h2><table class="nomad-export-table"><tbody>'+
  out.resources.map(x=>'<tr><td data-nomad-no-translate>'+esc(x.label)+'</td><td class="n">'+fmt(x.amount)+'</td>'+
  '<td>'+esc(tr(x.cadence==='once'?'cadenceOnce':'cadenceMonthly'))+'</td></tr>').join('')+'</tbody></table>';
- html+='<p class="nomad-footnote">'+tr('noTax')+'</p>';
+ html+='<p class="nomad-footnote">'+esc(taxMode==='vat'?tr('noTax'):(taxWords.v2DeductionsNotice||tr('source')))+'</p>';
  }
  html+='<footer class="nomad-print-end">'+tr('source')+' · NOMAD360</footer>';
  return html;
@@ -446,6 +468,9 @@ function handleClick(event){
 function setLanguage(next){
  if(!L[next])return;
  lang=next;
+ // V2 language listeners may replace their form root after the shell updates.
+ const restorePricePreview=document.getElementById('nomad360-price-preview')?.hidden===false;
+ const originalPrintMode=document.getElementById('nomad360-print-sheet')?.dataset.mode;
  try{localStorage.setItem(localeKey,next)}catch(_){}
  buildShell();
  const payload=readyOutput();
@@ -458,6 +483,17 @@ function setLanguage(next){
   sheet.innerHTML=printable(sheet.dataset.mode,payload);
   root.Nomad360LocaleCore?.localizeElement(sheet);
  document.dispatchEvent(new CustomEvent('nomad360:languagechange',{detail:{lang}}));
+ // Re-open only a preview the user had already expanded before the rerender.
+ if(restorePricePreview&&document.getElementById('nomad360-price-preview')?.hidden)showPreview();
+ // Rendering a new V2 root can remove a print sheet before the V2 model
+ // finishes restoring. Rebuild the already requested document, never print.
+ const current=readyOutput();
+ if(originalPrintMode&&['price','report'].includes(originalPrintMode)&&current?.out?.ready&&
+    !document.getElementById('nomad360-print-sheet')){
+  const restored=document.createElement('section');restored.id='nomad360-print-sheet';
+  restored.dataset.mode=originalPrintMode;restored.innerHTML=printable(originalPrintMode,current);
+  document.body.append(restored);root.Nomad360LocaleCore?.localizeElement(restored);
+ }
 }
 function boot(){
  lang=userLocale()||preferred();buildShell();

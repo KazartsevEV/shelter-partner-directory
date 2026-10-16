@@ -10,6 +10,8 @@
  * EN terminology acceptance is pending L1 review and final L6 acceptance. */
 const messages=[
  ["tax.v2TaxMode","Tax mode","Режим налога","Салық режимі"],
+ ["tax.v2VatLabel","VAT / IVA","НДС (VAT / IVA)","ҚҚС (VAT / IVA)"],
+ ["tax.v2NoticeFull","Note: Individual tax deductions and reliefs are not included in this estimate. Eligibility depends on applicable law, your tax regime, and your business circumstances. Consult an accountant to optimize your taxes.","Важно: индивидуальные налоговые вычеты и льготы в расчёте не учитываются, поскольку зависят от законодательства, налогового режима и особенностей вашего бизнеса. Для оптимизации налогообложения проконсультируйтесь с бухгалтером.","Маңызды: бұл есепте жеке салық шегерімдері мен жеңілдіктері ескерілмейді. Оларды қолдану заңнамаға, салық режиміне және бизнесіңіздің ерекшеліктеріне байланысты. Салық салуды оңтайландыру үшін бухгалтермен кеңесіңіз."],
  ["tax.v2SalesTaxLabel","Sales tax","Налог на продажу","Сатудан алынатын салық"],
  ["tax.v2NoneLabel","No sales tax","Без налога на продажу","Сатудан алынатын салық жоқ"],
  ["tax.v2SalesTaxRate","Sales Tax rate, %","Ставка Sales Tax, %","Sales Tax мөлшерлемесі, %"],

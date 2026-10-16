@@ -9,9 +9,7 @@ const params=new URLSearchParams(root.location.search);
 let saved=null,simpleSaved=null;
 try{saved=JSON.parse(localStorage.getItem(key)||'null');}catch(_){}
 try{simpleSaved=JSON.parse(localStorage.getItem(simpleKey)||'null');}catch(_){}
-if(params.get('sales_tax_preview')!=='1'&&
-   !(saved?.taxRegime==='sales_tax'&&saved.productPortfolio?.some(x=>x.source==='offline-service'))&&
-   simpleSaved?.mode!=='sales_tax')return;
+// 7B-5: enabled on applicable V1 services; historical VAT remains default.
 const messages=[
  {title:'Налог с продаж для услуг V1',modes:['НДС (VAT / IVA)','Sales Tax','Без налога с продаж'],rate:'Ставка Sales Tax, %',hint:'Налог добавляется к цене покупателя после скидки. Выручка, прибыль и Cash Flow остаются без транзитного налога. Вычеты и льготы не учтены — проконсультируйтесь с бухгалтером.',agent:'Sales Tax начисляется на продажу принципала покупателю, не на ваше агентское вознаграждение.',need:'Введите корректную ставку Sales Tax, %.',sale:'Стоимость услуги без Sales Tax',tax:'Sales Tax',buyer:'Платёж покупателя',income:'Вознаграждение агента без Sales Tax',v2:'Перенос Sales Tax в V2 — этап 7Б-4.',pdf:'Экспорт Sales Tax — этап 7Б-5.',blocked:'Сначала завершите расчёт услуги. Не смешивайте товары и услуги при Sales Tax.',vatSimple:'Для НДС используйте полный расчёт услуг V1.'},
  {title:'V1 service sales tax',modes:['VAT / IVA','Sales Tax','No sales tax'],rate:'Sales Tax rate, %',hint:'Tax is added to the buyer price after discounts. Transit tax is excluded from revenue, profit and cash flow. Individual reliefs are excluded; consult an accountant.',agent:'Sales Tax applies to the principal’s customer sale, not to your agency commission.',need:'Enter a valid Sales Tax rate, %.',sale:'Service sale before Sales Tax',tax:'Sales Tax',buyer:'Customer payment',income:'Agent fee before Sales Tax',v2:'V2 transfer follows in stage 7B-4.',pdf:'Sales Tax export follows in stage 7B-5.',blocked:'Complete the service calculation first. Mixed goods and services are not supported.',vatSimple:'For VAT use the full V1 service calculation.'},
@@ -50,9 +48,13 @@ function buildWidget(target,id){
  row.append(rateLabel,input);
  const error=section('p');error.dataset.stError='';error.setAttribute('role','alert');error.style.cssText='color:#b91c1c;font-weight:700;margin-top:8px';
  const details=section('p');details.dataset.stDetails='';details.style.cssText='margin-top:10px;white-space:pre-line';
- const hint=section('p');hint.dataset.stHint='';hint.style.cssText='margin-top:12px;font-size:13px';
+ const hint=section('p');hint.dataset.stHint='';hint.style.cssText='margin-top:12px;font-size:14px;line-height:1.5';
  box.append(label,select,row,error,details,hint);
- if(id==='full')host.insertBefore(box,host.firstChild);else host.insertBefore(box,host.firstChild);
+ // The online calculator's first child owns the native inline back arrow.
+ // Keep it first; otherwise navigation falls back to a duplicated white card.
+ if(id==='full')host.insertBefore(box,host.firstChild);
+ else if(host.firstElementChild)host.firstElementChild.after(box);
+ else host.append(box);
  select.addEventListener('change',e=>id==='full'?selectFull(e.target.value):selectSimple(e.target.value));
  input.addEventListener('input',e=>id==='full'?setFullRate(e.target.value):setSimpleRate(e.target.value));
  return box;
@@ -68,7 +70,7 @@ function updateWidget(box,kind,val,active,detail,errorText,hint){
  setText(box.querySelector('[data-st-error]'),errorText);
  box.querySelector('[data-st-error]').hidden=!errorText;
  setText(box.querySelector('[data-st-details]'),detail);
- setText(box.querySelector('[data-st-hint]'),hint||t.hint);
+ setText(box.querySelector('[data-st-hint]'),(hint||t.hint)+' '+(root.Nomad360LocaleCore?.t?.('tax.v2NoticeFull',root.Nomad360UI?.getLanguage?.()||'ru')||''));
 }
 function fullError(){
  if(!fullActive())return '';
@@ -216,26 +218,29 @@ root.saveProductCalculationToBrowser=function(){
   return false;
  }
  const value=original.save.apply(this,arguments);
- if(!value||!fullActive())return value;
+ if(!value||!fullService()||!mode)return value;
  try{
   const p=JSON.parse(localStorage.getItem(key));
   if(!p||p.productPortfolio?.some(x=>x.source!=='offline-service'))return false;
-  p.taxRegime='sales_tax';p.salesTaxPct=rate;
-  p.productPortfolio.forEach(x=>{x.taxRegime='sales_tax';x.salesTaxPct=rate;});
+  p.taxRegime=mode;if(mode==='sales_tax')p.salesTaxPct=rate;
+  p.productPortfolio.forEach(x=>{x.taxRegime=mode;if(mode==='sales_tax')x.salesTaxPct=rate;});
   localStorage.setItem(key,JSON.stringify(p));
  }catch(_){return false;}
  return value;
 };
 function restoreFull(payload){
- if(payload?.taxRegime==='sales_tax'&&payload.productPortfolio?.every(x=>x.source==='offline-service')){
-  mode='sales_tax';rate=String(payload.salesTaxPct??'');
-  const backup=payload.productPortfolio[0]?.salesTaxVatBackup;
-  transientVat={rate:String(backup?.partnerInput??'0'),choice:backup?.choice||'no'};
-  const field=document.getElementById('service-agent-partner-vat');
-  if(field)field.value='0';
-  for(const item of productPortfolio)replaceItemVat(item,false);
-  withLegacyVat('no');
- }else{mode=null;rate='';transientVat=null;}
+ if(['vat','sales_tax','none'].includes(payload?.taxRegime)&&
+   payload.productPortfolio?.every(x=>x.source==='offline-service')){
+   mode=payload.taxRegime;rate=mode==='sales_tax'?String(payload.salesTaxPct??''):'';
+   if(mode!=='vat'){
+    const backup=payload.productPortfolio[0]?.salesTaxVatBackup;
+    transientVat={rate:String(backup?.partnerInput??'0'),choice:backup?.choice||'no'};
+    const field=document.getElementById('service-agent-partner-vat');
+    if(field)field.value='0';
+    for(const item of productPortfolio)replaceItemVat(item,false);
+    withLegacyVat('no');
+   }else transientVat=null;
+  }else{mode=null;rate='';transientVat=null;}
  renderFull();
 }
 root.resumeSavedProductCalculation=function(){
@@ -246,7 +251,7 @@ root.resumeSavedProductCalculation=function(){
 root.startFreshProductCalculation=function(){
  const prior=mode,priorRate=rate;
  const value=original.fresh.apply(this,arguments);
- if(productPortfolio.length&&prior==='sales_tax'){
+ if(productPortfolio.length&&['sales_tax','none'].includes(prior)){
   mode=prior;rate=priorRate;swapAgencyVat('sales_tax');withLegacyVat('no');
  }else{mode=null;rate='';transientVat=null;}
  renderFull();return value;
@@ -254,28 +259,33 @@ root.startFreshProductCalculation=function(){
 root.editSavedProduct=function(id){
  const item=productPortfolio.find(x=>Number(x.id)===Number(id));
  const value=original.edit.apply(this,arguments);
- if(item?.source==='offline-service'&&item?.taxRegime==='sales_tax')
-  restoreFull({taxRegime:'sales_tax',salesTaxPct:item.salesTaxPct,productPortfolio:[item]});
- else if(!productPortfolio.some(x=>x.taxRegime==='sales_tax')){mode=null;rate='';transientVat=null;renderFull();}
+ if(item?.source==='offline-service'&&['vat','sales_tax','none'].includes(item?.taxRegime))
+  restoreFull({taxRegime:item.taxRegime,salesTaxPct:item.salesTaxPct,productPortfolio:[item]});
+ else if(!productPortfolio.some(x=>['sales_tax','none'].includes(x.taxRegime))){mode=null;rate='';transientVat=null;renderFull();}
  return value;
 };
 root.addAnotherProduct=function(){
  const prev=mode,r=rate,value=original.append.apply(this,arguments);
- if(value&&prev==='sales_tax'){mode=prev;rate=r;swapAgencyVat('sales_tax');withLegacyVat('no');}
+ if(value&&['sales_tax','none'].includes(prev)){mode=prev;rate=r;swapAgencyVat(prev);withLegacyVat('no');}
  renderFull();return value;
 };
 root.exportProductCalculationPdf=function(){
- if(fullActive()&&fullService()){setText(document.getElementById('product-browser-save-status'),lang().pdf);return false;}
+ if(fullActive()&&fullError()){
+    setText(document.getElementById('product-browser-save-status'),fullError());
+    return false;
+  }
  return original.pdf.apply(this,arguments);
 };
 root.openLinkedPortfolioFromProducts=function(){
- if(fullActive()&&fullService()){
-  if(!fullError()&&root.Nomad360SalesTaxV2?.withTransfer)
-    return root.Nomad360SalesTaxV2.withTransfer({mode:'sales_tax',ratePct:rate,boundsIncludeTax:true},
-      ()=>original.v2.apply(this,arguments));
-  const e=document.getElementById('linked-v2-entry-error');if(e){setText(e,lang().v2);e.hidden=false;e.classList.remove('hidden');}
+ if(fullActive()&&fullError()){
+  const e=document.getElementById('linked-v2-entry-error');
+  if(e){setText(e,fullError());e.hidden=false;e.classList.remove('hidden');}
   return false;
  }
+ if(fullService()&&['sales_tax','none'].includes(mode)&&root.Nomad360SalesTaxV2?.withTransfer)
+  return root.Nomad360SalesTaxV2.withTransfer({
+    mode,ratePct:mode==='sales_tax'?rate:null,boundsIncludeTax:mode==='sales_tax'},
+    ()=>original.v2.apply(this,arguments));
  return original.v2.apply(this,arguments);
 };
 function persistSimple(){
@@ -325,7 +335,7 @@ function boot(){
  if(simpleWidget)simpleWidget.querySelector('[data-st-mode] option[value="vat"]').disabled=true;
  document.addEventListener('nomad360:languagechange',()=>{renderFull();renderSimple();});
  document.addEventListener('click',()=>{renderFull();renderSimple();});
- if(saved?.taxRegime==='sales_tax'&&saved.productPortfolio?.some(x=>x.source==='offline-service'))restoreFull(saved);
+ if(['vat','sales_tax','none'].includes(saved?.taxRegime)&&saved.productPortfolio?.some(x=>x.source==='offline-service'))restoreFull(saved);
  else renderFull();
  renderSimple();
 }

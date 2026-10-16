@@ -5955,6 +5955,18 @@
                 '</tr>').join('')+'</tbody></table>';
             const service=productPortfolio.length===1&&
                 productPortfolio[0]?.serviceFinanceMode==='full';
+            const taxState=service?window.Nomad360SalesTaxServiceV1?.getFull?.():
+                window.Nomad360SalesTaxV1?.getState?.();
+            const taxMode=taxState?.mode||'vat';
+            if(taxMode==='sales_tax'&&taxState?.error){
+                if(status)status.textContent=taxState.error;
+                return false;
+            }
+            const taxLanguage=window.Nomad360UI?.getLanguage?.()||'ru';
+            const taxText=key=>window.Nomad360LocaleCore?.t?.('tax.'+key,taxLanguage)||'Sales Tax';
+            const taxQuote=value=>window.Nomad360SalesTax.quote({
+                mode:'sales_tax',enteredPrice:Number(value),ratePct:taxState.rate
+            });
             const anyCredit=productPortfolio.some(item=>item.planning?.fundingMode==='credit');
             const revenue=flow.months.reduce((n,m)=>n+m.inflow-m.financedInflow,0);
             const tax=flow.months.reduce((n,m)=>n+m.taxPaid,0);
@@ -5963,28 +5975,48 @@
             let html='<header class="nomad-print-head"><div>NOMAD360</div><h1>'+
                 safe(heading)+'</h1><p>Период: '+horizon+
                 ' месяцев · '+safe(window.Nomad360Currency?.get()||'USD')+
-                ' · Выручка и налоги без транзитного НДС</p></header>';
+                ' · '+safe(taxMode==='vat'?'Выручка и налоги без транзитного НДС':
+                    taxMode==='sales_tax'?taxText('v2SalesTaxLabel'):'Без налога на продажу')+'</p></header>';
             const vat=productOwnChoices.salesVat==='yes'?productNumber('own-sales-vat-pct'):0;
             html+='<h2>Утверждённые позиции и цены</h2>'+table(
-                ['Товар / услуга','Канал','Роль','Цена без НДС','Цена с НДС','Количество / мес.'],
+                ['Товар / услуга','Канал','Роль',
+                    taxMode==='vat'?'Цена без НДС':'Цена без налога на продажу',
+                    taxMode==='vat'?'Цена с НДС':taxMode==='sales_tax'?taxText('v2BuyerSummary'):'Цена покупателю',
+                    'Количество / мес.'],
                 model.items.map(row=>{
                     const item=productPortfolio.find(x=>x.id===row.id);
                     const v=Math.max(0,Number(item?.inputs?.['own-sales-vat-pct'])||vat);
                     const quote=Number(row.price)*Number(model.taxPriceMultiplier);
                     const codes={own:'Своё производство',resale:'Перепродажа',dropship:'Дропшиппинг','offline-service':'Офлайн-услуга',online:'Онлайн',offline:'Офлайн',self:'Сам',hired:'Нанимаю',agent:'Я агент'};
+                    const customer=taxMode==='sales_tax'?
+                        item?.serviceRole==='agent'?null:taxQuote(quote).customerTotal:
+                        quote*(1+v/100);
                     return [row.name,codes[item?.serviceChannel||item?.source]||item?.source,
                         codes[item?.serviceRole]||'—',number(quote),
-                        number(quote*(1+v/100)),number(row.forecastSales)];
+                        customer===null?'—':number(customer),number(row.forecastSales)];
                 }),0);
             html+='<h2>Финансовый результат за период</h2>'+table(['Показатель','Сумма'],[
-                ['Выручка без НДС',number(revenue)],
+                [taxMode==='vat'?'Выручка без НДС':'Выручка без налога с продаж',number(revenue)],
                 ['Налог бизнеса',number(tax)],
                 ['Прибыль после налога',number(ownerPnl)],
                 ['Стартовое финансирование',number(flow.months[0]?.financedInflow||0)],
                 ['Резерв (не расход)',number(flow.reserveLocked||0)],
                 ['Свободный остаток',number(flow.freeCumulativeEnd)]
             ]);
-            const headers=['Месяц','Выручка без НДС','Расходы','Налог'];
+            if(taxMode==='sales_tax'){
+                const isAgent=service&&productPortfolio[0]?.serviceRole==='agent';
+                const salesTaxRows=isAgent?flow.months.map(m=>{
+                    const q=taxQuote(m.partnerRevenue);
+                    return [m.month,number(q.net),number(q.tax),number(q.customerTotal)];
+                }):[(()=>{
+                    const q=taxQuote(revenue);
+                    return [taxText('v2BuyerSummary'),number(q.net),number(q.tax),number(q.customerTotal)];
+                })()];
+                html+='<h2>'+safe(taxText('v2BuyerSummary'))+'</h2>'+
+                    table(['Месяц','Выручка без Sales Tax','Sales Tax','Платёж покупателя'],salesTaxRows)+
+                    '<p class="nomad-footnote">'+safe(taxText('v2DeductionsNotice'))+'</p>';
+            }
+            const headers=['Месяц',taxMode==='vat'?'Выручка без НДС':'Выручка без налога с продаж','Расходы','Налог'];
             if(anyCredit)headers.push('Проценты','Возврат тела кредита');
             headers.push('Оборудование / CAPEX','Внесено денег','Cash Flow','Остаток','Свободные деньги');
             html+='<h2>Денежный поток по месяцам</h2>'+table(headers,
@@ -6000,7 +6032,7 @@
             const partner=service&&productPortfolio[0]?.serviceRole==='agent';
             if(partner){
                 html+='<h2>Экономика принципала — отдельно от агентского вознаграждения</h2>'+
-                    table(['Месяц','Выручка принципала без НДС','Расходы с агентом',
+                    table(['Месяц',taxMode==='vat'?'Выручка принципала без НДС':'Выручка принципала без налога с продаж','Расходы с агентом',
                         'Налог принципала','Прибыль принципала'],
                         flow.months.map(m=>[m.month,number(m.partnerRevenue),
                             number(m.partnerCosts),number(m.partnerTax),

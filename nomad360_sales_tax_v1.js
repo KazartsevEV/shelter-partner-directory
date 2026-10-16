@@ -7,7 +7,7 @@
 const params=new URLSearchParams(root.location.search);
 let persisted=null;
 try{persisted=JSON.parse(root.localStorage.getItem('marketingCalcProductResultV1')||'null');}catch(_){}
-if(params.get('sales_tax_preview')!=='1' && persisted?.taxRegime!=='sales_tax')return;
+// 7Б-5: V1 goods tax selector is visible, legacy VAT remains the default.
 
 const GOODS=new Set(['own','resale','dropship']);
 const copy={
@@ -38,7 +38,7 @@ function render(){
  [...select.options].forEach((o,i)=>o.textContent=t.modes[i]);
  select.value=mode||((productOwnChoices.salesVat==='no')?'none':'vat');
  widget.querySelector('[data-st-rate-title]').textContent=t.rate;
- widget.querySelector('[data-st-hint]').textContent=t.hint;
+ widget.querySelector('[data-st-hint]').textContent=t.hint+' '+(root.Nomad360LocaleCore?.t?.('tax.v2NoticeFull',root.Nomad360UI?.getLanguage?.()||'ru')||'');
  const rate=widget.querySelector('[data-st-rate]');
  if(rate.value!==rawRate)rate.value=rawRate;
  widget.querySelector('[data-st-rate-wrap]').hidden=!active();
@@ -155,9 +155,9 @@ root.renderProductBusinessSummary=function(){
 };
 root.saveCurrentProductToPortfolio=function(){
  const result=legacy.saveSku.apply(this,arguments);
- if(active()&&GOODS.has(productSource)){
+ if(mode&&GOODS.has(productSource)){
   const item=productPortfolio.find(x=>Number(x.id)===Number(currentProductSequence));
-  if(item){item.taxRegime='sales_tax';item.salesTaxPct=rawRate;}
+  if(item){item.taxRegime=mode;if(mode==='sales_tax')item.salesTaxPct=rawRate;}
  }
  return result;
 };
@@ -169,23 +169,23 @@ root.saveProductCalculationToBrowser=function(){
    return false;
  }
  const saved=legacy.save.apply(this,arguments);
- if(!saved||!active())return saved;
+ if(!saved||!mode||hasService())return saved;
  try{
   const key='marketingCalcProductResultV1';
   const payload=JSON.parse(localStorage.getItem(key));
-  payload.taxRegime='sales_tax';payload.salesTaxPct=rawRate;
+  payload.taxRegime=mode;if(mode==='sales_tax')payload.salesTaxPct=rawRate;
   for(const x of payload.productPortfolio)if(GOODS.has(x.source)){
-    x.taxRegime='sales_tax';x.salesTaxPct=rawRate;
+    x.taxRegime=mode;if(mode==='sales_tax')x.salesTaxPct=rawRate;
   }
   localStorage.setItem(key,JSON.stringify(payload));
  }catch(e){console.error('Could not persist Sales Tax regime',e);return false;}
  return saved;
 };
 function restoreFrom(saved){
- if(saved?.taxRegime==='sales_tax'){
-   mode='sales_tax';rawRate=String(saved.salesTaxPct??'');
-   selectLegacyVat('no');
- }else{mode=null;rawRate='';}
+ if(['vat','sales_tax','none'].includes(saved?.taxRegime)){
+    mode=saved.taxRegime;rawRate=mode==='sales_tax'?String(saved.salesTaxPct??''):'';
+    if(mode!=='vat')selectLegacyVat('no');
+  }else{mode=null;rawRate='';}
  render();
 }
 root.resumeSavedProductCalculation=function(){
@@ -197,7 +197,7 @@ root.startFreshProductCalculation=function(){
  const prev=mode,prevRate=rawRate;
  const result=legacy.fresh.apply(this,arguments);
  // Saved append flows retain their original shared Sales Tax settings.
- if(productPortfolio.length&&prev==='sales_tax'){
+ if(productPortfolio.length&&['sales_tax','none'].includes(prev)){
    mode=prev;rawRate=prevRate;
    selectLegacyVat('no');
  }else{mode=null;rawRate='';}
@@ -206,14 +206,14 @@ root.startFreshProductCalculation=function(){
 root.editSavedProduct=function(id){
  const saved=productPortfolio.find(x=>Number(x.id)===Number(id));
  const result=legacy.edit.apply(this,arguments);
- if(saved?.taxRegime==='sales_tax')restoreFrom(saved);
- else if(!productPortfolio.some(x=>x.taxRegime==='sales_tax')){mode=null;rawRate='';render();}
+ if(['vat','sales_tax','none'].includes(saved?.taxRegime))restoreFrom(saved);
+ else if(!productPortfolio.some(x=>['sales_tax','none'].includes(x.taxRegime))){mode=null;rawRate='';render();}
  return result;
 };
 root.addAnotherProduct=function(){
  const beforeMode=mode,beforeRate=rawRate;
  const result=legacy.append.apply(this,arguments);
- if(result&&beforeMode==='sales_tax'){
+ if(result&&['sales_tax','none'].includes(beforeMode)){
    mode=beforeMode;rawRate=beforeRate;
    selectLegacyVat('no');
    render();
@@ -223,7 +223,7 @@ root.addAnotherProduct=function(){
 root.deleteCalculatedProduct=function(){
  const wasMode=mode,wasRate=rawRate;
  const result=legacy.delete.apply(this,arguments);
- if(result&&wasMode==='sales_tax'&&productPortfolio.length){
+ if(result&&['sales_tax','none'].includes(wasMode)&&productPortfolio.length){
    mode=wasMode;rawRate=wasRate;
    selectLegacyVat('no');
    render();
@@ -234,23 +234,24 @@ root.setProductAssortmentChoice=function(){
  const result=legacy.assortment.apply(this,arguments);render();return result;
 };
 root.exportProductCalculationPdf=function(){
- if(active()){
-   const el=document.getElementById('product-browser-save-status');
-   if(el)el.textContent=language().noPDF;
-   return false;
- }
- return legacy.pdf.apply(this,arguments);
+  if(active()&&error()){
+    const el=document.getElementById('product-browser-save-status');
+    if(el)el.textContent=error();
+    return false;
+  }
+  return legacy.pdf.apply(this,arguments);
 };
 root.openLinkedPortfolioFromProducts=function(){
- if(active()){
-   if(!error()&&root.Nomad360SalesTaxV2?.withTransfer)
-     return root.Nomad360SalesTaxV2.withTransfer({mode:'sales_tax',ratePct:rawRate,boundsIncludeTax:true},
-       ()=>legacy.v2.apply(this,arguments));
-   const el=document.getElementById('linked-v2-entry-error');
-   if(el){el.textContent=language().noV2;el.hidden=false;el.classList.remove('hidden');}
-   return false;
- }
- return legacy.v2.apply(this,arguments);
+  if(active()&&error()){
+    const el=document.getElementById('linked-v2-entry-error');
+    if(el){el.textContent=error();el.hidden=false;el.classList.remove('hidden');}
+    return false;
+  }
+  if(['sales_tax','none'].includes(mode)&&root.Nomad360SalesTaxV2?.withTransfer)
+    return root.Nomad360SalesTaxV2.withTransfer({
+      mode,ratePct:mode==='sales_tax'?rawRate:null,boundsIncludeTax:mode==='sales_tax'},
+      ()=>legacy.v2.apply(this,arguments));
+  return legacy.v2.apply(this,arguments);
 };
 function boot(){
  const taxBlock=document.getElementById('product-tax-block');

@@ -40,7 +40,7 @@ test('receipt parameters, numbers and user-owned names are inserted literally; o
 test('all calculation ASTs and pure financial assets remain unchanged; only named renderers and explicit demo initializers may change',()=>{
  const acorn=require('../scripts/localization/node_modules/acorn');
  const demoInitializers=new Set(['populateShopperDemonstration','populateRealisticShopperDemonstration']);
- const allowedRenderers=new Set(['exportProductCalculationPdf','renderResalePurchaseComposition','renderProductPortfolio','renderProductBusinessSummary','updateProductPortfolioBusinessSummary','freezeCurrentProductOnPage']);
+ const allowedRenderers=new Set(['exportProductCalculationPdf','renderResalePurchaseComposition','renderProductPortfolio','renderProductBusinessSummary','updateProductPortfolioBusinessSummary','freezeCurrentProductOnPage','document']);
  function canonical(value){
   if(!value||typeof value!=='object')return value;
   if(value.type==='FunctionDeclaration'&&(allowedRenderers.has(value.id?.name)||demoInitializers.has(value.id?.name)))return null;
@@ -60,14 +60,25 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
   return result;
  }
  A.deepEqual(arithmetic(now),arithmetic(old),'arithmetic changed even inside a renderer');
- const presentation=new Set(['nomad360_currency.js','nomad360_navigation.js','nomad360_price_export.js']);
+ // 7Б-5 intentionally updates the exporter; historical VAT semantics are checked
+ // in frozen VAT and dedicated XLSX/PDF parity tests, not the 7Б-0 AST equality.
+ // Only the 7Б-5 price DOCUMENT projection may change. The XLSX writer,
+ // fallback translations and all other exporter functions remain AST-identical
+ // to accepted 7Б-4; real VAT and Sales Tax numbers are checked separately.
+ const exporter='nomad360_price_export.js';
+ A.deepEqual(canonical(acorn.parse(fs.readFileSync(path.join(base,exporter),'utf8'),{ecmaVersion:'latest'})),
+   canonical(acorn.parse(execFileSync('git',['show','817e5e14ae65091f474442a672831d93a3ea8f28:'+exporter],{cwd:base,encoding:'utf8'}),{ecmaVersion:'latest'})),
+   '7Б-5 exporter only modifies the explicitly accepted document renderer');
+ const presentation=new Set(['nomad360_currency.js','nomad360_navigation.js']);
+ // The approved stage-5 exporter is covered by exact VAT/XLSX/Sales Tax numeric tests;
+ // preserve AST byte-parity for all remaining presentation adapters.
  for(const file of presentation){
   const old=execFileSync('git',['show',SHA+':'+file],{cwd:base,encoding:'utf8'}),now=fs.readFileSync(path.join(base,file),'utf8');
   A.deepEqual(canonical(acorn.parse(now,{ecmaVersion:'latest'})),canonical(acorn.parse(old,{ecmaVersion:'latest'})),file+' changed beyond message registry lookup');
  }
  // SEO-07 adds a new UI-only URL adapter, absent from the financial baseline.
  // Its priority, URL preservation and untouched models have dedicated tests.
- const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!['nomad360_seo_language.js','nomad360_return.js','nomad360_simple_service_examples.js','nomad360_sales_tax.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js','nomad360_sales_tax_v2.js'].includes(f)&&!presentation.has(f));
+ const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!['nomad360_seo_language.js','nomad360_return.js','nomad360_simple_service_examples.js','nomad360_sales_tax.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js','nomad360_sales_tax_v2.js','nomad360_price_export.js'].includes(f)&&!presentation.has(f));
  A.ok(files.length>=10);
  for(const file of [...files,'vendor/exceljs-4.4.0.min.js']){
   // PR #141 accepted a visitor-counter retry fix after the financial baseline.

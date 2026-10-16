@@ -5,18 +5,24 @@ test('All existing application files stay exact outside the five authorised pres
  const files=execFileSync('git',['ls-tree','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/\.(js|css|html)$/i.test(f)||f==='CALCULATOR_LICENSE.md');A.ok(files.includes('portfolio_v2_engine.js')&&files.includes('Marketing_calc.HTML')&&files.includes('nomad360_fx.js'));
  // The later owner-approved consulting B2B copy touches only these presentation files;
  // tests/nomad360_marketing_scope.test.cjs guards their unchanged non-B2B behavior.
- const laterApprovedMarketing=new Set(['nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.css']);
+ // 7Б-5 modifies the two accepted export renderers only; their original VAT numbers
+ // are protected by frozen VAT and stage-5 export compatibility tests.
+ const laterApprovedMarketing=new Set(['nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.css','nomad360_price_export.js','nomad360_calculator_ui.js']);
  for(const file of files)if(!laterApprovedMarketing.has(file)){
   const actual=fs.readFileSync(path.join(root,file),'utf8');
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(file)){
    const audited=execFileSync('git',['show','6c5c0e3a4927fb50b88ab99914145bb9016bb24a:'+file],
      {cwd:root,encoding:'utf8'});
-   A.equal(actual,audited,'7Б-4 isolated accepted V2 interface bytes: '+file);
+   A.equal(require('./helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(file,actual),
+      audited,'7Б-4 V2 UI is byte-exact outside 7Б-5 tax hunks: '+file);
    continue;
   }
-  A.equal(stripReturn(file,actual.replace(
+  const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
+   const normalized=stripReturn(file,actual.replace(
    file==='Marketing_calc.HTML'?'<script src="./nomad360_sales_tax_service_v1.js"></script>\n':
-    '\u0000stage3-noop\u0000','')),before(file),file);
+    '\u0000stage3-noop\u0000',''));
+   A.equal(file==='Marketing_calc.HTML'?mask(normalized):normalized,
+    file==='Marketing_calc.HTML'?mask(before(file)):before(file),file);
  }
  const published=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(en\/|license\/|assets\/nomad360-seo\.css$|scripts\/seo\/(build\.py|pages\.json|hero_banner\.css)$)/.test(f));for(const file of published)A.deepEqual(fs.readFileSync(path.join(root,file)),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
  A.deepEqual(fs.readFileSync(path.join(root,'nomad360_wolf_open_circle.png')),execFileSync('git',['show',base+':nomad360_wolf_open_circle.png'],{cwd:root,maxBuffer:4*1024*1024}));

@@ -1,6 +1,7 @@
 /* Linked V2 UI: no duplicated unit-cost or funnel inputs. */
 (function(root){
 'use strict';
+const taxText=()=>root.Nomad360LocaleCore?.locales?.('tax')?.[root.Nomad360UI?.getLanguage?.()||'ru']||{};
 const Engine=root.LinkedPortfolioV2Engine;
 const storageKey='marketingCalcLinkedPortfolioV2';
 // Display-only buyer quote. Agency commission is not the principal's sale.
@@ -317,14 +318,14 @@ function render(){
  '<div id="linked-resources">'+state.resources.map(resourceCard).join('')+'</div>'+
  '<button type="button" data-linked-add class="nd-v2-action nd-v2-action-secondary w-full rounded-lg border-2 border-dashed border-indigo-300 text-indigo-800 font-bold p-3 mt-4">+ Добавить общий ресурс</button></section>'+
  '<section class="nd-v2-section rounded-2xl border border-slate-200 p-4 mb-5" data-linked-sales-tax>'+
- '<h2 class="nd-v2-title text-lg font-bold">Налог на продажу</h2>'+
- '<label class="nd-v2-field block text-sm mt-2">Режим налога<select class="input-field mt-1" data-linked-tax-mode>'+
- [['vat','НДС (VAT / IVA)'],['sales_tax','Sales Tax'],['none','Без налога на продажу']].map(([key,label])=>
+ '<h2 class="nd-v2-title text-lg font-bold">'+safe(taxText().v2SalesTaxLabel||'Налог на продажу')+'</h2>'+
+ '<label class="nd-v2-field block text-sm mt-2">'+safe(taxText().v2TaxMode||'Режим налога')+'<select class="input-field mt-1" data-linked-tax-mode>'+
+ [['vat',taxText().v2VatLabel||'НДС (VAT / IVA)'],['sales_tax','Sales Tax'],['none',taxText().v2NoneLabel||'Без налога на продажу']].map(([key,label])=>
   '<option value="'+key+'" '+((state.tax?.taxRegime||'vat')===key?'selected':'')+'>'+label+'</option>').join('')+
  '</select></label>'+
  ((state.tax?.taxRegime||'vat')==='sales_tax'?
-  '<label class="nd-v2-field block text-sm mt-2">Ставка Sales Tax, %<input class="input-field mt-1" type="number" step="0.01" min="0" inputmode="decimal" data-linked-tax-rate value="'+safe(state.tax?.salesTaxPct??'')+'"></label>':'')+
- '<p class="text-xs mt-2">Индивидуальные налоговые вычеты и льготы не учитываются. Для оптимизации налогообложения проконсультируйтесь с бухгалтером.</p></section>'+
+  '<label class="nd-v2-field block text-sm mt-2">'+safe(taxText().v2SalesTaxRate||'Ставка Sales Tax, %')+'<input class="input-field mt-1" type="number" step="0.01" min="0" inputmode="decimal" data-linked-tax-rate value="'+safe(state.tax?.salesTaxPct??'')+'"></label>':'')+
+ '<p class="text-xs mt-2" data-v2-tax-advisory>'+safe(taxText().v2NoticeFull||taxText().v2DeductionsNoticeLinked)+'</p></section>'+
  '<section class="nd-v2-section rounded-2xl border border-sky-200 p-4 mb-5" data-temporal-controls>'+
  '<h2 class="nd-v2-title text-lg font-bold">План продаж и загрузка по месяцам</h2>'+
   (inheritedServicePeriod(state)!==null?
@@ -559,7 +560,7 @@ function updateResult(){
   '</tbody></table></div>';
  const taxPanel=taxMode!=='vat'&&out.salesTaxSummary?
   '<section data-linked-sales-tax-summary class="mt-4 p-3 border border-white/25 rounded-lg">'+
-  '<h3 class="font-bold">Sales Tax — транзитный налог покупателей</h3>'+
+  '<h3 class="font-bold">'+safe(taxText().v2BuyerSummary||'Sales Tax — транзитный налог покупателей')+'</h3>'+
   out.salesTaxSummary.lines.map(q=>'<div data-tax-sku="'+safe(q.id)+'">'+safe(q.id)+
    ': без налога '+money(q.net)+'; Sales Tax '+money(q.salesTax)+
    '; покупатель '+money(q.customerTotal)+'</div>').join('')+
@@ -675,6 +676,7 @@ function mount(){
  const el=document.getElementById('portfolio-v2-root');
  if(el){el.addEventListener('input',onEvent);el.addEventListener('change',onEvent);el.addEventListener('click',onEvent);}
  updateEntry();
+ document.addEventListener('nomad360:languagechange',()=>{if(state)render();});
 }
 root.LinkedPortfolioV2UI=Object.freeze({importFromV1,appendOnline,appendFullService,
  resume,read,updateEntry,getState:()=>state?JSON.parse(JSON.stringify(state)):null});
