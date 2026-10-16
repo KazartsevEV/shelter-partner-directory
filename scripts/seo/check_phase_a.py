@@ -40,6 +40,14 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name == 'nomad360_repo_traffic.json':
+            # The Insights bot refreshes this file directly on main.
+            # On a PR merge require exact equality with the tested base,
+            # not an obsolete historical SHA; never allow PR edits here.
+            base = comparison_base(os.environ.get('SEO_BASE_REF', 'origin/main'))
+            current = subprocess.check_output(['git', 'show', base + ':' + name], cwd=ROOT)
+            assert raw == current, 'Repo traffic differs from tested main; PR edit forbidden'
+            continue
         if name == 'nomad360_calculator_ui.css':
             # Check full shipping CSS before the established RET-07A stripping
             # helper removes later presentation sections.
