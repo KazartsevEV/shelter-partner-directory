@@ -14,7 +14,7 @@ test('Only the four requested presentation files may change; all financial sourc
   .replace(/\.nomad-pay-kaspi \.nomad-pay-hint,\.nomad-pay-ozon \.nomad-pay-hint\{/g,'.nomad-pay-kaspi .nomad-pay-hint{')
   .replace(/ \.nomad-pay-bank,\.nomad-pay-kaspi,\.nomad-pay-ozon\{/g,' .nomad-pay-bank,.nomad-pay-kaspi{');
  A.ok(maskB2BCta(now('nomad360_calculator_ui.css')).startsWith(maskB2BCta(before('nomad360_calculator_ui.css'))),'Accepted typography and support styling remain intact outside the explicitly changed B2B CTA colors');
- const stage4='cf2a9766d88927d929d54e8afed77f6fa99b79a8';
+ const stage4='6c5c0e3a4927fb50b88ab99914145bb9016bb24a';
  A.ok(files.length>20);for(const file of files)if(!editable.has(file)){
    if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(file)){
      A.equal(now(file),execFileSync('git',['show',stage4+':'+file],{cwd:root,encoding:'utf8'}),
