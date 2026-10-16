@@ -224,6 +224,17 @@ def main():
             # Phase B adds exactly one canonical and one isolated language module.
             raw = raw.replace(b'    <link rel="canonical" href="https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML">\n', b'', 1)
             raw = raw.replace(b'<script src="./nomad360_seo_language.js"></script>\n', b'', 1)
+        if name == 'nomad360_price_export.js':
+            # Sales Tax extends the DOCUMENT projection only, not XLSX writer
+            # or the accepted locale table. Audit every other byte against 7B-4.
+            approved = subprocess.check_output(
+                ['git','show','817e5e14ae65091f474442a672831d93a3ea8f28:' + name], cwd=ROOT)
+            assert hashlib.sha256(approved).hexdigest() == expected, 'Accepted exporter baseline drift'
+            document_fn = re.compile(rb'(?ms)^function document\\([^\\n]*\\)\\{.*?^\\}\\n')
+            assert len(document_fn.findall(raw)) == len(document_fn.findall(approved)) == 1
+            assert document_fn.sub(b'function document(/* 7B5 projection */){}\n', raw) == (
+                document_fn.sub(b'function document(/* 7B5 projection */){}\n', approved)), name
+            continue
         if name == 'nomad360_calculator_ui.js':
             # Later approved 7B-5 changes only table, printable and language
             # lifecycle renderers. Pin every OTHER byte to the accepted 7B-4
