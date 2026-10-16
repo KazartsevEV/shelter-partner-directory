@@ -82,8 +82,43 @@ function withLegacyVat(choice){
  root.selectProductYesNo('salesVat',choice);
  if(field&&previous!==undefined)field.value=previous;
 }
+// V1 agency has two older VAT surfaces: the agent fee and the
+// principal's settlement. Neither is a Sales Tax deduction. Preserve both
+// historic inputs for a reversible VAT -> Sales Tax -> VAT switch.
+let transientVat=null;
+function replaceItemVat(item,enabled){
+ if(!item||item.source!=='offline-service')return;
+ if(!enabled){
+  if(!item.salesTaxVatBackup)item.salesTaxVatBackup={
+    choice:item.uiState?.choices?.salesVat||'no',
+    partnerRate:item.serviceAgency?.partnerVatPct??0,
+    partnerInput:item.inputs?.['service-agent-partner-vat']??'0'
+  };
+  if(item.uiState?.choices)item.uiState.choices.salesVat='no';
+  if(item.serviceAgency)item.serviceAgency.partnerVatPct=0;
+  if(item.inputs)item.inputs['service-agent-partner-vat']='0';
+ }else if(item.salesTaxVatBackup){
+  if(item.uiState?.choices)item.uiState.choices.salesVat=item.salesTaxVatBackup.choice;
+  if(item.serviceAgency)item.serviceAgency.partnerVatPct=item.salesTaxVatBackup.partnerRate;
+  if(item.inputs)item.inputs['service-agent-partner-vat']=item.salesTaxVatBackup.partnerInput;
+  delete item.salesTaxVatBackup;
+ }
+}
+function swapAgencyVat(next){
+ const field=document.getElementById('service-agent-partner-vat');
+ if(next!=='vat'){
+  if(!transientVat)transientVat={rate:field?.value??'0',choice:productOwnChoices.salesVat};
+  if(field)field.value='0';
+  for(const item of productPortfolio)replaceItemVat(item,false);
+ }else{
+  if(field&&transientVat)field.value=transientVat.rate;
+  for(const item of productPortfolio)replaceItemVat(item,true);
+  transientVat=null;
+ }
+}
 function selectFull(next){
  if(!['vat','sales_tax','none'].includes(next)||next==='sales_tax'&&mixed())return false;
+ swapAgencyVat(next);
  mode=next;
  withLegacyVat(next==='vat'?'yes':'no');
  drawFull();root.renderProductBusinessSummary();root.refreshAllAggregatePricing();
@@ -158,10 +193,20 @@ root.renderProductBusinessSummary=function(){
  renderFull();return value;
 };
 root.saveCurrentProductToPortfolio=function(){
+ const previous=productPortfolio.find(x=>Number(x.id)===Number(currentProductSequence));
+ const legacyBackup=previous?.salesTaxVatBackup;
  const value=original.saveSku.apply(this,arguments);
  if(fullActive()&&fullService()&&!mixed()){
   const sku=productPortfolio.find(x=>Number(x.id)===Number(currentProductSequence));
-  if(sku){sku.taxRegime='sales_tax';sku.salesTaxPct=rate;}
+  if(sku){
+   if(legacyBackup)sku.salesTaxVatBackup=legacyBackup;
+   else if(!sku.salesTaxVatBackup)sku.salesTaxVatBackup={
+    choice:transientVat?.choice||'no',partnerRate:Number(transientVat?.rate)||0,
+    partnerInput:transientVat?.rate||'0'
+   };
+   replaceItemVat(sku,false);
+   sku.taxRegime='sales_tax';sku.salesTaxPct=rate;
+  }
  }
  return value;
 };
@@ -183,8 +228,14 @@ root.saveProductCalculationToBrowser=function(){
 };
 function restoreFull(payload){
  if(payload?.taxRegime==='sales_tax'&&payload.productPortfolio?.every(x=>x.source==='offline-service')){
-  mode='sales_tax';rate=String(payload.salesTaxPct??'');withLegacyVat('no');
- }else{mode=null;rate='';}
+  mode='sales_tax';rate=String(payload.salesTaxPct??'');
+  const backup=payload.productPortfolio[0]?.salesTaxVatBackup;
+  transientVat={rate:String(backup?.partnerInput??'0'),choice:backup?.choice||'no'};
+  const field=document.getElementById('service-agent-partner-vat');
+  if(field)field.value='0';
+  for(const item of productPortfolio)replaceItemVat(item,false);
+  withLegacyVat('no');
+ }else{mode=null;rate='';transientVat=null;}
  renderFull();
 }
 root.resumeSavedProductCalculation=function(){
@@ -196,8 +247,8 @@ root.startFreshProductCalculation=function(){
  const prior=mode,priorRate=rate;
  const value=original.fresh.apply(this,arguments);
  if(productPortfolio.length&&prior==='sales_tax'){
-  mode=prior;rate=priorRate;withLegacyVat('no');
- }else{mode=null;rate='';}
+  mode=prior;rate=priorRate;swapAgencyVat('sales_tax');withLegacyVat('no');
+ }else{mode=null;rate='';transientVat=null;}
  renderFull();return value;
 };
 root.editSavedProduct=function(id){
@@ -205,12 +256,12 @@ root.editSavedProduct=function(id){
  const value=original.edit.apply(this,arguments);
  if(item?.source==='offline-service'&&item?.taxRegime==='sales_tax')
   restoreFull({taxRegime:'sales_tax',salesTaxPct:item.salesTaxPct,productPortfolio:[item]});
- else if(!productPortfolio.some(x=>x.taxRegime==='sales_tax')){mode=null;rate='';renderFull();}
+ else if(!productPortfolio.some(x=>x.taxRegime==='sales_tax')){mode=null;rate='';transientVat=null;renderFull();}
  return value;
 };
 root.addAnotherProduct=function(){
  const prev=mode,r=rate,value=original.append.apply(this,arguments);
- if(value&&prev==='sales_tax'){mode=prev;rate=r;withLegacyVat('no');}
+ if(value&&prev==='sales_tax'){mode=prev;rate=r;swapAgencyVat('sales_tax');withLegacyVat('no');}
  renderFull();return value;
 };
 root.exportProductCalculationPdf=function(){
