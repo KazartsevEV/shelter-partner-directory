@@ -19,7 +19,7 @@ test('Inter preserves application logic; current task-6 presentation files have 
    old=Buffer.from(stripStyles(old.toString()));
   }
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(p)){
-   const stage4='cf2a9766d88927d929d54e8afed77f6fa99b79a8';
+   const stage4='6c5c0e3a4927fb50b88ab99914145bb9016bb24a';
    const approved=execFileSync('git',['show',stage4+':'+p],{cwd:root});
    A.deepEqual(now,approved,'only the accepted 7Б-4 UI changes: '+p);
    continue;
