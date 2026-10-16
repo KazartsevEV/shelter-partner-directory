@@ -11,7 +11,7 @@ const COPY={
   description:'Опишите проблему с калькулятором. Аккаунт и имя не нужны.',
   message:'Что не работает?',messageHint:'Опишите ошибку',steps:'Как повторить проблему? (необязательно)',
   stepsHint:'Что вы сделали перед появлением ошибки?',email:'Email для ответа (необязательно)',
-  emailHint:'name@example.com',privacy:'Будут переданы только описание ошибки, шаги, email (если указан), язык интерфейса и ширина экрана. Расчёты, сохранения, товары и документы не передаются. Обработчик может видеть IP-адрес.',
+  emailHint:'name@example.com',privacy:'Будут переданы только описание ошибки, шаги, email (если указан), язык интерфейса и ширина экрана. Расчёты, сохранения, товары и документы не передаются. Обработчик может видеть IP-адрес и домен сайта.',
   send:'Отправить',sending:'Отправляем…',success:'Спасибо! Сообщение отправлено.',
   failure:'Не удалось отправить сообщение. Попробуйте ещё раз.',tooMany:'Слишком много запросов. Повторите позже.',
   unavailable:'Отправка пока не подключена. Форма доступна для ознакомления.',required:'Опишите ошибку перед отправкой.'
@@ -21,7 +21,7 @@ const COPY={
   description:'Describe a problem with the calculator. No account or name is needed.',
   message:'What went wrong?',messageHint:'Describe the bug',steps:'Steps to reproduce (optional)',
   stepsHint:'What did you do before the problem appeared?',email:'Reply email (optional)',
-  emailHint:'name@example.com',privacy:'Only your description, steps, email (if provided), interface language and screen width are sent. Calculations, saved drafts, products and documents are never sent. The provider may see your IP address.',
+  emailHint:'name@example.com',privacy:'Only your description, steps, email (if provided), interface language and screen width are sent. Calculations, saved drafts, products and documents are never sent. The provider may see your IP address and the site domain.',
   send:'Send report',sending:'Sending…',success:'Thank you! Your report has been sent.',
   failure:'The report could not be sent. Please try again.',tooMany:'Too many requests. Please try again later.',
   unavailable:'Sending is not configured yet. You can preview the form.',required:'Please describe the problem before sending.'
@@ -31,7 +31,7 @@ const COPY={
   description:'Калькулятордағы мәселені сипаттаңыз. Аккаунт пен аты-жөніңіз қажет емес.',
   message:'Қандай қате болды?',messageHint:'Қатені сипаттаңыз',steps:'Қатені қайталау қадамдары (міндетті емес)',
   stepsHint:'Қате шыққанға дейін не істедіңіз?',email:'Жауапқа арналған email (міндетті емес)',
-  emailHint:'name@example.com',privacy:'Тек қате сипаттамасы, қадамдар, email (көрсетілсе), интерфейс тілі және экран ені жіберіледі. Есептеулер, сақталған деректер, тауарлар және құжаттар жіберілмейді. Қызмет көрсетуші IP-мекенжайыңызды көруі мүмкін.',
+  emailHint:'name@example.com',privacy:'Тек қате сипаттамасы, қадамдар, email (көрсетілсе), интерфейс тілі және экран ені жіберіледі. Есептеулер, сақталған деректер, тауарлар және құжаттар жіберілмейді. Қызмет көрсетуші IP-мекенжайыңызды және сайт доменін көруі мүмкін.',
   send:'Жіберу',sending:'Жіберілуде…',success:'Рақмет! Хабарламаңыз жіберілді.',
   failure:'Хабарлама жіберілмеді. Қайталап көріңіз.',tooMany:'Сұрау тым көп. Кейінірек қайталаңыз.',
   unavailable:'Жіберу қызметі әлі қосылмаған. Форманы қарап шығуға болады.',required:'Жіберер алдында қатені сипаттаңыз.'
@@ -41,9 +41,12 @@ function language(){
  const code=root.Nomad360UI?.getLanguage?.()||root.Nomad360LocaleCore?.locale?.()||document.documentElement.lang;
  return code==='en'||code==='kk'?code:'ru';
 }
+const APPROVED_FORM_ID='mwlvadod';
 function endpoint(){
- // Never accept arbitrary hosts or email-as-endpoint form URLs.
- const value=document.documentElement.getAttribute('data-nomad-bug-endpoint')||'';
+ // Owner-approved public routing ID: no modification of the protected calculator HTML.
+ // Explicit attribute overrides exist for isolated browser transport tests.
+ const value=document.documentElement.getAttribute('data-nomad-bug-endpoint')||
+  ('https://formspree.io/f/'+APPROVED_FORM_ID);
  return /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/.test(value)?value:null;
 }
 function boot(){
@@ -155,7 +158,7 @@ function boot(){
   try{
    const response=await root.fetch(destination,{
     method:'POST',body:payload,headers:{Accept:'application/json'},
-    credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal
+    credentials:'omit',referrerPolicy:'strict-origin-when-cross-origin',signal:controller.signal
    });
    // A 2xx HTTP response alone is insufficient: confirm the handler result.
    let receipt=null;
