@@ -4431,6 +4431,7 @@
             const advicePrice = section.querySelector('[data-business-advice-price]');
             if (advicePrice) {
                 const shownPrice =
+                    v1SalesTaxActive()&&v1SalesTaxError()?null:
                     p.priceBeforeTaxWithVat !== null
                         ? p.priceBeforeTaxWithVat
                         : p.priceBeforeTax;
@@ -5610,12 +5611,14 @@
                         : null;
 
                 const marketPrice =
+                    v1SalesTaxActive()&&v1SalesTaxError()?null:
                     vatEnabled && p.taxAdjustedPriceWithVat !== null
                         ? p.taxAdjustedPriceWithVat
                         : p.taxAdjustedPrice;
                 const marketPriceText = aggregatePriceText(marketPrice);
 
                 const finalBuyerPrice =
+                    v1SalesTaxActive()&&v1SalesTaxError()?null:
                     vatEnabled && p.taxAdjustedPriceWithVat !== null
                         ? p.taxAdjustedPriceWithVat
                         : p.taxAdjustedPrice;
