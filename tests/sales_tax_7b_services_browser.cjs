@@ -214,7 +214,8 @@ async function simple(page,role){
     snapshot:onlineV1PortfolioSnapshot,
     cash:document.getElementById('service-simple-free-cash-value').textContent,
     detail:document.querySelector('[data-sales-tax-service="simple"] [data-st-details]').textContent,
-    mode:Nomad360SalesTaxServiceV1.getSimple(),v2:openLinkedPortfolioFromOnline()
+    mode:Nomad360SalesTaxServiceV1.getSimple(),v2:openLinkedPortfolioFromOnline(),
+    v2Tax:LinkedPortfolioV2UI.getState()?.tax
    }));
    A.deepEqual(state.snapshot,original.snapshot);
    const net=original.snapshot.period.grossRevenue;
@@ -222,10 +223,12 @@ async function simple(page,role){
     freeCash:state.cash});
    A.equal(state.cash,original.cash);A.equal(state.mode.rate,'8');
    A.ok(state.detail.includes('Sales Tax'));
-   A.equal(state.v2,false,'do not silently transfer unsupported tax regime');
+   A.equal(state.v2,true,'7Б-4 explicitly transfers confirmed Sales Tax into V2');
+   A.equal(state.v2Tax.taxRegime,'sales_tax');
+   A.equal(Number(state.v2Tax.salesTaxPct),8);
    if(role==='agent')A.ok(state.detail.includes('Agent')||state.detail.includes('агента'));
    await page.evaluate(()=>Nomad360SalesTaxServiceV1.setSimpleRate(''));
-   A.ok((await page.locator('[data-sales-tax-service="simple"] [data-st-error]').innerText()).includes('Sales Tax'));
+   A.ok((await page.locator('[data-sales-tax-service="simple"] [data-st-error]').textContent()).includes('Sales Tax'));
    await page.evaluate(()=>Nomad360SalesTaxServiceV1.setSimpleRate('8'));
    await page.reload({waitUntil:'domcontentloaded'});
    A.deepEqual(await page.evaluate(()=>Nomad360SalesTaxServiceV1.getSimple()),{mode:'sales_tax',rate:'8'});
