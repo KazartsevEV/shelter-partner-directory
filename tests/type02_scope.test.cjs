@@ -22,7 +22,8 @@ test('Inter preserves application logic; current task-6 presentation files have 
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(p)){
    const stage4='6c5c0e3a4927fb50b88ab99914145bb9016bb24a';
    const approved=execFileSync('git',['show',stage4+':'+p],{cwd:root});
-   A.deepEqual(now,approved,'only the accepted 7Б-4 UI changes: '+p);
+   A.deepEqual(Buffer.from(require('./helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(p,now.toString())),
+      approved,'7Б-4 V2 UI plus byte-exact 7Б-5 tax hunks: '+p);
    continue;
   }
   if(p==='portfolio_v2_linked_ui.js'){
