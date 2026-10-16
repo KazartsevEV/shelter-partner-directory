@@ -269,8 +269,9 @@ function buildShell(){
   heroNode.querySelector('h3').after(intro.querySelector('.nomad-intro-cta'));
   (document.getElementById('nomad360-seo-banner')||heroNode).after(intro);
  }
- const foot=document.getElementById('nomad360-footer');
- if(foot){foot.outerHTML=footer()}else{document.body.insertAdjacentHTML('beforeend',footer())}
+ // The footer is owned by nomad360_header.js and refreshed on languagechange.
+ // Keep its node intact so an open B2B comparison and disclosures survive.
+ if(!document.getElementById('nomad360-footer'))document.body.insertAdjacentHTML('beforeend',footer());
  let chooser=document.getElementById('nomad360-language-chooser');
  if(!chooser){chooser=document.createElement('div');chooser.id='nomad360-language-chooser';
  chooser.className='nomad-language';document.body.prepend(chooser);}
