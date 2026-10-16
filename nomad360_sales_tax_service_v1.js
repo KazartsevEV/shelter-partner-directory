@@ -20,7 +20,7 @@ const messages=[
 const lang=()=>messages[['ru','en','kk'].indexOf(root.Nomad360UI?.getLanguage?.())]||messages[0];
 let mode=null,rate='',simpleMode=simpleSaved?.mode==='sales_tax'?'sales_tax':'none',
  simpleRate=String(simpleSaved?.rate??''),fullWidget=null,simpleWidget=null,oldVatRate='';
-const fullActive=()=>mode==='sales_tax';
+const fullActive=()=>mode==='sales_tax'&&fullService();
 const simpleActive=()=>simpleMode==='sales_tax';
 const fullService=()=>productSource==='offline-service';
 const mixed=()=>productPortfolio.some(x=>x.source!=='offline-service');
