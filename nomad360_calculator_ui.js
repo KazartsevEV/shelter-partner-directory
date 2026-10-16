@@ -291,26 +291,45 @@ function status(item,out){
 }
 function table(items,out,currency=root.Nomad360Currency?.get()||'USD',kind='linked'){
  const standalone=kind==='standalone',show=v=>typeof v==='number'&&Number.isFinite(v)?fmt(v):'—';
- const baseTitle=standalone?root.Nomad360PriceExport.document({state:{currency},out,kind},lang).columns[4]:tr('base');
+ const state=exportContext?.state||{currency};
+ const doc=root.Nomad360PriceExport.document({state:{...state,currency},out,kind},lang);
+ const baseTitle=doc.columns[4];
  return '<table class="nomad-export-table"><thead><tr>'+
  [tr('item'),tr('type'),baseTitle+' ('+currency+')',tr('discount'),tr('customer')+' ('+currency+')'].map(s=>'<th>'+esc(s)+'</th>').join('')+
- '</tr></thead><tbody>'+items.map(item=>
- '<tr><td data-nomad-no-translate>'+esc(item.name)+'</td><td>'+esc(tr(sourceType[item.source||item.sourcing?.source]||'item'))+'</td>'+
- '<td class="n" data-nomad-list-price>'+show(standalone?item.price:item.priceList)+'</td><td class="n">'+(standalone?'—':show(item.discountSelected)+'%')+'</td>'+
- '<td class="n" data-nomad-customer-price><strong>'+show(standalone?item.priceWithVat:item.priceGross)+'</strong></td></tr>').join('')+
+ '</tr></thead><tbody>'+items.map((item,i)=>{
+  const row=doc.rows[i];
+  return '<tr><td data-nomad-no-translate>'+esc(item.name)+'</td><td>'+esc(tr(sourceType[item.source||item.sourcing?.source]||'item'))+'</td>'+
+  '<td class="n" data-nomad-list-price>'+show(row[4])+'</td><td class="n">'+(standalone?'—':show(row[5])+'%')+'</td>'+
+  '<td class="n" data-nomad-customer-price><strong>'+show(row[6])+'</strong></td></tr>';
+ }).join('')+
  '</tbody></table>'+
  (out.cashflow?.periodPnl?.accountingCompleteness==='PROVISIONAL'?'<p class="nomad-alert">'+tr('warning')+'</p>':'')+
- '<p class="nomad-footnote">'+(standalone?esc(root.Nomad360PriceExport.document({state:{currency},out,kind},lang).notes[1]):tr('offer'))+'</p>';
+ '<p class="nomad-footnote">'+esc(doc.taxMode==='vat'?(standalone?doc.notes[1]:tr('offer')):doc.notes[1])+'</p>';
 }
 function printable(mode,context){
  const {state,out,kind}=context,p=out.cashflow?.periodPnl,cf=out.cashflow;
+ const taxMode=state.tax?.taxRegime||'vat';
+ const taxWords=root.Nomad360LocaleCore?.locales?.('tax')?.[lang]||{};
  const title=mode==='price'?tr('listAction'):tr('report');
  let html='<header class="nomad-print-head"><div>NOMAD360</div><h1>'+esc(title)+'</h1>'+
  '<p>'+tr('horizon')+': '+esc(state.forecastMonths||state.marketing?.periodMonths||1)+' '+tr('months')+' · '+esc(state.currency||root.Nomad360Currency?.get()||'USD')+'</p></header>'+
  table(out.items,out,state.currency||'USD',kind);
+ if(taxMode!=='vat'&&out.salesTaxSummary){
+  const summary=out.salesTaxSummary;
+  html+='<h2>'+esc(taxWords.v2BuyerSummary||'Sales Tax')+'</h2>'+
+   '<table class="nomad-export-table"><thead><tr>'+
+   [tr('item'),tr('revenue'),'Sales Tax',tr('customer')].map(x=>'<th>'+esc(x)+'</th>').join('')+
+   '</tr></thead><tbody>'+summary.lines.map(line=>
+    '<tr><td data-nomad-no-translate>'+esc(out.items.find(x=>String(x.id)===String(line.id))?.name||line.id)+'</td>'+
+    [line.net,line.salesTax,line.customerTotal].map(x=>'<td class="n">'+fmt(x)+'</td>').join('')+
+    '</tr>').join('')+
+   '<tr><th>'+esc(tr('summary'))+'</th>'+
+   [summary.net,summary.salesTax,summary.customerTotal].map(x=>'<td class="n">'+fmt(x)+'</td>').join('')+
+   '</tr></tbody></table>';
+ }
  if(mode==='report'){
  const reportValues=[
-  [tr('revenue'),p?.revenue??out.totals.revenue],
+  [taxMode==='vat'?tr('revenue'):tr('revenue').replace(/VAT|НДС|ҚҚС/gi,'').trim(),p?.revenue??out.totals.revenue],
   [tr('profit'),p?.netProfit??out.totals.netProfit],
   [tr('margin'),p?.netMargin??null]
  ];
@@ -345,7 +364,7 @@ function printable(mode,context){
  if(out.resources?.length)html+='<h2>'+tr('resources')+'</h2><table class="nomad-export-table"><tbody>'+
  out.resources.map(x=>'<tr><td data-nomad-no-translate>'+esc(x.label)+'</td><td class="n">'+fmt(x.amount)+'</td>'+
  '<td>'+esc(tr(x.cadence==='once'?'cadenceOnce':'cadenceMonthly'))+'</td></tr>').join('')+'</tbody></table>';
- html+='<p class="nomad-footnote">'+tr('noTax')+'</p>';
+ html+='<p class="nomad-footnote">'+esc(taxMode==='vat'?tr('noTax'):(taxWords.v2DeductionsNotice||tr('source')))+'</p>';
  }
  html+='<footer class="nomad-print-end">'+tr('source')+' · NOMAD360</footer>';
  return html;
