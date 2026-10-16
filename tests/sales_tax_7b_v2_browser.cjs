@@ -16,7 +16,10 @@ async function pageFor(browser,base,width=390){
  p.on('pageerror',err=>errors.push(err.message));
  await p.route(/^https?:\/\//,r=>r.request().url().startsWith(base)?r.continue():r.abort());
  await p.goto(base+'Marketing_calc.HTML?sales_tax_preview=1',{waitUntil:'domcontentloaded'});
- A.equal(typeof await p.evaluate(()=>window.Nomad360SalesTaxV2?.project),'function');
+ const boot=await p.evaluate(()=>({tax:typeof window.Nomad360SalesTax,
+    v2:typeof window.Nomad360SalesTaxV2?.project,
+    scripts:Array.from(document.scripts).map(n=>n.getAttribute('src')).filter(Boolean).slice(-7)}));
+ A.equal(boot.v2,'function',JSON.stringify({boot,errors}));
  return {p,ctx,errors};
 }
 (async()=>{
