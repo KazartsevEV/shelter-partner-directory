@@ -236,9 +236,9 @@ def main():
             assert hashlib.sha256(accepted).hexdigest() == expected, 'Stage 4 SEO protected source drift'
             def mask_approved_print_functions(source):
                 for label in (b'table', b'printable', b'setLanguage'):
-                    matcher = re.compile(rb'(?ms)^function ' + label + rb'\\([^\\n]*\\)\\{.*?^\\}\\n')
+                    matcher = re.compile(rb'(?ms)^function ' + label + rb'\([^\n]*\)\{.*?^\}\n')
                     assert len(matcher.findall(source)) == 1, 'Unbounded export function: ' + label.decode()
-                    source = matcher.sub(b'function ' + label + b'(/* 7B5 approved */){}\\n', source, count=1)
+                    source = matcher.sub(b'function ' + label + b'(/* 7B5 approved */){}\n', source, count=1)
                 return source
             assert mask_approved_print_functions(raw) == mask_approved_print_functions(accepted), name
             continue
