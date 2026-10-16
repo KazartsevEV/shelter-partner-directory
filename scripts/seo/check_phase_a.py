@@ -22,6 +22,18 @@ def mask_stage_7b5_pdf(raw):
 
 
 
+def strip_task09_html(raw):
+    # One exact, standalone widget asset pair is approved after 7B-6.
+    # Refuse a duplicate, unpaired asset or changed insertion position.
+    css = b'    <link rel="stylesheet" href="./nomad360_bug_report.css">\n'
+    script = b'<script src="./nomad360_bug_report.js"></script>\n'
+    css_anchor = b'<link rel="stylesheet" href="./nomad360_calculator_ui.css">\n' + css
+    script_anchor = b'<script src="./nomad360_sales_tax_service_v1.js"></script>\n' + script
+    assert raw.count(css) == raw.count(script) == 1, 'Task09 unexpected loader count'
+    assert css_anchor in raw and script_anchor in raw, 'Task09 loader moved'
+    return raw.replace(css, b'', 1).replace(script, b'', 1)
+
+
 def read(name):
     return json.loads((EVIDENCE / name).read_text(encoding='utf-8'))
 
@@ -51,6 +63,7 @@ def main():
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
         if name == 'Marketing_calc.HTML':
+            raw = strip_task09_html(raw)
             assert raw.count(b'<script src="./nomad360_sales_tax_v2.js"></script>\n') == 1
         if name in ('portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js'):
             # Only the exact reviewed stage-4 UI integration is exempt from
@@ -315,7 +328,13 @@ def main():
         'tests/helpers/sales-tax-7b5-v2-scope.cjs',
         'tests/type02_acceptance_browser.cjs',
         '.github/workflows/sales-tax-7b5-export.yml',
-        'docs/reviews/sales-tax-7b/STAGE_7B5_ACCEPTANCE.md') for p in changed), changed
+        'docs/reviews/sales-tax-7b/STAGE_7B5_ACCEPTANCE.md',
+         # Task 09 permits only isolated widget assets and sharply audited guards.
+         'nomad360_bug_report.js', 'nomad360_bug_report.css',
+         'tests/nomad360_bug_report_browser.cjs',
+         '.github/workflows/bug-report-09.yml',
+         'docs/reviews/bug-report-09/REVIEW.md',
+         'tests/helpers/task09-html-scope.cjs') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
