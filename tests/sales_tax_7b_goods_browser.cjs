@@ -127,7 +127,7 @@ function comparable(m,f){return JSON.stringify({model:m,cash:f});}
      message:Nomad360SalesTaxV1.getState().error,buyer:aggregatePricingMetrics(productPortfolio[0]).taxAdjustedPriceWithVat,
      range:calculatePriceListRange(productPortfolio[0]),saved:saveProductCalculationToBrowser()
    }));
-   A.ok(bad.message.includes('ставку Sales Tax'));
+   A.ok(bad.message.includes('Sales Tax'),source+'/'+width+' localized rate validation');
    A.equal(bad.buyer,null);A.equal(bad.range.ready,false);A.equal(bad.saved,false);
    await page.evaluate(()=>Nomad360SalesTaxV1.setRate('8'));
    const saved=await page.evaluate(()=>({
