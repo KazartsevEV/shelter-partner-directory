@@ -1,0 +1,28 @@
+name: DEV 7B3 regenerate L0 (temporary)
+on:
+  push:
+    branches:
+      - feature/sales-tax-7b-3-services-v1
+permissions:
+  contents: write
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/sales-tax-7b-3-services-v1
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - name: Generate deterministic L0 and commit branch-only
+        run: |
+          node scripts/localization/inventory.cjs
+          git add docs/localization/l0/
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'chore(7Б-3): regenerate deterministic L0 service inventory'
+            git push origin HEAD:feature/sales-tax-7b-3-services-v1
+          fi
