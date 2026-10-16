@@ -479,10 +479,9 @@ function setLanguage(next){
  // Refresh an already-prepared print document in the newly selected UI locale,
  // without opening a print dialog or writing any financial input.
  const sheet=document.getElementById('nomad360-print-sheet');
- if(sheet&&payload&&['price','report'].includes(sheet.dataset.mode)){
+ if(sheet&&payload&&['price','report'].includes(sheet.dataset.mode))
   sheet.innerHTML=printable(sheet.dataset.mode,payload);
   root.Nomad360LocaleCore?.localizeElement(sheet);
- }
  document.dispatchEvent(new CustomEvent('nomad360:languagechange',{detail:{lang}}));
  // Re-open only a preview the user had already expanded before the rerender.
  if(restorePricePreview&&document.getElementById('nomad360-price-preview')?.hidden)showPreview();
