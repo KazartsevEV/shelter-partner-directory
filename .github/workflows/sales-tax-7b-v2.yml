@@ -30,7 +30,7 @@ jobs:
           node tests/sales_tax_7b_baseline.cjs
       - name: V2 Sales Tax pure contracts and both historical V2 models
         run: |
-          node --test tests/sales_tax_7b_v2_projection.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_online_adapter.test.cjs
+          node --test tests/sales_tax_7b_v2_projection.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_online_adapter.test.cjs tests/v1_service_v2_numeric_parity.test.cjs
 
       - name: Install pinned Chromium
         run: |
