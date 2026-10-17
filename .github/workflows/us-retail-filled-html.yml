@@ -53,9 +53,12 @@ jobs:
         if: success() && github.event_name == 'pull_request'
         run: |
           cp artifacts/us-retail-demo/US_Retail_Demo_FILLED.html US_Retail_Demo_FILLED.html
+          cp artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html US_Retail_Demo_EN_FILLED.html
+          cp artifacts/us-retail-demo/US-Retail-V2-EN-390px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-390px.png
+          cp artifacts/us-retail-demo/US-Retail-V2-EN-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-1280px.png
           cp artifacts/us-retail-demo/US-Retail-V2-390px.png docs/demos/us-main-street-12m/US-Retail-V2-390px.png
           cp artifacts/us-retail-demo/US-Retail-V2-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-1280px.png
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add US_Retail_Demo_FILLED.html docs/demos/us-main-street-12m/US-Retail-V2-390px.png docs/demos/us-main-street-12m/US-Retail-V2-1280px.png
+          git add US_Retail_Demo_FILLED.html US_Retail_Demo_EN_FILLED.html docs/demos/us-main-street-12m/US-Retail-V2-390px.png docs/demos/us-main-street-12m/US-Retail-V2-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-390px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-1280px.png
           git diff --cached --quiet || (git commit -m "artifact(US-V2): reviewable filled offline HTML and real calculator renders" && git push origin HEAD:"${{ github.event.pull_request.head.ref }}")
