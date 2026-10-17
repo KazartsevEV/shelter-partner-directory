@@ -42,7 +42,9 @@ body #nomad360-commercial-banner .nomad-seo-tagline span{display:block}
 @media(max-width:600px){
  .nomad-banner{--nb-pad:20px}
  #nomad360-commercial-banner{padding:20px 4px 24px}
- #nomad360-commercial-banner::before{background-size:100% 100%,auto 100%;background-position:0 0,left bottom}
+ /* The Codex mobile landscape already lives in h3::before. Do not paint the
+    full-height scenic WebP a SECOND time behind the CTA/benefits. */
+ #nomad360-commercial-banner::before{background:none}
  body #nomad360-commercial-banner #nomad360-hero h3{position:relative;padding-top:150px;isolation:isolate}
  body #nomad360-commercial-banner #nomad360-hero h3::before{content:'';position:absolute;z-index:-1;inset:0 -4px auto;height:310px;background:url('./assets/nomad360-banners/hero.webp') 85% top/auto 310px no-repeat;mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 35%,transparent 90%)}
   /* The original art stays between heading and narrative. An underlay fades its
