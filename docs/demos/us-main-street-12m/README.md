@@ -24,7 +24,7 @@ Location: Worcester, Massachusetts. Currency USD. Twelve forecast months, starti
 The canonical inputs were run through **the repository's actual `PortfolioV2Engine.build`**, without replacing financial formulas. At the draft fixture date:
 - 10 valid items, 14 resources, 12 months, 150 model orders/month, 1,800/year.
 - Net product revenue (12 months, before collected sales tax): **$357,485.79**.
-- Separate transit Sales Tax projection: **$22,342.86** aggregate, buyer payments **$379,828.65**. These are per-portfolio full-precision projections; exact invoice-by-invoice rounding is not modelled.
+- The existing V2 Sales Tax projection is for **one representative month**: **$1,861.91** transit tax on **$29,790.48** net receipts. Multiplying the separately verified constant-month forecast by 12 gives an **illustrative annual** Sales Tax of **$22,342.86** and annual total buyer payments **$379,828.65**. The annual extension is documentation arithmetic, **not** a twelve-month Sales Tax invoice ledger in V2; invoice-by-invoice rounding is not modelled.
 - Model-sized loan principal **$45,232**, bullet repayment at month 12; reserve **$4,112**.
 - Model final cumulative cash balance **$45,413.03**, before subtracting reserve; model available cash after reserve **$41,301.03**.
 - These **model outputs are not an independent audited income statement**. The separate Node and Chromium tests verify the active model and independent arithmetic control of the 6.25% pass-through.
