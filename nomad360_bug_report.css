@@ -9,9 +9,9 @@
 }
 .nomad-bug-launcher{
  position:relative;
- display:inline-flex;align-items:center;justify-content:center;gap:7px;
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;
  max-width:min(205px,calc(100vw - 52px));height:44px;min-height:44px;
- box-sizing:border-box;padding:0 14px 0 11px;
+ box-sizing:border-box;padding:0 10px 0 8px;
  border:0;border-radius:0;
  background:#16375a;color:#fff;
  font:600 14px/1.25 var(--nd-font,Inter,system-ui,sans-serif);
@@ -20,7 +20,7 @@
 }
 .nomad-bug-launcher:hover{background:#204d7a}
 .nomad-bug-launcher:focus-visible{outline:2px solid #fff;outline-offset:-3px}
-.nomad-bug-launcher svg{flex:none;width:16px;height:16px}
+.nomad-bug-launcher svg{flex:none;width:20px;height:20px}
 .nomad-bug-dock.is-keyboard{display:none}
 .nomad-bug-dock-toggle{
  order:-1;
@@ -40,7 +40,7 @@
  padding:0;border-radius:8px 0 0 8px;gap:0;
 }
 .nomad-bug-dock.is-collapsed .nomad-bug-launcher [data-bug-copy="trigger"]{display:none}
-.nomad-bug-dock.is-collapsed .nomad-bug-launcher svg{width:17px;height:17px}
+.nomad-bug-dock.is-collapsed .nomad-bug-launcher svg{width:24px;height:24px}
 .nomad-bug-dialog{
  box-sizing:border-box;border:2px solid #16375a;border-radius:13px;
  background:#fff;color:#16375a;
