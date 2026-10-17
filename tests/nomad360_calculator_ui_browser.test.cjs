@@ -142,14 +142,15 @@ async function browserCase(browser,locale,expected){
   A.ok(typography.example.px>=16,'Auxiliary links stay tappable and legible');
   A.equal(typography.noteCopy.color,'rgb(56, 103, 139)','Muted copy must use approved secondary blue');
    const exampleRow=page.locator('#nomad360-home-secondary .nomad-example-row');
-   A.equal(await exampleRow.locator('a').count(),1,'Cotton shopper example is a single link');
+   A.equal(await exampleRow.locator('a').count(),2,'Shopper and US retail V2 each have one live entry');
+   A.equal(await exampleRow.locator('#us-retail-v2-live-link').count(),1);
    A.equal(await exampleRow.locator('.nomad-example-title, .nomad-example-copy').count(),0);
-   A.equal((await exampleRow.locator('a').textContent()).trim(),{
+   A.equal((await exampleRow.locator('a[href*="demo=shopper"]').textContent()).trim(),{
      ru:'Посмотреть пример расчёта хлопкового шоппера',
      en:'View a sample calculation for a cotton tote bag',
      kk:'Мақта шопперінің есептеу мысалын қарау'
    }[expected.lang]);
-   A.match(await exampleRow.locator('a').getAttribute('href'),/demo=shopper/);
+   A.match(await exampleRow.locator('a[href*="demo=shopper"]').getAttribute('href'),/demo=shopper/);
    const exampleLink=await page.locator('#nomad360-home-secondary .nomad-example-link').evaluate(node=>{
      const css=getComputedStyle(node);return {
        color:css.color,underline:css.textDecorationColor,style:css.textDecorationLine,
