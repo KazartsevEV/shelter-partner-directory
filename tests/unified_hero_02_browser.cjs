@@ -18,7 +18,7 @@ const server=http.createServer((req,res)=>{
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.route('**/*',route=>route.request().url().startsWith(origin)?route.continue():route.abort());
   await page.goto(origin+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
-  await page.waitForSelector('#nomad360-commercial-banner .nomad-first-hero-art');
+  await page.waitForSelector('#nomad360-commercial-banner .nomad-first-hero-art',{state:'attached'});
   await page.locator('#nomad360-lang-select').selectOption(lang);
   await page.waitForFunction(l=>document.documentElement.lang===l&&document.querySelector('#nomad360-commercial-banner .nomad-first-hero-art')&&document.querySelector('.nomad-seo-logo')?.src.startsWith('data:image/png;base64,'),lang,{timeout:25000});
   await page.evaluate(()=>document.fonts.ready);
