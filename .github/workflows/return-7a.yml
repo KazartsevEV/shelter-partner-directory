@@ -1,0 +1,59 @@
+name: RET-07A shortcuts and four UI changes
+
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360*.js'
+      - 'nomad360*.css'
+      - 'nomad360.webmanifest'
+      - 'assets/nomad360-icons/**'
+      - 'scripts/build-return-icons.py'
+      - 'tests/return_7a*'
+      - 'tests/helpers/return-contract.cjs'
+      - 'docs/reviews/return-7a/**'
+      - '.github/workflows/return-7a.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  return-shortcuts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install source parser
+        run: npm ci --prefix scripts/localization
+      - name: Syntax, exact scope, financial and localization contracts
+        run: |
+          node --check nomad360_return.js
+          node --check nomad360_header.js
+          node --check nomad360_calculator_ui.js
+          node --check tests/return_7a_browser.cjs
+          node --test tests/return_7a_scope.test.cjs tests/seo_language.test.cjs tests/nomad360_marketing_scope.test.cjs tests/type02_scope.test.cjs tests/nomad360_locale_semantic.test.cjs tests/shopper_v1_oracle.test.cjs tests/nomad360_public_license.test.cjs
+          node scripts/localization/inventory.cjs --check
+      - name: Install pinned browser and local utilities
+        run: |
+          npm install --prefix "$RUNNER_TEMP/return-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/return-tools/node_modules/.bin/playwright" install --with-deps chromium
+          mkdir -p artifacts/return-7a
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/return-utilities.css"
+          "$RUNNER_TEMP/return-tools/node_modules/.bin/tailwindcss" -i "$RUNNER_TEMP/return-utilities.css" --content './Marketing_calc.HTML,./nomad360_*.js,./portfolio_v2_*ui.js' -o artifacts/return-7a/utilities.css --minify
+      - name: Real downloads, dialogs, keyboard, restore, languages and install-event simulations
+        env:
+          NODE_PATH: ${{ runner.temp }}/return-tools/node_modules
+          RET_STAGE: all
+        run: node tests/return_7a_browser.cjs
+      - name: Upload independent CI receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: return-7a-browser-and-downloads
+          path: artifacts/return-7a/

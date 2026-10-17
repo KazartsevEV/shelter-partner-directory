@@ -1,0 +1,54 @@
+name: Currency converter acceptance
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_payments*'
+      - 'nomad360_payment_ui.js'
+      - 'nomad360_fx*'
+      - 'portfolio_v2_ui.js'
+      - 'tests/currency_converter*.cjs'
+      - '.github/workflows/currency-converter.yml'
+jobs:
+  converter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+      - run: npx playwright install --with-deps chromium
+      - name: Syntax and conversion contracts
+        run: |
+          node --check nomad360_payments.js
+          node --check nomad360_payment_ui.js
+          node --check nomad360_fx.js
+          node --check nomad360_fx_ui.js
+          node --check portfolio_v2_ui.js
+          node --check tests/currency_converter_browser.test.cjs
+          node --check tests/currency_converter_layout_browser.test.cjs
+          node -e "const fs=require('fs');for(const m of fs.readFileSync('Marketing_calc.HTML','utf8').matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))new Function(m[1]);"
+          node --test tests/currency_converter.test.cjs tests/nomad360_payments.test.cjs tests/portfolio_v2_v1_parity.test.cjs
+      - name: Offline utility CSS
+        run: |
+          mkdir -p artifacts/converter
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/converter-utilities.css
+          npx tailwindcss -i /tmp/converter-utilities.css -o artifacts/converter-utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js'
+      - name: Materials layout baseline RED and localized word geometry
+        run: |
+          mkdir -p artifacts/converter-layout-baseline
+          git archive b1cc9b50ae48c3c8f392e4342fb5243c7575bd8e | tar -x -C artifacts/converter-layout-baseline
+          git show 26d8d01f8b3dc46fe417a17bb5e461f529cf1474:nomad360_payments.css > artifacts/converter-layout-baseline/nomad360_payments.css
+          node tests/currency_converter_layout_browser.test.cjs
+      - name: Chromium conversion, restore, RU/EN/KK and live provider CORS
+        run: node tests/currency_converter_browser.test.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: currency-converter-browser
+          path: artifacts/converter
+          retention-days: 14

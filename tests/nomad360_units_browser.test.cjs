@@ -1,0 +1,42 @@
+const A=require('node:assert/strict');
+const {chromium}=require('playwright');
+const path=require('node:path');
+const {pathToFileURL}=require('node:url');
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
+ try {
+   await page.goto(url,{waitUntil:'domcontentloaded'});
+   await page.locator('#start-own-product').click();
+   await page.locator('#product-name-input').fill('Ткань');
+   await page.locator('#product-intro-submit-label').click();
+   await page.evaluate(()=>selectProductSource('own'));
+   await page.locator('#product-sales-unit').selectOption('м²');
+   await page.locator('[data-material-cost-mode="calculate"]').click();
+   await page.evaluate(()=>addMaterialRow());
+   await page.locator('.material-cost-unit').first().selectOption('м');
+   await page.locator('.material-cost-price').first().fill('8');
+   await page.locator('.material-cost-qty').first().fill('2');
+   await page.locator('[data-yn-group="equipmentRental"][data-yn-value="yes"]').click();
+   await page.evaluate(()=>addEquipmentRentalRow());
+   await page.locator('.equipment-rental-unit').first().selectOption('компл');
+   await page.locator('[data-yn-group="equipmentPurchase"][data-yn-value="yes"]').click();
+   await page.evaluate(()=>addEquipmentPurchaseRow());
+   await page.locator('.equipment-purchase-unit').first().selectOption('шт');
+   await page.evaluate(()=>saveProductCalculationToBrowser());
+   let saved=await page.evaluate(()=>readSavedProductCalculation());
+   A.equal(saved.productPortfolio[0].unit,'м²');
+   A.equal(saved.productPortfolio[0].uiState.dynamic.materials.fields.some(x=>x.value==='м'),true);
+   await page.goto(url+'?resume=1',{waitUntil:'domcontentloaded'});
+   A.equal(await page.locator('#product-sales-unit').inputValue(),'м²');
+   A.equal(await page.locator('.material-cost-unit').first().inputValue(),'м');
+   A.equal(await page.locator('.equipment-rental-unit').first().inputValue(),'компл');
+   A.equal(await page.locator('.equipment-purchase-unit').first().inputValue(),'шт');
+   A.match(await page.locator('#product-portfolio-list').textContent(),/Ткань.*м²/s);
+   A.deepEqual(errors,[]);
+   console.log('V1_UNIT_SELECTORS_BROWSER_GREEN');
+ }finally{await browser.close()}
+})().catch(e=>{console.error('V1_UNIT_SELECTORS_BROWSER_RED',e.stack||e);process.exitCode=1});
