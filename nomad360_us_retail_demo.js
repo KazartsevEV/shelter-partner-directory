@@ -446,6 +446,97 @@ const STATE={
   }
 };
 const copy=()=>JSON.parse(JSON.stringify(STATE));
+// Only educational names are translated. Never translate ordinary user-entered
+// SKU/resource names or rewrite a customized study label on a language switch.
+const names={
+ ru:{
+  skus:[
+   'Подарочный набор ручной работы',
+   'Именной деревянный сувенир',
+   'Плед',
+   'Корзина для хранения вещей',
+   'Электрический чайник',
+   'Настольная лампа',
+   'Настольный органайзер',
+   'Керамический сервировочный набор',
+   'Сменные фильтры для пылесоса',
+   'Комплект переходников для ремонта бытовой техники'
+  ],
+  resources:[
+   'Аренда торгового помещения',
+   'Аренда небольшой мастерской',
+   'Продавец (работник по форме W-2)',
+   'Грузчик-кладовщик, неполная занятость (W-2)',
+   'Оплата труда владельца в мастерской',
+   'Маркетолог по договору',
+   'Аренда торговых стеллажей и кассового оборудования',
+   'Покупка инструментов и гравировального оборудования',
+   'Страхование ответственности и имущества',
+   'Коммунальные услуги магазина и мастерской',
+   'Платформа интернет-магазина',
+   'Регистрация домена при запуске',
+   'Аренда складских стеллажей и дополнительного помещения',
+   'Дополнительная рекламная кампания подарочной мастерской'
+  ]},
+ kk:{
+  skus:[
+   'Қолдан жасалған сыйлық жиынтығы',
+   'Аты жазылған ағаш кәдесый',
+   'Тоқылған жамылғы',
+   'Зат сақтауға арналған себет',
+   'Электр шәйнек',
+   'Үстел шамы',
+   'Үстел органайзері',
+   'Қыштан жасалған дастарқан жиынтығы',
+   'Шаңсорғыштың ауыстырмалы сүзгілері',
+   'Тұрмыстық техниканы жөндеуге арналған жалғағыштар жиынтығы'
+  ],
+  resources:[
+   'Дүкен үй-жайын жалға алу',
+   'Шағын шеберхананы жалға алу',
+   'Сатушының еңбек шығыны (W-2)',
+   'Жарты күн жұмыс істейтін қоймашы-жүк тиеуші (W-2)',
+   'Шеберханадағы иесінің еңбекақысы',
+   'Келісімшарт бойынша маркетолог',
+   'Сауда сөрелері мен касса жабдығын жалға алу',
+   'Құрал-саймандар мен нақыштау жабдығын сатып алу',
+   'Жауапкершілік пен мүлікті сақтандыру',
+   'Дүкен мен шеберхананың коммуналдық шығындары',
+   'Интернет-дүкен платформасы',
+   'Іске қосу кезіндегі доменді тіркеу',
+   'Қойма сөрелері мен қосымша бөлмені жалға алу',
+   'Сыйлық шеберханасының қосымша жарнама науқаны'
+  ]},
+ en:{
+  skus:STATE.skus.map(x=>x.name),
+  resources:STATE.resources.map(x=>x.label)
+ }
+};
+const isKnown=(kind,index,current)=>['ru','en','kk'].some(l=>names[l][kind][index]===current);
+function relabel(state,language){
+  const active=names[language]||names.ru;
+  for(const [kind,property] of [['skus','name'],['resources','label']]){
+    (state[kind]||[]).forEach(entry=>{
+      const index=STATE[kind].findIndex(item=>item.id===entry.id);
+      if(index<0||!isKnown(kind,index,entry[property]))return;
+      entry[property]=active[kind][index];
+    });
+  }
+  return state;
+}
+function localizedLabels(language){
+  const target=names[language]||names.ru;
+  const result={skus:{},resources:{}};
+  for(const kind of ['skus','resources']){
+    STATE[kind].forEach((item,index)=>{
+      result[kind][item.id]={
+        target:target[kind][index],
+        known:['ru','en','kk'].map(l=>names[l][kind][index])
+      };
+    });
+  }
+  return result;
+}
 const messages={
   ru:{action:'Открыть учебный магазин США · 12 месяцев',hint:'10 товаров · 3 способа продаж · кредит · Sales Tax. Данные учебные, ваш расчёт не затрагивается.',error:'Не удалось открыть пример магазина. Проверьте данные и повторите попытку.'},
   en:{action:'Open the US shop study · 12 months',hint:'10 products · 3 sales methods · credit · Sales Tax. Example data only; your calculation is preserved.',error:'Could not open the US shop example. Check the data and try again.'},
@@ -454,7 +545,7 @@ const messages={
 const lang=()=>root.Nomad360UI?.getLanguage?.()||'ru';
 const words=()=>messages[lang()]||messages.en;
 function launch(){
-  try{root.PortfolioV2UI?.openDemo(copy());const err=document.getElementById('us-retail-demo-error');if(err)err.hidden=true;}
+  try{root.PortfolioV2UI?.openDemo(relabel(copy(),lang()));const err=document.getElementById('us-retail-demo-error');if(err)err.hidden=true;}
   catch(error){const el=document.getElementById('us-retail-demo-error');if(el){el.textContent=words().error+' ('+String(error.message||error)+')';el.hidden=false;}else throw error;}
 }
 function refresh(){
@@ -462,6 +553,7 @@ function refresh(){
   const hint=document.getElementById('us-retail-demo-hint');
   if(button)button.textContent=words().action;
   if(hint)hint.textContent=words().hint;
+  root.PortfolioV2UI?.localizeStudyNames?.(localizedLabels(lang()));
 }
 function mount(){
   const home=document.querySelector('#nomad360-selling-choice');
