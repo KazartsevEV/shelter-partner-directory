@@ -33,7 +33,28 @@ const {pathToFileURL}=require('node:url');
      assert.equal(result.missing.length,0,'Standalone must have no script or stylesheet file dependency');
      assert.equal(external.length,0,'Standalone should work with all remote calls blocked');
      assert.equal(errors.length,0,JSON.stringify(errors));
+     const inRu=await page.evaluate(()=>PortfolioV2UI.getState());
+     assert.equal(inRu.skus[0].name,'Подарочный набор ручной работы');
+     assert.equal(inRu.resources[0].label,'Аренда торгового помещения');
      await page.screenshot({path:path.join(here,'artifacts/us-retail-demo/US-Retail-V2-'+width+'px.png'),fullPage:true});
+     if(width===1280){
+       const financial=async()=>page.evaluate(()=>{
+         const r=PortfolioV2Engine.build(PortfolioV2UI.getState());
+         return [r.totalRevenue,r.finalCash,r.financing.principal,r.months.length].join('|');
+       });
+       const before=await financial();
+       for(const [locale,sku,resource] of [
+         ['en','Handmade holiday gift box','Retail storefront lease'],
+         ['kk','Қолдан жасалған сыйлық жиынтығы','Дүкен үй-жайын жалға алу']
+       ]){
+         await page.evaluate(l=>Nomad360UI.setLanguage(l),locale);
+         const translated=await page.evaluate(()=>PortfolioV2UI.getState());
+         assert.equal(translated.skus[0].name,sku);
+         assert.equal(translated.resources[0].label,resource);
+         assert.equal(await financial(),before);
+         await page.screenshot({path:path.join(here,'artifacts/us-retail-demo/US-Retail-V2-1280px-'+locale+'.png'),fullPage:true});
+       }
+     }
      if(width===390){
        await page.locator('#portfolio-v2-root [data-p2-path="skus.0.name"]').fill('Review the demo directly');
        assert.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus[0].name),'Review the demo directly');
