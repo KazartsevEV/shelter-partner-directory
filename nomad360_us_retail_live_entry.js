@@ -6,7 +6,18 @@ const labels={
  en:'V2 example: US retail store · 12 months',
  kk:'V2 мысалы: АҚШ дүкені · 12 ай'
 };
+function ensureLayout(){
+ if(document.getElementById('us-retail-v2-layout'))return;
+ const style=document.createElement('style');
+ style.id='us-retail-v2-layout';
+ // Preserve the existing colors and typography; permit two long localized
+ // example links to wrap instead of expanding the viewport at tablet widths.
+ style.textContent='body #nomad360-home-secondary .nomad-example-row{flex-wrap:wrap}'+
+  'body #nomad360-home-secondary .nomad-example-link{flex-shrink:1;min-width:0;max-width:100%;overflow-wrap:anywhere}';
+ document.head.append(style);
+}
 function sync(){
+ ensureLayout();
  const link=document.getElementById('us-retail-v2-live-link');
  if(!link)return;
  const lang=root.Nomad360UI?.getLanguage?.()||document.documentElement.lang||'ru';
