@@ -45,7 +45,16 @@ const server=http.createServer((req,res)=>{
          numBenefits:intro.querySelectorAll('li').length,
          saleAnchor:!!document.querySelector('#nomad360-selling-choice'),
          overflow:document.documentElement.scrollWidth-innerWidth,
-         financialInputs:document.querySelectorAll('[id^="product-"],[id^="portfolio-"]').length
+         financialInputs:document.querySelectorAll('[id^="product-"],[id^="portfolio-"]').length,
+         mobileComposition:{
+           topPad:parseFloat(css(banner).paddingTop),
+           imageBetweenHeadlineAndCopy:css(sub,'::before').backgroundImage.includes('hero.webp'),
+           sceneryLead:parseFloat(css(sub).paddingTop),
+           headingEndsBeforeCopy:r(hero.querySelector('h2')).bottom<r(sub).bottom,
+           sceneryPseudoHeight:css(sub,'::before').height,
+           captionStartsAt:Math.round(r(sub).top),
+           titleTop:Math.round(r(hero.querySelector('h2')).top)
+         }
        };
      });
      A.deepEqual(errors,[],'JS runtime '+lang+width);A.deepEqual(missing,[],'assets '+lang+width);
@@ -56,6 +65,12 @@ const server=http.createServer((req,res)=>{
      A.equal(state.orange,'rgb(255, 145, 63)');
      A.equal(state.ctaText,'rgb(23, 59, 88)');
      A.ok(state.photo&&state.numBenefits===3&&state.saleAnchor);
+     if(width<=600){
+       A.ok(state.mobileComposition.topPad<=24,'no invented top scenery panel');
+       A.ok(state.mobileComposition.imageBetweenHeadlineAndCopy,'preserve Codex image between headline and description');
+       A.equal(state.mobileComposition.sceneryLead,150,'keep original 150px scenery slot');
+       A.ok(state.mobileComposition.headingEndsBeforeCopy,'headlines precede narrative');
+     }
      A.ok(state.imageSrc?.startsWith('data:image/png'),'recolor existing wolf only');
      A.ok(state.bannerLeft>=-1&&state.bannerRight<=width+1,'not clipped '+lang+width);
      await page.locator('#nomad360-commercial-banner').screenshot({path:path.join(out,lang+'-'+width+'-banner.png')});
