@@ -69,10 +69,24 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:459:js-string",
+      "id": "nomad360_bug_report.js:453:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 10,
+      "offset": 453,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "COPY",
+      "text": "Свернуть вправо",
+      "catalog": "nomad360_bug_report.js:COPY:362:collapse",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_bug_report.js:486:js-string",
       "file": "nomad360_bug_report.js",
       "line": 11,
-      "offset": 459,
+      "offset": 486,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -83,10 +97,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:530:js-string",
+      "id": "nomad360_bug_report.js:557:js-string",
       "file": "nomad360_bug_report.js",
       "line": 12,
-      "offset": 530,
+      "offset": 557,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -97,10 +111,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:561:js-string",
+      "id": "nomad360_bug_report.js:588:js-string",
       "file": "nomad360_bug_report.js",
       "line": 12,
-      "offset": 561,
+      "offset": 588,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -111,10 +125,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:584:js-string",
+      "id": "nomad360_bug_report.js:611:js-string",
       "file": "nomad360_bug_report.js",
       "line": 12,
-      "offset": 584,
+      "offset": 611,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -125,10 +139,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:639:js-string",
+      "id": "nomad360_bug_report.js:666:js-string",
       "file": "nomad360_bug_report.js",
       "line": 13,
-      "offset": 639,
+      "offset": 666,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -139,30 +153,16 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:687:js-string",
+      "id": "nomad360_bug_report.js:714:js-string",
       "file": "nomad360_bug_report.js",
       "line": 13,
-      "offset": 687,
+      "offset": 714,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
       "context": "COPY",
       "text": "Email для ответа (необязательно)",
       "catalog": "nomad360_bug_report.js:COPY:362:email",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_bug_report.js:735:js-string",
-      "file": "nomad360_bug_report.js",
-      "line": 14,
-      "offset": 735,
-      "kind": "js-string",
-      "owner": "nomad360_bug_report.js",
-      "stage": "L2",
-      "context": "COPY",
-      "text": "name@example.com",
-      "catalog": "nomad360_bug_report.js:COPY:362:emailHint",
       "language": "ru",
       "coverage": "catalog-entry"
     },
@@ -175,16 +175,30 @@
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
       "context": "COPY",
+      "text": "name@example.com",
+      "catalog": "nomad360_bug_report.js:COPY:362:emailHint",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_bug_report.js:789:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 14,
+      "offset": 789,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "COPY",
       "text": "Будут переданы только описание ошибки, шаги, email (если указан), язык интерфейса и ширина экрана. Расчёты, сохранения, товары и документы не передаются. Обработчик может видеть IP-адрес и домен сайта.",
       "catalog": "nomad360_bug_report.js:COPY:362:privacy",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:974:js-string",
+      "id": "nomad360_bug_report.js:1001:js-string",
       "file": "nomad360_bug_report.js",
       "line": 15,
-      "offset": 974,
+      "offset": 1001,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -195,10 +209,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:994:js-string",
+      "id": "nomad360_bug_report.js:1021:js-string",
       "file": "nomad360_bug_report.js",
       "line": 15,
-      "offset": 994,
+      "offset": 1021,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -209,10 +223,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1016:js-string",
+      "id": "nomad360_bug_report.js:1043:js-string",
       "file": "nomad360_bug_report.js",
       "line": 15,
-      "offset": 1016,
+      "offset": 1043,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -223,10 +237,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1060:js-string",
+      "id": "nomad360_bug_report.js:1087:js-string",
       "file": "nomad360_bug_report.js",
       "line": 16,
-      "offset": 1060,
+      "offset": 1087,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -237,10 +251,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1122:js-string",
+      "id": "nomad360_bug_report.js:1149:js-string",
       "file": "nomad360_bug_report.js",
       "line": 16,
-      "offset": 1122,
+      "offset": 1149,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -251,10 +265,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1180:js-string",
+      "id": "nomad360_bug_report.js:1207:js-string",
       "file": "nomad360_bug_report.js",
       "line": 17,
-      "offset": 1180,
+      "offset": 1207,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -265,10 +279,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1253:js-string",
+      "id": "nomad360_bug_report.js:1280:js-string",
       "file": "nomad360_bug_report.js",
       "line": 17,
-      "offset": 1253,
+      "offset": 1280,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -279,10 +293,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1307:js-string",
+      "id": "nomad360_bug_report.js:1334:js-string",
       "file": "nomad360_bug_report.js",
       "line": 20,
-      "offset": 1307,
+      "offset": 1334,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -293,10 +307,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1328:js-string",
+      "id": "nomad360_bug_report.js:1355:js-string",
       "file": "nomad360_bug_report.js",
       "line": 20,
-      "offset": 1328,
+      "offset": 1355,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -307,10 +321,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1349:js-string",
+      "id": "nomad360_bug_report.js:1376:js-string",
       "file": "nomad360_bug_report.js",
       "line": 20,
-      "offset": 1349,
+      "offset": 1376,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -321,10 +335,24 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1372:js-string",
+      "id": "nomad360_bug_report.js:1393:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 20,
+      "offset": 1393,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "COPY",
+      "text": "Collapse to the right",
+      "catalog": "nomad360_bug_report.js:COPY:362:collapse",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_bug_report.js:1432:js-string",
       "file": "nomad360_bug_report.js",
       "line": 21,
-      "offset": 1372,
+      "offset": 1432,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -335,10 +363,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1455:js-string",
+      "id": "nomad360_bug_report.js:1515:js-string",
       "file": "nomad360_bug_report.js",
       "line": 22,
-      "offset": 1455,
+      "offset": 1515,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -349,10 +377,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1486:js-string",
+      "id": "nomad360_bug_report.js:1546:js-string",
       "file": "nomad360_bug_report.js",
       "line": 22,
-      "offset": 1486,
+      "offset": 1546,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -363,10 +391,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1511:js-string",
+      "id": "nomad360_bug_report.js:1571:js-string",
       "file": "nomad360_bug_report.js",
       "line": 22,
-      "offset": 1511,
+      "offset": 1571,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -377,10 +405,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1556:js-string",
+      "id": "nomad360_bug_report.js:1616:js-string",
       "file": "nomad360_bug_report.js",
       "line": 23,
-      "offset": 1556,
+      "offset": 1616,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -391,10 +419,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1609:js-string",
+      "id": "nomad360_bug_report.js:1669:js-string",
       "file": "nomad360_bug_report.js",
       "line": 23,
-      "offset": 1609,
+      "offset": 1669,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -405,10 +433,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1647:js-string",
+      "id": "nomad360_bug_report.js:1707:js-string",
       "file": "nomad360_bug_report.js",
       "line": 24,
-      "offset": 1647,
+      "offset": 1707,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -419,10 +447,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1674:js-string",
+      "id": "nomad360_bug_report.js:1734:js-string",
       "file": "nomad360_bug_report.js",
       "line": 24,
-      "offset": 1674,
+      "offset": 1734,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -433,10 +461,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1906:js-string",
+      "id": "nomad360_bug_report.js:1966:js-string",
       "file": "nomad360_bug_report.js",
       "line": 25,
-      "offset": 1906,
+      "offset": 1966,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -447,10 +475,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1928:js-string",
+      "id": "nomad360_bug_report.js:1988:js-string",
       "file": "nomad360_bug_report.js",
       "line": 25,
-      "offset": 1928,
+      "offset": 1988,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -461,10 +489,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1947:js-string",
+      "id": "nomad360_bug_report.js:2007:js-string",
       "file": "nomad360_bug_report.js",
       "line": 25,
-      "offset": 1947,
+      "offset": 2007,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -475,10 +503,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:1998:js-string",
+      "id": "nomad360_bug_report.js:2058:js-string",
       "file": "nomad360_bug_report.js",
       "line": 26,
-      "offset": 1998,
+      "offset": 2058,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -489,10 +517,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2056:js-string",
+      "id": "nomad360_bug_report.js:2116:js-string",
       "file": "nomad360_bug_report.js",
       "line": 26,
-      "offset": 2056,
+      "offset": 2116,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -503,10 +531,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2116:js-string",
+      "id": "nomad360_bug_report.js:2176:js-string",
       "file": "nomad360_bug_report.js",
       "line": 27,
-      "offset": 2116,
+      "offset": 2176,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -517,10 +545,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2184:js-string",
+      "id": "nomad360_bug_report.js:2244:js-string",
       "file": "nomad360_bug_report.js",
       "line": 27,
-      "offset": 2184,
+      "offset": 2244,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -531,10 +559,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2250:js-string",
+      "id": "nomad360_bug_report.js:2310:js-string",
       "file": "nomad360_bug_report.js",
       "line": 30,
-      "offset": 2250,
+      "offset": 2310,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -545,10 +573,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2279:js-string",
+      "id": "nomad360_bug_report.js:2339:js-string",
       "file": "nomad360_bug_report.js",
       "line": 30,
-      "offset": 2279,
+      "offset": 2339,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -559,10 +587,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2308:js-string",
+      "id": "nomad360_bug_report.js:2368:js-string",
       "file": "nomad360_bug_report.js",
       "line": 30,
-      "offset": 2308,
+      "offset": 2368,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -573,10 +601,24 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2330:js-string",
+      "id": "nomad360_bug_report.js:2384:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 30,
+      "offset": 2384,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "COPY",
+      "text": "Оңға жинау",
+      "catalog": "nomad360_bug_report.js:COPY:362:collapse",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_bug_report.js:2412:js-string",
       "file": "nomad360_bug_report.js",
       "line": 31,
-      "offset": 2330,
+      "offset": 2412,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -587,10 +629,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2416:js-string",
+      "id": "nomad360_bug_report.js:2498:js-string",
       "file": "nomad360_bug_report.js",
       "line": 32,
-      "offset": 2416,
+      "offset": 2498,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -601,10 +643,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2449:js-string",
+      "id": "nomad360_bug_report.js:2531:js-string",
       "file": "nomad360_bug_report.js",
       "line": 32,
-      "offset": 2449,
+      "offset": 2531,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -615,10 +657,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2475:js-string",
+      "id": "nomad360_bug_report.js:2557:js-string",
       "file": "nomad360_bug_report.js",
       "line": 32,
-      "offset": 2475,
+      "offset": 2557,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -629,10 +671,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2532:js-string",
+      "id": "nomad360_bug_report.js:2614:js-string",
       "file": "nomad360_bug_report.js",
       "line": 33,
-      "offset": 2532,
+      "offset": 2614,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -643,10 +685,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2574:js-string",
+      "id": "nomad360_bug_report.js:2656:js-string",
       "file": "nomad360_bug_report.js",
       "line": 33,
-      "offset": 2574,
+      "offset": 2656,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -657,10 +699,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2628:js-string",
+      "id": "nomad360_bug_report.js:2710:js-string",
       "file": "nomad360_bug_report.js",
       "line": 34,
-      "offset": 2628,
+      "offset": 2710,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -671,10 +713,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2655:js-string",
+      "id": "nomad360_bug_report.js:2737:js-string",
       "file": "nomad360_bug_report.js",
       "line": 34,
-      "offset": 2655,
+      "offset": 2737,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -685,10 +727,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2895:js-string",
+      "id": "nomad360_bug_report.js:2977:js-string",
       "file": "nomad360_bug_report.js",
       "line": 35,
-      "offset": 2895,
+      "offset": 2977,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -699,10 +741,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2912:js-string",
+      "id": "nomad360_bug_report.js:2994:js-string",
       "file": "nomad360_bug_report.js",
       "line": 35,
-      "offset": 2912,
+      "offset": 2994,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -713,10 +755,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2934:js-string",
+      "id": "nomad360_bug_report.js:3016:js-string",
       "file": "nomad360_bug_report.js",
       "line": 35,
-      "offset": 2934,
+      "offset": 3016,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -727,10 +769,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:2979:js-string",
+      "id": "nomad360_bug_report.js:3061:js-string",
       "file": "nomad360_bug_report.js",
       "line": 36,
-      "offset": 2979,
+      "offset": 3061,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -741,10 +783,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:3030:js-string",
+      "id": "nomad360_bug_report.js:3112:js-string",
       "file": "nomad360_bug_report.js",
       "line": 36,
-      "offset": 3030,
+      "offset": 3112,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -755,10 +797,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:3084:js-string",
+      "id": "nomad360_bug_report.js:3166:js-string",
       "file": "nomad360_bug_report.js",
       "line": 37,
-      "offset": 3084,
+      "offset": 3166,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -769,10 +811,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:3155:js-string",
+      "id": "nomad360_bug_report.js:3237:js-string",
       "file": "nomad360_bug_report.js",
       "line": 37,
-      "offset": 3155,
+      "offset": 3237,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -783,10 +825,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_bug_report.js:3348:js-string",
+      "id": "nomad360_bug_report.js:3430:js-string",
       "file": "nomad360_bug_report.js",
       "line": 42,
-      "offset": 3348,
+      "offset": 3430,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -795,10 +837,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3361:js-string",
+      "id": "nomad360_bug_report.js:3443:js-string",
       "file": "nomad360_bug_report.js",
       "line": 42,
-      "offset": 3361,
+      "offset": 3443,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -807,10 +849,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3371:js-string",
+      "id": "nomad360_bug_report.js:3453:js-string",
       "file": "nomad360_bug_report.js",
       "line": 42,
-      "offset": 3371,
+      "offset": 3453,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -819,10 +861,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3402:js-string",
+      "id": "nomad360_bug_report.js:3484:js-string",
       "file": "nomad360_bug_report.js",
       "line": 44,
-      "offset": 3402,
+      "offset": 3484,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -831,10 +873,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3651:js-string",
+      "id": "nomad360_bug_report.js:3733:js-string",
       "file": "nomad360_bug_report.js",
       "line": 48,
-      "offset": 3651,
+      "offset": 3733,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -843,10 +885,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3683:js-string",
+      "id": "nomad360_bug_report.js:3765:js-string",
       "file": "nomad360_bug_report.js",
       "line": 49,
-      "offset": 3683,
+      "offset": 3765,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -855,10 +897,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3736:js-regex",
+      "id": "nomad360_bug_report.js:3818:js-regex",
       "file": "nomad360_bug_report.js",
       "line": 50,
-      "offset": 3736,
+      "offset": 3818,
       "kind": "js-regex",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -869,10 +911,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3852:js-string",
+      "id": "nomad360_bug_report.js:3934:js-string",
       "file": "nomad360_bug_report.js",
       "line": 53,
-      "offset": 3852,
+      "offset": 3934,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -881,10 +923,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3916:js-string",
+      "id": "nomad360_bug_report.js:3998:js-string",
       "file": "nomad360_bug_report.js",
       "line": 53,
-      "offset": 3916,
+      "offset": 3998,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -893,10 +935,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:3986:js-string",
+      "id": "nomad360_bug_report.js:4068:js-string",
       "file": "nomad360_bug_report.js",
       "line": 54,
-      "offset": 3986,
+      "offset": 4068,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -905,10 +947,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4010:js-string",
+      "id": "nomad360_bug_report.js:4092:js-string",
       "file": "nomad360_bug_report.js",
       "line": 55,
-      "offset": 4010,
+      "offset": 4092,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -917,10 +959,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4055:js-string",
+      "id": "nomad360_bug_report.js:4137:js-string",
       "file": "nomad360_bug_report.js",
       "line": 56,
-      "offset": 4055,
+      "offset": 4137,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -929,10 +971,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4092:js-string",
+      "id": "nomad360_bug_report.js:4174:js-string",
       "file": "nomad360_bug_report.js",
       "line": 57,
-      "offset": 4092,
+      "offset": 4174,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -941,10 +983,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4125:js-string",
+      "id": "nomad360_bug_report.js:4207:js-string",
       "file": "nomad360_bug_report.js",
       "line": 58,
-      "offset": 4125,
+      "offset": 4207,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -953,10 +995,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4141:js-string",
+      "id": "nomad360_bug_report.js:4223:js-string",
       "file": "nomad360_bug_report.js",
       "line": 58,
-      "offset": 4141,
+      "offset": 4223,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -965,10 +1007,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4175:js-string",
+      "id": "nomad360_bug_report.js:4257:js-string",
       "file": "nomad360_bug_report.js",
       "line": 59,
-      "offset": 4175,
+      "offset": 4257,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -977,10 +1019,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4191:js-string",
+      "id": "nomad360_bug_report.js:4273:js-string",
       "file": "nomad360_bug_report.js",
       "line": 59,
-      "offset": 4191,
+      "offset": 4273,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -989,10 +1031,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4238:js-string",
+      "id": "nomad360_bug_report.js:4320:js-string",
       "file": "nomad360_bug_report.js",
       "line": 60,
-      "offset": 4238,
+      "offset": 4320,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1001,10 +1043,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4289:js-string",
+      "id": "nomad360_bug_report.js:4371:js-string",
       "file": "nomad360_bug_report.js",
       "line": 61,
-      "offset": 4289,
+      "offset": 4371,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1013,94 +1055,46 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4644:js-string",
-      "file": "nomad360_bug_report.js",
-      "line": 62,
-      "offset": 4644,
-      "kind": "js-string",
-      "owner": "nomad360_bug_report.js",
-      "stage": "L2",
-      "context": "boot",
-      "text": "dialog",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_bug_report.js:4666:js-string",
+      "id": "nomad360_bug_report.js:4725:js-string",
       "file": "nomad360_bug_report.js",
       "line": 63,
-      "offset": 4666,
+      "offset": 4725,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
       "context": "boot",
-      "text": "nomad360-bug-dialog",
+      "text": "div",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4707:js-string",
+      "id": "nomad360_bug_report.js:4742:js-string",
       "file": "nomad360_bug_report.js",
       "line": 64,
-      "offset": 4707,
+      "offset": 4742,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
       "context": "boot",
-      "text": "nomad-bug-dialog",
+      "text": "nomad360-bug-dock",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4748:js-string",
+      "id": "nomad360_bug_report.js:4779:js-string",
       "file": "nomad360_bug_report.js",
       "line": 65,
-      "offset": 4748,
+      "offset": 4779,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
       "context": "boot",
-      "text": "aria-labelledby",
+      "text": "nomad-bug-dock",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4766:js-string",
-      "file": "nomad360_bug_report.js",
-      "line": 65,
-      "offset": 4766,
-      "kind": "js-string",
-      "owner": "nomad360_bug_report.js",
-      "stage": "L2",
-      "context": "boot",
-      "text": "nomad360-bug-heading",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_bug_report.js:4812:js-string",
+      "id": "nomad360_bug_report.js:4816:js-string",
       "file": "nomad360_bug_report.js",
       "line": 66,
-      "offset": 4812,
-      "kind": "js-string",
-      "owner": "nomad360_bug_report.js",
-      "stage": "L2",
-      "context": "boot",
-      "text": "aria-describedby",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_bug_report.js:4831:js-string",
-      "file": "nomad360_bug_report.js",
-      "line": 66,
-      "offset": 4831,
-      "kind": "js-string",
-      "owner": "nomad360_bug_report.js",
-      "stage": "L2",
-      "context": "boot",
-      "text": "nomad360-bug-intro",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_bug_report.js:4875:js-string",
-      "file": "nomad360_bug_report.js",
-      "line": 67,
-      "offset": 4875,
+      "offset": 4816,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1109,10 +1103,240 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:4924:js-string",
+      "id": "nomad360_bug_report.js:4886:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 67,
+      "offset": 4886,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "button",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:4912:js-string",
       "file": "nomad360_bug_report.js",
       "line": 68,
-      "offset": 4924,
+      "offset": 4912,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "button",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:4942:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 69,
+      "offset": 4942,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "nomad-bug-dock-toggle",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:4990:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 70,
+      "offset": 4990,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "aria-controls",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5006:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 70,
+      "offset": 5006,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "nomad360-bug-launcher",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5052:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 71,
+      "offset": 5052,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "<span aria-hidden=\"true\">›</span>",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5077:markup-text",
+      "file": "nomad360_bug_report.js",
+      "line": 71,
+      "offset": 5077,
+      "kind": "markup-text",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "span",
+      "text": "›",
+      "protectedNode": false,
+      "embedded": true,
+      "coverage": "unmapped-candidate"
+    },
+    {
+      "id": "nomad360_bug_report.js:5161:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 73,
+      "offset": 5161,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "(max-width:600px)",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5269:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 76,
+      "offset": 5269,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "setCollapsed",
+      "text": "is-collapsed",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5376:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 78,
+      "offset": 5376,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "setCollapsed",
+      "text": "collapsed",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5388:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 78,
+      "offset": 5388,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "setCollapsed",
+      "text": "expanded",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5470:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 81,
+      "offset": 5470,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "dialog",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5492:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 82,
+      "offset": 5492,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "nomad360-bug-dialog",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5533:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 83,
+      "offset": 5533,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "nomad-bug-dialog",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5574:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 84,
+      "offset": 5574,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "aria-labelledby",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5592:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 84,
+      "offset": 5592,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "nomad360-bug-heading",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5638:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 85,
+      "offset": 5638,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "aria-describedby",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5657:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 85,
+      "offset": 5657,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "nomad360-bug-intro",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5701:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 86,
+      "offset": 5701,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "data-nomad-no-translate",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:5750:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 87,
+      "offset": 5750,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1121,10 +1345,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5018:js-string",
+      "id": "nomad360_bug_report.js:5844:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 69,
-      "offset": 5018,
+      "line": 88,
+      "offset": 5844,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1133,10 +1357,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5118:markup-text",
+      "id": "nomad360_bug_report.js:5944:markup-text",
       "file": "nomad360_bug_report.js",
-      "line": 69,
-      "offset": 5118,
+      "line": 88,
+      "offset": 5944,
       "kind": "markup-text",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1147,10 +1371,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_bug_report.js:5147:js-string",
+      "id": "nomad360_bug_report.js:5973:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 70,
-      "offset": 5147,
+      "line": 89,
+      "offset": 5973,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1159,10 +1383,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5212:js-string",
+      "id": "nomad360_bug_report.js:6038:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 71,
-      "offset": 5212,
+      "line": 90,
+      "offset": 6038,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1171,10 +1395,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5258:js-string",
+      "id": "nomad360_bug_report.js:6084:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 72,
-      "offset": 5258,
+      "line": 91,
+      "offset": 6084,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1183,10 +1407,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5330:js-string",
+      "id": "nomad360_bug_report.js:6156:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 73,
-      "offset": 5330,
+      "line": 92,
+      "offset": 6156,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1195,10 +1419,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5433:js-string",
+      "id": "nomad360_bug_report.js:6259:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 74,
-      "offset": 5433,
+      "line": 93,
+      "offset": 6259,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1207,10 +1431,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5501:js-string",
+      "id": "nomad360_bug_report.js:6327:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 75,
-      "offset": 5501,
+      "line": 94,
+      "offset": 6327,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1219,10 +1443,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5591:js-string",
+      "id": "nomad360_bug_report.js:6417:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 76,
-      "offset": 5591,
+      "line": 95,
+      "offset": 6417,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1231,10 +1455,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5659:js-string",
+      "id": "nomad360_bug_report.js:6485:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 77,
-      "offset": 5659,
+      "line": 96,
+      "offset": 6485,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1243,10 +1467,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5778:js-string",
+      "id": "nomad360_bug_report.js:6604:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 78,
-      "offset": 5778,
+      "line": 97,
+      "offset": 6604,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1255,10 +1479,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5867:js-string",
+      "id": "nomad360_bug_report.js:6693:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 79,
-      "offset": 5867,
+      "line": 98,
+      "offset": 6693,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1267,10 +1491,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:5987:js-string",
+      "id": "nomad360_bug_report.js:6813:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 80,
-      "offset": 5987,
+      "line": 99,
+      "offset": 6813,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1279,10 +1503,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6077:js-string",
+      "id": "nomad360_bug_report.js:6903:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 81,
-      "offset": 6077,
+      "line": 100,
+      "offset": 6903,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1291,10 +1515,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6161:js-string",
+      "id": "nomad360_bug_report.js:6983:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 83,
-      "offset": 6161,
+      "line": 102,
+      "offset": 6983,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1303,10 +1527,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6197:js-string",
+      "id": "nomad360_bug_report.js:7019:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 83,
-      "offset": 6197,
+      "line": 102,
+      "offset": 7019,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1315,10 +1539,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6257:js-string",
+      "id": "nomad360_bug_report.js:7079:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 84,
-      "offset": 6257,
+      "line": 103,
+      "offset": 7079,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1327,10 +1551,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6318:js-string",
+      "id": "nomad360_bug_report.js:7140:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 85,
-      "offset": 6318,
+      "line": 104,
+      "offset": 7140,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1339,10 +1563,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6378:js-string",
+      "id": "nomad360_bug_report.js:7200:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 86,
-      "offset": 6378,
+      "line": 105,
+      "offset": 7200,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1351,10 +1575,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6436:js-string",
+      "id": "nomad360_bug_report.js:7258:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 87,
-      "offset": 6436,
+      "line": 106,
+      "offset": 7258,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1363,10 +1587,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6494:js-string",
+      "id": "nomad360_bug_report.js:7316:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 88,
-      "offset": 6494,
+      "line": 107,
+      "offset": 7316,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1375,10 +1599,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6661:js-string",
+      "id": "nomad360_bug_report.js:7483:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 92,
-      "offset": 6661,
+      "line": 111,
+      "offset": 7483,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1387,10 +1611,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6717:js-string",
+      "id": "nomad360_bug_report.js:7539:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 93,
-      "offset": 6717,
+      "line": 112,
+      "offset": 7539,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1399,10 +1623,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6887:js-string",
+      "id": "nomad360_bug_report.js:7709:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 97,
-      "offset": 6887,
+      "line": 116,
+      "offset": 7709,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1411,10 +1635,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:6963:js-string",
+      "id": "nomad360_bug_report.js:7785:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 98,
-      "offset": 6963,
+      "line": 117,
+      "offset": 7785,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1423,10 +1647,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7009:js-string",
+      "id": "nomad360_bug_report.js:7862:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 99,
-      "offset": 7009,
+      "line": 119,
+      "offset": 7862,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1435,10 +1659,22 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7256:js-string",
+      "id": "nomad360_bug_report.js:7938:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 103,
-      "offset": 7256,
+      "line": 121,
+      "offset": 7938,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "localize",
+      "text": "aria-label",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:8185:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 125,
+      "offset": 8185,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1447,10 +1683,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7303:js-string",
+      "id": "nomad360_bug_report.js:8232:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 104,
-      "offset": 7303,
+      "line": 126,
+      "offset": 8232,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1459,10 +1695,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7333:js-string",
+      "id": "nomad360_bug_report.js:8262:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 104,
-      "offset": 7333,
+      "line": 126,
+      "offset": 8262,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1471,10 +1707,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7366:js-string",
+      "id": "nomad360_bug_report.js:8295:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 105,
-      "offset": 7366,
+      "line": 127,
+      "offset": 8295,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1483,10 +1719,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7396:js-string",
+      "id": "nomad360_bug_report.js:8325:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 105,
-      "offset": 7396,
+      "line": 127,
+      "offset": 8325,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1495,10 +1731,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7439:js-string",
+      "id": "nomad360_bug_report.js:8368:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 106,
-      "offset": 7439,
+      "line": 128,
+      "offset": 8368,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1507,10 +1743,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7525:js-string",
+      "id": "nomad360_bug_report.js:8454:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 109,
-      "offset": 7525,
+      "line": 131,
+      "offset": 8454,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1519,10 +1755,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7576:js-string",
+      "id": "nomad360_bug_report.js:8505:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 110,
-      "offset": 7576,
+      "line": 132,
+      "offset": 8505,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1531,10 +1767,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7729:js-string",
+      "id": "nomad360_bug_report.js:8658:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 117,
-      "offset": 7729,
+      "line": 139,
+      "offset": 8658,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1543,10 +1779,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7883:js-string",
+      "id": "nomad360_bug_report.js:8808:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 124,
-      "offset": 7883,
+      "line": 146,
+      "offset": 8808,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1555,10 +1791,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:7984:js-string",
+      "id": "nomad360_bug_report.js:8909:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 126,
-      "offset": 7984,
+      "line": 148,
+      "offset": 8909,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1567,10 +1803,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8047:js-string",
+      "id": "nomad360_bug_report.js:8972:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 127,
-      "offset": 8047,
+      "line": 149,
+      "offset": 8972,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1579,10 +1815,46 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8115:js-string",
+      "id": "nomad360_bug_report.js:9226:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 129,
-      "offset": 8115,
+      "line": 155,
+      "offset": 9226,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "pointerdown",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:9523:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 161,
+      "offset": 9523,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "pointerup",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:9857:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 170,
+      "offset": 9857,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "pointercancel",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:9917:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 171,
+      "offset": 9917,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1591,10 +1863,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8155:js-string",
+      "id": "nomad360_bug_report.js:10069:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 130,
-      "offset": 8155,
+      "line": 175,
+      "offset": 10069,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1603,10 +1875,82 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8209:js-string",
+      "id": "nomad360_bug_report.js:10129:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 131,
-      "offset": 8209,
+      "line": 176,
+      "offset": 10129,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "keydown",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:10165:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 177,
+      "offset": 10165,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "ArrowLeft",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:10190:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 177,
+      "offset": 10190,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "ArrowRight",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:10260:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 179,
+      "offset": 10260,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "module",
+      "text": "ArrowRight",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:10311:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 182,
+      "offset": 10311,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "click",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:10351:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 183,
+      "offset": 10351,
+      "kind": "js-string",
+      "owner": "nomad360_bug_report.js",
+      "stage": "L2",
+      "context": "boot",
+      "text": "click",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_bug_report.js:10405:js-string",
+      "file": "nomad360_bug_report.js",
+      "line": 184,
+      "offset": 10405,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1615,10 +1959,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8280:js-string",
+      "id": "nomad360_bug_report.js:10476:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 132,
-      "offset": 8280,
+      "line": 185,
+      "offset": 10476,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1627,10 +1971,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8540:js-string",
+      "id": "nomad360_bug_report.js:10736:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 137,
-      "offset": 8540,
+      "line": 190,
+      "offset": 10736,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1639,10 +1983,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8600:js-string",
+      "id": "nomad360_bug_report.js:10796:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 138,
-      "offset": 8600,
+      "line": 191,
+      "offset": 10796,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1651,10 +1995,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8764:js-string",
+      "id": "nomad360_bug_report.js:10960:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 142,
-      "offset": 8764,
+      "line": 195,
+      "offset": 10960,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1663,10 +2007,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8826:js-string",
+      "id": "nomad360_bug_report.js:11022:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 143,
-      "offset": 8826,
+      "line": 196,
+      "offset": 11022,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1675,10 +2019,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:8994:js-string",
+      "id": "nomad360_bug_report.js:11190:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 145,
-      "offset": 8994,
+      "line": 198,
+      "offset": 11190,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1687,10 +2031,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9006:js-string",
+      "id": "nomad360_bug_report.js:11202:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 145,
-      "offset": 9006,
+      "line": 198,
+      "offset": 11202,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1699,10 +2043,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9283:js-string",
+      "id": "nomad360_bug_report.js:11479:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 150,
-      "offset": 9283,
+      "line": 203,
+      "offset": 11479,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1711,10 +2055,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9355:js-string",
+      "id": "nomad360_bug_report.js:11551:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 151,
-      "offset": 9355,
+      "line": 204,
+      "offset": 11551,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1723,10 +2067,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9423:js-string",
+      "id": "nomad360_bug_report.js:11619:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 152,
-      "offset": 9423,
+      "line": 205,
+      "offset": 11619,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1735,10 +2079,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9469:js-string",
+      "id": "nomad360_bug_report.js:11665:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 153,
-      "offset": 9469,
+      "line": 206,
+      "offset": 11665,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1747,10 +2091,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9520:js-string",
+      "id": "nomad360_bug_report.js:11716:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 154,
-      "offset": 9520,
+      "line": 207,
+      "offset": 11716,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1759,10 +2103,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9592:js-string",
+      "id": "nomad360_bug_report.js:11788:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 155,
-      "offset": 9592,
+      "line": 208,
+      "offset": 11788,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1771,10 +2115,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9603:js-string",
+      "id": "nomad360_bug_report.js:11799:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 155,
-      "offset": 9603,
+      "line": 208,
+      "offset": 11799,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1783,10 +2127,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9802:js-string",
+      "id": "nomad360_bug_report.js:11998:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 160,
-      "offset": 9802,
+      "line": 213,
+      "offset": 11998,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1795,10 +2139,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9838:js-string",
+      "id": "nomad360_bug_report.js:12034:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 160,
-      "offset": 9838,
+      "line": 213,
+      "offset": 12034,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1807,10 +2151,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9875:js-string",
+      "id": "nomad360_bug_report.js:12071:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 161,
-      "offset": 9875,
+      "line": 214,
+      "offset": 12071,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1819,10 +2163,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:9897:js-string",
+      "id": "nomad360_bug_report.js:12093:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 161,
-      "offset": 9897,
+      "line": 214,
+      "offset": 12093,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1831,10 +2175,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:10187:js-string",
+      "id": "nomad360_bug_report.js:12383:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 167,
-      "offset": 10187,
+      "line": 220,
+      "offset": 12383,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1843,10 +2187,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:10197:js-string",
+      "id": "nomad360_bug_report.js:12393:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 167,
-      "offset": 10197,
+      "line": 220,
+      "offset": 12393,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1855,10 +2199,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:10260:js-string",
+      "id": "nomad360_bug_report.js:12456:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 169,
-      "offset": 10260,
+      "line": 222,
+      "offset": 12456,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1867,10 +2211,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:10294:js-string",
+      "id": "nomad360_bug_report.js:12490:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 170,
-      "offset": 10294,
+      "line": 223,
+      "offset": 12490,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1879,10 +2223,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:10381:js-string",
+      "id": "nomad360_bug_report.js:12577:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 172,
-      "offset": 10381,
+      "line": 225,
+      "offset": 12577,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1891,10 +2235,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:10532:js-string",
+      "id": "nomad360_bug_report.js:12728:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 179,
-      "offset": 10532,
+      "line": 232,
+      "offset": 12728,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
@@ -1903,10 +2247,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_bug_report.js:10568:js-string",
+      "id": "nomad360_bug_report.js:12764:js-string",
       "file": "nomad360_bug_report.js",
-      "line": 179,
-      "offset": 10568,
+      "line": 232,
+      "offset": 12764,
       "kind": "js-string",
       "owner": "nomad360_bug_report.js",
       "stage": "L2",
