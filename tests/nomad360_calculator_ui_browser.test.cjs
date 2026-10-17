@@ -25,13 +25,15 @@ async function browserCase(browser,locale,expected){
   A.deepEqual(await page.locator('#nomad360-hero h1, #nomad360-hero h2, #nomad360-hero h3').allTextContents(),approved[expected.lang],
     'Approved H1 → H2 → H3 must have exact text and order');
   A.equal(await page.locator('#nomad360-seo-banner h2').count(),1,'One SEO banner replaces the former six-point list');
-  A.equal(await page.locator('#nomad360-seo-banner li').count(),0);
-  A.equal(await page.locator('#nomad360-seo-banner p').isVisible(),true);
-  A.equal(await page.locator('#nomad360-seo-banner p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
-  A.equal(await page.locator('#home-screen').evaluate(el=>
-    [...el.children].findIndex(child=>child.id==='nomad360-seo-banner')+1===
-    [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
-    'Approved introduction follows the existing SEO banner');
+  A.equal(await page.locator('#nomad360-seo-banner li').count(),3,'Three live benefits share the first banner');
+  A.equal(await page.locator('#nomad360-seo-banner .nomad-seo-copy p').isVisible(),true);
+  A.equal(await page.locator('#nomad360-seo-banner .nomad-seo-copy p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
+  A.equal(await page.locator('#home-screen').evaluate(el=>{
+    const banner=el.querySelector('#nomad360-commercial-banner');
+    return !!banner&&banner.firstElementChild?.id==='nomad360-hero'
+      &&banner.querySelector('#nomad360-intro')?.parentElement?.id==='nomad360-seo-banner'
+      &&banner.nextElementSibling?.id==='nomad360-selling-choice';
+  }),true,'Single first banner preserves intro, visible SEO and calculator choice order');
   A.equal(await page.locator('#home-screen > .card > h1').count(),0,
     'Do not duplicate a second homepage H1');
   const presentation=await page.evaluate(()=>{
@@ -72,8 +74,11 @@ async function browserCase(browser,locale,expected){
   A.equal(canvasColors.page,'rgb(22, 55, 90)','Canvas matches the navy footer');
   A.ok(['hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
-   A.equal(canvasColors.hero1,'rgb(237, 142, 99)','Business calculator eyebrow must be orange');
-  A.equal(canvasColors.calcBackground,'rgb(22, 55, 90)','Requested SEO banner uses the brand navy');
+   A.equal(canvasColors.hero1,'rgb(255, 145, 63)','First-banner eyebrow uses approved #FF913F orange');
+  A.ok(['rgba(0, 0, 0, 0)','transparent'].includes(canvasColors.calcBackground),
+    'SEO content is transparent over the unified first-banner background');
+  A.equal(await page.locator('#nomad360-commercial-banner').evaluate(el=>getComputedStyle(el).backgroundColor),
+    'rgb(23, 59, 88)','Only first banner must use approved #173B58 navy');
   A.ok(['primaryCardBackground','headerBackground'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
 

@@ -1,0 +1,42 @@
+name: UNIFIED-HERO-02 first-banner responsive visual acceptance
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_first_hero.js'
+      - 'nomad360_first_hero.css'
+      - 'tests/unified_hero_02_browser.cjs'
+      - '.github/workflows/unified-hero-02.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first-hero:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify original wolf and original finance sources
+        run: |
+          git fetch --no-tags --depth=1 origin main
+          git diff --exit-code origin/main -- nomad360_wolf_open_circle.png nomad360_header.js nomad360_calculator_ui.js nomad360_calculator_ui.css nomad360_sales_tax.js nomad360_sales_tax_v1.js nomad360_sales_tax_v2.js
+          node --check nomad360_first_hero.js
+          node --check tests/unified_hero_02_browser.cjs
+      - name: Install Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/unified-hero" --no-save --no-package-lock playwright@1.58.0
+          "$RUNNER_TEMP/unified-hero/node_modules/.bin/playwright" install --with-deps chromium
+      - name: RU EN KK - 320 360 390 430 768 1280 1440
+        env:
+          NODE_PATH: ${{ runner.temp }}/unified-hero/node_modules
+        run: node tests/unified_hero_02_browser.cjs
+      - name: Upload actual Chromium screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unified-hero-02-live-renders
+          path: artifacts/first-hero-02/
+          retention-days: 14
