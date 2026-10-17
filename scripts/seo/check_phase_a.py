@@ -68,6 +68,19 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name == 'CALCULATOR_LICENSE.md':
+            # Owner-approved later legal release (#185, 2026-10-17) is a
+            # separately validated prospective v2.4 licence, not an SEO edit.
+            # Keep the phase-A historical manifest immutable. For current
+            # branches, pin the entire approved replacement byte-for-byte.
+            # A subsequent legal edit must explicitly update this accepted
+            # release, never bypass the 46 remaining SEO-protected files.
+            current_release = subprocess.check_output(
+                ['git', 'show',
+                 'c98b29e9527131ae4790e462a3b62f15827a4ccf:CALCULATOR_LICENSE.md'],
+                cwd=ROOT)
+            assert raw == current_release, 'Unreviewed change to accepted legal v2.4 release'
+            continue
         if name in ('nomad360_header.js', 'nomad360_calculator_ui.css'):
             # The sole approved TASK-10 / LOGO-01 delta is hash-locked and
             # removed before ALL pre-existing immutable SEO/finance guards.
