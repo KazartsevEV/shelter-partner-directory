@@ -21,7 +21,7 @@ test('All existing application files stay exact outside the five authorised pres
     A.equal(actual,execFileSync('git',['show','cd80f877f20dde9d276683c83b99c6a9455dea5d:'+file],{cwd:root,encoding:'utf8'}),'Approved license v2.4');continue;
   }
   const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
-   const normalized=stripReturn(file,(file==='Marketing_calc.HTML'?require('./helpers/task09-html-scope.cjs').stripTask09Html(actual):actual).replace(
+   const normalized=stripReturn(file,(file==='Marketing_calc.HTML'?require('./helpers/task09-html-scope.cjs').stripTask09Html(require('./helpers/seo-html-contract.cjs').stripLiveStudy(actual)):actual).replace(
    file==='Marketing_calc.HTML'?'<script src="./nomad360_sales_tax_service_v1.js"></script>\n':
     '\u0000stage3-noop\u0000',''));
    A.equal(file==='Marketing_calc.HTML'?mask(normalized):normalized,
