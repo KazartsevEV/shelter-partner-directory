@@ -47,6 +47,14 @@ if(!includedJs.includes('portfolio_v2_us_demo_ui.js')||!includedJs.includes('nom
 const out=path.resolve(root,'artifacts/us-retail-demo/US_Retail_Demo_FILLED.html');
 fs.mkdirSync(path.dirname(out),{recursive:true});
 fs.writeFileSync(out,result);
-const stats={source:'US_Retail_Demo.HTML from PR #183',generatedAt:new Date().toISOString(),target:path.relative(root,out),sha256:crypto.createHash('sha256').update(result).digest('hex'),bytes:Buffer.byteLength(result),inlineCss:includedCss,inlineJs:includedJs,autoLoaded:true,skuCount:input.skus.length,resourceCount:input.resources.length};
+// English first-open deliverable: use the same fully embedded real calculator,
+// but explicitly select English before the ready-to-edit V2 model is launched.
+const enBootstrap='<script data-study-english-bootstrap="true">document.documentElement.lang="en";try{localStorage.setItem("nomad360PreferredLanguage","en")}catch(_){}</script>';
+let enResult=result.replace('<html lang="ru">','<html lang="en">')
+ .replace('<head>','<head>\n'+enBootstrap)
+ .replace('window.Nomad360USRetailDemo.launch();','window.Nomad360UI.setLanguage("en");window.Nomad360USRetailDemo.launch();');
+const enOut=path.resolve(root,'artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html');
+fs.writeFileSync(enOut,enResult);
+const stats={source:'US_Retail_Demo.HTML from PR #183',generatedAt:new Date().toISOString(),target:path.relative(root,out),sha256:crypto.createHash('sha256').update(result).digest('hex'),bytes:Buffer.byteLength(result),inlineCss:includedCss,inlineJs:includedJs,autoLoaded:true,english:{target:path.relative(root,enOut),sha256:crypto.createHash('sha256').update(enResult).digest('hex'),bytes:Buffer.byteLength(enResult)},skuCount:input.skus.length,resourceCount:input.resources.length};
 fs.writeFileSync(path.resolve(root,'artifacts/us-retail-demo/manifest.json'),JSON.stringify(stats,null,2)+'\n');
 console.log('US_RETAIL_FILLED_STANDALONE_CREATED',JSON.stringify(stats));
