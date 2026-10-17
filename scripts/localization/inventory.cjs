@@ -30,6 +30,10 @@ function build(root=ROOT){
  const contents=new Map(),dictionaryNodes=new Map(),core=new Map(),dictionaryIssues=[];
  const load=f=>{if(!contents.has(f)){
   let source=fs.readFileSync(path.join(root,f),'utf8');
+  // Visual-only UNIFIED-HERO-02 resource links are guarded exactly and excluded
+  // from historic translatable-copy inventory; original SEO strings remain.
+  if(f==='Marketing_calc.HTML')
+   source=require('../../tests/helpers/first-hero-loader-scope.cjs').stripFirstHeroLoaders(source);
   // Preserve the translated-copy baseline: the approved logo color/crop
   // insertion contains no new translatable user-facing content.
   if(f==='nomad360_header.js'||f==='nomad360_calculator_ui.css')
