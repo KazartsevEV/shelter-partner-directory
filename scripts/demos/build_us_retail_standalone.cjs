@@ -47,8 +47,8 @@ function packageFile(file,language){
  if(language==='en')page=page.replace('<html lang="ru">','<html lang="en">');
  if(!page.includes('</body>'))throw Error('HTML body close missing');
  page=page.replace('</body>',seedFor(language)+'\\n</body>');
- const paths=[...page.matchAll(/<(?:script|link)[^>]+(?:src|href)=["']\\.\\/([^"']+)/g)].map(m=>m[1]);
- if(paths.length)throw Error('Standalone still has unresolved linked scripts/styles: '+paths.join(','));
+ const unresolvedLocalLinks=page.includes(' src="./')||page.includes(' href="./');
+ if(unresolvedLocalLinks)throw Error('Standalone still has unresolved linked scripts or styles');
  if(!includedJs.includes('portfolio_v2_us_demo_ui.js')||!includedJs.includes('nomad360_us_retail_demo.js'))throw Error('Real V2 study scripts missing');
  const out=path.resolve(root,'artifacts/us-retail-demo',file);
  fs.mkdirSync(path.dirname(out),{recursive:true});
