@@ -83,6 +83,7 @@ async function swipe(page,locator,delta,mobile){
   A.equal(await page.locator('#nomad360-bug-dialog').evaluate(e=>e.open),false,'swipe never opens form');
   await swipe(page,launcher,-65,mobile);
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),false,'left swipe re-expands');
+  await page.evaluate(()=>document.activeElement?.blur?.());
   await page.screenshot({path:path.join(dir,'pinned-'+lang+'-'+width+'-expanded.png')});
   const toggleBox=await page.locator('.nomad-bug-dock-toggle').boundingBox();
   const expandedBox=await launcher.boundingBox();
@@ -107,6 +108,7 @@ async function swipe(page,locator,delta,mobile){
   A.equal(await page.locator('#nomad360-bug-dialog').evaluate(e=>e.open),false,'Escape closes report');
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),true,'modal does not expand dock');
   A.deepEqual(jsErrors,[],'no page errors');
+  await page.evaluate(()=>document.activeElement?.blur?.());
   await page.screenshot({path:path.join(dir,'pinned-'+lang+'-'+width+'.png')});
   checks++;await ctx.close();
  }
