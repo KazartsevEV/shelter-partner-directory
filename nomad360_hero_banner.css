@@ -452,3 +452,33 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   color:#FF913F!important;
  }
 }
+
+/* HERO-04e: reference border and lead sizing (no new content or artwork). */
+@layer nomad360-palette{
+ body:has(#home-screen) #nomad360-commercial-banner .nomad-hero-summary{
+  --p10-line:#38678B!important;
+ }
+ body:has(#home-screen) #nomad360-commercial-banner #nomad360-intro li,
+ body:has(#home-screen) #nomad360-commercial-banner .nomad-intro-result{
+  --p10-line:#38678B!important;
+ }
+}
+@media(min-width:1021px){
+ #home-screen #nomad360-commercial-banner .nomad-intro-lead{
+  font-size:clamp(34px,2.64vw,40px)!important;
+ }
+ #home-screen #nomad360-commercial-banner .nomad-benefit-icon{
+  flex-basis:75px;width:75px;height:82px;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta{
+  font-size:clamp(21px,1.8vw,27px)!important;
+ }
+}
+@media(max-width:700px){
+ #home-screen #nomad360-commercial-banner .nomad-intro-lead{
+  font-size:14px!important;margin-bottom:18px;
+ }
+ body #home-screen #nomad360-commercial-banner #nomad360-hero{
+  margin-bottom:25px;
+ }
+}
