@@ -3,9 +3,9 @@
 **Scope:** separate opt-in educational example in the **existing Nomad360 standalone V2**, not a new financial engine, a new market study or a change to existing V1/V2 defaults. All retail and staffing values below are explicit **hypotheses**; no real store has been surveyed. Prepared 2026-10-17.
 
 ## Open the real calculator
-- On this development branch, open `Marketing_calc.HTML?demo=us-retail-12m` locally or on an equivalent branch preview with its dependent scripts. This query explicitly opens the editable **real V2** with the example loaded.
-- Or open the usual `Marketing_calc.HTML` and click “Открыть учебный магазин США · 12 месяцев” under the selling-mode chooser.
-- Edit any fields; **+ Новый портфель** empties the example. Study changes save only to `marketingCalcPortfolioV2USRetailDemo` and **never overwrite** a visitor's `marketingCalcPortfolioV2` personal draft. The original blank V2 and Kazakhstan cotton shopper remain unchanged.
+- On this development branch, open `US_Retail_Demo.HTML?demo=us-retail-12m` locally or on an equivalent branch preview with its dependent scripts. This query explicitly opens the editable **real V2** with the example loaded.
+- Or open the separate `US_Retail_Demo.HTML` without query arguments and click “Открыть учебный магазин США · 12 месяцев” under the selling-mode chooser.
+- Edit any fields; **+ Новый портфель** empties the example. Study changes save only to `marketingCalcPortfolioV2USRetailDemo` and **never overwrite** a visitor's `marketingCalcPortfolioV2` personal draft. The production `Marketing_calc.HTML` and production `portfolio_v2_ui.js` remain byte-for-byte unchanged; the original blank V2 and Kazakhstan cotton shopper remain unchanged.
 - The browser-only file works with the local companion scripts. GitHub's `blob/main` view is **source code, not a functioning calculator preview**. Do not claim the branch is published to Pages until a production deploy is accepted.
 
 ## Scenario
