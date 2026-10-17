@@ -155,7 +155,8 @@ function boot(){
  dock.addEventListener('pointerdown',event=>{
   if(!event.isPrimary||event.button!==0)return;
   gesture={id:event.pointerId,x:event.clientX,y:event.clientY};
-  try{dock.setPointerCapture(event.pointerId)}catch(_){}
+  // Keep the native click target on the button after a short tap.
+  try{event.target.setPointerCapture?.(event.pointerId)}catch(_){}
  });
  dock.addEventListener('pointerup',event=>{
   if(!gesture||gesture.id!==event.pointerId)return;
