@@ -1,0 +1,41 @@
+name: HERO-03 first-banner visual receipts
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_hero_banner.css'
+      - 'nomad360_hero_banner.js'
+      - 'assets/nomad360-banners/hero.webp'
+      - 'scripts/hero/preview.cjs'
+      - '.github/workflows/hero-03-visual.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first-banner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --prefix "$RUNNER_TEMP/hero-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+      - run: "$RUNNER_TEMP/hero-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Compile local Tailwind layout
+        run: |
+          mkdir -p artifacts/hero-03
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/hero-utilities.css"
+          "$RUNNER_TEMP/hero-tools/node_modules/.bin/tailwindcss" -i "$RUNNER_TEMP/hero-utilities.css" --content './Marketing_calc.HTML,./nomad360_*.js' -o artifacts/hero-03/utilities.css --minify
+      - name: Desktop mobile and three live locales
+        env:
+          NODE_PATH: ${{ runner.temp }}/hero-tools/node_modules
+        run: |
+          node --check nomad360_hero_banner.js
+          node scripts/hero/preview.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hero-03-desktop-mobile-ru-en-kk
+          path: artifacts/hero-03/
+          retention-days: 21
