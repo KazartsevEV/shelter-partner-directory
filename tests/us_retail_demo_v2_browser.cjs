@@ -30,7 +30,17 @@ const {pathToFileURL}=require('node:url');
      assert.equal(await entry.innerText(),label);
      assert.ok((await entry.getAttribute('href')).endsWith('US_Retail_Demo.HTML?demo=us-retail-12m&lang='+locale));
    }
-   await page.evaluate(()=>Nomad360UI.setLanguage('ru'));
+   await page.evaluate(()=>{
+     document.documentElement.setAttribute('data-nomad-embedded','');
+     document.dispatchEvent(new Event('nomad360:languagechange'));
+   });
+   assert.match(await page.locator('#us-retail-v2-live-link').getAttribute('href'),
+     /^https:\/\/kazartsevev\.github\.io\/shelter-partner-directory\/US_Retail_Demo\.HTML/);
+   await page.evaluate(()=>{
+     document.documentElement.removeAttribute('data-nomad-embedded');
+     Nomad360UI.setLanguage('ru');
+     document.dispatchEvent(new Event('nomad360:languagechange'));
+   });
    await page.locator('#us-retail-v2-live-link').click();
    await page.waitForURL(/US_Retail_Demo/);
    await page.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.length===10,{timeout:25000});
@@ -81,6 +91,18 @@ const {pathToFileURL}=require('node:url');
    await page.locator('[data-p2-path="skus.0.name"]').fill('Подарочный набор ручной работы');
    assert.equal(await financialFingerprint(),financialBefore,'Returning to RU must preserve values');
    await page.screenshot({path:path.join(out,'ru-'+width+'-v2-shop.png'),fullPage:true});
+   // Reload with an edited high-numbered ID to guard against duplicate SKU IDs.
+   await page.evaluate(()=>{
+     const draft=PortfolioV2UI.getState();
+     draft.skus[0].id='sku-124';
+     draft.resources.forEach(r=>{r.skuIds=(r.skuIds||[]).map(id=>id==='sku-1'?'sku-124':id)});
+     localStorage.setItem('marketingCalcPortfolioV2USRetailDemo',JSON.stringify(draft));
+   });
+   await page.reload({waitUntil:'domcontentloaded'});
+   await page.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.[0]?.id==='sku-124',{timeout:25000});
+   await page.locator('#portfolio-v2-root [data-p2-add-sku]').click();
+   const ids=await page.evaluate(()=>PortfolioV2UI.getState().skus.map(s=>s.id));
+   assert.equal(new Set(ids).size,ids.length,'Resumed study must generate unique SKU IDs');
    await page.locator('#portfolio-v2-root [data-p2-new]').click();
    const empty=await page.evaluate(()=>({
      mine:localStorage.getItem('marketingCalcPortfolioV2'),
@@ -90,7 +112,14 @@ const {pathToFileURL}=require('node:url');
    assert.equal(empty.demo.skus.length,1);
    assert.equal(empty.demo.skus[0].name,'');
    assert.equal(empty.demo.resources.length,0);
+   // After an explicit reset, a newly edited one-SKU study must not be lost.
+   await page.locator('[data-p2-path="marketing.budget"]').fill('50');
    await page.evaluate(()=>Nomad360UI.setLanguage('en'));
+   await page.locator('#portfolio-v2-root [data-p2-home]').click();
+   await page.locator('#us-retail-demo-launch').click();
+   assert.equal(Number((await page.evaluate(()=>PortfolioV2UI.getState())).marketing.budget),50);
+   assert.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus.length),1);
+   await page.locator('#portfolio-v2-root [data-p2-new]').click();
    await page.locator('#portfolio-v2-root [data-p2-home]').click();
    assert.match(await page.locator('#us-retail-demo-launch').innerText(),/US shop study/);
    await page.locator('#us-retail-demo-launch').click();
