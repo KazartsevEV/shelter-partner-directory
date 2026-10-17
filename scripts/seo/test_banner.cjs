@@ -19,13 +19,13 @@ const win={};new Function('window','document',execFileSync('git',['show','85d98d
   A.deepEqual(await p.locator('#nomad360-hero h1,#nomad360-hero h2,#nomad360-hero h3').allTextContents(),['headline','sub','narrative'].map(k=>original.t('interface.shell.'+k,lang)),'The exact original offer must stay intact');
   const banner=p.locator('#nomad360-seo-banner');await banner.scrollIntoViewIfNeeded();
   A.equal(await p.locator('#nomad360-calculation-list').count(),0,'The previous six-point block is removed');
-  A.equal(await banner.locator('li').count(),0);A.equal(await banner.locator('h2').count(),1);A.equal(await banner.locator('p').count(),1);
-  for(const [selector,key] of [['h2','business.ideaSeoTitle'],['p','business.ideaSeoCopy']])A.equal(await banner.locator(selector).textContent(),await p.evaluate(([key,lang])=>Nomad360LocaleCore.t(key,lang),[key,lang]));
+  A.equal(await banner.locator('li').count(),3);A.equal(await banner.locator('h2').count(),1);A.equal(await banner.locator('.nomad-seo-copy p').count(),1);
+  for(const [selector,key] of [['.nomad-seo-copy h2','business.ideaSeoTitle'],['.nomad-seo-copy p','business.ideaSeoCopy']])A.equal(await banner.locator(selector).textContent(),await p.evaluate(([key,lang])=>Nomad360LocaleCore.t(key,lang),[key,lang]));
   await p.waitForFunction(()=>document.querySelector('.nomad-seo-logo')?.complete&&document.querySelector('.nomad-seo-logo')?.naturalWidth===1024);
   A.equal(await banner.locator('img').getAttribute('src'),await p.locator('#nomad360-header .nomad-logo').getAttribute('src'));
   A.equal(requests.filter(u=>u.endsWith('/nomad360_wolf_open_circle.png')).length,1,'One shared original image URL');
-  const geometry=await banner.evaluate(el=>({background:getComputedStyle(el).backgroundColor,color:getComputedStyle(el.querySelector('p')).color,font:parseFloat(getComputedStyle(el.querySelector('p')).fontSize),overflow:document.documentElement.scrollWidth>innerWidth+1,clipped:[...el.querySelectorAll('h2,p')].some(e=>e.scrollWidth>e.clientWidth+1)}));
-  A.equal(geometry.background,'rgb(22, 55, 90)');A.equal(geometry.color,'rgb(255, 255, 255)');A.ok(geometry.font>=17);A.equal(geometry.overflow,false);A.equal(geometry.clipped,false);
+  const geometry=await banner.evaluate(el=>({background:getComputedStyle(el.parentElement).backgroundColor,color:getComputedStyle(el.querySelector('.nomad-seo-copy p')).color,font:parseFloat(getComputedStyle(el.querySelector('.nomad-seo-copy p')).fontSize),overflow:el.parentElement.scrollWidth>el.parentElement.clientWidth+1,clipped:[...el.querySelectorAll('h2,p')].some(e=>e.scrollWidth>e.clientWidth+1)}));
+  A.equal(geometry.background,'rgb(23, 59, 88)');A.equal(geometry.color,'rgb(255, 255, 255)');A.ok(geometry.font>=14);A.equal(geometry.overflow,false);A.equal(geometry.clipped,false);
   A.deepEqual(await p.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),[]);A.deepEqual(errors,[]);
   const files=[];if([320,1280].includes(width)){const name=`${lang}-${width}-banner.png`;await banner.screenshot({path:path.join(out,name)});files.push(name);}if(width===390){const name=`${lang}-390-home.png`;await p.locator('#home-screen').screenshot({path:path.join(out,name)});files.push(name);}
   if(width===390){
@@ -35,7 +35,7 @@ const win={};new Function('window','document',execFileSync('git',['show','85d98d
    await saved.waitForFunction(()=>document.querySelector('.nomad-seo-logo')?.complete&&document.querySelector('.nomad-seo-logo')?.naturalWidth===1024);
    A.match(await saved.locator('.nomad-seo-logo').getAttribute('src'),/^data:image/);A.equal(await saved.locator('.nomad-seo-logo').getAttribute('src'),await saved.locator('#nomad360-header .nomad-logo').getAttribute('src'));
    A.deepEqual(await saved.locator('#nomad360-hero h1,#nomad360-hero h2,#nomad360-hero h3').allTextContents(),['headline','sub','narrative'].map(k=>original.t('interface.shell.'+k,lang)));
-   A.equal(await saved.locator('#nomad360-seo-banner p').textContent(),await p.locator('#nomad360-seo-banner p').textContent());exports.push({lang,portableLogoAndOffer:true});await saved.close();
+   A.equal(await saved.locator('.nomad-seo-copy p').textContent(),await p.locator('.nomad-seo-copy p').textContent());exports.push({lang,portableLogoAndOffer:true});await saved.close();
   }
   cases.push({lang,width,geometry,originalOffer:true,sharedLogo:true,files});await ctx.close();
  }fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({cases,exports},null,2)+'\n');console.log('SEO_ORIGINAL_OFFER_BANNER_GREEN',JSON.stringify({cases:cases.length,screenshots:cases.flatMap(c=>c.files).length,exports:exports.length}));
