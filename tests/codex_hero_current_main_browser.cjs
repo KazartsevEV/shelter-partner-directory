@@ -24,8 +24,9 @@ function eqHex(value){const m=value.match(/\d+/g)||[];return m.slice(0,3).join('
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const origin='http://127.0.0.1:'+server.address().port+'/',browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const records=[];
- try{for(const lang of ['ru','en','kk'])for(const width of [320,360,390,430,768,1280,1440]){
-  const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce',deviceScaleFactor:1});
+ const viewports=[{"width":320,"height":568},{"width":360,"height":640},{"width":375,"height":667},{"width":390,"height":844},{"width":393,"height":873},{"width":414,"height":896},{"width":430,"height":932},{"width":600,"height":960},{"width":768,"height":1024},{"width":820,"height":1180},{"width":1024,"height":768},{"width":1280,"height":720},{"width":1280,"height":800},{"width":1366,"height":768},{"width":1440,"height":900},{"width":1536,"height":864},{"width":1600,"height":900},{"width":1920,"height":1080},{"width":2560,"height":1440},{"width":3440,"height":1440}];
+ try{for(const lang of ['ru','en','kk'])for(const {width,height} of viewports){
+  const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce',deviceScaleFactor:1});
   const page=await context.newPage(),errors=[],bad=[];
   page.on('pageerror',e=>errors.push(e.message));
   page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(origin))bad.push({status:r.status(),url:r.url().split('/').at(-1)});});
@@ -43,8 +44,30 @@ function eqHex(value){const m=value.match(/\d+/g)||[];return m.slice(0,3).join('
       style=(x,p)=>getComputedStyle(x)[p],
       rect=x=>{let r=x.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bottom:r.bottom}},
       css=getComputedStyle(banner);
+   const fold=(x)=>{if(!x)return null;
+    const r=x.getBoundingClientRect(),rects=[...x.getClientRects()];
+    const tops=rects.length?rects.map(z=>z.top):[r.top],bottoms=rects.length?rects.map(z=>z.bottom):[r.bottom];
+    const top=Math.min(...tops),bottom=Math.max(...bottoms),visible=getComputedStyle(x).visibility!=='hidden'&&getComputedStyle(x).display!=='none';
+    return {top:Math.round(top),bottom:Math.round(bottom),status:!visible?'hidden':top>=0&&bottom<=innerHeight?'full':top<innerHeight&&bottom>0?'partial':bottom<=0?'above':'below'};
+   };
+   const benefitRows=[...intro.querySelectorAll('li')];
+   const foldParts={
+      navigation:fold(document.querySelector('#nomad360-header')),
+      eyebrow:fold(hero.querySelector('h1')),
+      headline:fold(hero.querySelector('h2')),
+      subtitle:fold(hero.querySelector('h3')),
+      cta:fold(cta),
+      introduction:fold(intro.querySelector('.nomad-intro-lead')),
+      advantages:benefitRows.map(fold),
+      conclusion:fold(intro.querySelector('.nomad-intro-result')),
+      wolf:fold(logo),
+      seoHeading:fold(document.querySelector('#nomad360-seo-heading')),
+      seoText:fold(document.querySelector('.nomad-seo-copy p')),
+      bannerEnd:fold(banner),
+      selling:fold(document.querySelector('#nomad360-selling-choice')),
+   };
    return {
-    lang:document.documentElement.lang,width:innerWidth,viewportHeight:innerHeight,
+    lang:document.documentElement.lang,width:innerWidth,viewportHeight:innerHeight,foldParts,
     banner:rect(banner),hero:rect(hero),cta:rect(cta),ctaHref:cta.getAttribute('href'),
     selling:!!document.querySelector('#nomad360-selling-choice'),
     seoVisible:!!originalSeo&&[...originalSeo.querySelectorAll('*')].some(e=>!!e.getClientRects().length),
@@ -63,8 +86,10 @@ function eqHex(value){const m=value.match(/\d+/g)||[];return m.slice(0,3).join('
    };
   });
   // Record every case BEFORE a failure so that genuine screenshots of defects remain visible.
-  await page.screenshot({path:path.join(out,lang+'-'+width+'-viewport.png')});
-  await page.locator('#nomad360-commercial-banner').screenshot({path:path.join(out,lang+'-'+width+'-hero.png')});
+  if(lang==='ru'||[390,768,1366,1920].includes(width))
+    await page.screenshot({path:path.join(out,lang+'-'+width+'x'+height+'-viewport.png')});
+  if(lang==='ru'&&[320,390,768,1280,1440,1920].includes(width))
+    await page.locator('#nomad360-commercial-banner').screenshot({path:path.join(out,lang+'-'+width+'x'+height+'-hero.png')});
   const failures=[];
   if(errors.length)failures.push('javascript errors '+errors.join('; '));
   if(bad.length)failures.push('missing local resources '+JSON.stringify(bad));
@@ -89,12 +114,18 @@ function eqHex(value){const m=value.match(/\d+/g)||[];return m.slice(0,3).join('
   const baseOverflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   if(state.overflow>baseOverflow+1)failures.push('Codex banner adds '+(state.overflow-baseOverflow)+' px overflow above baseline');
   records.push({...state,baselineOverflow:baseOverflow,route,failures});
-  console.log('CODEX_HERO_CASE '+lang+' '+width+' '+(failures.length?'FAIL: '+failures.join(' | '):'PASS'));
+  console.log('CODEX_HERO_CASE '+lang+' '+width+'x'+height+' '+(failures.length?'FAIL: '+failures.join(' | '):'PASS'));
   await context.close();
  }}finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(records,null,2)+'\n');
  const fails=records.filter(r=>r.failures.length);
+ const summary=records.map(r=>({lang:r.lang,width:r.width,height:r.viewportHeight,
+  visible:Object.entries(r.foldParts).filter(([k,v])=>Array.isArray(v)?v.some(x=>x&&['full','partial'].includes(x.status)):v&&['full','partial'].includes(v.status)).map(([k,v])=>k),
+  parts:Object.fromEntries(Object.entries(r.foldParts).map(([k,v])=>[k,Array.isArray(v)?v.map(x=>x?.status):v?.status])),
+  bannerBottom:r.foldParts.bannerEnd?.bottom,sellingTop:r.foldParts.selling?.top
+ }));
+ fs.writeFileSync(path.join(out,'first-screen-matrix.json'),JSON.stringify(summary,null,2)+'\\n');
  console.log('CODEX_HERO_AUDIT',JSON.stringify({total:records.length,pass:records.length-fails.length,fail:fails.length}));
- A.equal(records.length,21,'All language/width cases must be tested');
+ A.equal(records.length,viewports.length*3,'All language/resolution cases must be tested');
  A.equal(fails.length,0,'Hero and approved TASK10 site must be compatible on every route/viewport');
 })().catch(e=>{console.error(e);process.exitCode=1;server.close();});
