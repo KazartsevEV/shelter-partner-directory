@@ -35,6 +35,7 @@ const fnum=n=>Math.round(n*10)/10;
       await page.waitForFunction(lang=>document.documentElement.lang===lang&&document.querySelector('#nomad360-commercial-banner .nomad-intro-lead'),lang,{timeout:20000});
       await page.evaluate(async()=>{await document.fonts.ready;window.scrollTo(0,0)});
       const data=await page.evaluate(()=>{
+        const fnum=n=>Math.round(n*10)/10;
         const banner=document.querySelector('#nomad360-commercial-banner');
         const hero=banner.querySelector('#nomad360-hero');
         const intro=banner.querySelector('#nomad360-intro');
