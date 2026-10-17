@@ -74,8 +74,11 @@ async function browserCase(browser,locale,expected){
   A.equal(canvasColors.page,'rgb(22, 55, 90)','Canvas matches the navy footer');
   A.ok(['hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
-   A.equal(canvasColors.hero1,'rgb(237, 142, 99)','Business calculator eyebrow must be orange');
-  A.equal(canvasColors.calcBackground,'rgb(22, 55, 90)','Requested SEO banner uses the brand navy');
+   A.equal(canvasColors.hero1,'rgb(255, 145, 63)','First-banner eyebrow uses approved #FF913F orange');
+  A.ok(['rgba(0, 0, 0, 0)','transparent'].includes(canvasColors.calcBackground),
+    'SEO content is transparent over the unified first-banner background');
+  A.equal(await page.locator('#nomad360-commercial-banner').evaluate(el=>getComputedStyle(el).backgroundColor),
+    'rgb(23, 59, 88)','Only first banner must use approved #173B58 navy');
   A.ok(['primaryCardBackground','headerBackground'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
 
