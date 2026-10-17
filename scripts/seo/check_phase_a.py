@@ -383,6 +383,7 @@ def main():
         'tests/helpers/codex-first-banner-scope.cjs',
         'tests/helpers/task10-palette-scope.cjs',
         'tests/task10_palette_source.test.cjs',
+        'tests/task10_palette_oracles.test.cjs',
         '.github/workflows/codex-first-banner-r2.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
