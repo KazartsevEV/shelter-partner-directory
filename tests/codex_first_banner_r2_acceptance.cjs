@@ -29,7 +29,7 @@ const server=http.createServer((req,res)=>{
        const banner=document.querySelector('#nomad360-commercial-banner'),hero=banner.querySelector('#nomad360-hero'),
          art=getComputedStyle(banner,'::before'),cta=hero.querySelector('.nomad-intro-cta'),sub=hero.querySelector('h3'),
          intro=banner.querySelector('#nomad360-intro'),logo=banner.querySelector('.nomad-seo-logo'),
-         r=e=>e.getBoundingClientRect(),css=e=>getComputedStyle(e);
+         r=e=>e.getBoundingClientRect(),css=(e,pseudo)=>getComputedStyle(e,pseudo);
        const ctar=r(cta),subr=r(sub),hr=r(hero),br=r(banner);
        const value=n=>Math.round(n*10)/10;
        return {
