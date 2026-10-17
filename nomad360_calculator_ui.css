@@ -631,3 +631,51 @@ body #nomad360-hero .nomad-intro-cta{margin-top:18px}
 @media print{
   #nomad360-header .nomad-burger{position:static}
 }
+
+/* TASK-10 LOGO-01: the SAME wolf PNG, recolored by nomad360_header.js.
+   Remove the oversized white "plate": only a narrow white rim remains around
+   the enlarged original wolf/orbit mark. Scoped to logo surfaces only. */
+.nomad-header .nomad-logo-mask,
+.nomad-seo-logo-mask,
+.nomad-embed-b2b-logo-mask {
+  display:block;
+  position:relative;
+  flex-shrink:0;
+  box-sizing:border-box;
+  overflow:hidden;
+  border-radius:50%;
+  background:#FFFFFF;
+  box-shadow:none;
+}
+.nomad-header .nomad-logo-mask { width:50px;height:50px; }
+.nomad-header .nomad-logo-mask .nomad-logo,
+.nomad-seo-logo-mask .nomad-seo-logo,
+.nomad-embed-b2b-logo-mask img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  transform:scale(1.38);
+  transform-origin:center;
+}
+.nomad-seo-logo-mask {width:140px;height:140px}
+.nomad-embed-b2b-logo-mask {width:108px;height:108px}
+.nomad-seo-tagline span+span {color:#FF913F}
+@media(min-width:1200px) {
+  .nomad-header .nomad-logo-mask{width:58px;height:58px}
+}
+@media(max-width:660px){
+  .nomad-header .nomad-logo-mask{width:42px;height:42px}
+}
+@media(max-width:360px){
+  .nomad-header .nomad-logo-mask{width:34px;height:34px}
+}
+@media(max-width:600px){
+  .nomad-seo-logo-mask{width:64px;height:64px}
+}
+/* Keep the orbit visible inside the circle at all breakpoints; never enlarge
+   the outer white disk to create a border. */
