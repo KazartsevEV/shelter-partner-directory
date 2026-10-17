@@ -174,13 +174,16 @@ const STATE={
       "label": "Small production workshop lease",
       "amount": 800,
       "cadence": "monthly",
-      "allocation": "revenue",
+      "allocation": "usage",
       "skuIds": [
         "sku-1",
         "sku-2"
       ],
-      "usage": {},
-      "capacity": ""
+      "usage": {
+        "sku-1": 80,
+        "sku-2": 105
+      },
+      "capacity": 220
     },
     {
       "id": "resource-3",
@@ -188,7 +191,7 @@ const STATE={
       "label": "Sales associate W-2 cost",
       "amount": 3600,
       "cadence": "monthly",
-      "allocation": "revenue",
+      "allocation": "usage",
       "skuIds": [
         "sku-1",
         "sku-2",
@@ -199,8 +202,17 @@ const STATE={
         "sku-7",
         "sku-8"
       ],
-      "usage": {},
-      "capacity": ""
+      "usage": {
+        "sku-1": 10,
+        "sku-2": 10,
+        "sku-3": 20,
+        "sku-4": 20,
+        "sku-5": 20,
+        "sku-6": 20,
+        "sku-7": 15,
+        "sku-8": 15
+      },
+      "capacity": 160
     },
     {
       "id": "resource-4",
@@ -208,7 +220,7 @@ const STATE={
       "label": "Part-time stockroom/loader W-2 cost",
       "amount": 1150,
       "cadence": "monthly",
-      "allocation": "revenue",
+      "allocation": "usage",
       "skuIds": [
         "sku-3",
         "sku-4",
@@ -217,8 +229,15 @@ const STATE={
         "sku-7",
         "sku-8"
       ],
-      "usage": {},
-      "capacity": ""
+      "usage": {
+        "sku-3": 15,
+        "sku-4": 20,
+        "sku-5": 16,
+        "sku-6": 18,
+        "sku-7": 12,
+        "sku-8": 10
+      },
+      "capacity": 100
     },
     {
       "id": "resource-5",
@@ -226,13 +245,16 @@ const STATE={
       "label": "Owner craft labor allowance",
       "amount": 1800,
       "cadence": "monthly",
-      "allocation": "revenue",
+      "allocation": "usage",
       "skuIds": [
         "sku-1",
         "sku-2"
       ],
-      "usage": {},
-      "capacity": ""
+      "usage": {
+        "sku-1": 70,
+        "sku-2": 95
+      },
+      "capacity": 200
     },
     {
       "id": "resource-6",
