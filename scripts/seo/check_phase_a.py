@@ -62,6 +62,12 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name in ('nomad360_header.js', 'nomad360_calculator_ui.css'):
+            # The sole approved TASK-10 / LOGO-01 delta is hash-locked and
+            # removed before ALL pre-existing immutable SEO/finance guards.
+            raw = subprocess.check_output(['node', '-e',
+                "process.stdout.write(require('./tests/helpers/task10-logo-scope.cjs').stripTask10Logo(process.argv[1],require('node:fs').readFileSync(0,'utf8')))", name],
+                input=raw, cwd=ROOT)
         if name == 'Marketing_calc.HTML':
             raw = strip_task09_html(raw)
             assert raw.count(b'<script src="./nomad360_sales_tax_v2.js"></script>\n') == 1
@@ -339,7 +345,12 @@ def main():
          'tests/pinned_controls_browser.cjs',
          'tests/helpers/pinned-controls-css-scope.cjs',
          '.github/workflows/pinned-controls.yml',
-         'docs/reviews/pinned-controls/REVIEW.md') for p in changed), changed
+         'docs/reviews/pinned-controls/REVIEW.md',
+        # LOGO-01: exact hash-locked logo-only markup and screenshots.
+        'tests/helpers/task10-logo-scope.cjs',
+        'tests/task10_logo_browser.cjs', '.github/workflows/task10-logo.yml',
+        'tests/helpers/pinned-controls-css-scope.cjs',
+        'scripts/localization/inventory.cjs') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
