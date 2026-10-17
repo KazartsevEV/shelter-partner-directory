@@ -19,7 +19,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
  const cases=[],screens=[];
  try{
   for(const lang of ['ru','en','kk'])for(const width of [320,390,768,1280,1440]){
-   const context=await browser.newContext({locale:lang==='ru'?'ru-RU':lang==='kk'?'kk-KZ':'en-US',viewport:{width,height:920},reducedMotion:'reduce'});
+   const context=await browser.newContext({locale:lang==='ru'?'ru-RU':lang==='kk'?'kk-KZ':'en-US',viewport:{width,height:1750},reducedMotion:'reduce'});
    const p=await context.newPage(),errors=[];
    p.on('pageerror',e=>errors.push(e.message));
    await p.route(/^https?:\/\//,route=>route.request().url().startsWith(base)?route.continue():route.abort());
