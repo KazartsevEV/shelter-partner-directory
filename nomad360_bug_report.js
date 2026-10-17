@@ -262,6 +262,10 @@ else boot();
     checked.add(node);
     if(node===burger||burger.contains(node)||node.contains(burger))continue;
     const style=getComputedStyle(node);
+    if(style.backgroundImage!==S.none&&style.color===S.whiteRgb){
+     chosen=[22,55,90];
+     break;
+    }
     const bg=style.backgroundColor;
     const start=bg.indexOf(S.open);
     if(start>=0){
@@ -272,10 +276,6 @@ else boot();
       break;
      }
     }
-    if(style.backgroundImage!==S.none&&style.color===S.whiteRgb){
-     chosen=[22,55,90];
-     break;
-    }
    }
    if(chosen)break;
   }
@@ -285,7 +285,7 @@ else boot();
    return c<=0.04045?c/12.92:((c+0.055)/1.055)**2.4;
   });
   const luminance=linear[0]*0.2126+linear[1]*0.7152+linear[2]*0.0722;
-  burger.style.setProperty(S.property,luminance<0.38?S.white:S.navy);
+  burger.style.setProperty(S.property,luminance<0.25?S.white:S.navy);
  }
  function schedule(){
   if(waiting)return;
