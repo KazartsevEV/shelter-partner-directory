@@ -1,0 +1,45 @@
+name: Codex R2 first banner CTA and backdrop browser
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_codex_first_banner.css'
+      - 'nomad360_codex_first_banner.js'
+      - 'assets/nomad360-banners/hero.webp'
+      - 'tests/codex_first_banner_r2_acceptance.cjs'
+      - '.github/workflows/codex-first-banner-r2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify original Codex artwork and no finance edits
+        run: |
+          git fetch --no-tags --depth=1 origin main
+          git diff --exit-code origin/main -- nomad360_sales_tax.js nomad360_sales_tax_v1.js nomad360_sales_tax_v2.js nomad360_calculator_ui.js nomad360_header.js nomad360_wolf_open_circle.png
+          git fetch --no-tags --depth=1 origin backup/unified-banners-01-before-task09-sync-20261017
+          test "$(git hash-object assets/nomad360-banners/hero.webp)" = "$(git rev-parse FETCH_HEAD:assets/nomad360-banners/hero.webp)"
+          node --check nomad360_codex_first_banner.js
+          node --check tests/codex_first_banner_r2_acceptance.cjs
+      - name: Install Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/banner-first" --no-save --no-package-lock playwright@1.58.0
+          "$RUNNER_TEMP/banner-first/node_modules/.bin/playwright" install --with-deps chromium
+      - name: 21 real Chromium screens and CTA test
+        env:
+          NODE_PATH: ${{ runner.temp }}/banner-first/node_modules
+        run: node tests/codex_first_banner_r2_acceptance.cjs
+      - name: Save real screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-r2-first-banner-cta-underlay
+          path: artifacts/codex-first-banner-r2-cta/
+          retention-days: 14
