@@ -50,6 +50,7 @@ const server=http.createServer((req,res)=>{
           allSameUrl:images.every(e=>e.getAttribute('src')===img.getAttribute('src')),
           maskSize:mask.getBoundingClientRect().width,
           scale:getComputedStyle(mask.querySelector('img')).transform,
+          logoTransforms:images.map(e=>getComputedStyle(e).transform),
           headerMask:!!document.querySelector('.nomad-logo-mask'),
           bannerMask:!!mask,embeddedMask:!!document.querySelector('.nomad-embed-b2b-logo-mask')};
       });
@@ -62,9 +63,44 @@ const server=http.createServer((req,res)=>{
         'raster recolor should preserve large solid areas');
       A.notEqual(state.scale,'none','original wolf enlarged inside cropped white rim');
       A.ok(state.maskSize>=50&&state.maskSize<=145);
+      A.ok(state.logoTransforms.every(t=>t===state.logoTransforms[0]),
+        'entire existing mark has the same geometry adjustment in header, hero and B2B');
+      // Sample the *rendered* ring, rather than assuming the PNG canvas is centered.
+      // This checks the actual orbit against the white circular mask; it excludes
+      // the asymmetric wolf silhouette, which must not be moved independently.
+      const b2bShot=await page.locator('.nomad-embed-b2b-logo-mask').screenshot({
+        path:path.join(out,lang+'-'+width+'-b2b-logo.png')
+      });
+      const orbitCenter=await page.evaluate(async base64=>{
+        const image=new Image();
+        image.src='data:image/png;base64,'+base64;
+        await image.decode();
+        const c=document.createElement('canvas');c.width=image.width;c.height=image.height;
+        const ctx=c.getContext('2d',{willReadFrequently:true});
+        ctx.drawImage(image,0,0);
+        const {data}=ctx.getImageData(0,0,c.width,c.height);
+        const left=[],right=[];
+        for(let y=Math.round(c.height*.45);y<=Math.round(c.height*.55);y++){
+          for(let x=0;x<c.width;x++){
+            const i=(y*c.width+x)*4;
+            // Target dark orbit; exclude the older, darker banner background.
+            const ring=data[i]>=23&&data[i]<=42&&data[i+1]>=58&&data[i+1]<=85
+              &&data[i+2]>=78&&data[i+2]<=120;
+            if(!ring)continue;
+            if(x>c.width*.05&&x<c.width*.23)left.push(x);
+            if(x>c.width*.77&&x<c.width*.95)right.push(x);
+          }
+        }
+        if(!left.length||!right.length)return null;
+        const mean=xs=>xs.reduce((sum,x)=>sum+x,0)/xs.length;
+        return {ringX:(mean(left)+mean(right))/2,maskX:(c.width-1)/2,
+          leftPx:left.length,rightPx:right.length};
+      },b2bShot.toString('base64'));
+      A.ok(orbitCenter,'both sides of the circular orbit must be visible');
+      A.ok(Math.abs(orbitCenter.ringX-orbitCenter.maskX)<0.95,
+        'orbit must be centered within the white circle: '+JSON.stringify(orbitCenter));
       await page.locator('#nomad360-header').screenshot({path:path.join(out,lang+'-'+width+'-header.png')});
       await page.locator('#nomad360-seo-banner').screenshot({path:path.join(out,lang+'-'+width+'-commercial.png')});
-      await page.locator('.nomad-embed-b2b-logo-mask').screenshot({path:path.join(out,lang+'-'+width+'-b2b-logo.png')});
       records.push({lang,width,...state});
       await context.close();
     }
