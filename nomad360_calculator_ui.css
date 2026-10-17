@@ -616,6 +616,10 @@ body #nomad360-hero .nomad-intro-cta{margin-top:18px}
     z-index:180;
   }
 }
+@media (min-width:661px) and (max-width:1199px){
+  /* Tablet: keep a clear lane for the fixed hamburger beside the locale control. */
+  #nomad360-header .nomad-bar::after{flex-basis:64px}
+}
 @media print{
   #nomad360-header .nomad-burger{position:static}
 }
