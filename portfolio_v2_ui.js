@@ -5,8 +5,6 @@
 const Engine=root.PortfolioV2Engine;
 const taxText=()=>root.Nomad360LocaleCore?.locales?.('tax')?.[root.Nomad360UI?.getLanguage?.()||'ru']||{};
 const storageKey='marketingCalcPortfolioV2';
-const usDemoStorageKey='marketingCalcPortfolioV2USRetailDemo';
-let activeStorageKey=storageKey;
 let model=null,sequence=1;
 const kinds={own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг'};
 const labels={premises:'Помещение',workers:'Работники',warehouse:'Аренда склада',equipment:'Оборудование',certification:'Сертификат / лицензия',salesStaff:'Сотрудники продаж',marketingManager:'Ведение рекламы',campaign:'Отдельная рекламная кампания',website:'Сайт',hosting:'Хостинг',domain:'Домен',content:'Контент',other:'Другие общие расходы'};
@@ -28,13 +26,12 @@ const initial=()=>({
  tax:{type:'turnover',pct:0,vatPct:0}
 });
 function load(){try{const raw=JSON.parse(localStorage.getItem(storageKey));return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length?raw:null}catch(_){return null}}
-function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);localStorage.setItem(activeStorageKey,JSON.stringify(model));const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';if(activeStorageKey===storageKey)updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
+function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);localStorage.setItem(storageKey,JSON.stringify(model));const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
 function updateEntry(){
  const existing=load(),el=document.getElementById('portfolio-v2-resume-home');
  if(el){el.hidden=!existing;el.classList.toggle('hidden',!existing);}
 }
 function open(options={}){
-  activeStorageKey=storageKey;
  if(!options.resume)root.Nomad360Currency?.beginNew();
  const saved=load();model=options.resume&&saved?saved:initial();
  model.currency=root.Nomad360Currency?.adopt(model.currency)||model.currency||'USD';
@@ -44,23 +41,6 @@ function open(options={}){
  root.showOnly('portfolio-v2-screen');
  render();
  if(!options.resume)save();
-}
-// A study model never overwrites the visitor's own V2 autosave.
-function openDemo(rawState){
-  const next=JSON.parse(JSON.stringify(rawState||{}));
-  if(next.version!==2||next.currency!=='USD'||next.tax?.taxRegime!=='sales_tax'||next.tax?.salesTaxPct!==6.25)
-    throw Error('Invalid US retail demonstration data');
-  const checked=Engine.build(next);
-  if(!checked.ready||checked.months?.length!==12)
-    throw Error('US retail demonstration requires a valid twelve-month V2 model: '+(checked.errors||[]).join('; '));
-  activeStorageKey=usDemoStorageKey;
-  root.Nomad360Currency?.beginNew();
-  root.Nomad360Currency?.adopt('USD');
-  model=next;
-  sequence=100+model.skus.length+model.resources.length;
-  root.showOnly('portfolio-v2-screen');
-  render();
-  save();
 }
 function numberField(label,path,value,hint,extra=''){
  const surface=/^(marketing|tax|funding|skus)\./.test(path);
@@ -139,20 +119,11 @@ function skuCard(s,i) {
 }
 function render(){
  const host=document.getElementById('portfolio-v2-root');if(!host||!model)return;
- const demoLanguage=root.Nomad360UI?.getLanguage?.()||'ru';
-  const demoCopy={
-    ru:'Учебный пример магазина США · 12 месяцев · USD · Sales Tax 6,25%. Цифры — предположения, не прогноз спроса. Личный портфель не изменяется. «+ Новый портфель» действительно очищает поля.',
-    en:'US retail study example · 12 months · USD · 6.25% Sales Tax. Values are assumptions, not verified demand. Your personal portfolio is untouched. “+ New portfolio” clears the fields.',
-    kk:'АҚШ дүкенінің оқу мысалы · 12 ай · USD · Sales Tax 6,25%. Сандар — болжам, расталған сұраныс емес. Жеке портфеліңіз өзгермейді. «+ Жаңа портфель» өрістерді тазалайды.'
-  };
-  const demoBanner=activeStorageKey===usDemoStorageKey?'<aside id="us-retail-demo-notice" class="rounded-xl border-2 border-orange-400 p-4 mb-4 font-semibold" role="note" data-nomad-no-translate>'+safe(demoCopy[demoLanguage]||demoCopy.en)+'</aside>':'';
-  host.innerHTML=demoBanner+'<div class="nd-v2-hero mb-5 rounded-2xl text-white p-5">'+
+ host.innerHTML='<div class="nd-v2-hero mb-5 rounded-2xl text-white p-5">'+
  '<div class="nd-v2-eyebrow text-xs tracking-widest uppercase">Самостоятельная портфельная модель · v2</div>'+
  '<h1 class="nd-v2-title text-2xl font-black mt-2">Мои товары и реальные деньги</h1>'+
  '<p class="mt-2" data-nomad-no-translate data-business-currency-note>'+safe(root.Nomad360Currency?.caption()||model.currency)+'</p>'+
- (activeStorageKey===usDemoStorageKey?
-    '<p class="nd-v2-description text-sm mt-2">Демонстрация реального V2: 10 SKU, 14 ресурсов и годовой кредит. Все поля можно изменять; сохранение изолировано от личного расчёта.</p>':
-    '<p class="nd-v2-description text-sm mt-2">Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз. Здесь нет подставленных примеров.</p>')+
+ '<p class="nd-v2-description text-sm mt-2">Начните с рекламной воронки. Добавляйте товары, а общие расходы оплачивайте один раз. Здесь нет подставленных примеров.</p>'+
  '<div class="flex flex-wrap gap-2 mt-4"><button class="nd-v2-action nd-v2-action-outline bg-white text-slate-900 px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-home>← Главная</button>'+
  '<button class="nd-v2-action nd-v2-action-primary nd-cta-primary px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-save>Сохранить расчёт</button>'+
  '<button class="nd-v2-action nd-v2-action-outline border border-white/40 px-3 py-2 rounded-lg text-sm" type="button" data-p2-new>+ Новый портфель</button></div>'+
@@ -437,7 +408,7 @@ function mount(){
  updateEntry();
  document.addEventListener('nomad360:languagechange',()=>{if(model)render();});
 }
-root.PortfolioV2UI=Object.freeze({open,openDemo,load,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
+root.PortfolioV2UI=Object.freeze({open,load,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
 root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();
