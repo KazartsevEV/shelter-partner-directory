@@ -47,7 +47,7 @@ assert.match(v2src,/marketingCalcPortfolioV2USRetailDemo/);
 assert.match(v2src,/activeStorageKey=usDemoStorageKey/);
 assert.match(v2src,/function open\(options=\{\}\)\{\s*activeStorageKey=storageKey/);
 assert.match(v2src,/localStorage\.setItem\(activeStorageKey,JSON\.stringify\(model\)\)/);
-assert.match(v2src,/openDemo,load/);
+assert.match(v2src,/openDemo,localizeStudyNames,load/);
 console.log('US_RETAIL_DEMO_ENGINE_GREEN',JSON.stringify({
  skus:state.skus.length,resources:state.resources.length,months:output.months.length,
  yearlyUnits:1800,netRevenue:sumMonthly,salesTax:projection.salesTaxSummary.salesTax,
