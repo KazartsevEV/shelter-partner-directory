@@ -589,6 +589,8 @@ body #nomad360-hero .nomad-intro-cta{margin-top:18px}
   html{scroll-padding-top:88px}
 }
 @media (max-width:1199px){
+  /* The fixed button leaves flex layout; reserve its original space beside the language selector. */
+  #nomad360-header .nomad-bar::after{content:'';flex:0 0 48px}
   #nomad360-header .nomad-burger{
     position:fixed;
     top:calc(10px + env(safe-area-inset-top,0px));
