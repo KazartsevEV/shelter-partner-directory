@@ -24,6 +24,10 @@ test('Only the four requested presentation files may change; all financial sourc
        '7Б-4 V2 UI is byte-exact outside approved 7Б-5 tax hunks: '+file);
      continue;
    }
+   if(file==='CALCULATOR_LICENSE.md'){
+    A.equal(now(file),execFileSync('git',['show','cd80f877f20dde9d276683c83b99c6a9455dea5d:'+file],{cwd:root,encoding:'utf8'}),'Approved 2026-10-17 license v2.4 stays byte-exact');
+    continue;
+   }
    const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
     const normalized=file==='Marketing_calc.HTML'?
   require('./helpers/seo-html-contract.cjs').stripSEO(
