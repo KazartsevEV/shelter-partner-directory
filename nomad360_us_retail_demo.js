@@ -548,10 +548,9 @@ function launch(){
   try{
     if(!root.PortfolioV2UI?.openDemo)throw Error('US retail V2 interface is not loaded');
     const saved=root.PortfolioV2UI.loadStudy?.();
-    // An intentional '+ New portfolio' clears the study: the next explicit
-    // launch starts the educational case again instead of restoring an empty V2.
-    const blank=saved&&saved.skus.length===1&&!saved.skus[0].name&&saved.resources.length===0;
-    const resume=Boolean(saved&&!blank);
+    // Only the explicit reset action discards an autosaved study.
+    // A one-SKU customized business is still a valid draft.
+    const resume=Boolean(saved&&!root.PortfolioV2UI.studyWasReset?.());
     root.PortfolioV2UI.openDemo(relabel(resume?saved:copy(),lang()),{resume});
     const err=document.getElementById('us-retail-demo-error');
     if(err)err.hidden=true;
@@ -588,7 +587,7 @@ function mount(){
   if(params.get('demo')==='us-retail-12m'){
     // English walkthrough link opts into the existing language system;
     // it never changes the main production calculator or its model.
-    if(['en','kk'].includes(params.get('lang')))root.Nomad360UI?.setLanguage?.(params.get('lang'));
+    if(['ru','en','kk'].includes(params.get('lang')))root.Nomad360UI?.setLanguage?.(params.get('lang'));
     launch();
   }
 }
