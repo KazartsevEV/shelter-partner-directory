@@ -30,6 +30,12 @@ function build(root=ROOT){
  const contents=new Map(),dictionaryNodes=new Map(),core=new Map(),dictionaryIssues=[];
  const load=f=>{if(!contents.has(f)){
   let source=fs.readFileSync(path.join(root,f),'utf8');
+  // One passive Task10 style link adds no user copy. Preserve historical
+  // text offsets while still scanning the referenced stylesheet itself.
+  if(f==='Marketing_calc.HTML'&&source.includes('nomad360_palette.css')){
+   assetSet.add('nomad360_palette.css');
+   source=require('../../tests/helpers/task10-palette-scope.cjs').stripTask10PaletteHtml(source);
+  }
   // Preserve the translated-copy baseline: the approved logo color/crop
   // insertion contains no new translatable user-facing content.
   if(f==='nomad360_header.js'||f==='nomad360_calculator_ui.css')

@@ -217,11 +217,11 @@ async function assertColors(page,route){
  });
  A.equal(result.background,'rgb(255, 255, 255)');
  A.ok(result.sections.length>=(route==='standalone'?11:7));
- for(const s of result.sections){A.equal(s.background,'rgb(22, 55, 90)');A.equal(s.shadow,'none');A.ok(parseFloat(s.radius)<=4);}
+ for(const s of result.sections){A.equal(s.background,'rgb(23, 59, 88)');A.equal(s.shadow,'none');A.ok(parseFloat(s.radius)<=4);}
  A.ok(result.text.length>=8);
  for(const t of result.text)A.equal(t.color,'rgb(255, 255, 255)',JSON.stringify(t));
- for(const f of result.fields){A.equal(f.color,'rgb(22, 55, 90)');A.equal(f.background,'rgb(255, 255, 255)');}
- for(const r of result.resources){A.equal(r.color,'rgb(22, 55, 90)');A.equal(r.background,'rgb(255, 255, 255)');}
+ for(const f of result.fields){A.equal(f.color,'rgb(23, 59, 88)');A.equal(f.background,'rgb(255, 255, 255)');}
+ for(const r of result.resources){A.equal(r.color,'rgb(23, 59, 88)');A.equal(r.background,'rgb(255, 255, 255)');}
 }
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});

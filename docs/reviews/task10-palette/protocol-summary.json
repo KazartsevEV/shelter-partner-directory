@@ -1,0 +1,52 @@
+{
+  "task": "TASK-10",
+  "status": "local checks passed; publication and GitHub CI pending",
+  "baseline": "c3955d3276fffb81d968a55aad4e2bbabe9b6aba",
+  "branch": "feature/task10-site-palette",
+  "pausedBannerCheckpoint": "ff3cffc",
+  "palette": {
+    "primary": "#173B58",
+    "white": "#FFFFFF",
+    "accent": "#FF913F",
+    "secondary": "#38678B"
+  },
+  "font": "Inter",
+  "browser": {
+    "languages": [
+      "ru",
+      "en",
+      "kk"
+    ],
+    "widths": [
+      320,
+      360,
+      390,
+      430,
+      768,
+      1280,
+      1440
+    ],
+    "before": 189,
+    "after": 189,
+    "extraStatesAndStaticPages": 119,
+    "auditedCoreElements": 103115,
+    "exactFinancialComparisons": 84,
+    "failures": 0
+  },
+  "localChecks": {
+    "sourceAndScopeAndNegativeOracles": 24,
+    "financialUnitTests": 95,
+    "frozenVatModels": 48,
+    "vatBrowserCases": 78,
+    "originalLogoCases": 6,
+    "pinnedControlChecks": 12,
+    "bugReportCases": 18,
+    "offlineHtmlDownloads": 3
+  },
+  "limitations": [
+    "Original natural raster images, flags, antialiasing and browser/OS UI are not recolored.",
+    "The root partner-directory index.html is a separate application, outside Nomad360.",
+    "The pre-existing Tailwind CDN dependency in downloaded HTML is unchanged; palette, fonts and exact model results are verified without network.",
+    "No remote push, Draft PR, GitHub CI run, main merge or deployment has been performed."
+  ]
+}

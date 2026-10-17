@@ -52,7 +52,7 @@ const path=require('node:path');
   await page.getByRole('button',{name:'У меня сложная система мотивации'}).click();
   A.equal(await page.locator('#agent-complex-screen').isVisible(),true);
   A.equal(await page.locator('#agent-complex-screen').evaluate(e=>e.classList.contains('nd-custom-screen')),true);
-  A.equal(await page.locator('#agent-complex-screen .nd-agent-contact-link').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(22, 55, 90)');
+  A.equal(await page.locator('#agent-complex-screen .nd-agent-contact-link').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(23, 59, 88)');
   A.equal(await page.locator('#agent-complex-screen .nd-agent-contact-link').evaluate(e=>e.scrollWidth<=e.clientWidth+1),true);
   await page.locator('#agent-complex-screen > button').click();
   A.equal(await page.locator('#agent-screen').isVisible(),true);

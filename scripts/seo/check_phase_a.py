@@ -23,6 +23,12 @@ def mask_stage_7b5_pdf(raw):
 
 
 def strip_task09_html(raw):
+    # Task10 permits exactly one passive stylesheet link, no finance exemptions.
+    palette = b'    <link rel="stylesheet" href="./nomad360_palette.css">\n'
+    if b'nomad360_palette.css' in raw:
+        assert raw.count(palette) == 1
+        assert b'    <link rel="stylesheet" href="./nomad360_design_system.css">\n' + palette + b'</head>' in raw
+        raw = raw.replace(palette, b'', 1)
     # One exact, standalone widget asset pair is approved after 7B-6.
     # Refuse a duplicate, unpaired asset or changed insertion position.
     css = b'    <link rel="stylesheet" href="./nomad360_bug_report.css">\n'
@@ -286,7 +292,7 @@ def main():
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
-                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/')) or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/')) or p in (
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
         'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
         'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
@@ -350,7 +356,18 @@ def main():
         'tests/helpers/task10-logo-scope.cjs',
         'tests/task10_logo_browser.cjs', '.github/workflows/task10-logo.yml',
         'tests/helpers/pinned-controls-css-scope.cjs',
-        'scripts/localization/inventory.cjs') for p in changed), changed
+        'scripts/localization/inventory.cjs',
+        'nomad360_palette.css', 'nomad360_static_fonts.css', 'tests/helpers/task10-palette.cjs',
+        'tests/helpers/task10-palette-scope.cjs',
+        'tests/task10_palette_source.test.cjs', 'tests/task10_palette_browser.cjs',
+        'tests/task10_palette_oracles.test.cjs', 'tests/task10_palette_delivery.cjs',
+        'tests/simple_services_free_cash_browser.test.cjs',
+        'tests/marketing_calc_offline_service_browser.test.cjs',
+        'tests/nomad360_global_tree_navigation_browser.test.cjs',
+        'tests/nomad360_v2_containers_browser.test.cjs',
+        'tests/nomad360_v2_buttons_browser.test.cjs',
+        'tests/portfolio_v2_online_browser.test.cjs',
+        '.github/workflows/task10-palette.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10

@@ -52,7 +52,7 @@ async function browserCase(browser,locale,expected){
     'Homepage hero must be transparent, not a banner');
   A.equal(presentation.heroShadow,'none','Homepage hero must not cast a card shadow');
   A.equal(presentation.heroDecoration,'none','Remove green banner ornament');
-  A.equal(presentation.footerBackground,'rgb(22, 55, 90)',
+  A.equal(presentation.footerBackground,'rgb(23, 59, 88)',
     'Claude footer must retain approved navy background');
   A.equal(presentation.footerShadow,'none','Support footer should not look like a colored banner');
   const canvasColors=await page.evaluate(()=>{
@@ -69,11 +69,11 @@ async function browserCase(browser,locale,expected){
       example:computed('#nomad360-home-secondary .nomad-example-link').color
     };
   });
-  A.equal(canvasColors.page,'rgb(22, 55, 90)','Canvas matches the navy footer');
+  A.equal(canvasColors.page,'rgb(23, 59, 88)','Canvas matches the navy footer');
   A.ok(['hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
-   A.equal(canvasColors.hero1,'rgb(237, 142, 99)','Business calculator eyebrow must be orange');
-  A.equal(canvasColors.calcBackground,'rgb(22, 55, 90)','Requested SEO banner uses the brand navy');
+   A.equal(canvasColors.hero1,'rgb(255, 145, 63)','Business calculator eyebrow must be orange');
+  A.equal(canvasColors.calcBackground,'rgb(23, 59, 88)','Requested SEO banner uses the brand navy');
   A.ok(['primaryCardBackground','headerBackground'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
 
@@ -140,7 +140,7 @@ async function browserCase(browser,locale,expected){
 
   A.ok(typography.recoveryTitle.weight===600,'Saved work gets a visible text hierarchy');
   A.ok(typography.example.px>=16,'Auxiliary links stay tappable and legible');
-  A.equal(typography.noteCopy.color,'rgb(64, 84, 106)','Muted copy must use legible dark blue-gray');
+  A.equal(typography.noteCopy.color,'rgb(56, 103, 139)','Muted copy must use approved secondary blue');
    const exampleRow=page.locator('#nomad360-home-secondary .nomad-example-row');
    A.equal(await exampleRow.locator('a').count(),1,'Cotton shopper example is a single link');
    A.equal(await exampleRow.locator('.nomad-example-title, .nomad-example-copy').count(),0);
@@ -157,7 +157,7 @@ async function browserCase(browser,locale,expected){
      };
    });
    A.equal(exampleLink.color,'rgb(255, 255, 255)','Example link on navy canvas must be white');
-   A.equal(exampleLink.underline,'rgb(184, 87, 58)','Secondary link underline stays terracotta');
+   A.equal(exampleLink.underline,'rgb(255, 145, 63)','Secondary link underline uses approved orange');
    A.match(exampleLink.style,/underline/,'Link should have a real underline, not a bar border');
    A.equal(exampleLink.thickness,'2px','Underline is conspicuous without becoming a CTA');
       const draftTitle=await page.locator('#portfolio-v2-resume-home .nomad-recovery-title').textContent();
@@ -183,7 +183,7 @@ async function browserCase(browser,locale,expected){
   A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
   A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
   A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=98&&x.height<=165),'Large CTA typography has unclipped mobile touch targets');
-  A.ok(mobileGeometry.every(x=>x.background==='rgb(237, 142, 99)' && x.color==='rgb(22, 55, 90)'),
+  A.ok(mobileGeometry.every(x=>x.background==='rgb(255, 145, 63)' && x.color==='rgb(23, 59, 88)'),
     'All three primary routes must use warm orange with navy text');
   A.ok(mobileGeometry.every(x=>x.fontSize>=25&&x.fontSize<=29),
     'Large primary CTA uses legible 25–29px on phones');
@@ -193,7 +193,7 @@ async function browserCase(browser,locale,expected){
   });
   A.ok(homeTitle.size>=34&&homeTitle.size>Math.max(...mobileGeometry.map(x=>x.fontSize))+5,
     'What do you sell? must read as a responsive heading, at least 5px larger than each main button');
-  A.equal(homeTitle.color,'rgb(22, 55, 90)','Home choice heading uses navy ink');
+  A.equal(homeTitle.color,'rgb(23, 59, 88)','Home choice heading uses navy ink');
 
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
     'Remove the small 01/02/03 labels from the decision buttons');
@@ -205,7 +205,7 @@ async function browserCase(browser,locale,expected){
   A.equal(savedTreatment.border,'1px','Saved work uses a restrained single-pixel border');
   A.equal(savedTreatment.actionBg,'rgb(255, 255, 255)',
     'Resume calculation should remain secondary to main selling choices');
-  A.equal(savedTreatment.actionText,'rgb(22, 55, 90)',
+  A.equal(savedTreatment.actionText,'rgb(23, 59, 88)',
     'Resume calculation keeps sufficient contrast and a clear action label');
   A.equal(await page.locator('#nomad360-home-secondary').evaluate(e=>getComputedStyle(e).boxShadow),'none',
     'No legacy floating/nested homepage card shadow');
@@ -217,14 +217,14 @@ async function browserCase(browser,locale,expected){
     label:getComputedStyle(b.querySelector('div')).color
   })));
   A.equal(pathColors.length,2,'Two online/offline routes use semantic path choices');
-  A.ok(pathColors.every(x=>x.background==='rgb(237, 142, 99)'&&x.label==='rgb(22, 55, 90)'),
+  A.ok(pathColors.every(x=>x.background==='rgb(255, 145, 63)'&&x.label==='rgb(23, 59, 88)'),
     'Service path choices must share orange surface and navy readable labels');
   const outsideLink=await page.locator('#service-work-screen > button').evaluate(el=>{
     const c=getComputedStyle(el);return {
       color:c.color,underline:c.textDecorationColor,line:c.textDecorationLine};
   });
   A.equal(outsideLink.color,'rgb(255, 255, 255)','Tree back control remains white on navy');
-  A.equal(outsideLink.underline,'rgb(184, 87, 58)','Tree back retains orange underline');
+  A.equal(outsideLink.underline,'rgb(255, 145, 63)','Tree back retains approved orange underline');
   A.match(outsideLink.line,/underline/);
   A.equal(await page.locator('#service-work-screen .nd-context-link').count(),0,
     'Legacy service category link must be removed entirely');
@@ -251,8 +251,8 @@ async function browserCase(browser,locale,expected){
   const productCta=await page.locator('#product-screen button[type="submit"].nd-cta-primary').evaluate(e=>{
     const x=getComputedStyle(e);return {background:x.backgroundColor,color:x.color};
   });
-  A.equal(productCta.background,'rgb(237, 142, 99)','V1 calculate CTA is orange');
-  A.equal(productCta.color,'rgb(22, 55, 90)','V1 CTA label is navy');
+  A.equal(productCta.background,'rgb(255, 145, 63)','V1 calculate CTA is orange');
+  A.equal(productCta.color,'rgb(23, 59, 88)','V1 CTA label is navy');
   A.ok(await page.locator('#product-screen').evaluate(el=>el.classList.contains('nd-v1-screen')),
     'Goods V1 must use the shared visual screen class');
   const goodsAppearance=await page.locator('#product-screen .card').first().evaluate(el=>({
@@ -260,13 +260,13 @@ async function browserCase(browser,locale,expected){
     heading:getComputedStyle(el.querySelector('h1')).color,
     border:getComputedStyle(el).borderColor
   }));
-  A.deepEqual(goodsAppearance,{paper:'rgb(255, 255, 255)',heading:'rgb(22, 55, 90)',
-    border:'rgb(215, 224, 232)'},'Goods V1 has white paper, navy heading and neutral border');
+  A.deepEqual(goodsAppearance,{paper:'rgb(255, 255, 255)',heading:'rgb(23, 59, 88)',
+    border:'rgb(56, 103, 139)'},'Goods V1 has white paper, navy heading and approved secondary-blue border');
 
    A.equal(await page.locator('#product-intro-title').evaluate(el=>getComputedStyle(el).color),
-     'rgb(22, 55, 90)','Former near-black V1 heading is brand navy');
+     'rgb(23, 59, 88)','Former near-black V1 heading is brand navy');
    A.equal(await page.locator('#product-screen .text-slate-900').first().evaluate(el=>getComputedStyle(el).color),
-     'rgb(22, 55, 90)','Former black utility text is brand navy');
+     'rgb(23, 59, 88)','Former black utility text is brand navy');
 
   const productLabel=page.locator('#product-intro-category.nd-context-label');
   A.equal((await productLabel.textContent()).trim(),{ru:'Товар',en:'Product',kk:'Тауар'}[expected.lang]);
@@ -278,7 +278,7 @@ async function browserCase(browser,locale,expected){
     const style=getComputedStyle(el);
     return {color:style.color,decoration:style.textDecorationLine,size:parseFloat(style.fontSize)};
   });
-  A.equal(productStyle.color,'rgb(22, 55, 90)');
+  A.equal(productStyle.color,'rgb(23, 59, 88)');
   A.equal(productStyle.decoration,'none');
   A.ok(productStyle.size>=16);
   const calculateSize=await page.locator('#product-screen button[type="submit"].nd-cta-primary')
@@ -316,10 +316,10 @@ async function browserCase(browser,locale,expected){
   const v2Action=await page.locator('[data-p2-save]').evaluate(e=>{
     const x=getComputedStyle(e);return {background:x.backgroundColor,color:x.color};
   });
-  A.equal(v2Action.background,'rgb(237, 142, 99)','V2 primary save CTA is orange');
-  A.equal(v2Action.color,'rgb(22, 55, 90)','V2 CTA label is navy');
+  A.equal(v2Action.background,'rgb(255, 145, 63)','V2 primary save CTA is orange');
+  A.equal(v2Action.color,'rgb(23, 59, 88)','V2 CTA label is navy');
   A.equal(await page.locator('[data-p2-add-sku]').evaluate(e=>getComputedStyle(e).backgroundColor),
-    'rgb(49, 87, 124)','Add a SKU uses the V2 secondary blue action palette');
+    'rgb(56, 103, 139)','Add a SKU uses the V2 secondary blue action palette');
   const v2Type=await page.locator('[data-p2-path="marketing.budget"]').evaluate(el=>({
     size:parseFloat(getComputedStyle(el).fontSize),
     labelSize:parseFloat(getComputedStyle(el.closest('label').querySelector('span')).fontSize)
@@ -389,8 +389,8 @@ async function browserCase(browser,locale,expected){
   const supportStyle=await header.locator('.nomad-cta').evaluate(e=>{
     const x=getComputedStyle(e);return {background:x.backgroundColor,color:x.color};
   });
-  A.equal(supportStyle.background,'rgb(237, 142, 99)');
-  A.equal(supportStyle.color,'rgb(22, 55, 90)');
+  A.equal(supportStyle.background,'rgb(255, 145, 63)');
+  A.equal(supportStyle.color,'rgb(23, 59, 88)');
   const desktopChoiceRects=await choice.locator('button').evaluateAll(buttons=>buttons.map(b=>{
     const r=b.getBoundingClientRect();return {x:r.x,width:r.width,height:r.height};
   }));
@@ -617,10 +617,10 @@ async function unifiedV1Case(browser) {
   A.equal(theme.common,true,'Service V1 uses the same common V1 CSS contract as goods');
   A.equal(theme.headline,'rgb(255, 255, 255)','Service V1 headline on canvas is white');
   for(const k of ['inputPanel','input','report'])A.equal(theme[k],'rgb(255, 255, 255)',k+' is paper-white');
-  for(const k of ['inputTitle','reportTitle'])A.equal(theme[k],'rgb(22, 55, 90)',k+' is brand navy');
+  for(const k of ['inputTitle','reportTitle'])A.equal(theme[k],'rgb(23, 59, 88)',k+' is brand navy');
   A.equal(theme.metrics.length,4,'Direct online V1 shows profit, total-cost return, CPA/CAC and classic ROMI');
   A.ok(theme.metrics.every(x=>x.bg==='rgb(255, 255, 255)'&&
-    x.border==='rgb(22, 55, 90)'&&x.value==='rgb(22, 55, 90)'),
+    x.border==='rgb(56, 103, 139)'&&x.value==='rgb(23, 59, 88)'),
     'Profit, investment profitability, CPA/CAC and ROMI use identical white and navy cards: '+JSON.stringify(theme.metrics));
   A.equal(theme.scrollPane,'auto','Monthly table scrolls within a bounded viewport');
   A.equal((await page.locator('#res-romi-label').textContent()).trim(),
@@ -670,8 +670,8 @@ async function unifiedV1Case(browser) {
     el.hidden=wasHidden;el.classList.add('hidden');
     return appearance;
   });
-  A.deepEqual(productTax,{bg:'rgb(255, 255, 255)',inner:'rgb(245, 247, 249)',
-    title:'rgb(22, 55, 90)',next:'rgb(245, 247, 249)'},
+  A.deepEqual(productTax,{bg:'rgb(255, 255, 255)',inner:'rgb(255, 255, 255)',
+    title:'rgb(23, 59, 88)',next:'rgb(255, 255, 255)'},
     'Goods business taxes and V2 transition use the same light panels');
   A.deepEqual(errors,[],'Unified V1 visual rules cannot throw runtime errors');
   console.log('NOMAD360_UNIFIED_V1_VISUAL_GREEN',JSON.stringify({theme,productTax}));
@@ -690,7 +690,7 @@ async function v1AccentsCase(browser){
   await page.locator('#product-screen button[type="submit"]').click();
   await page.locator('[data-product-source="own"]').click();
   A.equal(await page.locator('#product-own-form').isVisible(),true);
-  const orange='rgb(237, 142, 99)',navy='rgb(22, 55, 90)',white='rgb(255, 255, 255)';
+  const orange='rgb(255, 145, 63)',navy='rgb(23, 59, 88)',white='rgb(255, 255, 255)';
   const results=await page.locator('#materials-landed-result,#production-unit-result,#logistics-unit-result,#sales-cost-result,#product-ad-result')
     .evaluateAll(nodes=>nodes.map(node=>{
       const css=getComputedStyle(node),num=node.querySelector('[id$="-unit-cost"],#own-sales-result-unit,#own-product-ad-cac-unit');
@@ -699,28 +699,28 @@ async function v1AccentsCase(browser){
         number:num&&getComputedStyle(num).color,kicker:kicker&&getComputedStyle(kicker).color};
     }));
   A.equal(results.length,5,'Five product cost summaries must exist');
-  A.ok(results.every(x=>x.border===orange&&x.number===orange&&x.kicker===orange),
-    'All five product V1 result boxes have orange numbers, kickers and borders: '+JSON.stringify(results));
-  A.ok(results.every(x=>x.bg!=='rgb(22, 55, 90)'),
+  A.ok(results.every(x=>x.border==='rgb(56, 103, 139)'&&x.number===navy&&x.kicker===navy),
+    'All five product V1 result boxes have readable navy numbers and approved secondary-blue borders: '+JSON.stringify(results));
+  A.ok(results.every(x=>x.bg!=='rgb(23, 59, 88)'),
     'Cost summaries stay light, rather than turning into alert cards');
   const appearance=async selector=>page.locator(selector).evaluate(el=>{
     const css=getComputedStyle(el);return {background:css.backgroundColor,color:css.color,border:css.borderColor,pressed:el.getAttribute('aria-pressed')};
   });
   const waitOrange=selector=>page.waitForFunction(sel=>
-    getComputedStyle(document.querySelector(sel)).backgroundColor==='rgb(237, 142, 99)',selector);
+    getComputedStyle(document.querySelector(sel)).backgroundColor==='rgb(255, 145, 63)',selector);
   const known='[data-material-cost-mode="known"]',calculated='[data-material-cost-mode="calculate"]';
   await page.locator(known).click();
   await waitOrange(known);
   A.equal(await page.locator('#own-materials-known-wrap').isVisible(),true,
     'Choosing known costs must reveal its input, preserving business behavior');
-  A.deepEqual(await appearance(known),{background:orange,color:navy,border:orange,pressed:'true'});
+  A.deepEqual(await appearance(known),{background:orange,color:navy,border:'rgb(56, 103, 139)',pressed:'true'});
   A.equal((await appearance(calculated)).background,white,'Unselected alternative stays white');
   await page.locator(calculated).click();
   await waitOrange(calculated);
   A.equal(await page.locator('#own-materials-calc-wrap').isVisible(),true,
     'Switching option reveals alternate input fields');
   A.equal(await page.locator('#own-materials-known-wrap').isVisible(),false);
-  A.deepEqual(await appearance(calculated),{background:orange,color:navy,border:orange,pressed:'true'});
+  A.deepEqual(await appearance(calculated),{background:orange,color:navy,border:'rgb(56, 103, 139)',pressed:'true'});
   A.equal((await appearance(known)).background,white,'Orange follows actual selection; never stays on the first choice');
   const mine='[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="me"]',
     other='[data-logistics-payer-key="warehouseInbound"][data-logistics-payer-value="counterparty"]';
@@ -760,7 +760,7 @@ async function v1AccentsCase(browser){
   A.ok(hints.every(x=>x.bg===navy&&x.color===orange&&x.strong===orange),
     'V1 informational tips use navy background and orange copy: '+JSON.stringify(hints));
   A.equal(await page.locator('#product-screen .text-red-600').first().evaluate(el=>getComputedStyle(el).color),
-    'rgb(220, 38, 38)','Validation errors remain red');
+    navy,'Validation errors on white use the approved dark ink');
   A.deepEqual(errors,[]);
   console.log('NOMAD360_V1_ORANGE_ACCENTS_GREEN',JSON.stringify({results,hints,selection:'transferred'}));
  }finally{await ctx.close()}

@@ -1,0 +1,82 @@
+name: TASK-10 unified four-color palette
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_*.css'
+      - 'nomad360_*.js'
+      - 'portfolio_v2*ui.js'
+      - 'scripts/palette/**'
+      - 'scripts/seo/**'
+      - 'scripts/legal/**'
+      - 'scripts/localization/inventory.cjs'
+      - 'en/**'
+      - 'license/**'
+      - 'tests/task10_palette*'
+      - 'tests/helpers/task10-palette*'
+      - 'tests/fixtures/task10-palette/**'
+      - 'docs/reviews/task10-palette/**'
+      - '.github/workflows/task10-palette.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  palette:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+      TASK10_BASELINE_ROOT: ${{ runner.temp }}/task10-main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned tools
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+      - name: Verify generated theme and extract untouched main
+        run: |
+          node --check scripts/palette/build.cjs
+          node --check tests/task10_palette_browser.cjs
+          node scripts/palette/build.cjs --check
+          node scripts/palette/prepare-browser.cjs
+          mkdir -p "$TASK10_BASELINE_ROOT"
+          task10_baseline_sha=$(node -p 'require("./tests/fixtures/task10-palette/base.json").source')
+          git archive "$task10_baseline_sha" -- Marketing_calc.HTML '*.js' '*.css' '*.png' assets vendor/fonts en license | tar -x -C "$TASK10_BASELINE_ROOT"
+      - name: Source contracts, forbidden paint and real Inter
+        run: |
+          node --test tests/task10_palette_source.test.cjs tests/task10_palette_oracles.test.cjs tests/nomad360_marketing_scope.test.cjs tests/type02_scope.test.cjs tests/return_7a_scope.test.cjs tests/seo_language.test.cjs
+          node scripts/localization/inventory.cjs --check
+          python scripts/seo/build.py --check
+          python scripts/legal/build_license.py --check
+          python scripts/seo/check_phase_a.py
+      - name: Exact financial regressions and frozen VAT
+        run: |
+          node --test tests/sales_tax_7b6_final_audit.test.cjs tests/sales_tax_7b_pure.test.cjs tests/sales_tax_7b_v2_projection.test.cjs tests/sales_tax_7b5_price_export.test.cjs tests/v1_service_v2_numeric_parity.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_period_price.test.cjs tests/portfolio_v2_temporal_cash.test.cjs tests/nomad360_price_export.test.cjs
+          node tests/sales_tax_7b_baseline.cjs
+          node tests/sales_tax_7b_vat_browser.cjs
+      - name: Full palette, numerical parity, restore and downloads
+        run: |
+          node tests/task10_palette_browser.cjs
+          node tests/nomad360_calculator_ui_browser.test.cjs
+          node tests/nomad360_embed_footer_browser.test.cjs
+          node tests/task10_palette_delivery.cjs
+          node tests/task10_logo_browser.cjs
+          node tests/pinned_controls_browser.cjs
+          node tests/nomad360_bug_report_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: task10-palette-evidence
+          path: |
+            artifacts/task10-palette/
+            artifacts/task10-logo/
+            artifacts/pinned-controls/
+            artifacts/bug-report/
+            artifacts/sales-tax-7b/
+          retention-days: 21
