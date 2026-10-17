@@ -373,7 +373,10 @@ def main():
         # Its only assets are style declarations and a strict source contract.
         'nomad360_banner_theme_bridge.css',
         'tests/codex_banner_palette_bridge.test.cjs',
-        '.github/workflows/codex-hero-palette-bridge.yml') for p in changed), changed
+        '.github/workflows/codex-hero-palette-bridge.yml',
+        'tests/codex_hero_preview_build.cjs',
+        'tests/codex_hero_current_main_browser.cjs',
+        '.github/workflows/codex-hero-current-main.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
