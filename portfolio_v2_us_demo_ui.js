@@ -7,6 +7,7 @@ const Engine=root.PortfolioV2Engine;
 const taxText=()=>root.Nomad360LocaleCore?.locales?.('tax')?.[root.Nomad360UI?.getLanguage?.()||'ru']||{};
 const storageKey='marketingCalcPortfolioV2';
 const usDemoStorageKey='marketingCalcPortfolioV2USRetailDemo';
+const usDemoResetKey='marketingCalcPortfolioV2USRetailReset';
 let activeStorageKey=storageKey;
 let model=null,sequence=1;
 const kinds={own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг'};
@@ -30,11 +31,12 @@ const initial=()=>({
  tax:{type:'turnover',pct:0,vatPct:0}
 });
 function load(){try{const raw=JSON.parse(localStorage.getItem(storageKey));return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length?raw:null}catch(_){return null}}
+function studyWasReset(){try{return localStorage.getItem(usDemoResetKey)==='1'}catch(_){return false}}
 function loadStudy(){try{
  const raw=JSON.parse(localStorage.getItem(usDemoStorageKey));
  return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length&&Array.isArray(raw.resources)?raw:null;
 }catch(_){return null}}
-function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);localStorage.setItem(activeStorageKey,JSON.stringify(model));const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';if(activeStorageKey===storageKey)updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
+function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);localStorage.setItem(activeStorageKey,JSON.stringify(model));if(activeStorageKey===usDemoStorageKey)localStorage.removeItem(usDemoResetKey);const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';if(activeStorageKey===storageKey)updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
 function updateEntry(){
  const existing=load(),el=document.getElementById('portfolio-v2-resume-home');
  if(el){el.hidden=!existing;el.classList.toggle('hidden',!existing);}
@@ -68,7 +70,8 @@ function openDemo(rawState,options={}){
   root.Nomad360Currency?.beginNew();
   root.Nomad360Currency?.adopt('USD');
   model=next;
-  sequence=100+model.skus.length+model.resources.length;
+  sequence=Math.max(0,...model.skus.map(v=>Number(String(v.id).replace(/\D/g,''))||0),
+    ...model.resources.map(v=>Number(String(v.id).replace(/\D/g,''))||0))+1;
   root.showOnly('portfolio-v2-screen');
   render();
   save();
@@ -473,7 +476,7 @@ function handleEvent(event) {
  const hit=t.closest('button');if(!hit)return;
  if('p2Home'in hit.dataset){root.showHome();return;}
  if('p2Save'in hit.dataset){save();return;}
- if('p2New'in hit.dataset){model=initial();save();render();return;}
+ if('p2New'in hit.dataset){model=initial();save();if(activeStorageKey===usDemoStorageKey){try{localStorage.setItem(usDemoResetKey,'1')}catch(_){}}render();return;}
  if('p2AddSku'in hit.dataset){addSku();save();render();return;}
  if('p2RemoveSku'in hit.dataset){if(removeItem('sku',hit.dataset.p2RemoveSku)){save();render();}return;}
  if('p2AddResource'in hit.dataset){addResource(hit.dataset.p2AddResource);save();render();return;}
@@ -485,7 +488,7 @@ function mount(){
  updateEntry();
  document.addEventListener('nomad360:languagechange',()=>{if(model)render();});
 }
-root.PortfolioV2UI=Object.freeze({open,openDemo,localizeStudyNames,load,loadStudy,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
+root.PortfolioV2UI=Object.freeze({open,openDemo,localizeStudyNames,load,loadStudy,studyWasReset,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
 root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();
