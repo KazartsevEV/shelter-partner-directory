@@ -35,6 +35,41 @@ function decorateBenefits(intro){
   li.replaceChildren(icon,copy);
  });
 }
+/* All content comes from the existing translated lead. Spans and responsive
+   breaks are presentation-only; textContent is unchanged for SEO/assistive tech. */
+function formatLead(intro){
+ const lead=intro.querySelector('.nomad-intro-lead');if(!lead)return;
+ const full=lead.textContent||'',lang=root.Nomad360UI?.getLanguage()||document.documentElement.lang;
+ const positions=[];
+ if(lang==='ru')for(const [word,mode] of [
+  ['дружелюбный','mobile'],['инструмент','desktop'],
+  ['проверки','mobile'],['ценности','mobile']
+ ]){
+  const index=full.indexOf(word);
+  if(index>=0)positions.push({at:index+word.length,mode});
+ }
+ positions.sort((a,b)=>a.at-b.at);
+ const fragment=document.createDocumentFragment();
+ function appendFormatted(value){
+  const tokens=/(Nomad360 lite|коммерческой ценности|commercial validation|коммерциялық құндылығын)/gi;
+  let last=0;
+  for(const match of value.matchAll(tokens)){
+   if(match.index>last)fragment.append(document.createTextNode(value.slice(last,match.index)));
+   const el=document.createElement(match[0].toLowerCase()==='nomad360 lite'?'strong':'span');
+   if(el.tagName==='SPAN')el.className='nomad-intro-accent';
+   el.textContent=match[0];fragment.append(el);last=match.index+match[0].length;
+  }
+  if(last<value.length)fragment.append(document.createTextNode(value.slice(last)));
+ }
+ let start=0;
+ for(const marker of positions){
+  appendFormatted(full.slice(start,marker.at));
+  const br=document.createElement('br');br.className='hero-break-'+marker.mode;
+  fragment.append(br);start=marker.at;
+ }
+ appendFormatted(full.slice(start));
+ lead.replaceChildren(fragment);
+}
 function decorate(){
  const home=id('home-screen'),hero=id('nomad360-hero'),intro=id('nomad360-intro'),seo=id('nomad360-seo-banner');
  if(!home||!hero||!intro||!seo)return;
@@ -50,7 +85,7 @@ function decorate(){
  }
  banner.append(hero,summary);
  summary.append(intro,seo);
- emphasizeTitle(hero);decorateBenefits(intro);
+ emphasizeTitle(hero);decorateBenefits(intro);formatLead(intro);
  // SEO-07's former second headline/copy are intentionally NOT reproduced:
  // the approved first hero and its benefits are the only visible sales offer.
  // Existing page metadata and all existing translated hero/benefits survive.
