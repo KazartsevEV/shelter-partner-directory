@@ -350,7 +350,11 @@ def main():
         'tests/helpers/task10-logo-scope.cjs',
         'tests/task10_logo_browser.cjs', '.github/workflows/task10-logo.yml',
         'tests/helpers/pinned-controls-css-scope.cjs',
-        'scripts/localization/inventory.cjs') for p in changed), changed
+        'scripts/localization/inventory.cjs',
+        # UNIFIED-HERO-02: production-only first-banner decorator, unchanged SEO/finance.
+        'nomad360_first_hero.js', 'nomad360_first_hero.css',
+        'tests/unified_hero_02_browser.cjs', '.github/workflows/unified-hero-02.yml',
+        'tests/helpers/first-hero-loader-scope.cjs') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
