@@ -6,8 +6,9 @@ const baseline=cp.execFileSync('git',['show','origin/main:'+file],{encoding:'utf
 const present=fs.readFileSync(file,'utf8');
 const marker='\n/* PINNED-CONTROLS-01: desktop header and mobile floating navigation, no financial layout changes. */';
 A.equal(present.split(marker).length,2,'exactly one appended nav-only section');
-A.equal(present.slice(0,present.indexOf(marker)),baseline,'approved calculator CSS must be byte-identical');
-const scoped=present.slice(present.indexOf(marker)+marker.length);
+const withoutLogo=require('./task10-logo-scope.cjs').stripTask10Logo(file,present);
+A.equal(withoutLogo,baseline,'approved CSS must be byte-identical outside the frozen LOGO-01 tail');
+const scoped=withoutLogo.slice(withoutLogo.indexOf(marker)+marker.length);
 A.match(scoped,/#nomad360-header/);
 A.doesNotMatch(scoped,/portfolio|cash.flow|sales.tax|localStorage|tax|price.export/i);
 console.log('PINNED_CSS_SCOPE_GREEN');
