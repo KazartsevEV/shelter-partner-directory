@@ -46,9 +46,9 @@ function packageFile(file,language){
  let page=result;
  if(language==='en')page=page.replace('<html lang="ru">','<html lang="en">');
  if(!page.includes('</body>'))throw Error('HTML body close missing');
- page=page.replace('</body>',seedFor(language)+'\\n</body>');
- const unresolvedLocalLinks=page.includes(' src="./')||page.includes(' href="./');
- if(unresolvedLocalLinks)throw Error('Standalone still has unresolved linked scripts or styles');
+ page=page.replace('</body>',seedFor(language)+'\n</body>');
+ const unresolvedLocalLinks=[...page.matchAll(/<(?:script|link)[^>]+(?:src|href)=["']\.\/([^"']+)/g)].map(m=>m[1]);
+ if(unresolvedLocalLinks.length)throw Error('Standalone still has unresolved linked scripts or styles: '+unresolvedLocalLinks.join(','));
  if(!includedJs.includes('portfolio_v2_us_demo_ui.js')||!includedJs.includes('nomad360_us_retail_demo.js'))throw Error('Real V2 study scripts missing');
  const out=path.resolve(root,'artifacts/us-retail-demo',file);
  fs.mkdirSync(path.dirname(out),{recursive:true});
@@ -58,5 +58,5 @@ function packageFile(file,language){
 const originalOutput=packageFile('US_Retail_Demo_FILLED.html','ru');
 const englishOutput=packageFile('US_Retail_Demo_EN_FILLED.html','en');
 const stats={source:'US_Retail_Demo.HTML from PR #183',generatedAt:new Date().toISOString(),outputs:[originalOutput,englishOutput],inlineCss:includedCss,inlineJs:includedJs,skuCount:input.skus.length,resourceCount:input.resources.length};
-fs.writeFileSync(path.resolve(root,'artifacts/us-retail-demo/manifest.json'),JSON.stringify(stats,null,2)+'\\n');
+fs.writeFileSync(path.resolve(root,'artifacts/us-retail-demo/manifest.json'),JSON.stringify(stats,null,2)+'\n');
 console.log('US_RETAIL_FILLED_STANDALONE_CREATED',JSON.stringify(stats));
