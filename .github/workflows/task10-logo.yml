@@ -1,0 +1,40 @@
+name: TASK-10 original wolf logo visual acceptance
+on:
+  pull_request:
+    paths:
+      - 'nomad360_header.js'
+      - 'nomad360_calculator_ui.css'
+      - 'tests/task10_logo_browser.cjs'
+      - '.github/workflows/task10-logo.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-wolf-logo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and unchanged source image
+        run: |
+          node --check nomad360_header.js
+          node --check tests/task10_logo_browser.cjs
+          git diff --exit-code origin/main -- nomad360_wolf_open_circle.png
+      - name: Install Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/task10-logo" --no-save --no-package-lock playwright@1.58.0
+          "$RUNNER_TEMP/task10-logo/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Inspect original wolf recolor in 3 languages / 2 layouts
+        env:
+          NODE_PATH: ${{ runner.temp }}/task10-logo/node_modules
+        run: node tests/task10_logo_browser.cjs
+      - name: Upload screenshot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task10-original-wolf-logo
+          path: artifacts/task10-logo/
+          retention-days: 14
