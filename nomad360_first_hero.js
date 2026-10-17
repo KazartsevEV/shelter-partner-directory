@@ -7,6 +7,17 @@ const icons=[
  '<path d="M3 10h34M3 24h34M3 38h34"/><path class="nomad-first-benefit-accent" d="M15 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM28 19a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM12 33a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/>',
  '<rect x="7" y="20" width="26" height="23" rx="3"/><path d="M12 20v-9a8 8 0 0 1 16 0v9"/><path class="nomad-first-benefit-accent" d="M20 28v8"/>'
 ];
+// The host calculator column is not guaranteed to be viewport-centered in
+// standalone downloads or when Tailwind is unavailable. Center ONLY this
+// wide marketing banner against the viewport; never resize the other cards.
+function alignFirstBanner(){
+ const banner=byId('nomad360-commercial-banner'),home=byId('home-screen');
+ if(!banner||!home)return;
+ const width=banner.getBoundingClientRect().width;
+ const homeLeft=home.getBoundingClientRect().left;
+ const desiredLeft=(root.innerWidth-width)/2;
+ banner.style.marginLeft=(Math.round((desiredLeft-homeLeft)*100)/100)+'px';
+}
 function decorate(){
  const home=byId('home-screen'),hero=byId('nomad360-hero'),seo=byId('nomad360-seo-banner'),intro=byId('nomad360-intro');
  if(!home||!hero||!seo||!intro||!hero.querySelector('h2'))return;
@@ -52,12 +63,14 @@ function decorate(){
   icon.setAttribute('aria-hidden','true');icon.setAttribute('focusable','false');
   icon.innerHTML=icons[index]||icons[0];item.replaceChildren(icon,copy);
  });
+ alignFirstBanner();
  // On a full language rerender the shell recreates intro and hero but not SEO.
  // Keep one brand and one SEO copy without altering their content or locale keys.
 }
 function boot(){
  decorate();
  document.addEventListener('nomad360:languagechange',decorate);
+ root.addEventListener('resize',alignFirstBanner,{passive:true});
 }
 root.Nomad360FirstHero=Object.freeze({refresh:decorate});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
