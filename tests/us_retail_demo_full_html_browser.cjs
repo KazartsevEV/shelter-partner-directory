@@ -64,51 +64,18 @@ const {pathToFileURL}=require('node:url');
      console.log('US_RETAIL_FULL_HTML_GREEN',JSON.stringify({width,...result}));
      await page.close();
    }
-   // The English deliverable must itself open on the English interface,
-   // not require the reviewer to find and flip a language selector.
+   // English production-calculator language selection + original 12-month data.
    for(const width of [390,1280]){
      const page=await browser.newPage({viewport:{width,height:900},locale:'ru-RU'});
-     const errors=[];page.on('pageerror',e=>errors.push(e.message));
-     await page.route(/^https?:\\/\\//,r=>r.abort());
+     const errors=[],external=[];
+     page.on('pageerror',e=>errors.push(e.message));
+     page.on('request',r=>{if(r.url().startsWith('http:')||r.url().startsWith('https:'))external.push(r.url());});
+     await page.route(/^https?:\/\//,r=>r.abort());
      await page.goto(pathToFileURL(path.join(here,'artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html')).href,{waitUntil:'domcontentloaded',timeout:120000});
-     await page.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.length===10);
+     await page.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.length===10,{timeout:25000});
+     await page.waitForFunction(()=>document.querySelector('#p2-results .nd-v2-financial-grid')!==null,{timeout:25000});
+     await page.waitForTimeout(250);
      const report=await page.evaluate(()=>{
-       const s=PortfolioV2UI.getState(),o=PortfolioV2Engine.build(s);
-       const host=document.querySelector('#portfolio-v2-root');
-       const textWalker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT);
-       const remains=[];let text;
-       while((text=textWalker.nextNode())){
-         if(!/[А-Яа-яЁё]/.test(text.textContent))continue;
-         const el=text.parentElement;
-         if(!el||!el.getClientRects().length)continue;
-         remains.push(text.textContent.trim().replace(/\\s+/g,' ').slice(0,180));
-       }
-       return {language:Nomad360UI.getLanguage(),htmlLang:document.documentElement.lang,
-         ready:o.ready,skus:s.skus.length,resources:s.resources.length,
-         firstSku:s.skus[0].name,firstResource:s.resources[0].label,
-         revenue:o.totalRevenue,loan:o.financing.principal,cash:o.finalCash,remains:[...new Set(remains)]};
-     });
-     assert.equal(report.language,'en');assert.equal(report.ready,true);
-     assert.equal(report.skus,10);assert.equal(report.resources,14);
-     assert.equal(report.firstSku,'Handmade holiday gift box');
-     assert.equal(report.firstResource,'Retail storefront lease');
-     assert.equal(report.loan,45232);
-     assert.equal(errors.length,0,JSON.stringify(errors));
-     console.log('US_RETAIL_EN_VISIBLE_COPY',JSON.stringify({width,remains:report.remains}));
-     await page.screenshot({path:path.join(here,'artifacts/us-retail-demo/US-Retail-V2-EN-'+width+'px.png'),fullPage:true});
-     await page.close();
-     // Second deliverable: the same editable calculation opened directly
-     // in the existing EN language, without localization by hand or rewrites.
-     const english=await browser.newPage({viewport:{width,height:900},locale:'ru-RU'});
-     const enErrors=[],enExternal=[];
-     english.on('pageerror',e=>enErrors.push(e.message));
-     english.on('request',r=>{if(/^https?:/.test(r.url()))enExternal.push(r.url());});
-     await english.route(/^https?:\\/\\//,r=>r.abort());
-     await english.goto(pathToFileURL(path.join(here,'artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html')).href,{waitUntil:'domcontentloaded',timeout:120000});
-     await english.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.length===10,{timeout:25000});
-     await english.waitForFunction(()=>document.querySelector('#p2-results .nd-v2-financial-grid')!==null,{timeout:25000});
-     await english.waitForTimeout(200);
-     const en=await english.evaluate(()=>{
        const state=PortfolioV2UI.getState();
        const out=PortfolioV2Engine.build(state);
        const host=document.getElementById('portfolio-v2-root');
@@ -116,9 +83,10 @@ const {pathToFileURL}=require('node:url');
        const untranslated=[];
        while(walker.nextNode()){
          const node=walker.currentNode,parent=node.parentElement;
-         const label=node.nodeValue?.trim()||'';
-         if(!/[А-Яа-яЁё]/.test(label)||parent?.closest('[data-nomad-no-translate],script,style,textarea,[contenteditable]'))continue;
-         untranslated.push(label.slice(0,140));
+         const value=node.nodeValue?.trim()||'';
+         if(!/[\u0400-\u04FF]/.test(value)||!parent?.getClientRects().length||
+           parent.closest('[data-nomad-no-translate],script,style,textarea,[contenteditable]'))continue;
+         untranslated.push(value.slice(0,150));
        }
        return {language:Nomad360UI.getLanguage(),docLang:document.documentElement.lang,
          skus:state.skus.length,resources:state.resources.length,
@@ -127,24 +95,24 @@ const {pathToFileURL}=require('node:url');
          free:out.freeCash,revenue:out.totalRevenue,
          formInputs:host.querySelectorAll('[data-p2-path]').length,
          header:host.querySelector('.nd-v2-hero h1')?.innerText||'',
-         untranslated:untranslated.slice(0,40),untranslatedCount:untranslated.length,
+         untranslated:[...new Set(untranslated)].slice(0,75),untranslatedCount:untranslated.length,
          numeric:host.querySelector('#p2-results .nd-v2-number-value')?.innerText||''};
      });
-     assert.equal(en.language,'en');
-     assert.equal(en.docLang,'en');
-     assert.equal(en.first,'Handmade holiday gift box');
-     assert.equal(en.resource,'Retail storefront lease');
-     assert.equal(en.skus,10);assert.equal(en.resources,14);
-     assert.equal(en.ready,true);assert.equal(en.months,12);
-     assert.equal(en.loan,45232);
-     assert.ok(Math.abs(en.free-41301.03315789475)<0.01);
-     assert.ok(Math.abs(en.revenue-29790.48245614035)<0.01);
-     assert.ok(en.formInputs>100);
-     assert.equal(enExternal.length,0);
-     assert.equal(enErrors.length,0,JSON.stringify(enErrors));
-     await english.screenshot({path:path.join(here,'artifacts/us-retail-demo/US-Retail-V2-EN-'+width+'px.png'),fullPage:true});
-     console.log('US_RETAIL_ENGLISH_HTML_GREEN',JSON.stringify({width,...en}));
-     await english.close();
+     assert.equal(report.language,'en');
+     assert.equal(report.docLang,'en');
+     assert.equal(report.first,'Handmade holiday gift box');
+     assert.equal(report.resource,'Retail storefront lease');
+     assert.equal(report.skus,10);assert.equal(report.resources,14);
+     assert.equal(report.ready,true);assert.equal(report.months,12);
+     assert.equal(report.loan,45232);
+     assert.ok(Math.abs(report.free-41301.03315789475)<0.01);
+     assert.ok(Math.abs(report.revenue-29790.48245614035)<0.01);
+     assert.ok(report.formInputs>100);
+     assert.equal(external.length,0);
+     assert.equal(errors.length,0,JSON.stringify(errors));
+     await page.screenshot({path:path.join(here,'artifacts/us-retail-demo/US-Retail-V2-EN-'+width+'px.png'),fullPage:true});
+     console.log('US_RETAIL_ENGLISH_HTML_GREEN',JSON.stringify({width,...report}));
+     await page.close();
    }
  }finally{await browser.close();}
 })().catch(e=>{console.error('US_RETAIL_FULL_HTML_RED',e.stack||e);process.exitCode=1});
