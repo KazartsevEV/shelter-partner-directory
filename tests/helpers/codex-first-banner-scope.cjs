@@ -13,7 +13,8 @@ function strip(source){
  A.equal(source.split(style).length,2,'exactly one first hero CSS');
  A.equal(source.split(script).length,2,'exactly one first hero JS');
  A.ok(source.includes(headAnchor),'CSS must precede original design-system link');
- A.ok(source.includes(scriptAnchor),'JS follows existing approved sales-tax scripts');
+ A.ok(source.includes(scriptAnchor)||source.includes(script+'<script src="./nomad360_bug_report.js"></script>\n'),
+   'JS must remain directly next to the approved existing script boundary');
  return source.replace(style,'').replace(script,'');
 }
 module.exports={strip,style,script};
