@@ -1,0 +1,443 @@
+{
+  "version": 2,
+  "currency": "USD",
+  "businessCurrency": "USD",
+  "marketing": {
+    "budget": 1800,
+    "cpc": 1.05,
+    "ctrPct": 2.4,
+    "clickLeadPct": 30,
+    "leadOrderPct": 25,
+    "periodMonths": 12,
+    "cacReservePct": 100
+  },
+  "skus": [
+    {
+      "id": "sku-1",
+      "name": "Handmade holiday gift box",
+      "source": "own",
+      "unitCost": 38,
+      "marginPct": 65,
+      "mixPct": 10,
+      "batchUnits": 180,
+      "initialCashOut": 1710,
+      "fulfillmentPerOrder": 5,
+      "storagePerUnitDay": 0.002,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-2",
+      "name": "Personalized wooden keepsake",
+      "source": "own",
+      "unitCost": 55,
+      "marginPct": 65,
+      "mixPct": 10,
+      "batchUnits": 180,
+      "initialCashOut": 2475,
+      "fulfillmentPerOrder": 6,
+      "storagePerUnitDay": 0.002,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-3",
+      "name": "Woven throw blanket",
+      "source": "resale",
+      "unitCost": 80,
+      "marginPct": 62,
+      "mixPct": 12,
+      "batchUnits": 216,
+      "initialCashOut": 4320,
+      "fulfillmentPerOrder": 10,
+      "storagePerUnitDay": 0.002,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-4",
+      "name": "Home storage basket",
+      "source": "resale",
+      "unitCost": 55,
+      "marginPct": 62,
+      "mixPct": 12,
+      "batchUnits": 216,
+      "initialCashOut": 2970,
+      "fulfillmentPerOrder": 9,
+      "storagePerUnitDay": 0.002,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-5",
+      "name": "Electric kettle",
+      "source": "resale",
+      "unitCost": 110,
+      "marginPct": 60,
+      "mixPct": 10,
+      "batchUnits": 180,
+      "initialCashOut": 4950,
+      "fulfillmentPerOrder": 11,
+      "storagePerUnitDay": 0.002,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-6",
+      "name": "Table lamp",
+      "source": "resale",
+      "unitCost": 95,
+      "marginPct": 62,
+      "mixPct": 10,
+      "batchUnits": 180,
+      "initialCashOut": 4275,
+      "fulfillmentPerOrder": 12,
+      "storagePerUnitDay": 0.002,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-7",
+      "name": "Desk organizer",
+      "source": "resale",
+      "unitCost": 35,
+      "marginPct": 60,
+      "mixPct": 10,
+      "batchUnits": 180,
+      "initialCashOut": 1575,
+      "fulfillmentPerOrder": 7,
+      "storagePerUnitDay": 0.001,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-8",
+      "name": "Ceramic serving set",
+      "source": "resale",
+      "unitCost": 70,
+      "marginPct": 62,
+      "mixPct": 8,
+      "batchUnits": 144,
+      "initialCashOut": 2520,
+      "fulfillmentPerOrder": 11,
+      "storagePerUnitDay": 0.002,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-9",
+      "name": "Replacement vacuum filters",
+      "source": "dropship",
+      "unitCost": 32,
+      "marginPct": 55,
+      "mixPct": 8,
+      "batchUnits": "",
+      "initialCashOut": "",
+      "fulfillmentPerOrder": 6,
+      "storagePerUnitDay": 0,
+      "acquiringPct": 2.7
+    },
+    {
+      "id": "sku-10",
+      "name": "Appliance repair adapter kit",
+      "source": "dropship",
+      "unitCost": 48,
+      "marginPct": 58,
+      "mixPct": 10,
+      "batchUnits": "",
+      "initialCashOut": "",
+      "fulfillmentPerOrder": 6,
+      "storagePerUnitDay": 0,
+      "acquiringPct": 2.7
+    }
+  ],
+  "resources": [
+    {
+      "id": "resource-1",
+      "kind": "premises",
+      "label": "Retail storefront lease",
+      "amount": 2300,
+      "cadence": "monthly",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2",
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-2",
+      "kind": "premises",
+      "label": "Small production workshop lease",
+      "amount": 800,
+      "cadence": "monthly",
+      "allocation": "usage",
+      "skuIds": [
+        "sku-1",
+        "sku-2"
+      ],
+      "usage": {
+        "sku-1": 80,
+        "sku-2": 105
+      },
+      "capacity": 220
+    },
+    {
+      "id": "resource-3",
+      "kind": "salesStaff",
+      "label": "Sales associate W-2 cost",
+      "amount": 3600,
+      "cadence": "monthly",
+      "allocation": "usage",
+      "skuIds": [
+        "sku-1",
+        "sku-2",
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8"
+      ],
+      "usage": {
+        "sku-1": 10,
+        "sku-2": 10,
+        "sku-3": 20,
+        "sku-4": 20,
+        "sku-5": 20,
+        "sku-6": 20,
+        "sku-7": 15,
+        "sku-8": 15
+      },
+      "capacity": 160
+    },
+    {
+      "id": "resource-4",
+      "kind": "workers",
+      "label": "Part-time stockroom/loader W-2 cost",
+      "amount": 1150,
+      "cadence": "monthly",
+      "allocation": "usage",
+      "skuIds": [
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8"
+      ],
+      "usage": {
+        "sku-3": 15,
+        "sku-4": 20,
+        "sku-5": 16,
+        "sku-6": 18,
+        "sku-7": 12,
+        "sku-8": 10
+      },
+      "capacity": 100
+    },
+    {
+      "id": "resource-5",
+      "kind": "workers",
+      "label": "Owner craft labor allowance",
+      "amount": 1800,
+      "cadence": "monthly",
+      "allocation": "usage",
+      "skuIds": [
+        "sku-1",
+        "sku-2"
+      ],
+      "usage": {
+        "sku-1": 70,
+        "sku-2": 95
+      },
+      "capacity": 200
+    },
+    {
+      "id": "resource-6",
+      "kind": "marketingManager",
+      "label": "Contract marketing manager",
+      "amount": 850,
+      "cadence": "monthly",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2",
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8",
+        "sku-9",
+        "sku-10"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-7",
+      "kind": "equipment",
+      "label": "Rented shop display racks and POS",
+      "amount": 275,
+      "cadence": "monthly",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2",
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-8",
+      "kind": "equipment",
+      "label": "Hand tools and engraving equipment purchase",
+      "amount": 2400,
+      "cadence": "once",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-9",
+      "kind": "other",
+      "label": "Business liability and property insurance",
+      "amount": 255,
+      "cadence": "monthly",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2",
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8",
+        "sku-9",
+        "sku-10"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-10",
+      "kind": "other",
+      "label": "Utilities for storefront and workshop",
+      "amount": 330,
+      "cadence": "monthly",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2",
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-11",
+      "kind": "website",
+      "label": "E-commerce website platform",
+      "amount": 105,
+      "cadence": "monthly",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2",
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8",
+        "sku-9",
+        "sku-10"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-12",
+      "kind": "domain",
+      "label": "Domain registration at launch",
+      "amount": 20,
+      "cadence": "once",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2",
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8",
+        "sku-9",
+        "sku-10"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-13",
+      "kind": "warehouse",
+      "label": "Stockroom shelf and offsite space rental",
+      "amount": 340,
+      "cadence": "monthly",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-3",
+        "sku-4",
+        "sku-5",
+        "sku-6",
+        "sku-7",
+        "sku-8"
+      ],
+      "usage": {},
+      "capacity": ""
+    },
+    {
+      "id": "resource-14",
+      "kind": "campaign",
+      "label": "Holiday gift workshop campaign extra spend",
+      "amount": 300,
+      "cadence": "monthly",
+      "allocation": "revenue",
+      "skuIds": [
+        "sku-1",
+        "sku-2"
+      ],
+      "usage": {},
+      "capacity": ""
+    }
+  ],
+  "funding": {
+    "kind": "credit",
+    "annualRatePct": 11.5,
+    "months": 12,
+    "reservePct": 10
+  },
+  "tax": {
+    "type": "profit",
+    "pct": 0,
+    "vatPct": 0,
+    "taxRegime": "sales_tax",
+    "salesTaxPct": 6.25
+  }
+}

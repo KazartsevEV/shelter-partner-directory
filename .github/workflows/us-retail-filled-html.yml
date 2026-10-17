@@ -1,0 +1,64 @@
+name: Build downloadable real US retail V2 HTML
+on:
+  pull_request:
+    paths:
+      - 'US_Retail_Demo.HTML'
+      - 'portfolio_v2_us_demo_ui.js'
+      - 'nomad360_us_retail_demo.js'
+      - 'scripts/demos/build_us_retail_standalone.cjs'
+      - 'tests/us_retail_demo_full_html_browser.cjs'
+      - '.github/workflows/us-retail-filled-html.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render-filled-calculator:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned CSS compiler and Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/us-retail" --no-save --no-package-lock tailwindcss@3.4.17 playwright@1.58.0
+          "$RUNNER_TEMP/us-retail/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Compile exact existing Tailwind utility styles
+        run: |
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/us-retail-input.css"
+          "$RUNNER_TEMP/us-retail/node_modules/.bin/tailwindcss" -i "$RUNNER_TEMP/us-retail-input.css" -o "$RUNNER_TEMP/us-retail-output.css" --content "./US_Retail_Demo.HTML,./*.js" --minify
+      - name: Embed the original calculator sources, fill the actual V2
+        env:
+          NOMAD360_TAILWIND_CSS: ${{ runner.temp }}/us-retail-output.css
+        run: node scripts/demos/build_us_retail_standalone.cjs
+      - name: Verify original V2 engine and working standalone HTML in browser
+        env:
+          NODE_PATH: ${{ runner.temp }}/us-retail/node_modules
+        run: |
+          node tests/us_retail_demo_v2.test.cjs
+          node tests/us_retail_demo_full_html_browser.cjs
+      - name: Publish HTML, JSON manifest and real screenshots for download
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOMAD360-US-RETAIL-V2-FILLED-HTML-PR183
+          path: artifacts/us-retail-demo/
+          if-no-files-found: warn
+      - name: Commit generated standalone HTML to PR branch for direct download
+        if: success() && github.event_name == 'pull_request'
+        run: |
+          cp artifacts/us-retail-demo/US_Retail_Demo_FILLED.html US_Retail_Demo_FILLED.html
+          cp artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html US_Retail_Demo_EN_FILLED.html
+          cp artifacts/us-retail-demo/US-Retail-V2-EN-390px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-390px.png
+          cp artifacts/us-retail-demo/US-Retail-V2-EN-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-1280px.png
+          cp artifacts/us-retail-demo/US-Retail-V2-390px.png docs/demos/us-main-street-12m/US-Retail-V2-390px.png
+          cp artifacts/us-retail-demo/US-Retail-V2-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-1280px.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add US_Retail_Demo_FILLED.html US_Retail_Demo_EN_FILLED.html docs/demos/us-main-street-12m/US-Retail-V2-390px.png docs/demos/us-main-street-12m/US-Retail-V2-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-390px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-1280px.png
+          git diff --cached --quiet || (git commit -m "artifact(US-V2): reviewable filled offline HTML and real calculator renders" && git push origin HEAD:"${{ github.event.pull_request.head.ref }}")
