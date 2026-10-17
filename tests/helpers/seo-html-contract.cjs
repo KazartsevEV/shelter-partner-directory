@@ -15,4 +15,4 @@ function stripLiveStudy(source){
  }
  return source;
 }
-module.exports={stripSEO:source=>require('./return-contract.cjs').stripReturn('Marketing_calc.HTML',require('./task09-html-scope.cjs').stripTask09Html(stripLiveStudy(source))).replace(canonical,'').replace(language,'').replace(banner,original),canonical,language,banner,original};
+module.exports={stripLiveStudy,stripSEO:source=>require('./return-contract.cjs').stripReturn('Marketing_calc.HTML',require('./task09-html-scope.cjs').stripTask09Html(stripLiveStudy(source))).replace(canonical,'').replace(language,'').replace(banner,original),canonical,language,banner,original};
