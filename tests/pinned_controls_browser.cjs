@@ -149,6 +149,10 @@ async function swipe(page,locator,delta,mobile){
   await page.keyboard.press('Escape');
   A.equal(await page.locator('#nomad360-bug-dialog').evaluate(e=>e.open),false,'Escape closes report');
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),true,'modal does not expand dock');
+  if(lang==='ru'&&width===390){
+    A.equal(await burger.evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)',
+      'closing bug form must not turn hamburger navy over an actual navy banner');
+  }
   A.deepEqual(jsErrors,[],'no page errors');
   await page.evaluate(()=>document.activeElement?.blur?.());
   await page.screenshot({path:path.join(dir,'pinned-'+lang+'-'+width+'.png')});
