@@ -1,0 +1,48 @@
+name: Codex first hero on TASK-10 Chromium acceptance
+on:
+  pull_request:
+    paths:
+      - 'tests/codex_hero_preview_build.cjs'
+      - 'tests/codex_hero_current_main_browser.cjs'
+      - 'nomad360_banner_theme_bridge.css'
+      - '.github/workflows/codex-hero-current-main.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  codex-hero-current-main:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Retrieve exact Codex revision-2 source without touching active site
+        run: |
+          git fetch --depth=1 origin feature/unified-banners-01
+          mkdir -p artifacts/codex-hero-audit assets/nomad360-banners
+          git show FETCH_HEAD:nomad360_calculator_ui.css > artifacts/codex-hero-audit/codex-original-ui.css
+          git show FETCH_HEAD:nomad360_banners.js > artifacts/codex-hero-audit/codex-original-banners.js
+          git show FETCH_HEAD:assets/nomad360-banners/hero.webp > assets/nomad360-banners/hero.webp
+          node tests/codex_hero_preview_build.cjs
+          node --check tests/codex_hero_current_main_browser.cjs
+          node --check artifacts/codex-hero-audit/codex-hero.js
+          git diff --exit-code -- Marketing_calc.HTML nomad360_calculator_ui.css nomad360_header.js
+      - name: Install Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/codex-hero" --no-save --no-package-lock playwright@1.58.0
+          "$RUNNER_TEMP/codex-hero/node_modules/.bin/playwright" install --with-deps chromium
+      - name: 3 languages by 7 viewport widths - colors, SEO, logo, CTA, real render
+        env:
+          NODE_PATH: ${{ runner.temp }}/codex-hero/node_modules
+        run: node tests/codex_hero_current_main_browser.cjs
+      - name: Preserve all 21 real screenshots and diagnostic reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-first-hero-current-main-chromium
+          path: artifacts/codex-hero-audit/
+          retention-days: 14

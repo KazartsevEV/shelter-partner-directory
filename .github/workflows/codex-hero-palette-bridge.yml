@@ -1,0 +1,21 @@
+name: CODEX-HERO palette bridge contract
+on:
+  pull_request:
+    paths:
+      - 'nomad360_banner_theme_bridge.css'
+      - 'Marketing_calc.HTML'
+      - 'tests/codex_banner_palette_bridge.test.cjs'
+      - '.github/workflows/codex-hero-palette-bridge.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  palette-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assert TASK-10 inheritance and first-banner-only scope
+        run: node tests/codex_banner_palette_bridge.test.cjs
