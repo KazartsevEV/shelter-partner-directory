@@ -979,7 +979,7 @@
    for(let node=el;node;node=node.parentElement){
     if(checked.has(node))break;
     checked.add(node);
-    if(node===burger||burger.contains(node))continue;
+    if(node===burger||burger.contains(node)||node.contains(burger))continue;
     const style=getComputedStyle(node);
     const bg=style.backgroundColor;
     const start=bg.indexOf(S.open);
