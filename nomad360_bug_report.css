@@ -32,6 +32,7 @@
  color:#fff;background:#16375a;cursor:pointer;
  font:600 24px/1 var(--nd-font,Inter,system-ui,sans-serif);
 }
+.nomad-bug-dock-toggle span{pointer-events:none}
 .nomad-bug-dock-toggle:hover{background:#204d7a}
 .nomad-bug-dock-toggle:focus-visible{outline:2px solid #b8573a;outline-offset:-3px}
 .nomad-bug-dock-toggle[hidden]{display:none!important}
