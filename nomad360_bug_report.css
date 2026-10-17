@@ -1,20 +1,46 @@
 /* Task 09: isolated bug-report launcher/dialog. Never affects financial views. */
+.nomad-bug-dock{
+ position:fixed;z-index:70;
+ right:max(0px,env(safe-area-inset-right));
+ bottom:max(20px,calc(12px + env(safe-area-inset-bottom)));
+ display:flex;align-items:center;justify-content:flex-end;gap:0;
+ max-width:calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right));
+ touch-action:pan-y;
+}
 .nomad-bug-launcher{
- position:fixed;z-index:70;right:max(14px,env(safe-area-inset-right));
- bottom:max(78px,calc(60px + env(safe-area-inset-bottom)));
- display:inline-flex;align-items:center;justify-content:center;gap:9px;
- max-width:min(230px,calc(100vw - 28px));min-height:48px;
- box-sizing:border-box;padding:10px 14px;
- border:2px solid #ed8e63;border-radius:999px;
+ position:relative;
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;
+ max-width:min(205px,calc(100vw - 52px));height:44px;min-height:44px;
+ box-sizing:border-box;padding:0 10px 0 8px;
+ border:0;border-radius:0;
  background:#16375a;color:#fff;
- font:600 14px/1.3 var(--nd-font,Inter,system-ui,sans-serif);
- box-shadow:0 5px 20px rgba(22,55,90,.22);
+ font:600 14px/1.25 var(--nd-font,Inter,system-ui,sans-serif);
+ box-shadow:none;
  cursor:pointer;overflow-wrap:anywhere;text-align:center;
 }
-.nomad-bug-launcher:hover{background:#204d7a;border-color:#f29d76}
-.nomad-bug-launcher:focus-visible{outline:3px solid #ed8e63;outline-offset:3px}
-.nomad-bug-launcher svg{flex:none}
-.nomad-bug-launcher.is-keyboard{display:none}
+.nomad-bug-launcher:hover{background:#204d7a}
+.nomad-bug-launcher:focus-visible{outline:2px solid #fff;outline-offset:-3px}
+.nomad-bug-launcher svg{flex:none;width:20px;height:20px}
+.nomad-bug-dock.is-keyboard{display:none}
+.nomad-bug-dock-toggle{
+ order:-1;
+ flex:0 0 38px;display:grid;place-items:center;
+ width:38px;height:44px;min-height:44px;
+ padding:0;border:0;border-right:1px solid rgba(255,255,255,.24);
+ border-radius:8px 0 0 8px;
+ color:#fff;background:#16375a;cursor:pointer;
+ font:600 24px/1 var(--nd-font,Inter,system-ui,sans-serif);
+}
+.nomad-bug-dock-toggle span{pointer-events:none}
+.nomad-bug-dock-toggle:hover{background:#204d7a}
+.nomad-bug-dock-toggle:focus-visible{outline:2px solid #fff;outline-offset:-3px}
+.nomad-bug-dock-toggle[hidden]{display:none!important}
+.nomad-bug-dock.is-collapsed .nomad-bug-launcher{
+ width:44px;min-width:44px;max-width:44px;height:44px;min-height:44px;
+ padding:0;border-radius:8px 0 0 8px;gap:0;
+}
+.nomad-bug-dock.is-collapsed .nomad-bug-launcher [data-bug-copy="trigger"]{display:none}
+.nomad-bug-dock.is-collapsed .nomad-bug-launcher svg{width:24px;height:24px}
 .nomad-bug-dialog{
  box-sizing:border-box;border:2px solid #16375a;border-radius:13px;
  background:#fff;color:#16375a;
@@ -44,10 +70,10 @@
 .nomad-bug-actions{display:flex;justify-content:flex-end}
 .nomad-bug-dialog #nomad360-bug-submit{
  min-height:46px;padding:10px 22px;border-radius:7px;
- border:2px solid #e78758;background:#ed8e63;color:#16375a;
+ border:2px solid #b8573a;background:#b8573a;color:#fff;
  font:700 16px/1.35 var(--nd-font,Inter,system-ui,sans-serif);cursor:pointer;
 }
-.nomad-bug-dialog #nomad360-bug-submit:hover:not(:disabled){background:#f4a47e}
+.nomad-bug-dialog #nomad360-bug-submit:hover:not(:disabled){background:#9e482f;border-color:#9e482f}
 .nomad-bug-dialog #nomad360-bug-submit:disabled{cursor:not-allowed;opacity:.58}
 .nomad-bug-dialog .nomad-bug-close{
  flex:none;display:grid;place-items:center;width:40px;height:40px;
@@ -55,7 +81,7 @@
  color:#16375a;font:700 29px/1 var(--nd-font,Inter,system-ui,sans-serif);cursor:pointer;
 }
 .nomad-bug-dialog :is(button,input,textarea):focus-visible{
- outline:3px solid #f09b72;outline-offset:3px;
+ outline:3px solid #b8573a;outline-offset:3px;
 }
 .nomad-bug-dialog #nomad360-bug-status{
  min-height:24px;margin:12px 0 0;font-weight:600;color:#16375a;
@@ -65,7 +91,8 @@
 .nomad-bug-dialog #nomad360-bug-status[data-result="required"]{color:#a22e2e}
 .nomad-bug-dialog #nomad360-bug-status[data-result="success"]{color:#126445}
 @media(max-width:600px){
- .nomad-bug-launcher{right:max(10px,env(safe-area-inset-right));bottom:max(86px,calc(70px + env(safe-area-inset-bottom)));font-size:14px;padding:9px 12px;min-height:46px}
+ .nomad-bug-dock{right:max(0px,env(safe-area-inset-right));bottom:max(18px,calc(10px + env(safe-area-inset-bottom)))}
+ .nomad-bug-launcher{font-size:14px}
  .nomad-bug-dialog{padding:17px;max-height:calc(100dvh - 16px);width:calc(100vw - 16px)}
  .nomad-bug-heading h2{font-size:20px}
 }

@@ -334,7 +334,12 @@ def main():
          'tests/nomad360_bug_report_browser.cjs',
          '.github/workflows/bug-report-09.yml',
          'docs/reviews/bug-report-09/REVIEW.md',
-         'tests/helpers/task09-html-scope.cjs') for p in changed), changed
+         'tests/helpers/task09-html-scope.cjs',
+         # PINNED-CONTROLS-01: presentation-only UI guarded against the tested main.
+         'tests/pinned_controls_browser.cjs',
+         'tests/helpers/pinned-controls-css-scope.cjs',
+         '.github/workflows/pinned-controls.yml',
+         'docs/reviews/pinned-controls/REVIEW.md') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
