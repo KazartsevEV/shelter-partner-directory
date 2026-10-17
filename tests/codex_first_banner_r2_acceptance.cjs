@@ -28,7 +28,7 @@ const server=http.createServer((req,res)=>{
      const state=await page.evaluate(()=>{
        const banner=document.querySelector('#nomad360-commercial-banner'),hero=banner.querySelector('#nomad360-hero'),
          art=getComputedStyle(banner,'::before'),cta=hero.querySelector('.nomad-intro-cta'),sub=hero.querySelector('h3'),
-         intro=banner.querySelector('#nomad360-intro'),logo=banner.querySelector('.nomad-seo-logo'),
+         intro=banner.querySelector('#nomad360-intro'),seo=banner.querySelector('#nomad360-seo-banner'),logo=banner.querySelector('.nomad-seo-logo'),
          r=e=>e.getBoundingClientRect(),css=(e,pseudo)=>getComputedStyle(e,pseudo);
        const ctar=r(cta),subr=r(sub),hr=r(hero),br=r(banner);
        const value=n=>Math.round(n*10)/10;
@@ -36,7 +36,7 @@ const server=http.createServer((req,res)=>{
          lang:document.documentElement.lang,width:innerWidth,heroWidth:value(br.width),
          label:cta.textContent.trim(),href:cta.getAttribute('href'),
          arrow:cta.textContent.trim().charAt(0),
-         topGap:value(ctar.top-subr.bottom),bottomGap:value(hr.bottom-ctar.bottom),
+         topGap:value(ctar.top-subr.bottom),bottomGap:value(r(seo).top-ctar.bottom),
          bannerLeft:value(br.left),bannerRight:value(br.right),
          photo:art.backgroundImage.includes('hero.webp'),
          sceneryAtTop:art.backgroundPosition,
