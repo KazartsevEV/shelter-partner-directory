@@ -14,8 +14,9 @@ const labels={premises:'Помещение',workers:'Работники',warehou
 const stage={certification:'purchase',premises:'production',workers:'production',equipment:'production',
  warehouse:'logistics',salesStaff:'sales',campaign:'advertising',marketingManager:'advertising',
  website:'business',hosting:'business',domain:'business',content:'business',other:'business'};
-const money=n=>new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(n)||0);
-const pct=n=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(Number(n)||0)+'%';
+const uiLocale=()=>root.Nomad360UI?.getLanguage?.()==='en'?'en-US':root.Nomad360UI?.getLanguage?.()==='kk'?'kk-KZ':'ru-RU';
+const money=n=>new Intl.NumberFormat(uiLocale(),{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(n)||0);
+const pct=n=>new Intl.NumberFormat(uiLocale(),{maximumFractionDigits:2}).format(Number(n)||0)+'%';
 const safe=value=>String(value??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const initial=()=>({
  version:2,
