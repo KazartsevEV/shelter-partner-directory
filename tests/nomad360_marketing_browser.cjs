@@ -41,7 +41,11 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   A.equal(await benefits.locator('em').count(),1);A.equal(await benefits.locator('em').textContent(),await tr('interface.header.embedB2BFocus'));
   A.equal(await benefits.locator('em').evaluate(e=>getComputedStyle(e).fontStyle),'italic');
   A.equal(await embed.locator('.nomad-embed-b2b-slogan').textContent(),await tr('interface.header.embedB2BSlogan'));
-  A.equal(await embed.locator('.nomad-embed-b2b-logo-mask img').getAttribute('src'),'./nomad360_wolf_open_circle.png');
+  await p.waitForFunction(()=>[...document.querySelectorAll('.nomad-logo,.nomad-seo-logo,.nomad-embed-b2b-logo-mask img')].every(e=>e.getAttribute('src')?.startsWith('data:image/png;base64,')));
+  A.match(await embed.locator('.nomad-embed-b2b-logo-mask img').getAttribute('src'),/^data:image\/png;base64,/);
+  A.equal(await p.locator('.nomad-logo-mask .nomad-logo').count(),1);
+  A.equal(await p.locator('.nomad-seo-logo-mask .nomad-seo-logo').count(),1);
+  A.ok(await p.locator('.nomad-logo-mask .nomad-logo').evaluate(e=>getComputedStyle(e).transform!=='none'));
   A.equal(await embed.evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(22, 55, 90)');
   A.equal(await embed.locator('h2').evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)');
   const cardRects=await benefits.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
