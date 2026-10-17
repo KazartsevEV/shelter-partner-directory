@@ -12,6 +12,7 @@ const server=http.createServer((req,res)=>{
  res.setHeader('Content-Type',types[path.extname(file)]||'application/octet-stream');
  if(path.basename(file)==='Marketing_calc.HTML'){
    let html=fs.readFileSync(file,'utf8');
+   if(new URL(req.url,'http://local').searchParams.has('baseline'))return res.end(html);
    A.ok(html.includes(marker)&&html.includes('</body>'));
    html=html.replace(marker,marker+'\n'+bannerCSS+'\n'+bridgeCSS).replace('</body>',bannerJS+'\n</body>');
    return res.end(html);
@@ -47,6 +48,7 @@ function eqHex(value){const m=value.match(/\d+/g)||[];return m.slice(0,3).join('
     banner:rect(banner),hero:rect(hero),cta:rect(cta),ctaHref:cta.getAttribute('href'),
     selling:!!document.querySelector('#nomad360-selling-choice'),
     seoVisible:!!originalSeo&&!!originalSeo.getClientRects().length,
+    seoComputed:originalSeo?{display:getComputedStyle(originalSeo).display,visibility:getComputedStyle(originalSeo).visibility,parentDisplay:getComputedStyle(originalSeo.parentElement).display,rect:rect(originalSeo)}:null,
     seoText:originalSeo?.innerText.slice(0,160)||'',
     bannerBg:css.backgroundColor,ctaBg:style(cta,'backgroundColor'),ctaFg:style(cta,'color'),
     eyebrow:style(hero.querySelector('h1'),'color'),accent:accent?style(accent,'color'):null,
@@ -54,6 +56,7 @@ function eqHex(value){const m=value.match(/\d+/g)||[];return m.slice(0,3).join('
     font:style(hero.querySelector('h2'),'fontFamily'),
     gradient:getComputedStyle(banner,'::before').backgroundImage.slice(0,200),
     overflow:document.documentElement.scrollWidth-innerWidth,
+    outliers:[...document.querySelectorAll('body *')].map(el=>({tag:el.tagName,id:el.id,cls:String(el.className||'').slice(0,55),r:el.getBoundingClientRect().right})).filter(x=>x.r>innerWidth+3).slice(0,12),
     cards:intro?.querySelectorAll('li').length||0,
     contents:[...banner.children].map(x=>x.id),
     otherFooter:!!document.querySelector('#nomad360-footer')
@@ -65,7 +68,7 @@ function eqHex(value){const m=value.match(/\d+/g)||[];return m.slice(0,3).join('
   const failures=[];
   if(errors.length)failures.push('javascript errors '+errors.join('; '));
   if(bad.length)failures.push('missing local resources '+JSON.stringify(bad));
-  if(state.overflow>1)failures.push('horizontal overflow '+state.overflow);
+  if(state.overflow>1)failures.push('horizontal overflow '+state.overflow+' culprit '+JSON.stringify(state.outliers.slice(0,3)));
   if(state.banner.x < -1 || state.banner.right>width+1)failures.push('banner outside viewport '+JSON.stringify(state.banner));
   if(state.bannerBg!=='rgb(23, 59, 88)')failures.push('background not TASK10 navy: '+state.bannerBg);
   if(state.ctaBg!=='rgb(255, 145, 63)')failures.push('CTA not TASK10 orange: '+state.ctaBg);
@@ -80,7 +83,11 @@ function eqHex(value){const m=value.match(/\d+/g)||[];return m.slice(0,3).join('
   await page.locator('#nomad360-commercial-banner .nomad-intro-cta').click({timeout:8000});
   const route=await page.evaluate(()=>({hash:location.hash,focus:document.activeElement?.id||'',visible:!!document.querySelector('#nomad360-selling-choice')?.getClientRects().length}));
   if(route.hash!=='#nomad360-selling-choice'&&!route.visible)failures.push('CTA click did not route to selling-choice '+JSON.stringify(route));
-  records.push({...state,route,failures});
+  await page.goto(origin+'Marketing_calc.HTML?baseline=1',{waitUntil:'domcontentloaded'});
+  await page.waitForSelector('#nomad360-hero');
+  const baseOverflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+  if(state.overflow>baseOverflow+1)failures.push('Codex banner adds '+(state.overflow-baseOverflow)+' px overflow above baseline');
+  records.push({...state,baselineOverflow:baseOverflow,route,failures});
   console.log('CODEX_HERO_CASE '+lang+' '+width+' '+(failures.length?'FAIL: '+failures.join(' | '):'PASS'));
   await context.close();
  }}finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
