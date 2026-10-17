@@ -26,7 +26,7 @@ jobs:
     timeout-minutes: 45
     env:
       NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
-      TASK10_BASELINE_ROOT: ${{ runner.temp }}/task10-main
+      TASK10_BASELINE_ROOT: ${{ github.workspace }}/.task10-baseline-main
     steps:
       - uses: actions/checkout@v4
         with:

@@ -58,7 +58,7 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
       rows.map(row=>row.querySelector('input[id^="in-"]')?.id).filter(Boolean).slice(-2)),
       ['in-taxTurnover','in-agentTaxTurnover'],'agent tax input follows principal tax at end of form');
     A.equal(await myTaxInput.evaluate(el=>getComputedStyle(el.parentElement).borderLeftColor),
-      'rgb(255, 145, 63)','agent rate input has orange section marker');
+      'rgb(56, 103, 139)','agent rate input uses the approved secondary-blue section marker');
     const partner=await last(table,'Накопленный поток принципала').getAttribute('data-nomad-display-number');
     A.notEqual(amount,Number(partner),'agent cannot display principal cash as their own');
     A.match(await page.locator('#mode-context').innerText(),/Принципал/i);
@@ -147,7 +147,7 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    await page.setViewportSize({width,height:844});
    await page.evaluate(()=>showAgentChooser());
    // A prior click can leave the desktop mouse over this CTA after resizing.
-   // Its valid hover token (#f3a17a) must not be confused with its base color.
+   // Keep the mouse outside the CTA while verifying its base fill.
    await page.mouse.move(1,1);
    A.equal(await page.locator('#agent-screen').isVisible(),true);
    A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
@@ -157,7 +157,7 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
      'CTA must not be hovered during base-color verification at '+width);
    A.equal(await orangeAction.evaluate(el=>
      getComputedStyle(document.documentElement).getPropertyValue('--nd-cta-orange').trim()),
-     '#ed8e63','Authoritative orange brand token at '+width);
+     '#FF913F','Authoritative orange brand token at '+width);
    A.equal(await orangeAction.evaluate(el=>getComputedStyle(el).backgroundColor),
      'rgb(255, 145, 63)','Unhovered agent CTA uses the exact brand orange at '+width);
    A.equal(await orangeAction.locator('.font-semibold').evaluate(el=>getComputedStyle(el).color),
