@@ -42,6 +42,10 @@ async function drag(page,locator,delta){
    const rect=await header.boundingBox();
    A.ok(rect.y>=-2&&rect.y<4,'desktop header stays at viewport top');
   }else{
+   const inlineBoxes=await header.evaluate(el=>['.nomad-brand','.nomad-lang','.nomad-burger']
+     .map(q=>el.querySelector(q).getBoundingClientRect()).map(b=>({left:b.left,right:b.right})));
+   A.ok(inlineBoxes.every((b,i)=>!i||b.left>=inlineBoxes[i-1].right-1),
+     'brand, language and fixed burger never overlap at '+width+': '+JSON.stringify(inlineBoxes));
    A.equal(await burger.evaluate(e=>getComputedStyle(e).position),'fixed','burger independently fixed');
    const rect=await burger.boundingBox();
    A.ok(rect.y>=0&&rect.y<90,'burger stays in viewport after scroll');
