@@ -63,6 +63,21 @@ function openDemo(rawState){
   render();
   save();
 }
+// Change only unchanged canonical study names. Preserve any reviewer edits
+// and all financial inputs. The visitor's ordinary V2 model is never touched.
+function localizeStudyNames(dictionary){
+ if(activeStorageKey!==usDemoStorageKey||!model||!dictionary)return false;
+ let changed=false;
+ for(const [kind,field] of [['skus','name'],['resources','label']]){
+  for(const entry of model[kind]||[]){
+   const option=dictionary[kind]?.[entry.id];
+   if(!option||!Array.isArray(option.known)||!option.known.includes(entry[field])||typeof option.target!=='string')continue;
+   if(entry[field]!==option.target){entry[field]=option.target;changed=true;}
+  }
+ }
+ if(changed){save();render();}
+ return changed;
+}
 function numberField(label,path,value,hint,extra=''){
  const surface=/^(marketing|tax|funding|skus)\./.test(path);
  const field='<label class="nd-v2-field block min-w-0"><span class="block font-semibold text-xs text-slate-700 mb-1'+(surface?' nd-v2-field-label':'')+'">'+safe(label)+'</span>'+
@@ -438,7 +453,7 @@ function mount(){
  updateEntry();
  document.addEventListener('nomad360:languagechange',()=>{if(model)render();});
 }
-root.PortfolioV2UI=Object.freeze({open,openDemo,load,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
+root.PortfolioV2UI=Object.freeze({open,openDemo,localizeStudyNames,load,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
 root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();
