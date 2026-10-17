@@ -11,7 +11,7 @@
 .nomad-bug-launcher{
  position:relative;
  display:inline-flex;align-items:center;justify-content:center;gap:7px;
- max-width:min(205px,calc(100vw - 52px));height:42px;min-height:42px;
+ max-width:min(205px,calc(100vw - 52px));height:44px;min-height:44px;
  box-sizing:border-box;padding:0 14px 0 11px;
  border:0;border-radius:0;
  background:#16375a;color:#fff;
@@ -26,7 +26,7 @@
 .nomad-bug-dock-toggle{
  order:-1;
  flex:0 0 38px;display:grid;place-items:center;
- width:38px;height:42px;min-height:42px;
+ width:38px;height:44px;min-height:44px;
  padding:0;border:0;border-right:1px solid rgba(255,255,255,.24);
  border-radius:8px 0 0 8px;
  color:#fff;background:#16375a;cursor:pointer;
