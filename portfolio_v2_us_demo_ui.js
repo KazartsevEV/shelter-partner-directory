@@ -30,6 +30,10 @@ const initial=()=>({
  tax:{type:'turnover',pct:0,vatPct:0}
 });
 function load(){try{const raw=JSON.parse(localStorage.getItem(storageKey));return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length?raw:null}catch(_){return null}}
+function loadStudy(){try{
+ const raw=JSON.parse(localStorage.getItem(usDemoStorageKey));
+ return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length&&Array.isArray(raw.resources)?raw:null;
+}catch(_){return null}}
 function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);localStorage.setItem(activeStorageKey,JSON.stringify(model));const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';if(activeStorageKey===storageKey)updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
 function updateEntry(){
  const existing=load(),el=document.getElementById('portfolio-v2-resume-home');
@@ -48,13 +52,18 @@ function open(options={}){
  if(!options.resume)save();
 }
 // A study model never overwrites the visitor's own V2 autosave.
-function openDemo(rawState){
+function openDemo(rawState,options={}){
   const next=JSON.parse(JSON.stringify(rawState||{}));
-  if(next.version!==2||next.currency!=='USD'||next.tax?.taxRegime!=='sales_tax'||next.tax?.salesTaxPct!==6.25)
+  if(options.resume){
+    if(next.version!==2||!Array.isArray(next.skus)||!next.skus.length||!Array.isArray(next.resources))
+      throw Error('Invalid saved US retail study');
+  }else if(next.version!==2||next.currency!=='USD'||next.tax?.taxRegime!=='sales_tax'||next.tax?.salesTaxPct!==6.25)
     throw Error('Invalid US retail demonstration data');
-  const checked=Engine.build(next);
-  if(!checked.ready||checked.months?.length!==12)
-    throw Error('US retail demonstration requires a valid twelve-month V2 model: '+(checked.errors||[]).join('; '));
+  if(!options.resume){
+    const checked=Engine.build(next);
+    if(!checked.ready||checked.months?.length!==12)
+      throw Error('US retail demonstration requires a valid twelve-month V2 model: '+(checked.errors||[]).join('; '));
+  }
   activeStorageKey=usDemoStorageKey;
   root.Nomad360Currency?.beginNew();
   root.Nomad360Currency?.adopt('USD');
@@ -476,7 +485,7 @@ function mount(){
  updateEntry();
  document.addEventListener('nomad360:languagechange',()=>{if(model)render();});
 }
-root.PortfolioV2UI=Object.freeze({open,openDemo,localizeStudyNames,load,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
+root.PortfolioV2UI=Object.freeze({open,openDemo,localizeStudyNames,load,loadStudy,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
 root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();
