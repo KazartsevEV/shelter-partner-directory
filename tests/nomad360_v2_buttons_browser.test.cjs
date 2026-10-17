@@ -31,23 +31,23 @@ async function states(page,route,language,receipts){
   A.deepEqual((await page.evaluate(()=>NomadButtons.audit(document.getElementById('portfolio-v2-root')))).failures,[]);
   const output={};
   for(const [name,selector,hover,active,color] of [
-   ['primary',save,'rgb(243, 161, 122)','rgb(235, 135, 91)','rgb(22, 55, 90)'],
-   ['secondary',add,'rgb(22, 55, 90)','rgb(13, 32, 51)','rgb(255, 255, 255)'],
-   ['outline',back,'rgba(22, 55, 90, 0.12)','rgba(22, 55, 90, 0.22)','rgb(255, 255, 255)']]){
+   ['primary',save,'rgb(255, 145, 63)','rgb(255, 145, 63)','rgb(23, 59, 88)'],
+   ['secondary',add,'rgb(23, 59, 88)','rgb(23, 59, 88)','rgb(255, 255, 255)'],
+   ['outline',back,'rgb(23, 59, 88)','rgb(23, 59, 88)','rgb(255, 255, 255)']]){
    const el=page.locator(selector).first();await el.hover();await page.waitForTimeout(180);
    const h=await styles(page,selector);A.equal(h.background,hover,name+' hover '+width);A.equal(h.color,color);A.ok(h.contrast>=4.5);
    await page.mouse.down();await page.waitForTimeout(180);
    const a=await styles(page,selector);A.equal(a.background,active,name+' active '+width);A.ok(a.contrast>=4.5);
    await page.mouse.move(0,0);await page.mouse.up();
    await page.keyboard.press('Tab');await el.focus();
-   const f=await styles(page,selector);A.ok(f.focus);A.equal(f.outline,'rgb(237, 142, 99)');A.equal(f.outlineWidth,'3px');A.match(f.shadow,/22, 55, 90/);
+   const f=await styles(page,selector);A.ok(f.focus);A.equal(f.outline,'rgb(23, 59, 88)');A.equal(f.outlineWidth,'3px');A.match(f.shadow,/rgb\(255, 255, 255\)/);
    output[name]={hover:h,active:a,focus:f};
    if([320,1280].includes(width)&&name==='primary')await page.screenshot({path:path.join(artifacts,route+'-'+language+'-'+width+'-focus.png')});
   }
   if(route==='linked'){
    const pseudo=await page.locator('[data-mba-file]').evaluate(el=>{
     const s=getComputedStyle(el,'::file-selector-button');return {background:s.backgroundColor,color:s.color};
-   });A.deepEqual(pseudo,{background:'rgb(49, 87, 124)',color:'rgb(255, 255, 255)'});output.fileButton=pseudo;
+   });A.deepEqual(pseudo,{background:'rgb(56, 103, 139)',color:'rgb(255, 255, 255)'});output.fileButton=pseudo;
   }
   receipts[route+'-'+language+'-'+width+'-states']=output;
  }

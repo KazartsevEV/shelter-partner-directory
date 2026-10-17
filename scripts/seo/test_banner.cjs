@@ -25,7 +25,7 @@ const win={};new Function('window','document',execFileSync('git',['show','85d98d
   A.equal(await banner.locator('img').getAttribute('src'),await p.locator('#nomad360-header .nomad-logo').getAttribute('src'));
   A.equal(requests.filter(u=>u.endsWith('/nomad360_wolf_open_circle.png')).length,1,'One shared original image URL');
   const geometry=await banner.evaluate(el=>({background:getComputedStyle(el).backgroundColor,color:getComputedStyle(el.querySelector('p')).color,font:parseFloat(getComputedStyle(el.querySelector('p')).fontSize),overflow:document.documentElement.scrollWidth>innerWidth+1,clipped:[...el.querySelectorAll('h2,p')].some(e=>e.scrollWidth>e.clientWidth+1)}));
-  A.equal(geometry.background,'rgb(22, 55, 90)');A.equal(geometry.color,'rgb(255, 255, 255)');A.ok(geometry.font>=17);A.equal(geometry.overflow,false);A.equal(geometry.clipped,false);
+  A.equal(geometry.background,'rgb(23, 59, 88)');A.equal(geometry.color,'rgb(255, 255, 255)');A.ok(geometry.font>=17);A.equal(geometry.overflow,false);A.equal(geometry.clipped,false);
   A.deepEqual(await p.evaluate(()=>Nomad360LocaleCore.auditVisibleGaps()),[]);A.deepEqual(errors,[]);
   const files=[];if([320,1280].includes(width)){const name=`${lang}-${width}-banner.png`;await banner.screenshot({path:path.join(out,name)});files.push(name);}if(width===390){const name=`${lang}-390-home.png`;await p.locator('#home-screen').screenshot({path:path.join(out,name)});files.push(name);}
   if(width===390){

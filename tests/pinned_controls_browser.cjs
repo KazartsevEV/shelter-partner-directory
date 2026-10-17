@@ -84,10 +84,10 @@ async function swipe(page,locator,delta,mobile){
     const el=document.createElement('div');
     el.id='pinned-nav-contrast-test';
     Object.assign(el.style,{position:'fixed',top:'0',right:'0',height:'90px',
-      width:'90px',backgroundColor:'#16375a',zIndex:'95',pointerEvents:'auto'});
+      width:'90px',backgroundColor:'#173B58',zIndex:'95',pointerEvents:'auto'});
     document.body.append(el);
    });
-   for(const [color,expected] of [['#16375a','rgb(255, 255, 255)'],['#ffffff','rgb(22, 55, 90)'],['#ed8e63','rgb(22, 55, 90)']]){
+   for(const [color,expected] of [['#173B58','rgb(255, 255, 255)'],['#ffffff','rgb(23, 59, 88)'],['#FF913F','rgb(23, 59, 88)']]){
     await page.evaluate(hex=>{document.getElementById('pinned-nav-contrast-test').style.backgroundColor=hex;window.dispatchEvent(new Event('scroll'))},color);
     await page.waitForTimeout(80);
     A.equal(await burger.evaluate(e=>getComputedStyle(e).color),expected,
@@ -95,7 +95,7 @@ async function swipe(page,locator,delta,mobile){
    }
    await page.evaluate(()=>{
      const surface=document.getElementById('pinned-nav-contrast-test');
-     surface.style.background='linear-gradient(#16375a, #16375a)';
+     surface.style.background='linear-gradient(#173B58, #173B58)';
      surface.style.color='#fff';
      window.dispatchEvent(new Event('scroll'));
    });

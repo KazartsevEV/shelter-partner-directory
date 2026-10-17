@@ -141,6 +141,8 @@ def make_page(language: str, edition: str) -> str:
 {alternate}
 <link rel="alternate" hreflang="x-default" href="{VERSIONS['ru']['url']}">
 <link rel="stylesheet" href="{ORIGIN}assets/nomad360-legal.css">
+<link rel="stylesheet" href="{ORIGIN}nomad360_static_fonts.css">
+<link rel="stylesheet" href="{ORIGIN}nomad360_palette.css">
 </head>
 <body>
 <a class="skip" href="#full-license">Skip to license / К тексту лицензии</a>

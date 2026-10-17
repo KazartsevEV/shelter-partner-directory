@@ -45,7 +45,7 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    if(role==='agent'){
     A.equal(await taxNote.innerText(),'ПОСЛЕ уплаты моих налогов.');
     A.equal(await taxNote.evaluate(el=>getComputedStyle(el).color),
-      'rgb(237, 142, 99)','agent tax caption uses brand orange');
+      'rgb(255, 145, 63)','agent tax caption uses brand orange');
     A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('ПОСЛЕ уплаты моих налогов.','en')),
       'AFTER paying my taxes.');
     A.equal(await page.evaluate(()=>Nomad360LocaleCore.translate('ПОСЛЕ уплаты моих налогов.','kk')),
@@ -58,7 +58,7 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
       rows.map(row=>row.querySelector('input[id^="in-"]')?.id).filter(Boolean).slice(-2)),
       ['in-taxTurnover','in-agentTaxTurnover'],'agent tax input follows principal tax at end of form');
     A.equal(await myTaxInput.evaluate(el=>getComputedStyle(el.parentElement).borderLeftColor),
-      'rgb(237, 142, 99)','agent rate input has orange section marker');
+      'rgb(56, 103, 139)','agent rate input uses the approved secondary-blue section marker');
     const partner=await last(table,'Накопленный поток принципала').getAttribute('data-nomad-display-number');
     A.notEqual(amount,Number(partner),'agent cannot display principal cash as their own');
     A.match(await page.locator('#mode-context').innerText(),/Принципал/i);
@@ -72,8 +72,8 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
      radio:getComputedStyle(el.querySelector('input[type=radio]')).accentColor,
      width:el.scrollWidth,clientWidth:el.clientWidth
     }));
-    A.equal(payerSkin.background,'rgb(245, 247, 249)','agent controls reuse V1 soft surface');
-    A.equal(payerSkin.radio,'rgb(22, 55, 90)','agent payer selector uses shared navy');
+    A.equal(payerSkin.background,'rgb(255, 255, 255)','agent controls reuse V1 soft surface');
+    A.equal(payerSkin.radio,'rgb(23, 59, 88)','agent payer selector uses shared navy');
     A.ok(payerSkin.width<=payerSkin.clientWidth+1,'agent payer group stays within mobile card');
     A.ok(await page.locator('#summary-table .nd-agent-number-highlight').count()>0,
      'positive agent figures use named, brand-neutral financial emphasis');
@@ -147,21 +147,21 @@ const last=(table,label)=>table.locator('tbody tr').filter({hasText:label}).last
    await page.setViewportSize({width,height:844});
    await page.evaluate(()=>showAgentChooser());
    // A prior click can leave the desktop mouse over this CTA after resizing.
-   // Its valid hover token (#f3a17a) must not be confused with its base color.
+   // Keep the mouse outside the CTA while verifying its base fill.
    await page.mouse.move(1,1);
    A.equal(await page.locator('#agent-screen').isVisible(),true);
    A.equal(await page.locator('#agent-screen .nd-agent-eyebrow').evaluate(el=>getComputedStyle(el).color),
-    'rgb(22, 55, 90)');
+    'rgb(23, 59, 88)');
    const orangeAction=page.locator('#agent-screen button.nd-agent-percentage-cta');
    A.equal(await orangeAction.evaluate(el=>el.matches(':hover')),false,
      'CTA must not be hovered during base-color verification at '+width);
    A.equal(await orangeAction.evaluate(el=>
      getComputedStyle(document.documentElement).getPropertyValue('--nd-cta-orange').trim()),
-     '#ed8e63','Authoritative orange brand token at '+width);
+     '#FF913F','Authoritative orange brand token at '+width);
    A.equal(await orangeAction.evaluate(el=>getComputedStyle(el).backgroundColor),
-     'rgb(237, 142, 99)','Unhovered agent CTA uses the exact brand orange at '+width);
+     'rgb(255, 145, 63)','Unhovered agent CTA uses the exact brand orange at '+width);
    A.equal(await orangeAction.locator('.font-semibold').evaluate(el=>getComputedStyle(el).color),
-     'rgb(22, 55, 90)','navy text on agent CTA at '+width);
+     'rgb(23, 59, 88)','navy text on agent CTA at '+width);
    A.equal(await page.locator('#agent-screen button[onclick="showAgentComplex()"]').evaluate(el=>getComputedStyle(el).backgroundColor),
      'rgb(255, 255, 255)','secondary agent choice stays white');
    A.ok(await contained('#agent-screen'),'agent chooser elements overflow '+width);

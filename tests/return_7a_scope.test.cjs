@@ -24,7 +24,7 @@ test('All existing application files stay exact outside the five authorised pres
    A.equal(file==='Marketing_calc.HTML'?mask(normalized):normalized,
     file==='Marketing_calc.HTML'?mask(before(file)):before(file),file);
  }
- const published=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(en\/|license\/|assets\/nomad360-seo\.css$|scripts\/seo\/(build\.py|pages\.json|hero_banner\.css)$)/.test(f));for(const file of published)A.deepEqual(fs.readFileSync(path.join(root,file)),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
+ const published=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(en\/|license\/|assets\/nomad360-seo\.css$|scripts\/seo\/(build\.py|pages\.json|hero_banner\.css)$)/.test(f));for(const file of published)A.deepEqual(Buffer.from(require('./helpers/task10-palette-scope.cjs').stripTask10StaticSource(file,fs.readFileSync(path.join(root,file),'utf8'))),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
  A.deepEqual(fs.readFileSync(path.join(root,'nomad360_wolf_open_circle.png')),execFileSync('git',['show',base+':nomad360_wolf_open_circle.png'],{cwd:root,maxBuffer:4*1024*1024}));
 });
 test('Every established EN RU KK message retains its accepted meaning',()=>{

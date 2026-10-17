@@ -240,7 +240,7 @@ function startTestServer(){
   });
   A.equal(await page.locator('#full-service-screen').isVisible(),true);
   A.match(await back.innerText(),/Упрощённый расчёт/);
-  A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(22, 55, 90)',
+  A.equal(await back.evaluate(el=>getComputedStyle(el).color),'rgb(23, 59, 88)',
    'full service return has navy text over the light shell');
   await back.click();
   A.equal(await page.locator('#calculator-screen').isVisible(),true);

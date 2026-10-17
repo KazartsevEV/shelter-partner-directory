@@ -58,6 +58,8 @@ def render(config, page):
 <meta property="og:image" content="{e(base + 'nomad360_wolf_open_circle.png')}">
 <meta property="og:image:alt" content="Nomad360 wolf logo">
 <link rel="stylesheet" href="{e(asset)}assets/nomad360-seo.css">
+<link rel="stylesheet" href="{e(asset)}nomad360_static_fonts.css">
+<link rel="stylesheet" href="{e(asset)}nomad360_palette.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>

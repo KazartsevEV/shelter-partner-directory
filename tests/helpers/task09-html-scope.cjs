@@ -7,6 +7,7 @@ const script='<script src="./nomad360_bug_report.js"></script>\n';
 const cssAnchor='<link rel="stylesheet" href="./nomad360_calculator_ui.css">\n'+css;
 const scriptAnchor=script+'</body>';
 function stripTask09Html(source){
+ source=require('./task10-palette-scope.cjs').stripTask10PaletteHtml(source);
  const cssCount=source.split(css).length-1,scriptCount=source.split(script).length-1;
  A.equal(cssCount,scriptCount,'Both Task09 assets must be paired');
  A.ok(cssCount===0||cssCount===1,'Exactly one Task09 asset pair is permitted');

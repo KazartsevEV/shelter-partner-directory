@@ -48,7 +48,7 @@ const server=createServer(async(req,res)=>{
     const title=getComputedStyle(el.querySelector('h3'));
     return {background:heading.backgroundColor,color:title.color};
   });
-  A.deepEqual(brand,{background:'rgb(237, 142, 99)',color:'rgb(22, 55, 90)'},
+  A.deepEqual(brand,{background:'rgb(255, 145, 63)',color:'rgb(23, 59, 88)'},
     'The visible widget panel has Nomad360 orange and navy branding');
   A.equal(await support.locator('.nomad-pay-kaspi .nomad-kz-flag').textContent(),'🇰🇿');
   A.match(await support.locator('.nomad-pay-kaspi').innerText(),
@@ -185,12 +185,12 @@ const server=createServer(async(req,res)=>{
       hintFont:parseFloat(getComputedStyle(el.querySelector('.nomad-embed-hint')).fontSize)
     };
   });
-  A.equal(visual.downloadBackground,'rgb(244, 247, 252)','Free Embed download is the light secondary footer action');
-  A.equal(visual.downloadColor,'rgb(22, 55, 90)','Free Embed label remains navy');
-  A.equal(visual.toggleBackground,'rgb(237, 142, 99)','RET-07A disclosure is orange');
-  A.equal(visual.toggleColor,'rgb(22, 55, 90)','RET-07A disclosure label is navy');
-  A.equal(visual.secondaryBackground,'rgb(237, 142, 99)','Custom order is the orange primary CTA');
-  A.equal(visual.secondaryColor,'rgb(22, 55, 90)','Custom order label uses navy');
+  A.equal(visual.downloadBackground,'rgb(255, 255, 255)','Free Embed download is the light secondary footer action');
+  A.equal(visual.downloadColor,'rgb(23, 59, 88)','Free Embed label remains navy');
+  A.equal(visual.toggleBackground,'rgb(255, 145, 63)','RET-07A disclosure is orange');
+  A.equal(visual.toggleColor,'rgb(23, 59, 88)','RET-07A disclosure label is navy');
+  A.equal(visual.secondaryBackground,'rgb(255, 145, 63)','Custom order is the orange primary CTA');
+  A.equal(visual.secondaryColor,'rgb(23, 59, 88)','Custom order label uses navy');
   A.ok(visual.hintFont>=14,'Embed instruction must remain legible');
   const mail=await license.locator('.nomad-embed-contact').getAttribute('href');
   A.ok(mail.startsWith('mailto:nomad260393@gmail.com?subject='));
@@ -218,7 +218,7 @@ const server=createServer(async(req,res)=>{
      background:getComputedStyle(el).backgroundColor,
      text:getComputedStyle(el.querySelector('a')).color
    }));
-   A.deepEqual(retryColors,{background:'rgb(244, 247, 252)',text:'rgb(22, 55, 90)'},
+   A.deepEqual(retryColors,{background:'rgb(255, 255, 255)',text:'rgb(23, 59, 88)'},
      'Free HTML download fallback stays light, while custom order uses the orange CTA');
    const repeated=page.waitForEvent('download',{timeout:10000});
    await fallback.click();
