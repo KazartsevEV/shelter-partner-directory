@@ -662,7 +662,10 @@ body #nomad360-hero .nomad-intro-cta{margin-top:18px}
   background:transparent;
   border:0;
   border-radius:0;
-  transform:scale(1.38);
+  /* Original PNG's orbit is slightly left/up inside its pixel canvas.
+     Translate the COMPLETE mark inside the unchanged centered white mask;
+     preserve wolf/sun/orbit geometry and the existing 1.38 crop. */
+  transform:translate(1.2%, 0.9%) scale(1.38);
   transform-origin:center;
 }
 .nomad-seo-logo-mask {width:140px;height:140px}
