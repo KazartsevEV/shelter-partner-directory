@@ -22,6 +22,15 @@ def mask_stage_7b5_pdf(raw):
 
 
 
+def strip_live_v2_entry(raw):
+    # Exact, reviewed landing-page addition; all other application bytes remain guarded.
+    anchor = "                <a id=\"us-retail-v2-live-link\" data-nomad-no-translate href=\"./US_Retail_Demo.HTML?demo=us-retail-12m&amp;lang=ru\" class=\"nomad-example-link nd-type-action\">Пример V2: магазин в США · 12 месяцев</a>\n".encode('utf-8')
+    loader = b'<script src="./nomad360_us_retail_live_entry.js"></script>\n'
+    assert raw.count(anchor) == 1 and raw.count(loader) == 1
+    assert raw.count(b'id="us-retail-v2-live-link"') == 1
+    return raw.replace(anchor, b'', 1).replace(loader, b'', 1)
+
+
 def strip_task09_html(raw):
     # Task10 permits exactly one passive stylesheet link, no finance exemptions.
     palette = b'    <link rel="stylesheet" href="./nomad360_palette.css">\n'
@@ -88,6 +97,7 @@ def main():
                 "process.stdout.write(require('./tests/helpers/task10-logo-scope.cjs').stripTask10Logo(process.argv[1],require('node:fs').readFileSync(0,'utf8')))", name],
                 input=raw, cwd=ROOT)
         if name == 'Marketing_calc.HTML':
+            raw = strip_live_v2_entry(raw)
             raw = strip_task09_html(raw)
             assert raw.count(b'<script src="./nomad360_sales_tax_v2.js"></script>\n') == 1
         if name in ('portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js'):
@@ -380,6 +390,13 @@ def main():
         'tests/nomad360_global_tree_navigation_browser.test.cjs',
         'tests/nomad360_v2_containers_browser.test.cjs',
         'tests/nomad360_v2_buttons_browser.test.cjs',
+        # US retail live entry: audited link, isolated study and browser receipts.
+        'nomad360_us_retail_live_entry.js', 'nomad360_us_retail_demo.js',
+        'portfolio_v2_us_demo_ui.js', 'US_Retail_Demo.HTML',
+        'US_Retail_Demo_FILLED.html', 'US_Retail_Demo_EN_FILLED.html',
+        'tests/us_retail_demo_v2.test.cjs', 'tests/us_retail_demo_v2_browser.cjs',
+        '.github/workflows/us-retail-demo-v2.yml',
+        '.github/workflows/us-retail-filled-html.yml',
         'tests/portfolio_v2_online_browser.test.cjs',
         '.github/workflows/task10-palette.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
