@@ -23,6 +23,14 @@ def mask_stage_7b5_pdf(raw):
 
 
 def strip_task09_html(raw):
+    # First Codex banner is an isolated presentation asset pair only.
+    hero_css = b'    <link rel="stylesheet" href="./nomad360_codex_first_banner.css">\n'
+    hero_js = b'<script src="./nomad360_codex_first_banner.js"></script>\n'
+    if hero_css in raw or hero_js in raw:
+        assert raw.count(hero_css) == raw.count(hero_js) == 1, "first-banner loader mismatch"
+        assert hero_css + b'    <link rel="stylesheet" href="./nomad360_design_system.css">\n' in raw
+        assert b'<script src="./nomad360_sales_tax_service_v1.js"></script>\n' + hero_js in raw
+        raw = raw.replace(hero_css, b'', 1).replace(hero_js, b'', 1)
     # Task10 permits exactly one passive stylesheet link, no finance exemptions.
     palette = b'    <link rel="stylesheet" href="./nomad360_palette.css">\n'
     if b'nomad360_palette.css' in raw:
@@ -368,7 +376,14 @@ def main():
         'tests/nomad360_v2_containers_browser.test.cjs',
         'tests/nomad360_v2_buttons_browser.test.cjs',
         'tests/portfolio_v2_online_browser.test.cjs',
-        '.github/workflows/task10-palette.yml') for p in changed), changed
+        '.github/workflows/task10-palette.yml',
+        'nomad360_codex_first_banner.css','nomad360_codex_first_banner.js',
+        'assets/nomad360-banners/hero.webp',
+        'tests/codex_first_banner_r2_acceptance.cjs',
+        'tests/helpers/codex-first-banner-scope.cjs',
+        'tests/helpers/task10-palette-scope.cjs',
+        'tests/task10_palette_source.test.cjs',
+        '.github/workflows/codex-first-banner-r2.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
     assert sum(r['status'] == 200 for r in audit) == 10
