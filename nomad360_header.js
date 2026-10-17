@@ -952,3 +952,70 @@
   else boot();
 })(window);
 
+
+/* PINNED-CONTROLS-02: sample the surface under the transparent fixed hamburger.
+   Choose actual Nomad navy on light surfaces and white on dark surfaces.
+   This runs after header rendering and follows scrolling, resize and locale rebuilds. */
+;(() => {
+ const S={
+  burger:'.nomad-burger',
+  scroll:'scroll',resize:'resize',pageshow:'pageshow',
+  locale:'nomad360:languagechange',ready:'DOMContentLoaded',click:'click',
+  none:'none',open:'(',comma:',',
+  property:'--nomad-burger-contrast',
+  navy:'#16375a',white:'#fff',
+  whiteRgb:'rgb(255, 255, 255)'
+ };
+ let waiting=false;
+ function update(){
+  const burger=document.querySelector(S.burger);
+  if(!burger||getComputedStyle(burger).display===S.none)return;
+  const rect=burger.getBoundingClientRect();
+  const x=Math.max(1,Math.min(innerWidth-1,rect.left+rect.width/2));
+  const y=Math.max(1,Math.min(innerHeight-1,rect.top+rect.height/2));
+  let chosen=null;
+  const checked=new Set();
+  for(const el of document.elementsFromPoint(x,y)){
+   for(let node=el;node;node=node.parentElement){
+    if(checked.has(node))break;
+    checked.add(node);
+    if(node===burger||burger.contains(node))continue;
+    const style=getComputedStyle(node);
+    const bg=style.backgroundColor;
+    const start=bg.indexOf(S.open);
+    if(start>=0){
+     const values=bg.slice(start+1).split(S.comma).map(v=>parseFloat(v));
+     if(values.length>=3&&values.slice(0,3).every(Number.isFinite)
+         &&(values.length<4||values[3]>=0.8)){
+      chosen=values;
+      break;
+     }
+    }
+    if(style.backgroundImage!==S.none&&style.color===S.whiteRgb){
+     chosen=[22,55,90];
+     break;
+    }
+   }
+   if(chosen)break;
+  }
+  if(!chosen)chosen=[255,255,255];
+  const linear=chosen.slice(0,3).map(v=>{
+   const c=v/255;
+   return c<=0.04045?c/12.92:((c+0.055)/1.055)**2.4;
+  });
+  const luminance=linear[0]*0.2126+linear[1]*0.7152+linear[2]*0.0722;
+  burger.style.setProperty(S.property,luminance<0.38?S.white:S.navy);
+ }
+ function schedule(){
+  if(waiting)return;
+  waiting=true;
+  requestAnimationFrame(()=>{waiting=false;update()});
+ }
+ addEventListener(S.scroll,schedule,{passive:true});
+ addEventListener(S.resize,schedule,{passive:true});
+ addEventListener(S.pageshow,schedule);
+ document.addEventListener(S.locale,schedule);
+ document.addEventListener(S.click,schedule,true);
+ document.addEventListener(S.ready,schedule);
+ schedule();
+})();
