@@ -75,7 +75,7 @@ async function swipe(page,locator,delta,mobile){
     document.body.append(el);
    });
    for(const [color,expected] of [['#16375a','rgb(255, 255, 255)'],['#ffffff','rgb(22, 55, 90)'],['#ed8e63','rgb(22, 55, 90)']]){
-    await page.evaluate(hex=>document.getElementById('pinned-nav-contrast-test').style.backgroundColor=hex,color);
+    await page.evaluate(hex=>{document.getElementById('pinned-nav-contrast-test').style.backgroundColor=hex;window.dispatchEvent(new Event('scroll'))},color);
     await page.waitForTimeout(80);
     A.equal(await burger.evaluate(e=>getComputedStyle(e).color),expected,
       'boxless hamburger is adaptive above '+color);
@@ -84,6 +84,7 @@ async function swipe(page,locator,delta,mobile){
      const surface=document.getElementById('pinned-nav-contrast-test');
      surface.style.background='linear-gradient(#16375a, #16375a)';
      surface.style.color='#fff';
+     window.dispatchEvent(new Event('scroll'));
    });
    await page.waitForTimeout(80);
    A.equal(await burger.evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)',
