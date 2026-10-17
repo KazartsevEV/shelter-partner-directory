@@ -1,0 +1,45 @@
+name: US retail V2 twelve-month demo acceptance
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'portfolio_v2_ui.js'
+      - 'nomad360_us_retail_demo.js'
+      - 'docs/demos/us-main-street-12m/**'
+      - 'tests/us_retail_demo_v2*'
+      - '.github/workflows/us-retail-demo-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  study-model-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test real V2 data and isolated code
+        run: |
+          node --check portfolio_v2_ui.js
+          node --check nomad360_us_retail_demo.js
+          node --check tests/us_retail_demo_v2.test.cjs
+          node --check tests/us_retail_demo_v2_browser.cjs
+          node tests/us_retail_demo_v2.test.cjs
+      - name: Install pinned Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/us-demo" --no-save --no-package-lock playwright@1.58.0
+          "$RUNNER_TEMP/us-demo/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Test actual calculator and capture 390px/1280px
+        env:
+          NODE_PATH: ${{ runner.temp }}/us-demo/node_modules
+        run: |
+          node tests/us_retail_demo_v2_browser.cjs
+      - name: Attach browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: us-retail-v2-12m-acceptance
+          path: artifacts/us-retail-demo/
+          if-no-files-found: warn
