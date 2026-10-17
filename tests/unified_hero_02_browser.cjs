@@ -31,6 +31,7 @@ const server=http.createServer((req,res)=>{
    const css=getComputedStyle(banner),pic=getComputedStyle(art);
    return {
     viewport:innerWidth,lang:document.documentElement.lang,heroWidth:br(banner).width,
+    bannerLeft:banner.getBoundingClientRect().left,bannerRight:banner.getBoundingClientRect().right,
     overflow:banner.scrollWidth-banner.clientWidth,
     pageOverflow:document.documentElement.scrollWidth-innerWidth,
     art:br(art),artDisplay:pic.display,narrative:br(narrative),
@@ -59,6 +60,8 @@ const server=http.createServer((req,res)=>{
   A.ok(state.logoTransform!=='none','approved centered logo CSS reused');
   A.ok(state.sellExists&&state.others.every(Boolean),'other DOM remains untouched');
   A.ok(state.overflow<=1,'horizontal overflow '+JSON.stringify(state));
+  A.ok(state.bannerLeft>=-0.5&&state.bannerRight<=width+0.5,
+    'entire first banner must remain inside viewport without clipped text: '+JSON.stringify({width,lang,left:state.bannerLeft,right:state.bannerRight}));
   if(width<=430){
     A.ok(state.art.height>100&&state.artDisplay==='block','mobile art is in the text flow');
     A.ok(state.narrative.top-state.art.bottom>=8,
