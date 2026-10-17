@@ -7,7 +7,7 @@
 if(!root.document || document.documentElement.hasAttribute('data-nomad-embedded'))return;
 const COPY={
  ru:{
-  trigger:'Сообщить об ошибке',title:'Сообщить об ошибке',close:'Закрыть',
+  trigger:'Сообщить об ошибке',title:'Сообщить об ошибке',close:'Закрыть',collapse:'Свернуть вправо',
   description:'Опишите проблему с калькулятором. Аккаунт и имя не нужны.',
   message:'Что не работает?',messageHint:'Опишите ошибку',steps:'Как повторить проблему? (необязательно)',
   stepsHint:'Что вы сделали перед появлением ошибки?',email:'Email для ответа (необязательно)',
@@ -17,7 +17,7 @@ const COPY={
   unavailable:'Отправка пока не подключена. Форма доступна для ознакомления.',required:'Опишите ошибку перед отправкой.'
  },
  en:{
-  trigger:'Report a bug',title:'Report a bug',close:'Close',
+  trigger:'Report a bug',title:'Report a bug',close:'Close',collapse:'Collapse to the right',
   description:'Describe a problem with the calculator. No account or name is needed.',
   message:'What went wrong?',messageHint:'Describe the bug',steps:'Steps to reproduce (optional)',
   stepsHint:'What did you do before the problem appeared?',email:'Reply email (optional)',
@@ -27,7 +27,7 @@ const COPY={
   unavailable:'Sending is not configured yet. You can preview the form.',required:'Please describe the problem before sending.'
  },
  kk:{
-  trigger:'Қате туралы хабарлау',title:'Қате туралы хабарлау',close:'Жабу',
+  trigger:'Қате туралы хабарлау',title:'Қате туралы хабарлау',close:'Жабу',collapse:'Оңға жинау',
   description:'Калькулятордағы мәселені сипаттаңыз. Аккаунт пен аты-жөніңіз қажет емес.',
   message:'Қандай қате болды?',messageHint:'Қатені сипаттаңыз',steps:'Қатені қайталау қадамдары (міндетті емес)',
   stepsHint:'Қате шыққанға дейін не істедіңіз?',email:'Жауапқа арналған email (міндетті емес)',
@@ -59,6 +59,25 @@ function boot(){
  launcher.setAttribute('aria-controls','nomad360-bug-dialog');
  launcher.setAttribute('data-nomad-no-translate','');
  launcher.innerHTML='<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 10v4a2 2 0 0 0 2 2h2l2 4h3l-2-5 9-4V5L7 9H5a2 2 0 0 0-2 1Z"/><path d="M20 9a3 3 0 0 1 0 6"/></svg><span data-bug-copy="trigger"></span>';
+
+ const dock=document.createElement('div');
+ dock.id='nomad360-bug-dock';
+ dock.className='nomad-bug-dock';
+ dock.setAttribute('data-nomad-no-translate','');
+ const minimize=document.createElement('button');
+ minimize.type='button';
+ minimize.className='nomad-bug-dock-toggle';
+ minimize.setAttribute('aria-controls','nomad360-bug-launcher');
+ minimize.innerHTML='<span aria-hidden="true">›</span>';
+ dock.append(launcher,minimize);
+ let dockCollapsed=!!root.matchMedia?.('(max-width:600px)').matches;
+ function setCollapsed(next){
+  dockCollapsed=!!next;
+  dock.classList.toggle('is-collapsed',dockCollapsed);
+  minimize.hidden=dockCollapsed;
+  launcher.dataset.dockState=dockCollapsed?'collapsed':'expanded';
+ }
+ setCollapsed(dockCollapsed);
  const dialog=document.createElement('dialog');
  dialog.id='nomad360-bug-dialog';
  dialog.className='nomad-bug-dialog';
@@ -79,7 +98,7 @@ function boot(){
   '<div class="nomad-bug-actions"><button id="nomad360-bug-submit" type="submit" data-bug-copy="send"></button></div>'+
   '<p id="nomad360-bug-status" role="status" aria-live="polite" aria-atomic="true"></p>'+
   '</form>';
- document.body.append(launcher,dialog);
+ document.body.append(dock,dialog);
  const form=dialog.querySelector('form'),submit=dialog.querySelector('#nomad360-bug-submit');
  const status=dialog.querySelector('#nomad360-bug-status');
  const message=dialog.querySelector('#nomad360-bug-message');
@@ -96,6 +115,9 @@ function boot(){
   // Trigger text is a sibling of the icon. Do not replace the whole button.
   launcher.querySelector('[data-bug-copy="trigger"]').textContent=t.trigger;
   launcher.setAttribute('aria-label',t.trigger);
+  launcher.title=t.trigger;
+  minimize.setAttribute('aria-label',t.collapse);
+  minimize.title=t.collapse;
   close.setAttribute('aria-label',t.close);
   message.placeholder=t.messageHint;steps.placeholder=t.stepsHint;email.placeholder=t.emailHint;
   if(sending)submit.textContent=t.sending;
@@ -121,11 +143,41 @@ function boot(){
  }
  function syncKeyboard(){
   const view=root.visualViewport;
-  launcher.classList.toggle('is-keyboard',!!view && view.height<root.innerHeight-160);
+  dock.classList.toggle('is-keyboard',!!view && view.height<root.innerHeight-160);
  }
  root.visualViewport?.addEventListener('resize',syncKeyboard);
  root.visualViewport?.addEventListener('scroll',syncKeyboard);
  syncKeyboard();
+
+ // Horizontal gesture only, leaving vertical page scrolling to the browser.
+ // A collapsed megaphone remains a normal button that opens the report.
+ let gesture=null,suppressClick=false;
+ dock.addEventListener('pointerdown',event=>{
+  if(!event.isPrimary||event.button!==0)return;
+  gesture={id:event.pointerId,x:event.clientX,y:event.clientY};
+  try{dock.setPointerCapture(event.pointerId)}catch(_){}
+ });
+ dock.addEventListener('pointerup',event=>{
+  if(!gesture||gesture.id!==event.pointerId)return;
+  const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;
+  gesture=null;
+  if(Math.abs(dx)<44||Math.abs(dx)<Math.abs(dy)*1.3)return;
+  suppressClick=true;
+  setCollapsed(dx>0);
+  root.setTimeout(()=>{suppressClick=false},400);
+ });
+ dock.addEventListener('pointercancel',()=>{gesture=null});
+ dock.addEventListener('click',event=>{
+  if(!suppressClick)return;
+  event.preventDefault();event.stopPropagation();suppressClick=false;
+ },true);
+ minimize.addEventListener('click',()=>setCollapsed(true));
+ launcher.addEventListener('keydown',event=>{
+  if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+   event.preventDefault();
+   setCollapsed(event.key==='ArrowRight');
+  }
+ });
  launcher.addEventListener('click',start);
  close.addEventListener('click',()=>dialog.close());
  dialog.addEventListener('close',()=>{if(!sending)launcher.focus();});

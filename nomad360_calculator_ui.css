@@ -580,3 +580,40 @@ body #nomad360-seo-banner.nomad-seo-banner{display:grid;grid-template-columns:mi
 @media(max-width:800px){.nomad-return-actions{grid-template-columns:minmax(0,1fr)}.nomad-return{padding:22px}.nomad-return h2{font-size:24px}.nomad-return-dialog{padding:18px}.nomad-return-dialog-head{flex-direction:column}.nomad-return-dialog h2{font-size:22px}}
 .nomad-return-dialog h3{margin:20px 0 10px;color:#16375a;font:600 20px/1.35 var(--nd-font)}.nomad-return-usage{padding:0 0 6px;border-bottom:1px solid #b4c5d6}
 body #nomad360-hero .nomad-intro-cta{margin-top:18px}
+
+/* PINNED-CONTROLS-01: desktop header and mobile floating navigation, no financial layout changes. */
+@media (min-width:1200px){
+  #nomad360-header.nomad-header{
+    position:sticky;top:0;z-index:160;
+  }
+  html{scroll-padding-top:88px}
+}
+@media (max-width:1199px){
+  #nomad360-header .nomad-burger{
+    position:fixed;
+    top:calc(10px + env(safe-area-inset-top,0px));
+    right:calc(10px + env(safe-area-inset-right,0px));
+    z-index:190;
+    width:48px;height:48px;
+    background:#fff;
+    box-shadow:0 4px 16px rgba(22,55,90,.18);
+  }
+  #nomad360-header .nomad-panel,
+  #nomad360-header.is-open .nomad-panel{
+    position:fixed;
+    top:calc(65px + env(safe-area-inset-top,0px));
+    left:auto;
+    right:calc(10px + env(safe-area-inset-right,0px));
+    bottom:auto;
+    width:min(340px,calc(100vw - 20px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));
+    max-height:calc(100dvh - 75px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
+    overflow-y:auto;overscroll-behavior:contain;
+    padding:8px 18px 20px;
+    border:1px solid #d5dbe3;border-radius:8px;
+    box-shadow:0 9px 28px rgba(22,55,90,.21);
+    z-index:180;
+  }
+}
+@media print{
+  #nomad360-header .nomad-burger{position:static}
+}
