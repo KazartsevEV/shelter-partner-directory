@@ -1,6 +1,6 @@
 {
   "task": "TASK-10",
-  "status": "local checks passed; publication and GitHub CI pending",
+  "status": "local checks passed; Draft PR published; see PR Checks for current GitHub CI",
   "baseline": "c3955d3276fffb81d968a55aad4e2bbabe9b6aba",
   "branch": "feature/task10-site-palette",
   "pausedBannerCheckpoint": "ff3cffc",
@@ -47,6 +47,7 @@
     "Original natural raster images, flags, antialiasing and browser/OS UI are not recolored.",
     "The root partner-directory index.html is a separate application, outside Nomad360.",
     "The pre-existing Tailwind CDN dependency in downloaded HTML is unchanged; palette, fonts and exact model results are verified without network.",
-    "No remote push, Draft PR, GitHub CI run, main merge or deployment has been performed."
-  ]
+    "Draft PR published with owner authorization; local results are independent of GitHub CI. No main merge or deployment performed."
+  ],
+  "pullRequest": "https://github.com/KazartsevEV/shelter-partner-directory/pull/180"
 }
