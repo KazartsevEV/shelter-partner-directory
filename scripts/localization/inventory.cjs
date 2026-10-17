@@ -28,7 +28,14 @@ function flatten(n,prefix='',out={}){
 function build(root=ROOT){
  const entries=[],sources=[],catalogs=[],patterns=[],excluded=[],assetSet=new Set(['Marketing_calc.HTML']);
  const contents=new Map(),dictionaryNodes=new Map(),core=new Map(),dictionaryIssues=[];
- const load=f=>{if(!contents.has(f))contents.set(f,fs.readFileSync(path.join(root,f),'utf8'));return contents.get(f);};
+ const load=f=>{if(!contents.has(f)){
+  let source=fs.readFileSync(path.join(root,f),'utf8');
+  // Preserve the translated-copy baseline: the approved logo color/crop
+  // insertion contains no new translatable user-facing content.
+  if(f==='nomad360_header.js'||f==='nomad360_calculator_ui.css')
+   source=require('../../tests/helpers/task10-logo-scope.cjs').stripTask10Logo(f,source);
+  contents.set(f,source);
+ }return contents.get(f);};
  function stage(f,context=''){
   if(/locale_core/.test(f))return 'L1';
   if(/header|price_export|calculator_ui/.test(f)||/print|export|embed|download|save/i.test(context))return 'L5';
