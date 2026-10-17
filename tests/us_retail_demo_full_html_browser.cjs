@@ -64,5 +64,39 @@ const {pathToFileURL}=require('node:url');
      console.log('US_RETAIL_FULL_HTML_GREEN',JSON.stringify({width,...result}));
      await page.close();
    }
+   // The English deliverable must itself open on the English interface,
+   // not require the reviewer to find and flip a language selector.
+   for(const width of [390,1280]){
+     const page=await browser.newPage({viewport:{width,height:900},locale:'ru-RU'});
+     const errors=[];page.on('pageerror',e=>errors.push(e.message));
+     await page.route(/^https?:\\/\\//,r=>r.abort());
+     await page.goto(pathToFileURL(path.join(here,'artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html')).href,{waitUntil:'domcontentloaded',timeout:120000});
+     await page.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.length===10);
+     const report=await page.evaluate(()=>{
+       const s=PortfolioV2UI.getState(),o=PortfolioV2Engine.build(s);
+       const host=document.querySelector('#portfolio-v2-root');
+       const textWalker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT);
+       const remains=[];let text;
+       while((text=textWalker.nextNode())){
+         if(!/[А-Яа-яЁё]/.test(text.textContent))continue;
+         const el=text.parentElement;
+         if(!el||!el.getClientRects().length)continue;
+         remains.push(text.textContent.trim().replace(/\\s+/g,' ').slice(0,180));
+       }
+       return {language:Nomad360UI.getLanguage(),htmlLang:document.documentElement.lang,
+         ready:o.ready,skus:s.skus.length,resources:s.resources.length,
+         firstSku:s.skus[0].name,firstResource:s.resources[0].label,
+         revenue:o.totalRevenue,loan:o.financing.principal,cash:o.finalCash,remains:[...new Set(remains)]};
+     });
+     assert.equal(report.language,'en');assert.equal(report.ready,true);
+     assert.equal(report.skus,10);assert.equal(report.resources,14);
+     assert.equal(report.firstSku,'Handmade holiday gift box');
+     assert.equal(report.firstResource,'Retail storefront lease');
+     assert.equal(report.loan,45232);
+     assert.equal(errors.length,0,JSON.stringify(errors));
+     console.log('US_RETAIL_EN_VISIBLE_COPY',JSON.stringify({width,remains:report.remains}));
+     await page.screenshot({path:path.join(here,'artifacts/us-retail-demo/US-Retail-V2-EN-'+width+'px.png'),fullPage:true});
+     await page.close();
+   }
  }finally{await browser.close();}
 })().catch(e=>{console.error('US_RETAIL_FULL_HTML_RED',e.stack||e);process.exitCode=1});
