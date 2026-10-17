@@ -874,7 +874,7 @@
     const chooser=document.getElementById('nomad360-language-chooser');
     header.innerHTML='<div class="nomad-bar">'+
       '<a class="nomad-brand" href="#home-screen" data-nomad-go="home-screen" aria-label="Nomad360 lite">'+
-      '<img class="nomad-logo" src="./nomad360_wolf_open_circle.png" alt="" width="58" height="58">'+
+      '<span class="nomad-logo-mask"><img class="nomad-logo" src="./nomad360_wolf_open_circle.png" alt="" width="58" height="58"></span>'+
       '<span class="nomad-wordmark">Nomad<span>360</span><small class="nomad-lite"> lite</small></span></a>'+
       '<div class="nomad-lang" id="nomad360-header-lang"></div>'+
       '<button type="button" class="nomad-burger" aria-label="'+esc(isOpen?t.close:t.menu)+'" aria-controls="nomad360-header-panel" aria-expanded="'+isOpen+'">'+
@@ -904,8 +904,62 @@
       if(refocus&&wasOpen)button.focus();
     }
   }
+  // TASK-10 LOGO-01: recolor the existing PNG pixels in the browser, never redraw the wolf.
+  // The original ./nomad360_wolf_open_circle.png is retained unchanged.
+  // Anti-aliased edge pixels blend to white; solid source colors land exactly on
+  // #173B58 (wolf/orbit), #FF913F (sun), or #FFFFFF (negative space).
+  let wolfPaletteDataUrl=null;
+  let wolfPalettePending=false;
+  const WOLF_LOGO_SELECTOR='.nomad-logo-mask .nomad-logo, .nomad-seo-logo-mask .nomad-seo-logo, .nomad-embed-b2b-logo-mask img';
+  function recolorSiteWolfLogo(){
+    const nodes=document.querySelectorAll(WOLF_LOGO_SELECTOR);
+    if(!nodes.length)return;
+    if(wolfPaletteDataUrl){
+      nodes.forEach(img=>{if(img.src!==wolfPaletteDataUrl)img.src=wolfPaletteDataUrl;});
+      return;
+    }
+    if(wolfPalettePending)return;
+    wolfPalettePending=true;
+    const source=nodes[0].getAttribute('src');
+    const original=new root.Image();
+    original.onload=()=>{
+      try{
+        const canvas=document.createElement('canvas');
+        canvas.width=original.naturalWidth;
+        canvas.height=original.naturalHeight;
+        const ctx=canvas.getContext('2d',{willReadFrequently:true});
+        if(!ctx)throw new Error('Canvas 2D unavailable');
+        ctx.drawImage(original,0,0);
+        const bitmap=ctx.getImageData(0,0,canvas.width,canvas.height);
+        const pixels=bitmap.data;
+        // Color dominance, not geometric edge detection: original details stay intact.
+        // Relative blue/orange strength preserves antialiasing of the source silhouette.
+        for(let i=0;i<pixels.length;i+=4){
+          if(!pixels[i+3])continue;
+          const r=pixels[i],b=pixels[i+2];
+          const steel=Math.min(1,Math.max(0,(b-r)/62));
+          const sun=Math.min(1,Math.max(0,(r-b)/126));
+          const white=Math.max(0,1-steel-sun);
+          pixels[i]=Math.round(23*steel+255*sun+255*white);
+          pixels[i+1]=Math.round(59*steel+145*sun+255*white);
+          pixels[i+2]=Math.round(88*steel+63*sun+255*white);
+        }
+        ctx.putImageData(bitmap,0,0);
+        wolfPaletteDataUrl=canvas.toDataURL('image/png');
+        document.querySelectorAll(WOLF_LOGO_SELECTOR).forEach(img=>{img.src=wolfPaletteDataUrl;});
+      }catch(error){
+        // Keep the unmodified original visible if pixel access is disallowed.
+        root.console?.warn('Nomad360 wolf recolor unavailable',error);
+      }finally{
+        wolfPalettePending=false;
+      }
+    };
+    original.onerror=()=>{wolfPalettePending=false;};
+    original.src=source;
+  }
+
   function boot() {
-    renderInformation();renderFooter();renderHeader();
+    renderInformation();renderFooter();renderHeader();recolorSiteWolfLogo();
     // SEO-07: reuse the header asset; the existing HTML bundler inlines this URL.
     const seoBanner=document.getElementById('nomad360-seo-banner');
     if(seoBanner&&!seoBanner.querySelector('.nomad-seo-logo'))seoBanner.insertAdjacentHTML('beforeend','<div class="nomad-seo-brand"><div class="nomad-seo-logo-mask"><img class="nomad-seo-logo" src="./nomad360_wolf_open_circle.png" alt="" width="140" height="140" loading="lazy"></div><h3 class="nomad-seo-tagline" lang="en"><span>Sky allows,</span> <span>guys deliver</span></h3></div>');
@@ -944,7 +998,7 @@
     });
     document.addEventListener('nomad360:languagechange',()=>{
       // Nomad360UI rebuilds its select before dispatching languagechange.
-      renderInformation();renderFooter();renderHeader();
+      renderInformation();renderFooter();renderHeader();recolorSiteWolfLogo();
     });
     document.addEventListener('nomad360:currencychange',renderFooter);
   }
