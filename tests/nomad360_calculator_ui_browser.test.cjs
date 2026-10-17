@@ -25,10 +25,13 @@ async function browserCase(browser,locale,expected){
   A.deepEqual(await page.locator('#nomad360-hero h1, #nomad360-hero h2, #nomad360-hero h3').allTextContents(),approved[expected.lang],
     'Approved H1 → H2 → H3 must have exact text and order');
   A.equal(await page.locator('#nomad360-seo-banner h2').count(),1,'One SEO banner replaces the former six-point list');
-  A.equal(await page.locator('#nomad360-seo-banner li').count(),3);
-  A.equal(await page.locator('#nomad360-intro .nomad-intro-lead').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('interface.shell.introLead')));
-  A.equal(await page.locator('#nomad360-intro .nomad-intro-result').isVisible(),true);
-  A.deepEqual(await page.locator('#home-screen').evaluate(el=>[...el.children].slice(0,2).map(e=>e.id)),['nomad360-commercial-banner','nomad360-selling-choice'],'Unified banner precedes the original calculator entry');
+  A.equal(await page.locator('#nomad360-seo-banner li').count(),0);
+  A.equal(await page.locator('#nomad360-seo-banner p').isVisible(),true);
+  A.equal(await page.locator('#nomad360-seo-banner p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
+  A.equal(await page.locator('#home-screen').evaluate(el=>
+    [...el.children].findIndex(child=>child.id==='nomad360-seo-banner')+1===
+    [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
+    'Approved introduction follows the existing SEO banner');
   A.equal(await page.locator('#home-screen > .card > h1').count(),0,
     'Do not duplicate a second homepage H1');
   const presentation=await page.evaluate(()=>{
@@ -70,7 +73,7 @@ async function browserCase(browser,locale,expected){
   A.ok(['hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
    A.equal(canvasColors.hero1,'rgb(237, 142, 99)','Business calculator eyebrow must be orange');
-  A.equal(canvasColors.calcBackground,'rgba(0, 0, 0, 0)','Owner revision: the main banner shows artwork blue without a nested blue backing');
+  A.equal(canvasColors.calcBackground,'rgb(22, 55, 90)','Requested SEO banner uses the brand navy');
   A.ok(['primaryCardBackground','headerBackground'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
 
@@ -107,10 +110,7 @@ async function browserCase(browser,locale,expected){
       font:root.getPropertyValue('--nd-font').trim(),
       body:root.getPropertyValue('--nd-type-body').trim(),
       note:root.getPropertyValue('--nd-type-note').trim(),
-      // Body explanations now live in the three icon rows; the separate result
-      // sentence is a semibold closing line, as in the owner's original design.
-      outcome:at('#nomad360-intro .nomad-benefit-copy'),
-      result:at('#nomad360-intro .nomad-intro-result'),
+      outcome:at('#nomad360-seo-banner p'),
       noteCopy:at('#nomad360-home-secondary .nomad-recovery-note'),
       hero:at('#nomad360-hero h3'),
       recoveryTitle:at('#nomad360-home-secondary .nomad-recovery-title'),
@@ -121,7 +121,6 @@ async function browserCase(browser,locale,expected){
   A.equal(typography.body,'17px');
   A.equal(typography.note,'14px');
   A.ok(typography.outcome.px>=17&&typography.outcome.weight===400,'Result explanations cannot be fine print');
-  A.ok(typography.result.px>=18&&typography.result.weight===600,'The closing result stays readable and distinct');
   A.ok(typography.noteCopy.px>=14,'Secondary notes remain readable on a phone');
   A.ok(typography.hero.px>=17,'Subtitle remains legible on mobile');
    A.equal(await page.locator('#nomad360-hero h3').evaluate(el=>getComputedStyle(el).textWrap),

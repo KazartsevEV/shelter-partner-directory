@@ -7,7 +7,7 @@ const path=require('node:path');
 const ROOT=path.resolve(__dirname,'..');
 let snapshot=null;
 const types={'.html':'text/html;charset=utf-8','.js':'text/javascript;charset=utf-8',
- '.css':'text/css;charset=utf-8','.webp':'image/webp','.png':'image/png','.HTML':'text/html;charset=utf-8'};
+ '.css':'text/css;charset=utf-8','.png':'image/png','.HTML':'text/html;charset=utf-8'};
 const server=createServer(async(req,res)=>{
  try{
   const name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
@@ -34,11 +34,6 @@ const server=createServer(async(req,res)=>{
   // Embedded NOWPayments form replaces the Trybit link. No checkout route
   // can displace the donation form, and the remaining bank options stay intact.
   const support=page.locator('#nomad360-support');
-  // UNIFIED-BANNERS-01: methods start collapsed; open the real panels before testing contents.
-  for(const id of ['nomad360-pay-crypto','nomad360-pay-kaspi','nomad360-pay-ozon']){
-    A.equal(await page.locator('#'+id).evaluate(e=>e.open),false);
-    await page.locator('#'+id+' > summary').click();
-  }
   const crypto=support.locator('.nomad-crypto-panel');
   const iframe=crypto.locator('iframe.nomad-crypto-frame');
   A.equal(await crypto.count(),1,'One prominent crypto donation panel');
@@ -81,9 +76,9 @@ const server=createServer(async(req,res)=>{
   A.equal(await ozon.locator('.nomad-pay-hint').count(),1);
   A.equal(await support.evaluate(el=>{
     const fiat=el.querySelector('.nomad-pay-fiat');
-    return !!fiat&&fiat.children[0].id==='nomad360-pay-kaspi'&&
-      fiat.children[1].id==='nomad360-pay-ozon';
-  }),true,'Kaspi and Russian card keep their order in separate disclosures');
+    return !!fiat&&fiat.children[0].classList.contains('nomad-pay-kaspi')&&
+      fiat.children[1].classList.contains('nomad-pay-ozon');
+  }),true,'Russian card uses the same inline layout as Kaspi');
   A.doesNotMatch(await support.textContent(),/Bybit|Байбит|Байбит картасы/i);
   A.equal(await support.locator('.nomad-direct-crypto, .nomad-qr, .nomad-pay-crypto').count(),0,
     'NOWPayments widget replaces standalone USDT/BTC wallet links entirely');
@@ -149,10 +144,10 @@ const server=createServer(async(req,res)=>{
     const terms=el.querySelector('.nomad-license-terms');
     const contact=embed?.querySelector('.nomad-embed-contact');
     return !!embed&&!!terms&&!!contact&&
-      !!(contact.compareDocumentPosition(terms)&Node.DOCUMENT_POSITION_PRECEDING)&&
+      !!(contact.compareDocumentPosition(terms)&Node.DOCUMENT_POSITION_FOLLOWING)&&
       terms.parentElement.querySelector('summary')?.textContent==='Лицензия и использование'&&
       terms.querySelector('a')?.getAttribute('href')==='https://kazartsevev.github.io/shelter-partner-directory/license/';
-  }),true,'License and data strip precedes the B2B banner');
+  }),true,'License and usage must be below the entire calculator embed block');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
    A.equal(await license.locator('[data-nomad-embed-retry]').isVisible(),false,
      'Manual fallback is hidden until the HTML has been prepared');
@@ -209,8 +204,6 @@ const server=createServer(async(req,res)=>{
   A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_design_system\.css"/);
   A.match(snapshot,/data-nomad-bundled="\.\u002fportfolio_v2_linked_ui\.js"/);
   A.match(snapshot,/data:image\/png;base64,/);
-  A.ok(!snapshot.includes("url('./assets/nomad360-banners/"),'Scenery resources are bundled');
-  A.match(snapshot,/data:image\/webp;base64,/);
   A.doesNotMatch(snapshot,/<script[^>]*src="\.\//i,'No broken relative JS');
   A.doesNotMatch(snapshot,/<link[^>]*href="\.\//i,'No broken relative CSS');
   A.ok(snapshot.includes('function deleteCalculatedProduct('),'Full current V1 must be bundled');
