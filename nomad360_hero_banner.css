@@ -426,3 +426,29 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   padding-top:2px;
  }
 }
+
+/* HERO-04d: responsive line arrangement comes from the original image, not a raster of text. */
+#home-screen #nomad360-commercial-banner .nomad-intro-accent{
+ color:var(--hero-orange)!important;font-weight:700;
+}
+#home-screen #nomad360-commercial-banner .hero-break-mobile{display:none}
+#home-screen #nomad360-commercial-banner .hero-break-desktop{display:initial}
+@media(min-width:1021px){
+ #home-screen #nomad360-commercial-banner .nomad-intro-lead{
+  font-size:clamp(32px,2.55vw,39px)!important;
+  line-height:1.27!important;
+ }
+}
+@media(max-width:700px){
+ #home-screen #nomad360-commercial-banner .hero-break-mobile{display:initial}
+ #home-screen #nomad360-commercial-banner .hero-break-desktop{display:none}
+ #home-screen #nomad360-commercial-banner .nomad-intro-lead{
+  font-size:15px!important;
+  line-height:1.32!important;
+ }
+}
+@layer nomad360-palette{
+ body:has(#home-screen) #nomad360-commercial-banner .nomad-intro-accent{
+  color:#FF913F!important;
+ }
+}
