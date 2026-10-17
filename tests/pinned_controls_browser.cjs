@@ -84,6 +84,10 @@ async function swipe(page,locator,delta,mobile){
   await swipe(page,launcher,-65,mobile);
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),false,'left swipe re-expands');
   await page.screenshot({path:path.join(dir,'pinned-'+lang+'-'+width+'-expanded.png')});
+  const toggleBox=await page.locator('.nomad-bug-dock-toggle').boundingBox();
+  const expandedBox=await launcher.boundingBox();
+  A.ok(toggleBox&&expandedBox&&Math.abs(toggleBox.x+toggleBox.width-expandedBox.x)<2,
+    'chevron is visually joined to the LEFT edge, not a separate right arrow');
   await page.locator('.nomad-bug-dock-toggle').click();
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),true,'explicit collapse toggle');
   await launcher.focus();await page.keyboard.press('ArrowLeft');
@@ -92,6 +96,11 @@ async function swipe(page,locator,delta,mobile){
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),true,'keyboard collapse');
   const bb=await launcher.boundingBox();
   A.ok(bb&&bb.width>=44&&bb.x>=0&&bb.x+bb.width<=width+1,'compact report icon tappable');
+  const compactCss=await launcher.evaluate(e=>({radius:getComputedStyle(e).borderRadius,
+    border:getComputedStyle(e).borderWidth,icon:getComputedStyle(e.querySelector('svg')).width}));
+  A.ok(bb.width<=44.5,'compact tab stays 44px or smaller visually');
+  A.equal(compactCss.border,'0px','no decorative orange ring');
+  A.ok(parseFloat(compactCss.icon)<=18,'megaphone glyph reduced to 17px');
   await launcher.click();
   A.equal(await page.locator('#nomad360-bug-dialog').evaluate(e=>e.open),true,'icon opens report');
   await page.keyboard.press('Escape');
