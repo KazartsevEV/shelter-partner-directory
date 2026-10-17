@@ -67,7 +67,7 @@ async function pictures(page,variant,lang,width,route){
      if(lang==='kk'&&width===390&&route==='standalone')fonts.push(...await glyphs(page));
      if(route==='v1')verify(data,'cash');
     }
-    let contrast;if(variant==='after'&&['home','standalone'].includes(route)){await page.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});contrast=await page.evaluate(r=>NomadContrast.audit(document.querySelector(r==='home'?'#nomad360-hero':'#p2-stage-purchase')),route);A.deepEqual(contrast.failures,[],'Contrast after role changes');}
+    let contrast;if(variant==='after'&&['home','standalone'].includes(route)){await page.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});contrast=route==='home'?await require('./helpers/rendered-contrast.cjs').auditRendered(page,['#nomad360-hero']):await page.evaluate(()=>NomadContrast.audit(document.querySelector('#p2-stage-purchase')));A.deepEqual(contrast.failures,[],'Contrast after role changes');}
     const files=await pictures(page,variant,lang,width,route);receipts.push({lang,width,route,variant,geometry,contrast,files,numericParity:variant==='after'});await context.close();
    }
    console.log('TYPE02_CASE '+lang+' '+width+' '+route);

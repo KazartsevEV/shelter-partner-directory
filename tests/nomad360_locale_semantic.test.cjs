@@ -76,9 +76,10 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
   const old=execFileSync('git',['show',SHA+':'+file],{cwd:base,encoding:'utf8'}),now=fs.readFileSync(path.join(base,file),'utf8');
   A.deepEqual(canonical(acorn.parse(now,{ecmaVersion:'latest'})),canonical(acorn.parse(old,{ecmaVersion:'latest'})),file+' changed beyond message registry lookup');
  }
+ // UNIFIED-BANNERS-01 adds a DOM-only presenter protected by its own scope test.
  // SEO-07 adds a new UI-only URL adapter, absent from the financial baseline.
  // Its priority, URL preservation and untouched models have dedicated tests.
- const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!['nomad360_seo_language.js','nomad360_return.js','nomad360_simple_service_examples.js','nomad360_sales_tax.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js','nomad360_sales_tax_v2.js','nomad360_price_export.js','nomad360_bug_report.js'].includes(f)&&!presentation.has(f));
+ const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!['nomad360_banners.js','nomad360_bug_report.js','nomad360_seo_language.js','nomad360_return.js','nomad360_simple_service_examples.js','nomad360_sales_tax.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js','nomad360_sales_tax_v2.js','nomad360_price_export.js'].includes(f)&&!presentation.has(f));
  A.ok(files.length>=10);
  for(const file of [...files,'vendor/exceljs-4.4.0.min.js']){
   // PR #141 accepted a visitor-counter retry fix after the financial baseline.

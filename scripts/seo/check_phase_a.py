@@ -280,7 +280,9 @@ def main():
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
-                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/')) or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/',
+                             'docs/reviews/unified-banners-01/', 'assets/nomad360-banners/',
+                             'tests/fixtures/unified-banners/')) or p in (
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
         'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
         'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
@@ -321,6 +323,15 @@ def main():
         'tests/helpers/return-contract.cjs', 'tests/nomad360_locale_semantic.test.cjs',
         'tests/v1_service_v2_numeric_parity.test.cjs',
         'docs/reviews/sales-tax-7b/STAGE_7B4_ACCEPTANCE.md',
+        # UNIFIED-BANNERS-01: presentation scope only. Exact source hunks and
+        # every pre-change finance byte are guarded by unified_banners_scope.
+        'nomad360_banners.js', 'tests/unified_banners_browser.cjs',
+        'tests/unified_banners_scope.test.cjs', 'tests/unified_banners_vat_receipts.cjs', 'tests/unified_banners_contrast.cjs', 'tests/unified_banners_financial_links.cjs',
+        'tests/seo_language.test.cjs',
+        'tests/helpers/unified-banners-contract.cjs', 'tests/helpers/rendered-contrast.cjs',
+        '.github/workflows/unified-banners.yml',
+        'tests/nomad360_calculator_ui_browser.test.cjs',
+        'tests/nomad360_embed_footer_browser.test.cjs',
         # 7B-5: independent tax UI, historical drafts and prices across exports.
         'nomad360_price_export.js', 'tests/sales_tax_7b5_price_export.test.cjs',
         'tests/sales_tax_7b5_v1_pdf_browser.cjs', 'tests/sales_tax_7b5_v2_export_browser.cjs',

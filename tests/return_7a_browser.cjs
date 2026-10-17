@@ -17,21 +17,21 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
   const about=p.locator('#nomad360-about'),flow=original.section('interface.header',lang).flow;
   A.deepEqual(await about.locator('.nomad-about-flow h3').allTextContents(),flow.map(s=>s.title));A.deepEqual(await about.locator('.nomad-about-flow p').allTextContents(),flow.map(s=>s.question));
   const icons=about.locator('.nomad-about-icon');A.equal(await icons.count(),3);A.equal(new Set(await icons.evaluateAll(es=>es.map(e=>e.innerHTML))).size,3);
-  A.ok(await icons.evaluateAll(es=>es.every(e=>e.getAttribute('aria-hidden')==='true'&&e.getBoundingClientRect().width===88&&e.parentElement.tagName==='LI')));
+  A.ok(await icons.evaluateAll(es=>es.every(e=>e.getAttribute('aria-hidden')==='true'&&e.getBoundingClientRect().width===(innerWidth<=600?56:72)&&e.parentElement.tagName==='A')));
   if(stage!=='icons'){
    const toggle=p.locator('[data-nomad-embed-toggle]');await toggle.evaluate(e=>e.blur());const colors=await toggle.evaluate(e=>[getComputedStyle(e).backgroundColor,getComputedStyle(e).color]);A.deepEqual(colors,['rgb(237, 142, 99)','rgb(22, 55, 90)']);
    A.equal(await toggle.textContent(),original.t('interface.header.embedToggle',lang));A.equal(await toggle.getAttribute('aria-expanded'),'false');await toggle.click();A.equal(await toggle.getAttribute('aria-expanded'),'true');A.equal(await p.locator('#nomad360-embed-comparison').isVisible(),true);
    A.equal(await p.locator('[data-nomad-download-html]').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(244, 247, 252)');A.equal(await p.locator('.nomad-embed-contact').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(237, 142, 99)');await toggle.click();A.equal(await p.locator('#nomad360-embed-comparison').isVisible(),false);
   }
   if(['intro','brand','all'].includes(stage)){
-   A.deepEqual(await p.locator('#home-screen').evaluate(e=>[...e.children].slice(0,4).map(e=>e.id)),['nomad360-hero','nomad360-seo-banner','nomad360-intro','nomad360-selling-choice']);
+   A.deepEqual(await p.locator('#home-screen').evaluate(e=>[...e.children].slice(0,2).map(e=>e.id)),['nomad360-commercial-banner','nomad360-selling-choice']);A.equal(await p.locator('#nomad360-commercial-banner #nomad360-seo-banner #nomad360-intro').count(),1);
    A.equal(await p.locator('#nomad360-intro').count(),1);A.equal(await p.locator('.nomad-intro-cta').count(),1);A.equal(await p.locator('#nomad360-hero h3').evaluate(e=>e.nextElementSibling?.classList.contains('nomad-intro-cta')),true);A.equal(await p.locator('#nomad360-intro a').count(),0);A.equal(await p.locator('.nomad-intro-lead').textContent(),original.t('interface.shell.introLead',lang));A.equal(await p.locator('.nomad-intro-result').textContent(),original.t('interface.shell.introResult',lang));
    await p.locator('.nomad-intro-cta').click();A.ok(await p.locator('#nomad360-selling-choice').evaluate(e=>{const b=e.getBoundingClientRect();return b.top>=0&&b.top<innerHeight;}));
   }
   if(['brand','all'].includes(stage)){
    const brand=p.locator('.nomad-seo-brand'),caption=brand.locator('.nomad-seo-tagline');A.equal(await caption.textContent(),'Sky allows, guys deliver');A.equal(await caption.locator('span').count(),2);
    A.deepEqual(await caption.locator('span').evaluateAll(es=>es.map(e=>getComputedStyle(e).color)),['rgb(255, 255, 255)','rgb(237, 142, 99)']);
-   A.equal(await brand.locator('.nomad-seo-logo-mask').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');A.ok(await brand.evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).m42<0));
+   A.equal(await brand.locator('.nomad-seo-logo-mask').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');A.equal(await brand.evaluate(e=>getComputedStyle(e).transform),'none');
    A.equal(await brand.locator('img').getAttribute('src'),await p.locator('#nomad360-header .nomad-logo').getAttribute('src'));A.equal(await p.locator('#nomad360-seo-banner').count(),1);
    A.equal(await caption.evaluate(e=>e.scrollWidth>e.clientWidth+1),false);
   }
@@ -41,7 +41,7 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
    const white=await p.evaluate(async()=>{const src=document.querySelector('link[rel="apple-touch-icon"]').href,image=new Image();image.crossOrigin='anonymous';image.src=src;await image.decode();const canvas=document.createElement('canvas');canvas.width=canvas.height=180;const c=canvas.getContext('2d');c.drawImage(image,0,0);return {size:[image.naturalWidth,image.naturalHeight],corner:[...c.getImageData(0,0,1,1).data]};});A.deepEqual(white,{size:[180,180],corner:[255,255,255,255]});
    if([320,390,768,1280].includes(width))await p.locator('#home-screen').screenshot({path:path.join(out,`${lang}-${width}-home.png`)});
    const block=p.locator('#nomad360-return');A.equal(await block.count(),1);A.equal(await p.locator('#nomad360-support').evaluate(e=>e.previousElementSibling.id),'nomad360-return');A.equal(await block.locator('img').count(),0);
-   A.equal(await block.locator('h2').evaluate(e=>getComputedStyle(e).color),'rgb(22, 55, 90)');await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});A.deepEqual(await block.evaluate(e=>NomadContrast.audit(e).failures),[]);
+   A.equal(await block.locator('h2').evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)');await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});A.deepEqual(await block.evaluate(e=>NomadContrast.audit(e).failures),[]);
    A.deepEqual(await block.locator('[data-return-platform]').evaluateAll(es=>es.map(e=>e.dataset.returnPlatform)),['windows','ios','android']);A.equal(downloads.length,0,'No automatic download');
    const tr=key=>p.evaluate(key=>Nomad360LocaleCore.t('return.'+key),key);A.equal(await block.locator('h2').textContent(),await tr('title'));A.deepEqual(await block.locator('.nomad-return-note').allTextContents(),[await tr('noApp'),await tr('support')]);
    if(lang==='ru'){A.equal(await block.locator('h2').textContent(),'Возвращайтесь к нам с новыми идеями!');A.deepEqual(await block.locator('.nomad-return-note').allTextContents(),['У Nomad360 пока нет мобильного приложения.','Мы растем на ваши деньги.']);}
@@ -77,7 +77,7 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
   else{if(outcome==='installed-before-choice'){await p.evaluate(()=>{dispatchEvent(new Event('appinstalled'));__choice({outcome:'accepted'});});}await p.waitForFunction(()=>document.querySelector('.nomad-return-status')?.textContent.trim());const key=outcome==='installed-before-choice'?'installed':outcome;A.equal(await p.locator('.nomad-return-status').textContent(),await p.evaluate(k=>Nomad360LocaleCore.t('return.'+k),key));
    if(outcome==='accepted')A.notEqual(await p.locator('.nomad-return-status').textContent(),await p.evaluate(()=>Nomad360LocaleCore.t('return.installed')));
    if(outcome!=='installed-before-choice')await p.evaluate(()=>dispatchEvent(new Event('appinstalled')));await p.locator('[data-return-platform="android"]').click();A.equal(await p.evaluate(()=>__promptCount),1,'No repeated prompt after confirmed install');}
-  if(outcome==='installed-before-choice'){const status=p.locator('#nomad360-return p.nomad-return-status');const style=await status.evaluate(e=>({color:getComputedStyle(e).color,opacity:getComputedStyle(e).opacity,weight:getComputedStyle(e).fontWeight}));A.deepEqual(style,{color:'rgb(22, 55, 90)',opacity:'1',weight:'400'},'Confirmed installation is regular navy, never muted grey');}
+  if(outcome==='installed-before-choice'){const status=p.locator('#nomad360-return p.nomad-return-status');const style=await status.evaluate(e=>({color:getComputedStyle(e).color,opacity:getComputedStyle(e).opacity,weight:getComputedStyle(e).fontWeight}));A.deepEqual(style,{color:'rgb(255, 255, 255)',opacity:'1',weight:'400'},'Confirmed installation is readable white on the blue banner');}
   cases.push({syntheticInstallEvent:outcome,nativeDeviceTest:false});await ctx.close();
  }
  fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({stage,cases},null,2)+'\n');console.log('RET_7A_STAGE_GREEN',JSON.stringify({stage,cases:cases.length}));
