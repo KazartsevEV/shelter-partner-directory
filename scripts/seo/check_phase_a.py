@@ -315,7 +315,7 @@ def main():
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
-                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/')) or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/')) or p in (
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
         'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
         'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
