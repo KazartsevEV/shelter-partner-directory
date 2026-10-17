@@ -22,6 +22,7 @@ jobs:
         run: |
           node --check nomad360_header.js
           node --check tests/task10_logo_browser.cjs
+          git fetch --no-tags --depth=1 origin main
           git diff --exit-code origin/main -- nomad360_wolf_open_circle.png
       - name: Install Chromium
         run: |
