@@ -1,15 +1,14 @@
 # Nomad360 lite — Free Use & Brand-Preserving Embed License
 
-**Version:** 2.3 · 12 October 2026  
+**Version:** 2.4 · 17 October 2026  
 **Application:** Prospective only, to official releases expressly distributed under this version. Earlier licences are unaffected.  
 **Source:** https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML  
 **Repository:** https://github.com/KazartsevEV/shelter-partner-directory  
 **Licensing contact:** nomad260393@gmail.com  
 **Current Licensor:** Евгений Казарцев (Evgenii Kazartsev), individual rights holder. Legal and licensing notices: nomad260393@gmail.com.
 
-> **Version notice:** This edition applies only to distributions expressly accompanied by it. The rights holder for current official releases is the individual identified here. A future Kazakhstan company must first receive the relevant rights or licensing authority under a separate written agreement. Earlier valid permissions are not retroactively withdrawn. Third-party rights remain subject to their own terms.
+> **Version notice:** This edition applies only to distributions expressly accompanied by it. The rights holder for current official releases is the individual identified here. Earlier valid permissions are not retroactively withdrawn. Third-party rights remain subject to their own terms.
 
-**Ownership model (planned):** Phase I — Evgenii Kazartsev, the natural-person rights holder identified above, issues free and commercial licences. Phase II — a Kazakhstan legal entity, following a documented acquisition or licence of the relevant IP rights, issues new licences and white-label contracts. The creator’s non-transferable moral right of authorship remains with the creator. Past validly granted licences and release-specific attribution remain subject to their original terms.
 
 
 ---
@@ -18,7 +17,7 @@
 
 ## 1. Parties, scope and definitions
 
-**Licensor (current rights holder): Евгений Казарцев (Evgenii Kazartsev), an individual; licensing and legal-notice email: nomad260393@gmail.com.** Following a documented transfer or grant of licensing authority, the Licensor for a later release may be an appropriately authorised legal entity identified in that release. This identification is based on the current owner's declaration and does not affect rights of third-party contributors or component owners.
+**Licensor (current rights holder): Евгений Казарцев (Evgenii Kazartsev), an individual; licensing and legal-notice email: nomad260393@gmail.com.** This identification is based on the current owner's declaration and does not affect rights of third-party contributors or component owners.
 
 **Calculator** means the official Nomad360 lite Small Business Financial Simulator as distributed by the Licensor in the release expressly accompanied by this licence, including the bundled application, its presentation, interface, source and object code, logos and notices, links, accompanying information about Nomad360 products and voluntary developer support options, insofar as the Licensor holds the necessary rights. Separately licensed third-party materials remain subject to their respective terms.
 
@@ -112,17 +111,6 @@ English is the reference version for interpreting this multilingual licence, exc
 
 Current individual Licensor: **Евгений Казарцев (Evgenii Kazartsev)**. For notices and commercial-licensing enquiries: **nomad260393@gmail.com**. Additional legally required notice or service-of-process information, if applicable, may be requested through the contact stated above; mandatory local law remains applicable.
 
----
-
-## 12. Current individual ownership; subsequent Kazakhstan company
-
-**Current stage.** Until a documented transfer or licence takes effect, the Licensor is **Евгений Казарцев (Evgenii Kazartsev)**, as declared by the project owner. The legal-notice email is **nomad260393@gmail.com**. An entity that is only contemplated or not yet entitled to license the Calculator must not be identified as the Licensor.
-
-**Company stage.** A Kazakhstan company may become the economic rights holder through a valid written transfer agreement, or may be granted specified licensing powers under a separate agreement, in each case to the extent of the rights demonstrably held by the individual. Registration of the company, changes to website domains, donations or project branding, and control of a GitHub repository do not themselves transfer the copyright.
-
-**Continuity.** After the relevant agreement takes effect, the legal details of the authorised Licensor for future releases and newly concluded paid licences must be published on the official site and in the applicable licence notices. Historic attribution identifying the original author must not be falsely replaced by company authorship. Previously granted licence rights and signed commercial contracts must be reviewed for any transfer, notice or consent requirements; this clause does not purport to transfer any existing contract automatically where applicable law requires otherwise.
-
-**Territory.** Licences may be offered worldwide, including Kazakhstan and Latin America, but enforcement of copyright and trade mark rights, statutory exceptions, mandatory local rules and remedies can vary by country. A governing-law or forum clause for contracts does not displace mandatory rules or establish uniform intellectual-property protection worldwide. This public licence does not designate an exclusive governing law or dispute forum. Applicable mandatory law and statutory protections remain in force.
 
 # RU — Русская редакция
 
@@ -222,17 +210,6 @@ Current individual Licensor: **Евгений Казарцев (Evgenii Kazartse
 
 Действующий правообладатель: **Евгений Казарцев**. Контакт по лицензированию и юридическим уведомлениям: **nomad260393@gmail.com**. При необходимости дополнительный юридический адрес и сведения для надлежащих уведомлений предоставляются по запросу с учётом обязательных требований применимого законодательства.
 
----
-
-## 12. Правообладатель — физическое лицо; последующий переход к компании Казахстана
-
-**Текущий этап.** До вступления в силу надлежащего договора передачи прав или лицензирования действующий лицензиар — **Евгений Казарцев**; контакт: **nomad260393@gmail.com**. Нельзя указывать ещё не созданную либо ещё не получившую права компанию как действующего лицензиара.
-
-**Этап компании.** Казахстанская компания сможет стать обладателем передаваемых исключительных имущественных прав по действительному письменному договору либо получить конкретные полномочия на лицензирование по отдельному соглашению. Регистрация компании, переоформление домена, реквизитов пожертвований, брендирования или контроля над GitHub-репозиторием сами по себе авторские права не передают.
-
-**Преемственность.** После оформления перехода прав необходимо обновить сведения об уполномоченном правообладателе для новых версий и новых коммерческих договоров. Личное авторство разработчика не передаётся компании и не должно заменяться утверждением, будто компания является физическим автором старых работ. Ранее выданные лицензии и заключённые договоры должны быть отдельно проверены на условия передачи прав и обязательств, уведомления или согласия: настоящий пункт не устанавливает автоматический переход договоров вопреки применимому праву.
-
-**Территория.** Лицензия рассчитана на использование во всём мире, в том числе в Казахстане и странах Латинской Америки. При этом защита авторского права, товарных знаков, исключения и способы судебной защиты определяются с учётом права соответствующих государств. Выбор права договора сам по себе не обеспечивает одинаковую охрану во всех странах. Настоящая публичная лицензия не устанавливает исключительное применимое право или подсудность; обязательные нормы соответствующих государств сохраняют действие.
 
 # KK — Қазақша редакция
 
@@ -332,14 +309,3 @@ Nomad360 атауы, логотиптері және фирмалық бейне
 
 Қазіргі құқық иесі: **Евгений Казарцев**. Лицензия және құқықтық хабарламалар үшін: **nomad260393@gmail.com**. Қажет болған жағдайда құқықтық хабарламаларға арналған қосымша деректер жоғарыда көрсетілген байланыс арқылы, қолданылатын заңның міндетті талаптарына сәйкес беріледі.
 
----
-
-## 12. Қазіргі құқық иесі — жеке тұлға; кейін Қазақстандағы компанияға беру
-
-**Қазіргі кезең.** Құқықтарды беру немесе лицензиялау туралы тиісті шарт күшіне енгенге дейін қазіргі Лицензиар — **Евгений Казарцев**. Құқықтық хабарламаларға арналған байланыс: **nomad260393@gmail.com**. Әлі құрылмаған не құқықтарды алмаған компанияны қазіргі Лицензиар ретінде көрсетуге болмайды.
-
-**Компания кезеңі.** Қазақстанда тіркелетін компания айрықша мүліктік құқықтарды жарамды жазбаша шарт бойынша иеленуі немесе жеке келісіммен нақты лицензиялау өкілеттіктерін алуы мүмкін. Компанияны тіркеу, доменді, қайырымдылық деректемелерін, брендті немесе GitHub репозиторийін басқаруды ауыстыру өздігінен авторлық құқықтарды бермейді.
-
-**Сабақтастық.** Құқықтарды беру рәсімделгеннен кейін жаңа нұсқалар мен жаңа коммерциялық келісімдер үшін уәкілетті құқық иесінің заңды мәліметтері жаңартылуға тиіс. Әзірлеушінің жеке авторлық құқығы компанияға берілмейді; тарихи авторлықты компания авторлығымен жалған алмастыруға болмайды. Бұрын берілген лицензиялар мен жасалған шарттар бойынша құқықтар мен міндеттердің берілуі, хабарлама немесе келісім талаптары жеке тексеріледі. Осы тармақ заң талаптарына қайшы автоматты шарт ауыстыруды көздемейді.
-
-**Аумақ.** Лицензия Қазақстанда және Латын Америкасы елдерінде қоса алғанда бүкіл әлемде пайдалануға арналған. Дегенмен авторлық құқық пен тауар белгілерін қорғау, заңдық ерекшеліктер және соттық қорғау шаралары тиісті елдердің заңдарына байланысты болуы мүмкін. Шарт үшін таңдалған құқық барлық елдерде бірдей қорғауды автоматты қамтамасыз етпейді. Осы жария лицензия қолданылатын құқық пен дауларды шешудің айрықша орнын белгілемейді; тиісті елдердің міндетті заң талаптары қолданылады.
