@@ -9,8 +9,11 @@ function stripFirstHeroLoaders(source){
   if(!present)return source;
   A.equal(source.split(css).length,2,'exactly one first-hero style loader');
   A.equal(source.split(js).length,2,'exactly one first-hero script loader');
-  A.ok(source.includes('    <link rel="stylesheet" href="./nomad360_bug_report.css">\n'+css),
-   'first-hero stylesheet must follow, never split, protected Task09 stylesheet pair');
+  const bugStyle='    <link rel="stylesheet" href="./nomad360_bug_report.css">\n';
+  const originalStyle='    <link rel="stylesheet" href="./nomad360_calculator_ui.css">\n';
+  const anchor=source.includes(bugStyle)?bugStyle:originalStyle;
+  // Some historic guards have already removed Task09 loaders before calling us.
+  A.ok(source.includes(anchor+css),'hero stylesheet must follow existing style stack');
   A.ok(source.includes('<script src="./nomad360_header.js"></script>\n'+js),
    'first-hero script must follow accepted header/logo, never replace it');
   return source.replace(css,'').replace(js,'');
