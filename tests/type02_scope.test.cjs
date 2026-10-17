@@ -7,6 +7,9 @@ test('Inter preserves application logic; current task-6 presentation files have 
  A.ok(protectedPaths.includes('Marketing_calc.HTML')&&protectedPaths.includes('portfolio_v2_engine.js')&&protectedPaths.includes('nomad360_fx.js'));
  for(const p of protectedPaths){
   let now=fs.readFileSync(path.join(root,p)),old=execFileSync('git',['show',base+':'+p],{cwd:root});
+  if(p==='CALCULATOR_LICENSE.md'){
+   A.deepEqual(now,execFileSync('git',['show','cd80f877f20dde9d276683c83b99c6a9455dea5d:'+p],{cwd:root}), 'Owner-approved license v2.4');continue;
+  }
   if(p==='Marketing_calc.HTML'){
    now=Buffer.from(require('./helpers/seo-html-contract.cjs').stripSEO(now.toString()));
    const stripStyles=s=>s.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'<style>Presentation</style>');
