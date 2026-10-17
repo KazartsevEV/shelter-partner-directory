@@ -168,10 +168,9 @@ function boot(){
   root.setTimeout(()=>{suppressClick=false},400);
  });
  dock.addEventListener('pointercancel',()=>{gesture=null});
- dock.addEventListener('click',event=>{
-  if(!suppressClick)return;
-  event.preventDefault();event.stopPropagation();suppressClick=false;
- },true);
+ dock.addEventListener('click',e=>{
+if(suppressClick&&e.target!==minimize){e.preventDefault();e.stopPropagation()}suppressClick=false
+},true);     
  minimize.addEventListener('click',()=>setCollapsed(true));
  launcher.addEventListener('keydown',event=>{
   if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
