@@ -30,7 +30,7 @@ const server=http.createServer((req,res)=>{
       await page.goto(origin+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
       await page.locator('#nomad360-lang-select').selectOption(lang);
       await page.waitForFunction(()=>[...document.querySelectorAll('.nomad-logo-mask .nomad-logo,.nomad-seo-logo-mask .nomad-seo-logo,.nomad-embed-b2b-logo-mask img')].length===3
-       &&[...document.querySelectorAll('.nomad-logo-mask .nomad-logo,.nomad-seo-logo-mask .nomad-seo-logo,.nomad-embed-b2b-logo-mask img')].every(n=>n.getAttribute('src')?.startsWith('data:image/png;base64,')),{timeout:20000});
+       &&[...document.querySelectorAll('.nomad-logo-mask .nomad-logo,.nomad-seo-logo-mask .nomad-seo-logo,.nomad-embed-b2b-logo-mask img')].every(n=>n.getAttribute('src')?.startsWith('data:image/png;base64,')&&n.complete&&n.naturalWidth>0),null,{timeout:20000});
       const state=await page.evaluate(()=>{
         const images=[...document.querySelectorAll('.nomad-logo-mask .nomad-logo,.nomad-seo-logo-mask .nomad-seo-logo,.nomad-embed-b2b-logo-mask img')];
         const img=images[0];
