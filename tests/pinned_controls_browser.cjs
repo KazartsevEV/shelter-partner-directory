@@ -71,7 +71,7 @@ async function swipe(page,locator,delta,mobile){
     const el=document.createElement('div');
     el.id='pinned-nav-contrast-test';
     Object.assign(el.style,{position:'fixed',top:'0',right:'0',height:'90px',
-      width:'90px',backgroundColor:'#16375a',zIndex:'95',pointerEvents:'none'});
+      width:'90px',backgroundColor:'#16375a',zIndex:'95',pointerEvents:'auto'});
     document.body.append(el);
    });
    for(const [color,expected] of [['#16375a','rgb(255, 255, 255)'],['#ffffff','rgb(22, 55, 90)'],['#ed8e63','rgb(22, 55, 90)']]){
