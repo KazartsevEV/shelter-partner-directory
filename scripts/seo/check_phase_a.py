@@ -339,6 +339,7 @@ def main():
         'tests/helpers/sales-tax-7b5-pdf-scope.cjs',
         'tests/helpers/sales-tax-7b5-v2-scope.cjs',
         'tests/type02_acceptance_browser.cjs',
+        'tests/type02_exports_browser.cjs',
         '.github/workflows/sales-tax-7b5-export.yml',
         'docs/reviews/sales-tax-7b/STAGE_7B5_ACCEPTANCE.md',
          # Task 09 permits only isolated widget assets and sharply audited guards.
