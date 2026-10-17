@@ -36,25 +36,27 @@ const compiled=process.env.NOMAD360_TAILWIND_CSS;
 if(!compiled||!fs.existsSync(compiled))throw Error('Missing compiled Tailwind styles from CLI');
 if(!result.includes(vendorTag))throw Error('Tailwind CDN anchor changed');
 result=result.replace(vendorTag,'<style data-inline-source="tailwind-css-cli-v3">\n'+fs.readFileSync(compiled,'utf8').replace(/<\/style/gi,'<\\/style')+'\n</style>');
-// Offline opening must display the actual filled editable V2, not the landing screen.
-const seed='<script data-study-autostart="true">document.addEventListener("DOMContentLoaded",function(){if(!window.PortfolioV2UI||!window.Nomad360USRetailDemo)throw Error("US study calculator unavailable");window.Nomad360USRetailDemo.launch();});</script>';
-if(!result.includes('</body>'))throw Error('HTML body close missing');
-result=result.replace('</body>',seed+'\n</body>');
-// All third-party/runtime local files are now truly embedded.
-const paths=[...result.matchAll(/<(?:script|link)[^>]+(?:src|href)=["']\.\/([^"']+)/g)].map(m=>m[1]);
-if(paths.length)throw Error('Standalone still has unresolved linked scripts/styles: '+paths.join(','));
-if(!includedJs.includes('portfolio_v2_us_demo_ui.js')||!includedJs.includes('nomad360_us_retail_demo.js'))throw Error('Real V2 study scripts missing');
-const out=path.resolve(root,'artifacts/us-retail-demo/US_Retail_Demo_FILLED.html');
-fs.mkdirSync(path.dirname(out),{recursive:true});
-fs.writeFileSync(out,result);
-// English first-open deliverable: use the same fully embedded real calculator,
-// but explicitly select English before the ready-to-edit V2 model is launched.
-const enBootstrap='<script data-study-english-bootstrap="true">document.documentElement.lang="en";try{localStorage.setItem("nomad360PreferredLanguage","en")}catch(_){}</script>';
-let enResult=result.replace('<html lang="ru">','<html lang="en">')
- .replace('<head>','<head>\n'+enBootstrap)
- .replace('window.Nomad360USRetailDemo.launch();','window.Nomad360UI.setLanguage("en");window.Nomad360USRetailDemo.launch();');
-const enOut=path.resolve(root,'artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html');
-fs.writeFileSync(enOut,enResult);
-const stats={source:'US_Retail_Demo.HTML from PR #183',generatedAt:new Date().toISOString(),target:path.relative(root,out),sha256:crypto.createHash('sha256').update(result).digest('hex'),bytes:Buffer.byteLength(result),inlineCss:includedCss,inlineJs:includedJs,autoLoaded:true,english:{target:path.relative(root,enOut),sha256:crypto.createHash('sha256').update(enResult).digest('hex'),bytes:Buffer.byteLength(enResult)},skuCount:input.skus.length,resourceCount:input.resources.length};
-fs.writeFileSync(path.resolve(root,'artifacts/us-retail-demo/manifest.json'),JSON.stringify(stats,null,2)+'\n');
+// The two offline files embed exactly the same approved model and real engine.
+// The English release chooses the existing language selector BEFORE loading the demo.
+const seedFor=language=>'<script data-study-autostart="true">document.addEventListener("DOMContentLoaded",function(){'+
+ 'if(!window.PortfolioV2UI||!window.Nomad360USRetailDemo)throw Error("US study calculator unavailable");'+
+ (language==='en'?'window.Nomad360UI.setLanguage("en");document.documentElement.lang="en";':'')+
+ 'window.Nomad360USRetailDemo.launch();});</script>';
+function packageFile(file,language){
+ let page=result;
+ if(language==='en')page=page.replace('<html lang="ru">','<html lang="en">');
+ if(!page.includes('</body>'))throw Error('HTML body close missing');
+ page=page.replace('</body>',seedFor(language)+'\\n</body>');
+ const paths=[...page.matchAll(/<(?:script|link)[^>]+(?:src|href)=["']\\.\\/([^"']+)/g)].map(m=>m[1]);
+ if(paths.length)throw Error('Standalone still has unresolved linked scripts/styles: '+paths.join(','));
+ if(!includedJs.includes('portfolio_v2_us_demo_ui.js')||!includedJs.includes('nomad360_us_retail_demo.js'))throw Error('Real V2 study scripts missing');
+ const out=path.resolve(root,'artifacts/us-retail-demo',file);
+ fs.mkdirSync(path.dirname(out),{recursive:true});
+ fs.writeFileSync(out,page);
+ return {file,language,bytes:Buffer.byteLength(page),sha256:crypto.createHash('sha256').update(page).digest('hex')};
+}
+const originalOutput=packageFile('US_Retail_Demo_FILLED.html','ru');
+const englishOutput=packageFile('US_Retail_Demo_EN_FILLED.html','en');
+const stats={source:'US_Retail_Demo.HTML from PR #183',generatedAt:new Date().toISOString(),outputs:[originalOutput,englishOutput],inlineCss:includedCss,inlineJs:includedJs,skuCount:input.skus.length,resourceCount:input.resources.length};
+fs.writeFileSync(path.resolve(root,'artifacts/us-retail-demo/manifest.json'),JSON.stringify(stats,null,2)+'\\n');
 console.log('US_RETAIL_FILLED_STANDALONE_CREATED',JSON.stringify(stats));
