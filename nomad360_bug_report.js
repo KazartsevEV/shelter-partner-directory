@@ -296,7 +296,9 @@ else boot();
  addEventListener(S.resize,schedule,{passive:true});
  addEventListener(S.pageshow,schedule);
  document.addEventListener(S.locale,schedule);
- document.addEventListener(S.click,schedule,true);
+ document.addEventListener(S.click,event=>{
+  if(event.target.closest(S.burger))schedule();
+ },true);
  document.addEventListener(S.ready,schedule);
  schedule();
 })();
