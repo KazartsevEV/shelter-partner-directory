@@ -7,7 +7,7 @@ const {pathToFileURL}=require('node:url');
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const out=path.join(__dirname,'../artifacts/us-retail-demo');
  fs.mkdirSync(out,{recursive:true});
- const url=pathToFileURL(path.join(__dirname,'../Marketing_calc.HTML')).href+'?demo=us-retail-12m';
+ const url=pathToFileURL(path.join(__dirname,'../US_Retail_Demo.HTML')).href+'?demo=us-retail-12m';
  const results=[];
  try{
  for(const width of [390,1280]){
