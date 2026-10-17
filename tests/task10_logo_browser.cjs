@@ -50,7 +50,8 @@ const server=http.createServer((req,res)=>{
           allSameUrl:images.every(e=>e.getAttribute('src')===img.getAttribute('src')),
           maskSize:mask.getBoundingClientRect().width,
           scale:getComputedStyle(mask.querySelector('img')).transform,
-          logoTransforms:images.map(e=>getComputedStyle(e).transform),
+          logoTransforms:images.map(e=>{const m=new DOMMatrix(getComputedStyle(e).transform);
+            return {scaleX:m.a,scaleY:m.d,dx:m.e/e.offsetWidth,dy:m.f/e.offsetHeight};}),
           headerMask:!!document.querySelector('.nomad-logo-mask'),
           bannerMask:!!mask,embeddedMask:!!document.querySelector('.nomad-embed-b2b-logo-mask')};
       });
@@ -63,8 +64,10 @@ const server=http.createServer((req,res)=>{
         'raster recolor should preserve large solid areas');
       A.notEqual(state.scale,'none','original wolf enlarged inside cropped white rim');
       A.ok(state.maskSize>=50&&state.maskSize<=145);
-      A.ok(state.logoTransforms.every(t=>t===state.logoTransforms[0]),
-        'entire existing mark has the same geometry adjustment in header, hero and B2B');
+      A.ok(state.logoTransforms.every(t=>Math.abs(t.scaleX-1.38)<0.001
+        &&Math.abs(t.scaleY-1.38)<0.001&&Math.abs(t.dx-0.012)<0.001
+        &&Math.abs(t.dy-0.009)<0.001),
+        'the same proportional adjustment applies to the complete mark across all mask sizes');
       // Sample the *rendered* ring, rather than assuming the PNG canvas is centered.
       // This checks the actual orbit against the white circular mask; it excludes
       // the asymmetric wolf silhouette, which must not be moved independently.
