@@ -97,6 +97,54 @@ const {pathToFileURL}=require('node:url');
      console.log('US_RETAIL_EN_VISIBLE_COPY',JSON.stringify({width,remains:report.remains}));
      await page.screenshot({path:path.join(here,'artifacts/us-retail-demo/US-Retail-V2-EN-'+width+'px.png'),fullPage:true});
      await page.close();
+     // Second deliverable: the same editable calculation opened directly
+     // in the existing EN language, without localization by hand or rewrites.
+     const english=await browser.newPage({viewport:{width,height:900},locale:'ru-RU'});
+     const enErrors=[],enExternal=[];
+     english.on('pageerror',e=>enErrors.push(e.message));
+     english.on('request',r=>{if(/^https?:/.test(r.url()))enExternal.push(r.url());});
+     await english.route(/^https?:\\/\\//,r=>r.abort());
+     await english.goto(pathToFileURL(path.join(here,'artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html')).href,{waitUntil:'domcontentloaded',timeout:120000});
+     await english.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.length===10,{timeout:25000});
+     await english.waitForFunction(()=>document.querySelector('#p2-results .nd-v2-financial-grid')!==null,{timeout:25000});
+     await english.waitForTimeout(200);
+     const en=await english.evaluate(()=>{
+       const state=PortfolioV2UI.getState();
+       const out=PortfolioV2Engine.build(state);
+       const host=document.getElementById('portfolio-v2-root');
+       const walker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT);
+       const untranslated=[];
+       while(walker.nextNode()){
+         const node=walker.currentNode,parent=node.parentElement;
+         const label=node.nodeValue?.trim()||'';
+         if(!/[А-Яа-яЁё]/.test(label)||parent?.closest('[data-nomad-no-translate],script,style,textarea,[contenteditable]'))continue;
+         untranslated.push(label.slice(0,140));
+       }
+       return {language:Nomad360UI.getLanguage(),docLang:document.documentElement.lang,
+         skus:state.skus.length,resources:state.resources.length,
+         first:state.skus[0].name,resource:state.resources[0].label,
+         ready:out.ready,months:out.months.length,loan:out.financing.principal,
+         free:out.freeCash,revenue:out.totalRevenue,
+         formInputs:host.querySelectorAll('[data-p2-path]').length,
+         header:host.querySelector('.nd-v2-hero h1')?.innerText||'',
+         untranslated:untranslated.slice(0,40),untranslatedCount:untranslated.length,
+         numeric:host.querySelector('#p2-results .nd-v2-number-value')?.innerText||''};
+     });
+     assert.equal(en.language,'en');
+     assert.equal(en.docLang,'en');
+     assert.equal(en.first,'Handmade holiday gift box');
+     assert.equal(en.resource,'Retail storefront lease');
+     assert.equal(en.skus,10);assert.equal(en.resources,14);
+     assert.equal(en.ready,true);assert.equal(en.months,12);
+     assert.equal(en.loan,45232);
+     assert.ok(Math.abs(en.free-41301.03315789475)<0.01);
+     assert.ok(Math.abs(en.revenue-29790.48245614035)<0.01);
+     assert.ok(en.formInputs>100);
+     assert.equal(enExternal.length,0);
+     assert.equal(enErrors.length,0,JSON.stringify(enErrors));
+     await english.screenshot({path:path.join(here,'artifacts/us-retail-demo/US-Retail-V2-EN-'+width+'px.png'),fullPage:true});
+     console.log('US_RETAIL_ENGLISH_HTML_GREEN',JSON.stringify({width,...en}));
+     await english.close();
    }
  }finally{await browser.close();}
 })().catch(e=>{console.error('US_RETAIL_FULL_HTML_RED',e.stack||e);process.exitCode=1});
