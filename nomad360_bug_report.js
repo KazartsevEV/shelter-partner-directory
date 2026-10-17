@@ -170,7 +170,8 @@ function boot(){
  dock.addEventListener('pointercancel',()=>{gesture=null});
  dock.addEventListener('click',e=>{
 if(suppressClick&&e.target!==minimize){e.preventDefault();e.stopPropagation()}suppressClick=false
-},true);     
+},true);
+    
  minimize.addEventListener('click',()=>setCollapsed(true));
  launcher.addEventListener('keydown',event=>{
   if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
