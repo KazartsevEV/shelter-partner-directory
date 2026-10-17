@@ -874,3 +874,6 @@ body #nomad360-information .nomad-links a{display:inline-flex;align-items:center
  #nomad360-footer #nomad360-embed #nomad360-embed-comparison{padding:24px 0 0}
 }
 @media(prefers-reduced-motion:reduce){.nomad-banner *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* UNIFIED-BANNERS-02: SEO copy ("Business idea calculator: costs, profit and cash flow") is not shown in the first banner; it stays in the DOM (visually hidden) for indexing and translation. */
+#nomad360-commercial-banner .nomad-seo-copy{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
