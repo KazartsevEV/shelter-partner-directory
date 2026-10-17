@@ -62,6 +62,19 @@ async function swipe(page,locator,delta,mobile){
    A.ok(inlineBoxes.every((b,i)=>!i||b.left>=inlineBoxes[i-1].right-1),
      'brand, language and fixed burger never overlap at '+width+': '+JSON.stringify(inlineBoxes));
    A.equal(await burger.evaluate(e=>getComputedStyle(e).position),'fixed','burger independently fixed');
+   if(lang==='ru'&&width===390){
+     const trace=await burger.evaluate(button=>{
+       const rect=button.getBoundingClientRect(),x=rect.x+rect.width/2,y=rect.y+rect.height/2;
+       return {color:getComputedStyle(button).color,
+         surfaces:document.elementsFromPoint(x,y).slice(0,12).map(el=>{
+           const st=getComputedStyle(el);
+           return {tag:el.tagName,id:el.id,cls:String(el.className).slice(0,90),
+             background:st.backgroundColor,img:st.backgroundImage.slice(0,80),
+             text:st.color,rect:el.getBoundingClientRect().toJSON()};
+         })};
+     });
+     console.log('NAV_REAL_BACKGROUND_DIAGNOSTIC',JSON.stringify(trace));
+   }
    const naked=await burger.evaluate(e=>({bg:getComputedStyle(e).backgroundColor,
      border:getComputedStyle(e).borderWidth,shadow:getComputedStyle(e).boxShadow}));
    A.equal(naked.bg,'rgba(0, 0, 0, 0)','burger has no opaque square');
