@@ -16,6 +16,21 @@ async function drag(page,locator,delta){
  await page.mouse.move(x,y);await page.mouse.down();
  await page.mouse.move(x+delta,y,{steps:7});await page.mouse.up();
 }
+// Real touch delivery in mobile emulation; mouse dragging alone cannot validate swipes.
+async function swipe(page,locator,delta,mobile){
+ if(!mobile){await drag(page,locator,delta);return}
+ const b=await locator.boundingBox();A.ok(b,'touch target present');
+ const x=b.x+b.width/2,y=b.y+b.height/2;
+ const cdp=await page.context().newCDPSession(page);
+ try{
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y,id:1}]});
+  for(let i=1;i<=8;i++){
+   await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+delta*i/8,y,id:1}]});
+   await page.waitForTimeout(12);
+  }
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+ }finally{await cdp.detach()}
+}
 (async()=>{
  await new Promise(done=>srv.listen(0,'127.0.0.1',done));
  const base='http://127.0.0.1:'+srv.address().port+'/';
@@ -60,14 +75,15 @@ async function drag(page,locator,delta){
   const compact=await dock.evaluate(e=>e.classList.contains('is-collapsed'));
   A.equal(compact,width<=600,'mobile begins as tiny megaphone');
   if(compact){
-   await drag(page,launcher,-64);
+   await swipe(page,launcher,-64,mobile);
    A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),false,'left swipe expands');
   }
-  await drag(page,launcher,65);
+  await swipe(page,launcher,65,mobile);
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),true,'right swipe collapses');
   A.equal(await page.locator('#nomad360-bug-dialog').evaluate(e=>e.open),false,'swipe never opens form');
-  await drag(page,launcher,-65);
+  await swipe(page,launcher,-65,mobile);
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),false,'left swipe re-expands');
+  await page.screenshot({path:path.join(dir,'pinned-'+lang+'-'+width+'-expanded.png')});
   await page.locator('.nomad-bug-dock-toggle').click();
   A.equal(await dock.evaluate(e=>e.classList.contains('is-collapsed')),true,'explicit collapse toggle');
   await launcher.focus();await page.keyboard.press('ArrowLeft');
