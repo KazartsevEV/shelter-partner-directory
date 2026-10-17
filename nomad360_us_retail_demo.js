@@ -574,7 +574,13 @@ function mount(){
   section.append(button,hint,err);
   home.append(section);
   refresh();
-  if(new URLSearchParams(root.location.search).get('demo')==='us-retail-12m')launch();
+  const params=new URLSearchParams(root.location.search);
+  if(params.get('demo')==='us-retail-12m'){
+    // English walkthrough link opts into the existing language system;
+    // it never changes the main production calculator or its model.
+    if(params.get('lang')==='en')root.Nomad360UI?.setLanguage?.('en');
+    launch();
+  }
 }
 root.Nomad360USRetailDemo=Object.freeze({getState:copy,launch});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
