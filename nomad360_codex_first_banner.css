@@ -1,0 +1,232 @@
+/* Codex UNIFIED-BANNERS-01/revision-2 — FIRST banner only.
+   Existing nomad-hero, nomad-intro, nomad-seo-banner, nomad-intro-cta
+   keep their live DOM/typography. Colors are inherited from TASK-10 tokens. */
+#nomad360-commercial-banner {
+  --nb-blue:var(--p10-navy);
+  --nb-orange:var(--p10-orange);
+  --nb-line:var(--p10-blue);
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  box-sizing:border-box;
+  margin:0 0 24px;
+  padding:clamp(20px,3.5vw,44px);
+  background-color:var(--p10-navy);
+  color:var(--p10-white);
+  font-family:var(--nd-font,Inter,system-ui,sans-serif);
+}
+#nomad360-commercial-banner *{box-sizing:border-box;min-width:0;}
+/* Scenery is Codex's unmodified revision-2 hero.webp, with a SOLID navy
+   reading surface to its left and a continuous brand-navy lower fade. */
+#nomad360-commercial-banner::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:
+    linear-gradient(to right,var(--p10-navy) 0%,var(--p10-navy) 37%,
+      color-mix(in srgb,var(--p10-navy) 92%,transparent) 48%,
+      transparent 85%),
+    linear-gradient(to bottom,transparent 12%,var(--p10-navy) 80%),
+    url("./assets/nomad360-banners/hero.webp");
+  background-position:center,right top,right top;
+  background-size:100% 100%,100% 100%,100% auto;
+  background-repeat:no-repeat;
+}
+body #nomad360-commercial-banner #nomad360-hero{
+  padding:0 0 28px;
+  margin:0;
+  border-bottom:1px solid var(--p10-blue);
+  background:transparent;
+}
+body #nomad360-commercial-banner #nomad360-hero .nomad-hero{
+  max-width:min(51%,560px);
+  padding:0;
+  margin:0;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+body #nomad360-commercial-banner #nomad360-hero h1{
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:.04em;
+  line-height:1.4;
+  margin:0 0 16px;
+}
+body #nomad360-commercial-banner #nomad360-hero h2{
+  font-size:clamp(32px,3.8vw,48px);
+  line-height:1.14;
+  font-weight:700;
+  letter-spacing:-.025em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+body #nomad360-commercial-banner #nomad360-hero h3{
+  font-size:19px;
+  line-height:1.55;
+  font-weight:400;
+  max-width:510px;
+  margin:0;
+}
+/* Exactly equal geometric clearances: h3 -> CTA -> divider.
+   No extra margin on the nested legacy hero text container. */
+body #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta{
+  display:inline-flex;
+  min-height:52px;
+  padding:14px 24px;
+  border-radius:6px;
+  margin:28px 0 0;
+  max-width:100%;
+  line-height:1.4;
+  font-weight:600;
+  text-decoration:none;
+  background:var(--p10-orange);
+}
+body #nomad360-commercial-banner #nomad360-seo-banner.nomad-seo-banner{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 150px;
+  align-items:center;
+  gap:32px;
+  margin:0;
+  padding:28px 0 0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+}
+body #nomad360-commercial-banner #nomad360-intro{
+  padding:0;
+  margin:0;
+  background:transparent;
+}
+body #nomad360-commercial-banner .nomad-intro-lead{
+  margin:0 0 24px;
+  font-size:22px;
+  font-weight:400;
+  line-height:1.45;
+}
+body #nomad360-commercial-banner .nomad-intro-lead strong{font-weight:700;}
+body #nomad360-commercial-banner #nomad360-intro ul{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  padding:0;
+  margin:0;
+  list-style:none;
+  font-size:17px;
+  line-height:1.55;
+}
+body #nomad360-commercial-banner #nomad360-intro li{
+  display:grid;
+  grid-template-columns:36px minmax(0,1fr);
+  align-content:start;
+  column-gap:12px;
+  border:0;
+  padding:0;
+  margin:0;
+}
+#nomad360-commercial-banner .nomad-benefit-icon{
+  width:36px;height:40px;grid-column:1;grid-row:1/3;
+  fill:none;stroke:var(--p10-white);stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+#nomad360-commercial-banner .nomad-benefit-accent{stroke:var(--p10-orange);}
+#nomad360-commercial-banner .nomad-benefit-copy{grid-column:2;}
+#nomad360-commercial-banner .nomad-benefit-copy strong{display:block;font-weight:600;}
+body #nomad360-commercial-banner .nomad-intro-result{
+  border-top:1px solid var(--p10-blue);
+  padding:20px 0 0;
+  margin:24px 0 0;
+  font-size:19px;
+  line-height:1.45;
+  font-weight:600;
+}
+body #nomad360-commercial-banner .nomad-seo-brand{
+  grid-column:2;grid-row:1;
+  align-self:center;
+  width:150px;
+  transform:none;
+  gap:12px;
+}
+body #nomad360-commercial-banner .nomad-seo-logo-mask{width:112px;height:112px;}
+body #nomad360-commercial-banner .nomad-seo-logo{width:100%;height:100%;}
+body #nomad360-commercial-banner .nomad-seo-tagline{font-size:17px;line-height:1.4;}
+@media(max-width:1000px){
+  body #nomad360-commercial-banner #nomad360-seo-banner.nomad-seo-banner{
+    grid-template-columns:minmax(0,1fr) 120px;gap:24px;
+  }
+  body #nomad360-commercial-banner #nomad360-intro ul{grid-template-columns:minmax(0,1fr);gap:16px;}
+  body #nomad360-commercial-banner .nomad-seo-brand{width:120px;}
+}
+@media(max-width:600px){
+  /* The picture is a decor-only scenic band ABOVE live text, so NONE of
+     h1/h2/h3/CTA overlays the detailed mountain/river illustration. */
+  #nomad360-commercial-banner{
+    padding:clamp(172px,45vw,222px) 16px 28px;
+  }
+  #nomad360-commercial-banner::before{
+    background-image:
+      linear-gradient(to bottom,transparent 0,
+        color-mix(in srgb,var(--p10-navy) 10%,transparent) 90px,
+        var(--p10-navy) 215px),
+      url("./assets/nomad360-banners/hero.webp");
+    background-position:left top,center top;
+    background-size:100% 100%,auto 250px;
+  }
+  body #nomad360-commercial-banner #nomad360-hero{padding-bottom:28px;}
+  body #nomad360-commercial-banner #nomad360-hero .nomad-hero{max-width:100%;}
+  body #nomad360-commercial-banner #nomad360-hero h1{font-size:14px;margin:0 0 14px;}
+  body #nomad360-commercial-banner #nomad360-hero h2{font-size:32px;max-width:18ch;margin:0 0 20px;}
+  body #nomad360-commercial-banner #nomad360-hero h3{font-size:18px;}
+  body #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta{
+    width:100%;margin-top:28px;
+  }
+  body #nomad360-commercial-banner #nomad360-seo-banner.nomad-seo-banner{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    padding:24px 0 0;
+  }
+  body #nomad360-commercial-banner .nomad-intro-lead{font-size:20px;margin:0 0 24px;}
+  body #nomad360-commercial-banner #nomad360-intro ul{gap:0;}
+  body #nomad360-commercial-banner #nomad360-intro li{
+    grid-template-columns:36px minmax(0,1fr);gap:16px;
+    padding:16px 0;border-bottom:1px solid var(--p10-blue);
+  }
+  body #nomad360-commercial-banner #nomad360-intro li:first-child{padding-top:0;}
+  body #nomad360-commercial-banner #nomad360-intro li:last-child{padding-bottom:0;border:0;}
+  body #nomad360-commercial-banner .nomad-intro-result{font-size:18px;}
+  body #nomad360-commercial-banner .nomad-seo-brand{
+    display:flex;flex-direction:row;align-self:center;
+    justify-content:center;width:auto;gap:16px;
+  }
+  body #nomad360-commercial-banner .nomad-seo-logo-mask{width:64px;height:64px;flex:none;}
+  body #nomad360-commercial-banner .nomad-seo-tagline{font-size:16px;text-align:left;}
+}
+/* TASK-10 already owns fonts and paints. This is the FIRST-banner-only
+   higher-priority semantic remapping of its existing palette tokens. */
+@layer nomad360-palette-important {
+  body:has(#home-screen) #nomad360-commercial-banner {
+    --p10-fg:var(--p10-white)!important;
+    --p10-muted:var(--p10-white)!important;
+    --p10-line:var(--p10-blue)!important;
+    --p10-accent:var(--p10-orange)!important;
+    background-color:var(--p10-navy)!important;
+    color:var(--p10-white)!important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner
+  :is(h2,h3,p,.nomad-benefit-copy,.nomad-intro-lead,.nomad-intro-result,.nomad-seo-tagline) {
+    color:var(--p10-white)!important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner
+  :is(#nomad360-hero h1,.nomad-benefit-copy strong,.nomad-seo-tagline span + span){
+    color:var(--p10-orange)!important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner .nomad-intro-cta {
+    --p10-fg:var(--p10-navy)!important;
+    --p10-accent:var(--p10-navy)!important;
+    background-color:var(--p10-orange)!important;
+    color:var(--p10-navy)!important;
+  }
+}
