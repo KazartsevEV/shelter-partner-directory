@@ -482,3 +482,18 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   margin-bottom:25px;
  }
 }
+
+/* HERO-04f: preserve the mobile first line next to the existing wolf logo. */
+@media(max-width:700px){
+ #home-screen #nomad360-commercial-banner .nomad-intro-lead{
+  max-width:calc(100% - 69px);
+  margin-bottom:22px;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-intro li:nth-child(1),
+ #home-screen #nomad360-commercial-banner #nomad360-intro li:nth-child(2){
+  padding-bottom:18px;
+ }
+ #home-screen #nomad360-commercial-banner .nomad-hero-summary{
+  padding-bottom:8px;
+ }
+}
