@@ -34,6 +34,10 @@ jobs:
         run: |
           node --check nomad360_hero_banner.js
           node scripts/hero/preview.cjs
+      - name: Package exact preview sources for pixel-level review
+        if: always()
+        run: |
+          git archive HEAD -- Marketing_calc.HTML 'nomad360_*.js' 'nomad360_*.css' '*.png' '*.woff2' assets/ docs/approved-design/unified-banners/ vendor/ | gzip -1 > artifacts/hero-03/site-sources.tar.gz
       - uses: actions/upload-artifact@v4
         if: always()
         with:
