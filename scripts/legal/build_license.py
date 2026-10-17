@@ -2,7 +2,7 @@
 """Render the published Nomad360 licence from CALCULATOR_LICENSE.md.
 
 Single legal source of truth: never hand-edit the generated HTML. All three
-outputs contain the complete corresponding legal edition (sections 1-12).
+outputs contain the complete corresponding legal edition (sections 1-11).
 No third-party Python modules, external assets or JavaScript required.
 """
 from __future__ import annotations
@@ -23,11 +23,11 @@ VERSIONS = {
         "title": "Лицензия Nomad360 lite",
         "eyebrow": "Правовые условия · Nomad360 lite",
         "summary": "Калькулятор предоставляется бесплатно «как есть». Разрешено размещать полную неизменённую версию с сохранением бренда, атрибуции, информации о проекте, контактов и ссылок на поддержку. Для изменений или собственной версии требуется отдельное письменное соглашение.",
-        "version": "Версия 2.3 · 12 октября 2026 года · правообладатель: Евгений Казарцев",
+        "version": "Версия 2.4 · 17 октября 2026 года · правообладатель: Евгений Казарцев",
         "back": "Вернуться к калькулятору",
         "contents": "Содержание лицензии",
         "legal_name": "Русская редакция",
-        "copyright": "© 2026 Евгений Казарцев · Текст лицензии v2.3",
+        "copyright": "© 2026 Евгений Казарцев · Текст лицензии v2.4",
     },
     "en": {
         "path": "license/en/index.html",
@@ -35,11 +35,11 @@ VERSIONS = {
         "title": "Nomad360 lite License",
         "eyebrow": "Legal terms · Nomad360 lite",
         "summary": "The calculator is free to use “as is”. You may host the complete, unmodified edition while keeping its branding, attribution, project information, contacts and support links. Alterations and custom editions require a separate written agreement.",
-        "version": "Version 2.3 · 12 October 2026 · Rights holder: Evgenii Kazartsev",
+        "version": "Version 2.4 · 17 October 2026 · Rights holder: Evgenii Kazartsev",
         "back": "Back to the calculator",
         "contents": "License contents",
         "legal_name": "English controlling text",
-        "copyright": "© 2026 Evgenii Kazartsev · License text v2.3",
+        "copyright": "© 2026 Evgenii Kazartsev · License text v2.4",
     },
     "kk": {
         "path": "license/kk/index.html",
@@ -47,16 +47,16 @@ VERSIONS = {
         "title": "Nomad360 lite лицензиясы",
         "eyebrow": "Құқықтық шарттар · Nomad360 lite",
         "summary": "Калькулятор «сол күйінде» тегін беріледі. Бренд, авторлық атрибуция, жоба туралы ақпарат, байланыс деректері мен қолдау сілтемелері сақталған толық өзгертілмеген нұсқаны орналастыруға болады. Өзгерістер мен жеке нұсқа үшін бөлек жазбаша келісім қажет.",
-        "version": "2.3 нұсқасы · 2026 жылғы 12 қазан · құқық иесі: Евгений Казарцев",
+        "version": "2.4 нұсқасы · 2026 жылғы 17 қазан · құқық иесі: Евгений Казарцев",
         "back": "Калькуляторға оралу",
         "contents": "Лицензия мазмұны",
         "legal_name": "Қазақша редакция",
-        "copyright": "© 2026 Евгений Казарцев · 2.3 лицензия мәтіні",
+        "copyright": "© 2026 Евгений Казарцев · 2.4 лицензия мәтіні",
     },
 }
 
 LANG_HEADINGS = re.compile(r"^# (EN — [^\n]+|RU — [^\n]+|KK — [^\n]+)\s*$", re.M)
-VERSION = "**Version:** 2.3 · 12 October 2026"
+VERSION = "**Version:** 2.4 · 17 October 2026"
 
 def inline_md(text: str) -> str:
     """The source licence uses bold spans and plain URLs; escape everything."""
@@ -101,8 +101,8 @@ def parse_markdown(source: str):
             raise ValueError("Unexpected language heading within legal edition")
         paragraph.append(cleaned)
     flush()
-    if len(toc) != 12:
-        raise ValueError("Expected 12 complete sections; found " + str(len(toc)))
+    if len(toc) != 11:
+        raise ValueError("Expected 11 complete sections; found " + str(len(toc)))
     return "\n".join(body), toc
 
 def lang_parts(src: str):
@@ -194,7 +194,7 @@ def main():
         else:
             output.parent.mkdir(parents=True, exist_ok=True)
             output.write_text(expected, encoding="utf-8")
-    print("Nomad360 public license: complete EN/RU/KK 2.3 editions " + ("verified" if args.check else "generated"))
+    print("Nomad360 public license: complete EN/RU/KK 2.4 editions " + ("verified" if args.check else "generated"))
 
 if __name__ == "__main__":
     main()
