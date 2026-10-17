@@ -3,6 +3,7 @@ const A=require('node:assert/strict');
 const loader='    <link rel="stylesheet" href="./nomad360_palette.css">\n';
 const anchor='    <link rel="stylesheet" href="./nomad360_design_system.css">\n';
 function stripTask10PaletteHtml(source){
+ source=require('./codex-first-banner-scope.cjs').strip(source);
  if(!source.includes('nomad360_palette.css'))return source;
  A.equal(source.split(loader).length,2,'exactly one passive Task10 stylesheet loader');
  A.ok(source.includes(anchor+loader+'</head>'),'Task10 palette follows the original design-system link; no scripts or markup exemption');
