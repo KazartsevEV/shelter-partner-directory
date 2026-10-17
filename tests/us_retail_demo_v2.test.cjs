@@ -42,7 +42,7 @@ assert.equal(state.marketing.budget,1800);
 assert.equal(projection.salesTaxSummary.byMonth.length,0,'Standalone mode must not fake month-specific Sales Tax invoices');
 assert.equal(output.months.at(-1).freeCumulative,output.finalCash-output.financing.reserve);
 assert.ok(events.includes('DOMContentLoaded'));
-const v2src=fs.readFileSync(path.join(root,'portfolio_v2_ui.js'),'utf8');
+const v2src=fs.readFileSync(path.join(root,'portfolio_v2_us_demo_ui.js'),'utf8');
 assert.match(v2src,/marketingCalcPortfolioV2USRetailDemo/);
 assert.match(v2src,/activeStorageKey=usDemoStorageKey/);
 assert.match(v2src,/function open\(options=\{\}\)\{\s*activeStorageKey=storageKey/);
