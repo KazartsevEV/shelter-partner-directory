@@ -31,7 +31,8 @@ const server=http.createServer((req,res)=>{
    const css=getComputedStyle(banner),pic=getComputedStyle(art);
    return {
     viewport:innerWidth,lang:document.documentElement.lang,heroWidth:br(banner).width,
-    overflow:Math.max(document.documentElement.scrollWidth-innerWidth,banner.scrollWidth-banner.clientWidth),
+    overflow:banner.scrollWidth-banner.clientWidth,
+    pageOverflow:document.documentElement.scrollWidth-innerWidth,
     art:br(art),artDisplay:pic.display,narrative:br(narrative),
     cta:{href:cta.getAttribute('href'),bg:bg(cta),text:hue(cta)},
     headerColor:hue(hero.querySelector('h1')),
