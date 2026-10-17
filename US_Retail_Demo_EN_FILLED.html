@@ -16740,6 +16740,10 @@ const initial=()=>({
  tax:{type:'turnover',pct:0,vatPct:0}
 });
 function load(){try{const raw=JSON.parse(localStorage.getItem(storageKey));return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length?raw:null}catch(_){return null}}
+function loadStudy(){try{
+ const raw=JSON.parse(localStorage.getItem(usDemoStorageKey));
+ return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length&&Array.isArray(raw.resources)?raw:null;
+}catch(_){return null}}
 function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);localStorage.setItem(activeStorageKey,JSON.stringify(model));const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';if(activeStorageKey===storageKey)updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
 function updateEntry(){
  const existing=load(),el=document.getElementById('portfolio-v2-resume-home');
@@ -16758,13 +16762,18 @@ function open(options={}){
  if(!options.resume)save();
 }
 // A study model never overwrites the visitor's own V2 autosave.
-function openDemo(rawState){
+function openDemo(rawState,options={}){
   const next=JSON.parse(JSON.stringify(rawState||{}));
-  if(next.version!==2||next.currency!=='USD'||next.tax?.taxRegime!=='sales_tax'||next.tax?.salesTaxPct!==6.25)
+  if(options.resume){
+    if(next.version!==2||!Array.isArray(next.skus)||!next.skus.length||!Array.isArray(next.resources))
+      throw Error('Invalid saved US retail study');
+  }else if(next.version!==2||next.currency!=='USD'||next.tax?.taxRegime!=='sales_tax'||next.tax?.salesTaxPct!==6.25)
     throw Error('Invalid US retail demonstration data');
-  const checked=Engine.build(next);
-  if(!checked.ready||checked.months?.length!==12)
-    throw Error('US retail demonstration requires a valid twelve-month V2 model: '+(checked.errors||[]).join('; '));
+  if(!options.resume){
+    const checked=Engine.build(next);
+    if(!checked.ready||checked.months?.length!==12)
+      throw Error('US retail demonstration requires a valid twelve-month V2 model: '+(checked.errors||[]).join('; '));
+  }
   activeStorageKey=usDemoStorageKey;
   root.Nomad360Currency?.beginNew();
   root.Nomad360Currency?.adopt('USD');
@@ -17186,7 +17195,7 @@ function mount(){
  updateEntry();
  document.addEventListener('nomad360:languagechange',()=>{if(model)render();});
 }
-root.PortfolioV2UI=Object.freeze({open,openDemo,localizeStudyNames,load,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
+root.PortfolioV2UI=Object.freeze({open,openDemo,localizeStudyNames,load,loadStudy,updateEntry,applyPaymentConversion,getState:()=>model?JSON.parse(JSON.stringify(model)):null,refreshPayments:()=>{root.Nomad360PaymentUI?.paintPortfolio(model);updateResult();}});
 root.openPortfolioV2=function(resume=false){open({resume});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
 else mount();
@@ -24604,7 +24613,17 @@ const messages={
 const lang=()=>root.Nomad360UI?.getLanguage?.()||'ru';
 const words=()=>messages[lang()]||messages.en;
 function launch(){
-  try{root.PortfolioV2UI?.openDemo(relabel(copy(),lang()));const err=document.getElementById('us-retail-demo-error');if(err)err.hidden=true;}
+  try{
+    if(!root.PortfolioV2UI?.openDemo)throw Error('US retail V2 interface is not loaded');
+    const saved=root.PortfolioV2UI.loadStudy?.();
+    // An intentional '+ New portfolio' clears the study: the next explicit
+    // launch starts the educational case again instead of restoring an empty V2.
+    const blank=saved&&saved.skus.length===1&&!saved.skus[0].name&&saved.resources.length===0;
+    const resume=Boolean(saved&&!blank);
+    root.PortfolioV2UI.openDemo(relabel(resume?saved:copy(),lang()),{resume});
+    const err=document.getElementById('us-retail-demo-error');
+    if(err)err.hidden=true;
+  }
   catch(error){const el=document.getElementById('us-retail-demo-error');if(el){el.textContent=words().error+' ('+String(error.message||error)+')';el.hidden=false;}else throw error;}
 }
 function refresh(){
@@ -24637,7 +24656,7 @@ function mount(){
   if(params.get('demo')==='us-retail-12m'){
     // English walkthrough link opts into the existing language system;
     // it never changes the main production calculator or its model.
-    if(params.get('lang')==='en')root.Nomad360UI?.setLanguage?.('en');
+    if(['en','kk'].includes(params.get('lang')))root.Nomad360UI?.setLanguage?.(params.get('lang'));
     launch();
   }
 }
