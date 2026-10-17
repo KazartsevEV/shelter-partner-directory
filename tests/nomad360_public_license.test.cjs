@@ -10,16 +10,18 @@ const read=filename=>fs.readFileSync(path.join(root,filename),'utf8');
 const origin='https://kazartsevev.github.io/shelter-partner-directory/';
 const pages={ru:'license/index.html',en:'license/en/index.html',kk:'license/kk/index.html'};
 
-test('All public legal pages are identical to the authoritative complete v2.3 source',()=>{
+test('All public legal pages are identical to the authoritative complete v2.4 source',()=>{
  const output=execFileSync('python3',['scripts/legal/build_license.py','--check'],{cwd:root,encoding:'utf8'});
- assert.match(output,/complete EN\/RU\/KK 2\.3 editions verified/);
- assert.match(read('CALCULATOR_LICENSE.md'),/\*\*Version:\*\* 2\.3 · 12 October 2026/);
+ assert.match(output,/complete EN\/RU\/KK 2\.4 editions verified/);
+ assert.match(read('CALCULATOR_LICENSE.md'),/\*\*Version:\*\* 2\.4 · 17 October 2026/);
  for(const [lang,file] of Object.entries(pages)){
   const page=read(file);
   assert.match(page,new RegExp('<html lang="'+lang+'">'));
   assert.match(page,/<article class="legal-article" id="full-license"/);
-  assert.equal((page.match(/<h2 id="section-\d+">/g)||[]).length,12,lang+': legal sections 1-12');
+  assert.equal((page.match(/<h2 id="section-\d+">/g)||[]).length,11,lang+': legal sections 1-11');
   assert.match(page,/nomad260393@gmail\.com/);
+  assert.doesNotMatch(page,/section-12|Kazakhstan company|компании Казахстана|Қазақстандағы компанияға/,lang+': removed section 12 and planned Kazakhstan company');
+  assert.match(page,/section-11/,lang+': final active section is 11');
   assert.match(page,/Евгений Казарцев|Evgenii Kazartsev/);
   assert.ok(page.includes('href="'+origin+'Marketing_calc.HTML?lang='+lang+'"'),lang+': back to calculator');
   const canonical=lang==='ru'?origin+'license/':origin+'license/'+lang+'/';
