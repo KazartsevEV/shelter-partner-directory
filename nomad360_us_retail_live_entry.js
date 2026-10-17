@@ -12,7 +12,11 @@ function sync(){
  const lang=root.Nomad360UI?.getLanguage?.()||document.documentElement.lang||'ru';
  const active=Object.prototype.hasOwnProperty.call(labels,lang)?lang:'ru';
  link.textContent=labels[active];
- link.setAttribute('href','./US_Retail_Demo.HTML?demo=us-retail-12m&lang='+encodeURIComponent(active));
+ // An exported single-file embed has no neighbouring demo HTML.
+ const target=document.documentElement.hasAttribute('data-nomad-embedded')
+   ?'https://kazartsevev.github.io/shelter-partner-directory/US_Retail_Demo.HTML'
+   :'./US_Retail_Demo.HTML';
+ link.setAttribute('href',target+'?demo=us-retail-12m&lang='+encodeURIComponent(active));
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync);
 else sync();
