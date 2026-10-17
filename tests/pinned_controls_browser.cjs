@@ -62,6 +62,26 @@ async function swipe(page,locator,delta,mobile){
    A.ok(inlineBoxes.every((b,i)=>!i||b.left>=inlineBoxes[i-1].right-1),
      'brand, language and fixed burger never overlap at '+width+': '+JSON.stringify(inlineBoxes));
    A.equal(await burger.evaluate(e=>getComputedStyle(e).position),'fixed','burger independently fixed');
+   const naked=await burger.evaluate(e=>({bg:getComputedStyle(e).backgroundColor,
+     border:getComputedStyle(e).borderWidth,shadow:getComputedStyle(e).boxShadow}));
+   A.equal(naked.bg,'rgba(0, 0, 0, 0)','burger has no opaque square');
+   A.equal(naked.border,'0px','burger has no frame');
+   A.equal(naked.shadow,'none','burger has no background shadow');
+   await page.evaluate(()=>{
+    const el=document.createElement('div');
+    el.id='pinned-nav-contrast-test';
+    Object.assign(el.style,{position:'fixed',top:'0',right:'0',height:'90px',
+      width:'90px',backgroundColor:'#16375a',zIndex:'95',pointerEvents:'none'});
+    document.body.append(el);
+   });
+   for(const [color,expected] of [['#16375a','rgb(255, 255, 255)'],['#ffffff','rgb(22, 55, 90)']]){
+    await page.evaluate(hex=>document.getElementById('pinned-nav-contrast-test').style.backgroundColor=hex,color);
+    await page.waitForTimeout(80);
+    A.equal(await burger.evaluate(e=>getComputedStyle(e).color),expected,
+      'boxless hamburger is adaptive above '+color);
+   }
+   await page.evaluate(()=>document.getElementById('pinned-nav-contrast-test').remove());
+   await page.waitForTimeout(80);
    const rect=await burger.boundingBox();
    A.ok(rect.y>=0&&rect.y<90,'burger stays in viewport after scroll');
    await burger.click();A.equal(await burger.getAttribute('aria-expanded'),'true');
@@ -101,7 +121,7 @@ async function swipe(page,locator,delta,mobile){
     border:getComputedStyle(e).borderWidth,icon:getComputedStyle(e.querySelector('svg')).width}));
   A.ok(bb.width<=44.5,'compact tab stays 44px or smaller visually');
   A.equal(compactCss.border,'0px','no decorative orange ring');
-  A.ok(parseFloat(compactCss.icon)<=18,'megaphone glyph reduced to 17px');
+  A.ok(parseFloat(compactCss.icon)>=23.5&&parseFloat(compactCss.icon)<=24.5,'24px megaphone fills its compact tab');
   await launcher.click();
   A.equal(await page.locator('#nomad360-bug-dialog').evaluate(e=>e.open),true,'icon opens report');
   await page.keyboard.press('Escape');
