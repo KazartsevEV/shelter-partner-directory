@@ -64,6 +64,25 @@ const {pathToFileURL}=require('node:url');
    assert.equal(report.personal,prior,'Demo must not overwrite an existing personal draft');
    assert.equal(JSON.parse(report.demo).skus.length,10);
    assert.match(report.banner,/Учебный пример магазина США/);
+   assert.doesNotMatch(report.banner,/Личный портфель не изменяется|Новый портфель.*очищает поля/);
+   const taxCards=page.locator('[data-p2-sales-tax-summary] [data-tax-sku]');
+   assert.equal(await taxCards.count(),10,'exactly one reference-month row per projected SKU');
+   assert.match(await page.locator('[data-p2-sales-tax-summary]').innerText(),/Базовый месяц/);
+   assert.equal(await page.locator('[data-p2-resource-row]').count(),14,'canonical resource projection');
+   assert.equal((await page.locator('[data-p2-allocated-skus] li').count())>0,true);
+   const exportTruth=await page.evaluate(()=>{
+    const state=PortfolioV2UI.getState();
+    const raw=Nomad360PaymentUI.buildPortfolio(Nomad360SalesTaxV2.prepareStandalone(state,{mode:'sales_tax',ratePct:state.tax.salesTaxPct}));
+    const out=Nomad360SalesTaxV2.project(raw,{mode:'sales_tax',ratePct:state.tax.salesTaxPct});
+    const xlsx=Nomad360PriceExport.document({state,out,kind:'standalone'},'ru');
+    return {tax:out.salesTaxSummary.salesTax,net:out.salesTaxSummary.net,buyer:out.salesTaxSummary.customerTotal,
+     taxTable:xlsx.taxTable,notes:xlsx.notes};
+   });
+   assert.equal(exportTruth.taxTable.rows.length,10);
+   assert.ok(Math.abs(exportTruth.tax-exportTruth.taxTable.totals[4])<1e-8);
+   assert.ok(Math.abs(exportTruth.net-exportTruth.taxTable.totals[3])<1e-8);
+   assert.ok(Math.abs(exportTruth.buyer-exportTruth.taxTable.totals[5])<1e-8);
+   assert.ok(exportTruth.notes.every(n=>!/^sku-\\d+.*Sales Tax/.test(n)),'Excel Notes have no unstructured SKU tax ledger');
    assert.equal(report.state.skus[0].name,'Подарочный набор ручной работы');
    assert.equal(report.state.resources[0].label,'Аренда торгового помещения');
    const financialFingerprint=async()=>page.evaluate(()=>{

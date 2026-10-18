@@ -34,7 +34,11 @@ test('Linked Sales Tax uses net price after discount ONCE; never treats agent fe
   A.equal(d.taxMode,'sales_tax');near(d.rows[0][6],97.2);
   A.equal(d.rows[0][4],100);A.equal(d.rows[0][5],10);
   A.equal(d.rows[1][6],null,'principal customer unit price not provable from agent commission');
-  A.ok(d.notes.some(n=>n.includes('1944')),'principal buyer total is preserved from authoritative projection');
+  A.equal(d.taxTable.rows.length,2);near(d.taxTable.rows[1][5],1944);
+  A.equal(d.taxTable.rows[1][2],{ru:'Доход принципала',en:'Principal revenue',kk:'Принципал түсімі'}[lang]);
+  A.equal(d.taxTable.rows[1][3],1800);
+  near(d.taxTable.totals[4],216);near(d.taxTable.totals[5],2916);
+  A.ok(!d.notes.some(n=>n.includes('1944')),'no dense raw monetary blob in Notes');
   A.ok(d.notes.some(n=>n.includes('Sales Tax')));
   A.ok(!d.notes.some(n=>/existing VAT-inclusive|с НДС\.|ҚҚС қосылған/.test(n)),'no false VAT claim');
  }
@@ -46,13 +50,14 @@ test('Standalone Sales Tax 8%, zero and none: correct buyer prices, zero stays n
    out:{ready:true,items:[{id:'x',source:'resale',name:'Item',price:100,priceWithVat:100}],
    salesTaxSummary:{mode:'sales_tax',ratePct:r,lines:[{id:'x',base:'owner',net:100,salesTax:r,customerTotal:100+r}],net:100,salesTax:r,customerTotal:100+r}}};
   const d=Export.document(c,'kk');A.equal(d.rows[0][4],100);near(d.rows[0][6],100+r);
-  A.equal(d.rows[0][5],null);
+  A.equal(d.rows[0][5],null);A.equal(d.taxTable.period,'Негізгі ай');
+  A.deepEqual(d.taxTable.rows[0].slice(3),[100,r,100+r]);
  }
  const c=linked('none','invalid');
  c.out.salesTaxSummary.lines.forEach(line=>{line.salesTax=0;line.customerTotal=line.net});
  c.out.salesTaxSummary.ratePct=0;c.out.salesTaxSummary.salesTax=0;c.out.salesTaxSummary.customerTotal=2700;
  const d=Export.document(c,'en');A.equal(d.taxMode,'none');A.equal(d.rows[0][6],90);
- A.equal(d.rows[1][6],20);
+ A.equal(d.rows[1][6],20);A.equal(d.taxTable,null);
 });
 test('Fail closed on missing or mismatched Sales Tax ledgers and rates',()=>{
  const c=linked();A.throws(()=>Export.document({...c,out:{ready:true,items:c.out.items}},'ru'),/Missing/);
