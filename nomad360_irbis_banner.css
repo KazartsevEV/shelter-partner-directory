@@ -478,3 +478,20 @@
   border-top-color:#38678B!important;border-bottom-color:#38678B!important
  }
 }
+
+/* IRBIS-08 screenshot QA: the native bank-transfer disclosure must not
+   keep TASK-10's old white payment-card skin on the blue scenic footer. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-methods > details.nomad-pay-bank {
+  background-color:#173B58!important;
+  --p10-fg:#FFFFFF!important;
+  --p10-line:#38678B!important;
+  --p10-muted:#FFFFFF!important;
+  --p10-accent:#FF913F!important;
+  color:#FFFFFF!important;
+ }
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-methods > details.nomad-pay-bank > summary {
+  background-color:transparent!important;
+  color:#FFFFFF!important;
+ }
+}
