@@ -10,10 +10,28 @@ const benefitIcons=[
 function emphasizeTitle(node){
  const heading=node.querySelector('h2');
  if(!heading)return;
- const text=heading.textContent||'',match=text.match(/мне выгодно|most profitable|тиімді/i);
- if(!match)return;
- const span=document.createElement('span');span.className='nomad-hero-title-accent';span.textContent=match[0];
- heading.replaceChildren(document.createTextNode(text.slice(0,match.index)),span,document.createTextNode(text.slice(match.index+match[0].length)));
+ const text=heading.textContent||'',lang=root.Nomad360UI?.getLanguage()||document.documentElement.lang;
+ // Keep the original localized sentence and desktop wrapping unchanged.
+ // On phones, reserve the complete final phrase for line three in EN and KK.
+ const ending=lang==='en'?'for me?':lang==='kk'?'айналысқан тиімді?':'';
+ const endAt=ending?text.lastIndexOf(ending):-1;
+ function appendAccent(parent,part){
+  const match=part.match(/мне выгодно|most profitable|тиімді/i);
+  if(!match){parent.append(document.createTextNode(part));return;}
+  const span=document.createElement('span');
+  span.className='nomad-hero-title-accent';span.textContent=match[0];
+  parent.append(document.createTextNode(part.slice(0,match.index)),span,
+   document.createTextNode(part.slice(match.index+match[0].length)));
+ }
+ const fragment=document.createDocumentFragment();
+ if(endAt>=0){
+  appendAccent(fragment,text.slice(0,endAt));
+  const last=document.createElement('span');
+  last.className='nomad-hero-title-mobile-final';
+  appendAccent(last,text.slice(endAt));
+  fragment.append(last);
+ }else appendAccent(fragment,text);
+ heading.replaceChildren(fragment);
 }
 function decorateBenefits(intro){
  const lead=intro.querySelector('.nomad-intro-lead');
