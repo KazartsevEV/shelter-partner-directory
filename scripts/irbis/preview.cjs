@@ -36,6 +36,34 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    A.equal(await page.locator('#nomad360-return').count(),1);
    A.equal(await page.locator('#nomad360-support').count(),1);
    A.equal(await page.locator('#nomad360-product-details').count(),1);
+   A.equal(await page.locator('.nomad-footer-inner').evaluate(e=>e.lastElementChild?.id),'nomad360-irbis-banner',
+    'The scenic banner is the final visible footer block, not an earlier promo');
+   A.equal(await banner.locator('#nomad360-license').count(),1,'Existing license lives inside scenic footer');
+   A.equal(await banner.locator('#nomad360-data').count(),1,'Existing privacy statement lives inside scenic footer');
+   A.equal(await banner.locator('#nomad360-official').count(),1,'Official contact is inside scenic footer');
+   A.equal(await banner.locator('#nomad360-official details').count(),0,'Official email is a plain link, not a disclosure');
+   A.equal(await banner.locator('#nomad360-official a').getAttribute('href'),
+    'mailto:nomad260393@gmail.com','Original official mailto is unchanged');
+   A.equal(await banner.locator('.nomad-footer-meta').evaluate(e=>e.lastElementChild?.id),
+    'nomad360-official','Official contact is the final item inside scenic footer');
+   const sectionIds=['nomad360-irbis-support-disclosure','nomad360-product-details','nomad360-license','nomad360-data'];
+   A.deepEqual(await banner.evaluate(()=>{
+    const root=document.getElementById('nomad360-irbis-banner');
+    return [...root.querySelectorAll('#nomad360-irbis-support-disclosure,#nomad360-product-details,#nomad360-license,#nomad360-data')].map(e=>e.id);
+   }),sectionIds,'Visible disclosure order: support, funds, license, privacy');
+   const sectionGeometry=await banner.evaluate(ids=>ids.map(id=>{
+    const el=document.getElementById(id);
+    const summary=el.querySelector(':scope > summary');
+    const box=summary.getBoundingClientRect();
+    const css=getComputedStyle(summary),border=getComputedStyle(el);
+    return {id,border:border.borderTopColor,top:border.borderTopWidth,
+     summaryDisplay:css.display,alignItems:css.alignItems,inset:parseFloat(css.paddingLeft),
+     minHeight:parseFloat(css.minHeight),actualHeight:box.height};
+   }),sectionIds);
+   A.ok(sectionGeometry.every(x=>x.border==='rgb(56, 103, 139)'&&x.top==='1px'
+    &&x.summaryDisplay==='flex'&&x.alignItems==='center'
+    &&x.inset>=12&&x.minHeight>=70&&x.actualHeight>=70),
+    'All four disclosure headings are inset and vertically centered between #38678B rules: '+JSON.stringify(sectionGeometry));
    A.deepEqual(await banner.locator('[data-return-platform]').evaluateAll(xs=>xs.map(x=>x.dataset.returnPlatform)),['windows','ios','android']);
    A.equal(await banner.locator('.nomad-irbis-platform-icon').count(),3);
    const actualTitle=await banner.locator('#nomad360-return h2').textContent();
@@ -45,6 +73,16 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    const support=banner.locator('#nomad360-irbis-support-disclosure'),projects=banner.locator('#nomad360-product-details');
    A.equal(await support.getAttribute('open'),null,'Donations collapsed initially');
    A.equal(await projects.getAttribute('open'),null,'Project details collapsed initially');
+   const license=banner.locator('#nomad360-license'),privacy=banner.locator('#nomad360-data');
+   A.equal(await license.getAttribute('open'),null,'License disclosure initially collapsed');
+   A.equal(await privacy.getAttribute('open'),null,'Privacy disclosure initially collapsed');
+   await license.locator(':scope > summary').click();
+   await privacy.locator(':scope > summary').click();
+   A.equal(await license.getAttribute('open'),'','Existing license opens in the banner');
+   A.equal(await privacy.getAttribute('open'),'','Existing data disclosure opens in the banner');
+   A.match(await license.locator('a').getAttribute('href'),
+    /^https:\/\/kazartsevev\.github\.io\/shelter-partner-directory\/license\//,
+    'Original legal URL is retained');
    const bg=await banner.evaluate(e=>({
     scene:getComputedStyle(e,'::before').backgroundImage,
     phone:getComputedStyle(e.querySelector('.nomad-irbis-mobile-art')).backgroundImage,
@@ -71,6 +109,10 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    await page.evaluate(x=>window.Nomad360UI.setLanguage(x),next);
    await page.waitForFunction(x=>document.documentElement.lang===x,next);
    A.equal(await page.locator('#nomad360-irbis-support-disclosure').getAttribute('open'),'','Open state survives language switch');
+   A.equal(await page.locator('#nomad360-license').getAttribute('open'),'','Legal state survives language switch');
+   A.equal(await page.locator('#nomad360-data').getAttribute('open'),'','Privacy state survives language switch');
+   A.equal(await page.locator('.nomad-footer-inner').evaluate(e=>e.lastElementChild?.id),
+    'nomad360-irbis-banner','Footer order survives native locale redraw');
    A.equal(await page.locator('#nomad360-irbis-banner').count(),1);
    A.equal(await page.locator('#nomad360-return h2').textContent(),await page.evaluate(()=>window.Nomad360LocaleCore.t('return.title')));
    A.equal(await page.locator('#nomad360-irbis-banner .nomad-irbis-brand').count(),1,'Brand survives native locale rerender');
