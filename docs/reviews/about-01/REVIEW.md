@@ -21,7 +21,7 @@ Status: **DRAFT. Owner visual acceptance required. DO NOT MERGE.**
 
 ## Evidence
 - [Browser receipt (RU/EN/KK × 320/390/768/1280/1440)](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/39117924272), GREEN on ABOUT-03 (source checksum, dimensions, aspect, three links, four contacts, no horizontal overflow, live-language change, JS page errors).
-- Latest ABOUT-04 text wrapping requires same browser rerun; do not imply its old screenshot already depicts the latest commit.
+- [Final ABOUT-04 Chromium screenshots (all RU/EN/KK widths)](https://github.com/KazartsevEV/shelter-partner-directory/actions/runs/39118229186): **GREEN**. Single-line unbroken desktop WhatsApp contact confirmed visually at 1280px; other visual geometry unchanged.
 - Official approved reference screenshots remain in main under `docs/approved-design/unified-banners/`.
 - Full repository CI remains **not fully green** due old scope/SEO/palette contracts, requiring separate classification. Direct marketing regression, navigation and first hero were GREEN on the prior visual baseline.
 
