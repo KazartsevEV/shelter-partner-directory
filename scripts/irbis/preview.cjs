@@ -58,7 +58,7 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    A.ok(bg.scroll<=bg.viewport+2,'No horizontal viewport overflow');
    A.ok(bg.buttons.every(x=>x.width>44&&x.right<=bg.viewport+2),'Shortcuts must fit viewport');
    if(lang==='ru')await banner.screenshot({path:path.join(out,'ru-'+width+'-closed.png')});
-   await support.locator('summary').click();
+   await support.locator(':scope > summary').click();
    A.equal(await support.getAttribute('open'),'','Genuine details disclosure');
    A.equal(await banner.locator('iframe.nomad-crypto-frame').count(),1,'Actual NOWPayments iframe retained');
    A.equal(await banner.locator('.nomad-pay-kaspi').count(),1,'Kaspi retained');
@@ -73,7 +73,7 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    A.equal(await page.locator('#nomad360-irbis-support-disclosure').getAttribute('open'),'','Open state survives language switch');
    A.equal(await page.locator('#nomad360-irbis-banner').count(),1);
    A.equal(await page.locator('#nomad360-return h2').textContent(),await page.evaluate(()=>window.Nomad360LocaleCore.t('return.title')));
-   await page.locator('#nomad360-irbis-support-disclosure summary').click();
+   await page.locator('#nomad360-irbis-support-disclosure > summary').click();
    await page.locator('#nomad360-return [data-return-platform="ios"]').click();
    A.equal(await page.locator('#nomad360-return-help').evaluate(e=>e.open),true,'Actual iOS help works');
    await page.keyboard.press('Escape');
