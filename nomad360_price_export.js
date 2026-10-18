@@ -36,6 +36,11 @@ const copy=(globalThis.Nomad360LocaleCore?.locales("export.excel") || {
   missing:'Бос сандық ұяшық модельде анықталған мән жоқ екенін білдіреді, нөлді емес.',
   review:'Бағаны пайдаланбас бұрын осы позицияның күйін тексеріңіз.'}
 });
+const salesTaxColumns={
+ ru:{sheet:'Sales Tax',id:'SKU / ID',name:'Товар / услуга',base:'Кому относится налог',owner:'Мой доход',principal:'Доход принципала',net:'Выручка без Sales Tax',tax:'Sales Tax',buyer:'Покупатель оплачивает',total:'Итого',period:'Базовый месяц'},
+ en:{sheet:'Sales Tax',id:'SKU / ID',name:'Product / service',base:'Tax revenue belongs to',owner:'Owner revenue',principal:'Principal revenue',net:'Revenue excl. Sales Tax',tax:'Sales Tax',buyer:'Customer pays',total:'Total',period:'Reference month'},
+ kk:{sheet:'Sales Tax',id:'SKU / ID',name:'Тауар / қызмет',base:'Салықтық түсім иесі',owner:'Менің түсімім',principal:'Принципал түсімі',net:'Sales Tax-сыз түсім',tax:'Sales Tax',buyer:'Сатып алушы төлейді',total:'Барлығы',period:'Негізгі ай'}
+};
 const number=value=>typeof value==='number'&&Number.isFinite(value)?value:null;
 const text=value=>value===undefined||value===null?'':String(value);
 function document(context,language='en'){
@@ -86,15 +91,35 @@ function document(context,language='en'){
    basePrice,number(kind==='linked'?item.discountSelected:null),
    buyer,t[status]||text(status)];
  });
- if(taxMode!=='vat'){
-  for(const line of summary.lines||[])
-   notes.push(text(line.id)+' · '+(labels.v2SalesTaxLabel||'Sales Tax')+
-    ': '+text(line.salesTax)+'; '+t.customer+': '+text(line.customerTotal));
-  notes.push((labels.v2BuyerSummary||'Sales Tax')+': '+
-   text(summary.customerTotal)+'; Sales Tax: '+text(summary.salesTax));
+ // The accepted V2 projection is the ONLY source of tax amounts.
+ // An owner/principal line is a monetary aggregate for this model's
+ // period, not a per-invoice tax ledger or a unit retail price.
+ let taxTable=null;
+ if(taxMode==='sales_tax'){
+  const labels=salesTaxColumns[language],byId=new Map(out.items.map(item=>[String(item.id),item]));
+  if(!Array.isArray(summary.lines)||summary.lines.length!==out.items.length||
+     new Set(summary.lines.map(line=>String(line.id))).size!==out.items.length)
+   throw Error('Incomplete V2 Sales Tax projection for spreadsheet');
+  const taxRows=summary.lines.map(line=>{
+   const item=byId.get(String(line.id));
+   if(!item||!['owner','principal'].includes(line.base)||
+      [line.net,line.salesTax,line.customerTotal].some(value=>number(value)===null))
+    throw Error('Invalid V2 Sales Tax row');
+   return [text(line.id),text(item.name),
+     line.base==='principal'?labels.principal:labels.owner,
+     line.net,line.salesTax,line.customerTotal];
+  });
+  if([summary.net,summary.salesTax,summary.customerTotal].some(value=>number(value)===null))
+   throw Error('Invalid V2 Sales Tax summary');
+  taxTable={
+   sheet:labels.sheet,period:kind==='standalone'?labels.period:null,
+   columns:[labels.id,labels.name,labels.base,labels.net,labels.tax,labels.buyer],
+   rows:taxRows,
+   totals:[labels.total,'','',summary.net,summary.salesTax,summary.customerTotal]
+  };
  }
  return {language,currency,kind,taxMode,ratePct:taxMode==='sales_tax'?Number(rate):null,
-   sheet:t.sheet,notesSheet:t.notes,noteColumn:t.note,columns,rows,notes};
+   sheet:t.sheet,notesSheet:t.notes,noteColumn:t.note,columns,rows,notes,taxTable};
 }
 async function write(doc,ExcelJS){
  if(!ExcelJS?.Workbook)throw Error('Local Excel library is unavailable');
@@ -108,7 +133,25 @@ async function write(doc,ExcelJS){
  sheet.autoFilter={from:{row:1,column:1},to:{row:doc.rows.length+1,column:8}};
  const notes=workbook.addWorksheet(doc.notesSheet);notes.columns=[{header:doc.noteColumn,width:110}];
  for(const note of doc.notes)notes.addRow([note]).alignment={wrapText:true,vertical:'top'};
- for(const s of [sheet,notes]){
+ let salesSheet=null;
+ if(doc.taxTable){
+  // Numeric projection: preserve original JS numbers in cells; Excel displays
+  // two decimal places. No formulas, derived tax or invented monthly invoices.
+  salesSheet=workbook.addWorksheet(doc.taxTable.sheet,{views:[{state:'frozen',ySplit:1}]});
+  salesSheet.columns=doc.taxTable.columns.map((header,index)=>({header,width:[20,39,25,25,20,27][index]}));
+  for(const values of [...doc.taxTable.rows,doc.taxTable.totals]){
+   const row=salesSheet.addRow(values);
+   for(const col of [4,5,6])row.getCell(col).numFmt='#,##0.00';
+   row.alignment={vertical:'top',wrapText:true};
+  }
+  salesSheet.getRow(doc.taxTable.rows.length+2).font={bold:true};
+  salesSheet.autoFilter={from:{row:1,column:1},to:{row:doc.taxTable.rows.length+1,column:6}};
+  if(doc.taxTable.period){
+   salesSheet.getCell('H1').value=doc.taxTable.period;
+   salesSheet.getColumn(8).width=23;
+  }
+ }
+ for(const s of [sheet,notes,...(salesSheet?[salesSheet]:[])]){
   s.getRow(1).font={bold:true,color:{argb:'FFFFFFFF'}};
   s.getRow(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF16375A'}};
   s.getRow(1).alignment={wrapText:true,vertical:'middle'};s.getRow(1).height=32;
