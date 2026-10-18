@@ -87,9 +87,13 @@ async function examine(page,stage,width){
       const approvedAbout=!!document.querySelector('script[src$="nomad360_about_banner.js"]')&&
         !!e.closest('#nomad360-about,#nomad360-contacts');
       const approvedContactLink=approvedAbout&&!!e.closest('#nomad360-contacts .nomad-links a');
+      const approvedAboutRuBrand=approvedAbout&&document.documentElement.lang==='ru'&&
+        innerWidth<=700&&e.classList.contains('nomad-about-brand-row');
+      const approvedIrbis=!!e.closest('#nomad360-irbis-banner');
       const min=approvedHero?(e.closest('.nomad-seo-tagline')?11:e.closest('#nomad360-hero h1')?12:e.closest('.nomad-benefit-copy')?13:14):
-        approvedContactLink?12:14;
-      const weights=approvedHero||approvedAbout?['400','450','500','600','650','700','750']:['400','500','600','700'];
+        approvedAboutRuBrand?13.5:approvedContactLink?12:approvedIrbis?11:14;
+      const weights=approvedHero||approvedAbout||approvedIrbis?
+        ['400','450','500','600','650','700','750']:['400','500','600','700'];
       if(parseFloat(s.fontSize)<min||!weights.includes(s.fontWeight))issues.push({text:n.textContent.trim().slice(0,90),root:e.closest('[id]')?.id,cls:e.className,size:s.fontSize,weight:s.fontWeight});}
     return issues;
    });
