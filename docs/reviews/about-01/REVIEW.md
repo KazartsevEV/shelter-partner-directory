@@ -29,3 +29,15 @@
 ## CI
 
 Last automated visual check for head `1fcafa0caf03656c054d16c03e97016eb91a3709` was queued when this note was updated. No visual acceptance is claimed.
+
+## ABOUT-06 — owner’s latest layout corrections (18 October)
+
+**Branch implementation, not bitmap redesign:**
+- Desktop (`min-width:1001px`): three services use 182px minimum height instead of 242px, icons 60px instead of 78px, tighter padding/gaps, grid bottom margin 7px instead of 30px and contacts top padding 17px instead of 24px. Text is never forcibly clipped; if localized text requires height, the card grows.
+- Desktop photo-to-navy transition starts at 73% of the **same** panorama (previously 67%), finishing at 100%. The left overlay fades from translucent navy to **zero alpha at 67% of the horizontal canvas**.
+- Mobile (`max-width:700px`): the actual translated `h2` and `.nomad-about-opening` are wrapped into a structural `.nomad-about-scene-copy` on each original header localization render. The brand paragraph shifts into the scenic area previously occupied by the automation caption; the orange-rule `.nomad-about-caption` follows only **after** the image on uninterrupted navy. No copy duplication, hardcoded translation, image editing or isolated square scene.
+- An explicit browser contract now checks service minimum heights and lack of clipping, distance to contacts, left gradient fading to 67%, and the mobile opening/caption relative to the image height across RU/EN/KK × five widths.
+
+**Preview receipt:** Local Chromium layout screenshots are available in the conversation (`about-06-final-1280.png`, `about-06-final-390.png`) with representative content and simplified icons. These are **layout prototypes, not actual full-site GitHub Actions receipts**, and cannot substitute for real browser acceptance.
+
+**Required before accepting or merging:** Run the ABOUT-01 visual workflow on the latest branch HEAD, inspect its actual-site RU/EN/KK 320/390/768/1280/1440 screenshots and verify that live header/palette CSS and icon implementations match. Do not merge without owner approval. Previous workflow attempts have been queued.
