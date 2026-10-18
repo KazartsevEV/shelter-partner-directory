@@ -63,8 +63,8 @@
     },
     {
       "file": "nomad360_locale_core.js",
-      "sha256": "f1c433af5536a175e6b21786c4348a7b795f5dd5282ce18754205878391d8c47",
-      "bytes": 483523,
+      "sha256": "2dfee309573c3a5c960242b7a0948dfe5199465eee68b8860c71cf6bfecfaf36",
+      "bytes": 483505,
       "owner": "nomad360_locale_core.js"
     },
     {
@@ -99,8 +99,8 @@
     },
     {
       "file": "nomad360_price_export.js",
-      "sha256": "53aaab06ba39d042e095f49940d7c5ebdef43e9ce5b2f10d8ffddc7fe3ea16b5",
-      "bytes": 11410,
+      "sha256": "e3de73966c1b0ed851ceb141dcfd072d8d71378f59c32f5fbb9c6bda98b6d5a0",
+      "bytes": 14401,
       "owner": "nomad360_price_export.js"
     },
     {
@@ -237,8 +237,8 @@
     },
     {
       "file": "portfolio_v2_ui.js",
-      "sha256": "b76ea8d5a3c396a4bbf35ef754f833b95d980500bb91680a62bfa607cca1bb09",
-      "bytes": 39602,
+      "sha256": "2646b4d4fa226b6eafd0ec58e5f4eba52c8ef2c5664eb47e35f02c0405616c0c",
+      "bytes": 42542,
       "owner": "portfolio_v2_ui.js"
     }
   ],
@@ -14339,9 +14339,9 @@
       "line": 1018,
       "kind": "semantic-message",
       "translations": {
-        "ru": "1. Общий маркетинговый двигатель",
-        "en": "1. Shared marketing engine",
-        "kk": "1. Ортақ маркетинг моделі"
+        "ru": "1. Реклама и маркетинг",
+        "en": "1. Advertising and marketing",
+        "kk": "1. Жарнама және маркетинг"
       }
     },
     {
@@ -24461,6 +24461,138 @@
       }
     },
     {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:base",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "base",
+      "translations": {
+        "ru": "Кому относится налог",
+        "en": "Tax revenue belongs to",
+        "kk": "Салықтық түсім иесі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:buyer",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "buyer",
+      "translations": {
+        "ru": "Покупатель оплачивает",
+        "en": "Customer pays",
+        "kk": "Сатып алушы төлейді"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:id",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "id",
+      "translations": {
+        "ru": "SKU / ID",
+        "en": "SKU / ID",
+        "kk": "SKU / ID"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:name",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "name",
+      "translations": {
+        "ru": "Товар / услуга",
+        "en": "Product / service",
+        "kk": "Тауар / қызмет"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:net",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "net",
+      "translations": {
+        "ru": "Выручка без Sales Tax",
+        "en": "Revenue excl. Sales Tax",
+        "kk": "Sales Tax-сыз түсім"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:owner",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "owner",
+      "translations": {
+        "ru": "Мой доход",
+        "en": "Owner revenue",
+        "kk": "Менің түсімім"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:period",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "period",
+      "translations": {
+        "ru": "Базовый месяц",
+        "en": "Reference month",
+        "kk": "Негізгі ай"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:principal",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "principal",
+      "translations": {
+        "ru": "Доход принципала",
+        "en": "Principal revenue",
+        "kk": "Принципал түсімі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:sheet",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "sheet",
+      "translations": {
+        "ru": "Sales Tax",
+        "en": "Sales Tax",
+        "kk": "Sales Tax"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:tax",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "tax",
+      "translations": {
+        "ru": "Sales Tax",
+        "en": "Sales Tax",
+        "kk": "Sales Tax"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:total",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "total",
+      "translations": {
+        "ru": "Итого",
+        "en": "Total",
+        "kk": "Барлығы"
+      }
+    },
+    {
       "id": "nomad360_sales_tax_v1.js:copy:574:buyer",
       "file": "nomad360_sales_tax_v1.js",
       "line": 13,
@@ -25755,6 +25887,150 @@
         "en": "Full-service prices follow V1. Revenue excludes VAT. Depreciation, principal and shared expenses are accounted for separately. Reserves do not reduce profit.",
         "kk": "Толық қызмет бағалары V1 есебінен алынды. Кіріс ҚҚС-сыз көрсетілді. Амортизация, несие сомасы және ортақ шығындар бөлек есептеледі. Резерв пайдадан шегерілмейді."
       }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:amount",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "amount",
+      "translations": {
+        "ru": "Сумма",
+        "en": "Amount",
+        "kk": "Сома"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:buyer",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "buyer",
+      "translations": {
+        "ru": "Покупатель оплачивает",
+        "en": "Customer pays",
+        "kk": "Сатып алушы төлейді"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:frequency",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "frequency",
+      "translations": {
+        "ru": "Частота",
+        "en": "Frequency",
+        "kk": "Жиілік"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:monthly",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "monthly",
+      "translations": {
+        "ru": "месяц",
+        "en": "month",
+        "kk": "ай"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:net",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "net",
+      "translations": {
+        "ru": "Выручка без налога",
+        "en": "Revenue excl. sales tax",
+        "kk": "Салықсыз түсім"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:once",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "once",
+      "translations": {
+        "ru": "раз",
+        "en": "once",
+        "kk": "бір рет"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:period",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "period",
+      "translations": {
+        "ru": "Базовый месяц · по SKU",
+        "en": "Reference month · by SKU",
+        "kk": "Негізгі ай · SKU бойынша"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:recipients",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "recipients",
+      "translations": {
+        "ru": "Кому отнесено",
+        "en": "Allocated to",
+        "kk": "Кімге бөлінген"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:tax",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "tax",
+      "translations": {
+        "ru": "Sales Tax",
+        "en": "Sales Tax",
+        "kk": "Sales Tax"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:totalBuyer",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "totalBuyer",
+      "translations": {
+        "ru": "Покупатели оплачивают · итого",
+        "en": "Total paid by customers",
+        "kk": "Сатып алушылар төлемі · барлығы"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:totalNet",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "totalNet",
+      "translations": {
+        "ru": "Выручка без налога · итого",
+        "en": "Revenue excl. sales tax · total",
+        "kk": "Салықсыз түсім · барлығы"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:totalTax",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "totalTax",
+      "translations": {
+        "ru": "Sales Tax · итого",
+        "en": "Sales Tax · total",
+        "kk": "Sales Tax · барлығы"
+      }
     }
   ],
   "patterns": [
@@ -26733,7 +27009,7 @@
     {
       "file": "entries/nomad360_price_export.js/001.json",
       "owner": "nomad360_price_export.js",
-      "count": 174
+      "count": 210
     },
     {
       "file": "entries/nomad360_return.js/001.json",
@@ -26868,7 +27144,7 @@
     {
       "file": "entries/portfolio_v2_ui.js/002.json",
       "owner": "portfolio_v2_ui.js",
-      "count": 194
+      "count": 255
     }
   ]
 }
