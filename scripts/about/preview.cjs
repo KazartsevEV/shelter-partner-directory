@@ -46,7 +46,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const normalized=s=>String(s).replace(/\s+/g,' ').trim();
     return {
      language:window.Nomad360UI.getLanguage(),
-     title:normalized(displayed('#nomad360-about .nomad-about-scene-copy > h2'))===normalized(words.about),
+     title:normalized(displayed(innerWidth<=700?'.nomad-about-heading-mobile':'.nomad-about-heading-full'))===
+       normalized(innerWidth<=700?words.nav[3]:words.about),
      brand:normalized(displayed('.nomad-about-brand'))===normalized(words.aboutBrand),
      caption:normalized(displayed('.nomad-about-caption'))===
        normalized(words.flowBefore+words.flowEmphasis+words.flowAfter),
@@ -96,6 +97,9 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       openingRight:section.querySelector('.nomad-about-opening').getBoundingClientRect().right-rect.left,
       aboutLeft:sr.left,
       scenicCopyBox:scenicCopy?box(scenicCopy):null,headingBox:heading?box(heading):null,
+      visibleMobileHeadingText:heading?.querySelector('.nomad-about-heading-mobile')?.textContent,
+      mobileHeadingWidth:heading?.querySelector('.nomad-about-heading-mobile')?.getBoundingClientRect().width,
+      headingLineHeight:heading?parseFloat(getComputedStyle(heading).lineHeight):0,
       openingBox:box(opening),captionBox:box(caption),
       captionBandBox:captionBand?box(captionBand):null,
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
@@ -154,9 +158,11 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'Mobile scenic area must not reserve the old automation paragraph space');
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
       'Highlighted mobile automation caption must follow all service cards');
-    if(lang==='en'||lang==='kk')
-      assert.ok(layout.headingBox&&layout.headingBox.width<layout.sectionWidth*.61,
-        'Translated EN/KK heading must stay in safe left column, not across the moon');
+    assert.ok(layout.headingBox&&layout.headingBox.height<=layout.headingLineHeight+3,
+      'Existing short translated mobile title must fit on one line without changing hero composition');
+    assert.ok(layout.mobileHeadingWidth<=layout.sectionWidth*.72,
+      'Mobile heading must remain on the left and clear of the moon and rocks');
+    assert.equal(layout.visibleMobileHeadingText,lang==='ru'?'О проекте':lang==='en'?'About':'Жоба туралы');
    }
    const file=lang+'-'+width+'-about.png';
    await page.locator('#nomad360-information').screenshot({path:path.join(out,file)});
