@@ -504,3 +504,17 @@
   border-bottom-color:#FF913F!important;
  }
 }
+
+/* IRBIS-08 main-chevron contrast: override the TASK-10 global ::after
+   !important border reset in the same cascade layer for all four rows. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner :is(
+  #nomad360-support > details,
+  #nomad360-product-details,
+  #nomad360-license,
+  #nomad360-data
+ ) > summary::after {
+  border-right-color:#FF913F!important;
+  border-bottom-color:#FF913F!important;
+ }
+}
