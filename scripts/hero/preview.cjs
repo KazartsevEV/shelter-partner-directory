@@ -35,6 +35,25 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    A.equal(await p.locator('#nomad360-hero .nomad-intro-cta').getAttribute('href'),'#nomad360-selling-choice');
    A.equal(await p.locator('#nomad360-hero h2').textContent(),await p.evaluate(()=>Nomad360LocaleCore.t('interface.shell.sub',Nomad360UI.getLanguage())));
    A.equal(await p.locator('#nomad360-seo-banner .nomad-seo-logo').getAttribute('src'),await p.locator('#nomad360-header .nomad-logo').getAttribute('src'));
+   if(lang==='en'||lang==='kk'){
+    const phrase=lang==='en'?'for me?':'айналысқан тиімді?';
+    const finalLine=await p.locator('#nomad360-hero h2 .nomad-hero-title-mobile-final').evaluate(el=>{
+      const heading=el.parentElement,rect=el.getBoundingClientRect(),full=heading.getBoundingClientRect();
+      return {text:el.textContent,display:getComputedStyle(el).display,
+        lineHeight:parseFloat(getComputedStyle(heading).lineHeight),
+        lineIndex:(rect.top-full.top)/parseFloat(getComputedStyle(heading).lineHeight),
+        fits:rect.width<=full.width+1};
+    });
+    A.equal(finalLine.text,phrase,'Full EN/KK final phrase must be kept intact');
+    if(width===390){
+      A.equal(finalLine.display,'block','Mobile phrase forms its own line');
+      A.ok(Math.abs(finalLine.lineIndex-2)<0.4,
+        'EN/KK final phrase must begin on mobile line three');
+      A.ok(finalLine.fits,'EN/KK mobile final phrase must fit the heading');
+    }
+    if(width===1440)A.equal(finalLine.display,'inline','Desktop must retain natural wrapping');
+   }
+
    const geometry=await p.evaluate(()=>{
     const banner=document.querySelector('#nomad360-commercial-banner').getBoundingClientRect();
     const headline=document.querySelector('#nomad360-hero h2').getBoundingClientRect();
