@@ -512,3 +512,12 @@
   white-space:nowrap;
  }
 }
+
+/* ABOUT desktop artwork only, 2026-10-19: the approved wider Bozzhyra
+   nightscape replaces only the desktop background. Keep all original
+   positioning, artwork mask, foreground DOM and mobile landscape intact. */
+@media(min-width:701px){
+ #nomad360-information.nomad-information::before{
+  background-image:url("./assets/nomad360-banners/about-bozzhyra-night-desktop.webp");
+ }
+}
