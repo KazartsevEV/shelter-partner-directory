@@ -210,3 +210,18 @@
   color:#FFFFFF!important;
  }
 }
+
+/* ABOUT-01b: TASK-10's generated named layer forces old About cards white.
+ * Restore ONLY this composition to a continuous navy surface, including
+ * foreground tokens on the real sections and three service list items. */
+@layer nomad360-palette{
+ body:has(#home-screen) #nomad360-information .nomad-info-block,
+ body:has(#home-screen) #nomad360-information .nomad-about-flow>li{
+  background-color:transparent!important;
+  --p10-fg:#FFFFFF!important;
+  --p10-line:var(--p10-blue,#38678B)!important;
+  --p10-muted:#FFFFFF!important;
+  --p10-accent:var(--p10-orange,#FF913F)!important;
+  color:#FFFFFF!important;
+ }
+}
