@@ -259,3 +259,29 @@
   color:var(--p10-orange,#FF913F)!important;
  }
 }
+
+/* ABOUT-03: long real EN/KK headings must not cross the ORIGINAL moon.
+ * A localized, navy-only copy veil fades out BEFORE the moon/right cliffs.
+ * This does not touch or regenerate any WebP pixel. */
+@media(max-width:700px){
+ html[lang="en"] #nomad360-information #nomad360-about>h2,
+ html[lang="kk"] #nomad360-information #nomad360-about>h2{
+  max-width:58%;
+  font-size:clamp(25px,7.1vw,29px);
+  overflow-wrap:normal;
+ }
+ #nomad360-information .nomad-about-opening{
+  position:relative;isolation:isolate;
+ }
+ #nomad360-information .nomad-about-opening::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  inset:-7px -4px -9px -22px;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.94) 0%,rgba(23,59,88,.79) 48%,
+   rgba(23,59,88,.40) 75%,rgba(23,59,88,0) 100%);
+  -webkit-mask-image:linear-gradient(to bottom,
+   transparent 0%,#000 15%,#000 84%,transparent 100%);
+  mask-image:linear-gradient(to bottom,
+   transparent 0%,#000 15%,#000 84%,transparent 100%);
+ }
+}
