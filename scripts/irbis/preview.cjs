@@ -51,7 +51,7 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
     const root=document.getElementById('nomad360-irbis-banner');
     return [...root.querySelectorAll('#nomad360-irbis-support-disclosure,#nomad360-product-details,#nomad360-license,#nomad360-data')].map(e=>e.id);
    }),sectionIds,'Visible disclosure order: support, funds, license, privacy');
-   const sectionGeometry=await banner.evaluate(ids=>ids.map(id=>{
+   const sectionGeometry=await banner.evaluate((root,ids)=>ids.map(id=>{
     const el=document.getElementById(id);
     const summary=el.querySelector(':scope > summary');
     const box=summary.getBoundingClientRect();
