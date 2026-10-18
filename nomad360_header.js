@@ -607,7 +607,7 @@
   // RET-07A about icons end.
   function infoMarkup(t) {
     return '<section id="nomad360-about" class="nomad-info-block" tabindex="-1">'+
-      '<h2><span class="nomad-about-heading-full">'+esc(t.about)+'</span><span class="nomad-about-heading-mobile">'+esc(t.nav[3])+'</span></h2>'+
+      '<h2>'+esc(t.about)+'</h2>'+
       '<div class="nomad-about-opening"><p class="nomad-about-brand">'+esc(t.aboutBrand)+'</p><p class="nomad-about-motto">'+t.aboutMotto.map(line=>'<span>'+esc(line)+'</span>').join('')+'</p></div>'+
       '<ol class="nomad-about-flow" role="list">'+t.flow.map((step,index)=>'<li>'+aboutIcon(index)+'<h3>'+esc(step.title)+'</h3><p>'+esc(step.question)+'</p></li>').join('')+'</ol>'+
       '<p class="nomad-about-caption">'+esc(t.flowBefore)+'<em>'+esc(t.flowEmphasis)+'</em>'+esc(t.flowAfter)+'</p></section>'+
