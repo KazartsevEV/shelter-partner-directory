@@ -59,6 +59,20 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     A.ok(mobileVisual.summaryTop>mobileVisual.ctaTop&&mobileVisual.summaryTop<470,
       'Benefits panel begins below the mobile scenic CTA');
    }
+   if(width>=1280){
+    const desktopBand=await p.evaluate(()=>{
+      const banner=document.querySelector('#nomad360-commercial-banner');
+      const scenic=getComputedStyle(banner,'::before');
+      const wrapper=banner.getBoundingClientRect();
+      const summary=document.querySelector('#nomad360-hero-summary').getBoundingClientRect();
+      return {sceneBottom:wrapper.top+parseFloat(scenic.height),
+        cardTop:summary.top,cardBottom:summary.bottom,bandBottom:wrapper.bottom};
+    });
+    A.ok(desktopBand.cardTop>=desktopBand.sceneBottom+12,
+      'Desktop summary border must stay below scenic layer on solid navy');
+    A.ok(desktopBand.cardBottom<=desktopBand.bandBottom,
+      'Desktop summary content and border must fit the navy band');
+   }
    A.equal(geometry.background,'rgb(23, 59, 88)','Main approved navy');
    A.match(geometry.art,/hero\.webp/,'Approved scenery layer');
    A.ok(geometry.scrollWidth<=width+1,'No horizontal page scroll');
