@@ -95,6 +95,16 @@ function decorate(){
   if(saved.has(details.id))details.open=saved.get(details.id);
  }
  if(saved.has(products.id))products.open=saved.get(products.id);
+ // The snow-leopard banner is now the final visual footer, not an upstream
+ // promo. Reuse native localized disclosures and the official mail link.
+ const meta=footer.querySelector('.nomad-footer-meta');
+ if(meta&&meta.parentElement!==scene)scene.append(meta);
+ for(const id of ['nomad360-license','nomad360-data']){
+  const detail=scene.querySelector('#'+id);
+  if(detail&&saved.has(id))detail.open=saved.get(id);
+ }
+ const inner=footer.querySelector('.nomad-footer-inner');
+ if(inner&&inner.lastElementChild!==scene)inner.append(scene);
  syncWidth();
 }
 function boot(){
