@@ -87,7 +87,7 @@ const {pathToFileURL}=require('node:url');
    assert.ok(Math.abs(exportTruth.tax-exportTruth.taxTable.totals[4])<1e-8);
    assert.ok(Math.abs(exportTruth.net-exportTruth.taxTable.totals[3])<1e-8);
    assert.ok(Math.abs(exportTruth.buyer-exportTruth.taxTable.totals[5])<1e-8);
-   assert.ok(exportTruth.notes.every(n=>!/^sku-\\d+.*Sales Tax/.test(n)),'Excel Notes have no unstructured SKU tax ledger');
+   assert.ok(exportTruth.notes.every(n=>!/^sku-\d+.*Sales Tax/.test(n)),'Excel Notes have no unstructured SKU tax ledger');
    assert.equal(report.state.skus[0].name,'Подарочный набор ручной работы');
    assert.equal(report.state.resources[0].label,'Аренда торгового помещения');
    const financialFingerprint=async()=>page.evaluate(()=>{
