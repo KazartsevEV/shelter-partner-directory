@@ -384,7 +384,15 @@ def main():
                     assert len(matcher.findall(source)) == 1, 'Unbounded export function: ' + label.decode()
                     source = matcher.sub(b'function ' + label + b'(/* 7B5 approved */){}\n', source, count=1)
                 return source
-            assert mask_approved_print_functions(raw) == mask_approved_print_functions(accepted), name
+            # PR #193 was already merged into main before UI-COPY-04.
+            # Pin the entire accepted code (including its three translated HERO
+            # steps) byte-for-byte, rather than rejecting the approved intro.
+            pinned = subprocess.check_output(
+                ['git','show','78ef71b32256a1651c5bbc96e154e2f6df89a019:' + name], cwd=ROOT)
+            pinned = subprocess.check_output(['node','-e',
+                "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))", name],
+                input=pinned,cwd=ROOT)
+            assert raw == pinned, 'Unapproved calculator UI delta outside accepted main HERO'
             continue
         if name == 'Marketing_calc.HTML':
             # Preserve the exact SEO-era source outside the approved 7B-5 PDF function.

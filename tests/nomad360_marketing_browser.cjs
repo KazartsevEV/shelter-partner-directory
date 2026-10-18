@@ -23,7 +23,14 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
    if(modernHero)A.equal(await p.locator('#nomad360-commercial-banner #nomad360-hero-summary').evaluate(e=>[...e.children].map(n=>n.id).join(',')),'nomad360-intro,nomad360-seo-banner','Approved hero summary preserves intro then brand');
    else A.equal(await p.locator('#nomad360-seo-banner').evaluate(e=>e.nextElementSibling.id),'nomad360-intro');
    A.equal(await p.locator('#home-screen h1').count(),1);
-  A.equal(await p.locator('#nomad360-intro li').count(),3);A.equal(await p.locator('#nomad360-intro p').count(),2);A.equal(await p.locator('#nomad360-intro a').count(),0);
+  A.equal(await p.locator('#nomad360-intro li').count(),3);
+   const currentProcess=await p.locator('#nomad360-intro .nomad-hero-process').count()===1;
+   A.equal(await p.locator('#nomad360-intro p').count(),currentProcess?1:2);
+   if(currentProcess){
+      A.equal(await p.locator('#nomad360-intro .nomad-hero-process-step[role="listitem"]').count(),3,
+        'Approved HERO has three translated business-plan steps');
+   }
+   A.equal(await p.locator('#nomad360-intro a').count(),0);
   if(lang==='en')A.match(await p.locator('.nomad-intro-lead').textContent(),/validation/);if(lang==='ru')A.doesNotMatch(await p.locator('#nomad360-intro').textContent(),/validation/);
   A.equal(await p.locator('#nomad360-seo-banner li').count(),0);
    A.equal(await p.locator('#nomad360-seo-banner h2').count(),modernHero?0:1,'No duplicated obsolete SEO heading');
