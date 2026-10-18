@@ -503,7 +503,7 @@
  #nomad360-information.nomad-information::before{
   /* Move the right-hand chalk pinnacles beyond the narrow left copy column;
      the moon remains fully in frame on 320-440px phones. */
-  right:clamp(-100px,-25vw,-80px);
+  right:calc(clamp(-100px,-25vw,-80px) - 20px);
  }
  #nomad360-information.nomad-information::after{
   background:linear-gradient(90deg,
