@@ -114,9 +114,14 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
     const rule=getComputedStyle(el),heading=getComputedStyle(summary);
     return {id:el.id,color:rule.borderTopColor,width:rule.borderTopWidth,
      display:heading.display,alignItems:heading.alignItems,inset:parseFloat(heading.paddingLeft),
-     background:rule.backgroundColor,textColor:heading.color};
+     background:rule.backgroundColor,textColor:heading.color,
+     chevronRight:getComputedStyle(summary,'::after').borderRightColor,
+     chevronBottom:getComputedStyle(summary,'::after').borderBottomColor};
    }));
    A.equal(paymentRows.length,lang==='ru'?4:3,'Payment disclosures match active locale');
+   A.ok(paymentRows.every(x=>x.chevronRight==='rgb(255, 145, 63)' &&
+    x.chevronBottom==='rgb(255, 145, 63)'),
+    'All nested disclosure chevrons retain visible orange contrast: '+JSON.stringify(paymentRows));
    A.ok(paymentRows.every(x=>x.color==='rgb(56, 103, 139)'&&x.width==='1px'
     &&x.display==='flex'&&x.alignItems==='center'&&x.inset>=12),
     'Every nested payment disclosure uses inset centered text and palette separator: '+JSON.stringify(paymentRows));
