@@ -56,6 +56,7 @@ function document(context,language='en'){
    buyerUntaxed:'Цена за ед. к оплате',
    min:'Минимальная цена V1',max:'Максимальная цена V1',
    target:'Целевая маржа V1, %',realized:'Маржа по расчёту V2, %',
+   unitOnly:'В прайс-листе указаны цены за одну единицу товара или услуги.',
    units:'В прайс-листе указаны цены за одну единицу; лист Sales Tax содержит суммы по SKU за расчётный период.',
    bounds:'Минимальная и максимальная цены перенесены из V1 без изменения. V2 подбирает цену внутри диапазона. Маржа по расчёту V2 и статус взяты из результата движка, а не вычислены в Excel.',
    salesPeriod:'В самостоятельной V2 лист Sales Tax отражает базовый месяц, а не годовой налоговый регистр.',
@@ -68,6 +69,7 @@ function document(context,language='en'){
    buyerUntaxed:'Unit amount payable',
    min:'V1 minimum price',max:'V1 maximum price',
    target:'V1 target margin, %',realized:'V2 calculated margin, %',
+   unitOnly:'Price-list amounts are per item or service unit.',
    units:'Price-list amounts are per unit; the Sales Tax worksheet shows SKU totals for the calculation period.',
    bounds:'The V1 minimum and maximum prices are preserved. V2 selects a price within that range. The calculated V2 margin and status come from the engine result, not Excel formulas.',
    salesPeriod:'For standalone V2, the Sales Tax sheet covers the reference month, not an invented annual tax ledger.',
@@ -80,6 +82,7 @@ function document(context,language='en'){
    buyerUntaxed:'Бірлік үшін төлем',
    min:'V1 ең төменгі баға',max:'V1 ең жоғарғы баға',
    target:'V1 мақсатты маржа, %',realized:'V2 есептелген маржа, %',
+   unitOnly:'Прайс-парақтағы бағалар тауардың немесе қызметтің бір бірлігіне берілген.',
    units:'Прайс-парақтағы бағалар бір бірлікке берілген; Sales Tax парағында есептік кезеңдегі әр SKU бойынша жиынтық көрсетілген.',
    bounds:'V1 ең төменгі және ең жоғарғы бағалары өзгеріссіз сақталады. V2 осы аралықтан баға таңдайды. V2 маржасы мен күйі Excel-де есептелмейді, есептеу модулінің нәтижесінен алынады.',
    salesPeriod:'Дербес V2 үшін Sales Tax парағы жылдық тізілімді емес, негізгі айды көрсетеді.',
@@ -117,7 +120,7 @@ function document(context,language='en'){
   ...(kind==='linked'?[x.min,x.max,x.target,x.realized]:[])];
  const notes=[t.source,taxMode==='vat'?(kind==='linked'?t.linked:t.standalone):
    (labels.v2BuyerSummary||'Sales Tax')+'. '+(labels.v2DeductionsNotice||''),t.missing];
- notes[0]+=' '+x.units;
+ notes[0]+=' '+(taxMode==='sales_tax'?x.units:x.unitOnly);
  if(kind==='linked'){
   notes[1]+=' '+x.bounds;
   notes.splice(2,0,t.offers);
