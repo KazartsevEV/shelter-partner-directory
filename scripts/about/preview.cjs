@@ -146,8 +146,10 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'Translated mobile brand copy must be in the image section');
     assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
       'Brand introduction should occupy former caption position within scene');
-    assert.ok(layout.flowBox.top>=layout.scenicHeight-2,
-      'Mobile services must begin after scenic photo, without caption gap');
+    assert.ok(layout.flowBox.top>=layout.openingBox.bottom,
+      'Mobile services must follow the translated brand text in normal document flow');
+    assert.ok(layout.flowBox.top-layout.openingBox.bottom<=34,
+      'Mobile must not reserve a large blank navy band under the brand paragraph');
     assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+45,
       'Mobile scenic area must not reserve the old automation paragraph space');
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
