@@ -1,0 +1,35 @@
+name: V2 copy temporary L0 inventory regeneration
+on:
+  pull_request:
+    paths:
+      - 'nomad360_locale_core.js'
+      - 'portfolio_v2_ui.js'
+      - '.github/workflows/v2-copy-once-refresh-l0.yml'
+permissions:
+  contents: write
+jobs:
+  regenerate:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'fix/v2-remove-explanatory-copy-20261018'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - run: node scripts/localization/inventory.cjs
+      - name: Commit only regenerated L0 inventory to originating PR branch
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/localization/l0/
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs(localization): regenerate L0 inventory for V2 copy removal'
+            git push origin HEAD:${{ github.head_ref }}
+          fi
