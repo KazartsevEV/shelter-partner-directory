@@ -50,22 +50,38 @@ function methods(contents){
  const bank=fiat.querySelector('.nomad-pay-bank');
  if(bank){bank.id='nomad360-irbis-bank';if(saved.has(bank.id))bank.open=saved.get(bank.id);}
 }
+function syncWidth(){
+ const scene=document.getElementById(ID);
+ if(scene)scene.style.setProperty('--irbis-page-width',document.documentElement.getBoundingClientRect().width+'px');
+}
 function decorate(){
  const footer=document.getElementById('nomad360-footer');
  const origin=document.getElementById('nomad360-return');
  const support=document.getElementById('nomad360-support');
  const products=document.getElementById('nomad360-product-details');
- if(!footer?.querySelector('.nomad-footer-inner')||!origin||!support||!products||document.getElementById(ID))return;
- const scene=document.createElement('section');scene.id=ID;scene.className='nomad-irbis-banner';
- scene.setAttribute('aria-label','Nomad360');
- origin.before(scene);scene.append(origin,support,products);
- const brand=document.createElement('span');brand.className='nomad-irbis-brand';
- brand.append(document.createTextNode('Nomad360 '));
- const lite=document.createElement('em');lite.textContent='lite';brand.append(lite);
- const dash=document.createElement('span');dash.className='nomad-irbis-dash';dash.setAttribute('aria-hidden','true');
- origin.prepend(brand,dash);shortcutArt(origin);
- const image=document.createElement('div');image.className='nomad-irbis-mobile-art';
- image.setAttribute('aria-hidden','true');origin.append(image);
+ if(!footer?.querySelector('.nomad-footer-inner')||!origin||!support||!products)return;
+ let scene=document.getElementById(ID);
+ if(!scene){
+  scene=document.createElement('section');scene.id=ID;scene.className='nomad-irbis-banner';
+  scene.setAttribute('aria-label','Nomad360');origin.before(scene);
+ }
+ // Reconcile native controllers' live nodes after language/currency rerenders.
+ for(const node of [origin,support,products])if(node.parentElement!==scene)scene.append(node);
+ if(!origin.querySelector(':scope > .nomad-irbis-brand')){
+  const brand=document.createElement('span');brand.className='nomad-irbis-brand';
+  brand.append(document.createTextNode('Nomad360 '));
+  const lite=document.createElement('em');lite.textContent='lite';brand.append(lite);
+  origin.prepend(brand);
+ }
+ if(!origin.querySelector(':scope > .nomad-irbis-dash')){
+  const dash=document.createElement('span');dash.className='nomad-irbis-dash';
+  dash.setAttribute('aria-hidden','true');origin.querySelector(':scope > .nomad-irbis-brand').after(dash);
+ }
+ shortcutArt(origin);
+ if(!origin.querySelector(':scope > .nomad-irbis-mobile-art')){
+  const image=document.createElement('div');image.className='nomad-irbis-mobile-art';
+  image.setAttribute('aria-hidden','true');origin.append(image);
+ }
  const title=support.querySelector(':scope > h2');
  if(title){
   title.id='nomad360-irbis-support-title';
@@ -79,9 +95,12 @@ function decorate(){
   if(saved.has(details.id))details.open=saved.get(details.id);
  }
  if(saved.has(products.id))products.open=saved.get(products.id);
+ syncWidth();
 }
 function boot(){
  decorate();
+ root.addEventListener('resize',syncWidth);
+ if(root.ResizeObserver)new root.ResizeObserver(syncWidth).observe(document.documentElement);
  for(const type of ['nomad360:languagechange','nomad360:currencychange']){
   document.addEventListener(type,remember,true);
   document.addEventListener(type,decorate);

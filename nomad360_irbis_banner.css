@@ -205,8 +205,8 @@
    The earlier white card / orange desktop boxes / invisible mobile heading
    originate from TASK-10 important overrides for the old white return card. */
 #nomad360-irbis-banner {
- width:100vw;max-width:none;
- margin-inline:calc(50% - 50vw);
+ width:var(--irbis-page-width,100%);max-width:none;
+ margin-inline:calc(50% - var(--irbis-page-width,100%)/2);
  min-height:clamp(490px,42.1vw,650px);
  padding-left:clamp(23px,7.1vw,110px);
  padding-right:clamp(23px,7.1vw,110px);
@@ -225,7 +225,7 @@
  #nomad360-irbis-banner #nomad360-return{margin-bottom:8px}
 }
 @media(max-width:700px){
- #nomad360-irbis-banner{width:100vw;min-height:0;margin-inline:calc(50% - 50vw);padding:0}
+ #nomad360-irbis-banner{width:var(--irbis-page-width,100%);min-height:0;margin-inline:calc(50% - var(--irbis-page-width,100%)/2);padding:0}
  #nomad360-irbis-banner #nomad360-return{max-width:none;width:100%}
  #nomad360-irbis-banner #nomad360-return h2{font-size:clamp(30px,8vw,43px)}
  #nomad360-irbis-banner .nomad-irbis-mobile-art{margin:14px -20px -12px}

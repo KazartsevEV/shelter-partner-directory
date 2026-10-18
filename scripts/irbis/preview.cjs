@@ -73,6 +73,9 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    A.equal(await page.locator('#nomad360-irbis-support-disclosure').getAttribute('open'),'','Open state survives language switch');
    A.equal(await page.locator('#nomad360-irbis-banner').count(),1);
    A.equal(await page.locator('#nomad360-return h2').textContent(),await page.evaluate(()=>window.Nomad360LocaleCore.t('return.title')));
+   A.equal(await page.locator('#nomad360-irbis-banner .nomad-irbis-brand').count(),1,'Brand survives native locale rerender');
+   A.equal(await page.locator('#nomad360-irbis-banner .nomad-irbis-platform-icon').count(),3,'Icon layer survives native locale rerender');
+   A.equal(await page.locator('#nomad360-irbis-banner .nomad-irbis-mobile-art').count(),1,'Mobile art survives native locale rerender');
    await page.locator('#nomad360-irbis-support-disclosure > summary').click();
    await page.locator('#nomad360-return [data-return-platform="ios"]').click();
    A.equal(await page.locator('#nomad360-return-help').evaluate(e=>e.open),true,'Actual iOS help works');
@@ -81,6 +84,23 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    results.push({width,lang,buttons:3,payments:true,sourceArt:true,languageState:true,errors});
    await context.close();
   }
+  // Non-overlay scrollbar gutters narrow documentElement.clientWidth beneath innerWidth.
+  // Full bleed must follow the actual content viewport, not 100vw.
+  const gutter=await browser.newPage({viewport:{width:1280,height:900}});
+  await gutter.route(/^https?:\/\//,r=>r.request().url().startsWith(base)?r.continue():r.abort());
+  await gutter.goto(base+'/Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+  await gutter.addStyleTag({content:'html{scrollbar-gutter:stable;overflow-y:scroll}'});
+  await gutter.waitForFunction(()=>{
+   const banner=document.getElementById('nomad360-irbis-banner');
+   return banner&&Math.abs(banner.getBoundingClientRect().width-document.documentElement.getBoundingClientRect().width)<1;
+  });
+  const edges=await gutter.locator('#nomad360-irbis-banner').evaluate(el=>{
+   const rect=el.getBoundingClientRect();
+   return {left:rect.left,right:rect.right,documentWidth:document.documentElement.getBoundingClientRect().width};
+  });
+  A.ok(edges.left>=-1&&edges.right<=edges.documentWidth+1,
+   'Scrollbar-safe full bleed cannot exceed document edges: '+JSON.stringify(edges));
+  await gutter.close();
   fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({result:'PASS',cases:results},null,2)+'\n');
   console.log('IRBIS_07_PASS',results.length);
  }finally{await browser.close();await new Promise(done=>server.close(done));}
