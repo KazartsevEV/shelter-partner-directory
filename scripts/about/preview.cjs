@@ -150,10 +150,10 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'Raised brand text must begin on the upper navy photo, never in the low solid-blue spacer');
     assert.ok(layout.openingBox.top+layout.openingBox.height<=layout.flowBox.top+2,
       'Localized intro must not collide with the service cards');
-    assert.ok(layout.flowBox.top<=layout.scenicHeight+10,
-      'The dead blue strip between moon photo and services must not remain');
-    assert.ok(layout.flowBox.top-layout.openingBox.bottom<=90,
-      'No oversized gap should remain beneath the raised brand sentence');
+    assert.ok(layout.flowBox.top>=layout.openingBox.bottom,
+      'Services must follow the full localized sentence in natural flow');
+    assert.ok(layout.flowBox.top-layout.openingBox.bottom<=28,
+      'No reserved opaque blue strip: at most the deliberate 12px spacing below localized copy');
     assert.ok(layout.openingRight<=layout.sectionWidth*.83,
       'The live brand text must stay in the left navy copy area, off the right white cliffs');
     assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+10,
