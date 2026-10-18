@@ -512,3 +512,16 @@
    rgba(23,59,88,0) 85%);
  }
 }
+
+/* ABOUT-08b: long English last line must not visually overflow the navy
+   copy column into the chalk pinnacles; let its words wrap naturally. */
+@media(max-width:700px){
+ #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-brand{
+  white-space:normal!important;
+  overflow-wrap:anywhere;
+  max-width:100%;
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-brand{
+  max-width:84%;
+ }
+}
