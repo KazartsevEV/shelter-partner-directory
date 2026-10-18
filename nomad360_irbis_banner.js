@@ -65,7 +65,7 @@ function decorate(){
  const dash=document.createElement('span');dash.className='nomad-irbis-dash';dash.setAttribute('aria-hidden','true');
  origin.prepend(brand,dash);shortcutArt(origin);
  const image=document.createElement('div');image.className='nomad-irbis-mobile-art';
- image.setAttribute('aria-hidden','true');origin.after(image);
+ image.setAttribute('aria-hidden','true');origin.append(image);
  const title=support.querySelector(':scope > h2');
  if(title){
   title.id='nomad360-irbis-support-title';
