@@ -99,7 +99,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       scenicCopyBox:scenicCopy?box(scenicCopy):null,headingBox:heading?box(heading):null,
       visibleMobileHeadingText:heading?.querySelector('.nomad-about-heading-mobile')?.textContent,
       mobileHeadingWidth:heading?.querySelector('.nomad-about-heading-mobile')?.getBoundingClientRect().width,
-      headingLineHeight:heading?parseFloat(getComputedStyle(heading).lineHeight):0,
+      mobileHeadingLines:heading?.querySelector('.nomad-about-heading-mobile')?.getClientRects().length,
       openingBox:box(opening),captionBox:box(caption),
       captionBandBox:captionBand?box(captionBand):null,
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
@@ -158,8 +158,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'Mobile scenic area must not reserve the old automation paragraph space');
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
       'Highlighted mobile automation caption must follow all service cards');
-    assert.ok(layout.headingBox&&layout.headingBox.height<=layout.headingLineHeight+3,
-      'Existing short translated mobile title must fit on one line without changing hero composition');
+    assert.equal(layout.mobileHeadingLines,1,
+      'Existing short translated mobile title must fit on one line, excluding decorative orange rule');
     assert.ok(layout.mobileHeadingWidth<=layout.sectionWidth*.72,
       'Mobile heading must remain on the left and clear of the moon and rocks');
     assert.equal(layout.visibleMobileHeadingText,lang==='ru'?'О проекте':lang==='en'?'About':'Жоба туралы');
