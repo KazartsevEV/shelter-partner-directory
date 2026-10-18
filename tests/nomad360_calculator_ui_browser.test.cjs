@@ -151,7 +151,7 @@ async function browserCase(browser,locale,expected){
      kk:'Мақта шопперінің есептеу мысалын қарау'
    }[expected.lang]);
    A.match(await exampleRow.locator('a[href*="demo=shopper"]').getAttribute('href'),/demo=shopper/);
-   const exampleLink=await page.locator('#nomad360-home-secondary .nomad-example-link').evaluate(node=>{
+   const exampleLink=await page.locator('#nomad360-home-secondary .nomad-example-link[href*="demo=shopper"]').evaluate(node=>{
      const css=getComputedStyle(node);return {
        color:css.color,underline:css.textDecorationColor,style:css.textDecorationLine,
        thickness:css.textDecorationThickness

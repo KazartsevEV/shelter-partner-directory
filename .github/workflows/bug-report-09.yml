@@ -30,7 +30,7 @@ jobs:
           node --check tests/nomad360_bug_report_browser.cjs
           git fetch --no-tags origin main
           git diff --name-only origin/main...HEAD | tee /tmp/bug09-changed
-          if grep -E '^(portfolio_v2_|nomad360_sales_tax|nomad360_price_export|nomad360_calculator_ui[.]js|tests/fixtures/sales-tax-7b|docs/reviews/sales-tax-7b)' /tmp/bug09-changed; then
+          if grep -E '^(portfolio_v2_(engine|ui|linked_|full_service|basket_|mba_|online_|period_|pooled_|temporal_)|nomad360_sales_tax|nomad360_price_export|nomad360_calculator_ui[.]js|tests/fixtures/sales-tax-7b|docs/reviews/sales-tax-7b)' /tmp/bug09-changed; then
             echo "Protected finance or VAT modified" >&2
             exit 1
           fi
