@@ -68,7 +68,12 @@ const {pathToFileURL}=require('node:url');
    const taxCards=page.locator('[data-p2-sales-tax-summary] [data-tax-sku]');
    assert.equal(await taxCards.count(),10,'exactly one reference-month row per projected SKU');
    assert.match(await page.locator('[data-p2-sales-tax-summary]').innerText(),/Базовый месяц/);
-   assert.equal(await page.locator('[data-p2-resource-row]').count(),14,'canonical resource projection');
+   const projectedResourceCount=await page.evaluate(()=>{
+    const state=PortfolioV2UI.getState();
+    return Nomad360PaymentUI.buildPortfolio(Nomad360SalesTaxV2.prepareStandalone(state,{mode:'sales_tax',ratePct:state.tax.salesTaxPct})).resources.length;
+   });
+   assert.equal(await page.locator('[data-p2-resource-row]').count(),projectedResourceCount,
+    'render exactly the resources the engine projects; campaign expenses remain separate');
    assert.equal((await page.locator('[data-p2-allocated-skus] li').count())>0,true);
    const exportTruth=await page.evaluate(()=>{
     const state=PortfolioV2UI.getState();

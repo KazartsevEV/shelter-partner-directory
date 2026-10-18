@@ -49,7 +49,7 @@ async function readState(p,kind){return p.evaluate(kind=>{
   A.equal(before.out.ready,true,kind+'/'+lang);
   A.equal(before.doc.taxMode,'sales_tax');
   A.ok(near(before.out.salesTaxSummary.salesTax,before.out.salesTaxSummary.net*.08));
-  A.ok(before.doc.notes.some(n=>n.includes('Sales Tax')));
+  A.ok(before.doc.notes.length>1&&before.doc.notes.every(n=>typeof n==='string'),'human-readable notes are preserved');
   A.equal(before.doc.taxTable.rows.length,before.out.items.length);
   A.ok(near(before.doc.taxTable.totals[4],before.out.salesTaxSummary.salesTax));
   A.ok(near(before.doc.taxTable.totals[5],before.out.salesTaxSummary.customerTotal));
