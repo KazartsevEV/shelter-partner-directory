@@ -2,10 +2,29 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),A=require('node:assert/strict'),zlib=require('node:zlib'),{execFileSync}=require('node:child_process'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),source=path.resolve(process.env.SALES_TAX_BASELINE_ROOT||root),capture=process.argv.includes('--capture'),expected='12c1ad7d8490c08f0f11b2899b6df4e801d024a5',dir=path.join(root,capture?'docs/reviews/sales-tax-7b/baseline/browser':'artifacts/sales-tax-7b/vat-after'),fixtures=require('./fixtures/sales-tax-7b/vat-inputs.json'),Excel=require('../vendor/exceljs-4.4.0.min.js');
 fs.mkdirSync(dir,{recursive:true});if(capture){A.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:source,encoding:'utf8'}).trim(),expected);A.equal(execFileSync('git',['diff','--name-only','HEAD'],{cwd:source,encoding:'utf8'}).trim(),'');}
+// Only accepted visible column names may differ from frozen VAT print
+// snapshots. Numeric output, customer prices, VAT, owner and text remain
+// byte-identical. Replacements are explicit RU/EN/KK approved label pairs.
+const approvedPrintLabels=[
+ ['Цена продажи за ед. без НДС','Цена V2 без НДС'],
+ ['Цена по прайсу V2 за ед. с НДС','Прайс V2'],
+ ['Unit selling price excl. VAT','V2 price excluding VAT'],
+ ['V2 list price per unit incl. VAT','V2 list price'],
+ ['ҚҚС-сыз бірлік сату бағасы','ҚҚС-сыз V2 бағасы'],
+ ['ҚҚС-пен бірлікке V2 прайс бағасы','V2 прайс']
+];
+function normalizePricePrintLabel(actual,expected){
+ if(actual===expected)return actual;
+ let value=actual;
+ for(const [nextLabel,legacyLabel] of approvedPrintLabels)
+  if(expected.includes(legacyLabel)&&value.includes(nextLabel))value=value.replace(nextLabel,legacyLabel);
+ return value;
+}
 function subset(a,b,key){
  // Keep the historical VAT model, loan and cash-flow receipts byte-exact.
  // Only presentation-only pricing column labels, note text and new worksheets
  // are validated by the separate 7B5 and V2 price-export acceptance suites.
+ if(key.endsWith('.print'))return A.deepEqual(normalizePricePrintLabel(b,a),a,key);
  if(key.endsWith('.excel')){
   A.ok(Array.isArray(a)&&Array.isArray(b)&&a.length>0&&b.length>=a.length,key);
   const legacy=a[0],sheet=b.find(w=>w.name===legacy.name);
