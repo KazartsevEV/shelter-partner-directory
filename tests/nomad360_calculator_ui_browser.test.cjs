@@ -354,7 +354,8 @@ async function browserCase(browser,locale,expected){
   A.equal(await header.count(),1);
   A.equal(await header.locator('.nomad-logo').getAttribute('src'),'./nomad360_wolf_open_circle.png');
   A.equal(await header.locator('.nomad-brand').getAttribute('aria-label'),'Nomad360 lite');
-  A.equal((await header.locator('.nomad-wordmark').innerText()).trim(),'Nomad360 lite');
+  A.equal((await header.locator('.nomad-wordmark').innerText()).replace(/\s+/g,' ').trim(),'Nomad360 lite',
+     'Visible wordmark preserves its text even when the accepted phone layout wraps it');
   for(const width of [320,390,768]){
     await page.setViewportSize({width,height:844});
     const layout=await header.evaluate(el=>{
