@@ -550,6 +550,7 @@ def main():
         # ABOUT desktop scenery: one artwork, the desktop-only URL and visual receipt.
         'assets/nomad360-banners/about-bozzhyra-night-desktop.webp',
         'nomad360_about_banner.css', 'scripts/about/preview.cjs',
+        '.github/workflows/about-01-visual.yml',
         'tests/nomad360_price_export.test.cjs',
          'tests/nomad360_price_export_openxml.py',
         '.github/workflows/task10-palette.yml') for p in changed), changed
