@@ -113,12 +113,25 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
     const summary=el.querySelector(':scope > summary');
     const rule=getComputedStyle(el),heading=getComputedStyle(summary);
     return {id:el.id,color:rule.borderTopColor,width:rule.borderTopWidth,
-     display:heading.display,alignItems:heading.alignItems,inset:parseFloat(heading.paddingLeft)};
+     display:heading.display,alignItems:heading.alignItems,inset:parseFloat(heading.paddingLeft),
+     background:rule.backgroundColor,textColor:heading.color};
    }));
    A.equal(paymentRows.length,lang==='ru'?4:3,'Payment disclosures match active locale');
    A.ok(paymentRows.every(x=>x.color==='rgb(56, 103, 139)'&&x.width==='1px'
     &&x.display==='flex'&&x.alignItems==='center'&&x.inset>=12),
     'Every nested payment disclosure uses inset centered text and palette separator: '+JSON.stringify(paymentRows));
+   const bankRow=paymentRows.find(x=>x.id==='nomad360-irbis-bank');
+   A.ok(bankRow,'Original SWIFT/IBAN disclosure must exist in every locale');
+   A.equal(bankRow.background,'rgb(23, 59, 88)',
+    'SWIFT/IBAN must not render as a legacy white card on the navy banner');
+   A.equal(bankRow.textColor,'rgb(255, 255, 255)',
+    'SWIFT/IBAN disclosure summary uses approved white text');
+   const bankDetails=banner.locator('.nomad-irbis-methods > details.nomad-pay-bank');
+   await bankDetails.locator(':scope > summary').click();
+   A.equal(await bankDetails.getAttribute('open'),'','SWIFT/IBAN disclosure remains functional');
+   A.equal(await bankDetails.locator('.nomad-bank-value').first().evaluate(e=>getComputedStyle(e).color),
+    'rgb(255, 255, 255)','SWIFT/IBAN expanded bank values keep readable white text');
+   await bankDetails.locator(':scope > summary').click();
 
    if(lang==='ru')await banner.screenshot({path:path.join(out,'ru-'+width+'-support-open.png')});
    // Verify legal/data restoration independently from the visitor-default image.
