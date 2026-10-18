@@ -59,7 +59,29 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
    const block=p.locator('#nomad360-return');A.equal(await block.count(),1);A.equal(await p.locator('#nomad360-support').evaluate(e=>e.previousElementSibling.id),'nomad360-return');A.equal(await block.locator('img').count(),0);
    const acceptedIrbis=await p.locator('#nomad360-irbis-banner #nomad360-return').count()===1;
    A.equal(await block.locator('h2').evaluate(e=>getComputedStyle(e).color),acceptedIrbis?'rgb(255, 255, 255)':'rgb(23, 59, 88)',
-    'Approved IRBIS scenic heading is white; legacy return card is navy');await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});A.deepEqual(await block.evaluate(e=>NomadContrast.audit(e).failures),[]);
+    'Approved IRBIS scenic heading is white; legacy return card is navy');await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});
+   if(acceptedIrbis){
+    // The general contrast oracle intentionally rejects image backgrounds.
+    // Check the approved scenic ink against the *opaque navy* fallback and
+    // exact text paints instead, not a false solid-white legacy card.
+    const scene=await block.evaluate(el=>{
+      const banner=el.closest('#nomad360-irbis-banner');
+      const rgb=node=>getComputedStyle(node).color;
+      const notes=[...el.querySelectorAll('.nomad-return-note')];
+      return {background:getComputedStyle(banner).backgroundColor,
+       art:getComputedStyle(banner,'::before').backgroundImage,
+       heading:rgb(el.querySelector('h2')),
+       notes:notes.map(rgb),
+       platform:[...el.querySelectorAll('[data-return-platform]')].map(rgb)};
+    });
+    A.equal(scene.background,'rgb(23, 59, 88)','Approved opaque brand navy');
+    A.match(scene.art,/\/assets\/nomad360-banners\/support-wide\.webp/);
+    A.equal(scene.heading,'rgb(255, 255, 255)');
+    A.deepEqual(scene.notes,['rgb(255, 255, 255)','rgb(255, 255, 255)']);
+    A.equal(scene.platform.length,3);
+    A.ok(scene.platform.every(c=>['rgb(255, 255, 255)','rgb(23, 59, 88)'].includes(c)),
+     'Desktop white shortcuts; phone navy-on-orange shortcuts');
+   }else A.deepEqual(await block.evaluate(e=>NomadContrast.audit(e).failures),[]);
    A.deepEqual(await block.locator('[data-return-platform]').evaluateAll(es=>es.map(e=>e.dataset.returnPlatform)),['windows','ios','android']);A.equal(downloads.length,0,'No automatic download');
    const tr=key=>p.evaluate(key=>Nomad360LocaleCore.t('return.'+key),key);A.equal(await block.locator('h2').textContent(),await tr('title'));A.deepEqual(await block.locator('.nomad-return-note').allTextContents(),[await tr('noApp'),await tr('support')]);
    if(lang==='ru'){A.equal(await block.locator('h2').textContent(),'Возвращайтесь к нам с новыми идеями!');A.deepEqual(await block.locator('.nomad-return-note').allTextContents(),['У Nomad360 пока нет мобильного приложения.','Мы растем на ваши деньги.']);}
