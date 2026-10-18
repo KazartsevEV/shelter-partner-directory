@@ -83,8 +83,9 @@ async function browserCase(browser,locale,expected){
    A.equal(canvasColors.hero1,'rgb(255, 145, 63)','Business calculator eyebrow must be orange');
   if(modernHero)A.ok(['rgba(0, 0, 0, 0)','transparent','rgb(23, 59, 88)'].includes(canvasColors.calcBackground),'Approved logo anchor stays transparent or inherits the same navy canvas');
    else A.equal(canvasColors.calcBackground,'rgb(23, 59, 88)','Original SEO banner uses the brand navy');
-  A.ok(['primaryCardBackground','headerBackground'].every(k=>
-    canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
+  A.equal(canvasColors.primaryCardBackground,'rgb(255, 255, 255)','Main choice card stays white');
+  A.equal(canvasColors.headerBackground,modernHero?'rgb(23, 59, 88)':'rgb(255, 255, 255)',
+    'Mobile header uses the approved HERO navy; the legacy header stays white');
 
   for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
     A.equal(await page.locator('#'+id).evaluate(e=>e.className.includes('emerald')),false,

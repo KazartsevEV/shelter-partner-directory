@@ -365,6 +365,17 @@ def main():
     merge_base = comparison_base(base_ref)
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
+    # Preserve the main-accepted HERO artwork, layout, and all other selectors
+    # byte-for-byte. Exactly two active-home burger paints switch from the old
+    # contrast controller (which emitted unapproved RGB 22,55,90) to WHITE.
+    if 'nomad360_hero_banner.css' in changed:
+        approved_hero = subprocess.check_output(
+            ['git','show','181be92bb92472cd032ecb9b7e8eb8124093e545:nomad360_hero_banner.css'], cwd=ROOT)
+        old_paint = b'color:var(--nomad-burger-contrast,var(--p10-white,#FFFFFF))!important;'
+        new_paint = b'color:var(--p10-white,#FFFFFF)!important;'
+        assert approved_hero.count(old_paint) == 2, 'Unexpected approved HERO CSS base'
+        current_hero = (ROOT / 'nomad360_hero_banner.css').read_bytes()
+        assert current_hero == approved_hero.replace(old_paint, new_paint), 'HERO layout or other colors changed outside approved burger fix'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
@@ -381,6 +392,7 @@ def main():
         'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
         'tests/nomad360_calculator_ui_browser.test.cjs',
+        'nomad360_hero_banner.css',
         # FX live browser test: only retries real validated provider requests; financial source stays frozen.
         'tests/currency_converter_browser.test.cjs',
         'tests/nomad360_price_export_browser.test.cjs',

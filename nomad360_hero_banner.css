@@ -568,7 +568,7 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
  }
  body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-burger{
   background-color:transparent!important;
-  color:var(--nomad-burger-contrast,var(--p10-white,#FFFFFF))!important;
+  color:var(--p10-white,#FFFFFF)!important;
  }
  #home-screen #nomad360-commercial-banner::before{
   top:clamp(35px,10vw,48px);
@@ -603,7 +603,7 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   }
   body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-burger{
    background-color:transparent!important;
-   color:var(--nomad-burger-contrast,var(--p10-white,#FFFFFF))!important;
+   color:var(--p10-white,#FFFFFF)!important;
   }
  }
 }
