@@ -106,7 +106,7 @@ def main():
             approved = subprocess.check_output(
                 ['git', 'show', '6c5c0e3a4927fb50b88ab99914145bb9016bb24a:' + name], cwd=ROOT)
             source = subprocess.check_output(['node', '-e',
-                "process.stdout.write(require('./tests/helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(process.argv[1],require('node:fs').readFileSync(0,'utf8')))", name],
+                "const fs=require('node:fs'),source=fs.readFileSync(0,'utf8'),s=require('./tests/helpers/v2-output-truth-scope.cjs').restore(process.argv[1],source);process.stdout.write(require('./tests/helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(process.argv[1],s))", name],
                 input=raw, cwd=ROOT)
             assert source == approved, 'Unreviewed V2 UI delta outside exact 7B-5 tax hunks: ' + name
             continue
@@ -253,8 +253,18 @@ def main():
                     actual_keys = [x.split('"')[1] for x in tax_rows]
                     assert len(actual_keys) == len(set(actual_keys))
                     assert set(actual_keys) in (set(), tax_keys), 'Unapproved 7B-4 locale row'
+                    # V2-OUTPUT-TRUTH-01: one approved marketing label changes,
+                    # but every other RU/EN/KK semantic row stays byte-identical.
+                    heading = 'ui.value1SharedMarketingEngine'
+                    heading_rows = [x for x in lines if x.startswith(' ["'+heading+'"')]
+                    assert len(heading_rows) == 1, 'Exact one marketing heading'
+                    assert heading_rows[0] in (
+                        ' ["ui.value1SharedMarketingEngine","1. Advertising and marketing","1. Реклама и маркетинг","1. Жарнама және маркетинг"],',
+                        ' ["ui.value1SharedMarketingEngine","1. Shared marketing engine","1. Общий маркетинговый двигатель","1. Ортақ маркетинг моделі"],'
+                    ), 'Unexpected marketing-heading change'
                     return '\n'.join('<ACCEPTED-LICENSE-ROW>' if
-                                     '"interface.header.licenseCopy"' in x else x
+                                     '"interface.header.licenseCopy"' in x else
+                                     '<APPROVED-V2-MARKETING-HEADING>' if heading in x else x
                                      for x in lines if x not in tax_rows)
                 assert mask_license_locale(raw) == mask_license_locale(approved), name
             else:
@@ -273,15 +283,31 @@ def main():
             raw = raw.replace(b'    <link rel="canonical" href="https://kazartsevev.github.io/shelter-partner-directory/Marketing_calc.HTML">\n', b'', 1)
             raw = raw.replace(b'<script src="./nomad360_seo_language.js"></script>\n', b'', 1)
         if name == 'nomad360_price_export.js':
-            # Sales Tax extends the DOCUMENT projection only, not XLSX writer
-            # or the accepted locale table. Audit every other byte against 7B-4.
+            # Freeze every byte of the accepted Excel source EXCEPT the V2
+            # document projection, numeric Sales Tax worksheet writer and the
+            # bounded three-language heading dictionary. Preserve historic
+            # pre-Sales-Tax engine SHA and independent VAT/XLSX browser oracles.
             approved = subprocess.check_output(
                 ['git','show','817e5e14ae65091f474442a672831d93a3ea8f28:' + name], cwd=ROOT)
-            assert hashlib.sha256(approved).hexdigest() == expected, 'Accepted exporter baseline drift'
-            document_fn = re.compile(rb'(?ms)^function document\([^\n]*\)\{.*?^\}\n')
-            assert len(document_fn.findall(raw)) == len(document_fn.findall(approved)) == 1
-            assert document_fn.sub(b'function document(/* 7B5 projection */){}\n', raw) == (
-                document_fn.sub(b'function document(/* 7B5 projection */){}\n', approved)), name
+            assert hashlib.sha256(approved).hexdigest() == expected, 'Historic exporter baseline drift'
+            accepted = subprocess.check_output(
+                ['git','show','cfc7e3d4f429004def715a4acc586a3b3fb984d1:' + name], cwd=ROOT)
+            def mask_output_only(raw_source, new):
+                extras = re.compile(rb'(?ms)^const salesTaxColumns=\{.*?^\};\n')
+                assert len(extras.findall(raw_source)) == (1 if new else 0), 'Unbounded V2 export headings'
+                raw_source = extras.sub(b'', raw_source)
+                for marker, pattern in (
+                    (b'document', rb'(?ms)^function document\([^\n]*\)\{.*?^\}\n'),
+                    (b'write', rb'(?ms)^async function write\([^\n]*\)\{.*?^\}\n'),
+                ):
+                    matcher = re.compile(pattern)
+                    assert len(matcher.findall(raw_source)) == 1, 'Missing scoped Excel '+marker.decode()
+                    raw_source = matcher.sub(b'function <'+marker+b'>(){}\n',raw_source)
+                return raw_source
+            assert mask_output_only(raw,True) == mask_output_only(accepted,False), name
+            # The original implementation still matches the old frozen source
+            # outside its separately accepted 7B-5 document projection.
+            assert mask_output_only(accepted,False) == mask_output_only(approved,False), name
             continue
         if name == 'nomad360_calculator_ui.js':
             # Later approved 7B-5 changes only table, printable and language
@@ -315,7 +341,7 @@ def main():
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
-                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/')) or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
         'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
         'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
@@ -337,6 +363,7 @@ def main():
         'tests/helpers/seo-html-contract.cjs', 'tests/seo_language.test.cjs',
         'tests/nomad360_marketing_scope.test.cjs', 'tests/type02_scope.test.cjs',
         'tests/nomad360_locale_semantic.test.cjs',
+        'tests/helpers/v2-output-truth-scope.cjs',
         '.github/workflows/seo-07-phase-a.yml',
         'nomad360_simple_service_examples.js', 'tests/simple_service_examples_browser.cjs',
         '.github/workflows/simple-service-examples.yml',
