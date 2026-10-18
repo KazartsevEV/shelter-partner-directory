@@ -48,6 +48,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const heading=scenicCopy?.querySelector('h2');
     const opening=section.querySelector('.nomad-about-opening');
     const caption=section.querySelector('.nomad-about-caption');
+    const captionBand=section.querySelector('.nomad-about-caption-band');
     const flow=section.querySelector('.nomad-about-flow');
     const contactBlock=section.querySelector('#nomad360-contacts');
     const cardBoxes=cards.map(box);
@@ -59,11 +60,14 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       background:getComputedStyle(section).backgroundColor,
       cardCount:cards.length,links:linked,contacts,sectionWidth:rect.width,
       viewport:innerWidth,docScroll:document.documentElement.scrollWidth,
-      cardOrder:section.querySelector('.nomad-about-caption').compareDocumentPosition(section.querySelector('.nomad-about-flow'))&Node.DOCUMENT_POSITION_FOLLOWING,
+      captionAfterFlow:Boolean(flow.compareDocumentPosition(caption)&Node.DOCUMENT_POSITION_FOLLOWING),
+      captionBeforeContacts:Boolean(caption.compareDocumentPosition(section.querySelector('#nomad360-contacts'))&Node.DOCUMENT_POSITION_FOLLOWING),
+      captionInBand:caption.parentElement===captionBand,
       openingRight:section.querySelector('.nomad-about-opening').getBoundingClientRect().right-rect.left,
       aboutLeft:sr.left,
       scenicCopyBox:scenicCopy?box(scenicCopy):null,headingBox:heading?box(heading):null,
       openingBox:box(opening),captionBox:box(caption),
+      captionBandBox:captionBand?box(captionBand):null,
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    });
@@ -80,7 +84,17 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    assert.deepEqual(layout.links.map(c=>c.hash),['#nomad360-selling-choice','#nomad360-ai','#nomad360-factory']);
    assert.ok(layout.links.every(c=>c.title&&c.label),'Localized motto and title for every service');
    assert.equal(layout.contacts.length,4,'All four contact links preserved');
-   assert.ok(layout.cardOrder,'Highlighted paragraph must precede service links');
+   assert.ok(layout.captionAfterFlow&&layout.captionBeforeContacts&&layout.captionInBand,
+     'One translated automation caption must appear after services and before contacts');
+   assert.ok(layout.captionBandBox,'Caption must have its own vertically centered band');
+   const topGap=layout.captionBox.top-layout.captionBandBox.top;
+   const bottomGap=layout.captionBandBox.bottom-layout.captionBox.bottom;
+   assert.ok(Math.abs(topGap-bottomGap)<=2,
+     'Automation caption must be vertically centered in band with equal top/bottom spacing');
+   assert.ok(layout.captionBandBox.top>=layout.flowBox.bottom-1,
+     'No translated automation paragraph remains above service cards');
+   assert.ok(layout.contactBox.top>=layout.captionBandBox.bottom-1,
+     'Contact block must begin after caption');
    assert.ok(layout.docScroll<=width+1,'No sideways scroll at '+width+'px');
    assert.equal(errors.length,0,'No JavaScript page errors');
    if(width>=1021)assert.ok(layout.openingRight<layout.sectionWidth*.56,'Text stays left of moon');
@@ -98,10 +112,12 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'Translated mobile brand copy must be in the image section');
     assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
       'Brand introduction should occupy former caption position within scene');
-    assert.ok(layout.captionBox.top>=layout.scenicHeight+12,
-      'Highlighted mobile automation caption must start below image on solid navy');
-    assert.ok(layout.captionBox.top>=layout.openingBox.bottom,
-      'Localized text order and spacing must be preserved');
+    assert.ok(layout.flowBox.top>=layout.scenicHeight-2,
+      'Mobile services must begin after scenic photo, without caption gap');
+    assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+45,
+      'Mobile scenic area must not reserve the old automation paragraph space');
+    assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
+      'Highlighted mobile automation caption must follow all service cards');
     if(lang==='en'||lang==='kk')
       assert.ok(layout.headingBox&&layout.headingBox.width<layout.sectionWidth*.61,
         'Translated EN/KK heading must stay in safe left column, not across the moon');
@@ -112,6 +128,15 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const next=lang==='ru'?'en':lang==='en'?'kk':'ru';
     await page.evaluate(next=>Nomad360UI.setLanguage(next),next);
     assert.equal(await page.locator('#nomad360-information .nomad-about-card').count(),3);
+    assert.equal(await page.locator('#nomad360-information .nomad-about-caption-band > .nomad-about-caption').count(),1);
+    const orderOk=await page.evaluate(()=>{
+      const flow=document.querySelector('#nomad360-information .nomad-about-flow');
+      const caption=document.querySelector('#nomad360-information .nomad-about-caption');
+      const contacts=document.querySelector('#nomad360-contacts');
+      return !!(flow.compareDocumentPosition(caption)&Node.DOCUMENT_POSITION_FOLLOWING)
+       && !!(caption.compareDocumentPosition(contacts)&Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    assert.ok(orderOk,'Changing RU/EN/KK must retain caption after three service links');
     assert.equal(await page.locator('#nomad360-information .nomad-about-card-motto').count(),3);
     assert.equal(await page.locator('#nomad360-information .nomad-about-contact-icon').count(),4);
     assert.equal(await page.locator('#nomad360-information .nomad-about-opening .nomad-about-brand').count(),1);
