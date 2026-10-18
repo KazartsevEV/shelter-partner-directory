@@ -394,6 +394,9 @@
  font:600 16px/1.4 var(--nd-font,Inter,sans-serif);
  color:var(--irbis-white)
 }
+#nomad360-irbis-banner .nomad-irbis-methods > details.nomad-pay-bank > summary{
+ display:flex;align-items:center;min-height:58px;padding:12px 20px;list-style:none
+}
 #nomad360-irbis-banner .nomad-irbis-methods > details > summary::-webkit-details-marker{display:none}
 #nomad360-irbis-banner .nomad-irbis-methods > details > summary::after{
  content:"";display:block;flex:0 0 9px;
@@ -450,6 +453,7 @@
  #nomad360-irbis-banner #nomad360-data > p{padding:14px 12px 22px}
  #nomad360-irbis-banner #nomad360-official{padding:16px 12px}
  #nomad360-irbis-banner .nomad-irbis-methods > details > summary{padding:12px}
+ #nomad360-irbis-banner .nomad-irbis-methods > details.nomad-pay-bank > summary{padding:12px}
 }
 @media(prefers-reduced-motion:reduce){
  #nomad360-irbis-banner :is(
