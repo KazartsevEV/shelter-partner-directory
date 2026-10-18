@@ -25,12 +25,22 @@ async function checkDownload(page,kind,stem,requests){
  for(let i=0;i<c.out.items.length;i++){
   const item=c.out.items[i],r=s.getRow(i+2),base=kind==='linked'?item.priceList:item.price,buyer=kind==='linked'?item.priceGross:item.priceWithVat;
   A.equal(r.getCell(1).value,item.id);A.equal(r.getCell(2).value,item.name);A.ok(r.getCell(3).value);A.equal(r.getCell(4).value,c.state.currency);A.equal(r.getCell(5).value,base);A.equal(r.getCell(7).value,buyer);A.equal(r.getCell(6).value,kind==='linked'?item.discountSelected:null);
+  if(kind==='linked'){
+   const nums=[item.priceMin,item.priceMax,item.targetMarginPct,item.actualAfterTaxMargin];
+   for(let j=0;j<4;j++){
+    const v=Number.isFinite(nums[j])?nums[j]:null;
+    A.equal(r.getCell(9+j).value,v,'V1→V2 field '+(9+j)+' must be real engine output');
+    A.equal(r.getCell(9+j).numFmt,'0.00');
+   }
+   A.equal(s.columnCount,12);
+  }else A.equal(s.columnCount,8,'standalone V2 has no V1 price bounds');
   A.equal(r.getCell(2).type,Excel.ValueType.String);for(const cell of r._cells)A.equal(cell.formula,undefined);
   const formatted=await page.evaluate(({lang,base,buyer})=>{const f=new Intl.NumberFormat(lang==='ru'?'ru-RU':lang==='kk'?'kk-KZ':'en-US',{minimumFractionDigits:2,maximumFractionDigits:2});return [f.format(base),f.format(buyer)];},{lang,base,buyer});
   A.equal((await visible[i].locator('td').nth(2).textContent()).trim(),formatted[0]);A.equal((await visible[i].locator('td').nth(4).textContent()).trim(),formatted[1]);
  }
  A.equal(JSON.stringify((await expected(page,kind)).state),state);A.deepEqual((await expected(page,kind)).out,c.out);A.deepEqual(requests.slice(requestCount),[],'Export must make zero network requests');
- return {file:stem+'.xlsx',kind,lang,currency:c.state.currency,items:c.out.items.map(x=>({id:x.id,name:x.name,base:kind==='linked'?x.priceList:x.price,discount:kind==='linked'?x.discountSelected:null,customer:kind==='linked'?x.priceGross:x.priceWithVat})),sheetNames:w.worksheets.map(s=>s.name),noExportRequests:true};
+ return {file:stem+'.xlsx',kind,lang,currency:c.state.currency,items:c.out.items.map(x=>({id:x.id,name:x.name,base:kind==='linked'?x.priceList:x.price,discount:kind==='linked'?x.discountSelected:null,customer:kind==='linked'?x.priceGross:x.priceWithVat,
+  ...(kind==='linked'?{min:Number.isFinite(x.priceMin)?x.priceMin:null,max:Number.isFinite(x.priceMax)?x.priceMax:null,target:Number.isFinite(x.targetMarginPct)?x.targetMarginPct:null,margin:Number.isFinite(x.actualAfterTaxMargin)?x.actualAfterTaxMargin:null}:{})})),sheetNames:w.worksheets.map(s=>s.name),noExportRequests:true};
 }
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.NOMAD360_CHROMIUM_PATH||undefined,args:['--no-sandbox']}),cases=[];
