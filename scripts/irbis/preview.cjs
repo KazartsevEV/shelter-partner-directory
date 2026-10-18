@@ -83,6 +83,12 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    A.match(await license.locator('a').getAttribute('href'),
     /^https:\/\/kazartsevev\.github\.io\/shelter-partner-directory\/license\//,
     'Original legal URL is retained');
+   A.equal(await license.locator(':scope > summary').textContent(),
+    await page.locator('#nomad360-header [data-nomad-go="nomad360-license"]').textContent(),
+    'Footer license uses exactly the existing translated navigation label');
+   // Closed-state screenshots must show the *normal* visitor experience.
+   await license.locator(':scope > summary').click();
+   await privacy.locator(':scope > summary').click();
    const bg=await banner.evaluate(e=>({
     scene:getComputedStyle(e,'::before').backgroundImage,
     phone:getComputedStyle(e.querySelector('.nomad-irbis-mobile-art')).backgroundImage,
@@ -115,6 +121,9 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
     'Every nested payment disclosure uses inset centered text and palette separator: '+JSON.stringify(paymentRows));
 
    if(lang==='ru')await banner.screenshot({path:path.join(out,'ru-'+width+'-support-open.png')});
+   // Verify legal/data restoration independently from the visitor-default image.
+   await license.locator(':scope > summary').click();
+   await privacy.locator(':scope > summary').click();
    // No duplicated text or newly invented locale strings: after switching, all
    // disclosure state and payment fields continue to belong to the real header.
    const next=lang==='ru'?'en':'ru';
