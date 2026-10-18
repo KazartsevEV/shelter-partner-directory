@@ -184,4 +184,17 @@
 @media(prefers-reduced-motion:reduce){
  #nomad360-irbis-banner :is(#nomad360-support>details>summary,#nomad360-product-details>summary)::after{transition:none}
 }
+/* TASK-10 generated palette contains important legacy return colors for a white card.
+ * This banner has a navy scenic background: make only its actual foreground white. */
+#nomad360-irbis-banner #nomad360-return,
+#nomad360-irbis-banner #nomad360-return h2,
+#nomad360-irbis-banner #nomad360-return .nomad-irbis-brand,
+#nomad360-irbis-banner #nomad360-return .nomad-return-note,
+#nomad360-irbis-banner #nomad360-support h2{
+ color:var(--irbis-white)!important
+}
+#nomad360-irbis-banner .nomad-irbis-brand em{color:var(--irbis-orange)!important}
+#nomad360-irbis-banner #nomad360-return .nomad-return-note{
+ background:transparent!important;opacity:1!important
+}
 @media print{#nomad360-irbis-banner{display:none!important}}
