@@ -71,6 +71,15 @@ def strip_approved_hero_html(raw):
     modern = (b'        <div id="nomad360-seo-banner" class="nomad-marketing nomad-seo-banner" '
               b'data-nomad-no-translate aria-label="Nomad360 brand">\n'
               b'        </div>\n\n')
+    # IRBIS-07 contributes only two passive loaders. Normalize them with
+    # strict location and cardinality guards before the historic HERO hash.
+    irbis_css = b'    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n'
+    irbis_js = b'<script src="./nomad360_irbis_banner.js"></script>\n'
+    if irbis_css in raw or irbis_js in raw:
+        assert raw.count(irbis_css) == raw.count(irbis_js) == 1, 'IRBIS loader integrity'
+        assert (b'    <link rel="stylesheet" href="./nomad360_about_banner.css">\n' + irbis_css + b'</head>') in raw, 'IRBIS CSS location'
+        assert (b'<script src="./nomad360_return.js"></script>\n' + irbis_js + b'<script src="./nomad360_navigation.js"></script>') in raw, 'IRBIS JS location'
+        raw = raw.replace(irbis_css, b'', 1).replace(irbis_js, b'', 1)
     # ABOUT-01 is a later already-merged main addition. Strictly validate and
     # normalize only its two passive loaders before applying historical HERO
     # source integrity; do not mask any business markup or financial code.
