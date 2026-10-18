@@ -24,14 +24,22 @@ async function browserCase(browser,locale,expected){
   };
   A.deepEqual(await page.locator('#nomad360-hero h1, #nomad360-hero h2, #nomad360-hero h3').allTextContents(),approved[expected.lang],
     'Approved H1 → H2 → H3 must have exact text and order');
+  const modernHero=await page.locator('script[src$="nomad360_hero_banner.js"]').count()===1;
+  if(modernHero){
+    A.equal(await page.locator('#nomad360-seo-banner h2').count(),0,'Old duplicated SEO headline stays removed');
+    A.equal(await page.locator('#nomad360-commercial-banner #nomad360-hero h2').count(),1);
+    A.equal(await page.locator('#nomad360-commercial-banner #nomad360-intro').count(),1);
+    A.equal(await page.locator('#nomad360-commercial-banner #nomad360-hero-summary #nomad360-seo-banner').count(),1,'Brand anchor stays in the approved hero');
+  }else{
   A.equal(await page.locator('#nomad360-seo-banner h2').count(),1,'One SEO banner replaces the former six-point list');
-  A.equal(await page.locator('#nomad360-seo-banner li').count(),0);
-  A.equal(await page.locator('#nomad360-seo-banner p').isVisible(),true);
-  A.equal(await page.locator('#nomad360-seo-banner p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
-  A.equal(await page.locator('#home-screen').evaluate(el=>
-    [...el.children].findIndex(child=>child.id==='nomad360-seo-banner')+1===
-    [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
-    'Approved introduction follows the existing SEO banner');
+    A.equal(await page.locator('#nomad360-seo-banner li').count(),0);
+    A.equal(await page.locator('#nomad360-seo-banner p').isVisible(),true);
+    A.equal(await page.locator('#nomad360-seo-banner p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
+    A.equal(await page.locator('#home-screen').evaluate(el=>
+      [...el.children].findIndex(child=>child.id==='nomad360-seo-banner')+1===
+      [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
+      'Approved introduction follows the existing SEO banner');
+  }
   A.equal(await page.locator('#home-screen > .card > h1').count(),0,
     'Do not duplicate a second homepage H1');
   const presentation=await page.evaluate(()=>{
