@@ -156,7 +156,8 @@ const server=createServer(async(req,res)=>{
     const contact=embed?.querySelector('.nomad-embed-contact');
     return !!embed&&!!terms&&!!contact&&
       !!(contact.compareDocumentPosition(terms)&Node.DOCUMENT_POSITION_FOLLOWING)&&
-      terms.parentElement.querySelector('summary')?.textContent==='Лицензия и использование'&&
+      terms.parentElement.querySelector(':scope > summary')?.textContent?.trim()===
+      document.querySelector('#nomad360-header [data-nomad-go="nomad360-license"]')?.textContent?.trim()&&
       terms.querySelector('a')?.getAttribute('href')==='https://kazartsevev.github.io/shelter-partner-directory/license/';
   }),true,'License and usage must be below the entire calculator embed block');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);

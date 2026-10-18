@@ -537,6 +537,7 @@ def main():
         # exact test contracts and visual receipts, no financial engine changes.
         'nomad360_irbis_banner.css', 'nomad360_irbis_banner.js',
         'assets/nomad360-banners/support-wide.webp',
+        'assets/nomad360-banners/support-wide-extended.webp',
         'assets/nomad360-banners/support-mobile.webp',
         'scripts/irbis/preview.cjs', '.github/workflows/irbis-07-visual.yml',
         'tests/return_7a_browser.cjs', 'tests/simple_service_examples_browser.cjs',
@@ -544,6 +545,8 @@ def main():
         'tests/nomad360_marketing_browser.cjs', 'tests/type02_acceptance_browser.cjs',
         'tests/helpers/task10-palette.cjs',
         'docs/reviews/irbis-07/REVIEW.md',
+        # IRBIS-08 remains a scoped presentation-only footer change.
+        'docs/reviews/irbis-08/REVIEW.md',
         'tests/nomad360_price_export.test.cjs',
          'tests/nomad360_price_export_openxml.py',
         '.github/workflows/task10-palette.yml') for p in changed), changed
