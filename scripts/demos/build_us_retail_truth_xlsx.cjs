@@ -21,6 +21,8 @@ const near=(a,b)=>A.ok(Math.abs(a-b)<1e-8,'Value parity: '+a+' != '+b);
   const row=document.taxTable.rows[i],projected=out.salesTaxSummary.lines[i];
   A.equal(row[0],projected.id);
   near(row[3],projected.net);near(row[4],projected.salesTax);near(row[5],projected.customerTotal);
+  // Independent tax arithmetic for every actual V2 SKU (not a copied engine subtotal).
+  near(row[4],row[3]*state.tax.salesTaxPct/100);
   near(row[3]+row[4],row[5]);
  }
  const sum=key=>out.salesTaxSummary.lines.reduce((total,line)=>total+line[key],0);
