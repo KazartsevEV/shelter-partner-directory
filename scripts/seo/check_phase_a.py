@@ -11,6 +11,29 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / 'docs/seo/evidence'
 
+def restore_approved_v2_copy_locale(raw):
+    # UI-COPY-04: match exactly the three requested language versions and
+    # restore only these two rows for legacy byte-identical SEO checks.
+    # The live V2 screens never render the retired pricing explanation.
+    base = subprocess.check_output(['git', 'show',
+        '78ef71b32256a1651c5bbc96e154e2f6df89a019:nomad360_locale_core.js'], cwd=ROOT)
+    prefix = b' ["marketing.onePortfolioFunnelBudget'
+    old_rows = base.splitlines(keepends=True)
+    marketing = next((row for row in old_rows if row.startswith(prefix)), None)
+    pricing = next((row for row in old_rows if row.startswith(b' ["finance.allThreeModelsShare')), None)
+    assert marketing and pricing and raw.count(prefix) == 1, 'Exact V2 copy locale source'
+    new_marketing = (marketing
+        .replace(b'orders. CTR determines impressions; extra campaigns', b'orders. Extra campaigns')
+        .replace('заказы. CTR нужен для показов. Отдельные'.encode(), 'заказы. Отдельные'.encode())
+        .replace('тапсырыс. CTR көрсетілімге қажет; қосымша'.encode(), 'тапсырыс. Қосымша'.encode()))
+    assert new_marketing != marketing and raw.count(new_marketing) == 1, 'V2 CTR copy exactly shortened in three languages'
+    assert pricing not in raw, 'Retired V2 pricing explanation must not be shipped'
+    raw = raw.replace(new_marketing, marketing, 1)
+    next_row = b' ["ui.portfolioResult"'
+    assert raw.count(next_row) == 1
+    return raw.replace(next_row, pricing + next_row, 1)
+
+
 def mask_stage_7b5_pdf(raw):
     # Exact bounded exception: only the V1 print renderer may differ.
     start = b'function exportProductCalculationPdf() {'
@@ -174,6 +197,7 @@ def main():
             # Keep the historical immutable SEO snapshot comparison unchanged.
             raw = raw.split(b'\n/* SEO-07 approved keyword banner; original offer unchanged. */', 1)[0]
         if name == 'nomad360_locale_core.js':
+            raw = restore_approved_v2_copy_locale(raw)
             raw = re.sub(rb'^ \["business\.ideaSeo(?:Title|Copy)",[^\n]+\n', b'', raw, flags=re.M)
         if name == 'nomad360_header.js':
             raw = raw.replace(b'''    // SEO-07: reuse the header asset; the existing HTML bundler inlines this URL.
