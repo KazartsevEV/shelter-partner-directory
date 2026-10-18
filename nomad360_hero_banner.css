@@ -616,3 +616,20 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
    rgba(23,59,88,0) 100%);
  }
 }
+
+/* HERO-08: map approved 864px phone reference to live 390px viewport:
+   CTA ≈306px, summary ≈374px, bottom of benefit frame ≈768px.
+   Keep visible text and the original art in separate responsive layers. */
+@media(max-width:700px){
+ body #home-screen #nomad360-commercial-banner #nomad360-hero{
+  padding-top:clamp(82px,25.8vw,122px);
+  margin-bottom:18px;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-intro li{
+  padding-top:12px;
+  padding-bottom:14px;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-intro li:first-child{
+  padding-top:12px;
+ }
+}
