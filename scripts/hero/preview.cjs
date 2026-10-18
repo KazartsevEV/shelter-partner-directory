@@ -53,6 +53,11 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const full=lang+'-'+width+'-home.png';
     await p.locator('#home-screen').screenshot({path:path.join(out,full)});
     screens.push(full);
+    // Capture the real header alongside the hero; the home-screen element
+    // screenshot excludes the separately mounted site header.
+    const pageView=lang+'-'+width+'-viewport.png';
+    await p.screenshot({path:path.join(out,pageView)});
+    screens.push(pageView);
    }
    if(width===390){
     const next=lang==='ru'?'en':lang==='en'?'kk':'ru';
