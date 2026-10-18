@@ -53,7 +53,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       openingRight:section.querySelector('.nomad-about-opening').getBoundingClientRect().right-rect.left,
       aboutLeft:sr.left};
    });
-   assert.match(layout.sceneSource,/assets\\/nomad360-banners\\/about-bozzhyra-approved\\.webp/);
+   assert.ok(layout.sceneSource.includes('assets/nomad360-banners/about-bozzhyra-approved.webp'),'Approved full-width image must be used');
    assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
    assert.equal(layout.originalWidth,1672);assert.equal(layout.originalHeight,941);
    assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Scene must retain source aspect ratio');
