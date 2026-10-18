@@ -23,7 +23,9 @@ const filesuffix={'.HTML':'text/html','.html':'text/html','.js':'text/javascript
       A.equal(await page.locator('#nomad360-return').count(),1);
       await page.evaluate(()=>dispatchEvent(new Event('appinstalled')));
       const confirmation=await page.locator('#nomad360-return p.nomad-return-status').evaluate(el=>({color:getComputedStyle(el).color,weight:getComputedStyle(el).fontWeight,opacity:getComputedStyle(el).opacity}));
-      A.deepEqual(confirmation,{color:'rgb(23, 59, 88)',weight:'400',opacity:'1'});
+      const acceptedIrbis=await page.locator('#nomad360-irbis-banner #nomad360-return').count()===1;
+      A.deepEqual(confirmation,{color:acceptedIrbis?'rgb(255, 255, 255)':'rgb(23, 59, 88)',weight:'400',opacity:'1'},
+        'Installation confirmation must contrast with the actual approved background');
       for(const role of all){
         await page.evaluate(role=>{selectServiceFinancialMode('simple');chooseServiceChannel('online');selectServiceMode(role);},role);
         const panel=page.locator('#nomad-simple-service-examples');
