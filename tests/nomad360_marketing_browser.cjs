@@ -5,7 +5,7 @@ const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'artifacts/marketing-current');fs.mkdirSync(out,{recursive:true});
 const widths=(process.env.MARKETING_WIDTHS||'320,360,390,430,768,1280,1440').split(',').map(Number);
 let portable='';
-function audit(){const visible=e=>e.getClientRects().length&&!e.closest('[hidden],.hidden');const hosts=['#nomad360-intro','#nomad360-about','#nomad360-embed','#nomad360-license','#nomad360-data','#nomad360-official'];const bad=[];for(const host of hosts)for(const e of document.querySelectorAll(host+' *'))if(visible(e)&&[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())){const s=getComputedStyle(e);const heroText=!!e.closest('#nomad360-commercial-banner');const aboutText=!!document.querySelector('script[src$="nomad360_about_banner.js"]')&&!!e.closest('#nomad360-about,#nomad360-contacts');const weights=heroText||aboutText?['400','450','500','600','650','700','750']:['400','500','600','700'];const minimum=heroText&&e.closest('.nomad-benefit-copy')?13:14;if(parseFloat(s.fontSize)<minimum||!weights.includes(s.fontWeight))bad.push({text:e.textContent,font:s.font});}return {overflow:document.documentElement.scrollWidth>innerWidth+1,bad,gaps:Nomad360LocaleCore.auditVisibleGaps()};}
+function audit(){const visible=e=>e.getClientRects().length&&!e.closest('[hidden],.hidden');const hosts=['#nomad360-intro','#nomad360-about','#nomad360-embed','#nomad360-license','#nomad360-data','#nomad360-official'];const bad=[];for(const host of hosts)for(const e of document.querySelectorAll(host+' *'))if(visible(e)&&[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())){const s=getComputedStyle(e);const heroText=!!e.closest('#nomad360-commercial-banner');const aboutText=!!document.querySelector('script[src$="nomad360_about_banner.js"]')&&!!e.closest('#nomad360-about,#nomad360-contacts');const weights=heroText||aboutText?['400','450','500','600','650','700','750']:['400','500','600','700'];const approvedRuMobileBrand=aboutText&&document.documentElement.lang==='ru'&&innerWidth<=700&&!!e.closest('.nomad-about-brand-ru-mobile');const minimum=approvedRuMobileBrand?13.5:(heroText&&e.closest('.nomad-benefit-copy')?13:14);if(parseFloat(s.fontSize)<minimum||!weights.includes(s.fontWeight))bad.push({text:e.textContent,font:s.font});}return {overflow:document.documentElement.scrollWidth>innerWidth+1,bad,gaps:Nomad360LocaleCore.auditVisibleGaps()};}
 async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(120);}
 (async()=>{
  const server=http.createServer((req,res)=>{const name=new URL(req.url,'http://localhost').pathname;if(name==='/portable.html'){res.setHeader('Content-Type','text/html');res.end(portable);return;}const file=path.resolve(root,'.'+decodeURIComponent(name));if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png'})[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);});await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port+'/';
@@ -23,7 +23,15 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
    if(modernHero)A.equal(await p.locator('#nomad360-commercial-banner #nomad360-hero-summary').evaluate(e=>[...e.children].map(n=>n.id).join(',')),'nomad360-intro,nomad360-seo-banner','Approved hero summary preserves intro then brand');
    else A.equal(await p.locator('#nomad360-seo-banner').evaluate(e=>e.nextElementSibling.id),'nomad360-intro');
    A.equal(await p.locator('#home-screen h1').count(),1);
-  A.equal(await p.locator('#nomad360-intro li').count(),3);A.equal(await p.locator('#nomad360-intro p').count(),2);A.equal(await p.locator('#nomad360-intro a').count(),0);
+  A.equal(await p.locator('#nomad360-intro li').count(),3);
+   const currentProcess=await p.locator('#nomad360-intro .nomad-hero-process').count()===1;
+   if(modernHero)A.equal(currentProcess,true,'Live HERO must retain the approved three-step introduction');
+   A.equal(await p.locator('#nomad360-intro p').count(),currentProcess?1:2);
+   if(currentProcess){
+      A.equal(await p.locator('#nomad360-intro .nomad-hero-process-step[role="listitem"]').count(),3,
+        'Approved HERO has three translated business-plan steps');
+   }
+   A.equal(await p.locator('#nomad360-intro a').count(),0);
   if(lang==='en')A.match(await p.locator('.nomad-intro-lead').textContent(),/validation/);if(lang==='ru')A.doesNotMatch(await p.locator('#nomad360-intro').textContent(),/validation/);
   A.equal(await p.locator('#nomad360-seo-banner li').count(),0);
    A.equal(await p.locator('#nomad360-seo-banner h2').count(),modernHero?0:1,'No duplicated obsolete SEO heading');

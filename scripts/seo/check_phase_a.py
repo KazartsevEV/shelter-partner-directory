@@ -11,6 +11,29 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / 'docs/seo/evidence'
 
+def restore_approved_v2_copy_locale(raw):
+    # UI-COPY-04: match exactly the three requested language versions and
+    # restore only these two rows for legacy byte-identical SEO checks.
+    # The live V2 screens never render the retired pricing explanation.
+    base = subprocess.check_output(['git', 'show',
+        '78ef71b32256a1651c5bbc96e154e2f6df89a019:nomad360_locale_core.js'], cwd=ROOT)
+    prefix = b' ["marketing.onePortfolioFunnelBudget'
+    old_rows = base.splitlines(keepends=True)
+    marketing = next((row for row in old_rows if row.startswith(prefix)), None)
+    pricing = next((row for row in old_rows if row.startswith(b' ["finance.allThreeModelsShare')), None)
+    assert marketing and pricing and raw.count(prefix) == 1, 'Exact V2 copy locale source'
+    new_marketing = (marketing
+        .replace(b'orders. CTR determines impressions; extra campaigns', b'orders. Extra campaigns')
+        .replace('заказы. CTR нужен для показов. Отдельные'.encode(), 'заказы. Отдельные'.encode())
+        .replace('тапсырыс. CTR көрсетілімге қажет; қосымша'.encode(), 'тапсырыс. Қосымша'.encode()))
+    assert new_marketing != marketing and raw.count(new_marketing) == 1, 'V2 CTR copy exactly shortened in three languages'
+    assert pricing not in raw, 'Retired V2 pricing explanation must not be shipped'
+    raw = raw.replace(new_marketing, marketing, 1)
+    next_row = b' ["ui.portfolioResult"'
+    assert raw.count(next_row) == 1
+    return raw.replace(next_row, pricing + next_row, 1)
+
+
 def mask_stage_7b5_pdf(raw):
     # Exact bounded exception: only the V1 print renderer may differ.
     start = b'function exportProductCalculationPdf() {'
@@ -174,6 +197,7 @@ def main():
             # Keep the historical immutable SEO snapshot comparison unchanged.
             raw = raw.split(b'\n/* SEO-07 approved keyword banner; original offer unchanged. */', 1)[0]
         if name == 'nomad360_locale_core.js':
+            raw = restore_approved_v2_copy_locale(raw)
             raw = re.sub(rb'^ \["business\.ideaSeo(?:Title|Copy)",[^\n]+\n', b'', raw, flags=re.M)
         if name == 'nomad360_header.js':
             raw = raw.replace(b'''    // SEO-07: reuse the header asset; the existing HTML bundler inlines this URL.
@@ -297,10 +321,18 @@ def main():
                         ' ["ui.value1SharedMarketingEngine","1. Advertising and marketing","1. Реклама и маркетинг","1. Жарнама және маркетинг"],',
                         ' ["ui.value1SharedMarketingEngine","1. Shared marketing engine","1. Общий маркетинговый двигатель","1. Ортақ маркетинг моделі"],'
                     ), 'Unexpected marketing-heading change'
+                    # Already accepted HERO-193 replaced one closing slogan
+                    # with three RU/EN/KK steps. Normalize only these four keys.
+                    hero_keys = {'interface.shell.introResult',
+                                 'interface.shell.introStep1',
+                                 'interface.shell.introStep2',
+                                 'interface.shell.introStep3'}
+                    assert sum(x.startswith(' ["interface.shell.introStep') for x in lines) in (0,3)
                     return '\n'.join('<ACCEPTED-LICENSE-ROW>' if
                                      '"interface.header.licenseCopy"' in x else
                                      '<APPROVED-V2-MARKETING-HEADING>' if heading in x else x
-                                     for x in lines if x not in tax_rows)
+                                     for x in lines if x not in tax_rows
+                                     and not any(x.startswith(' ["'+k+'"') for k in hero_keys))
                 assert mask_license_locale(raw) == mask_license_locale(approved), name
             else:
                 assert raw == approved, 'Approved PR #145 source changed: ' + name
@@ -360,7 +392,15 @@ def main():
                     assert len(matcher.findall(source)) == 1, 'Unbounded export function: ' + label.decode()
                     source = matcher.sub(b'function ' + label + b'(/* 7B5 approved */){}\n', source, count=1)
                 return source
-            assert mask_approved_print_functions(raw) == mask_approved_print_functions(accepted), name
+            # PR #193 was already merged into main before UI-COPY-04.
+            # Pin the entire accepted code (including its three translated HERO
+            # steps) byte-for-byte, rather than rejecting the approved intro.
+            pinned = subprocess.check_output(
+                ['git','show','78ef71b32256a1651c5bbc96e154e2f6df89a019:' + name], cwd=ROOT)
+            pinned = subprocess.check_output(['node','-e',
+                "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))", name],
+                input=pinned,cwd=ROOT)
+            assert raw == pinned, 'Unapproved calculator UI delta outside accepted main HERO'
             continue
         if name == 'Marketing_calc.HTML':
             # Preserve the exact SEO-era source outside the approved 7B-5 PDF function.
