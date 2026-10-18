@@ -649,3 +649,12 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   min-height:max(0px,calc(var(--hero-scene-height) - 32px));
  }
 }
+
+/* HERO-10: phrase break only on phones. The phrase stays one live DOM span,
+   while its surrounding text and accent still come from RU/EN/KK translations. */
+@media(max-width:700px){
+ #home-screen #nomad360-commercial-banner #nomad360-hero h2 .nomad-hero-title-mobile-final{
+  display:block;
+  white-space:nowrap;
+ }
+}
