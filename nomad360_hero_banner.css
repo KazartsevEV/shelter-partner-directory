@@ -636,3 +636,16 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   padding-top:12px;
  }
 }
+
+/* HERO-09: the full bordered summary (text + wolf logo) belongs to the
+   solid navy zone BELOW the scenic artwork. Do not translate the card: it must
+   remain in normal flow so the surrounding navy band grows with its content.
+   Scenic layer: width=min(63% of banner, 776px), aspect-ratio=776/525. */
+@media(min-width:1021px){
+ #home-screen #nomad360-commercial-banner{
+  --hero-scene-height:min(525px,calc((100vw - 32px)*.42622));
+ }
+ body #home-screen #nomad360-commercial-banner #nomad360-hero{
+  min-height:max(0px,calc(var(--hero-scene-height) - 32px));
+ }
+}
