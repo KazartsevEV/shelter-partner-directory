@@ -129,7 +129,7 @@ function render(){
  '<button class="nd-v2-action nd-v2-action-outline border border-white/40 px-3 py-2 rounded-lg text-sm" type="button" data-p2-new>+ Новый портфель</button></div>'+
  '<div id="p2-draft-status" class="nd-v2-status mt-2 text-xs">Черновик сохраняется только в этом браузере</div></div>'+
  box('1. Реклама и маркетинг',
- '<p class="nd-v2-description text-xs mb-3">Одна воронка на портфель: бюджет → CPC → клики → лиды → заказы. CTR нужен для показов. Отдельные дополнительные кампании можно назначить конкретным SKU ниже.</p>'+
+ '<p class="nd-v2-description text-xs mb-3">Одна воронка на портфель: бюджет → CPC → клики → лиды → заказы. Отдельные дополнительные кампании можно назначить конкретным SKU ниже.</p>'+
  '<div class="nd-v2-form-grid grid grid-cols-2 gap-3">'+
  numberField('Общий рекламный бюджет / месяц','marketing.budget',model.marketing.budget)+
  numberField('CPC, цена клика','marketing.cpc',model.marketing.cpc)+
@@ -139,7 +139,7 @@ function render(){
  numberField('Минимальный период, месяцев','marketing.periodMonths',model.marketing.periodMonths)+
  numberField('Коэффициент запаса CAC, %','marketing.cacReservePct',model.marketing.cacReservePct,'100% — без запаса; 75% — CAC / 0,75')+
  '</div>','p2-stage-marketing')+
- box('2. Товары и доли продаж','<p class="nd-v2-description text-sm mb-3">Три модели используют одну формулу цены; меняются состав себестоимости, наличие склада и момент расчёта с поставщиком.</p>'+
+ box('2. Товары и доли продаж',
  model.skus.map(skuCard).join('')+
  '<div class="nd-v2-status text-sm font-semibold mb-3" id="p2-mix-sum">Сумма долей по штукам: '+pct(model.skus.reduce((a,s)=>a+Number(s.mixPct||0),0))+'</div>'+
  '<button type="button" data-p2-add-sku class="nd-v2-action nd-v2-action-secondary w-full rounded-xl bg-blue-700 px-4 py-4 text-white font-bold">+ Добавить товар</button>','p2-stage-skus')+

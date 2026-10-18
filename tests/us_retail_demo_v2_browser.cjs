@@ -64,6 +64,13 @@ const {pathToFileURL}=require('node:url');
    assert.equal(report.personal,prior,'Demo must not overwrite an existing personal draft');
    assert.equal(JSON.parse(report.demo).skus.length,10);
    assert.match(report.banner,/Учебный пример магазина США/);
+   assert.doesNotMatch(report.banner,/Цифры — предположения|прогноз спроса/);
+   for(const forbidden of ['Демонстрация реального V2','CTR нужен для показов','Три модели используют одну формулу цены']){
+     assert.ok(!(await page.locator('#portfolio-v2-root').innerText()).includes(forbidden),
+       'Removed V2 explanatory copy must stay absent: '+forbidden);
+   }
+   assert.equal(await page.locator('[data-p2-path="marketing.ctrPct"]').count(),1,
+     'CTR input remains functional; only explanatory prose was removed');
    assert.doesNotMatch(report.banner,/Личный портфель не изменяется|Новый портфель.*очищает поля/);
    const taxCards=page.locator('[data-p2-sales-tax-summary] [data-tax-sku]');
    assert.equal(await taxCards.count(),10,'exactly one reference-month row per projected SKU');
@@ -99,6 +106,8 @@ const {pathToFileURL}=require('node:url');
    assert.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus[0].name),'Handmade holiday gift box');
    assert.equal(await page.evaluate(()=>PortfolioV2UI.getState().resources[0].label),'Retail storefront lease');
    assert.match(await page.locator('#us-retail-demo-notice').innerText(),/US retail study example/);
+   assert.doesNotMatch(await page.locator('#portfolio-v2-root').innerText(),
+      /Values are assumptions|Live V2 demonstration|CTR determines impressions|All three sourcing models/);
    assert.equal(await financialFingerprint(),financialBefore,'EN language switch must not change finance');
    await page.evaluate(()=>Nomad360UI.setLanguage('kk'));
    assert.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus[0].name),'Қолдан жасалған сыйлық жиынтығы');
