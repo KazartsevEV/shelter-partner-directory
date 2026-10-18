@@ -472,3 +472,38 @@
   min-height:clamp(300px,35vw,390px);
  }
 }
+
+/* ABOUT-08: lift only the existing localized umbrella-brand sentence INTO the
+   left navy moonlit area, clear of the right-hand white Bozzhyra pinnacles.
+   Do not enlarge, repaint, or crop the owner-approved panorama.
+   Shrink the former opaque navy gap by letting the following service row start
+   shortly after the actual copy instead of reserving an empty image-height slot. */
+@media(max-width:700px){
+ #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:clamp(210px,59vw,245px);
+ }
+ #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  width:76%;
+  max-width:260px;
+  margin-top:clamp(36px,12vw,50px);
+  margin-bottom:0;
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:clamp(235px,64vw,270px);
+ }
+ html[lang="kk"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:clamp(255px,72vw,300px);
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening,
+ html[lang="kk"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:clamp(36px,12vw,50px);
+ }
+ /* Dark navy at the left text side, fading BEFORE the right white cliffs.
+    Keep the existing gradient and original artwork intact elsewhere. */
+ #nomad360-information.nomad-information::after{
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.97) 0%,rgba(23,59,88,.91) 25%,
+   rgba(23,59,88,.60) 48%,rgba(23,59,88,.12) 69%,
+   rgba(23,59,88,0) 80%);
+ }
+}
