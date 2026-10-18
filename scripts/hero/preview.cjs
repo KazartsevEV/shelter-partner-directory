@@ -42,6 +42,23 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const arts=getComputedStyle(document.querySelector('#nomad360-commercial-banner'),'::before').backgroundImage;
     return {bannerWidth:banner.width,headlineRight:headline.right-banner.left,scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth,background,art:arts};
    });
+   if(width===390){
+    const mobileVisual=await p.evaluate(()=>{
+      const header=document.querySelector('#nomad360-header');
+      const h2=document.querySelector('#nomad360-hero h2').getBoundingClientRect();
+      const cta=document.querySelector('#nomad360-hero .nomad-intro-cta').getBoundingClientRect();
+      const summary=document.querySelector('#nomad360-hero-summary').getBoundingClientRect();
+      return {headerBackground:getComputedStyle(header).backgroundColor,
+        headlineTop:h2.top,ctaTop:cta.top,summaryTop:summary.top};
+    });
+    A.equal(mobileVisual.headerBackground,'rgb(23, 59, 88)','Header must join the approved navy hero');
+    A.ok(mobileVisual.headlineTop>=95&&mobileVisual.headlineTop<=165,
+      'Mobile heading follows approved composition, not the old separate picture strip');
+    A.ok(mobileVisual.ctaTop>mobileVisual.headlineTop&&mobileVisual.ctaTop<390,
+      'Mobile CTA remains below live text inside scenic composition');
+    A.ok(mobileVisual.summaryTop>mobileVisual.ctaTop&&mobileVisual.summaryTop<470,
+      'Benefits panel begins below the mobile scenic CTA');
+   }
    A.equal(geometry.background,'rgb(23, 59, 88)','Main approved navy');
    A.match(geometry.art,/hero\.webp/,'Approved scenery layer');
    A.ok(geometry.scrollWidth<=width+1,'No horizontal page scroll');
