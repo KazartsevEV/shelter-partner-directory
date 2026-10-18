@@ -622,8 +622,11 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
    Keep visible text and the original art in separate responsive layers. */
 @media(max-width:700px){
  body #home-screen #nomad360-commercial-banner #nomad360-hero{
-  padding-top:clamp(82px,25.8vw,122px);
+  padding-top:clamp(70px,21.8vw,103px);
   margin-bottom:18px;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta{
+  margin-top:26px;
  }
  #home-screen #nomad360-commercial-banner #nomad360-intro li{
   padding-top:12px;
