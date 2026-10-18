@@ -46,7 +46,7 @@
  cursor:pointer;text-align:left;white-space:normal;font:500 clamp(11px,1vw,15px)/1.35 var(--nd-font,Inter,sans-serif)
 }
 #nomad360-irbis-banner .nomad-return-button+.nomad-return-button{
- padding-left:16px;border-left:1px solid rgba(255,255,255,.35)
+ padding-left:16px;border-left:1px solid #38678B
 }
 #nomad360-irbis-banner .nomad-irbis-platform-icon{
  display:block;width:37px;height:37px;fill:currentColor;color:var(--irbis-white);flex:none
@@ -72,7 +72,7 @@
 #nomad360-irbis-banner #nomad360-support{margin:0 0 0}
 #nomad360-irbis-banner #nomad360-product-details{margin:0}
 #nomad360-irbis-banner #nomad360-support>details,
-#nomad360-irbis-banner #nomad360-product-details{border-top:1px solid rgba(255,255,255,.34)}
+#nomad360-irbis-banner #nomad360-product-details{border-top:1px solid #38678B}
 #nomad360-irbis-banner #nomad360-support>details>summary,
 #nomad360-irbis-banner #nomad360-product-details>summary{
  display:flex;align-items:center;gap:18px;min-height:67px;padding:8px 1px;
@@ -255,7 +255,7 @@
   --p10-fg:#FFFFFF!important;--p10-accent:#FF913F!important;
  }
  body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button+.nomad-return-button{
-  border-left:1px solid rgba(255,255,255,.32)!important
+  border-left:1px solid #38678B!important
  }
  body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button:hover{
   color:#FF913F!important;background-color:transparent!important
