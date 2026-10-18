@@ -128,7 +128,7 @@ function render(){
  '<button class="nd-v2-action nd-v2-action-primary nd-cta-primary px-3 py-2 rounded-lg text-sm font-bold" type="button" data-p2-save>Сохранить расчёт</button>'+
  '<button class="nd-v2-action nd-v2-action-outline border border-white/40 px-3 py-2 rounded-lg text-sm" type="button" data-p2-new>+ Новый портфель</button></div>'+
  '<div id="p2-draft-status" class="nd-v2-status mt-2 text-xs">Черновик сохраняется только в этом браузере</div></div>'+
- box('1. Общий маркетинговый двигатель',
+ box('1. Реклама и маркетинг',
  '<p class="nd-v2-description text-xs mb-3">Одна воронка на портфель: бюджет → CPC → клики → лиды → заказы. CTR нужен для показов. Отдельные дополнительные кампании можно назначить конкретным SKU ниже.</p>'+
  '<div class="nd-v2-form-grid grid grid-cols-2 gap-3">'+
  numberField('Общий рекламный бюджет / месяц','marketing.budget',model.marketing.budget)+
