@@ -41,3 +41,12 @@ Last automated visual check for head `1fcafa0caf03656c054d16c03e97016eb91a3709` 
 **Preview receipt:** Local Chromium layout screenshots are available in the conversation (`about-06-final-1280.png`, `about-06-final-390.png`) with representative content and simplified icons. These are **layout prototypes, not actual full-site GitHub Actions receipts**, and cannot substitute for real browser acceptance.
 
 **Required before accepting or merging:** Run the ABOUT-01 visual workflow on the latest branch HEAD, inspect its actual-site RU/EN/KK 320/390/768/1280/1440 screenshots and verify that live header/palette CSS and icon implementations match. Do not merge without owner approval. Previous workflow attempts have been queued.
+
+
+## ABOUT-07 — caption between services and contacts (owner change)
+
+- Existing localized `nomad-about-caption` is moved in `nomad360_about_banner.js` into a new `nomad-about-caption-band` **after** the three services and **before** contacts, for desktop and mobile. No copy duplicated, hidden, or re-translated.
+- Navy caption band centers the orange-rule paragraph vertically with equal block padding; the desktop card sizing and full-width night panorama remain from ABOUT-06.
+- On phones `nomad-about-scene-copy` now reserves only the actual scaled scenic image height minus top padding, **not** a place for the relocated automation text. The original translated brand introduction remains on the scenic layer.
+- `scripts/about/preview.cjs` enforces DOM order, spacing symmetry, no wasted photo slot, three service links, and locale re-render compatibility.
+- This change is NOT approved for main/Live until real PR Chromium desktop/mobile screenshots are reviewed.
