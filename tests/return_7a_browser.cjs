@@ -24,7 +24,12 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
    A.equal(await p.locator('[data-nomad-download-html]').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');A.equal(await p.locator('.nomad-embed-contact').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 145, 63)');await toggle.click();A.equal(await p.locator('#nomad360-embed-comparison').isVisible(),false);
   }
   if(['intro','brand','all'].includes(stage)){
-   A.deepEqual(await p.locator('#home-screen').evaluate(e=>[...e.children].slice(0,4).map(e=>e.id)),['nomad360-hero','nomad360-seo-banner','nomad360-intro','nomad360-selling-choice']);
+   const modernHero=await p.locator('script[src$="nomad360_hero_banner.js"]').count()===1;
+    if(modernHero){
+     A.deepEqual(await p.locator('#nomad360-commercial-banner').evaluate(e=>[...e.children].map(x=>x.id).filter(Boolean)),['nomad360-hero','nomad360-hero-summary'],'Existing hero and intro remain grouped under the approved banner');
+     A.deepEqual(await p.locator('#nomad360-hero-summary').evaluate(e=>[...e.children].map(x=>x.id)),['nomad360-intro','nomad360-seo-banner'],'Intro and logo use their approved semantic order');
+     A.equal(await p.locator('#home-screen #nomad360-selling-choice').count(),1);
+    }else A.deepEqual(await p.locator('#home-screen').evaluate(e=>[...e.children].slice(0,4).map(e=>e.id)),['nomad360-hero','nomad360-seo-banner','nomad360-intro','nomad360-selling-choice']);
    A.equal(await p.locator('#nomad360-intro').count(),1);A.equal(await p.locator('.nomad-intro-cta').count(),1);A.equal(await p.locator('#nomad360-hero h3').evaluate(e=>e.nextElementSibling?.classList.contains('nomad-intro-cta')),true);A.equal(await p.locator('#nomad360-intro a').count(),0);A.equal(await p.locator('.nomad-intro-lead').textContent(),original.t('interface.shell.introLead',lang));A.equal(await p.locator('.nomad-intro-result').textContent(),original.t('interface.shell.introResult',lang));
    await p.locator('.nomad-intro-cta').click();A.ok(await p.locator('#nomad360-selling-choice').evaluate(e=>{const b=e.getBoundingClientRect();return b.top>=0&&b.top<innerHeight;}));
   }
