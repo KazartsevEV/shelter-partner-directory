@@ -718,3 +718,13 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   transform:translateX(-50%) rotate(135deg);
  }
 }
+
+/* HERO-11b: the global palette's universal !important border rule overrides
+   ordinary arrow borders. Apply the exact existing orange in that same layer. */
+@layer nomad360-palette{
+ body:has(#home-screen) #nomad360-commercial-banner #nomad360-intro
+ .nomad-hero-process-step:not(:last-child)::after{
+  border-top-color:var(--p10-orange,#FF913F)!important;
+  border-right-color:var(--p10-orange,#FF913F)!important;
+ }
+}
