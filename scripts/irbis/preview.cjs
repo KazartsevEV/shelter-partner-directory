@@ -92,7 +92,7 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
   await gutter.addStyleTag({content:'html{scrollbar-gutter:stable;overflow-y:scroll}'});
   await gutter.waitForFunction(()=>{
    const banner=document.getElementById('nomad360-irbis-banner');
-   return banner&&Math.abs(banner.getBoundingClientRect().width-document.documentElement.clientWidth)<1;
+   return banner&&Math.abs(banner.getBoundingClientRect().width-document.documentElement.getBoundingClientRect().width)<1;
   });
   const edges=await gutter.locator('#nomad360-irbis-banner').evaluate(el=>{
    const rect=el.getBoundingClientRect();
