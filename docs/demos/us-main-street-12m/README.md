@@ -5,7 +5,7 @@
 ## Open the real calculator
 - On this development branch, open `US_Retail_Demo.HTML?demo=us-retail-12m` locally or on an equivalent branch preview with its dependent scripts. This query explicitly opens the editable **real V2** with the example loaded.
 - Or open the separate `US_Retail_Demo.HTML` without query arguments and click “Открыть учебный магазин США · 12 месяцев” under the selling-mode chooser.
-- Edit any fields; **+ Новый портфель** empties the example. Study changes save only to `marketingCalcPortfolioV2USRetailDemo` and **never overwrite** a visitor's `marketingCalcPortfolioV2` personal draft. The production `Marketing_calc.HTML` and production `portfolio_v2_ui.js` remain byte-for-byte unchanged; the original blank V2 and Kazakhstan cotton shopper remain unchanged.
+- Edit any fields; **+ Новый портфель** empties the example. Study changes save only to `marketingCalcPortfolioV2USRetailDemo` and **never overwrite** a visitor's `marketingCalcPortfolioV2` personal draft. The original blank V2 workflow, financial models, personal storage and Kazakhstan cotton shopper remain unchanged. V2-OUTPUT-TRUTH-01 improves presentation-only tax and resource results in BOTH the production standalone V2 view and this isolated study copy; see `docs/reviews/v2-output-truth-01/AUDIT_AND_CHUNKS.md`.
 - The browser-only file works with the local companion scripts. GitHub's `blob/main` view is **source code, not a functioning calculator preview**. Do not claim the branch is published to Pages until a production deploy is accepted.
 
 ## Scenario
@@ -24,7 +24,7 @@ Location: Worcester, Massachusetts. Currency USD. Twelve forecast months, starti
 The canonical inputs were run through **the repository's actual `PortfolioV2Engine.build`**, without replacing financial formulas. At the draft fixture date:
 - 10 valid items, 14 resources, 12 months, 150 model orders/month, 1,800/year.
 - Net product revenue (12 months, before collected sales tax): **$357,485.79**.
-- The existing V2 Sales Tax projection is for **one representative month**: **$1,861.91** transit tax on **$29,790.48** net receipts. Multiplying the separately verified constant-month forecast by 12 gives an **illustrative annual** Sales Tax of **$22,342.86** and annual total buyer payments **$379,828.65**. The annual extension is documentation arithmetic, **not** a twelve-month Sales Tax invoice ledger in V2; invoice-by-invoice rounding is not modelled.
+- The existing V2 Sales Tax projection is for **one representative month only**: **$1,861.91** transit tax on **$29,790.48** net receipts. The engine does **not** return an annual Sales Tax figure or a twelve-month tax invoice ledger. No extrapolated annual tax or buyer-payment number is presented as V2 output.
 - Model-sized loan principal **$45,232**, bullet repayment at month 12; reserve **$4,112**.
 - Model final cumulative cash balance **$45,413.03**, before subtracting reserve; model available cash after reserve **$41,301.03**.
 - These **model outputs are not an independent audited income statement**. The separate Node and Chromium tests verify the active model and independent arithmetic control of the 6.25% pass-through.
@@ -35,7 +35,7 @@ The canonical inputs were run through **the repository's actual `PortfolioV2Engi
 2. The separate Sales Tax projection must not be mistaken for a state filing/account-payable ledger. **Standalone V2 intentionally does not fabricate a monthly tax invoice schedule from cash timing**. The original financial Cash Flow remains net of transit Sales Tax.
 3. One-time tool purchases are treated by the current V2 cash/EBITDA logic; this does **not** imply formal depreciation, CapEx accounting or complete US GAAP.
 4. No additional new taxes, payroll tax engine, tax exemptions, SKU-specific rates, supplier restocking, seasonal multipliers or missing V2 features have been invented.
-5. Excel price list remains **the existing V2 Excel price list**, not a newly requested full financial-model spreadsheet. No Excel changes are part of this task.
+5. Excel keeps **the existing V2 price list** and now adds a numeric **Sales Tax** sheet containing exactly the real `salesTaxSummary.lines` per SKU and the authoritative summary totals; no twelve-month tax ledger or fake accounting spreadsheet is created. Values are stored at full numerical precision, displayed at two decimal places; see the build/read-back control `scripts/demos/build_us_retail_truth_xlsx.cjs`.
 
 ## Verification and release gates
 

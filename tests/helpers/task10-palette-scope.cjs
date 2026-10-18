@@ -2,7 +2,9 @@
 const A=require('node:assert/strict');
 const loader='    <link rel="stylesheet" href="./nomad360_palette.css">\n';
 const anchor='    <link rel="stylesheet" href="./nomad360_design_system.css">\n';
+const {stripApprovedHeroHtml}=require('./hero-main-contract.cjs');
 function stripTask10PaletteHtml(source){
+ source=stripApprovedHeroHtml(source);
  if(!source.includes('nomad360_palette.css'))return source;
  A.equal(source.split(loader).length,2,'exactly one passive Task10 stylesheet loader');
  A.ok(source.includes(anchor+loader+'</head>'),'Task10 palette follows the original design-system link; no scripts or markup exemption');
@@ -30,3 +32,5 @@ function stripTask10StaticSource(file,source){
  return source;
 }
 module.exports.stripTask10StaticSource=stripTask10StaticSource;
+
+module.exports.stripApprovedHeroHtml=stripApprovedHeroHtml;

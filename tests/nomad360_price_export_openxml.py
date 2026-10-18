@@ -27,6 +27,18 @@ for case in protocol['cases']:
                 else:
                     assert actual.data_type == 'n'
                     assert math.isclose(actual.value, wanted, rel_tol=1e-14, abs_tol=1e-12)
+            if case['kind'] == 'linked':
+                assert sheet.max_column == 12
+                for column, key in [(9, 'min'), (10, 'max'), (11, 'target'), (12, 'margin')]:
+                    actual = sheet.cell(index, column)
+                    wanted = item[key]
+                    if wanted is None:
+                        assert actual.value is None
+                    else:
+                        assert actual.data_type == 'n'
+                        assert math.isclose(actual.value, wanted, rel_tol=1e-14, abs_tol=1e-12)
+            else:
+                assert sheet.max_column == 8
             assert sheet.cell(index, 1).data_type == 's'
             assert sheet.cell(index, 2).data_type == 's'
         for tab in book:

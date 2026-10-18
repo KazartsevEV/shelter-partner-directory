@@ -63,8 +63,8 @@
     },
     {
       "file": "nomad360_locale_core.js",
-      "sha256": "f1c433af5536a175e6b21786c4348a7b795f5dd5282ce18754205878391d8c47",
-      "bytes": 483523,
+      "sha256": "2dfee309573c3a5c960242b7a0948dfe5199465eee68b8860c71cf6bfecfaf36",
+      "bytes": 483505,
       "owner": "nomad360_locale_core.js"
     },
     {
@@ -99,8 +99,8 @@
     },
     {
       "file": "nomad360_price_export.js",
-      "sha256": "53aaab06ba39d042e095f49940d7c5ebdef43e9ce5b2f10d8ffddc7fe3ea16b5",
-      "bytes": 11410,
+      "sha256": "2e863a8dae2c2d6121648706253f0a57197e89d4708572f6b8ceeb33893fdc54",
+      "bytes": 20668,
       "owner": "nomad360_price_export.js"
     },
     {
@@ -237,8 +237,8 @@
     },
     {
       "file": "portfolio_v2_ui.js",
-      "sha256": "b76ea8d5a3c396a4bbf35ef754f833b95d980500bb91680a62bfa607cca1bb09",
-      "bytes": 39602,
+      "sha256": "f95e673a14430143db890be7226cad156a315b2bab7ee87b42b8e552d58ac556",
+      "bytes": 42540,
       "owner": "portfolio_v2_ui.js"
     }
   ],
@@ -14339,9 +14339,9 @@
       "line": 1018,
       "kind": "semantic-message",
       "translations": {
-        "ru": "1. Общий маркетинговый двигатель",
-        "en": "1. Shared marketing engine",
-        "kk": "1. Ортақ маркетинг моделі"
+        "ru": "1. Реклама и маркетинг",
+        "en": "1. Advertising and marketing",
+        "kk": "1. Жарнама және маркетинг"
       }
     },
     {
@@ -24461,6 +24461,402 @@
       }
     },
     {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:base",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "base",
+      "translations": {
+        "ru": "Чья выручка",
+        "en": "Whose revenue",
+        "kk": "Түсім кімге тиесілі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:buyer",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "buyer",
+      "translations": {
+        "ru": "Покупатель оплачивает",
+        "en": "Customer pays",
+        "kk": "Сатып алушы төлейді"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:id",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "id",
+      "translations": {
+        "ru": "SKU / ID",
+        "en": "SKU / ID",
+        "kk": "SKU / ID"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:name",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "name",
+      "translations": {
+        "ru": "Товар / услуга",
+        "en": "Product / service",
+        "kk": "Тауар / қызмет"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:net",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "net",
+      "translations": {
+        "ru": "Выручка без Sales Tax",
+        "en": "Revenue excl. Sales Tax",
+        "kk": "Sales Tax-сыз түсім"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:owner",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "owner",
+      "translations": {
+        "ru": "Мой доход",
+        "en": "Owner revenue",
+        "kk": "Менің түсімім"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:period",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "period",
+      "translations": {
+        "ru": "Базовый месяц",
+        "en": "Reference month",
+        "kk": "Негізгі ай"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:principal",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "principal",
+      "translations": {
+        "ru": "Доход принципала",
+        "en": "Principal revenue",
+        "kk": "Принципал түсімі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:sheet",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "sheet",
+      "translations": {
+        "ru": "Sales Tax",
+        "en": "Sales Tax",
+        "kk": "Sales Tax"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:tax",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "tax",
+      "translations": {
+        "ru": "Sales Tax",
+        "en": "Sales Tax",
+        "kk": "Sales Tax"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:salesTaxColumns:4544:total",
+      "file": "nomad360_price_export.js",
+      "line": 39,
+      "kind": "module-key",
+      "key": "total",
+      "translations": {
+        "ru": "Итого",
+        "en": "Total",
+        "kk": "Барлығы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:bounds",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "bounds",
+      "translations": {
+        "ru": "Минимальная и максимальная цены перенесены из V1 без изменения. V2 подбирает цену внутри диапазона. Маржа по расчёту V2 и статус взяты из результата движка, а не вычислены в Excel.",
+        "en": "The V1 minimum and maximum prices are preserved. V2 selects a price within that range. The calculated V2 margin and status come from the engine result, not Excel formulas.",
+        "kk": "V1 ең төменгі және ең жоғарғы бағалары өзгеріссіз сақталады. V2 осы аралықтан баға таңдайды. V2 маржасы мен күйі Excel-де есептелмейді, есептеу модулінің нәтижесінен алынады."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerLinkedSales",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerLinkedSales",
+      "translations": {
+        "ru": "Цена за ед. со скидкой и Sales Tax",
+        "en": "Unit price after discount incl. Sales Tax",
+        "kk": "Жеңілдіктен кейінгі Sales Tax-пен бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerSales",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerSales",
+      "translations": {
+        "ru": "Цена за ед. с Sales Tax",
+        "en": "Unit price incl. Sales Tax",
+        "kk": "Sales Tax-пен бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerStandaloneVat",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerStandaloneVat",
+      "translations": {
+        "ru": "Цена за ед. с НДС",
+        "en": "Unit price incl. VAT",
+        "kk": "ҚҚС-пен бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerUntaxed",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerUntaxed",
+      "translations": {
+        "ru": "Цена за ед. к оплате",
+        "en": "Unit amount payable",
+        "kk": "Бірлік үшін төлем"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerVat",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerVat",
+      "translations": {
+        "ru": "Цена за ед. со скидкой и НДС",
+        "en": "Unit price after discount incl. VAT",
+        "kk": "Жеңілдіктен кейінгі ҚҚС-пен бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:id",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "id",
+      "translations": {
+        "ru": "Артикул / ID",
+        "en": "SKU / ID",
+        "kk": "Артикул / ID"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:linkedVat",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "linkedVat",
+      "translations": {
+        "ru": "Цена по прайсу V2 за ед. с НДС",
+        "en": "V2 list price per unit incl. VAT",
+        "kk": "ҚҚС-пен бірлікке V2 прайс бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:marginStatus",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "marginStatus",
+      "translations": {
+        "ru": "Статус маржи",
+        "en": "Margin status",
+        "kk": "Маржа күйі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:max",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "max",
+      "translations": {
+        "ru": "Максимальная цена V1",
+        "en": "V1 maximum price",
+        "kk": "V1 ең жоғарғы баға"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:min",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "min",
+      "translations": {
+        "ru": "Минимальная цена V1",
+        "en": "V1 minimum price",
+        "kk": "V1 ең төменгі баға"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:principal",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "principal",
+      "translations": {
+        "ru": "Для агентской позиции цена покупателю может быть пустой: комиссия агента не является розничной ценой принципала.",
+        "en": "For an agency item, the customer unit price can be blank: the agent fee is not the principal retail price.",
+        "kk": "Агенттік позицияда сатып алушының бірлік бағасы бос болуы мүмкін: агент комиссиясы принципалдың бөлшек сауда бағасы емес."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:realized",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "realized",
+      "translations": {
+        "ru": "Маржа по расчёту V2, %",
+        "en": "V2 calculated margin, %",
+        "kk": "V2 есептелген маржа, %"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:salesNet",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "salesNet",
+      "translations": {
+        "ru": "Цена за ед. без Sales Tax",
+        "en": "Unit price excl. Sales Tax",
+        "kk": "Sales Tax-сыз бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:salesPeriod",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "salesPeriod",
+      "translations": {
+        "ru": "В самостоятельной V2 лист Sales Tax отражает базовый месяц, а не годовой налоговый регистр.",
+        "en": "For standalone V2, the Sales Tax sheet covers the reference month, not an invented annual tax ledger.",
+        "kk": "Дербес V2 үшін Sales Tax парағы жылдық тізілімді емес, негізгі айды көрсетеді."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:status",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "status",
+      "translations": {
+        "ru": "Статус расчёта",
+        "en": "Calculation status",
+        "kk": "Есептеу күйі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:target",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "target",
+      "translations": {
+        "ru": "Целевая маржа V1, %",
+        "en": "V1 target margin, %",
+        "kk": "V1 мақсатты маржа, %"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:type",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "type",
+      "translations": {
+        "ru": "Способ продажи",
+        "en": "Sales method",
+        "kk": "Сату тәсілі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:unitOnly",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "unitOnly",
+      "translations": {
+        "ru": "В прайс-листе указаны цены за одну единицу товара или услуги.",
+        "en": "Price-list amounts are per item or service unit.",
+        "kk": "Прайс-парақтағы бағалар тауардың немесе қызметтің бір бірлігіне берілген."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:units",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "units",
+      "translations": {
+        "ru": "В прайс-листе указаны цены за одну единицу; лист Sales Tax содержит суммы по SKU за расчётный период.",
+        "en": "Price-list amounts are per unit; the Sales Tax worksheet shows SKU totals for the calculation period.",
+        "kk": "Прайс-парақтағы бағалар бір бірлікке берілген; Sales Tax парағында есептік кезеңдегі әр SKU бойынша жиынтық көрсетілген."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:untaxed",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "untaxed",
+      "translations": {
+        "ru": "Цена продажи за единицу",
+        "en": "Unit selling price",
+        "kk": "Бірлік сату бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:vatNet",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "vatNet",
+      "translations": {
+        "ru": "Цена продажи за ед. без НДС",
+        "en": "Unit selling price excl. VAT",
+        "kk": "ҚҚС-сыз бірлік сату бағасы"
+      }
+    },
+    {
       "id": "nomad360_sales_tax_v1.js:copy:574:buyer",
       "file": "nomad360_sales_tax_v1.js",
       "line": 13,
@@ -25755,6 +26151,150 @@
         "en": "Full-service prices follow V1. Revenue excludes VAT. Depreciation, principal and shared expenses are accounted for separately. Reserves do not reduce profit.",
         "kk": "Толық қызмет бағалары V1 есебінен алынды. Кіріс ҚҚС-сыз көрсетілді. Амортизация, несие сомасы және ортақ шығындар бөлек есептеледі. Резерв пайдадан шегерілмейді."
       }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:amount",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "amount",
+      "translations": {
+        "ru": "Сумма",
+        "en": "Amount",
+        "kk": "Сома"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:buyer",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "buyer",
+      "translations": {
+        "ru": "Покупатель оплачивает",
+        "en": "Customer pays",
+        "kk": "Сатып алушы төлейді"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:frequency",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "frequency",
+      "translations": {
+        "ru": "Частота",
+        "en": "Frequency",
+        "kk": "Жиілік"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:monthly",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "monthly",
+      "translations": {
+        "ru": "месяц",
+        "en": "month",
+        "kk": "ай"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:net",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "net",
+      "translations": {
+        "ru": "Выручка без налога",
+        "en": "Revenue excl. sales tax",
+        "kk": "Салықсыз түсім"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:once",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "once",
+      "translations": {
+        "ru": "раз",
+        "en": "once",
+        "kk": "бір рет"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:period",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "period",
+      "translations": {
+        "ru": "Базовый месяц · по SKU",
+        "en": "Reference month · by SKU",
+        "kk": "Негізгі ай · SKU бойынша"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:recipients",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "recipients",
+      "translations": {
+        "ru": "Кому отнесено",
+        "en": "Allocated to",
+        "kk": "Кімге бөлінді"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:tax",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "tax",
+      "translations": {
+        "ru": "Sales Tax",
+        "en": "Sales Tax",
+        "kk": "Sales Tax"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:totalBuyer",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "totalBuyer",
+      "translations": {
+        "ru": "Покупатели оплачивают · итого",
+        "en": "Total paid by customers",
+        "kk": "Сатып алушылар төлемі · барлығы"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:totalNet",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "totalNet",
+      "translations": {
+        "ru": "Выручка без налога · итого",
+        "en": "Revenue excl. sales tax · total",
+        "kk": "Салықсыз түсім · барлығы"
+      }
+    },
+    {
+      "id": "portfolio_v2_ui.js:viewCopy:21953:totalTax",
+      "file": "portfolio_v2_ui.js",
+      "line": 255,
+      "kind": "module-key",
+      "key": "totalTax",
+      "translations": {
+        "ru": "Sales Tax · итого",
+        "en": "Sales Tax · total",
+        "kk": "Sales Tax · барлығы"
+      }
     }
   ],
   "patterns": [
@@ -26733,7 +27273,7 @@
     {
       "file": "entries/nomad360_price_export.js/001.json",
       "owner": "nomad360_price_export.js",
-      "count": 174
+      "count": 289
     },
     {
       "file": "entries/nomad360_return.js/001.json",
@@ -26868,7 +27408,7 @@
     {
       "file": "entries/portfolio_v2_ui.js/002.json",
       "owner": "portfolio_v2_ui.js",
-      "count": 194
+      "count": 255
     }
   ]
 }

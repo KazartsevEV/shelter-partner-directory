@@ -24,14 +24,22 @@ async function browserCase(browser,locale,expected){
   };
   A.deepEqual(await page.locator('#nomad360-hero h1, #nomad360-hero h2, #nomad360-hero h3').allTextContents(),approved[expected.lang],
     'Approved H1 → H2 → H3 must have exact text and order');
+  const modernHero=await page.locator('script[src$="nomad360_hero_banner.js"]').count()===1;
+  if(modernHero){
+    A.equal(await page.locator('#nomad360-seo-banner h2').count(),0,'Old duplicated SEO headline stays removed');
+    A.equal(await page.locator('#nomad360-commercial-banner #nomad360-hero h2').count(),1);
+    A.equal(await page.locator('#nomad360-commercial-banner #nomad360-intro').count(),1);
+    A.equal(await page.locator('#nomad360-commercial-banner #nomad360-hero-summary #nomad360-seo-banner').count(),1,'Brand anchor stays in the approved hero');
+  }else{
   A.equal(await page.locator('#nomad360-seo-banner h2').count(),1,'One SEO banner replaces the former six-point list');
-  A.equal(await page.locator('#nomad360-seo-banner li').count(),0);
-  A.equal(await page.locator('#nomad360-seo-banner p').isVisible(),true);
-  A.equal(await page.locator('#nomad360-seo-banner p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
-  A.equal(await page.locator('#home-screen').evaluate(el=>
-    [...el.children].findIndex(child=>child.id==='nomad360-seo-banner')+1===
-    [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
-    'Approved introduction follows the existing SEO banner');
+    A.equal(await page.locator('#nomad360-seo-banner li').count(),0);
+    A.equal(await page.locator('#nomad360-seo-banner p').isVisible(),true);
+    A.equal(await page.locator('#nomad360-seo-banner p').textContent(),await page.evaluate(()=>Nomad360LocaleCore.t('business.ideaSeoCopy')));
+    A.equal(await page.locator('#home-screen').evaluate(el=>
+      [...el.children].findIndex(child=>child.id==='nomad360-seo-banner')+1===
+      [...el.children].findIndex(child=>child.id==='nomad360-intro')),true,
+      'Approved introduction follows the existing SEO banner');
+  }
   A.equal(await page.locator('#home-screen > .card > h1').count(),0,
     'Do not duplicate a second homepage H1');
   const presentation=await page.evaluate(()=>{
@@ -73,9 +81,11 @@ async function browserCase(browser,locale,expected){
   A.ok(['hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
    A.equal(canvasColors.hero1,'rgb(255, 145, 63)','Business calculator eyebrow must be orange');
-  A.equal(canvasColors.calcBackground,'rgb(23, 59, 88)','Requested SEO banner uses the brand navy');
-  A.ok(['primaryCardBackground','headerBackground'].every(k=>
-    canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
+  if(modernHero)A.ok(['rgba(0, 0, 0, 0)','transparent','rgb(23, 59, 88)'].includes(canvasColors.calcBackground),'Approved logo anchor stays transparent or inherits the same navy canvas');
+   else A.equal(canvasColors.calcBackground,'rgb(23, 59, 88)','Original SEO banner uses the brand navy');
+  A.equal(canvasColors.primaryCardBackground,'rgb(255, 255, 255)','Main choice card stays white');
+  A.equal(canvasColors.headerBackground,modernHero?'rgb(23, 59, 88)':'rgb(255, 255, 255)',
+    'Mobile header uses the approved HERO navy; the legacy header stays white');
 
   for(const id of ['saved-product-entry','portfolio-v2-linked-resume-home']){
     A.equal(await page.locator('#'+id).evaluate(e=>e.className.includes('emerald')),false,
@@ -110,7 +120,7 @@ async function browserCase(browser,locale,expected){
       font:root.getPropertyValue('--nd-font').trim(),
       body:root.getPropertyValue('--nd-type-body').trim(),
       note:root.getPropertyValue('--nd-type-note').trim(),
-      outcome:at('#nomad360-seo-banner p'),
+      outcome:at(document.querySelector('script[src$="nomad360_hero_banner.js"]')?'#nomad360-intro .nomad-intro-lead':'#nomad360-seo-banner p'),
       noteCopy:at('#nomad360-home-secondary .nomad-recovery-note'),
       hero:at('#nomad360-hero h3'),
       recoveryTitle:at('#nomad360-home-secondary .nomad-recovery-title'),
@@ -120,10 +130,10 @@ async function browserCase(browser,locale,expected){
   A.match(typography.font,/^Inter,/,'Nomad360 must declare one coherent brand typeface');
   A.equal(typography.body,'17px');
   A.equal(typography.note,'14px');
-  A.ok(typography.outcome.px>=17&&typography.outcome.weight===400,'Result explanations cannot be fine print');
+  A.ok(modernHero?(typography.outcome.px>=14&&typography.outcome.weight>=400&&typography.outcome.weight<=500):(typography.outcome.px>=17&&typography.outcome.weight===400),'Approved first-screen explanations remain readable');
   A.ok(typography.noteCopy.px>=14,'Secondary notes remain readable on a phone');
-  A.ok(typography.hero.px>=17,'Subtitle remains legible on mobile');
-   A.equal(await page.locator('#nomad360-hero h3').evaluate(el=>getComputedStyle(el).textWrap),
+  A.ok(typography.hero.px>=(modernHero?15:17),'Current subtitle remains legible on mobile');
+   if(!modernHero)A.equal(await page.locator('#nomad360-hero h3').evaluate(el=>getComputedStyle(el).textWrap),
      'balance','Subtitle uses balanced line wraps');
    if(expected.lang==='ru'||expected.lang==='en'){
      const lastWords=await page.locator('#nomad360-hero h3').evaluate((el,lang)=>{
@@ -344,7 +354,8 @@ async function browserCase(browser,locale,expected){
   A.equal(await header.count(),1);
   A.equal(await header.locator('.nomad-logo').getAttribute('src'),'./nomad360_wolf_open_circle.png');
   A.equal(await header.locator('.nomad-brand').getAttribute('aria-label'),'Nomad360 lite');
-  A.equal((await header.locator('.nomad-wordmark').innerText()).trim(),'Nomad360 lite');
+  A.equal((await header.locator('.nomad-wordmark').innerText()).replace(/\s+/g,' ').trim(),'Nomad360 lite',
+     'Visible wordmark preserves its text even when the accepted phone layout wraps it');
   for(const width of [320,390,768]){
     await page.setViewportSize({width,height:844});
     const layout=await header.evaluate(el=>{

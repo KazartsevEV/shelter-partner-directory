@@ -29,6 +29,9 @@ test('Application HTML changes only the approved results banner, canonical and i
  const old=execFileSync('git',['show','85d98d9:Marketing_calc.HTML'],{cwd:root,encoding:'utf8'});
  A.equal(source.split(canonical).length-1,1);A.equal(source.split(language).length-1,1);const pdf=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
   A.equal(pdf(stripSEO(source.replace('<script src="./nomad360_sales_tax_service_v1.js"></script>\n','').replace('<script src="./nomad360_sales_tax_v2.js"></script>\n',''))),pdf(old));
- A.equal(source.split(banner).length-1,1);
+ const acceptedHero=require('./helpers/hero-main-contract.cjs');
+ const modern=source.includes(acceptedHero.js);
+ A.equal(source.split(banner).length-1,modern?0:1,'Duplicate historical SEO headline');
+ A.equal(source.split(acceptedHero.modern).length-1,modern?1:0,'New hero owns previous SEO anchor');
  A.ok(source.indexOf('nomad360_seo_language.js')>source.indexOf('<script src="./nomad360_calculator_ui.js"'));
 });

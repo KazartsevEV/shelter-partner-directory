@@ -5,7 +5,7 @@ const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'artifacts/marketing-current');fs.mkdirSync(out,{recursive:true});
 const widths=(process.env.MARKETING_WIDTHS||'320,360,390,430,768,1280,1440').split(',').map(Number);
 let portable='';
-function audit(){const visible=e=>e.getClientRects().length&&!e.closest('[hidden],.hidden');const hosts=['#nomad360-intro','#nomad360-about','#nomad360-embed','#nomad360-license','#nomad360-data','#nomad360-official'];const bad=[];for(const host of hosts)for(const e of document.querySelectorAll(host+' *'))if(visible(e)&&[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())){const s=getComputedStyle(e);if(parseFloat(s.fontSize)<14||!['400','500','600','700'].includes(s.fontWeight))bad.push({text:e.textContent,font:s.font});}return {overflow:document.documentElement.scrollWidth>innerWidth+1,bad,gaps:Nomad360LocaleCore.auditVisibleGaps()};}
+function audit(){const visible=e=>e.getClientRects().length&&!e.closest('[hidden],.hidden');const hosts=['#nomad360-intro','#nomad360-about','#nomad360-embed','#nomad360-license','#nomad360-data','#nomad360-official'];const bad=[];for(const host of hosts)for(const e of document.querySelectorAll(host+' *'))if(visible(e)&&[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())){const s=getComputedStyle(e);const heroText=!!e.closest('#nomad360-commercial-banner');const aboutText=!!document.querySelector('script[src$="nomad360_about_banner.js"]')&&!!e.closest('#nomad360-about,#nomad360-contacts');const weights=heroText||aboutText?['400','450','500','600','650','700','750']:['400','500','600','700'];const minimum=heroText&&e.closest('.nomad-benefit-copy')?13:14;if(parseFloat(s.fontSize)<minimum||!weights.includes(s.fontWeight))bad.push({text:e.textContent,font:s.font});}return {overflow:document.documentElement.scrollWidth>innerWidth+1,bad,gaps:Nomad360LocaleCore.auditVisibleGaps()};}
 async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(120);}
 (async()=>{
  const server=http.createServer((req,res)=>{const name=new URL(req.url,'http://localhost').pathname;if(name==='/portable.html'){res.setHeader('Content-Type','text/html');res.end(portable);return;}const file=path.resolve(root,'.'+decodeURIComponent(name));if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png'})[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);});await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port+'/';
@@ -19,15 +19,42 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   const tr=k=>p.evaluate(k=>Nomad360LocaleCore.t(k),k);
   const offer=await p.locator('#nomad360-hero h1,#nomad360-hero h2,#nomad360-hero h3').allTextContents();
   if(lang==='ru')A.deepEqual(offer,['Бизнес-калькулятор','Каким бизнесом мне выгодно заниматься?','Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что принесет живые деньги.']);
-  A.equal(await p.locator('#nomad360-seo-banner').evaluate(e=>e.nextElementSibling.id),'nomad360-intro');A.equal(await p.locator('#home-screen h1').count(),1);
+  const modernHero=await p.locator('script[src$="nomad360_hero_banner.js"]').count()===1;
+   if(modernHero)A.equal(await p.locator('#nomad360-commercial-banner #nomad360-hero-summary').evaluate(e=>[...e.children].map(n=>n.id).join(',')),'nomad360-intro,nomad360-seo-banner','Approved hero summary preserves intro then brand');
+   else A.equal(await p.locator('#nomad360-seo-banner').evaluate(e=>e.nextElementSibling.id),'nomad360-intro');
+   A.equal(await p.locator('#home-screen h1').count(),1);
   A.equal(await p.locator('#nomad360-intro li').count(),3);A.equal(await p.locator('#nomad360-intro p').count(),2);A.equal(await p.locator('#nomad360-intro a').count(),0);
   if(lang==='en')A.match(await p.locator('.nomad-intro-lead').textContent(),/validation/);if(lang==='ru')A.doesNotMatch(await p.locator('#nomad360-intro').textContent(),/validation/);
-  A.equal(await p.locator('#nomad360-seo-banner li').count(),0);A.equal(await p.locator('#nomad360-seo-banner h2').count(),1);A.equal(await p.locator('#nomad360-seo-banner p').isVisible(),true);A.equal(await p.locator('#nomad360-seo-banner img').count(),1);
-  A.equal(await p.locator('#home-screen').evaluate(e=>[...e.children].filter(n=>!['nomad360-hero','nomad360-intro'].includes(n.id)).slice(0,2).map(n=>n.id).join(',')),'nomad360-seo-banner,nomad360-selling-choice');
+  A.equal(await p.locator('#nomad360-seo-banner li').count(),0);
+   A.equal(await p.locator('#nomad360-seo-banner h2').count(),modernHero?0:1,'No duplicated obsolete SEO heading');
+   if(!modernHero)A.equal(await p.locator('#nomad360-seo-banner p').isVisible(),true);
+   A.equal(await p.locator('#nomad360-seo-banner img').count(),1);
+  if(modernHero){
+     A.equal(await p.locator('#home-screen #nomad360-commercial-banner').count(),1);
+     A.equal(await p.locator('#nomad360-commercial-banner #nomad360-intro').count(),1);
+     A.equal(await p.locator('#nomad360-commercial-banner #nomad360-seo-banner').count(),1);
+   }else A.equal(await p.locator('#home-screen').evaluate(e=>[...e.children].filter(n=>!['nomad360-hero','nomad360-intro'].includes(n.id)).slice(0,2).map(n=>n.id).join(',')),'nomad360-seo-banner,nomad360-selling-choice');
   await p.locator('.nomad-intro-cta').focus();await p.keyboard.press('Enter');await settle(p);A.ok(await p.locator('#nomad360-selling-choice').evaluate(e=>{const r=e.getBoundingClientRect();return r.top>=0&&r.top<innerHeight;}));
-  const about=p.locator('#nomad360-about');A.equal(await about.locator('.nomad-about-opening .nomad-about-motto span').count(),3);A.equal(await about.locator('.nomad-about-flow>li').count(),3);A.equal(await about.locator(':scope>p').count(),1);A.equal(await about.locator('em').count(),1);A.equal(await about.locator('em').evaluate(e=>getComputedStyle(e).fontStyle),'italic');
-  if(lang==='ru'){A.deepEqual(await about.locator('li h3').allTextContents(),['Калькулятор','AI Маркетолог','Контент Фабрика']);A.equal(await about.locator(':scope>p').textContent(),'Применяя автоматизацию с Nomad 360, вы можете достичь больших целей быстрее, освободив личное время на то, что действительно важно.');A.equal(await about.locator('em').textContent(),'действительно важно');}
-  const flow=await about.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));if(width>=900)A.ok(flow[0].left<flow[1].left&&flow[1].left<flow[2].left&&Math.abs(flow[0].top-flow[2].top)<1);else A.ok(flow[0].top<flow[1].top&&flow[1].top<flow[2].top);
+  const about=p.locator('#nomad360-about');
+  const approvedAbout=await p.locator('script[src$="nomad360_about_banner.js"]').count()===1;
+  A.equal(await about.locator('.nomad-about-opening .nomad-about-motto span').count(),3);
+  A.equal(await about.locator('.nomad-about-flow>li').count(),3);
+  const caption=about.locator(approvedAbout?'.nomad-about-caption-band .nomad-about-caption':':scope>p');
+  A.equal(await caption.count(),1);
+  const emphasis=caption.locator('em');
+  A.equal(await emphasis.count(),1);
+  A.equal(await emphasis.evaluate(e=>getComputedStyle(e).fontStyle),'italic');
+  if(approvedAbout){
+    A.equal(await about.locator('.nomad-about-scene-copy').count(),1);
+    A.equal(await about.locator('.nomad-about-flow>li>a.nomad-about-card').count(),3);
+    A.equal(await about.locator('.nomad-about-card-motto').count(),3);
+  }
+  if(lang==='ru'){
+    A.deepEqual(await about.locator('li h3').allTextContents(),['Калькулятор','AI Маркетолог','Контент Фабрика']);
+    A.equal(await caption.textContent(),'Применяя автоматизацию с Nomad 360, вы можете достичь больших целей быстрее, освободив личное время на то, что действительно важно.');
+    A.equal(await emphasis.textContent(),'действительно важно');
+  }
+  const flow=await about.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));if(width>=(approvedAbout?701:900))A.ok(flow[0].left<flow[1].left&&flow[1].left<flow[2].left&&Math.abs(flow[0].top-flow[2].top)<1,'Approved three-column ABOUT grid at '+width);else A.ok(flow[0].top<flow[1].top&&flow[1].top<flow[2].top,'Mobile ABOUT links stack at '+width);
   const embed=p.locator('#nomad360-embed'),toggle=embed.locator('[data-nomad-embed-toggle]'),panel=embed.locator('#nomad360-embed-comparison');
   A.equal(await toggle.getAttribute('aria-expanded'),'false');A.equal(await panel.isVisible(),false);A.equal(await embed.locator('button:visible').count(),1);
   const consultingTitles={ru:'Занимаетесь консалтингом?',en:'Do you work in consulting?',kk:'Консалтингпен айналысасыз ба?'};

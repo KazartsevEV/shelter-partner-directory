@@ -49,7 +49,10 @@ async function readState(p,kind){return p.evaluate(kind=>{
   A.equal(before.out.ready,true,kind+'/'+lang);
   A.equal(before.doc.taxMode,'sales_tax');
   A.ok(near(before.out.salesTaxSummary.salesTax,before.out.salesTaxSummary.net*.08));
-  A.ok(before.doc.notes.some(n=>n.includes('Sales Tax')));
+  A.ok(before.doc.notes.length>1&&before.doc.notes.every(n=>typeof n==='string'),'human-readable notes are preserved');
+  A.equal(before.doc.taxTable.rows.length,before.out.items.length);
+  A.ok(near(before.doc.taxTable.totals[4],before.out.salesTaxSummary.salesTax));
+  A.ok(near(before.doc.taxTable.totals[5],before.out.salesTaxSummary.customerTotal));
   A.ok(before.doc.rows.some(r=>r[6]!==null&&r[6]>r[4]*(1-(Number(r[5])||0)/100)));
   A.equal(await p.evaluate(()=>{window.print=()=>{window.__prints=(window.__prints||0)+1;};return Nomad360UI.savePrint('price');}),true);
   A.equal(await p.evaluate(()=>window.__prints),1);
@@ -84,9 +87,31 @@ async function readState(p,kind){return p.evaluate(kind=>{
   await p.evaluate(()=>{setTimeout(()=>{void Nomad360UI.saveExcel();},0);});
   const d=await download,bytes=fs.readFileSync(await d.path()),workbook=new Excel.Workbook();await workbook.xlsx.load(bytes);
   A.equal(workbook.worksheets[0].rowCount,before.doc.rows.length+1);
-  for(let i=0;i<before.doc.rows.length;i++)for(const cell of [5,6,7]){
-    A.equal(workbook.worksheets[0].getRow(i+2).getCell(cell).value,before.doc.rows[i][cell-1]);
+  for(let i=0;i<before.doc.rows.length;i++){
+   const last=kind==='linked'?12:8;
+   A.equal(before.doc.columns.length,last,'linked V1→V2 adds four original-value fields');
+   for(let cell=1;cell<=last;cell++){
+    const actual=workbook.worksheets[0].getRow(i+2).getCell(cell).value;
+    const expected=before.doc.rows[i][cell-1];
+    A.equal(actual,expected,'real browser XLSX differs at row '+i+' col '+cell);
+   }
+   if(kind==='linked'){
+    const item=before.out.items[i],row=before.doc.rows[i];
+    A.deepEqual(row.slice(8),[item.priceMin,item.priceMax,item.targetMarginPct,item.actualAfterTaxMargin].map(v=>Number.isFinite(v)?v:null));
+   }
   }
+  const taxSheet=workbook.getWorksheet(before.doc.taxTable.sheet);
+  A.ok(taxSheet,'numeric Sales Tax sheet exists in downloaded workbook');
+  A.equal(taxSheet.rowCount,before.doc.taxTable.rows.length+2);
+  for(let i=0;i<before.doc.taxTable.rows.length;i++){
+   for(const cell of [4,5,6]){
+    const x=taxSheet.getRow(i+2).getCell(cell);
+    A.equal(x.value,before.doc.taxTable.rows[i][cell-1]);
+    A.equal(x.numFmt,'#,##0.00','display rounding only; underlying number unchanged');
+    A.equal(typeof x.value,'number');
+   }
+  }
+  for(const cell of [4,5,6])A.equal(taxSheet.getRow(taxSheet.rowCount).getCell(cell).value,before.doc.taxTable.totals[cell-1]);
   for(const l of ['en','kk','ru']){await p.locator('#nomad360-lang-select').selectOption(l);const switched=await readState(p,kind);A.deepEqual(switched.state,before.state);A.deepEqual(switched.out,before.out);}
   await p.reload({waitUntil:'domcontentloaded'});
   await p.evaluate(kind=>kind==='linked'?LinkedPortfolioV2UI.resume():PortfolioV2UI.open({resume:true}),kind);

@@ -1015,7 +1015,7 @@ const messages=[
  ["operations.orderFulfillmentAndDeliveryUnitsPerItem","Order fulfillment and delivery, units per item","Исполнение и доставка заказа, у.е./шт.","Тапсырысты орындау және жеткізу, ш.б./дана"],
  ["operations.dropshippingSupplierDeliveryOtherwiseDispatchToCustomer","Dropshipping: supplier delivery; otherwise dispatch to customer.","Дропшиппинг: доставка поставщика; иначе отправка покупателю","Дропшиппинг: жеткізуші жеткізеді; басқасы сатып алушыға жөнелтіледі."],
  ["ui.paymentProcessingSalesCommission","Payment processing / sales commission, %","Эквайринг / комиссия от цены, %","Эквайринг / сату бағасынан комиссия, %"],
- ["ui.value1SharedMarketingEngine","1. Shared marketing engine","1. Общий маркетинговый двигатель","1. Ортақ маркетинг моделі"],
+ ["ui.value1SharedMarketingEngine","1. Advertising and marketing","1. Реклама и маркетинг","1. Жарнама және маркетинг"],
  ["marketing.sharedMonthlyAdvertisingBudget","Shared monthly advertising budget","Общий рекламный бюджет / месяц","Ортақ айлық жарнама бюджеті"],
  ["marketing.cpcCostPerClick","CPC, cost per click","CPC, цена клика","CPC, клик құны"],
  ["marketing.clickLead","Click → lead, %","Клик → лид, %","Клик → лид, %"],

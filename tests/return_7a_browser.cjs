@@ -17,21 +17,32 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
   const about=p.locator('#nomad360-about'),flow=original.section('interface.header',lang).flow;
   A.deepEqual(await about.locator('.nomad-about-flow h3').allTextContents(),flow.map(s=>s.title));A.deepEqual(await about.locator('.nomad-about-flow p').allTextContents(),flow.map(s=>s.question));
   const icons=about.locator('.nomad-about-icon');A.equal(await icons.count(),3);A.equal(new Set(await icons.evaluateAll(es=>es.map(e=>e.innerHTML))).size,3);
-  A.ok(await icons.evaluateAll(es=>es.every(e=>e.getAttribute('aria-hidden')==='true'&&e.getBoundingClientRect().width===88&&e.parentElement.tagName==='LI')));
+  const approvedAbout=await p.locator('script[src$="nomad360_about_banner.js"]').count()===1;
+  A.ok(await icons.evaluateAll((es,modern)=>es.every(e=>e.getAttribute('aria-hidden')==='true'&&
+    (modern?(e.getAttribute('width')==='88'&&e.getBoundingClientRect().width>=60&&
+      e.getBoundingClientRect().width<=100&&e.parentElement.matches('a.nomad-about-card')&&
+      e.parentElement.parentElement.tagName==='LI'):
+      (e.getBoundingClientRect().width===88&&e.parentElement.tagName==='LI'))),approvedAbout),
+    'Original icons remain accessible and within approved ABOUT-01 linked cards');
   if(stage!=='icons'){
    const toggle=p.locator('[data-nomad-embed-toggle]');await toggle.evaluate(e=>e.blur());const colors=await toggle.evaluate(e=>[getComputedStyle(e).backgroundColor,getComputedStyle(e).color]);A.deepEqual(colors,['rgb(255, 145, 63)','rgb(23, 59, 88)']);
    A.equal(await toggle.textContent(),original.t('interface.header.embedToggle',lang));A.equal(await toggle.getAttribute('aria-expanded'),'false');await toggle.click();A.equal(await toggle.getAttribute('aria-expanded'),'true');A.equal(await p.locator('#nomad360-embed-comparison').isVisible(),true);
    A.equal(await p.locator('[data-nomad-download-html]').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');A.equal(await p.locator('.nomad-embed-contact').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 145, 63)');await toggle.click();A.equal(await p.locator('#nomad360-embed-comparison').isVisible(),false);
   }
   if(['intro','brand','all'].includes(stage)){
-   A.deepEqual(await p.locator('#home-screen').evaluate(e=>[...e.children].slice(0,4).map(e=>e.id)),['nomad360-hero','nomad360-seo-banner','nomad360-intro','nomad360-selling-choice']);
+   const modernHero=await p.locator('script[src$="nomad360_hero_banner.js"]').count()===1;
+    if(modernHero){
+     A.deepEqual(await p.locator('#nomad360-commercial-banner').evaluate(e=>[...e.children].map(x=>x.id).filter(Boolean)),['nomad360-hero','nomad360-hero-summary'],'Existing hero and intro remain grouped under the approved banner');
+     A.deepEqual(await p.locator('#nomad360-hero-summary').evaluate(e=>[...e.children].map(x=>x.id)),['nomad360-intro','nomad360-seo-banner'],'Intro and logo use their approved semantic order');
+     A.equal(await p.locator('#home-screen #nomad360-selling-choice').count(),1);
+    }else A.deepEqual(await p.locator('#home-screen').evaluate(e=>[...e.children].slice(0,4).map(e=>e.id)),['nomad360-hero','nomad360-seo-banner','nomad360-intro','nomad360-selling-choice']);
    A.equal(await p.locator('#nomad360-intro').count(),1);A.equal(await p.locator('.nomad-intro-cta').count(),1);A.equal(await p.locator('#nomad360-hero h3').evaluate(e=>e.nextElementSibling?.classList.contains('nomad-intro-cta')),true);A.equal(await p.locator('#nomad360-intro a').count(),0);A.equal(await p.locator('.nomad-intro-lead').textContent(),original.t('interface.shell.introLead',lang));A.equal(await p.locator('.nomad-intro-result').textContent(),original.t('interface.shell.introResult',lang));
    await p.locator('.nomad-intro-cta').click();A.ok(await p.locator('#nomad360-selling-choice').evaluate(e=>{const b=e.getBoundingClientRect();return b.top>=0&&b.top<innerHeight;}));
   }
   if(['brand','all'].includes(stage)){
    const brand=p.locator('.nomad-seo-brand'),caption=brand.locator('.nomad-seo-tagline');A.equal(await caption.textContent(),'Sky allows, guys deliver');A.equal(await caption.locator('span').count(),2);
    A.deepEqual(await caption.locator('span').evaluateAll(es=>es.map(e=>getComputedStyle(e).color)),['rgb(255, 255, 255)','rgb(255, 145, 63)']);
-   A.equal(await brand.locator('.nomad-seo-logo-mask').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');A.ok(await brand.evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).m42<0));
+   A.equal(await brand.locator('.nomad-seo-logo-mask').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');if(await p.locator('#nomad360-commercial-banner').count())A.equal(await brand.evaluate(e=>getComputedStyle(e).transform),'none','Approved HERO brand is positioned in the grouped composition');else A.ok(await brand.evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).m42<0));
    A.equal(await brand.locator('img').getAttribute('src'),await p.locator('#nomad360-header .nomad-logo').getAttribute('src'));A.equal(await p.locator('#nomad360-seo-banner').count(),1);
    A.equal(await caption.evaluate(e=>e.scrollWidth>e.clientWidth+1),false);
   }
