@@ -63,6 +63,22 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    for(const key of ['title','brand','caption','contact','contactTopics','titles','questions','mottos'])
     assert.ok(translation[key],lang+': real visible '+key+' must match source dictionary');
    assert.equal(translation.captionCount,1,'Exactly one translated automation caption');
+   const ruRows=page.locator('#nomad360-about .nomad-about-brand-row');
+   if(lang==='ru'){
+    assert.deepEqual(await ruRows.allTextContents(),
+      ['Nomad 360 - зонтичный бренд','интеллектуальных сервисов','для предпринимателей.'],
+      'Mobile Russian sentence must use precisely three requested rows');
+    const original=await page.locator('#nomad360-about .nomad-about-brand').textContent();
+    assert.equal(original,'Nomad 360 - зонтичный бренд интеллектуальных сервисов для предпринимателей.','Row breaks must not change the translated text');
+    if(width<=700){
+     const rows=await ruRows.evaluateAll(els=>els.map(e=>{
+      const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,scroll:e.scrollWidth,client:e.clientWidth};
+     }));
+     assert.ok(rows[0].y<rows[1].y&&rows[1].y<rows[2].y,
+       'All three RU rows must be vertically stacked on phones');
+     assert.ok(rows.every(x=>x.scroll<=x.client+2),'No Russian line may clip on a phone');
+    }
+   }else assert.equal(await ruRows.count(),0,'EN/KK copy must retain original text rendering');
    const layout=await page.evaluate(async()=>{
     const section=document.querySelector('#nomad360-information');
     const scenic=getComputedStyle(section,'::before'),rect=section.getBoundingClientRect();
@@ -144,10 +160,18 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    if(width<=700){
     assert.ok(layout.scenicCopyBox,
       'Translated mobile brand copy must be in the image section');
-    assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
-      'Brand introduction should occupy former caption position within scene');
-    assert.ok(layout.flowBox.top>=layout.scenicHeight-2,
-      'Mobile services must begin after scenic photo, without caption gap');
+    if(lang==='ru'){
+     assert.ok(layout.openingBox.top>=layout.headingBox.bottom
+        &&layout.openingBox.top<layout.scenicHeight*.56,
+       'RU intro must begin directly beneath unchanged project heading in navy sky');
+     assert.ok(layout.flowBox.top>=layout.scenicHeight*.80,
+       'Cards must remain beneath the brightly illuminated chalk cliffs');
+    }else{
+     assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
+       'Other languages must retain existing scenic-copy arrangement');
+     assert.ok(layout.flowBox.top>=layout.scenicHeight-2,
+       'EN KK services stay beneath original image'); 
+    }
     assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+45,
       'Mobile scenic area must not reserve the old automation paragraph space');
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
