@@ -33,6 +33,22 @@ function decorate(){
  // orange-rule caption can follow BELOW the photograph on solid navy.
  const heading=about.querySelector(':scope > h2');
  const opening=about.querySelector(':scope > .nomad-about-opening');
+ // Present the EXISTING Russian sentence as three deliberate rows on phones.
+ // Do not edit the localization source or its characters; the rows join back
+ // to the same original string, and remain inline on tablet/desktop.
+ const brand=opening?.querySelector('.nomad-about-brand');
+ const ruRows=['Nomad 360 - зонтичный бренд',
+  'интеллектуальных сервисов','для предпринимателей.'];
+ if(document.documentElement.lang==='ru'&&brand&&!brand.classList.contains('nomad-about-brand-ru-rows')
+    &&brand.textContent===ruRows.join(' ')){
+  brand.classList.add('nomad-about-brand-ru-rows');
+  brand.replaceChildren(...ruRows.flatMap((line,i)=>{
+   const row=document.createElement('span');
+   row.className='nomad-about-brand-row';
+   row.textContent=line;
+   return i?[document.createTextNode(' '),row]:[row];
+  }));
+ }
  let scenic=about.querySelector(':scope > .nomad-about-scene-copy');
  if(heading&&opening&&!scenic){
   scenic=document.createElement('div');
