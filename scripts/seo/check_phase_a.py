@@ -366,6 +366,8 @@ def main():
         'tests/helpers/v2-output-truth-scope.cjs',
         'tests/helpers/v2-output-truth-export-scope.cjs',
         'scripts/demos/build_us_retail_truth_xlsx.cjs',
+        # V2 proof builder is packaging-only; it must not change calculators or finance engines.
+        'scripts/demos/build_us_retail_standalone.cjs',
         'docs/demos/us-main-street-12m/README.md',
         '.github/workflows/v2-output-refresh-artifacts.yml',
         '.github/workflows/seo-07-phase-a.yml',
