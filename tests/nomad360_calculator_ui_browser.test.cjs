@@ -81,7 +81,8 @@ async function browserCase(browser,locale,expected){
   A.ok(['hero2','hero3','note','example'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
    A.equal(canvasColors.hero1,'rgb(255, 145, 63)','Business calculator eyebrow must be orange');
-  A.equal(canvasColors.calcBackground,'rgb(23, 59, 88)','Requested SEO banner uses the brand navy');
+  if(modernHero)A.ok(['rgba(0, 0, 0, 0)','transparent'].includes(canvasColors.calcBackground),'Approved logo anchor is transparent inside the new navy hero');
+   else A.equal(canvasColors.calcBackground,'rgb(23, 59, 88)','Original SEO banner uses the brand navy');
   A.ok(['primaryCardBackground','headerBackground'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Header and white card backgrounds must be untouched');
 
