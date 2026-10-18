@@ -375,6 +375,7 @@ def main():
         '.github/workflows/return-7a.yml',
         'nomad360_header.js', 'nomad360_locale_core.js', 'assets/nomad360-legal.css',
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
+         'tests/nomad360_localization_l0_browser.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
         'docs/nomad360-codex-task-map.md', 'docs/reviews/sales-tax-7b/STAGE_7B3_ACCEPTANCE.md', 'docs/reviews/seo-07-phase-a-review.md',
         'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
