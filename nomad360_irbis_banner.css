@@ -289,3 +289,165 @@
   }
  }
 }
+
+
+/* IRBIS-08: the scenic composition is the actual final site footer.
+ * Native RU/EN/KK license, privacy and contact DOM is relocated here.
+ * All visible disclosure rows use the approved #38678B rule and are
+ * vertically centered between rules with the same left inset. */
+#nomad360-irbis-banner .nomad-footer-meta{
+ display:block;grid-template-columns:none;gap:0;min-width:0;
+ width:58%;max-width:775px;margin:0;padding:0;border:0;
+ background:transparent
+}
+#nomad360-irbis-banner :is(#nomad360-license,#nomad360-data){
+ display:block;margin:0;padding:0;border:0;border-top:1px solid var(--irbis-line);
+ background:transparent;max-width:none
+}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+){border-top:1px solid var(--irbis-line)}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary{
+ display:flex;align-items:center;min-height:74px;
+ margin:0;padding:14px 22px;gap:18px;
+ list-style:none;cursor:pointer;
+ color:var(--irbis-white);
+ font:700 clamp(19px,1.75vw,27px)/1.25 var(--nd-font,Inter,sans-serif);
+ text-align:left
+}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary::-webkit-details-marker{display:none}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary::before{
+ content:"";display:block;flex:0 0 35px;
+ width:35px;height:5px;border-radius:4px;
+ background:var(--irbis-orange)
+}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary::after{
+ content:"";display:block;flex:0 0 12px;width:12px;height:12px;
+ margin-left:4px;border-right:3px solid var(--irbis-orange);
+ border-bottom:3px solid var(--irbis-orange);
+ transform:translateY(-3px) rotate(45deg);transition:transform .15s
+}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details[open],
+ #nomad360-product-details[open],
+ #nomad360-license[open],
+ #nomad360-data[open]
+) > summary::after{transform:translateY(3px) rotate(225deg)}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary:focus-visible{outline:2px solid var(--irbis-orange);outline-offset:-3px}
+#nomad360-irbis-banner .nomad-irbis-contents{
+ padding-left:22px;padding-right:22px
+}
+#nomad360-irbis-banner #nomad360-product-details .nomad-products-grid{
+ padding-left:22px;padding-right:22px
+}
+#nomad360-irbis-banner #nomad360-license .nomad-license-terms{
+ max-width:none;margin:0;padding:16px 22px 23px;border:0;
+ background:var(--irbis-blue);color:var(--irbis-white)
+}
+#nomad360-irbis-banner #nomad360-data > p{
+ margin:0;padding:16px 22px 23px;color:var(--irbis-white);
+ background:var(--irbis-blue)
+}
+#nomad360-irbis-banner :is(#nomad360-license,#nomad360-data) :is(p,a){
+ color:var(--irbis-white)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details{
+ border:0;border-top:1px solid var(--irbis-line)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details:last-child{
+ border-bottom:1px solid var(--irbis-line)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details > summary{
+ display:flex;align-items:center;min-height:58px;gap:12px;
+ padding:12px 20px;list-style:none;cursor:pointer;
+ font:600 16px/1.4 var(--nd-font,Inter,sans-serif);
+ color:var(--irbis-white)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details > summary::-webkit-details-marker{display:none}
+#nomad360-irbis-banner .nomad-irbis-methods > details > summary::after{
+ content:"";display:block;flex:0 0 9px;
+ width:9px;height:9px;margin-left:auto;
+ border-right:2px solid var(--irbis-orange);
+ border-bottom:2px solid var(--irbis-orange);
+ transform:translateY(-2px) rotate(45deg)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details[open] > summary::after{
+ transform:translateY(2px) rotate(225deg)
+}
+#nomad360-irbis-banner #nomad360-official{
+ display:flex;align-items:center;min-height:74px;
+ padding:16px 22px;margin:0;
+ border:0;border-top:1px solid var(--irbis-line);
+ border-bottom:1px solid var(--irbis-line);
+ background:transparent
+}
+#nomad360-irbis-banner #nomad360-official p{
+ margin:0;color:var(--irbis-white);font:500 16px/1.5 var(--nd-font,Inter,sans-serif);
+ overflow-wrap:anywhere
+}
+#nomad360-irbis-banner #nomad360-official a{
+ color:var(--irbis-white);text-decoration:underline;text-underline-offset:4px
+}
+#nomad360-irbis-banner #nomad360-official a:hover{color:var(--irbis-orange)}
+@media(min-width:701px) and (max-width:1100px){
+ #nomad360-irbis-banner .nomad-footer-meta{width:60%}
+}
+@media(max-width:700px){
+ #nomad360-irbis-banner .nomad-footer-meta{width:auto;max-width:none;margin:0 20px}
+ #nomad360-irbis-banner :is(
+  #nomad360-support > details,
+  #nomad360-product-details,
+  #nomad360-license,
+  #nomad360-data
+ ) > summary{
+  min-height:74px;padding:13px 12px;gap:13px;
+  font-size:clamp(20px,5.5vw,26px)
+ }
+ #nomad360-irbis-banner :is(
+  #nomad360-support > details,
+  #nomad360-product-details,
+  #nomad360-license,
+  #nomad360-data
+ ) > summary::before{flex-basis:25px;width:25px}
+ #nomad360-irbis-banner .nomad-irbis-contents,
+ #nomad360-irbis-banner #nomad360-product-details .nomad-products-grid{
+  padding-left:12px;padding-right:12px
+ }
+ #nomad360-irbis-banner #nomad360-license .nomad-license-terms,
+ #nomad360-irbis-banner #nomad360-data > p{padding:14px 12px 22px}
+ #nomad360-irbis-banner #nomad360-official{padding:16px 12px}
+ #nomad360-irbis-banner .nomad-irbis-methods > details > summary{padding:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ #nomad360-irbis-banner :is(
+  #nomad360-license,#nomad360-data
+ ) > summary::after{transition:none}
+}
