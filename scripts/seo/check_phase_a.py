@@ -365,6 +365,8 @@ def main():
         'tests/nomad360_locale_semantic.test.cjs',
         'tests/helpers/v2-output-truth-scope.cjs',
         'tests/helpers/v2-output-truth-export-scope.cjs',
+        'scripts/demos/build_us_retail_truth_xlsx.cjs',
+        '.github/workflows/v2-output-refresh-artifacts.yml',
         '.github/workflows/seo-07-phase-a.yml',
         'nomad360_simple_service_examples.js', 'tests/simple_service_examples_browser.cjs',
         '.github/workflows/simple-service-examples.yml',
