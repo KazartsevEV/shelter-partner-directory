@@ -476,6 +476,11 @@
 /* Mobile-only alternative; original paragraph stays unchanged on desktop. */
 #nomad360-information .nomad-about-brand-ru-mobile{display:none}
 @media(max-width:700px){
+ /* Only the original "О проекте" heading moves up 6px. Transform
+    preserves the geometry of all following text, cards and artwork. */
+ html[lang="ru"] #nomad360-information #nomad360-about .nomad-about-scene-copy > h2{
+  transform:translateY(-6px);
+ }
  html[lang="ru"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
   min-height:clamp(194px,52vw,230px);
  }
