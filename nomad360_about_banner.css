@@ -457,3 +457,18 @@
   margin:0;
  }
 }
+
+/* ABOUT-07b: removing the caption from the opening must NOT pull the
+   desktop service links onto the bright white cliffs. Keep the cards
+   beneath the naturally darkened bottom of the panorama. Only the desktop/
+   tablet photo-to-cards rhythm is preserved; phones lose the redundant gap. */
+@media(min-width:1001px){
+ #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:430px;
+ }
+}
+@media(min-width:701px) and (max-width:1000px){
+ #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:clamp(300px,35vw,390px);
+ }
+}
