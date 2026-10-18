@@ -40,8 +40,16 @@ function decorate(){
   heading.before(scenic);
   scenic.append(heading,opening);
  }
- // Order: scenic heading + brand → highlighted caption → three services.
- flow.before(caption);
+ // Reuse the ORIGINAL localized paragraph, but place it strictly between
+ // the service cards and contacts. The separate band gives it equal space
+ // above and below, with no reserved caption slot in the photo on phones.
+ let captionBand=about.querySelector(':scope > .nomad-about-caption-band');
+ if(!captionBand){
+  captionBand=document.createElement('div');
+  captionBand.className='nomad-about-caption-band';
+ }
+ flow.after(captionBand);
+ captionBand.append(caption);
  const mottos=Array.from(motto.querySelectorAll('span')).map(el=>el.textContent);
  const order=[2,0,1];
  Array.from(flow.children).forEach((li,i)=>{
