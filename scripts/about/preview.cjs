@@ -164,8 +164,10 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
      assert.ok(layout.openingBox.top>=layout.headingBox.bottom
         &&layout.openingBox.top<layout.scenicHeight*.56,
        'RU intro must begin directly beneath unchanged project heading in navy sky');
-     assert.ok(layout.flowBox.top>=layout.scenicHeight*.80,
-       'Cards must remain beneath the brightly illuminated chalk cliffs');
+     assert.ok(layout.flowBox.top>=layout.scenicHeight*.70,
+       'Service cards must stay in the dark lower portion of the unmodified panorama');
+     assert.ok(layout.flowBox.top-layout.openingBox.bottom<=120,
+       'No excessive blank blue band between the compact three-line sentence and service cards');
     }else{
      assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
        'Other languages must retain existing scenic-copy arrangement');
