@@ -52,7 +52,7 @@ function methods(contents){
 }
 function syncWidth(){
  const scene=document.getElementById(ID);
- if(scene)scene.style.setProperty('--irbis-page-width',document.documentElement.clientWidth+'px');
+ if(scene)scene.style.setProperty('--irbis-page-width',document.documentElement.getBoundingClientRect().width+'px');
 }
 function decorate(){
  const footer=document.getElementById('nomad360-footer');
