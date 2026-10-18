@@ -330,12 +330,27 @@ function updateResult(){
    root.Nomad360UI?.syncPortfolioActions?.(out,model,'standalone');return;
  }
  const r=taxMode==='vat'?out:root.Nomad360SalesTaxV2.project(out,{mode:taxMode,ratePct:taxRate});
+ const presentationLocale=root.Nomad360UI?.getLanguage?.()||'ru';
+ const viewCopy={
+  ru:{period:'Базовый месяц · по SKU',net:'Выручка без налога',tax:'Sales Tax',buyer:'Покупатель оплачивает',totalNet:'Выручка без налога · итого',totalTax:'Sales Tax · итого',totalBuyer:'Покупатели оплачивают · итого',recipients:'Кому отнесено',amount:'Сумма',frequency:'Частота',once:'раз',monthly:'месяц'},
+  en:{period:'Reference month · by SKU',net:'Revenue excl. sales tax',tax:'Sales Tax',buyer:'Customer pays',totalNet:'Revenue excl. sales tax · total',totalTax:'Sales Tax · total',totalBuyer:'Total paid by customers',recipients:'Allocated to',amount:'Amount',frequency:'Frequency',once:'once',monthly:'month'},
+  kk:{period:'Негізгі ай · SKU бойынша',net:'Салықсыз түсім',tax:'Sales Tax',buyer:'Сатып алушы төлейді',totalNet:'Салықсыз түсім · барлығы',totalTax:'Sales Tax · барлығы',totalBuyer:'Сатып алушылар төлемі · барлығы',recipients:'Кімге бөлінген',amount:'Сома',frequency:'Жиілік',once:'бір рет',monthly:'ай'}
+ }[presentationLocale]||null;
+ const displayCopy=viewCopy||{period:'Базовый месяц · по SKU',net:'Выручка без налога',tax:'Sales Tax',buyer:'Покупатель оплачивает',totalNet:'Выручка без налога · итого',totalTax:'Sales Tax · итого',totalBuyer:'Покупатели оплачивают · итого',recipients:'Кому отнесено',amount:'Сумма',frequency:'Частота',once:'раз',monthly:'месяц'};
  const taxLines=taxMode!=='vat'?'<section data-p2-sales-tax-summary class="rounded-xl border border-white/25 p-3 mt-3">'+
  '<h3 class="font-bold">'+safe(taxText().v2BuyerSummary||'Налог с продаж — итог для покупателя')+'</h3>'+
- r.salesTaxSummary.lines.map(q=>'<p data-tax-sku="'+safe(q.id)+'">Выручка '+money(q.net)+
- ' + Sales Tax '+money(q.salesTax)+' = покупатель платит '+money(q.customerTotal)+'</p>').join('')+
- '<p><b>Итого Sales Tax '+money(r.salesTaxSummary.salesTax)+
- '; сумма покупателей '+money(r.salesTaxSummary.customerTotal)+'</b></p></section>':'';
+ '<p class="text-sm mt-1">'+safe(displayCopy.period)+'</p>'+
+ '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">'+
+ r.salesTaxSummary.lines.map(q=>'<article data-tax-sku="'+safe(q.id)+'" class="rounded-lg border border-white/25 p-3 min-w-0">'+
+ '<h4 class="font-semibold break-words" data-nomad-no-translate>'+safe(r.items.find(item=>item.id===q.id)?.name||q.id)+'</h4>'+
+ '<dl class="grid grid-cols-2 gap-x-3 gap-y-1 mt-2 text-sm">'+
+ [[displayCopy.net,q.net],[displayCopy.tax,q.salesTax],[displayCopy.buyer,q.customerTotal]].map(([label,value])=>
+ '<dt class="break-words">'+safe(label)+'</dt><dd class="text-right font-semibold tabular-nums">'+money(value)+'</dd>').join('')+
+ '</dl></article>').join('')+'</div>'+
+ '<dl data-p2-tax-totals class="grid grid-cols-2 gap-x-3 gap-y-2 mt-4 border-t border-white/25 pt-3">'+
+ [[displayCopy.totalNet,r.salesTaxSummary.net],[displayCopy.totalTax,r.salesTaxSummary.salesTax],[displayCopy.totalBuyer,r.salesTaxSummary.customerTotal]].map(([label,value])=>
+ '<dt class="break-words">'+safe(label)+'</dt><dd class="text-right font-bold tabular-nums">'+money(value)+'</dd>').join('')+
+ '</dl></section>':'';
  const heads=['Товар',taxMode==='vat'?'Цена без НДС':'Цена без налога с продаж','Себест.','Mix шт.','Mix выручки','Weighted CAC','Прогноз, шт/мес','Рекламный бюджет','EBITDA SKU','ROAS'];
  const skuRows=r.items.map(s=>'<tr class="border-t border-white/20">'+
  [safe(s.name),money(s.price),money(s.unitCost),pct(s.mix*100),pct(s.revenueWeight*100),
@@ -347,9 +362,15 @@ function updateResult(){
  money(m.loanDraw+m.ownerDraw),money(m.interest),money(m.principalRepayment),
  money(m.cashFlow),money(m.cumulative),money(m.freeCumulative)]
  .map(k=>'<td class="px-2 py-2 whitespace-nowrap">'+k+'</td>').join('')+'</tr>').join('');
- const resourceRows=r.resources.map(v=>'<tr class="border-t border-white/20"><td class="p-2" data-nomad-no-translate>'+safe(v.label)+'</td><td class="p-2">'+
- money(v.amount)+'</td><td class="p-2">'+(v.cadence==='once'?'раз':'месяц')+'</td><td class="p-2">'+
- Object.entries(v.bySku).map(([id,amount])=>'<span data-nomad-no-translate>'+safe(r.items.find(s=>s.id===id)?.name||id)+'</span>: '+money(amount)).join('; ')+'</td></tr>').join('');
+ const resourceCards=r.resources.map(v=>'<article data-p2-resource-row class="rounded-xl border border-white/25 p-3 min-w-0">'+
+ '<h4 class="font-semibold break-words" data-nomad-no-translate>'+safe(v.label)+'</h4>'+
+ '<dl class="grid grid-cols-2 gap-x-3 gap-y-1 mt-2 text-sm"><dt>'+safe(displayCopy.amount)+'</dt><dd class="text-right font-semibold tabular-nums">'+money(v.amount)+'</dd>'+
+ '<dt>'+safe(displayCopy.frequency)+'</dt><dd class="text-right">'+safe(v.cadence==='once'?displayCopy.once:displayCopy.monthly)+'</dd></dl>'+
+ '<h5 class="text-sm font-semibold mt-3">'+safe(displayCopy.recipients)+'</h5>'+
+ '<ul data-p2-allocated-skus class="mt-2 grid gap-1">'+Object.entries(v.bySku).map(([id,amount])=>
+ '<li class="flex justify-between gap-3 border-t border-white/20 pt-1">'+
+ '<span class="break-words min-w-0" data-nomad-no-translate>'+safe(r.items.find(s=>s.id===id)?.name||id)+'</span>'+
+ '<strong class="tabular-nums shrink-0">'+money(amount)+'</strong></li>').join('')+'</ul></article>').join('');
  el.innerHTML=intro+taxLines+
  '<div class="nd-v2-financial-grid grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">'+
  [['Чистая прибыль · базовый месяц',r.netProfit],['Рентабельность товара (взвешенная), %',r.weightedMarginPct],
@@ -365,7 +386,7 @@ function updateResult(){
  heads.map(h=>'<th class="px-2 py-3 whitespace-nowrap">'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+skuRows+'</tbody></table></div>'+
  '<p class="text-sm mt-3">Всего рекламы в месяц: <strong>'+money(r.marketingBudget)+'</strong>. На SKU распределено: <strong>'+money(r.invariants.adAllocated)+'</strong>. Денежные доли суммарно '+pct(r.invariants.weightSum*100)+'.</p>'+
  '<h3 class="font-bold mt-5">Общие ресурсы — одна оплата, несколько получателей</h3>'+
- '<div class="overflow-x-auto"><table class="text-xs w-full text-left"><thead><tr><th class="p-2">Ресурс</th><th class="p-2">Сумма</th><th class="p-2">Частота</th><th class="p-2">Кому отнесено</th></tr></thead><tbody>'+resourceRows+'</tbody></table></div>'+
+ '<div data-p2-resource-cards class="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-2">'+resourceCards+'</div>'+
  '<p class="text-xs mt-3" data-i18n="finance.theBaseMonthResultIsAfterBusinessTaxAndBeforeLoanInterestDepreciationIsNotCalculatedS"></p>'+
  '<h3 class="font-bold mt-5">Помесячный cash flow · '+r.months.length+' месяцев</h3>'+
  '<div class="overflow-x-auto mt-2"><table class="text-xs text-left w-full"><thead><tr>'+
