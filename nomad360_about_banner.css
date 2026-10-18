@@ -1,9 +1,8 @@
-/* ABOUT-01 — original, UNEDITED scenery; source:
- * docs/approved-design/unified-banners/about-moon-scenery.webp
- * Approved compositions:
- * docs/approved-design/unified-banners/about-{desktop,mobile}-reference.webp
- * Keep the entire 563:475 image. NO cover, raster regeneration, gradient
- * over the moon or cliffs, or height clipping of the artwork. */
+/* ABOUT-05: original user-approved full-width Bozzhyra moonlight source:
+ * assets/nomad360-banners/about-bozzhyra-approved.webp (1672x941).
+ * Approved CODEX compositions remain in docs/approved-design/unified-banners/.
+ * All visible text, contacts, icons and links are REAL translated DOM.
+ * Art has no raster text. Desktop: full wide pan; mobile: crop LEFT only. */
 #nomad360-information.nomad-information{
  --about-navy:var(--p10-navy,#173B58);
  --about-orange:var(--p10-orange,#FF913F);
@@ -293,4 +292,56 @@
   font-size:clamp(12px,1.03vw,13.5px);
   white-space:nowrap;overflow-wrap:normal;
  }
+}
+
+/* ABOUT-05: approved full-width night panorama. Preserve entire landscape
+   on desktop. Artwork continues beneath the three services, then melts into
+   the approved navy: no isolated rectangular photo layer. */
+#nomad360-information.nomad-information::before{
+ top:0;left:0;right:auto;
+ width:100%;height:auto;aspect-ratio:1672/941;
+ background-image:url("./assets/nomad360-banners/about-bozzhyra-approved.webp");
+ background-size:100% 100%;background-position:center top;
+ -webkit-mask-image:linear-gradient(to bottom,
+   #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);
+ mask-image:linear-gradient(to bottom,
+   #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);
+ -webkit-mask-composite:initial;mask-composite:initial;
+}
+#nomad360-information.nomad-information::after{
+ content:"";pointer-events:none;position:absolute;z-index:0;
+ top:0;left:0;width:100%;height:min(640px,56.3vw);
+ background:linear-gradient(90deg,
+  rgba(23,59,88,.30) 0%,rgba(23,59,88,.18) 29%,
+  rgba(23,59,88,0) 58%);
+}
+@media(max-width:700px){
+ /* On phones the panorama is intentionally CROPPED on the left, keeping
+    the moon and characteristic pinnacles on the right. Aspect 1672/941 is
+    never stretched. The picture extends across the entire viewport. */
+ #nomad360-information.nomad-information::before{
+  --about-scene-h:clamp(265px,84vw,330px);
+  top:0;left:auto;right:-46px;
+  width:calc(var(--about-scene-h) * 1672 / 941);
+  height:var(--about-scene-h);
+  aspect-ratio:1672/941;background-position:center;
+  -webkit-mask-image:linear-gradient(to bottom,
+    #000 0%,#000 66%,rgba(0,0,0,.80) 79%,transparent 100%);
+  mask-image:linear-gradient(to bottom,
+    #000 0%,#000 66%,rgba(0,0,0,.80) 79%,transparent 100%);
+ }
+ #nomad360-information.nomad-information::after{
+  top:0;left:0;width:100%;height:clamp(265px,84vw,330px);
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.86) 0%,rgba(23,59,88,.66) 32%,
+   rgba(23,59,88,.34) 52%,rgba(23,59,88,0) 78%);
+ }
+ #nomad360-information .nomad-about-opening::before{content:none}
+ #nomad360-information .nomad-about-opening{width:82%;max-width:330px}
+}
+/* Background is ONE continuous scene on the same canvas, including the
+   services. On small desktop widths preserve the left copy safe zone. */
+@media(min-width:701px){
+ #nomad360-information #nomad360-about{padding-top:70px}
+ #nomad360-information .nomad-about-opening{width:min(48%,515px)}
 }
