@@ -366,13 +366,13 @@ def main():
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     # Preserve the main-accepted HERO artwork, layout, and all other selectors
-    # byte-for-byte. Exactly two active-home burger paints switch from the old
-    # contrast controller (which emitted unapproved RGB 22,55,90) to WHITE.
+    # byte-for-byte. Exactly two active-home burger paints use the
+    # TASK-10 adaptive approved navy/white foreground instead of legacy RGB 22,55,90.
     if 'nomad360_hero_banner.css' in changed:
         approved_hero = subprocess.check_output(
             ['git','show','181be92bb92472cd032ecb9b7e8eb8124093e545:nomad360_hero_banner.css'], cwd=ROOT)
         old_paint = b'color:var(--nomad-burger-contrast,var(--p10-white,#FFFFFF))!important;'
-        new_paint = b'color:var(--p10-white,#FFFFFF)!important;'
+        new_paint = b'color:var(--p10-fg)!important;'
         assert approved_hero.count(old_paint) == 2, 'Unexpected approved HERO CSS base'
         current_hero = (ROOT / 'nomad360_hero_banner.css').read_bytes()
         assert current_hero == approved_hero.replace(old_paint, new_paint), 'HERO layout or other colors changed outside approved burger fix'
