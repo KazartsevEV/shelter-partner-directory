@@ -399,7 +399,7 @@
  #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
   width:clamp(170px,48vw,195px);
   max-width:195px;
-  margin-top:18px;
+  margin-top:74px;
   margin-bottom:0;
  }
  #nomad360-information .nomad-about-caption{
@@ -407,9 +407,11 @@
   margin-bottom:26px;
  }
  /* Reserve more moonlight beside long localized headings, not over them. */
- html[lang="en"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening,
+ html[lang="en"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:68px;
+ }
  html[lang="kk"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
-  margin-top:18px;
+  margin-top:44px;
  }
 }
 
