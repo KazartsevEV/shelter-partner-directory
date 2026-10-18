@@ -55,6 +55,15 @@ def strip_live_v2_entry(raw):
 
 
 def strip_approved_hero_html(raw):
+    # IRBIS-07: precisely two passive asset links added after accepted ABOUT + RETURN.
+    # Source guards remove ONLY the approved link pair; never erase DOM/calculation text.
+    irbis_css = b'    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n'
+    irbis_js = b'<script src="./nomad360_irbis_banner.js"></script>\n'
+    if irbis_css in raw or irbis_js in raw:
+        assert raw.count(irbis_css) == raw.count(irbis_js) == 1, 'IRBIS link pair integrity'
+        assert b'    <link rel="stylesheet" href="./nomad360_about_banner.css">\n' + irbis_css + b'</head>' in raw, 'IRBIS follows accepted ABOUT CSS'
+        assert b'<script src="./nomad360_return.js"></script>\n' + irbis_js + b'<script src="./nomad360_navigation.js"></script>' in raw, 'IRBIS follows accepted RETURN and precedes navigation'
+        raw = raw.replace(irbis_css, b'', 1).replace(irbis_js, b'', 1)
     # Exact approved HERO-03 transfer of the existing hero over the obsolete
     # second SEO headline. Restore only its bounded three HTML fragments.
     css = b'    <link rel="stylesheet" href="./nomad360_hero_banner.css">\n'
@@ -438,7 +447,7 @@ def main():
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
          'tests/nomad360_localization_l0_browser.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
-        'docs/nomad360-codex-task-map.md', 'docs/reviews/sales-tax-7b/STAGE_7B3_ACCEPTANCE.md', 'docs/reviews/seo-07-phase-a-review.md',
+        'docs/nomad360-codex-task-map.md', 'docs/nomad360-help-08-tz.md', 'docs/reviews/sales-tax-7b/STAGE_7B3_ACCEPTANCE.md', 'docs/reviews/seo-07-phase-a-review.md',
         'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
         'tests/nomad360_calculator_ui_browser.test.cjs',
@@ -524,7 +533,18 @@ def main():
         'tests/portfolio_v2_online_browser.test.cjs',
          # V2-OUTPUT-TRUTH-01: exact approved source and XLSX tests.
          'tests/helpers/hero-main-contract.cjs',
-         'tests/nomad360_price_export.test.cjs',
+        # Owner-approved IRBIS-07: only original art, scoped visual controller,
+        # exact test contracts and visual receipts, no financial engine changes.
+        'nomad360_irbis_banner.css', 'nomad360_irbis_banner.js',
+        'assets/nomad360-banners/support-wide.webp',
+        'assets/nomad360-banners/support-mobile.webp',
+        'scripts/irbis/preview.cjs', '.github/workflows/irbis-07-visual.yml',
+        'tests/return_7a_browser.cjs', 'tests/simple_service_examples_browser.cjs',
+        'tests/nomad360_embed_footer_browser.test.cjs',
+        'tests/nomad360_marketing_browser.cjs', 'tests/type02_acceptance_browser.cjs',
+        'tests/helpers/task10-palette.cjs',
+        'docs/reviews/irbis-07/REVIEW.md',
+        'tests/nomad360_price_export.test.cjs',
          'tests/nomad360_price_export_openxml.py',
         '.github/workflows/task10-palette.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']

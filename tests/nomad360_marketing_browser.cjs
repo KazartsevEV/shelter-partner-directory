@@ -130,6 +130,14 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});const contrast=await p.evaluate(()=>Object.fromEntries(['#nomad360-intro','#nomad360-about','#nomad360-embed','.nomad-footer-meta'].map(s=>{const a=NomadContrast.audit(document.querySelector(s));return [s,{count:a.count,minimum:a.minimum,failures:a.failures}]})));for(const v of Object.values(contrast))A.deepEqual(v.failures,[]);
   const geometry=await p.evaluate(audit);A.equal(geometry.overflow,false);A.deepEqual(geometry.bad,[]);A.deepEqual(geometry.gaps,[]);A.deepEqual(errors,[]);
   if(width===390){
+   // IRBIS-07 retains the actual payment controls inside deliberately collapsed disclosures.
+   // Open them as a real visitor would: do not bypass visibility or fabricate payment state.
+   const irbis=await p.locator('#nomad360-irbis-support-disclosure').count()===1;
+   if(irbis){
+    await p.locator('#nomad360-irbis-support-disclosure > summary').click();
+    await p.locator('#nomad360-irbis-kaspi > summary').click();
+    if(lang==='ru')await p.locator('#nomad360-irbis-ozon > summary').click();
+   }
    await ctx.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});await p.locator('.nomad-pay-kaspi [data-nomad-copy]').click();A.equal(await p.evaluate(()=>navigator.clipboard.readText()),'+7 777 129 56 93');if(lang==='ru'){await p.locator('.nomad-pay-ozon [data-nomad-copy]').click();A.equal(await p.evaluate(()=>navigator.clipboard.readText()),'+7 977 986 74 41');}
    // Existing header links must reveal their collapsed targets.
    const burger=p.locator('.nomad-burger');if(await burger.isVisible())await burger.click();await p.locator('[data-nomad-go="nomad360-ai"]').click();await settle(p);A.equal(await p.locator('#nomad360-product-details').evaluate(e=>e.open),true);
