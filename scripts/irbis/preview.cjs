@@ -58,11 +58,14 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
     const css=getComputedStyle(summary),border=getComputedStyle(el);
     return {id,border:border.borderTopColor,top:border.borderTopWidth,
      summaryDisplay:css.display,alignItems:css.alignItems,inset:parseFloat(css.paddingLeft),
-     minHeight:parseFloat(css.minHeight),actualHeight:box.height};
+     minHeight:parseFloat(css.minHeight),actualHeight:box.height,
+     chevronRight:getComputedStyle(summary,'::after').borderRightColor,
+     chevronBottom:getComputedStyle(summary,'::after').borderBottomColor};
    }),sectionIds);
    A.ok(sectionGeometry.every(x=>x.border==='rgb(56, 103, 139)'&&x.top==='1px'
     &&x.summaryDisplay==='flex'&&x.alignItems==='center'
-    &&x.inset>=12&&x.minHeight>=70&&x.actualHeight>=70),
+    &&x.inset>=12&&x.minHeight>=70&&x.actualHeight>=70
+    &&x.chevronRight==='rgb(255, 145, 63)'&&x.chevronBottom==='rgb(255, 145, 63)'),
     'All four disclosure headings are inset and vertically centered between #38678B rules: '+JSON.stringify(sectionGeometry));
    A.deepEqual(await banner.locator('[data-return-platform]').evaluateAll(xs=>xs.map(x=>x.dataset.returnPlatform)),['windows','ios','android']);
    A.equal(await banner.locator('.nomad-irbis-platform-icon').count(),3);
