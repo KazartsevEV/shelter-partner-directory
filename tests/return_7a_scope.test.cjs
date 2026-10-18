@@ -39,7 +39,7 @@ test('All existing application files stay exact outside the five authorised pres
 });
 test('Every established EN RU KK message retains its accepted meaning',()=>{
  const boot=code=>{const w={};new Function('window','document',code)(w,{readyState:'loading',addEventListener(){}});return w.Nomad360LocaleCore;};const old=boot(before('nomad360_locale_core.js')),now=boot(fs.readFileSync(path.join(root,'nomad360_locale_core.js'),'utf8'));
- for(const key of old.keys())if(key!=='ui.value1SharedMarketingEngine'&&key!=='marketing.onePortfolioFunnelBudgetCpcClicksLeadsOrdersCtrDeterminesImpressionsExtraCampaignsMayTarge'&&key!=='finance.allThreeModelsShareThePricingFormulaCostStructureInventoryAndSupplierPaymentTimingDiffer'&&key!=='interface.header.embedB2BTitle'&&key!=='interface.header.embedB2BFocus'&&!key.startsWith('interface.header.embedB2BPoints.'))for(const language of ['en','ru','kk'])A.equal(now.t(key,language),old.t(key,language),key+' '+language);
+ for(const key of old.keys())if(key!=='interface.shell.introResult'&&key!=='ui.value1SharedMarketingEngine'&&key!=='marketing.onePortfolioFunnelBudgetCpcClicksLeadsOrdersCtrDeterminesImpressionsExtraCampaignsMayTarge'&&key!=='finance.allThreeModelsShareThePricingFormulaCostStructureInventoryAndSupplierPaymentTimingDiffer'&&key!=='interface.header.embedB2BTitle'&&key!=='interface.header.embedB2BFocus'&&!key.startsWith('interface.header.embedB2BPoints.'))for(const language of ['en','ru','kk'])A.equal(now.t(key,language),old.t(key,language),key+' '+language);
 });
 function opaqueWhiteIcon(png,size){
  A.equal(png.subarray(0,8).toString('hex'),'89504e470d0a1a0a');A.equal(png.readUInt32BE(16),size);A.equal(png.readUInt32BE(20),size);A.equal(png[24],8);A.equal(png[25],2,'RGB: no transparent icon pixels');

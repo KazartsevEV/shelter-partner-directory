@@ -20,6 +20,12 @@ test('Task10: every established JS/engine, original CSS, logo and calculator byt
     const now='["ui.value1SharedMarketingEngine","1. Advertising and marketing","1. Реклама и маркетинг","1. Жарнама және маркетинг"]',then='["ui.value1SharedMarketingEngine","1. Shared marketing engine","1. Общий маркетинговый двигатель","1. Ортақ маркетинг моделі"]',s=b.toString();A.equal(s.split(now).length,2,'One approved marketing heading alias');b=Buffer.from(s.replace(now,then));}if(file==='portfolio_v2_ui.js')b=Buffer.from(require('./helpers/v2-output-truth-scope.cjs').restore(file,b.toString()));if(file==='nomad360_price_export.js')b=Buffer.from(require('./helpers/v2-output-truth-export-scope.cjs').restore(b.toString()));if(file==='nomad360_calculator_ui.js'){
     const approved=execFileSync('git',['show','78ef71b32256a1651c5bbc96e154e2f6df89a019:'+file],{cwd:root});
     A.equal(digest(b),digest(approved),'Main-accepted HERO three-step renderer remains unchanged');
+  }else if(file==='nomad360_locale_core.js'){
+    const mainText=execFileSync('git',['show','78ef71b32256a1651c5bbc96e154e2f6df89a019:'+file],{cwd:root,encoding:'utf8'});
+    const now='["ui.value1SharedMarketingEngine","1. Advertising and marketing","1. Реклама и маркетинг","1. Жарнама және маркетинг"]';
+    const then='["ui.value1SharedMarketingEngine","1. Shared marketing engine","1. Общий маркетинговый двигатель","1. Ортақ маркетинг моделі"]';
+    A.equal(digest(b),digest(Buffer.from(mainText.replace(now,then))),
+      'Main-accepted locale bytes preserved except narrowly restored V2 prose');
   }else A.equal(digest(b),hash,file);}
 });
 test('Task10: static-page text, links, SEO metadata, locale and legal content remain byte-exact',()=>{

@@ -321,10 +321,18 @@ def main():
                         ' ["ui.value1SharedMarketingEngine","1. Advertising and marketing","1. Реклама и маркетинг","1. Жарнама және маркетинг"],',
                         ' ["ui.value1SharedMarketingEngine","1. Shared marketing engine","1. Общий маркетинговый двигатель","1. Ортақ маркетинг моделі"],'
                     ), 'Unexpected marketing-heading change'
+                    # Already accepted HERO-193 replaced one closing slogan
+                    # with three RU/EN/KK steps. Normalize only these four keys.
+                    hero_keys = {'interface.shell.introResult',
+                                 'interface.shell.introStep1',
+                                 'interface.shell.introStep2',
+                                 'interface.shell.introStep3'}
+                    assert sum(x.startswith(' ["interface.shell.introStep') for x in lines) in (0,3)
                     return '\n'.join('<ACCEPTED-LICENSE-ROW>' if
                                      '"interface.header.licenseCopy"' in x else
                                      '<APPROVED-V2-MARKETING-HEADING>' if heading in x else x
-                                     for x in lines if x not in tax_rows)
+                                     for x in lines if x not in tax_rows
+                                     and not any(x.startswith(' ["'+k+'"') for k in hero_keys))
                 assert mask_license_locale(raw) == mask_license_locale(approved), name
             else:
                 assert raw == approved, 'Approved PR #145 source changed: ' + name
