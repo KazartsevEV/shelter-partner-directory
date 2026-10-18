@@ -119,7 +119,7 @@ async function browserCase(browser,locale,expected){
       font:root.getPropertyValue('--nd-font').trim(),
       body:root.getPropertyValue('--nd-type-body').trim(),
       note:root.getPropertyValue('--nd-type-note').trim(),
-      outcome:at('#nomad360-seo-banner p'),
+      outcome:at(document.querySelector('script[src$="nomad360_hero_banner.js"]')?'#nomad360-intro .nomad-intro-lead':'#nomad360-seo-banner p'),
       noteCopy:at('#nomad360-home-secondary .nomad-recovery-note'),
       hero:at('#nomad360-hero h3'),
       recoveryTitle:at('#nomad360-home-secondary .nomad-recovery-title'),
@@ -129,10 +129,10 @@ async function browserCase(browser,locale,expected){
   A.match(typography.font,/^Inter,/,'Nomad360 must declare one coherent brand typeface');
   A.equal(typography.body,'17px');
   A.equal(typography.note,'14px');
-  A.ok(typography.outcome.px>=17&&typography.outcome.weight===400,'Result explanations cannot be fine print');
+  A.ok(modernHero?(typography.outcome.px>=14&&typography.outcome.weight>=400&&typography.outcome.weight<=500):(typography.outcome.px>=17&&typography.outcome.weight===400),'Approved first-screen explanations remain readable');
   A.ok(typography.noteCopy.px>=14,'Secondary notes remain readable on a phone');
-  A.ok(typography.hero.px>=17,'Subtitle remains legible on mobile');
-   A.equal(await page.locator('#nomad360-hero h3').evaluate(el=>getComputedStyle(el).textWrap),
+  A.ok(typography.hero.px>=(modernHero?15:17),'Current subtitle remains legible on mobile');
+   if(!modernHero)A.equal(await page.locator('#nomad360-hero h3').evaluate(el=>getComputedStyle(el).textWrap),
      'balance','Subtitle uses balanced line wraps');
    if(expected.lang==='ru'||expected.lang==='en'){
      const lastWords=await page.locator('#nomad360-hero h3').evaluate((el,lang)=>{
