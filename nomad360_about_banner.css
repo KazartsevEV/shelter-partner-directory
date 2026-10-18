@@ -2,7 +2,7 @@
  * docs/approved-design/unified-banners/about-moon-scenery.webp
  * Approved compositions:
  * docs/approved-design/unified-banners/about-{desktop,mobile}-reference.webp
- * Keep the entire 563:470 image. NO cover, raster regeneration, gradient
+ * Keep the entire 563:475 image. NO cover, raster regeneration, gradient
  * over the moon or cliffs, or height clipping of the artwork. */
 #nomad360-information.nomad-information{
  --about-navy:var(--p10-navy,#173B58);
@@ -16,7 +16,7 @@
 }
 #nomad360-information.nomad-information::before{
  content:"";position:absolute;z-index:0;pointer-events:none;top:0;right:0;
- width:min(49.5%,563px);aspect-ratio:563 / 470;
+ width:min(49.5%,563px);aspect-ratio:563 / 475;
  background-image:url("./docs/approved-design/unified-banners/about-moon-scenery.webp");
  background-repeat:no-repeat;background-size:100% 100%;background-position:center;
  /* Only the LEFT seam fades; the full moon and all right-side cliffs survive. */
@@ -128,7 +128,7 @@
  #nomad360-information .nomad-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
  #nomad360-information .nomad-links a:nth-child(3){border-left:0;padding-left:0}
 }
-/* Mobile: artwork remains 563:470, scaled uniformly and never covered by a
+/* Mobile: artwork remains 563:475, scaled uniformly and never covered by a
  * "photo strip"; the scene is placed BEHIND the opening like the reference. */
 @media(max-width:700px){
  #nomad360-information.nomad-information{
