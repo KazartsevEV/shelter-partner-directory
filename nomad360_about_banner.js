@@ -39,15 +39,20 @@ function decorate(){
  const brand=opening?.querySelector('.nomad-about-brand');
  const ruRows=['Nomad 360 - зонтичный бренд',
   'интеллектуальных сервисов','для предпринимателей.'];
- if(document.documentElement.lang==='ru'&&brand&&!brand.classList.contains('nomad-about-brand-ru-rows')
+ if(document.documentElement.lang==='ru'&&brand
+    &&!opening.querySelector('.nomad-about-brand-ru-mobile')
     &&brand.textContent===ruRows.join(' ')){
-  brand.classList.add('nomad-about-brand-ru-rows');
-  brand.replaceChildren(...ruRows.flatMap((line,i)=>{
+  // The original paragraph remains byte-for-byte and visually unchanged on
+  // desktop. This alternative is display:none except for RU phones.
+  const mobile=document.createElement('p');
+  mobile.className='nomad-about-brand-ru-mobile';
+  for(const line of ruRows){
    const row=document.createElement('span');
    row.className='nomad-about-brand-row';
    row.textContent=line;
-   return i?[document.createTextNode(' '),row]:[row];
-  }));
+   mobile.append(row);
+  }
+  brand.after(mobile);
  }
  let scenic=about.querySelector(':scope > .nomad-about-scene-copy');
  if(heading&&opening&&!scenic){
