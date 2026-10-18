@@ -146,10 +146,18 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'Translated mobile brand copy must be in the image section');
     assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
       'Brand introduction should occupy former caption position within scene');
-    assert.ok(layout.flowBox.top>=layout.scenicHeight-2,
-      'Mobile services must begin after scenic photo, without caption gap');
-    assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+45,
-      'Mobile scenic area must not reserve the old automation paragraph space');
+    assert.ok(layout.openingBox.top<layout.scenicHeight*.72,
+      'Raised brand text must begin on the upper navy photo, never in the low solid-blue spacer');
+    assert.ok(layout.openingBox.top+layout.openingBox.height<=layout.flowBox.top+2,
+      'Localized intro must not collide with the service cards');
+    assert.ok(layout.flowBox.top<=layout.scenicHeight+10,
+      'The dead blue strip between moon photo and services must not remain');
+    assert.ok(layout.flowBox.top-layout.openingBox.bottom<=90,
+      'No oversized gap should remain beneath the raised brand sentence');
+    assert.ok(layout.openingRight<=layout.sectionWidth*.83,
+      'The live brand text must stay in the left navy copy area, off the right white cliffs');
+    assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+10,
+      'No additional mobile height must be reserved for the removed old sentence position');
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
       'Highlighted mobile automation caption must follow all service cards');
     if(lang==='en'||lang==='kk')
