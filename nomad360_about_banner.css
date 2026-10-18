@@ -483,9 +483,9 @@
   min-height:0;
  }
  #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
-  width:76%;
-  max-width:260px;
-  margin-top:clamp(36px,12vw,50px);
+  width:63%;
+  max-width:215px;
+  margin-top:clamp(18px,6vw,25px);
   margin-bottom:12px;
  }
  html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
@@ -496,14 +496,19 @@
  }
  html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening,
  html[lang="kk"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
-  margin-top:clamp(36px,12vw,50px);
+  margin-top:clamp(18px,6vw,25px);
  }
  /* Dark navy at the left text side, fading BEFORE the right white cliffs.
     Keep the existing gradient and original artwork intact elsewhere. */
+ #nomad360-information.nomad-information::before{
+  /* Move the right-hand chalk pinnacles beyond the narrow left copy column;
+     the moon remains fully in frame on 320-440px phones. */
+  right:clamp(-100px,-25vw,-80px);
+ }
  #nomad360-information.nomad-information::after{
   background:linear-gradient(90deg,
-   rgba(23,59,88,.97) 0%,rgba(23,59,88,.91) 25%,
-   rgba(23,59,88,.60) 48%,rgba(23,59,88,.12) 69%,
-   rgba(23,59,88,0) 80%);
+   rgba(23,59,88,.99) 0%,rgba(23,59,88,.97) 26%,
+   rgba(23,59,88,.80) 50%,rgba(23,59,88,.29) 70%,
+   rgba(23,59,88,0) 85%);
  }
 }
