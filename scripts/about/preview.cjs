@@ -8,8 +8,12 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/about-0
 fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
+const desktopImage='assets/nomad360-banners/about-bozzhyra-night-desktop.webp';
+const desktopGitBlob='06da69918d03ac8bca9729876f926ecc6c1f3089';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
+assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),desktopGitBlob,
+ 'Approved replacement desktop scene must be byte-for-byte identical');
 const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
 (async()=>{
  const server=http.createServer((req,res)=>{
@@ -86,7 +90,9 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const linked=cards.map(a=>({hash:a.getAttribute('href'),label:a.querySelector('.nomad-about-card-motto')?.textContent,
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
-    const img=new Image();img.src='./assets/nomad360-banners/about-bozzhyra-approved.webp';
+    const img=new Image();img.src=innerWidth<=700
+     ?'./assets/nomad360-banners/about-bozzhyra-approved.webp'
+     :'./assets/nomad360-banners/about-bozzhyra-night-desktop.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
     const box=el=>{const r=el.getBoundingClientRect();return {top:r.top-rect.top,bottom:r.bottom-rect.top,height:r.height,width:r.width};};
@@ -117,7 +123,10 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    });
-   assert.ok(layout.sceneSource.includes('assets/nomad360-banners/about-bozzhyra-approved.webp'),'Approved full-width image must be used');
+   assert.ok(layout.sceneSource.includes(width<=700
+     ?'assets/nomad360-banners/about-bozzhyra-approved.webp'
+     :'assets/nomad360-banners/about-bozzhyra-night-desktop.webp'),
+     'Approved desktop scene or original mobile scene must be used at the correct breakpoint');
    assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
    assert.equal(layout.originalWidth,1672);assert.equal(layout.originalHeight,941);
    assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Scene must retain source aspect ratio');
@@ -208,7 +217,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    reports.push({lang,width,...layout});
    await ctx.close();
   }
-  fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({sourceBlob:expectedGitBlob,reports},null,2));
+  fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({sourceBlob:expectedGitBlob,desktopBlob:desktopGitBlob,reports},null,2));
   console.log('ABOUT-01 GREEN source SHA, locale, geometry, links, contacts',reports.length);
  }finally{await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});
