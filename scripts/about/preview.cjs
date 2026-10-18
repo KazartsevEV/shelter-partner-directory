@@ -102,6 +102,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     assert.ok(layout.cardMinHeights.every(height=>height<=185),
       'Desktop service cards must have compact responsive minimum heights');
     assert.ok(!layout.cardsClip,'No localized desktop card text may be clipped');
+    assert.ok(layout.flowBox.top>=layout.scenicHeight*.72,
+      'Desktop service cards must start in the navy-darkened lower photo area');
     assert.ok(layout.captionBandBox.top-layout.flowBox.bottom<=12,
       'Desktop caption band must immediately follow the compact service grid');
     assert.ok(layout.contactBox.top-layout.captionBandBox.bottom<=3,
