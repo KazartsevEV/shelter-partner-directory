@@ -7,6 +7,7 @@ const {pathToFileURL}=require('node:url');
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const out=path.join(__dirname,'../artifacts/us-retail-demo');
  fs.mkdirSync(out,{recursive:true});
+ const homeUrl=pathToFileURL(path.join(__dirname,'../Marketing_calc.HTML')).href;
  const url=pathToFileURL(path.join(__dirname,'../US_Retail_Demo.HTML')).href+'?demo=us-retail-12m';
  const results=[];
  try{
@@ -16,7 +17,32 @@ const {pathToFileURL}=require('node:url');
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    const prior=JSON.stringify({version:2,currency:'EUR',skus:[{id:'own-saved',name:'Keep my private draft'}]});
    await page.addInitScript(value=>{localStorage.setItem('marketingCalcPortfolioV2',value);},prior);
-   await page.goto(url,{waitUntil:'domcontentloaded'});
+   // Verify the live-calculator entry rather than only loading an isolated URL.
+   await page.goto(homeUrl,{waitUntil:'domcontentloaded'});
+   await page.locator('#us-retail-v2-live-link').waitFor();
+   for(const [locale,label] of [
+     ['ru','Пример V2: магазин в США · 12 месяцев'],
+     ['en','V2 example: US retail store · 12 months'],
+     ['kk','V2 мысалы: АҚШ дүкені · 12 ай']
+   ]){
+     await page.evaluate(l=>Nomad360UI.setLanguage(l),locale);
+     const entry=page.locator('#us-retail-v2-live-link');
+     assert.equal(await entry.innerText(),label);
+     assert.ok((await entry.getAttribute('href')).endsWith('US_Retail_Demo.HTML?demo=us-retail-12m&lang='+locale));
+   }
+   await page.evaluate(()=>{
+     document.documentElement.setAttribute('data-nomad-embedded','');
+     document.dispatchEvent(new Event('nomad360:languagechange'));
+   });
+   assert.match(await page.locator('#us-retail-v2-live-link').getAttribute('href'),
+     /^https:\/\/kazartsevev\.github\.io\/shelter-partner-directory\/US_Retail_Demo\.HTML/);
+   await page.evaluate(()=>{
+     document.documentElement.removeAttribute('data-nomad-embedded');
+     Nomad360UI.setLanguage('ru');
+     document.dispatchEvent(new Event('nomad360:languagechange'));
+   });
+   await page.locator('#us-retail-v2-live-link').click();
+   await page.waitForURL(/US_Retail_Demo/);
    await page.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.length===10,{timeout:25000});
    const report=await page.evaluate(()=>{
      const state=PortfolioV2UI.getState();
@@ -56,12 +82,27 @@ const {pathToFileURL}=require('node:url');
    assert.match(await page.locator('#us-retail-demo-notice').innerText(),/АҚШ дүкенінің оқу мысалы/);
    assert.equal(await financialFingerprint(),financialBefore,'KK language switch must not change finance');
    await page.locator('[data-p2-path="skus.0.name"]').fill('Reviewer manually renamed');
+   await page.reload({waitUntil:'domcontentloaded'});
+   await page.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.[0]?.name==='Reviewer manually renamed',{timeout:25000});
+   assert.equal(await page.evaluate(()=>localStorage.getItem('marketingCalcPortfolioV2')),prior,'Reload must preserve private draft');
    await page.evaluate(()=>Nomad360UI.setLanguage('ru'));
    assert.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus[0].name),'Reviewer manually renamed','Never translate edited personal content');
    assert.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus[1].name),'Именной деревянный сувенир');
    await page.locator('[data-p2-path="skus.0.name"]').fill('Подарочный набор ручной работы');
    assert.equal(await financialFingerprint(),financialBefore,'Returning to RU must preserve values');
    await page.screenshot({path:path.join(out,'ru-'+width+'-v2-shop.png'),fullPage:true});
+   // Reload with an edited high-numbered ID to guard against duplicate SKU IDs.
+   await page.evaluate(()=>{
+     const draft=PortfolioV2UI.getState();
+     draft.skus[0].id='sku-124';
+     draft.resources.forEach(r=>{r.skuIds=(r.skuIds||[]).map(id=>id==='sku-1'?'sku-124':id)});
+     localStorage.setItem('marketingCalcPortfolioV2USRetailDemo',JSON.stringify(draft));
+   });
+   await page.reload({waitUntil:'domcontentloaded'});
+   await page.waitForFunction(()=>window.PortfolioV2UI?.getState?.()?.skus?.[0]?.id==='sku-124',{timeout:25000});
+   await page.locator('#portfolio-v2-root [data-p2-add-sku]').click();
+   const ids=await page.evaluate(()=>PortfolioV2UI.getState().skus.map(s=>s.id));
+   assert.equal(new Set(ids).size,ids.length,'Resumed study must generate unique SKU IDs');
    await page.locator('#portfolio-v2-root [data-p2-new]').click();
    const empty=await page.evaluate(()=>({
      mine:localStorage.getItem('marketingCalcPortfolioV2'),
@@ -71,7 +112,14 @@ const {pathToFileURL}=require('node:url');
    assert.equal(empty.demo.skus.length,1);
    assert.equal(empty.demo.skus[0].name,'');
    assert.equal(empty.demo.resources.length,0);
+   // After an explicit reset, a newly edited one-SKU study must not be lost.
+   await page.locator('[data-p2-path="marketing.budget"]').fill('50');
    await page.evaluate(()=>Nomad360UI.setLanguage('en'));
+   await page.locator('#portfolio-v2-root [data-p2-home]').click();
+   await page.locator('#us-retail-demo-launch').click();
+   assert.equal(Number((await page.evaluate(()=>PortfolioV2UI.getState())).marketing.budget),50);
+   assert.equal(await page.evaluate(()=>PortfolioV2UI.getState().skus.length),1);
+   await page.locator('#portfolio-v2-root [data-p2-new]').click();
    await page.locator('#portfolio-v2-root [data-p2-home]').click();
    assert.match(await page.locator('#us-retail-demo-launch').innerText(),/US shop study/);
    await page.locator('#us-retail-demo-launch').click();

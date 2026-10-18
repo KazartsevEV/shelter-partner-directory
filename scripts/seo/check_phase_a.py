@@ -22,6 +22,15 @@ def mask_stage_7b5_pdf(raw):
 
 
 
+def strip_live_v2_entry(raw):
+    # Exact, reviewed landing-page addition; all other application bytes remain guarded.
+    anchor = "                <a id=\"us-retail-v2-live-link\" data-nomad-no-translate href=\"./US_Retail_Demo.HTML?demo=us-retail-12m&amp;lang=ru\" class=\"nomad-example-link nd-type-action\">Пример V2: магазин в США · 12 месяцев</a>\n".encode('utf-8')
+    loader = b'<script src="./nomad360_us_retail_live_entry.js"></script>\n'
+    assert raw.count(anchor) == 1 and raw.count(loader) == 1
+    assert raw.count(b'id="us-retail-v2-live-link"') == 1
+    return raw.replace(anchor, b'', 1).replace(loader, b'', 1)
+
+
 def strip_task09_html(raw):
     # Task10 permits exactly one passive stylesheet link, no finance exemptions.
     palette = b'    <link rel="stylesheet" href="./nomad360_palette.css">\n'
@@ -88,6 +97,7 @@ def main():
                 "process.stdout.write(require('./tests/helpers/task10-logo-scope.cjs').stripTask10Logo(process.argv[1],require('node:fs').readFileSync(0,'utf8')))", name],
                 input=raw, cwd=ROOT)
         if name == 'Marketing_calc.HTML':
+            raw = strip_live_v2_entry(raw)
             raw = strip_task09_html(raw)
             assert raw.count(b'<script src="./nomad360_sales_tax_v2.js"></script>\n') == 1
         if name in ('portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js'):
@@ -305,7 +315,7 @@ def main():
     changed = subprocess.check_output(['git', 'diff', '--name-only', merge_base, '--'],
                                       cwd=ROOT, text=True).splitlines()
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
-                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/')) or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/')) or p in (
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
         'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
         'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
@@ -319,6 +329,8 @@ def main():
         'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
         'tests/nomad360_calculator_ui_browser.test.cjs',
+        # FX live browser test: only retries real validated provider requests; financial source stays frozen.
+        'tests/currency_converter_browser.test.cjs',
         'tests/nomad360_price_export_browser.test.cjs',
         'tests/marketing_calc_first_user_journey.test.cjs',
         'tests/fixtures/seo-keyword-banner.html', 'tests/fixtures/seo-original-results.html',
@@ -380,6 +392,13 @@ def main():
         'tests/nomad360_global_tree_navigation_browser.test.cjs',
         'tests/nomad360_v2_containers_browser.test.cjs',
         'tests/nomad360_v2_buttons_browser.test.cjs',
+        # US retail live entry: audited link, isolated study and browser receipts.
+        'nomad360_us_retail_live_entry.js', 'nomad360_us_retail_demo.js',
+        'portfolio_v2_us_demo_ui.js', 'US_Retail_Demo.HTML',
+        'US_Retail_Demo_FILLED.html', 'US_Retail_Demo_EN_FILLED.html',
+        'tests/us_retail_demo_v2.test.cjs', 'tests/us_retail_demo_v2_browser.cjs',
+        '.github/workflows/us-retail-demo-v2.yml',
+        '.github/workflows/us-retail-filled-html.yml',
         'tests/portfolio_v2_online_browser.test.cjs',
         '.github/workflows/task10-palette.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']

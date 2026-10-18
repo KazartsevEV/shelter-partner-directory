@@ -47,7 +47,16 @@ assert.match(v2src,/marketingCalcPortfolioV2USRetailDemo/);
 assert.match(v2src,/activeStorageKey=usDemoStorageKey/);
 assert.match(v2src,/function open\(options=\{\}\)\{\s*activeStorageKey=storageKey/);
 assert.match(v2src,/localStorage\.setItem\(activeStorageKey,JSON\.stringify\(model\)\)/);
-assert.match(v2src,/openDemo,localizeStudyNames,load/);
+assert.match(v2src,/openDemo,localizeStudyNames,load,loadStudy/);
+assert.match(v2src,/function loadStudy\(\)/);
+assert.match(fs.readFileSync(path.join(root,'nomad360_us_retail_demo.js'),'utf8'),/loadStudy\?\.\(\)/);
+const landing=fs.readFileSync(path.join(root,'Marketing_calc.HTML'),'utf8');
+assert.match(landing,/id="us-retail-v2-live-link"/);
+assert.match(landing,/nomad360_us_retail_live_entry\.js/);
+assert.match(landing,/US_Retail_Demo\.HTML\?demo=us-retail-12m/);
+const liveEntry=fs.readFileSync(path.join(root,'nomad360_us_retail_live_entry.js'),'utf8');
+for(const text of ['Пример V2: магазин в США','V2 example: US retail store','V2 мысалы: АҚШ дүкені'])
+ assert.ok(liveEntry.includes(text),'Missing locale: '+text);
 console.log('US_RETAIL_DEMO_ENGINE_GREEN',JSON.stringify({
  skus:state.skus.length,resources:state.resources.length,months:output.months.length,
  yearlyUnits:1800,netRevenue:sumMonthly,salesTax:projection.salesTaxSummary.salesTax,

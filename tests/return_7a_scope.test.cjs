@@ -17,14 +17,24 @@ test('All existing application files stay exact outside the five authorised pres
       audited,'7Б-4 V2 UI is byte-exact outside 7Б-5 tax hunks: '+file);
    continue;
   }
+  if(file==='CALCULATOR_LICENSE.md'){
+    A.equal(actual,execFileSync('git',['show','cd80f877f20dde9d276683c83b99c6a9455dea5d:'+file],{cwd:root,encoding:'utf8'}),'Approved license v2.4');continue;
+  }
   const mask=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
-   const normalized=stripReturn(file,(file==='Marketing_calc.HTML'?require('./helpers/task09-html-scope.cjs').stripTask09Html(actual):actual).replace(
+   const normalized=stripReturn(file,(file==='Marketing_calc.HTML'?require('./helpers/task09-html-scope.cjs').stripTask09Html(require('./helpers/seo-html-contract.cjs').stripLiveStudy(actual)):actual).replace(
    file==='Marketing_calc.HTML'?'<script src="./nomad360_sales_tax_service_v1.js"></script>\n':
     '\u0000stage3-noop\u0000',''));
    A.equal(file==='Marketing_calc.HTML'?mask(normalized):normalized,
     file==='Marketing_calc.HTML'?mask(before(file)):before(file),file);
  }
- const published=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(en\/|license\/|assets\/nomad360-seo\.css$|scripts\/seo\/(build\.py|pages\.json|hero_banner\.css)$)/.test(f));for(const file of published)A.deepEqual(Buffer.from(require('./helpers/task10-palette-scope.cjs').stripTask10StaticSource(file,fs.readFileSync(path.join(root,file),'utf8'))),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
+ const published=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(en\/|license\/|assets\/nomad360-seo\.css$|scripts\/seo\/(build\.py|pages\.json|hero_banner\.css)$)/.test(f));for(const file of published){
+ const actual=fs.readFileSync(path.join(root,file),'utf8');
+ if(file.startsWith('license/')){
+  A.equal(actual,execFileSync('git',['show','cd80f877f20dde9d276683c83b99c6a9455dea5d:'+file],{cwd:root,encoding:'utf8'}),'Owner-approved v2.4 legal page: '+file);
+  continue;
+ }
+ A.deepEqual(Buffer.from(require('./helpers/task10-palette-scope.cjs').stripTask10StaticSource(file,actual)),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
+}
  A.deepEqual(fs.readFileSync(path.join(root,'nomad360_wolf_open_circle.png')),execFileSync('git',['show',base+':nomad360_wolf_open_circle.png'],{cwd:root,maxBuffer:4*1024*1024}));
 });
 test('Every established EN RU KK message retains its accepted meaning',()=>{

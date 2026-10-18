@@ -545,7 +545,16 @@ const messages={
 const lang=()=>root.Nomad360UI?.getLanguage?.()||'ru';
 const words=()=>messages[lang()]||messages.en;
 function launch(){
-  try{root.PortfolioV2UI?.openDemo(relabel(copy(),lang()));const err=document.getElementById('us-retail-demo-error');if(err)err.hidden=true;}
+  try{
+    if(!root.PortfolioV2UI?.openDemo)throw Error('US retail V2 interface is not loaded');
+    const saved=root.PortfolioV2UI.loadStudy?.();
+    // Only the explicit reset action discards an autosaved study.
+    // A one-SKU customized business is still a valid draft.
+    const resume=Boolean(saved&&!root.PortfolioV2UI.studyWasReset?.());
+    root.PortfolioV2UI.openDemo(relabel(resume?saved:copy(),lang()),{resume});
+    const err=document.getElementById('us-retail-demo-error');
+    if(err)err.hidden=true;
+  }
   catch(error){const el=document.getElementById('us-retail-demo-error');if(el){el.textContent=words().error+' ('+String(error.message||error)+')';el.hidden=false;}else throw error;}
 }
 function refresh(){
@@ -578,7 +587,7 @@ function mount(){
   if(params.get('demo')==='us-retail-12m'){
     // English walkthrough link opts into the existing language system;
     // it never changes the main production calculator or its model.
-    if(params.get('lang')==='en')root.Nomad360UI?.setLanguage?.('en');
+    if(['ru','en','kk'].includes(params.get('lang')))root.Nomad360UI?.setLanguage?.(params.get('lang'));
     launch();
   }
 }

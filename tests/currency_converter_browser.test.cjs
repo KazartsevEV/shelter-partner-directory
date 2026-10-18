@@ -124,9 +124,20 @@ async function panel(page,pathKey,currency){
  A.deepEqual(errors,[]);await page.close();
  // Live public API calls from Chromium: no stub, no model/user payload, no application.
  const live=await browser.newPage();await live.goto(url);const liveRates=await live.evaluate(async()=>{
-  const rows=[];for(const [iso] of Nomad360Currency.currencies){if(iso==='USD')continue;try{rows.push({iso,ok:true,quote:await Nomad360FX.quote(iso,'USD')});}catch(e){rows.push({iso,ok:false,error:e.message});}}for(const iso of ['CNY','EUR']){try{rows.push({iso,businessCurrency:'KZT',ok:true,quote:await Nomad360FX.quote(iso,'KZT')});}catch(e){rows.push({iso,businessCurrency:'KZT',ok:false,error:e.message});}}return rows;
+  const rows=[];
+  // Live Frankfurter can take close to the 10-second production timeout.
+  // Keep real browser CORS, real validated API rates and strict success; merely
+  // retry transient transport/timeout failures before declaring the provider down.
+  const verified=async(base,quote)=>{
+   let last;
+   for(let attempt=0;attempt<3;attempt++){
+    try{return await Nomad360FX.quote(base,quote)}catch(e){last=e;}
+   }
+   throw last;
+  };
+  for(const [iso] of Nomad360Currency.currencies){if(iso==='USD')continue;try{rows.push({iso,ok:true,quote:await verified(iso,'USD')});}catch(e){rows.push({iso,ok:false,error:e.message});}}for(const iso of ['CNY','EUR']){try{rows.push({iso,businessCurrency:'KZT',ok:true,quote:await verified(iso,'KZT')});}catch(e){rows.push({iso,businessCurrency:'KZT',ok:false,error:e.message});}}return rows;
  });
- fs.writeFileSync(path.join(art,'live-provider.json'),JSON.stringify(liveRates,null,2));A.ok(liveRates.some(r=>r.iso==='CNY'&&r.quote?.quote==='USD'&&r.ok),'Live CNY/USD browser CORS must succeed');A.ok(liveRates.some(r=>r.iso==='KZT'&&r.quote?.quote==='USD'&&r.ok),'Live KZT/USD browser CORS must succeed');A.ok(liveRates.filter(r=>r.businessCurrency==='KZT').every(r=>r.ok),'Live CNY/KZT and EUR/KZT browser CORS must succeed');await live.close();
+ fs.writeFileSync(path.join(art,'live-provider.json'),JSON.stringify(liveRates,null,2));A.ok(liveRates.some(r=>r.iso==='CNY'&&r.quote?.quote==='USD'&&r.ok),'Live CNY/USD browser CORS must succeed');A.ok(liveRates.some(r=>r.iso==='KZT'&&r.quote?.quote==='USD'&&r.ok),'Live KZT/USD browser CORS must succeed');A.ok(liveRates.filter(r=>r.businessCurrency==='KZT').every(r=>r.ok),'Live CNY/KZT and EUR/KZT browser CORS must succeed: '+JSON.stringify(liveRates.filter(r=>r.businessCurrency==='KZT')));await live.close();
  fs.writeFileSync(path.join(art,'protocol.json'),JSON.stringify({cases:protocol.length,protocol,failureAndManualFallback:true,staleResponseIgnored:true,newerRateRequiresApply:true},null,2));
  console.log('CONVERTER_BROWSER_GREEN',JSON.stringify({cases:protocol.length,languages:3,widths:6,livePairs:liveRates.filter(r=>r.ok).length}));
  }finally{await browser.close();}

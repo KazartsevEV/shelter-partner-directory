@@ -2,6 +2,8 @@ name: Build downloadable real US retail V2 HTML
 on:
   pull_request:
     paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_us_retail_live_entry.js'
       - 'US_Retail_Demo.HTML'
       - 'portfolio_v2_us_demo_ui.js'
       - 'nomad360_us_retail_demo.js'
@@ -49,16 +51,3 @@ jobs:
           name: NOMAD360-US-RETAIL-V2-FILLED-HTML-PR183
           path: artifacts/us-retail-demo/
           if-no-files-found: warn
-      - name: Commit generated standalone HTML to PR branch for direct download
-        if: success() && github.event_name == 'pull_request'
-        run: |
-          cp artifacts/us-retail-demo/US_Retail_Demo_FILLED.html US_Retail_Demo_FILLED.html
-          cp artifacts/us-retail-demo/US_Retail_Demo_EN_FILLED.html US_Retail_Demo_EN_FILLED.html
-          cp artifacts/us-retail-demo/US-Retail-V2-EN-390px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-390px.png
-          cp artifacts/us-retail-demo/US-Retail-V2-EN-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-1280px.png
-          cp artifacts/us-retail-demo/US-Retail-V2-390px.png docs/demos/us-main-street-12m/US-Retail-V2-390px.png
-          cp artifacts/us-retail-demo/US-Retail-V2-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-1280px.png
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add US_Retail_Demo_FILLED.html US_Retail_Demo_EN_FILLED.html docs/demos/us-main-street-12m/US-Retail-V2-390px.png docs/demos/us-main-street-12m/US-Retail-V2-1280px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-390px.png docs/demos/us-main-street-12m/US-Retail-V2-EN-1280px.png
-          git diff --cached --quiet || (git commit -m "artifact(US-V2): reviewable filled offline HTML and real calculator renders" && git push origin HEAD:"${{ github.event.pull_request.head.ref }}")

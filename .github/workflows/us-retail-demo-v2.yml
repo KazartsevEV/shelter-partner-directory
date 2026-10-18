@@ -2,6 +2,8 @@ name: US retail V2 twelve-month demo acceptance
 on:
   pull_request:
     paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_us_retail_live_entry.js'
       - 'US_Retail_Demo.HTML'
       - 'portfolio_v2_us_demo_ui.js'
       - 'nomad360_us_retail_demo.js'
@@ -22,6 +24,7 @@ jobs:
           node-version: '22'
       - name: Test real V2 data and isolated code
         run: |
+          node --check nomad360_us_retail_live_entry.js
           node --check portfolio_v2_us_demo_ui.js
           node --check nomad360_us_retail_demo.js
           node --check tests/us_retail_demo_v2.test.cjs
