@@ -96,7 +96,7 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
   });
   const edges=await gutter.locator('#nomad360-irbis-banner').evaluate(el=>{
    const rect=el.getBoundingClientRect();
-   return {left:rect.left,right:rect.right,documentWidth:document.documentElement.clientWidth};
+   return {left:rect.left,right:rect.right,documentWidth:document.documentElement.getBoundingClientRect().width};
   });
   A.ok(edges.left>=-1&&edges.right<=edges.documentWidth+1,
    'Scrollbar-safe full bleed cannot exceed document edges: '+JSON.stringify(edges));
