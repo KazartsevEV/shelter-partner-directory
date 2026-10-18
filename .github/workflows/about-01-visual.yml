@@ -1,0 +1,41 @@
+name: ABOUT-01 original moon composition receipts
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_about_banner.css'
+      - 'nomad360_about_banner.js'
+      - 'scripts/about/preview.cjs'
+      - 'docs/approved-design/unified-banners/about-moon-scenery.webp'
+      - '.github/workflows/about-01-visual.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  about-original-scene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --prefix "$RUNNER_TEMP/about-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+      - run: '"$RUNNER_TEMP/about-tools/node_modules/.bin/playwright" install --with-deps chromium'
+      - name: Compile original site utilities
+        run: |
+          mkdir -p artifacts/about-01
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/about-utilities.css"
+          "$RUNNER_TEMP/about-tools/node_modules/.bin/tailwindcss" -i "$RUNNER_TEMP/about-utilities.css" --content './Marketing_calc.HTML,./nomad360_*.js' -o artifacts/about-01/utilities.css --minify
+      - name: Verify entire original scene and live EN RU KK
+        env:
+          NODE_PATH: ${{ runner.temp }}/about-tools/node_modules
+        run: |
+          node --check nomad360_about_banner.js
+          node scripts/about/preview.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: about-01-source-and-responsive-screenshots
+          path: artifacts/about-01/
+          retention-days: 21
