@@ -20,7 +20,8 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.evaluate(()=>productPortfolio.length),0);
    assert.equal(await page.locator('#product-own-form').isVisible(),false);
    assert.equal(await page.locator('#nomad360-seo-banner').isVisible(),true,'Business idea SEO banner is already visible');
-   assert.equal(await page.locator('#nomad360-seo-banner h2').count(),1);
+   const hasApprovedHero=await page.locator('script[src$="nomad360_hero_banner.js"]').count()===1;
+   assert.equal(await page.locator(hasApprovedHero?'#nomad360-hero h2':'#nomad360-seo-banner h2').count(),1,'Exactly one approved localized main headline');
    assert.equal(await page.locator('#nomad360-calculation-list').count(),0,'The old six-point list is removed');
    assert.match(await page.locator('#home-screen').textContent(),/живые деньги|денежный поток/i);
    // Detailed production and resale both use the primary, legible calculator.

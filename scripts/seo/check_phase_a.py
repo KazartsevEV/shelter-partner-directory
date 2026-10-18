@@ -31,7 +31,32 @@ def strip_live_v2_entry(raw):
     return raw.replace(anchor, b'', 1).replace(loader, b'', 1)
 
 
+def strip_approved_hero_html(raw):
+    # Exact approved HERO-03 transfer of the existing hero over the obsolete
+    # second SEO headline. Restore only its bounded three HTML fragments.
+    css = b'    <link rel="stylesheet" href="./nomad360_hero_banner.css">\n'
+    script = b'<script src="./nomad360_hero_banner.js"></script>\n'
+    modern = (b'        <div id="nomad360-seo-banner" class="nomad-marketing nomad-seo-banner" '
+              b'data-nomad-no-translate aria-label="Nomad360 brand">\n'
+              b'        </div>\n\n')
+    if css not in raw and script not in raw and modern not in raw:
+        return raw
+    assert raw.count(css) == raw.count(script) == raw.count(modern) == 1, 'HERO-03 loader and SEO anchor integrity'
+    assert b'    <link rel="stylesheet" href="./nomad360_palette.css">\n' + css + b'</head>' in raw
+    assert b'<script src="./nomad360_header.js"></script>\n' + script + b'<script src="./nomad360_return.js"></script>' in raw
+    assert b'    <section id="home-screen" class="max-w-4xl mx-auto">\n' + modern in raw
+    baseline = subprocess.check_output(
+        ['git', 'show', 'cfc7e3d4f429004def715a4acc586a3b3fb984d1:Marketing_calc.HTML'],
+        cwd=ROOT)
+    start = b'        <div id="nomad360-seo-banner"'
+    end = b'        <section id="nomad360-selling-choice"'
+    assert baseline.count(start) == baseline.count(end) == 1
+    legacy = baseline[baseline.index(start):baseline.index(end)]
+    return raw.replace(css, b'', 1).replace(script, b'', 1).replace(modern, legacy, 1)
+
+
 def strip_task09_html(raw):
+    raw = strip_approved_hero_html(raw)
     # Task10 permits exactly one passive stylesheet link, no finance exemptions.
     palette = b'    <link rel="stylesheet" href="./nomad360_palette.css">\n'
     if b'nomad360_palette.css' in raw:
