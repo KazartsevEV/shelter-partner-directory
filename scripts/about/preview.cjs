@@ -43,7 +43,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const info=document.querySelector('#nomad360-information');
     const displayed=sel=>info.querySelector(sel)?.textContent||'';
     const cards=[...info.querySelectorAll('.nomad-about-card')];
-    const normalized=s=>String(s).replace(/\\s+/g,' ').trim();
+    const normalized=s=>String(s).replace(/\s+/g,' ').trim();
     return {
      language:window.Nomad360UI.getLanguage(),
      title:normalized(displayed('#nomad360-about .nomad-about-scene-copy > h2'))===normalized(words.about),
