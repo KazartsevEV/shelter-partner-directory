@@ -530,3 +530,47 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   padding-bottom:14px;
  }
 }
+
+/* HERO-06: the approved phone hero INCLUDES its real site header.
+   Only when home is active, move the existing header over the same navy
+   canvas. Do not clone the logo, selector or hamburger; their JS remains live. */
+@media(max-width:700px){
+ body:has(#home-screen:not(.hidden)){
+  background-color:var(--p10-navy,#173B58)!important;
+ }
+ body:has(#home-screen:not(.hidden)) #nomad360-header.nomad-header{
+  position:absolute;top:0;left:0;right:0;z-index:170;
+  width:100%;margin:0;border:0;
+  background-color:var(--p10-navy,#173B58)!important;
+ }
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-bar{
+  height:80px;
+ }
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-brand,
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-wordmark{
+  color:var(--p10-white,#FFFFFF)!important;
+ }
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-wordmark span,
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-wordmark .nomad-lite{
+  color:var(--p10-orange,#FF913F)!important;
+ }
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-lite{
+  display:block;margin-top:2px;
+ }
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-lang select{
+  background-color:transparent!important;
+  color:var(--p10-white,#FFFFFF)!important;
+  border-color:transparent!important;
+ }
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-lang select option{
+  color:var(--p10-navy,#173B58);
+  background-color:var(--p10-white,#FFFFFF);
+ }
+ body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-burger{
+  background-color:transparent!important;
+  color:var(--nomad-burger-contrast,var(--p10-white,#FFFFFF))!important;
+ }
+ #home-screen #nomad360-commercial-banner::before{
+  top:clamp(35px,10vw,48px);
+ }
+}
