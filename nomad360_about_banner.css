@@ -285,3 +285,12 @@
    transparent 0%,#000 15%,#000 84%,transparent 100%);
  }
 }
+
+/* ABOUT-04: keep the original official WhatsApp number unbroken in the
+ * approved single-row desktop contacts; never truncate its characters. */
+@media(min-width:1001px){
+ #nomad360-information .nomad-links a{
+  font-size:clamp(12px,1.03vw,13.5px);
+  white-space:nowrap;overflow-wrap:normal;
+ }
+}
