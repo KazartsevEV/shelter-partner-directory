@@ -164,7 +164,7 @@
   color:var(--irbis-white);margin:3px 0;font:400 clamp(15px,3.85vw,18px)/1.45 var(--nd-font,Inter,sans-serif)
  }
  #nomad360-irbis-banner .nomad-irbis-mobile-art{
-  display:block;width:100%;aspect-ratio:896/614;
+  display:block;width:calc(100% + 40px);margin:10px -20px -12px;aspect-ratio:896/614;
   background:url("./assets/nomad360-banners/support-mobile.webp") center/100% 100% no-repeat;
   -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 95%,transparent 100%);
   mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 95%,transparent 100%)
