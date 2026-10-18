@@ -99,8 +99,8 @@
     },
     {
       "file": "nomad360_price_export.js",
-      "sha256": "e3de73966c1b0ed851ceb141dcfd072d8d71378f59c32f5fbb9c6bda98b6d5a0",
-      "bytes": 14401,
+      "sha256": "2e863a8dae2c2d6121648706253f0a57197e89d4708572f6b8ceeb33893fdc54",
+      "bytes": 20668,
       "owner": "nomad360_price_export.js"
     },
     {
@@ -24467,9 +24467,9 @@
       "kind": "module-key",
       "key": "base",
       "translations": {
-        "ru": "Кому относится налог",
-        "en": "Tax revenue belongs to",
-        "kk": "Салықтық түсім иесі"
+        "ru": "Чья выручка",
+        "en": "Whose revenue",
+        "kk": "Түсім кімге тиесілі"
       }
     },
     {
@@ -24590,6 +24590,270 @@
         "ru": "Итого",
         "en": "Total",
         "kk": "Барлығы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:bounds",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "bounds",
+      "translations": {
+        "ru": "Минимальная и максимальная цены перенесены из V1 без изменения. V2 подбирает цену внутри диапазона. Маржа по расчёту V2 и статус взяты из результата движка, а не вычислены в Excel.",
+        "en": "The V1 minimum and maximum prices are preserved. V2 selects a price within that range. The calculated V2 margin and status come from the engine result, not Excel formulas.",
+        "kk": "V1 ең төменгі және ең жоғарғы бағалары өзгеріссіз сақталады. V2 осы аралықтан баға таңдайды. V2 маржасы мен күйі Excel-де есептелмейді, есептеу модулінің нәтижесінен алынады."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerLinkedSales",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerLinkedSales",
+      "translations": {
+        "ru": "Цена за ед. со скидкой и Sales Tax",
+        "en": "Unit price after discount incl. Sales Tax",
+        "kk": "Жеңілдіктен кейінгі Sales Tax-пен бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerSales",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerSales",
+      "translations": {
+        "ru": "Цена за ед. с Sales Tax",
+        "en": "Unit price incl. Sales Tax",
+        "kk": "Sales Tax-пен бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerStandaloneVat",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerStandaloneVat",
+      "translations": {
+        "ru": "Цена за ед. с НДС",
+        "en": "Unit price incl. VAT",
+        "kk": "ҚҚС-пен бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerUntaxed",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerUntaxed",
+      "translations": {
+        "ru": "Цена за ед. к оплате",
+        "en": "Unit amount payable",
+        "kk": "Бірлік үшін төлем"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:buyerVat",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "buyerVat",
+      "translations": {
+        "ru": "Цена за ед. со скидкой и НДС",
+        "en": "Unit price after discount incl. VAT",
+        "kk": "Жеңілдіктен кейінгі ҚҚС-пен бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:id",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "id",
+      "translations": {
+        "ru": "Артикул / ID",
+        "en": "SKU / ID",
+        "kk": "Артикул / ID"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:linkedVat",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "linkedVat",
+      "translations": {
+        "ru": "Цена по прайсу V2 за ед. с НДС",
+        "en": "V2 list price per unit incl. VAT",
+        "kk": "ҚҚС-пен бірлікке V2 прайс бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:marginStatus",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "marginStatus",
+      "translations": {
+        "ru": "Статус маржи",
+        "en": "Margin status",
+        "kk": "Маржа күйі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:max",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "max",
+      "translations": {
+        "ru": "Максимальная цена V1",
+        "en": "V1 maximum price",
+        "kk": "V1 ең жоғарғы баға"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:min",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "min",
+      "translations": {
+        "ru": "Минимальная цена V1",
+        "en": "V1 minimum price",
+        "kk": "V1 ең төменгі баға"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:principal",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "principal",
+      "translations": {
+        "ru": "Для агентской позиции цена покупателю может быть пустой: комиссия агента не является розничной ценой принципала.",
+        "en": "For an agency item, the customer unit price can be blank: the agent fee is not the principal retail price.",
+        "kk": "Агенттік позицияда сатып алушының бірлік бағасы бос болуы мүмкін: агент комиссиясы принципалдың бөлшек сауда бағасы емес."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:realized",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "realized",
+      "translations": {
+        "ru": "Маржа по расчёту V2, %",
+        "en": "V2 calculated margin, %",
+        "kk": "V2 есептелген маржа, %"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:salesNet",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "salesNet",
+      "translations": {
+        "ru": "Цена за ед. без Sales Tax",
+        "en": "Unit price excl. Sales Tax",
+        "kk": "Sales Tax-сыз бірлік бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:salesPeriod",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "salesPeriod",
+      "translations": {
+        "ru": "В самостоятельной V2 лист Sales Tax отражает базовый месяц, а не годовой налоговый регистр.",
+        "en": "For standalone V2, the Sales Tax sheet covers the reference month, not an invented annual tax ledger.",
+        "kk": "Дербес V2 үшін Sales Tax парағы жылдық тізілімді емес, негізгі айды көрсетеді."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:status",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "status",
+      "translations": {
+        "ru": "Статус расчёта",
+        "en": "Calculation status",
+        "kk": "Есептеу күйі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:target",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "target",
+      "translations": {
+        "ru": "Целевая маржа V1, %",
+        "en": "V1 target margin, %",
+        "kk": "V1 мақсатты маржа, %"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:type",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "type",
+      "translations": {
+        "ru": "Способ продажи",
+        "en": "Sales method",
+        "kk": "Сату тәсілі"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:unitOnly",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "unitOnly",
+      "translations": {
+        "ru": "В прайс-листе указаны цены за одну единицу товара или услуги.",
+        "en": "Price-list amounts are per item or service unit.",
+        "kk": "Прайс-парақтағы бағалар тауардың немесе қызметтің бір бірлігіне берілген."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:units",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "units",
+      "translations": {
+        "ru": "В прайс-листе указаны цены за одну единицу; лист Sales Tax содержит суммы по SKU за расчётный период.",
+        "en": "Price-list amounts are per unit; the Sales Tax worksheet shows SKU totals for the calculation period.",
+        "kk": "Прайс-парақтағы бағалар бір бірлікке берілген; Sales Tax парағында есептік кезеңдегі әр SKU бойынша жиынтық көрсетілген."
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:untaxed",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "untaxed",
+      "translations": {
+        "ru": "Цена продажи за единицу",
+        "en": "Unit selling price",
+        "kk": "Бірлік сату бағасы"
+      }
+    },
+    {
+      "id": "nomad360_price_export.js:x:5651:vatNet",
+      "file": "nomad360_price_export.js",
+      "line": 50,
+      "kind": "module-key",
+      "key": "vatNet",
+      "translations": {
+        "ru": "Цена продажи за ед. без НДС",
+        "en": "Unit selling price excl. VAT",
+        "kk": "ҚҚС-сыз бірлік сату бағасы"
       }
     },
     {
@@ -27009,7 +27273,7 @@
     {
       "file": "entries/nomad360_price_export.js/001.json",
       "owner": "nomad360_price_export.js",
-      "count": 210
+      "count": 289
     },
     {
       "file": "entries/nomad360_return.js/001.json",
