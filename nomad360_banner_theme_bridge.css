@@ -1,0 +1,79 @@
+/* UNIFIED-BANNERS palette bridge.
+   Active ONLY when Codex first banner is mounted. Brand colors are owned
+   exclusively by TASK-10 in nomad360_palette.css; do not duplicate hex values.
+   This is presentation-only: no DOM, layout, image or financial changes. */
+#nomad360-commercial-banner {
+  --nb-blue: var(--p10-navy);
+  --nb-orange: var(--p10-orange);
+  --nb-line: var(--p10-blue);
+  --nomad-first-blue: var(--p10-navy);
+  --nomad-first-orange: var(--p10-orange);
+  --nomad-first-line: var(--p10-blue);
+}
+
+/* TASK-10 has important color rules in its own named cascade layers.
+   Override only the first banner in the same priority layer, without
+   weakening the site-wide theme or creating a separate color scheme. */
+@layer nomad360-palette-important {
+  body:has(#home-screen) #nomad360-commercial-banner {
+    background-color: var(--p10-navy) !important;
+    color: var(--p10-white) !important;
+    --p10-fg: var(--p10-white) !important;
+    --p10-line: var(--p10-blue) !important;
+    --p10-muted: var(--p10-white) !important;
+    --p10-accent: var(--p10-orange) !important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner
+  :is(#nomad360-hero, #nomad360-seo-banner, #nomad360-intro, .nomad-seo-copy) {
+    --p10-fg: var(--p10-white) !important;
+    --p10-line: var(--p10-blue) !important;
+    --p10-muted: var(--p10-white) !important;
+    --p10-accent: var(--p10-orange) !important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner
+  :is(#nomad360-hero h1, #nomad360-hero .nomad-hero-title-accent,
+      #nomad360-hero .nomad-first-title-accent,
+      .nomad-benefit-copy strong, .nomad-first-benefit-copy strong,
+      .nomad-seo-tagline span + span) {
+    color: var(--p10-orange) !important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner
+  :is(#nomad360-hero h2, #nomad360-hero h3,
+      .nomad-intro-lead, .nomad-intro-result, .nomad-seo-copy) {
+    color: var(--p10-white) !important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner
+  :is(.nomad-intro-cta, .nomad-intro-cta:hover) {
+    background-color: var(--p10-orange) !important;
+    color: var(--p10-navy) !important;
+    --p10-fg: var(--p10-navy) !important;
+    --p10-accent: var(--p10-navy) !important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner
+  :is(.nomad-benefit-icon, .nomad-first-benefit-icon) {
+    stroke: var(--p10-white) !important;
+  }
+  body:has(#home-screen) #nomad360-commercial-banner
+  :is(.nomad-benefit-accent, .nomad-first-benefit-accent) {
+    stroke: var(--p10-orange) !important;
+  }
+}
+
+/* Scenic blending follows the live site navy. The original WebP is unchanged:
+   CSS variables cannot recolor pixels baked into an image. */
+#nomad360-commercial-banner.nomad-banner::before {
+  background-image:
+    linear-gradient(to bottom, transparent 35%, var(--p10-navy) 100%),
+    url('./assets/nomad360-banners/hero.webp');
+}
+@media (max-width: 660px) {
+  #nomad360-commercial-banner.nomad-banner::before {
+    background-image:
+      linear-gradient(to bottom,
+        color-mix(in srgb, var(--p10-navy) 62%, transparent) 0%,
+        color-mix(in srgb, var(--p10-navy) 40%, transparent) 200px,
+        color-mix(in srgb, var(--p10-navy) 60%, transparent) 410px,
+        var(--p10-navy) 640px),
+      url('./assets/nomad360-banners/hero.webp');
+  }
+}
