@@ -6,7 +6,7 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/irbis-0
 fs.mkdirSync(out,{recursive:true});
 for(const [file,sha] of [
  ['assets/nomad360-banners/support-wide.webp','937c35a1c0e0e5203c9cd949789219e1cbe0d541'],
- ['assets/nomad360-banners/support-wide-extended.webp','201fae64d3424939cc09a9fd550bff228b516bcc'],
+ ['assets/nomad360-banners/support-wide-extended.webp','512cbb1295998f94524ec8fe8f77bb442a5da61c'],
  ['assets/nomad360-banners/support-mobile.webp','30db5bffa26f3e1f6cc3f6370fe95648e84e4362']
 ])A.equal(execFileSync('git',['hash-object',file],{cwd:root,encoding:'utf8'}).trim(),sha,'No changes to the approved snow-leopard image');
 const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2','.ico':'image/x-icon'};
