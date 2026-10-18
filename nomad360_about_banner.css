@@ -480,19 +480,19 @@
    shortly after the actual copy instead of reserving an empty image-height slot. */
 @media(max-width:700px){
  #nomad360-information #nomad360-about .nomad-about-scene-copy{
-  min-height:clamp(210px,59vw,245px);
+  min-height:0;
  }
  #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
   width:76%;
   max-width:260px;
   margin-top:clamp(36px,12vw,50px);
-  margin-bottom:0;
+  margin-bottom:12px;
  }
  html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
-  min-height:clamp(235px,64vw,270px);
+  min-height:0;
  }
  html[lang="kk"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
-  min-height:clamp(255px,72vw,300px);
+  min-height:0;
  }
  html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening,
  html[lang="kk"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
