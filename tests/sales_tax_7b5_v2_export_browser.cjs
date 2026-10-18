@@ -87,8 +87,18 @@ async function readState(p,kind){return p.evaluate(kind=>{
   await p.evaluate(()=>{setTimeout(()=>{void Nomad360UI.saveExcel();},0);});
   const d=await download,bytes=fs.readFileSync(await d.path()),workbook=new Excel.Workbook();await workbook.xlsx.load(bytes);
   A.equal(workbook.worksheets[0].rowCount,before.doc.rows.length+1);
-  for(let i=0;i<before.doc.rows.length;i++)for(const cell of [5,6,7]){
-    A.equal(workbook.worksheets[0].getRow(i+2).getCell(cell).value,before.doc.rows[i][cell-1]);
+  for(let i=0;i<before.doc.rows.length;i++){
+   const last=kind==='linked'?12:8;
+   A.equal(before.doc.columns.length,last,'linked V1→V2 adds four original-value fields');
+   for(let cell=1;cell<=last;cell++){
+    const actual=workbook.worksheets[0].getRow(i+2).getCell(cell).value;
+    const expected=before.doc.rows[i][cell-1];
+    A.equal(actual,expected,'real browser XLSX differs at row '+i+' col '+cell);
+   }
+   if(kind==='linked'){
+    const item=before.out.items[i],row=before.doc.rows[i];
+    A.deepEqual(row.slice(8),[item.priceMin,item.priceMax,item.targetMarginPct,item.actualAfterTaxMargin].map(v=>Number.isFinite(v)?v:null));
+   }
   }
   const taxSheet=workbook.getWorksheet(before.doc.taxTable.sheet);
   A.ok(taxSheet,'numeric Sales Tax sheet exists in downloaded workbook');
