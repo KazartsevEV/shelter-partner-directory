@@ -412,3 +412,48 @@
   margin-top:clamp(68px,23vw,96px);
  }
 }
+
+/* ABOUT-07: relocate the REAL RU/EN/KK caption between services and contacts.
+   A flex band centers its orange-rule text vertically between equal navy
+   padding above and below. Nothing remains reserved for it in the hero/photo. */
+#nomad360-information #nomad360-about .nomad-about-flow{
+ margin-bottom:0;
+}
+#nomad360-information #nomad360-about .nomad-about-caption-band{
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:flex-start;
+ min-height:156px;
+ padding:24px 48px;
+ box-sizing:border-box;
+}
+#nomad360-information #nomad360-about .nomad-about-caption-band .nomad-about-caption{
+ width:min(66%,650px);
+ max-width:none;
+ margin:0;
+}
+@media(min-width:701px) and (max-width:1000px){
+ #nomad360-information #nomad360-about .nomad-about-caption-band{
+  min-height:144px;
+  padding:20px 30px;
+ }
+ #nomad360-information #nomad360-about .nomad-about-caption-band .nomad-about-caption{
+  width:min(82%,650px);
+ }
+}
+@media(max-width:700px){
+ #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  /* Exact photo height minus existing top padding (37px), not a fake
+     spare slot for the former paragraph above the three cards. */
+  min-height:calc(clamp(265px,84vw,330px) - 37px);
+ }
+ #nomad360-information #nomad360-about .nomad-about-caption-band{
+  min-height:0;
+  padding:22px 22px;
+ }
+ #nomad360-information #nomad360-about .nomad-about-caption-band .nomad-about-caption{
+  width:100%;
+  margin:0;
+ }
+}
