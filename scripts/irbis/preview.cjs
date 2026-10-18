@@ -102,6 +102,18 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    A.equal(await banner.locator('.nomad-pay-kaspi').count(),1,'Kaspi retained');
    A.equal(await banner.locator('.nomad-pay-bank').count(),1,'SWIFT/IBAN retained');
    A.ok((await banner.locator('[data-nomad-copy],.nomad-copy').count())>0,'Copy controls retained');
+
+   const paymentRows=await banner.locator('.nomad-irbis-methods > details').evaluateAll(elements=>elements.map(el=>{
+    const summary=el.querySelector(':scope > summary');
+    const rule=getComputedStyle(el),heading=getComputedStyle(summary);
+    return {id:el.id,color:rule.borderTopColor,width:rule.borderTopWidth,
+     display:heading.display,alignItems:heading.alignItems,inset:parseFloat(heading.paddingLeft)};
+   }));
+   A.equal(paymentRows.length,lang==='ru'?4:3,'Payment disclosures match active locale');
+   A.ok(paymentRows.every(x=>x.color==='rgb(56, 103, 139)'&&x.width==='1px'
+    &&x.display==='flex'&&x.alignItems==='center'&&x.inset>=12),
+    'Every nested payment disclosure uses inset centered text and palette separator: '+JSON.stringify(paymentRows));
+
    if(lang==='ru')await banner.screenshot({path:path.join(out,'ru-'+width+'-support-open.png')});
    // No duplicated text or newly invented locale strings: after switching, all
    // disclosure state and payment fields continue to belong to the real header.
