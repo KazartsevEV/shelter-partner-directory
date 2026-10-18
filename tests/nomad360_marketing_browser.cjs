@@ -25,6 +25,7 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
    A.equal(await p.locator('#home-screen h1').count(),1);
   A.equal(await p.locator('#nomad360-intro li').count(),3);
    const currentProcess=await p.locator('#nomad360-intro .nomad-hero-process').count()===1;
+   if(modernHero)A.equal(currentProcess,true,'Live HERO must retain the approved three-step introduction');
    A.equal(await p.locator('#nomad360-intro p').count(),currentProcess?1:2);
    if(currentProcess){
       A.equal(await p.locator('#nomad360-intro .nomad-hero-process-step[role="listitem"]').count(),3,

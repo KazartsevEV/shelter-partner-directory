@@ -37,6 +37,7 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
      A.equal(await p.locator('#home-screen #nomad360-selling-choice').count(),1);
     }else A.deepEqual(await p.locator('#home-screen').evaluate(e=>[...e.children].slice(0,4).map(e=>e.id)),['nomad360-hero','nomad360-seo-banner','nomad360-intro','nomad360-selling-choice']);
    A.equal(await p.locator('#nomad360-intro').count(),1);A.equal(await p.locator('.nomad-intro-cta').count(),1);A.equal(await p.locator('#nomad360-hero h3').evaluate(e=>e.nextElementSibling?.classList.contains('nomad-intro-cta')),true);A.equal(await p.locator('#nomad360-intro a').count(),0);A.equal(await p.locator('.nomad-intro-lead').textContent(),original.t('interface.shell.introLead',lang));const threeSteps=await p.locator('.nomad-hero-process-step[role="listitem"]').count()===3;
+    if(modernHero)A.equal(threeSteps,true,'Live HERO must not revert to the retired single-slogan layout');
     if(threeSteps)A.deepEqual(await p.locator('.nomad-hero-process-step').allTextContents(),
       await p.evaluate(()=>['introStep1','introStep2','introStep3'].map(key=>Nomad360LocaleCore.t('interface.shell.'+key))),
       'Already-approved translated three-step HERO remains byte-for-byte visible');
