@@ -472,3 +472,29 @@
   min-height:clamp(300px,35vw,390px);
  }
 }
+
+/* ABOUT mobile / RU only: the original localized brand sentence is arranged
+   in three intentional rows immediately BELOW the original "О проекте".
+   No image, overlay, global heading, desktop or EN/KK style changes. */
+@media(max-width:700px){
+ html[lang="ru"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:clamp(229px,62vw,258px);
+ }
+ html[lang="ru"] #nomad360-information #nomad360-about
+ .nomad-about-scene-copy .nomad-about-opening{
+  width:100%;
+  max-width:326px;
+  margin-top:0;
+  margin-bottom:0;
+ }
+ html[lang="ru"] #nomad360-information #nomad360-about
+ .nomad-about-brand-ru-rows{
+  font-size:clamp(14px,4vw,16px);
+  line-height:1.4;
+ }
+ html[lang="ru"] #nomad360-information #nomad360-about
+ .nomad-about-brand-row{
+  display:block;
+  white-space:nowrap;
+ }
+}
