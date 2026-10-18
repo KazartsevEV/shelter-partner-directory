@@ -144,10 +144,14 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    if(width<=700){
     assert.ok(layout.scenicCopyBox,
       'Translated mobile brand copy must be in the image section');
-    assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
-      'Brand introduction should occupy former caption position within scene');
-    assert.ok(layout.flowBox.top>=layout.scenicHeight-2,
-      'Mobile services must begin after scenic photo, without caption gap');
+    assert.ok(layout.openingBox.top>=layout.headingBox.bottom+12&&layout.openingBox.top<layout.scenicHeight*.76,
+      'The original brand paragraph must move up below the unchanged heading onto the blue scenery');
+    assert.ok(layout.openingRight<=layout.sectionWidth*.74,
+      'Brand paragraph stays in the existing dark left photo area, clear of the white cliffs');
+    assert.ok(layout.flowBox.top>=layout.openingBox.bottom-1,
+      'Cards must follow all translated brand text in natural mobile flow');
+    assert.ok(layout.flowBox.top-layout.openingBox.bottom<=38,
+      'The old reserved solid-navy blank band must be removed');
     assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+45,
       'Mobile scenic area must not reserve the old automation paragraph space');
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
