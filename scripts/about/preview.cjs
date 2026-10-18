@@ -6,8 +6,8 @@ const {execFileSync}=require('node:child_process');
 const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/about-01');
 fs.mkdirSync(out,{recursive:true});
-const image='docs/approved-design/unified-banners/about-moon-scenery.webp';
-const expectedGitBlob='7f87f43c7b3da84f87665273e38df7b404b39e07';
+const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
+const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
 const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
@@ -40,7 +40,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const linked=cards.map(a=>({hash:a.getAttribute('href'),label:a.querySelector('.nomad-about-card-motto')?.textContent,
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
-    const img=new Image();img.src='./docs/approved-design/unified-banners/about-moon-scenery.webp';
+    const img=new Image();img.src='./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
     return {sceneSource:scenic.backgroundImage,sceneSize:scenic.backgroundSize,
@@ -53,10 +53,14 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       openingRight:section.querySelector('.nomad-about-opening').getBoundingClientRect().right-rect.left,
       aboutLeft:sr.left};
    });
-   assert.match(layout.sceneSource,/docs\/approved-design\/unified-banners\/about-moon-scenery\.webp/);
+   assert.match(layout.sceneSource,/assets\\/nomad360-banners\\/about-bozzhyra-approved\\.webp/);
    assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
-   assert.equal(layout.originalWidth,563);assert.equal(layout.originalHeight,475);
-   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-563/475)<0.025,'Scene must retain source aspect ratio');
+   assert.equal(layout.originalWidth,1672);assert.equal(layout.originalHeight,941);
+   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Scene must retain source aspect ratio');
+   if(width>=701)assert.ok(Math.abs(layout.scenicWidth-layout.sectionWidth)<=2,
+     'Full-width desktop photo must span the complete banner');
+   if(width<=700)assert.ok(layout.scenicWidth>layout.sectionWidth+80,
+     'On mobile, crop away the left portion, never stretch or isolate the photo');
    assert.equal(layout.background,'rgb(23, 59, 88)','Brand navy');
    assert.equal(layout.cardCount,3,'All three links preserved');
    assert.deepEqual(layout.links.map(c=>c.hash),['#nomad360-selling-choice','#nomad360-ai','#nomad360-factory']);
