@@ -512,3 +512,11 @@
   white-space:nowrap;
  }
 }
+
+/* ABOUT desktop artwork: approved night panorama; preserve existing
+ * size, positioning, masks, overlay, markup and all mobile artwork. */
+@media(min-width:1001px){
+ #nomad360-information.nomad-information::before{
+  background-image:url("./assets/nomad360-banners/about-moonlight-desktop-approved.webp");
+ }
+}

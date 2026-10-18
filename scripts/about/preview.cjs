@@ -8,8 +8,12 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/about-0
 fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
+const desktopImage='assets/nomad360-banners/about-moonlight-desktop-approved.webp';
+const expectedDesktopBlob='568ca9fe55da06e9c2d1935a1a71f0758879e31c';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
+assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),expectedDesktopBlob,
+ 'Owner-approved replacement desktop moon scene must remain byte-for-byte unchanged');
 const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
 (async()=>{
  const server=http.createServer((req,res)=>{
@@ -79,14 +83,16 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
      assert.ok(rows.every(x=>x.scroll<=x.client+2),'No Russian line may clip on a phone');
     }
    }else assert.equal(await ruRows.count(),0,'EN/KK copy must retain original text rendering');
-   const layout=await page.evaluate(async()=>{
+   const layout=await page.evaluate(async viewportWidth=>{
     const section=document.querySelector('#nomad360-information');
     const scenic=getComputedStyle(section,'::before'),rect=section.getBoundingClientRect();
     const cards=[...section.querySelectorAll('.nomad-about-card')];
     const linked=cards.map(a=>({hash:a.getAttribute('href'),label:a.querySelector('.nomad-about-card-motto')?.textContent,
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
-    const img=new Image();img.src='./assets/nomad360-banners/about-bozzhyra-approved.webp';
+    const img=new Image();img.src=viewportWidth>=1001
+     ?'./assets/nomad360-banners/about-moonlight-desktop-approved.webp'
+     :'./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
     const box=el=>{const r=el.getBoundingClientRect();return {top:r.top-rect.top,bottom:r.bottom-rect.top,height:r.height,width:r.width};};
@@ -116,8 +122,11 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       captionBandBox:captionBand?box(captionBand):null,
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
-   });
-   assert.ok(layout.sceneSource.includes('assets/nomad360-banners/about-bozzhyra-approved.webp'),'Approved full-width image must be used');
+   },width);
+   assert.ok(layout.sceneSource.includes(width>=1001
+     ?'assets/nomad360-banners/about-moonlight-desktop-approved.webp'
+     :'assets/nomad360-banners/about-bozzhyra-approved.webp'),
+    'Approved image selected only on desktop, with original image preserved on mobile/tablet');
    assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
    assert.equal(layout.originalWidth,1672);assert.equal(layout.originalHeight,941);
    assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Scene must retain source aspect ratio');
