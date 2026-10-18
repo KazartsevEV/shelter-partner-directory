@@ -48,7 +48,7 @@ function packageFile(file,language){
  if(!page.includes('</body>'))throw Error('HTML body close missing');
  page=page.replace('</body>',seedFor(language)+'\n</body>');
  const unresolvedLocalLinks=/<(?:script|link)\b[^>]*?(?:src|href)=["']\.\/[^"']+["']/.test(page);
- if(unresolvedLocalLinks.length)throw Error('Standalone still has unresolved linked scripts or styles: '+unresolvedLocalLinks.join(','));
+ if(unresolvedLocalLinks)throw Error('Standalone still has unresolved linked scripts or styles');
  if(!includedJs.includes('portfolio_v2_us_demo_ui.js')||!includedJs.includes('nomad360_us_retail_demo.js'))throw Error('Real V2 study scripts missing');
  const out=path.resolve(root,'artifacts/us-retail-demo',file);
  fs.mkdirSync(path.dirname(out),{recursive:true});
