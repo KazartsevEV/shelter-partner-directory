@@ -7,7 +7,7 @@ const core=boot(source),baseline=boot(execFileSync('git',['show',SHA+':nomad360_
 test('every established alias keeps its exact RU/EN/KK meaning after semantic migration',()=>{
  const keys=core.keys();A.ok(keys.length>=1295);A.equal(new Set(keys).size,keys.length);
  const aliases=core.aliases().filter(alias=>baseline.hasTranslation(alias));
- A.equal(aliases.length,1291,'one intentionally retired marketing heading; other historical aliases remain');
+ A.equal(aliases.length,1289,'two extra V2 explanatory sentences intentionally retired; all other historical aliases remain');
  A.deepEqual(['ru','en','kk'].map(lang=>core.t('ui.value1SharedMarketingEngine',lang)),
   ['1. Реклама и маркетинг','1. Advertising and marketing','1. Жарнама және маркетинг']);
  const approved=new Set(['Чистая прибыль · базовый месяц','Чистая выручка (после эквайринга)','Чистая выручка','ROAS (возврат рекламы)','CAC (цена клиента полная)','CPA / CAC','Рекламный / Полный']);
