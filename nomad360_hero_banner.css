@@ -658,3 +658,73 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   white-space:nowrap;
  }
 }
+
+/* HERO-11: only the closing slogan becomes three real localized DOM steps.
+   Arrows are CSS-only, orange from the existing Nomad360 palette. */
+#home-screen #nomad360-commercial-banner #nomad360-intro .nomad-hero-process{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:0;
+ align-items:center;
+ box-sizing:border-box;
+ font:650 clamp(13px,1.25vw,18px)/1.32 var(--nd-font)!important;
+ color:var(--hero-white,#FFFFFF);
+}
+#home-screen #nomad360-commercial-banner #nomad360-intro .nomad-hero-process-step{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ position:relative;
+ text-align:center;
+ min-width:0;
+ min-height:46px;
+ box-sizing:border-box;
+ padding:4px 20px 4px 6px;
+ overflow-wrap:normal;
+ hyphens:auto;
+}
+#home-screen #nomad360-commercial-banner #nomad360-intro .nomad-hero-process-step:last-child{
+ padding-right:0;
+}
+#home-screen #nomad360-commercial-banner #nomad360-intro .nomad-hero-process-step:not(:last-child)::after{
+ content:"";
+ position:absolute;
+ right:3px;top:50%;
+ width:10px;height:10px;
+ box-sizing:border-box;
+ border-top:3px solid var(--hero-orange,#FF913F);
+ border-right:3px solid var(--hero-orange,#FF913F);
+ transform:translateY(-50%) rotate(45deg);
+ pointer-events:none;
+}
+@media(max-width:1000px){
+ #home-screen #nomad360-commercial-banner #nomad360-intro .nomad-hero-process{
+  grid-template-columns:minmax(0,1fr);
+  font-size:clamp(14px,3.7vw,17px)!important;
+  border:0;
+  margin-top:14px;
+  padding-top:0;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-intro .nomad-hero-process-step{
+  min-height:37px;
+  padding:4px 3px;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-intro .nomad-hero-process-step:not(:last-child){
+  margin-bottom:14px;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-intro .nomad-hero-process-step:not(:last-child)::after{
+  right:auto;left:50%;top:calc(100% + 2px);
+  width:9px;height:9px;
+  transform:translateX(-50%) rotate(135deg);
+ }
+}
+
+/* HERO-11b: the global palette's universal !important border rule overrides
+   ordinary arrow borders. Apply the exact existing orange in that same layer. */
+@layer nomad360-palette{
+ body:has(#home-screen) #nomad360-commercial-banner #nomad360-intro
+ .nomad-hero-process-step:not(:last-child)::after{
+  border-top-color:var(--p10-orange,#FF913F)!important;
+  border-right-color:var(--p10-orange,#FF913F)!important;
+ }
+}

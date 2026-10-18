@@ -30,7 +30,28 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    await p.waitForTimeout(100);
    A.equal(await p.locator('#nomad360-commercial-banner').count(),1);
    A.equal(await p.locator('#nomad360-seo-banner .nomad-seo-copy').count(),0,'No duplicated SEO promotion');
-   A.equal(await p.locator('#nomad360-intro li').count(),3);
+   A.equal(await p.locator('#nomad360-intro > ul > li').count(),3);
+   // Read the real localization registry, not a hardcoded expectation.
+   await p.evaluate(next=>Nomad360UI.setLanguage(next),lang);
+   A.equal(await p.locator('#nomad360-intro .nomad-hero-process-step').count(),3);
+   const texts=await p.locator('#nomad360-intro .nomad-hero-process-step').allTextContents();
+   A.deepEqual(texts,await p.evaluate(next=>[1,2,3].map(n=>
+     Nomad360LocaleCore.t('interface.shell.introStep'+n,next)),lang),
+     'RU/EN/KK three-step translation must match visible DOM');
+   const process=await p.evaluate(()=>{
+     const els=[...document.querySelectorAll('#nomad360-intro .nomad-hero-process-step')];
+     const arrows=els.slice(0,2).map(el=>getComputedStyle(el,'::after').borderTopColor);
+     const boxes=els.map(el=>{const r=el.getBoundingClientRect();
+       return {x:r.left,y:r.top,overflow:el.scrollWidth-el.clientWidth}});
+     return {arrows,boxes};
+   });
+   A.deepEqual(process.arrows,['rgb(255, 145, 63)','rgb(255, 145, 63)'],
+     'Both arrows must inherit standard Nomad360 orange CSS');
+   A.ok(process.boxes.every(box=>box.overflow<=2),'No step text clips horizontally');
+   if(width<=1000)A.ok(process.boxes[0].y<process.boxes[1].y&&process.boxes[1].y<process.boxes[2].y,
+     'Stages stack vertically on phone and tablet');
+   else A.ok(process.boxes[0].x<process.boxes[1].x&&process.boxes[1].x<process.boxes[2].x,
+     'Stages progress horizontally on desktop');
    A.equal(await p.locator('#nomad360-hero .nomad-intro-cta').count(),1);
    A.equal(await p.locator('#nomad360-hero .nomad-intro-cta').getAttribute('href'),'#nomad360-selling-choice');
    A.equal(await p.locator('#nomad360-hero h2').textContent(),await p.evaluate(()=>Nomad360LocaleCore.t('interface.shell.sub',Nomad360UI.getLanguage())));
@@ -115,6 +136,9 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     A.equal(await p.locator('#nomad360-hero h2').textContent(),await p.evaluate(()=>Nomad360LocaleCore.t('interface.shell.sub',Nomad360UI.getLanguage())));
     A.equal(await p.locator('#nomad360-seo-banner .nomad-seo-logo').count(),1,'Logo preserved across language changes');
     A.equal(await p.locator('#nomad360-hero .nomad-intro-cta').count(),1);
+    A.deepEqual(await p.locator('#nomad360-intro .nomad-hero-process-step').allTextContents(),
+      await p.evaluate(next=>[1,2,3].map(n=>Nomad360LocaleCore.t('interface.shell.introStep'+n,next)),next),
+      'Language switching must update all three steps');
    }
    cases.push({lang,width,geometry,errors:errors.slice(0,5)});
    await context.close();

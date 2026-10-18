@@ -7,7 +7,9 @@ const L=(root.Nomad360LocaleCore?.locales("interface.shell") || {
     "introFree": "Бесплатно: без регистрации и подписок.",
     "introPractical": "Практично: интерактивные сценарии, множество позиций и валют.",
     "introPrivate": "Приватно: все расчёты делаются в вашем браузере.",
-    "introResult": "Наш калькулятор. Ваш результат.",
+    "introStep1": "Выберите сценарий",
+    "introStep2": "Заполните форму",
+    "introStep3": "Скачайте бизнес-план",
     "introAction": "↓ Перейти к расчёту бизнес-идеи",
     "brand": "NOMAD360",
     "eyebrow": "БИЗНЕС-КАЛЬКУЛЯТОР",
@@ -82,7 +84,9 @@ const L=(root.Nomad360LocaleCore?.locales("interface.shell") || {
     "introFree": "Free: no registration or subscriptions.",
     "introPractical": "Practical: interactive scenarios, multiple items and currencies.",
     "introPrivate": "Private: all calculations run in your browser.",
-    "introResult": "Our calculator. Your result.",
+    "introStep1": "Choose a scenario",
+    "introStep2": "Complete the form",
+    "introStep3": "Download your business plan",
     "introAction": "↓ Calculate your business idea",
     "brand": "NOMAD360",
     "eyebrow": "BUSINESS CALCULATOR",
@@ -157,7 +161,9 @@ const L=(root.Nomad360LocaleCore?.locales("interface.shell") || {
     "introFree": "Тегін: тіркелу мен жазылым қажет емес.",
     "introPractical": "Практикалық: интерактивті сценарийлер, көптеген позициялар мен валюталар.",
     "introPrivate": "Құпия: барлық есептеулер браузеріңізде орындалады.",
-    "introResult": "Біздің калькулятор. Сіздің нәтижеңіз.",
+    "introStep1": "Сценарийді таңдаңыз",
+    "introStep2": "Нысанды толтырыңыз",
+    "introStep3": "Бизнес-жоспарды жүктеп алыңыз",
     "introAction": "↓ Бизнес-идеяны есептеуге өту",
     "brand": "NOMAD360",
     "eyebrow": "БИЗНЕС-КАЛЬКУЛЯТОР",
@@ -265,7 +271,9 @@ function buildShell(){
   const intro=document.getElementById('nomad360-intro')||document.createElement('section');
   intro.id='nomad360-intro';intro.className='nomad-marketing nomad-intro';intro.setAttribute('data-nomad-no-translate','');
   intro.innerHTML='<p class="nomad-intro-lead">'+esc(tr('introLead'))+'</p><ul>'+['introFree','introPractical','introPrivate'].map(k=>'<li>'+esc(tr(k))+'</li>').join('')+'</ul>'+
-   '<p class="nomad-intro-result">'+esc(tr('introResult'))+'</p><a class="nomad-intro-cta" href="#nomad360-selling-choice">'+esc(tr('introAction'))+'</a>';
+   '<div class="nomad-intro-result nomad-hero-process" role="list">'+
+   ['introStep1','introStep2','introStep3'].map(key=>'<span class="nomad-hero-process-step" role="listitem">'+esc(tr(key))+'</span>').join('')+
+   '</div><a class="nomad-intro-cta" href="#nomad360-selling-choice">'+esc(tr('introAction'))+'</a>';
   heroNode.querySelector('h3').after(intro.querySelector('.nomad-intro-cta'));
   (document.getElementById('nomad360-seo-banner')||heroNode).after(intro);
  }
