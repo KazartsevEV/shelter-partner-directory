@@ -547,6 +547,9 @@ def main():
         'docs/reviews/irbis-07/REVIEW.md',
         # IRBIS-08 remains a scoped presentation-only footer change.
         'docs/reviews/irbis-08/REVIEW.md',
+        # ABOUT desktop scenery: one artwork, the desktop-only URL and visual receipt.
+        'assets/nomad360-banners/about-bozzhyra-night-desktop.webp',
+        'nomad360_about_banner.css', 'scripts/about/preview.cjs',
         'tests/nomad360_price_export.test.cjs',
          'tests/nomad360_price_export_openxml.py',
         '.github/workflows/task10-palette.yml') for p in changed), changed
