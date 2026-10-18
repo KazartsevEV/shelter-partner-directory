@@ -460,3 +460,21 @@
   #nomad360-license,#nomad360-data
  ) > summary::after{transition:none}
 }
+
+
+/* TASK-10 uses an important cascade layer for legacy footer cards. Retain
+ * exact palette #38678B for the user's disclosure dividers inside that layer. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner :is(
+  #nomad360-support > details,
+  #nomad360-product-details,
+  #nomad360-license,
+  #nomad360-data
+ ){border-top-color:#38678B!important}
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-methods > details{
+  border-top-color:#38678B!important;border-bottom-color:#38678B!important
+ }
+ body:has(#home-screen) #nomad360-irbis-banner #nomad360-official{
+  border-top-color:#38678B!important;border-bottom-color:#38678B!important
+ }
+}
