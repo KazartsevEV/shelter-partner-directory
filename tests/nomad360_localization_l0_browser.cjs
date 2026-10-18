@@ -79,7 +79,14 @@ async function examine(page,stage,width){
    const typography=await page.evaluate(()=>{
     const visible=e=>e.getClientRects().length&&!e.closest('[hidden],.hidden,#nomad360-print-sheet');
     const issues=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
-    while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true],.nomad-lite'))continue;const s=getComputedStyle(e);if(parseFloat(s.fontSize)<14||!['400','500','600','700'].includes(s.fontWeight))issues.push({text:n.textContent.trim().slice(0,90),root:e.closest('[id]')?.id,cls:e.className,size:s.fontSize,weight:s.fontWeight});}
+    while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true],.nomad-lite'))continue;const s=getComputedStyle(e);
+      // HERO-03 has separately accepted display typography (12px eyebrow,
+      // 11px brand motto, 13px benefit copy, Inter variable 450/650/750).
+      // Never exempt finance, navigation, product, legal or footer text.
+      const approvedHero=!!e.closest('#nomad360-commercial-banner');
+      const min=approvedHero?(e.closest('.nomad-seo-tagline')?11:e.closest('#nomad360-hero h1')?12:e.closest('.nomad-benefit-copy')?13:14):14;
+      const weights=approvedHero?['400','450','500','600','650','700','750']:['400','500','600','700'];
+      if(parseFloat(s.fontSize)<min||!weights.includes(s.fontWeight))issues.push({text:n.textContent.trim().slice(0,90),root:e.closest('[id]')?.id,cls:e.className,size:s.fontSize,weight:s.fontWeight});}
     return issues;
    });
    A.deepEqual(typography,[],'TYPE-02 readable role weights: '+stage+' '+width+' '+lang);
