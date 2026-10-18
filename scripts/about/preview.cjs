@@ -160,7 +160,10 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    if(width<=700){
     assert.ok(layout.scenicCopyBox,
       'Translated mobile brand copy must be in the image section');
+    const ruleDisplay=await page.locator('#nomad360-about .nomad-about-scene-copy > h2')
+      .evaluate(el=>getComputedStyle(el,'::before').display);
     if(lang==='ru'){
+     assert.equal(ruleDisplay,'none','RU mobile heading orange rule is removed');
      assert.ok(layout.openingBox.top>=layout.headingBox.bottom
         &&layout.openingBox.top<layout.scenicHeight*.56,
        'RU intro must begin directly beneath unchanged project heading in navy sky');
