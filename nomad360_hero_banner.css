@@ -505,3 +505,28 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   right:-45px;top:-4px;
  }
 }
+
+/* HERO-05: fit the APPROVED phone composition, not a separate landscape strip.
+   At 390 CSS px, the approved 864px mock scales to: heading y≈110,
+   sun centre y≈140, CTA y≈275 and benefit panel y≈335.
+   Space for the live site header is kept above the shared scenic/text canvas. */
+@media(max-width:700px){
+ #home-screen #nomad360-commercial-banner::before{
+  top:clamp(49px,15.4vw,64px);
+  right:-45px;
+ }
+ #home-screen #nomad360-commercial-banner::after{
+  height:clamp(310px,91vw,365px);
+  background:linear-gradient(90deg,rgba(23,59,88,.91),rgba(23,59,88,.61) 36%,rgba(23,59,88,.04) 95%);
+ }
+ body #home-screen #nomad360-commercial-banner #nomad360-hero{
+  padding-top:clamp(70px,21.8vw,103px);
+  margin-bottom:10px;
+ }
+ #home-screen #nomad360-commercial-banner .nomad-intro-lead{
+  margin-bottom:13px;
+ }
+ #home-screen #nomad360-commercial-banner #nomad360-intro li:nth-child(-n+2){
+  padding-bottom:14px;
+ }
+}
