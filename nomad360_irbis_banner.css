@@ -495,3 +495,12 @@
   color:#FFFFFF!important;
  }
 }
+
+/* IRBIS-08 contrast: palette's global pseudo-element reset must not mute
+   the intended orange chevrons for nested payment disclosures. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-methods > details > summary::after {
+  border-right-color:#FF913F!important;
+  border-bottom-color:#FF913F!important;
+ }
+}
