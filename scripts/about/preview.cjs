@@ -102,8 +102,10 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     assert.ok(layout.cardMinHeights.every(height=>height<=185),
       'Desktop service cards must have compact responsive minimum heights');
     assert.ok(!layout.cardsClip,'No localized desktop card text may be clipped');
-    assert.ok(layout.contactBox.top-layout.flowBox.bottom<=30,
-      'Desktop contacts directly follow the service grid');
+    assert.ok(layout.captionBandBox.top-layout.flowBox.bottom<=12,
+      'Desktop caption band must immediately follow the compact service grid');
+    assert.ok(layout.contactBox.top-layout.captionBandBox.bottom<=3,
+      'Desktop contacts immediately follow the vertically centered caption band');
     assert.ok(layout.leftVeil.includes('67%'),
       'Left scrim must fade completely by two-thirds of panorama');
    }
