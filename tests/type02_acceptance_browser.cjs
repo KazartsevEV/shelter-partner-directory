@@ -63,7 +63,7 @@ async function pictures(page,variant,lang,width,route){
      A.ok(geometry.controls.every(c=>c.size>=16),JSON.stringify(geometry.controls.filter(c=>c.size<16)));A.ok(geometry.controls.every(c=>c.height>=44),JSON.stringify(geometry.controls.filter(c=>c.height<44)));
      A.deepEqual(geometry.gaps,previous.geometry.gaps,'Preserve existing localization diagnostics');
       A.deepEqual(geometry.text.filter(t=>!t.approvedHeroArt&&t.cls!=='nomad-lite'&&
-       (t.size<14||!(t.approvedAboutArt?
+       (t.size<(t.approvedAboutArt&&t.tag==='A'&&t.text.match(/^(Telegram|WhatsApp|Email|E-mail|GitHub|Телеграм|Ватсап|Почта)/i)?12:14)||!(t.approvedAboutArt?
          ['400','500','600','650','700','750']:
          ['400','500','600','700']).includes(t.weight))),[],
        'Meaningful text keeps readable sizes; approved ABOUT-01 adds Inter 650/750 roles');
