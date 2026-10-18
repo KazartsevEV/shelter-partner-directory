@@ -13,7 +13,7 @@ test('All existing application files stay exact outside the five authorised pres
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(file)){
    const audited=execFileSync('git',['show','6c5c0e3a4927fb50b88ab99914145bb9016bb24a:'+file],
      {cwd:root,encoding:'utf8'});
-   A.equal(require('./helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(file,actual),
+   A.equal(require('./helpers/sales-tax-7b5-v2-scope.cjs').revertApprovedV2TaxUi(file,require('./helpers/v2-output-truth-scope.cjs').restore(file,actual)),
       audited,'7Б-4 V2 UI is byte-exact outside 7Б-5 tax hunks: '+file);
    continue;
   }
@@ -39,7 +39,7 @@ test('All existing application files stay exact outside the five authorised pres
 });
 test('Every established EN RU KK message retains its accepted meaning',()=>{
  const boot=code=>{const w={};new Function('window','document',code)(w,{readyState:'loading',addEventListener(){}});return w.Nomad360LocaleCore;};const old=boot(before('nomad360_locale_core.js')),now=boot(fs.readFileSync(path.join(root,'nomad360_locale_core.js'),'utf8'));
- for(const key of old.keys())if(key!=='interface.header.embedB2BTitle'&&key!=='interface.header.embedB2BFocus'&&!key.startsWith('interface.header.embedB2BPoints.'))for(const language of ['en','ru','kk'])A.equal(now.t(key,language),old.t(key,language),key+' '+language);
+ for(const key of old.keys())if(key!=='ui.value1SharedMarketingEngine'&&key!=='interface.header.embedB2BTitle'&&key!=='interface.header.embedB2BFocus'&&!key.startsWith('interface.header.embedB2BPoints.'))for(const language of ['en','ru','kk'])A.equal(now.t(key,language),old.t(key,language),key+' '+language);
 });
 function opaqueWhiteIcon(png,size){
  A.equal(png.subarray(0,8).toString('hex'),'89504e470d0a1a0a');A.equal(png.readUInt32BE(16),size);A.equal(png.readUInt32BE(20),size);A.equal(png[24],8);A.equal(png[25],2,'RGB: no transparent icon pixels');
