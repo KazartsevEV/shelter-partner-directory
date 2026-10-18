@@ -574,3 +574,45 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   top:clamp(35px,10vw,48px);
  }
 }
+
+/* HERO-07: TASK-10 uses an !important named CSS layer for the old white
+   header. Override ONLY the active home/mobile header in that same layer.
+   The ordinary hero styles above cannot win over those layered declarations. */
+@layer nomad360-palette{
+ @media(max-width:700px){
+  body:has(#home-screen:not(.hidden)) #nomad360-header.nomad-header,
+  body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-bar{
+   background-color:var(--p10-navy,#173B58)!important;
+   --p10-fg:var(--p10-white,#FFFFFF)!important;
+   --p10-line:var(--p10-blue,#38678B)!important;
+   --p10-accent:var(--p10-orange,#FF913F)!important;
+   color:var(--p10-white,#FFFFFF)!important;
+  }
+  body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-brand,
+  body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-wordmark{
+   color:var(--p10-white,#FFFFFF)!important;
+  }
+  body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-wordmark span,
+  body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-wordmark .nomad-lite{
+   color:var(--p10-orange,#FF913F)!important;
+  }
+  body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-lang select{
+   background-color:transparent!important;
+   color:var(--p10-white,#FFFFFF)!important;
+   border-color:transparent!important;
+  }
+  body:has(#home-screen:not(.hidden)) #nomad360-header .nomad-burger{
+   background-color:transparent!important;
+   color:var(--nomad-burger-contrast,var(--p10-white,#FFFFFF))!important;
+  }
+ }
+}
+@media(max-width:700px){
+ #home-screen #nomad360-commercial-banner::after{
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.92) 0%,
+   rgba(23,59,88,.78) 56%,
+   rgba(23,59,88,.52) 80%,
+   rgba(23,59,88,0) 100%);
+ }
+}
