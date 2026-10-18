@@ -50,6 +50,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const flow=section.querySelector('.nomad-about-flow');
     const contactBlock=section.querySelector('#nomad360-contacts');
     const cardBoxes=cards.map(box);
+    const cardMinHeights=cards.map(el=>parseFloat(getComputedStyle(el).minHeight));
+    const cardsClip=cards.some(el=>el.scrollHeight>el.clientHeight+2);
     return {sceneSource:scenic.backgroundImage,sceneSize:scenic.backgroundSize,
       scenePosition:scenic.backgroundPosition,scenicWidth:parseFloat(scenic.width),
       scenicHeight:parseFloat(scenic.height),originalWidth:img.naturalWidth,originalHeight:img.naturalHeight,
@@ -61,7 +63,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       aboutLeft:sr.left,
       scenicCopyBox:scenicCopy?box(scenicCopy):null,
       openingBox:box(opening),captionBox:box(caption),
-      flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,
+      flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    });
    assert.ok(layout.sceneSource.includes('assets/nomad360-banners/about-bozzhyra-approved.webp'),'Approved full-width image must be used');
@@ -82,8 +84,9 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    assert.equal(errors.length,0,'No JavaScript page errors');
    if(width>=1021)assert.ok(layout.openingRight<layout.sectionWidth*.56,'Text stays left of moon');
    if(width>=1001){
-    assert.ok(layout.cardBoxes.every(card=>card.height<=235),
-      'Desktop service cards must be compact, not old 242px minimum');
+    assert.ok(layout.cardMinHeights.every(height=>height<=185),
+      'Desktop service cards must have compact responsive minimum heights');
+    assert.ok(!layout.cardsClip,'No localized desktop card text may be clipped');
     assert.ok(layout.contactBox.top-layout.flowBox.bottom<=30,
       'Desktop contacts directly follow the service grid');
     assert.ok(layout.leftVeil.includes('67%'),
