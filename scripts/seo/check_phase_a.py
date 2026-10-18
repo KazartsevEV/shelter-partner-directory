@@ -537,6 +537,7 @@ def main():
         # exact test contracts and visual receipts, no financial engine changes.
         'nomad360_irbis_banner.css', 'nomad360_irbis_banner.js',
         'assets/nomad360-banners/support-wide.webp',
+        'assets/nomad360-banners/support-wide-extended.webp',
         'assets/nomad360-banners/support-mobile.webp',
         'scripts/irbis/preview.cjs', '.github/workflows/irbis-07-visual.yml',
         'tests/return_7a_browser.cjs', 'tests/simple_service_examples_browser.cjs',
