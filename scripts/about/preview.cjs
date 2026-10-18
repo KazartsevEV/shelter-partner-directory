@@ -33,6 +33,36 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    await page.addStyleTag({path:path.join(out,'utilities.css')});
    await page.evaluate(()=>document.fonts.ready);
    await page.waitForSelector('#nomad360-information #nomad360-about');
+   // Test the actual requested language explicitly; navigator.locale alone is
+   // insufficient to prove all three translations were rendered.
+   await page.evaluate(next=>window.Nomad360UI.setLanguage(next),lang);
+   await page.waitForFunction(next=>window.Nomad360UI.getLanguage()===next&&
+     document.documentElement.lang===next,lang);
+   const translation=await page.evaluate(next=>{
+    const words=window.Nomad360LocaleCore.locales('interface.header')[next];
+    const info=document.querySelector('#nomad360-information');
+    const displayed=sel=>info.querySelector(sel)?.textContent||'';
+    const cards=[...info.querySelectorAll('.nomad-about-card')];
+    const normalized=s=>String(s).replace(/\\s+/g,' ').trim();
+    return {
+     language:window.Nomad360UI.getLanguage(),
+     title:normalized(displayed('#nomad360-about .nomad-about-scene-copy > h2'))===normalized(words.about),
+     brand:normalized(displayed('.nomad-about-brand'))===normalized(words.aboutBrand),
+     caption:normalized(displayed('.nomad-about-caption'))===
+       normalized(words.flowBefore+words.flowEmphasis+words.flowAfter),
+     contact:normalized(displayed('#nomad360-contacts h2'))===normalized(words.contact),
+     contactTopics:normalized(displayed('.nomad-topics'))===normalized(words.contactTopics),
+     titles:cards.every((card,i)=>normalized(card.querySelector('h3')?.textContent)===normalized(words.flow[i].title)),
+     questions:cards.every((card,i)=>normalized(card.querySelector('p')?.textContent)===normalized(words.flow[i].question)),
+     mottos:cards.every((card,i)=>normalized(card.querySelector('.nomad-about-card-motto')?.textContent)===
+       normalized(words.aboutMotto[[2,0,1][i]])),
+     captionCount:info.querySelectorAll('.nomad-about-caption').length
+    };
+   },lang);
+   assert.equal(translation.language,lang,'Real selected locale must match requested RU/EN/KK');
+   for(const key of ['title','brand','caption','contact','contactTopics','titles','questions','mottos'])
+    assert.ok(translation[key],lang+': real visible '+key+' must match source dictionary');
+   assert.equal(translation.captionCount,1,'Exactly one translated automation caption');
    const layout=await page.evaluate(async()=>{
     const section=document.querySelector('#nomad360-information');
     const scenic=getComputedStyle(section,'::before'),rect=section.getBoundingClientRect();
