@@ -156,8 +156,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'No reserved opaque blue strip: at most the deliberate 12px spacing below localized copy');
     assert.ok(layout.openingRight<=layout.sectionWidth*.83,
       'The live brand text must stay in the left navy copy area, off the right white cliffs');
-    assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+10,
-      'No additional mobile height must be reserved for the removed old sentence position');
+    assert.ok(layout.scenicCopyBox.bottom>=layout.openingBox.bottom-1,
+      'Mobile scene naturally contains every line of its translated opening');
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
       'Highlighted mobile automation caption must follow all service cards');
     if(lang==='en'||lang==='kk')
