@@ -17,7 +17,13 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
   const about=p.locator('#nomad360-about'),flow=original.section('interface.header',lang).flow;
   A.deepEqual(await about.locator('.nomad-about-flow h3').allTextContents(),flow.map(s=>s.title));A.deepEqual(await about.locator('.nomad-about-flow p').allTextContents(),flow.map(s=>s.question));
   const icons=about.locator('.nomad-about-icon');A.equal(await icons.count(),3);A.equal(new Set(await icons.evaluateAll(es=>es.map(e=>e.innerHTML))).size,3);
-  A.ok(await icons.evaluateAll(es=>es.every(e=>e.getAttribute('aria-hidden')==='true'&&e.getBoundingClientRect().width===88&&e.parentElement.tagName==='LI')));
+  const approvedAbout=await p.locator('script[src$="nomad360_about_banner.js"]').count()===1;
+  A.ok(await icons.evaluateAll((es,modern)=>es.every(e=>e.getAttribute('aria-hidden')==='true'&&
+    (modern?(e.getAttribute('width')==='88'&&e.getBoundingClientRect().width>=60&&
+      e.getBoundingClientRect().width<=100&&e.parentElement.matches('a.nomad-about-card')&&
+      e.parentElement.parentElement.tagName==='LI'):
+      (e.getBoundingClientRect().width===88&&e.parentElement.tagName==='LI'))),approvedAbout),
+    'Original icons remain accessible and within approved ABOUT-01 linked cards');
   if(stage!=='icons'){
    const toggle=p.locator('[data-nomad-embed-toggle]');await toggle.evaluate(e=>e.blur());const colors=await toggle.evaluate(e=>[getComputedStyle(e).backgroundColor,getComputedStyle(e).color]);A.deepEqual(colors,['rgb(255, 145, 63)','rgb(23, 59, 88)']);
    A.equal(await toggle.textContent(),original.t('interface.header.embedToggle',lang));A.equal(await toggle.getAttribute('aria-expanded'),'false');await toggle.click();A.equal(await toggle.getAttribute('aria-expanded'),'true');A.equal(await p.locator('#nomad360-embed-comparison').isVisible(),true);
