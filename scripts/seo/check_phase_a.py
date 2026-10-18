@@ -329,6 +329,8 @@ def main():
         'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
         'tests/nomad360_calculator_ui_browser.test.cjs',
+        # FX live browser test: only retries real validated provider requests; financial source stays frozen.
+        'tests/currency_converter_browser.test.cjs',
         'tests/nomad360_price_export_browser.test.cjs',
         'tests/marketing_calc_first_user_journey.test.cjs',
         'tests/fixtures/seo-keyword-banner.html', 'tests/fixtures/seo-original-results.html',
