@@ -151,74 +151,86 @@
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
-      "text": "introResult",
+      "text": "introStep1",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:531:js-string",
+      "id": "nomad360_calculator_ui.js:530:js-string",
       "file": "nomad360_calculator_ui.js",
       "line": 10,
-      "offset": 531,
+      "offset": 530,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
-      "text": "Наш калькулятор. Ваш результат.",
-      "catalog": "nomad360_calculator_ui.js:L:175:introResult",
+      "text": "Выберите сценарий",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep1",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:570:js-string",
+      "id": "nomad360_calculator_ui.js:555:js-string",
       "file": "nomad360_calculator_ui.js",
       "line": 11,
-      "offset": 570,
+      "offset": 555,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "introStep2",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:569:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 11,
+      "offset": 569,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Заполните форму",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep2",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:592:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 12,
+      "offset": 592,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "introStep3",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:606:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 12,
+      "offset": 606,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Скачайте бизнес-план",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep3",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:634:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 13,
+      "offset": 634,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
       "text": "introAction",
       "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:585:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 11,
-      "offset": 585,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "↓ Перейти к расчёту бизнес-идеи",
-      "catalog": "nomad360_calculator_ui.js:L:175:introAction",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:624:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 12,
-      "offset": 624,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "brand",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:633:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 12,
-      "offset": 633,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "NOMAD360",
-      "catalog": "nomad360_calculator_ui.js:L:175:brand",
-      "language": "ru",
-      "coverage": "catalog-entry"
     },
     {
       "id": "nomad360_calculator_ui.js:649:js-string",
@@ -229,48 +241,48 @@
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
+      "text": "↓ Перейти к расчёту бизнес-идеи",
+      "catalog": "nomad360_calculator_ui.js:L:175:introAction",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:688:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 14,
+      "offset": 688,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "brand",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:697:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 14,
+      "offset": 697,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "NOMAD360",
+      "catalog": "nomad360_calculator_ui.js:L:175:brand",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:713:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 15,
+      "offset": 713,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
       "text": "eyebrow",
       "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:660:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 13,
-      "offset": 660,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "БИЗНЕС-КАЛЬКУЛЯТОР",
-      "catalog": "nomad360_calculator_ui.js:L:175:eyebrow",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:686:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 14,
-      "offset": 686,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "headline",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:698:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 14,
-      "offset": 698,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Бизнес-калькулятор",
-      "catalog": "nomad360_calculator_ui.js:L:175:headline",
-      "language": "ru",
-      "coverage": "catalog-entry"
     },
     {
       "id": "nomad360_calculator_ui.js:724:js-string",
@@ -281,14 +293,54 @@
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
+      "text": "БИЗНЕС-КАЛЬКУЛЯТОР",
+      "catalog": "nomad360_calculator_ui.js:L:175:eyebrow",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:750:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 16,
+      "offset": 750,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "headline",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:762:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 16,
+      "offset": 762,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Бизнес-калькулятор",
+      "catalog": "nomad360_calculator_ui.js:L:175:headline",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:788:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 17,
+      "offset": 788,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
       "text": "sub",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:731:js-string",
+      "id": "nomad360_calculator_ui.js:795:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 15,
-      "offset": 731,
+      "line": 17,
+      "offset": 795,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -299,10 +351,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:777:js-string",
+      "id": "nomad360_calculator_ui.js:841:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 16,
-      "offset": 777,
+      "line": 18,
+      "offset": 841,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -311,10 +363,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:790:js-string",
+      "id": "nomad360_calculator_ui.js:854:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 16,
-      "offset": 790,
+      "line": 18,
+      "offset": 854,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -325,10 +377,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:888:js-string",
+      "id": "nomad360_calculator_ui.js:952:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 17,
-      "offset": 888,
+      "line": 19,
+      "offset": 952,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -337,10 +389,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:895:js-string",
+      "id": "nomad360_calculator_ui.js:959:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 17,
-      "offset": 895,
+      "line": 19,
+      "offset": 959,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -351,10 +403,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:992:js-string",
+      "id": "nomad360_calculator_ui.js:1056:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 18,
-      "offset": 992,
+      "line": 20,
+      "offset": 1056,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -363,10 +415,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1011:js-string",
+      "id": "nomad360_calculator_ui.js:1075:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 19,
-      "offset": 1011,
+      "line": 21,
+      "offset": 1075,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -375,10 +427,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1020:js-string",
+      "id": "nomad360_calculator_ui.js:1084:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 19,
-      "offset": 1020,
+      "line": 21,
+      "offset": 1084,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -389,10 +441,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1050:js-string",
+      "id": "nomad360_calculator_ui.js:1114:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 20,
-      "offset": 1050,
+      "line": 22,
+      "offset": 1114,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -401,10 +453,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1063:js-string",
+      "id": "nomad360_calculator_ui.js:1127:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 20,
-      "offset": 1063,
+      "line": 22,
+      "offset": 1127,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -415,10 +467,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1095:js-string",
+      "id": "nomad360_calculator_ui.js:1159:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 21,
-      "offset": 1095,
+      "line": 23,
+      "offset": 1159,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -427,10 +479,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1107:js-string",
+      "id": "nomad360_calculator_ui.js:1171:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 21,
-      "offset": 1107,
+      "line": 23,
+      "offset": 1171,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -441,10 +493,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1190:js-string",
+      "id": "nomad360_calculator_ui.js:1254:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 22,
-      "offset": 1190,
+      "line": 24,
+      "offset": 1254,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -453,10 +505,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1204:js-string",
+      "id": "nomad360_calculator_ui.js:1268:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 22,
-      "offset": 1204,
+      "line": 24,
+      "offset": 1268,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -467,10 +519,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1235:js-string",
+      "id": "nomad360_calculator_ui.js:1299:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 23,
-      "offset": 1235,
+      "line": 25,
+      "offset": 1299,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -479,10 +531,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1248:js-string",
+      "id": "nomad360_calculator_ui.js:1312:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 23,
-      "offset": 1248,
+      "line": 25,
+      "offset": 1312,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -493,10 +545,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1282:js-string",
+      "id": "nomad360_calculator_ui.js:1346:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 24,
-      "offset": 1282,
+      "line": 26,
+      "offset": 1346,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -505,10 +557,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1295:js-string",
+      "id": "nomad360_calculator_ui.js:1359:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 24,
-      "offset": 1295,
+      "line": 26,
+      "offset": 1359,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -519,10 +571,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1320:js-string",
+      "id": "nomad360_calculator_ui.js:1384:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 25,
-      "offset": 1320,
+      "line": 27,
+      "offset": 1384,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -531,10 +583,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1333:js-string",
+      "id": "nomad360_calculator_ui.js:1397:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 25,
-      "offset": 1333,
+      "line": 27,
+      "offset": 1397,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -545,10 +597,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1365:js-string",
+      "id": "nomad360_calculator_ui.js:1429:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 26,
-      "offset": 1365,
+      "line": 28,
+      "offset": 1429,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -557,10 +609,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1379:js-string",
+      "id": "nomad360_calculator_ui.js:1443:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 26,
-      "offset": 1379,
+      "line": 28,
+      "offset": 1443,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -571,10 +623,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1436:js-string",
+      "id": "nomad360_calculator_ui.js:1500:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 27,
-      "offset": 1436,
+      "line": 29,
+      "offset": 1500,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -583,10 +635,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1450:js-string",
+      "id": "nomad360_calculator_ui.js:1514:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 27,
-      "offset": 1450,
+      "line": 29,
+      "offset": 1514,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -597,10 +649,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1511:js-string",
+      "id": "nomad360_calculator_ui.js:1575:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 28,
-      "offset": 1511,
+      "line": 30,
+      "offset": 1575,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -609,10 +661,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1525:js-string",
+      "id": "nomad360_calculator_ui.js:1589:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 28,
-      "offset": 1525,
+      "line": 30,
+      "offset": 1589,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -623,10 +675,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1587:js-string",
+      "id": "nomad360_calculator_ui.js:1651:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 29,
-      "offset": 1587,
+      "line": 31,
+      "offset": 1651,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -635,10 +687,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1600:js-string",
+      "id": "nomad360_calculator_ui.js:1664:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 29,
-      "offset": 1600,
+      "line": 31,
+      "offset": 1664,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -649,10 +701,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1669:js-string",
+      "id": "nomad360_calculator_ui.js:1733:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 30,
-      "offset": 1669,
+      "line": 32,
+      "offset": 1733,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -661,10 +713,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1684:js-string",
+      "id": "nomad360_calculator_ui.js:1748:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 30,
-      "offset": 1684,
+      "line": 32,
+      "offset": 1748,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -675,10 +727,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1764:js-string",
+      "id": "nomad360_calculator_ui.js:1828:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 31,
-      "offset": 1764,
+      "line": 33,
+      "offset": 1828,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -687,10 +739,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1775:js-string",
+      "id": "nomad360_calculator_ui.js:1839:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 31,
-      "offset": 1775,
+      "line": 33,
+      "offset": 1839,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -701,10 +753,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1882:js-string",
+      "id": "nomad360_calculator_ui.js:1946:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 32,
-      "offset": 1882,
+      "line": 34,
+      "offset": 1946,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -713,10 +765,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1891:js-string",
+      "id": "nomad360_calculator_ui.js:1955:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 32,
-      "offset": 1891,
+      "line": 34,
+      "offset": 1955,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -727,10 +779,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1910:js-string",
+      "id": "nomad360_calculator_ui.js:1974:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 33,
-      "offset": 1910,
+      "line": 35,
+      "offset": 1974,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -739,10 +791,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1918:js-string",
+      "id": "nomad360_calculator_ui.js:1982:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 33,
-      "offset": 1918,
+      "line": 35,
+      "offset": 1982,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -753,10 +805,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1929:js-string",
+      "id": "nomad360_calculator_ui.js:1993:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 34,
-      "offset": 1929,
+      "line": 36,
+      "offset": 1993,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -765,10 +817,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1937:js-string",
+      "id": "nomad360_calculator_ui.js:2001:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 34,
-      "offset": 1937,
+      "line": 36,
+      "offset": 2001,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -779,10 +831,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:1959:js-string",
+      "id": "nomad360_calculator_ui.js:2023:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 35,
-      "offset": 1959,
+      "line": 37,
+      "offset": 2023,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -791,10 +843,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:1971:js-string",
+      "id": "nomad360_calculator_ui.js:2035:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 35,
-      "offset": 1971,
+      "line": 37,
+      "offset": 2035,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -805,10 +857,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2000:js-string",
+      "id": "nomad360_calculator_ui.js:2064:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 36,
-      "offset": 2000,
+      "line": 38,
+      "offset": 2064,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -817,10 +869,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2012:js-string",
+      "id": "nomad360_calculator_ui.js:2076:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 36,
-      "offset": 2012,
+      "line": 38,
+      "offset": 2076,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -831,10 +883,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2039:js-string",
+      "id": "nomad360_calculator_ui.js:2103:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 37,
-      "offset": 2039,
+      "line": 39,
+      "offset": 2103,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -843,10 +895,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2047:js-string",
+      "id": "nomad360_calculator_ui.js:2111:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 37,
-      "offset": 2047,
+      "line": 39,
+      "offset": 2111,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -857,10 +909,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2063:js-string",
+      "id": "nomad360_calculator_ui.js:2127:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 38,
-      "offset": 2063,
+      "line": 40,
+      "offset": 2127,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -869,10 +921,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2072:js-string",
+      "id": "nomad360_calculator_ui.js:2136:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 38,
-      "offset": 2072,
+      "line": 40,
+      "offset": 2136,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -883,10 +935,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2213:js-string",
+      "id": "nomad360_calculator_ui.js:2277:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 39,
-      "offset": 2213,
+      "line": 41,
+      "offset": 2277,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -895,10 +947,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2223:js-string",
+      "id": "nomad360_calculator_ui.js:2287:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 39,
-      "offset": 2223,
+      "line": 41,
+      "offset": 2287,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -909,10 +961,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2259:js-string",
+      "id": "nomad360_calculator_ui.js:2323:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 40,
-      "offset": 2259,
+      "line": 42,
+      "offset": 2323,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -921,10 +973,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2270:js-string",
+      "id": "nomad360_calculator_ui.js:2334:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 40,
-      "offset": 2270,
+      "line": 42,
+      "offset": 2334,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -935,10 +987,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2286:js-string",
+      "id": "nomad360_calculator_ui.js:2350:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 41,
-      "offset": 2286,
+      "line": 43,
+      "offset": 2350,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -947,10 +999,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2296:js-string",
+      "id": "nomad360_calculator_ui.js:2360:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 41,
-      "offset": 2296,
+      "line": 43,
+      "offset": 2360,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -961,10 +1013,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2308:js-string",
+      "id": "nomad360_calculator_ui.js:2372:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 42,
-      "offset": 2308,
+      "line": 44,
+      "offset": 2372,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -973,10 +1025,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2319:js-string",
+      "id": "nomad360_calculator_ui.js:2383:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 42,
-      "offset": 2319,
+      "line": 44,
+      "offset": 2383,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -987,10 +1039,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2342:js-string",
+      "id": "nomad360_calculator_ui.js:2406:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 43,
-      "offset": 2342,
+      "line": 45,
+      "offset": 2406,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -999,10 +1051,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2353:js-string",
+      "id": "nomad360_calculator_ui.js:2417:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 43,
-      "offset": 2353,
+      "line": 45,
+      "offset": 2417,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1013,10 +1065,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2376:js-string",
+      "id": "nomad360_calculator_ui.js:2440:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 44,
-      "offset": 2376,
+      "line": 46,
+      "offset": 2440,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1025,10 +1077,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2386:js-string",
+      "id": "nomad360_calculator_ui.js:2450:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 44,
-      "offset": 2386,
+      "line": 46,
+      "offset": 2450,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1039,10 +1091,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2408:js-string",
+      "id": "nomad360_calculator_ui.js:2472:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 45,
-      "offset": 2408,
+      "line": 47,
+      "offset": 2472,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1051,10 +1103,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2418:js-string",
+      "id": "nomad360_calculator_ui.js:2482:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 45,
-      "offset": 2418,
+      "line": 47,
+      "offset": 2482,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1065,67 +1117,15 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2431:js-string",
+      "id": "nomad360_calculator_ui.js:2495:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 46,
-      "offset": 2431,
+      "line": 48,
+      "offset": 2495,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
       "text": "cash",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:2439:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 46,
-      "offset": 2439,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Cash Flow",
-      "catalog": "nomad360_calculator_ui.js:L:175:cash",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:2456:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 47,
-      "offset": 2456,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "stock",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:2465:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 47,
-      "offset": 2465,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Продажи и остатки",
-      "catalog": "nomad360_calculator_ui.js:L:175:stock",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:2490:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 48,
-      "offset": 2490,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "resources",
       "coverage": "technical-or-latin-review"
     },
     {
@@ -1137,16 +1137,68 @@
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
+      "text": "Cash Flow",
+      "catalog": "nomad360_calculator_ui.js:L:175:cash",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:2520:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 49,
+      "offset": 2520,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "stock",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:2529:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 49,
+      "offset": 2529,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Продажи и остатки",
+      "catalog": "nomad360_calculator_ui.js:L:175:stock",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:2554:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 50,
+      "offset": 2554,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "resources",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:2567:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 50,
+      "offset": 2567,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
       "text": "Общие ресурсы",
       "catalog": "nomad360_calculator_ui.js:L:175:resources",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2524:js-string",
+      "id": "nomad360_calculator_ui.js:2588:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 49,
-      "offset": 2524,
+      "line": 51,
+      "offset": 2588,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1155,10 +1207,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2533:js-string",
+      "id": "nomad360_calculator_ui.js:2597:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 49,
-      "offset": 2533,
+      "line": 51,
+      "offset": 2597,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1169,10 +1221,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2611:js-string",
+      "id": "nomad360_calculator_ui.js:2675:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 50,
-      "offset": 2611,
+      "line": 52,
+      "offset": 2675,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1181,10 +1233,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2621:js-string",
+      "id": "nomad360_calculator_ui.js:2685:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 50,
-      "offset": 2621,
+      "line": 52,
+      "offset": 2685,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1195,10 +1247,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2736:js-string",
+      "id": "nomad360_calculator_ui.js:2800:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 51,
-      "offset": 2736,
+      "line": 53,
+      "offset": 2800,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1207,10 +1259,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2747:js-string",
+      "id": "nomad360_calculator_ui.js:2811:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 51,
-      "offset": 2747,
+      "line": 53,
+      "offset": 2811,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1221,10 +1273,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2772:js-string",
+      "id": "nomad360_calculator_ui.js:2836:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 52,
-      "offset": 2772,
+      "line": 54,
+      "offset": 2836,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1233,10 +1285,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2786:js-string",
+      "id": "nomad360_calculator_ui.js:2850:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 52,
-      "offset": 2786,
+      "line": 54,
+      "offset": 2850,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1247,10 +1299,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2915:js-string",
+      "id": "nomad360_calculator_ui.js:2979:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 53,
-      "offset": 2915,
+      "line": 55,
+      "offset": 2979,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1259,10 +1311,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2924:js-string",
+      "id": "nomad360_calculator_ui.js:2988:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 53,
-      "offset": 2924,
+      "line": 55,
+      "offset": 2988,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1273,10 +1325,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:2957:js-string",
+      "id": "nomad360_calculator_ui.js:3021:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 54,
-      "offset": 2957,
+      "line": 56,
+      "offset": 3021,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1285,10 +1337,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:2969:js-string",
+      "id": "nomad360_calculator_ui.js:3033:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 54,
-      "offset": 2969,
+      "line": 56,
+      "offset": 3033,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1299,10 +1351,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3014:js-string",
+      "id": "nomad360_calculator_ui.js:3078:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 55,
-      "offset": 3014,
+      "line": 57,
+      "offset": 3078,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1311,10 +1363,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3026:js-string",
+      "id": "nomad360_calculator_ui.js:3090:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 55,
-      "offset": 3026,
+      "line": 57,
+      "offset": 3090,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1325,10 +1377,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3086:js-string",
+      "id": "nomad360_calculator_ui.js:3150:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 56,
-      "offset": 3086,
+      "line": 58,
+      "offset": 3150,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1337,10 +1389,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3096:js-string",
+      "id": "nomad360_calculator_ui.js:3160:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 56,
-      "offset": 3096,
+      "line": 58,
+      "offset": 3160,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1351,10 +1403,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3224:js-string",
+      "id": "nomad360_calculator_ui.js:3288:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 57,
-      "offset": 3224,
+      "line": 59,
+      "offset": 3288,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1363,10 +1415,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3235:js-string",
+      "id": "nomad360_calculator_ui.js:3299:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 57,
-      "offset": 3235,
+      "line": 59,
+      "offset": 3299,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1377,10 +1429,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3266:js-string",
+      "id": "nomad360_calculator_ui.js:3330:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 58,
-      "offset": 3266,
+      "line": 60,
+      "offset": 3330,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1389,10 +1441,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3277:js-string",
+      "id": "nomad360_calculator_ui.js:3341:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 58,
-      "offset": 3277,
+      "line": 60,
+      "offset": 3341,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1403,10 +1455,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3296:js-string",
+      "id": "nomad360_calculator_ui.js:3360:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 59,
-      "offset": 3296,
+      "line": 61,
+      "offset": 3360,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1415,10 +1467,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3304:js-string",
+      "id": "nomad360_calculator_ui.js:3368:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 59,
-      "offset": 3304,
+      "line": 61,
+      "offset": 3368,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1429,10 +1481,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3364:js-string",
+      "id": "nomad360_calculator_ui.js:3428:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 60,
-      "offset": 3364,
+      "line": 62,
+      "offset": 3428,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1441,10 +1493,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3371:js-string",
+      "id": "nomad360_calculator_ui.js:3435:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 60,
-      "offset": 3371,
+      "line": 62,
+      "offset": 3435,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1455,10 +1507,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3395:js-string",
+      "id": "nomad360_calculator_ui.js:3459:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 61,
-      "offset": 3395,
+      "line": 63,
+      "offset": 3459,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1467,10 +1519,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3402:js-string",
+      "id": "nomad360_calculator_ui.js:3466:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 61,
-      "offset": 3402,
+      "line": 63,
+      "offset": 3466,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1481,10 +1533,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3419:js-string",
+      "id": "nomad360_calculator_ui.js:3483:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 62,
-      "offset": 3419,
+      "line": 64,
+      "offset": 3483,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1493,10 +1545,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3427:js-string",
+      "id": "nomad360_calculator_ui.js:3491:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 62,
-      "offset": 3427,
+      "line": 64,
+      "offset": 3491,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1507,67 +1559,15 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3446:js-string",
+      "id": "nomad360_calculator_ui.js:3510:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 63,
-      "offset": 3446,
+      "line": 65,
+      "offset": 3510,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
       "text": "offline",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:3457:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 63,
-      "offset": 3457,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Офлайн-услуга",
-      "catalog": "nomad360_calculator_ui.js:L:175:offline",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:3478:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 64,
-      "offset": 3478,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "online",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:3488:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 64,
-      "offset": 3488,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Онлайн-услуга",
-      "catalog": "nomad360_calculator_ui.js:L:175:online",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:3509:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 65,
-      "offset": 3509,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "required",
       "coverage": "technical-or-latin-review"
     },
     {
@@ -1579,16 +1579,68 @@
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
+      "text": "Офлайн-услуга",
+      "catalog": "nomad360_calculator_ui.js:L:175:offline",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:3542:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 66,
+      "offset": 3542,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "online",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:3552:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 66,
+      "offset": 3552,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Онлайн-услуга",
+      "catalog": "nomad360_calculator_ui.js:L:175:online",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:3573:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 67,
+      "offset": 3573,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "required",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:3585:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 67,
+      "offset": 3585,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
       "text": "Расчёт не подтверждён. Исправьте указанные ошибки, прежде чем выгружать документ.",
       "catalog": "nomad360_calculator_ui.js:L:175:required",
       "language": "ru",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3610:js-string",
+      "id": "nomad360_calculator_ui.js:3674:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 66,
-      "offset": 3610,
+      "line": 68,
+      "offset": 3674,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1597,10 +1649,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3623:js-string",
+      "id": "nomad360_calculator_ui.js:3687:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 66,
-      "offset": 3623,
+      "line": 68,
+      "offset": 3687,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1611,10 +1663,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3693:js-string",
+      "id": "nomad360_calculator_ui.js:3757:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 67,
-      "offset": 3693,
+      "line": 69,
+      "offset": 3757,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1623,10 +1675,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3704:js-string",
+      "id": "nomad360_calculator_ui.js:3768:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 67,
-      "offset": 3704,
+      "line": 69,
+      "offset": 3768,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1637,10 +1689,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3799:js-string",
+      "id": "nomad360_calculator_ui.js:3863:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 68,
-      "offset": 3799,
+      "line": 70,
+      "offset": 3863,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1649,10 +1701,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3808:js-string",
+      "id": "nomad360_calculator_ui.js:3872:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 68,
-      "offset": 3808,
+      "line": 70,
+      "offset": 3872,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1663,10 +1715,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3821:js-string",
+      "id": "nomad360_calculator_ui.js:3885:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 69,
-      "offset": 3821,
+      "line": 71,
+      "offset": 3885,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1675,10 +1727,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3829:js-string",
+      "id": "nomad360_calculator_ui.js:3893:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 69,
-      "offset": 3829,
+      "line": 71,
+      "offset": 3893,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1689,10 +1741,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3848:js-string",
+      "id": "nomad360_calculator_ui.js:3912:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 70,
-      "offset": 3848,
+      "line": 72,
+      "offset": 3912,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1701,10 +1753,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3859:js-string",
+      "id": "nomad360_calculator_ui.js:3923:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 70,
-      "offset": 3859,
+      "line": 72,
+      "offset": 3923,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1715,10 +1767,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3874:js-string",
+      "id": "nomad360_calculator_ui.js:3938:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 71,
-      "offset": 3874,
+      "line": 73,
+      "offset": 3938,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1727,10 +1779,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3881:js-string",
+      "id": "nomad360_calculator_ui.js:3945:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 71,
-      "offset": 3881,
+      "line": 73,
+      "offset": 3945,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1741,10 +1793,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3894:js-string",
+      "id": "nomad360_calculator_ui.js:3958:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 72,
-      "offset": 3894,
+      "line": 74,
+      "offset": 3958,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1753,10 +1805,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3906:js-string",
+      "id": "nomad360_calculator_ui.js:3970:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 72,
-      "offset": 3906,
+      "line": 74,
+      "offset": 3970,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1767,10 +1819,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3922:js-string",
+      "id": "nomad360_calculator_ui.js:3986:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 73,
-      "offset": 3922,
+      "line": 75,
+      "offset": 3986,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1779,10 +1831,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:3935:js-string",
+      "id": "nomad360_calculator_ui.js:3999:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 73,
-      "offset": 3935,
+      "line": 75,
+      "offset": 3999,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1793,56 +1845,16 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:3955:js-string",
+      "id": "nomad360_calculator_ui.js:4019:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 74,
-      "offset": 3955,
+      "line": 76,
+      "offset": 4019,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
       "text": "balance",
       "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:3966:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 74,
-      "offset": 3966,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Остаток",
-      "catalog": "nomad360_calculator_ui.js:L:175:balance",
-      "language": "ru",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:3981:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 75,
-      "offset": 3981,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "reportName",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:3995:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 75,
-      "offset": 3995,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Бизнес-калькулятор Nomad360",
-      "catalog": "nomad360_calculator_ui.js:L:175:reportName",
-      "language": "ru",
-      "coverage": "catalog-entry"
     },
     {
       "id": "nomad360_calculator_ui.js:4030:js-string",
@@ -1853,14 +1865,54 @@
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
+      "text": "Остаток",
+      "catalog": "nomad360_calculator_ui.js:L:175:balance",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4045:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 77,
+      "offset": 4045,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "reportName",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4059:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 77,
+      "offset": 4059,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Бизнес-калькулятор Nomad360",
+      "catalog": "nomad360_calculator_ui.js:L:175:reportName",
+      "language": "ru",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4094:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 78,
+      "offset": 4094,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
       "text": "language",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4042:js-string",
+      "id": "nomad360_calculator_ui.js:4106:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 76,
-      "offset": 4042,
+      "line": 78,
+      "offset": 4106,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1871,10 +1923,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4054:js-string",
+      "id": "nomad360_calculator_ui.js:4118:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 77,
-      "offset": 4054,
+      "line": 79,
+      "offset": 4118,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1883,10 +1935,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4072:js-string",
+      "id": "nomad360_calculator_ui.js:4136:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 77,
-      "offset": 4072,
+      "line": 79,
+      "offset": 4136,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1897,10 +1949,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4090:js-string",
+      "id": "nomad360_calculator_ui.js:4154:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 78,
-      "offset": 4090,
+      "line": 80,
+      "offset": 4154,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1909,10 +1961,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4105:js-string",
+      "id": "nomad360_calculator_ui.js:4169:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 78,
-      "offset": 4105,
+      "line": 80,
+      "offset": 4169,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1923,10 +1975,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4121:js-string",
+      "id": "nomad360_calculator_ui.js:4185:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 80,
-      "offset": 4121,
+      "line": 82,
+      "offset": 4185,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1935,10 +1987,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4133:js-string",
+      "id": "nomad360_calculator_ui.js:4197:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 81,
-      "offset": 4133,
+      "line": 83,
+      "offset": 4197,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1947,10 +1999,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4146:js-string",
+      "id": "nomad360_calculator_ui.js:4210:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 81,
-      "offset": 4146,
+      "line": 83,
+      "offset": 4210,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1961,10 +2013,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4234:js-string",
+      "id": "nomad360_calculator_ui.js:4298:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 82,
-      "offset": 4234,
+      "line": 84,
+      "offset": 4298,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1973,10 +2025,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4247:js-string",
+      "id": "nomad360_calculator_ui.js:4311:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 82,
-      "offset": 4247,
+      "line": 84,
+      "offset": 4311,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1987,10 +2039,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4294:js-string",
+      "id": "nomad360_calculator_ui.js:4358:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 83,
-      "offset": 4294,
+      "line": 85,
+      "offset": 4358,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -1999,10 +2051,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4312:js-string",
+      "id": "nomad360_calculator_ui.js:4376:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 83,
-      "offset": 4312,
+      "line": 85,
+      "offset": 4376,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2013,10 +2065,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4384:js-string",
+      "id": "nomad360_calculator_ui.js:4448:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 84,
-      "offset": 4384,
+      "line": 86,
+      "offset": 4448,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2025,10 +2077,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4400:js-string",
+      "id": "nomad360_calculator_ui.js:4464:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 84,
-      "offset": 4400,
+      "line": 86,
+      "offset": 4464,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2039,134 +2091,94 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4454:js-string",
+      "id": "nomad360_calculator_ui.js:4518:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 85,
-      "offset": 4454,
+      "line": 87,
+      "offset": 4518,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
-      "text": "introResult",
+      "text": "introStep1",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4469:js-string",
+      "id": "nomad360_calculator_ui.js:4532:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 85,
-      "offset": 4469,
+      "line": 87,
+      "offset": 4532,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
-      "text": "Our calculator. Your result.",
-      "catalog": "nomad360_calculator_ui.js:L:175:introResult",
+      "text": "Choose a scenario",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep1",
       "language": "en",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4505:js-string",
+      "id": "nomad360_calculator_ui.js:4557:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 86,
-      "offset": 4505,
+      "line": 88,
+      "offset": 4557,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "introStep2",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4571:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 88,
+      "offset": 4571,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Complete the form",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep2",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4596:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 89,
+      "offset": 4596,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "introStep3",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4610:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 89,
+      "offset": 4610,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Download your business plan",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep3",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4645:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 90,
+      "offset": 4645,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
       "text": "introAction",
       "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:4520:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 86,
-      "offset": 4520,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "↓ Calculate your business idea",
-      "catalog": "nomad360_calculator_ui.js:L:175:introAction",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:4558:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 87,
-      "offset": 4558,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "brand",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:4567:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 87,
-      "offset": 4567,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "NOMAD360",
-      "catalog": "nomad360_calculator_ui.js:L:175:brand",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:4583:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 88,
-      "offset": 4583,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "eyebrow",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:4594:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 88,
-      "offset": 4594,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "BUSINESS CALCULATOR",
-      "catalog": "nomad360_calculator_ui.js:L:175:eyebrow",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:4621:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 89,
-      "offset": 4621,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "headline",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:4633:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 89,
-      "offset": 4633,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Business calculator",
-      "catalog": "nomad360_calculator_ui.js:L:175:headline",
-      "language": "en",
-      "coverage": "catalog-entry"
     },
     {
       "id": "nomad360_calculator_ui.js:4660:js-string",
@@ -2177,14 +2189,106 @@
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
+      "text": "↓ Calculate your business idea",
+      "catalog": "nomad360_calculator_ui.js:L:175:introAction",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4698:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 91,
+      "offset": 4698,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "brand",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4707:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 91,
+      "offset": 4707,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "NOMAD360",
+      "catalog": "nomad360_calculator_ui.js:L:175:brand",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4723:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 92,
+      "offset": 4723,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "eyebrow",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4734:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 92,
+      "offset": 4734,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "BUSINESS CALCULATOR",
+      "catalog": "nomad360_calculator_ui.js:L:175:eyebrow",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4761:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 93,
+      "offset": 4761,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "headline",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4773:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 93,
+      "offset": 4773,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Business calculator",
+      "catalog": "nomad360_calculator_ui.js:L:175:headline",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:4800:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 94,
+      "offset": 4800,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
       "text": "sub",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4667:js-string",
+      "id": "nomad360_calculator_ui.js:4807:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 90,
-      "offset": 4667,
+      "line": 94,
+      "offset": 4807,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2195,10 +2299,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4722:js-string",
+      "id": "nomad360_calculator_ui.js:4862:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 91,
-      "offset": 4722,
+      "line": 95,
+      "offset": 4862,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2207,10 +2311,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4735:js-string",
+      "id": "nomad360_calculator_ui.js:4875:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 91,
-      "offset": 4735,
+      "line": 95,
+      "offset": 4875,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2221,10 +2325,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4846:js-string",
+      "id": "nomad360_calculator_ui.js:4986:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 92,
-      "offset": 4846,
+      "line": 96,
+      "offset": 4986,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2233,10 +2337,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4853:js-string",
+      "id": "nomad360_calculator_ui.js:4993:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 92,
-      "offset": 4853,
+      "line": 96,
+      "offset": 4993,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2247,10 +2351,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:4958:js-string",
+      "id": "nomad360_calculator_ui.js:5098:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 93,
-      "offset": 4958,
+      "line": 97,
+      "offset": 5098,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2259,10 +2363,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4977:js-string",
+      "id": "nomad360_calculator_ui.js:5117:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 94,
-      "offset": 4977,
+      "line": 98,
+      "offset": 5117,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2271,10 +2375,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:4986:js-string",
+      "id": "nomad360_calculator_ui.js:5126:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 94,
-      "offset": 4986,
+      "line": 98,
+      "offset": 5126,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2285,10 +2389,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5017:js-string",
+      "id": "nomad360_calculator_ui.js:5157:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 95,
-      "offset": 5017,
+      "line": 99,
+      "offset": 5157,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2297,10 +2401,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5030:js-string",
+      "id": "nomad360_calculator_ui.js:5170:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 95,
-      "offset": 5030,
+      "line": 99,
+      "offset": 5170,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2311,10 +2415,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5058:js-string",
+      "id": "nomad360_calculator_ui.js:5198:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 96,
-      "offset": 5058,
+      "line": 100,
+      "offset": 5198,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2323,10 +2427,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5070:js-string",
+      "id": "nomad360_calculator_ui.js:5210:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 96,
-      "offset": 5070,
+      "line": 100,
+      "offset": 5210,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2337,10 +2441,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5140:js-string",
+      "id": "nomad360_calculator_ui.js:5280:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 97,
-      "offset": 5140,
+      "line": 101,
+      "offset": 5280,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2349,10 +2453,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5154:js-string",
+      "id": "nomad360_calculator_ui.js:5294:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 97,
-      "offset": 5154,
+      "line": 101,
+      "offset": 5294,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2363,10 +2467,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5179:js-string",
+      "id": "nomad360_calculator_ui.js:5319:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 98,
-      "offset": 5179,
+      "line": 102,
+      "offset": 5319,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2375,10 +2479,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5192:js-string",
+      "id": "nomad360_calculator_ui.js:5332:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 98,
-      "offset": 5192,
+      "line": 102,
+      "offset": 5332,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2389,10 +2493,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5222:js-string",
+      "id": "nomad360_calculator_ui.js:5362:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 99,
-      "offset": 5222,
+      "line": 103,
+      "offset": 5362,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2401,10 +2505,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5235:js-string",
+      "id": "nomad360_calculator_ui.js:5375:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 99,
-      "offset": 5235,
+      "line": 103,
+      "offset": 5375,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2415,10 +2519,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5258:js-string",
+      "id": "nomad360_calculator_ui.js:5398:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 100,
-      "offset": 5258,
+      "line": 104,
+      "offset": 5398,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2427,10 +2531,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5271:js-string",
+      "id": "nomad360_calculator_ui.js:5411:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 100,
-      "offset": 5271,
+      "line": 104,
+      "offset": 5411,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2441,10 +2545,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5304:js-string",
+      "id": "nomad360_calculator_ui.js:5444:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 101,
-      "offset": 5304,
+      "line": 105,
+      "offset": 5444,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2453,10 +2557,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5318:js-string",
+      "id": "nomad360_calculator_ui.js:5458:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 101,
-      "offset": 5318,
+      "line": 105,
+      "offset": 5458,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2467,10 +2571,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5369:js-string",
+      "id": "nomad360_calculator_ui.js:5509:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 102,
-      "offset": 5369,
+      "line": 106,
+      "offset": 5509,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2479,10 +2583,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5383:js-string",
+      "id": "nomad360_calculator_ui.js:5523:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 102,
-      "offset": 5383,
+      "line": 106,
+      "offset": 5523,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2493,10 +2597,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5442:js-string",
+      "id": "nomad360_calculator_ui.js:5582:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 103,
-      "offset": 5442,
+      "line": 107,
+      "offset": 5582,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2505,10 +2609,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5456:js-string",
+      "id": "nomad360_calculator_ui.js:5596:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 103,
-      "offset": 5456,
+      "line": 107,
+      "offset": 5596,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2519,10 +2623,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5531:js-string",
+      "id": "nomad360_calculator_ui.js:5671:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 104,
-      "offset": 5531,
+      "line": 108,
+      "offset": 5671,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2531,10 +2635,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5544:js-string",
+      "id": "nomad360_calculator_ui.js:5684:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 104,
-      "offset": 5544,
+      "line": 108,
+      "offset": 5684,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2545,10 +2649,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5613:js-string",
+      "id": "nomad360_calculator_ui.js:5753:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 105,
-      "offset": 5613,
+      "line": 109,
+      "offset": 5753,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2557,10 +2661,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5628:js-string",
+      "id": "nomad360_calculator_ui.js:5768:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 105,
-      "offset": 5628,
+      "line": 109,
+      "offset": 5768,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2571,10 +2675,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5698:js-string",
+      "id": "nomad360_calculator_ui.js:5838:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 106,
-      "offset": 5698,
+      "line": 110,
+      "offset": 5838,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2583,10 +2687,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5709:js-string",
+      "id": "nomad360_calculator_ui.js:5849:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 106,
-      "offset": 5709,
+      "line": 110,
+      "offset": 5849,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2597,10 +2701,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5796:js-string",
+      "id": "nomad360_calculator_ui.js:5936:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 107,
-      "offset": 5796,
+      "line": 111,
+      "offset": 5936,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2609,10 +2713,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5805:js-string",
+      "id": "nomad360_calculator_ui.js:5945:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 107,
-      "offset": 5805,
+      "line": 111,
+      "offset": 5945,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2623,10 +2727,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5825:js-string",
+      "id": "nomad360_calculator_ui.js:5965:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 108,
-      "offset": 5825,
+      "line": 112,
+      "offset": 5965,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2635,10 +2739,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5833:js-string",
+      "id": "nomad360_calculator_ui.js:5973:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 108,
-      "offset": 5833,
+      "line": 112,
+      "offset": 5973,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2649,10 +2753,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5845:js-string",
+      "id": "nomad360_calculator_ui.js:5985:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 109,
-      "offset": 5845,
+      "line": 113,
+      "offset": 5985,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2661,10 +2765,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5853:js-string",
+      "id": "nomad360_calculator_ui.js:5993:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 109,
-      "offset": 5853,
+      "line": 113,
+      "offset": 5993,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2675,10 +2779,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5878:js-string",
+      "id": "nomad360_calculator_ui.js:6018:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 110,
-      "offset": 5878,
+      "line": 114,
+      "offset": 6018,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2687,10 +2791,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5890:js-string",
+      "id": "nomad360_calculator_ui.js:6030:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 110,
-      "offset": 5890,
+      "line": 114,
+      "offset": 6030,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2701,10 +2805,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5917:js-string",
+      "id": "nomad360_calculator_ui.js:6057:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 111,
-      "offset": 5917,
+      "line": 115,
+      "offset": 6057,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2713,10 +2817,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5929:js-string",
+      "id": "nomad360_calculator_ui.js:6069:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 111,
-      "offset": 5929,
+      "line": 115,
+      "offset": 6069,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2727,10 +2831,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5951:js-string",
+      "id": "nomad360_calculator_ui.js:6091:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 112,
-      "offset": 5951,
+      "line": 116,
+      "offset": 6091,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2739,10 +2843,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5959:js-string",
+      "id": "nomad360_calculator_ui.js:6099:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 112,
-      "offset": 5959,
+      "line": 116,
+      "offset": 6099,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2753,10 +2857,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:5980:js-string",
+      "id": "nomad360_calculator_ui.js:6120:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 113,
-      "offset": 5980,
+      "line": 117,
+      "offset": 6120,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2765,10 +2869,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:5989:js-string",
+      "id": "nomad360_calculator_ui.js:6129:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 113,
-      "offset": 5989,
+      "line": 117,
+      "offset": 6129,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2779,10 +2883,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6083:js-string",
+      "id": "nomad360_calculator_ui.js:6223:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 114,
-      "offset": 6083,
+      "line": 118,
+      "offset": 6223,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2791,10 +2895,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6093:js-string",
+      "id": "nomad360_calculator_ui.js:6233:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 114,
-      "offset": 6093,
+      "line": 118,
+      "offset": 6233,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2805,10 +2909,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6135:js-string",
+      "id": "nomad360_calculator_ui.js:6275:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 115,
-      "offset": 6135,
+      "line": 119,
+      "offset": 6275,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2817,10 +2921,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6146:js-string",
+      "id": "nomad360_calculator_ui.js:6286:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 115,
-      "offset": 6146,
+      "line": 119,
+      "offset": 6286,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2831,10 +2935,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6170:js-string",
+      "id": "nomad360_calculator_ui.js:6310:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 116,
-      "offset": 6170,
+      "line": 120,
+      "offset": 6310,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2843,10 +2947,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6180:js-string",
+      "id": "nomad360_calculator_ui.js:6320:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 116,
-      "offset": 6180,
+      "line": 120,
+      "offset": 6320,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2857,10 +2961,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6194:js-string",
+      "id": "nomad360_calculator_ui.js:6334:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 117,
-      "offset": 6194,
+      "line": 121,
+      "offset": 6334,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2869,10 +2973,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6205:js-string",
+      "id": "nomad360_calculator_ui.js:6345:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 117,
-      "offset": 6205,
+      "line": 121,
+      "offset": 6345,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2883,10 +2987,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6230:js-string",
+      "id": "nomad360_calculator_ui.js:6370:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 118,
-      "offset": 6230,
+      "line": 122,
+      "offset": 6370,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2895,10 +2999,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6241:js-string",
+      "id": "nomad360_calculator_ui.js:6381:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 118,
-      "offset": 6241,
+      "line": 122,
+      "offset": 6381,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2909,10 +3013,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6270:js-string",
+      "id": "nomad360_calculator_ui.js:6410:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 119,
-      "offset": 6270,
+      "line": 123,
+      "offset": 6410,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2921,10 +3025,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6280:js-string",
+      "id": "nomad360_calculator_ui.js:6420:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 119,
-      "offset": 6280,
+      "line": 123,
+      "offset": 6420,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2935,10 +3039,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6298:js-string",
+      "id": "nomad360_calculator_ui.js:6438:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 120,
-      "offset": 6298,
+      "line": 124,
+      "offset": 6438,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2947,10 +3051,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6308:js-string",
+      "id": "nomad360_calculator_ui.js:6448:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 120,
-      "offset": 6308,
+      "line": 124,
+      "offset": 6448,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2961,10 +3065,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6322:js-string",
+      "id": "nomad360_calculator_ui.js:6462:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 121,
-      "offset": 6322,
+      "line": 125,
+      "offset": 6462,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2973,10 +3077,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6330:js-string",
+      "id": "nomad360_calculator_ui.js:6470:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 121,
-      "offset": 6330,
+      "line": 125,
+      "offset": 6470,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2987,10 +3091,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6347:js-string",
+      "id": "nomad360_calculator_ui.js:6487:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 122,
-      "offset": 6347,
+      "line": 126,
+      "offset": 6487,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -2999,10 +3103,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6356:js-string",
+      "id": "nomad360_calculator_ui.js:6496:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 122,
-      "offset": 6356,
+      "line": 126,
+      "offset": 6496,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3013,10 +3117,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6379:js-string",
+      "id": "nomad360_calculator_ui.js:6519:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 123,
-      "offset": 6379,
+      "line": 127,
+      "offset": 6519,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3025,10 +3129,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6392:js-string",
+      "id": "nomad360_calculator_ui.js:6532:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 123,
-      "offset": 6392,
+      "line": 127,
+      "offset": 6532,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3039,10 +3143,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6416:js-string",
+      "id": "nomad360_calculator_ui.js:6556:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 124,
-      "offset": 6416,
+      "line": 128,
+      "offset": 6556,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3051,10 +3155,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6425:js-string",
+      "id": "nomad360_calculator_ui.js:6565:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 124,
-      "offset": 6425,
+      "line": 128,
+      "offset": 6565,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3065,10 +3169,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6530:js-string",
+      "id": "nomad360_calculator_ui.js:6670:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 125,
-      "offset": 6530,
+      "line": 129,
+      "offset": 6670,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3077,10 +3181,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6540:js-string",
+      "id": "nomad360_calculator_ui.js:6680:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 125,
-      "offset": 6540,
+      "line": 129,
+      "offset": 6680,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3091,10 +3195,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6644:js-string",
+      "id": "nomad360_calculator_ui.js:6784:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 126,
-      "offset": 6644,
+      "line": 130,
+      "offset": 6784,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3103,10 +3207,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6655:js-string",
+      "id": "nomad360_calculator_ui.js:6795:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 126,
-      "offset": 6655,
+      "line": 130,
+      "offset": 6795,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3117,10 +3221,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6683:js-string",
+      "id": "nomad360_calculator_ui.js:6823:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 127,
-      "offset": 6683,
+      "line": 131,
+      "offset": 6823,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3129,10 +3233,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6697:js-string",
+      "id": "nomad360_calculator_ui.js:6837:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 127,
-      "offset": 6697,
+      "line": 131,
+      "offset": 6837,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3143,10 +3247,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6816:js-string",
+      "id": "nomad360_calculator_ui.js:6956:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 128,
-      "offset": 6816,
+      "line": 132,
+      "offset": 6956,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3155,10 +3259,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6825:js-string",
+      "id": "nomad360_calculator_ui.js:6965:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 128,
-      "offset": 6825,
+      "line": 132,
+      "offset": 6965,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3169,10 +3273,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6854:js-string",
+      "id": "nomad360_calculator_ui.js:6994:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 129,
-      "offset": 6854,
+      "line": 133,
+      "offset": 6994,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3181,10 +3285,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6866:js-string",
+      "id": "nomad360_calculator_ui.js:7006:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 129,
-      "offset": 6866,
+      "line": 133,
+      "offset": 7006,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3195,10 +3299,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6902:js-string",
+      "id": "nomad360_calculator_ui.js:7042:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 130,
-      "offset": 6902,
+      "line": 134,
+      "offset": 7042,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3207,10 +3311,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6914:js-string",
+      "id": "nomad360_calculator_ui.js:7054:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 130,
-      "offset": 6914,
+      "line": 134,
+      "offset": 7054,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3221,10 +3325,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:6974:js-string",
+      "id": "nomad360_calculator_ui.js:7114:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 131,
-      "offset": 6974,
+      "line": 135,
+      "offset": 7114,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3233,10 +3337,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:6984:js-string",
+      "id": "nomad360_calculator_ui.js:7124:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 131,
-      "offset": 6984,
+      "line": 135,
+      "offset": 7124,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3247,10 +3351,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7096:js-string",
+      "id": "nomad360_calculator_ui.js:7236:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 132,
-      "offset": 7096,
+      "line": 136,
+      "offset": 7236,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3259,120 +3363,16 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7107:js-string",
+      "id": "nomad360_calculator_ui.js:7247:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 132,
-      "offset": 7107,
+      "line": 136,
+      "offset": 7247,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
       "text": "Ask about AI marketing",
       "catalog": "nomad360_calculator_ui.js:L:175:ctaMail",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:7137:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 133,
-      "offset": 7137,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "threads",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:7148:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 133,
-      "offset": 7148,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Our Threads",
-      "catalog": "nomad360_calculator_ui.js:L:175:threads",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:7167:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 134,
-      "offset": 7167,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "well",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:7175:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 134,
-      "offset": 7175,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "May your path be open and your work prosper!",
-      "catalog": "nomad360_calculator_ui.js:L:175:well",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:7227:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 135,
-      "offset": 7227,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "rub",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:7234:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 135,
-      "offset": 7234,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Resale",
-      "catalog": "nomad360_calculator_ui.js:L:175:rub",
-      "language": "en",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:7248:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 136,
-      "offset": 7248,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "own",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:7255:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 136,
-      "offset": 7255,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Own production",
-      "catalog": "nomad360_calculator_ui.js:L:175:own",
       "language": "en",
       "coverage": "catalog-entry"
     },
@@ -3385,14 +3385,118 @@
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
+      "text": "threads",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:7288:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 137,
+      "offset": 7288,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Our Threads",
+      "catalog": "nomad360_calculator_ui.js:L:175:threads",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:7307:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 138,
+      "offset": 7307,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "well",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:7315:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 138,
+      "offset": 7315,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "May your path be open and your work prosper!",
+      "catalog": "nomad360_calculator_ui.js:L:175:well",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:7367:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 139,
+      "offset": 7367,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "rub",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:7374:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 139,
+      "offset": 7374,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Resale",
+      "catalog": "nomad360_calculator_ui.js:L:175:rub",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:7388:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 140,
+      "offset": 7388,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "own",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:7395:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 140,
+      "offset": 7395,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Own production",
+      "catalog": "nomad360_calculator_ui.js:L:175:own",
+      "language": "en",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:7417:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 141,
+      "offset": 7417,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
       "text": "drop",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7285:js-string",
+      "id": "nomad360_calculator_ui.js:7425:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 137,
-      "offset": 7285,
+      "line": 141,
+      "offset": 7425,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3403,10 +3507,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7305:js-string",
+      "id": "nomad360_calculator_ui.js:7445:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 138,
-      "offset": 7305,
+      "line": 142,
+      "offset": 7445,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3415,10 +3519,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7316:js-string",
+      "id": "nomad360_calculator_ui.js:7456:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 138,
-      "offset": 7316,
+      "line": 142,
+      "offset": 7456,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3429,10 +3533,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7339:js-string",
+      "id": "nomad360_calculator_ui.js:7479:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 139,
-      "offset": 7339,
+      "line": 143,
+      "offset": 7479,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3441,10 +3545,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7349:js-string",
+      "id": "nomad360_calculator_ui.js:7489:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 139,
-      "offset": 7349,
+      "line": 143,
+      "offset": 7489,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3455,10 +3559,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7371:js-string",
+      "id": "nomad360_calculator_ui.js:7511:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 140,
-      "offset": 7371,
+      "line": 144,
+      "offset": 7511,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3467,10 +3571,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7383:js-string",
+      "id": "nomad360_calculator_ui.js:7523:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 140,
-      "offset": 7383,
+      "line": 144,
+      "offset": 7523,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3481,10 +3585,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7453:js-string",
+      "id": "nomad360_calculator_ui.js:7593:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 141,
-      "offset": 7453,
+      "line": 145,
+      "offset": 7593,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3493,10 +3597,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7466:js-string",
+      "id": "nomad360_calculator_ui.js:7606:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 141,
-      "offset": 7466,
+      "line": 145,
+      "offset": 7606,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3507,10 +3611,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7535:js-string",
+      "id": "nomad360_calculator_ui.js:7675:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 142,
-      "offset": 7535,
+      "line": 146,
+      "offset": 7675,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3519,10 +3623,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7546:js-string",
+      "id": "nomad360_calculator_ui.js:7686:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 142,
-      "offset": 7546,
+      "line": 146,
+      "offset": 7686,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3533,10 +3637,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7638:js-string",
+      "id": "nomad360_calculator_ui.js:7778:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 143,
-      "offset": 7638,
+      "line": 147,
+      "offset": 7778,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3545,10 +3649,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7647:js-string",
+      "id": "nomad360_calculator_ui.js:7787:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 143,
-      "offset": 7647,
+      "line": 147,
+      "offset": 7787,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3559,10 +3663,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7660:js-string",
+      "id": "nomad360_calculator_ui.js:7800:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 144,
-      "offset": 7660,
+      "line": 148,
+      "offset": 7800,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3571,10 +3675,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7668:js-string",
+      "id": "nomad360_calculator_ui.js:7808:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 144,
-      "offset": 7668,
+      "line": 148,
+      "offset": 7808,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3585,10 +3689,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7684:js-string",
+      "id": "nomad360_calculator_ui.js:7824:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 145,
-      "offset": 7684,
+      "line": 149,
+      "offset": 7824,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3597,10 +3701,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7695:js-string",
+      "id": "nomad360_calculator_ui.js:7835:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 145,
-      "offset": 7695,
+      "line": 149,
+      "offset": 7835,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3611,10 +3715,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7711:js-string",
+      "id": "nomad360_calculator_ui.js:7851:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 146,
-      "offset": 7711,
+      "line": 150,
+      "offset": 7851,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3623,10 +3727,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7718:js-string",
+      "id": "nomad360_calculator_ui.js:7858:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 146,
-      "offset": 7718,
+      "line": 150,
+      "offset": 7858,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3637,10 +3741,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7729:js-string",
+      "id": "nomad360_calculator_ui.js:7869:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 147,
-      "offset": 7729,
+      "line": 151,
+      "offset": 7869,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3649,10 +3753,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7741:js-string",
+      "id": "nomad360_calculator_ui.js:7881:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 147,
-      "offset": 7741,
+      "line": 151,
+      "offset": 7881,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3663,10 +3767,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7757:js-string",
+      "id": "nomad360_calculator_ui.js:7897:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 148,
-      "offset": 7757,
+      "line": 152,
+      "offset": 7897,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3675,10 +3779,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7770:js-string",
+      "id": "nomad360_calculator_ui.js:7910:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 148,
-      "offset": 7770,
+      "line": 152,
+      "offset": 7910,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3689,10 +3793,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7792:js-string",
+      "id": "nomad360_calculator_ui.js:7932:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 149,
-      "offset": 7792,
+      "line": 153,
+      "offset": 7932,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3701,10 +3805,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7803:js-string",
+      "id": "nomad360_calculator_ui.js:7943:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 149,
-      "offset": 7803,
+      "line": 153,
+      "offset": 7943,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3715,10 +3819,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7818:js-string",
+      "id": "nomad360_calculator_ui.js:7958:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 150,
-      "offset": 7818,
+      "line": 154,
+      "offset": 7958,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3727,10 +3831,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7832:js-string",
+      "id": "nomad360_calculator_ui.js:7972:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 150,
-      "offset": 7832,
+      "line": 154,
+      "offset": 7972,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3741,10 +3845,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7868:js-string",
+      "id": "nomad360_calculator_ui.js:8008:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 151,
-      "offset": 7868,
+      "line": 155,
+      "offset": 8008,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3753,10 +3857,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7880:js-string",
+      "id": "nomad360_calculator_ui.js:8020:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 151,
-      "offset": 7880,
+      "line": 155,
+      "offset": 8020,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3767,10 +3871,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7896:js-string",
+      "id": "nomad360_calculator_ui.js:8036:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 152,
-      "offset": 7896,
+      "line": 156,
+      "offset": 8036,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3779,10 +3883,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7914:js-string",
+      "id": "nomad360_calculator_ui.js:8054:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 152,
-      "offset": 7914,
+      "line": 156,
+      "offset": 8054,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3793,10 +3897,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7929:js-string",
+      "id": "nomad360_calculator_ui.js:8069:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 153,
-      "offset": 7929,
+      "line": 157,
+      "offset": 8069,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3805,10 +3909,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7944:js-string",
+      "id": "nomad360_calculator_ui.js:8084:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 153,
-      "offset": 7944,
+      "line": 157,
+      "offset": 8084,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3819,10 +3923,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:7962:js-string",
+      "id": "nomad360_calculator_ui.js:8102:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 155,
-      "offset": 7962,
+      "line": 159,
+      "offset": 8102,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3831,10 +3935,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7974:js-string",
+      "id": "nomad360_calculator_ui.js:8114:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 156,
-      "offset": 7974,
+      "line": 160,
+      "offset": 8114,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3843,10 +3947,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:7987:js-string",
+      "id": "nomad360_calculator_ui.js:8127:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 156,
-      "offset": 7987,
+      "line": 160,
+      "offset": 8127,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3857,10 +3961,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8086:js-string",
+      "id": "nomad360_calculator_ui.js:8226:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 157,
-      "offset": 8086,
+      "line": 161,
+      "offset": 8226,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3869,10 +3973,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8099:js-string",
+      "id": "nomad360_calculator_ui.js:8239:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 157,
-      "offset": 8099,
+      "line": 161,
+      "offset": 8239,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3883,10 +3987,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8145:js-string",
+      "id": "nomad360_calculator_ui.js:8285:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 158,
-      "offset": 8145,
+      "line": 162,
+      "offset": 8285,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3895,10 +3999,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8163:js-string",
+      "id": "nomad360_calculator_ui.js:8303:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 158,
-      "offset": 8163,
+      "line": 162,
+      "offset": 8303,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3909,10 +4013,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8244:js-string",
+      "id": "nomad360_calculator_ui.js:8384:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 159,
-      "offset": 8244,
+      "line": 163,
+      "offset": 8384,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3921,10 +4025,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8260:js-string",
+      "id": "nomad360_calculator_ui.js:8400:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 159,
-      "offset": 8260,
+      "line": 163,
+      "offset": 8400,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3935,36 +4039,88 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8318:js-string",
+      "id": "nomad360_calculator_ui.js:8458:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 160,
-      "offset": 8318,
+      "line": 164,
+      "offset": 8458,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
-      "text": "introResult",
+      "text": "introStep1",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8333:js-string",
+      "id": "nomad360_calculator_ui.js:8472:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 160,
-      "offset": 8333,
+      "line": 164,
+      "offset": 8472,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
-      "text": "Біздің калькулятор. Сіздің нәтижеңіз.",
-      "catalog": "nomad360_calculator_ui.js:L:175:introResult",
+      "text": "Сценарийді таңдаңыз",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep1",
       "language": "kk",
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8378:js-string",
+      "id": "nomad360_calculator_ui.js:8499:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 161,
-      "offset": 8378,
+      "line": 165,
+      "offset": 8499,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "introStep2",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:8513:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 165,
+      "offset": 8513,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Нысанды толтырыңыз",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep2",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:8539:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 166,
+      "offset": 8539,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "introStep3",
+      "coverage": "technical-or-latin-review"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:8553:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 166,
+      "offset": 8553,
+      "kind": "js-string",
+      "owner": "nomad360_calculator_ui.js",
+      "stage": "L5",
+      "context": "L",
+      "text": "Бизнес-жоспарды жүктеп алыңыз",
+      "catalog": "nomad360_calculator_ui.js:L:175:introStep3",
+      "language": "kk",
+      "coverage": "catalog-entry"
+    },
+    {
+      "id": "nomad360_calculator_ui.js:8590:js-string",
+      "file": "nomad360_calculator_ui.js",
+      "line": 167,
+      "offset": 8590,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3973,10 +4129,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8393:js-string",
+      "id": "nomad360_calculator_ui.js:8605:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 161,
-      "offset": 8393,
+      "line": 167,
+      "offset": 8605,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3987,10 +4143,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8430:js-string",
+      "id": "nomad360_calculator_ui.js:8642:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 162,
-      "offset": 8430,
+      "line": 168,
+      "offset": 8642,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -3999,10 +4155,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8439:js-string",
+      "id": "nomad360_calculator_ui.js:8651:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 162,
-      "offset": 8439,
+      "line": 168,
+      "offset": 8651,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4013,10 +4169,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8455:js-string",
+      "id": "nomad360_calculator_ui.js:8667:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 163,
-      "offset": 8455,
+      "line": 169,
+      "offset": 8667,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4025,10 +4181,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8466:js-string",
+      "id": "nomad360_calculator_ui.js:8678:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 163,
-      "offset": 8466,
+      "line": 169,
+      "offset": 8678,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4039,10 +4195,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8492:js-string",
+      "id": "nomad360_calculator_ui.js:8704:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 164,
-      "offset": 8492,
+      "line": 170,
+      "offset": 8704,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4051,10 +4207,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8504:js-string",
+      "id": "nomad360_calculator_ui.js:8716:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 164,
-      "offset": 8504,
+      "line": 170,
+      "offset": 8716,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4065,10 +4221,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8530:js-string",
+      "id": "nomad360_calculator_ui.js:8742:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 165,
-      "offset": 8530,
+      "line": 171,
+      "offset": 8742,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4077,10 +4233,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8537:js-string",
+      "id": "nomad360_calculator_ui.js:8749:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 165,
-      "offset": 8537,
+      "line": 171,
+      "offset": 8749,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4091,10 +4247,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8586:js-string",
+      "id": "nomad360_calculator_ui.js:8798:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 166,
-      "offset": 8586,
+      "line": 172,
+      "offset": 8798,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4103,10 +4259,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8599:js-string",
+      "id": "nomad360_calculator_ui.js:8811:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 166,
-      "offset": 8599,
+      "line": 172,
+      "offset": 8811,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4117,10 +4273,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8727:js-string",
+      "id": "nomad360_calculator_ui.js:8939:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 167,
-      "offset": 8727,
+      "line": 173,
+      "offset": 8939,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4129,10 +4285,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8734:js-string",
+      "id": "nomad360_calculator_ui.js:8946:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 167,
-      "offset": 8734,
+      "line": 173,
+      "offset": 8946,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4143,10 +4299,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8849:js-string",
+      "id": "nomad360_calculator_ui.js:9061:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 168,
-      "offset": 8849,
+      "line": 174,
+      "offset": 9061,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4155,10 +4311,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8868:js-string",
+      "id": "nomad360_calculator_ui.js:9080:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 169,
-      "offset": 8868,
+      "line": 175,
+      "offset": 9080,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4167,10 +4323,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8877:js-string",
+      "id": "nomad360_calculator_ui.js:9089:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 169,
-      "offset": 8877,
+      "line": 175,
+      "offset": 9089,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4181,10 +4337,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8910:js-string",
+      "id": "nomad360_calculator_ui.js:9122:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 170,
-      "offset": 8910,
+      "line": 176,
+      "offset": 9122,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4193,10 +4349,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8923:js-string",
+      "id": "nomad360_calculator_ui.js:9135:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 170,
-      "offset": 8923,
+      "line": 176,
+      "offset": 9135,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4207,10 +4363,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:8955:js-string",
+      "id": "nomad360_calculator_ui.js:9167:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 171,
-      "offset": 8955,
+      "line": 177,
+      "offset": 9167,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4219,10 +4375,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:8967:js-string",
+      "id": "nomad360_calculator_ui.js:9179:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 171,
-      "offset": 8967,
+      "line": 177,
+      "offset": 9179,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4233,10 +4389,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9048:js-string",
+      "id": "nomad360_calculator_ui.js:9260:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 172,
-      "offset": 9048,
+      "line": 178,
+      "offset": 9260,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4245,10 +4401,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9062:js-string",
+      "id": "nomad360_calculator_ui.js:9274:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 172,
-      "offset": 9062,
+      "line": 178,
+      "offset": 9274,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4259,10 +4415,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9087:js-string",
+      "id": "nomad360_calculator_ui.js:9299:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 173,
-      "offset": 9087,
+      "line": 179,
+      "offset": 9299,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4271,10 +4427,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9100:js-string",
+      "id": "nomad360_calculator_ui.js:9312:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 173,
-      "offset": 9100,
+      "line": 179,
+      "offset": 9312,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4285,10 +4441,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9135:js-string",
+      "id": "nomad360_calculator_ui.js:9347:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 174,
-      "offset": 9135,
+      "line": 180,
+      "offset": 9347,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4297,10 +4453,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9148:js-string",
+      "id": "nomad360_calculator_ui.js:9360:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 174,
-      "offset": 9148,
+      "line": 180,
+      "offset": 9360,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4311,10 +4467,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9176:js-string",
+      "id": "nomad360_calculator_ui.js:9388:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 175,
-      "offset": 9176,
+      "line": 181,
+      "offset": 9388,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4323,10 +4479,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9189:js-string",
+      "id": "nomad360_calculator_ui.js:9401:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 175,
-      "offset": 9189,
+      "line": 181,
+      "offset": 9401,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4337,10 +4493,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9234:js-string",
+      "id": "nomad360_calculator_ui.js:9446:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 176,
-      "offset": 9234,
+      "line": 182,
+      "offset": 9446,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4349,10 +4505,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9248:js-string",
+      "id": "nomad360_calculator_ui.js:9460:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 176,
-      "offset": 9248,
+      "line": 182,
+      "offset": 9460,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4363,10 +4519,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9293:js-string",
+      "id": "nomad360_calculator_ui.js:9505:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 177,
-      "offset": 9293,
+      "line": 183,
+      "offset": 9505,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4375,10 +4531,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9307:js-string",
+      "id": "nomad360_calculator_ui.js:9519:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 177,
-      "offset": 9307,
+      "line": 183,
+      "offset": 9519,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4389,10 +4545,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9370:js-string",
+      "id": "nomad360_calculator_ui.js:9582:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 178,
-      "offset": 9370,
+      "line": 184,
+      "offset": 9582,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4401,10 +4557,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9384:js-string",
+      "id": "nomad360_calculator_ui.js:9596:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 178,
-      "offset": 9384,
+      "line": 184,
+      "offset": 9596,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4415,10 +4571,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9446:js-string",
+      "id": "nomad360_calculator_ui.js:9658:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 179,
-      "offset": 9446,
+      "line": 185,
+      "offset": 9658,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4427,10 +4583,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9459:js-string",
+      "id": "nomad360_calculator_ui.js:9671:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 179,
-      "offset": 9459,
+      "line": 185,
+      "offset": 9671,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4441,10 +4597,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9494:js-string",
+      "id": "nomad360_calculator_ui.js:9706:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 180,
-      "offset": 9494,
+      "line": 186,
+      "offset": 9706,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4453,10 +4609,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9509:js-string",
+      "id": "nomad360_calculator_ui.js:9721:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 180,
-      "offset": 9509,
+      "line": 186,
+      "offset": 9721,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4467,10 +4623,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9580:js-string",
+      "id": "nomad360_calculator_ui.js:9792:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 181,
-      "offset": 9580,
+      "line": 187,
+      "offset": 9792,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4479,10 +4635,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9591:js-string",
+      "id": "nomad360_calculator_ui.js:9803:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 181,
-      "offset": 9591,
+      "line": 187,
+      "offset": 9803,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4493,10 +4649,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9697:js-string",
+      "id": "nomad360_calculator_ui.js:9909:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 182,
-      "offset": 9697,
+      "line": 188,
+      "offset": 9909,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4505,10 +4661,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9706:js-string",
+      "id": "nomad360_calculator_ui.js:9918:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 182,
-      "offset": 9706,
+      "line": 188,
+      "offset": 9918,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4519,10 +4675,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9724:js-string",
+      "id": "nomad360_calculator_ui.js:9936:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 183,
-      "offset": 9724,
+      "line": 189,
+      "offset": 9936,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4531,10 +4687,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9732:js-string",
+      "id": "nomad360_calculator_ui.js:9944:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 183,
-      "offset": 9732,
+      "line": 189,
+      "offset": 9944,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4545,10 +4701,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9744:js-string",
+      "id": "nomad360_calculator_ui.js:9956:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 184,
-      "offset": 9744,
+      "line": 190,
+      "offset": 9956,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4557,10 +4713,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9752:js-string",
+      "id": "nomad360_calculator_ui.js:9964:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 184,
-      "offset": 9752,
+      "line": 190,
+      "offset": 9964,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4571,10 +4727,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9774:js-string",
+      "id": "nomad360_calculator_ui.js:9986:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 185,
-      "offset": 9774,
+      "line": 191,
+      "offset": 9986,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4583,10 +4739,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9786:js-string",
+      "id": "nomad360_calculator_ui.js:9998:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 185,
-      "offset": 9786,
+      "line": 191,
+      "offset": 9998,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4597,10 +4753,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9807:js-string",
+      "id": "nomad360_calculator_ui.js:10019:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 186,
-      "offset": 9807,
+      "line": 192,
+      "offset": 10019,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4609,10 +4765,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9819:js-string",
+      "id": "nomad360_calculator_ui.js:10031:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 186,
-      "offset": 9819,
+      "line": 192,
+      "offset": 10031,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4623,10 +4779,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9845:js-string",
+      "id": "nomad360_calculator_ui.js:10057:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 187,
-      "offset": 9845,
+      "line": 193,
+      "offset": 10057,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4635,10 +4791,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9853:js-string",
+      "id": "nomad360_calculator_ui.js:10065:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 187,
-      "offset": 9853,
+      "line": 193,
+      "offset": 10065,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4649,10 +4805,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9875:js-string",
+      "id": "nomad360_calculator_ui.js:10087:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 188,
-      "offset": 9875,
+      "line": 194,
+      "offset": 10087,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4661,10 +4817,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:9884:js-string",
+      "id": "nomad360_calculator_ui.js:10096:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 188,
-      "offset": 9884,
+      "line": 194,
+      "offset": 10096,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4675,10 +4831,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:9999:js-string",
+      "id": "nomad360_calculator_ui.js:10211:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 189,
-      "offset": 9999,
+      "line": 195,
+      "offset": 10211,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4687,10 +4843,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10009:js-string",
+      "id": "nomad360_calculator_ui.js:10221:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 189,
-      "offset": 10009,
+      "line": 195,
+      "offset": 10221,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4701,10 +4857,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10046:js-string",
+      "id": "nomad360_calculator_ui.js:10258:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 190,
-      "offset": 10046,
+      "line": 196,
+      "offset": 10258,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4713,10 +4869,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10057:js-string",
+      "id": "nomad360_calculator_ui.js:10269:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 190,
-      "offset": 10057,
+      "line": 196,
+      "offset": 10269,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4727,10 +4883,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10080:js-string",
+      "id": "nomad360_calculator_ui.js:10292:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 191,
-      "offset": 10080,
+      "line": 197,
+      "offset": 10292,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4739,10 +4895,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10090:js-string",
+      "id": "nomad360_calculator_ui.js:10302:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 191,
-      "offset": 10090,
+      "line": 197,
+      "offset": 10302,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4753,10 +4909,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10100:js-string",
+      "id": "nomad360_calculator_ui.js:10312:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 192,
-      "offset": 10100,
+      "line": 198,
+      "offset": 10312,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4765,10 +4921,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10111:js-string",
+      "id": "nomad360_calculator_ui.js:10323:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 192,
-      "offset": 10111,
+      "line": 198,
+      "offset": 10323,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4779,10 +4935,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10137:js-string",
+      "id": "nomad360_calculator_ui.js:10349:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 193,
-      "offset": 10137,
+      "line": 199,
+      "offset": 10349,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4791,10 +4947,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10148:js-string",
+      "id": "nomad360_calculator_ui.js:10360:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 193,
-      "offset": 10148,
+      "line": 199,
+      "offset": 10360,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4805,10 +4961,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10171:js-string",
+      "id": "nomad360_calculator_ui.js:10383:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 194,
-      "offset": 10171,
+      "line": 200,
+      "offset": 10383,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4817,10 +4973,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10181:js-string",
+      "id": "nomad360_calculator_ui.js:10393:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 194,
-      "offset": 10181,
+      "line": 200,
+      "offset": 10393,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4831,10 +4987,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10199:js-string",
+      "id": "nomad360_calculator_ui.js:10411:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 195,
-      "offset": 10199,
+      "line": 201,
+      "offset": 10411,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4843,10 +4999,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10209:js-string",
+      "id": "nomad360_calculator_ui.js:10421:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 195,
-      "offset": 10209,
+      "line": 201,
+      "offset": 10421,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4857,10 +5013,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10223:js-string",
+      "id": "nomad360_calculator_ui.js:10435:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 196,
-      "offset": 10223,
+      "line": 202,
+      "offset": 10435,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4869,10 +5025,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10231:js-string",
+      "id": "nomad360_calculator_ui.js:10443:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 196,
-      "offset": 10231,
+      "line": 202,
+      "offset": 10443,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4883,10 +5039,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10248:js-string",
+      "id": "nomad360_calculator_ui.js:10460:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 197,
-      "offset": 10248,
+      "line": 203,
+      "offset": 10460,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4895,10 +5051,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10257:js-string",
+      "id": "nomad360_calculator_ui.js:10469:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 197,
-      "offset": 10257,
+      "line": 203,
+      "offset": 10469,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4909,10 +5065,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10284:js-string",
+      "id": "nomad360_calculator_ui.js:10496:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 198,
-      "offset": 10284,
+      "line": 204,
+      "offset": 10496,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4921,10 +5077,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10297:js-string",
+      "id": "nomad360_calculator_ui.js:10509:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 198,
-      "offset": 10297,
+      "line": 204,
+      "offset": 10509,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4935,10 +5091,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10320:js-string",
+      "id": "nomad360_calculator_ui.js:10532:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 199,
-      "offset": 10320,
+      "line": 205,
+      "offset": 10532,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4947,10 +5103,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10329:js-string",
+      "id": "nomad360_calculator_ui.js:10541:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 199,
-      "offset": 10329,
+      "line": 205,
+      "offset": 10541,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4961,10 +5117,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10408:js-string",
+      "id": "nomad360_calculator_ui.js:10620:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 200,
-      "offset": 10408,
+      "line": 206,
+      "offset": 10620,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4973,10 +5129,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10418:js-string",
+      "id": "nomad360_calculator_ui.js:10630:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 200,
-      "offset": 10418,
+      "line": 206,
+      "offset": 10630,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4987,10 +5143,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10524:js-string",
+      "id": "nomad360_calculator_ui.js:10736:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 201,
-      "offset": 10524,
+      "line": 207,
+      "offset": 10736,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -4999,10 +5155,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10535:js-string",
+      "id": "nomad360_calculator_ui.js:10747:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 201,
-      "offset": 10535,
+      "line": 207,
+      "offset": 10747,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -5013,10 +5169,10 @@
       "coverage": "catalog-entry"
     },
     {
-      "id": "nomad360_calculator_ui.js:10556:js-string",
+      "id": "nomad360_calculator_ui.js:10768:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 202,
-      "offset": 10556,
+      "line": 208,
+      "offset": 10768,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
@@ -5025,172 +5181,16 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_calculator_ui.js:10570:js-string",
+      "id": "nomad360_calculator_ui.js:10782:js-string",
       "file": "nomad360_calculator_ui.js",
-      "line": 202,
-      "offset": 10570,
+      "line": 208,
+      "offset": 10782,
       "kind": "js-string",
       "owner": "nomad360_calculator_ui.js",
       "stage": "L5",
       "context": "L",
       "text": "Калькулятор тегін. Ерікті қолдау калькуляторды, AI-маркетологты және контент фабрикасын дамытуға жұмсалады.",
       "catalog": "nomad360_calculator_ui.js:L:175:supportSub",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10685:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 203,
-      "offset": 10685,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "email",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10694:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 203,
-      "offset": 10694,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Әзірлеушімен байланысу",
-      "catalog": "nomad360_calculator_ui.js:L:175:email",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10724:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 204,
-      "offset": 10724,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "feedback",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10736:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 204,
-      "offset": 10736,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Қате таптыңыз ба, әлде ұсынысыңыз бар ма?",
-      "catalog": "nomad360_calculator_ui.js:L:175:feedback",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10785:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 205,
-      "offset": 10785,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "ctaTitle",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10797:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 205,
-      "offset": 10797,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Келесі бағыт — AI-маркетолог пен креатив фабрикасы.",
-      "catalog": "nomad360_calculator_ui.js:L:175:ctaTitle",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10856:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 206,
-      "offset": 10856,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "ctaSub",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10866:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 206,
-      "offset": 10866,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Брендтерге клиент табуға және идеяларды артық қол еңбегінсіз контентке айналдыруға көмектесетін құралдар әзірлеп жатырмыз.",
-      "catalog": "nomad360_calculator_ui.js:L:175:ctaSub",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:10996:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 207,
-      "offset": 10996,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "ctaMail",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:11007:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 207,
-      "offset": 11007,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "AI-маркетолог туралы сұрау",
-      "catalog": "nomad360_calculator_ui.js:L:175:ctaMail",
-      "language": "kk",
-      "coverage": "catalog-entry"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:11041:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 208,
-      "offset": 11041,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "threads",
-      "coverage": "technical-or-latin-review"
-    },
-    {
-      "id": "nomad360_calculator_ui.js:11052:js-string",
-      "file": "nomad360_calculator_ui.js",
-      "line": 208,
-      "offset": 11052,
-      "kind": "js-string",
-      "owner": "nomad360_calculator_ui.js",
-      "stage": "L5",
-      "context": "L",
-      "text": "Threads парақшамыз",
-      "catalog": "nomad360_calculator_ui.js:L:175:threads",
       "language": "kk",
       "coverage": "catalog-entry"
     }
