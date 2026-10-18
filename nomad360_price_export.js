@@ -37,14 +37,54 @@ const copy=(globalThis.Nomad360LocaleCore?.locales("export.excel") || {
   review:'Бағаны пайдаланбас бұрын осы позицияның күйін тексеріңіз.'}
 });
 const salesTaxColumns={
- ru:{sheet:'Sales Tax',id:'SKU / ID',name:'Товар / услуга',base:'Кому относится налог',owner:'Мой доход',principal:'Доход принципала',net:'Выручка без Sales Tax',tax:'Sales Tax',buyer:'Покупатель оплачивает',total:'Итого',period:'Базовый месяц'},
- en:{sheet:'Sales Tax',id:'SKU / ID',name:'Product / service',base:'Tax revenue belongs to',owner:'Owner revenue',principal:'Principal revenue',net:'Revenue excl. Sales Tax',tax:'Sales Tax',buyer:'Customer pays',total:'Total',period:'Reference month'},
- kk:{sheet:'Sales Tax',id:'SKU / ID',name:'Тауар / қызмет',base:'Салықтық түсім иесі',owner:'Менің түсімім',principal:'Принципал түсімі',net:'Sales Tax-сыз түсім',tax:'Sales Tax',buyer:'Сатып алушы төлейді',total:'Барлығы',period:'Негізгі ай'}
+ ru:{sheet:'Sales Tax',id:'SKU / ID',name:'Товар / услуга',base:'Чья выручка',owner:'Мой доход',principal:'Доход принципала',net:'Выручка без Sales Tax',tax:'Sales Tax',buyer:'Покупатель оплачивает',total:'Итого',period:'Базовый месяц'},
+ en:{sheet:'Sales Tax',id:'SKU / ID',name:'Product / service',base:'Whose revenue',owner:'Owner revenue',principal:'Principal revenue',net:'Revenue excl. Sales Tax',tax:'Sales Tax',buyer:'Customer pays',total:'Total',period:'Reference month'},
+ kk:{sheet:'Sales Tax',id:'SKU / ID',name:'Тауар / қызмет',base:'Түсім кімге тиесілі',owner:'Менің түсімім',principal:'Принципал түсімі',net:'Sales Tax-сыз түсім',tax:'Sales Tax',buyer:'Сатып алушы төлейді',total:'Барлығы',period:'Негізгі ай'}
 };
 const number=value=>typeof value==='number'&&Number.isFinite(value)?value:null;
 const text=value=>value===undefined||value===null?'':String(value);
 function document(context,language='en'){
  const {state,out,kind}=context||{},t=copy[language];
+ // Display labels only; V1 price bounds, V2 money and margin are taken
+ // unchanged from the accepted V1→V2 calculation.
+ const x={
+  ru:{id:'Артикул / ID',type:'Способ продажи',status:'Статус расчёта',marginStatus:'Статус маржи',
+   linkedVat:'Цена по прайсу V2 за ед. с НДС',vatNet:'Цена продажи за ед. без НДС',
+   salesNet:'Цена за ед. без Sales Tax',untaxed:'Цена продажи за единицу',
+   buyerVat:'Цена за ед. со скидкой и НДС',buyerStandaloneVat:'Цена за ед. с НДС',
+   buyerSales:'Цена за ед. с Sales Tax',buyerLinkedSales:'Цена за ед. со скидкой и Sales Tax',
+   buyerUntaxed:'Цена за ед. к оплате',
+   min:'Минимальная цена V1',max:'Максимальная цена V1',
+   target:'Целевая маржа V1, %',realized:'Маржа по расчёту V2, %',
+   units:'В прайс-листе указаны цены за одну единицу; лист Sales Tax содержит суммы по SKU за расчётный период.',
+   bounds:'Минимальная и максимальная цены перенесены из V1 без изменения. V2 подбирает цену внутри диапазона. Маржа по расчёту V2 и статус взяты из результата движка, а не вычислены в Excel.',
+   salesPeriod:'В самостоятельной V2 лист Sales Tax отражает базовый месяц, а не годовой налоговый регистр.',
+   principal:'Для агентской позиции цена покупателю может быть пустой: комиссия агента не является розничной ценой принципала.'},
+  en:{id:'SKU / ID',type:'Sales method',status:'Calculation status',marginStatus:'Margin status',
+   linkedVat:'V2 list price per unit incl. VAT',vatNet:'Unit selling price excl. VAT',
+   salesNet:'Unit price excl. Sales Tax',untaxed:'Unit selling price',
+   buyerVat:'Unit price after discount incl. VAT',buyerStandaloneVat:'Unit price incl. VAT',
+   buyerSales:'Unit price incl. Sales Tax',buyerLinkedSales:'Unit price after discount incl. Sales Tax',
+   buyerUntaxed:'Unit amount payable',
+   min:'V1 minimum price',max:'V1 maximum price',
+   target:'V1 target margin, %',realized:'V2 calculated margin, %',
+   units:'Price-list amounts are per unit; the Sales Tax worksheet shows SKU totals for the calculation period.',
+   bounds:'The V1 minimum and maximum prices are preserved. V2 selects a price within that range. The calculated V2 margin and status come from the engine result, not Excel formulas.',
+   salesPeriod:'For standalone V2, the Sales Tax sheet covers the reference month, not an invented annual tax ledger.',
+   principal:'For an agency item, the customer unit price can be blank: the agent fee is not the principal retail price.'},
+  kk:{id:'Артикул / ID',type:'Сату тәсілі',status:'Есептеу күйі',marginStatus:'Маржа күйі',
+   linkedVat:'ҚҚС-пен бірлікке V2 прайс бағасы',vatNet:'ҚҚС-сыз бірлік сату бағасы',
+   salesNet:'Sales Tax-сыз бірлік бағасы',untaxed:'Бірлік сату бағасы',
+   buyerVat:'Жеңілдіктен кейінгі ҚҚС-пен бірлік бағасы',buyerStandaloneVat:'ҚҚС-пен бірлік бағасы',
+   buyerSales:'Sales Tax-пен бірлік бағасы',buyerLinkedSales:'Жеңілдіктен кейінгі Sales Tax-пен бірлік бағасы',
+   buyerUntaxed:'Бірлік үшін төлем',
+   min:'V1 ең төменгі баға',max:'V1 ең жоғарғы баға',
+   target:'V1 мақсатты маржа, %',realized:'V2 есептелген маржа, %',
+   units:'Прайс-парақтағы бағалар бір бірлікке берілген; Sales Tax парағында есептік кезеңдегі әр SKU бойынша жиынтық көрсетілген.',
+   bounds:'V1 ең төменгі және ең жоғарғы бағалары өзгеріссіз сақталады. V2 осы аралықтан баға таңдайды. V2 маржасы мен күйі Excel-де есептелмейді, есептеу модулінің нәтижесінен алынады.',
+   salesPeriod:'Дербес V2 үшін Sales Tax парағы жылдық тізілімді емес, негізгі айды көрсетеді.',
+   principal:'Агенттік позицияда сатып алушының бірлік бағасы бос болуы мүмкін: агент комиссиясы принципалдың бөлшек сауда бағасы емес.'}
+ }[language];
  if(!t||!state||!out?.ready||!Array.isArray(out.items)||!out.items.length||!['linked','standalone'].includes(kind))throw Error('Price list is not ready');
  const currency=state.currency||'USD';if(!/^[A-Z]{3}$/.test(currency))throw Error('Invalid business currency');
  const taxMode=state.tax?.taxRegime||'vat';
@@ -65,10 +105,24 @@ function document(context,language='en'){
  const labels=globalThis.Nomad360LocaleCore?.locales?.('tax')?.[language]||{};
  // Keep the established VAT Excel terminology byte-identical; UI print may
  // use its independently accepted translated heading.
- const columns=[t.id,t.name,t.type,t.currency,kind==='linked'||taxMode!=='vat'?t.base:t.baseNet,t.discount,t.customer,t.status];
+ const priceLabel=taxMode==='vat'?(kind==='linked'?x.linkedVat:x.vatNet):
+  taxMode==='sales_tax'?x.salesNet:x.untaxed;
+ const buyerLabel=taxMode==='vat'?(kind==='linked'?x.buyerVat:x.buyerStandaloneVat):
+  taxMode==='sales_tax'?(kind==='linked'?x.buyerLinkedSales:x.buyerSales):x.buyerUntaxed;
+ // Keep the established eight numeric/string columns in their original positions,
+ // as PDF/preview and historic Excel consumers depend on those positions.
+ // Four audited V1→V2 columns are appended only for linked portfolios.
+ const columns=[x.id,t.name,x.type,t.currency,priceLabel,t.discount,buyerLabel,
+  kind==='linked'?x.marginStatus:x.status,
+  ...(kind==='linked'?[x.min,x.max,x.target,x.realized]:[])];
  const notes=[t.source,taxMode==='vat'?(kind==='linked'?t.linked:t.standalone):
    (labels.v2BuyerSummary||'Sales Tax')+'. '+(labels.v2DeductionsNotice||''),t.missing];
- if(kind==='linked')notes.splice(2,0,t.offers);
+ notes[0]+=' '+x.units;
+ if(kind==='linked'){
+  notes[1]+=' '+x.bounds;
+  notes.splice(2,0,t.offers);
+ }else if(taxMode==='sales_tax')notes[1]+=' '+x.salesPeriod;
+ if(kind==='linked'&&taxMode==='sales_tax')notes[1]+=' '+x.principal;
  const provisional=out.cashflow?.periodPnl?.accountingCompleteness==='PROVISIONAL';if(provisional)notes.push(t.provisional);
  const rows=out.items.map(item=>{
   const status=kind==='standalone'?'CALCULATED':item.status;
@@ -89,7 +143,11 @@ function document(context,language='en'){
   }
   return [text(item.id),text(item.name),t[source]||text(source),currency,
    basePrice,number(kind==='linked'?item.discountSelected:null),
-   buyer,t[status]||text(status)];
+   buyer,t[status]||text(status),
+   ...(kind==='linked'?[
+    number(item.priceMin),number(item.priceMax),
+    number(item.targetMarginPct),number(item.actualAfterTaxMargin)
+   ]:[])];
  });
  // The accepted V2 projection is the ONLY source of tax amounts.
  // An owner/principal line is a monetary aggregate for this model's
@@ -125,12 +183,14 @@ async function write(doc,ExcelJS){
  if(!ExcelJS?.Workbook)throw Error('Local Excel library is unavailable');
  const workbook=new ExcelJS.Workbook();workbook.creator='Nomad360';
  const sheet=workbook.addWorksheet(doc.sheet,{views:[{state:'frozen',ySplit:1}]});
- sheet.columns=doc.columns.map((header,index)=>({header,width:[24,38,24,12,22,24,22,30][index]}));
+ sheet.columns=doc.columns.map((header,index)=>({header,width:[24,38,24,12,32,24,37,30,24,24,24,29][index]}));
  for(const values of doc.rows){
-  const row=sheet.addRow(values);for(const index of [5,6,7])row.getCell(index).numFmt='0.00';
+  const row=sheet.addRow(values);
+  for(const index of [5,6,7,...(doc.kind==='linked'?[9,10,11,12]:[])])
+   row.getCell(index).numFmt='0.00';
   row.alignment={vertical:'top',wrapText:true};
  }
- sheet.autoFilter={from:{row:1,column:1},to:{row:doc.rows.length+1,column:8}};
+ sheet.autoFilter={from:{row:1,column:1},to:{row:doc.rows.length+1,column:doc.columns.length}};
  const notes=workbook.addWorksheet(doc.notesSheet);notes.columns=[{header:doc.noteColumn,width:110}];
  for(const note of doc.notes)notes.addRow([note]).alignment={wrapText:true,vertical:'top'};
  let salesSheet=null;
