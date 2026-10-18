@@ -399,7 +399,7 @@
  #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
   width:82%;
   max-width:330px;
-  margin-top:clamp(120px,36vw,148px);
+  margin-top:clamp(104px,32vw,133px);
   margin-bottom:0;
  }
  #nomad360-information .nomad-about-caption{
@@ -409,7 +409,7 @@
  /* Reserve more moonlight beside long localized headings, not over them. */
  html[lang="en"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening,
  html[lang="kk"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
-  margin-top:clamp(68px,23vw,96px);
+  margin-top:clamp(60px,21vw,89px);
  }
 }
 
@@ -446,7 +446,7 @@
  #nomad360-information #nomad360-about .nomad-about-scene-copy{
   /* Exact photo height minus existing top padding (37px), not a fake
      spare slot for the former paragraph above the three cards. */
-  min-height:calc(clamp(265px,84vw,330px) - 37px);
+  min-height:0;
  }
  #nomad360-information #nomad360-about .nomad-about-caption-band{
   min-height:0;
