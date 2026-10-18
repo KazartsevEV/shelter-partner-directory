@@ -1,0 +1,19 @@
+/* Nomad360 Help — page-level additions. Palette: #173B58, #FFFFFF, #FF913F, #38678B only. */
+.help-lead{font-size:1.125rem;max-width:46rem}
+.help-routes{display:grid;gap:12px;margin:20px 0;padding:0;list-style:none}
+@media (min-width:768px){.help-routes{grid-template-columns:1fr 1fr}}
+.help-routes li{border:1px solid #38678B;border-radius:8px;padding:12px 16px}
+.help-routes a{font-weight:600}
+.help-toc{columns:1;padding-left:1.2rem;margin:12px 0}
+@media (min-width:768px){.help-toc{columns:2;column-gap:32px}}
+.help-toc li{margin:0 0 6px;break-inside:avoid}
+.help-section{scroll-margin-top:84px;padding-top:8px}
+.help-section h2{scroll-margin-top:84px}
+.help-back{font-size:.875rem;margin:8px 0 0}
+.help-example{border-left:4px solid #FF913F;background:rgba(56,103,139,.12);padding:10px 16px;margin:16px 0;border-radius:0 8px 8px 0}
+.help-example p{margin:6px 0}
+.help-note{border:1px solid #38678B;border-radius:8px;padding:10px 16px;margin:16px 0}
+.help-table-wrap{overflow-x:auto;margin:16px 0}
+.help-table-wrap table{min-width:520px}
+:target{outline:none}
+a:focus-visible,summary:focus-visible{outline:3px solid #FF913F;outline-offset:2px}
