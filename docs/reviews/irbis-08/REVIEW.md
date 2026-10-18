@@ -16,6 +16,6 @@ The existing `scripts/irbis/preview.cjs` exercises 21 browser cases (RU, EN, KK 
 
 ## Screenshot QA and release gate
 - Chromium screenshot audit found that the native SWIFT/IBAN `<details class="nomad-pay nomad-pay-bank">` inherited TASK-10's white legacy card styling in the otherwise navy footer. It is now navy `#173B58`, with readable white header/bank text. Its existing disclosure and copied bank fields remain native and functional.
-- Nested disclosure chevrons use visible approved orange `#FF913F`, rather than the low-contrast inherited divider blue. New browser assertions check bank background/text, its open state and all nested chevron colors.
+- All four primary disclosure chevrons and nested payment chevrons use approved orange `#FF913F`, overriding the TASK-10 global `::after` border reset in the same important cascade layer. Browser assertions check main/nested arrow colors, bank background/text and the bank's open state.
 - The head-commit CI, Codex review and screenshots must be checked on the live PR before accepting it; prior GREEN runs are not a substitute for the latest head.
 - Do not merge automatically. Owner approval of the actual desktop/mobile visual is required. PR #203 remains stacked on IRBIS-07 PR #202; merge the reviewed dependency first, then retarget #203 to `main` and rerun CI.
