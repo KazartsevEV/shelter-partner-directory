@@ -156,6 +156,11 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'No reserved opaque blue strip: at most the deliberate 12px spacing below localized copy');
     assert.ok(layout.openingRight<=layout.sectionWidth*.83,
       'The live brand text must stay in the left navy copy area, off the right white cliffs');
+    const brandOverflow=await page.locator('#nomad360-about .nomad-about-brand').evaluate(el=>({
+      client:el.clientWidth,scroll:el.scrollWidth
+    }));
+    assert.ok(brandOverflow.scroll<=brandOverflow.client+2,
+      'All actual RU/EN/KK words must wrap inside the dark-left copy column, never across chalk cliffs');
     assert.ok(layout.scenicCopyBox.bottom>=layout.openingBox.bottom-1,
       'Mobile scene naturally contains every line of its translated opening');
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
