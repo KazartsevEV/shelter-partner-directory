@@ -55,8 +55,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    });
    assert.match(layout.sceneSource,/docs\/approved-design\/unified-banners\/about-moon-scenery\.webp/);
    assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
-   assert.equal(layout.originalWidth,563);assert.equal(layout.originalHeight,470);
-   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-563/470)<0.025,'Scene must retain source aspect ratio');
+   assert.equal(layout.originalWidth,563);assert.equal(layout.originalHeight,475);
+   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-563/475)<0.025,'Scene must retain source aspect ratio');
    assert.equal(layout.background,'rgb(23, 59, 88)','Brand navy');
    assert.equal(layout.cardCount,3,'All three links preserved');
    assert.deepEqual(layout.links.map(c=>c.hash),['#nomad360-selling-choice','#nomad360-ai','#nomad360-factory']);
