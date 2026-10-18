@@ -43,8 +43,9 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const img=new Image();img.src='./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
-    const box=el=>{const r=el.getBoundingClientRect();return {top:r.top-rect.top,bottom:r.bottom-rect.top,height:r.height};};
+    const box=el=>{const r=el.getBoundingClientRect();return {top:r.top-rect.top,bottom:r.bottom-rect.top,height:r.height,width:r.width};};
     const scenicCopy=section.querySelector('.nomad-about-scene-copy');
+    const heading=scenicCopy?.querySelector('h2');
     const opening=section.querySelector('.nomad-about-opening');
     const caption=section.querySelector('.nomad-about-caption');
     const flow=section.querySelector('.nomad-about-flow');
@@ -61,7 +62,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       cardOrder:section.querySelector('.nomad-about-caption').compareDocumentPosition(section.querySelector('.nomad-about-flow'))&Node.DOCUMENT_POSITION_FOLLOWING,
       openingRight:section.querySelector('.nomad-about-opening').getBoundingClientRect().right-rect.left,
       aboutLeft:sr.left,
-      scenicCopyBox:scenicCopy?box(scenicCopy):null,
+      scenicCopyBox:scenicCopy?box(scenicCopy):null,headingBox:heading?box(heading):null,
       openingBox:box(opening),captionBox:box(caption),
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
@@ -101,6 +102,9 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'Highlighted mobile automation caption must start below image on solid navy');
     assert.ok(layout.captionBox.top>=layout.openingBox.bottom,
       'Localized text order and spacing must be preserved');
+    if(lang==='en'||lang==='kk')
+      assert.ok(layout.headingBox&&layout.headingBox.width<layout.sectionWidth*.61,
+        'Translated EN/KK heading must stay in safe left column, not across the moon');
    }
    const file=lang+'-'+width+'-about.png';
    await page.locator('#nomad360-information').screenshot({path:path.join(out,file)});
