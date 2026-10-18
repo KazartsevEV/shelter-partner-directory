@@ -481,6 +481,12 @@
  html[lang="ru"] #nomad360-information #nomad360-about .nomad-about-scene-copy > h2{
   transform:translateY(-6px);
  }
+ /* Removing the 4px orange rule and its 10px trailing margin naturally
+    raises BOTH the heading and the three-line intro by 14px in normal flow.
+    No extra shifts, gradients, or photo changes. */
+ html[lang="ru"] #nomad360-information #nomad360-about .nomad-about-scene-copy > h2::before{
+  display:none;
+ }
  html[lang="ru"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
   min-height:clamp(194px,52vw,230px);
  }
