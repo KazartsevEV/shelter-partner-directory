@@ -263,12 +263,6 @@
  * A localized, navy-only copy veil fades out BEFORE the moon/right cliffs.
  * This does not touch or regenerate any WebP pixel. */
 @media(max-width:700px){
- html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy>h2,
- html[lang="kk"] #nomad360-information #nomad360-about .nomad-about-scene-copy>h2{
-  max-width:58%;
-  font-size:clamp(25px,7.1vw,29px);
-  overflow-wrap:normal;
- }
  #nomad360-information .nomad-about-opening{
   position:relative;isolation:isolate;
  }
@@ -407,10 +401,6 @@
   margin-bottom:26px;
  }
  /* Reserve more moonlight beside long localized headings, not over them. */
- html[lang="en"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening,
- html[lang="kk"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
-  margin-top:clamp(60px,21vw,89px);
- }
 }
 
 /* ABOUT-07: relocate the REAL RU/EN/KK caption between services and contacts.
@@ -471,4 +461,13 @@
  #nomad360-information #nomad360-about .nomad-about-scene-copy{
   min-height:clamp(300px,35vw,390px);
  }
+}
+
+/* ABOUT-09: mobile uses existing short navigation titles, so “About” and
+   “Жоба туралы” occupy the SAME single line as “О проекте”.
+   Original full titles remain unchanged on tablet/desktop. */
+#nomad360-information .nomad-about-heading-mobile{display:none}
+@media(max-width:700px){
+ #nomad360-information .nomad-about-heading-full{display:none}
+ #nomad360-information .nomad-about-heading-mobile{display:inline}
 }
