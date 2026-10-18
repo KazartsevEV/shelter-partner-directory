@@ -39,6 +39,16 @@ def strip_approved_hero_html(raw):
     modern = (b'        <div id="nomad360-seo-banner" class="nomad-marketing nomad-seo-banner" '
               b'data-nomad-no-translate aria-label="Nomad360 brand">\n'
               b'        </div>\n\n')
+    # ABOUT-01 is a later already-merged main addition. Strictly validate and
+    # normalize only its two passive loaders before applying historical HERO
+    # source integrity; do not mask any business markup or financial code.
+    about_css = b'    <link rel="stylesheet" href="./nomad360_about_banner.css">\n'
+    about_js = b'<script src="./nomad360_about_banner.js"></script>\n'
+    if about_css in raw or about_js in raw:
+        assert raw.count(about_css) == raw.count(about_js) == 1, 'ABOUT-01 loader integrity'
+        assert css + about_css + b'</head>' in raw, 'ABOUT CSS follows HERO CSS'
+        assert script + about_js + b'<script src="./nomad360_return.js"></script>' in raw, 'ABOUT JS follows HERO JS'
+        raw = raw.replace(about_css, b'', 1).replace(about_js, b'', 1)
     if css not in raw and script not in raw and modern not in raw:
         return raw
     assert raw.count(css) == raw.count(script) == raw.count(modern) == 1, 'HERO-03 loader and SEO anchor integrity'

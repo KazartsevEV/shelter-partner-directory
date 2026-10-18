@@ -10,6 +10,8 @@ const baseline='cfc7e3d4f429004def715a4acc586a3b3fb984d1';
 const css='    <link rel="stylesheet" href="./nomad360_hero_banner.css">\n';
 const js='<script src="./nomad360_hero_banner.js"></script>\n';
 const palette='    <link rel="stylesheet" href="./nomad360_palette.css">\n';
+const aboutCss='    <link rel="stylesheet" href="./nomad360_about_banner.css">\n';
+const aboutJs='<script src="./nomad360_about_banner.js"></script>\n';
 const modern='        <div id="nomad360-seo-banner" class="nomad-marketing nomad-seo-banner" data-nomad-no-translate aria-label="Nomad360 brand">\n        </div>\n\n';
 const start='        <div id="nomad360-seo-banner"';
 const end='        <section id="nomad360-selling-choice"';
@@ -21,6 +23,16 @@ function legacy(){
  return original.slice(original.indexOf(start),original.indexOf(end));
 }
 function stripApprovedHeroHtml(source){
+ // ABOUT-01 was approved on a later main: preserve its exact loader location,
+ // then remove only those two passive loader tags for historical HTML hashes.
+ if(source.includes(aboutCss)||source.includes(aboutJs)){
+  once(source,aboutCss,'ABOUT stylesheet');
+  once(source,aboutJs,'ABOUT script');
+  A.ok(source.includes(css+aboutCss+'</head>'),'ABOUT stylesheet follows HERO and precedes head close');
+  A.ok(source.includes(js+aboutJs+'<script src="./nomad360_return.js"></script>'),
+    'ABOUT script follows HERO and precedes return controller');
+  source=source.replace(aboutCss,'').replace(aboutJs,'');
+ }
  if(!source.includes(css)&&!source.includes(js)&&!source.includes(modern))return source;
  for(const [term,name] of [[css,'HERO stylesheet'],[js,'HERO script'],[modern,'HERO empty SEO anchor']])once(source,term,name);
  A.ok(source.includes(palette+css+'</head>'),'Approved HERO stylesheet follows the palette link');
