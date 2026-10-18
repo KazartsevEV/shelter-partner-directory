@@ -458,6 +458,10 @@ def main():
         '.github/workflows/us-retail-demo-v2.yml',
         '.github/workflows/us-retail-filled-html.yml',
         'tests/portfolio_v2_online_browser.test.cjs',
+         # V2-OUTPUT-TRUTH-01: exact approved source and XLSX tests.
+         'tests/helpers/hero-main-contract.cjs',
+         'tests/nomad360_price_export.test.cjs',
+         'tests/nomad360_price_export_openxml.py',
         '.github/workflows/task10-palette.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']
     assert len(audit) == 29 and not any('error' in r for r in audit)
