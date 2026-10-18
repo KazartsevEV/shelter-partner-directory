@@ -30,7 +30,7 @@ function restore(file,source){
  exactOnce(current,trimmed,'user-approved shortened marketing guidance');
  current=current.replace(trimmed,historicFunnel);
  const products="box('2. Товары и доли продаж',\n model.skus.map(skuCard).join('')+";
- const originalProducts="box('2. Товары и доли продаж','<p class=\\"nd-v2-description text-sm mb-3\\">Три модели используют одну формулу цены; меняются состав себестоимости, наличие склада и момент расчёта с поставщиком.</p>'+\n model.skus.map(skuCard).join('')+";
+ const originalProducts=`box('2. Товары и доли продаж','<p class="nd-v2-description text-sm mb-3">Три модели используют одну формулу цены; меняются состав себестоимости, наличие склада и момент расчёта с поставщиком.</p>'+\n model.skus.map(skuCard).join('')+`;
  exactOnce(current,products,'removed redundant sourcing explanation');
  current=current.replace(products,originalProducts);
  const added=block(current,' const presentationLocale=',' const heads=[', 'reference-month presentation');
