@@ -144,8 +144,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    if(width<=700){
     assert.ok(layout.scenicCopyBox,
       'Translated mobile brand copy must be in the image section');
-    assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
-      'Brand introduction should occupy former caption position within scene');
+    assert.ok(layout.openingBox.top>80&&layout.openingBox.top<layout.scenicHeight*.72,
+      'Brand introduction must be raised into left navy over the panorama, not old lower caption space');
     assert.ok(layout.openingBox.top<layout.scenicHeight*.72,
       'Raised brand text must begin on the upper navy photo, never in the low solid-blue spacer');
     assert.ok(layout.openingBox.top+layout.openingBox.height<=layout.flowBox.top+2,
