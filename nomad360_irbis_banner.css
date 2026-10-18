@@ -295,6 +295,9 @@
  * Native RU/EN/KK license, privacy and contact DOM is relocated here.
  * All visible disclosure rows use the approved #38678B rule and are
  * vertically centered between rules with the same left inset. */
+#nomad360-irbis-banner #nomad360-product-details[open]{
+ width:58%;max-width:775px
+}
 #nomad360-irbis-banner .nomad-footer-meta{
  display:block;grid-template-columns:none;gap:0;min-width:0;
  width:58%;max-width:775px;margin:0;padding:0;border:0;
@@ -418,9 +421,11 @@
 }
 #nomad360-irbis-banner #nomad360-official a:hover{color:var(--irbis-orange)}
 @media(min-width:701px) and (max-width:1100px){
- #nomad360-irbis-banner .nomad-footer-meta{width:60%}
+ #nomad360-irbis-banner .nomad-footer-meta,
+ #nomad360-irbis-banner #nomad360-product-details[open]{width:60%}
 }
 @media(max-width:700px){
+ #nomad360-irbis-banner #nomad360-product-details[open]{width:auto;max-width:none}
  #nomad360-irbis-banner .nomad-footer-meta{width:auto;max-width:none;margin:0 20px}
  #nomad360-irbis-banner :is(
   #nomad360-support > details,
