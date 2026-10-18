@@ -544,6 +544,8 @@ def main():
         'tests/nomad360_marketing_browser.cjs', 'tests/type02_acceptance_browser.cjs',
         'tests/helpers/task10-palette.cjs',
         'docs/reviews/irbis-07/REVIEW.md',
+        # IRBIS-08 remains a scoped presentation-only footer change.
+        'docs/reviews/irbis-08/REVIEW.md',
         'tests/nomad360_price_export.test.cjs',
          'tests/nomad360_price_export_openxml.py',
         '.github/workflows/task10-palette.yml') for p in changed), changed
