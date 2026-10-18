@@ -345,3 +345,65 @@
  #nomad360-information #nomad360-about{padding-top:70px}
  #nomad360-information .nomad-about-opening{width:min(48%,515px)}
 }
+
+/* ABOUT-06: owner-approved code iteration, no bitmap/locale changes.
+   Desktop: concise three-card row, closer contacts; scenery survives lower
+   into the canvas. Left navy scrim fades to zero at 2/3 of the landscape.
+   Mobile: brand introduction occupies the former orange-caption area OVER
+   scenery; orange caption starts AFTER the photograph on solid navy. */
+@media(min-width:1001px){
+ #nomad360-information .nomad-about-flow{
+  margin-bottom:7px;
+ }
+ #nomad360-information .nomad-about-card{
+  min-height:182px;
+  padding:8px 17px 10px;
+  gap:6px;
+ }
+ #nomad360-information .nomad-about-icon{
+  width:82px;
+  height:60px;
+ }
+ #nomad360-information .nomad-about-card-motto{
+  min-height:22px;
+ }
+ #nomad360-information .nomad-about-card p{
+  font-size:clamp(16px,1.38vw,18px);
+ }
+ #nomad360-information #nomad360-contacts{
+  padding-top:17px;
+ }
+}
+@media(min-width:701px){
+ #nomad360-information.nomad-information::before{
+  -webkit-mask-image:linear-gradient(to bottom,
+   #000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+  mask-image:linear-gradient(to bottom,
+   #000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+ }
+ #nomad360-information.nomad-information::after{
+  top:0;left:0;width:100%;height:auto;aspect-ratio:1672/941;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.84) 0%,
+   rgba(23,59,88,.69) 20%,
+   rgba(23,59,88,.37) 43%,
+   rgba(23,59,88,0) 67%);
+ }
+}
+@media(max-width:700px){
+ /* Same translated DOM; one continuous scene rather than a photo card. */
+ #nomad360-information .nomad-about-scene-copy{
+  min-height:clamp(320px,92vw,370px);
+  display:flow-root;
+ }
+ #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
+  width:82%;
+  max-width:330px;
+  margin-top:clamp(105px,31vw,135px);
+  margin-bottom:0;
+ }
+ #nomad360-information .nomad-about-caption{
+  margin-top:0;
+  margin-bottom:26px;
+ }
+}
