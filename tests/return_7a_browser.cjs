@@ -75,7 +75,7 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
        platform:[...el.querySelectorAll('[data-return-platform]')].map(rgb)};
     });
     A.equal(scene.background,'rgb(23, 59, 88)','Approved opaque brand navy');
-    A.match(scene.art,/\/assets\/nomad360-banners\/support-wide\.webp/);
+    A.match(scene.art,/\/assets\/nomad360-banners\/support-wide-extended\.webp/);
     A.equal(scene.heading,'rgb(255, 255, 255)');
     A.deepEqual(scene.notes,['rgb(255, 255, 255)','rgb(255, 255, 255)']);
     A.equal(scene.platform.length,3);
