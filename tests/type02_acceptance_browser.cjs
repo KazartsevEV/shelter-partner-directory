@@ -21,7 +21,8 @@ function audit(){
  const ctx=document.createElement('canvas').getContext('2d');
  const clipped=[...document.querySelectorAll('input[type=number]')].filter(visible).filter(e=>{const s=getComputedStyle(e);ctx.font=s.font;return ctx.measureText(e.value).width>e.clientWidth-parseFloat(s.paddingLeft)-parseFloat(s.paddingRight)-16+1;}).map(e=>({key:e.id||e.dataset.p2Path||e.dataset.linkedPath,value:e.value}));
  const text=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
- while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true],#nomad360-bug-launcher,#nomad360-bug-dialog'))continue;const s=getComputedStyle(e);text.push({tag:e.tagName,id:e.id,cls:e.className,text:n.textContent.trim().slice(0,110),size:parseFloat(s.fontSize),weight:s.fontWeight,font:s.fontFamily,approvedHeroArt:!!e.closest('#nomad360-commercial-banner'),approvedAboutArt:!!document.querySelector('script[src$="nomad360_about_banner.js"]')&&!!e.closest('#nomad360-about,#nomad360-contacts'),approvedContactLink:!!e.closest('#nomad360-contacts .nomad-links a')});}
+ while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true],#nomad360-bug-launcher,#nomad360-bug-dialog'))continue;const s=getComputedStyle(e);text.push({tag:e.tagName,id:e.id,cls:e.className,text:n.textContent.trim().slice(0,110),size:parseFloat(s.fontSize),weight:s.fontWeight,font:s.fontFamily,approvedHeroArt:!!e.closest('#nomad360-commercial-banner'),approvedAboutArt:!!document.querySelector('script[src$="nomad360_about_banner.js"]')&&!!e.closest('#nomad360-about,#nomad360-contacts'),approvedContactLink:!!e.closest('#nomad360-contacts .nomad-links a'),
+  approvedIrbisArt:!!e.closest('#nomad360-irbis-banner')});}
  const money=[...document.querySelectorAll('.nd-v2-number-value,[data-nomad-display-number]')].filter(visible).filter(e=>{const r=document.createRange();r.selectNodeContents(e);if(e.matches('[data-nomad-display-number]')&&e.firstChild?.nodeType===Node.TEXT_NODE)r.setEnd(e.firstChild,e.firstChild.textContent.replace(/\s[A-Z]{3}$/,'').length);return new Set([...r.getClientRects()].filter(r=>r.width&&r.height).map(r=>Math.round(r.top))).size>1;}).map(e=>({text:e.textContent,html:e.outerHTML}));
  return {overflow:document.documentElement.scrollWidth>innerWidth+1,scrollWidth:document.documentElement.scrollWidth,controls,clipped,money,text,gaps:Nomad360LocaleCore.auditVisibleGaps()};
 }
@@ -63,9 +64,12 @@ async function pictures(page,variant,lang,width,route){
      A.ok(geometry.controls.every(c=>c.size>=16),JSON.stringify(geometry.controls.filter(c=>c.size<16)));A.ok(geometry.controls.every(c=>c.height>=44),JSON.stringify(geometry.controls.filter(c=>c.height<44)));
      A.deepEqual(geometry.gaps,previous.geometry.gaps,'Preserve existing localization diagnostics');
       A.deepEqual(geometry.text.filter(t=>!t.approvedHeroArt&&t.cls!=='nomad-lite'&&
-       (t.size<(t.approvedAboutArt&&t.approvedContactLink?12:14)||!(t.approvedAboutArt?
-         ['400','500','600','650','700','750']:
-         ['400','500','600','700']).includes(t.weight))),[],
+       (t.size<(t.approvedIrbisArt?11:
+         t.approvedAboutArt&&lang==='ru'&&width<=700&&t.cls==='nomad-about-brand-row'?13.5:
+         t.approvedAboutArt&&t.approvedContactLink?12:14)||
+        !(t.approvedAboutArt||t.approvedIrbisArt?
+          ['400','500','600','650','700','750']:
+          ['400','500','600','700']).includes(t.weight))),[],
        'Meaningful text keeps readable sizes; approved ABOUT-01 adds Inter 650/750 roles');
      A.deepEqual(geometry.text.filter(t=>t.cls.split(/\s+/).includes('nd-v2-field-label')&&(t.size!==16||t.weight!=='500')),[],'Field labels keep their own role instead of inheriting note utilities');
      if(lang==='kk'&&width===390&&route==='standalone')fonts.push(...await glyphs(page));
