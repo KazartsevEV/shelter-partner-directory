@@ -28,7 +28,19 @@ function decorate(){
   caption=about.querySelector('.nomad-about-caption'),
   motto=about.querySelector('.nomad-about-motto');
  if(!flow||!caption||!motto)return;
- // Approved order: opening → highlighted caption → three service links.
+ // Keep the real translated heading and introductory copy together inside
+ // the scenic area. On phones this reserves the artwork height, so the
+ // orange-rule caption can follow BELOW the photograph on solid navy.
+ const heading=about.querySelector(':scope > h2');
+ const opening=about.querySelector(':scope > .nomad-about-opening');
+ let scenic=about.querySelector(':scope > .nomad-about-scene-copy');
+ if(heading&&opening&&!scenic){
+  scenic=document.createElement('div');
+  scenic.className='nomad-about-scene-copy';
+  heading.before(scenic);
+  scenic.append(heading,opening);
+ }
+ // Order: scenic heading + brand → highlighted caption → three services.
  flow.before(caption);
  const mottos=Array.from(motto.querySelectorAll('span')).map(el=>el.textContent);
  const order=[2,0,1];
