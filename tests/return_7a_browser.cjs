@@ -36,7 +36,7 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
   if(['brand','all'].includes(stage)){
    const brand=p.locator('.nomad-seo-brand'),caption=brand.locator('.nomad-seo-tagline');A.equal(await caption.textContent(),'Sky allows, guys deliver');A.equal(await caption.locator('span').count(),2);
    A.deepEqual(await caption.locator('span').evaluateAll(es=>es.map(e=>getComputedStyle(e).color)),['rgb(255, 255, 255)','rgb(255, 145, 63)']);
-   A.equal(await brand.locator('.nomad-seo-logo-mask').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');A.ok(await brand.evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).m42<0));
+   A.equal(await brand.locator('.nomad-seo-logo-mask').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');if(await p.locator('#nomad360-commercial-banner').count())A.equal(await brand.evaluate(e=>getComputedStyle(e).transform),'none','Approved HERO brand is positioned in the grouped composition');else A.ok(await brand.evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).m42<0));
    A.equal(await brand.locator('img').getAttribute('src'),await p.locator('#nomad360-header .nomad-logo').getAttribute('src'));A.equal(await p.locator('#nomad360-seo-banner').count(),1);
    A.equal(await caption.evaluate(e=>e.scrollWidth>e.clientWidth+1),false);
   }
