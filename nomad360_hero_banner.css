@@ -817,3 +817,11 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
    linear-gradient(to right,rgba(23,59,88,.95) 0%,rgba(23,59,88,.82) 44%,rgba(23,59,88,.42) 77%,rgba(23,59,88,.19) 100%)!important;
  }
 }
+/* HERO-13: Only the calculation CTA is optically centered between
+   the narrative above and benefits below. Actual offset is calculated from
+   layout geometry after font load, language switching and resizing. */
+@media(min-width:1021px){
+ #home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta{
+  transform:translateY(var(--nomad-hero-cta-offset,0px));
+ }
+}
