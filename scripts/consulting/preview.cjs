@@ -16,6 +16,8 @@ function assetCheck(){
   A.ok((s.match(/data:image\/webp;base64,/g)||[]).length===3,'Image extended from the original, not regenerated or rasterized text');
   A.doesNotMatch(s,/<text[\s>]|<foreignObject|<button[\s>]/i,'Live text and UI must not be baked into art');
  }
+ A.match(desktop,/clip-path="url\(#right\)" filter="url\(#blur\)" opacity="\.28"/,
+  'Far-right extension cannot show a sharp mirrored third ram');
 }
 (async()=>{
  assetCheck();
@@ -33,7 +35,7 @@ function assetCheck(){
   for(const lang of ['ru','en','kk'])for(const width of [320,390,768,1280,1440,2560]){
    if(lang!=='ru'&&![390,1440].includes(width))continue;
    const context=await browser.newContext({
-    viewport:{width,height:1750},locale:lang==='ru'?'ru-RU':lang==='kk'?'kk-KZ':'en-US',reducedMotion:'reduce'
+    viewport:{width,height:1750},locale:lang==='ru'?'ru-RU':lang==='kk'?'kk-KZ':'en-US',reducedMotion:'reduce',acceptDownloads:true
    });
    const page=await context.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
@@ -56,6 +58,8 @@ function assetCheck(){
      width:rect.width,left:rect.left,right:rect.right,height:rect.height,
      heading:section.querySelector('.nomad-embed-b2b-title').textContent,
      cards,button:button.toJSON(),
+     copyBoxes:[...section.querySelectorAll('.nomad-embed-b2b-copy')].map(e=>e.getBoundingClientRect().toJSON()),
+     badgeBoxes:[...section.querySelectorAll('.nomad-embed-b2b-number')].map(e=>e.getBoundingClientRect().toJSON()),
      artWidth:parseFloat(art.width),artHeight:parseFloat(art.height),
      artSrc:art.backgroundImage,artSize:art.backgroundSize,
      brandDisplay:getComputedStyle(section.querySelector('.nomad-embed-b2b-brand')).display,
@@ -77,13 +81,24 @@ function assetCheck(){
    A.ok(state.artHeight>0&&state.artWidth>=state.viewport-2,'Scene must span viewport');
    if(width>=1200)A.ok(state.cards[0].x<state.cards[1].x&&state.cards[1].x<state.cards[2].x,
     'Desktop uses three columns');
-   if(width<=700)A.ok(state.cards[0].y<state.cards[1].y&&state.cards[1].y<state.cards[2].y,
-    'Mobile uses three readable rows');
+   if(width<=700){
+    A.ok(state.cards[0].y<state.cards[1].y&&state.cards[1].y<state.cards[2].y,
+     'Mobile uses three readable rows');
+    for(let n=0;n<3;n++)A.ok(state.copyBoxes[n].top>=state.badgeBoxes[n].bottom,
+     'Mobile card copy must span a separate full-width row below the markers');
+   }
    for(const c of state.cards)A.ok(c.left>=-1&&c.right<=state.viewport+1,'Card stays within screen at '+width);
    const shot=lang+'-'+width+'-consulting.png';
    await page.locator('#nomad360-embed').screenshot({path:path.join(out,shot),animations:'disabled',timeout:15000});
    captures.push(shot);
    if((width===390||width===1440)&&lang==='ru'){
+    // Classic scrollbar reserve must not make the full-bleed banner overflow.
+    await page.addStyleTag({content:'html { scrollbar-gutter: stable; } html::-webkit-scrollbar { width: 17px; }'});
+    const gutter=await page.locator('#nomad360-embed').evaluate(e=>{
+      const rect=e.getBoundingClientRect();return {left:rect.left,right:rect.right,client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth};
+    });
+    A.ok(Math.abs(gutter.left)<=2&&Math.abs(gutter.right-gutter.client)<=2,
+     'Full-bleed B2B section must exclude classic scrollbar gutter: '+JSON.stringify(gutter));
     const button=page.locator('#nomad360-embed [data-nomad-embed-toggle]');
     A.equal(await button.getAttribute('aria-expanded'),'false','Comparison is initially closed');
     await button.click();
@@ -98,6 +113,16 @@ function assetCheck(){
      'Changing RU to EN must not close B2B comparison');
     A.equal(await page.locator('#nomad360-embed .nomad-embed-b2b-card').count(),3,
      'Three live B2B benefits preserved after language switch');
+    // Verify actual portable download, not only the nominal export function.
+    const downloadPromise=page.waitForEvent('download',{timeout:30000});
+    await page.locator('#nomad360-embed [data-nomad-download-html]').click();
+    const download=await downloadPromise;
+    const exported=fs.readFileSync(await download.path(),'utf8');
+    A.ok(exported.includes('data-nomad-embedded'),'Snapshot must mark embedded mode');
+    A.ok((exported.match(/data:image\/svg\+xml;base64,/g)||[]).length>=2,
+     'Portable HTML must contain both original landscape SVG data URLs');
+    A.doesNotMatch(exported,/url\(["']?\.\/assets\/nomad360-banners\/consulting-horizontal-/,
+     'Standalone HTML must not depend on remote/relative B2B scenery paths');
    }
    A.equal(errors.length,0,'Page JS/asset errors: '+errors.join('; '));
    results.push({lang,width,...state});
