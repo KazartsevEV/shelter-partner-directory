@@ -37,6 +37,11 @@ const icons={
 function element(tag,name,text){
  const node=document.createElement(tag);
  if(name)node.className=name;
+ // These specific new display labels are localized by sync() for all 3 locales,
+ // including after every language change. Never translate their text a second
+ // time via the legacy heuristic or flag them as an untranslated RU literal.
+ if(/nomad-workspace-(?:heading|group-label|title|subtitle)/.test(name))
+  node.setAttribute('data-nomad-no-translate','');
  if(text!==undefined)node.textContent=text;
  return node;
 }
