@@ -512,3 +512,49 @@
   white-space:nowrap;
  }
 }
+
+/* ABOUT-08: the owner-approved desktop panorama fills the browser viewport,
+ * not the 1138px text container. All real translated copy/cards/contacts remain
+ * centered inside their original container; tablet and mobile stay untouched.
+ * The image is scaled uniformly at its native 2:1 aspect ratio, never stretched. */
+@media(min-width:1001px){
+ #nomad360-information.nomad-information{overflow:visible}
+ #nomad360-information.nomad-information::before{
+  left:50%;right:auto;top:0;
+  width:var(--nomad-about-viewport-width,100vw);
+  height:auto;aspect-ratio:1536 / 768;
+  transform:translateX(-50%);
+  background-image:url("./assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp");
+  background-size:100% 100%;background-position:center top;
+ }
+ #nomad360-information.nomad-information::after{
+  top:0;left:50%;right:auto;
+  width:var(--nomad-about-viewport-width,100vw);
+  height:auto;aspect-ratio:1536 / 768;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.94) 0%,
+   rgba(23,59,88,.86) 20%,
+   rgba(23,59,88,.66) 40%,
+   rgba(23,59,88,.31) 58%,
+   rgba(23,59,88,0) 72%);
+ }
+}
+
+/* ABOUT-08 P1/P2 QA: keep wide scenic artwork centered on viewport
+ * independently of the unchanged 1138px copy layout and body gutters;
+ * clip and feather oversized 2:1 artwork at the About section bottom. */
+@media(min-width:1001px){
+ #nomad360-information.nomad-information::before,
+ #nomad360-information.nomad-information::after{
+  left:calc(50% + var(--nomad-about-scene-offset,0px));
+  clip-path:inset(0 0 max(0px,calc(100% - var(--nomad-about-paint-height,640px))) 0);
+  -webkit-mask-image:linear-gradient(to bottom,
+   #000 0%,#000 max(0px,calc(var(--nomad-about-paint-height,640px) - 140px)),
+   transparent var(--nomad-about-paint-height,640px),transparent 100%);
+  mask-image:linear-gradient(to bottom,
+   #000 0%,#000 max(0px,calc(var(--nomad-about-paint-height,640px) - 140px)),
+   transparent var(--nomad-about-paint-height,640px),transparent 100%);
+  -webkit-mask-composite:initial;mask-composite:initial;
+ }
+}
