@@ -98,6 +98,12 @@ function alignHeroCta(){
  ctaAlignmentQueued=true;
  root.requestAnimationFrame(()=>{
   ctaAlignmentQueued=false;
+  // documentElement.clientWidth excludes classic Windows scrollbar gutter.
+  // Keep the approved full-width art without generating horizontal scrolling.
+  const banner=id('nomad360-commercial-banner');
+  const visibleWidth=document.documentElement.clientWidth;
+  if(banner&&visibleWidth>0)
+   banner.style.setProperty('--nomad-hero-visible-width',visibleWidth+'px');
   const cta=id('nomad360-hero')?.querySelector('.nomad-intro-cta');
   const narrative=id('nomad360-hero')?.querySelector('h3');
   const below=id('nomad360-hero-summary');
