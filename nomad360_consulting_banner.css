@@ -5,16 +5,19 @@
  * Horizontal extensions are SVG decorative layers; heights remain 941/1671.
  * All headings, RU/EN/KK copy, 3 cards, buttons and comparison are live DOM.
  * Scoped to #nomad360-embed; HERO, About and Irbis are untouched. */
+/* The footer is viewport-width. Container units exclude reserved classic
+   scrollbar gutters, unlike 100vw; content can still be centered within it. */
 @media screen{
+ body:has(#home-screen) #nomad360-footer{container-type:inline-size}
  body:has(#home-screen) #nomad360-footer #nomad360-embed{
   --consult-navy:#173B58;--consult-orange:#FF913F;--consult-line:#38678B;
   --consult-scene-height:clamp(710px,56.28vw,810px);
   box-sizing:border-box!important;
   display:grid;gap:22px;
   position:relative;isolation:isolate;overflow:hidden;
-  width:100vw;max-width:none!important;
+  width:100vw;width:100cqw;max-width:none!important;
   left:50%;transform:translateX(-50%);
-  margin:0!important;padding:clamp(70px,6.5vw,100px) max(28px,calc((100vw - 1250px)/2)) 58px;
+  margin:0!important;padding:clamp(70px,6.5vw,100px) max(28px,calc((100cqw - 1250px)/2)) 58px;
   background:var(--consult-navy)!important;
   border:0!important;border-radius:0!important;box-shadow:none!important;
   color:#fff;
@@ -164,8 +167,8 @@
   grid-template-columns:minmax(0,1fr);gap:12px;
  }
  body:has(#home-screen) #nomad360-footer #nomad360-embed .nomad-embed-b2b-card{
-  grid-template-columns:42px 42px minmax(0,1fr);grid-template-rows:auto;
-  gap:14px;align-items:center;min-height:118px;padding:18px 16px;
+  grid-template-columns:42px 42px minmax(0,1fr);grid-template-rows:auto auto;
+  gap:14px;align-items:start;min-height:118px;padding:18px 16px;
   border-radius:12px!important;background:rgba(23,59,88,.82)!important;
  }
  body:has(#home-screen) #nomad360-footer #nomad360-embed .nomad-embed-b2b-number{
@@ -176,7 +179,7 @@
  }
  body:has(#home-screen) #nomad360-footer #nomad360-embed .nomad-embed-b2b-icon svg{width:36px;height:36px}
  body:has(#home-screen) #nomad360-footer #nomad360-embed .nomad-embed-b2b-copy{
-  grid-column:3;grid-row:1;
+  grid-column:1/-1;grid-row:2;
   font-size:clamp(15px,4vw,18px);line-height:1.45;
  }
  body:has(#home-screen) #nomad360-footer #nomad360-embed>.nomad-embed-toggle{

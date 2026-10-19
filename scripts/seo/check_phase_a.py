@@ -454,6 +454,12 @@ def main():
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
+        # CONSULTING-01 changes only the B2B banner and its visual acceptance.
+        '.github/workflows/consulting-01-visual.yml',
+        'nomad360_consulting_banner.css', 'scripts/consulting/preview.cjs',
+        'assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg',
+        'assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg',
+        'tests/helpers/hero-main-contract.cjs', 'tests/helpers/task10-palette.cjs',
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
         'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
         'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
