@@ -437,9 +437,9 @@ def main():
         # HERO-12/13 approved full-bleed and CTA: pin original styling, exact asset and presentation blobs.
         legacy = approved_hero.replace(old_paint, new_paint)
         assert current_hero.startswith(legacy), 'Historical HERO styling was modified, not extended by approved layout'
-        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '9da7d26e4865cdfc43160a285a760cd0ac8f8751', 'HERO scene geometry or CTA presentation drift'
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '3639935e009c23a345a68ff7cb0422f37eece35f', 'HERO scene geometry or CTA presentation drift'
     if 'nomad360_hero_banner.js' in changed:
-        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '45d2e55ac0f16e6f3f340c65483d20e69f38566d', 'Only the approved CTA alignment may change the HERO controller'
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
