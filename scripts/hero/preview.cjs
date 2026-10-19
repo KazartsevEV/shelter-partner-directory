@@ -120,6 +120,26 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     A.ok(desktopBand.cardBottom<=desktopBand.bandBottom+2,
       'Desktop summary content must fit within hero');
    }
+   if(width>=1280){
+    await p.waitForFunction(()=>{
+     const n=document.querySelector('#nomad360-hero h3');
+     const c=document.querySelector('#nomad360-hero .nomad-intro-cta');
+     const bottom=document.querySelector('#nomad360-hero-summary');
+     if(!n||!c||!bottom)return false;
+     const upper=c.getBoundingClientRect().top-n.getBoundingClientRect().bottom;
+     const lower=bottom.getBoundingClientRect().top-c.getBoundingClientRect().bottom;
+     return upper>0&&lower>0&&Math.abs(upper-lower)<=4;
+    },{timeout:8000});
+    const spacing=await p.evaluate(()=>{
+     const narrative=document.querySelector('#nomad360-hero h3').getBoundingClientRect();
+     const cta=document.querySelector('#nomad360-hero .nomad-intro-cta').getBoundingClientRect();
+     const benefits=document.querySelector('#nomad360-hero-summary').getBoundingClientRect();
+     return {above:cta.top-narrative.bottom,below:benefits.top-cta.bottom,
+      translate:getComputedStyle(document.querySelector('#nomad360-hero .nomad-intro-cta')).transform};
+    });
+    A.ok(Math.abs(spacing.above-spacing.below)<=4,'CTA vertically centered between narrative and benefit section in '+lang+' '+width);
+    A.ok(spacing.above>=14&&spacing.below>=14,'CTA remains clear of both elements');
+   }
    A.equal(geometry.background,'rgb(23, 59, 88)','Main approved navy');
    A.match(geometry.art,/hero-alpenglow-fullbleed\.webp/,'Approved full-bleed scenery layer');
    if(width>=768)A.ok(Math.abs(geometry.bannerWidth-width)<=2,'HERO must be edge-to-edge, not isolated card');
