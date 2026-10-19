@@ -168,6 +168,26 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       await p.evaluate(next=>[1,2,3].map(n=>Nomad360LocaleCore.t('interface.shell.introStep'+n,next)),next),
       'Language switching must update all three steps');
    }
+   // Windows-style reserved scrollbar gutter must not make the HERO 100vw
+   // wide when the document's visible client area is narrower.
+   if(lang==='ru'&&width===1440){
+    const gutterStyle=await p.addStyleTag({content:'html{scrollbar-gutter:stable!important}'});
+    await p.evaluate(()=>window.dispatchEvent(new Event('resize')));
+    await p.waitForFunction(()=>{
+     const e=document.querySelector('#nomad360-commercial-banner');
+     return Math.abs(e.getBoundingClientRect().width-document.documentElement.clientWidth)<2;
+    },{timeout:8000});
+    const g=await p.evaluate(()=>({
+     client:document.documentElement.clientWidth,
+     windowWidth:innerWidth,
+     hero:document.querySelector('#nomad360-commercial-banner').getBoundingClientRect().width,
+     scroll:document.documentElement.scrollWidth
+    }));
+    A.ok(Math.abs(g.hero-g.client)<2,'Full-bleed HERO excludes reserved Windows scrollbar width');
+    A.ok(g.scroll<=g.client+1,'Reserved scrollbar does not create horizontal scrolling');
+    await gutterStyle.evaluate(el=>el.remove());
+    await p.evaluate(()=>window.dispatchEvent(new Event('resize')));
+   }
    cases.push({lang,width,geometry,errors:errors.slice(0,5)});
    await context.close();
   }
