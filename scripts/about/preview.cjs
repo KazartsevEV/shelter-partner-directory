@@ -133,12 +133,22 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
      ?'assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg'
      :'assets/nomad360-banners/about-bozzhyra-approved.webp'),
     'Approved image selected only on desktop, with original image preserved on mobile/tablet');
-   assert.equal(layout.sceneSize,width>=1001?'cover':'100% 100%',
-    'Desktop uses native non-stretched 640.6px-tall image; mobile/tablet unchanged');
+   const expectedBgSize=width>=1001?'auto 640.6px':'100% 100%';
+   assert.equal(layout.sceneSize,expectedBgSize,
+    'Central desktop panorama has its original scale; mobile/tablet unchanged');
    assert.equal(layout.originalWidth,width>=1001?2048:1672);
    assert.equal(layout.originalHeight,width>=1001?768:941);
    if(width>=1001){
     assert.ok(Math.abs(layout.scenicHeight-640.6)<=1,'Image layer MUST retain original pre-PR204 640.6px height');
+    assert.equal(layout.scenePosition,'50% 0%','Panorama remains centered; never left-align/crop the right-hand cliffs');
+    // At supported 1280/1440 CSS widths, image is rendered at native
+    // height scaling, with at least the whole 1536px source central scene
+    // inside the viewport (only the 256px added margins may be cropped).
+    if(width>=1280&&width<=1440){
+     const srcVisible=layout.clientViewport/(640.6/768);
+     assert.ok(srcVisible>=1536-3&&srcVisible<=2048,
+      'Original central 1536x768 composition remains fully visible');
+    }
    }else{
     assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Tablet/mobile original photo aspect preserved');
    }
@@ -264,6 +274,7 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
     const paintedH=parseFloat(root.getPropertyValue('--nomad-about-paint-height'));
     return {left,right:left+parseFloat(b.width),viewport:document.documentElement.clientWidth,
      sectionBottom:r.bottom,sectionHeight:r.height,stageH,paintedH,
+     sourceSize:b.backgroundSize,sourcePosition:b.backgroundPosition,
      xLeft:Math.max(3,Math.floor(document.documentElement.clientWidth*.003)),
      xRight:document.documentElement.clientWidth-5,
      y0:Math.max(0,Math.floor(r.top)),scrollWidth:document.documentElement.scrollWidth};
@@ -272,6 +283,10 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
     'Scene center must align with viewport even at body-padded desktop width: '+JSON.stringify(geometry));
    assert.ok(geometry.scrollWidth<=width+1,'No horizontal scroll at '+width);
    assert.ok(geometry.paintedH<=geometry.sectionHeight+1,'Scene cannot paint below About');
+   assert.equal(geometry.sourceSize,'100% auto',
+    'Outside primary desktop 1280/1440 matrix, show all panorama horizontally without cover crop');
+   assert.equal(geometry.sourcePosition,'50% 0%',
+    'Exterior widths must keep scenery horizontally centered');
    const visible=await page.screenshot({animations:'disabled'});
    const hide=await page.addStyleTag({content:'#nomad360-information.nomad-information::before,#nomad360-information.nomad-information::after{opacity:0!important}'});
    const unpainted=await page.screenshot({animations:'disabled'});
