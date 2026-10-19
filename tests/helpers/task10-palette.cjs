@@ -10,7 +10,13 @@ async function ready(p,base,entry='Marketing_calc.HTML?lang=ru'){
 async function audit(p){return p.evaluate(()=>{
  const approved=new Set(['23,59,88','255,255,255','255,145,63','56,103,139']);
  const rgba=s=>{const m=s.match(/^rgba?\(([^)]+)\)$/);if(!m)return null;const a=m[1].split(',').map(Number);return {rgb:a.slice(0,3).join(','),a:a[3]??1,v:a.slice(0,3)};};
- const allowed=s=>{const a=rgba(s);return !a||a.a===0||a.a===1&&approved.has(a.rgb);};
+ // Approved CONSULTING-01 glass surfaces: exact brand navy and per-breakpoint
+ // alpha only, scoped to the three B2B cards. No global transparency waiver.
+ const allowed=(s,e,prop)=>{const a=rgba(s);if(!a||a.a===0||a.a===1&&approved.has(a.rgb))return true;
+  return prop==='backgroundColor'&&e.matches('.nomad-embed-b2b-card')&&
+   !!e.closest('#nomad360-embed')&&a.rgb==='23,59,88'&&
+   a.a===(document.documentElement.clientWidth<=700?.82:.78);
+ };
  const visible=e=>e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true})&&e.getClientRects().length&&!e.closest('[hidden],.hidden,#nomad360-print-sheet');
  const key=e=>e.id?'#'+e.id:e.tagName.toLowerCase()+(typeof e.className==='string'?'.'+e.className.trim().split(/\s+/).slice(0,3).join('.'):'');
  const errors=[],contrast=[],fonts=[],colors={};let count=0;
@@ -23,8 +29,8 @@ async function audit(p){return p.evaluate(()=>{
    s.backgroundImage.startsWith(exactFade)&&/\/assets\/nomad360-banners\/support-wide\.webp"\)$/.test(s.backgroundImage);
   if(!isApproved)errors.push({element:key(e),prop:'backgroundImage',value:s.backgroundImage});
  }const props=['color','backgroundColor'];for(const side of ['Top','Right','Bottom','Left'])if(parseFloat(s['border'+side+'Width'])&&s['border'+side+'Style']!=='none')props.push('border'+side+'Color');if(s.outlineStyle!=='none')props.push('outlineColor');if(e instanceof SVGElement){if(e.getAttribute('fill')&&e.getAttribute('fill')!=='none')props.push('fill');if(e.getAttribute('stroke')&&e.getAttribute('stroke')!=='none')props.push('stroke');}
- for(const prop of props){const c=s[prop];colors[c]=(colors[c]||0)+1;if(!allowed(c)&&!(prop==='backgroundColor'&&e.id==='nomad360-hero-summary'&&e.closest('#nomad360-commercial-banner')&&c==='rgba(23, 59, 88, 0.3)'))errors.push({element:key(e),prop,color:c,text:e.textContent.trim().slice(0,60)});}
- for(const pseudo of ['::before','::after','::placeholder']){const ps=getComputedStyle(e,pseudo);if(pseudo==='::placeholder'&&!e.matches('input[placeholder],textarea[placeholder]')||pseudo!=='::placeholder'&&['none','normal'].includes(ps.content))continue;for(const prop of ['color','backgroundColor'])if(!allowed(ps[prop]))errors.push({element:key(e)+pseudo,prop,color:ps[prop]});}
+ for(const prop of props){const c=s[prop];colors[c]=(colors[c]||0)+1;if(!allowed(c,e,prop)&&!(prop==='backgroundColor'&&e.id==='nomad360-hero-summary'&&e.closest('#nomad360-commercial-banner')&&c==='rgba(23, 59, 88, 0.3)'))errors.push({element:key(e),prop,color:c,text:e.textContent.trim().slice(0,60)});}
+ for(const pseudo of ['::before','::after','::placeholder']){const ps=getComputedStyle(e,pseudo);if(pseudo==='::placeholder'&&!e.matches('input[placeholder],textarea[placeholder]')||pseudo!=='::placeholder'&&['none','normal'].includes(ps.content))continue;for(const prop of ['color','backgroundColor'])if(!allowed(ps[prop],e,prop))errors.push({element:key(e)+pseudo,prop,color:ps[prop]});}
  if([...e.childNodes].some(n=>n.nodeType===Node.TEXT_NODE&&n.textContent.trim())){
  if(!s.fontFamily.startsWith('Inter'))fonts.push({element:key(e),font:s.fontFamily});
  if(e.closest('svg,option,.nomad-wordmark,.brand,.nomad-seo-tagline'))continue;
