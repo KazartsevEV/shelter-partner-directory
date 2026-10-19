@@ -825,3 +825,11 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   transform:translateY(var(--nomad-hero-cta-offset,0px));
  }
 }
+
+/* HERO-12a: desktop-only logo lift into the existing navy space beneath
+   the river. Transform does not change grid flow, size, art or text. */
+@media(min-width:1021px){
+ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{
+  transform:translateY(clamp(-210px,-14vw,-140px));
+ }
+}
