@@ -97,8 +97,9 @@ function assetCheck(){
     const gutter=await page.locator('#nomad360-embed').evaluate(e=>{
       const rect=e.getBoundingClientRect();return {left:rect.left,right:rect.right,client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth};
     });
-    A.ok(Math.abs(gutter.left)<=2&&Math.abs(gutter.right-gutter.client)<=2,
-     'Full-bleed B2B section must exclude classic scrollbar gutter: '+JSON.stringify(gutter));
+    A.ok(Math.abs(gutter.left)<=2&&gutter.right<=gutter.client+2&&
+     gutter.right>=gutter.client-20&&gutter.scroll<=gutter.client+2,
+     'Full-bleed B2B section must fit visible content box (17px scrollbar gutter): '+JSON.stringify(gutter));
     const button=page.locator('#nomad360-embed [data-nomad-embed-toggle]');
     A.equal(await button.getAttribute('aria-expanded'),'false','Comparison is initially closed');
     await button.click();

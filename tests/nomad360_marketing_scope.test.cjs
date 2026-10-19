@@ -51,6 +51,16 @@ test('Published hero, legal/privacy text, payment details and every financial tr
  A.deepEqual(Array.from(current.section('interface.header','en').aboutMotto),['We build connections.','We create structure.','We open new horizons.']);
  A.equal(current.section('interface.header','kk').aboutMotto.length,3);
 });
+test('Approved CONSULTING export hunk is narrowly scoped and hash protected',()=>{
+ const strip=require('./helpers/return-contract.cjs').stripConsultingExport;
+ const current=now('nomad360_header.js');
+ A.ok(current.includes("Consulting artwork URL contract changed"),'Portable artwork stays embedded');
+ const restored=strip(current);
+ A.ok(restored.includes('const css=await (await get(filename)).text();'));
+ A.ok(!restored.includes('CONSULTING-02: CSS is inlined'));
+ A.throws(()=>strip(current.replace('css=css.replaceAll(path,data);','css=css.replaceAll(path,\"tampered\");')),
+  /Consulting packer (?:size )?changed/,'Unapproved export alteration must remain RED');
+});
 test('Download, retry, clipboard, header navigation and financial export logic stay exact outside named presentation renderers',()=>{
  const acorn=require('../scripts/localization/node_modules/acorn');
  function norm(src,allowed){
