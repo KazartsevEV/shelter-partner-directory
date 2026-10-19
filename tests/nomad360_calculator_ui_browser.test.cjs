@@ -373,7 +373,10 @@ async function browserCase(browser,locale,expected){
       'Brand, locale and burger do not overlap at '+width+': '+JSON.stringify(layout));
   }
   await page.setViewportSize({width:390,height:844});
-  A.equal(await header.locator('.nomad-nav a').count(),5);
+  A.equal(await header.locator('.nomad-nav > a').count(),5);
+  // HELP-08: Help is the sixth, last nav item and a plain link (no data-nomad-go).
+  A.equal(await header.locator('.nomad-nav > .nomad-help .nomad-help-link').count(),1);
+  A.equal(await header.locator('.nomad-help-link').getAttribute('data-nomad-go'),null);
   A.equal(await header.locator('#nomad360-lang-select').count(),1);
   A.equal(await header.locator('.nomad-burger').getAttribute('aria-expanded'),'false');
   await header.locator('.nomad-burger').click();

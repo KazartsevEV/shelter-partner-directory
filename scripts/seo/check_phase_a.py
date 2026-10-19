@@ -307,7 +307,11 @@ def main():
                 # Licence fix changes exactly three fall-back strings and one href.
                 # Every other byte from approved PR #145 remains protected.
                 def mask_license_footer(content):
-                    lines = content.decode('utf-8').splitlines()
+                    # HELP-08: the Help menu lives between two marker comments inside
+                    # boot(); strip exactly those regions, then compare as before.
+                    text = re.sub(r'^[ \t]*// HELP-08:BEGIN[^\n]*\n.*?^[ \t]*// HELP-08:END\n',
+                                  '', content.decode('utf-8'), flags=re.S | re.M)
+                    lines = text.splitlines()
                     copy_rows = sum('"licenseCopy": ' in x for x in lines)
                     link_rows = sum('nomad360-license" class="nomad-meta-block"' in x for x in lines)
                     assert copy_rows == 3 and link_rows == 1
@@ -455,7 +459,7 @@ def main():
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
-    assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
+    assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # CONSULTING-01 changes only the B2B banner and its visual acceptance.
         '.github/workflows/consulting-01-visual.yml',
@@ -469,6 +473,10 @@ def main():
         'assets/nomad360-icons/icon-512.png',
         'tests/return_7a_browser.cjs', 'tests/return_7a_scope.test.cjs', 'tests/helpers/return-contract.cjs',
         '.github/workflows/return-7a.yml',
+        # HELP-08: three static Help pages, their assets and the header Help menu tests.
+        'assets/nomad360-help.css', 'assets/nomad360-help.js',
+        'tests/nomad360_help_menu_browser.test.cjs', 'tests/nomad360_calculator_ui_browser.test.cjs',
+        'tests/task10_palette_source.test.cjs',
         'nomad360_header.js', 'nomad360_locale_core.js', 'assets/nomad360-legal.css',
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
          'tests/nomad360_localization_l0_browser.cjs',

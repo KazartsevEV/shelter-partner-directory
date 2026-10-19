@@ -996,6 +996,153 @@
     const seoBanner=document.getElementById('nomad360-seo-banner');
     if(seoBanner&&!seoBanner.querySelector('.nomad-seo-logo'))seoBanner.insertAdjacentHTML('beforeend','<div class="nomad-seo-brand"><div class="nomad-seo-logo-mask"><img class="nomad-seo-logo" src="./nomad360_wolf_open_circle.png" alt="" width="140" height="140" loading="lazy"></div><h3 class="nomad-seo-tagline" lang="en"><span>Sky allows,</span> <span>guys deliver</span></h3></div>');
     const header=document.getElementById('nomad360-header');
+    // HELP-08:BEGIN (guarded by scripts/seo/check_phase_a.py)
+    // HELP-08: Help menu = plain link to {lang}/help/ + section submenu + search.
+    // Lives inside boot() and re-mounts after every renderHeader(); renderHeader itself is untouched.
+    // Strings are local (not in the locale core): the header is a no-translate zone and the
+    // section titles must match the static pages ru/help, en/help, kk/help word for word.
+    const HELP_BASE='https://kazartsevev.github.io/shelter-partner-directory/';
+    const HELP_COPY={
+      en:{label:'Help',sections:'Help sections',search:'Search the help',placeholder:'e.g. margin, loan, PDF',none:'Nothing found',found:'Sections found: ',
+        items:[
+          ['How do I choose between V1 and V2?','v1 v2 portfolio product service route'],
+          ['How do I calculate the cost of a product or service?','cost cogs production logistics materials agent'],
+          ['How do I set a selling price and target margin?','price margin markup discount'],
+          ['What do CAC, CPC, CTR, conversions and ROAS mean?','advertising cac cpc ctr roas romi funnel'],
+          ['How are shared expenses allocated in V2?','shared resources rent staff warehouse allocation certificate'],
+          ['Why is profit different from cash flow and Available Cash?','profit cash flow available cash deficit'],
+          ['How do I compare my own funds with a business loan?','loan credit own funds reserve interest'],
+          ['How do I choose between VAT, Sales Tax and no sales tax?','vat sales tax business tax'],
+          ['How can I convert a foreign-currency purchase?','currency exchange rate converter'],
+          ['How do I save and restore a calculation?','save restore resume draft browser shortcut'],
+          ['How do PDF, Excel and HTML downloads work?','pdf excel xlsx html price list download export'],
+          ['How can I add a ready-made business calculator to my consultancy website?','embed website consultant consultancy html free'],
+          ['How can the calculator help visitors prepare for a consultation?','visitors clients consultation questions'],
+          ['What is the difference between Free Embed and White Label?','free embed white label custom edition brand'],
+          ['How can clients contact my company after using the calculator?','contact leads form crm chat'],
+          ['Which SEO topics belong on my site with the calculator?','seo search queries page topics'],
+          ['What does this calculation not verify?','limits demand taxes guarantee assumptions']
+        ]},
+      ru:{label:'Справка',sections:'Разделы справки',search:'Поиск по справке',placeholder:'например: маржа, кредит, PDF',none:'Ничего не найдено',found:'Найдено разделов: ',
+        items:[
+          ['Как выбрать между расчётом V1 и портфелем V2?','v1 v2 портфель товар услуга маршрут'],
+          ['Как рассчитать себестоимость товара или услуги?','себестоимость затраты производство логистика материалы агент'],
+          ['Как рассчитать цену продажи и целевую маржу?','цена маржа наценка скидка'],
+          ['Что означают CAC, CPC, CTR, конверсии и ROAS?','реклама cac cpc ctr roas romi воронка'],
+          ['Как учитываются общие расходы портфеля V2?','общие ресурсы аренда персонал склад распределение сертификат'],
+          ['Почему прибыль отличается от денежного потока и «живых денег»?','прибыль денежный поток живые деньги дефицит'],
+          ['Как учесть свои деньги, кредит и защитный резерв?','кредит свои деньги резерв проценты заём'],
+          ['Как выбрать НДС, Sales Tax или отсутствие налога на продажу?','ндс налог на продажу налог бизнеса'],
+          ['Как пересчитать закупку в другой валюте?','валюта курс конвертер'],
+          ['Как сохранить и восстановить расчёт?','сохранить восстановить продолжить черновик браузер ярлык'],
+          ['Как скачать PDF, Excel и HTML калькулятора?','pdf excel xlsx html прайс-лист скачать экспорт'],
+          ['Как разместить готовый бизнес-калькулятор на сайте консалтинговой компании?','разместить сайт консультант консалтинг встроить html бесплатно'],
+          ['Как калькулятор помогает посетителю подготовиться к консультации?','посетитель клиент консультация вопросы'],
+          ['Чем отличаются Free Embed и White Label для сайта консультанта?','free embed white label кастомный бренд версия'],
+          ['Как посетитель обратится к моей компании после расчёта?','контакты лиды форма crm чат заявки'],
+          ['По каким запросам оптимизировать страницу с калькулятором на моём сайте?','seo сео запросы поиск страница'],
+          ['Какие допущения калькулятор не проверяет?','ограничения спрос налоги гарантия допущения']
+        ]},
+      kk:{label:'Анықтама',sections:'Анықтама бөлімдері',search:'Анықтамадан іздеу',placeholder:'мысалы: маржа, несие, PDF',none:'Ештеңе табылмады',found:'Табылған бөлімдер: ',
+        items:[
+          ['V1 мен V2 арасында қалай таңдаймын?','v1 v2 портфель тауар қызмет бағыт'],
+          ['Тауардың немесе қызметтің өзіндік құнын қалай есептеймін?','өзіндік құн шығын өндіріс логистика материал агент'],
+          ['Сату бағасы мен мақсатты маржаны қалай есептеймін?','баға маржа үстеме жеңілдік'],
+          ['CAC, CPC, CTR, конверсия және ROAS нені білдіреді?','жарнама cac cpc ctr roas romi воронка'],
+          ['V2 портфеліндегі ортақ шығындар қалай есептеледі?','ортақ ресурс жалдау қызметкер қойма бөлу сертификат'],
+          ['Неге пайда ақша ағынынан және Available Cash көрсеткішінен өзгеше?','пайда ақша ағыны қолжетімді ақша тапшылық'],
+          ['Өз қаражатымды, несиені және резервті қалай есептеймін?','несие өз қаражаты резерв пайыз'],
+          ['ҚҚС, Sales Tax немесе сату салығынсыз режимді қалай таңдаймын?','ққс сату салығы бизнес салығы'],
+          ['Басқа валютадағы сатып алуды қалай қайта есептеймін?','валюта бағам конвертер'],
+          ['Есепті қалай сақтап, қайта ашамын?','сақтау қалпына келтіру жалғастыру нобай браузер төте жол'],
+          ['PDF, Excel және HTML файлдарын қалай жүктеймін?','pdf excel xlsx html прайс-парақ жүктеу экспорт'],
+          ['Консалтинг компаниясының сайтына дайын бизнес-калькуляторды қалай орналастырамын?','орналастыру сайт кеңесші консалтинг html тегін'],
+          ['Калькулятор келушіге кеңеске дайындалуға қалай көмектеседі?','келуші клиент кеңес сұрақ'],
+          ['Кеңесші сайтына арналған Free Embed пен White Label айырмасы қандай?','free embed white label жеке бренд нұсқа'],
+          ['Есептеуден кейін келуші менің компанияма қалай хабарласады?','байланыс лид форма crm чат'],
+          ['Менің сайтымдағы калькулятор бетін қандай іздеу тақырыптарына бейімдеу керек?','seo сео сұрау іздеу бет'],
+          ['Калькулятор қандай болжамдарды растамайды?','шектеу сұраныс салық кепілдік болжам']
+        ]}
+    };
+    function helpMarkup() {
+      const lang=language(), h=HELP_COPY[lang]||HELP_COPY.ru, base=HELP_BASE+lang+'/help/';
+      return '<a class="nomad-help-link" href="'+base+'">'+esc(h.label)+'</a>'+
+        '<button type="button" class="nomad-help-toggle" aria-expanded="false" aria-controls="nomad360-help-panel" aria-label="'+esc(h.sections)+'">'+
+        '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"/></svg></button>'+
+        '<div class="nomad-help-panel" id="nomad360-help-panel" role="region" aria-label="'+esc(h.sections)+'" hidden>'+
+        '<label class="nomad-help-search"><span>'+esc(h.search)+'</span>'+
+        '<input type="search" class="nomad-help-input" placeholder="'+esc(h.placeholder)+'" autocomplete="off" data-none="'+esc(h.none)+'" data-found="'+esc(h.found)+'"></label>'+
+        '<p class="nomad-help-status" role="status" aria-live="polite"></p>'+
+        '<ul class="nomad-help-list">'+
+        h.items.map((it,i)=>{const n=(i<9?'0':'')+(i+1);
+          return '<li data-q="'+esc(('h'+n+' '+(i+1)+' '+it[0]+' '+it[1]).toLowerCase())+'"><a href="'+base+'#h'+n+'"><span class="nomad-help-num">H'+n+'</span> '+esc(it[0])+'</a></li>';}).join('')+
+        '</ul></div>';
+    }
+    const HELP_CSS=[
+      '.nomad-help{display:flex;flex-wrap:wrap;align-items:stretch;position:relative}',
+      '.nomad-help .nomad-help-link{flex:1 1 auto}',
+      '.nomad-help-toggle{width:56px;height:56px;padding:0;display:flex;align-items:center;justify-content:center;border:0;border-bottom:1px solid #FFFFFF;background:transparent;color:#173B58;cursor:pointer}',
+      '.nomad-help-toggle svg{transition:transform .15s}',
+      '.nomad-help.is-open .nomad-help-toggle svg{transform:rotate(180deg)}',
+      '.nomad-help-toggle:hover{color:#FF913F}',
+      '.nomad-help-panel{flex:0 0 100%;padding:12px 0 8px;background:#FFFFFF}',
+      '.nomad-help-panel[hidden]{display:none}',
+      '.nomad-help-search{display:block}',
+      '.nomad-help-search span{display:block;font-size:14px;font-weight:600;color:#173B58;margin-bottom:6px}',
+      '.nomad-help-input{width:100%;box-sizing:border-box;height:44px;padding:0 12px;border:2px solid #38678B;border-radius:8px;font:inherit;font-size:16px;color:#173B58;background:#FFFFFF}',
+      '.nomad-help-input:focus-visible{outline:3px solid #FF913F;outline-offset:2px}',
+      '.nomad-help-status{min-height:20px;margin:6px 0 4px;font-size:14px;color:#173B58}',
+      '.nomad-help-list{list-style:none;margin:0;padding:0;max-height:50vh;overflow-y:auto}',
+      '.nomad-help-list li[hidden]{display:none}',
+      '.nomad-help-panel .nomad-help-list a{display:block;height:auto;min-height:44px;padding:10px 6px;border-bottom:1px solid #38678B;border-left:4px solid #FFFFFF;font-size:15px;font-weight:500;line-height:1.35;color:#173B58;text-decoration:none}',
+      '.nomad-help-panel .nomad-help-list a:hover,.nomad-help-panel .nomad-help-list a:focus-visible{color:#173B58;border-left-color:#FF913F}',
+      '.nomad-help-panel .nomad-help-list a:focus-visible,.nomad-help-toggle:focus-visible{outline:3px solid #FF913F;outline-offset:-3px}',
+      '.nomad-help-num{font-weight:700;color:#38678B;margin-right:6px}',
+      '@media(min-width:1200px){',
+      '.nomad-help{flex-wrap:nowrap}',
+      '.nomad-help-toggle{width:32px;height:80px;border-bottom:3px solid transparent}',
+      '.nomad-help-panel{position:absolute;top:100%;right:0;width:420px;max-width:calc(100vw - 32px);flex:none;padding:16px;border:1px solid #38678B;border-top:3px solid #FF913F;border-radius:0 0 8px 8px;z-index:60}',
+      '.nomad-help-list{max-height:60vh}}',
+      '@media(min-width:1200px) and (max-width:1439px){',
+      '.nomad-nav{gap:18px;padding-left:20px;padding-right:12px}',
+      '.nomad-nav a{font-size:14px}',
+      '.nomad-lang{padding:0 14px}',
+      '.nomad-cta{margin-left:14px;padding:0 16px;font-size:15px}}'
+    ].join('');
+    function mountHelp() {
+      if(!document.getElementById('nomad360-help-menu-style')){
+        const style=document.createElement('style');
+        style.id='nomad360-help-menu-style';style.textContent=HELP_CSS;
+        document.head.appendChild(style);
+      }
+      const nav=document.querySelector('#nomad360-header .nomad-nav');
+      if(!nav||nav.querySelector('.nomad-help'))return;
+      const wrap=document.createElement('div');
+      wrap.className='nomad-help';wrap.innerHTML=helpMarkup();
+      nav.appendChild(wrap);
+    }
+    function closeHelp(refocus) {
+      const wrap=document.querySelector('#nomad360-header .nomad-help');
+      if(!wrap)return;
+      const toggle=wrap.querySelector('.nomad-help-toggle'),panel=wrap.querySelector('.nomad-help-panel');
+      const was=!panel.hidden;
+      panel.hidden=true;wrap.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded','false');
+      if(refocus&&was)toggle.focus();
+    }
+    function filterHelp(input) {
+      const panel=input.closest('.nomad-help-panel');
+      const words=input.value.toLowerCase().replace(/\s+/g,' ').trim().split(' ').filter(Boolean);
+      let n=0;
+      panel.querySelectorAll('.nomad-help-list li').forEach(li=>{
+        const ok=words.every(w=>li.getAttribute('data-q').indexOf(w)>-1);
+        li.hidden=!ok;if(ok)n++;
+      });
+      panel.querySelector('.nomad-help-status').textContent=words.length?(n?input.getAttribute('data-found')+n:input.getAttribute('data-none')):'';
+    }
+    mountHelp();
+    new root.MutationObserver(mountHelp).observe(header,{childList:true});
+    // HELP-08:END
     header.addEventListener('click',event=>{
       const button=event.target.closest('.nomad-burger');
       if(button){
@@ -1016,6 +1163,44 @@
         if(target){for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;target.scrollIntoView({block:'start',behavior:'smooth'});}
       });
     });
+    // HELP-08:BEGIN (guarded by scripts/seo/check_phase_a.py)
+    header.addEventListener('click',event=>{
+      const helpToggle=event.target.closest('.nomad-help-toggle');
+      if(helpToggle){
+        const wrap=helpToggle.closest('.nomad-help'),panel=wrap.querySelector('.nomad-help-panel');
+        const open=panel.hidden;
+        panel.hidden=!open;wrap.classList.toggle('is-open',open);
+        helpToggle.setAttribute('aria-expanded',String(open));
+        if(open){const input=panel.querySelector('.nomad-help-input');if(input)input.focus();}
+        return;
+      }
+      if(event.target.closest('.nomad-help-panel a')){closeHelp(false);closeMenu(false);return;}
+      if(event.target.closest('.nomad-burger,[data-nomad-go]'))closeHelp(false);
+    });
+    header.addEventListener('input',event=>{
+      if(event.target.classList&&event.target.classList.contains('nomad-help-input'))filterHelp(event.target);
+    });
+    header.addEventListener('keydown',event=>{
+      const panel=event.target.closest&&event.target.closest('.nomad-help-panel');
+      if(!panel)return;
+      const input=event.target.closest('.nomad-help-input');
+      const links=[].slice.call(panel.querySelectorAll('.nomad-help-list li:not([hidden]) a'));
+      if(input&&event.key==='Enter'){event.preventDefault();if(links[0])root.location.href=links[0].href;return;}
+      if(event.key==='ArrowDown'||event.key==='ArrowUp'){
+        event.preventDefault();
+        const i=links.indexOf(document.activeElement);
+        if(event.key==='ArrowDown'){if(links[i+1]||links[0])(links[i+1]||links[0]).focus();}
+        else if(i<=0){const inp=panel.querySelector('.nomad-help-input');if(inp)inp.focus();}
+        else links[i-1].focus();
+      }
+    });
+    root.addEventListener('keydown',event=>{
+      if(event.key!=='Escape')return;
+      const hp=document.querySelector('#nomad360-header .nomad-help-panel');
+      if(hp&&!hp.hidden){event.stopImmediatePropagation();closeHelp(true);}
+    },true);
+    document.addEventListener('click',event=>{if(!header.contains(event.target))closeHelp(false);});
+    // HELP-08:END
     document.addEventListener('click',event=>{
       const toggle=event.target.closest('[data-nomad-embed-toggle]');
       if(toggle){const panel=document.getElementById(toggle.getAttribute('aria-controls'));panel.hidden=!panel.hidden;toggle.setAttribute('aria-expanded',String(!panel.hidden));return;}
