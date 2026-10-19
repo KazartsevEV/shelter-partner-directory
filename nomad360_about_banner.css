@@ -513,10 +513,30 @@
  }
 }
 
-/* ABOUT desktop artwork: approved night panorama; preserve existing
- * size, positioning, masks, overlay, markup and all mobile artwork. */
+/* ABOUT-08: the owner-approved desktop panorama fills the browser viewport,
+ * not the 1138px text container. All real translated copy/cards/contacts remain
+ * centered inside their original container; tablet and mobile stay untouched.
+ * The image is scaled uniformly at its native 2:1 aspect ratio, never stretched. */
 @media(min-width:1001px){
+ #nomad360-information.nomad-information{overflow:visible}
  #nomad360-information.nomad-information::before{
-  background-image:url("./assets/nomad360-banners/about-moonlight-desktop-approved.webp");
+  left:50%;right:auto;top:0;
+  width:var(--nomad-about-viewport-width,100vw);
+  height:auto;aspect-ratio:1536 / 768;
+  transform:translateX(-50%);
+  background-image:url("./assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp");
+  background-size:100% 100%;background-position:center top;
+ }
+ #nomad360-information.nomad-information::after{
+  top:0;left:50%;right:auto;
+  width:var(--nomad-about-viewport-width,100vw);
+  height:auto;aspect-ratio:1536 / 768;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.94) 0%,
+   rgba(23,59,88,.86) 20%,
+   rgba(23,59,88,.66) 40%,
+   rgba(23,59,88,.31) 58%,
+   rgba(23,59,88,0) 72%);
  }
 }

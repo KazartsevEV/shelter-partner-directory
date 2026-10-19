@@ -91,7 +91,18 @@ function decorate(){
   if(!a.querySelector('.nomad-about-contact-icon'))a.prepend(icon(i));
  });
 }
+/* Mirror documentElement.clientWidth, not 100vw: classic scrollbars
+ * otherwise overrun the viewport by their gutter on desktop. */
+function syncAboutViewport(){
+ const width=document.documentElement.clientWidth;
+ if(width>0)document.documentElement.style.setProperty('--nomad-about-viewport-width',width+'px');
+}
 function boot(){
+ syncAboutViewport();
+ root.addEventListener('resize',syncAboutViewport);
+ if(typeof ResizeObserver==='function'){
+  new ResizeObserver(syncAboutViewport).observe(document.documentElement);
+ }
  decorate();
  // Header module recreates its entire localized About DOM before our handler.
  document.addEventListener('nomad360:languagechange',decorate);

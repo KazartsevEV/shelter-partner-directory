@@ -8,8 +8,8 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/about-0
 fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
-const desktopImage='assets/nomad360-banners/about-moonlight-desktop-approved.webp';
-const expectedDesktopBlob='568ca9fe55da06e9c2d1935a1a71f0758879e31c';
+const desktopImage='assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp';
+const expectedDesktopBlob='9b3f6f1d21304d69489c9790deaaddc976a3e7ec';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
 assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),expectedDesktopBlob,
@@ -91,7 +91,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
     const img=new Image();img.src=viewportWidth>=1001
-     ?'./assets/nomad360-banners/about-moonlight-desktop-approved.webp'
+     ?'./assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp'
      :'./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
@@ -109,6 +109,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     return {sceneSource:scenic.backgroundImage,sceneSize:scenic.backgroundSize,
       scenePosition:scenic.backgroundPosition,scenicWidth:parseFloat(scenic.width),
       scenicHeight:parseFloat(scenic.height),originalWidth:img.naturalWidth,originalHeight:img.naturalHeight,
+      clientViewport:document.documentElement.clientWidth,
+      scenicLeft:rect.left+(rect.width-parseFloat(scenic.width))/2,
       background:getComputedStyle(section).backgroundColor,
       cardCount:cards.length,links:linked,contacts,sectionWidth:rect.width,
       viewport:innerWidth,docScroll:document.documentElement.scrollWidth,
@@ -124,14 +126,23 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    },width);
    assert.ok(layout.sceneSource.includes(width>=1001
-     ?'assets/nomad360-banners/about-moonlight-desktop-approved.webp'
+     ?'assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp'
      :'assets/nomad360-banners/about-bozzhyra-approved.webp'),
     'Approved image selected only on desktop, with original image preserved on mobile/tablet');
    assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
-   assert.equal(layout.originalWidth,1672);assert.equal(layout.originalHeight,941);
-   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Scene must retain source aspect ratio');
-   if(width>=701)assert.ok(Math.abs(layout.scenicWidth-layout.sectionWidth)<=2,
-     'Full-width desktop photo must span the complete banner');
+   assert.equal(layout.originalWidth,width>=1001?1536:1672);
+   assert.equal(layout.originalHeight,width>=1001?768:941);
+   const expectedRatio=width>=1001?2:1672/941;
+   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-expectedRatio)<0.025,'No distortion: scene keeps original aspect ratio');
+   if(width>=1001){
+    assert.ok(Math.abs(layout.scenicWidth-layout.clientViewport)<=2,
+      'Desktop photo spans the ENTIRE browser content viewport, not only 1138px text container');
+    assert.ok(Math.abs(layout.scenicLeft)<=2,
+      'Desktop photo is centered on the actual viewport without scrollbar overrun');
+    assert.ok(layout.sectionWidth<=1139&&layout.sectionWidth>=1137,
+      'Actual copy and cards retain their original centered 1138px layout');
+   }else if(width>=701)assert.ok(Math.abs(layout.scenicWidth-layout.sectionWidth)<=2,
+     'Tablet background remains unchanged within the original banner');
    if(width<=700)assert.ok(layout.scenicWidth>layout.sectionWidth+80,
      'On mobile, crop away the left portion, never stretch or isolate the photo');
    assert.equal(layout.background,'rgb(23, 59, 88)','Brand navy');
@@ -157,14 +168,14 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     assert.ok(layout.cardMinHeights.every(height=>height<=185),
       'Desktop service cards must have compact responsive minimum heights');
     assert.ok(!layout.cardsClip,'No localized desktop card text may be clipped');
-    assert.ok(layout.flowBox.top>=layout.scenicHeight*.72,
-      'Desktop service cards must start in the navy-darkened lower photo area');
+    assert.ok(layout.flowBox.top>=layout.scenicHeight*.60,
+      'Desktop service cards must start beneath the mountains in the navy-darkened lower photo area');
     assert.ok(layout.captionBandBox.top-layout.flowBox.bottom<=12,
       'Desktop caption band must immediately follow the compact service grid');
     assert.ok(layout.contactBox.top-layout.captionBandBox.bottom<=3,
       'Desktop contacts immediately follow the vertically centered caption band');
-    assert.ok(layout.leftVeil.includes('67%'),
-      'Left scrim must fade completely by two-thirds of panorama');
+    assert.ok(layout.leftVeil.includes('72%'),
+      'Full-bleed navy scrim must fade out before the right-hand moon and cliffs');
    }
    if(width<=700){
     assert.ok(layout.scenicCopyBox,
@@ -196,6 +207,10 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    }
    const file=lang+'-'+width+'-about.png';
    await page.locator('#nomad360-information').screenshot({path:path.join(out,file)});
+   if(lang==='ru'&&width>=1280){
+    await page.locator('#nomad360-information').scrollIntoViewIfNeeded();
+    await page.screenshot({path:path.join(out,'ru-'+width+'-full-bleed-viewport.png')});
+   }
    if(width===390){
     const next=lang==='ru'?'en':lang==='en'?'kk':'ru';
     await page.evaluate(next=>Nomad360UI.setLanguage(next),next);
