@@ -72,7 +72,7 @@
   display:grid;grid-template-columns:52px minmax(0,1fr);grid-template-rows:48px auto;
   align-content:start;column-gap:16px;row-gap:12px;
   min-width:0;min-height:213px;margin:0;padding:21px 24px;
-  background:rgba(23,59,88,.73)!important;
+  background:rgba(23,59,88,.78)!important;
   border:1px solid #38678B!important;border-radius:14px!important;
   box-shadow:none;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
   color:#fff!important;overflow-wrap:break-word;
@@ -166,7 +166,7 @@
  body:has(#home-screen) #nomad360-footer #nomad360-embed .nomad-embed-b2b-card{
   grid-template-columns:42px 42px minmax(0,1fr);grid-template-rows:auto;
   gap:14px;align-items:center;min-height:118px;padding:18px 16px;
-  border-radius:12px!important;background:rgba(23,59,88,.78)!important;
+  border-radius:12px!important;background:rgba(23,59,88,.82)!important;
  }
  body:has(#home-screen) #nomad360-footer #nomad360-embed .nomad-embed-b2b-number{
   width:40px;height:40px;font-size:22px;grid-column:1;grid-row:1;
@@ -188,5 +188,22 @@
 @media(prefers-reduced-motion:reduce){
  #nomad360-footer #nomad360-embed *,#nomad360-footer #nomad360-embed{
   animation:none!important;transition:none!important;
+ }
+}
+
+/* CONSULTING-01 glass card fill: the TASK-10 palette declares an important,
+ * fully opaque card background in @layer nomad360-palette. Re-enter that same
+ * layer so a later, more specific rule wins without changing other surfaces.
+ * Keep text, orange markers, icons and borders at full opacity. */
+@layer nomad360-palette {
+ @media screen {
+  body:has(#home-screen) #nomad360-footer #nomad360-embed .nomad-embed-b2b-card {
+   background-color:rgba(23,59,88,.78)!important;
+  }
+ }
+ @media screen and (max-width:700px) {
+  body:has(#home-screen) #nomad360-footer #nomad360-embed .nomad-embed-b2b-card {
+   background-color:rgba(23,59,88,.82)!important;
+  }
  }
 }
