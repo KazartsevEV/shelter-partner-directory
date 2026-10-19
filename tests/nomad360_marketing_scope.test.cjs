@@ -59,7 +59,7 @@ test('Approved CONSULTING export hunk is narrowly scoped and hash protected',()=
  A.ok(restored.includes('const css=await (await get(filename)).text();'));
  A.ok(!restored.includes('CONSULTING-02: CSS is inlined'));
  A.throws(()=>strip(current.replace('css=css.replaceAll(path,data);','css=css.replaceAll(path,\"tampered\");')),
-  /Consulting packer changed/,'Unapproved export alteration must remain RED');
+  /Consulting packer (?:size )?changed/,'Unapproved export alteration must remain RED');
 });
 test('Download, retry, clipboard, header navigation and financial export logic stay exact outside named presentation renderers',()=>{
  const acorn=require('../scripts/localization/node_modules/acorn');
