@@ -735,7 +735,7 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
    The scenic art sits behind one continuous, edge-to-edge navy composition.
    No card enclosure; outer/in-panel lines remain the established palette. */
 #home-screen #nomad360-commercial-banner{
- width:100vw!important;max-width:none!important;
+ width:var(--nomad-hero-visible-width,100vw)!important;max-width:none!important;
  left:50%;transform:translateX(-50%);
  border-radius:0!important;border:0!important;
  box-shadow:none!important;overflow:hidden;
