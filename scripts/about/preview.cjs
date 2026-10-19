@@ -283,7 +283,7 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
     'Scene center must align with viewport even at body-padded desktop width: '+JSON.stringify(geometry));
    assert.ok(geometry.scrollWidth<=width+1,'No horizontal scroll at '+width);
    assert.ok(geometry.paintedH<=geometry.sectionHeight+1,'Scene cannot paint below About');
-   assert.equal(geometry.sourceSize,'100% auto',
+   assert.ok(geometry.sourceSize==='100%'||geometry.sourceSize==='100% auto',
     'Outside primary desktop 1280/1440 matrix, show all panorama horizontally without cover crop');
    assert.equal(geometry.sourcePosition,'50% 0%',
     'Exterior widths must keep scenery horizontally centered');
