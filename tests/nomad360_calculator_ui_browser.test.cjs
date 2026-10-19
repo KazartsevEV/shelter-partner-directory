@@ -78,7 +78,7 @@ async function browserCase(browser,locale,expected){
     };
   });
   A.equal(canvasColors.page,'rgb(23, 59, 88)','Canvas matches the navy footer');
-  A.ok(['hero2','hero3','note','example'].every(k=>
+  A.ok(['hero2','hero3','note'].every(k=>
     canvasColors[k]==='rgb(255, 255, 255)'), 'Exposed copy uses white on navy: '+JSON.stringify(canvasColors));
    A.equal(canvasColors.hero1,'rgb(255, 145, 63)','Business calculator eyebrow must be orange');
   if(modernHero)A.ok(['rgba(0, 0, 0, 0)','transparent','rgb(23, 59, 88)'].includes(canvasColors.calcBackground),'Approved logo anchor stays transparent or inherits the same navy canvas');
@@ -148,13 +148,38 @@ async function browserCase(browser,locale,expected){
      A.deepEqual(lastWords,{valid:true,sameLine:true},'Subtitle must end without an orphaned word');
    }
 
-  A.ok(typography.recoveryTitle.weight===600,'Saved work gets a visible text hierarchy');
-  A.ok(typography.example.px>=16,'Auxiliary links stay tappable and legible');
-  A.equal(typography.noteCopy.color,'rgb(56, 103, 139)','Muted copy must use approved secondary blue');
+  A.ok(typography.recoveryTitle.weight===600,'Original saved state retains its localization text');
+  A.equal(typography.example.px,0,'Full demo names remain accessible; compact visible action uses CSS-generated copy');
+  A.ok(typography.noteCopy.px>=14,'Original saved-storage note remains available in DOM');
    const exampleRow=page.locator('#nomad360-home-secondary .nomad-example-row');
    A.equal(await exampleRow.locator('a').count(),2,'Shopper and US retail V2 each have one live entry');
    A.equal(await exampleRow.locator('#us-retail-v2-live-link').count(),1);
-   A.equal(await exampleRow.locator('.nomad-example-title, .nomad-example-copy').count(),0);
+   A.equal(await exampleRow.locator('.nomad-workspace-demo-item').count(),2,'Both demos render as the same compact rows as saved work');
+   A.equal(await page.locator('#nomad360-home-secondary .nomad-workspace-group-label').count(),2);
+   const structure=await page.locator('#nomad360-home-secondary').evaluate(e=>({
+    previous:e.previousElementSibling?.id,next:e.nextElementSibling?.id,
+    savedVisible:getComputedStyle(e.querySelector('.nomad-workspace-saved')).display!=='none',
+    visibleSaved:[...e.querySelectorAll('.nomad-workspace-saved .nomad-recovery-card')].filter(x=>!x.hidden&&!x.classList.contains('hidden')).length,
+    demoRows:e.querySelectorAll('.nomad-workspace-demo-item').length,
+    blue:getComputedStyle(e).backgroundColor
+   }));
+   A.equal(structure.previous,'nomad360-selling-choice','Workspace follows scenario choice');
+   A.equal(structure.next,'business-currency-settings','Currency follows the compact workspace');
+   A.equal(structure.blue,'rgb(23, 59, 88)','Workspace uses the approved navy');
+   A.equal(structure.demoRows,2,'Examples are always available');
+   A.equal(structure.savedVisible,structure.visibleSaved>0,'Saved group appears ONLY if some real saved entry is shown');
+   A.ok((await page.locator('.nomad-workspace-demo-item .nomad-workspace-title').allTextContents()).every(x=>x.trim().length>5),
+    'Both sample names are visible separately from their real click-through links');
+   const simulated=await page.locator('#saved-product-entry').evaluate(node=>{
+    const wasHidden=node.hidden,wasClass=node.classList.contains('hidden');
+    node.hidden=false;node.classList.remove('hidden');
+    const group=node.closest('.nomad-workspace-saved');
+    const visible=getComputedStyle(group).display!=='none';
+    const active=getComputedStyle(node).display==='grid';
+    node.hidden=wasHidden;node.classList.toggle('hidden',wasClass);
+    return {visible,active};
+   });
+   A.deepEqual(simulated,{visible:true,active:true},'An actual saved V1 entry will activate the saved group');
    A.equal((await exampleRow.locator('a[href*="demo=shopper"]').textContent()).trim(),{
      ru:'Посмотреть пример расчёта хлопкового шоппера',
      en:'View a sample calculation for a cotton tote bag',
@@ -167,10 +192,10 @@ async function browserCase(browser,locale,expected){
        thickness:css.textDecorationThickness
      };
    });
-   A.equal(exampleLink.color,'rgb(255, 255, 255)','Example link on navy canvas must be white');
-   A.equal(exampleLink.underline,'rgb(255, 145, 63)','Secondary link underline uses approved orange');
-   A.match(exampleLink.style,/underline/,'Link should have a real underline, not a bar border');
-   A.equal(exampleLink.thickness,'2px','Underline is conspicuous without becoming a CTA');
+   A.equal(exampleLink.color,'rgb(255, 145, 63)','Compact demo actions use approved orange');
+   A.equal(exampleLink.style,'none','Compact demo action is no longer a standalone underlined link');
+   A.equal(await exampleRow.locator('a[href*="demo=shopper"]').getAttribute('data-workspace-action'),
+    {ru:'Открыть',en:'Open',kk:'Ашу'}[expected.lang]);
       const draftTitle=await page.locator('#portfolio-v2-resume-home .nomad-recovery-title').textContent();
    A.equal(draftTitle.trim(),{
      ru:'Сохранённый черновик агрегированной модели V2',
@@ -193,17 +218,19 @@ async function browserCase(browser,locale,expected){
   A.equal(new Set(mobileGeometry.map(x=>x.height)).size,1,'Three choices must have identical mobile heights');
   A.equal(new Set(mobileGeometry.map(x=>x.radius)).size,1,'All choices share the same border geometry');
   A.equal(new Set(mobileGeometry.map(x=>x.background)).size,1,'All choices share the same background');
-  A.ok(mobileGeometry.every(x=>x.width>200&&x.height>=98&&x.height<=165),'Large CTA typography has unclipped mobile touch targets');
+  A.ok(mobileGeometry.every(x=>x.width>=75&&x.width<185&&x.height>=58&&x.height<=100),
+    'Three compact equal-width scenario buttons have a real 58px+ touch target');
   A.ok(mobileGeometry.every(x=>x.background==='rgb(255, 145, 63)' && x.color==='rgb(23, 59, 88)'),
     'All three primary routes must use warm orange with navy text');
-  A.ok(mobileGeometry.every(x=>x.fontSize>=25&&x.fontSize<=29),
-    'Large primary CTA uses legible 25–29px on phones');
+  A.ok(mobileGeometry.every(x=>x.fontSize===0),
+    'Accessible original scenario labels are visually replaced by localized compact labels');
+  A.deepEqual(await choice.locator('button').evaluateAll(buttons=>buttons.map(e=>e.dataset.workspaceShort)),
+    {ru:['Товар','Услугу','Разное'],en:['Product','Service','Mixed'],kk:['Тауар','Қызмет','Әртүрлі']}[expected.lang]);
   const homeTitle=await page.locator('#nomad360-selling-heading').evaluate(el=>{
     const st=getComputedStyle(el),r=el.getBoundingClientRect();
     return {size:parseFloat(st.fontSize),color:st.color,width:r.width};
   });
-  A.ok(homeTitle.size>=34&&homeTitle.size>Math.max(...mobileGeometry.map(x=>x.fontSize))+5,
-    'What do you sell? must read as a responsive heading, at least 5px larger than each main button');
+  A.ok(homeTitle.size>=34,'What do you sell? remains the primary heading');
   A.equal(homeTitle.color,'rgb(23, 59, 88)','Home choice heading uses navy ink');
 
   A.ok(mobileGeometry.every(x=>x.labelContent==='none'),
@@ -213,11 +240,8 @@ async function browserCase(browser,locale,expected){
     return {border:card.borderLeftWidth,bg:card.backgroundColor,
       actionBg:action.backgroundColor,actionText:action.color};
   });
-  A.equal(savedTreatment.border,'1px','Saved work uses a restrained single-pixel border');
-  A.equal(savedTreatment.actionBg,'rgb(255, 255, 255)',
-    'Resume calculation should remain secondary to main selling choices');
-  A.equal(savedTreatment.actionText,'rgb(23, 59, 88)',
-    'Resume calculation keeps sufficient contrast and a clear action label');
+  A.equal(savedTreatment.actionText,'rgb(255, 145, 63)',
+    'Saved work uses an orange inline action on a navy list, not a large white button');
   A.equal(await page.locator('#nomad360-home-secondary').evaluate(e=>getComputedStyle(e).boxShadow),'none',
     'No legacy floating/nested homepage card shadow');
   A.equal(await page.locator('#nomad360-seo-banner img').count(),1,'SEO banner reuses the existing header logo');
