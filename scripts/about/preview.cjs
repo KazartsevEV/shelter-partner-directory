@@ -245,7 +245,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
   for(const width of [1024,1180,2560]){
    const ctx=await browser.newContext({viewport:{width,height:1500},reducedMotion:'reduce'});
    const page=await ctx.newPage();
-   await page.route(/^https?:\\/\\//,route=>route.request().url().startsWith(base)?route.continue():route.abort());
+   await page.route(/^https?:\/\//,route=>route.request().url().startsWith(base)?route.continue():route.abort());
    await page.goto(base+'/Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
    await page.addStyleTag({path:path.join(out,'utilities.css')});
    await page.evaluate(()=>document.fonts.ready);
@@ -303,7 +303,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    paintedChecks.push({width,...geometry,...differences});
    await ctx.close();
   }
-  fs.writeFileSync(path.join(out,'painted-bounds.json'),JSON.stringify(paintedChecks,null,2)+'\\n');
+  fs.writeFileSync(path.join(out,'painted-bounds.json'),JSON.stringify(paintedChecks,null,2)+'\n');
 
   fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({sourceBlob:expectedGitBlob,reports},null,2));
   console.log('ABOUT-01 GREEN source SHA, locale, geometry, links, contacts',reports.length);
