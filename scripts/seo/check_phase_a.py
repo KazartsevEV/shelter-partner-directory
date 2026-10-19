@@ -434,7 +434,15 @@ def main():
         new_paint = b'color:var(--p10-fg)!important;'
         assert approved_hero.count(old_paint) == 2, 'Unexpected approved HERO CSS base'
         current_hero = (ROOT / 'nomad360_hero_banner.css').read_bytes()
-        assert current_hero == approved_hero.replace(old_paint, new_paint), 'HERO layout or other colors changed outside approved burger fix'
+        # HERO-12/13 approved full-bleed, CTA and user-accepted desktop-only logo lift:
+        # pin original styling and exact latest CSS/asset/controller presentation blobs.
+        legacy = approved_hero.replace(old_paint, new_paint)
+        assert current_hero.startswith(legacy), 'Historical HERO styling was modified, not extended by approved layout'
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '753fc12656507d45a9d07da355105caa65e9aab6', 'HERO scene geometry or CTA presentation drift'
+    if 'nomad360_hero_banner.js' in changed:
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
+    if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
+        assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
@@ -451,7 +459,8 @@ def main():
         'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
         'tests/nomad360_calculator_ui_browser.test.cjs',
-        'nomad360_hero_banner.css',
+        'nomad360_hero_banner.css', 'nomad360_hero_banner.js',
+        'scripts/hero/preview.cjs', 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp',
         # FX live browser test: only retries real validated provider requests; financial source stays frozen.
         'tests/currency_converter_browser.test.cjs',
         'tests/nomad360_price_export_browser.test.cjs',

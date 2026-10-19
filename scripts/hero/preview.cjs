@@ -103,18 +103,46 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const desktopBand=await p.evaluate(()=>{
       const banner=document.querySelector('#nomad360-commercial-banner');
       const scenic=getComputedStyle(banner,'::before');
+      const fade=getComputedStyle(banner,'::after');
       const wrapper=banner.getBoundingClientRect();
       const summary=document.querySelector('#nomad360-hero-summary').getBoundingClientRect();
-      return {sceneBottom:wrapper.top+parseFloat(scenic.height),
+      const summaryStyles=getComputedStyle(document.querySelector('#nomad360-hero-summary'));
+      return {sceneHeight:parseFloat(scenic.height),sceneWidth:parseFloat(scenic.width),
+        sceneSize:scenic.backgroundSize,fadeHeight:parseFloat(fade.height),
+        summaryBg:summaryStyles.backgroundColor,summaryBorder:summaryStyles.borderTopWidth,
         cardTop:summary.top,cardBottom:summary.bottom,bandBottom:wrapper.bottom};
     });
-    A.ok(desktopBand.cardTop>=desktopBand.sceneBottom+12,
-      'Desktop summary border must stay below scenic layer on solid navy');
-    A.ok(desktopBand.cardBottom<=desktopBand.bandBottom,
-      'Desktop summary content and border must fit the navy band');
+    A.ok(Math.abs(desktopBand.sceneWidth-width)<=2,'Sunset image must span every desktop viewport');
+    A.ok(['100%','100% auto'].includes(desktopBand.sceneSize),'Panorama must keep natural aspect ratio; Chromium may canonicalize 100% auto to 100%');
+    A.ok(Math.abs(desktopBand.sceneHeight-desktopBand.fadeHeight)<=2,'Navy gradient covers scenic height');
+    A.equal(desktopBand.summaryBorder,'0px','Benefits no longer live inside separate bordered card');
+    A.equal(desktopBand.summaryBg,'rgba(0, 0, 0, 0)','Benefits live in seamless navy hero backdrop');
+    A.ok(desktopBand.cardBottom<=desktopBand.bandBottom+2,
+      'Desktop summary content must fit within hero');
+   }
+   if(width>=1280){
+    await p.waitForFunction(()=>{
+     const n=document.querySelector('#nomad360-hero h3');
+     const c=document.querySelector('#nomad360-hero .nomad-intro-cta');
+     const bottom=document.querySelector('#nomad360-hero-summary');
+     if(!n||!c||!bottom)return false;
+     const upper=c.getBoundingClientRect().top-n.getBoundingClientRect().bottom;
+     const lower=bottom.getBoundingClientRect().top-c.getBoundingClientRect().bottom;
+     return upper>0&&lower>0&&Math.abs(upper-lower)<=4;
+    },{timeout:8000});
+    const spacing=await p.evaluate(()=>{
+     const narrative=document.querySelector('#nomad360-hero h3').getBoundingClientRect();
+     const cta=document.querySelector('#nomad360-hero .nomad-intro-cta').getBoundingClientRect();
+     const benefits=document.querySelector('#nomad360-hero-summary').getBoundingClientRect();
+     return {above:cta.top-narrative.bottom,below:benefits.top-cta.bottom,
+      translate:getComputedStyle(document.querySelector('#nomad360-hero .nomad-intro-cta')).transform};
+    });
+    A.ok(Math.abs(spacing.above-spacing.below)<=4,'CTA vertically centered between narrative and benefit section in '+lang+' '+width);
+    A.ok(spacing.above>=14&&spacing.below>=14,'CTA remains clear of both elements');
    }
    A.equal(geometry.background,'rgb(23, 59, 88)','Main approved navy');
-   A.match(geometry.art,/hero\.webp/,'Approved scenery layer');
+   A.match(geometry.art,/hero-alpenglow-fullbleed\.webp/,'Approved full-bleed scenery layer');
+   if(width>=768)A.ok(Math.abs(geometry.bannerWidth-width)<=2,'HERO must be edge-to-edge, not isolated card');
    A.ok(geometry.scrollWidth<=width+1,'No horizontal page scroll');
    if(width>=768)A.ok(geometry.headlineRight < geometry.bannerWidth*.60,'Headline must remain left of opaque scenery');
    const f=lang+'-'+width+'-hero.png';
@@ -139,6 +167,26 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     A.deepEqual(await p.locator('#nomad360-intro .nomad-hero-process-step').allTextContents(),
       await p.evaluate(next=>[1,2,3].map(n=>Nomad360LocaleCore.t('interface.shell.introStep'+n,next)),next),
       'Language switching must update all three steps');
+   }
+   // Windows-style reserved scrollbar gutter must not make the HERO 100vw
+   // wide when the document's visible client area is narrower.
+   if(lang==='ru'&&width===1440){
+    const gutterStyle=await p.addStyleTag({content:'html{scrollbar-gutter:stable!important}'});
+    await p.evaluate(()=>window.dispatchEvent(new Event('resize')));
+    await p.waitForFunction(()=>{
+     const e=document.querySelector('#nomad360-commercial-banner');
+     return Math.abs(e.getBoundingClientRect().width-document.documentElement.clientWidth)<2;
+    },{timeout:8000});
+    const g=await p.evaluate(()=>({
+     client:document.documentElement.clientWidth,
+     windowWidth:innerWidth,
+     hero:document.querySelector('#nomad360-commercial-banner').getBoundingClientRect().width,
+     scroll:document.documentElement.scrollWidth
+    }));
+    A.ok(Math.abs(g.hero-g.client)<2,'Full-bleed HERO excludes reserved Windows scrollbar width');
+    A.ok(g.scroll<=g.client+1,'Reserved scrollbar does not create horizontal scrolling');
+    await gutterStyle.evaluate(el=>el.remove());
+    await p.evaluate(()=>window.dispatchEvent(new Event('resize')));
    }
    cases.push({lang,width,geometry,errors:errors.slice(0,5)});
    await context.close();
