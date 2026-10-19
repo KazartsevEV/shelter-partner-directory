@@ -113,7 +113,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
         cardTop:summary.top,cardBottom:summary.bottom,bandBottom:wrapper.bottom};
     });
     A.ok(Math.abs(desktopBand.sceneWidth-width)<=2,'Sunset image must span every desktop viewport');
-    A.equal(desktopBand.sceneSize,'100% auto','Panorama must keep natural aspect ratio, never stretch');
+    A.ok(['100%','100% auto'].includes(desktopBand.sceneSize),'Panorama must keep natural aspect ratio; Chromium may canonicalize 100% auto to 100%');
     A.ok(Math.abs(desktopBand.sceneHeight-desktopBand.fadeHeight)<=2,'Navy gradient covers scenic height');
     A.equal(desktopBand.summaryBorder,'0px','Benefits no longer live inside separate bordered card');
     A.equal(desktopBand.summaryBg,'rgba(0, 0, 0, 0)','Benefits live in seamless navy hero backdrop');
