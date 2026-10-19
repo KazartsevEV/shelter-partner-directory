@@ -286,7 +286,11 @@ def main():
                 # Licence fix changes exactly three fall-back strings and one href.
                 # Every other byte from approved PR #145 remains protected.
                 def mask_license_footer(content):
-                    lines = content.decode('utf-8').splitlines()
+                    # HELP-08: the Help menu lives between two marker comments inside
+                    # boot(); strip exactly those regions, then compare as before.
+                    text = re.sub(r'^[ \t]*// HELP-08:BEGIN[^\n]*\n.*?^[ \t]*// HELP-08:END\n',
+                                  '', content.decode('utf-8'), flags=re.S | re.M)
+                    lines = text.splitlines()
                     copy_rows = sum('"licenseCopy": ' in x for x in lines)
                     link_rows = sum('nomad360-license" class="nomad-meta-block"' in x for x in lines)
                     assert copy_rows == 3 and link_rows == 1
