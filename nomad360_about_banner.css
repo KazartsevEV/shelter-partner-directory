@@ -530,9 +530,21 @@
  }
  #nomad360-information.nomad-information::before{
   background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg");
-  background-size:cover;background-position:left top;background-repeat:no-repeat;
+  /* Keep the approved 1536px central scene centered. The added side scenery
+     occupies the extra width instead of being cropped from the right. */
+  background-size:auto 640.6px;background-position:center top;background-repeat:no-repeat;
  }
  #nomad360-information.nomad-information::after{
   background:linear-gradient(90deg,rgba(23,59,88,.94) 0%,rgba(23,59,88,.86) 20%,rgba(23,59,88,.66) 40%,rgba(23,59,88,.31) 58%,rgba(23,59,88,0) 72%);
+ }
+}
+
+/* On narrow desktops the full 2048px source must fit horizontally. On
+   extra-wide desktops show genuine side extension across the whole canvas.
+   The painted stage height remains 640.6px on EVERY desktop breakpoint. */
+@media(min-width:1001px) and (max-width:1279px), (min-width:1709px){
+ #nomad360-information.nomad-information::before{
+  background-size:100% auto;
+  background-position:center top;
  }
 }
