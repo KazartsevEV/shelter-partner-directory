@@ -691,9 +691,9 @@
     const c=t.comparison;
     // Inline SVG icons are decoration: every sales message stays translatable HTML.
     const b2bIcons=[
-      '<rect x="5" y="9" width="38" height="30" rx="4"/><path d="M5 18h38M11 14h2m5 0h2m-6 14h20m-8-6 8 6-8 6"/>',
-      '<path d="M8 10h23a5 5 0 0 1 5 5v15a5 5 0 0 1-5 5H19l-9 7v-7H8a5 5 0 0 1-5-5V15a5 5 0 0 1 5-5Z"/><path d="M12 19h15M12 26h9"/><circle cx="38" cy="34" r="7"/>',
-      '<rect x="9" y="5" width="30" height="38" rx="4"/><path d="M16 15h16M16 23l4 4 7-8M16 35h16"/>'
+      '<rect x="6" y="8" width="36" height="32" rx="3"/><path d="M6 17h36M12 12h1m5 0h1M23 23l8 8-8 8M13 31h18"/>',
+      '<path d="M8 8h24a5 5 0 0 1 5 5v11a5 5 0 0 1-5 5H19l-9 8v-8H8a5 5 0 0 1-5-5V13a5 5 0 0 1 5-5Z"/><path d="M11 16h16m-16 6h10"/><circle cx="36" cy="35" r="9"/><circle cx="36" cy="32" r="2"/><path d="M31 40c1-5 9-5 10 0"/>',
+      '<rect x="9" y="7" width="30" height="36" rx="3"/><rect x="17" y="4" width="14" height="7" rx="2"/><path d="m15 23 5 5 12-12M16 34h16m-16 5h11"/>'
     ];
     const b2bBenefits=t.embedB2BPoints.map((line,i)=>{
       const focus=t.embedB2BFocus;
@@ -711,7 +711,7 @@
       '<div class="nomad-embed-b2b-banner"><div class="nomad-embed-b2b-header"><div class="nomad-embed-b2b-headcopy">'+
       '<h2 id="nomad360-embed-heading" class="nomad-embed-b2b-title">'+esc(t.embedB2BTitle)+'</h2>'+
       '<p class="nomad-embed-b2b-slogan">'+esc(t.embedB2BSlogan)+'</p></div>'+
-      '<div class="nomad-embed-b2b-brand" aria-hidden="true"><span class="nomad-embed-b2b-logo-mask"><img src="./nomad360_wolf_open_circle.png" width="108" height="108" alt="" loading="lazy"></span></div></div>'+
+      '</div>'+
       '<ol class="nomad-embed-b2b-benefits">'+b2bBenefits+'</ol></div>'+
       '<button type="button" class="nomad-embed-download nomad-embed-toggle" data-nomad-embed-toggle aria-expanded="false" aria-controls="nomad360-embed-comparison">'+esc(t.embedToggle)+'</button>'+
       '<div id="nomad360-embed-comparison" hidden><table class="nomad-embed-table" role="table"><caption class="nomad-sr">'+esc(c.caption)+'</caption><thead><tr><th scope="col">'+esc(c.feature)+'</th><th scope="col">'+esc(c.free)+'</th><th scope="col">'+esc(c.own)+'</th></tr></thead><tbody>'+
@@ -795,7 +795,17 @@
       });
       for(const link of Array.from(doc.querySelectorAll('link[rel="stylesheet"][href^="./"]'))){
         const filename=link.getAttribute('href');
-        const css=await (await get(filename)).text();
+        let css=await (await get(filename)).text();
+        // UNIFIED-BANNERS-01: keep local decorative resources inside portable HTML.
+        const scenery=new Set([...css.matchAll(/url\(['"]?(\.\/assets\/nomad360-banners\/[a-z-]+\.webp)['"]?\)/g)].map(m=>m[1]));
+        for(const asset of scenery){
+          const blob=await (await get(asset)).blob();
+          const data=await new Promise((resolve,reject)=>{
+            const reader=new root.FileReader();reader.onload=()=>resolve(reader.result);
+            reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob);
+          });
+          css=css.replaceAll(asset,data);
+        }
         const inline=doc.createElement('style');
         inline.setAttribute('data-nomad-bundled',filename);
         inline.textContent=css.replace(/<\/style/gi,'<\\/style');
