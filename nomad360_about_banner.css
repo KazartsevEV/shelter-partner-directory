@@ -513,7 +513,7 @@
  }
 }
 
-/* ABOUT-09: extend only HORIZONTALLY (original 1536x768 center -> 2048x768).
+/* ABOUT-10: extend only HORIZONTALLY (original 1536x768 center -> 3200x768).
  * Desktop image height is fixed to the pre-PR204 640.6px, not viewportWidth/2.
  * Text/cards/contact positions and all mobile/tablet scenes remain unchanged. */
 @media(min-width:1001px){
@@ -529,22 +529,12 @@
   -webkit-mask-composite:initial;mask-composite:initial;
  }
  #nomad360-information.nomad-information::before{
-  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg");
-  /* Keep the approved 1536px central scene centered. The added side scenery
-     occupies the extra width instead of being cropped from the right. */
+  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
+  /* Native-height render at ALL desktop widths; 3200×768 source covers 2560px.
+     The approved 1536×768 center remains intact at 1280px and 1440px. */
   background-size:auto 640.6px;background-position:center top;background-repeat:no-repeat;
  }
  #nomad360-information.nomad-information::after{
   background:linear-gradient(90deg,rgba(23,59,88,.94) 0%,rgba(23,59,88,.86) 20%,rgba(23,59,88,.66) 40%,rgba(23,59,88,.31) 58%,rgba(23,59,88,0) 72%);
- }
-}
-
-/* On narrow desktops the full 2048px source must fit horizontally. On
-   extra-wide desktops show genuine side extension across the whole canvas.
-   The painted stage height remains 640.6px on EVERY desktop breakpoint. */
-@media(min-width:1001px) and (max-width:1279px), (min-width:1709px){
- #nomad360-information.nomad-information::before{
-  background-size:100% auto;
-  background-position:center top;
  }
 }

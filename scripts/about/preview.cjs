@@ -8,8 +8,8 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/about-0
 fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
-const desktopImage='assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg';
-const expectedDesktopBlob='bdbd215d25ffb5a173336d3eb90ea2853c480a16';
+const desktopImage='assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg';
+const expectedDesktopBlob='41bab043c0aca095b9b7e9a42cdff6e756206d4a';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
 assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),expectedDesktopBlob,
@@ -91,7 +91,7 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
     const img=new Image();img.src=viewportWidth>=1001
-     ?'./assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg'
+     ?'./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
      :'./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
@@ -130,13 +130,13 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    },width);
    assert.ok(layout.sceneSource.includes(width>=1001
-     ?'assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg'
+     ?'assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
      :'assets/nomad360-banners/about-bozzhyra-approved.webp'),
     'Approved image selected only on desktop, with original image preserved on mobile/tablet');
    const expectedBgSize=width>=1001?'auto 640.6px':'100% 100%';
    assert.equal(layout.sceneSize,expectedBgSize,
     'Central desktop panorama has its original scale; mobile/tablet unchanged');
-   assert.equal(layout.originalWidth,width>=1001?2048:1672);
+   assert.equal(layout.originalWidth,width>=1001?3200:1672);
    assert.equal(layout.originalHeight,width>=1001?768:941);
    if(width>=1001){
     assert.ok(Math.abs(layout.scenicHeight-640.6)<=1,'Image layer MUST retain original pre-PR204 640.6px height');
@@ -283,8 +283,10 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
     'Scene center must align with viewport even at body-padded desktop width: '+JSON.stringify(geometry));
    assert.ok(geometry.scrollWidth<=width+1,'No horizontal scroll at '+width);
    assert.ok(geometry.paintedH<=geometry.sectionHeight+1,'Scene cannot paint below About');
-   assert.ok(geometry.sourceSize==='100%'||geometry.sourceSize==='100% auto',
-    'Outside primary desktop 1280/1440 matrix, show all panorama horizontally without cover crop');
+   assert.equal(geometry.sourceSize,'auto 640.6px',
+    'All desktop backgrounds must render at exactly the original 640.6px image height, not width-fit/cover');
+   assert.ok(3200*(640.6/768)>=geometry.viewport-2,
+    'Side-extended 3200px landscape covers the 2560px viewport at native height');
    assert.equal(geometry.sourcePosition,'50% 0%',
     'Exterior widths must keep scenery horizontally centered');
    const visible=await page.screenshot({animations:'disabled'});
