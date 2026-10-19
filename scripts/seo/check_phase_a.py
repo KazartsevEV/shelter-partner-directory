@@ -55,6 +55,15 @@ def strip_live_v2_entry(raw):
 
 
 def strip_approved_hero_html(raw):
+    # CONSULTING-01 — permit exactly one reviewed B2B stylesheet after IRBIS,
+    # then restore all historic HTML byte-for-byte protections unchanged.
+    consulting_css = b'    <link rel="stylesheet" href="./nomad360_consulting_banner.css">\n'
+    if consulting_css in raw:
+        assert raw.count(consulting_css) == 1, 'CONSULTING single CSS loader'
+        assert (b'    <link rel="stylesheet" href="./nomad360_about_banner.css">\n'
+                + b'    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n'
+                + consulting_css + b'</head>') in raw, 'CONSULTING follows accepted IRBIS CSS'
+        raw = raw.replace(consulting_css, b'', 1)
     # IRBIS-07: precisely two passive asset links added after accepted ABOUT + RETURN.
     # Source guards remove ONLY the approved link pair; never erase DOM/calculation text.
     irbis_css = b'    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n'
