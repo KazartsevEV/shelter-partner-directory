@@ -46,18 +46,20 @@ const server=http.createServer((req,res)=>{
           else counts.unexpected++;
         }
         const mask=document.querySelector('.nomad-seo-logo-mask');
+        const hiddenB2B=getComputedStyle(document.querySelector('.nomad-embed-b2b-brand')).display==='none';
         return {dimensions:[c.width,c.height],counts,
           allSameUrl:images.every(e=>e.getAttribute('src')===img.getAttribute('src')),
           maskSize:mask.getBoundingClientRect().width,
           scale:getComputedStyle(mask.querySelector('img')).transform,
-          logoTransforms:images.map(e=>{const m=new DOMMatrix(getComputedStyle(e).transform);
+          logoTransforms:images.slice(0,2).map(e=>{const m=new DOMMatrix(getComputedStyle(e).transform);
             return {scaleX:m.a,scaleY:m.d,dx:m.e/e.offsetWidth,dy:m.f/e.offsetHeight};}),
           headerMask:!!document.querySelector('.nomad-logo-mask'),
-          bannerMask:!!mask,embeddedMask:!!document.querySelector('.nomad-embed-b2b-logo-mask')};
+          bannerMask:!!mask,embeddedMask:!!document.querySelector('.nomad-embed-b2b-logo-mask'),hiddenB2B};
       });
       A.equal(errors.length,0,'JavaScript errors: '+errors.join('; '));
       A.ok(state.allSameUrl,'all three actual images are recolored identically');
       A.ok(state.headerMask&&state.bannerMask&&state.embeddedMask);
+      A.equal(state.hiddenB2B,true,'Consulting banner intentionally hides its unused wolf; visible wolves remain tested');
       A.ok(state.counts.blue>100&&state.counts.orange>20&&state.counts.white>100,
         'approved colors are present in full-opacity source details '+JSON.stringify(state.counts));
       A.ok(state.counts.unexpected<state.counts.blue+state.counts.orange+state.counts.white,
@@ -67,12 +69,14 @@ const server=http.createServer((req,res)=>{
       A.ok(state.logoTransforms.every(t=>Math.abs(t.scaleX-1.38)<0.001
         &&Math.abs(t.scaleY-1.38)<0.001&&Math.abs(t.dx-0.012)<0.001
         &&Math.abs(t.dy-0.009)<0.001),
-        'the same proportional adjustment applies to the complete mark across all mask sizes');
+        'the two visible header and SEO wolf marks retain identical approved geometry');
       // Sample the *rendered* ring, rather than assuming the PNG canvas is centered.
       // This checks the actual orbit against the white circular mask; it excludes
       // the asymmetric wolf silhouette, which must not be moved independently.
-      const b2bShot=await page.locator('.nomad-embed-b2b-logo-mask').screenshot({
-        path:path.join(out,lang+'-'+width+'-b2b-logo.png')
+      // CONSULTING-01 intentionally hides the former B2B wolf. Inspect the
+      // visible SEO logo's orbit instead of screenshotting a hidden element.
+      const visibleLogoShot=await page.locator('.nomad-seo-logo-mask').screenshot({
+        path:path.join(out,lang+'-'+width+'-seo-logo.png')
       });
       const orbitCenter=await page.evaluate(async base64=>{
         const image=new Image();
@@ -98,7 +102,7 @@ const server=http.createServer((req,res)=>{
         const mean=xs=>xs.reduce((sum,x)=>sum+x,0)/xs.length;
         return {ringX:(mean(left)+mean(right))/2,maskX:(c.width-1)/2,
           leftPx:left.length,rightPx:right.length};
-      },b2bShot.toString('base64'));
+      },visibleLogoShot.toString('base64'));
       A.ok(orbitCenter,'both sides of the circular orbit must be visible');
       A.ok(Math.abs(orbitCenter.ringX-orbitCenter.maskX)<0.95,
         'orbit must be centered within the white circle: '+JSON.stringify(orbitCenter));
