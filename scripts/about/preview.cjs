@@ -8,13 +8,13 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/about-0
 fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
-const desktopImage='assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp';
-const expectedDesktopBlob='9b3f6f1d21304d69489c9790deaaddc976a3e7ec';
+const desktopImage='assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg';
+const expectedDesktopBlob='bdbd215d25ffb5a173336d3eb90ea2853c480a16';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
 assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),expectedDesktopBlob,
  'Owner-approved replacement desktop moon scene must remain byte-for-byte unchanged');
-const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
+const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
 (async()=>{
  const server=http.createServer((req,res)=>{
   const p=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://local').pathname));
@@ -91,7 +91,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
     const img=new Image();img.src=viewportWidth>=1001
-     ?'./assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp'
+     ?'./assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg'
      :'./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
@@ -130,14 +130,18 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    },width);
    assert.ok(layout.sceneSource.includes(width>=1001
-     ?'assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp'
+     ?'assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg'
      :'assets/nomad360-banners/about-bozzhyra-approved.webp'),
     'Approved image selected only on desktop, with original image preserved on mobile/tablet');
-   assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
-   assert.equal(layout.originalWidth,width>=1001?1536:1672);
+   assert.equal(layout.sceneSize,width>=1001?'cover':'100% 100%',
+    'Desktop uses native non-stretched 640.6px-tall image; mobile/tablet unchanged');
+   assert.equal(layout.originalWidth,width>=1001?2048:1672);
    assert.equal(layout.originalHeight,width>=1001?768:941);
-   const expectedRatio=width>=1001?2:1672/941;
-   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-expectedRatio)<0.025,'No distortion: scene keeps original aspect ratio');
+   if(width>=1001){
+    assert.ok(Math.abs(layout.scenicHeight-640.6)<=1,'Image layer MUST retain original pre-PR204 640.6px height');
+   }else{
+    assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Tablet/mobile original photo aspect preserved');
+   }
    if(width>=1001){
     assert.ok(Math.abs(layout.scenicWidth-layout.clientViewport)<=2,
       'Desktop photo spans the ENTIRE browser content viewport, not only 1138px text container');
