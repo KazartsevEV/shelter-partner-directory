@@ -110,7 +110,11 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       scenePosition:scenic.backgroundPosition,scenicWidth:parseFloat(scenic.width),
       scenicHeight:parseFloat(scenic.height),originalWidth:img.naturalWidth,originalHeight:img.naturalHeight,
       clientViewport:document.documentElement.clientWidth,
-      scenicLeft:rect.left+(rect.width-parseFloat(scenic.width))/2,
+      scenicLeft:rect.left+rect.width/2+
+       parseFloat(getComputedStyle(section).getPropertyValue('--nomad-about-scene-offset')||'0')-
+       parseFloat(scenic.width)/2,
+      scenicOffset:parseFloat(getComputedStyle(section).getPropertyValue('--nomad-about-scene-offset')||'0'),
+      paintHeight:parseFloat(getComputedStyle(section).getPropertyValue('--nomad-about-paint-height')||'0'),
       background:getComputedStyle(section).backgroundColor,
       cardCount:cards.length,links:linked,contacts,sectionWidth:rect.width,
       viewport:innerWidth,docScroll:document.documentElement.scrollWidth,
@@ -141,6 +145,8 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       'Desktop photo is centered on the actual viewport without scrollbar overrun');
     assert.ok(layout.sectionWidth<=1139&&layout.sectionWidth>=1137,
       'Actual copy and cards retain their original centered 1138px layout');
+    assert.ok(layout.paintHeight>0&&layout.paintHeight<=layout.scenicHeight+1,
+      'Desktop photo height is bounded and never distorted');
    }else if(width>=701)assert.ok(Math.abs(layout.scenicWidth-layout.sectionWidth)<=2,
      'Tablet background remains unchanged within the original banner');
    if(width<=700)assert.ok(layout.scenicWidth>layout.sectionWidth+80,
@@ -232,6 +238,73 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    reports.push({lang,width,...layout});
    await ctx.close();
   }
+  // ABOUT-08 Codex P1/P2: widths outside the usual matrix probe the real
+  // painted viewport edges and the region below About. Pseudo-element bounds
+  // alone cannot prove that a CSS/ancestor clip did not hide the photo.
+  const paintedChecks=[];
+  for(const width of [1024,1180,2560]){
+   const ctx=await browser.newContext({viewport:{width,height:1500},reducedMotion:'reduce'});
+   const page=await ctx.newPage();
+   await page.route(/^https?:\\/\\//,route=>route.request().url().startsWith(base)?route.continue():route.abort());
+   await page.goto(base+'/Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+   await page.addStyleTag({path:path.join(out,'utilities.css')});
+   await page.evaluate(()=>document.fonts.ready);
+   await page.waitForSelector('#nomad360-information.nomad-information');
+   await page.evaluate(()=>window.Nomad360UI.setLanguage('ru'));
+   await page.locator('#nomad360-information').scrollIntoViewIfNeeded();
+   const geometry=await page.evaluate(()=>{
+    const e=document.querySelector('#nomad360-information.nomad-information'),r=e.getBoundingClientRect();
+    const b=getComputedStyle(e,'::before'),root=getComputedStyle(e);
+    const left=r.left+r.width/2+parseFloat(root.getPropertyValue('--nomad-about-scene-offset')||'0')-parseFloat(b.width)/2;
+    const stageH=parseFloat(b.height);
+    const paintedH=parseFloat(root.getPropertyValue('--nomad-about-paint-height'));
+    return {left,right:left+parseFloat(b.width),viewport:document.documentElement.clientWidth,
+     sectionBottom:r.bottom,sectionHeight:r.height,stageH,paintedH,
+     xLeft:Math.max(3,Math.floor(document.documentElement.clientWidth*.003)),
+     xRight:document.documentElement.clientWidth-5,
+     y0:Math.max(0,Math.floor(r.top)),scrollWidth:document.documentElement.scrollWidth};
+   });
+   assert.ok(Math.abs(geometry.left)<=2&&Math.abs(geometry.right-geometry.viewport)<=2,
+    'Scene center must align with viewport even at body-padded desktop width: '+JSON.stringify(geometry));
+   assert.ok(geometry.scrollWidth<=width+1,'No horizontal scroll at '+width);
+   assert.ok(geometry.paintedH<=geometry.sectionHeight+1,'Scene cannot paint below About');
+   const visible=await page.screenshot({animations:'disabled'});
+   const hide=await page.addStyleTag({content:'#nomad360-information.nomad-information::before,#nomad360-information.nomad-information::after{opacity:0!important}'});
+   const unpainted=await page.screenshot({animations:'disabled'});
+   await hide.evaluate(el=>el.remove());
+   const differences=await page.evaluate(async ({shown,hidden,geometry})=>{
+    async function pixels(s){
+     const image=new Image();
+     image.src='data:image/png;base64,'+s;
+     await image.decode();
+     const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;
+     const context=canvas.getContext('2d',{willReadFrequently:true});
+     context.drawImage(image,0,0);
+     return {data:context.getImageData(0,0,image.width,image.height).data,width:image.width,height:image.height};
+    }
+    const a=await pixels(shown),b=await pixels(hidden);
+    function delta(x,y){
+     if(y<0||y>=a.height||x<0||x>=a.width)return 0;
+     const at=(y*a.width+x)*4;
+     return Math.max(...[0,1,2].map(i=>Math.abs(a.data[at+i]-b.data[at+i])));
+    }
+    const ys=Array.from({length:10},(_,i)=>Math.min(a.height-1,Math.round(geometry.y0+45+i*Math.min(geometry.paintedH*.62,400)/9)));
+    const edgeLeft=Math.max(...ys.map(y=>delta(geometry.xLeft,y)));
+    const edgeRight=Math.max(...ys.map(y=>delta(geometry.xRight,y)));
+    const afterY=Math.round(geometry.sectionBottom+15);
+    const below=afterY<a.height?Math.max(...[geometry.xLeft,Math.round(geometry.viewport*.5),geometry.xRight].map(x=>delta(x,afterY))):null;
+    return {edgeLeft,edgeRight,below,afterY};
+   },{shown:visible.toString('base64'),hidden:unpainted.toString('base64'),geometry});
+   assert.ok(differences.edgeLeft>=1&&differences.edgeRight>=5,
+    'Rendered left and right viewport pixels must differ from background-disabled screenshot: '+
+     JSON.stringify({geometry,differences}));
+   if(width>=2560)assert.ok(differences.below!==null&&differences.below<=1,
+    'Ultrawide image must not leak painted pixels below section: '+JSON.stringify({geometry,differences}));
+   paintedChecks.push({width,...geometry,...differences});
+   await ctx.close();
+  }
+  fs.writeFileSync(path.join(out,'painted-bounds.json'),JSON.stringify(paintedChecks,null,2)+'\\n');
+
   fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({sourceBlob:expectedGitBlob,reports},null,2));
   console.log('ABOUT-01 GREEN source SHA, locale, geometry, links, contacts',reports.length);
  }finally{await browser.close();await new Promise(r=>server.close(r));}
