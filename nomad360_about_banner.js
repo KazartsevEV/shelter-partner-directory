@@ -107,7 +107,7 @@ function syncAboutViewport(){
  // Retain the native 2:1 artwork aspect, but never paint over the
  // subsequent footer/content when an ultrawide viewport is taller.
  section.style.setProperty('--nomad-about-paint-height',
-  Math.max(0,Math.min(rect.height,width/2))+'px');
+  Math.max(0,Math.min(rect.height,640.6))+'px');
 }
 function boot(){
  syncAboutViewport();

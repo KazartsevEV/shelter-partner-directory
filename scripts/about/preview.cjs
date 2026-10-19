@@ -8,13 +8,13 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/about-0
 fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
-const desktopImage='assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp';
-const expectedDesktopBlob='9b3f6f1d21304d69489c9790deaaddc976a3e7ec';
+const desktopImage='assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg';
+const expectedDesktopBlob='41bab043c0aca095b9b7e9a42cdff6e756206d4a';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
 assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),expectedDesktopBlob,
  'Owner-approved replacement desktop moon scene must remain byte-for-byte unchanged');
-const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
+const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
 (async()=>{
  const server=http.createServer((req,res)=>{
   const p=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://local').pathname));
@@ -91,7 +91,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
     const img=new Image();img.src=viewportWidth>=1001
-     ?'./assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp'
+     ?'./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
      :'./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
@@ -130,14 +130,28 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    },width);
    assert.ok(layout.sceneSource.includes(width>=1001
-     ?'assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp'
+     ?'assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
      :'assets/nomad360-banners/about-bozzhyra-approved.webp'),
     'Approved image selected only on desktop, with original image preserved on mobile/tablet');
-   assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
-   assert.equal(layout.originalWidth,width>=1001?1536:1672);
+   const expectedBgSize=width>=1001?'auto 640.6px':'100% 100%';
+   assert.equal(layout.sceneSize,expectedBgSize,
+    'Central desktop panorama has its original scale; mobile/tablet unchanged');
+   assert.equal(layout.originalWidth,width>=1001?3200:1672);
    assert.equal(layout.originalHeight,width>=1001?768:941);
-   const expectedRatio=width>=1001?2:1672/941;
-   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-expectedRatio)<0.025,'No distortion: scene keeps original aspect ratio');
+   if(width>=1001){
+    assert.ok(Math.abs(layout.scenicHeight-640.6)<=1,'Image layer MUST retain original pre-PR204 640.6px height');
+    assert.equal(layout.scenePosition,'50% 0%','Panorama remains centered; never left-align/crop the right-hand cliffs');
+    // At supported 1280/1440 CSS widths, image is rendered at native
+    // height scaling, with at least the whole 1536px source central scene
+    // inside the viewport (only the 256px added margins may be cropped).
+    if(width>=1280&&width<=1440){
+     const srcVisible=layout.clientViewport/(640.6/768);
+     assert.ok(srcVisible>=1536-3&&srcVisible<=2048,
+      'Original central 1536x768 composition remains fully visible');
+    }
+   }else{
+    assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Tablet/mobile original photo aspect preserved');
+   }
    if(width>=1001){
     assert.ok(Math.abs(layout.scenicWidth-layout.clientViewport)<=2,
       'Desktop photo spans the ENTIRE browser content viewport, not only 1138px text container');
@@ -260,6 +274,7 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const paintedH=parseFloat(root.getPropertyValue('--nomad-about-paint-height'));
     return {left,right:left+parseFloat(b.width),viewport:document.documentElement.clientWidth,
      sectionBottom:r.bottom,sectionHeight:r.height,stageH,paintedH,
+     sourceSize:b.backgroundSize,sourcePosition:b.backgroundPosition,
      xLeft:Math.max(3,Math.floor(document.documentElement.clientWidth*.003)),
      xRight:document.documentElement.clientWidth-5,
      y0:Math.max(0,Math.floor(r.top)),scrollWidth:document.documentElement.scrollWidth};
@@ -268,6 +283,12 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     'Scene center must align with viewport even at body-padded desktop width: '+JSON.stringify(geometry));
    assert.ok(geometry.scrollWidth<=width+1,'No horizontal scroll at '+width);
    assert.ok(geometry.paintedH<=geometry.sectionHeight+1,'Scene cannot paint below About');
+   assert.equal(geometry.sourceSize,'auto 640.6px',
+    'All desktop backgrounds must render at exactly the original 640.6px image height, not width-fit/cover');
+   assert.ok(3200*(640.6/768)>=geometry.viewport-2,
+    'Side-extended 3200px landscape covers the 2560px viewport at native height');
+   assert.equal(geometry.sourcePosition,'50% 0%',
+    'Exterior widths must keep scenery horizontally centered');
    const visible=await page.screenshot({animations:'disabled'});
    const hide=await page.addStyleTag({content:'#nomad360-information.nomad-information::before,#nomad360-information.nomad-information::after{opacity:0!important}'});
    const unpainted=await page.screenshot({animations:'disabled'});

@@ -537,6 +537,8 @@ def main():
         # paths. No calculator, SEO page, or mobile application source edits.
         'assets/nomad360-banners/about-moonlight-desktop-approved.webp',
         'assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp',
+        'assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg',
+        'assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg',
         'nomad360_about_banner.js',
         'nomad360_about_banner.css', 'scripts/about/preview.cjs',
         '.github/workflows/about-01-visual.yml',
