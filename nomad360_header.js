@@ -800,8 +800,12 @@
         // Keep the approved scenic artwork in that same file; relative url(...)
         // would otherwise break when a consultant hosts the embed elsewhere.
         if(filename==='./nomad360_consulting_banner.css'){
-          const scenicUrls=[...new Set([...css.matchAll(/url\\(["']?(\\.\\/assets\\/nomad360-banners\\/consulting-horizontal-(?:desktop-3200x941|mobile-1200x1671)\\.svg)["']?\\)/g)].map(m=>m[1]))];
-          if(scenicUrls.length!==2)throw new Error('Consulting artwork URL contract changed');
+          const scenicUrls=[
+            './assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg',
+            './assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg'
+          ];
+          if(!scenicUrls.every(path=>css.includes(path)))
+            throw new Error('Consulting artwork URL contract changed');
           for(const path of scenicUrls){
             const svg=await (await get(path)).blob();
             const data=await new Promise((resolve,reject)=>{
