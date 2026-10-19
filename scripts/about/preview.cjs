@@ -8,9 +8,13 @@ const root=path.resolve(__dirname,'../..'),out=path.join(root,'artifacts/about-0
 fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
+const desktopImage='assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg';
+const expectedDesktopBlob='41bab043c0aca095b9b7e9a42cdff6e756206d4a';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
-const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
+assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),expectedDesktopBlob,
+ 'Owner-approved replacement desktop moon scene must remain byte-for-byte unchanged');
+const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
 (async()=>{
  const server=http.createServer((req,res)=>{
   const p=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://local').pathname));
@@ -79,14 +83,16 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
      assert.ok(rows.every(x=>x.scroll<=x.client+2),'No Russian line may clip on a phone');
     }
    }else assert.equal(await ruRows.count(),0,'EN/KK copy must retain original text rendering');
-   const layout=await page.evaluate(async()=>{
+   const layout=await page.evaluate(async viewportWidth=>{
     const section=document.querySelector('#nomad360-information');
     const scenic=getComputedStyle(section,'::before'),rect=section.getBoundingClientRect();
     const cards=[...section.querySelectorAll('.nomad-about-card')];
     const linked=cards.map(a=>({hash:a.getAttribute('href'),label:a.querySelector('.nomad-about-card-motto')?.textContent,
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
-    const img=new Image();img.src='./assets/nomad360-banners/about-bozzhyra-approved.webp';
+    const img=new Image();img.src=viewportWidth>=1001
+     ?'./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
+     :'./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
     const sr=section.querySelector('#nomad360-about').getBoundingClientRect();
     const box=el=>{const r=el.getBoundingClientRect();return {top:r.top-rect.top,bottom:r.bottom-rect.top,height:r.height,width:r.width};};
@@ -103,6 +109,12 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     return {sceneSource:scenic.backgroundImage,sceneSize:scenic.backgroundSize,
       scenePosition:scenic.backgroundPosition,scenicWidth:parseFloat(scenic.width),
       scenicHeight:parseFloat(scenic.height),originalWidth:img.naturalWidth,originalHeight:img.naturalHeight,
+      clientViewport:document.documentElement.clientWidth,
+      scenicLeft:rect.left+rect.width/2+
+       parseFloat(getComputedStyle(section).getPropertyValue('--nomad-about-scene-offset')||'0')-
+       parseFloat(scenic.width)/2,
+      scenicOffset:parseFloat(getComputedStyle(section).getPropertyValue('--nomad-about-scene-offset')||'0'),
+      paintHeight:parseFloat(getComputedStyle(section).getPropertyValue('--nomad-about-paint-height')||'0'),
       background:getComputedStyle(section).backgroundColor,
       cardCount:cards.length,links:linked,contacts,sectionWidth:rect.width,
       viewport:innerWidth,docScroll:document.documentElement.scrollWidth,
@@ -116,13 +128,41 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
       captionBandBox:captionBand?box(captionBand):null,
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
-   });
-   assert.ok(layout.sceneSource.includes('assets/nomad360-banners/about-bozzhyra-approved.webp'),'Approved full-width image must be used');
-   assert.equal(layout.sceneSize,'100% 100%','Never crop original art with cover');
-   assert.equal(layout.originalWidth,1672);assert.equal(layout.originalHeight,941);
-   assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Scene must retain source aspect ratio');
-   if(width>=701)assert.ok(Math.abs(layout.scenicWidth-layout.sectionWidth)<=2,
-     'Full-width desktop photo must span the complete banner');
+   },width);
+   assert.ok(layout.sceneSource.includes(width>=1001
+     ?'assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
+     :'assets/nomad360-banners/about-bozzhyra-approved.webp'),
+    'Approved image selected only on desktop, with original image preserved on mobile/tablet');
+   const expectedBgSize=width>=1001?'auto 640.6px':'100% 100%';
+   assert.equal(layout.sceneSize,expectedBgSize,
+    'Central desktop panorama has its original scale; mobile/tablet unchanged');
+   assert.equal(layout.originalWidth,width>=1001?3200:1672);
+   assert.equal(layout.originalHeight,width>=1001?768:941);
+   if(width>=1001){
+    assert.ok(Math.abs(layout.scenicHeight-640.6)<=1,'Image layer MUST retain original pre-PR204 640.6px height');
+    assert.equal(layout.scenePosition,'50% 0%','Panorama remains centered; never left-align/crop the right-hand cliffs');
+    // At supported 1280/1440 CSS widths, image is rendered at native
+    // height scaling, with at least the whole 1536px source central scene
+    // inside the viewport (only the 256px added margins may be cropped).
+    if(width>=1280&&width<=1440){
+     const srcVisible=layout.clientViewport/(640.6/768);
+     assert.ok(srcVisible>=1536-3&&srcVisible<=2048,
+      'Original central 1536x768 composition remains fully visible');
+    }
+   }else{
+    assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Tablet/mobile original photo aspect preserved');
+   }
+   if(width>=1001){
+    assert.ok(Math.abs(layout.scenicWidth-layout.clientViewport)<=2,
+      'Desktop photo spans the ENTIRE browser content viewport, not only 1138px text container');
+    assert.ok(Math.abs(layout.scenicLeft)<=2,
+      'Desktop photo is centered on the actual viewport without scrollbar overrun');
+    assert.ok(layout.sectionWidth<=1139&&layout.sectionWidth>=1137,
+      'Actual copy and cards retain their original centered 1138px layout');
+    assert.ok(layout.paintHeight>0&&layout.paintHeight<=layout.scenicHeight+1,
+      'Desktop photo height is bounded and never distorted');
+   }else if(width>=701)assert.ok(Math.abs(layout.scenicWidth-layout.sectionWidth)<=2,
+     'Tablet background remains unchanged within the original banner');
    if(width<=700)assert.ok(layout.scenicWidth>layout.sectionWidth+80,
      'On mobile, crop away the left portion, never stretch or isolate the photo');
    assert.equal(layout.background,'rgb(23, 59, 88)','Brand navy');
@@ -148,14 +188,14 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     assert.ok(layout.cardMinHeights.every(height=>height<=185),
       'Desktop service cards must have compact responsive minimum heights');
     assert.ok(!layout.cardsClip,'No localized desktop card text may be clipped');
-    assert.ok(layout.flowBox.top>=layout.scenicHeight*.72,
-      'Desktop service cards must start in the navy-darkened lower photo area');
+    assert.ok(layout.flowBox.top>=layout.scenicHeight*.60,
+      'Desktop service cards must start beneath the mountains in the navy-darkened lower photo area');
     assert.ok(layout.captionBandBox.top-layout.flowBox.bottom<=12,
       'Desktop caption band must immediately follow the compact service grid');
     assert.ok(layout.contactBox.top-layout.captionBandBox.bottom<=3,
       'Desktop contacts immediately follow the vertically centered caption band');
-    assert.ok(layout.leftVeil.includes('67%'),
-      'Left scrim must fade completely by two-thirds of panorama');
+    assert.ok(layout.leftVeil.includes('72%'),
+      'Full-bleed navy scrim must fade out before the right-hand moon and cliffs');
    }
    if(width<=700){
     assert.ok(layout.scenicCopyBox,
@@ -187,6 +227,10 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    }
    const file=lang+'-'+width+'-about.png';
    await page.locator('#nomad360-information').screenshot({path:path.join(out,file)});
+   if(lang==='ru'&&width>=1280){
+    await page.locator('#nomad360-information').scrollIntoViewIfNeeded();
+    await page.screenshot({path:path.join(out,'ru-'+width+'-full-bleed-viewport.png')});
+   }
    if(width===390){
     const next=lang==='ru'?'en':lang==='en'?'kk':'ru';
     await page.evaluate(next=>Nomad360UI.setLanguage(next),next);
@@ -208,6 +252,80 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
    reports.push({lang,width,...layout});
    await ctx.close();
   }
+  // ABOUT-08 Codex P1/P2: widths outside the usual matrix probe the real
+  // painted viewport edges and the region below About. Pseudo-element bounds
+  // alone cannot prove that a CSS/ancestor clip did not hide the photo.
+  const paintedChecks=[];
+  for(const width of [1024,1180,2560]){
+   const ctx=await browser.newContext({viewport:{width,height:1500},reducedMotion:'reduce'});
+   const page=await ctx.newPage();
+   await page.route(/^https?:\/\//,route=>route.request().url().startsWith(base)?route.continue():route.abort());
+   await page.goto(base+'/Marketing_calc.HTML',{waitUntil:'domcontentloaded'});
+   await page.addStyleTag({path:path.join(out,'utilities.css')});
+   await page.evaluate(()=>document.fonts.ready);
+   await page.waitForSelector('#nomad360-information.nomad-information');
+   await page.evaluate(()=>window.Nomad360UI.setLanguage('ru'));
+   await page.locator('#nomad360-information').scrollIntoViewIfNeeded();
+   const geometry=await page.evaluate(()=>{
+    const e=document.querySelector('#nomad360-information.nomad-information'),r=e.getBoundingClientRect();
+    const b=getComputedStyle(e,'::before'),root=getComputedStyle(e);
+    const left=r.left+r.width/2+parseFloat(root.getPropertyValue('--nomad-about-scene-offset')||'0')-parseFloat(b.width)/2;
+    const stageH=parseFloat(b.height);
+    const paintedH=parseFloat(root.getPropertyValue('--nomad-about-paint-height'));
+    return {left,right:left+parseFloat(b.width),viewport:document.documentElement.clientWidth,
+     sectionBottom:r.bottom,sectionHeight:r.height,stageH,paintedH,
+     sourceSize:b.backgroundSize,sourcePosition:b.backgroundPosition,
+     xLeft:Math.max(3,Math.floor(document.documentElement.clientWidth*.003)),
+     xRight:document.documentElement.clientWidth-5,
+     y0:Math.max(0,Math.floor(r.top)),scrollWidth:document.documentElement.scrollWidth};
+   });
+   assert.ok(Math.abs(geometry.left)<=2&&Math.abs(geometry.right-geometry.viewport)<=2,
+    'Scene center must align with viewport even at body-padded desktop width: '+JSON.stringify(geometry));
+   assert.ok(geometry.scrollWidth<=width+1,'No horizontal scroll at '+width);
+   assert.ok(geometry.paintedH<=geometry.sectionHeight+1,'Scene cannot paint below About');
+   assert.equal(geometry.sourceSize,'auto 640.6px',
+    'All desktop backgrounds must render at exactly the original 640.6px image height, not width-fit/cover');
+   assert.ok(3200*(640.6/768)>=geometry.viewport-2,
+    'Side-extended 3200px landscape covers the 2560px viewport at native height');
+   assert.equal(geometry.sourcePosition,'50% 0%',
+    'Exterior widths must keep scenery horizontally centered');
+   const visible=await page.screenshot({animations:'disabled'});
+   const hide=await page.addStyleTag({content:'#nomad360-information.nomad-information::before,#nomad360-information.nomad-information::after{opacity:0!important}'});
+   const unpainted=await page.screenshot({animations:'disabled'});
+   await hide.evaluate(el=>el.remove());
+   const differences=await page.evaluate(async ({shown,hidden,geometry})=>{
+    async function pixels(s){
+     const image=new Image();
+     image.src='data:image/png;base64,'+s;
+     await image.decode();
+     const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;
+     const context=canvas.getContext('2d',{willReadFrequently:true});
+     context.drawImage(image,0,0);
+     return {data:context.getImageData(0,0,image.width,image.height).data,width:image.width,height:image.height};
+    }
+    const a=await pixels(shown),b=await pixels(hidden);
+    function delta(x,y){
+     if(y<0||y>=a.height||x<0||x>=a.width)return 0;
+     const at=(y*a.width+x)*4;
+     return Math.max(...[0,1,2].map(i=>Math.abs(a.data[at+i]-b.data[at+i])));
+    }
+    const ys=Array.from({length:10},(_,i)=>Math.min(a.height-1,Math.round(geometry.y0+45+i*Math.min(geometry.paintedH*.62,400)/9)));
+    const edgeLeft=Math.max(...ys.map(y=>delta(geometry.xLeft,y)));
+    const edgeRight=Math.max(...ys.map(y=>delta(geometry.xRight,y)));
+    const afterY=Math.round(geometry.sectionBottom+15);
+    const below=afterY<a.height?Math.max(...[geometry.xLeft,Math.round(geometry.viewport*.5),geometry.xRight].map(x=>delta(x,afterY))):null;
+    return {edgeLeft,edgeRight,below,afterY};
+   },{shown:visible.toString('base64'),hidden:unpainted.toString('base64'),geometry});
+   assert.ok(differences.edgeLeft>=1&&differences.edgeRight>=5,
+    'Rendered left and right viewport pixels must differ from background-disabled screenshot: '+
+     JSON.stringify({geometry,differences}));
+   if(width>=2560)assert.ok(differences.below!==null&&differences.below<=1,
+    'Ultrawide image must not leak painted pixels below section: '+JSON.stringify({geometry,differences}));
+   paintedChecks.push({width,...geometry,...differences});
+   await ctx.close();
+  }
+  fs.writeFileSync(path.join(out,'painted-bounds.json'),JSON.stringify(paintedChecks,null,2)+'\n');
+
   fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({sourceBlob:expectedGitBlob,reports},null,2));
   console.log('ABOUT-01 GREEN source SHA, locale, geometry, links, contacts',reports.length);
  }finally{await browser.close();await new Promise(r=>server.close(r));}

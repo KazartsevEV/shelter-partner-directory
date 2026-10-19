@@ -1,0 +1,52 @@
+name: IRBIS-07 approved reference visual receipts
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_irbis_banner.css'
+      - 'nomad360_irbis_banner.js'
+      - 'nomad360_header.js'
+      - 'nomad360_return.js'
+      - 'nomad360_palette.css'
+      - 'nomad360_calculator_ui.css'
+      - 'nomad360_calculator_ui.js'
+      - 'nomad360_locale_core.js'
+      - 'nomad360_currency.js'
+      - 'tests/nomad360_embed_footer_browser.test.cjs'
+      - 'tests/nomad360_marketing_browser.cjs'
+      - 'tests/helpers/task10-palette.cjs'
+      - 'assets/nomad360-banners/support-*.webp'
+      - 'scripts/irbis/preview.cjs'
+      - '.github/workflows/irbis-07-visual.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-snow-leopard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --prefix "$RUNNER_TEMP/irbis-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+      - run: '"$RUNNER_TEMP/irbis-tools/node_modules/.bin/playwright" install --with-deps chromium'
+      - name: Compile Tailwind locally for deterministic screenshots
+        run: |
+          mkdir -p artifacts/irbis-07
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/irbis-utilities.css"
+          "$RUNNER_TEMP/irbis-tools/node_modules/.bin/tailwindcss" -i "$RUNNER_TEMP/irbis-utilities.css" --content './Marketing_calc.HTML,./nomad360_*.js' -o artifacts/irbis-07/utilities.css --minify
+      - name: Verify exact artwork, live RU EN KK, mobile and desktop
+        env:
+          NODE_PATH: ${{ runner.temp }}/irbis-tools/node_modules
+        run: |
+          node --check nomad360_irbis_banner.js
+          node --check scripts/irbis/preview.cjs
+          node scripts/irbis/preview.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: irbis-07-reference-vs-code-ru-en-kk
+          path: artifacts/irbis-07/
+          retention-days: 21

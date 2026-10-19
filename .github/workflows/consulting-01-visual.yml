@@ -1,0 +1,43 @@
+name: CONSULTING-01 approved ram composition
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_consulting_banner.css'
+      - 'assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg'
+      - 'assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg'
+      - 'nomad360_header.js'
+      - 'scripts/consulting/preview.cjs'
+      - '.github/workflows/consulting-01-visual.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  consulting:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --prefix "$RUNNER_TEMP/consult-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+      - run: |
+          "$RUNNER_TEMP/consult-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Compile site Tailwind utilities
+        run: |
+          mkdir -p artifacts/consulting-01
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/consult-utilities.css"
+          "$RUNNER_TEMP/consult-tools/node_modules/.bin/tailwindcss" -i "$RUNNER_TEMP/consult-utilities.css" --content './Marketing_calc.HTML,./nomad360_*.js' -o artifacts/consulting-01/utilities.css --minify
+      - name: Real browser screenshots desktop and mobile RU EN KK
+        env:
+          NODE_PATH: ${{ runner.temp }}/consult-tools/node_modules
+        run: |
+          node --check scripts/consulting/preview.cjs
+          node scripts/consulting/preview.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: consulting-01-approved-desktop-mobile
+          path: artifacts/consulting-01/
+          retention-days: 21

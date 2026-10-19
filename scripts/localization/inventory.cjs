@@ -40,6 +40,11 @@ function build(root=ROOT){
   // insertion contains no new translatable user-facing content.
   if(f==='nomad360_header.js'||f==='nomad360_calculator_ui.css')
    source=require('../../tests/helpers/task10-logo-scope.cjs').stripTask10Logo(f,source);
+  // CONSULTING-02 adds only the reviewed binary-artwork packaging code,
+  // with no translatable user-facing messages. Fingerprint it exactly and
+  // retain stable historic offsets for the translation census.
+  if(f==='nomad360_header.js')
+   source=require('../../tests/helpers/return-contract.cjs').stripConsultingExport(source);
   contents.set(f,source);
  }return contents.get(f);};
  function stage(f,context=''){

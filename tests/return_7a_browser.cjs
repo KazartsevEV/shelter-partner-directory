@@ -57,7 +57,31 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
    const white=await p.evaluate(async()=>{const src=document.querySelector('link[rel="apple-touch-icon"]').href,image=new Image();image.crossOrigin='anonymous';image.src=src;await image.decode();const canvas=document.createElement('canvas');canvas.width=canvas.height=180;const c=canvas.getContext('2d');c.drawImage(image,0,0);return {size:[image.naturalWidth,image.naturalHeight],corner:[...c.getImageData(0,0,1,1).data]};});A.deepEqual(white,{size:[180,180],corner:[255,255,255,255]});
    if([320,390,768,1280].includes(width))await p.locator('#home-screen').screenshot({path:path.join(out,`${lang}-${width}-home.png`)});
    const block=p.locator('#nomad360-return');A.equal(await block.count(),1);A.equal(await p.locator('#nomad360-support').evaluate(e=>e.previousElementSibling.id),'nomad360-return');A.equal(await block.locator('img').count(),0);
-   A.equal(await block.locator('h2').evaluate(e=>getComputedStyle(e).color),'rgb(23, 59, 88)');await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});A.deepEqual(await block.evaluate(e=>NomadContrast.audit(e).failures),[]);
+   const acceptedIrbis=await p.locator('#nomad360-irbis-banner #nomad360-return').count()===1;
+   A.equal(await block.locator('h2').evaluate(e=>getComputedStyle(e).color),acceptedIrbis?'rgb(255, 255, 255)':'rgb(23, 59, 88)',
+    'Approved IRBIS scenic heading is white; legacy return card is navy');await p.addScriptTag({path:path.join(root,'tests/helpers/contrast.cjs')});
+   if(acceptedIrbis){
+    // The general contrast oracle intentionally rejects image backgrounds.
+    // Check the approved scenic ink against the *opaque navy* fallback and
+    // exact text paints instead, not a false solid-white legacy card.
+    const scene=await block.evaluate(el=>{
+      const banner=el.closest('#nomad360-irbis-banner');
+      const rgb=node=>getComputedStyle(node).color;
+      const notes=[...el.querySelectorAll('.nomad-return-note')];
+      return {background:getComputedStyle(banner).backgroundColor,
+       art:getComputedStyle(banner,'::before').backgroundImage,
+       heading:rgb(el.querySelector('h2')),
+       notes:notes.map(rgb),
+       platform:[...el.querySelectorAll('[data-return-platform]')].map(rgb)};
+    });
+    A.equal(scene.background,'rgb(23, 59, 88)','Approved opaque brand navy');
+    A.match(scene.art,/\/assets\/nomad360-banners\/support-wide-extended\.webp/);
+    A.equal(scene.heading,'rgb(255, 255, 255)');
+    A.deepEqual(scene.notes,['rgb(255, 255, 255)','rgb(255, 255, 255)']);
+    A.equal(scene.platform.length,3);
+    A.ok(scene.platform.every(c=>['rgb(255, 255, 255)','rgb(23, 59, 88)'].includes(c)),
+     'Desktop white shortcuts; phone navy-on-orange shortcuts');
+   }else A.deepEqual(await block.evaluate(e=>NomadContrast.audit(e).failures),[]);
    A.deepEqual(await block.locator('[data-return-platform]').evaluateAll(es=>es.map(e=>e.dataset.returnPlatform)),['windows','ios','android']);A.equal(downloads.length,0,'No automatic download');
    const tr=key=>p.evaluate(key=>Nomad360LocaleCore.t('return.'+key),key);A.equal(await block.locator('h2').textContent(),await tr('title'));A.deepEqual(await block.locator('.nomad-return-note').allTextContents(),[await tr('noApp'),await tr('support')]);
    if(lang==='ru'){A.equal(await block.locator('h2').textContent(),'Возвращайтесь к нам с новыми идеями!');A.deepEqual(await block.locator('.nomad-return-note').allTextContents(),['У Nomad360 пока нет мобильного приложения.','Мы растем на ваши деньги.']);}
@@ -93,7 +117,7 @@ const win={};new Function('window','document',execFileSync('git',['show','5cd1e5
   else{if(outcome==='installed-before-choice'){await p.evaluate(()=>{dispatchEvent(new Event('appinstalled'));__choice({outcome:'accepted'});});}await p.waitForFunction(()=>document.querySelector('.nomad-return-status')?.textContent.trim());const key=outcome==='installed-before-choice'?'installed':outcome;A.equal(await p.locator('.nomad-return-status').textContent(),await p.evaluate(k=>Nomad360LocaleCore.t('return.'+k),key));
    if(outcome==='accepted')A.notEqual(await p.locator('.nomad-return-status').textContent(),await p.evaluate(()=>Nomad360LocaleCore.t('return.installed')));
    if(outcome!=='installed-before-choice')await p.evaluate(()=>dispatchEvent(new Event('appinstalled')));await p.locator('[data-return-platform="android"]').click();A.equal(await p.evaluate(()=>__promptCount),1,'No repeated prompt after confirmed install');}
-  if(outcome==='installed-before-choice'){const status=p.locator('#nomad360-return p.nomad-return-status');const style=await status.evaluate(e=>({color:getComputedStyle(e).color,opacity:getComputedStyle(e).opacity,weight:getComputedStyle(e).fontWeight}));A.deepEqual(style,{color:'rgb(23, 59, 88)',opacity:'1',weight:'400'},'Confirmed installation is regular navy, never muted grey');}
+  if(outcome==='installed-before-choice'){const status=p.locator('#nomad360-return p.nomad-return-status');const style=await status.evaluate(e=>({color:getComputedStyle(e).color,opacity:getComputedStyle(e).opacity,weight:getComputedStyle(e).fontWeight}));const scenic=await p.locator('#nomad360-irbis-banner #nomad360-return').count()===1;A.deepEqual(style,{color:scenic?'rgb(255, 255, 255)':'rgb(23, 59, 88)',opacity:'1',weight:'400'},'Confirmed installation is full-opacity, legible on the actual white or navy panel');}
   cases.push({syntheticInstallEvent:outcome,nativeDeviceTest:false});await ctx.close();
  }
  fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({stage,cases},null,2)+'\n');console.log('RET_7A_STAGE_GREEN',JSON.stringify({stage,cases:cases.length}));

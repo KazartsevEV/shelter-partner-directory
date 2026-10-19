@@ -1,0 +1,520 @@
+/* IRBIS-07: scoped reproduction of docs/approved-design/unified-banners/support-desktop-reference.jpg.
+ * All text and controls are live existing DOM. Artwork is byte-identical to Claude PR #187.
+ * TASK-10 palette only: navy #173B58, orange #FF913F, white #FFFFFF, secondary #38678B. */
+#nomad360-irbis-banner{
+ --irbis-blue:#173B58;--irbis-white:#FFFFFF;--irbis-orange:#FF913F;--irbis-line:#38678B;
+ position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;
+ min-height:clamp(472px,40vw,615px);
+ padding:clamp(28px,3.5vw,52px) clamp(24px,7vw,110px) 36px;
+ font-family:var(--nd-font,Inter,sans-serif);background:var(--irbis-blue);color:var(--irbis-white)
+}
+#nomad360-irbis-banner *{box-sizing:border-box}
+#nomad360-irbis-banner::before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:url("./assets/nomad360-banners/support-wide-extended.webp") center top/100% auto no-repeat
+}
+#nomad360-irbis-banner #nomad360-return,
+#nomad360-irbis-banner #nomad360-support,
+#nomad360-irbis-banner #nomad360-product-details{
+ position:relative;width:57%;max-width:750px;min-width:0;
+ background:transparent;border:0;border-radius:0;box-shadow:none;padding:0;
+ color:var(--irbis-white)
+}
+#nomad360-irbis-banner #nomad360-return{margin:0 0 10px}
+#nomad360-irbis-banner .nomad-irbis-brand{
+ display:block;margin:0 0 20px;color:var(--irbis-white);
+ font:600 clamp(17px,1.55vw,24px)/1.25 var(--nd-font,Inter,sans-serif)
+}
+#nomad360-irbis-banner .nomad-irbis-brand em{font-weight:400;font-style:normal;color:var(--irbis-orange)}
+#nomad360-irbis-banner .nomad-irbis-dash,
+#nomad360-irbis-banner :is(#nomad360-support>details>summary,#nomad360-product-details>summary)::before{
+ content:"";display:block;flex:0 0 35px;width:35px;height:5px;border-radius:4px;
+ background:var(--irbis-orange)
+}
+#nomad360-irbis-banner .nomad-irbis-dash{margin:0 0 15px}
+#nomad360-irbis-banner #nomad360-return h2{
+ color:var(--irbis-white);margin:0 0 24px;max-width:660px;text-wrap:balance;
+ font:750 clamp(31px,3.35vw,54px)/1.09 var(--nd-font,Inter,sans-serif);letter-spacing:-.04em
+}
+#nomad360-irbis-banner .nomad-return-actions{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 0 13px
+}
+#nomad360-irbis-banner .nomad-return-button{
+ position:relative;display:grid;grid-template-columns:38px minmax(0,1fr) 14px;
+ gap:10px;align-items:center;min-width:0;min-height:68px;margin:0;padding:6px 11px 6px 0;
+ border:0;border-radius:0;box-shadow:none;background:transparent;color:var(--irbis-white);
+ cursor:pointer;text-align:left;white-space:normal;font:500 clamp(11px,1vw,15px)/1.35 var(--nd-font,Inter,sans-serif)
+}
+#nomad360-irbis-banner .nomad-return-button+.nomad-return-button{
+ padding-left:16px;border-left:1px solid #38678B
+}
+#nomad360-irbis-banner .nomad-irbis-platform-icon{
+ display:block;width:37px;height:37px;fill:currentColor;color:var(--irbis-white);flex:none
+}
+#nomad360-irbis-banner .nomad-irbis-arrow{
+ justify-self:end;color:var(--irbis-orange);font-size:30px;line-height:1
+}
+#nomad360-irbis-banner .nomad-return-button:hover{
+ color:var(--irbis-orange);background:transparent
+}
+#nomad360-irbis-banner #nomad360-return .nomad-return-note{
+ margin:2px 0;color:var(--irbis-white);
+ font:400 clamp(12px,.95vw,14px)/1.42 var(--nd-font,Inter,sans-serif)
+}
+#nomad360-irbis-banner #nomad360-return .nomad-return-status:empty{display:none!important}
+#nomad360-irbis-banner #nomad360-return p.nomad-return-status:not(:empty){
+ color:var(--irbis-white)!important;font:400 14px/1.5 var(--nd-font,Inter,sans-serif)
+}
+#nomad360-irbis-banner #nomad360-return .nomad-return-help:not([hidden]){
+ margin-top:8px;background:var(--irbis-blue);color:var(--irbis-white);
+ border:1px solid var(--irbis-line)
+}
+#nomad360-irbis-banner #nomad360-support{margin:0 0 0}
+#nomad360-irbis-banner #nomad360-product-details{margin:0}
+#nomad360-irbis-banner #nomad360-support>details,
+#nomad360-irbis-banner #nomad360-product-details{border-top:1px solid #38678B}
+#nomad360-irbis-banner #nomad360-support>details>summary,
+#nomad360-irbis-banner #nomad360-product-details>summary{
+ display:flex;align-items:center;gap:18px;min-height:67px;padding:8px 1px;
+ cursor:pointer;list-style:none;color:var(--irbis-white);
+ font:700 clamp(19px,1.75vw,27px)/1.25 var(--nd-font,Inter,sans-serif)
+}
+#nomad360-irbis-banner :is(#nomad360-support>details>summary,#nomad360-product-details>summary)::-webkit-details-marker{display:none}
+#nomad360-irbis-banner :is(#nomad360-support>details>summary,#nomad360-product-details>summary)::after{
+ content:"";width:12px;height:12px;flex:0 0 12px;margin-left:4px;
+ border-right:3px solid var(--irbis-orange);border-bottom:3px solid var(--irbis-orange);
+ transform:translateY(-3px) rotate(45deg);transition:transform .15s
+}
+#nomad360-irbis-banner #nomad360-support>details[open]>summary::after,
+#nomad360-irbis-banner #nomad360-product-details[open]>summary::after{
+ transform:translateY(3px) rotate(225deg)
+}
+#nomad360-irbis-banner #nomad360-support h2{
+ color:var(--irbis-white);font:inherit;letter-spacing:-.02em;margin:0
+}
+#nomad360-irbis-banner :is(#nomad360-support>details>summary,#nomad360-product-details>summary):focus-visible,
+#nomad360-irbis-banner :is(button,a):focus-visible{
+ outline:2px solid var(--irbis-orange);outline-offset:3px
+}
+#nomad360-irbis-banner .nomad-irbis-contents{
+ padding:16px 8px 24px 0;background:var(--irbis-blue);color:var(--irbis-white)
+}
+#nomad360-irbis-banner .nomad-donate-lead{
+ max-width:100%;font:400 16px/1.5 var(--nd-font,Inter,sans-serif);color:var(--irbis-white)
+}
+#nomad360-irbis-banner .nomad-irbis-methods{
+ display:grid;grid-template-columns:minmax(0,1fr);gap:0;margin-top:16px
+}
+#nomad360-irbis-banner .nomad-irbis-methods>details,
+#nomad360-irbis-banner .nomad-irbis-methods .nomad-pay-bank{
+ display:block;min-width:0;margin:0;padding:0;border:0;border-top:1px solid var(--irbis-line);
+ background:transparent
+}
+#nomad360-irbis-banner .nomad-irbis-methods>details>summary,
+#nomad360-irbis-banner .nomad-irbis-methods .nomad-pay-bank>summary{
+ display:list-item;min-height:48px;padding:12px 5px;list-style:disclosure-closed inside;
+ font:600 16px/1.4 var(--nd-font,Inter,sans-serif);color:var(--irbis-white);cursor:pointer
+}
+#nomad360-irbis-banner .nomad-irbis-methods>details[open]>summary,
+#nomad360-irbis-banner .nomad-irbis-methods .nomad-pay-bank[open]>summary{list-style-type:disclosure-open}
+#nomad360-irbis-banner .nomad-irbis-methods .nomad-pay-bank :is(.nomad-donate-globe,.nomad-fold-arrow){display:none}
+#nomad360-irbis-banner .nomad-irbis-methods :is(.nomad-pay-kaspi,.nomad-pay-ozon,.nomad-crypto-panel){
+ min-width:0;margin:0 0 14px;background:var(--irbis-blue)
+}
+#nomad360-irbis-banner #nomad360-product-details[open]{width:100%;max-width:100%}
+#nomad360-irbis-banner #nomad360-product-details .nomad-products-grid{
+ margin:0;padding:16px 0 24px;background:var(--irbis-blue)
+}
+#nomad360-irbis-banner .nomad-irbis-mobile-art{display:none}
+@media(min-width:701px) and (max-width:1100px){
+ #nomad360-irbis-banner{padding:29px 5% 34px;min-height:455px}
+ #nomad360-irbis-banner :is(#nomad360-return,#nomad360-support,#nomad360-product-details){width:60%}
+ #nomad360-irbis-banner .nomad-return-button{
+  grid-template-columns:28px minmax(0,1fr) 11px;gap:6px;padding-right:8px
+ }
+ #nomad360-irbis-banner .nomad-irbis-platform-icon{width:27px;height:27px}
+ #nomad360-irbis-banner .nomad-return-button+.nomad-return-button{padding-left:9px}
+}
+@media(max-width:700px){
+ #nomad360-irbis-banner{padding:0 0 10px;min-height:0}
+ #nomad360-irbis-banner::before{display:none}
+ #nomad360-irbis-banner #nomad360-return{
+  width:100%;max-width:none;margin:0;padding:23px 20px 12px;
+  background:linear-gradient(90deg,rgba(23,59,88,.89),rgba(23,59,88,.69)),url("./assets/nomad360-banners/support-wide.webp") 24% top/auto 490px no-repeat
+ }
+ #nomad360-irbis-banner .nomad-irbis-brand{font-size:20px;margin-bottom:20px}
+ #nomad360-irbis-banner .nomad-irbis-dash{flex-basis:25px;width:25px;margin-bottom:16px}
+ #nomad360-irbis-banner #nomad360-return h2{
+  max-width:100%;font-size:clamp(29px,8vw,42px);line-height:1.14;margin-bottom:25px
+ }
+ #nomad360-irbis-banner .nomad-return-actions{
+  grid-template-columns:minmax(0,1fr);gap:10px;width:min(100%,550px);margin:0 0 17px
+ }
+ #nomad360-irbis-banner .nomad-return-button,
+ #nomad360-irbis-banner .nomad-return-button+.nomad-return-button{
+  display:grid;grid-template-columns:39px minmax(0,1fr);gap:12px;min-height:58px;
+  padding:12px 14px;background:var(--irbis-orange);color:var(--irbis-blue);
+  border:0;border-radius:6px;text-align:left;
+  font:600 clamp(15px,4vw,18px)/1.3 var(--nd-font,Inter,sans-serif)
+ }
+ #nomad360-irbis-banner .nomad-irbis-platform-icon{width:34px;height:34px;color:var(--irbis-blue)}
+ #nomad360-irbis-banner .nomad-irbis-arrow{display:none}
+ #nomad360-irbis-banner .nomad-return-button:hover{background:var(--irbis-orange);color:var(--irbis-blue);filter:brightness(1.05)}
+ #nomad360-irbis-banner #nomad360-return .nomad-return-note{
+  color:var(--irbis-white);margin:3px 0;font:400 clamp(15px,3.85vw,18px)/1.45 var(--nd-font,Inter,sans-serif)
+ }
+ #nomad360-irbis-banner .nomad-irbis-mobile-art{
+  display:block;width:calc(100% + 40px);margin:10px -20px -12px;aspect-ratio:896/614;
+  background:url("./assets/nomad360-banners/support-mobile.webp") center/100% 100% no-repeat;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 95%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 95%,transparent 100%)
+ }
+ #nomad360-irbis-banner #nomad360-support,
+ #nomad360-irbis-banner #nomad360-product-details{width:auto;max-width:none;margin:0 20px}
+ #nomad360-irbis-banner #nomad360-support>details>summary,
+ #nomad360-irbis-banner #nomad360-product-details>summary{
+  min-height:73px;font-size:clamp(20px,5.5vw,26px);gap:13px
+ }
+ #nomad360-irbis-banner :is(#nomad360-support>details>summary,#nomad360-product-details>summary)::before{
+  width:25px;flex-basis:25px
+ }
+ #nomad360-irbis-banner .nomad-irbis-contents{padding:14px 0 22px}
+ #nomad360-irbis-banner .nomad-products-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){
+ #nomad360-irbis-banner :is(#nomad360-support>details>summary,#nomad360-product-details>summary)::after{transition:none}
+}
+/* TASK-10 generated palette contains important legacy return colors for a white card.
+ * This banner has a navy scenic background: make only its actual foreground white. */
+#nomad360-irbis-banner #nomad360-return,
+#nomad360-irbis-banner #nomad360-return h2,
+#nomad360-irbis-banner #nomad360-return .nomad-irbis-brand,
+#nomad360-irbis-banner #nomad360-return .nomad-return-note,
+#nomad360-irbis-banner #nomad360-support h2{
+ color:var(--irbis-white)!important
+}
+#nomad360-irbis-banner .nomad-irbis-brand em{color:var(--irbis-orange)!important}
+#nomad360-irbis-banner #nomad360-return .nomad-return-note{
+ background:transparent!important;opacity:1!important
+}
+@media print{#nomad360-irbis-banner{display:none!important}}
+
+
+/* IRBIS-07 layout correction from actual 1280/390 Chromium screenshots.
+   Desktop ref is edge-to-edge, not constrained by .nomad-footer-inner (1088px).
+   The earlier white card / orange desktop boxes / invisible mobile heading
+   originate from TASK-10 important overrides for the old white return card. */
+#nomad360-irbis-banner {
+ width:var(--irbis-page-width,100%);max-width:none;
+ margin-inline:calc(50% - var(--irbis-page-width,100%)/2);
+ min-height:clamp(490px,42.1vw,650px);
+ padding-left:clamp(23px,7.1vw,110px);
+ padding-right:clamp(23px,7.1vw,110px);
+}
+#nomad360-irbis-banner::before{
+ background-position:center top;
+ background-size:100% auto;
+}
+@media(min-width:701px){
+ #nomad360-irbis-banner #nomad360-return,
+ #nomad360-irbis-banner #nomad360-support,
+ #nomad360-irbis-banner #nomad360-product-details{width:58%;max-width:775px;}
+ #nomad360-irbis-banner #nomad360-return .nomad-return-note{display:none}
+ #nomad360-irbis-banner #nomad360-return h2{font-size:clamp(31px,3.52vw,55px);line-height:1.09;margin-bottom:24px}
+ #nomad360-irbis-banner .nomad-return-actions{margin-bottom:19px}
+ #nomad360-irbis-banner #nomad360-return{margin-bottom:8px}
+}
+@media(max-width:700px){
+ #nomad360-irbis-banner{width:var(--irbis-page-width,100%);min-height:0;margin-inline:calc(50% - var(--irbis-page-width,100%)/2);padding:0}
+ #nomad360-irbis-banner #nomad360-return{max-width:none;width:100%}
+ #nomad360-irbis-banner #nomad360-return h2{font-size:clamp(30px,8vw,43px)}
+ #nomad360-irbis-banner .nomad-irbis-mobile-art{margin:14px -20px -12px}
+}
+/* Match the existing first TASK-10 important layer rather than overriding
+   it through an unlayered !important (which has *lower* important priority). */
+@layer nomad360-palette-important{
+ body:has(#home-screen) #nomad360-irbis-banner #nomad360-return {
+  background:transparent!important;background-color:transparent!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+  --p10-fg:#FFFFFF!important;
+  --p10-accent:#FF913F!important;
+  color:#FFFFFF!important;
+ }
+ body:has(#home-screen) #nomad360-irbis-banner #nomad360-return h2,
+ body:has(#home-screen) #nomad360-irbis-banner #nomad360-return .nomad-return-note,
+ body:has(#home-screen) #nomad360-irbis-banner #nomad360-return .nomad-irbis-brand,
+ body:has(#home-screen) #nomad360-irbis-banner #nomad360-return p.nomad-return-status{
+  color:#FFFFFF!important;
+ }
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-brand em{
+  color:#FF913F!important
+ }
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button{
+  background-color:transparent!important;background:transparent!important;
+  color:#FFFFFF!important;border-color:transparent!important;border-radius:0!important;
+  --p10-fg:#FFFFFF!important;--p10-accent:#FF913F!important;
+ }
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button+.nomad-return-button{
+  border-left:1px solid #38678B!important
+ }
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button:hover{
+  color:#FF913F!important;background-color:transparent!important
+ }
+ @media(max-width:700px){
+  body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button{
+   background:#FF913F!important;background-color:#FF913F!important;
+   color:#173B58!important;border:0!important;border-radius:6px!important;
+   --p10-fg:#173B58!important;--p10-accent:#173B58!important;
+  }
+  body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button+.nomad-return-button{
+   border:0!important
+  }
+ }
+}
+
+
+/* IRBIS-07 reference details: orange forward chevrons and mountain sky on phones. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-arrow {
+  color:#FF913F!important;
+ }
+ @media(max-width:700px){
+  body:has(#home-screen) #nomad360-irbis-banner #nomad360-return {
+   background-image:linear-gradient(90deg,rgba(23,59,88,.89) 0%,rgba(23,59,88,.72) 80%,rgba(23,59,88,.63) 100%),
+     url("./assets/nomad360-banners/support-wide.webp")!important;
+   background-position:center,25% 0!important;
+   background-repeat:no-repeat!important;
+   background-size:cover,auto 500px!important;
+   background-color:#173B58!important;
+  }
+ }
+}
+
+
+/* IRBIS-08: the scenic composition is the actual final site footer.
+ * Native RU/EN/KK license, privacy and contact DOM is relocated here.
+ * All visible disclosure rows use the approved #38678B rule and are
+ * vertically centered between rules with the same left inset. */
+#nomad360-irbis-banner #nomad360-product-details[open]{
+ width:58%;max-width:775px
+}
+#nomad360-irbis-banner .nomad-footer-meta{
+ display:block;grid-template-columns:none;gap:0;min-width:0;
+ width:58%;max-width:775px;margin:0;padding:0;border:0;
+ background:transparent
+}
+#nomad360-irbis-banner :is(#nomad360-license,#nomad360-data){
+ display:block;margin:0;padding:0;border:0;border-top:1px solid var(--irbis-line);
+ background:transparent;max-width:none
+}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+){border-top:1px solid var(--irbis-line)}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary{
+ display:flex;align-items:center;min-height:74px;
+ margin:0;padding:14px 22px;gap:18px;
+ list-style:none;cursor:pointer;
+ color:var(--irbis-white);
+ font:700 clamp(19px,1.75vw,27px)/1.25 var(--nd-font,Inter,sans-serif);
+ text-align:left
+}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary::-webkit-details-marker{display:none}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary::before{
+ content:"";display:block;flex:0 0 35px;
+ width:35px;height:5px;border-radius:4px;
+ background:var(--irbis-orange)
+}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary::after{
+ content:"";display:block;flex:0 0 12px;width:12px;height:12px;
+ margin-left:4px;border-right:3px solid var(--irbis-orange);
+ border-bottom:3px solid var(--irbis-orange);
+ transform:translateY(-3px) rotate(45deg);transition:transform .15s
+}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details[open],
+ #nomad360-product-details[open],
+ #nomad360-license[open],
+ #nomad360-data[open]
+) > summary::after{transform:translateY(3px) rotate(225deg)}
+#nomad360-irbis-banner :is(
+ #nomad360-support > details,
+ #nomad360-product-details,
+ #nomad360-license,
+ #nomad360-data
+) > summary:focus-visible{outline:2px solid var(--irbis-orange);outline-offset:-3px}
+#nomad360-irbis-banner .nomad-irbis-contents{
+ padding-left:22px;padding-right:22px
+}
+#nomad360-irbis-banner #nomad360-product-details .nomad-products-grid{
+ padding-left:22px;padding-right:22px
+}
+#nomad360-irbis-banner #nomad360-license .nomad-license-terms{
+ max-width:none;margin:0;padding:16px 22px 23px;border:0;
+ background:var(--irbis-blue);color:var(--irbis-white)
+}
+#nomad360-irbis-banner #nomad360-data > p{
+ margin:0;padding:16px 22px 23px;color:var(--irbis-white);
+ background:var(--irbis-blue)
+}
+#nomad360-irbis-banner :is(#nomad360-license,#nomad360-data) :is(p,a){
+ color:var(--irbis-white)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details{
+ border:0;border-top:1px solid var(--irbis-line)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details:last-child{
+ border-bottom:1px solid var(--irbis-line)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details > summary{
+ display:flex;align-items:center;min-height:58px;gap:12px;
+ padding:12px 20px;list-style:none;cursor:pointer;
+ font:600 16px/1.4 var(--nd-font,Inter,sans-serif);
+ color:var(--irbis-white)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details.nomad-pay-bank > summary{
+ display:flex;align-items:center;min-height:58px;padding:12px 20px;list-style:none
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details > summary::-webkit-details-marker{display:none}
+#nomad360-irbis-banner .nomad-irbis-methods > details > summary::after{
+ content:"";display:block;flex:0 0 9px;
+ width:9px;height:9px;margin-left:auto;
+ border-right:2px solid var(--irbis-orange);
+ border-bottom:2px solid var(--irbis-orange);
+ transform:translateY(-2px) rotate(45deg)
+}
+#nomad360-irbis-banner .nomad-irbis-methods > details[open] > summary::after{
+ transform:translateY(2px) rotate(225deg)
+}
+#nomad360-irbis-banner #nomad360-official{
+ display:flex;align-items:center;min-height:74px;
+ padding:16px 22px;margin:0;
+ border:0;border-top:1px solid var(--irbis-line);
+ border-bottom:1px solid var(--irbis-line);
+ background:transparent
+}
+#nomad360-irbis-banner #nomad360-official p{
+ margin:0;color:var(--irbis-white);font:500 16px/1.5 var(--nd-font,Inter,sans-serif);
+ overflow-wrap:anywhere
+}
+#nomad360-irbis-banner #nomad360-official a{
+ color:var(--irbis-white);text-decoration:underline;text-underline-offset:4px
+}
+#nomad360-irbis-banner #nomad360-official a:hover{color:var(--irbis-orange)}
+@media(min-width:701px) and (max-width:1100px){
+ #nomad360-irbis-banner .nomad-footer-meta,
+ #nomad360-irbis-banner #nomad360-product-details[open]{width:60%}
+}
+@media(max-width:700px){
+ #nomad360-irbis-banner #nomad360-product-details[open]{width:auto;max-width:none}
+ #nomad360-irbis-banner .nomad-footer-meta{width:auto;max-width:none;margin:0 20px}
+ #nomad360-irbis-banner :is(
+  #nomad360-support > details,
+  #nomad360-product-details,
+  #nomad360-license,
+  #nomad360-data
+ ) > summary{
+  min-height:74px;padding:13px 12px;gap:13px;
+  font-size:clamp(20px,5.5vw,26px)
+ }
+ #nomad360-irbis-banner :is(
+  #nomad360-support > details,
+  #nomad360-product-details,
+  #nomad360-license,
+  #nomad360-data
+ ) > summary::before{flex-basis:25px;width:25px}
+ #nomad360-irbis-banner .nomad-irbis-contents,
+ #nomad360-irbis-banner #nomad360-product-details .nomad-products-grid{
+  padding-left:12px;padding-right:12px
+ }
+ #nomad360-irbis-banner #nomad360-license .nomad-license-terms,
+ #nomad360-irbis-banner #nomad360-data > p{padding:14px 12px 22px}
+ #nomad360-irbis-banner #nomad360-official{padding:16px 12px}
+ #nomad360-irbis-banner .nomad-irbis-methods > details > summary{padding:12px}
+ #nomad360-irbis-banner .nomad-irbis-methods > details.nomad-pay-bank > summary{padding:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ #nomad360-irbis-banner :is(
+  #nomad360-license,#nomad360-data
+ ) > summary::after{transition:none}
+}
+
+
+/* TASK-10 uses an important cascade layer for legacy footer cards. Retain
+ * exact palette #38678B for the user's disclosure dividers inside that layer. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner :is(
+  #nomad360-support > details,
+  #nomad360-product-details,
+  #nomad360-license,
+  #nomad360-data
+ ){border-top-color:#38678B!important}
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-methods > details{
+  border-top-color:#38678B!important;border-bottom-color:#38678B!important
+ }
+ body:has(#home-screen) #nomad360-irbis-banner #nomad360-official{
+  border-top-color:#38678B!important;border-bottom-color:#38678B!important
+ }
+}
+
+/* IRBIS-08 screenshot QA: the native bank-transfer disclosure must not
+   keep TASK-10's old white payment-card skin on the blue scenic footer. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-methods > details.nomad-pay-bank {
+  background-color:#173B58!important;
+  --p10-fg:#FFFFFF!important;
+  --p10-line:#38678B!important;
+  --p10-muted:#FFFFFF!important;
+  --p10-accent:#FF913F!important;
+  color:#FFFFFF!important;
+ }
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-methods > details.nomad-pay-bank > summary {
+  background-color:transparent!important;
+  color:#FFFFFF!important;
+ }
+}
+
+/* IRBIS-08 contrast: palette's global pseudo-element reset must not mute
+   the intended orange chevrons for nested payment disclosures. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-irbis-methods > details > summary::after {
+  border-right-color:#FF913F!important;
+  border-bottom-color:#FF913F!important;
+ }
+}
+
+/* IRBIS-08 main-chevron contrast: override the TASK-10 global ::after
+   !important border reset in the same cascade layer for all four rows. */
+@layer nomad360-palette-important {
+ body:has(#home-screen) #nomad360-irbis-banner :is(
+  #nomad360-support > details,
+  #nomad360-product-details,
+  #nomad360-license,
+  #nomad360-data
+ ) > summary::after {
+  border-right-color:#FF913F!important;
+  border-bottom-color:#FF913F!important;
+ }
+}

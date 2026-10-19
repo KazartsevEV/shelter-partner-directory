@@ -23,6 +23,29 @@ function legacy(){
  return original.slice(original.indexOf(start),original.indexOf(end));
 }
 function stripApprovedHeroHtml(source){
+ // CONSULTING-01: the only authorized additional post-IRBIS stylesheet.
+ // Preserve exact source guards for all financial, SEO and historic banner code.
+ const consultingCss='    <link rel="stylesheet" href="./nomad360_consulting_banner.css">\n';
+ if(source.includes(consultingCss)){
+  once(source,consultingCss,'CONSULTING-01 stylesheet');
+  A.ok(source.includes(aboutCss+'    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n'+consultingCss+'</head>'),
+    'CONSULTING CSS is the only new loader after approved IRBIS CSS');
+  source=source.replace(consultingCss,'');
+ }
+ // IRBIS-07 is two passive, strictly placed loaders; normalize ONLY this pair
+ // for historical fixed-hash tests, keeping every financial and SEO byte intact.
+ const irbisCss='    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n';
+ const irbisJs='<script src="./nomad360_irbis_banner.js"></script>\n';
+ const foundCss=source.includes(irbisCss),foundJs=source.includes(irbisJs);
+ A.equal(foundCss,foundJs,'IRBIS-07 CSS and JS must be loaded together');
+ if(foundCss){
+  once(source,irbisCss,'IRBIS stylesheet');
+  once(source,irbisJs,'IRBIS script');
+  A.ok(source.includes(aboutCss+irbisCss+'</head>'),'IRBIS CSS is after approved ABOUT CSS');
+  A.ok(source.includes('<script src="./nomad360_return.js"></script>\n'+irbisJs+
+   '<script src="./nomad360_navigation.js"></script>'),'IRBIS script follows return without replacing navigation');
+  source=source.replace(irbisCss,'').replace(irbisJs,'');
+ }
  // ABOUT-01 was approved on a later main: preserve its exact loader location,
  // then remove only those two passive loader tags for historical HTML hashes.
  if(source.includes(aboutCss)||source.includes(aboutJs)){

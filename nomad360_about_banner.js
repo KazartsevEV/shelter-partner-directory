@@ -91,10 +91,40 @@ function decorate(){
   if(!a.querySelector('.nomad-about-contact-icon'))a.prepend(icon(i));
  });
 }
+/* Mirror documentElement.clientWidth, not 100vw: classic scrollbars
+ * otherwise overrun the viewport by their gutter on desktop. */
+function syncAboutViewport(){
+ const width=document.documentElement.clientWidth;
+ if(width<=0)return;
+ document.documentElement.style.setProperty('--nomad-about-viewport-width',width+'px');
+ const section=document.getElementById('nomad360-information');
+ if(!section)return;
+ const rect=section.getBoundingClientRect();
+ // Center the OUTER art on the actual viewport (not on a 1001-1199px
+ // containing block that can be shifted by the body's md:p-8 padding).
+ const offset=width/2-(rect.left+rect.width/2);
+ section.style.setProperty('--nomad-about-scene-offset',offset+'px');
+ // Retain the native 2:1 artwork aspect, but never paint over the
+ // subsequent footer/content when an ultrawide viewport is taller.
+ section.style.setProperty('--nomad-about-paint-height',
+  Math.max(0,Math.min(rect.height,640.6))+'px');
+}
 function boot(){
+ syncAboutViewport();
+ root.addEventListener('resize',syncAboutViewport);
+ if(typeof ResizeObserver==='function'){
+  const observer=new ResizeObserver(syncAboutViewport);
+  observer.observe(document.documentElement);
+  const section=document.getElementById('nomad360-information');
+  if(section)observer.observe(section);
+ }
  decorate();
+ syncAboutViewport();
  // Header module recreates its entire localized About DOM before our handler.
- document.addEventListener('nomad360:languagechange',decorate);
+ document.addEventListener('nomad360:languagechange',()=>{
+  decorate();
+  syncAboutViewport();
+ });
  document.addEventListener('click',event=>{
   const link=event.target.closest('[data-nomad-about-target]');
   if(!link)return;

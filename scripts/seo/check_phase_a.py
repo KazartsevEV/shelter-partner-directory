@@ -55,6 +55,24 @@ def strip_live_v2_entry(raw):
 
 
 def strip_approved_hero_html(raw):
+    # CONSULTING-01 — permit exactly one reviewed B2B stylesheet after IRBIS,
+    # then restore all historic HTML byte-for-byte protections unchanged.
+    consulting_css = b'    <link rel="stylesheet" href="./nomad360_consulting_banner.css">\n'
+    if consulting_css in raw:
+        assert raw.count(consulting_css) == 1, 'CONSULTING single CSS loader'
+        assert (b'    <link rel="stylesheet" href="./nomad360_about_banner.css">\n'
+                + b'    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n'
+                + consulting_css + b'</head>') in raw, 'CONSULTING follows accepted IRBIS CSS'
+        raw = raw.replace(consulting_css, b'', 1)
+    # IRBIS-07: precisely two passive asset links added after accepted ABOUT + RETURN.
+    # Source guards remove ONLY the approved link pair; never erase DOM/calculation text.
+    irbis_css = b'    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n'
+    irbis_js = b'<script src="./nomad360_irbis_banner.js"></script>\n'
+    if irbis_css in raw or irbis_js in raw:
+        assert raw.count(irbis_css) == raw.count(irbis_js) == 1, 'IRBIS link pair integrity'
+        assert b'    <link rel="stylesheet" href="./nomad360_about_banner.css">\n' + irbis_css + b'</head>' in raw, 'IRBIS follows accepted ABOUT CSS'
+        assert b'<script src="./nomad360_return.js"></script>\n' + irbis_js + b'<script src="./nomad360_navigation.js"></script>' in raw, 'IRBIS follows accepted RETURN and precedes navigation'
+        raw = raw.replace(irbis_css, b'', 1).replace(irbis_js, b'', 1)
     # Exact approved HERO-03 transfer of the existing hero over the obsolete
     # second SEO headline. Restore only its bounded three HTML fragments.
     css = b'    <link rel="stylesheet" href="./nomad360_hero_banner.css">\n'
@@ -188,6 +206,9 @@ def main():
             assert raw.count(ret) == 1
             assert raw.index(status) > raw.index(ret)
             assert raw.index(sample) > raw.index(ret)
+        # The RET-07A normalizer also fingerprints and reverses only the
+        # reviewed CONSULTING-02 standalone-SVG packer in nomad360_header.js.
+        # Every other original SEO/financial source byte remains protected.
         if name in {'Marketing_calc.HTML','nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.js','nomad360_calculator_ui.css'}:
             raw = subprocess.check_output(['node','-e',
                 "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))",name],
@@ -429,9 +450,23 @@ def main():
         new_paint = b'color:var(--p10-fg)!important;'
         assert approved_hero.count(old_paint) == 2, 'Unexpected approved HERO CSS base'
         current_hero = (ROOT / 'nomad360_hero_banner.css').read_bytes()
-        assert current_hero == approved_hero.replace(old_paint, new_paint), 'HERO layout or other colors changed outside approved burger fix'
+        # HERO-12/13 approved full-bleed, CTA and user-accepted desktop-only logo lift:
+        # pin original styling and exact latest CSS/asset/controller presentation blobs.
+        legacy = approved_hero.replace(old_paint, new_paint)
+        assert current_hero.startswith(legacy), 'Historical HERO styling was modified, not extended by approved layout'
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '753fc12656507d45a9d07da355105caa65e9aab6', 'HERO scene geometry or CTA presentation drift'
+    if 'nomad360_hero_banner.js' in changed:
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
+    if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
+        assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'docs/localization/l0/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
+        # CONSULTING-01 changes only the B2B banner and its visual acceptance.
+        '.github/workflows/consulting-01-visual.yml',
+        'nomad360_consulting_banner.css', 'scripts/consulting/preview.cjs',
+        'assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg',
+        'assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg',
+        'tests/helpers/hero-main-contract.cjs', 'tests/helpers/task10-palette.cjs',
         'nomad360_return.js', 'nomad360.webmanifest', 'nomad360_calculator_ui.js',
         'scripts/build-return-icons.py', 'assets/nomad360-icons/nomad360.ico',
         'assets/nomad360-icons/icon-180.png', 'assets/nomad360-icons/icon-192.png',
@@ -442,11 +477,12 @@ def main():
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
          'tests/nomad360_localization_l0_browser.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
-        'docs/nomad360-codex-task-map.md', 'docs/reviews/sales-tax-7b/STAGE_7B3_ACCEPTANCE.md', 'docs/reviews/seo-07-phase-a-review.md',
+        'docs/nomad360-codex-task-map.md', 'docs/nomad360-help-08-tz.md', 'docs/reviews/sales-tax-7b/STAGE_7B3_ACCEPTANCE.md', 'docs/reviews/seo-07-phase-a-review.md',
         'docs/reviews/seo-07-phase-b-review.md', 'docs/reviews/seo-banner-review.md', 'docs/reviews/marketing-consulting-banner-review.md', 'Marketing_calc.HTML',
         'nomad360_seo_language.js', 'assets/nomad360-seo.css', 'nomad360_calculator_ui.css',
         'tests/nomad360_calculator_ui_browser.test.cjs',
-        'nomad360_hero_banner.css',
+        'nomad360_hero_banner.css', 'nomad360_hero_banner.js',
+        'scripts/hero/preview.cjs', 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp',
         # FX live browser test: only retries real validated provider requests; financial source stays frozen.
         'tests/currency_converter_browser.test.cjs',
         'tests/nomad360_price_export_browser.test.cjs',
@@ -528,7 +564,30 @@ def main():
         'tests/portfolio_v2_online_browser.test.cjs',
          # V2-OUTPUT-TRUTH-01: exact approved source and XLSX tests.
          'tests/helpers/hero-main-contract.cjs',
-         'tests/nomad360_price_export.test.cjs',
+        # ABOUT desktop image-only PR: permit the four exact artwork/visual guard
+        # paths. No calculator, SEO page, or mobile application source edits.
+        'assets/nomad360-banners/about-moonlight-desktop-approved.webp',
+        'assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp',
+        'assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg',
+        'assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg',
+        'nomad360_about_banner.js',
+        'nomad360_about_banner.css', 'scripts/about/preview.cjs',
+        '.github/workflows/about-01-visual.yml',
+        # Owner-approved IRBIS-07: only original art, scoped visual controller,
+        # exact test contracts and visual receipts, no financial engine changes.
+        'nomad360_irbis_banner.css', 'nomad360_irbis_banner.js',
+        'assets/nomad360-banners/support-wide.webp',
+        'assets/nomad360-banners/support-wide-extended.webp',
+        'assets/nomad360-banners/support-mobile.webp',
+        'scripts/irbis/preview.cjs', '.github/workflows/irbis-07-visual.yml',
+        'tests/return_7a_browser.cjs', 'tests/simple_service_examples_browser.cjs',
+        'tests/nomad360_embed_footer_browser.test.cjs',
+        'tests/nomad360_marketing_browser.cjs', 'tests/type02_acceptance_browser.cjs',
+        'tests/helpers/task10-palette.cjs',
+        'docs/reviews/irbis-07/REVIEW.md',
+        # IRBIS-08 remains a scoped presentation-only footer change.
+        'docs/reviews/irbis-08/REVIEW.md',
+        'tests/nomad360_price_export.test.cjs',
          'tests/nomad360_price_export_openxml.py',
         '.github/workflows/task10-palette.yml') for p in changed), changed
     audit = read('live-url-audit.json')['results']

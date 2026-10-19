@@ -795,7 +795,28 @@
       });
       for(const link of Array.from(doc.querySelectorAll('link[rel="stylesheet"][href^="./"]'))){
         const filename=link.getAttribute('href');
-        const css=await (await get(filename)).text();
+        let css=await (await get(filename)).text();
+        // CONSULTING-02: CSS is inlined into a portable standalone HTML file.
+        // Keep the approved scenic artwork in that same file; relative url(...)
+        // would otherwise break when a consultant hosts the embed elsewhere.
+        if(filename==='./nomad360_consulting_banner.css'){
+          const scenicUrls=[
+            './assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg',
+            './assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg'
+          ];
+          if(!scenicUrls.every(path=>css.includes(path)))
+            throw new Error('Consulting artwork URL contract changed');
+          for(const path of scenicUrls){
+            const svg=await (await get(path)).blob();
+            const data=await new Promise((resolve,reject)=>{
+              const reader=new root.FileReader();
+              reader.onload=()=>resolve(reader.result);
+              reader.onerror=()=>reject(reader.error);
+              reader.readAsDataURL(svg);
+            });
+            css=css.replaceAll(path,data);
+          }
+        }
         const inline=doc.createElement('style');
         inline.setAttribute('data-nomad-bundled',filename);
         inline.textContent=css.replace(/<\/style/gi,'<\\/style');

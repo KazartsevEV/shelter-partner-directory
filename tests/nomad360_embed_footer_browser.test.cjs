@@ -34,6 +34,15 @@ const server=createServer(async(req,res)=>{
   // Embedded NOWPayments form replaces the Trybit link. No checkout route
   // can displace the donation form, and the remaining bank options stay intact.
   const support=page.locator('#nomad360-support');
+  // The approved IRBIS-07 banner keeps genuine payment controls in closed details.
+  // Exercise the user-visible expanded state; do not read invisible text.
+  const approvedIrbis=await page.locator('#nomad360-irbis-support-disclosure').count()===1;
+  if(approvedIrbis){
+    await page.locator('#nomad360-irbis-support-disclosure > summary').click();
+    await page.locator('#nomad360-irbis-crypto > summary').click();
+    await page.locator('#nomad360-irbis-kaspi > summary').click();
+    await page.locator('#nomad360-irbis-ozon > summary').click();
+  }
   const crypto=support.locator('.nomad-crypto-panel');
   const iframe=crypto.locator('iframe.nomad-crypto-frame');
   A.equal(await crypto.count(),1,'One prominent crypto donation panel');
@@ -57,7 +66,7 @@ const server=createServer(async(req,res)=>{
   A.equal(await support.locator('.nomad-pay-kaspi [data-nomad-copy]').getAttribute('data-nomad-copy'),
     '+7 777 129 56 93');
   A.equal(await support.locator('.nomad-pay-bank').getAttribute('open'),null);
-  await support.locator('.nomad-pay-bank summary').click();
+  await support.locator('.nomad-pay-bank > summary').click();
   A.equal(await support.locator('.nomad-pay-bank').getAttribute('open'),'');
   for(const [label,value] of [['Получатель','Kazartsev Evgenii'],
     ['Банк','АО Kaspi Bank'],['SWIFT/BIC','CASPKZKA'],
@@ -74,11 +83,13 @@ const server=createServer(async(req,res)=>{
   A.equal(await ozon.locator('[data-nomad-copy]').getAttribute('data-nomad-copy'),'+7 977 986 74 41');
   A.equal(await ozon.locator('.nomad-pay-value').count(),1);
   A.equal(await ozon.locator('.nomad-pay-hint').count(),1);
-  A.equal(await support.evaluate(el=>{
-    const fiat=el.querySelector('.nomad-pay-fiat');
-    return !!fiat&&fiat.children[0].classList.contains('nomad-pay-kaspi')&&
+  A.equal(await support.evaluate((el,irbis)=>{
+    const fiat=el.querySelector('.nomad-pay-fiat');if(!fiat)return false;
+    if(irbis)return ['nomad360-irbis-crypto','nomad360-irbis-kaspi','nomad360-irbis-ozon','nomad360-irbis-bank']
+      .every((id,i)=>fiat.children[i]?.id===id);
+    return fiat.children[0].classList.contains('nomad-pay-kaspi')&&
       fiat.children[1].classList.contains('nomad-pay-ozon');
-  }),true,'Russian card uses the same inline layout as Kaspi');
+  },approvedIrbis),true,'Kaspi and Ozon retain order inside the accepted disclosures');
   A.doesNotMatch(await support.textContent(),/Bybit|Байбит|Байбит картасы/i);
   A.equal(await support.locator('.nomad-direct-crypto, .nomad-qr, .nomad-pay-crypto').count(),0,
     'NOWPayments widget replaces standalone USDT/BTC wallet links entirely');
@@ -145,7 +156,8 @@ const server=createServer(async(req,res)=>{
     const contact=embed?.querySelector('.nomad-embed-contact');
     return !!embed&&!!terms&&!!contact&&
       !!(contact.compareDocumentPosition(terms)&Node.DOCUMENT_POSITION_FOLLOWING)&&
-      terms.parentElement.querySelector('summary')?.textContent==='Лицензия и использование'&&
+      terms.parentElement.querySelector(':scope > summary')?.textContent?.trim()===
+      document.querySelector('#nomad360-header [data-nomad-go="nomad360-license"]')?.textContent?.trim()&&
       terms.querySelector('a')?.getAttribute('href')==='https://kazartsevev.github.io/shelter-partner-directory/license/';
   }),true,'License and usage must be below the entire calculator embed block');
   A.equal(await license.locator('[data-nomad-download-html]').count(),1);
