@@ -15,7 +15,7 @@ async function audit(p){return p.evaluate(()=>{
  const allowed=(s,e,prop)=>{const a=rgba(s);if(!a||a.a===0||a.a===1&&approved.has(a.rgb))return true;
   return prop==='backgroundColor'&&e.matches('.nomad-embed-b2b-card')&&
    !!e.closest('#nomad360-embed')&&a.rgb==='23,59,88'&&
-   a.a===(document.documentElement.clientWidth<=700?.82:.78);
+   a.a===(matchMedia('(max-width:700px)').matches?.82:.78);
  };
  const visible=e=>e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true})&&e.getClientRects().length&&!e.closest('[hidden],.hidden,#nomad360-print-sheet');
  const key=e=>e.id?'#'+e.id:e.tagName.toLowerCase()+(typeof e.className==='string'?'.'+e.className.trim().split(/\s+/).slice(0,3).join('.'):'');
