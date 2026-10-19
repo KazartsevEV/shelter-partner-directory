@@ -206,6 +206,9 @@ def main():
             assert raw.count(ret) == 1
             assert raw.index(status) > raw.index(ret)
             assert raw.index(sample) > raw.index(ret)
+        # The RET-07A normalizer also fingerprints and reverses only the
+        # reviewed CONSULTING-02 standalone-SVG packer in nomad360_header.js.
+        # Every other original SEO/financial source byte remains protected.
         if name in {'Marketing_calc.HTML','nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.js','nomad360_calculator_ui.css'}:
             raw = subprocess.check_output(['node','-e',
                 "process.stdout.write(require('./tests/helpers/return-contract.cjs').stripReturn(process.argv[1],require('node:fs').readFileSync(0,'utf8')))",name],
