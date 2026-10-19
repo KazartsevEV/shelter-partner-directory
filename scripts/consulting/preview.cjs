@@ -66,6 +66,10 @@ function assetCheck(){
     'CONSULTING must reach BOTH viewport edges at '+width+': '+JSON.stringify(state));
    A.ok(state.scrollWidth<=state.viewport+2,'No horizontal document overflow '+width);
    A.equal(state.brandDisplay,'none','Old B2B wolf must not be shown');
+   // The global TASK-10 palette also uses !important in a named cascade layer.
+   // A screenshot alone did not catch opaque navy cards. Assert computed alpha.
+   A.equal(state.cardFill, 'rgba(23, 59, 88, '+(width<=700?'0.82':'0.78')+')',
+    'CONSULTING cards must retain their scoped translucent fill in the browser');
    A.equal(state.cards.length,3,'Exactly three live, localized B2B cards');
    A.ok(state.heading.length>0,'Localized heading must exist');
    A.match(state.artSrc,width<=700?/consulting-horizontal-mobile/:/consulting-horizontal-desktop/,
