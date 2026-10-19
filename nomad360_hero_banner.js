@@ -88,6 +88,36 @@ function formatLead(intro){
  appendFormatted(full.slice(start));
  lead.replaceChildren(fragment);
 }
+/* Only the CTA moves visually. Equalize the space from the translated
+   narrative's bottom to the benefit section's top at every desktop width.
+   Since this is a transform it never moves the approved imagery, text, benefit
+   panel or sizing; recompute when viewport, fonts or locale change. */
+let ctaAlignmentQueued=false;
+function alignHeroCta(){
+ if(ctaAlignmentQueued)return;
+ ctaAlignmentQueued=true;
+ root.requestAnimationFrame(()=>{
+  ctaAlignmentQueued=false;
+  const cta=id('nomad360-hero')?.querySelector('.nomad-intro-cta');
+  const narrative=id('nomad360-hero')?.querySelector('h3');
+  const below=id('nomad360-hero-summary');
+  if(!cta||!narrative||!below)return;
+  if(root.innerWidth<=1020){
+   cta.style.removeProperty('--nomad-hero-cta-offset');
+   return;
+  }
+  const current=parseFloat(cta.style.getPropertyValue('--nomad-hero-cta-offset'))||0;
+  const upper=narrative.getBoundingClientRect().bottom;
+  const lower=below.getBoundingClientRect().top;
+  const rectangle=cta.getBoundingClientRect();
+  const nativeTop=rectangle.top-current;
+  const centeredTop=(upper+lower-rectangle.height)/2;
+  const offset=Math.max(0,Math.min(220,centeredTop-nativeTop));
+  const value=offset.toFixed(1)+'px';
+  if(cta.style.getPropertyValue('--nomad-hero-cta-offset')!==value)
+   cta.style.setProperty('--nomad-hero-cta-offset',value);
+ });
+}
 function decorate(){
  const home=id('home-screen'),hero=id('nomad360-hero'),intro=id('nomad360-intro'),seo=id('nomad360-seo-banner');
  if(!home||!hero||!intro||!seo)return;
@@ -104,6 +134,7 @@ function decorate(){
  banner.append(hero,summary);
  summary.append(intro,seo);
  emphasizeTitle(hero);decorateBenefits(intro);formatLead(intro);
+ alignHeroCta();
  // SEO-07's former second headline/copy are intentionally NOT reproduced:
  // the approved first hero and its benefits are the only visible sales offer.
  // Existing page metadata and all existing translated hero/benefits survive.
@@ -113,6 +144,14 @@ function boot(){
  document.addEventListener('nomad360:languagechange',decorate);
  // Dynamic currency refreshes must not duplicate sections or logos.
  document.addEventListener('nomad360:currencychange',decorate);
+ root.addEventListener('resize',alignHeroCta);
+ if(typeof root.ResizeObserver==='function'){
+  const observer=new root.ResizeObserver(alignHeroCta);
+  const hero=id('nomad360-hero'),summary=id('nomad360-hero-summary');
+  if(hero)observer.observe(hero);
+  if(summary)observer.observe(summary);
+ }
+ if(document.fonts?.ready)document.fonts.ready.then(alignHeroCta);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })(window);
