@@ -103,18 +103,26 @@ const mime={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.cs
     const desktopBand=await p.evaluate(()=>{
       const banner=document.querySelector('#nomad360-commercial-banner');
       const scenic=getComputedStyle(banner,'::before');
+      const fade=getComputedStyle(banner,'::after');
       const wrapper=banner.getBoundingClientRect();
       const summary=document.querySelector('#nomad360-hero-summary').getBoundingClientRect();
-      return {sceneBottom:wrapper.top+parseFloat(scenic.height),
+      const summaryStyles=getComputedStyle(document.querySelector('#nomad360-hero-summary'));
+      return {sceneHeight:parseFloat(scenic.height),sceneWidth:parseFloat(scenic.width),
+        sceneSize:scenic.backgroundSize,fadeHeight:parseFloat(fade.height),
+        summaryBg:summaryStyles.backgroundColor,summaryBorder:summaryStyles.borderTopWidth,
         cardTop:summary.top,cardBottom:summary.bottom,bandBottom:wrapper.bottom};
     });
-    A.ok(desktopBand.cardTop>=desktopBand.sceneBottom+12,
-      'Desktop summary border must stay below scenic layer on solid navy');
-    A.ok(desktopBand.cardBottom<=desktopBand.bandBottom,
-      'Desktop summary content and border must fit the navy band');
+    A.ok(Math.abs(desktopBand.sceneWidth-width)<=2,'Sunset image must span every desktop viewport');
+    A.equal(desktopBand.sceneSize,'100% auto','Panorama must keep natural aspect ratio, never stretch');
+    A.ok(Math.abs(desktopBand.sceneHeight-desktopBand.fadeHeight)<=2,'Navy gradient covers scenic height');
+    A.equal(desktopBand.summaryBorder,'0px','Benefits no longer live inside separate bordered card');
+    A.equal(desktopBand.summaryBg,'rgba(0, 0, 0, 0)','Benefits live in seamless navy hero backdrop');
+    A.ok(desktopBand.cardBottom<=desktopBand.bandBottom+2,
+      'Desktop summary content must fit within hero');
    }
    A.equal(geometry.background,'rgb(23, 59, 88)','Main approved navy');
-   A.match(geometry.art,/hero\.webp/,'Approved scenery layer');
+   A.match(geometry.art,/hero-alpenglow-fullbleed\.webp/,'Approved full-bleed scenery layer');
+   if(width>=768)A.ok(Math.abs(geometry.bannerWidth-width)<=2,'HERO must be edge-to-edge, not isolated card');
    A.ok(geometry.scrollWidth<=width+1,'No horizontal page scroll');
    if(width>=768)A.ok(geometry.headlineRight < geometry.bannerWidth*.60,'Headline must remain left of opaque scenery');
    const f=lang+'-'+width+'-hero.png';
