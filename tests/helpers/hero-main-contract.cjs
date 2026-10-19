@@ -23,6 +23,15 @@ function legacy(){
  return original.slice(original.indexOf(start),original.indexOf(end));
 }
 function stripApprovedHeroHtml(source){
+ // CONSULTING-01: the only authorized additional post-IRBIS stylesheet.
+ // Preserve exact source guards for all financial, SEO and historic banner code.
+ const consultingCss='    <link rel="stylesheet" href="./nomad360_consulting_banner.css">\n';
+ if(source.includes(consultingCss)){
+  once(source,consultingCss,'CONSULTING-01 stylesheet');
+  A.ok(source.includes(aboutCss+'    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n'+consultingCss+'</head>'),
+    'CONSULTING CSS is the only new loader after approved IRBIS CSS');
+  source=source.replace(consultingCss,'');
+ }
  // IRBIS-07 is two passive, strictly placed loaders; normalize ONLY this pair
  // for historical fixed-hash tests, keeping every financial and SEO byte intact.
  const irbisCss='    <link rel="stylesheet" href="./nomad360_irbis_banner.css">\n';
