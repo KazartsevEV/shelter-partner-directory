@@ -27,6 +27,8 @@ const server=createServer(async(req,res)=>{
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
   const url='http://127.0.0.1:'+server.address().port+'/';
   const page=await browser.newPage({acceptDownloads:true,locale:'ru-RU',viewport:{width:390,height:844}});
+  // This fixture asserts Russian donation copy; simulate explicit user choice.
+  await page.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.route(/^https?:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
@@ -245,6 +247,8 @@ const server=createServer(async(req,res)=>{
   A.deepEqual(errors,[],'Export click must not introduce script errors');
   await page.close();
   const stats=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+  // This fixture asserts Russian donation copy; simulate explicit user choice.
+  await stats.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
   await stats.route('**/nomad360_repo_traffic.json',route=>route.fulfill({
     status:200,contentType:'application/json',body:JSON.stringify({
       status:'ok',source:'github-repository-traffic',
@@ -262,6 +266,8 @@ const server=createServer(async(req,res)=>{
   // Reproduce a transient browser fetch failure. The number must appear
   // automatically after a retry, without reloading the calculator.
   const counterRetryPage=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+  // This fixture asserts Russian donation copy; simulate explicit user choice.
+  await counterRetryPage.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
   let attempts=0;
   await counterRetryPage.route('**/nomad360_repo_traffic.json',route=>{
     attempts+=1;
@@ -281,6 +287,8 @@ const server=createServer(async(req,res)=>{
   A.equal(attempts,2,'The counter retries once after a network error');
   await counterRetryPage.close();
   const embed=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+  // This fixture asserts Russian donation copy; simulate explicit user choice.
+  await embed.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
   const embeddedErrors=[];
   embed.on('pageerror',e=>embeddedErrors.push(e.message));
   await embed.route(/^https?:\/\/(?!127\.0\.0\.1)/,route=>route.abort());

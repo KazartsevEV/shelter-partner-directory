@@ -11,12 +11,29 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
  const server=http.createServer((req,res)=>{const name=new URL(req.url,'http://localhost').pathname;if(name==='/portable.html'){res.setHeader('Content-Type','text/html');res.end(portable);return;}const file=path.resolve(root,'.'+decodeURIComponent(name));if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png'})[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);});await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port+'/';
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']}),cases=[],exports=[];
  try{for(const lang of ['ru','en','kk'])for(const width of widths){
-  const ctx=await browser.newContext({locale:lang==='kk'?'kk-KZ':lang==='en'?'en-US':'ru-RU',viewport:{width,height:1000},acceptDownloads:true,reducedMotion:'reduce'}),p=await ctx.newPage(),errors=[],downloads=[];let htmlRequests=0;
+  const ctx=await browser.newContext({locale:lang==='kk'?'kk-KZ':lang==='en'?'en-US':'ru-RU',viewport:{width,height:1000},acceptDownloads:true,reducedMotion:'reduce'});
+  await ctx.addInitScript(language=>{try{localStorage.setItem('nomad360PreferredLanguage',language)}catch(_){}},lang);
+  const p=await ctx.newPage(),errors=[],downloads=[];let htmlRequests=0;
   p.on('pageerror',e=>errors.push(e.message));p.on('download',d=>downloads.push(d));p.on('request',r=>{if(r.url().endsWith('/Marketing_calc.HTML'))htmlRequests++;});
   await p.route(/^https?:\/\//,r=>r.request().url().startsWith(base)?r.continue():r.abort());
   await p.route('**/nomad360_repo_traffic.json',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({status:'ok',source:'github-repository-traffic',repository:'KazartsevEV/shelter-partner-directory',updatedAt:new Date().toISOString(),visitors14:63})}));
   await p.goto(base+'Marketing_calc.HTML',{waitUntil:'domcontentloaded'});await p.addStyleTag({path:path.join(out,'utilities.css')});await settle(p);
   const tr=k=>p.evaluate(k=>Nomad360LocaleCore.t(k),k);
+
+  A.deepEqual(await p.locator('#nomad360-lang-select option').evaluateAll(nodes=>nodes.map(e=>e.value)),
+   ['en','kk','ru'],'Header locale options: English first, Kazakh second, Russian third');
+  A.equal(await p.locator('#nomad360-lang-select').inputValue(),lang,'Stored visitor locale is honored');
+  const ctaStyle=await p.locator('#nomad360-hero .nomad-intro-cta').evaluate(a=>{
+   const css=getComputedStyle(a),box=a.getBoundingClientRect();
+   return {font:parseFloat(css.fontSize),align:css.textAlign,height:box.height,href:a.getAttribute('href'),
+    scroll:document.documentElement.scrollWidth-innerWidth};
+  });
+  A.ok(ctaStyle.font >= (width<=700?19:width<=1020?20:23),
+   'New HERO CTA text must be enlarged at mobile/tablet/desktop: '+JSON.stringify({lang,width,ctaStyle}));
+  A.equal(ctaStyle.align,'center','Hero CTA label is centered');
+  A.ok(ctaStyle.height>= (width<=700?60:48),'CTA text cannot clip after enlargement');
+  A.equal(ctaStyle.href,'#nomad360-selling-choice','CTA still opens original scenario');
+  A.ok(ctaStyle.scroll<=1,'CTA must not cause horizontal overflow');
   const offer=await p.locator('#nomad360-hero h1,#nomad360-hero h2,#nomad360-hero h3').allTextContents();
   if(lang==='ru')A.deepEqual(offer,['Бизнес-калькулятор','Каким бизнесом мне выгодно заниматься?','Рассчитайте идею или существующий бизнес за 20 минут и узнайте, что принесет живые деньги.']);
   const modernHero=await p.locator('script[src$="nomad360_hero_banner.js"]').count()===1;

@@ -456,14 +456,43 @@ def main():
         assert current_hero.startswith(legacy), 'Historical HERO styling was modified, not extended by approved layout'
         # HERO-LOGO-TRANSPARENCY-01: original approved HERO prefix above is frozen;
         # the only accepted appended delta removes the dark rectangle behind
-        # the imported logo in the same TASK-10 palette cascade layer, and\n        # reserves unobstructed mobile copy beside the unchanged circular mark.
-        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '96fdfb69fd68822b78a9903e8685fad0fd648488', 'HERO scene geometry or approved logo-transparent delta drift'
+        # the imported logo in the same TASK-10 palette cascade layer, and\n        # reserves unobstructed mobile copy beside the unchanged circular mark.\n        # HERO-LANG-02 extends only the localized CTA type scale at 3 breakpoints.
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '6c8632da780aaf6f8287c0e3b5b5b097e4fdca9e', 'HERO scene geometry or approved logo-transparent delta drift'
     if 'nomad360_hero_banner.js' in changed:
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
+        # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
+        'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
+        'tests/nomad360_global_tree_navigation_browser.test.cjs',
+        'tests/simple_services_free_cash_browser.test.cjs',
+        'tests/portfolio_v2_full_service_browser.test.cjs',
+        'tests/nomad360_embed_footer_browser.test.cjs',
+        'tests/nomad360_locale_v1_aggregate_cash_browser.test.cjs',
+        'tests/nomad360_locale_v1_final_prices_browser.test.cjs',
+        'tests/marketing_calc_browser_e2e.cjs',
+        'tests/marketing_calc_prefilled_demo.test.cjs',
+        'tests/marketing_calc_two_sku_demo.test.cjs',
+        'tests/marketing_calc_first_user_journey.test.cjs',
+        'tests/marketing_calc_inline_errors.test.cjs',
+        'tests/marketing_calc_dropship_browser.test.cjs',
+        'tests/portfolio_v2_linked_browser.test.cjs',
+        'tests/portfolio_v2_temporal_browser.test.cjs',
+        'tests/portfolio_v2_temporal_cash_browser.test.cjs',
+        'tests/portfolio_v2_pooled_media_browser.test.cjs',
+        'tests/portfolio_v2_period_pnl_browser.test.cjs',
+        'tests/portfolio_v2_period_price_browser.test.cjs',
+        'tests/portfolio_v2_f3_mixed_browser.test.cjs',
+        'tests/portfolio_v2_f4_release_browser.test.cjs',
+        'tests/portfolio_v2_resource_lifecycle_browser.test.cjs',
+        'tests/portfolio_v2_mba_capacity_browser.test.cjs',
+        'tests/portfolio_v2_mba_browser.test.cjs',
+        'tests/portfolio_v2_online_browser.test.cjs',
+        'tests/marketing_calc_offline_service_browser.test.cjs',
+        'tests/nomad360_units_browser.test.cjs',
+        'tests/marketing_calc_add_next_service_browser.test.cjs',
         # CONSULTING-01 changes only the B2B banner and its visual acceptance.
         '.github/workflows/consulting-01-visual.yml',
         'nomad360_consulting_banner.css', 'scripts/consulting/preview.cjs',

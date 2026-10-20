@@ -285,7 +285,7 @@ function buildShell(){
  chooser.className='nomad-language';document.body.prepend(chooser);}
  chooser.innerHTML='<label for="nomad360-lang-select">'+tr('language')+'</label>'+
  '<select id="nomad360-lang-select" aria-label="'+tr('language')+'">'+
- [['ru','Русский'],['kk','Қазақша'],['en','English']].map(([key,label])=>
+ [['en','English'],['kk','Қазақша'],['ru','Русский']].map(([key,label])=>
  '<option value="'+key+'"'+(key===lang?' selected':'')+'>'+label+'</option>').join('')+'</select>';
  document.documentElement.lang=lang;
 }

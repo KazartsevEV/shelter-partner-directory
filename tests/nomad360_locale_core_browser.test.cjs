@@ -64,6 +64,7 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
    ['kk-KZ','kk','Бизнес-калькулятор'],
    ['en-US','en','Business calculator']]){
    const ctx=await browser.newContext({locale:navigatorLocale,viewport:{width:390,height:844}});
+   // First visit follows the browser locale; no stored selection is injected.
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(String(e.message)));
    await page.route(/^https?:\/\//,route=>route.abort());

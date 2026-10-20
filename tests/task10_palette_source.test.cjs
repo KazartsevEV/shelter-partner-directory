@@ -18,6 +18,7 @@ test('Task10: every established JS/engine, original CSS, logo and calculator byt
     current=current.replace(shortened,row).replace(' ["ui.portfolioResult"',pricing+'\n ["ui.portfolioResult"');
     b=Buffer.from(current);
     const now='["ui.value1SharedMarketingEngine","1. Advertising and marketing","1. Реклама и маркетинг","1. Жарнама және маркетинг"]',then='["ui.value1SharedMarketingEngine","1. Shared marketing engine","1. Общий маркетинговый двигатель","1. Ортақ маркетинг моделі"]',s=b.toString();A.equal(s.split(now).length,2,'One approved marketing heading alias');b=Buffer.from(s.replace(now,then));}if(file==='nomad360_header.js')b=Buffer.from(require('./helpers/return-contract.cjs').stripConsultingExport(b.toString()));if(file==='portfolio_v2_ui.js')b=Buffer.from(require('./helpers/v2-output-truth-scope.cjs').restore(file,b.toString()));if(file==='nomad360_price_export.js')b=Buffer.from(require('./helpers/v2-output-truth-export-scope.cjs').restore(b.toString()));if(file==='nomad360_calculator_ui.js'){
+    b=Buffer.from(require('./helpers/return-contract.cjs').stripHomeLocaleOrder(b.toString()));
     const approved=execFileSync('git',['show','78ef71b32256a1651c5bbc96e154e2f6df89a019:'+file],{cwd:root});
     A.equal(digest(b),digest(approved),'Main-accepted HERO three-step renderer remains unchanged');
   }else if(file==='nomad360_locale_core.js'){

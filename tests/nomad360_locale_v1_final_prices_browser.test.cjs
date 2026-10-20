@@ -77,6 +77,8 @@ async function assertPresentation(page,label){
  try{
   for(const financing of ['cash','credit']){
    const ctx=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+   // This legacy fixture tests RU copy explicitly; default first-visit UI is English.
+   await ctx.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
    await page.route(/^https?:\/\//,r=>r.abort());
