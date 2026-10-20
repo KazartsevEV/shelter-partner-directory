@@ -53,6 +53,15 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
      A.deepEqual(brandPaint,{background:'rgba(0, 0, 0, 0)',border:'0px',
        shadow:'none',maskBackground:'rgb(255, 255, 255)'},
        'HERO wolf container must be transparent, leaving the original white circular emblem untouched');
+     if(width<=700){
+       const spacing=await p.evaluate(()=>{
+         const a=document.querySelector('#nomad360-commercial-banner .nomad-intro-lead').getBoundingClientRect();
+         const b=document.querySelector('#nomad360-commercial-banner .nomad-seo-logo-mask').getBoundingClientRect();
+         return {textRight:a.right,logoLeft:b.left,endsBeforeLogo:a.bottom<=b.top,startsAfterLogo:a.top>=b.bottom};
+       });
+       A.ok(spacing.textRight+4<=spacing.logoLeft||spacing.endsBeforeLogo||spacing.startsAfterLogo,
+         'Mobile logo must not overlap Hero introduction '+JSON.stringify(spacing));
+     }
    }else A.equal(await p.locator('#home-screen').evaluate(e=>[...e.children].filter(n=>!['nomad360-hero','nomad360-intro'].includes(n.id)).slice(0,2).map(n=>n.id).join(',')),'nomad360-seo-banner,nomad360-selling-choice');
   await p.locator('.nomad-intro-cta').focus();await p.keyboard.press('Enter');await settle(p);A.ok(await p.locator('#nomad360-selling-choice').evaluate(e=>{const r=e.getBoundingClientRect();return r.top>=0&&r.top<innerHeight;}));
   const about=p.locator('#nomad360-about');
