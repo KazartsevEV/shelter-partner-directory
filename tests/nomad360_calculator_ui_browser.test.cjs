@@ -521,10 +521,10 @@ async function browserCase(browser,locale,expected){
   A.equal(footer.includes('+7 977 986 74 41'),expected.lang==='ru','Ozon visible only in RU');
   A.equal(await page.locator('#nomad360-footer').count(),1,'Exactly one new footer');
   A.equal(await page.locator('body > footer').count(),1,'Remove the old duplicate legal footer');
-  A.equal(await page.locator('#nomad360-footer .nomad-unit-note').textContent(),
-    {ru:'Валюта расчёта: USD',
-     en:'Calculation currency: USD',
-     kk:'Есептеу валютасы: USD'}[expected.lang]);
+  A.equal(await page.locator('#nomad360-footer .nomad-unit-note').count(),0,
+    'Duplicated Calculation currency label has been removed from scenic footer');
+  A.equal(await page.locator('#nomad360-footer .nomad-footer-bottom').textContent(),
+    '© 2026 Nomad360','Copyright alone is the final full-width strip');
   A.equal(await page.locator('#nomad360-footer .nomad-product').count(),2,'AI Marketer and Content Factory cards preserved');
    A.equal(await page.locator('#nomad360-footer .nomad-qr').count(),0,
      'Standalone USDT and BTC QR codes removed in favour of NOWPayments');
