@@ -37,8 +37,12 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    A.equal(await page.locator('#nomad360-return').count(),1);
    A.equal(await page.locator('#nomad360-support').count(),1);
    A.equal(await page.locator('#nomad360-product-details').count(),1);
-   A.equal(await page.locator('.nomad-footer-inner').evaluate(e=>e.lastElementChild?.id),'nomad360-irbis-banner',
-    'The scenic banner is the final visible footer block, not an earlier promo');
+   A.ok(await page.locator('.nomad-footer-inner').evaluate(e=>{
+     const last=e.lastElementChild,previous=last?.previousElementSibling;
+     return last?.classList.contains('nomad-footer-bottom')&&previous?.id==='nomad360-irbis-banner';
+    }),'Only the thin copyright stripe may follow the Irbis scenic banner');
+   A.equal(await page.locator('.nomad-footer-bottom').textContent(),'© 2026 Nomad360',
+    'Bottom stripe contains copyright only: remove duplicated Calculation currency');
    A.equal(await banner.locator('#nomad360-license').count(),1,'Existing license lives inside scenic footer');
    A.equal(await banner.locator('#nomad360-data').count(),1,'Existing privacy statement lives inside scenic footer');
    A.equal(await banner.locator('#nomad360-official').count(),1,'Official contact is inside scenic footer');
@@ -70,6 +74,15 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
     'All four disclosure headings are inset and vertically centered between #38678B rules: '+JSON.stringify(sectionGeometry));
    A.deepEqual(await banner.locator('[data-return-platform]').evaluateAll(xs=>xs.map(x=>x.dataset.returnPlatform)),['windows','ios','android']);
    A.equal(await banner.locator('.nomad-irbis-platform-icon').count(),3);
+   const pressed=await banner.locator('[data-return-platform="windows"]').evaluate(e=>{
+     // Force real focus via native button; :focus remains after click / download.
+     e.focus();
+     return {text:getComputedStyle(e).color,label:getComputedStyle(e.querySelector('.nomad-irbis-button-label')).color,
+      background:getComputedStyle(e).backgroundColor};
+   });
+   A.equal(pressed.text,'rgb(255, 255, 255)','Shortcut text is white while focused after click');
+   A.equal(pressed.label,'rgb(255, 255, 255)','Nested platform label stays white');
+   A.equal(pressed.background,'rgb(23, 59, 88)','White text has a high-contrast navy pressed surface');
    const actualTitle=await banner.locator('#nomad360-return h2').textContent();
    const expected=await page.evaluate(()=>window.Nomad360LocaleCore.t('return.title'));
    A.equal(actualTitle,expected,'Existing localized title must remain exact');
@@ -154,8 +167,11 @@ const types={'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.c
    A.equal(await page.locator('#nomad360-irbis-support-disclosure').getAttribute('open'),'','Open state survives language switch');
    A.equal(await page.locator('#nomad360-license').getAttribute('open'),'','Legal state survives language switch');
    A.equal(await page.locator('#nomad360-data').getAttribute('open'),'','Privacy state survives language switch');
-   A.equal(await page.locator('.nomad-footer-inner').evaluate(e=>e.lastElementChild?.id),
-    'nomad360-irbis-banner','Footer order survives native locale redraw');
+   A.ok(await page.locator('.nomad-footer-inner').evaluate(e=>{
+    const last=e.lastElementChild;
+    return last?.classList.contains('nomad-footer-bottom')&&last.previousElementSibling?.id==='nomad360-irbis-banner';
+   }),'Copyright stripe stays after Irbis on locale redraw');
+   A.equal(await page.locator('.nomad-footer-bottom').textContent(),'© 2026 Nomad360');
    A.equal(await page.locator('#nomad360-irbis-banner').count(),1);
    A.equal(await page.locator('#nomad360-return h2').textContent(),await page.evaluate(()=>window.Nomad360LocaleCore.t('return.title')));
    A.equal(await page.locator('#nomad360-irbis-banner .nomad-irbis-brand').count(),1,'Brand survives native locale rerender');
