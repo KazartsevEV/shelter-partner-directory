@@ -456,8 +456,8 @@ def main():
         assert current_hero.startswith(legacy), 'Historical HERO styling was modified, not extended by approved layout'
         # HERO-LOGO-TRANSPARENCY-01: original approved HERO prefix above is frozen;
         # the only accepted appended delta removes the dark rectangle behind
-        # the imported logo in the same TASK-10 palette cascade layer.
-        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '6ee6c9039015edd9c6cc83685b642de98665fe2e', 'HERO scene geometry or approved logo-transparent delta drift'
+        # the imported logo in the same TASK-10 palette cascade layer, and\n        # reserves unobstructed mobile copy beside the unchanged circular mark.
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '96fdfb69fd68822b78a9903e8685fad0fd648488', 'HERO scene geometry or approved logo-transparent delta drift'
     if 'nomad360_hero_banner.js' in changed:
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
