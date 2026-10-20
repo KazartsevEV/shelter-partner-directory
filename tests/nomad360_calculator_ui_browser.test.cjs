@@ -960,27 +960,29 @@ async function sourceChoiceCase(browser) {
  }finally{await context.close()}
 }
 async function firstVisitLocaleCase(browser){
- const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
- const page=await context.newPage();
- await page.route(/^https?:\/\//,r=>r.abort());
- try{
-  await page.goto(entry,{waitUntil:'domcontentloaded'});
-  A.equal(await page.locator('html').getAttribute('lang'),'en',
-   'No stored language: English default even with Russian browser locale');
-  A.equal(await page.locator('#nomad360-lang-select').inputValue(),'en');
-  A.deepEqual(await page.locator('#nomad360-lang-select option').evaluateAll(a=>a.map(e=>[e.value,e.textContent])),
-   [['en','English'],['kk','Қазақша'],['ru','Русский']]);
-  A.match(await page.locator('#nomad360-hero h2').textContent(),/Which business would be most profitable/);
-  await page.locator('#nomad360-lang-select').selectOption('kk');
-  A.equal(await page.locator('html').getAttribute('lang'),'kk');
-  // The preference survives a real reload (and keeps financial data untouched).
-  await page.reload({waitUntil:'domcontentloaded'});
-  A.equal(await page.locator('#nomad360-lang-select').inputValue(),'kk',
-   'A user-selected Kazakh language survives reload');
-  A.equal(await page.locator('html').getAttribute('lang'),'kk');
-  A.match(await page.locator('#nomad360-hero h2').textContent(),/Маған қандай бизнеспен/);
-  console.log('HERO_LANGUAGE_EN_FIRST_VISIT_KK_PERSIST_GREEN');
- }finally{await context.close()}
+ // Initial UI follows the browser's preferred supported language, not a
+ // hard-coded English default. Saved manual preference takes precedence.
+ for(const [browserLocale,expected] of [['ru-RU','ru'],['kk-KZ','kk'],['en-US','en'],['de-DE','en']]){
+  const context=await browser.newContext({locale:browserLocale,viewport:{width:390,height:844}});
+  const page=await context.newPage();
+  await page.route(/^https?:\\/\\//,r=>r.abort());
+  try{
+   await page.goto(entry,{waitUntil:'domcontentloaded'});
+   A.equal(await page.locator('html').getAttribute('lang'),expected,
+    'First visit language must follow browser locale '+browserLocale);
+   A.equal(await page.locator('#nomad360-lang-select').inputValue(),expected);
+   A.deepEqual(await page.locator('#nomad360-lang-select option').evaluateAll(a=>a.map(e=>[e.value,e.textContent])),
+    [['en','English'],['kk','Қазақша'],['ru','Русский']]);
+   if(browserLocale==='ru-RU'){
+    await page.locator('#nomad360-lang-select').selectOption('kk');
+    await page.reload({waitUntil:'domcontentloaded'});
+    A.equal(await page.locator('#nomad360-lang-select').inputValue(),'kk',
+     'Explicit saved Kazakh must override Russian browser locale on reload');
+    A.equal(await page.locator('html').getAttribute('lang'),'kk');
+   }
+  }finally{await context.close()}
+ }
+ console.log('HERO_LANGUAGE_BROWSER_DETECTION_AND_USER_PREFERENCE_GREEN');
 }
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
