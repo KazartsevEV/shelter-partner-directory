@@ -40,6 +40,8 @@ function startTestServer(){
  const url='http://127.0.0.1:'+server.address().port+'/Marketing_calc.HTML';
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
+ // Navigation copy is tested explicitly in RU; the site itself now defaults EN.
+ await page.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
  const errs=[];page.on('pageerror',err=>errs.push(err.message));
  // Deny external CDNs, but leave first-party assets accessible to the test.
  await page.route(/^https?:\/\//,route=>
