@@ -458,7 +458,7 @@ def main():
         # Pin the entire current file byte-for-byte, while separately preserving
         # the formerly approved scene, position, copy and CTA as an exact prefix.
         hero_14_suffix = current_hero[len(legacy):]
-        assert hero_14_suffix.startswith(b'\n/* HERO-12:'), 'Approved HERO-12 presentation missing'
+        assert b'/* HERO-12:' in hero_14_suffix and b'/* HERO-13:' in hero_14_suffix, 'Approved HERO-12/13 presentation missing'
         assert current_hero.count(b'/* HERO-14:') == 1, 'Unexpected HERO patch count'
         assert current_hero.endswith(b'\n}\n'), 'Unexpected HERO patch ending'
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '238704a123ffca8691298b34114af10477ff69d9', 'Approved HERO-14 transparency fix or prior scene geometry drift'
