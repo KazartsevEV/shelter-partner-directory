@@ -80,6 +80,43 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   A.match(await embed.locator('.nomad-embed-b2b-logo-mask img').getAttribute('src'),/^data:image\/png;base64,/);
   A.equal(await p.locator('.nomad-logo-mask .nomad-logo').count(),1);
   A.equal(await p.locator('.nomad-seo-logo-mask .nomad-seo-logo').count(),1);
+  // HERO-LOGO-TRANSPARENCY-01: a global palette !important once painted an
+  // opaque navy rectangle over the approved panorama and adjacent live text.
+  // Test the ACTUAL computed cascade on all viewport sizes / RU EN KK.
+  if(modernHero){
+   const logoPaint=await p.locator('#nomad360-commercial-banner #nomad360-seo-banner').evaluate(e=>{
+    const brand=e.querySelector('.nomad-seo-brand');
+    const mask=e.querySelector('.nomad-seo-logo-mask');
+    const img=e.querySelector('.nomad-seo-logo');
+    return {
+     wrapper:getComputedStyle(e).backgroundColor,
+     brand:getComputedStyle(brand).backgroundColor,
+     image:getComputedStyle(img).backgroundColor,
+     mask:getComputedStyle(mask).backgroundColor,
+     asset:img.getAttribute('src').startsWith('data:image/png;base64,'),
+     text:e.querySelector('.nomad-seo-tagline').textContent.trim()
+    };
+   });
+   A.equal(logoPaint.wrapper,'rgba(0, 0, 0, 0)','Hero logo container must not paint navy patch');
+   A.equal(logoPaint.brand,'rgba(0, 0, 0, 0)','Hero logo brand wrapper must be transparent');
+   A.equal(logoPaint.image,'rgba(0, 0, 0, 0)','Imported wolf PNG element must have transparent CSS background');
+   A.equal(logoPaint.mask,'rgb(255, 255, 255)','Preserve approved original white circular emblem');
+   A.equal(logoPaint.asset,true,'Preserve existing recolored original wolf PNG');
+   A.match(logoPaint.text,/Sky allows,\s*guys deliver/,'Brand slogan remains live English text');
+   if(width<=700){
+    const clash=await p.locator('#nomad360-commercial-banner').evaluate(section=>{
+     const logo=section.querySelector('.nomad-seo-brand').getBoundingClientRect();
+     const lead=section.querySelector('.nomad-intro-lead').getBoundingClientRect();
+     const first=section.querySelector('#nomad360-intro li:first-child').getBoundingClientRect();
+     return {logoLeft:logo.left,leadRight:lead.right,firstRight:first.right};
+    });
+    A.ok(clash.leadRight+4<=clash.logoLeft,
+     'Mobile brand lead must not run under the original wolf emblem: '+JSON.stringify(clash));
+    A.ok(clash.firstRight+4<=clash.logoLeft,
+     'First live benefit must not run beneath wolf logo and slogan: '+JSON.stringify(clash));
+   }
+  }
+
   A.ok(await p.locator('.nomad-logo-mask .nomad-logo').evaluate(e=>getComputedStyle(e).transform!=='none'));
   A.equal(await embed.evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(23, 59, 88)');
   A.equal(await embed.locator('h2').evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)');
