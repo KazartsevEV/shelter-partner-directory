@@ -126,14 +126,14 @@
 <li>Click <strong>Product</strong>. Enter the <strong>Product name</strong>. Click <strong>Calculate my product</strong>.</li>
 <li>In <strong>Step 2</strong>, under <strong>Where do you source it?</strong>, choose <strong>I make it</strong>, <strong>I buy it from others</strong> or <strong>Dropshipping</strong>.</li>
 <li>Pick the <strong>Sales unit</strong> (pcs, kg, m, hour and others). Quantity and price use this unit.</li>
-<li>Complete the five sections below. Each ends with a <strong>Section total</strong> and a <strong>Recalculate</strong> button.</li>
+<li>The number of sections depends on the sourcing model: <strong>five</strong> for own production and <strong>four</strong> for resale or dropshipping, where the production section is absent. Work through the visible sections and recalculate after changing their inputs.</li>
 </ol>
 <div class="help-table-wrap">
 <table>
 <thead><tr><th scope="col">Section</th><th scope="col">What you enter</th></tr></thead>
 <tbody>
-<tr><th scope="row">1. Cost — <em>What makes up the cost?</em></th><td><strong>I make it:</strong> choose <strong>I know the price</strong> and type <strong>Material cost per unit</strong>, or choose <strong>Calculate it</strong> and list each material with <strong>+ Add material</strong>. Say whether VAT is included, set the <strong>Material VAT rate, %</strong> (enter 0 if none) and inbound delivery. For imports, set who pays brokerage, cargo insurance, duties and certification: <strong>Me</strong> or <strong>Seller</strong>. Enter the <strong>Quantity in the batch</strong>.<br><strong>I buy it from others:</strong> <strong>Finished units in minimum batch</strong> and <strong>Minimum batch cost</strong>. The calculator shows <strong>Purchase cost per unit</strong>. Add more products with <strong>+ Add another product to the order</strong>.<br><strong>Dropshipping:</strong> supplier, order fulfillment cost and delivery time.</td></tr>
-<tr><th scope="row">2. Production</th><td>Rent and utilities, equipment rental, equipment you buy (monthly straight-line depreciation), <strong>Who does the production?</strong> (<strong>I do everything myself</strong> or <strong>I pay workers</strong>), <strong>Defect rate, % of output</strong>, gas, electricity, other overhead. Then <strong>How many units do you make per month?</strong> Shared monthly costs are spread across those units.</td></tr>
+<tr><th scope="row">1. Cost — <em>What makes up the cost?</em></th><td><strong>I make it:</strong> choose <strong>I know the price</strong> and type <strong>Material cost per unit</strong>, or choose <strong>Calculate it</strong> and list each material with <strong>+ Add material</strong>. Say whether VAT is included, set the <strong>Material VAT rate, %</strong> (enter 0 if none) and inbound delivery. For imports, set who pays brokerage, cargo insurance, duties and certification: <strong>Me</strong> or <strong>Seller</strong>. Enter the <strong>Quantity in the batch</strong>.<br><strong>I buy it from others:</strong> <strong>Finished units in minimum batch</strong> and <strong>Minimum batch cost</strong>. The calculator shows <strong>Purchase cost per unit</strong>. Add more products with <strong>+ Add another product to the order</strong>.<br><strong>Dropshipping:</strong> supplier order price, units ordered, delivery time and when customer funds become usable; no inventory warehouse.</td></tr>
+<tr><th scope="row">2. Production</th><td><strong>For “I make it” only:</strong> rent and utilities, equipment rental, equipment you buy (monthly straight-line depreciation), <strong>Who does the production?</strong> (<strong>I do everything myself</strong> or <strong>I pay workers</strong>), <strong>Defect rate, % of output</strong>, gas, electricity, other overhead. Then <strong>How many units do you make per month?</strong> Shared monthly costs are spread across those units.</td></tr>
 <tr><th scope="row">3. Logistics and warehouse</th><td>Who pays delivery to the warehouse; storage cost per day and days in storage; <strong>Delivery time to customer</strong>; <strong>When are customer funds available to pay the supplier?</strong>; delivery to the customer as % of product price (default 10%); <strong>Product return rate</strong>.</td></tr>
 <tr><th scope="row">4. Sales expenses</th><td>Commission to a marketplace, dealer or salesperson (% of revenue); sales salaries; marketplace penalties and deductions; mandatory employer contributions with a payroll country (default Kazakhstan, rates are reference only). Then <strong>How many units do you sell per month?</strong></td></tr>
 <tr><th scope="row">5. Advertising expenses</th><td>See <a href="#h04">H04</a>.</td></tr>
@@ -142,14 +142,66 @@
 </div>
 <p>Do not enter the same cost twice. Premises, staff, certificates and campaigns that serve several products belong in V2 as shared resources (<a href="#h05">H05</a>), not in each product.</p>
 
+
+<h3>V1 · I make it — costing your own production</h3>
+<ol>
+<li>Under <strong>What makes up the cost?</strong>, decide whether you already know the materials cost per unit. <strong>I know the price</strong> uses one amount; <strong>Calculate it</strong> lets you itemize materials with <strong>+ Add material</strong>. Count consumption per <em>one sellable unit</em> and check the sales unit so you do not mix pieces, kilograms and metres.</li>
+<li>Say whether the purchase price includes VAT and inbound delivery. For imported materials, indicate who pays brokerage, cargo insurance, duties and documentation. Add an amount as your cost <strong>only when your business actually bears it</strong>; otherwise delivery or duty may be double-counted. See <a href="#h08">taxes</a> and <a href="#h09">currencies</a>.</li>
+<li>Under <strong>Production</strong>, enter premises, equipment, your own work or paid employees, utilities and overheads. Specify monthly production volume and the defect rate. Recurring costs must be spread over the applicable output, including losses, rather than charged in full to every unit.</li>
+<li>Continue through <strong>Logistics and warehouse</strong>, <strong>Sales expenses</strong> and <strong>Advertising expenses</strong>. Separate per-unit costs, percentage commissions and monthly payments. Materials or factory cost alone is not the total cost of making a sale.</li>
+</ol>
+<h3>V1 · I buy it from others — reselling finished goods</h3>
+<ol>
+<li>Select <strong>I buy it from others</strong>. In <strong>Minimum batch</strong>, enter <strong>Finished units in minimum batch</strong> and <strong>Minimum batch cost</strong>. The <strong>Purchase cost per unit</strong> result is the purchasing component of a unit's cost.</li>
+<li>Illustrative input arithmetic: buying 10 units for 600 currency units means <strong>60 per unit</strong>, before warehouse, shipping, selling fees or advertising. This is not a prediction of the final calculated selling price.</li>
+<li>For different products in the same purchase order, select <strong>+ Add another product to the order</strong>. Each item keeps its own quantity and purchase cost; unlike goods are not automatically averaged together.</li>
+<li>The <strong>Production</strong> section is hidden for resale. Fill logistics and warehouse costs, selling expenses and then advertising. A batch purchase can use cash well before the whole batch is sold; <a href="#h06">H06</a> distinguishes cash paid for inventory from the cost of items actually sold.</li>
+</ol>
+<h3>V1 · Dropshipping — the supplier fulfils each order</h3>
+<ol>
+<li>Select <strong>Dropshipping</strong>. The purchase step becomes <strong>Where and how much will I pay for the product?</strong>. Enter the <strong>Units per supplier order</strong> and the <strong>Supplier order price</strong>; add different products to the assortment separately. Supplier purchasing is not your own manufacturing cost.</li>
+<li>Under delivery terms, enter <strong>Delivery time, days</strong> and specify <strong>when the customer's funds become available to pay the supplier</strong>: after delivery or before your supplier payment. Enter an additional payout delay if relevant. These assumptions affect working capital even when the business holds no inventory.</li>
+<li>This route hides your own production and stock-storage sections. Do not attribute such expenses to the scenario unless you actually incur them elsewhere. You still need buyer delivery, selling commissions and advertising when your business pays for them.</li>
+<li>Distinguish <strong>delivery time</strong> from <strong>the moment you can use customer funds</strong>. A quick order does not guarantee funds are available before the supplier must be paid. Review <a href="#h06">cash flow</a> and <a href="#h07">funding</a>.</li>
+</ol>
+<h3>Unit costs versus costs of the entire business</h3>
+<p>Purchase and materials costs are only a starting point. Buying a batch, paying monthly rent, wages, revenue-based commissions and an advertising budget each have different timing and allocation rules. Do not apply all of a monthly rent bill to each unit. When several items share premises, employees or advertising, use <a href="#h05">V2</a> to record a shared resource once.</p>
+
 <h3>Service (V1)</h3>
 <ol>
 <li>Click <strong>A service</strong>. Under <strong>How to model your cash flow?</strong> choose <strong>Simplified calculation</strong> (for microbusinesses) or <strong>Full calculation</strong> (VAT, taxes, credit and cash flow).</li>
 <li>Under <strong>I work:</strong> choose <strong>Online</strong> or <strong>Offline</strong>.</li>
-<li>Online services ask <strong>Who delivers the service?</strong>: <strong>I do it myself</strong>, <strong>I hire someone else</strong> or <strong>I am an agent</strong>.</li>
+<li>For online services, choose a provider: <strong>I do it myself</strong>, <strong>I hire someone else</strong> or <strong>I am an agent</strong>. Full offline service calculations also offer the provider choice; simplified offline calculations open the expense form directly.</li>
 <li>For an offline service, also enter <strong>Maximum services per month</strong>. It caps how many clients you can serve.</li>
 </ol>
-<p><strong>Agents.</strong> Under <strong>How do I earn?</strong> choose <strong>I get a percentage of sales</strong> or <strong>I have a complex incentive scheme</strong> (this one needs a custom model, so contact the developer). Enter <strong>Principal service price, incl. VAT</strong>, <strong>My fee, % of principal price</strong> and/or <strong>Fixed fee per service</strong>. Under <strong>Who pays the costs?</strong> choose <strong>Me</strong> or <strong>Principal</strong> for every nonzero cost. Your income is your fee. The principal's sales are not your revenue.</p>
+<p><strong>Agents.</strong> In simplified online mode, under <strong>How do I earn?</strong> choose <strong>I get a percentage of sales</strong> and enter your commission percentage. In the full agent calculation, separately enter the <strong>Principal service price, incl. VAT</strong>, <strong>My fee, % of principal price</strong> and/or <strong>Fixed fee per service</strong>. For every nonzero expense, select <strong>Me</strong> or <strong>Principal</strong> as the payer. Your revenue is your agent remuneration, not the principal's total sales. The <strong>I have a complex incentive scheme</strong> option is not a universal incentive-contract calculator.</p>
+
+<h3>V1 · Offline service — consumables, capacity and premises</h3>
+<ol>
+<li><strong>A service → Simplified calculation → Offline</strong> opens the service-name and cost form directly. In <strong>Full calculation → Offline</strong>, first choose <strong>I do it myself</strong>, <strong>I hire someone else</strong> or <strong>I am an agent</strong>. This is still one V1 service, not V2.</li>
+<li>The unit is <strong>one service performed</strong>, such as one appointment. Enter consumables per appointment as a total or individual materials. Record premises and equipment rental, employees, utilities and other actual service-delivery costs.</li>
+<li>Enter <strong>Maximum services per month</strong> as the real limit imposed by time, staff and workstations. The sales forecast comes from the advertising funnel, not from manually declaring an unlimited number of manufactured units. If the scenario exceeds capacity, revise the resources or assumptions.</li>
+<li>Do not invent warehousing or manufacturing defects for a service: goods-only sections are hidden. Complete selling and advertising expenses and, in full mode, the tax and cash schedule.</li>
+</ol>
+<h3>V1 · Simplified online service — solo or hired provider</h3>
+<ol>
+<li>Choose <strong>A service → Simplified calculation → Online</strong> and then <strong>I do it myself</strong> or <strong>I hire someone else</strong>. The single-service form models a marketing funnel and a selected time period.</li>
+<li>Enter the <strong>monthly advertising budget</strong>, <strong>CPC</strong>, <strong>CTR</strong> and click-to-lead and lead-to-deal conversions. <strong>Consultation price</strong>, <strong>consultation package price</strong> and the <strong>share purchasing a package</strong> are used to model <em>sales revenue</em>. They are not automatically the provider's costs of delivering the service.</li>
+<li>Set the <strong>calculation period in months</strong>, campaign management, website, hosting, domain, lead magnet, card-acquiring fee and turnover tax where applicable. The <strong>I hire someone else</strong> branch also includes <strong>Markup on contractor cost</strong>, which separates payment to the contractor from your business result.</li>
+<li>Consultations and package sales are based on your assumed funnel conversion rates, not verified orders. Look at the period totals and monthly breakdown instead of treating predicted leads as actual buyers. See <a href="#h04">H04</a>.</li>
+</ol>
+<h3>V1 · Agent — two businesses involved in one sale</h3>
+<ol>
+<li>In <strong>Simplified calculation → Online → I am an agent</strong> select <strong>I get a percentage of sales</strong>. Enter <strong>My fee as a share of sales</strong> and your own turnover tax separately. The principal's customer sales do not become your revenue: your revenue is the commission.</li>
+<li>For each nonzero expense, choose <strong>Who pays: Me / Principal</strong>. For example, if you pay for advertising, that cost reduces your net commission; if the principal pays, it belongs to the principal's business. The two parties' figures are presented separately.</li>
+<li>In the full agent path, use the different detailed inputs: <strong>Principal service price including VAT</strong>, <strong>My fee, % of principal price</strong>, <strong>Fixed fee per service</strong> and expense-payer selections. Check each party's taxes, including the <a href="#h08">sales tax regime</a>.</li>
+<li>In simplified mode <strong>I have a complex incentive scheme</strong> offers contact for a bespoke model; in full mode it continues to the existing agent calculation. Neither is a universal calculator for arbitrary multi-tier commission agreements.</li>
+</ol>
+<h3>V1 · Full calculation of one service: what changes</h3>
+<p><strong>Full</strong> does not mean the multi-item V2. For online services, first complete the original marketing, delivery and expense inputs, give the service a name and select <strong>Calculate complete service finances →</strong>. For offline services, complete V1's unit costs, sales assumptions, advertising, capacity and price before opening its full cash model. The next step adds the applicable tax settings, planning horizon, owner funds or credit, and reserve; it reports period-by-period expenses and cash. Validation can prevent the full result until the source V1 calculation is complete.</p>
+<h3>Check your inputs before calculating a price</h3>
+<p>Verify <strong>the unit</strong> to which each cost applies, <strong>who pays it</strong>, whether it is <strong>one-off, per-unit or monthly</strong>, whether tax and shipping are already included, and whether forecast orders exceed capacity or realistic delivery terms. Then read the calculated price and margin in <a href="#h03">H03</a> and the timing of money in <a href="#h06">H06</a>. You must verify supplier quotes, conversion assumptions and tax rates yourself.</p>
+
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
 
