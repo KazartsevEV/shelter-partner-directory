@@ -1,6 +1,8 @@
 # ТЗ для Codex — Nomad360
 
 > **Смежное утверждённое ТЗ:** [Ayla / AI Marketer — AYLA-CORE-01 (Persona & Life Engine)](ayla/AYLA-CORE-01-persona-life-engine.md), утверждено 20.10.2026. Ayla — часть Nomad360 Business Solutions, пока работает только на продвижение калькулятора. Это отдельный документационный контракт; ниже — задачи калькулятора, неизменённые по смыслу.
+>
+> **Ayla / Her Job (проект на согласование):** [AYLA-JOB-01 — маркетинговые технические требования](ayla/AYLA-JOB-01-marketing-operations.md). Это функции работы Ayla только на Nomad360; не считать документ разрешением на реализацию или готовностью API.
 
 > **СВЕРКА АКТУАЛЬНОГО `main` на 17.10.2026:** коммит [`c98b29e`](https://github.com/KazartsevEV/shelter-partner-directory/commit/c98b29e9527131ae4790e462a3b62f15827a4ccf), включая [#184](https://github.com/KazartsevEV/shelter-partner-directory/pull/184) (SEO-ядро) и [#185](https://github.com/KazartsevEV/shelter-partner-directory/pull/185) (лицензия v2.4). Проверены файлы, PR и доступные отчёты. Этот статус и конечная очередь имеют приоритет над историческими формулировками внутри первоначальных ТЗ.
 
