@@ -37,6 +37,16 @@ function decorate(){
  // Do not edit the localization source or its characters; the rows join back
  // to the same original string, and remain inline on tablet/desktop.
  const brand=opening?.querySelector('.nomad-about-brand');
+ // The exact original English sentence remains accessible and indexable,
+ // but is composed into the two owner-approved rows at every breakpoint.
+ if(document.documentElement.lang==='en'&&brand&&
+    brand.textContent==='Nomad 360 is an umbrella brand of intelligent services for entrepreneurs.'){
+  const first=document.createElement('span');first.className='nomad-about-brand-en-line';
+  first.textContent='Nomad 360 is an umbrella brand';
+  const second=document.createElement('span');second.className='nomad-about-brand-en-line';
+  second.textContent=' of intelligent services for entrepreneurs.';
+  brand.replaceChildren(first,second);
+ }
  const ruRows=['Nomad 360 - зонтичный бренд',
   'интеллектуальных сервисов','для предпринимателей.'];
  if(document.documentElement.lang==='ru'&&brand
@@ -61,16 +71,21 @@ function decorate(){
   heading.before(scenic);
   scenic.append(heading,opening);
  }
- // Reuse the ORIGINAL localized paragraph, but place it strictly between
- // the service cards and contacts. The separate band gives it equal space
- // above and below, with no reserved caption slot in the photo on phones.
+ // The original localized automation statement is the LAST message of the
+ // About banner, after contacts, preserving its orange-rule presentation.
+ // Move the existing DOM node: no duplicate text, no new locale dictionary.
  let captionBand=about.querySelector(':scope > .nomad-about-caption-band');
  if(!captionBand){
   captionBand=document.createElement('div');
   captionBand.className='nomad-about-caption-band';
  }
- flow.after(captionBand);
+ contacts.append(captionBand);
  captionBand.append(caption);
+ // Questions/cooperation text becomes a modest subtitle directly under
+ // Contacts rather than the banner's closing sentence.
+ const topics=contacts.querySelector(':scope > .nomad-topics');
+ const contactTitle=contacts.querySelector(':scope > h2');
+ if(topics&&contactTitle)contactTitle.after(topics);
  const mottos=Array.from(motto.querySelectorAll('span')).map(el=>el.textContent);
  const order=[2,0,1];
  Array.from(flow.children).forEach((li,i)=>{
