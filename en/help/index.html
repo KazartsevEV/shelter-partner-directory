@@ -415,22 +415,48 @@
 <!-- H06 -->
 <section class="section help-section" aria-labelledby="h06">
 <h2 id="h06">H06. Why is profit different from cash flow and Available Cash?</h2>
-<p>Profit says whether sales earned more than they cost. Cash flow says when money moves. A profitable business can still run out of money.</p>
+<p><strong>Profit</strong> describes the financial result of goods sold or services delivered during a period, after the expenses recognized for that period. <strong>Cash flow</strong> shows <em>when money actually arrives and leaves</em>: customers pay, suppliers demand advances, staff and advertising are paid, and loans fall due. A profitable business can lack the cash needed for its next obligation.</p>
+<h3>Revenue, COGS, EBITDA, profit and cash are different layers</h3>
+<ol>
+<li><strong>Revenue:</strong> the value of sales completed or assumed by the scenario. It is not profit, and the date of a sale does not necessarily match the date cash is collected.</li>
+<li><strong>Cost of goods sold (COGS):</strong> the cost of units actually sold. Unsold stock is not expensed as if it were already sold, although paying an advance for that stock requires cash immediately.</li>
+<li><strong>EBITDA:</strong> an intermediate operating result before interest, profit taxes and depreciation/amortization where the model separates them. Do not treat a particular screen's EBITDA as a bank balance or a universal accounting figure: the precise composition follows the selected model.</li>
+<li><strong>Net profit:</strong> the result after the applicable costs and tax in that scenario. Check the reporting period and tax regime. In standalone V2, <strong>Net profit · baseline month</strong> is calculated <strong>before loan interest</strong>; loan interest is handled separately in the monthly schedule.</li>
+<li><strong>Cash flow:</strong> receipts less payments on their actual timeline, including procurement advances, advertising, one-off expenses, interest and principal repayments. Its cumulative figure can differ from profit even if the sales total is identical.</li>
+</ol>
+<h3>Example: positive gross profit but money tied up in stock</h3>
 <div class="help-example">
-<p><strong>Example</strong> (illustrative numbers)</p>
-<p>Month 1: you pay a supplier 600 for 10 units. Cash: −600.</p>
-<p>Month 2: you sell 2 units at 100, before tax. Revenue 200. Cost of goods sold 2 × 60 = 120. Gross profit 80.</p>
-<p>Cash after month 2: −600 + 200 = −400. Profit is positive. You are still 400 short.</p>
-</div>
-<p><strong>Where to look in the result.</strong></p>
+<p><strong>Illustrative example</strong>: one supplier payment and two sales only; no tax, advertising, payment fees, rent, interest or other costs.</p>
 <ul>
-<li><strong>AVAILABLE CASH</strong> is the cumulative cash balance, including owner funding or a loan, minus the protected reserve. It is not profit and it is not free cash flow in the accounting sense. A negative number is a cash deficit.</li>
-<li>The monthly table (standalone V2) has: Month, Sales, Payments, Operating cash flow, Loan / owner, Interest, Principal repayment, Net cash flow and Cumulative cash flow.</li>
-<li>Loan principal repaid is a cash outflow, not an operating expense. Owner funding and a loan received are financing, not profit.</li>
-<li>Purchases of stock are a cash advance. Cost of goods sold is recognised when you sell, so the purchase is not counted twice.</li>
-<li>A month is 30 days.</li>
-<li>In standalone V2, the base-month net profit is after business tax and before loan interest. <strong>EBITDA · baseline month</strong> is shown separately.</li>
+<li><strong>Month 1:</strong> buy 10 units at 60 each, paying the supplier <strong>600</strong> before any sales. Cash change: <strong>−600</strong>.</li>
+<li><strong>Month 2:</strong> sell 2 units at 100 each. Revenue <strong>200</strong>; COGS <strong>2 × 60 = 120</strong>; <strong>gross profit = 80</strong>.</li>
+<li>Cumulative change in cash across the two months: <strong>−600 + 200 = −400</strong>. Eight units remain in stock; 480 of the payment relates to those unsold units. Positive <em>gross</em> profit in month two does not eliminate the cash requirement.</li>
 </ul>
+<p>Customer payment delays or another required inventory purchase can make the gap larger. The example does not claim net profit of 80: the other expenses were deliberately omitted.</p>
+</div>
+<h3>The payment calendar: what is paid, and when?</h3>
+<p>In standalone V2, an initial stock advance is paid at the start while unit COGS is recognized as units sell. Storage charges depend on unsold inventory and time held. Dropshipping has no owned opening stock batch; supplier settlement is associated with orders. Shared resources follow their declared payment frequency, without multiplying one invoice by the number of SKUs (<a href="#h05">H05</a>).</p>
+<p><strong>Linked V2</strong> may additionally reflect procurement and production lead times, settlement after delivery in dropshipping, different inventory sell-through dates, service operating horizons and loan repayment schedules. Identical monthly prices and demand can therefore produce very different cash balances. For multi-month models, check which dates and recurring-demand assumptions have been established in V1.</p>
+<h3>“AVAILABLE CASH”: read the definition for your actual route</h3>
+<ul>
+<li><strong>Standalone V2:</strong> <strong>AVAILABLE CASH = cumulative cash flow − protected reserve</strong>. Cumulative cash flow includes owner money or a loan received, modeled sales and payments, interest and principal repayment. This is a modeled spendable balance <em>after the reserve</em>, not net income or free cash flow under an accounting standard.</li>
+<li><strong>Linked V2:</strong> the result likewise distinguishes <strong>Ending cash balance</strong> and <strong>AVAILABLE CASH</strong> after protected reserves. Required funding and reserves are recalculated using the shared resources and actual cash calendar without recharging old V1 expenses a second time.</li>
+<li><strong>Simplified online service V1:</strong> the <strong>AVAILABLE CASH</strong> card represents <strong>cumulative cash results for the selected period</strong>. In ordinary mode, that is receipts less expenses and taxes, including one-time payments, with <strong>no separate protected reserve</strong>. In agent mode it is <strong>your agent commission less expenses you pay and your own tax</strong>, not all cash belonging to the principal. Nonzero expenses need assigned payers before that agent result is confirmed (<a href="#h02">H02</a>).</li>
+<li><strong>Simplified offline service V1:</strong> the cash calculation takes account of the service operating period, any longer receipt/payment calendar, financing, taxes and a <strong>protected reserve</strong>. Compare this figure with profit only over equivalent periods.</li>
+</ul>
+<p>If AVAILABLE CASH is negative, the modeled ending balance <strong>does not cover its protected reserve</strong>; the bank account need not itself be below zero. A negative <strong>cumulative cash balance</strong> indicates a negative overall cash position in the scenario.</p>
+<h3>Startup funding, reserve and loan payments</h3>
+<ol>
+<li><strong>Startup funds:</strong> standalone V2 derives the required amount from the maximum forecast liquidity shortfall and unavoidable early payments, not from summing every projected expense twice. A reserve is added to that funding need. Funds injected by the owner or received from a lender bridge that shortfall, <strong>but do not create profit</strong>.</li>
+<li><strong>Protected reserve:</strong> a portion of funding held back when reporting spendable cash. It is not another supplier payment or a second charge for rent, stock or ads.</li>
+<li><strong>Interest:</strong> a cash expense under the debt schedule that reduces available cash; check the selected model and period to see how it enters profit.</li>
+<li><strong>Loan principal:</strong> a cash repayment to the lender, not an additional COGS charge or an operating loss. In standalone V2's current baseline debt schedule, interest is paid monthly and principal is repaid in the last loan month.</li>
+</ol>
+<h3>Reading standalone V2's month-by-month result</h3>
+<p>Follow <strong>Month → Sales → Payments → Operating cash flow → Loan / owner → Interest → Principal repayment → Net CF → Cumulative CF → AVAILABLE CASH</strong>. Net CF includes financing and debt payments; it may jump in the month a loan arrives and fall when its principal is repaid. Cumulative CF adds the monthly changes from the beginning of the scenario. The model uses a <strong>30-day month</strong>.</p>
+<p><strong>EBITDA · baseline month</strong> and <strong>Net profit · baseline month</strong> describe a base-month economic view, not the cash balance at the end of the whole cycle. The modeled cycle outcome separately reflects interest charges. Do not directly compare one month's profit with a cash balance after several months of sales and debt payments.</p>
+<h3>Testing commercial resilience</h3>
+<p>Review more than profit: track the <strong>first supplier payment, advertising before receipts, customer collection timing, inventory exhaustion, loan maturity and lowest cash balance</strong>. If profit is positive but cash is insufficient, inspect advances, settlement terms, financing and batch size rather than mechanically raising the price. Conversely, borrowed capital and positive AVAILABLE CASH do not establish profitability or demand. First estimate the economically required price (<a href="#h03">H03</a>), then ask who will buy, why and through which channel at that price (<a href="#h17">H17</a>).</p>
 <p>More: <a href="https://kazartsevev.github.io/shelter-partner-directory/en/cash-flow/">cash flow calculator for a small business</a>.</p>
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
