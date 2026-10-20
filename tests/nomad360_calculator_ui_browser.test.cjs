@@ -4,8 +4,16 @@ const {pathToFileURL}=require('node:url');
 const path=require('node:path');
 const {fixture}=require('./portfolio_v2_f3_fixture.cjs');
 const entry=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
+// Existing localized test cases explicitly simulate a previously saved
+// language preference; browser locale alone no longer selects the first visit.
+async function setStoredLocale(context,code){
+ await context.addInitScript(language=>{
+  try{localStorage.setItem('nomad360PreferredLanguage',language)}catch(_){}
+ },code);
+}
 async function browserCase(browser,locale,expected){
  const context=await browser.newContext({locale,viewport:{width:390,height:844}});
+ await setStoredLocale(context,expected.lang);
  const page=await context.newPage();
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,route=>route.abort());
@@ -13,6 +21,10 @@ async function browserCase(browser,locale,expected){
   await page.goto(entry,{waitUntil:'domcontentloaded'});
   await page.waitForSelector('#nomad360-hero h2');
   A.equal(await page.locator('html').getAttribute('lang'),expected.lang);
+  A.deepEqual(await page.locator('#nomad360-lang-select option').evaluateAll(nodes=>nodes.map(x=>x.value)),
+   ['en','kk','ru'],'Language selector order must be English, Kazakh, Russian');
+  A.equal(await page.locator('#nomad360-lang-select').inputValue(),expected.lang,
+   'A saved locale always overrides the English first-visit default');
   A.match(await page.locator('#nomad360-hero').textContent(),expected.tagline);
   const approved={
    ru:['Бизнес-калькулятор','Каким бизнесом мне выгодно заниматься?',
@@ -662,6 +674,7 @@ async function browserCase(browser,locale,expected){
 
 async function unifiedV1Case(browser) {
  const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ await setStoredLocale(context,'ru');
  const page=await context.newPage();
  const errors=[];
  page.on('pageerror',e=>errors.push(e.message));
@@ -758,6 +771,7 @@ async function unifiedV1Case(browser) {
 
 async function v1AccentsCase(browser){
  const ctx=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ await setStoredLocale(ctx,'ru');
  const page=await ctx.newPage();
  const errors=[];page.on('pageerror',err=>errors.push(err.message));
  await page.route(/^https?:\/\//,route=>route.abort());
@@ -845,6 +859,7 @@ async function v1AccentsCase(browser){
 }
 async function dropshipCopyCase(browser) {
  const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ await setStoredLocale(context,'ru');
  const page=await context.newPage();
  const errors=[];
  page.on('pageerror',e=>errors.push(e.message));
@@ -868,6 +883,7 @@ async function dropshipCopyCase(browser) {
 }
 async function offlineCostExampleCase(browser){
  const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ await setStoredLocale(context,'ru');
  const page=await context.newPage();
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,route=>route.abort());
@@ -891,6 +907,7 @@ async function offlineCostExampleCase(browser){
 }
 async function sourceChoiceCase(browser) {
  const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ await setStoredLocale(context,'ru');
  const page=await context.newPage();
  const errors=[];
  page.on('pageerror',err=>errors.push(err.message));
@@ -942,9 +959,33 @@ async function sourceChoiceCase(browser) {
   console.log('NOMAD360_LABEL_ONLY_ROUTE_CHOICES_GREEN');
  }finally{await context.close()}
 }
+async function firstVisitLocaleCase(browser){
+ const context=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ await page.route(/^https?:\/\//,r=>r.abort());
+ try{
+  await page.goto(entry,{waitUntil:'domcontentloaded'});
+  A.equal(await page.locator('html').getAttribute('lang'),'en',
+   'No stored language: English default even with Russian browser locale');
+  A.equal(await page.locator('#nomad360-lang-select').inputValue(),'en');
+  A.deepEqual(await page.locator('#nomad360-lang-select option').evaluateAll(a=>a.map(e=>[e.value,e.textContent])),
+   [['en','English'],['kk','Қазақша'],['ru','Русский']]);
+  A.match(await page.locator('#nomad360-hero h2').textContent(),/Which business would be most profitable/);
+  await page.locator('#nomad360-lang-select').selectOption('kk');
+  A.equal(await page.locator('html').getAttribute('lang'),'kk');
+  // The preference survives a real reload (and keeps financial data untouched).
+  await page.reload({waitUntil:'domcontentloaded'});
+  A.equal(await page.locator('#nomad360-lang-select').inputValue(),'kk',
+   'A user-selected Kazakh language survives reload');
+  A.equal(await page.locator('html').getAttribute('lang'),'kk');
+  A.match(await page.locator('#nomad360-hero h2').textContent(),/Маған қандай бизнеспен/);
+  console.log('HERO_LANGUAGE_EN_FIRST_VISIT_KK_PERSIST_GREEN');
+ }finally{await context.close()}
+}
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
+  await firstVisitLocaleCase(browser);
   await browserCase(browser,'ru-RU',{lang:'ru',tagline:/Каким бизнесом мне выгодно заниматься/});
   await browserCase(browser,'kk-KZ',{lang:'kk',tagline:/Маған қандай бизнеспен айналысқан тиімді/});
   await browserCase(browser,'en-US',{lang:'en',tagline:/Which business would be most profitable/});
