@@ -102,7 +102,7 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
    A.equal(logoPaint.image,'rgba(0, 0, 0, 0)','Imported wolf PNG element must have transparent CSS background');
    A.equal(logoPaint.mask,'rgb(255, 255, 255)','Preserve approved original white circular emblem');
    A.equal(logoPaint.asset,true,'Preserve existing recolored original wolf PNG');
-   A.match(logoPaint.text,/Sky allows,\\s*guys deliver/,'Brand slogan remains live English text');
+   A.match(logoPaint.text,/Sky allows,\s*guys deliver/,'Brand slogan remains live English text');
   }
 
   A.ok(await p.locator('.nomad-logo-mask .nomad-logo').evaluate(e=>getComputedStyle(e).transform!=='none'));
