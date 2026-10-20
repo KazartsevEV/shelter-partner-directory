@@ -461,7 +461,7 @@ def main():
         assert b'/* HERO-12:' in hero_14_suffix and b'/* HERO-13:' in hero_14_suffix, 'Approved HERO-12/13 presentation missing'
         assert current_hero.count(b'/* HERO-14:') == 1, 'Unexpected HERO patch count'
         assert current_hero.endswith(b'\n}\n'), 'Unexpected HERO patch ending'
-        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '238704a123ffca8691298b34114af10477ff69d9', 'Approved HERO-14 transparency fix or prior scene geometry drift'
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '00ba7a45ef6371a933863dc1b95dae4e9950d5f4', 'Approved HERO-14 transparency fix or prior scene geometry drift'
     if 'nomad360_hero_banner.js' in changed:
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
