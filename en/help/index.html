@@ -208,16 +208,35 @@
 <!-- H03 -->
 <section class="section help-section" aria-labelledby="h03">
 <h2 id="h03">H03. How do I set a selling price and target margin?</h2>
-<p>You do not type a price. You enter your costs, taxes, financing and the margin you want, and the calculator gives the price that delivers it.</p>
+<p>In <strong>product V1</strong>, you first enter costs, marketing-funnel assumptions, taxes, funding and your target margin; the calculator then derives the required selling price. It answers <strong>“What would I need to charge for this product under these assumptions?”</strong>—not how much customers will actually pay. Some online-service and agency paths instead ask you to enter consultation prices or contractual remuneration directly. The V1 product price-list range is explained below.</p>
 
 <h3>In V1</h3>
 <ol>
 <li>Finish the cost sections, advertising, <strong>Portfolio VAT</strong> and <strong>Business tax</strong> (<strong>On revenue</strong> or <strong>On profit</strong>, plus <strong>Tax rate, %</strong>). If no business tax is selected, you will see: “Select revenue tax or profit tax above to calculate a numeric price.”</li>
-<li>Enter your target margin. Under <strong>Will you offer discounts?</strong> choose <strong>Yes</strong> or <strong>No</strong>, then set <strong>Maximum discount, %</strong> and <strong>Minimum margin, %</strong>. The minimum cannot exceed the target.</li>
+<li>Enter the <strong>target product margin</strong> for each product. Under <strong>Will you offer discounts?</strong> select <strong>Yes</strong> or <strong>No</strong>. For “Yes”, specify <strong>Maximum discount, %</strong>; “No” makes it 0%. Enter <strong>Minimum margin, %</strong> separately. The minimum must not exceed the target.</li>
 <li>Read the price block, titled “final price including loan and taxes”: <strong>Product price</strong>, <strong>VAT</strong> and <strong>Final customer price</strong>.</li>
-<li>Read the <strong>Price-list range</strong>. The lower end keeps your minimum net margin after the maximum discount, commissions, taxes and allocated business costs. The upper end keeps your target net margin.</li>
+<li>Read the <strong>Price-list range</strong>. <strong>Both endpoints are list prices before a discount</strong>: the lower endpoint is designed to preserve your minimum margin <em>after the maximum discount</em>; the upper preserves your target margin after that same maximum discount. These are not the post-discount amounts, and neither should be confused with the single <strong>Final customer price</strong>.</li>
 </ol>
 <p>If the calculator reports that no profitable price is possible at these tax, commission and margin rates, reduce costs or lower the target margin.</p>
+
+<h3>What goes into the required V1 price?</h3>
+<ol>
+<li><strong>Start with the economics of one unit.</strong> V1 uses unit cost and logistics, the cost of acquiring an order (CAC) from the advertising funnel, allocated loan interest and a per-unit reserve. The target margin is initially applied before the business-tax adjustment.</li>
+<li><strong>Business costs and taxes matter too.</strong> The final calculation takes account of variable selling fees and deductions, shared operating costs, the selected turnover or profit tax and VAT if applicable. <strong>VAT is not the same as profit tax</strong> and is shown separately. The amount charged to the buyer can therefore differ from the preliminary pre-tax price.</li>
+<li><strong>A customer price and a price-list range are different results.</strong> The “final price including loan and taxes” block displays one calculated price and its VAT treatment. Below, the list-price range is recalculated against two margin levels and the maximum discount. Do not automatically substitute the upper list-price endpoint for the actual V1 customer price in other calculations.</li>
+<li><strong>Forecast sales affect the price.</strong> CAC depends on your budget, CPC and assumed conversion rates; shared monthly operating costs are spread over forecast sold units. Changing conversion or sales volume changes the economics, so this is not a permanent intrinsic price of the product.</li>
+</ol>
+<h3>How discounts affect both price-list endpoints</h3>
+<p>The calculation produces a price <em>before</em> the maximum discount. To keep the chosen margin when that discount is applied, the displayed list price must allow for it. Therefore <strong>the discount enters both the minimum-margin and target-margin endpoint calculations</strong>. Answering <strong>No</strong> sets the discount to 0%, while minimum and target margins still remain separate goals.</p>
+<p><strong>Simplified example:</strong> suppose the complete relevant unit cost is 100, with no commissions, additional taxes or VAT; minimum margin 10%, target margin 20%, maximum discount 10%. The required <em>pre-discount list-price range</em> is <strong>123.46–138.89</strong>. After applying the full 10% discount, the buyer would pay approximately 111.11–125.00, preserving the respective margins. This is an illustration with omitted real-world costs, not a live V1 result.</p>
+<h3>Why the range may be unavailable</h3>
+<ol>
+<li>You must complete the unit-cost, advertising and sales assumptions. The model needs positive expected orders and a defined CAC. Resale and dropshipping also need a valid supplier purchase amount; missing or invalid inputs prevent a numeric range.</li>
+<li>Select <strong>Business tax</strong>—<strong>On revenue</strong> or <strong>On profit</strong>—and specify whether VAT applies, including a VAT rate when required. Product V1 currently uses one VAT rate for the calculated product set.</li>
+<li>For the range calculation, <strong>minimum and target margins must both be strictly above 0% and below 100%</strong>, with the minimum no higher than the target. Maximum discount must be from 0% up to but not including 100%. “No” sets the discount to zero. If selling fees, taxes and requested margin make the equation impossible, the calculator shows an error instead of an invented price.</li>
+<li>An absent result is not a zero selling price. Read the message beneath the range, correct the inputs and recalculate. Also review the currency, unit of sale and allocated shared expenses (<a href="#h02">H02</a>, <a href="#h08">H08</a>).</li>
+</ol>
+
 
 <h3>Margin is not markup</h3>
 <div class="help-example">
@@ -226,6 +245,11 @@
 <p>Margin = (125 − 100) ÷ 125 = 20%. Markup = (125 − 100) ÷ 100 = 25%.</p>
 </div>
 <p>The calculator's margin fields are margins on price. Markup divides by cost.</p>
+
+
+<h3>Using your calculated price to test the business idea</h3>
+<p>Next ask <strong>who would buy this product, why, and through which channel at this price</strong>. What product features would justify it, and what value proposition would make it credible? If the calculated price seems higher than prospective buyers might accept, do not simply reduce your margin or raise conversion assumptions to force an attractive result. Revisit sourcing, product configuration, costs, customer segment, acquisition channels and positioning. V1 tests the <em>internal commercial coherence of your assumptions</em>; market demand and willingness to pay still require validation. See <a href="#h17">H17</a>.</p>
+<p><strong>Full-service agent exception:</strong> the agent's contractual earnings depend on the principal's price, a commission percentage and/or a fixed fee. In that route, both displayed price-range endpoints may be equal; this is not the standard two-margin product price solver. Simplified online services likewise use your entered consultation and package prices (<a href="#h02">H02</a>).</p>
 
 <h3>In V2</h3>
 <ul>
