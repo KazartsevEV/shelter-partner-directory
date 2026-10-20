@@ -4,6 +4,8 @@
 >
 > **Ayla / Her Job (проекты на согласование):** [AYLA-JOB-01 — функциональный уровень](ayla/AYLA-JOB-01-marketing-operations.md) · [AYLA-JOB-02 — формальные технические контракты](ayla/AYLA-JOB-02-functional-specification.md) · [AYLA-JOB-03 — производство контента, комментарии и аналитический feedback loop](ayla/AYLA-JOB-03-content-production-feedback-loop.md). Все три документа касаются только работы Ayla на Nomad360; не означают, что коннекторы готовы или запуск разрешён.
 
+> **Ayla / целевая аудитория и жизнь (проект на согласование):** [AYLA-PERSONA-02 — ценности аудитории и достижимый aspirational lifestyle](ayla/AYLA-PERSONA-02-audience-aspirational-life.md). Persona Canon (CORE-01) остаётся утверждённым и не меняется автоматически. 
+
 > **СВЕРКА АКТУАЛЬНОГО `main` на 17.10.2026:** коммит [`c98b29e`](https://github.com/KazartsevEV/shelter-partner-directory/commit/c98b29e9527131ae4790e462a3b62f15827a4ccf), включая [#184](https://github.com/KazartsevEV/shelter-partner-directory/pull/184) (SEO-ядро) и [#185](https://github.com/KazartsevEV/shelter-partner-directory/pull/185) (лицензия v2.4). Проверены файлы, PR и доступные отчёты. Этот статус и конечная очередь имеют приоритет над историческими формулировками внутри первоначальных ТЗ.
 
 | Этап | Проверенное состояние `main` | Что осталось |
