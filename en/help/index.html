@@ -513,19 +513,53 @@
 <!-- H08 -->
 <section class="section help-section" aria-labelledby="h08">
 <h2 id="h08">H08. How do I choose between VAT, Sales Tax and no sales tax?</h2>
-<p>Two separate settings:</p>
-<ol>
-<li><strong>Tax mode</strong> (tax on sales): <strong>VAT / IVA</strong>, <strong>Sales tax</strong> or <strong>No sales tax</strong>. For VAT you enter the rate. For Sales Tax you enter <strong>Sales Tax rate, %</strong>.</li>
-<li><strong>Business tax</strong>: <strong>On revenue</strong> or <strong>On profit</strong>, with <strong>Tax rate, %</strong>. VAT is separate and not an alternative to this tax.</li>
-</ol>
-<p>You type every rate yourself. The calculator does not know your country's rates.</p>
-<p><strong>Sales Tax</strong> is added to the price after the discount. It passes through to the state and is not your revenue. The V2 results show revenue without tax, the Sales Tax total and the total the buyers pay.</p>
+<p>Nomad360 distinguishes <strong>tax charged on a customer sale</strong> from <strong>tax on the business itself</strong>. These are <em>two independent settings</em>: selecting VAT / IVA, Sales Tax or no sales tax does not remove the separate turnover/profit tax. The calculator uses rates you enter; it does not automatically determine the law in your jurisdiction, eligibility for reliefs or filing obligations.</p>
+<h3>Step 1. Select the tax on the customer sale</h3>
+<ul>
+<li><strong>VAT / IVA:</strong> uses the calculation route's existing VAT model and its established price and tax fields. Standalone V2 has the field <strong>“VAT for buyer price, % (pass-through)”</strong>. Do not read this as a complete ledger of input/output VAT, invoices or tax remittances: some financial scenarios use cash-flow figures net of transit VAT.</li>
+<li><strong>Sales Tax:</strong> enter <strong>“Sales Tax rate, %”</strong>. The tax is charged <strong>after the discount</strong>, added to the final buyer payment, and <strong>is not your business revenue</strong>. This is a distinct buyer-tax calculation, not a deduction for input VAT.</li>
+<li><strong>No sales tax:</strong> neither VAT nor Sales Tax is added to the buyer's price under this scenario. A previously entered Sales Tax rate is not silently applied. <strong>Business tax still applies</strong> if you entered a nonzero rate for it.</li>
+</ul>
+<p>In an older saved calculation, no explicit new tax-mode field means the <strong>original VAT behavior</strong>, even if its VAT rate was zero. Selecting a tax mode does not establish that the choice is legally available to your business; it is a scenario assumption.</p>
+
+<h3>Step 2. Set the separate business tax</h3>
+<p>Choose <strong>“Business tax” → “On revenue”</strong> or <strong>“On profit”</strong> and supply the <strong>“Tax rate, %”</strong>. Standalone V2's simplified baseline calculations work as follows:</p>
+<ul>
+<li><strong>On revenue:</strong> modeled business tax = sales revenue <strong>excluding pass-through buyer Sales Tax</strong> × rate / 100. A turnover charge can apply even when expenses leave little or no profit.</li>
+<li><strong>On profit:</strong> modeled business tax = <strong>max(0, the scenario's operating result)</strong> × rate / 100. A negative modeled base does not generate a negative tax or refund. This is not a complete tax return.</li>
+</ul>
+<p>Linked V2 can have a more detailed base because individual SKUs, reporting periods, agent roles and tax terms inherited from V1 differ. The service owner's tax and the principal's tax <strong>are not interchangeable</strong>. Do not add the pass-through Sales Tax to business revenue and then tax the same transit amount again (<a href="#h05">H05</a>, <a href="#h06">H06</a>).</p>
+
+<h3>Example: buyer price versus revenue with Sales Tax</h3>
 <div class="help-example">
-<p><strong>Example</strong> (illustrative numbers)</p>
-<p>Price 100, discount 10%, Sales Tax 8%. Price after discount 90. Sales Tax 90 × 8% = 7.20. The buyer pays 97.20. Your revenue is 90.</p>
+<p><strong>Illustrative sale</strong> (excluding business tax).</p>
+<p>Price before discount <strong>100</strong>; discount <strong>10%</strong>; Sales Tax <strong>8%</strong>. Discounted price = <strong>100 × 0.9 = 90</strong>. Sales Tax = <strong>90 × 0.08 = 7.20</strong>. <strong>The customer pays 97.20</strong>; the seller's revenue from this sale is <strong>90</strong> and the remaining <strong>7.20</strong> is the pass-through sales tax. Do not apply the discount to 90 again.</p>
 </div>
-<p>A notice appears next to the tax fields: individual tax deductions and reliefs are not included, and an accountant should advise on optimizing taxes. Payroll rates are reference values. Confirm them with your accountant.</p>
-<p>Agent and principal taxes are modelled monthly, not on actual filing dates.</p>
+<div class="help-example">
+<p><strong>Separate business-tax example</strong> (illustrative assumptions).</p>
+<p>Sales revenue excluding Sales Tax = <strong>90</strong>, modeled expenses = <strong>60</strong>, intermediate operating result = <strong>30</strong>. At <strong>5% business tax on revenue</strong> the model charges <strong>4.50</strong>; at <strong>5% on positive profit</strong> it charges <strong>1.50</strong>. These are <strong>alternative</strong> business-tax regimes, not two concurrent charges. The transit 7.20 is not part of the business-revenue base; your actual statutory tax base depends on your circumstances and jurisdiction.</p>
+</div>
+
+<h3>How Sales Tax appears in standalone and linked V2</h3>
+<ul>
+<li><strong>Standalone V2:</strong> the results report <strong>per-SKU</strong> buyer amounts and totals for <strong>“Net / Sales Tax / Customer pays”</strong> for the modeled <strong>baseline month</strong>. Business revenue and core financial results remain net of transit Sales Tax. This route <strong>does not manufacture a monthly sales-tax invoice or settlement schedule</strong> from the timing of customer cash receipts.</li>
+<li><strong>Linked V2:</strong> buyer Sales Tax is shown separately, including sales under <strong>bundles, upsells and cross-sells</strong>. Where an actual period-level SKU forecast is available, the projection can also have matching monthly Sales Tax amounts. Those amounts describe modeled customer transactions, <strong>not government filing dates or tax-remittance due dates</strong>.</li>
+<li><strong>V1 → V2 transfer:</strong> a portfolio retains a consistent sales-tax mode. SKUs with incompatible tax modes or different Sales Tax rates cannot silently be combined; you may need <strong>a separate portfolio</strong> instead of overriding an approved historical calculation.</li>
+</ul>
+<p>Merely displaying pass-through buyer Sales Tax <strong>does not change</strong> modeled business profit, loan interest, principal repayment or net Cash Flow. VAT is handled by the separate existing route-specific logic; Sales Tax conventions must not be imposed on it.</p>
+
+<h3>Agent and principal: whose sale is taxed?</h3>
+<p>If you operate <strong>as an agent</strong>, distinguish the <strong>customer's transaction value</strong>, the <strong>principal's sales revenue</strong> and <strong>your agency fee</strong>. For Sales Tax on a principal's sale, the basis is the <strong>verified principal transaction</strong>, <strong>not your commission</strong>. Linked V2 does not fabricate the principal's taxable customer sales from an agent-fee figure when the underlying transaction information is missing.</p>
+<p><strong>Example:</strong> the principal's customer sale is <strong>100</strong> before Sales Tax, your agency fee is <strong>20</strong>, and the buyer's Sales Tax rate is <strong>8%</strong>. The customer pays <strong>108</strong>, pass-through tax is <strong>8</strong>, and <strong>20</strong> is your agency remuneration before your applicable expenses and business taxes—not principal revenue of 100 or the entire customer payment. Full-service V1 additionally records <strong>who pays each cost</strong> (<a href="#h02">H02</a>).</p>
+
+<h3>What the tax model does not claim</h3>
+<ul>
+<li>It <strong>does not select statutory tax rates</strong> by country, state or industry, or determine eligibility for VAT registration, Sales Tax, exemptions or zero-rating.</li>
+<li>It <strong>does not apply individual tax credits, deductions or reliefs</strong> without a specific modeled rule. Payroll-related contribution rates shown as reference information require independent verification.</li>
+<li>It <strong>is not a filing or accounting system:</strong> accounting entries, recoverable input VAT, official reporting periods, and actual return/payment deadlines cannot be reconstructed from the simplified cash-flow schedule.</li>
+<li>It <strong>does not validate demand:</strong> buyer tax may raise the final price above your net selling price. Check whether real customers will buy at the <em>total amount payable</em> and which product value supports that price (<a href="#h03">H03</a>, <a href="#h17">H17</a>).</li>
+</ul>
+<p>Before acting on the calculation, confirm applicable rates, taxpayer status, recognition of revenue and agent-fee treatment with a qualified accountant in your jurisdiction. Changing tax mode in Nomad360 is a scenario comparison, not tax-regime advice.</p>
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
 
