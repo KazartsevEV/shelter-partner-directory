@@ -22,6 +22,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid #FF913F;outline-offset:2
 .help-lang{display:flex;gap:8px;margin:0 0 16px;padding:0}
 .help-lang a,.help-lang span{display:inline-block;min-width:44px;min-height:44px;line-height:44px;text-align:center;border:1px solid #173B58;border-radius:8px;font-weight:600;text-decoration:none;color:#173B58;background:#FFFFFF}
 .help-lang span{background:#173B58;color:#FFFFFF}
+/* Override the later global palette color!important only for the active locale. */
+html body .help-lang [aria-current="page"]{background-color:#173B58!important;color:#FFFFFF!important}
 .help-search{margin:16px 0}
 .help-search label{display:block;font-weight:600;margin-bottom:6px}
 .help-search input{width:100%;max-width:32rem;min-height:44px;padding:8px 12px;border:2px solid #38678B;border-radius:8px;font:inherit;color:#173B58;background:#FFFFFF}

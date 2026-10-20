@@ -23,6 +23,38 @@ const cases=[['ru','Справка','маржа'],['en','Help','margin'],['kk','
 
   const browser=await chromium.launch();
   try{
+    // The static Help pages load help.css first, then the global palette.
+    // Assert computed styles, not the declarations: palette color!important wins otherwise.
+    const helpCss=fs.readFileSync(path.join(__dirname,'..','assets','nomad360-help.css'),'utf8');
+    const paletteCss=fs.readFileSync(path.join(__dirname,'..','nomad360_palette.css'),'utf8');
+    const styleContext=await browser.newContext({viewport:{width:390,height:900}});
+    try{
+      const stylePage=await styleContext.newPage();
+      for(const [lang] of cases){
+        const html=fs.readFileSync(path.join(__dirname,'..',lang,'help','index.html'),'utf8');
+        const switcher=html.match(/<nav class="help-lang"[\s\S]*?<\/nav>/)?.[0];
+        A.ok(switcher,lang+' has a language switcher');
+        for(const width of [320,390,768,1280]){
+          await stylePage.setViewportSize({width,height:900});
+          await stylePage.setContent('<!doctype html><html lang="'+lang+'"><head><style>'+helpCss+'</style><style>'+paletteCss+'</style></head><body>'+switcher+'</body></html>');
+          const active=await stylePage.locator('.help-lang [aria-current="page"]').evaluate(el=>{
+            const css=getComputedStyle(el);
+            return {color:css.color,background:css.backgroundColor};
+          });
+          A.equal(active.color,'rgb(255, 255, 255)',lang+' selected text at '+width);
+          A.equal(active.background,'rgb(23, 59, 88)',lang+' selected background at '+width);
+          const inactive=await stylePage.locator('.help-lang a').evaluateAll(links=>links.map(el=>{
+            const css=getComputedStyle(el);
+            return {color:css.color,background:css.backgroundColor};
+          }));
+          A.equal(inactive.length,2,lang+' inactive count');
+          for(const colors of inactive){
+            A.equal(colors.color,'rgb(23, 59, 88)',lang+' inactive text at '+width);
+            A.equal(colors.background,'rgb(255, 255, 255)',lang+' inactive background at '+width);
+          }
+        }
+      }
+    }finally{await styleContext.close();}
     for(const [lang,label,q] of cases){
       for(const width of [320,390,768,1280,1440]){
         const page=await (await browser.newContext({viewport:{width,height:900}})).newPage();
