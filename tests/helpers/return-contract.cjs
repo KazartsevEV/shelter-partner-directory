@@ -34,19 +34,15 @@ function stripConsultingExport(source){
  A.equal(fingerprint(block),'bd1d6270c7246288','Consulting packer changed outside approved block');
  return source.slice(0,a)+'        const css=await (await get(filename)).text();\n'+source.slice(b);
 }
-// HERO-LANG-01: Permit exactly the three owner-approved locale changes in
-// the UI shell; historical finance, return, SEO and TASK-10 byte contracts
-// still compare every other character to their original pinned source.
+// HERO-LANG-01: Permit ONLY the requested selector option reorder.
+// Browser locale auto-detection remains byte-exact with the accepted source.
 function stripHomeLocaleOrder(source){
- const en="let lang='en',exportContext=null,excelBusy=false;";
- const ru="let lang='ru',exportContext=null,excelBusy=false;";
- if(!source.includes(en))return source; // Historical frozen sources stay intact.
- const original="function preferred(){\n const candidates=Array.isArray(navigator.languages)&&navigator.languages.length?navigator.languages:[navigator.language||'ru'];\n for(const loc of candidates){const key=String(loc||'').split('-')[0].toLowerCase();if(L[key])return key}\n return 'en';\n}";
- const updated="// English is the first-visit default, independent of browser locale.\n// A previously chosen language from localStorage retains priority in boot().\nfunction preferred(){return 'en';}";
+ // Only the visible choice order differs from the frozen accepted source.
  const oldOrder="[['ru','Русский'],['kk','Қазақша'],['en','English']]";
  const newOrder="[['en','English'],['kk','Қазақша'],['ru','Русский']]";
- for(const item of [en,updated,newOrder])A.equal(source.split(item).length,2,'Exactly one owner-approved locale hunk: '+item.slice(0,45));
- return source.replace(en,ru).replace(updated,original).replace(newOrder,oldOrder);
+ if(!source.includes(newOrder))return source; // Historical accepted source.
+ A.equal(source.split(newOrder).length,2,'Only one EN KK RU selector ordering is allowed');
+ return source.replace(newOrder,oldOrder);
 }
 function stripReturn(file,source){
  if(file==='Marketing_calc.HTML')return source.replace(script,'').replace('<script src="./nomad360_simple_service_examples.js"></script>\n','')
