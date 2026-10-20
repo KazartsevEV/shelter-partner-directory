@@ -1381,14 +1381,14 @@
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
       "context": "ensureLayout",
-      "text": "\n/* HOME-WORKSPACE-01: Owner-approved compact rows. Scoped to home only;\n   layered important selectors defeat TASK-10's older white recovery cards.\n   No hidden-state rules or price/calculation selectors are changed. */\n@layer nomad360-palette-important {\n body:has(#home-screen) #home-screen #nomad360-home-secondary.nomad-workspace {\n  display:block!important; margin:14px 0 0!important;padding:clamp(14px,3.4vw,22px)!important;\n  background-color:#173B58!important;border:1px solid #38678B!important;border-radius:14px!important;\n  box-shadow:none!important; color:#FFFFFF!important;min-width:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-heading{\n  color:#FFFFFF!important;font:700 clamp(22px,5vw,28px)/1.2 var(--nd-font,Inter,sans-serif)!important;\n  margin:0 0 14px!important;letter-spacing:-.025em!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-group-label{\n  color:#FFFFFF!important;font:600 16px/1.35 var(--nd-font,Inter,sans-serif)!important;\n  margin:12px 0 2px!important;padding:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-saved:not(:has(>.nomad-recovery-card:not([hidden]):not(.hidden))){\n  display:none!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card:not([hidden]):not(.hidden),\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-demo-item{\n  display:grid!important;grid-template-columns:42px minmax(0,1fr) auto!important;\n  gap:10px!important;align-items:center!important;min-width:0!important;\n  padding:15px 0!important;margin:0!important;border:0!important;\n  border-radius:0!important;background-color:transparent!important;box-shadow:none!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card[hidden],\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card.hidden{\n  display:none!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card:not(:first-of-type),\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-demo-item + .nomad-workspace-demo-item{\n  border-top:1px solid #38678B!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-saved .nomad-recovery-card:first-of-type{\n  border-top:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-icon {\n  display:flex!important;align-items:center!important;justify-content:center!important;\n  width:42px!important;height:42px!important;border-radius:10px!important;\n  background-color:#38678B!important;color:#FFFFFF!important;flex-shrink:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-icon svg{\n  display:block!important;width:23px!important;height:23px!important;\n  fill:none!important;stroke:#FFFFFF!important;stroke-width:1.8!important;\n  stroke-linecap:round!important;stroke-linejoin:round!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-body,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-info{\n  min-width:0!important;padding:0!important;margin:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-title{\n  display:block!important;color:#FFFFFF!important;font:700 clamp(15px,3.7vw,18px)/1.28 var(--nd-font,Inter,sans-serif)!important;\n  margin:0!important;overflow-wrap:break-word!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-title,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-note,\n body:has(#home-screen) #home-screen #nomad360-home-secondary #portfolio-v2-linked-resume-home .nomad-recovery-detail,\n body:has(#home-screen) #home-screen #nomad360-home-secondary #portfolio-v2-resume-home .nomad-recovery-detail{\n  display:none!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-detail,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-subtitle{\n  display:block!important;color:#FFFFFF!important;\n  font:400 clamp(12px,3vw,14px)/1.4 var(--nd-font,Inter,sans-serif)!important;\n  margin:4px 0 0!important;overflow-wrap:anywhere!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-action,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-example-link{\n  display:inline-flex!important;justify-content:flex-end!important;align-items:center!important;\n  min-height:44px!important;min-width:76px!important;width:auto!important;max-width:110px!important;\n  flex-shrink:0!important;padding:6px 1px!important;margin:0!important;border:0!important;\n  border-radius:0!important;background-color:transparent!important;box-shadow:none!important;\n  text-decoration:none!important;font-size:0!important;color:#FF913F!important;\n  cursor:pointer!important;white-space:nowrap!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-action::before,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-example-link::before{\n  content:attr(data-workspace-action)!important;color:#FF913F!important;\n  font:600 clamp(12px,3.4vw,15px)/1.25 var(--nd-font,Inter,sans-serif)!important;\n  white-space:nowrap!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-action::after,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-example-link::after{\n  content:\"›\"!important;color:#FF913F!important;font:400 27px/1 sans-serif!important;\n  margin-left:5px!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary :is(.nomad-recovery-action,.nomad-example-link):focus-visible{\n  outline:2px solid #FF913F!important;outline-offset:2px!important;border-radius:4px!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-example-row{\n  display:block!important;padding:0!important;margin:0!important;\n  border:0!important;background-color:transparent!important;min-width:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-demos{\n  margin-top:12px!important;border-top:1px solid #38678B!important;padding-top:10px!important;\n }\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-grid{\n  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;\n  grid-auto-rows:1fr!important;\n }\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-button{\n  background-color:#FF913F!important;color:#173B58!important;border:1px solid #FF913F!important;\n  min-height:58px!important;min-width:0!important;padding:9px 6px!important;\n  display:flex!important;justify-content:center!important;align-items:center!important;\n  font:700 clamp(13px,3vw,18px)/1.2 var(--nd-font,Inter,sans-serif)!important;\n  text-align:center!important;overflow-wrap:break-word!important;\n }\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-button:hover:not(:disabled){\n  background-color:#FF913F!important;color:#173B58!important;\n }\n body:has(#home-screen) #home-screen #business-currency-settings{\n  margin-top:14px!important;background-color:#173B58!important;color:#FFFFFF!important;\n  border:1px solid #38678B!important;border-radius:14px!important;\n }\n body:has(#home-screen) #home-screen #business-currency-settings #business-currency-question{\n  color:#FFFFFF!important;font:700 clamp(17px,4vw,22px)/1.25 var(--nd-font,Inter,sans-serif)!important;\n }\n body:has(#home-screen) #home-screen #business-currency-settings #business-currency-help{\n  font-size:13px!important;line-height:1.4!important;color:#FFFFFF!important;\n }\n}\n@media(max-width:390px){\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card:not([hidden]):not(.hidden),\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-demo-item{\n  grid-template-columns:36px minmax(0,1fr) auto!important;gap:8px!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-icon{\n  width:36px!important;height:36px!important;\n }\n}\n\n@layer nomad360-palette-important {\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-button {font-size:0!important;}\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-button::after {\n  content:attr(data-workspace-short)!important;display:block!important;\n  font:700 clamp(13px,3vw,18px)/1.2 var(--nd-font,Inter,sans-serif)!important;\n  color:#173B58!important;white-space:normal!important;text-align:center!important;\n }\n}\n",
+      "text": "\n/* HOME-WORKSPACE-01: Owner-approved compact rows. Scoped to home only;\n   layered important selectors defeat TASK-10's older white recovery cards.\n   No hidden-state rules or price/calculation selectors are changed. */\n@layer nomad360-palette-important {\n body:has(#home-screen) #home-screen #nomad360-home-secondary.nomad-workspace {\n  display:block!important; margin:14px 0 0!important;padding:clamp(14px,3.4vw,22px)!important;\n  background-color:#173B58!important;border:1px solid #38678B!important;border-radius:14px!important;\n  box-shadow:none!important; color:#FFFFFF!important;min-width:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-heading{\n  color:#FFFFFF!important;font:700 clamp(22px,5vw,28px)/1.2 var(--nd-font,Inter,sans-serif)!important;\n  margin:0 0 14px!important;letter-spacing:-.025em!important;\n }\n /* Resume heading is *only* relevant when an existing V1/V2 controller has\n    actually revealed at least one saved calculation or portfolio. DEMO entries\n    never qualify. CSS :has reacts to subsequent saved-state changes instantly. */\n body:has(#home-screen) #home-screen #nomad360-home-secondary:not(:has(.nomad-workspace-saved > .nomad-recovery-card:not([hidden]):not(.hidden))) .nomad-workspace-heading{\n  display:none!important;\n }\n  body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-group-label{\n  color:#FFFFFF!important;font:600 16px/1.35 var(--nd-font,Inter,sans-serif)!important;\n  margin:12px 0 2px!important;padding:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-saved:not(:has(>.nomad-recovery-card:not([hidden]):not(.hidden))){\n  display:none!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card:not([hidden]):not(.hidden),\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-demo-item{\n  display:grid!important;grid-template-columns:42px minmax(0,1fr) auto!important;\n  gap:10px!important;align-items:center!important;min-width:0!important;\n  padding:15px 0!important;margin:0!important;border:0!important;\n  border-radius:0!important;background-color:transparent!important;box-shadow:none!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card[hidden],\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card.hidden{\n  display:none!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card:not(:first-of-type),\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-demo-item + .nomad-workspace-demo-item{\n  border-top:1px solid #38678B!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-saved .nomad-recovery-card:first-of-type{\n  border-top:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-icon {\n  display:flex!important;align-items:center!important;justify-content:center!important;\n  width:42px!important;height:42px!important;border-radius:10px!important;\n  background-color:#38678B!important;color:#FFFFFF!important;flex-shrink:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-icon svg{\n  display:block!important;width:23px!important;height:23px!important;\n  fill:none!important;stroke:#FFFFFF!important;stroke-width:1.8!important;\n  stroke-linecap:round!important;stroke-linejoin:round!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-body,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-info{\n  min-width:0!important;padding:0!important;margin:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-title{\n  display:block!important;color:#FFFFFF!important;font:700 clamp(15px,3.7vw,18px)/1.28 var(--nd-font,Inter,sans-serif)!important;\n  margin:0!important;overflow-wrap:break-word!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-title,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-note,\n body:has(#home-screen) #home-screen #nomad360-home-secondary #portfolio-v2-linked-resume-home .nomad-recovery-detail,\n body:has(#home-screen) #home-screen #nomad360-home-secondary #portfolio-v2-resume-home .nomad-recovery-detail{\n  display:none!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-detail,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-subtitle{\n  display:block!important;color:#FFFFFF!important;\n  font:400 clamp(12px,3vw,14px)/1.4 var(--nd-font,Inter,sans-serif)!important;\n  margin:4px 0 0!important;overflow-wrap:anywhere!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-action,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-example-link{\n  display:inline-flex!important;justify-content:flex-end!important;align-items:center!important;\n  min-height:44px!important;min-width:76px!important;width:auto!important;max-width:110px!important;\n  flex-shrink:0!important;padding:6px 1px!important;margin:0!important;border:0!important;\n  border-radius:0!important;background-color:transparent!important;box-shadow:none!important;\n  text-decoration:none!important;font-size:0!important;color:#FF913F!important;\n  cursor:pointer!important;white-space:nowrap!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-action::before,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-example-link::before{\n  content:attr(data-workspace-action)!important;color:#FF913F!important;\n  font:600 clamp(12px,3.4vw,15px)/1.25 var(--nd-font,Inter,sans-serif)!important;\n  white-space:nowrap!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-action::after,\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-example-link::after{\n  content:\"›\"!important;color:#FF913F!important;font:400 27px/1 sans-serif!important;\n  margin-left:5px!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary :is(.nomad-recovery-action,.nomad-example-link):focus-visible{\n  outline:2px solid #FF913F!important;outline-offset:2px!important;border-radius:4px!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-example-row{\n  display:block!important;padding:0!important;margin:0!important;\n  border:0!important;background-color:transparent!important;min-width:0!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-demos{\n  margin-top:12px!important;border-top:1px solid #38678B!important;padding-top:10px!important;\n }\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-grid{\n  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;\n  grid-auto-rows:1fr!important;\n }\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-button{\n  background-color:#FF913F!important;color:#173B58!important;border:1px solid #FF913F!important;\n  min-height:58px!important;min-width:0!important;padding:9px 6px!important;\n  display:flex!important;justify-content:center!important;align-items:center!important;\n  font:700 clamp(13px,3vw,18px)/1.2 var(--nd-font,Inter,sans-serif)!important;\n  text-align:center!important;overflow-wrap:break-word!important;\n }\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-button:hover:not(:disabled){\n  background-color:#FF913F!important;color:#173B58!important;\n }\n body:has(#home-screen) #home-screen #business-currency-settings{\n  margin-top:14px!important;background-color:#173B58!important;color:#FFFFFF!important;\n  border:1px solid #38678B!important;border-radius:14px!important;\n }\n body:has(#home-screen) #home-screen #business-currency-settings #business-currency-question{\n  color:#FFFFFF!important;font:700 clamp(17px,4vw,22px)/1.25 var(--nd-font,Inter,sans-serif)!important;\n }\n body:has(#home-screen) #home-screen #business-currency-settings #business-currency-help{\n  font-size:13px!important;line-height:1.4!important;color:#FFFFFF!important;\n }\n}\n@media(max-width:390px){\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-recovery-card:not([hidden]):not(.hidden),\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-demo-item{\n  grid-template-columns:36px minmax(0,1fr) auto!important;gap:8px!important;\n }\n body:has(#home-screen) #home-screen #nomad360-home-secondary .nomad-workspace-icon{\n  width:36px!important;height:36px!important;\n }\n}\n\n@layer nomad360-palette-important {\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-button {font-size:0!important;}\n body:has(#home-screen) #home-screen #nomad360-selling-choice .nomad-choice-button::after {\n  content:attr(data-workspace-short)!important;display:block!important;\n  font:700 clamp(13px,3vw,18px)/1.2 var(--nd-font,Inter,sans-serif)!important;\n  color:#173B58!important;white-space:normal!important;text-align:center!important;\n }\n}\n",
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14505:js-string",
+      "id": "nomad360_us_retail_live_entry.js:14952:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 122,
-      "offset": 14505,
+      "offset": 14952,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1397,10 +1397,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14586:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15033:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 123,
-      "offset": 14586,
+      "offset": 15033,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1409,10 +1409,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14725:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15172:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 126,
-      "offset": 14725,
+      "offset": 15172,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1421,10 +1421,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14731:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15178:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 126,
-      "offset": 14731,
+      "offset": 15178,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1434,10 +1434,10 @@
       "catalog": "navigation.steps.goods"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14739:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15186:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 126,
-      "offset": 14739,
+      "offset": 15186,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1447,10 +1447,10 @@
       "catalog": "operations.aService"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14748:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15195:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 126,
-      "offset": 14748,
+      "offset": 15195,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1459,10 +1459,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14770:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15217:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 127,
-      "offset": 14770,
+      "offset": 15217,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1471,10 +1471,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14776:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15223:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 127,
-      "offset": 14776,
+      "offset": 15223,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1483,10 +1483,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14786:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15233:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 127,
-      "offset": 14786,
+      "offset": 15233,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1495,10 +1495,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14796:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15243:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 127,
-      "offset": 14796,
+      "offset": 15243,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1507,10 +1507,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14806:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15253:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 127,
-      "offset": 14806,
+      "offset": 15253,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1519,10 +1519,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14814:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15261:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 127,
-      "offset": 14814,
+      "offset": 15261,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1531,10 +1531,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14823:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15270:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 127,
-      "offset": 14823,
+      "offset": 15270,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1543,10 +1543,10 @@
       "coverage": "unmapped-candidate"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14837:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15284:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 128,
-      "offset": 14837,
+      "offset": 15284,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1555,10 +1555,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14857:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15304:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 128,
-      "offset": 14857,
+      "offset": 15304,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1567,10 +1567,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14873:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15320:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 128,
-      "offset": 14873,
+      "offset": 15320,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1579,10 +1579,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:14960:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15407:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 129,
-      "offset": 14960,
+      "offset": 15407,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1591,10 +1591,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15040:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15487:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 131,
-      "offset": 15040,
+      "offset": 15487,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1603,10 +1603,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15147:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15594:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 133,
-      "offset": 15147,
+      "offset": 15594,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1615,10 +1615,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15239:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15686:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 134,
-      "offset": 15239,
+      "offset": 15686,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1627,10 +1627,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15402:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15849:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 138,
-      "offset": 15402,
+      "offset": 15849,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1639,10 +1639,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15424:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15871:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 138,
-      "offset": 15424,
+      "offset": 15871,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1651,10 +1651,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15439:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15886:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 139,
-      "offset": 15439,
+      "offset": 15886,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1663,10 +1663,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15473:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15920:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 139,
-      "offset": 15473,
+      "offset": 15920,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1675,10 +1675,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15478:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15925:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 139,
-      "offset": 15478,
+      "offset": 15925,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1687,10 +1687,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15492:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15939:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 140,
-      "offset": 15492,
+      "offset": 15939,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1699,10 +1699,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15519:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15966:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 140,
-      "offset": 15519,
+      "offset": 15966,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1711,10 +1711,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15527:js-string",
+      "id": "nomad360_us_retail_live_entry.js:15974:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 140,
-      "offset": 15527,
+      "offset": 15974,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1723,10 +1723,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15638:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16085:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 143,
-      "offset": 15638,
+      "offset": 16085,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1735,10 +1735,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15701:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16148:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 144,
-      "offset": 15701,
+      "offset": 16148,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1747,10 +1747,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15765:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16212:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 145,
-      "offset": 15765,
+      "offset": 16212,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1759,10 +1759,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15911:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16358:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 148,
-      "offset": 15911,
+      "offset": 16358,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1771,10 +1771,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:15941:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16388:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 148,
-      "offset": 15941,
+      "offset": 16388,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1783,10 +1783,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16004:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16451:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 151,
-      "offset": 16004,
+      "offset": 16451,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1795,10 +1795,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16011:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16458:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 151,
-      "offset": 16011,
+      "offset": 16458,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1807,10 +1807,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16018:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16465:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 151,
-      "offset": 16018,
+      "offset": 16465,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1819,10 +1819,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16031:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16478:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 151,
-      "offset": 16031,
+      "offset": 16478,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1831,10 +1831,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16039:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16486:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 151,
-      "offset": 16039,
+      "offset": 16486,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1843,10 +1843,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16047:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16494:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 151,
-      "offset": 16047,
+      "offset": 16494,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1855,10 +1855,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16161:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16608:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 154,
-      "offset": 16161,
+      "offset": 16608,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1867,10 +1867,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16195:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16642:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 155,
-      "offset": 16195,
+      "offset": 16642,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1879,10 +1879,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16269:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16716:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 156,
-      "offset": 16269,
+      "offset": 16716,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1891,10 +1891,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16322:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16769:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 157,
-      "offset": 16322,
+      "offset": 16769,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1903,10 +1903,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16393:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16840:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 159,
-      "offset": 16393,
+      "offset": 16840,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1915,10 +1915,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16461:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16908:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 160,
-      "offset": 16461,
+      "offset": 16908,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1927,10 +1927,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16531:js-string",
+      "id": "nomad360_us_retail_live_entry.js:16978:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 161,
-      "offset": 16531,
+      "offset": 16978,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1939,10 +1939,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16603:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17050:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 163,
-      "offset": 16603,
+      "offset": 17050,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1951,10 +1951,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16804:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17251:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 167,
-      "offset": 16804,
+      "offset": 17251,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1963,10 +1963,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16831:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17278:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 168,
-      "offset": 16831,
+      "offset": 17278,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1975,10 +1975,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16913:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17360:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 169,
-      "offset": 16913,
+      "offset": 17360,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1987,10 +1987,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16958:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17405:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 170,
-      "offset": 16958,
+      "offset": 17405,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -1999,10 +1999,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:16972:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17419:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 170,
-      "offset": 16972,
+      "offset": 17419,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -2011,10 +2011,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:17059:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17506:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 173,
-      "offset": 17059,
+      "offset": 17506,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -2023,10 +2023,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:17095:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17542:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 173,
-      "offset": 17095,
+      "offset": 17542,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
@@ -2035,10 +2035,10 @@
       "coverage": "technical-or-latin-review"
     },
     {
-      "id": "nomad360_us_retail_live_entry.js:17160:js-string",
+      "id": "nomad360_us_retail_live_entry.js:17607:js-string",
       "file": "nomad360_us_retail_live_entry.js",
       "line": 175,
-      "offset": 17160,
+      "offset": 17607,
       "kind": "js-string",
       "owner": "nomad360_us_retail_live_entry.js",
       "stage": "L2",
