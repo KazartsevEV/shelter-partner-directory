@@ -27,7 +27,9 @@ const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
    A.equal(saved.currency,'KZT');A.equal(saved.productPortfolio[0].currency,'KZT');
    for(const language of ['en','kk','ru']){
     await page.locator('#nomad360-lang-select').selectOption(language);
-    await page.waitForFunction(()=>document.querySelector('.nomad-unit-note').textContent.includes('KZT'));
+    await page.waitForFunction(lang=>document.documentElement.lang===lang&&Nomad360Currency.get()==='KZT',language);
+     A.equal(await page.locator('#nomad360-footer .nomad-unit-note').count(),0,
+       'Currency remains in the model and selector, not a redundant Irbis footer label');
     A.equal(await page.locator('#own-materials-cost').inputValue(),'123.45');
     A.equal(await page.locator('#product-name-input').inputValue(),'USD у.е. — имя моего товара');
     A.match(await page.locator('.product-name-live').first().textContent(),/USD у\.е\./);
