@@ -338,8 +338,15 @@
 <!-- H05 -->
 <section class="section help-section" aria-labelledby="h05">
 <h2 id="h05">H05. How are shared expenses allocated in V2?</h2>
-<p>A shared expense is one payment that serves several products, such as rent, a team or a certificate. Enter it once, then say which products it serves.</p>
+<p>A <strong>portfolio</strong> brings separate saleable items (SKUs) into one business model. An <strong>SKU</strong> is an individual product or service with its own unit cost, demand forecast, advertising burden and price. A <strong>shared expense</strong> is one actual payment serving several SKUs, such as premises, staff, certification or a website. Enter it once and identify the beneficiaries: allocation explains <em>how one payment is attributed</em>, not additional invoices.</p>
 
+
+<h3>Two V2 routes: where a portfolio starts</h3>
+<ul>
+<li><strong>Standalone V2:</strong> start from the home-screen route <strong>I already sell several different things</strong>. Define the product assortment, unit costs, unit-based sales mix, shared funnel and resources from scratch. This <strong>does not import</strong> your personal V1 draft.</li>
+<li><strong>Linked V2:</strong> start with calculated goods or services from V1. Their canonical IDs, approved price-list bounds, unit costs, sales forecasts, ad budgets, CAC and tax terms come across. You do not re-enter these inputs: V2 assembles a portfolio and adds common resources. Your original V1 calculation is not rewritten.</li>
+<li>Both routes produce portfolio economics but have <strong>different sources</strong>. Standalone V2 is not an extension of V1 and builds a product assortment; linked V2 can combine eligible goods and services from V1. Purchasing several units of one SKU does not itself create multiple SKUs.</li>
+</ul>
 <h3>Standalone V2 — nine sections</h3>
 <ol>
 <li><strong>Advertising and marketing</strong>: one portfolio funnel (<a href="#h04">H04</a>).</li>
@@ -353,6 +360,14 @@
 <li><strong>Taxes, owner funds and credit</strong> (<a href="#h07">H07</a>, <a href="#h08">H08</a>).</li>
 </ol>
 
+
+<h3>SKU, unit sales mix and monetary revenue share are not the same</h3>
+<p>Standalone V2 has a card for each product. Enter the name, supply method (<strong>I make it</strong>, <strong>I buy it from others</strong>, <strong>Dropshipping</strong>), unit cost, target margin and <strong>Forecast sales mix by UNITS, %</strong>. This is each item's share of the projected order count from the common funnel. All SKU shares must total <strong>exactly 100%</strong>; entering 100% for every product is invalid.</p>
+<p>The <strong>monetary share</strong> is calculated from forecast revenue per SKU: calculated selling price × forecast sales. Standalone V2 uses this revenue-based weighting to allocate the base shared ad budget and determine each SKU's <strong>weighted CAC</strong>. Its initial price uses common acquisition cost with the chosen CAC buffer; the realized margin after allocation can differ from the entered target. A cost or campaign already assigned to one SKU must not be duplicated as a new common invoice.</p>
+<div class="help-example">
+<p><strong>Example: unit mix differs from revenue share</strong> (illustrative only).</p>
+<p>Out of 100 forecast purchases, product A sells 75 units at 100 and product B sells 25 units at 300. The <strong>unit split is 75% / 25%</strong>, but forecast revenue is 7,500 each, giving a <strong>50% / 50% monetary split</strong>. One monthly rental payment of 600 allocated <strong>By sales revenue</strong> assigns 300 to each SKU, while the business pays only 600. With manual usage in a 3:1 ratio, that same payment would be assigned as 450 and 150. This demonstrates the allocation rule, not a live portfolio result.</p>
+</div>
 <h3>Adding a shared resource</h3>
 <p>In standalone V2, use sections 3 to 8. In linked V2, use <strong>2. Shared resources</strong> and click <strong>+ Add shared resource</strong>.</p>
 <ol>
@@ -362,12 +377,38 @@
 <li>Under <strong>How to allocate across products</strong>, choose <strong>By sales revenue</strong> or <strong>By actual utilization</strong>. For utilization, enter each product's usage in one unit (hours, days or a proportion) and, if there is a limit, the <strong>Total resource capacity</strong>.</li>
 <li>A certificate can cover several products only if its country, product scope and validity cover all of them.</li>
 </ol>
+
+<h3>How one shared payment is allocated</h3>
+<ol>
+<li><strong>Beneficiaries:</strong> select only the SKUs using the resource. An empty beneficiary list is not permission to allocate silently to every product; correct the selection first.</li>
+<li><strong>By sales revenue:</strong> apportion the amount by forecast revenue among the selected SKUs only. In linked V2 this calculation reflects the selected discount and excludes VAT from the monetary base. The shares can change as prices, volumes or ad burdens change.</li>
+<li><strong>By actual utilization:</strong> enter comparable usage for each beneficiary, such as equipment-hours. Linked V2 additionally offers <strong>Per sale / visit unit</strong> for premises, workers, equipment and sales staff: resource use per unit is multiplied by forecast sales. Exceeding a declared capacity invalidates the scenario.</li>
+<li><strong>Monthly vs one time:</strong> recurring expenses apply to operating periods; one-time expenses are paid once. Do not relabel an expense just to improve the result: frequency affects P&amp;L, funding and cash flow. An extra campaign is a monthly advertising expense allocated by the revenue shares of its beneficiaries.</li>
+<li><strong>Conservation:</strong> the allocated lines for each resource must sum to the single amount entered. Allocation changes which SKU carries the cost, not how much the business actually pays.</li>
+</ol>
+<h3>Linked V2: avoid counting V1 costs twice</h3>
+<ol>
+<li>Under <strong>2. Shared resources</strong>, add the real shared payment, identify its SKUs and set <strong>What should be replaced in the old calculations?</strong></li>
+<li>Use <strong>New expense (not included in V1)</strong> when it really is new: nothing is deducted from the old SKU costs.</li>
+<li>If the payment was already embedded in V1, choose the correct source: <strong>Already in SKU cost</strong>, <strong>Already in SKU selling expenses</strong>, <strong>Already in SKU marketing manager fee</strong>, or, for a common campaign, <strong>Already in SKU advertising budget</strong>. Enter the <strong>Amount already in V1, per month</strong> separately for each affected SKU. This is the amount being replaced, <em>not the new common resource amount</em>.</li>
+<li>When replacing embedded unit cost, also identify its original cash payment (materials/procurement, production or fulfillment/delivery). Mixed full-service portfolios can specify source categories per SKU; these distinctions preserve the timing and accounting of cash payments.</li>
+<li>V2 rejects offsets larger than their source expense. <strong>You cannot deduct a one-off resource from a monthly V1 charge without an amortization schedule.</strong> The new shared payment is added once and the confirmed old portion removed from source lines. If the replacement amount stays at zero, the V1 amount remains and the new invoice is added on top.</li>
+</ol>
 <div class="help-example">
 <p><strong>Example</strong> (illustrative numbers)</p>
 <p>Rent of 300 a month serves two products. The business pays 300, not 600. The shares given to the two products must add up to 300.</p>
 </div>
 <p>In linked V2, if a cost is already inside a V1 card, mark it <strong>Already in SKU cost</strong> (or the matching “Already in SKU…” option) and enter the original amounts. They are replaced by one actual payment. Otherwise the cost is counted twice.</p>
-<p>The result table has an <strong>Allocated to</strong> column. It shows which products each shared cost was assigned to. Warehouse costs cannot go to offline services, because services are not stocked.</p>
+<p>The result table has an <strong>Allocated to</strong> column. It shows which products each shared cost was assigned to. Warehouse costs cannot be assigned to offline or online services: a service is not warehouse inventory.</p>
+
+<h3>Price and forecast rules when moving V1 → linked V2</h3>
+<p>Under <strong>1. V1 product and service economics</strong>, each card shows original unit cost, monthly forecast, ad budget, CAC and <strong>V1 price range</strong>. You may choose a <strong>Planned customer discount, %</strong> up to the original V1 maximum. Linked V2 derives the <strong>Calculated V2 list price</strong> with shared resource and media allocation, <strong>within the approved V1 bounds</strong>. It never enlarges the V1 range. Check the actual buyer price, after-tax margin and the status <strong>target met / minimum only / minimum infeasible</strong>. If the minimum margin cannot be reached at the V1 ceiling, the portfolio is marked economically unconfirmed; V2 does not conceal the shortfall by inventing a higher price (<a href="#h03">H03</a>).</p>
+<p><strong>Full services with a fixed V1 quote or contractual agent fee</strong> cannot be freely repriced as ordinary goods: V2 keeps the contractual pricing result. Offline services are checked against monthly service capacity; physical goods against available stock, production and supply lead times. Mixed portfolios must also keep tax regime and currency compatible rather than quietly combining conflicting inputs.</p>
+<h3>Period, inventory, credit and saved drafts</h3>
+<p>A <strong>one-month summary</strong> differs from multi-month cash flow for the full operating cycle. Where V1 provides an approved period, linked V2 carries forward physical stock sell-through and the service operating horizon; a longer loan repayment term <em>never creates extra sales</em>. Where future demand duration is unverified, specify the months and approve the recurring-demand assumption before forecasting further periods. Procurement prepayments are cash payments while COGS is recognized when stock sells; do not add the original advance to cost of goods again (<a href="#h08">H08</a>).</p>
+<p>Standalone and linked V2 keep <strong>separate saved drafts</strong>. Bringing another calculated SKU from V1 preserves shared settings for overlapping IDs, but <strong>does not automatically make a new SKU a beneficiary of existing resources</strong>. Review the assignments after import. Removing a SKU from linked V2 recalculates that portfolio and leaves the original V1 draft untouched.</p>
+<h3>Commercial review of the completed portfolio</h3>
+<p>First compare each SKU's unit economics, true share of common expenses and resulting price. Then ask for <strong>each</strong> product or service: <strong>who will buy it, why, and where at this price?</strong> What product features and value proposition justify the charge, and do SKUs compete for the same buyers? V2 tests the internal coherence of the combination; it does not verify sales demand. Independently test customer segments and marketers' funnel assumptions (<a href="#h04">H04</a>, <a href="#h17">H17</a>).</p>
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
 
