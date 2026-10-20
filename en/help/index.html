@@ -263,7 +263,7 @@
 <!-- H04 -->
 <section class="section help-section" aria-labelledby="h04">
 <h2 id="h04">H04. What do CAC, CPC, CTR, conversions and ROAS mean?</h2>
-<p>In the <strong>Advertising expenses</strong> section (V1) or <strong>1. Advertising and marketing</strong> (standalone V2) you enter a plan, and the calculator turns it into forecast customers. Nothing here is measured. It follows from your inputs.</p>
+<p>In product V1's <strong>Advertising expenses</strong>, in service V1 marketing and in standalone V2's <strong>1. Advertising and marketing</strong>, you enter an acquisition hypothesis: budget, cost per click and conversions. The calculator derives a <strong>scenario forecast</strong> of inquiries and purchases; it does not measure real campaigns. Despite similar labels, <strong>CAC</strong> and financial results include different costs across the V1 paths.</p>
 <div class="help-table-wrap">
 <table>
 <thead><tr><th scope="col">Field</th><th scope="col">Means</th></tr></thead>
@@ -287,10 +287,51 @@
 <li>With 5% CTR, 500 clicks mean 10,000 impressions.</li>
 </ul>
 </div>
-<p><strong>What you see.</strong> V1 shows impressions, clicks, leads, purchases, units sold, <strong>Net advertising budget per unit</strong>, <strong>Marketing fee per unit</strong> and <strong>Total customer acquisition cost per unit</strong>. Base CAC is the advertising budget ÷ purchases. The marketing fee is shown separately.</p>
+<p><strong>What you see in product V1 and the full offline/online service cost form.</strong> The advertising block shows impressions, clicks, leads, purchases and modeled sales units. <strong>Net advertising budget per unit</strong> = ad budget ÷ forecast purchases; this is the item's <strong>Base CAC</strong>. <strong>Marketing fee per unit</strong> = monthly fee ÷ purchases. <strong>Total customer acquisition cost per unit</strong> in this particular block is their sum, <em>not</em> the cost of making the product or delivering the service. Management fees are accounted for separately from Base CAC in the wider business model.</p>
+
+<h3>V1 · Product: build the funnel step by step</h3>
+<ol>
+<li>After costs, logistics and selling expenses, open <strong>Advertising expenses</strong>. Enter the <strong>monthly ad budget</strong> and <strong>average CPC</strong> for each item. If the budget is positive, CPC must also be positive; otherwise the model cannot derive meaningful clicks or Base CAC.</li>
+<li>Enter the <strong>ad click-through rate, CTR %</strong>. This calculator derives clicks from budget and CPC, then uses CTR to work <em>backward</em> to the corresponding <strong>impression count</strong>. Raising CTR alone while keeping spend and CPC constant does not create extra purchases in this model.</li>
+<li>Enter the two conversions separately: <strong>click → lead/inquiry</strong> and <strong>lead/inquiry → purchase</strong>. A lead is not a customer. The forecast passes from spend to clicks, then inquiries and finally purchases, after which the advertising cost of a purchase can be computed.</li>
+<li>Enter the <strong>marketing management fee per month</strong> if paid separately. Do not count that fee again as ad platform spend. Select <strong>Recalculate</strong>, then compare the media cost, management cost and their per-unit sum.</li>
+<li>In product V1, the advertising block sets <strong>units sold per month</strong> equal to forecast purchases. This assumes one sellable unit per purchase within this funnel, not a measured average basket size.</li>
+</ol>
+<p><strong>If forecast purchases are zero:</strong> the block may display zero per-unit advertising cost because it cannot divide by zero. That <strong>does not mean acquiring a customer is free</strong>: the product pricing model treats Base CAC as undefined, so a valid selling-price calculation cannot be completed. Recheck CPC, both conversions and budget.</p>
+<h3>Example with a marketing management fee</h3>
+<div class="help-example">
+<p>Extend the illustrative funnel above with a monthly management fee of <strong>200</strong>. With a <strong>1,000</strong> advertising budget and <strong>10</strong> modeled purchases:</p>
+<ul>
+<li>Base CAC: 1,000 ÷ 10 = <strong>100</strong> per purchase.</li>
+<li>Management: 200 ÷ 10 = <strong>20</strong> per purchase.</li>
+<li>“Total customer acquisition cost per unit” in the advertising block: 100 + 20 = <strong>120</strong>.</li>
+</ul>
+<p>This is not the total manufacturing cost, business profit or final customer price. Delivery, sales fees, tax and funding are accounted for separately.</p>
+</div>
+
 <p><strong>Standalone V2</strong> adds a <strong>CAC buffer ratio, %</strong> (100% means no buffer; 75% means CAC ÷ 0.75), a <strong>Minimum period, months</strong>, and a weighted CAC that spreads the shared budget across products. The result also shows <strong>Business ROAS</strong>, as revenue ÷ ad spend.</p>
-<p>V1 service results show <strong>CPA / CAC</strong> and <strong>ROMI</strong>. CPA covers advertising. CAC includes advertising, delivery, processing, overhead and amortization. Turnover tax is excluded. In V1 the CAC is the cost of winning a customer and serving them, so it is larger than CPA.</p>
-<p>Advertising cost is part of cost, so these inputs can change the price you need. A forecast funnel is not proof of demand (<a href="#h17">H17</a>).</p>
+<p><strong>Simplified online service V1 outside agent mode</strong> displays <strong>CPA / CAC</strong> and <strong>ROMI</strong> cards. CPA here is advertising spend over the selected period ÷ modeled deals in the monthly scenario. CAC is operating expenses plus amortization for the same period ÷ deals: it may include advertising, contractor payments, payment-processing fees, campaign management and other recognized expenses. Turnover tax is not included in this CAC numerator. With additional costs, CAC is generally higher than CPA, but <strong>they may be equal</strong>. In online agent mode, the headline cards instead show <strong>what the agent keeps</strong>, <strong>the principal's profit</strong> and <strong>the principal's cash flow</strong>; the principal's CPA/CAC appear in the detailed report, not in the ordinary card.</p>
+
+<h3>V1 · Simplified online service: what changes?</h3>
+<ol>
+<li><strong>Service → Simplified calculation → Online</strong> opens a different set of inputs: <strong>Monthly advertising budget</strong>, <strong>Average CPC</strong>, <strong>CTR</strong>, <strong>Click → Lead conversion</strong> and <strong>Lead → Deal conversion</strong>. Set the <strong>calculation period in months</strong>; total advertising spend for the period is the monthly budget multiplied by that period.</li>
+<li>The form also asks for <strong>consultation price</strong>, <strong>consultation package price</strong> and the <strong>share of customers who buy a package</strong>. These are sales-revenue assumptions, not media costs. The funnel gives an expected number of deals; package sales also depend on the package uptake assumption.</li>
+<li>The <strong>monthly breakdown</strong> uses a particular launch scenario: deals are reduced in month one, with additional reductions to package sales and recognized revenue. Therefore read the displayed period CPA/CAC rather than mechanically multiplying a full-month funnel result by the number of months and assuming identical timing.</li>
+<li>Other expenses include <strong>marketing management</strong>, site, hosting, domain, lead magnet, acquiring fees and taxes. Hiring a contractor adds contractor expense. In agent mode, specify which nonzero costs are paid by the agent and which by the principal (<a href="#h02">H02</a>).</li>
+</ol>
+<h3>CPA, CAC, ROAS and ROMI are not interchangeable</h3>
+<ul>
+<li><strong>CPA in simplified online services:</strong> advertising spend for the period divided by modeled deals. This is ad cost per deal, not the cost of operating the whole business.</li>
+<li><strong>CAC in the same form:</strong> operating expenses plus recognized amortization for the period divided by modeled deals. This differs from <strong>product Base CAC</strong>, whose numerator is only media spend. In agent mode the reported full CAC belongs to the <em>principal</em>, not solely to the agent.</li>
+<li><strong>ROAS:</strong> a ratio of revenue to advertising spend. Simplified online V1 uses revenue <em>after acquiring fees</em> in its ROAS result; product summaries or V2 may label revenue differently. Read the actual report label rather than applying one numerator definition to every route.</li>
+<li><strong>ROMI in an ordinary simplified online service:</strong> marketing return in percent. The current calculation deducts contractor delivery, acquiring fees and turnover tax from modeled revenue, then deducts the ad budget and management cost; it divides that contribution by ad and management spend. Website, lead magnet and other investment costs are tracked separately. <strong>ROMI is not net profit or cash flow.</strong></li>
+</ul>
+<h3>Offline and full service V1: check capacity and who pays</h3>
+<p>For offline services and full online services, the funnel appears inside the goods-style V1 cost form and supplies the expected number of paid services. For <strong>offline services</strong>, compare this forecast with <strong>Maximum services per month</strong>: a forecast exceeding physical capacity cannot validate the price without changed resources or assumptions. In <strong>full-service agent mode</strong>, the agent or principal may pay advertising costs, while the principal's gross customer receipts never become the agent's revenue. Do not confuse this full V1 service form with the simplified online CPA/CAC cards.</p>
+<h3>Audit the acquisition assumptions before accepting a price</h3>
+<p>For each figure, ask where it came from: <strong>CPC</strong> for which platform and geography, <strong>conversion rates</strong> for which audience and offering, <strong>deal volume</strong> relative to capacity or supplier lead time, and <strong>budget</strong> funded by whom. Try a higher CPC and lower conversions to test the sensitivity of CAC, required price and cash commitments. These are commercial feasibility scenarios, not evidence that sales will occur.</p>
+
+<p><strong>Using the outcome.</strong> The forecast cost of winning a sale is part of product economics and can change the price you need to charge (<a href="#h03">H03</a>). But the funnel remains hypothetical: to justify the modeled sales, test who would buy this product or service, why, through which channel and for which value at that price. Lead volume alone does not prove demand (<a href="#h17">H17</a>).</p>
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
 
