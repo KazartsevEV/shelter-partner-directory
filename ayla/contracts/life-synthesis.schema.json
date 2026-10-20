@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KazartsevEV/shelter-partner-directory/blob/main/ayla/contracts/life-synthesis.schema.json",
+  "title": "AYLA-LIFE-03 Triangulated Episode Proposal (draft)",
+  "description": "Shape validation only. Semantic checks for distinct creator_id, allowed source rights, persona continuity, copyrights and remote capabilities must be performed server-side.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "episode_id",
+    "project_id",
+    "persona_version",
+    "synthesis_method",
+    "sources",
+    "life_state_snapshot_id",
+    "summary",
+    "original_persona_motivation",
+    "location",
+    "emotional_arc",
+    "participants",
+    "scene_count",
+    "novelty_checks",
+    "continuity_status",
+    "publication_approval",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "episode_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_id": {
+      "const": "nomad360"
+    },
+    "persona_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "synthesis_method": {
+      "const": "TRIANGULATE_3"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "$type": "object",
+          "additionalProperties": false,
+          "required": [
+            "creator_id",
+            "post_id",
+            "role",
+            "pattern_id"
+          ],
+          "properties": {
+            "creator_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "post_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "role": {
+              "const": "SOCIAL"
+            },
+            "pattern_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "human_assessment_state": {
+              "enum": [
+                "verified_human",
+                "human_likely"
+              ]
+            }
+          }
+        },
+        {
+          "$type": "object",
+          "additionalProperties": false,
+          "required": [
+            "creator_id",
+            "post_id",
+            "role",
+            "pattern_id"
+          ],
+          "properties": {
+            "creator_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "post_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "role": {
+              "const": "PLACE"
+            },
+            "pattern_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "human_assessment_state": {
+              "enum": [
+                "verified_human",
+                "human_likely"
+              ]
+            }
+          }
+        },
+        {
+          "$type": "object",
+          "additionalProperties": false,
+          "required": [
+            "creator_id",
+            "post_id",
+            "role",
+            "pattern_id"
+          ],
+          "properties": {
+            "creator_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "post_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "role": {
+              "const": "EMOTION"
+            },
+            "pattern_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "human_assessment_state": {
+              "enum": [
+                "verified_human",
+                "human_likely"
+              ]
+            }
+          }
+        }
+      ],
+      "items": false,
+      "description": "Ordered SOCIAL, PLACE, EMOTION. App must enforce 3 different creator_id values and independent public sources; uniqueItems alone does not prove independent creators."
+    },
+    "life_state_snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "original_persona_motivation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "city",
+        "place_type",
+        "verified_place_id"
+      ],
+      "properties": {
+        "city": {
+          "type": "string",
+          "minLength": 1
+        },
+        "place_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified_place_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "public_setting": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "emotional_arc": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "contains": {
+        "const": "ayla"
+      }
+    },
+    "scene_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "novelty_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verbatim_copy",
+        "distinctive_story_copy",
+        "real_person_biography_copy"
+      ],
+      "properties": {
+        "verbatim_copy": {
+          "const": false
+        },
+        "distinctive_story_copy": {
+          "const": false
+        },
+        "real_person_biography_copy": {
+          "const": false
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "continuity_status": {
+      "enum": [
+        "pending_review",
+        "pass",
+        "fail"
+      ]
+    },
+    "publication_approval": {
+      "enum": [
+        "not_requested",
+        "pending",
+        "approved",
+        "rejected"
+      ]
+    },
+    "status": {
+      "enum": [
+        "proposed",
+        "needs_revision",
+        "approved",
+        "rejected",
+        "committed"
+      ]
+    },
+    "draft_qa_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "narrative_arc_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "persona_source_of_truth_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "committed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "continuity_status": {
+            "const": "pass"
+          },
+          "publication_approval": {
+            "const": "approved"
+          }
+        }
+      }
+    }
+  ]
+}
