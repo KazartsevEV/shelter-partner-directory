@@ -833,3 +833,28 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   transform:translateY(clamp(-210px,-14vw,-140px));
  }
 }
+
+/* HERO-LOGO-TRANSPARENCY-01
+   The global TASK-10 palette sets #nomad360-seo-banner to opaque navy with
+   !important in @layer nomad360-palette, even inside the scenic Hero.
+   The resulting rectangular paint masks the panorama and nearby live copy.
+   Override only this imported Hero logo wrapper IN THE SAME CASCADE LAYER.
+   Leave the circular white brand emblem, logo asset and tagline untouched. */
+@layer nomad360-palette {
+ body:has(#home-screen:not(.hidden)) #home-screen
+ #nomad360-commercial-banner #nomad360-seo-banner.nomad-seo-banner {
+  background:transparent!important;
+  background-color:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+ }
+ body:has(#home-screen:not(.hidden)) #home-screen
+ #nomad360-commercial-banner #nomad360-seo-banner .nomad-seo-brand {
+  background-color:transparent!important;
+  box-shadow:none!important;
+ }
+ body:has(#home-screen:not(.hidden)) #home-screen
+ #nomad360-commercial-banner #nomad360-seo-banner .nomad-seo-logo {
+  background-color:transparent!important;
+ }
+}
