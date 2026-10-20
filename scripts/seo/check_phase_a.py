@@ -465,6 +465,7 @@ def main():
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
+        'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
         'tests/nomad360_global_tree_navigation_browser.test.cjs',
         'tests/simple_services_free_cash_browser.test.cjs',
         'tests/portfolio_v2_full_service_browser.test.cjs',
