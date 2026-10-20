@@ -103,6 +103,18 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
    A.equal(logoPaint.mask,'rgb(255, 255, 255)','Preserve approved original white circular emblem');
    A.equal(logoPaint.asset,true,'Preserve existing recolored original wolf PNG');
    A.match(logoPaint.text,/Sky allows,\s*guys deliver/,'Brand slogan remains live English text');
+   if(width<=700){
+    const clash=await p.locator('#nomad360-commercial-banner').evaluate(section=>{
+     const logo=section.querySelector('.nomad-seo-brand').getBoundingClientRect();
+     const lead=section.querySelector('.nomad-intro-lead').getBoundingClientRect();
+     const first=section.querySelector('#nomad360-intro li:first-child').getBoundingClientRect();
+     return {logoLeft:logo.left,leadRight:lead.right,firstRight:first.right};
+    });
+    A.ok(clash.leadRight+4<=clash.logoLeft,
+     'Mobile brand lead must not run under the original wolf emblem: '+JSON.stringify(clash));
+    A.ok(clash.firstRight+4<=clash.logoLeft,
+     'First live benefit must not run beneath wolf logo and slogan: '+JSON.stringify(clash));
+   }
   }
 
   A.ok(await p.locator('.nomad-logo-mask .nomad-logo').evaluate(e=>getComputedStyle(e).transform!=='none'));
