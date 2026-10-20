@@ -14,6 +14,8 @@ Ayla — разрабатываемый AI-маркетолог внутри **�
 
 - **[AYLA-JOB-03 — Content Operations & Feedback Loop](AYLA-JOB-03-content-production-feedback-loop.md)** — редакция 0.1, **проект на согласование**. Полный pipeline analytics → topic → ContentBrief/ProductionSheet → сценарий/медиа → Reel, Stories, carousel и платформенные варианты → разрешённая публикация → мониторинг комментариев и метрик → классификация содержания/статистика → ContentFeedbackSignal → новое ТЗ. 24 логические операции, 36 приёмочных сценариев и 3 E2E контракта.
 
+- **[AYLA-PERSONA-02 — Audience Values & Aspirational Life Architecture](AYLA-PERSONA-02-audience-aspirational-life.md)** — редакция 0.1, **проект на согласование**. Психографические сегменты американской аудитории, различие подписчиков Ayla / пользователей калькулятора / B2B, ценности и достижимый lifestyle gap (+1), отношения, поездки, бытовой и сюжетный реализм, исследовательские гипотезы, Character Bible prerequisites и 16 приёмочных сценариев.
+
 ## Границы
 
 - **Calculator:** действующий продукт; финансовые формулы, сохранения и лицензии не затрагиваются.
