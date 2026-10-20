@@ -464,18 +464,49 @@
 <!-- H07 -->
 <section class="section help-section" aria-labelledby="h07">
 <h2 id="h07">H07. How do I compare my own funds with a business loan?</h2>
-<p>The calculator works out the money you need before sales cover your costs, including a reserve. You then choose how to fund it.</p>
+<p>The calculator separates <strong>how much cash the business needs before receipts arrive</strong>, <strong>where that money comes from</strong>, and <strong>what the financing costs</strong>. Owner contributions and borrowings provide liquidity, but are not profit. A protected reserve is cash held back from spending; it is <strong>not a second business expense</strong> or an automatic tax deduction (<a href="#h06">H06</a>).</p>
+
+<h3>Where financing is entered in each calculation route</h3>
 <ul>
-<li><strong>Standalone V2, section 9:</strong> <strong>Capital source</strong> = <strong>Own funds</strong> or <strong>Loan</strong>. For a loan enter <strong>Annual credit rate, %</strong> and <strong>Loan term, months</strong>. Set <strong>Protected reserve, % of cash deficit</strong>.</li>
-<li><strong>V1 products:</strong> use <strong>Calculate a loan</strong> (<strong>Loan principal</strong>, <strong>Annual loan rate, %</strong>, <strong>Loan term, months</strong>). It shows monthly interest, total interest and the total amount repayable. Set <strong>Reserve, % of planned expenses</strong>.</li>
-<li><strong>V1 full service:</strong> <strong>Funding</strong> = <strong>Own funds</strong> or <strong>Loan</strong>, with <strong>Reserve</strong>, <strong>Annual loan rate, %</strong> and <strong>Loan term (months)</strong>. The results include <strong>Startup capital</strong>, <strong>Peak deficit</strong>, <strong>First positive CF</strong>, <strong>Payback</strong> and <strong>Outstanding debt</strong>.</li>
+<li><strong>Standalone V2, section “9. Taxes, owner funds and credit”:</strong> set <strong>Capital source → Own funds</strong> or <strong>Loan</strong>, then <strong>Protected reserve, % of cash deficit</strong>. For a loan enter the <strong>Annual credit rate, %</strong> and <strong>Loan term, months</strong>. The funding amount is derived from the portfolio's cash-flow model; it is not an arbitrary loan request.</li>
+<li><strong>V1 goods:</strong> under <strong>Calculate a loan</strong>, review <strong>Loan principal</strong>, <strong>Annual loan rate, %</strong>, <strong>Loan term, months</strong> and the separate <strong>Reserve, % of planned expenses</strong>. The principal comes from the computed capital requirement for the applicable sourcing or production cycle.</li>
+<li><strong>V1 full service:</strong> choose <strong>Funding → Own funds / Loan</strong> and enter <strong>Reserve</strong>, <strong>Annual loan rate, %</strong> and <strong>Loan term, months</strong>. Results include <strong>Startup capital</strong>, <strong>Peak deficit</strong>, <strong>First positive CF</strong>, <strong>Payback</strong> and, when applicable, <strong>Outstanding debt</strong>.</li>
+<li><strong>Linked V2:</strong> imports approved cash and debt terms from the calculated V1 SKUs, then recomputes shared resources, portfolio funding needs and the cash calendar. Do not add the same borrowing or reserve again as a separate common resource (<a href="#h05">H05</a>).</li>
 </ul>
-<p><strong>How the loan works.</strong> You pay interest every month and repay the whole principal in the final month (a bullet loan, not an annuity). The loan term can be longer than the sales period. A longer term adds interest, not sales. The cash schedule continues until repayment.</p>
+
+<h3>Startup funding versus the protected reserve</h3>
+<p><strong>Standalone V2:</strong> the model first finds the cash deficit <em>before financing</em>, including early committed payments for inventory, advertising and one-off resources that later receipts cannot finance in advance. <strong>Deficit = the maximum of the upfront payment requirement and negative cumulative cash balances</strong>. Then <strong>Reserve = Deficit × reserve percentage / 100</strong>, and <strong>Required funding = Deficit + Reserve</strong>. This is a scenario estimate, not a bank's credit approval.</p>
+<p><strong>V1 goods:</strong> the base amount can include the costs committed over an entire stock sell-through cycle <em>without deducting future sales receipts</em>. Dropshipping instead accounts for advertising paid in advance and the funding gap before buyer funds are released. Each V1 route calculates the reserve from its defined capital base, so it is not automatically comparable with standalone V2's “% of cash deficit”. V1 full service derives its reserve from first-month variable expenditure, including commissions, and fixed costs; equipment cash outlay (CAPEX) is distinct from depreciation.</p>
 <div class="help-example">
-<p><strong>Example</strong> (illustrative numbers)</p>
-<p>Loan 1,200 at 12% a year for 6 months. Interest each month = 1,200 × 12% ÷ 12 = 12. Total interest 72. The 1,200 is repaid in month 6.</p>
+<p><strong>Standalone V2 reserve example</strong> (illustrative figures).</p>
+<p>If the maximum pre-funding cash deficit is <strong>1,000</strong> and the reserve rate is <strong>15%</strong>, the reserve is <strong>150</strong> and required owner or loan funding is <strong>1,150</strong>. The additional 150 is protected liquidity, not a second supplier bill. If cumulative closing cash is later 250, AVAILABLE CASH after reserve is <strong>100</strong>.</p>
 </div>
-<p>The calculator reminds you that the loan rate should be below your margin. Compare the two scenarios by running the demo cotton tote with <strong>No loan · 5 months</strong> and <strong>With loan · 6 months</strong> (<a href="#example-a">sample</a>).</p>
+
+<h3>How loan interest and principal repayment work</h3>
+<p>The displayed loan models use a <strong>bullet repayment</strong>, not equal monthly annuity payments: <strong>Monthly interest = principal × annual percentage rate / 100 / 12</strong>; <strong>Total interest = monthly interest × the months charged</strong>. Principal falls due at maturity, with interest paid separately. Do not assume lender fees, insurance or variable rates are included unless that particular form explicitly models them.</p>
+<div class="help-example">
+<p><strong>Loan example</strong> (illustrative figures, no extra charges).</p>
+<p>At <strong>1,200</strong> principal, <strong>12% annual interest</strong> and <strong>6 months</strong>, interest is <strong>12 per month</strong> and <strong>72 in total</strong>. Under this schedule, the first five months pay interest only; month six pays <strong>12 interest + 1,200 principal</strong>. Total repayment to the lender is <strong>1,272</strong>. The financial plan must still show how that 1,200 principal becomes available on time.</p>
+</div>
+<p>Standalone V2 charges monthly interest on the <em>calculated funding amount</em>, not on the example number. Its cash schedule may continue to maturity after sales have stopped. A longer term adds interest; it <strong>does not invent additional customers</strong>. In the V1 full-service model, profit and debt balances are reported for the chosen service operating horizon. If loan maturity extends beyond it, <strong>Outstanding debt</strong> can appear rather than pretending that principal has already been repaid.</p>
+
+<h3>Why comparing the loan rate with gross margin is insufficient</h3>
+<p>V1 goods <strong>highlight a warning</strong> when the entered annual loan rate is not below the product's target margin percentage. But an <strong>annual interest rate</strong> and the <strong>margin on a single sale</strong> have different denominators and time horizons: comparing the two is not a stand-alone credit approval test. Compare <strong>interest over the full term, profit from the entire sales forecast, financing cost per unit, stock sell-through time and capacity to repay principal</strong>. A rate below margin can still coincide with a cash shortfall; the warning is a prompt to examine the model, not a substitute for it.</p>
+<p>V1 goods include the modeled financing-interest burden when testing the required selling price over forecast sales volume, rather than treating borrowing as free. Linked V2 respects the original V1 price boundaries; pooled costs and financing do not authorize a made-up higher price beyond the approved range (<a href="#h03">H03</a>, <a href="#h05">H05</a>).</p>
+
+<h3>Reading the results without mistaking funding for income</h3>
+<ol>
+<li><strong>Startup funds / Startup capital:</strong> funding required to cover the modeled liquidity need. Owner equity and received loan proceeds are financing, <strong>not sales revenue</strong>.</li>
+<li><strong>Peak deficit:</strong> the worst pre-funding shortage on the relevant cash timeline. It can occur as soon as a supplier advance is due, before the first customer pays, not necessarily at month end.</li>
+<li><strong>First positive CF:</strong> the first period with a positive operating flow; it does not prove that the initial investment has been recovered.</li>
+<li><strong>Payback:</strong> the separate test of accumulated operating recovery over the modeled horizon; it is not automatically the first profitable or cash-positive month.</li>
+<li><strong>Cumulative CF / Ending cash balance:</strong> cash movements including funding, interest and principal repayment. In V2, <strong>AVAILABLE CASH</strong> excludes the protected reserve and is not net profit (<a href="#h06">H06</a>).</li>
+<li><strong>Outstanding debt:</strong> a loan balance that remains beyond the shown operating horizon. It is not disposable owner cash.</li>
+</ol>
+
+<h3>Business decision: owner capital or borrowing?</h3>
+<p>Compare two cases using <strong>the same prices, products, demand, tax assumptions and operating costs</strong>, changing only the capital source, rate and term. Check <strong>required price including financing, startup funding, total cycle interest, minimum spendable balance, profit and the principal repayment date</strong>. Owner funds avoid interest but remain tied up in the venture. A loan preserves some owner liquidity but creates a binding repayment schedule. Neither validates market demand: after computing the price, test who will buy, why, and where at that price (<a href="#h17">H17</a>).</p>
+<p>You can use the cotton tote example to compare <strong>No loan · 5 months</strong> with <strong>With loan · 6 months</strong> (<a href="#example-a">sample</a>). These are model scenarios, not a lender offer.</p>
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
 
