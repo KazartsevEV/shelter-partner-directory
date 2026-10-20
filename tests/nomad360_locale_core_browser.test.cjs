@@ -64,9 +64,7 @@ const localeA11yCensus=async(page,stage)=>page.evaluate(stage=>{
    ['kk-KZ','kk','Бизнес-калькулятор'],
    ['en-US','en','Business calculator']]){
    const ctx=await browser.newContext({locale:navigatorLocale,viewport:{width:390,height:844}});
-   // The page now defaults to English independently of browser locale; this
-   // matrix exercises explicitly saved RU/KK preferences plus fresh English.
-   if(expected!=='en')await ctx.addInitScript(code=>{try{localStorage.setItem('nomad360PreferredLanguage',code)}catch(_){}},expected);
+   // First visit follows the browser locale; no stored selection is injected.
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(String(e.message)));
    await page.route(/^https?:\/\//,route=>route.abort());
