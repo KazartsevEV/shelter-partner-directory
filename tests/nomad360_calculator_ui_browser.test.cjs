@@ -594,11 +594,12 @@ async function browserCase(browser,locale,expected){
   for(const chosen of ['en','kk','ru']){
    await page.locator('#nomad360-lang-select').selectOption(chosen);
    A.equal(await page.locator('html').getAttribute('lang'),chosen);
-   A.equal(await page.locator('#nomad360-footer .nomad-unit-note').textContent(),
-     {ru:'Валюта расчёта: USD',
-      en:'Calculation currency: USD',
-      kk:'Есептеу валютасы: USD'}[chosen],
-     'Footer currency note must track language switches');
+   A.equal(await page.locator('#nomad360-footer .nomad-unit-note').count(),0,
+     'No old currency readout is reintroduced when the language changes');
+   A.equal(await page.locator('#nomad360-footer .nomad-footer-bottom').textContent(),
+     '© 2026 Nomad360','Copyright-only strip is preserved across locales');
+   A.equal(await page.locator('#business-currency').inputValue(),'USD',
+     'Actual business currency selector is not affected by footer removal');
    A.equal(await page.evaluate(()=>window.__nomadPrintCount),2,'locale change must not open another print dialog');
    A.equal(await preview.isVisible(),true,'price preview must remain open after locale change');
    A.equal(await preview.locator('tbody tr').count(),5);
