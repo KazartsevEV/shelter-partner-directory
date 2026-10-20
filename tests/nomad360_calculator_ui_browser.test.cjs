@@ -168,6 +168,33 @@ async function browserCase(browser,locale,expected){
    A.equal(structure.blue,'rgb(23, 59, 88)','Workspace uses the approved navy');
    A.equal(structure.demoRows,2,'Examples are always available');
    A.equal(structure.savedVisible,structure.visibleSaved>0,'Saved group appears ONLY if some real saved entry is shown');
+   // Strict user contract: demos never trigger the "Continue calculation"
+   // heading. Any one of the three ACTUAL saved V1/V2 entries triggers it.
+   const conditionalHeading=await page.locator('#nomad360-home-secondary').evaluate(e=>{
+    const rows=[...e.querySelectorAll('.nomad-workspace-saved > .nomad-recovery-card')];
+    const heading=e.querySelector('.nomad-workspace-heading');
+    const group=e.querySelector('.nomad-workspace-saved');
+    const initial=rows.map(n=>({hidden:n.hidden,hasClass:n.classList.contains('hidden')}));
+    const visible=n=>getComputedStyle(n).display!=='none';
+    try{
+     for(const n of rows){n.hidden=true;n.classList.add('hidden');}
+     const empty={heading:visible(heading),group:visible(group),demos:[...e.querySelectorAll('.nomad-workspace-demo-item')].filter(visible).length};
+     const each=rows.map((row,i)=>{
+      row.hidden=false;row.classList.remove('hidden');
+      const state={id:row.id,heading:visible(heading),group:visible(group),row:visible(row)};
+      row.hidden=true;row.classList.add('hidden');
+      return state;
+     });
+     return {empty,each};
+    }finally{
+     rows.forEach((row,i)=>{row.hidden=initial[i].hidden;row.classList.toggle('hidden',initial[i].hasClass);});
+    }
+   });
+   A.deepEqual(conditionalHeading.empty,{heading:false,group:false,demos:2},
+    'No saved data: hide Continue calculation and My calculations; display BOTH demos');
+   A.equal(conditionalHeading.each.length,3,'There are three independent saved-state controllers');
+   A.ok(conditionalHeading.each.every(x=>x.heading&&x.group&&x.row),
+    'Each real saved V1, linked V2 or V2 draft alone reveals Continue calculation');
    A.ok((await page.locator('.nomad-workspace-demo-item .nomad-workspace-title').allTextContents()).every(x=>x.trim().length>5),
     'Both sample names are visible separately from their real click-through links');
    const simulated=await page.locator('#saved-product-entry').evaluate(node=>{
