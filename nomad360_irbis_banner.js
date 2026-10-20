@@ -52,9 +52,10 @@ function methods(contents){
 }
 function syncWidth(){
  const scene=document.getElementById(ID);
- if(scene)scene.style.setProperty('--irbis-page-width',document.documentElement.clientWidth+'px');
- // The thin copyright strip below Irbis has the same full-viewport width.
- document.getElementById('nomad360-footer')?.style.setProperty('--irbis-page-width',document.documentElement.clientWidth+'px');
+ const width=document.documentElement.getBoundingClientRect().width;
+ if(scene)scene.style.setProperty('--irbis-page-width',width+'px');
+ // Preserve the established scrollbar-gutter measurement for both surfaces.
+ document.getElementById('nomad360-footer')?.style.setProperty('--irbis-page-width',width+'px');
 }
 function decorate(){
  const footer=document.getElementById('nomad360-footer');
