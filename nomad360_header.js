@@ -725,7 +725,7 @@
       '<details id="nomad360-license" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.licenseTitle)+'</summary><div class="nomad-license-terms"><p>'+esc(t.licenseCopy)+'</p><p><a href="https://kazartsevev.github.io/shelter-partner-directory/license/'+(language()==='en'?'en/':language()==='kk'?'kk/':'')+'" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p></div></details>'+
       '<details id="nomad360-data" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.dataTitle)+'</summary><p>'+esc(t.dataCopy)+'</p></details>'+
       '<section id="nomad360-official" class="nomad-meta-block"><p><span>'+esc(t.officialTitle)+'</span> <a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
-      '<div class="nomad-footer-bottom"><p class="nomad-unit-note">'+esc(root.Nomad360Currency?.caption()||'USD')+'</p><span>'+esc(t.rights)+'</span></div>'+
+      '<div class="nomad-footer-bottom"><span>'+esc(t.rights)+'</span></div>'+
       '<div class="nomad-sr" id="nomad360-copy-status" role="status" aria-live="polite"></div></div>';
   }
   function renderInformation() {
