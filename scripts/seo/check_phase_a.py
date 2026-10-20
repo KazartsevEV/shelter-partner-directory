@@ -623,6 +623,9 @@ def main():
         'docs/reviews/irbis-07/REVIEW.md',
         # IRBIS-08 remains a scoped presentation-only footer change.
         'docs/reviews/irbis-08/REVIEW.md',
+        # ABOUT/IRBIS-12: currency is validated in the model rather than
+        # a removed duplicate footer label; no financial calculation changes.
+        'tests/nomad360_currency_browser.test.cjs',
         'tests/nomad360_price_export.test.cjs',
          'tests/nomad360_price_export_openxml.py',
         '.github/workflows/task10-palette.yml') for p in changed), changed
