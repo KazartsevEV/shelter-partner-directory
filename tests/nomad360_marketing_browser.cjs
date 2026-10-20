@@ -86,7 +86,31 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   const cardRects=await benefits.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
   if(width>=900)A.ok(cardRects[0].left<cardRects[1].left&&cardRects[1].left<cardRects[2].left,'B2B desktop cards in row');
   if(width<=760)A.ok(cardRects[0].top<cardRects[1].top&&cardRects[1].top<cardRects[2].top,'B2B mobile cards stacked');
+  // HERO-SNAPSHOT-01: the CTA keyboard smoke test above scrolls the page
+  // to the scenario choices. With a sticky desktop header, taking an element
+  // screenshot while scrolled paints that header in the *middle* of the tall
+  // #home-screen image. It is a screenshot artefact, not the live header order.
+  // Reset viewport before capture, and independently verify real header order.
+  await p.evaluate(()=>window.scrollTo({top:0,left:0,behavior:'instant'}));
+  await p.waitForFunction(()=>window.scrollY===0);
+  const headerAtTop=await p.locator('#nomad360-header').evaluate(header=>{
+   const home=document.getElementById('home-screen');
+   const r=header.getBoundingClientRect();
+   return {position:getComputedStyle(header).position,top:r.top,
+    beforeHome:!!(header.compareDocumentPosition(home)&Node.DOCUMENT_POSITION_FOLLOWING)};
+  });
+  A.equal(headerAtTop.beforeHome,true,'Live header precedes the hero in DOM');
+  if(width>=1200){
+   A.equal(headerAtTop.position,'sticky','Desktop header stays sticky, not embedded in the hero');
+   A.ok(Math.abs(headerAtTop.top)<=2,'At scroll 0 the desktop header is at the page top, not halfway down');
+  }
   const files=[];async function shot(name,selector){const f=`${lang}-${width}-${name}.png`;await p.locator(selector).screenshot({path:path.join(out,f)});files.push(f);}
+  // A true initial viewport screenshot, including the actual site header, for
+  // accurate owner review; keep the home-only art image as a separate artifact.
+  if(lang==='ru'&&(width===1280||width===1440)){
+   const name=`${lang}-${width}-header-top.png`;
+   await p.screenshot({path:path.join(out,name),fullPage:false});files.push(name);
+  }
   await shot('home','#home-screen');await shot('about','#nomad360-about');await shot('b2b-closed','#nomad360-embed');
   for(const id of ['nomad360-license','nomad360-data','nomad360-product-details'])A.equal(await p.locator('#'+id).evaluate(e=>e.open),false,id+' default closed');
   A.equal(await p.locator('#nomad360-official').locator('details').count(),0);A.equal(await p.locator('#nomad360-official a').isVisible(),true);A.equal((await p.locator('#nomad360-official a').textContent()).trim(),'nomad260393@gmail.com');A.equal(await p.locator('#nomad360-official p').count(),1);
