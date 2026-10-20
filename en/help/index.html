@@ -566,18 +566,53 @@
 <!-- H09 -->
 <section class="section help-section" aria-labelledby="h09">
 <h2 id="h09">H09. How can I convert a foreign-currency purchase?</h2>
-<p>Your business currency is the one you picked on the home screen. A purchase or a carrier's invoice can be in another currency.</p>
+<p>Choose a <strong>business currency</strong> on the home screen: cost, selling price, capital requirement and cash-flow results are calculated in that currency. A specific <strong>payment currency</strong> may differ—for instance, a supplier invoice in CNY when the business is modeled in USD. The interface language and the user's location do not automatically choose the business currency. <strong>Relabeling an amount in another currency is not a conversion</strong>.</p>
+
+<h3>Which payments support conversion?</h3>
+<p>The converter appears next to supported <strong>actual payable amounts</strong>, not every percentage or derived financial figure:</p>
+<ul>
+<li><strong>V1 goods:</strong> supplier purchases for resale or dropshipping, raw materials and individual material prices for own production, and applicable import inbound delivery, broker, duty/fee and certification payments. Convert the original invoice or supplier price <strong>once—not the resulting aggregate unit cost a second time</strong>.</li>
+<li><strong>Standalone V2:</strong> supplier unit quote and initial inventory advance for resale; supplier order cost and fulfillment/delivery for dropshipping; initial raw-material purchase for own production. Available fields depend on the SKU sourcing route.</li>
+<li><strong>Linked V2:</strong> uses the approved V1 source payments and their normalized amounts. Do not re-convert a derived unit cost that is already in the business currency (<a href="#h05">H05</a>).</li>
+</ul>
+<p>Rent, wages, percentage-based insurance, units sold, loan rates and taxes <strong>do not all receive independent currency selectors</strong> merely because a supplier is abroad. Where an expense has no payment-currency selector, enter its properly converted amount in the business currency; do not silently mix currencies.</p>
+
+<h3>Step by step: from an invoice to modeled cost</h3>
 <ol>
-<li>Next to the amount, choose the <strong>payment currency</strong>. It defaults to your business currency. Choosing it does not change the amount you typed or apply a rate.</li>
-<li>In the <strong>Currency converter</strong>, click <strong>Get reference rate</strong>. The calculator fetches the <strong>Exchange rate</strong>, the <strong>Rate date</strong> and the <strong>Rate source</strong>. Daily reference rates come from Frankfurter. Your bank's rate may differ.</li>
-<li>Or type a <strong>Manual rate</strong>, with a date and a source. This is also what to do if you see “The reference rate is unavailable.”</li>
-<li>Click <strong>Apply to calculation</strong>. Until you do, the payment is marked “Apply a rate to use this payment in the calculation.”</li>
+<li>Confirm the <strong>business currency</strong> on the opening screen. New calculations inherit that choice; a saved calculation reopens in its saved currency. SKUs combined into one portfolio must use <strong>the same business currency</strong>.</li>
+<li>Enter the <strong>original invoice amount</strong>, then choose its <strong>Payment currency</strong> next to the cost field. It initially defaults to the business currency. A positive foreign-currency amount offers an expandable <strong>Currency converter</strong>. Changing the currency selection alone does not fetch or apply a rate.</li>
+<li>Click <strong>Get reference rate</strong> or enter a <strong>Manual rate</strong>. Review the <strong>Exchange rate</strong>, <strong>Rate date</strong>, <strong>Rate source</strong> and both currency codes before proceeding.</li>
+<li>Review the <strong>Converted amount</strong> preview in your business currency. <strong>Only Apply to calculation</strong> commits the quote and allows that foreign-currency cost into the financial calculations.</li>
+<li>Check the <strong>Applied to calculation</strong> confirmation and the updated results. The source invoice figure remains editable; the converter does not overwrite it with the converted amount.</li>
 </ol>
+
+<h3>Rate direction and the calculation formula</h3>
+<p>The quoted pair always means <strong>1 payment-currency unit = rate in business-currency units</strong>. Thus <strong>Cost in business currency = original payment amount × rate</strong>. For a CNY expense and a USD business, the relevant input is <em>USD per CNY</em>, not CNY per USD. Never substitute the opposite pair's rate without conversion.</p>
 <div class="help-example">
-<p><strong>Example</strong> (illustrative numbers)</p>
-<p>A purchase of 1,000 CNY at a rate of 0.14 USD per CNY is 140 USD in a USD model.</p>
+<p><strong>Illustrative purchase</strong> (assumed rate, not a current quote).</p>
+<p>Business currency: <strong>USD</strong>. Supplier invoice: <strong>1,000 CNY</strong>. The converter shows <strong>1 CNY = 0.14 USD</strong>. After <strong>Apply to calculation</strong>, the normalized cost is <strong>1,000 × 0.14 = 140 USD</strong>, while the source field still shows <strong>1,000 CNY</strong>. The model uses <strong>140 USD</strong> for that cost and does not multiply the derived unit cost by the rate again.</p>
 </div>
-<p>No bank fee or spread is added. Enter it as a cost if you pay it. Each payment is converted once. A saved calculation keeps its own rate and does not update when the market moves. A saved calculation also opens in its own currency.</p>
+<p>The preview may display a rounded figure; financial normalization <strong>does not round intermediate values</strong>. Reopening the results or switching language must not compound conversion.</p>
+
+<h3>Frankfurter reference rates versus your bank's rate</h3>
+<p><strong>Get reference rate</strong> queries <strong>Frankfurter v2</strong> for a daily reference rate for the requested currency pair. The returned pair, value, date and source are validated. This is <strong>not an executable bank buy/sell quote</strong>. It may differ from your bank's rate, the rate applicable on the payment date or your supplier agreement. The rate request sends only the ISO currency pair—not invoice amounts or product details—to the rate service.</p>
+<p>If the lookup fails, you are offline, or you have an actual bank rate, enter the <strong>rate, date and source manually</strong>. A usable manual quote needs a <strong>positive finite rate</strong>, a <strong>real date no later than today</strong>, and a <strong>nonempty source label</strong>. Invalid data or a mismatched currency pair cannot be applied. Fetching a newer rate merely proposes it; it does not replace an already applied rate without confirmation.</p>
+
+<h3>Edits, pending payments and saved calculations</h3>
+<ul>
+<li><strong>Changing the original amount or either currency:</strong> invalidates that payment's previous conversion snapshot. Obtain or enter the correct rate and <strong>apply it again</strong>. A delayed response to an outdated amount or currency must not override the changed input.</li>
+<li><strong>Quote not applied:</strong> a positive foreign-currency payment is marked <strong>conversion required</strong>. Dependent final pricing, funding, credit previews, portfolio results and exports are not ready. The system does not silently use <strong>1:1</strong> or treat an unresolved expense as zero.</li>
+<li><strong>Zero, empty and inactive:</strong> zero remains zero in any supported currency, so it needs no rate. Empty/invalid amounts are separate input states. Payments belonging to an inactive sourcing option can remain saved without blocking the selected active option.</li>
+<li><strong>Save and restore:</strong> the draft retains the original amount, both currency codes, and the applied quote snapshot including directed pair, rate, date and source. A restored calculation <strong>never refreshes the market rate automatically</strong>, and switching RU/EN/KK does not recalculate currency amounts. An unresolved payment stays unresolved.</li>
+<li><strong>New lookup fails:</strong> manual entry remains available. If an existing applied quote still matches the amount and pair, a failed attempt to fetch a newer rate does not invalidate that quote by itself.</li>
+</ul>
+
+<h3>Include actual FX costs in your required selling price</h3>
+<div class="help-example">
+<p><strong>Illustrative bank-fee example.</strong></p>
+<p>The purchase above costs <strong>140 USD</strong> at the applied exchange rate. If your bank also charges a separately payable <strong>5 USD fee</strong>, total cash paid for those two cost items is <strong>145 USD</strong>. <strong>The converter does not add the fee automatically</strong>; record it as an applicable separate cost and avoid counting it twice if already included in the bank's invoice or quote.</p>
+</div>
+<p>The converter <strong>does not automatically forecast bank spreads, transfer fees, customs duties or future currency movements</strong>. Enter verified costs and assess whether customers will accept the resulting selling price: correct FX arithmetic alone does not validate demand (<a href="#h03">H03</a>, <a href="#h17">H17</a>). For cost versus profit versus actual cash movement, see <a href="#h06">H06</a>.</p>
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
 
