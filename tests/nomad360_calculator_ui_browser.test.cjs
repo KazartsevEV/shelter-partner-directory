@@ -239,7 +239,13 @@ async function browserCase(browser,locale,expected){
     return {width:Math.round(rect.width),height:Math.round(rect.height),
       radius:style.borderTopLeftRadius,borderColor:style.borderTopColor,
       font:style.fontFamily,background:style.backgroundColor,color:style.color,
-      fontSize:parseFloat(style.fontSize),labelContent:getComputedStyle(button,'::before').content};
+      fontSize:parseFloat(style.fontSize),labelContent:getComputedStyle(button,'::before').content,
+      centerX:style.justifyContent,centerY:style.alignItems,
+      visibleLabel:(()=>{const pseudo=getComputedStyle(button,'::after');return {
+       px:parseFloat(pseudo.fontSize),horizontal:pseudo.justifyContent,
+       vertical:pseudo.alignItems,alignSelf:pseudo.alignSelf,
+       display:pseudo.display,weight:Number(pseudo.fontWeight)
+      };})()};
   }));
   A.equal(new Set(mobileGeometry.map(x=>x.width)).size,1,'Three choices must have identical mobile widths');
   A.equal(new Set(mobileGeometry.map(x=>x.height)).size,1,'Three choices must have identical mobile heights');
@@ -251,6 +257,12 @@ async function browserCase(browser,locale,expected){
     'All three primary routes must use warm orange with navy text');
   A.ok(mobileGeometry.every(x=>x.fontSize===0),
     'Accessible original scenario labels are visually replaced by localized compact labels');
+  A.ok(mobileGeometry.every(x=>x.visibleLabel.px>=18&&x.visibleLabel.px<=24&&x.visibleLabel.weight===700),
+    'Visible button labels are enlarged to 18–24px and remain bold');
+  A.ok(mobileGeometry.every(x=>x.centerX==='center'&&x.centerY==='center'&&
+    x.visibleLabel.display==='flex'&&x.visibleLabel.horizontal==='center'&&
+    x.visibleLabel.vertical==='center'&&x.visibleLabel.alignSelf==='center'),
+    'All three labels must be centered vertically and horizontally inside their buttons');
   A.deepEqual(await choice.locator('button').evaluateAll(buttons=>buttons.map(e=>e.dataset.workspaceShort)),
     {ru:['Товар','Услугу','Разное'],en:['Product','Service','Mixed'],kk:['Тауар','Қызмет','Әртүрлі']}[expected.lang]);
   const homeTitle=await page.locator('#nomad360-selling-heading').evaluate(el=>{
