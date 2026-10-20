@@ -454,7 +454,14 @@ def main():
         # pin original styling and exact latest CSS/asset/controller presentation blobs.
         legacy = approved_hero.replace(old_paint, new_paint)
         assert current_hero.startswith(legacy), 'Historical HERO styling was modified, not extended by approved layout'
-        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '753fc12656507d45a9d07da355105caa65e9aab6', 'HERO scene geometry or CTA presentation drift'
+        # HERO-14 is a strictly additive, brand-container-only transparency fix.
+        # Pin the entire current file byte-for-byte, while separately preserving
+        # the formerly approved scene, position, copy and CTA as an exact prefix.
+        hero_14_suffix = current_hero[len(legacy):]
+        assert b'/* HERO-12:' in hero_14_suffix and b'/* HERO-13:' in hero_14_suffix, 'Approved HERO-12/13 presentation missing'
+        assert current_hero.count(b'/* HERO-14:') == 1, 'Unexpected HERO patch count'
+        assert current_hero.endswith(b'\n}\n'), 'Unexpected HERO patch ending'
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '00ba7a45ef6371a933863dc1b95dae4e9950d5f4', 'Approved HERO-14 transparency fix or prior scene geometry drift'
     if 'nomad360_hero_banner.js' in changed:
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:

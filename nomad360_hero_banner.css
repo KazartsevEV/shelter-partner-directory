@@ -833,3 +833,24 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
   transform:translateY(clamp(-210px,-14vw,-140px));
  }
 }
+
+/* HERO-14: the imported wolf is a transparent overlay, NOT an opaque navy
+   card. TASK-10 palette assigns an important navy background to the former
+   SEO banner; override only this brand container in the SAME cascade layer.
+   Preserve the actual wolf PNG, white circular logo mask, size and position. */
+@layer nomad360-palette{
+ body:has(#home-screen:not(.hidden)) #home-screen #nomad360-commercial-banner
+ #nomad360-seo-banner.nomad-seo-banner{
+  background:transparent!important;
+  background-color:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+ }
+}
+/* On phones the original round wolf also needs a collision-free text lane.
+   This changes only lead wrapping; logo artwork and coordinates stay fixed. */
+@media(max-width:700px){
+ body:has(#home-screen:not(.hidden)) #home-screen #nomad360-commercial-banner .nomad-intro-lead{
+  max-width:calc(100% - 110px)!important;
+ }
+}
