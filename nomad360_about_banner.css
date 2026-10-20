@@ -676,3 +676,11 @@
   color:#FF913F!important;
  }
 }
+
+/* EN copy is intentionally below the cliffs. Reserve the complete photo
+   height before the cards even after the intro moves down to navy. */
+@media(max-width:700px){
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:calc(clamp(265px,84vw,330px) - 37px);
+ }
+}
