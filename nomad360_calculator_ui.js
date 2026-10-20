@@ -234,14 +234,12 @@ const L=(root.Nomad360LocaleCore?.locales("interface.shell") || {
     "cadenceOnce": "Бір рет"
   }
 });
-let lang='ru',exportContext=null,excelBusy=false;
+let lang='en',exportContext=null,excelBusy=false;
 const localeKey='nomad360PreferredLanguage'; // UI preference only: never included in financial saved state
 function userLocale(){try{const v=localStorage.getItem(localeKey);return L[v]?v:null}catch(_){return null}}
-function preferred(){
- const candidates=Array.isArray(navigator.languages)&&navigator.languages.length?navigator.languages:[navigator.language||'ru'];
- for(const loc of candidates){const key=String(loc||'').split('-')[0].toLowerCase();if(L[key])return key}
- return 'en';
-}
+// English is the first-visit default, independent of browser locale.
+// A previously chosen language from localStorage retains priority in boot().
+function preferred(){return 'en';}
 const tr=k=>{
  const value=root.Nomad360LocaleCore?root.Nomad360LocaleCore.t('interface.shell.'+k,lang):(L[lang]||L.en)[k];
  const text=value??('⟦interface.shell.'+k+':'+lang+'⟧');
@@ -285,7 +283,7 @@ function buildShell(){
  chooser.className='nomad-language';document.body.prepend(chooser);}
  chooser.innerHTML='<label for="nomad360-lang-select">'+tr('language')+'</label>'+
  '<select id="nomad360-lang-select" aria-label="'+tr('language')+'">'+
- [['ru','Русский'],['kk','Қазақша'],['en','English']].map(([key,label])=>
+ [['en','English'],['kk','Қазақша'],['ru','Русский']].map(([key,label])=>
  '<option value="'+key+'"'+(key===lang?' selected':'')+'>'+label+'</option>').join('')+'</select>';
  document.documentElement.lang=lang;
 }
