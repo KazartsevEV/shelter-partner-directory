@@ -34,6 +34,20 @@ function stripConsultingExport(source){
  A.equal(fingerprint(block),'bd1d6270c7246288','Consulting packer changed outside approved block');
  return source.slice(0,a)+'        const css=await (await get(filename)).text();\n'+source.slice(b);
 }
+// HERO-LANG-01: Permit exactly the three owner-approved locale changes in
+// the UI shell; historical finance, return, SEO and TASK-10 byte contracts
+// still compare every other character to their original pinned source.
+function stripHomeLocaleOrder(source){
+ const en="let lang='en',exportContext=null,excelBusy=false;";
+ const ru="let lang='ru',exportContext=null,excelBusy=false;";
+ if(!source.includes(en))return source; // Historical frozen sources stay intact.
+ const original="function preferred(){\n const candidates=Array.isArray(navigator.languages)&&navigator.languages.length?navigator.languages:[navigator.language||'ru'];\n for(const loc of candidates){const key=String(loc||'').split('-')[0].toLowerCase();if(L[key])return key}\n return 'en';\n}";
+ const updated="// English is the first-visit default, independent of browser locale.\n// A previously chosen language from localStorage retains priority in boot().\nfunction preferred(){return 'en';}";
+ const oldOrder="[['ru','Русский'],['kk','Қазақша'],['en','English']]";
+ const newOrder="[['en','English'],['kk','Қазақша'],['ru','Русский']]";
+ for(const item of [en,updated,newOrder])A.equal(source.split(item).length,2,'Exactly one owner-approved locale hunk: '+item.slice(0,45));
+ return source.replace(en,ru).replace(updated,original).replace(newOrder,oldOrder);
+}
 function stripReturn(file,source){
  if(file==='Marketing_calc.HTML')return source.replace(script,'').replace('<script src="./nomad360_simple_service_examples.js"></script>\n','')
   .replace('<script src="./nomad360_sales_tax.js"></script>\n','')
@@ -41,11 +55,11 @@ function stripReturn(file,source){
   .replace('<script src="./nomad360_sales_tax_v2.js"></script>\n','');
  if(file==='nomad360_calculator_ui.css')return source.split('\n/* RET-07A presentation additions. */')[0];
  if(file==='nomad360_locale_core.js')return source.replace(/messages\.push\(\n( \[\"return\.[^\n]+\n)+\);\n/g,'').replace(/^ \["return\.[^\n]+\n/gm,'');
- if(file==='nomad360_calculator_ui.js')return source.replace(previewFlag,'').replace(previewRestore,'').replace(printMode,'').replace(printRestore,'').replace(b2bFooterAfter,b2bFooterBefore).replace("  heroNode.querySelector('h3').after(intro.querySelector('.nomad-intro-cta'));\n",'').replace("  (document.getElementById('nomad360-seo-banner')||heroNode).after(intro);","  if(!intro.isConnected)heroNode.after(intro);");
+ if(file==='nomad360_calculator_ui.js')return stripHomeLocaleOrder(source).replace(previewFlag,'').replace(previewRestore,'').replace(printMode,'').replace(printRestore,'').replace(b2bFooterAfter,b2bFooterBefore).replace("  heroNode.querySelector('h3').after(intro.querySelector('.nomad-intro-cta'));\n",'').replace("  (document.getElementById('nomad360-seo-banner')||heroNode).after(intro);","  if(!intro.isConnected)heroNode.after(intro);");
  if(file==='nomad360_header.js')return stripConsultingExport(source)
   .replace(/  \/\/ RET-07A about icons:[\s\S]*?  \/\/ RET-07A about icons end\.\n/,'')
   .replace("t.flow.map((step,index)=>'<li>'+aboutIcon(index)+'<h3>'","t.flow.map(step=>'<li><h3>'")
   .replace(brand,logo).replace(embed,'');
  return source;
 }
-module.exports={stripReturn,stripConsultingExport,script};
+module.exports={stripReturn,stripConsultingExport,stripHomeLocaleOrder,script};
