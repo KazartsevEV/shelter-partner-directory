@@ -12,6 +12,9 @@ on:
       - 'scripts/localization/inventory.cjs'
       - 'en/**'
       - 'license/**'
+      - 'assets/nomad360-help.css'
+      - 'assets/nomad360-help.js'
+      - 'tests/nomad360_help_menu_browser.test.cjs'
       - 'tests/task10_palette*'
       - 'tests/helpers/task10-palette*'
       - 'tests/fixtures/task10-palette/**'
@@ -55,6 +58,10 @@ jobs:
           python scripts/seo/build.py --check
           python scripts/legal/build_license.py --check
           python scripts/seo/check_phase_a.py
+      - name: Help RU/EN/KK language contrast on real pages
+        run: |
+          node --check tests/nomad360_help_menu_browser.test.cjs
+          node tests/nomad360_help_menu_browser.test.cjs
       - name: Exact financial regressions and frozen VAT
         run: |
           node --test tests/sales_tax_7b6_final_audit.test.cjs tests/sales_tax_7b_pure.test.cjs tests/sales_tax_7b_v2_projection.test.cjs tests/sales_tax_7b5_price_export.test.cjs tests/v1_service_v2_numeric_parity.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_period_price.test.cjs tests/portfolio_v2_temporal_cash.test.cjs tests/nomad360_price_export.test.cjs
@@ -75,6 +82,7 @@ jobs:
           name: task10-palette-evidence
           path: |
             artifacts/task10-palette/
+            artifacts/help-lang/
             artifacts/task10-logo/
             artifacts/pinned-controls/
             artifacts/bug-report/
