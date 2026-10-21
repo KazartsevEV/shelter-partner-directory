@@ -160,6 +160,16 @@ R01.1 допускает временную single-VM topology со **строг
 - VM size выбрать после memory/CPU/probe тестов. \`e2-micro\` может попадать в free-tier в ограниченных регионах, но **не объявлять достаточным** для web + worker + БД без замеров. Начальный кандидат — малый VM класс с примерно 2–4 GiB RAM, затем подбирать по измерениям.
 - Постоянный VM создаёт постоянные начисления вне free-tier; LLM API, хранение, домен и трафик оплачиваются отдельно.
 
+### 4.1. Предварительная стоимость непрерывного VM (не утверждённый бюджет)
+
+Официальный прайс Google Cloud для примера региона **Iowa, us-central1**: `e2-small` (2 GiB, shared-core) ~**$0.01675/час**, то есть ~**$12.06 за 720 часов**; `e2-medium` (4 GiB, shared-core) ~**$0.03351/час**, то есть ~**$24.12 за 720 часов**. Это только машинное время до возможных скидок/кредитов, **без** boot/persistent disk, отдельного off-VM backup, media egress, адреса/доменной инфраструктуры и внешнего LLM/image API. Цены зависят от региона и могут меняться; при выборе региона необходимо посчитать заново. Источник: https://cloud.google.com/products/compute/pricing/general-purpose
+
+**Для первого unattended пилота стартовым кандидатом является e2-medium (4 GiB)** — более реалистичное пространство для одновременных Web/API, Worker и SQLite на малом сервере. `e2-small` применять только если нагрузочные тесты докажут достаточность 2 GiB и отсутствие OOM. `e2-micro` (1 GiB) не считать достаточным по умолчанию, хотя может входить в ограниченный региональный Always Free: https://cloud.google.com/products/compute и https://docs.cloud.google.com/compute/docs/general-purpose-machines.
+
+Gemini/OpenAI/OpenRouter модельный API — отдельные начисления/квоты по фактическим вызовам. Для production использовать явный BYOK provider, лимиты RPM/TPM/RPD, стоимость на 1M токенов и output/QA pass rate. Gemini: https://ai.google.dev/gemini-api/docs/pricing и https://ai.google.dev/gemini-api/docs/rate-limits.
+
+**Budget alerts не гарантируют прекращения начислений за VM.** Некоторые GCP сервисы поддерживают spend caps, но fixed recurring compute/storage продолжают начисляться. Требуется отдельный hard limit на inference/media в Ayla и owner approval для VM месячных начислений; остановка VM по политике владельца — отдельное действие. https://docs.cloud.google.com/billing/docs/how-to/budgets и https://docs.cloud.google.com/billing/docs/how-to/budgets-spend-caps
+
 ## 5. Сравнение deployment вариантов для R01
 
 | Требование | Локальный + ngrok + Gateway | Compute Engine VM **(рекомендуется)** | Cloud Run / Jobs (позже) |
