@@ -39,6 +39,10 @@
 
 - **[AYLA-R01 — Threads-first release](docs/AYLA-R01-threads-first-release.md)** — проект на согласование, 21.10.2026: только Threads; короткие тексты, микросюжеты, фото и карусели, свои и чужие дискуссии, аналитика и следующий ContentBrief. Шесть последовательных PR: R01.1 Foundation → R01.2 Research & Text → R01.3 Photos & Carousels → R01.4 Own Discussions → R01.5 External Discussions → R01.6 Metrics & Pilot. Нет видео и других платформ в первом релизе.
 
+## Автономный runtime R01.1
+
+- **[AYLA-ADR-01 — Google Cloud Compute Engine vs ngrok](docs/AYLA-ADR-01-autonomous-runtime-google-cloud.md)** — решение для первого автономного хостинга: один постоянно работающий VM с Docker web+worker, общим устойчивым SQLite, off-VM backup, permission gates и отдельным LLM API; ngrok только для локальных OAuth/webhook тестов. **VM ещё не создана**: нужны владелец cloud/billing, бюджет и разрешённый model provider.
+
 ## Audited reuse and cross-contract Definition of Done
 
 - **[AYLA-R01-AUDIT & DoD — donor infrastructure and six release acceptance gates](docs/AYLA-R01-infrastructure-reuse-and-final-contract-dod.md)** — evidence-based audit of lazysellerV2/ai-content-marketer, reuse/new-work matrix and stage-level R01.1–R01.6 DoD traced to the **final persona, life, marketing, content, conversation and learning specifications**, not just Threads actions.
