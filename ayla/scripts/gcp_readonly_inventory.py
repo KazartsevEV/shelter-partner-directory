@@ -36,7 +36,7 @@ def permitted_commands(project: str) -> dict[str, list[str]]:
         raise ValueError("explicit_valid_gcp_project_id_required")
     cmds = {k: ["gcloud"] + [a.replace("{project}", project) for a in v] for k, v in COMMANDS.items()}
     for k, v in cmds.items():
-        if tuple(v[1:3]) != ALLOWED_PREFIXES[k]:
+        if tuple(v[1:1 + len(ALLOWED_PREFIXES[k])]) != ALLOWED_PREFIXES[k]:
             raise RuntimeError("gcp_readonly_allowlist_violation")
     return cmds
 
