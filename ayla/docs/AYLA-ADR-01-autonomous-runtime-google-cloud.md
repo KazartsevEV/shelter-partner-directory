@@ -6,6 +6,8 @@
 > **Depends on:** [AYLA-R01](AYLA-R01-threads-first-release.md), [AYLA-R01 infrastructure audit & contract DoD](AYLA-R01-infrastructure-reuse-and-final-contract-dod.md), [CORE-01](../../docs/ayla/AYLA-CORE-01-persona-life-engine.md), [JOB-02](../../docs/ayla/AYLA-JOB-02-functional-specification.md), [JOB-03](../../docs/ayla/AYLA-JOB-03-content-production-feedback-loop.md).
 > **Decision:** **предпочтительная production-архитектура — одна постоянно работающая Compute Engine VM + Docker Compose: web/API + автономный worker + общее постоянное хранилище.** Ngrok — только для локального тестирования входящих HTTP-событий и OAuth. Внешняя модель LLM вызывается по API как инструмент worker, а не является хостингом/планировщиком.
 
+**Tenancy update (21.10.2026):** использовать **существующий** Google Cloud project и учётную инфраструктуру lazysellerV2, не создавать новый проект. Реальный список VM/SA/IAM/WIF/GCS пока требует [read-only preflight из ADR-002](ADR-002-shared-lazyseller-gcp-isolation.md). Сначала выяснить, можно ли безопасно разместить отдельные Ayla web/worker на имеющейся Linux VM, а если нет — отдельная Ayla VM **в том же GCP-проекте**. Не перезапускать VM Product Factory и не менять его ngrok/Gateway/DB. Этот ADR описывает автономность, ADR-002 имеет приоритет в вопросах GCP tenancy, безопасности и ресурсов.
+
 ## 1. Почему выбор не является «ngrok ИЛИ Google Cloud» в симметричном смысле
 
 - **ngrok**: защищённый туннель для уже работающего локального HTTP-сервиса, а не самостоятельный compute, job scheduler, LLM или гарантированно живой worker. При выключении компьютера/сервиса Ayla перестаёт работать.
@@ -41,7 +43,7 @@
              stored as new jobs/versions
 
 Deployment:
-- **One Compute Engine VM** in a region chosen after checking billing/latency; initial cost benchmark in eligible US free-tier regions (us-west1, us-central1, us-east1).
+- **One eligible existing or dedicated Compute Engine VM in the existing lazyseller GCP project** after read-only inventory, capacity/isolation checks and region choice; initial cost benchmark in eligible US free-tier regions (us-west1, us-central1, us-east1).
 - Docker Compose with web and worker, non-root containers, healthchecks, restart policy, graceful shutdown.
 - Persistent block disk holds the **Ayla-only** canonical SQLite, encrypted Threads credential store and working assets. Not mixed with Calculator persistence.
 - Small, selected generated media may be cached locally; production image publication requires durable HTTPS-accessible files with content hash and expiry-aware signed/public delivery through GCS or another approved provider.
@@ -49,7 +51,7 @@ Deployment:
 - Minimal HTTPS ingress restricted to OAuth callback, opt-in webhook receiver and owner-authenticated control; background worker has **no public inbound listener**. Polling for own comments/insights works via outbound HTTPS without a public endpoint.
 - One canonical scheduler/worker queue implementation **reused from the donor**, not a new cron + custom queue in parallel.
 
-**Do not provision production credentials or a VM using undocumented assumptions.** Cloud project ID, billing owner, budget, account/API permissions, provider choice and external write policy require explicit inputs.
+**Do not provision production credentials or a VM using undocumented assumptions.** Cloud project/service account already exist by owner confirmation; their exact IDs, runtime permissions, available VM and billing status must be **verified** read-only. New resources, altered roles, provider choice and external writes require explicit approval.
 
 ## 3. Autonomy is a capability ladder, not one boolean
 
