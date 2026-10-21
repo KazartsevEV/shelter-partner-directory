@@ -30,6 +30,8 @@
 | Chromium V1: чистый вход, сохранение, восстановление, два товара | GREEN |
 | Chromium V2 standalone и linked | GREEN |
 | Chromium автономного HTML/Excel, однократная загрузка ресурсов | GREEN |
+| Excel V2: 36 сценариев, 72 прочитанные выгрузки, RU/EN/KK | GREEN локально |
+| Валюты: 54 сценария редактирования, 90 платежей | GREEN локально |
 | US Retail автономный RU/EN, 390/1280 px, 10 SKU, 14 расходов | GREEN |
 | RU/EN/KK, валюта, PDF и интерфейс V1/V2 | GREEN |
 | SEO protected source и локализационный L0 census | GREEN; 42 источника, 0 dictionary issues |

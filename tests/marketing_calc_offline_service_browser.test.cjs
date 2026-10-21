@@ -85,6 +85,7 @@ const path=require('node:path');
   await page.locator('#product-draft-toolbar button').click();
   assert.match(await page.locator('#product-draft-save-status').textContent(),/Сохранено/);
   await page.goto(url+'?resume=1',{waitUntil:'domcontentloaded'});
+  await page.locator('#product-screen').waitFor({state:'visible'});
   assert.equal(await page.locator('#product-screen').isVisible(),true);
   assert.equal(await page.locator('#product-intro-title').textContent(),'Какую услугу оказываете?');
   assert.equal(await page.locator('#product-source-block').isVisible(),false);
