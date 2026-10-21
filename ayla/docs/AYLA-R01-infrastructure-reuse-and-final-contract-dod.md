@@ -92,6 +92,8 @@
 
 **Автономность и размещение:** дополнительно обязателен [ADR-001 — автономный GCE worker и BYOK inference](ADR-001-autonomous-runtime-cloud.md), особенно ADR-AT-01…ADR-AT-12. Наличие работающей VM/очереди **без фоновых модельных решений** не удовлетворяет определению автономного AI-маркетолога. Этот ADR — предлагаемая архитектура до подтверждения владельцем сервера/бюджета/провайдера.
 
+**Обязательная привязка к существующим ресурсам lazysellerV2:** [ADR-002 — shared existing GCP project, verified WIF/SA, resource isolation, CLOUD-SHARE-01…12](ADR-002-shared-lazyseller-gcp-isolation.md). Нельзя закрывать R01.1 через создание нового облачного проекта, изменение SA IAM, reset общей VM или запуск внутри Product Factory. Existing live identity нужно подтвердить read-only до deployment; status пока UNVERIFIED.
+
 ## 2. DoD R01.1 — независимый фундамент, identity и policy
 
 **Трассировка конечного ТЗ:** CORE-01 §§2,3,4,7,11; VISUAL-01; JOB-02 §§0–3,15–17; LIFE-03 §1; JOB-03 §§0,8,17–18.
