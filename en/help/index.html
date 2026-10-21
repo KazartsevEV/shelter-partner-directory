@@ -619,25 +619,59 @@
 <!-- H10 -->
 <section class="section help-section" aria-labelledby="h10">
 <h2 id="h10">H10. How do I save and restore a calculation?</h2>
-<p>Everything is saved in your browser, on this device. There is no account and no cloud copy. The home screen says so: “Your calculation is saved in this browser. The link cannot restore this calculation on another phone.”</p>
+<p>Your calculation is saved <strong>locally in this browser's site storage</strong> on the device you are using. No registration is required, and Nomad360 does not provide an account that syncs editable drafts or a cloud backup of your portfolio. <strong>A website link, phone shortcut or shared page address does not carry your entered figures</strong> to another device or browser.</p>
+<h3>First identify which calculation you need to save</h3>
+<p>The app has <strong>separate calculation routes</strong>, not one universal project library. Saving one route does not prove that another has been saved. Use its actual save control and check for a success message.</p>
 <div class="help-table-wrap">
 <table>
-<thead><tr><th scope="col">What</th><th scope="col">Save</th><th scope="col">Come back</th></tr></thead>
+<thead><tr><th scope="col">Calculation route</th><th scope="col">How to save</th><th scope="col">How to return</th></tr></thead>
 <tbody>
-<tr><th scope="row">V1 product</th><td><strong>Save my product for later</strong> or <strong>Save result in this browser</strong></td><td>Home screen: <strong>Continue working on my products</strong></td></tr>
-<tr><th scope="row">V1 full service</th><td><strong>Save calculation</strong> (the page confirms “Calculation saved”)</td><td><strong>Continue saved calculation</strong></td></tr>
-<tr><th scope="row">Linked V2</th><td><strong>Save portfolio</strong></td><td><strong>Resume my V2 portfolio</strong></td></tr>
-<tr><th scope="row">Standalone V2</th><td>Autosaved (“Autosaved in this browser”). <strong>Save calculation</strong> also works</td><td><strong>Resume V2 draft</strong></td></tr>
+<tr><th scope="row">V1 goods and offline services in the common V1 calculation</th><td><strong>Save my product for later</strong> or <strong>Save result in this browser</strong>. The current item joins the saved V1 list.</td><td>On the home screen, open the saved-calculation card and choose <strong>Continue working on my products</strong>; the post-save message also provides a resume link.</td></tr>
+<tr><th scope="row">Standalone V2</th><td><strong>Autosave</strong> after form changes; <strong>Save calculation</strong> is also available.</td><td>Home screen → <strong>Resume V2 draft</strong>.</td></tr>
+<tr><th scope="row">Linked V2 based on V1</th><td><strong>Save portfolio</strong>; relevant portfolio-editing actions also persist changes.</td><td>Home screen → <strong>Resume my V2 portfolio</strong>.</td></tr>
+<tr><th scope="row">Simplified online service V1</th><td><strong>↺ Reset values</strong> returns the simple form to defaults; it <strong>does not save a draft</strong>.</td><td>Do not expect a separate resume card for this simple form. Use an available report export to retain the result as a document.</td></tr>
 </tbody>
 </table>
 </div>
+<p>An older secondary full-service form retains its own storage mechanism, but <strong>its resume control is hidden in the current public interface</strong>. Do not depend on the obsolete <strong>Continue saved calculation</strong> control. For offline services calculated in the common V1 flow, use <strong>V1 item saving and restoration</strong>.</p>
+
+<h3>V1: save an item and return to its fields</h3>
+<ol>
+<li>Enter a name, select a product source or offline service, and fill in the fields you want to keep. Goods V1 supports saving an <strong>unfinished draft</strong> before the full financial scenario is ready.</li>
+<li>Choose <strong>Save my product for later</strong> or <strong>Save result in this browser</strong>, depending on the stage. Check the success confirmation; if browser storage is unavailable, saving reports an error.</li>
+<li>Return to the home screen <strong>on the same site and in the same browser</strong> and select the saved V1 card. The saved items, IDs, inputs and calculation currency are restored. Open the appropriate item for editing.</li>
+<li>To <strong>append another item to the existing list</strong>, use the dedicated add-next-item action. Starting a normal new calculation begins with a blank form and <strong>does not automatically restore the saved list</strong>. Starting and resuming are different actions.</li>
+</ol>
+<div class="help-example">
+<p><strong>V1 example.</strong> You have entered fabric, processing and delivery costs but not yet set an advertising forecast. Save the product draft, return in the same browser, and reopen the saved item. Once you update costs and advertising assumptions, <strong>save again</strong>. Sending the website URL to a colleague will not transmit the fields.</p>
+</div>
+
+<h3>V2: what is the difference between Resume and + New portfolio?</h3>
+<p><strong>Standalone V2</strong> keeps one current editable draft for this route. Edits autosave, and you can save explicitly. <strong>Resume V2 draft</strong> opens the saved model with its SKUs, shared resources, marketing assumptions, tax settings, funding and currency when the stored format is valid. If browser storage is blocked, a save error is displayed.</p>
+<p><strong>+ New portfolio is not a project archive.</strong> It creates a fresh initial model and <strong>immediately saves it into the same local draft slot</strong>. Your previous standalone V2 draft can therefore be overwritten. Export its results first if you want a report for comparison (<a href="#h11">H11</a>). Such exports <strong>are not a way to import the editable draft back into the app</strong>.</p>
+<p><strong>Linked V2</strong> is stored separately from standalone V2 and is built from calculated V1 items. Its save button and supported edits persist that portfolio. <strong>Restoring linked V2 is not the same as reconstructing every original V1 input form</strong>; save your underlying V1 calculation too if you plan to revisit the source costs or offers (<a href="#h05">H05</a>).</p>
+<div class="help-example">
+<p><strong>V2 example.</strong> You model two SKUs, allocate common expenses and save a standalone portfolio. <strong>Resume V2 draft</strong> returns to that model in the same browser. But <strong>+ New portfolio</strong> resets and replaces its working draft slot. Export the previous result as a document before creating the next portfolio.</p>
+</div>
+
+<h3>Demo calculations, exports and backups are different</h3>
 <ul>
-<li><strong>+ New portfolio</strong> in standalone V2 starts a new one. <strong>↺ Reset values</strong> clears a simple service form.</li>
-<li>A demo opens separately and never replaces your calculation. To work with your own numbers, use <strong>+ Calculate MY product from scratch</strong>.</li>
-<li>Clearing site data, or opening the calculator in another browser or on another device, removes access to your draft. Export a PDF if you need to keep a result (<a href="#h11">H11</a>).</li>
+<li>The <strong>V1 cotton shopper example</strong> is a demonstration: saving that demo into your personal V1 draft is blocked. Use <strong>+ Calculate MY product from scratch</strong> to enter your own scenario.</li>
+<li>The <strong>US retail V2 study</strong> keeps a separate study draft and <strong>does not overwrite</strong> the ordinary V2 draft. Edits and reset operations within that example affect the study, not your personal portfolio.</li>
+<li><strong>PDF and Excel</strong> are reports or result exports where the relevant route offers them. They are useful for review, comparison or sharing, but <strong>do not automatically restore the calculator's editable inputs</strong> when opened later (<a href="#h11">H11</a>).</li>
 </ul>
-<p>To get back to the calculator faster, the page offers shortcuts: <strong>Download a desktop shortcut for Windows</strong>, <strong>Get a home screen shortcut for iOS</strong> and <strong>Get a home screen shortcut for Android</strong>. Each has short steps under <strong>How to add a shortcut</strong>.</p>
-<p>Privacy: calculations run in your browser. The page loads Tailwind CDN and Google Fonts, which receive technical request data. Your financial numbers are not sent to them. Details are in <strong>Data</strong> in the menu.</p>
+
+<h3>If a calculation was not saved or seems to be missing</h3>
+<ul>
+<li><strong>Check the browser and site:</strong> another browser, another browser profile, another phone or private browsing may not see the original session's site storage. A page link does not contain a draft.</li>
+<li><strong>Check the save confirmation:</strong> some routes report an error if browser storage is blocked or unavailable. Without success confirmation, do not assume your draft was safely persisted.</li>
+<li><strong>Avoid clearing site data</strong> if you need editable drafts: clearing browser/site storage can destroy them. In standalone V2, beginning a new portfolio also replaces the current draft slot.</li>
+<li><strong>If no resume card appears:</strong> the calculation may not have been saved, saving might have failed, its format may be unrecognized, or you may be using another browser or site origin. Nomad360 <strong>cannot recover missing local-only data from a cloud account</strong>.</li>
+</ul>
+
+<h3>Return shortcuts and privacy</h3>
+<p>The calculator's closing panel offers a <strong>Windows shortcut</strong> and steps for <strong>iOS</strong> and <strong>Android</strong> under <strong>How to add a shortcut</strong>. This is a way to revisit the Nomad360 URL, <strong>not a separate mobile app, a saved calculation file or a synchronization service</strong>. Resuming requires access to the relevant data in the browser's own storage.</p>
+<p>Financial calculations run in the browser and editable drafts remain in local site storage. However, the page is not entirely disconnected from third-party services: <strong>Tailwind CDN and Google Fonts</strong> receive technical request metadata, while the embedded <strong>NOWPayments</strong> donation form receives connection metadata and processes payment details entered into that form. <strong>Your calculator figures are not sent to these providers.</strong> See the expandable <strong>Data and privacy</strong> item in the site menu.</p>
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
 
