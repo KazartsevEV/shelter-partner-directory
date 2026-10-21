@@ -3,6 +3,7 @@ const {chromium}=require('playwright');
 const {pathToFileURL}=require('node:url');
 const path=require('node:path');
 const fs=require('node:fs');
+const H=require('./helpers/task10-palette.cjs');
 const entry=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
 const BASE='https://kazartsevev.github.io/shelter-partner-directory/';
 const cases=[['ru','Справка','маржа'],['en','Help','margin'],['kk','Анықтама','маржа']];
@@ -55,6 +56,38 @@ const cases=[['ru','Справка','маржа'],['en','Help','margin'],['kk','
         }
       }
     }finally{await styleContext.close();}
+    // Real Help documents load the actual CSS; layered !important must not hide selected text.
+    const helpSite=await H.serve();
+    try{
+      fs.mkdirSync(path.join(__dirname,'..','artifacts','help-lang'),{recursive:true});
+      for(const [lang] of cases){
+        const real=await browser.newPage({viewport:{width:390,height:900}});
+        try{
+          const errors=[];real.on('pageerror',e=>errors.push(e.message));
+          await H.ready(real,helpSite.base,lang+'/help/');
+          for(const width of [320,390,768,1280]){
+            await real.setViewportSize({width,height:900});
+            const state=await real.locator('.help-lang').evaluate(nav=>{
+              const el=nav.querySelector('[aria-current="page"]'),s=getComputedStyle(el);
+              return {text:el.textContent.trim(),color:s.color,bg:s.backgroundColor,visible:el.checkVisibility(),
+                others:[...nav.querySelectorAll('a')].map(x=>({color:getComputedStyle(x).color,bg:getComputedStyle(x).backgroundColor}))};
+            });
+            A.equal(state.text,lang.toUpperCase(),lang+' active label');
+            A.equal(state.color,'rgb(255, 255, 255)',lang+' active text '+width);
+            A.equal(state.bg,'rgb(23, 59, 88)',lang+' active background '+width);
+            A.ok(state.visible,lang+' active label visible '+width);
+            A.equal(state.others.length,2,lang+' inactive controls');
+            for(const x of state.others){A.equal(x.color,'rgb(23, 59, 88)');A.equal(x.bg,'rgb(255, 255, 255)');}
+            if(width===390)await real.locator('.help-lang').screenshot({path:path.join(__dirname,'..','artifacts','help-lang',lang+'-390.png')});
+            console.log('HELP_LOCALE '+lang+' '+width+' '+state.color+' / '+state.bg);
+          }
+          await real.goto(helpSite.base+lang+'/help/#h12');
+          await real.locator('.help-lang a').first().click();
+          A.equal(new URL(real.url()).hash,'#h12',lang+' hash retained on switch');
+          A.deepEqual(errors,[],lang+' browser errors');
+        }finally{await real.close();}
+      }
+    }finally{await helpSite.close();}
     for(const [lang,label,q] of cases){
       for(const width of [320,390,768,1280,1440]){
         const page=await (await browser.newContext({viewport:{width,height:900}})).newPage();
