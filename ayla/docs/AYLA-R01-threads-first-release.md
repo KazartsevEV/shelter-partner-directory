@@ -18,6 +18,8 @@ Persona, память, образ, жизненная хронология и с
 
 **Ритм:** сохраняем ранее обсуждавшуюся ориентировочную цель 10–12 самостоятельных оригинальных постов в день **после пилота**, при качестве, возможностях и правилах платформы. Ответы отдельно, шаблонный спам ради квоты запрещён. Суточные часы, квоты ответов и лимиты расходов устанавливает владелец после baseline.
 
+**Проверенный донор и DoD этапов по конечной спецификации:** [AYLA-R01-AUDIT & DoD](AYLA-R01-infrastructure-reuse-and-final-contract-dod.md). Критерии R01.1–R01.6 этого документа обязательны дополнительно к верхнеуровневой декомпозиции ниже. Отдельные интеграции других соцсетей не создаются в R01.
+
 ## 2. Полный цикл R01
 
 Human creator / threads research / Persona LifeEvent / комментарии → Evidence → CandidateTopic → **короткий ContentBrief** → оригинальный text / image / carousel / microstory → Persona/Factual/Originality QA → owner permission → Threads publication remote ID → own & external conversations → post/account insights и анализ комментариев → новый ContentBrief с обоснованием.
