@@ -518,3 +518,31 @@
   border-bottom-color:#FF913F!important;
  }
 }
+
+/* ABOUT-IRBIS-12: the bottom stripe, after IRBIS, contains only copyright.
+   No redundant "Calculation currency: USD" footer readout. */
+body:has(#home-screen) #nomad360-footer .nomad-footer-bottom{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+ width:var(--irbis-page-width,100%);max-width:none;min-height:38px;
+ margin:0 0 0 calc(50% - var(--irbis-page-width,100%)/2);
+ padding:9px 18px 10px;
+ border:0;border-top:1px solid #38678B;border-radius:0;
+ background:#173B58;color:#FFFFFF;
+ text-align:center;font:400 12px/1.4 var(--nd-font,Inter,sans-serif);
+}
+body:has(#home-screen) #nomad360-footer .nomad-footer-bottom span{
+ display:block;margin:0;padding:0;color:#FFFFFF;
+}
+/* When a shortcut is pressed or focused, make its label WHITE and legible,
+   including the icon, across the palette's !important cascade layers. */
+@layer nomad360-palette-important{
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button:is(:active,:focus,:focus-visible){
+  color:#FFFFFF!important;background-color:#173B58!important;
+  --p10-fg:#FFFFFF!important;
+  box-shadow:inset 0 0 0 1px #FF913F!important;
+ }
+ body:has(#home-screen) #nomad360-irbis-banner .nomad-return-button:is(:active,:focus,:focus-visible)
+ :is(.nomad-irbis-button-label,.nomad-irbis-platform-icon){
+  color:#FFFFFF!important;fill:currentColor!important;
+ }
+}

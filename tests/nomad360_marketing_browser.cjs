@@ -64,11 +64,19 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   const approvedAbout=await p.locator('script[src$="nomad360_about_banner.js"]').count()===1;
   A.equal(await about.locator('.nomad-about-opening .nomad-about-motto span').count(),3);
   A.equal(await about.locator('.nomad-about-flow>li').count(),3);
-  const caption=about.locator(approvedAbout?'.nomad-about-caption-band .nomad-about-caption':':scope>p');
+  const caption=approvedAbout?p.locator('#nomad360-contacts .nomad-about-caption-band .nomad-about-caption'):about.locator(':scope>p');
   A.equal(await caption.count(),1);
   const emphasis=caption.locator('em');
   A.equal(await emphasis.count(),1);
   A.equal(await emphasis.evaluate(e=>getComputedStyle(e).fontStyle),'italic');
+  if(approvedAbout){
+   A.ok(await p.locator('#nomad360-contacts').evaluate(e=>{
+    const a=e.querySelector('h2'),b=e.querySelector('.nomad-topics'),c=e.querySelector('.nomad-links'),d=e.querySelector('.nomad-about-caption');
+    return !!a&&!!b&&!!c&&!!d&&!!(a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING)&&
+      !!(b.compareDocumentPosition(c)&Node.DOCUMENT_POSITION_FOLLOWING)&&
+      !!(c.compareDocumentPosition(d)&Node.DOCUMENT_POSITION_FOLLOWING);
+   }),'Translated contact subtitle immediately below heading and closing statement after links');
+  }
   if(approvedAbout){
     A.equal(await about.locator('.nomad-about-scene-copy').count(),1);
     A.equal(await about.locator('.nomad-about-flow>li>a.nomad-about-card').count(),3);

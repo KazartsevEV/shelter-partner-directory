@@ -12,10 +12,9 @@ const previewRestore=" // Re-open only a preview the user had already expanded b
 const printMode=" const originalPrintMode=document.getElementById('nomad360-print-sheet')?.dataset.mode;\n";
 const printRestore=" // Rendering a new V2 root can remove a print sheet before the V2 model\n // finishes restoring. Rebuild the already requested document, never print.\n const current=readyOutput();\n if(originalPrintMode&&['price','report'].includes(originalPrintMode)&&current?.out?.ready&&\n    !document.getElementById('nomad360-print-sheet')){\n  const restored=document.createElement('section');restored.id='nomad360-print-sheet';\n  restored.dataset.mode=originalPrintMode;restored.innerHTML=printable(originalPrintMode,current);\n  document.body.append(restored);root.Nomad360LocaleCore?.localizeElement(restored);\n }\n";
 const embed="      // RET-07A: independent embeds do not promote shortcuts to the original host.\n      doc.documentElement.setAttribute('data-nomad-embedded','');\n      doc.querySelector('script[src$=\"nomad360_return.js\"]')?.remove();\n";
-// CONSULTING-02: strip ONLY the approved standalone-artwork packer when
-// evaluating pre-consulting historical SEO and financial baselines.
-// The exact 1127-character insertion is fingerprinted; arbitrary edits to
-// downloads, mailto, calculations or copy must never be normalized away.
+// CONSULTING-02 / ABOUT-VECTOR: strip ONLY the reviewed standalone CSS-asset
+// packer when evaluating historical SEO and financial baselines. Its exact
+// bytes stay fingerprinted; downloads and other header code remain protected.
 const consultingStart='        let css=await (await get(filename)).text();';
 const consultingEnd="        const inline=doc.createElement('style');";
 function fingerprint(s){
@@ -30,8 +29,8 @@ function stripConsultingExport(source){
  const a=source.indexOf(consultingStart),b=source.indexOf(consultingEnd,a);
  A.ok(b>a,'Consulting packer must be inside the existing stylesheet loop');
  const block=source.slice(a,b);
- A.equal(block.length,1127,'Consulting packer size changed');
- A.equal(fingerprint(block),'bd1d6270c7246288','Consulting packer changed outside approved block');
+ A.equal(block.length,1229,'Consulting packer size changed');
+ A.equal(fingerprint(block),'19e2a7950318ac95','Consulting packer changed outside approved block');
  return source.slice(0,a)+'        const css=await (await get(filename)).text();\n'+source.slice(b);
 }
 // HERO-LANG-01: Permit ONLY the requested selector option reorder.

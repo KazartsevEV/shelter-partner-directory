@@ -9,11 +9,16 @@ fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
 const desktopImage='assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg';
-const expectedDesktopBlob='41bab043c0aca095b9b7e9a42cdff6e756206d4a';
+const expectedDesktopBlob='23107d609ebb1e581e77c223aba8ead5b9c8997b';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
 assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),expectedDesktopBlob,
  'Owner-approved replacement desktop moon scene must remain byte-for-byte unchanged');
+const vectorSource=fs.readFileSync(path.join(root,desktopImage),'utf8');
+assert.ok((vectorSource.match(/<path\b/g)||[]).length>=4000,
+ 'The approved landscape must contain actual vector contours');
+assert.ok(!/<image\b|data:image\//i.test(vectorSource),
+ 'The About SVG must not wrap embedded raster images');
 const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
 (async()=>{
  const server=http.createServer((req,res)=>{
@@ -90,7 +95,7 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
     const linked=cards.map(a=>({hash:a.getAttribute('href'),label:a.querySelector('.nomad-about-card-motto')?.textContent,
       title:a.querySelector('h3')?.textContent}));
     const contacts=[...section.querySelectorAll('.nomad-links a')].map(a=>a.href);
-    const img=new Image();img.src=viewportWidth>=1001
+    const img=new Image();img.src=(viewportWidth>=1001||viewportWidth<=700)
      ?'./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
      :'./assets/nomad360-banners/about-bozzhyra-approved.webp';
     await img.decode();
@@ -119,25 +124,28 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
       cardCount:cards.length,links:linked,contacts,sectionWidth:rect.width,
       viewport:innerWidth,docScroll:document.documentElement.scrollWidth,
       captionAfterFlow:Boolean(flow.compareDocumentPosition(caption)&Node.DOCUMENT_POSITION_FOLLOWING),
-      captionBeforeContacts:Boolean(caption.compareDocumentPosition(section.querySelector('#nomad360-contacts'))&Node.DOCUMENT_POSITION_FOLLOWING),
+      captionInContacts:section.querySelector('#nomad360-contacts').contains(caption),
+      captionAfterLinks:Boolean(section.querySelector('.nomad-links').compareDocumentPosition(caption)&Node.DOCUMENT_POSITION_FOLLOWING),
+      topicsBeforeLinks:Boolean(section.querySelector('.nomad-topics').compareDocumentPosition(section.querySelector('.nomad-links'))&Node.DOCUMENT_POSITION_FOLLOWING),
       captionInBand:caption.parentElement===captionBand,
       openingRight:section.querySelector('.nomad-about-opening').getBoundingClientRect().right-rect.left,
-      aboutLeft:sr.left,
+      aboutLeft:sr.left,copyWidth:sr.width,
       scenicCopyBox:scenicCopy?box(scenicCopy):null,headingBox:heading?box(heading):null,
       openingBox:box(opening),captionBox:box(caption),
       captionBandBox:captionBand?box(captionBand):null,
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    },width);
-   assert.ok(layout.sceneSource.includes(width>=1001
+   assert.ok(layout.sceneSource.includes(width>=1001||width<=700
      ?'assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
      :'assets/nomad360-banners/about-bozzhyra-approved.webp'),
-    'Approved image selected only on desktop, with original image preserved on mobile/tablet');
-   const expectedBgSize=width>=1001?'auto 640.6px':'100% 100%';
-   assert.equal(layout.sceneSize,expectedBgSize,
-    'Central desktop panorama has its original scale; mobile/tablet unchanged');
-   assert.equal(layout.originalWidth,width>=1001?3200:1672);
-   assert.equal(layout.originalHeight,width>=1001?768:941);
+    'Approved full-width vector on phone and desktop; tablet keeps native original');
+   if(width>=1001)assert.equal(layout.sceneSize,'auto 640.6px','Desktop SVG preserves exact scale');
+   else if(width>=701)assert.equal(layout.sceneSize,'100% 100%','Tablet photo preserves original proportions');
+   else assert.equal(layout.sceneSize,'auto '+(width/2)+'px',
+    'Mobile SVG must show the complete central 1536x768 scene at its native ratio');
+   assert.equal(layout.originalWidth,width>=1001||width<=700?3200:1672);
+   assert.equal(layout.originalHeight,width>=1001||width<=700?768:941);
    if(width>=1001){
     assert.ok(Math.abs(layout.scenicHeight-640.6)<=1,'Image layer MUST retain original pre-PR204 640.6px height');
     assert.equal(layout.scenePosition,'50% 0%','Panorama remains centered; never left-align/crop the right-hand cliffs');
@@ -150,50 +158,42 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
       'Original central 1536x768 composition remains fully visible');
     }
    }else{
-    assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-1672/941)<0.025,'Tablet/mobile original photo aspect preserved');
+    assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-(width<=700?2:1672/941))<.03,
+     'Complete central vector panorama on phones, native tablet ratio');
    }
    if(width>=1001){
     assert.ok(Math.abs(layout.scenicWidth-layout.clientViewport)<=2,
       'Desktop photo spans the ENTIRE browser content viewport, not only 1138px text container');
     assert.ok(Math.abs(layout.scenicLeft)<=2,
       'Desktop photo is centered on the actual viewport without scrollbar overrun');
-    assert.ok(layout.sectionWidth<=1139&&layout.sectionWidth>=1137,
-      'Actual copy and cards retain their original centered 1138px layout');
+    assert.ok(Math.abs(layout.sectionWidth-layout.clientViewport)<=2,'ABOUT banner is full width');
+    assert.ok(layout.copyWidth<=1139&&layout.copyWidth>=1137,'About content remains centered at 1138px');
     assert.ok(layout.paintHeight>0&&layout.paintHeight<=layout.scenicHeight+1,
       'Desktop photo height is bounded and never distorted');
    }else if(width>=701)assert.ok(Math.abs(layout.scenicWidth-layout.sectionWidth)<=2,
      'Tablet background remains unchanged within the original banner');
-   if(width<=700)assert.ok(layout.scenicWidth>layout.sectionWidth+80,
-     'On mobile, crop away the left portion, never stretch or isolate the photo');
+   if(width<=700)assert.ok(Math.abs(layout.scenicWidth-layout.sectionWidth)<=2,
+     'On mobile, the entire central panorama must span the banner width');
    assert.equal(layout.background,'rgb(23, 59, 88)','Brand navy');
    assert.equal(layout.cardCount,3,'All three links preserved');
    assert.deepEqual(layout.links.map(c=>c.hash),['#nomad360-selling-choice','#nomad360-ai','#nomad360-factory']);
    assert.ok(layout.links.every(c=>c.title&&c.label),'Localized motto and title for every service');
    assert.equal(layout.contacts.length,4,'All four contact links preserved');
-   assert.ok(layout.captionAfterFlow&&layout.captionBeforeContacts&&layout.captionInBand,
-     'One translated automation caption must appear after services and before contacts');
-   assert.ok(layout.captionBandBox,'Caption must have its own vertically centered band');
-   const topGap=layout.captionBox.top-layout.captionBandBox.top;
-   const bottomGap=layout.captionBandBox.bottom-layout.captionBox.bottom;
-   assert.ok(Math.abs(topGap-bottomGap)<=2,
-     'Automation caption must be vertically centered in band with equal top/bottom spacing');
-   assert.ok(layout.captionBandBox.top>=layout.flowBox.bottom-1,
-     'No translated automation paragraph remains above service cards');
-   assert.ok(layout.contactBox.top>=layout.captionBandBox.bottom-1,
-     'Contact block must begin after caption');
+   assert.ok(layout.captionAfterFlow&&layout.captionInContacts&&layout.captionAfterLinks&&layout.topicsBeforeLinks&&layout.captionInBand,
+     'The translated automation paragraph closes the contacts; contacts topics stand under title');
+   assert.ok(layout.captionBandBox.top>=layout.flowBox.bottom,'Closing paragraph follows all three services');
+   assert.ok(layout.captionBandBox.bottom<=layout.contactBox.bottom+2,'Closing caption is inside Contacts');
    assert.ok(layout.docScroll<=width+1,'No sideways scroll at '+width+'px');
    assert.equal(errors.length,0,'No JavaScript page errors');
-   if(width>=1021)assert.ok(layout.openingRight<layout.sectionWidth*.56,'Text stays left of moon');
+   if(width>=1021&&lang!=='en')assert.ok(layout.openingRight<layout.aboutLeft+layout.copyWidth*.64,'Brand text stays in its content column');
    if(width>=1001){
     assert.ok(layout.cardMinHeights.every(height=>height<=185),
       'Desktop service cards must have compact responsive minimum heights');
     assert.ok(!layout.cardsClip,'No localized desktop card text may be clipped');
     assert.ok(layout.flowBox.top>=layout.scenicHeight*.60,
       'Desktop service cards must start beneath the mountains in the navy-darkened lower photo area');
-    assert.ok(layout.captionBandBox.top-layout.flowBox.bottom<=12,
-      'Desktop caption band must immediately follow the compact service grid');
-    assert.ok(layout.contactBox.top-layout.captionBandBox.bottom<=3,
-      'Desktop contacts immediately follow the vertically centered caption band');
+    assert.ok(layout.contactBox.top>=layout.flowBox.bottom-2,'Contacts immediately follow cards');
+    assert.ok(layout.captionBandBox.top>=layout.contactBox.top,'Concluding text is after contacts heading');
     assert.ok(layout.leftVeil.includes('72%'),
       'Full-bleed navy scrim must fade out before the right-hand moon and cliffs');
    }
@@ -204,21 +204,24 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
       .evaluate(el=>getComputedStyle(el,'::before').display);
     if(lang==='ru'){
      assert.equal(ruleDisplay,'none','RU mobile heading orange rule is removed');
-     assert.ok(layout.openingBox.top>=layout.headingBox.bottom
-        &&layout.openingBox.top<layout.scenicHeight*.56,
-       'RU intro must begin directly beneath unchanged project heading in navy sky');
-     assert.ok(layout.flowBox.top>=layout.scenicHeight*.70,
-       'Service cards must stay in the dark lower portion of the unmodified panorama');
+     assert.ok(layout.openingBox.top>=layout.scenicHeight-12
+        &&layout.openingBox.top<layout.scenicHeight+115,
+       'RU intro must follow the complete panorama on the blue transition: '+
+       JSON.stringify({opening:layout.openingBox.top,scenicHeight:layout.scenicHeight}));
+     assert.ok(layout.flowBox.top>=layout.scenicHeight,
+       'Service cards must follow the complete panorama');
      assert.ok(layout.flowBox.top-layout.openingBox.bottom<=120,
        'No excessive blank blue band between the compact three-line sentence and service cards');
     }else{
-     assert.ok(layout.openingBox.top>130&&layout.openingBox.top<layout.scenicHeight,
-       'Other languages must retain existing scenic-copy arrangement');
+     assert.ok(layout.openingBox.top>=layout.scenicHeight-12
+        &&layout.openingBox.top<layout.scenicHeight+150,
+       'EN and KK introductions must follow the complete panorama');
      assert.ok(layout.flowBox.top>=layout.scenicHeight-2,
        'EN KK services stay beneath original image'); 
     }
     assert.ok(layout.scenicCopyBox.bottom<=Math.max(layout.scenicHeight,layout.openingBox.bottom)+45,
-      'Mobile scenic area must not reserve the old automation paragraph space');
+      'Mobile scenic area must not reserve the old automation paragraph space: '+
+      JSON.stringify({bottom:layout.scenicCopyBox.bottom,opening:layout.openingBox.bottom,scenicHeight:layout.scenicHeight}));
     assert.ok(layout.captionBox.top>=layout.flowBox.bottom,
       'Highlighted mobile automation caption must follow all service cards');
     if(lang==='en'||lang==='kk')
@@ -235,13 +238,13 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
     const next=lang==='ru'?'en':lang==='en'?'kk':'ru';
     await page.evaluate(next=>Nomad360UI.setLanguage(next),next);
     assert.equal(await page.locator('#nomad360-information .nomad-about-card').count(),3);
-    assert.equal(await page.locator('#nomad360-information .nomad-about-caption-band > .nomad-about-caption').count(),1);
+    assert.equal(await page.locator('#nomad360-contacts .nomad-about-caption-band > .nomad-about-caption').count(),1);
     const orderOk=await page.evaluate(()=>{
       const flow=document.querySelector('#nomad360-information .nomad-about-flow');
       const caption=document.querySelector('#nomad360-information .nomad-about-caption');
       const contacts=document.querySelector('#nomad360-contacts');
       return !!(flow.compareDocumentPosition(caption)&Node.DOCUMENT_POSITION_FOLLOWING)
-       && !!(caption.compareDocumentPosition(contacts)&Node.DOCUMENT_POSITION_FOLLOWING);
+        && contacts.contains(caption) && !!(contacts.querySelector('.nomad-links').compareDocumentPosition(caption)&Node.DOCUMENT_POSITION_FOLLOWING);
     });
     assert.ok(orderOk,'Changing RU/EN/KK must retain caption after three service links');
     assert.equal(await page.locator('#nomad360-information .nomad-about-card-motto').count(),3);

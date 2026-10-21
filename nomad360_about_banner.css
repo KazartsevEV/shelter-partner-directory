@@ -529,7 +529,6 @@
   -webkit-mask-composite:initial;mask-composite:initial;
  }
  #nomad360-information.nomad-information::before{
-  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
   /* Native-height render at ALL desktop widths; 3200×768 source covers 2560px.
      The approved 1536×768 center remains intact at 1280px and 1440px. */
   background-size:auto 640.6px;background-position:center top;background-repeat:no-repeat;
@@ -553,5 +552,176 @@
     rgba(23,59,88,.31) 58%,
     rgba(23,59,88,0) 72%);
   background-repeat:no-repeat;
+ }
+}
+
+/* ABOUT-FULLBLEED-11 — the SAME owner-approved 3200x768 moonlight SVG
+   remains native-scale on desktop and is cropped (not stretched) on phones.
+   The previous max-width 1138px restricted the NAVY banner, although the
+   absolute background tried to escape it. Give the actual canvas full width. */
+#nomad360-information.nomad-information{
+ box-sizing:border-box;width:var(--nomad-about-viewport-width,100vw);
+ max-width:none;min-width:0;overflow:hidden;
+ margin:48px 0 0;
+ margin-left:calc(50% - var(--nomad-about-viewport-width,100vw)/2);
+}
+#nomad360-information #nomad360-about,
+#nomad360-information #nomad360-contacts{
+ box-sizing:border-box;width:100%;max-width:1138px;margin-left:auto;margin-right:auto;
+}
+@media(min-width:1001px){
+ #nomad360-information.nomad-information{overflow:hidden}
+ #nomad360-information.nomad-information::before,
+ #nomad360-information.nomad-information::after{
+  left:0;right:0;transform:none;width:100%;
+ }
+ #nomad360-information.nomad-information::before{
+  background-size:auto 640.6px;background-position:center top;background-repeat:no-repeat;
+ }
+ /* Lower the exact two-line English subtitle from white cliffs into
+    the navy transition, without shifting the scenic heading or artwork. */
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:0;
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  width:min(60%,680px);max-width:680px;
+  margin-top:clamp(235px,22vw,300px);
+  margin-bottom:14px;
+ }
+}
+#nomad360-information .nomad-about-brand-en-line{display:block}
+@media(min-width:701px) and (max-width:1000px){
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:0;
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  width:min(62%,600px);max-width:600px;margin-top:clamp(145px,21vw,225px);margin-bottom:20px;
+ }
+}
+@media(max-width:700px){
+ #nomad360-information.nomad-information{
+  max-width:none;width:var(--nomad-about-viewport-width,100vw);min-width:0;
+  margin:28px 0 0;
+  margin-left:calc(50% - var(--nomad-about-viewport-width,100vw)/2);
+ }
+ #nomad360-information.nomad-information::before{
+  /* The exact SAME extended vector scene as desktop; preserve its intrinsic
+     proportions and crop its left side instead of stretching a 1138px image. */
+  --about-scene-h:clamp(265px,84vw,330px);
+  top:0;left:auto;right:-10px;
+  width:calc(var(--about-scene-h) * 3200 / 768);
+  height:var(--about-scene-h);aspect-ratio:3200/768;
+  background-size:auto var(--about-scene-h);background-position:center top;
+ }
+ #nomad360-information #nomad360-about{padding:37px 22px 0}
+ #nomad360-information #nomad360-contacts{padding-left:22px;padding-right:22px}
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:0;
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:clamp(115px,31vw,152px);
+  margin-bottom:24px;
+  width:100%;max-width:none;
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-brand{
+  font-size:clamp(15px,4vw,18px);line-height:1.45;
+ }
+}
+
+/* The orange-left-rule automation paragraph is now the final message in
+   Contacts. Don't reserve its former mid-banner 156px spacer. */
+#nomad360-information #nomad360-contacts .nomad-topics{
+ margin:2px 0 18px;
+ font:400 clamp(13px,1.2vw,15px)/1.5 var(--nd-font,Inter,sans-serif);
+ color:#FFFFFF;
+}
+#nomad360-information #nomad360-contacts .nomad-links{
+ padding-bottom:16px;
+}
+#nomad360-information #nomad360-contacts .nomad-about-caption-band{
+ display:block;min-height:0;height:auto;padding:20px 0 0;margin:0;
+}
+#nomad360-information #nomad360-contacts .nomad-about-caption{
+ width:min(100%,870px);max-width:870px;margin:0;padding:0 0 0 22px;
+ font:400 clamp(16px,1.65vw,21px)/1.42 var(--nd-font,Inter,sans-serif);
+ color:#FFFFFF;border-left:5px solid #FF913F;
+}
+#nomad360-information #nomad360-contacts .nomad-about-caption em{
+ font-style:italic;font-weight:650;color:#FF913F;
+}
+@media(max-width:700px){
+ #nomad360-information #nomad360-contacts .nomad-topics{
+  font-size:13px;line-height:1.4;margin:0 0 12px;
+ }
+ #nomad360-information #nomad360-contacts .nomad-about-caption-band{
+  padding:15px 0 0;
+ }
+ #nomad360-information #nomad360-contacts .nomad-about-caption{
+  font-size:clamp(15px,3.8vw,18px);padding-left:16px;line-height:1.45;
+ }
+ #nomad360-information #nomad360-contacts{padding-bottom:23px}
+}
+@layer nomad360-palette{
+ body:has(#home-screen) #nomad360-information #nomad360-contacts .nomad-topics,
+ body:has(#home-screen) #nomad360-information #nomad360-contacts .nomad-about-caption{
+  color:#FFFFFF!important;
+ }
+ body:has(#home-screen) #nomad360-information #nomad360-contacts .nomad-about-caption{
+  border-left-color:#FF913F!important;
+ }
+ body:has(#home-screen) #nomad360-information #nomad360-contacts .nomad-about-caption em{
+  color:#FF913F!important;
+ }
+}
+
+/* EN copy is intentionally below the cliffs. Reserve the complete photo
+   height before the cards even after the intro moves down to navy. */
+@media(max-width:700px){
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:calc(clamp(265px,84vw,330px) - 37px);
+ }
+}
+
+/* The phone shows the entire approved central panorama at its native 2:1
+   composition. The title sits on its dark left sky and the subtitle follows
+   on the branded blue transition; no clipped mirror or second moon. */
+@media(max-width:700px){
+ html[lang] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:0;padding-bottom:18px;
+ }
+ #nomad360-information.nomad-information::before{
+  --about-scene-h:50vw;
+  top:0;right:0;left:0;width:100%;height:var(--about-scene-h);
+  aspect-ratio:2/1;
+  background-size:auto var(--about-scene-h);
+  background-position:center top;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
+ }
+ #nomad360-information.nomad-information::after{
+  height:50vw;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.80) 0%,rgba(23,59,88,.56) 36%,
+   rgba(23,59,88,.18) 60%,rgba(23,59,88,0) 80%);
+ }
+ html[lang="ru"] #nomad360-information #nomad360-about
+ .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:calc(50vw - 75px);
+ }
+ html[lang="en"] #nomad360-information #nomad360-about
+ .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:calc(44vw - 72px);
+ }
+ html[lang="kk"] #nomad360-information #nomad360-about
+ .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:calc(39vw - 84px);
+ }
+}
+
+/* One URL declaration serves both responsive vector compositions. Keeping it
+   once also avoids repeating the large data URL in a standalone HTML export. */
+@media(max-width:700px), (min-width:1001px){
+ #nomad360-information.nomad-information::before{
+  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
  }
 }

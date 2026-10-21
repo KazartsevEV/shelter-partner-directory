@@ -796,9 +796,9 @@
       for(const link of Array.from(doc.querySelectorAll('link[rel="stylesheet"][href^="./"]'))){
         const filename=link.getAttribute('href');
         let css=await (await get(filename)).text();
-        // CONSULTING-02: CSS is inlined into a portable standalone HTML file.
-        // Keep the approved scenic artwork in that same file; relative url(...)
-        // would otherwise break when a consultant hosts the embed elsewhere.
+        // Bundle every local CSS asset into the standalone edition. This
+        // includes the vector About scene, the other banners and Inter fonts;
+        // relative url(...) paths would break on a partner's own domain.
         if(filename==='./nomad360_consulting_banner.css'){
           const scenicUrls=[
             './assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg',
@@ -806,16 +806,18 @@
           ];
           if(!scenicUrls.every(path=>css.includes(path)))
             throw new Error('Consulting artwork URL contract changed');
-          for(const path of scenicUrls){
-            const svg=await (await get(path)).blob();
-            const data=await new Promise((resolve,reject)=>{
-              const reader=new root.FileReader();
-              reader.onload=()=>resolve(reader.result);
-              reader.onerror=()=>reject(reader.error);
-              reader.readAsDataURL(svg);
-            });
-            css=css.replaceAll(path,data);
-          }
+        }
+        const localUrls=[...new Set([...css.matchAll(/url\(\s*(['"]?)(\.\/[^'"\)]+)\1\s*\)/g)]
+          .map(match=>match[2]))];
+        for(const path of localUrls){
+          const asset=await (await get(path)).blob();
+          const data=await new Promise((resolve,reject)=>{
+            const reader=new root.FileReader();
+            reader.onload=()=>resolve(reader.result);
+            reader.onerror=()=>reject(reader.error);
+            reader.readAsDataURL(asset);
+          });
+          css=css.replaceAll(path,data);
         }
         const inline=doc.createElement('style');
         inline.setAttribute('data-nomad-bundled',filename);

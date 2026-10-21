@@ -52,7 +52,10 @@ function methods(contents){
 }
 function syncWidth(){
  const scene=document.getElementById(ID);
- if(scene)scene.style.setProperty('--irbis-page-width',document.documentElement.getBoundingClientRect().width+'px');
+ const width=document.documentElement.getBoundingClientRect().width;
+ if(scene)scene.style.setProperty('--irbis-page-width',width+'px');
+ // Preserve the established scrollbar-gutter measurement for both surfaces.
+ document.getElementById('nomad360-footer')?.style.setProperty('--irbis-page-width',width+'px');
 }
 function decorate(){
  const footer=document.getElementById('nomad360-footer');
@@ -109,7 +112,16 @@ function decorate(){
   if(detail&&saved.has(id))detail.open=saved.get(id);
  }
  const inner=footer.querySelector('.nomad-footer-inner');
- if(inner&&inner.lastElementChild!==scene)inner.append(scene);
+ if(inner){
+  if(inner.lastElementChild!==scene)inner.append(scene);
+  // Previously this copyright/"Calculation currency" row was ABOVE the
+  // Irbis banner. Keep copyright alone as the final thin footer strip.
+  const strip=inner.querySelector(':scope > .nomad-footer-bottom');
+  // Remove only the duplicated FOOTER readout of the current calculation
+  // currency. Original currency selector, save/restore and exports are intact.
+  strip?.querySelector('.nomad-unit-note')?.remove();
+  if(strip&&scene.nextElementSibling!==strip)scene.after(strip);
+ }
  syncWidth();
 }
 function boot(){
