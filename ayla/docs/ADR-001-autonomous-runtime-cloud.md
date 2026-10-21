@@ -7,6 +7,8 @@
 > **Связанные документы:** [R01 Cross-Spec DoD](AYLA-R01-infrastructure-reuse-and-final-contract-dod.md), [AYLA-LIFE-03](AYLA-LIFE-03-human-creator-triangulation.md), [AYLA-JOB-02](../../docs/ayla/AYLA-JOB-02-functional-specification.md).
 > **Исходные доказательства:** KazartsevEV/lazysellerV2/ai-content-marketer/deploy/compose.yaml, deploy/README.md, docs/RUNTIME_PROFILES.md, docs/PRODUCT_STATE_GOAL_ROADMAP.md.
 
+**Уточнение среды (ADR-002):** владелец указал, что Google Cloud project и сервисный аккаунт уже созданы в инфраструктуре [lazysellerV2](https://github.com/KazartsevEV/lazysellerV2). [ADR-002](ADR-002-shared-lazyseller-gcp-isolation.md) заменяет предположение о необходимости нового проекта/VM: сначала read-only inventory; затем isolated co-hosting при доказанной ёмкости или отдельная Ayla VM в том же GCP project. Запрещено затрагивать Infourok/UMF/Product Factory runtime, existing SA IAM, DB, Gateway/ngrok или разрушительно тестировать общую VM.
+
 ## 0. Решение и причины
 
 **Предлагаемая production-архитектура R01: один постоянно включённый Google Cloud Compute Engine VM + durable диск + два Docker-процесса (Ayla Web/API и Ayla Worker), использующие один канонический job broker/SQLite WAL, один encrypted credential store и один Persona/LifeState store.** Публичная точка входа защищена HTTPS reverse-proxy, Threads OAuth; model inference вызывается worker через сменный LLM-adapter.
@@ -213,7 +215,7 @@ Gemini/OpenAI/OpenRouter модельный API — отдельные начи�
 ## 7. Инженерное решение / последовательность
 
 1. **Prototype locally:** перенести worker/web/SQLite/permit/provider-router базовые модули из донора под \`ayla/\`, не менять донор; тесты и fake connector.
-2. **One authorised GCE test VM:** выделить отдельный проект/VM или изолированный namespace с owner-approved billing/region/resource sizing, TLS/callback и persistent disk. Без разрешения владельца ничего не создавать и не оплачивать.
+2. **Read-only inventory of existing lazyseller GCP:** выяснить project ID, WIF/SA role restrictions, current instances, GCS, capacity and billing. При безопасной доступной Linux VM — отдельный Ayla Compose project; иначе по согласованию отдельная Ayla VM в **том же** GCP project, не в новом. Без разрешения владельца ничего не создавать, не перезагружать и не оплачивать.
 3. **LLM BYOK smoke:** проверить выбранную модель на коротких постах, распознавании комментариев, каноне и реальном background job, закрыв UI/ChatGPT.
 4. **Persistence proof:** restart/recovery/off-VM backup, scopes/credentials and budget cap checks.
 5. **Advance R01.2–R01.6:** расширить pipeline по утверждённому Threads release DoD, не включать других соцсетей или тяжёлые видео.
