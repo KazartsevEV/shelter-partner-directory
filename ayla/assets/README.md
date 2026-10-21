@@ -10,4 +10,6 @@ The owner approved an exact visual master image on 21 October 2026.
 
 **Status: original owner-approved JPEG committed and verified.** Exact Git blob SHA-1: `0a8d1765c3ea15113a16c76e0a5e72571711c726` (computed independently from local bytes and verified against GitHub blob). [Immutable face master generation manifest](face-canon-v1.json). The master MUST NOT be re-rendered, edited or overwritten; derived images remain separate files. Every Ayla face generation must provide the actual reference JPEG bytes to a model/provider supporting reference-image conditioning; prompt-only requests are prohibited. Final identity similarity still requires QA.
 
+[Reference loader](../face_reference.py) verifies the hash and returns the exact source bytes to reference-conditioned generation adapters (but is not yet wired into a live image provider). [Reference unit tests](../tests/test_face_reference.py).
+
 [Approved Visual Canon documentation](../../docs/ayla/AYLA-VISUAL-01-approved-reference.md).
