@@ -43,6 +43,10 @@
 
 - **[AYLA-ADR-01 — Google Cloud Compute Engine vs ngrok](docs/AYLA-ADR-01-autonomous-runtime-google-cloud.md)** — решение для первого автономного хостинга: один постоянно работающий VM с Docker web+worker, общим устойчивым SQLite, off-VM backup, permission gates и отдельным LLM API; ngrok только для локальных OAuth/webhook тестов. **VM ещё не создана**: нужны владелец cloud/billing, бюджет и разрешённый model provider.
 
+## Autonomy & cloud runtime architecture
+
+- **[ADR-001 — Autonomous Runtime on Google Cloud VM](docs/ADR-001-autonomous-runtime-cloud.md)** — GCE VM with persistent Web/API + Worker, one durable broker and Persona store, official Threads OAuth/HTTPS gateway, provider-independent LLM inference, owned permission policies, recovery/costs, no ngrok production dependency. **Recommended architecture under approval; cloud is not provisioned.**
+
 ## Audited reuse and cross-contract Definition of Done
 
 - **[AYLA-R01-AUDIT & DoD — donor infrastructure and six release acceptance gates](docs/AYLA-R01-infrastructure-reuse-and-final-contract-dod.md)** — evidence-based audit of lazysellerV2/ai-content-marketer, reuse/new-work matrix and stage-level R01.1–R01.6 DoD traced to the **final persona, life, marketing, content, conversation and learning specifications**, not just Threads actions.
