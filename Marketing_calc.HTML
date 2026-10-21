@@ -18,6 +18,7 @@
     <script src="./nomad360_fx.js"></script>
     <script src="./nomad360_fx_ui.js"></script>
     <script src="./nomad360_payment_ui.js"></script>
+    <script src="./nomad360_draft_store.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Typeface is loaded once in nomad360_calculator_ui.css. */
@@ -3072,8 +3073,9 @@
             const saved=readSavedProductCalculation();
             if(saved&&new URLSearchParams(window.location.search).get('demo')!=='shopper'){
                 try {
-                    if(!productPortfolio.length)localStorage.removeItem(savedProductStorageKey);
-                    else localStorage.setItem(savedProductStorageKey,JSON.stringify({
+                    if(!productPortfolio.length){
+                        if(!window.Nomad360DraftStore.removeV1())throw new Error('Draft storage unavailable');
+                    }else if(!window.Nomad360DraftStore.writeV1({
                         ...saved,savedAt:new Date().toISOString(),
                         productPortfolio:productPortfolio.map(x=>JSON.parse(JSON.stringify(x))),
                         activeProductId:productPortfolio.some(x=>Number(x.id)===Number(currentProductSequence))?
@@ -3082,7 +3084,7 @@
                         businessTaxPct:Number(document.getElementById('own-business-tax-pct')?.value)||0,
                         salesVat:productOwnChoices.salesVat||'no',
                         salesVatPct:Number(document.getElementById('own-sales-vat-pct')?.value)||0
-                    }));
+                    }))throw new Error('Draft storage unavailable');
                 } catch(e){console.warn('Nomad360: unable to persist V1 removal',e);}
             }
             updateSavedProductEntry();
@@ -5754,28 +5756,8 @@
 
         // A blank first-run is always the default. Stored portfolios are opened
         // ONLY with the explicit "Continue my products" control or ?resume=1.
-        const savedProductStorageKey = 'marketingCalcProductResultV1';
-
         function readSavedProductCalculation() {
-            try {
-                const text = localStorage.getItem(savedProductStorageKey);
-                if (!text) return null;
-                const parsed = JSON.parse(text);
-                if (!Array.isArray(parsed.productPortfolio) || !parsed.productPortfolio.length ||
-                    parsed.productPortfolio.length > 100) return null;
-                const seen = new Set();
-                for (const item of parsed.productPortfolio) {
-                    if (!item || !['own','resale','dropship','offline-service'].includes(item.source) ||
-                        !Number.isSafeInteger(Number(item.id)) || Number(item.id) <= 0 ||
-                        seen.has(Number(item.id)) ||
-                        typeof item.name !== 'string' || !item.name.trim() ||
-                        !item.inputs || typeof item.inputs !== 'object') return null;
-                    seen.add(Number(item.id));
-                }
-                return parsed;
-            } catch (_) {
-                return null;
-            }
+            return window.Nomad360DraftStore.readV1();
         }
 
         function updateSavedProductEntry() {
@@ -5917,7 +5899,7 @@
                     salesVat: productOwnChoices.salesVat || 'no',
                     salesVatPct: productNumber('own-sales-vat-pct')
                 };
-                localStorage.setItem(savedProductStorageKey, JSON.stringify(payload));
+                if (!window.Nomad360DraftStore.writeV1(payload)) throw new Error('Draft storage unavailable');
                 const savedHtml = 'Сохранено в этом браузере. ' +
                     '<a class="underline font-bold" href="?resume=1">'+
                     (productPortfolio.some(i=>i.source==='offline-service')?
@@ -9526,6 +9508,7 @@
 <script src="./nomad360_calculator_ui.js"></script>
 <script src="./nomad360_seo_language.js"></script>
 <script src="./nomad360_traffic.js"></script>
+<script src="./nomad360_delivery.js"></script>
 <script src="./nomad360_header.js"></script>
 <script src="./nomad360_hero_banner.js"></script>
 <script src="./nomad360_about_banner.js"></script>

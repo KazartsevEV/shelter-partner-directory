@@ -3,7 +3,6 @@
 'use strict';
 const taxText=()=>root.Nomad360LocaleCore?.locales?.('tax')?.[root.Nomad360UI?.getLanguage?.()||'ru']||{};
 const Engine=root.LinkedPortfolioV2Engine;
-const storageKey='marketingCalcLinkedPortfolioV2';
 // Display-only buyer quote. Agency commission is not the principal's sale.
 function buyerUnit(item){
  if(!item)return null;
@@ -37,8 +36,8 @@ const shown=(v,suffix='')=>Number.isFinite(Number(v))?
  '<span data-nomad-display-number="'+Number(v)+'"'+
  (suffix?' data-nomad-display-suffix="'+suffix+'"':'')+'>'+money(v)+suffix+'</span>':'—';
 let state=null,sequence=1;
-function read(){try{const x=JSON.parse(localStorage.getItem(storageKey));return x?.version===3&&x.source==='v1-calculated'&&Array.isArray(x.skus)?x:null}catch(_){return null}}
-function save(){try{localStorage.setItem(storageKey,JSON.stringify(state));updateEntry();return true}catch(_){return false}}
+function read(){return root.Nomad360DraftStore.readLinked()}
+function save(){try{if(!root.Nomad360DraftStore.writeLinked(state))return false;updateEntry();return true}catch(_){return false}}
 function updateEntry(){
  const el=document.getElementById('portfolio-v2-linked-resume-home'),saved=read();
  if(el){el.hidden=!saved;el.classList.toggle('hidden',!saved);}

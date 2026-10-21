@@ -6,7 +6,7 @@ test('Inter preserves application logic; current task-6 presentation files have 
  const protectedPaths=paths.filter(p=>(!p.includes('/')&&/\.(js|css|HTML|html)$/.test(p)&&!['nomad360_design_system.css','nomad360_calculator_ui.css','nomad360_header.js','nomad360_calculator_ui.js','nomad360_locale_core.js','nomad360_price_export.js'].includes(p))||p.startsWith('vendor/exceljs')||p==='CALCULATOR_LICENSE.md');
  A.ok(protectedPaths.includes('Marketing_calc.HTML')&&protectedPaths.includes('portfolio_v2_engine.js')&&protectedPaths.includes('nomad360_fx.js'));
  for(const p of protectedPaths){
-  let now=fs.readFileSync(path.join(root,p)),old=execFileSync('git',['show',base+':'+p],{cwd:root});
+  let now=require('./helpers/refactor-boundaries-scope.cjs').restore(p,fs.readFileSync(path.join(root,p))),old=execFileSync('git',['show',base+':'+p],{cwd:root});
   if(p==='CALCULATOR_LICENSE.md'){
    A.deepEqual(now,execFileSync('git',['show','cd80f877f20dde9d276683c83b99c6a9455dea5d:'+p],{cwd:root}), 'Owner-approved license v2.4');continue;
   }

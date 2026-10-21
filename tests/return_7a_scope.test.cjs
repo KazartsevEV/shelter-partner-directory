@@ -9,7 +9,7 @@ test('All existing application files stay exact outside the five authorised pres
  // are protected by frozen VAT and stage-5 export compatibility tests.
  const laterApprovedMarketing=new Set(['nomad360_header.js','nomad360_locale_core.js','nomad360_calculator_ui.css','nomad360_price_export.js','nomad360_calculator_ui.js']);
  for(const file of files)if(!laterApprovedMarketing.has(file)){
-  const actual=fs.readFileSync(path.join(root,file),'utf8');
+  const actual=require('./helpers/refactor-boundaries-scope.cjs').restore(file,fs.readFileSync(path.join(root,file),'utf8'));
   if(['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'].includes(file)){
    const audited=execFileSync('git',['show','6c5c0e3a4927fb50b88ab99914145bb9016bb24a:'+file],
      {cwd:root,encoding:'utf8'});

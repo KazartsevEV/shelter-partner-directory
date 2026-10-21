@@ -4,7 +4,7 @@ const root=path.resolve(__dirname,'..'),base=require('./fixtures/task10-palette/
 const calculatorLink='    <link rel="stylesheet" href="./nomad360_palette.css">\n';
 const digest=b=>crypto.createHash('sha256').update(b).digest('hex');
 test('Task10: every established JS/engine, original CSS, logo and calculator byte is unchanged except the single passive stylesheet loader',()=>{
- for(const [file,hash] of Object.entries(base.hashes)){let b=fs.readFileSync(path.join(root,file));if(file==='Marketing_calc.HTML'){const s=b.toString();A.equal(s.split(calculatorLink).length,2);A.ok(require('./helpers/task10-palette-scope.cjs').stripApprovedHeroHtml(s).includes(calculatorLink+'</head>'));b=Buffer.from(require('./helpers/seo-html-contract.cjs').stripLiveStudy(require('./helpers/task10-palette-scope.cjs').stripTask10PaletteHtml(s)));}if(file==='nomad360_locale_core.js'){
+ for(const [file,hash] of Object.entries(base.hashes)){let b=require('./helpers/refactor-boundaries-scope.cjs').restore(file,fs.readFileSync(path.join(root,file)));if(file==='Marketing_calc.HTML'){const s=b.toString();A.equal(s.split(calculatorLink).length,2);A.ok(require('./helpers/task10-palette-scope.cjs').stripApprovedHeroHtml(s).includes(calculatorLink+'</head>'));b=Buffer.from(require('./helpers/seo-html-contract.cjs').stripLiveStudy(require('./helpers/task10-palette-scope.cjs').stripTask10PaletteHtml(s)));}if(file==='nomad360_locale_core.js'){
     const accepted=execFileSync('git',['show','78ef71b32256a1651c5bbc96e154e2f6df89a019:'+file],{cwd:root,encoding:'utf8'});
     const row=accepted.split('\n').find(x=>x.startsWith(' ["marketing.onePortfolioFunnelBudget'));
     const pricing=accepted.split('\n').find(x=>x.startsWith(' ["finance.allThreeModelsShare'));

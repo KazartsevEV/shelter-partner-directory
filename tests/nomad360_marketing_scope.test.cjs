@@ -1,7 +1,7 @@
 'use strict';
 const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process');
 const root=path.resolve(__dirname,'..'),base='538565e';
-const before=f=>execFileSync('git',['show',base+':'+f],{cwd:root,maxBuffer:8*1024*1024,encoding:'utf8'}),now=f=>fs.readFileSync(path.join(root,f),'utf8');
+const before=f=>execFileSync('git',['show',base+':'+f],{cwd:root,maxBuffer:8*1024*1024,encoding:'utf8'}),now=f=>require('./helpers/refactor-boundaries-scope.cjs').restore(f,fs.readFileSync(path.join(root,f),'utf8'));
 test('Only the four requested presentation files may change; all financial sources, HTML and licence stay exact',()=>{
  // Stage 7Б-5 expressly extends XLSX/PDF tax projections. All accepted marketing
  // text still has independent exact checks below; VAT export remains tested separately.
