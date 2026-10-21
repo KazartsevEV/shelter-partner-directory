@@ -34,6 +34,10 @@
 - [AYLA-JOB-02 — Formal Functional Specification](../docs/ayla/AYLA-JOB-02-functional-specification.md)
 - [AYLA-JOB-03 — Content Production & Feedback Loop](../docs/ayla/AYLA-JOB-03-content-production-feedback-loop.md)
 
+## План выпуска — сначала Threads
+
+- **[AYLA-R01 — Threads-first release](docs/AYLA-R01-threads-first-release.md)** — проект на согласование, 21.10.2026: только Threads; короткие тексты, микросюжеты, фото и карусели, свои и чужие дискуссии, аналитика и следующий ContentBrief. Шесть последовательных PR: R01.1 Foundation → R01.2 Research & Text → R01.3 Photos & Carousels → R01.4 Own Discussions → R01.5 External Discussions → R01.6 Metrics & Pilot. Нет видео и других платформ в первом релизе.
+
 ## Life Engine — creator observation and composition
 
 - **[AYLA-LIFE-03 — Human Creator Pattern Learning & Triangulated Life Synthesis](docs/AYLA-LIFE-03-human-creator-triangulation.md)** — design draft: study real human bloggers within the same geographical and lifestyle context, extract abstractions, combine independent patterns and produce original Ayla life episodes anchored in canonical memory.
