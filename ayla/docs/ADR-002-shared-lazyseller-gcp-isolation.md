@@ -86,6 +86,13 @@
 
 **Preflight output contract:** \`AYLA-CLOUD-READONLY-INVENTORY.json\` (sanitized): verified_project_id, verified_principal, WIF binding eligibility for code repo, instances(name,zone,status,capacity observation), bucket refs (без секретов), IAM permission gap, running services evidence, proposed tenancy (cohost or separate VM), owner approval required, verification timestamp, evidence refs and unknown fields.
 
+### 3.1. Код безопасной инвентаризации
+
+- **[ayla/scripts/gcp_readonly_inventory.py](../scripts/gcp_readonly_inventory.py)** — явный `--project`, четыре allowlisted read-only команды gcloud, redacted output, unknown при отказе доступа. Не вызывает restart/stop/create/IAM mutation, не выводит email существующей SA и не перезаписывает существующий отчёт.
+- **[ayla/tests/test_gcp_readonly_inventory.py](../tests/test_gcp_readonly_inventory.py)** — unit tests разрешённых команд, запрета недопустимого project ID, защиты от утечки service-account email, fail-closed permission denied.
+- **Точка исполнения:** только окружение, в котором `gcloud` уже получил разрешение от существующей lazysellerV2 identity. *Само наличие скрипта не предоставляет доступа из этого GitHub-репозитория*. Для реальной проверки требуется доступ к живому GCP через прежний доверенный repo/job или другой owner-approved principal.
+- Пример ручного read-only вызова в авторизованной среде: `python -m ayla.scripts.gcp_readonly_inventory --project EXISTING_PROJECT_ID --output local-private/ayla-inventory.json`. В `public git` отчёт не коммитить. Если project ID неизвестен, сначала установить его из авторизованной cloud-консоли; не пытаться вычислять из секретов наугад.
+
 ## 4. DoD обязательный для R01.1 без вреда другим проектам
 
 | ID | Критерий | Gate |
