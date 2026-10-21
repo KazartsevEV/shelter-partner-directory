@@ -463,6 +463,7 @@ def main():
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
+                             'docs/reviews/about-vector-218/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
         'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
@@ -608,6 +609,7 @@ def main():
         'assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg',
         'nomad360_about_banner.js',
         'nomad360_about_banner.css', 'scripts/about/preview.cjs',
+        'scripts/about/build_vector_scene.py',
         '.github/workflows/about-01-visual.yml',
         # Owner-approved IRBIS-07: only original art, scoped visual controller,
         # exact test contracts and visual receipts, no financial engine changes.

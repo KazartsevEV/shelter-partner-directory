@@ -29,8 +29,8 @@ function stripConsultingExport(source){
  const a=source.indexOf(consultingStart),b=source.indexOf(consultingEnd,a);
  A.ok(b>a,'Consulting packer must be inside the existing stylesheet loop');
  const block=source.slice(a,b);
- A.equal(block.length,1229,'Standalone asset packer size changed');
- A.equal(fingerprint(block),'19e2a7950318ac95','Standalone asset packer changed outside approved block');
+ A.equal(block.length,1229,'Consulting packer size changed');
+ A.equal(fingerprint(block),'19e2a7950318ac95','Consulting packer changed outside approved block');
  return source.slice(0,a)+'        const css=await (await get(filename)).text();\n'+source.slice(b);
 }
 // HERO-LANG-01: Permit ONLY the requested selector option reorder.
