@@ -26,7 +26,7 @@
 ## Approved Persona & visual reference
 
 - [AYLA-CORE-01 — Persona & Life Engine, approved](../docs/ayla/AYLA-CORE-01-persona-life-engine.md)
-- [AYLA-VISUAL-01 — approved exact face and original checksum](../docs/ayla/AYLA-VISUAL-01-approved-reference.md). The owner approved the exact image, but binary Git upload is **complete** and its Git blob matches the original JPEG SHA-1; manifest: [face-canon-v1.json](assets/face-canon-v1.json).
+- [AYLA-VISUAL-01 — approved exact face and original checksum](../docs/ayla/AYLA-VISUAL-01-approved-reference.md). The owner approved the exact image, and binary Git upload is **complete** and its Git blob matches the original JPEG SHA-1; manifest: [face-canon-v1.json](assets/face-canon-v1.json).
 - [AYLA-PERSONA-02 — Audience Values & Aspirational Life, draft](../docs/ayla/AYLA-PERSONA-02-audience-aspirational-life.md)
 
 ## Her Job — marketing specifications awaiting review
@@ -38,6 +38,11 @@
 ## План выпуска — сначала Threads
 
 - **[AYLA-R01 — Threads-first release](docs/AYLA-R01-threads-first-release.md)** — проект на согласование, 21.10.2026: только Threads; короткие тексты, микросюжеты, фото и карусели, свои и чужие дискуссии, аналитика и следующий ContentBrief. Шесть последовательных PR: R01.1 Foundation → R01.2 Research & Text → R01.3 Photos & Carousels → R01.4 Own Discussions → R01.5 External Discussions → R01.6 Metrics & Pilot. Нет видео и других платформ в первом релизе.
+
+## Audited reuse and cross-contract Definition of Done
+
+- **[AYLA-R01-AUDIT & DoD — donor infrastructure and six release acceptance gates](docs/AYLA-R01-infrastructure-reuse-and-final-contract-dod.md)** — evidence-based audit of lazysellerV2/ai-content-marketer, reuse/new-work matrix and stage-level R01.1–R01.6 DoD traced to the **final persona, life, marketing, content, conversation and learning specifications**, not just Threads actions.
+- **[Frozen face reference loader](face_reference.py)** and [unit tests](tests/test_face_reference.py) — validates owner-approved original JPEG, injects exact bytes into provider-neutral image-generation input, **fails closed** on prompt-only providers. Actual image provider connection and visual QA remain R01.3.
 
 ## Life Engine — creator observation and composition
 
