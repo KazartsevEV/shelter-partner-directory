@@ -101,6 +101,9 @@ Human creator / threads research / Persona LifeEvent / комментарии �
 
 ## 6. Автономное исполнение
 
+**Первое архитектурное решение:** [AYLA-ADR-01](AYLA-ADR-01-autonomous-runtime-google-cloud.md) — Cloud Compute Engine VM с постоянно работающим worker + web/API, один durable SQLite/очередь, model inference через внешний разрешённый API, медиа и backup вне VM. Ngrok не решает постоянную работу, он только проксирует локальный сервис. До предоставления Cloud-проекта и бюджето-разрешения это проект, **не созданный prod runtime**.
+
+
 Обычный Custom GPT не генерирует новые ответы и публикации самостоятельно в закрытом чате. Нужен **реальный и отдельно согласованный model-inference runtime** для непрерывного агента; серверная очередь без модели способна только опубликовать уже одобренное и собирать данные. Провайдер, бюджет и полномочия не назначаются этим ТЗ и не включаются скрытно.
 
 **Уровень готовности:** Specified → Code/Unit-CI → Provider Permission Verified → Live E2E Proven → Owner Accepted. Только последний означает «хороший Threads-маркетолог готов».
