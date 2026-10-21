@@ -7,7 +7,8 @@ const path=require('node:path');
 const ROOT=path.resolve(__dirname,'..');
 let snapshot=null;
 const types={'.html':'text/html;charset=utf-8','.js':'text/javascript;charset=utf-8',
- '.css':'text/css;charset=utf-8','.png':'image/png','.HTML':'text/html;charset=utf-8'};
+ '.css':'text/css;charset=utf-8','.png':'image/png','.svg':'image/svg+xml',
+ '.webp':'image/webp','.woff2':'font/woff2','.HTML':'text/html;charset=utf-8'};
 const server=createServer(async(req,res)=>{
  try{
   const name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
@@ -218,6 +219,10 @@ const server=createServer(async(req,res)=>{
   A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_design_system\.css"/);
   A.match(snapshot,/data-nomad-bundled="\.\u002fportfolio_v2_linked_ui\.js"/);
   A.match(snapshot,/data:image\/png;base64,/);
+  A.match(snapshot,/data:image\/svg\+xml;base64,/,
+    'Approved vector scenery must travel with the standalone HTML');
+  A.doesNotMatch(snapshot,/url\(\s*['"]?\.\/(?:assets|docs|vendor)\//i,
+    'Standalone CSS must not point at the original site for imagery or fonts');
   A.doesNotMatch(snapshot,/<script[^>]*src="\.\//i,'No broken relative JS');
   A.doesNotMatch(snapshot,/<link[^>]*href="\.\//i,'No broken relative CSS');
   A.ok(snapshot.includes('function deleteCalculatedProduct('),'Full current V1 must be bundled');
@@ -293,6 +298,23 @@ const server=createServer(async(req,res)=>{
   embed.on('pageerror',e=>embeddedErrors.push(e.message));
   await embed.route(/^https?:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
   await embed.goto(url+'Nomad360-calculator-embed.html',{waitUntil:'domcontentloaded'});
+  await embed.waitForSelector('#nomad360-information.nomad-information');
+  const embeddedScene=await embed.evaluate(async()=>{
+    const about=document.querySelector('#nomad360-information');
+    const value=getComputedStyle(about,'::before').backgroundImage;
+    const source=value.match(/data:image\/svg\+xml;base64,[A-Za-z0-9+/=]+/);
+    if(!source){
+      const style=document.querySelector('style[data-nomad-bundled="./nomad360_about_banner.css"]');
+      return {background:value.slice(0,120),variable:getComputedStyle(about).getPropertyValue('--about-vector-scene').slice(0,120),
+        styleLength:style?.textContent.length,ruleCount:style?.sheet?.cssRules.length,aboutClass:about.className,
+        firstRule:style?.sheet?.cssRules[0]?.cssText.slice(0,220),
+        sourceVariable:style?.sheet?.cssRules[0]?.style?.getPropertyValue('--about-vector-scene').length};
+    }
+    const image=new Image();image.src=source[0];await image.decode();
+    return {width:image.naturalWidth,height:image.naturalHeight};
+  });
+  A.deepEqual(embeddedScene,{width:3200,height:768},
+    'The extracted standalone edition must decode its bundled About panorama');
   A.equal(await embed.locator('#nomad360-header').count(),1);
   A.equal(await embed.locator('#nomad360-footer').count(),1);
   A.equal(await embed.locator('#start-own-product').count(),1);

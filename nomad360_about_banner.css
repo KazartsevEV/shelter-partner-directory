@@ -529,7 +529,6 @@
   -webkit-mask-composite:initial;mask-composite:initial;
  }
  #nomad360-information.nomad-information::before{
-  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
   /* Native-height render at ALL desktop widths; 3200×768 source covers 2560px.
      The approved 1536×768 center remains intact at 1280px and 1440px. */
   background-size:auto 640.6px;background-position:center top;background-repeat:no-repeat;
@@ -577,7 +576,6 @@
   left:0;right:0;transform:none;width:100%;
  }
  #nomad360-information.nomad-information::before{
-  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
   background-size:auto 640.6px;background-position:center top;background-repeat:no-repeat;
  }
  /* Lower the exact two-line English subtitle from white cliffs into
@@ -609,7 +607,6 @@
  #nomad360-information.nomad-information::before{
   /* The exact SAME extended vector scene as desktop; preserve its intrinsic
      proportions and crop its left side instead of stretching a 1138px image. */
-  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
   --about-scene-h:clamp(265px,84vw,330px);
   top:0;left:auto;right:-10px;
   width:calc(var(--about-scene-h) * 3200 / 768);
@@ -682,5 +679,49 @@
 @media(max-width:700px){
  html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
   min-height:calc(clamp(265px,84vw,330px) - 37px);
+ }
+}
+
+/* The phone shows the entire approved central panorama at its native 2:1
+   composition. The title sits on its dark left sky and the subtitle follows
+   on the branded blue transition; no clipped mirror or second moon. */
+@media(max-width:700px){
+ html[lang] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:0;padding-bottom:18px;
+ }
+ #nomad360-information.nomad-information::before{
+  --about-scene-h:50vw;
+  top:0;right:0;left:0;width:100%;height:var(--about-scene-h);
+  aspect-ratio:2/1;
+  background-size:auto var(--about-scene-h);
+  background-position:center top;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
+ }
+ #nomad360-information.nomad-information::after{
+  height:50vw;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.80) 0%,rgba(23,59,88,.56) 36%,
+   rgba(23,59,88,.18) 60%,rgba(23,59,88,0) 80%);
+ }
+ html[lang="ru"] #nomad360-information #nomad360-about
+ .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:calc(50vw - 75px);
+ }
+ html[lang="en"] #nomad360-information #nomad360-about
+ .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:calc(44vw - 72px);
+ }
+ html[lang="kk"] #nomad360-information #nomad360-about
+ .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:calc(39vw - 84px);
+ }
+}
+
+/* One URL declaration serves both responsive vector compositions. Keeping it
+   once also avoids repeating the large data URL in a standalone HTML export. */
+@media(max-width:700px), (min-width:1001px){
+ #nomad360-information.nomad-information::before{
+  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
  }
 }
