@@ -26,6 +26,8 @@ Human creator / threads research / Persona LifeEvent / комментарии �
 
 У всех сущностей ID, timestamp, source/evidence, версия, state и trace. Вымышленный LifeEvent и реальные бизнес-факты разделены. Не объявлять постом созданный container без внешнего подтверждения.
 
+**Фоновый режим и стоимость:** [ADR-001](ADR-001-autonomous-runtime-cloud.md) предлагает Compute Engine VM + долгоживущий worker и отдельный inference provider. ChatGPT — owner control plane, а не ночной исполнитель. Инфраструктурные затраты и модельный провайдер требуют согласования до развёртывания.
+
 ## 3. Обязательные функции R01
 
 | ID | Функция | Вход → выход и проверка |
