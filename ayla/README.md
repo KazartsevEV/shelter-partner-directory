@@ -18,14 +18,15 @@
         ├── contracts/
         │   └── life-synthesis.schema.json                        # Machine-readable draft contract
         └── assets/
-            └── (canonical portrait awaiting binary Git upload)
+            ├── ayla-face-canon-v1.jpg            # Approved immutable original JPEG
+            └── face-canon-v1.json                # SHA-256 and provider conditioning contract
 
 **The ayla/ directory is canonical for Ayla's own technical development.** The older docs in docs/ayla/ remain normative until deliberately migrated in a separate documentation change. Reference links below preserve a single source of truth rather than copying and diverging duplicate specs.
 
 ## Approved Persona & visual reference
 
 - [AYLA-CORE-01 — Persona & Life Engine, approved](../docs/ayla/AYLA-CORE-01-persona-life-engine.md)
-- [AYLA-VISUAL-01 — approved exact face and original checksum](../docs/ayla/AYLA-VISUAL-01-approved-reference.md). The owner approved the exact image, but binary Git upload is **not yet proven**; this document does not claim the JPEG is present.
+- [AYLA-VISUAL-01 — approved exact face and original checksum](../docs/ayla/AYLA-VISUAL-01-approved-reference.md). The owner approved the exact image, but binary Git upload is **complete** and its Git blob matches the original JPEG SHA-1; manifest: [face-canon-v1.json](assets/face-canon-v1.json).
 - [AYLA-PERSONA-02 — Audience Values & Aspirational Life, draft](../docs/ayla/AYLA-PERSONA-02-audience-aspirational-life.md)
 
 ## Her Job — marketing specifications awaiting review
@@ -53,4 +54,4 @@
 6. Third-party post texts, photos, intimate details and distinctive stories are not transplanted into Ayla's life. Study abstract patterns rather than impersonating an individual creator.
 7. A design document is not evidence of an implemented connector, autonomous LLM runtime or published social media activity.
 
-**Status:** architecture and design only, **not an implemented application**. The approved portrait binary remains pending a separately verified Git upload.
+**Status:** architecture and design only, **not an implemented application**. The approved portrait JPEG has been pinned as an immutable original; final provider image-conditioning and visual identity QA remain future implementation work.
