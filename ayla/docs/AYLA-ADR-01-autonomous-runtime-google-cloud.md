@@ -1,7 +1,7 @@
 # AYLA-ADR-01 — Автономное исполнение R01: Google Cloud Compute Engine, не ngrok
 
 > **Статус:** предложенное архитектурное решение к R01.1; 21.10.2026. **Не означает созданную Google Cloud VM или подключённые аккаунты.**
-> **Продукт:** Ayla — самостоятельный компонент внутри Nomad360 Business Solutions, в корне \`ayla/\` рядом с Calculator.
+> **Продукт:** Ayla — самостоятельный компонент внутри Nomad360 Business Solutions, в корне `ayla/` рядом с Calculator.
 > **Scope:** Threads-only R01; без видео, остальных соцсетей и интеграции с финансовым движком калькулятора.
 > **Depends on:** [AYLA-R01](AYLA-R01-threads-first-release.md), [AYLA-R01 infrastructure audit & contract DoD](AYLA-R01-infrastructure-reuse-and-final-contract-dod.md), [CORE-01](../../docs/ayla/AYLA-CORE-01-persona-life-engine.md), [JOB-02](../../docs/ayla/AYLA-JOB-02-functional-specification.md), [JOB-03](../../docs/ayla/AYLA-JOB-03-content-production-feedback-loop.md).
 > **Decision:** **предпочтительная production-архитектура — одна постоянно работающая Compute Engine VM + Docker Compose: web/API + автономный worker + общее постоянное хранилище.** Ngrok — только для локального тестирования входящих HTTP-событий и OAuth. Внешняя модель LLM вызывается по API как инструмент worker, а не является хостингом/планировщиком.
@@ -70,18 +70,18 @@ Autonomy is stored as a set of permission scopes by action and account. There is
 One worker executes a **durable series of independent transactions**; each job has event_id, source_evidence, idempotency_key, policy_scope, due_at UTC, lease owner, retry policy, outcome and cost ledger.
 
 R01 job types:
-1. \`research.collect\`: gather permitted published content/threads with cursors, provenance, provider quotas and stale-source validation.
-2. \`creator_patterns.extract\`: extract abstract Social/Place/Emotion patterns; raw third-party posts not copied into Ayla publications.
-3. \`life.episode_propose\`: consult PersonaCanon, LifeState/Calendar, Relationships, Pattern Library; propose new LifeEvent without violating chronology.
-4. \`content.brief_and_copy\`: create/edit short Threads ContentBrief and exact approved copy; call LLM **inside worker**.
-5. \`media.reference_portrait\`: load verified canonical JPEG and pass actual bytes to approved reference-conditioned image provider; no fallback to prompt-only Ayla face.
-6. \`publication.submit\`: read exact approved package/hash, re-authorize external write, send to Threads, reconcile remote ID.
-7. \`discussion.own_comments_ingest\`: read accessible own post replies, maintain cursor/coverage, capture edits/deletes.
-8. \`discussion.reply_propose\` and \`discussion.reply_execute\`: LLM proposals, classification QA, policy, quotas, single persisted 1–60-minute delay.
-9. \`discussion.external_opportunities\`: find public relevant threads, propose a genuinely useful non-promotional response; separate permit.
-10. \`metrics.collect\`: post windows 1h/24h/7d where official metrics available, account-level measurements separate.
-11. \`learning.evaluate\`: correlate observable results and conversation topics (without fabricated attribution), create a new versioned learning proposal and next briefs.
-12. \`operational.health_backup\`: health snapshot, daily backup, alerts for blocked tokens/model/quotas, owner summary.
+1. `research.collect`: gather permitted published content/threads with cursors, provenance, provider quotas and stale-source validation.
+2. `creator_patterns.extract`: extract abstract Social/Place/Emotion patterns; raw third-party posts not copied into Ayla publications.
+3. `life.episode_propose`: consult PersonaCanon, LifeState/Calendar, Relationships, Pattern Library; propose new LifeEvent without violating chronology.
+4. `content.brief_and_copy`: create/edit short Threads ContentBrief and exact approved copy; call LLM **inside worker**.
+5. `media.reference_portrait`: load verified canonical JPEG and pass actual bytes to approved reference-conditioned image provider; no fallback to prompt-only Ayla face.
+6. `publication.submit`: read exact approved package/hash, re-authorize external write, send to Threads, reconcile remote ID.
+7. `discussion.own_comments_ingest`: read accessible own post replies, maintain cursor/coverage, capture edits/deletes.
+8. `discussion.reply_propose` and `discussion.reply_execute`: LLM proposals, classification QA, policy, quotas, single persisted 1–60-minute delay.
+9. `discussion.external_opportunities`: find public relevant threads, propose a genuinely useful non-promotional response; separate permit.
+10. `metrics.collect`: post windows 1h/24h/7d where official metrics available, account-level measurements separate.
+11. `learning.evaluate`: correlate observable results and conversation topics (without fabricated attribution), create a new versioned learning proposal and next briefs.
+12. `operational.health_backup`: health snapshot, daily backup, alerts for blocked tokens/model/quotas, owner summary.
 
 **Initial scheduling is policy-based, not constant polling of every source every minute.**
 - Daily research and creative planning at configurable quiet-hours-aware windows.
@@ -106,8 +106,8 @@ R01 job types:
 
 ## 5. Model inference: brain and budget
 
-- The **server** runs orchestration and persistence. The **brain** is a separate LLM adapter (Gemini/OpenAI/OpenRouter). Reuse provider-neutral contracts from \`lazysellerV2/ai-content-marketer\`.
-- Cost-effective pilot may start with provider/key already available to the owner; \`openrouter/free\` is a working **LOCAL_FREE donor option**, not a production availability guarantee, and it does not remove Threads/GCP media costs.
+- The **server** runs orchestration and persistence. The **brain** is a separate LLM adapter (Gemini/OpenAI/OpenRouter). Reuse provider-neutral contracts from `lazysellerV2/ai-content-marketer`.
+- Cost-effective pilot may start with provider/key already available to the owner; `openrouter/free` is a working **LOCAL_FREE donor option**, not a production availability guarantee, and it does not remove Threads/GCP media costs.
 - **Do not commit a paid inference provider** until owner approves price/budget. All generation calls record model ID, token/request count where available, request cost, failures, retry count.
 - Suggested separation: cheaper text model for radar/triage, stronger model only for high-value creative/ambiguity if approved; image provider is separately configured and requires actual JPEG reference-image input.
 - Timeouts, rate-limits and model outages do not erase research, break approved schedules or turn uncertain responses into facts. A2 may continue sending **already approved** jobs if all permits remain valid; A1/A3/A5 generation without a model is blocked.
@@ -124,7 +124,7 @@ R01 job types:
 
 ## 7. Expected cost boundaries; no invented flat monthly bill
 
-**GCP Free Tier** currently supports one eligible \`e2-micro\` instance-hour equivalent per month in selected US regions, 30 GB-month standard persistent disk and a small outbound data quota. It is **not** a guarantee that a Python web + worker + monitoring deployment fits in 1 GB RAM; run measurements and be prepared to move to a paid \`e2-small/e2-medium\` class or other suitable shape.
+**GCP Free Tier** currently supports one eligible `e2-micro` instance-hour equivalent per month in selected US regions, 30 GB-month standard persistent disk and a small outbound data quota. It is **not** a guarantee that a Python web + worker + monitoring deployment fits in 1 GB RAM; run measurements and be prepared to move to a paid `e2-small/e2-medium` class or other suitable shape.
 
 - **Compute:** VM and disk/storage/network billed according to region, size and use; set Google Cloud billing budget alerts; budget alerts alone are **not** hard shutoff. Separate hard caps in Ayla jobs for inference/provider media costs.
 - **LLM:** API requests (OpenAI/Gemini/OpenRouter) may be charged per call/model/token. No production quota or pricing inferred from a free key.
@@ -163,12 +163,12 @@ R01.1 is **not DONE** until all the following have real evidence:
 9. Admin can see liveness, jobs and last model invocation; alerts issued for overdue queues, expired token, failed backups, budget/quotas.
 10. Negative evidence: disconnected owner PC, no open ChatGPT session, model unavailable, revocation, operator kill-switch.
 
-**R01.1 remains \`CI_PROVEN / CLOUD_E2E_UNPROVEN\` until a real deployed VM and all above are demonstrated.** Pure documentation or a passing local CI run cannot be marked as autonomous production.
+**R01.1 remains `CI_PROVEN / CLOUD_E2E_UNPROVEN` until a real deployed VM and all above are demonstrated.** Pure documentation or a passing local CI run cannot be marked as autonomous production.
 
 ## 10. Rollout plan
 
 1. Accept this ADR and **select the Google Cloud project + billing budget** with the owner; no production resources before that decision.
-2. Port donor Docker/worker/queue and database contracts into independent \`ayla/\` with Local/Cloud runtime profiles, pinned versions and private config. No changes to donor or calculator.
+2. Port donor Docker/worker/queue and database contracts into independent `ayla/` with Local/Cloud runtime profiles, pinned versions and private config. No changes to donor or calculator.
 3. Local unit/integration + simulated scheduled model job; deterministic restart and idempotency tests.
 4. Provision minimal GCE VM, durable disk and server identity; deploy private dashboard and worker, restrict web ingress; restore/backup test.
 5. Configure actual model provider under budget, then run a closed-ChatGPT/owner-PC-off autonomous research and draft test.
