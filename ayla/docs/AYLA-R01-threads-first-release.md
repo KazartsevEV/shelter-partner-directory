@@ -28,6 +28,8 @@ Human creator / threads research / Persona LifeEvent / комментарии �
 
 **Фоновый режим и стоимость:** [ADR-001](ADR-001-autonomous-runtime-cloud.md) предлагает Compute Engine VM + долгоживущий worker и отдельный inference provider. ChatGPT — owner control plane, а не ночной исполнитель. Инфраструктурные затраты и модельный провайдер требуют согласования до развёртывания.
 
+**Уточнение:** решение владельца — использовать существующий Google Cloud project/SA из lazysellerV2. Проверки read-only и изоляция от Infourok/Product Factory обязательны по [ADR-002](ADR-002-shared-lazyseller-gcp-isolation.md). Новый проект создавать не нужно; уже работающую VM не перезагружать и не менять ради Ayla.
+
 ## 3. Обязательные функции R01
 
 | ID | Функция | Вход → выход и проверка |
