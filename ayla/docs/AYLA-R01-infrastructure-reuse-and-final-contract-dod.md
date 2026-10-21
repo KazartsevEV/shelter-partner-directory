@@ -94,7 +94,7 @@
 
 **Трассировка конечного ТЗ:** CORE-01 §§2,3,4,7,11; VISUAL-01; JOB-02 §§0–3,15–17; LIFE-03 §1; JOB-03 §§0,8,17–18.
 
-**Что создаём:** изолированный Python Ayla runtime/DB/queue и API, config/dev/test; одно доменное ядро для будущих платформ, Threads OAuth connector, approval/permit system, frozen Persona/Visual master registry.
+**Что создаём:** изолированный Python Ayla runtime/DB/queue и API, config/dev/test; одно доменное ядро для будущих платформ, Threads OAuth connector, approval/permit system, frozen Persona/Visual master registry. **Архитектурное решение:** [AYLA-ADR-01 — автономная Google Cloud VM](AYLA-ADR-01-autonomous-runtime-google-cloud.md). Ngrok — только временный локальный туннель.
 
 **DONE только если:**
 1. Команда запуска из каталога ayla/, отдельные persistence namespace, project/account bindings, storage migrations; отсутствие каких-либо импортов calc JS, работы с saved portfolios или изменения калькуляторной страницы.
@@ -105,6 +105,9 @@
 6. Run-mode явно различает interactive-only model vs autonomous-background inference; нельзя утверждать непрерывную интеллектуальную работу без настоящей модели, заранее согласованных credentials/cost limits.
 7. Никакого переключения на другой аккаунт в обход отзыва разрешений; отдельный owner-only audit.
 8. Контракт адаптера принимает platform/account/capability, может работать с mocked non-Threads adapter без реального подключения новой соцсети.
+9. Реальная Compute Engine VM с отдельными web+worker, постоянной SQLite/WAL БД и off-VM backup/restore: подтверждены VM restart, Docker restart, worker heartbeat и сохранность due jobs; идентификаторы ресурсов и секреты зарегистрированы в закрытом owner ledger.
+10. **Закрыть ChatGPT и выключить компьютер владельца:** после этого worker должен самостоятельно по расписанию вызвать LLM API, сформировать новое draft/evidence, сохранить результат и журнал затрат. Фоновый queue без реального LLM inference НЕ удовлетворяет этому условию.
+11. Режимы owner approvals, отключённые external writes по умолчанию, лимиты LLM/медиа, расхождения учётной записи и пробуждения после сбоя проверяются на действительном runtime.
 
 **Tests/Gate:** DB backup/restore and restart; token expiry/denial; double-run no duplicate; adversarial external-write attempts; cross-project leak; face hash corruption; mocked adapter compile; реальные account binding/scope evidence. Если аккаунт ещё не подключён, локальный компонент может быть CI_PROVEN, но R01.1 **не OWNER_ACCEPTED** по live gate.
 
