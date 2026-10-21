@@ -678,29 +678,78 @@
 <!-- H11 -->
 <section class="section help-section" aria-labelledby="h11">
 <h2 id="h11">H11. How do PDF, Excel and HTML downloads work?</h2>
+<p><strong>Exporting a result</strong> is not the same as <strong>saving an editable draft</strong>. PDF is for viewing and printing; V2 Excel is a price list. Neither restores your calculator inputs. For resuming work, see <a href="#h10">H10</a>.</p>
 
-<h3>PDF</h3>
+<h3>Which export is available for each route</h3>
+<div class="help-table-wrap">
+<table>
+<thead><tr><th scope="col">Route</th><th scope="col">PDF</th><th scope="col">Excel (.xlsx)</th></tr></thead>
+<tbody>
+<tr><th scope="row">V1 goods: own production, resale, dropshipping; goods/offline-service calculation in the common V1 block</th><td><strong>Export to PDF</strong> once pricing, tax and cash flow are ready.</td><td>No separate V1 Excel price list.</td></tr>
+<tr><th scope="row">V1 full service calculation (when the full-service screen is available)</th><td><strong>Save calculation as PDF</strong>: financial results and monthly cash flows.</td><td>No Excel price list on this screen.</td></tr>
+<tr><th scope="row">V1 simplified online service</th><td>Do not confuse the absence of a dedicated full-report action on this screen with full-service PDF export.</td><td>No Excel price list here; eligible items can first be included in linked V2.</td></tr>
+<tr><th scope="row">Standalone V2</th><td><strong>Save price list as PDF</strong>; no separate full-report PDF action on this route.</td><td><strong>Download Excel price list</strong>.</td></tr>
+<tr><th scope="row">Linked V2 built from V1</th><td><strong>Save calculation as PDF</strong> for the full report and <strong>Save price list as PDF</strong> for item prices.</td><td><strong>Download Excel price list</strong>, including V1 price bounds.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>How to save a calculation or price list as PDF</h3>
 <ol>
-<li>Finish pricing, tax and cash flow. Otherwise you will see “Complete pricing, tax and Cash Flow before saving the PDF.”</li>
-<li>Click <strong>Export to PDF</strong> (V1) or <strong>Save calculation as PDF</strong> (V1 full service, V2).</li>
-<li>Your browser's print dialog opens. Choose <strong>Save as PDF</strong>. No data is uploaded.</li>
-</ol>
-
-<h3>Excel price list (V2)</h3>
-<ol>
-<li>Finish a valid V2 calculation. Otherwise you will see “Complete a valid V2 calculation before creating a price list.”</li>
-<li>Open <strong>Create a price list?</strong> and click <strong>Create price list</strong>.</li>
-<li>Click <strong>Download Excel price list</strong> (or <strong>Save price list as PDF</strong>).</li>
+<li>Finish the calculation in the chosen route. Goods V1 needs completed pricing, tax and cash flow; V2 needs a valid result with items.</li>
+<li>In goods V1 select <strong>Export to PDF</strong>; in full-service V1 select <strong>Save calculation as PDF</strong>. In standalone or linked V2, create the price list, then select <strong>Save price list as PDF</strong>. Linked V2 also has a separate <strong>Save calculation as PDF</strong> for the full report.</li>
+<li>Your browser print dialog opens. Choose <strong>Save as PDF</strong> and a location on your device. The document is a printable representation of the current calculation, not a cloud export.</li>
 </ol>
 <ul>
-<li>It is a real .xlsx file, made in your browser. Prices are numbers, and a <strong>Notes</strong> sheet holds the warnings.</li>
-<li>The linked V2 list shows the price, the individual discount and the customer price. Standalone V2 has no individual discount, so the discount cells are empty.</li>
-<li>Bundle discounts and linked offers apply separately. The list shows standalone prices.</li>
-<li>If you change the calculation or the language, you will see “The calculation or language changed. Download the price list again.”</li>
+<li>A price-list PDF contains prices of individual items. The linked V2 full report additionally includes summary profit, monthly metrics, cash flow and resources supported by the current calculation.</li>
+<li>Some metrics are unavailable in particular routes or modes. A dash in a document is not the same as a calculated zero.</li>
 </ul>
 
-<h3>HTML (the whole calculator)</h3>
-<p>This is the calculator itself, not your numbers. See <a href="#h12">H12</a>.</p>
+<h3>How to download a V2 Excel price list</h3>
+<ol>
+<li>Choose standalone V2 or linked V2 and finish a valid calculation with at least one calculated item.</li>
+<li>Under <strong>Create a price list?</strong>, select <strong>Create price list</strong> to preview the individual items.</li>
+<li>Select <strong>Download Excel price list</strong>. The same action is available in the V2 tools. Your browser downloads a file such as <strong>nomad360-price-USD.xlsx</strong> (the currency code follows the model).</li>
+</ol>
+<ul>
+<li>This is a genuine .xlsx workbook, not an HTML table renamed as Excel. Its first sheet is <strong>Price list</strong>, followed by <strong>Notes</strong>; the <strong>Sales Tax</strong> sheet is included when Sales Tax is selected.</li>
+<li>Money cells contain numeric outputs from the engine and are displayed to two decimal places. Excel does not contain replacement financial formulas: editing a cell will not recalculate the model. SKU names and IDs, including leading zeros, are treated as text.</li>
+</ul>
+
+<h3>How to read the Excel columns</h3>
+<div class="help-table-wrap">
+<table>
+<thead><tr><th scope="col">Column</th><th scope="col">Meaning</th></tr></thead>
+<tbody>
+<tr><th scope="row">SKU / ID</th><td>Item identifier, not a price or quantity.</td></tr>
+<tr><th scope="row">Product / service</th><td>Name carried over from the calculation.</td></tr>
+<tr><th scope="row">Sales method</th><td>Own production, resale, dropshipping, offline or online service.</td></tr>
+<tr><th scope="row">Currency</th><td>Three-letter business currency code used for the file's prices.</td></tr>
+<tr><th scope="row">V2 price</th><td>For standalone V2 with VAT, a <strong>VAT-exclusive</strong> unit price; for linked V2 with VAT, a <strong>VAT-inclusive</strong> V2 list price. With Sales Tax it excludes Sales Tax; with no sales tax it is the selling price.</td></tr>
+<tr><th scope="row">Individual discount, %</th><td>Present for linked V2; blank for standalone V2, which has no per-item discount.</td></tr>
+<tr><th scope="row">Customer price</th><td>The engine's per-unit buyer amount with applicable sales tax and, for linked V2, the individual discount. It is not a bundle checkout price.</td></tr>
+<tr><th scope="row">Calculation / margin status</th><td>Standalone V2: calculated status; linked V2: target or minimum margin, fixed V1 price, loss, provisional or infeasible scenarios.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Only <strong>linked V2</strong> adds four columns to the right: <strong>V1 minimum price</strong>, <strong>V1 maximum price</strong>, <strong>V1 target margin, %</strong> and <strong>V2 calculated margin, %</strong>. V1 bounds are carried over unchanged and V2 selects a price within them. Neither the price list nor Excel independently recomputes V1 formulas.</p>
+
+<h3>Discounts, taxes and agency items</h3>
+<ul>
+<li><strong>VAT:</strong> distinguish standalone V2's VAT-exclusive base price from linked V2's VAT-inclusive list price. Read each column's actual label rather than assuming both modes mean the same thing.</li>
+<li><strong>Sales Tax:</strong> the buyer amount includes the model's pass-through sales tax. A separate <strong>Sales Tax</strong> worksheet shows revenue owner, revenue before Sales Tax, tax, customer payment and totals per item. In standalone V2 it covers the <strong>reference month</strong>, not an annual tax ledger or monthly invoice history.</li>
+<li><strong>No sales tax:</strong> do not add imaginary VAT or Sales Tax. Business tax on turnover/profit is a separate choice; see <a href="#h08">H08</a>.</li>
+<li><strong>Agent:</strong> the agent's fee is not the principal's retail sale. With Sales Tax, an agency item's per-unit buyer price may be blank; aggregated principal revenue does not establish a unit retail quote.</li>
+<li><strong>Bundles, upsells and cross-sells</strong> apply under their separate scenario rules. The price list contains individual SKUs, not an automatic bundle discount in each line.</li>
+</ul>
+<div class="help-example"><p><strong>Example 1. Standalone V2 with Sales Tax</strong></p><p>Calculate several standalone V2 SKUs with Sales Tax enabled, open the price list and download Excel. Individual-discount cells remain blank. The <strong>Sales Tax</strong> sheet contains reference-month totals, not annual returns. Change the rate or period? Recalculate and download a new workbook.</p></div>
+<div class="help-example"><p><strong>Example 2. V1 → linked V2</strong></p><p>Calculate two different V1 items with their own price bounds and include them in linked V2. Choose an allowed individual discount for each item, validate the portfolio and export Excel. Compare the <strong>V1 bounds</strong>, <strong>V2 list price</strong>, <strong>individual discount</strong>, <strong>customer price</strong> and <strong>calculated V2 margin</strong>. A bundle discount is not silently applied to each item row.</p></div>
+
+<h3>Language, export errors and calculator HTML</h3>
+<ul>
+<li><strong>Language:</strong> select RU, EN or KK before exporting. Excel sheet names, columns, statuses and notes use the selected language; user-supplied SKU names are not translated. The printable version follows the current interface, so check the print preview and its language before saving.</li>
+<li><strong>Incomplete or changed calculation:</strong> exports may be disabled or show a prompt to complete the model. If calculations or language change while Excel is prepared, the stale download is cancelled; start again. An empty numeric cell means an undefined result, not zero.</li>
+<li><strong>Calculator HTML:</strong> this is a copy of the <strong>tool itself</strong>, not a backup of your inputs, PDF or price list. Existing placement instructions are in <a href="#h12">H12</a>. Future partner ZIP distribution is not presented as live. Editable drafts are covered in <a href="#h10">H10</a>.</li>
+</ul>
 <p class="help-back"><a href="#toc-title">Back to contents</a></p>
 </section>
 
