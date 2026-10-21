@@ -153,6 +153,15 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
+        if name in ('Marketing_calc.HTML', 'nomad360_header.js',
+                    'portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js',
+                    'nomad360_irbis_banner.js'):
+            # The architecture PR moves only persistence/delivery boundaries.
+            # Its exact live-file hashes are checked before restoring the
+            # accepted main bytes for historical SEO and finance guards.
+            raw = subprocess.check_output(['node', '-e',
+                "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/refactor-boundaries-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
+                name], input=raw, cwd=ROOT)
         if name == 'CALCULATOR_LICENSE.md':
             # Owner-approved later legal release (#185, 2026-10-17) is a
             # separately validated prospective v2.4 licence, not an SEO edit.
@@ -463,6 +472,7 @@ def main():
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
+                             'docs/reviews/architecture-boundaries-01/',
                              'docs/reviews/about-vector-218/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
@@ -511,6 +521,11 @@ def main():
         'tests/nomad360_help_menu_browser.test.cjs', 'tests/nomad360_calculator_ui_browser.test.cjs',
         'tests/task10_palette_source.test.cjs',
         'nomad360_header.js', 'nomad360_locale_core.js', 'assets/nomad360-legal.css',
+        'nomad360_delivery.js', 'nomad360_draft_store.js',
+        'docs/architecture/nomad360-boundaries.md',
+        'tests/helpers/refactor-boundaries-scope.cjs',
+        'tests/nomad360_draft_store.test.cjs', 'tests/nomad360_refactor_scope.test.cjs',
+        'tests/type02_scope.test.cjs',
         'tests/nomad360_marketing_browser.cjs', 'tests/nomad360_embed_footer_browser.test.cjs',
          'tests/nomad360_localization_l0_browser.cjs',
         'tests/nomad360_public_license.test.cjs', '.github/workflows/nomad360-public-license.yml',
