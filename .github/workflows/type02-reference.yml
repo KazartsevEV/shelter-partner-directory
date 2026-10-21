@@ -39,13 +39,15 @@ jobs:
       - name: Exact accepted base and deterministic Tailwind utilities
         run: |
           mkdir -p /tmp/type02-baseline artifacts/type02
-          git archive b1cc9b50ae48c3c8f392e4342fb5243c7575bd8e | tar -x -C /tmp/type02-baseline
+          # Compare this module extraction with the accepted main after PR #218.
+          git archive b9802d01add3a62ca0874415c21750c5a902102f | tar -x -C /tmp/type02-baseline
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/type02-utilities.css
           npx tailwindcss -i /tmp/type02-utilities.css -o artifacts/type02/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js'
       - name: V1/V2 before-after, real Inter glyphs, finance, restore and fallback
         run: node tests/type02_acceptance_browser.cjs
         env:
           TYPE02_BASELINE_ROOT: /tmp/type02-baseline
+          TYPE02_CURRENT_BASE: '1'
       - name: Portable HTML and owned print report
         run: node tests/type02_exports_browser.cjs
         env:

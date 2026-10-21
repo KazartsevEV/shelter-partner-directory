@@ -26,9 +26,10 @@ test('Portable file URLs retain their original path and demo parameters',()=>{
 });
 test('Application HTML changes only the approved results banner, canonical and isolated language module',()=>{
  const {stripSEO,canonical,language,banner}=require('./helpers/seo-html-contract.cjs');const source=fs.readFileSync(path.join(root,'Marketing_calc.HTML'),'utf8');
+ const historicalSource=require('./helpers/refactor-boundaries-scope.cjs').restore('Marketing_calc.HTML',source);
  const old=execFileSync('git',['show','85d98d9:Marketing_calc.HTML'],{cwd:root,encoding:'utf8'});
  A.equal(source.split(canonical).length-1,1);A.equal(source.split(language).length-1,1);const pdf=require('./helpers/sales-tax-7b5-pdf-scope.cjs').maskV1PdfRenderer;
-  A.equal(pdf(stripSEO(source.replace('<script src="./nomad360_sales_tax_service_v1.js"></script>\n','').replace('<script src="./nomad360_sales_tax_v2.js"></script>\n',''))),pdf(old));
+  A.equal(pdf(stripSEO(historicalSource.replace('<script src="./nomad360_sales_tax_service_v1.js"></script>\n','').replace('<script src="./nomad360_sales_tax_v2.js"></script>\n',''))),pdf(old));
  const acceptedHero=require('./helpers/hero-main-contract.cjs');
  const modern=source.includes(acceptedHero.js);
  A.equal(source.split(banner).length-1,modern?0:1,'Duplicate historical SEO headline');

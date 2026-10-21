@@ -25,6 +25,9 @@ test('storage and delivery load before their consumers; old draft keys remain st
   const once=token=>A.equal(html.split(token).length,2,token);
   once('<script src="./nomad360_draft_store.js"></script>');
   once('<script src="./nomad360_delivery.js"></script>');
+  const retail=read('US_Retail_Demo.HTML').toString();
+  A.match(retail,/<script src="\.\/nomad360_draft_store\.js"><\/script>/);
+  A.match(retail,/<script src="\.\/nomad360_delivery\.js"><\/script>/);
   A.ok(html.indexOf('nomad360_draft_store.js')<html.indexOf('function readSavedProductCalculation()'));
   A.ok(html.indexOf('nomad360_delivery.js')<html.indexOf('nomad360_header.js'));
   const header=read('nomad360_header.js').toString();

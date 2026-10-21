@@ -10,6 +10,7 @@ const {execFileSync}=require('node:child_process');
 const base='b9802d01add3a62ca0874415c21750c5a902102f';
 const hashes=Object.freeze({
   'Marketing_calc.HTML':'20135b7594a34e29ecf26c6a63c847f4b34db53e0a3b5d8759aebf0bbf6e81d9',
+  'US_Retail_Demo.HTML':'1556bb0941eaee8105d308401f373252fcf52ee3e1ca3adfc0157ea6e1858bb8',
   'nomad360_header.js':'9166e9550c3545161ef55a235d580e2249145f6a41d125e790617d9e400e5cb1',
   'nomad360_irbis_banner.js':'f660883f6b63885f1c8405f8918058060a2cf1f1d39df2fbcfc1c966849da9c1',
   'portfolio_v2_ui.js':'2d45c860aad91f445695cf00634bbd4554478c420f1f0fa9d6933e39b3948cd9',
