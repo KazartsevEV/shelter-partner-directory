@@ -41,11 +41,15 @@
 
 ## Автономный runtime R01.1
 
-- **[AYLA-ADR-01 — Google Cloud Compute Engine vs ngrok](docs/AYLA-ADR-01-autonomous-runtime-google-cloud.md)** — решение для первого автономного хостинга: один постоянно работающий VM с Docker web+worker, общим устойчивым SQLite, off-VM backup, permission gates и отдельным LLM API; ngrok только для локальных OAuth/webhook тестов. **VM ещё не создана**: нужны владелец cloud/billing, бюджет и разрешённый model provider.
+- **[AYLA-ADR-01 — Google Cloud Compute Engine vs ngrok](docs/AYLA-ADR-01-autonomous-runtime-google-cloud.md)** — решение для первого автономного хостинга: один постоянно работающий VM с Docker web+worker, общим устойчивым SQLite, off-VM backup, permission gates и отдельным LLM API; ngrok только для локальных OAuth/webhook тестов. **GCP project и service account уже существуют (по подтверждению владельца в lazysellerV2)**; необходимость отдельной VM устанавливается после read-only inventory, не создавать новую автоматически. Бюджет/LLM provider остаются отдельными решениями.
 
 ## Autonomy & cloud runtime architecture
 
 - **[ADR-001 — Autonomous Runtime on Google Cloud VM](docs/ADR-001-autonomous-runtime-cloud.md)** — GCE VM with persistent Web/API + Worker, one durable broker and Persona store, official Threads OAuth/HTTPS gateway, provider-independent LLM inference, owned permission policies, recovery/costs, no ngrok production dependency. **Recommended architecture under approval; cloud is not provisioned.**
+
+## Shared GCP project — reuse without disrupting Infourok or Product Factory
+
+- **[ADR-002 — Existing lazysellerV2 GCP tenant and resource isolation](docs/ADR-002-shared-lazyseller-gcp-isolation.md)** — решение владельца: используем уже существующий Google Cloud project/SA из lazysellerV2, предварительно проверяем реальный project/SA/WIF/VM/GCS read-only. Ayla работает отдельно от UMF Gateway/ngrok, Windows Product Factory, их SQLite, OAuth-токенов, volumes и процессов. Возможность co-host определять только по ресурсам и permission proof. **Не создавать второй GCP проект и не увеличивать IAM существующей SA без отдельного утверждения.**
 
 ## Audited reuse and cross-contract Definition of Done
 
