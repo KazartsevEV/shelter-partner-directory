@@ -1,19 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const path=require('node:path');
-const html=fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
-const slice=(start,end)=>{
- const a=html.indexOf('function '+start),b=html.indexOf('function '+end,a);
- assert.ok(a>=0&&b>a,'missing boundary '+start);
- return html.slice(a,b);
-};
-const funcs=[
- slice('aggregateQuantityDetails(item)','aggregatePricingMetrics(item)'),
- slice('calculateAggregateCredit(item)','updateAggregateCredit(item)'),
- slice('calculateDropshipCashFlow(model)','priceListRequiredCustomerPrice('),
- slice('priceListRequiredCustomerPrice(','updatePriceListRange(item)')
-].join('\n');
+const Engine=require('../nomad360_v1_engine.js');
 const fixture=()=>({
  id:1,name:'Майка',source:'dropship',
  materialsUnitCost:50,materialsBatchQty:1,materialsBatchTotal:50,
@@ -32,10 +19,7 @@ const fixture=()=>({
   'own-product-ad-lead-sale':'50','own-product-ad-management':'100'}
 });
 const engine=(goods,taxType='turnover')=>
- new Function('productPortfolio','productBusinessTaxType','productNumber','aggregatePricingMetrics',
-   funcs+';return {aggregateQuantityDetails,aggregatePlanMetrics,calculateProductPortfolio,calculateAggregateCredit,calculateProductCashFlow,calculatePriceListRange};'
- )(goods,taxType,id=>id==='own-business-tax-pct'?6:0,
-   ()=>({salesVatChoice:'no',vatReady:false,vatPct:0}));
+ Engine.create({portfolio:goods,businessTaxType:taxType,businessTaxPct:6,salesVatChoice:'no',salesVatPct:0});
 const close=(a,b,msg)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,msg+': '+a+' != '+b);
 test('dropship ad budget/CAC drives demand; no warehouse, no production',()=>{
  const x=fixture(),e=engine([x]);

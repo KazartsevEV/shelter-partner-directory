@@ -1,0 +1,63 @@
+{
+  "base": "c0a1e834e7ee0b36a008cca50ebccb2fa87c60da",
+  "names": [
+    "serviceAgencyExpenseSplit",
+    "aggregateQuantityDetails",
+    "aggregateQuantityIssues",
+    "allocatedMaterialCostPerGood",
+    "projectedStoragePerUnit",
+    "dropshipCycleMetrics",
+    "offlineServiceCycleMetrics",
+    "aggregatePlanMetrics",
+    "calculateProductPortfolio",
+    "aggregatePricingMetrics",
+    "calculateDropshipCashFlow",
+    "calculateCanonicalV1ServiceCashFlow",
+    "calculateOfflineServiceCashFlow",
+    "calculateProductCashFlow",
+    "priceListRequiredCustomerPrice",
+    "calculatePriceListRange",
+    "calculateAggregateCredit",
+    "v1FullServiceSku"
+  ],
+  "contextual": [
+    "calculateProductPortfolio",
+    "aggregatePricingMetrics",
+    "calculateDropshipCashFlow",
+    "calculateCanonicalV1ServiceCashFlow",
+    "calculateOfflineServiceCashFlow",
+    "calculateProductCashFlow",
+    "calculatePriceListRange"
+  ],
+  "functions": {
+    "serviceAgencyExpenseSplit": "48b1d7854442801cf19308b883f2e570111e544603dd264cfc33f071fc5b0267",
+    "aggregateQuantityDetails": "83dd4240ecd9067fa2f882140f6f92594e75ebd675c3343ae6790892b5dc5c99",
+    "aggregateQuantityIssues": "eac8934a58b653021c0612105347c593d7c5af031faa338322987282133d79c9",
+    "allocatedMaterialCostPerGood": "b39cc9f266cccdab1496d135b15ca0b5398ef81b4306d2c4c1dd1a23f2cc8ec8",
+    "projectedStoragePerUnit": "ee6ff17e063e064c05b49701efb734b5850f7617fc35540558934510759007e5",
+    "dropshipCycleMetrics": "1b122e9d5d23c5d6e89c3b874eb5b430ae659107b53d14b70cf4236fd71ab036",
+    "offlineServiceCycleMetrics": "c1feae893fd75def11c58f787e9617b31585703bc2fa605573109b6542b0f1eb",
+    "aggregatePlanMetrics": "9a9277b00984d6273a0160970d74675a1efa9d0ea68101e262ac51fe0edb5782",
+    "calculateProductPortfolio": "9886f3d6d17f8caf7e978d7cd1aa1366b1e95f931ae967862387752a2b8baf60",
+    "aggregatePricingMetrics": "4577149cb113968a32bb145793c22ce1e7e5dc1595e2a09a5db1f6be794b780c",
+    "calculateDropshipCashFlow": "08cc2e8cb6c866411628d22d342612da7e0058a3bbf907ad1e20d7ae12eca2a8",
+    "calculateCanonicalV1ServiceCashFlow": "939bb24440b82d285370c37230311bf1c881356a818adfef6888139c14abe799",
+    "calculateOfflineServiceCashFlow": "ca825e91cc615dcc63ed1d3f4cc865aa5adf51273ff39eb44b9191424b693f7d",
+    "calculateProductCashFlow": "de4eca9e84dd328580b2572b7536b7eb82ad361bcaae1d8a6dce75b42de825fe",
+    "priceListRequiredCustomerPrice": "f87001bf9cfc9ac0aa3138d567bd90b12043adf898a7d7b5747b20409a6854f3",
+    "calculatePriceListRange": "569f59dac6db3f334bf15fc0b108797f998aa5ad933b013f851b980c074d25c7",
+    "calculateAggregateCredit": "e23047e6c51d0eade9d6c151703f989af0d8169d215d1e29b0555666163c6b55",
+    "v1FullServiceSku": "cf8528f8ce16f331680e8ffdb50cb90be3b1400ce2090a8548ae208914c33c4d"
+  },
+  "moduleSha256": "e689bcd456f4a79440374b5f29d8e7100b2e92f270eafa50473f18be72010719",
+  "html": {
+    "Marketing_calc.HTML": {
+      "before": "20135b7594a34e29ecf26c6a63c847f4b34db53e0a3b5d8759aebf0bbf6e81d9",
+      "after": "1cebc8d28646d1a7e57c03b18b7d1b3669cf96870eb26b6f139bfa67a8287205"
+    },
+    "US_Retail_Demo.HTML": {
+      "before": "1556bb0941eaee8105d308401f373252fcf52ee3e1ca3adfc0157ea6e1858bb8",
+      "after": "11dc1dfa24876b5ee4d37ca68b020709466fef62e0a5ad362c4bcbb82710a0d2"
+    }
+  }
+}

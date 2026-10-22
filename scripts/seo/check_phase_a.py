@@ -472,7 +472,7 @@ def main():
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
-                             'docs/reviews/architecture-boundaries-01/',
+                             'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/about-vector-218/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
@@ -522,6 +522,14 @@ def main():
         'tests/task10_palette_source.test.cjs',
         'nomad360_header.js', 'nomad360_locale_core.js', 'assets/nomad360-legal.css',
         'nomad360_delivery.js', 'nomad360_draft_store.js',
+        'nomad360_v1_engine.js', 'tests/nomad360_v1_engine.test.cjs',
+        'tests/nomad360_v1_engine_scope.test.cjs', 'tests/nomad360_v1_engine_browser.cjs',
+        'tests/helpers/v1-engine-scope.cjs', 'tests/helpers/v1-function-source.cjs',
+        '.github/workflows/v1-engine-extraction.yml',
+        'tests/marketing_calc_full_cycle.test.cjs', 'tests/marketing_calc_resale.test.cjs',
+        'tests/marketing_calc_dropship.test.cjs', 'tests/marketing_calc_offline_service.test.cjs',
+        'tests/marketing_calc_regressions.test.cjs', 'tests/portfolio_v2_v1_parity.test.cjs',
+        'tests/v1_service_v2_numeric_parity.test.cjs', 'tests/nomad360_payments.test.cjs',
         'docs/architecture/nomad360-boundaries.md',
         'tests/helpers/refactor-boundaries-scope.cjs',
         'tests/nomad360_draft_store.test.cjs', 'tests/nomad360_refactor_scope.test.cjs',

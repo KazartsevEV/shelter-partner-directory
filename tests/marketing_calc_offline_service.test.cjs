@@ -1,14 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs'),path=require('node:path');
-const html=fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
-function slice(a,b){const i=html.indexOf('function '+a),j=html.indexOf('function '+b,i);assert.ok(i>=0&&j>i,'missing function '+a);return html.slice(i,j)}
-const script=[
- slice('aggregateQuantityDetails(item)','aggregatePricingMetrics(item)'),
- slice('calculateAggregateCredit(item)','updateAggregateCredit(item)'),
- slice('calculateOfflineServiceCashFlow(model)','priceListRequiredCustomerPrice('),
- slice('priceListRequiredCustomerPrice(','updatePriceListRange(item)')
-].join('\n');
+const Engine=require('../nomad360_v1_engine.js');
 const fixture=()=>({
  id:1,name:'Маникюр с покрытием',source:'offline-service',
  materialsUnitCost:8,materialsBatchQty:20,materialsBatchTotal:160,
@@ -26,10 +18,8 @@ const fixture=()=>({
  'own-product-ad-cpc':'4.5','own-product-ad-ctr':'2','own-product-ad-click-lead':'20',
  'own-product-ad-lead-sale':'50','own-product-ad-management':'100'}
 });
-const engine=(items)=>new Function('productPortfolio','productBusinessTaxType','productNumber','aggregatePricingMetrics',
- script+';return {aggregateQuantityDetails,aggregatePlanMetrics,calculateProductPortfolio,calculateAggregateCredit,calculateProductCashFlow,calculatePriceListRange};'
-)(items,'turnover',id=>id==='own-business-tax-pct'?6:0,
- ()=>({salesVatChoice:'no',vatReady:false,vatPct:0}));
+const engine=items=>Engine.create({portfolio:items,businessTaxType:'turnover',businessTaxPct:6,
+ salesVatChoice:'no',salesVatPct:0});
 const eq=(a,b,msg)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<.000001,(msg||'mismatch')+': '+a+' != '+b);
 test('service consumes per-visit materials, fixed rent and wages, no warehouse and no defects',()=>{
  const item=fixture(),e=engine([item]),plan=e.aggregatePlanMetrics(item);

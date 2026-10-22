@@ -2,24 +2,12 @@
 // Keep independent financial accounting definitions. Never compare different list prices.
 const {test}=require('node:test');
 const A=require('node:assert/strict');
-const fs=require('node:fs');
-const path=require('node:path');
 const E=require('../portfolio_v2_linked_engine.js');
-const html=fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
-function between(start,end){
- const a=html.indexOf(start),b=html.indexOf(end,a);
- A.ok(a>=0&&b>a,'V1 API changed: '+start);
- return html.slice(a,b);
-}
-const source=[
- between('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
- between('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
- between('function calculateAggregateCredit(item) {','function updateAggregateCredit(item) {'),
- between('function calculateProductCashFlow(model) {','function updatePriceListRange(item) {')
-].join('\n');
-const constructV1=new Function('productPortfolio','productBusinessTaxType','productNumber',
- 'aggregatePricingMetrics',source+
- ';return {calculateProductPortfolio,aggregatePlanMetrics,calculateAggregateCredit,calculateProductCashFlow};');
+const V1=require('../nomad360_v1_engine.js');
+const constructV1=(portfolio,businessTaxType,number,pricing)=>{
+ const vat=pricing();return V1.create({portfolio,businessTaxType,businessTaxPct:number('own-business-tax-pct'),
+  salesVatChoice:vat.salesVatChoice,salesVatPct:vat.vatPct});
+};
 function close(a,b,what,epsilon=.012){
  A.ok(Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<=epsilon,
   what+': V1='+a+' V2='+b+' Δ='+(a-b));
