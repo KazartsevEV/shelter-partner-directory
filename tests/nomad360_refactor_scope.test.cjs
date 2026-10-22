@@ -14,7 +14,7 @@ test('every changed application source has a reviewed fingerprint; numeric engin
     'portfolio_v2_temporal_cash.js','nomad360_payments.js','nomad360_fx.js',
     'nomad360_sales_tax.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_v2.js']){
     const old=execFileSync('git',['show',scope.base+':'+file],{cwd:root});
-    A.deepEqual(read(file),old,file);
+    A.deepEqual(require('./helpers/tax-draft-storage-scope.cjs').restore(file,read(file)),old,file);
   }
   const altered=read('nomad360_header.js').toString().replace('buildStandalone','buildChanged');
   A.throws(()=>scope.restore('nomad360_header.js',altered),/Unreviewed module-boundary edit/);

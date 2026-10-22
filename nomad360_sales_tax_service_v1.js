@@ -4,11 +4,9 @@
  */
 (function(root){
 'use strict';
-const key='marketingCalcProductResultV1',simpleKey='nomad360SalesTaxSimpleV1';
 const params=new URLSearchParams(root.location.search);
-let saved=null,simpleSaved=null;
-try{saved=JSON.parse(localStorage.getItem(key)||'null');}catch(_){}
-try{simpleSaved=JSON.parse(localStorage.getItem(simpleKey)||'null');}catch(_){}
+const saved=root.Nomad360DraftStore.readV1Raw();
+const simpleSaved=root.Nomad360DraftStore.readSimpleSalesTax();
 // 7B-5: enabled on applicable V1 services; historical VAT remains default.
 const messages=[
  {title:'Налог с продаж для услуг V1',modes:['НДС (VAT / IVA)','Sales Tax','Без налога с продаж'],rate:'Ставка Sales Tax, %',hint:'Налог добавляется к цене покупателя после скидки. Выручка, прибыль и Cash Flow остаются без транзитного налога. Вычеты и льготы не учтены — проконсультируйтесь с бухгалтером.',agent:'Sales Tax начисляется на продажу принципала покупателю, не на ваше агентское вознаграждение.',need:'Введите корректную ставку Sales Tax, %.',sale:'Стоимость услуги без Sales Tax',tax:'Sales Tax',buyer:'Платёж покупателя',income:'Вознаграждение агента без Sales Tax',v2:'Перенос Sales Tax в V2 — этап 7Б-4.',pdf:'Экспорт Sales Tax — этап 7Б-5.',blocked:'Сначала завершите расчёт услуги. Не смешивайте товары и услуги при Sales Tax.',vatSimple:'Для НДС используйте полный расчёт услуг V1.'},
@@ -220,11 +218,11 @@ root.saveProductCalculationToBrowser=function(){
  const value=original.save.apply(this,arguments);
  if(!value||!fullService()||!mode)return value;
  try{
-  const p=JSON.parse(localStorage.getItem(key));
+  const p=root.Nomad360DraftStore.readV1Raw();
   if(!p||p.productPortfolio?.some(x=>x.source!=='offline-service'))return false;
   p.taxRegime=mode;if(mode==='sales_tax')p.salesTaxPct=rate;
   p.productPortfolio.forEach(x=>{x.taxRegime=mode;if(mode==='sales_tax')x.salesTaxPct=rate;});
-  localStorage.setItem(key,JSON.stringify(p));
+  if(!root.Nomad360DraftStore.writeV1(p))return false;
  }catch(_){return false;}
  return value;
 };
@@ -244,7 +242,7 @@ function restoreFull(payload){
  renderFull();
 }
 root.resumeSavedProductCalculation=function(){
- let payload=null;try{payload=JSON.parse(localStorage.getItem(key)||'null');}catch(_){}
+ const payload=root.Nomad360DraftStore.readV1Raw();
  const value=original.resume.apply(this,arguments);
  if(value)restoreFull(payload);return value;
 };
@@ -289,7 +287,7 @@ root.openLinkedPortfolioFromProducts=function(){
  return original.v2.apply(this,arguments);
 };
 function persistSimple(){
- try{localStorage.setItem(simpleKey,JSON.stringify({mode:simpleMode,rate:simpleRate}));}catch(_){}
+ root.Nomad360DraftStore.writeSimpleSalesTax({mode:simpleMode,rate:simpleRate});
 }
 function selectSimple(next){
  if(!['vat','sales_tax','none'].includes(next))return false;

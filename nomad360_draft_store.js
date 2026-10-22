@@ -9,7 +9,8 @@
   const keys=Object.freeze({
     v1:'marketingCalcProductResultV1',
     portfolio:'marketingCalcPortfolioV2',
-    linked:'marketingCalcLinkedPortfolioV2'
+    linked:'marketingCalcLinkedPortfolioV2',
+    simpleSalesTax:'nomad360SalesTaxSimpleV1'
   });
   function validV1(value){
     if(!Array.isArray(value?.productPortfolio)||!value.productPortfolio.length||
@@ -44,6 +45,11 @@
     }
     return Object.freeze({keys,read,write,remove,
       readV1:()=>read(keys.v1,validV1),
+      // Tax adapters historically read raw JSON before the UI validates a
+      // portfolio. Preserve that distinction, including older partial records.
+      readV1Raw:()=>read(keys.v1,()=>true),
+      readSimpleSalesTax:()=>read(keys.simpleSalesTax,()=>true),
+      writeSimpleSalesTax:value=>write(keys.simpleSalesTax,value),
       writeV1:value=>write(keys.v1,value),
       removeV1:()=>remove(keys.v1),
       readPortfolio:()=>read(keys.portfolio,validPortfolio),

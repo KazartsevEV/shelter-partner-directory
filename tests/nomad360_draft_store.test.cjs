@@ -53,3 +53,25 @@ test('unavailable browser storage fails closed and never invents a draft',()=>{
   A.equal(denied.writePortfolio({}),false);
   A.equal(denied.removeV1(),false);
 });
+
+test('tax adapters retain raw partial records without weakening validated V1 resume',()=>{
+ const storage=memory(),drafts=Drafts.create(storage);
+ const partial={taxRegime:'sales_tax',salesTaxPct:'8.25',legacy:{arbitrary:true}};
+ storage.setItem(Drafts.keys.v1,JSON.stringify(partial));
+ A.deepEqual(drafts.readV1Raw(),partial);A.equal(drafts.readV1(),null);
+ A.equal(storage.getItem(Drafts.keys.v1),JSON.stringify(partial));
+ for(const raw of ['{','null']){storage.setItem(Drafts.keys.v1,raw);A.equal(drafts.readV1Raw(),null);A.equal(storage.getItem(Drafts.keys.v1),raw);}
+});
+
+test('simple service tax choice retains its existing independent key, strings and reset isolation',()=>{
+ const storage=memory(),drafts=Drafts.create(storage),simple={mode:'sales_tax',rate:'8.2500'};
+ drafts.writeSimpleSalesTax(simple);drafts.writeV1({taxRegime:'none'});
+ A.equal(storage.getItem('nomad360SalesTaxSimpleV1'),JSON.stringify(simple));
+ A.deepEqual(drafts.readSimpleSalesTax(),simple);drafts.removeV1();
+ A.deepEqual(drafts.readSimpleSalesTax(),simple);
+ storage.setItem(Drafts.keys.simpleSalesTax,'{');A.equal(drafts.readSimpleSalesTax(),null);
+ A.equal(storage.getItem(Drafts.keys.simpleSalesTax),'{');
+ const denied=Drafts.create({getItem(){throw Error('denied')},setItem(){throw Error('denied')}});
+ A.equal(denied.readV1Raw(),null);A.equal(denied.readSimpleSalesTax(),null);
+ A.equal(denied.writeSimpleSalesTax(simple),false);
+});

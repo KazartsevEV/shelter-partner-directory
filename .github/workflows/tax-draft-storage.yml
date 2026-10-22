@@ -1,0 +1,57 @@
+name: Tax and US demo draft storage parity
+on:
+  pull_request:
+    paths:
+      - 'US_Retail_Demo.HTML'
+      - 'Marketing_calc.HTML'
+      - 'nomad360_draft_store.js'
+      - 'nomad360_sales_tax*js'
+      - 'tests/*draft*'
+      - 'tests/helpers/*scope.cjs'
+      - 'tests/fixtures/tax-draft-storage/**'
+      - '.github/workflows/tax-draft-storage.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tax-draft-storage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - name: Storage boundary, unchanged engines, historical guards and numeric regression
+        run: |
+          node --check nomad360_draft_store.js
+          node --check nomad360_sales_tax_v1.js
+          node --check nomad360_sales_tax_service_v1.js
+          node --check tests/tax_draft_storage_browser.cjs
+          node --test tests/tax_draft_storage_scope.test.cjs tests/nomad360_draft_store.test.cjs tests/nomad360_refactor_scope.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/sales_tax_7b*.test.cjs tests/portfolio_v2_v1_parity.test.cjs tests/v1_service_v2_numeric_parity.test.cjs
+          node scripts/localization/inventory.cjs --check
+      - name: Install pinned browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tax-draft-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/tax-draft-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Accepted main and deterministic offline CSS
+        run: |
+          mkdir -p /tmp/tax-draft-base artifacts/tax-draft-storage
+          git archive d615271cbf6b7a6aa2951370a0354b8c5cee40e7 | tar -x -C /tmp/tax-draft-base
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/tax-draft-input.css
+          "$RUNNER_TEMP/tax-draft-tools/node_modules/.bin/tailwindcss" -i /tmp/tax-draft-input.css -o artifacts/tax-draft-storage/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Chromium storage lifecycle parity RU EN KK on six widths and two entrypoints
+        env:
+          NODE_PATH: ${{ runner.temp }}/tax-draft-tools/node_modules
+        run: node tests/tax_draft_storage_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tax-draft-storage-${{ github.sha }}
+          path: |
+            artifacts/tax-draft-storage/protocol.json
+            artifacts/tax-draft-storage/*.png
+          retention-days: 14

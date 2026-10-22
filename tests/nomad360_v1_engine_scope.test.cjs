@@ -14,7 +14,7 @@ test('all 18 extracted financial functions remain byte-identical to accepted mai
  A.equal(manifest.names.length,18);
  for(const file of Object.keys(manifest.html)){
   const old=execFileSync('git',['show',manifest.base+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2*1024*1024});
-  const previous=declarations(old),current=fs.readFileSync(path.join(root,file),'utf8'),now=declarations(current);
+  const previous=declarations(old),current=require('./helpers/tax-draft-storage-scope.cjs').restore(file,fs.readFileSync(path.join(root,file),'utf8')),now=declarations(current);
   A.equal(digest(old),manifest.html[file].before);A.equal(digest(current),manifest.html[file].after);
   let reverted=current;
   for(const name of manifest.names){
@@ -30,7 +30,7 @@ test('all 18 extracted financial functions remain byte-identical to accepted mai
    .replace('    <script src="./nomad360_v1_engine.js"></script>\n','');
   A.equal(reverted,old,file+': changed outside the reviewed engine boundary');
   A.equal(restore(file,current),old);
-  A.throws(()=>restore(file,current.replace('calculateProductPortfolio()','calculateChanged()')),/Unreviewed V1 extraction/);
+  A.throws(()=>restore(file,current.replace('calculateProductPortfolio()','calculateChanged()')),/Unreviewed (?:V1 extraction|tax\/draft storage)/);
  }
 });
 test('canonical engine has no browser, persistence, transport or localization dependencies',()=>{
