@@ -1,24 +1,9 @@
 // Resale uses finished-goods lots, never manufactured material, while preserving finance.
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const path=require('node:path');
-const html=fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
-const slice=(from,to)=>{
-  const a=html.indexOf(from),b=html.indexOf(to,a);
-  assert.ok(a>=0&&b>a, 'Missing function boundary '+from);
-  return html.slice(a,b);
-};
-const src=[
- slice('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
- slice('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
- slice('function calculateAggregateCredit(item) {','function updateAggregateCredit(item) {'),
- slice('function calculateProductCashFlow(model) {','function updatePriceListRange(item) {')
-].join('\n');
-const app=items=>new Function('productPortfolio','productBusinessTaxType','productNumber','aggregatePricingMetrics',
-  src+';return {aggregateQuantityDetails,allocatedMaterialCostPerGood,aggregatePlanMetrics,calculateProductPortfolio,calculateAggregateCredit,calculateProductCashFlow,calculatePriceListRange};'
-)(items,'turnover',id=>id==='own-business-tax-pct'?6:0,
-  ()=>({salesVatChoice:'yes',vatReady:true,vatPct:12}));
+const Engine=require('../nomad360_v1_engine.js');
+const app=items=>Engine.create({portfolio:items,businessTaxType:'turnover',businessTaxPct:6,
+ salesVatChoice:'yes',salesVatPct:12});
 const resale=(id,name,cost,qty)=>({
  id,name,source:'resale',materialsBatchQty:qty,materialsBatchTotal:cost*qty,materialsUnitCost:cost,
  materialsVariableUnit:cost,materialsFixedBatch:0,

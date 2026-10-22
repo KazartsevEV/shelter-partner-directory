@@ -21,6 +21,7 @@ const hashes=Object.freeze({
 function digest(bytes){return crypto.createHash('sha256').update(bytes).digest('hex');}
 function verify(file,source){
   if(!Object.hasOwn(hashes,file))return source;
+  source=require('./v1-engine-scope.cjs').restore(file,source);
   A.equal(digest(source),hashes[file],'Unreviewed module-boundary edit: '+file);
   return source;
 }

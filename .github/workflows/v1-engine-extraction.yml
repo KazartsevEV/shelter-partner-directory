@@ -1,0 +1,57 @@
+name: V1 pure engine extraction and accepted-main parity
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'US_Retail_Demo.HTML'
+      - 'nomad360_v1_engine.js'
+      - 'tests/nomad360_v1_engine*'
+      - 'tests/fixtures/v1-engine/**'
+      - 'tests/helpers/v1-*'
+      - 'docs/architecture/nomad360-boundaries.md'
+      - 'docs/reviews/v1-engine-01/**'
+      - '.github/workflows/v1-engine-extraction.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  v1-engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - name: Syntax, exact formula transfer, independent oracles and immutable inputs
+        run: |
+          node --check nomad360_v1_engine.js
+          node --check tests/nomad360_v1_engine_browser.cjs
+          node --test tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/marketing_calc_full_cycle.test.cjs tests/marketing_calc_resale.test.cjs tests/marketing_calc_dropship.test.cjs tests/marketing_calc_offline_service.test.cjs tests/marketing_calc_regressions.test.cjs tests/nomad360_payments.test.cjs tests/portfolio_v2_v1_parity.test.cjs tests/v1_service_v2_numeric_parity.test.cjs tests/shopper_v1_oracle.test.cjs
+          node scripts/localization/inventory.cjs --check
+      - name: Install pinned browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/v1-engine-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/v1-engine-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Accepted main and deterministic offline CSS
+        run: |
+          mkdir -p /tmp/v1-engine-base artifacts/v1-engine
+          git archive c0a1e834e7ee0b36a008cca50ebccb2fa87c60da | tar -x -C /tmp/v1-engine-base
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/v1-engine-input.css
+          "$RUNNER_TEMP/v1-engine-tools/node_modules/.bin/tailwindcss" -i /tmp/v1-engine-input.css -o artifacts/v1-engine/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js'
+      - name: Chromium accepted-main parity RU EN KK on six widths
+        env:
+          NODE_PATH: ${{ runner.temp }}/v1-engine-tools/node_modules
+          V1_ENGINE_BASELINE_ROOT: /tmp/v1-engine-base
+        run: node tests/nomad360_v1_engine_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v1-engine-parity-${{ github.sha }}
+          path: |
+            artifacts/v1-engine/protocol.json
+            artifacts/v1-engine/*.png
+          retention-days: 14

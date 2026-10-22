@@ -4,28 +4,12 @@
 // Loads the real V1 functions from the production HTML (never parallel math).
 const {test}=require('node:test');
 const A=require('node:assert/strict');
-const fs=require('node:fs');
-const path=require('node:path');
 const Linked=require('../portfolio_v2_linked_engine.js');
-const html=fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
-function between(begin,end){
-  const a=html.indexOf(begin),b=html.indexOf(end,a);
-  A.ok(a>=0&&b>a,'V1 source fragment missing: '+begin);
-  return html.slice(a,b);
-}
-const source=[
-  between('function serviceAgencyExpenseSplit(item,receipts=0){',
-    'function currentProductPortfolioSnapshot() {'),
-  between('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
-  between('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
-  between('function calculateAggregateCredit(item) {','function updateAggregateCredit(item) {'),
-  between('function calculateCanonicalV1ServiceCashFlow(model,finishV1FinancialLedger) {',
-    'function updatePriceListRange(item) {'),
-  between('function v1FullServiceSku(item,row,model,draftSku,cycle,credit,ownerTaxType,ownerTaxPct) {',
-    'function openLinkedPortfolioFromProducts() {')
-].join('\n');
-const factory=new Function('productPortfolio','productBusinessTaxType','productNumber',
-  'aggregatePricingMetrics',source+';return {calculateProductPortfolio,calculateProductCashFlow,aggregatePlanMetrics,calculateAggregateCredit,v1FullServiceSku};');
+const V1=require('../nomad360_v1_engine.js');
+const factory=(portfolio,businessTaxType,number,pricing)=>{
+ const vat=pricing();return V1.create({portfolio,businessTaxType,businessTaxPct:number('own-business-tax-pct'),
+  salesVatChoice:vat.salesVatChoice,salesVatPct:vat.vatPct});
+};
 const EPS=.015;
 const n=x=>Number(x)||0;
 function fixture(channel,role,funding,taxType,vat,creditMonths=2){

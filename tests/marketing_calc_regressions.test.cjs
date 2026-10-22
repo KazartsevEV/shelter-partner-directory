@@ -13,10 +13,8 @@ function sliceBetween(from, to) {
     return html.slice(start, end);
 }
 
-const pricingCode = sliceBetween(
-    'function priceListRequiredCustomerPrice(',
-    'function updatePriceListRange(item) {'
-);
+const functionSource=require('./helpers/v1-function-source.cjs');
+const pricingCode = functionSource('priceListRequiredCustomerPrice')+'\n'+functionSource('calculatePriceListRange');
 function calculator(model, vat, businessTaxType, taxPct) {
     return new Function(
         'calculateProductPortfolio', 'aggregatePricingMetrics',

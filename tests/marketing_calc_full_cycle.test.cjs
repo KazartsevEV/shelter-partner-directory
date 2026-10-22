@@ -1,20 +1,7 @@
 // Run: node --test tests/marketing_calc_full_cycle.test.cjs
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const html = fs.readFileSync(path.join(__dirname,'..','Marketing_calc.HTML'),'utf8');
-const slice=(start,end)=>{
-  const a=html.indexOf(start),b=html.indexOf(end,a);
-  assert.ok(a>=0&&b>a,'Missing source '+start);
-  return html.slice(a,b);
-};
-const scripts=[
- slice('function aggregateQuantityDetails(item) {','function calculateProductPortfolio() {'),
- slice('function calculateProductPortfolio() {','function aggregatePricingMetrics(item) {'),
- slice('function calculateAggregateCredit(item) {','function updateAggregateCredit(item) {'),
- slice('function calculateProductCashFlow(model) {','function updatePriceListRange(item) {')
-].join('\n');
+const Engine = require('../nomad360_v1_engine.js');
 const qty=100,raw=106,defect=.05,prod=(10+2)/(1-defect);
 const warehouseDaily=.5,delivery=(200+prod)*.08*1.05;
 const logistics=10+1+delivery;
@@ -42,11 +29,8 @@ const close=(actual,expected,msg,tol=1e-7)=>assert.ok(
  msg+': got '+actual+' expected '+expected
 );
 function app(items,taxType='turnover',tax=6) {
- const env=new Function('productPortfolio','productBusinessTaxType','productNumber','aggregatePricingMetrics',
- scripts+';return {aggregateQuantityIssues,aggregatePlanMetrics,allocatedMaterialCostPerGood,projectedStoragePerUnit,calculateProductPortfolio,calculateAggregateCredit,calculateProductCashFlow,calculatePriceListRange};'
- );
- return env(items,taxType,id=>id==='own-business-tax-pct'?tax:0,
- ()=>({salesVatChoice:'yes',vatReady:true,vatPct:12}));
+ return Engine.create({portfolio:items,businessTaxType:taxType,businessTaxPct:tax,
+  salesVatChoice:'yes',salesVatPct:12});
 }
 test('Batch quantity preserves units and rejects unmanufacturable orders',()=>{
  const item=fixture(),a=app([item]);

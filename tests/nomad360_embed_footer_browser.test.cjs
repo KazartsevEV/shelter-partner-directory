@@ -233,6 +233,7 @@ const server=createServer(async(req,res)=>{
   A.match(snapshot,/data-nomad-bundled="\.\u002fportfolio_v2_linked_ui\.js"/);
   A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_delivery\.js"/);
   A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_draft_store\.js"/);
+  A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_v1_engine\.js"/);
   A.match(snapshot,/data:image\/png;base64,/);
   A.match(snapshot,/data:image\/svg\+xml;base64,/,
     'Approved vector scenery must travel with the standalone HTML');
