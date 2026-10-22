@@ -50,9 +50,10 @@ function clean(value){return JSON.parse(JSON.stringify(value,(k,v)=>k==='savedAt
       if(record.taxRegime!==mode)throw Error('tax regime not persisted');
       if(mode==='sales_tax'&&record.salesTaxPct!=='8.25')throw Error('tax rate not persisted');
       document.getElementById('product-name-input').value='Edited '+fixture.name;
-      document.getElementById('product-name-input').dispatchEvent(new Event('input',{bubbles:true}));
+      setAdditionalProductName(document.getElementById('product-name-input').value);
       const edited=saveProductCalculationToBrowser();if(!edited)throw Error('edit save failed');
       record=JSON.parse(localStorage.getItem(key));
+      if(record.productPortfolio.find(x=>x.id===1)?.name!=='Edited '+fixture.name)throw Error('edited name was not persisted');
       const financial=calculateProductPortfolio(),cash=calculateProductCashFlow(financial);
       const fresh=startFreshProductCalculation();
       if(localStorage.getItem(key)!==JSON.stringify(record))throw Error('fresh destroyed stored draft');
