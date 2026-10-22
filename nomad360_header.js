@@ -725,7 +725,7 @@
       '<details id="nomad360-license" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.licenseTitle)+'</summary><div class="nomad-license-terms"><p>'+esc(t.licenseCopy)+'</p><p><a href="https://kazartsevev.github.io/shelter-partner-directory/license/'+(language()==='en'?'en/':language()==='kk'?'kk/':'')+'" target="_blank" rel="noopener noreferrer">'+esc(t.licenseLink)+' ↗</a></p></div></details>'+
       '<details id="nomad360-data" class="nomad-meta-block" tabindex="-1"><summary>'+esc(t.dataTitle)+'</summary><p>'+esc(t.dataCopy)+'</p></details>'+
       '<section id="nomad360-official" class="nomad-meta-block"><p><span>'+esc(t.officialTitle)+'</span> <a class="nomad-official-mail" href="mailto:'+PAY.email+'">'+PAY.email+'</a></p></section></div>'+
-      '<div class="nomad-footer-bottom"><p class="nomad-unit-note">'+esc(root.Nomad360Currency?.caption()||'USD')+'</p><span>'+esc(t.rights)+'</span></div>'+
+      '<div class="nomad-footer-bottom"><span>'+esc(t.rights)+'</span></div>'+
       '<div class="nomad-sr" id="nomad360-copy-status" role="status" aria-live="polite"></div></div>';
   }
   function renderInformation() {
@@ -776,71 +776,8 @@
     button.setAttribute('aria-busy','true');
     message(t.embedWorking);
     try {
-      const base=new URL('./',root.location.href);
-      const get=async path=>{
-        const response=await root.fetch(new URL(path,base),{cache:'no-store'});
-        if(!response.ok)throw new Error('Unable to fetch '+path+': '+response.status);
-        return response;
-      };
-      const html=await (await get('Marketing_calc.HTML')).text();
-      const doc=new root.DOMParser().parseFromString(html,'text/html');
-      if(!doc.querySelector('#home-screen')||!doc.querySelector('#portfolio-v2-screen'))
-        throw new Error('Calculator HTML is incomplete');
-      const binary=await (await get('nomad360_wolf_open_circle.png')).blob();
-      const logo=await new Promise((resolve,reject)=>{
-        const reader=new root.FileReader();
-        reader.onload=()=>resolve(reader.result);
-        reader.onerror=()=>reject(reader.error);
-        reader.readAsDataURL(binary);
-      });
-      for(const link of Array.from(doc.querySelectorAll('link[rel="stylesheet"][href^="./"]'))){
-        const filename=link.getAttribute('href');
-        let css=await (await get(filename)).text();
-        // Bundle every local CSS asset into the standalone edition. This
-        // includes the vector About scene, the other banners and Inter fonts;
-        // relative url(...) paths would break on a partner's own domain.
-        if(filename==='./nomad360_consulting_banner.css'){
-          const scenicUrls=[
-            './assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg',
-            './assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg'
-          ];
-          if(!scenicUrls.every(path=>css.includes(path)))
-            throw new Error('Consulting artwork URL contract changed');
-        }
-        const localUrls=[...new Set([...css.matchAll(/url\(\s*(['"]?)(\.\/[^'"\)]+)\1\s*\)/g)]
-          .map(match=>match[2]))];
-        for(const path of localUrls){
-          const asset=await (await get(path)).blob();
-          const data=await new Promise((resolve,reject)=>{
-            const reader=new root.FileReader();
-            reader.onload=()=>resolve(reader.result);
-            reader.onerror=()=>reject(reader.error);
-            reader.readAsDataURL(asset);
-          });
-          css=css.replaceAll(path,data);
-        }
-        const inline=doc.createElement('style');
-        inline.setAttribute('data-nomad-bundled',filename);
-        inline.textContent=css.replace(/<\/style/gi,'<\\/style');
-        link.replaceWith(inline);
-      }
-      // RET-07A: independent embeds do not promote shortcuts to the original host.
-      doc.documentElement.setAttribute('data-nomad-embedded','');
-      doc.querySelector('script[src$="nomad360_return.js"]')?.remove();
-      for(const old of Array.from(doc.querySelectorAll('script[src^="./"]'))){
-        const filename=old.getAttribute('src');
-        let code=await (await get(filename)).text();
-        if(filename==='./nomad360_header.js')
-          code=code.replaceAll('./nomad360_wolf_open_circle.png',logo);
-        const inline=doc.createElement('script');
-        inline.setAttribute('data-nomad-bundled',filename);
-        inline.textContent=code.replace(/<\/script/gi,'<\\/script');
-        old.replaceWith(inline);
-      }
-      // A downloadable HTML snapshot freezes this edition of the calculator.
-      // The embedded version has no auto-sync and may depend on public CDN
-      // resources allowed by the host page's Content Security Policy.
-      const blob=new Blob(['<!DOCTYPE html>\n'+doc.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
+      const html=await root.Nomad360Delivery.buildStandalone(new URL('./',root.location.href));
+      const blob=new Blob([html],{type:'text/html;charset=utf-8'});
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
       const oldUrl=embedDownloadUrl;

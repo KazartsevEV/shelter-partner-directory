@@ -4,7 +4,6 @@
 'use strict';
 const Engine=root.PortfolioV2Engine;
 const taxText=()=>root.Nomad360LocaleCore?.locales?.('tax')?.[root.Nomad360UI?.getLanguage?.()||'ru']||{};
-const storageKey='marketingCalcPortfolioV2';
 let model=null,sequence=1;
 const kinds={own:'Делаю сам',resale:'Покупаю у других',dropship:'Дропшиппинг'};
 const labels={premises:'Помещение',workers:'Работники',warehouse:'Аренда склада',equipment:'Оборудование',certification:'Сертификат / лицензия',salesStaff:'Сотрудники продаж',marketingManager:'Ведение рекламы',campaign:'Отдельная рекламная кампания',website:'Сайт',hosting:'Хостинг',domain:'Домен',content:'Контент',other:'Другие общие расходы'};
@@ -25,8 +24,8 @@ const initial=()=>({
  funding:{kind:'cash',annualRatePct:12,months:6,reservePct:10},
  tax:{type:'turnover',pct:0,vatPct:0}
 });
-function load(){try{const raw=JSON.parse(localStorage.getItem(storageKey));return raw?.version===2&&Array.isArray(raw.skus)&&raw.skus.length?raw:null}catch(_){return null}}
-function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);localStorage.setItem(storageKey,JSON.stringify(model));const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
+function load(){return root.Nomad360DraftStore.readPortfolio()}
+function save(){try{root.Nomad360PaymentUI?.syncPortfolio(model);if(!root.Nomad360DraftStore.writePortfolio(model))throw new Error('Draft storage unavailable');const el=document.getElementById('p2-draft-status');if(el)el.textContent='Автосохранено в этом браузере';updateEntry();return true}catch(_){const el=document.getElementById('p2-draft-status');if(el)el.textContent='Браузер не разрешает сохранять черновик';return false}}
 function updateEntry(){
  const existing=load(),el=document.getElementById('portfolio-v2-resume-home');
  if(el){el.hidden=!existing;el.classList.toggle('hidden',!existing);}

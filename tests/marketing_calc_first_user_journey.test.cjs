@@ -93,6 +93,9 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    // Reload standard URL (without demo) and explicitly resume in-place.
    await page.goto(pageUrl,{waitUntil:'domcontentloaded'});
    assert.equal(await page.locator('#home-screen').isVisible(),true);
+   // The recovery card is rendered by the deferred startup path. Wait for
+   // that render instead of racing it immediately after DOMContentLoaded.
+   await page.locator('#saved-product-entry').waitFor({state:'visible'});
    assert.equal(await page.locator('#saved-product-entry').isVisible(),true);
    assert.equal(await page.evaluate(()=>productPortfolio.length),0,'Saved file does not prepopulate a new calculation');
    await page.locator('#resume-own-product').click();

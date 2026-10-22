@@ -17,7 +17,11 @@ async function expected(page,kind){return page.evaluate(kind=>{
 async function checkDownload(page,kind,stem,requests){
  // Export readiness is asserted from the calculator state and the enabled control.\n // Waiting for global networkidle is nondeterministic with unrelated background requests.\n await page.locator('[data-nomad-excel]').last().scrollIntoViewIfNeeded();\n A.equal(await page.locator('[data-nomad-excel]').last().isEnabled(),true);
  const c=await expected(page,kind),state=JSON.stringify(c.state),requestCount=requests.length;
- const lang=await page.evaluate(()=>Nomad360UI.getLanguage());const event=page.waitForEvent('download');await page.locator('[data-nomad-excel]').last().click();const dl=await event;
+ const lang=await page.evaluate(()=>Nomad360UI.getLanguage());
+ // A Blob download can leave Chromium's navigation waiter pending on file://.
+ // Wait for the actual download and verify its workbook, not page navigation.
+ const event=page.waitForEvent('download',{timeout:120000});
+ await page.locator('[data-nomad-excel]').last().click({noWaitAfter:true});const dl=await event;
  A.equal(dl.suggestedFilename(),'nomad360-price-'+c.state.currency+'.xlsx');const target=path.join(art,stem+'.xlsx');await dl.saveAs(target);
  const w=new Excel.Workbook();await w.xlsx.load(fs.readFileSync(target));A.equal(w.worksheets.length,2);A.equal(w.worksheets[0].rowCount,c.out.items.length+1);
  const s=w.worksheets[0],visible=await page.locator('#nomad360-price-preview tbody tr').all();

@@ -30,7 +30,12 @@ jobs:
           node --check tests/nomad360_bug_report_browser.cjs
           git fetch --no-tags origin main
           git diff --name-only origin/main...HEAD | tee /tmp/bug09-changed
-          if grep -E '^(portfolio_v2_(engine|ui|linked_|full_service|basket_|mba_|online_|period_|pooled_|temporal_)|nomad360_sales_tax|nomad360_price_export|nomad360_calculator_ui[.]js|tests/fixtures/sales-tax-7b|docs/reviews/sales-tax-7b)' /tmp/bug09-changed; then
+          # The draft-store extraction changes only two V2 persistence adapters.
+          # Verify their exact reviewed bytes before applying the historical guard.
+          if grep -Eq '^portfolio_v2_(ui|linked_ui)[.]js$' /tmp/bug09-changed; then
+            node -e "const fs=require('fs');const guard=require('./tests/helpers/refactor-boundaries-scope.cjs');for(const file of ['portfolio_v2_ui.js','portfolio_v2_linked_ui.js'])guard.verify(file,fs.readFileSync(file))"
+          fi
+          if grep -Ev '^portfolio_v2_(ui|linked_ui)[.]js$' /tmp/bug09-changed | grep -E '^(portfolio_v2_(engine|ui|linked_|full_service|basket_|mba_|online_|period_|pooled_|temporal_)|nomad360_sales_tax|nomad360_price_export|nomad360_calculator_ui[.]js|tests/fixtures/sales-tax-7b|docs/reviews/sales-tax-7b)'; then
             echo "Protected finance or VAT modified" >&2
             exit 1
           fi

@@ -210,14 +210,29 @@ const server=createServer(async(req,res)=>{
   const mail=await license.locator('.nomad-embed-contact').getAttribute('href');
   A.ok(mail.startsWith('mailto:nomad260393@gmail.com?subject='));
   A.match(decodeURIComponent(mail),/Nomad360 — Заказать/);
+  await page.evaluate(()=>{
+    const fetchOriginal=window.fetch.bind(window);
+    window.__nomadDeliveryRequests={};
+    window.fetch=(input,options)=>{
+      const key=new URL(input,location.href).pathname;
+      window.__nomadDeliveryRequests[key]=(window.__nomadDeliveryRequests[key]||0)+1;
+      return fetchOriginal(input,options);
+    };
+  });
   const wait=page.waitForEvent('download',{timeout:45000});
   await license.locator('[data-nomad-download-html]').click();
   const download=await wait;
   A.equal(download.suggestedFilename(),'Nomad360-calculator-embed.html');
   snapshot=await fs.readFile(await download.path(),'utf8');
+  const deliveryRequests=await page.evaluate(()=>window.__nomadDeliveryRequests);
+  A.ok(Object.keys(deliveryRequests).length>20,'Portable edition fetches the actual local modules');
+  A.ok(Object.values(deliveryRequests).every(count=>count===1),
+    'Each local asset is fetched at most once per export');
   A.ok(snapshot.length>500000,'Export must contain the actual calculator and all modules');
   A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_design_system\.css"/);
   A.match(snapshot,/data-nomad-bundled="\.\u002fportfolio_v2_linked_ui\.js"/);
+  A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_delivery\.js"/);
+  A.match(snapshot,/data-nomad-bundled="\.\u002fnomad360_draft_store\.js"/);
   A.match(snapshot,/data:image\/png;base64,/);
   A.match(snapshot,/data:image\/svg\+xml;base64,/,
     'Approved vector scenery must travel with the standalone HTML');

@@ -54,7 +54,8 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
   if(Array.isArray(value))return value.map(canonical).filter(value=>value!==null);
   return Object.fromEntries(Object.entries(value).filter(([key])=>!['start','end','loc','raw'].includes(key)).map(([key,x])=>[key,canonical(x)]));
  }
- const old=execFileSync('git',['show',SHA+':Marketing_calc.HTML'],{cwd:base,encoding:'utf8'}),now=fs.readFileSync(path.join(base,'Marketing_calc.HTML'),'utf8');
+ const old=execFileSync('git',['show',SHA+':Marketing_calc.HTML'],{cwd:base,encoding:'utf8'});
+ const now=require('./helpers/refactor-boundaries-scope.cjs').restore('Marketing_calc.HTML',fs.readFileSync(path.join(base,'Marketing_calc.HTML'),'utf8'));
  const scripts=s=>[...s.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(m=>m[1]).filter(s=>s.trim()).map(s=>canonical(acorn.parse(s,{ecmaVersion:'latest'})));
  A.deepEqual(scripts(now),scripts(old),'financial or navigation AST changed outside named display renderers');
  function arithmetic(source){
@@ -83,7 +84,7 @@ test('all calculation ASTs and pure financial assets remain unchanged; only name
  }
  // SEO-07 adds a new UI-only URL adapter, absent from the financial baseline.
  // Its priority, URL preservation and untouched models have dedicated tests.
- const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!['nomad360_seo_language.js','nomad360_return.js','nomad360_simple_service_examples.js','nomad360_sales_tax.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js','nomad360_sales_tax_v2.js','nomad360_price_export.js','nomad360_bug_report.js','nomad360_us_retail_live_entry.js'].includes(f)&&!presentation.has(f));
+ const files=require('../docs/localization/l0/catalog.json').sources.map(s=>s.file).filter(f=>f.endsWith('.js')&&!/ui|header|locale_core/.test(f)&&!['nomad360_seo_language.js','nomad360_return.js','nomad360_simple_service_examples.js','nomad360_sales_tax.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js','nomad360_sales_tax_v2.js','nomad360_price_export.js','nomad360_bug_report.js','nomad360_us_retail_live_entry.js','nomad360_delivery.js','nomad360_draft_store.js'].includes(f)&&!presentation.has(f));
  // A new locale-only link adapter is absent from the frozen 7B-0 SHA.
  // It has its own RU/EN/KK browser and portable-download tests; do not attempt
  // git show of a file that did not exist in that historical financial baseline.

@@ -142,7 +142,7 @@ async function screenshot(page,selector,name){await page.locator(selector).scree
      material.html=host.innerHTML;
      material.fields=[...host.querySelectorAll('input,select,textarea')].map(f=>({value:f.value,checked:!!f.checked,selectedIndex:f.tagName==='SELECT'?f.selectedIndex:null}));
     }
-    localStorage.setItem(savedProductStorageKey,JSON.stringify(old));
+    localStorage.setItem(Nomad360DraftStore.keys.v1,JSON.stringify(old));
    });await goto('?resume=1');
    A.equal(await recovered.inputValue(),'KZT');A.equal(await amount.inputValue(),'1000');
    if(source==='materials')await page.waitForFunction(()=>document.querySelector('.material-cost-price').parentElement.previousElementSibling.textContent.includes('KZT'));

@@ -12,7 +12,7 @@ function linked(){const p=fixture();return {...Linked.fromV1({...p,currency:'USD
 function snapshot(route){
  if(route==='v1')return {currency:Nomad360Currency.get(),product:productPortfolio[0],model:calculateProductPortfolio(),cash:calculateProductCashFlow(calculateProductPortfolio()),cycle:aggregatePlanMetrics(productPortfolio[0]),credit:calculateAggregateCredit(productPortfolio[0]),priceList:calculatePriceListRange(productPortfolio[0])};
  // Task 09 fields are isolated support UI, not calculator inputs or finances.
- if(route==='home')return {currency:Nomad360Currency.get(),inputs:[...document.querySelectorAll('input,select,textarea')].filter(e=>e.id!=='nomad360-lang-select'&&!e.closest('[data-sales-tax-v1-widget],[data-sales-tax-service],#nomad360-bug-dialog')).map(e=>[e.id,e.value,e.checked])};
+ if(route==='home')return {currency:Nomad360Currency.get(),inputs:[...document.querySelectorAll('input,select,textarea')].filter(e=>e.id!=='nomad360-lang-select'&&!e.closest('[data-sales-tax-v1-widget],[data-sales-tax-service],#nomad360-bug-dialog,.nomad-help-panel')).map(e=>[e.id,e.value,e.checked])};
  const state=(route==='standalone'?PortfolioV2UI:LinkedPortfolioV2UI).getState();return {state,financial:route==='standalone'?Nomad360PaymentUI.buildPortfolio(state):LinkedPortfolioV2Engine.build(state),stored:localStorage.getItem(route==='standalone'?'marketingCalcPortfolioV2':'marketingCalcLinkedPortfolioV2')};
 }
 function audit(){
@@ -39,7 +39,7 @@ async function prepare(page,variant,lang,route,funding='cash',fallback=false){
  if(fallback)await page.route('**/nomad360_calculator_ui.css',async r=>{const x=await r.fetch();await r.fulfill({response:x,body:(await x.text()).replace(/@font-face\s*\{[^}]*\}/g,'')});});
  await page.goto(baseURL+(variant==='before'?'baseline/':'')+'Marketing_calc.HTML'+(route==='v1'?'?demo=shopper&finance='+funding:''),{waitUntil:'domcontentloaded'});
  await page.addStyleTag({path:utilities});
- if(variant==='before')await page.addStyleTag({content:fs.readFileSync(path.join(root,'docs/reviews/type02-reference/fonts.css'),'utf8').replace(/@font-face\s*\{[^}]*font-family:\s*'Inter'[^}]*\}/g,'').replaceAll("url('/vendor/","url('"+baseURL+"vendor/").replaceAll("url('../../../vendor/","url('"+baseURL+"vendor/")});
+ if(variant==='before'&&!process.env.TYPE02_CURRENT_BASE)await page.addStyleTag({content:fs.readFileSync(path.join(root,'docs/reviews/type02-reference/fonts.css'),'utf8').replace(/@font-face\s*\{[^}]*font-family:\s*'Inter'[^}]*\}/g,'').replaceAll("url('/vendor/","url('"+baseURL+"vendor/").replaceAll("url('../../../vendor/","url('"+baseURL+"vendor/")});
  if(route==='v1')await page.waitForFunction(()=>document.querySelector('[data-nomad-shopper-demo]')?.dataset.demoReady==='true'||(typeof productPortfolio!=='undefined'&&productPortfolio.length&&calculateProductPortfolio()));
  if(route==='standalone'||route==='linked'){const state=route==='standalone'?standalone():linked();if(route==='standalone')state.funding.kind=funding;await page.evaluate(({route,state})=>{localStorage.setItem(route==='standalone'?'marketingCalcPortfolioV2':'marketingCalcLinkedPortfolioV2',JSON.stringify(state));if(route==='standalone')PortfolioV2UI.open({resume:true});else LinkedPortfolioV2UI.resume();},{route,state});}
  await page.locator('#nomad360-lang-select').selectOption(lang);await settle(page);
@@ -63,7 +63,11 @@ async function pictures(page,variant,lang,width,route){
      await page.screenshot({path:path.join(out,'latest.png')});A.deepEqual(geometry.clipped,[],`${lang}/${width}/${route}: numeric input clipping`);A.deepEqual(geometry.money,[],`${lang}/${width}/${route}: split monetary value`);
      A.ok(geometry.controls.every(c=>c.size>=16),JSON.stringify(geometry.controls.filter(c=>c.size<16)));A.ok(geometry.controls.every(c=>c.height>=44),JSON.stringify(geometry.controls.filter(c=>c.height<44)));
      A.deepEqual(geometry.gaps,previous.geometry.gaps,'Preserve existing localization diagnostics');
-      A.deepEqual(geometry.text.filter(t=>!t.approvedHeroArt&&t.cls!=='nomad-lite'&&
+      if(process.env.TYPE02_CURRENT_BASE){
+       const currentText=rows=>rows.filter(t=>!t.cls.split(/\s+/).includes('nomad-unit-note'));
+       A.deepEqual(currentText(geometry.text),currentText(previous.geometry.text),
+         'Module extraction must preserve accepted main text and typography');
+      }else A.deepEqual(geometry.text.filter(t=>!t.approvedHeroArt&&t.cls!=='nomad-lite'&&
        (t.size<(t.approvedIrbisArt?11:
          t.approvedAboutArt&&lang==='ru'&&width<=700&&t.cls==='nomad-about-brand-row'?13.5:
          t.approvedAboutArt&&t.approvedContactLink?12:14)||

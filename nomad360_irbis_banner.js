@@ -117,9 +117,8 @@ function decorate(){
   // Previously this copyright/"Calculation currency" row was ABOVE the
   // Irbis banner. Keep copyright alone as the final thin footer strip.
   const strip=inner.querySelector(':scope > .nomad-footer-bottom');
-  // Remove only the duplicated FOOTER readout of the current calculation
-  // currency. Original currency selector, save/restore and exports are intact.
-  strip?.querySelector('.nomad-unit-note')?.remove();
+  // The footer template now creates only copyright; no currency readout needs
+  // a post-render DOM removal.
   if(strip&&scene.nextElementSibling!==strip)scene.after(strip);
  }
  syncWidth();

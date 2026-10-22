@@ -79,7 +79,16 @@ async function examine(page,stage,width){
    const typography=await page.evaluate(()=>{
     const visible=e=>e.getClientRects().length&&!e.closest('[hidden],.hidden,#nomad360-print-sheet');
     const issues=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
-    while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true],.nomad-lite'))continue;const s=getComputedStyle(e);
+    while((n=walker.nextNode())){const e=n.parentElement;if(!n.textContent.trim()||!visible(e)||e.closest('script,style,select,textarea,svg,[aria-hidden=true],.nomad-lite'))continue;let s=getComputedStyle(e);
+      // HOME-WORKSPACE-01 keeps historical source labels at 0px and renders
+      // localized replacement labels. Audit the actual pseudo-label's style.
+      if(parseFloat(s.fontSize)===0&&e.matches('#nomad360-selling-choice .nomad-choice-button')){
+        const replacement=getComputedStyle(e,'::after');
+        if(replacement.content!=='none'&&replacement.content!=='""')s=replacement;
+      }else if(parseFloat(s.fontSize)===0&&e.matches('#nomad360-home-secondary :is(.nomad-example-link,.nomad-recovery-action)')){
+        const replacement=getComputedStyle(e,'::before');
+        if(replacement.content!=='none'&&replacement.content!=='""')s=replacement;
+      }
       // HERO-03 has separately accepted display typography (12px eyebrow,
       // 11px brand motto, 13px benefit copy, Inter variable 450/650/750).
       // Never exempt finance, navigation, product, legal or footer text.
@@ -90,8 +99,12 @@ async function examine(page,stage,width){
       const approvedAboutRuBrand=approvedAbout&&document.documentElement.lang==='ru'&&
         innerWidth<=700&&e.classList.contains('nomad-about-brand-row');
       const approvedIrbis=!!e.closest('#nomad360-irbis-banner');
-      const min=approvedHero?(e.closest('.nomad-seo-tagline')?11:e.closest('#nomad360-hero h1')?12:e.closest('.nomad-benefit-copy')?13:14):
-        approvedAboutRuBrand?13.5:approvedContactLink?12:approvedIrbis?11:14;
+      // Accepted HOME-WORKSPACE-01 and ABOUT-IRBIS-12 note roles are scoped
+      // explicitly, so calculation labels retain the historical 14px floor.
+      const approvedNoteMin=e.matches('#nomad360-home-secondary :is(.nomad-workspace-subtitle,.nomad-example-link,.nomad-recovery-action),#nomad360-footer .nomad-footer-bottom span')?12:
+        e.matches('#business-currency-help.nd-type-note,#nomad360-contacts .nomad-topics')?13:null;
+      const min=approvedNoteMin??(approvedHero?(e.closest('.nomad-seo-tagline')?11:e.closest('#nomad360-hero h1')?12:e.closest('.nomad-benefit-copy')?13:14):
+        approvedAboutRuBrand?13.5:approvedContactLink?12:approvedIrbis?11:14);
       const weights=approvedHero||approvedAbout||approvedIrbis?
         ['400','450','500','600','650','700','750']:['400','500','600','700'];
       if(parseFloat(s.fontSize)<min||!weights.includes(s.fontWeight))issues.push({text:n.textContent.trim().slice(0,90),root:e.closest('[id]')?.id,cls:e.className,size:s.fontSize,weight:s.fontWeight});}

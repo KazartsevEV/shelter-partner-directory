@@ -34,6 +34,7 @@ jobs:
           node --check nomad360_locale_core.js
           node --check portfolio_v2_ui.js
           node --test tests/nomad360_marketing_scope.test.cjs tests/type02_scope.test.cjs tests/nomad360_locale_semantic.test.cjs tests/nomad360_locale_diagnostics.test.cjs
+          node --test tests/nomad360_refactor_scope.test.cjs tests/nomad360_draft_store.test.cjs
           node scripts/localization/inventory.cjs --check
       - run: npm install --no-save --package-lock=false playwright@1.58.0 tailwindcss@3.4.17
       - run: npx playwright install --with-deps chromium
