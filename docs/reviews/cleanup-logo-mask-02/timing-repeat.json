@@ -1,0 +1,974 @@
+{
+  "profile": "timing-only",
+  "repetitions": 9,
+  "base": "6ce82985d46f9d29c4f7312753d1a0b62714a19a",
+  "cases": [],
+  "comparisons": 0,
+  "screenshotPairs": 0,
+  "sizes": {
+    "before": {
+      "bytes": 282155,
+      "gzip": 190277,
+      "brotli": 187496
+    },
+    "after": {
+      "bytes": 282111,
+      "gzip": 190275,
+      "brotli": 187476
+    }
+  },
+  "timing": [
+    {
+      "width": 390,
+      "repeat": 0,
+      "variant": "before",
+      "readyMs": 782.5659550000005,
+      "listeners": 259,
+      "heapBytes": 5387876
+    },
+    {
+      "width": 390,
+      "repeat": 0,
+      "variant": "after",
+      "readyMs": 718.6630969999997,
+      "listeners": 259,
+      "heapBytes": 5399224
+    },
+    {
+      "width": 390,
+      "repeat": 1,
+      "variant": "after",
+      "readyMs": 780.8833750000003,
+      "listeners": 259,
+      "heapBytes": 5400468
+    },
+    {
+      "width": 390,
+      "repeat": 1,
+      "variant": "before",
+      "readyMs": 732.2541549999996,
+      "listeners": 259,
+      "heapBytes": 5386104
+    },
+    {
+      "width": 390,
+      "repeat": 2,
+      "variant": "before",
+      "readyMs": 692.0323909999997,
+      "listeners": 259,
+      "heapBytes": 5405408
+    },
+    {
+      "width": 390,
+      "repeat": 2,
+      "variant": "after",
+      "readyMs": 624.1494590000002,
+      "listeners": 259,
+      "heapBytes": 5393196
+    },
+    {
+      "width": 390,
+      "repeat": 3,
+      "variant": "after",
+      "readyMs": 658.9034789999987,
+      "listeners": 259,
+      "heapBytes": 5396140
+    },
+    {
+      "width": 390,
+      "repeat": 3,
+      "variant": "before",
+      "readyMs": 677.0672739999991,
+      "listeners": 259,
+      "heapBytes": 5388916
+    },
+    {
+      "width": 390,
+      "repeat": 4,
+      "variant": "before",
+      "readyMs": 729.8567609999991,
+      "listeners": 259,
+      "heapBytes": 5400652
+    },
+    {
+      "width": 390,
+      "repeat": 4,
+      "variant": "after",
+      "readyMs": 647.3989010000005,
+      "listeners": 259,
+      "heapBytes": 5404664
+    },
+    {
+      "width": 390,
+      "repeat": 5,
+      "variant": "after",
+      "readyMs": 701.1146700000008,
+      "listeners": 259,
+      "heapBytes": 5390508
+    },
+    {
+      "width": 390,
+      "repeat": 5,
+      "variant": "before",
+      "readyMs": 692.7568539999993,
+      "listeners": 259,
+      "heapBytes": 5404208
+    },
+    {
+      "width": 390,
+      "repeat": 6,
+      "variant": "before",
+      "readyMs": 624.1812739999987,
+      "listeners": 259,
+      "heapBytes": 5405172
+    },
+    {
+      "width": 390,
+      "repeat": 6,
+      "variant": "after",
+      "readyMs": 621.1816239999989,
+      "listeners": 259,
+      "heapBytes": 5386324
+    },
+    {
+      "width": 390,
+      "repeat": 7,
+      "variant": "after",
+      "readyMs": 693.3914320000003,
+      "listeners": 259,
+      "heapBytes": 5401300
+    },
+    {
+      "width": 390,
+      "repeat": 7,
+      "variant": "before",
+      "readyMs": 674.1108459999996,
+      "listeners": 259,
+      "heapBytes": 5405208
+    },
+    {
+      "width": 390,
+      "repeat": 8,
+      "variant": "before",
+      "readyMs": 741.249115999999,
+      "listeners": 259,
+      "heapBytes": 5406076
+    },
+    {
+      "width": 390,
+      "repeat": 8,
+      "variant": "after",
+      "readyMs": 698.4875370000009,
+      "listeners": 259,
+      "heapBytes": 5399632
+    },
+    {
+      "width": 1280,
+      "repeat": 0,
+      "variant": "before",
+      "readyMs": 691.2515940000012,
+      "listeners": 259,
+      "heapBytes": 5454132
+    },
+    {
+      "width": 1280,
+      "repeat": 0,
+      "variant": "after",
+      "readyMs": 646.8309540000009,
+      "listeners": 259,
+      "heapBytes": 5442524
+    },
+    {
+      "width": 1280,
+      "repeat": 1,
+      "variant": "after",
+      "readyMs": 682.7382859999998,
+      "listeners": 259,
+      "heapBytes": 5442768
+    },
+    {
+      "width": 1280,
+      "repeat": 1,
+      "variant": "before",
+      "readyMs": 656.366199,
+      "listeners": 259,
+      "heapBytes": 5442540
+    },
+    {
+      "width": 1280,
+      "repeat": 2,
+      "variant": "before",
+      "readyMs": 675.1548970000003,
+      "listeners": 259,
+      "heapBytes": 5455112
+    },
+    {
+      "width": 1280,
+      "repeat": 2,
+      "variant": "after",
+      "readyMs": 664.8771080000006,
+      "listeners": 259,
+      "heapBytes": 5442924
+    },
+    {
+      "width": 1280,
+      "repeat": 3,
+      "variant": "after",
+      "readyMs": 677.004660999999,
+      "listeners": 259,
+      "heapBytes": 5442724
+    },
+    {
+      "width": 1280,
+      "repeat": 3,
+      "variant": "before",
+      "readyMs": 645.597565,
+      "listeners": 259,
+      "heapBytes": 5443428
+    },
+    {
+      "width": 1280,
+      "repeat": 4,
+      "variant": "before",
+      "readyMs": 684.6487649999981,
+      "listeners": 259,
+      "heapBytes": 5457992
+    },
+    {
+      "width": 1280,
+      "repeat": 4,
+      "variant": "after",
+      "readyMs": 646.4593610000011,
+      "listeners": 259,
+      "heapBytes": 5457952
+    },
+    {
+      "width": 1280,
+      "repeat": 5,
+      "variant": "after",
+      "readyMs": 675.6208789999982,
+      "listeners": 259,
+      "heapBytes": 5455140
+    },
+    {
+      "width": 1280,
+      "repeat": 5,
+      "variant": "before",
+      "readyMs": 712.7504960000006,
+      "listeners": 259,
+      "heapBytes": 5456192
+    },
+    {
+      "width": 1280,
+      "repeat": 6,
+      "variant": "before",
+      "readyMs": 643.747535999999,
+      "listeners": 259,
+      "heapBytes": 5455552
+    },
+    {
+      "width": 1280,
+      "repeat": 6,
+      "variant": "after",
+      "readyMs": 655.584780000001,
+      "listeners": 259,
+      "heapBytes": 5443512
+    },
+    {
+      "width": 1280,
+      "repeat": 7,
+      "variant": "after",
+      "readyMs": 691.1357629999984,
+      "listeners": 259,
+      "heapBytes": 5442616
+    },
+    {
+      "width": 1280,
+      "repeat": 7,
+      "variant": "before",
+      "readyMs": 639.8609969999998,
+      "listeners": 259,
+      "heapBytes": 5443280
+    },
+    {
+      "width": 1280,
+      "repeat": 8,
+      "variant": "before",
+      "readyMs": 658.7574950000017,
+      "listeners": 259,
+      "heapBytes": 5452920
+    },
+    {
+      "width": 1280,
+      "repeat": 8,
+      "variant": "after",
+      "readyMs": 646.2305450000022,
+      "listeners": 259,
+      "heapBytes": 5457064
+    }
+  ],
+  "packages": {
+    "before": {
+      "revision": "6ce82985d46f9d29c4f7312753d1a0b62714a19a",
+      "bytes": 13231669,
+      "resources": [
+        {
+          "path": "Marketing_calc.HTML",
+          "bytes": 516150,
+          "sha256": "e52a299d7cb344eb9547809a7c917ccf4a7ad8252a5701eace258975d1dc2843"
+        },
+        {
+          "path": "assets/nomad360-banners/about-bozzhyra-approved.webp",
+          "bytes": 109600,
+          "sha256": "58e2fe073939abb241a8ad16d07467269e4a9c67b24a8a1d3096be03a1546125"
+        },
+        {
+          "path": "assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg",
+          "bytes": 147278,
+          "sha256": "02b7e391d024bb6e2581b2e2fbae3703533c06cce335142a326c904ba4c3eadb"
+        },
+        {
+          "path": "assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg",
+          "bytes": 990422,
+          "sha256": "91ff1094aadf2e666488e46e070f6a301da2392f11a85f214590e958fed90a22"
+        },
+        {
+          "path": "assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg",
+          "bytes": 753281,
+          "sha256": "cc49e043ba340c6e2fe987e5e542bfd749819053884b7091f567507bb77f18b7"
+        },
+        {
+          "path": "assets/nomad360-banners/hero-alpenglow-fullbleed.webp",
+          "bytes": 30558,
+          "sha256": "c97a5b76399fc9a757c092251f727deb9b221009cd4a610d418a8ef2abee6650"
+        },
+        {
+          "path": "assets/nomad360-banners/hero.webp",
+          "bytes": 49086,
+          "sha256": "305237c34c5d17a2703cda1831e35041bc930e07b491df603af3b0fd4ab26db0"
+        },
+        {
+          "path": "assets/nomad360-banners/support-mobile.webp",
+          "bytes": 172482,
+          "sha256": "aaf737d9bf903380603174d4d8295fd43fe5ec32e41c81689007294bd813a48b"
+        },
+        {
+          "path": "assets/nomad360-banners/support-wide-extended.webp",
+          "bytes": 117162,
+          "sha256": "d18eb8efbe66bb80af6201af0e7cfd88f73d358bbaa7bce47a0b757606de347a"
+        },
+        {
+          "path": "assets/nomad360-banners/support-wide.webp",
+          "bytes": 179560,
+          "sha256": "8deed3eca326f82f0274bccd5d1430657a1ccecf8c8691d1bef67ced099a5bdf"
+        },
+        {
+          "path": "docs/approved-design/unified-banners/about-moon-scenery.webp",
+          "bytes": 77160,
+          "sha256": "5c7bdfed0384b6655e3e75b82f029652b566df0a33069a823b4cc9f3327bf222"
+        },
+        {
+          "path": "nomad360_about_banner.css",
+          "bytes": 30635,
+          "sha256": "a026ad8c61ed648e6aa914dc9e8bc08ee47c6fc34f0fb1b027b03436d28ff48e"
+        },
+        {
+          "path": "nomad360_about_banner.js",
+          "bytes": 7573,
+          "sha256": "2bbd4373f6ac7b7da87dce618a0fa00b2084636f9836382c32cd7152afbb83c2"
+        },
+        {
+          "path": "nomad360_bug_report.css",
+          "bytes": 5067,
+          "sha256": "57ab0111c5de8c0409f051c257cf2987b192a818eefb677d16caab59126eb5ce"
+        },
+        {
+          "path": "nomad360_bug_report.js",
+          "bytes": 16456,
+          "sha256": "18964f0152d333c7c7751372f0747a9af038b324ee24bd1327523879cd453117"
+        },
+        {
+          "path": "nomad360_calculator_ui.css",
+          "bytes": 282155,
+          "sha256": "cc1d6da0112a3faec6079670087cc9460c030cbd25c7e1f10f2a1a85355cde99"
+        },
+        {
+          "path": "nomad360_calculator_ui.js",
+          "bytes": 34201,
+          "sha256": "4a2fe0a6b36703ad2e56aaf380b4a1f0a9801f71ab1b66be2b5f6ae165e1d0b7"
+        },
+        {
+          "path": "nomad360_consulting_banner.css",
+          "bytes": 11874,
+          "sha256": "87b62568103659e29cbdb39f0a6f031759ba25ad7d1206f470bbde47889b88f0"
+        },
+        {
+          "path": "nomad360_currency.js",
+          "bytes": 4344,
+          "sha256": "815b86ededd70b9ba297828ebf954f5c0a5838a9ad2c43772bba117edb5a4d63"
+        },
+        {
+          "path": "nomad360_delivery.js",
+          "bytes": 3491,
+          "sha256": "06cdcfd2c389ba9e6ca221edae9172dc492e168b0750a5c7976e5ffecf84be00"
+        },
+        {
+          "path": "nomad360_design_system.css",
+          "bytes": 90213,
+          "sha256": "92fee51872625d6ccf8e99cf4e166670406821b2e122ff154840a67746b919ae"
+        },
+        {
+          "path": "nomad360_draft_store.js",
+          "bytes": 2736,
+          "sha256": "e2cfbbf3d626960abe977b0ed40ee53b3336099148c2007c15f8d62f732ef5c4"
+        },
+        {
+          "path": "nomad360_fx.js",
+          "bytes": 1255,
+          "sha256": "7eb8e7f3142c3a5cc83e2fb0dea63b33b51181b97950e845ee5eada626bec97c"
+        },
+        {
+          "path": "nomad360_fx_ui.js",
+          "bytes": 8707,
+          "sha256": "8a01f42820bef8da25c76b6115be6fbf57d930fe72b6374ceab9b362ad583633"
+        },
+        {
+          "path": "nomad360_header.js",
+          "bytes": 76549,
+          "sha256": "9166e9550c3545161ef55a235d580e2249145f6a41d125e790617d9e400e5cb1"
+        },
+        {
+          "path": "nomad360_hero_banner.css",
+          "bytes": 39191,
+          "sha256": "7f53b4be7f7ce7e2f9e5a31255d83fe36927b4c4d05b73d678a5cf58e10f602f"
+        },
+        {
+          "path": "nomad360_hero_banner.js",
+          "bytes": 8126,
+          "sha256": "e14208b24d2385c076d5d59ca90f855871a60acefd43fdab7dc7bcaa42bd71ef"
+        },
+        {
+          "path": "nomad360_irbis_banner.css",
+          "bytes": 25005,
+          "sha256": "b984d00b2f4a2411aaa15f51b78c379901a4b6df7c9397951935e05341d5ad08"
+        },
+        {
+          "path": "nomad360_irbis_banner.js",
+          "bytes": 7614,
+          "sha256": "f660883f6b63885f1c8405f8918058060a2cf1f1d39df2fbcfc1c966849da9c1"
+        },
+        {
+          "path": "nomad360_locale_core.js",
+          "bytes": 483009,
+          "sha256": "eceeef792460bf5ef94bd194aa76eee061b92b9ea9143119d8744066907e3248"
+        },
+        {
+          "path": "nomad360_navigation.js",
+          "bytes": 12482,
+          "sha256": "13f649d6d88491d4b510d5a117a943544694f42e1dbd45418856d7dddd6b2fb7"
+        },
+        {
+          "path": "nomad360_palette.css",
+          "bytes": 282757,
+          "sha256": "d8538ea4e8313d8826c3d0d54df9e09a52509d8f834c339cb1908a30f4f6ff6f"
+        },
+        {
+          "path": "nomad360_partner_application.css",
+          "bytes": 4794,
+          "sha256": "354bc23494f0a9c5bf57dcaf762bbd4c81c256d27422a6b6b295d084750463bb"
+        },
+        {
+          "path": "nomad360_partner_application.js",
+          "bytes": 18434,
+          "sha256": "bd7467f45952f3af6042887ac312b29b1776c083a8cdef9617910b8832b6e55e"
+        },
+        {
+          "path": "nomad360_partner_application_model.js",
+          "bytes": 2559,
+          "sha256": "ef5a4dff7b52ee014a1e849fe9613f061cb1712d70ab08eea8024f6faf277fa9"
+        },
+        {
+          "path": "nomad360_partner_transport.js",
+          "bytes": 1196,
+          "sha256": "3756b61f37ca4c0e1a14e4124cb3f72c0323106561ba060c31acceddbcf23364"
+        },
+        {
+          "path": "nomad360_payment_ui.js",
+          "bytes": 11686,
+          "sha256": "e540f6c4d67c21e38a329d9920f24c5ee3cf92ee2ab085b5c98ee4d41a5832da"
+        },
+        {
+          "path": "nomad360_payments.css",
+          "bytes": 2946,
+          "sha256": "f9f89a0de2b114f5ba66c8ef43cdd8743c66637d8e28d9b39a7931e0be6d8eef"
+        },
+        {
+          "path": "nomad360_payments.js",
+          "bytes": 3687,
+          "sha256": "1a8ecc5f1974cd16720ad4d2d1ed820f84511471c1dff10ea86a9a6241e84aa4"
+        },
+        {
+          "path": "nomad360_price_export.js",
+          "bytes": 20668,
+          "sha256": "2e863a8dae2c2d6121648706253f0a57197e89d4708572f6b8ceeb33893fdc54"
+        },
+        {
+          "path": "nomad360_sales_tax.js",
+          "bytes": 2858,
+          "sha256": "fb4ad6d673b5312e6cb56bafcde0719c7bd763c753efb047a0b1372afe509a8f"
+        },
+        {
+          "path": "nomad360_sales_tax_service_v1.js",
+          "bytes": 21179,
+          "sha256": "2df9589f4b2aee19839574e3e545139da1172594da47d953bd414538f9ce257c"
+        },
+        {
+          "path": "nomad360_sales_tax_v1.js",
+          "bytes": 15016,
+          "sha256": "a466e4d72ea8d47137ace2b8c0ff40e9fd39825fc48a94bd7f75fec556438a00"
+        },
+        {
+          "path": "nomad360_sales_tax_v2.js",
+          "bytes": 7552,
+          "sha256": "a5fa186f33f53882ef99b230ae9de305ef64a55940ad180b376b7c20ef879d18"
+        },
+        {
+          "path": "nomad360_seo_language.js",
+          "bytes": 1051,
+          "sha256": "c077f1f360bd3e408dba7bd668e90f3a833628d600338eae165de88435a82603"
+        },
+        {
+          "path": "nomad360_simple_service_examples.js",
+          "bytes": 9172,
+          "sha256": "4f1e9abd22b4673ff0ff38950575b2c850cfdb8b43f0eba582a7060596ff6472"
+        },
+        {
+          "path": "nomad360_traffic.js",
+          "bytes": 2217,
+          "sha256": "cf5b5a9db8712336fd34dba87ec92ecd78a4c620c60223575ef3d4b8522ff82d"
+        },
+        {
+          "path": "nomad360_us_retail_live_entry.js",
+          "bytes": 18337,
+          "sha256": "ff7f66b96d89e2cfdba6e49a9ea18796dd5d979911504a3f194d0f8927298ef2"
+        },
+        {
+          "path": "nomad360_v1_engine.js",
+          "bytes": 114003,
+          "sha256": "e689bcd456f4a79440374b5f29d8e7100b2e92f270eafa50473f18be72010719"
+        },
+        {
+          "path": "nomad360_wolf_open_circle.png",
+          "bytes": 1503771,
+          "sha256": "072616c1ccb94722549f10ac65e0f2a9a5669faee666904ba25c2ef68dc682ee"
+        },
+        {
+          "path": "portfolio_v2_basket_ui.js",
+          "bytes": 12635,
+          "sha256": "96127e22ba78c98ce1a799f97fc171c180027f760dba9d674e4e53dec8010b04"
+        },
+        {
+          "path": "portfolio_v2_engine.js",
+          "bytes": 22737,
+          "sha256": "5b79d53afd97c57cad74fa0cf9388cdc221e75570b86736376268f0b3c97a7cd"
+        },
+        {
+          "path": "portfolio_v2_full_service.js",
+          "bytes": 12924,
+          "sha256": "22c3443ca29cefbd4caea1ad7fc8c0f71938fc5cda22e34faa39b1cfb7315ad3"
+        },
+        {
+          "path": "portfolio_v2_full_service_ui.js",
+          "bytes": 26809,
+          "sha256": "8ca5628a2be67140ff81d6566614c8727311b427fe0b29e8b1b7386b3f71bde0"
+        },
+        {
+          "path": "portfolio_v2_linked_engine.js",
+          "bytes": 52074,
+          "sha256": "4bd0be9096889206d9667d5e067303893f76a79508ec22e7308554cb5c3b828d"
+        },
+        {
+          "path": "portfolio_v2_linked_ui.js",
+          "bytes": 56935,
+          "sha256": "4bf6ee9b697fe5690bf8a7e66dff433b4b18ebbd1f2f4f1258c9335aa5bbfddb"
+        },
+        {
+          "path": "portfolio_v2_mba_observed.js",
+          "bytes": 12189,
+          "sha256": "b162323a56a34df020422524e7056705bc91c18d6b20542d76c28dfc77f33fdf"
+        },
+        {
+          "path": "portfolio_v2_mba_observed_ui.js",
+          "bytes": 15241,
+          "sha256": "8b4331061380fed98d22cd724441922e343b36f0048a52bb68581982b34170e0"
+        },
+        {
+          "path": "portfolio_v2_online_adapter.js",
+          "bytes": 8541,
+          "sha256": "09017105c9b2e7d5a39fab7bb9b59e279d9241653ab6acfa95584fc57cf080ae"
+        },
+        {
+          "path": "portfolio_v2_period_price.js",
+          "bytes": 8046,
+          "sha256": "0891aaf3e8747be12c8f09366194d59e60b8bb4841e8b3b0c055f384d06ead54"
+        },
+        {
+          "path": "portfolio_v2_pooled_media.js",
+          "bytes": 11238,
+          "sha256": "3063fb4e3ddf6e2472d7e21ea089a582973a55b2a328c7988e08dad4e9ae4742"
+        },
+        {
+          "path": "portfolio_v2_temporal.js",
+          "bytes": 8681,
+          "sha256": "63aa5c80d5a862b6f9569b205565101a0b9c8c8fd2c4d4489ed72c2638cf58bb"
+        },
+        {
+          "path": "portfolio_v2_temporal_cash.js",
+          "bytes": 29412,
+          "sha256": "a8969e00a65bf1a66610536185660e1fed1665fbf75057b322f6beeedf6023ba"
+        },
+        {
+          "path": "portfolio_v2_ui.js",
+          "bytes": 42121,
+          "sha256": "2d45c860aad91f445695cf00634bbd4554478c420f1f0fa9d6933e39b3948cd9"
+        },
+        {
+          "path": "vendor/exceljs-4.4.0.min.js",
+          "bytes": 947702,
+          "sha256": "7e49da68588e250dbb8bba190d2caa8ab3787cc0284bda1d8b2f805c4df742c9"
+        }
+      ]
+    },
+    "after": {
+      "revision": "ef54e5eaba6ed620b224cdf18b1414f5d9b4cb97",
+      "bytes": 13231625,
+      "resources": [
+        {
+          "path": "Marketing_calc.HTML",
+          "bytes": 516150,
+          "sha256": "e52a299d7cb344eb9547809a7c917ccf4a7ad8252a5701eace258975d1dc2843"
+        },
+        {
+          "path": "assets/nomad360-banners/about-bozzhyra-approved.webp",
+          "bytes": 109600,
+          "sha256": "58e2fe073939abb241a8ad16d07467269e4a9c67b24a8a1d3096be03a1546125"
+        },
+        {
+          "path": "assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg",
+          "bytes": 147278,
+          "sha256": "02b7e391d024bb6e2581b2e2fbae3703533c06cce335142a326c904ba4c3eadb"
+        },
+        {
+          "path": "assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg",
+          "bytes": 990422,
+          "sha256": "91ff1094aadf2e666488e46e070f6a301da2392f11a85f214590e958fed90a22"
+        },
+        {
+          "path": "assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg",
+          "bytes": 753281,
+          "sha256": "cc49e043ba340c6e2fe987e5e542bfd749819053884b7091f567507bb77f18b7"
+        },
+        {
+          "path": "assets/nomad360-banners/hero-alpenglow-fullbleed.webp",
+          "bytes": 30558,
+          "sha256": "c97a5b76399fc9a757c092251f727deb9b221009cd4a610d418a8ef2abee6650"
+        },
+        {
+          "path": "assets/nomad360-banners/hero.webp",
+          "bytes": 49086,
+          "sha256": "305237c34c5d17a2703cda1831e35041bc930e07b491df603af3b0fd4ab26db0"
+        },
+        {
+          "path": "assets/nomad360-banners/support-mobile.webp",
+          "bytes": 172482,
+          "sha256": "aaf737d9bf903380603174d4d8295fd43fe5ec32e41c81689007294bd813a48b"
+        },
+        {
+          "path": "assets/nomad360-banners/support-wide-extended.webp",
+          "bytes": 117162,
+          "sha256": "d18eb8efbe66bb80af6201af0e7cfd88f73d358bbaa7bce47a0b757606de347a"
+        },
+        {
+          "path": "assets/nomad360-banners/support-wide.webp",
+          "bytes": 179560,
+          "sha256": "8deed3eca326f82f0274bccd5d1430657a1ccecf8c8691d1bef67ced099a5bdf"
+        },
+        {
+          "path": "docs/approved-design/unified-banners/about-moon-scenery.webp",
+          "bytes": 77160,
+          "sha256": "5c7bdfed0384b6655e3e75b82f029652b566df0a33069a823b4cc9f3327bf222"
+        },
+        {
+          "path": "nomad360_about_banner.css",
+          "bytes": 30635,
+          "sha256": "a026ad8c61ed648e6aa914dc9e8bc08ee47c6fc34f0fb1b027b03436d28ff48e"
+        },
+        {
+          "path": "nomad360_about_banner.js",
+          "bytes": 7573,
+          "sha256": "2bbd4373f6ac7b7da87dce618a0fa00b2084636f9836382c32cd7152afbb83c2"
+        },
+        {
+          "path": "nomad360_bug_report.css",
+          "bytes": 5067,
+          "sha256": "57ab0111c5de8c0409f051c257cf2987b192a818eefb677d16caab59126eb5ce"
+        },
+        {
+          "path": "nomad360_bug_report.js",
+          "bytes": 16456,
+          "sha256": "18964f0152d333c7c7751372f0747a9af038b324ee24bd1327523879cd453117"
+        },
+        {
+          "path": "nomad360_calculator_ui.css",
+          "bytes": 282111,
+          "sha256": "f8de79efda7f71c9301b01f10eeb55c42250a22c62bf7ce68363a3211ceb59f3"
+        },
+        {
+          "path": "nomad360_calculator_ui.js",
+          "bytes": 34201,
+          "sha256": "4a2fe0a6b36703ad2e56aaf380b4a1f0a9801f71ab1b66be2b5f6ae165e1d0b7"
+        },
+        {
+          "path": "nomad360_consulting_banner.css",
+          "bytes": 11874,
+          "sha256": "87b62568103659e29cbdb39f0a6f031759ba25ad7d1206f470bbde47889b88f0"
+        },
+        {
+          "path": "nomad360_currency.js",
+          "bytes": 4344,
+          "sha256": "815b86ededd70b9ba297828ebf954f5c0a5838a9ad2c43772bba117edb5a4d63"
+        },
+        {
+          "path": "nomad360_delivery.js",
+          "bytes": 3491,
+          "sha256": "06cdcfd2c389ba9e6ca221edae9172dc492e168b0750a5c7976e5ffecf84be00"
+        },
+        {
+          "path": "nomad360_design_system.css",
+          "bytes": 90213,
+          "sha256": "92fee51872625d6ccf8e99cf4e166670406821b2e122ff154840a67746b919ae"
+        },
+        {
+          "path": "nomad360_draft_store.js",
+          "bytes": 2736,
+          "sha256": "e2cfbbf3d626960abe977b0ed40ee53b3336099148c2007c15f8d62f732ef5c4"
+        },
+        {
+          "path": "nomad360_fx.js",
+          "bytes": 1255,
+          "sha256": "7eb8e7f3142c3a5cc83e2fb0dea63b33b51181b97950e845ee5eada626bec97c"
+        },
+        {
+          "path": "nomad360_fx_ui.js",
+          "bytes": 8707,
+          "sha256": "8a01f42820bef8da25c76b6115be6fbf57d930fe72b6374ceab9b362ad583633"
+        },
+        {
+          "path": "nomad360_header.js",
+          "bytes": 76549,
+          "sha256": "9166e9550c3545161ef55a235d580e2249145f6a41d125e790617d9e400e5cb1"
+        },
+        {
+          "path": "nomad360_hero_banner.css",
+          "bytes": 39191,
+          "sha256": "7f53b4be7f7ce7e2f9e5a31255d83fe36927b4c4d05b73d678a5cf58e10f602f"
+        },
+        {
+          "path": "nomad360_hero_banner.js",
+          "bytes": 8126,
+          "sha256": "e14208b24d2385c076d5d59ca90f855871a60acefd43fdab7dc7bcaa42bd71ef"
+        },
+        {
+          "path": "nomad360_irbis_banner.css",
+          "bytes": 25005,
+          "sha256": "b984d00b2f4a2411aaa15f51b78c379901a4b6df7c9397951935e05341d5ad08"
+        },
+        {
+          "path": "nomad360_irbis_banner.js",
+          "bytes": 7614,
+          "sha256": "f660883f6b63885f1c8405f8918058060a2cf1f1d39df2fbcfc1c966849da9c1"
+        },
+        {
+          "path": "nomad360_locale_core.js",
+          "bytes": 483009,
+          "sha256": "eceeef792460bf5ef94bd194aa76eee061b92b9ea9143119d8744066907e3248"
+        },
+        {
+          "path": "nomad360_navigation.js",
+          "bytes": 12482,
+          "sha256": "13f649d6d88491d4b510d5a117a943544694f42e1dbd45418856d7dddd6b2fb7"
+        },
+        {
+          "path": "nomad360_palette.css",
+          "bytes": 282757,
+          "sha256": "d8538ea4e8313d8826c3d0d54df9e09a52509d8f834c339cb1908a30f4f6ff6f"
+        },
+        {
+          "path": "nomad360_partner_application.css",
+          "bytes": 4794,
+          "sha256": "354bc23494f0a9c5bf57dcaf762bbd4c81c256d27422a6b6b295d084750463bb"
+        },
+        {
+          "path": "nomad360_partner_application.js",
+          "bytes": 18434,
+          "sha256": "bd7467f45952f3af6042887ac312b29b1776c083a8cdef9617910b8832b6e55e"
+        },
+        {
+          "path": "nomad360_partner_application_model.js",
+          "bytes": 2559,
+          "sha256": "ef5a4dff7b52ee014a1e849fe9613f061cb1712d70ab08eea8024f6faf277fa9"
+        },
+        {
+          "path": "nomad360_partner_transport.js",
+          "bytes": 1196,
+          "sha256": "3756b61f37ca4c0e1a14e4124cb3f72c0323106561ba060c31acceddbcf23364"
+        },
+        {
+          "path": "nomad360_payment_ui.js",
+          "bytes": 11686,
+          "sha256": "e540f6c4d67c21e38a329d9920f24c5ee3cf92ee2ab085b5c98ee4d41a5832da"
+        },
+        {
+          "path": "nomad360_payments.css",
+          "bytes": 2946,
+          "sha256": "f9f89a0de2b114f5ba66c8ef43cdd8743c66637d8e28d9b39a7931e0be6d8eef"
+        },
+        {
+          "path": "nomad360_payments.js",
+          "bytes": 3687,
+          "sha256": "1a8ecc5f1974cd16720ad4d2d1ed820f84511471c1dff10ea86a9a6241e84aa4"
+        },
+        {
+          "path": "nomad360_price_export.js",
+          "bytes": 20668,
+          "sha256": "2e863a8dae2c2d6121648706253f0a57197e89d4708572f6b8ceeb33893fdc54"
+        },
+        {
+          "path": "nomad360_sales_tax.js",
+          "bytes": 2858,
+          "sha256": "fb4ad6d673b5312e6cb56bafcde0719c7bd763c753efb047a0b1372afe509a8f"
+        },
+        {
+          "path": "nomad360_sales_tax_service_v1.js",
+          "bytes": 21179,
+          "sha256": "2df9589f4b2aee19839574e3e545139da1172594da47d953bd414538f9ce257c"
+        },
+        {
+          "path": "nomad360_sales_tax_v1.js",
+          "bytes": 15016,
+          "sha256": "a466e4d72ea8d47137ace2b8c0ff40e9fd39825fc48a94bd7f75fec556438a00"
+        },
+        {
+          "path": "nomad360_sales_tax_v2.js",
+          "bytes": 7552,
+          "sha256": "a5fa186f33f53882ef99b230ae9de305ef64a55940ad180b376b7c20ef879d18"
+        },
+        {
+          "path": "nomad360_seo_language.js",
+          "bytes": 1051,
+          "sha256": "c077f1f360bd3e408dba7bd668e90f3a833628d600338eae165de88435a82603"
+        },
+        {
+          "path": "nomad360_simple_service_examples.js",
+          "bytes": 9172,
+          "sha256": "4f1e9abd22b4673ff0ff38950575b2c850cfdb8b43f0eba582a7060596ff6472"
+        },
+        {
+          "path": "nomad360_traffic.js",
+          "bytes": 2217,
+          "sha256": "cf5b5a9db8712336fd34dba87ec92ecd78a4c620c60223575ef3d4b8522ff82d"
+        },
+        {
+          "path": "nomad360_us_retail_live_entry.js",
+          "bytes": 18337,
+          "sha256": "ff7f66b96d89e2cfdba6e49a9ea18796dd5d979911504a3f194d0f8927298ef2"
+        },
+        {
+          "path": "nomad360_v1_engine.js",
+          "bytes": 114003,
+          "sha256": "e689bcd456f4a79440374b5f29d8e7100b2e92f270eafa50473f18be72010719"
+        },
+        {
+          "path": "nomad360_wolf_open_circle.png",
+          "bytes": 1503771,
+          "sha256": "072616c1ccb94722549f10ac65e0f2a9a5669faee666904ba25c2ef68dc682ee"
+        },
+        {
+          "path": "portfolio_v2_basket_ui.js",
+          "bytes": 12635,
+          "sha256": "96127e22ba78c98ce1a799f97fc171c180027f760dba9d674e4e53dec8010b04"
+        },
+        {
+          "path": "portfolio_v2_engine.js",
+          "bytes": 22737,
+          "sha256": "5b79d53afd97c57cad74fa0cf9388cdc221e75570b86736376268f0b3c97a7cd"
+        },
+        {
+          "path": "portfolio_v2_full_service.js",
+          "bytes": 12924,
+          "sha256": "22c3443ca29cefbd4caea1ad7fc8c0f71938fc5cda22e34faa39b1cfb7315ad3"
+        },
+        {
+          "path": "portfolio_v2_full_service_ui.js",
+          "bytes": 26809,
+          "sha256": "8ca5628a2be67140ff81d6566614c8727311b427fe0b29e8b1b7386b3f71bde0"
+        },
+        {
+          "path": "portfolio_v2_linked_engine.js",
+          "bytes": 52074,
+          "sha256": "4bd0be9096889206d9667d5e067303893f76a79508ec22e7308554cb5c3b828d"
+        },
+        {
+          "path": "portfolio_v2_linked_ui.js",
+          "bytes": 56935,
+          "sha256": "4bf6ee9b697fe5690bf8a7e66dff433b4b18ebbd1f2f4f1258c9335aa5bbfddb"
+        },
+        {
+          "path": "portfolio_v2_mba_observed.js",
+          "bytes": 12189,
+          "sha256": "b162323a56a34df020422524e7056705bc91c18d6b20542d76c28dfc77f33fdf"
+        },
+        {
+          "path": "portfolio_v2_mba_observed_ui.js",
+          "bytes": 15241,
+          "sha256": "8b4331061380fed98d22cd724441922e343b36f0048a52bb68581982b34170e0"
+        },
+        {
+          "path": "portfolio_v2_online_adapter.js",
+          "bytes": 8541,
+          "sha256": "09017105c9b2e7d5a39fab7bb9b59e279d9241653ab6acfa95584fc57cf080ae"
+        },
+        {
+          "path": "portfolio_v2_period_price.js",
+          "bytes": 8046,
+          "sha256": "0891aaf3e8747be12c8f09366194d59e60b8bb4841e8b3b0c055f384d06ead54"
+        },
+        {
+          "path": "portfolio_v2_pooled_media.js",
+          "bytes": 11238,
+          "sha256": "3063fb4e3ddf6e2472d7e21ea089a582973a55b2a328c7988e08dad4e9ae4742"
+        },
+        {
+          "path": "portfolio_v2_temporal.js",
+          "bytes": 8681,
+          "sha256": "63aa5c80d5a862b6f9569b205565101a0b9c8c8fd2c4d4489ed72c2638cf58bb"
+        },
+        {
+          "path": "portfolio_v2_temporal_cash.js",
+          "bytes": 29412,
+          "sha256": "a8969e00a65bf1a66610536185660e1fed1665fbf75057b322f6beeedf6023ba"
+        },
+        {
+          "path": "portfolio_v2_ui.js",
+          "bytes": 42121,
+          "sha256": "2d45c860aad91f445695cf00634bbd4554478c420f1f0fa9d6933e39b3948cd9"
+        },
+        {
+          "path": "vendor/exceljs-4.4.0.min.js",
+          "bytes": 947702,
+          "sha256": "7e49da68588e250dbb8bba190d2caa8ab3787cc0284bda1d8b2f805c4df742c9"
+        }
+      ]
+    }
+  }
+}

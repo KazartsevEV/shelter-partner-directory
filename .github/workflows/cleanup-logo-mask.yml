@@ -26,12 +26,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Pinned tools and accepted main
         run: |
           npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
           npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
           scripts/palette/node_modules/.bin/playwright install --with-deps chromium
           git worktree add --detach "$C2_BASELINE_ROOT" 6ce82985d46f9d29c4f7312753d1a0b62714a19a
+      - name: Confirm the historical banner guard fails on accepted main
+        run: |
+          mkdir -p artifacts/cleanup-c2
+          if (cd "$C2_BASELINE_ROOT" && node --test tests/partner_build_scope.test.cjs) > artifacts/cleanup-c2/main-historical-guard-red.log 2>&1; then
+            echo "Expected the pre-C2 historical CSS guard to reject accepted banner CSS" >&2
+            exit 1
+          fi
+          grep -F 'nomad360_about_banner.css' artifacts/cleanup-c2/main-historical-guard-red.log
+          echo 'ACCEPTED_BANNER_HISTORICAL_GUARD_RED_CONFIRMED'
       - name: Strict source, original logo, palette, localization and financial contracts
         run: |
           node --check scripts/cleanup-logo-mask/compare.cjs
@@ -52,10 +64,11 @@ jobs:
           node scripts/cleanup-logo-mask/compare.cjs artifacts/cleanup-c2 --timing-only
       - name: Real Excel downloads and print projection
         run: |
+          set -o pipefail
           cp artifacts/cleanup-c2/utilities.css artifacts/excel-utilities.css
-          node tests/nomad360_price_export_browser.test.cjs
+          node tests/nomad360_price_export_browser.test.cjs | tee artifacts/cleanup-c2/excel.log
           python -m pip install openpyxl==3.1.5
-          python tests/nomad360_price_export_openxml.py
+          python tests/nomad360_price_export_openxml.py | tee artifacts/cleanup-c2/ooxml.log
           node tests/sales_tax_7b5_v1_pdf_browser.cjs | tee artifacts/cleanup-c2/pdf.log
       - uses: actions/upload-artifact@v4
         if: always()

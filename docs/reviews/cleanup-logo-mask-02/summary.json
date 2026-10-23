@@ -1,0 +1,74 @@
+{
+  "base": "6ce82985d46f9d29c4f7312753d1a0b62714a19a",
+  "fullCases": 84,
+  "comparisons": 252,
+  "screenshotPairs": 12,
+  "sizes": {
+    "before": {
+      "bytes": 282155,
+      "gzip": 190277,
+      "brotli": 187496
+    },
+    "after": {
+      "bytes": 282111,
+      "gzip": 190275,
+      "brotli": 187476
+    }
+  },
+  "standaloneBytes": {
+    "before": 13231669,
+    "after": 13231625
+  },
+  "allPairedDomCountsEqual": true,
+  "repeatedTimings": [
+    {
+      "width": 390,
+      "before": {
+        "repeats": 9,
+        "medianReadyMs": 692.7568539999993,
+        "minReadyMs": 624.1812739999987,
+        "maxReadyMs": 782.5659550000005,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5404208
+      },
+      "after": {
+        "repeats": 9,
+        "medianReadyMs": 693.3914320000003,
+        "minReadyMs": 621.1816239999989,
+        "maxReadyMs": 780.8833750000003,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5399224
+      },
+      "medianDeltaPct": 0.09160183639280728
+    },
+    {
+      "width": 1280,
+      "before": {
+        "repeats": 9,
+        "medianReadyMs": 658.7574950000017,
+        "minReadyMs": 639.8609969999998,
+        "maxReadyMs": 712.7504960000006,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5454132
+      },
+      "after": {
+        "repeats": 9,
+        "medianReadyMs": 664.8771080000006,
+        "minReadyMs": 646.2305450000022,
+        "maxReadyMs": 691.1357629999984,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5442924
+      },
+      "medianDeltaPct": 0.9289629410590416
+    }
+  ],
+  "timingLimit": "Local paired readiness measurements with nine repeats per variant/width; not production CWV or proof of a speedup. Initial three-run variation is retained in protocol.json."
+}
