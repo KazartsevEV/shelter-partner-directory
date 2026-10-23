@@ -1,0 +1,49 @@
+{
+  "cases": 60,
+  "comparisons": 480,
+  "screenshotPairs": 6,
+  "sizes": {
+    "before": {
+      "bytes": 90336,
+      "gzip": 17705,
+      "brotli": 14871
+    },
+    "after": {
+      "bytes": 90213,
+      "gzip": 17692,
+      "brotli": 14869
+    }
+  },
+  "standaloneBytes": {
+    "before": 16224965,
+    "after": 16224842
+  },
+  "timing": [
+    {
+      "width": 390,
+      "before": {
+        "readyMs": 1049.1830249999766,
+        "heapBytes": 5468144,
+        "listeners": 277
+      },
+      "after": {
+        "readyMs": 1086.559299000015,
+        "heapBytes": 5470852,
+        "listeners": 277
+      }
+    },
+    {
+      "width": 1280,
+      "before": {
+        "readyMs": 1052.1912279999815,
+        "heapBytes": 5529100,
+        "listeners": 277
+      },
+      "after": {
+        "readyMs": 1050.8833300000406,
+        "heapBytes": 5527080,
+        "listeners": 277
+      }
+    }
+  ]
+}

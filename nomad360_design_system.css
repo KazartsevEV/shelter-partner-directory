@@ -1480,9 +1480,6 @@ body #full-service-screen .nd-full-service-header{
 body #full-service-screen h1{
   font:700 clamp(25px,4vw,34px)/1.2 var(--nd-font);color:#fff
 }
-body #full-service-screen .nd-full-service-inputs{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px
-}
 body #full-service-screen .nd-full-service-label{font:500 16px/1.4 var(--nd-font);color:#fff}
 body #full-service-screen .nd-full-service-label :is(input,select){
   display:block;width:100%;max-width:100%;min-height:48px;margin-top:7px;

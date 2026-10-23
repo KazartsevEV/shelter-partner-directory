@@ -1,0 +1,17 @@
+'use strict';
+const A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const scope=require('../../tests/helpers/cleanup-service-grid-scope.cjs'),hash=x=>crypto.createHash('sha256').update(x).digest('hex');
+const file=path.resolve(process.argv[2]),report=JSON.parse(fs.readFileSync(file)),directory=path.dirname(file);
+A.equal(report.base,scope.base);A.equal(report.sourceBefore,hash(scope.original));A.equal(report.sourceAfter,hash(scope.candidate));
+const expected=[];for(const entry of ['Marketing_calc.HTML','US_Retail_Demo.HTML','standalone.html'])for(const width of entry==='standalone.html'?[320,1280]:[320,360,390,430,559,560,561,768,1280])for(const language of ['ru','en','kk'])expected.push([entry,width,language].join('/'));
+A.deepEqual(report.cases.map(x=>[x.entry,x.width,x.language].join('/')).sort(),expected.sort());A.equal(report.comparisons,480);
+let screenshots=0;
+for(const row of report.cases){A.equal(row.exactStylesAndNumbers,true);A.deepEqual(row.routes.map(x=>x.kind),['full','self','hired','agent','offline','standalone','linked','home']);for(const route of row.routes){A.match(route.styleHash,/^[a-f0-9]{64}$/);A.ok(route.visibleNodes>0);if(route.screenshot){screenshots++;const after=fs.readFileSync(path.join(directory,route.screenshot.file)),before=fs.readFileSync(path.join(directory,route.screenshot.file.replace('-after.png','-before.png')));A.deepEqual(after,before);A.equal(hash(after),route.screenshot.sha256);}}}A.equal(screenshots,6);
+const resources=kind=>report.packages[kind].resources.filter(x=>x.path!==scope.file).sort((a,b)=>a.path.localeCompare(b.path));A.deepEqual(resources('before'),resources('after'),'all other packaged resources are byte-identical');
+for(const kind of ['before','after'])A.equal(report.packages[kind].resources.find(x=>x.path===scope.file).sha256,report[kind==='before'?'sourceBefore':'sourceAfter']);
+A.equal(report.sizes.before.bytes-report.sizes.after.bytes,Buffer.byteLength(scope.removed));A.equal(report.packages.before.htmlBytes-report.packages.after.htmlBytes,Buffer.byteLength(scope.removed));
+A.equal(report.timing.length,12);
+for(const width of [390,1280])for(let repeat=0;repeat<3;repeat++){const pair=report.timing.filter(x=>x.width===width&&x.repeat===repeat);A.equal(pair.length,2);A.deepEqual(pair.map(x=>x.variant).sort(),['after','before']);A.equal(pair[0].listeners,pair[1].listeners);for(const sample of pair){A.ok(Number.isFinite(sample.readyMs)&&sample.readyMs>0);A.ok(Number.isFinite(sample.heapBytes)&&sample.heapBytes>0);}}
+const median=values=>[...values].sort((a,b)=>a-b)[Math.floor(values.length/2)];
+const timing=[390,1280].map(width=>({width,...Object.fromEntries(['before','after'].map(kind=>[kind,{readyMs:median(report.timing.filter(x=>x.width===width&&x.variant===kind).map(x=>x.readyMs)),heapBytes:median(report.timing.filter(x=>x.width===width&&x.variant===kind).map(x=>x.heapBytes)),listeners:report.timing.find(x=>x.width===width&&x.variant===kind).listeners}]))}));
+fs.writeFileSync(path.join(directory,'verified-summary.json'),JSON.stringify({cases:60,comparisons:480,screenshotPairs:screenshots,sizes:report.sizes,standaloneBytes:{before:report.packages.before.htmlBytes,after:report.packages.after.htmlBytes},timing},null,2)+'\n');console.log('C1_REPORT_VERIFIED',JSON.stringify({cases:60,comparisons:480,screenshotPairs:6}));
