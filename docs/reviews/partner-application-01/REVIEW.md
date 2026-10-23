@@ -5,8 +5,9 @@ This is the separately requested application form, not archive issuance.
 
 ## Behaviour
 
-A secondary CTA beside the existing download opens an accessible native dialog.
-The two actions use equal grid tracks and dimensions. The form includes company,
+A secondary CTA immediately below the visible embedding action opens an accessible
+native dialog without expanding the comparison table. The two actions retain their
+direct-child CSS contracts and have equal responsive dimensions. The form includes company,
 business activity, intended use, employee count, main client segment, website,
 full name, role, email and phone/messenger. Optional fields are labelled.
 Required processing consent and optional public-profile consent are independent
@@ -70,3 +71,10 @@ The published evidence contains no application or contact field values.
 Review screenshots show the empty form only, before entering test data.
 Mailbox arrival, production deployment and archive-code delivery are separate
 checks and are not claimed from the handler ACK.
+
+
+The final UI exposes the partnership CTA immediately below the main embed action.
+This layout-only update follows the recorded handler ACK. The transport, data
+model and submit handler remain byte-identical to the live-tested implementation;
+[submission-integrity.json](submission-integrity.json) records that narrower
+comparison. The final layout is checked by the current Chromium/CI matrix.

@@ -43,10 +43,30 @@ function boot(){
  const status=document.createElement('p');status.id='nomad360-partner-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.setAttribute('aria-atomic','true');form.append(submit,status);dialog.append(form);document.body.append(dialog);
  let sending=false,completed=false,statusKey=null,applicationId=null,consentedAt=null,errors={};
  const close=dialog.querySelector('[data-partner-close]');
+ let sizeFrame=null,observedAction=null,previousWidth=-1;
+ const actionObserver=new ResizeObserver(entries=>{const width=entries[0]?.contentRect.width;if(width!==undefined&&Math.abs(width-previousWidth)>.1){previousWidth=width;scheduleSize();}});
+ function scheduleSize(){
+  if(sizeFrame!==null)root.cancelAnimationFrame(sizeFrame);
+  sizeFrame=root.requestAnimationFrame(()=>{
+   sizeFrame=null;
+   const primary=document.querySelector('#nomad360-embed > [data-nomad-embed-toggle]'),secondary=document.getElementById('nomad360-partner-trigger');
+   if(!primary||!secondary)return;
+   const width=primary.getBoundingClientRect().width;if(width<=0){secondary.style.width='';return;}
+   secondary.style.width=width+'px';
+   primary.style.minHeight='';secondary.style.minHeight='';
+   const height=Math.ceil(Math.max(primary.getBoundingClientRect().height,secondary.getBoundingClientRect().height));
+   primary.style.minHeight=secondary.style.minHeight=height+'px';
+  });
+ }
+ root.addEventListener('resize',scheduleSize);
+ document.fonts?.ready.then(scheduleSize);
+
  function mount(){
-  const download=document.querySelector('#nomad360-embed [data-nomad-download-html]');if(!download)return;
-  let button=document.getElementById('nomad360-partner-trigger');if(!button){button=document.createElement('button');button.id='nomad360-partner-trigger';button.type='button';button.className='nomad-embed-download nomad-partner-trigger';button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls',dialog.id);button.setAttribute('data-nomad-no-translate','');const group=document.createElement('div');group.className='nomad-partner-actions';download.before(group);group.append(download,button);}
+  const primary=document.querySelector('#nomad360-embed > [data-nomad-embed-toggle]');if(!primary)return;
+  let button=document.getElementById('nomad360-partner-trigger');if(!button){button=document.createElement('button');button.id='nomad360-partner-trigger';button.type='button';button.className='nomad-embed-download nomad-partner-trigger';button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls',dialog.id);button.setAttribute('data-nomad-no-translate','');primary.after(button);}
   button.textContent=COPY[language()].trigger;
+  if(observedAction!==primary){actionObserver.disconnect();previousWidth=-1;actionObserver.observe(primary);observedAction=primary;}
+  scheduleSize();
  }
  function localize(){
   const t=COPY[language()];mount();for(const node of dialog.querySelectorAll('[data-partner-copy]'))node.textContent=t[node.dataset.partnerCopy];close.setAttribute('aria-label',t.close);

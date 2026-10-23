@@ -22,10 +22,11 @@ async function financial(page){return page.evaluate(()=>{const model=calculatePr
    await page.waitForFunction(()=>document.getElementById('product-demo-banner')?.dataset.demoReady==='true');await page.locator('#nomad360-lang-select').selectOption(language);
    await page.evaluate(endpoint=>{document.documentElement.setAttribute('data-nomad-partner-endpoint',endpoint);localStorage.setItem('partner-application-private-sentinel','PRIVATE-DRAFT-DO-NOT-SEND');},endpoint);
    const before=await financial(page);
-   await page.locator('[data-nomad-embed-toggle]').click();
+   A.equal(await page.locator('#nomad360-embed-comparison').isVisible(),false);
+   A.equal(await page.locator('#nomad360-partner-trigger').isVisible(),true);
    const trigger=page.locator('#nomad360-partner-trigger');await trigger.scrollIntoViewIfNeeded();
    const geometry=await page.evaluate(()=>{
-    const a=document.querySelector('[data-nomad-download-html]').getBoundingClientRect(),b=document.getElementById('nomad360-partner-trigger').getBoundingClientRect(),style=getComputedStyle(document.getElementById('nomad360-partner-trigger'));
+    const a=document.querySelector('[data-nomad-embed-toggle]').getBoundingClientRect(),b=document.getElementById('nomad360-partner-trigger').getBoundingClientRect(),style=getComputedStyle(document.getElementById('nomad360-partner-trigger'));
     return {width:a.width-b.width,height:a.height-b.height,background:style.backgroundColor,color:style.color};
    });A.ok(Math.abs(geometry.width)<1&&Math.abs(geometry.height)<1,JSON.stringify(geometry));A.equal(geometry.background,'rgb(255, 255, 255)');A.equal(geometry.color,'rgb(23, 59, 88)');
    await trigger.click();await page.waitForFunction(()=>document.getElementById('nomad360-partner-dialog').open);
