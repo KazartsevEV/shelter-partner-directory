@@ -476,9 +476,18 @@ def main():
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
+                             'docs/reviews/partner-issuance-01/',
                              'docs/reviews/about-vector-218/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
+        'docs/architecture/partner-issuance.md',
+        '.github/workflows/partner-issuance.yml',
+        'tests/partner_issuance.test.cjs',
+        'tests/partner_issuance_google.test.cjs',
+        'tests/partner_issuance_scope.test.cjs',
+        'tests/partner_issuance_auth.test.cjs',
+        'tests/helpers/partner-archive-roundtrip.cjs',
+        'tests/helpers/partner_archive_verify.py',
         'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
         'tests/nomad360_global_tree_navigation_browser.test.cjs',
         'tests/simple_services_free_cash_browser.test.cjs',

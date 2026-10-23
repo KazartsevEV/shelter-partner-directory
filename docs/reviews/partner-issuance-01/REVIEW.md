@@ -10,7 +10,9 @@ AES-256 ZIP, Google owner checks, private Drive upload, Gmail MIME/attachments,
 literal Google Sheet values and an explicit private operator command entrypoint.
 
 The actual private Google Sheet has instructions plus three native tables:
-applications, issuances and events. Sharing was read back: owner only. Its IDs
+applications, issuances and events. Sharing initially read back as owner only.
+At the owner's request, their existing service account was subsequently granted
+editor access to this registry only; the archive folder remains owner-only. Its IDs
 and application/contact data are excluded from the public repo. No real partner
 application was invented; one technical delivery is clearly labelled as a test.
 
@@ -35,16 +37,25 @@ not claimed. This PR therefore does not close P3 or activate public issuance.
 
 ## Local results
 
-- 21 unit/provider/operator/source tests pass, including the full operator flow,
+- 26 unit/provider/operator/source tests pass, including the full operator flow,
   archive tampering and explicit renewal of an expired confirmation challenge.
 - The real encrypted browser test at `462ffcc6b7346bbe1048010605179401b57bc89b`
   passed 18 language/width combinations and 1,278 scenarios with 65 source
   resources, zero numeric changes and identical independently extracted HTML.
   See [browser-protocol.json](browser-protocol.json).
-- Subsequent changes add only private confirmation renewal and test/report
-  evidence; the packer, archive implementation and all browser sources remain
+- Subsequent changes add private confirmation renewal, owner OAuth refresh,
+  separate existing-Sheets-identity support and test/report evidence; the packer,
+  archive implementation and all browser sources remain
   unchanged from that successful encrypted matrix.
 - The Drive copy was downloaded again through the authenticated connector;
   its ZIP SHA-256 and independently decrypted HTML match the original.
-- JavaScript syntax and unchanged published-runtime checks pass. GitHub CI is
-  not claimed: this branch has not been published yet.
+- JavaScript syntax and unchanged published-runtime checks pass. Source is
+  published as draft PR #243. Current CI evidence is recorded in that PR.
+
+The existing service identity was grounded against an existing owner-controlled
+registry and repository deployment references. Its key and the owner OAuth
+credential binding remain on another runtime, not in this cloud workspace.
+Repository secrets listing is denied to this integration (403); secrets are not
+extracted through workflows or source files. The reuse path accepts an existing
+credential selector and does not create a new Google project/client or grant
+mailbox access to a service account.

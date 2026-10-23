@@ -45,6 +45,7 @@ issuance changes financial formulas, currencies, drafts or feature availability.
 | `messages.cjs` | Canonical EN mail and RU/KK equivalents |
 | `registry.cjs` | Allowlisted Google Sheet projections and literal cell values |
 | `google-workspace.cjs` | Gmail/Drive owner checks and bounded Google API calls |
+| `google-auth.cjs` | Owner OAuth refresh and reuse of an existing Sheets service-account credential selector |
 | `operator.cjs` | Explicit private command execution; no public web handler |
 
 The ports separate durable state, archive storage, mail delivery and package
@@ -80,20 +81,41 @@ Settings fields (use actual private paths/IDs, not the placeholders):
 {
   "stateDirectory": "/private/nomad360/state",
   "vaultKeyFile": "/private/nomad360/vault.secret",
-  "googleAccessTokenFile": "/private/nomad360/google-oauth.secret",
+  "googleOAuthCredentialsFile": "/private/nomad360/google-user-oauth.json",
+  "googleSheetsCredentialsFile": "/private/existing-google-service-account.json",
+  "googleSheetsServiceAccountEmail": "existing-account@existing-project.iam.gserviceaccount.com",
   "spreadsheetId": "PRIVATE_NATIVE_SHEET_ID",
   "archiveFolderId": "PRIVATE_OWNER_ONLY_FOLDER_ID"
 }
 ```
 
-The token file must contain an OAuth access token for the selected owner with
-Gmail send/read, Drive file/private-folder and Sheets access. The adapter checks
-both Gmail and Drive identities before writes, keeps TLS verification enabled,
-rejects redirects, and does not log credentials or provider error bodies. The
-token is supplied externally; this change does **not** acquire refresh tokens,
-start interactive OAuth, deploy a server or schedule a worker. Expired tokens
-fail closed. Chat connector authorization cannot be extracted or reused as an
-unattended worker credential.
+Reuse an already configured Google project/client; a new project is unnecessary.
+The private owner OAuth file uses Google's `authorized_user` fields `type`,
+`client_id`, `client_secret` and `refresh_token`. Refresh requests go only to the
+fixed Google token endpoint, share one in-flight refresh, and cache only until
+before expiry. Revoked or malformed credentials fail closed. They never cause
+the mail endpoint to be retried. A legacy `googleAccessTokenFile` containing an
+externally supplied short-lived token remains supported; configure only one
+owner authorization source.
+
+Owner OAuth needs Gmail send/read and access to the intended private Drive
+folder. A service account does not grant access to a consumer Gmail mailbox.
+The existing Sheets service account can be reused separately, with editor access
+only to the new registry. Its credential file is passed as a selector to the
+official pinned Google SDK; the operator does not inspect or log its key fields.
+The existing `GOOGLE_APPLICATION_CREDENTIALS` environment selector is also
+supported when `googleSheetsCredentialsFile` is omitted. Sheets credentials have
+only Sheets and Drive metadata scopes, and are never sent to Gmail or used to
+upload archives into a personal Drive. If no owner OAuth is bound yet, registry
+work can use the selected Sheets identity; sending and archive upload fail closed.
+
+The adapter verifies the mailbox/Drive owner and the explicitly selected Sheets
+principal independently, keeps TLS verification enabled, rejects redirects and
+does not log credentials or provider error bodies. Credentials are supplied
+externally; this change does **not** extract existing credentials, start login,
+deploy a server or schedule a worker. Chat connector authorization cannot be
+extracted or reused as an unattended worker credential. A credential binding on
+a different host is not available merely because its configuration is in a repo.
 
 Example invocation (the input file holds private JSON, never codes in argv):
 
@@ -106,6 +128,7 @@ Commands and input shapes:
 
 | Command | Private input |
 | --- | --- |
+| `check-setup` | `{}`; verify configured identities, owner-only archive folder, table schema and header-only reads; no mail or sheet mutation |
 | `register` | `application`: original JSON payload from P2; `config`: reviewed v1 package config; optional `formspreeId` |
 | `send-verification` | `applicationId` |
 | `renew-verification` | `applicationId`; explicit operator action only for expired/blocked codes; invalidates the old code and assigns a new mail operation |

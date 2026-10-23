@@ -3,14 +3,32 @@
 const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');
 const {createFileStore}=require('./file-store.cjs'),{createVault}=require('./vault.cjs'),{createService}=require('./service.cjs');
 const {createGoogleWorkspace}=require('./google-workspace.cjs'),registry=require('./registry.cjs'),{buildPackage}=require('../build.cjs');
+const {createTokenProvider,createServiceAccountTokenProvider}=require('./google-auth.cjs');
 const root=path.resolve(__dirname,'../../..');
-async function privateFile(file){
+async function privatePath(file){
  const real=await fs.realpath(file);if(real===root||real.startsWith(root+path.sep))throw Error('Private settings/input must be outside the source checkout');
- const stat=await fs.stat(real);if(!stat.isFile()||(stat.mode&0o077)!==0)throw Error('Private settings/input files require mode 0600');return fs.readFile(real);
+ const stat=await fs.stat(real);if(!stat.isFile()||(stat.mode&0o077)!==0)throw Error('Private settings/input files require mode 0600');return real;
 }
+async function privateFile(file){return fs.readFile(await privatePath(file));}
 async function run(command,input,settings,{workspace,build=buildPackage}={}){
  const store=await createFileStore(settings.stateDirectory),key=await privateFile(settings.vaultKeyFile);
- const vault=createVault(key),google=workspace||createGoogleWorkspace({accessToken:(await privateFile(settings.googleAccessTokenFile)).toString().trim()});
+ const sheetsCredentials=settings.googleSheetsCredentialsFile||process.env.GOOGLE_APPLICATION_CREDENTIALS;
+ if(!workspace&&(settings.googleOAuthCredentialsFile&&settings.googleAccessTokenFile||!settings.googleOAuthCredentialsFile&&!settings.googleAccessTokenFile&&!sheetsCredentials))throw Error('Configure one owner authorization source and/or an existing Sheets identity');
+ const auth=workspace?null:settings.googleOAuthCredentialsFile?{getAccessToken:createTokenProvider({credentials:JSON.parse(await privateFile(settings.googleOAuthCredentialsFile))})}:settings.googleAccessTokenFile?{accessToken:(await privateFile(settings.googleAccessTokenFile)).toString().trim()}:{};
+ if(!workspace&&sheetsCredentials){
+  if(!settings.googleSheetsServiceAccountEmail)throw Error('Select the expected existing Sheets service account');
+  auth.getSheetsAccessToken=createServiceAccountTokenProvider({keyFilename:await privatePath(sheetsCredentials)});auth.sheetsIdentityEmail=settings.googleSheetsServiceAccountEmail;
+ }
+ const vault=createVault(key),google=workspace||createGoogleWorkspace(auth);
+ if(command==='check-setup'){
+  await google.verifyOwner();await google.verifyArchiveFolder(settings.archiveFolderId);
+  const metadata=await google.registryMetadata(settings.spreadsheetId);
+  for(const [kind,title,columns] of [['applications','Заявки','X'],['issuances','Выдачи','P'],['events','Журнал','G']]){
+   const sheet=metadata.sheets?.find(s=>s.properties.title===title),{values=[]}=await google.registryValues(settings.spreadsheetId,title,columns,{headersOnly:true});
+   if(!sheet||!sheet.tables?.some(t=>t.range.startRowIndex===0&&t.range.startColumnIndex===0&&t.range.endColumnIndex===registry.headers[kind].length)||JSON.stringify(values[0])!==JSON.stringify(registry.headers[kind]))throw Error('Registry setup/schema mismatch');
+  }
+  return {status:'setup_verified',gmailOwnerVerified:true,registryVerified:true,archiveFolderOwnerOnly:true};
+ }
  const service=createService({store,vault,mailer:google,build});
  const id=input.applicationId||input.application?.application_id;
  async function upsert(kind,row){
@@ -67,10 +85,10 @@ async function run(command,input,settings,{workspace,build=buildPackage}={}){
  const r=await store.read(id);return {applicationId:id,status:r.status,sourceRevision:r.archive?.sourceRevision||null};
 }
 async function main(){
- const [command,inputFile,...extra]=process.argv.slice(2),commands=['register','send-verification','renew-verification','confirm-email','approve-domain','prepare','send-archive','reconcile-mail','status'];
+ const [command,inputFile,...extra]=process.argv.slice(2),commands=['check-setup','register','send-verification','renew-verification','confirm-email','approve-domain','prepare','send-archive','reconcile-mail','status'];
  if(!commands.includes(command)||!inputFile||extra.length||!process.env.NOMAD_PARTNER_SETTINGS)throw Error('Usage: NOMAD_PARTNER_SETTINGS=/private/settings.json node scripts/partners/issuance/operator.cjs <command> /private/input.json');
  const settings=JSON.parse(await privateFile(process.env.NOMAD_PARTNER_SETTINGS)),input=JSON.parse(await privateFile(inputFile));
  console.log('PARTNER_OPERATOR_RESULT',JSON.stringify(await run(command,input,settings)));
 }
 if(require.main===module)main().catch(()=>{console.error('PARTNER_OPERATOR_FAILED: inspect private state and provider evidence; secrets are not logged');process.exitCode=1;});
-module.exports={privateFile,run};
+module.exports={privateFile,privatePath,run};

@@ -49,6 +49,8 @@ test('private operator records the actual application in Google Sheets before se
   uploadArchive:async(folder,archive)=>{A.equal(folder,'private-folder');A.ok(archive.bytes.length>100);return {id:'private-drive-zip'};}
  };
  const model=require('../nomad360_partner_application_model.js'),application=model.payload({company:'=formula',activity:'Consulting',intendedUse:'Embedding',employees:'1',clientSegment:'small',fullName:'Technical Owner',role:'',email:'partner@example.org',phoneMessenger:'',website:'',consentProcessing:true,consentPublicProfile:false},{applicationId:'12345678-1234-1234-1234-123456789012',language:'ru',consentedAt:'2026-10-23T10:00:00Z'}),settings={stateDirectory,vaultKeyFile:keyFile,spreadsheetId:'private-spreadsheet',archiveFolderId:'private-folder'};
+ const checks=[];workspace.verifyOwner=async()=>checks.push('owner');workspace.verifyArchiveFolder=async()=>checks.push('folder');
+ A.equal((await run('check-setup',{},settings,{workspace})).status,'setup_verified');A.deepEqual(checks,['owner','folder']);A.equal(calls.length,0);A.equal(rows.applications.length,1);
  await run('register',{application,config:require('./fixtures/partner-build/example.json')},settings,{workspace});A.equal(rows.applications[1][2],'=formula');
  const result=await run('send-verification',{applicationId:application.application_id},settings,{workspace});A.equal(result.status,'awaiting_email');A.equal(calls.length,1);A.equal(rows.applications[1][17],'email_sent');
  A.ok(!JSON.stringify(rows).includes(calls[0].text.split('\n\n')[1]));
@@ -64,4 +66,16 @@ test('private operator records the actual application in Google Sheets before se
  await run('send-archive',input,settings,{workspace});A.equal(calls.length,2);A.equal(rows.issuances[1][10],'accepted');A.equal(rows.issuances[1][11],'gmail-accepted-2');
  await A.rejects(run('send-archive',input,settings,{workspace}),/transition/);A.equal(calls.length,2);
  A.ok(!JSON.stringify(rows).includes(code));
+});
+test('the existing service identity is used only for Sheets; Gmail keeps the owner OAuth identity',async()=>{
+ const calls=[],service='existing@project-example.iam.gserviceaccount.com';
+ const google=createGoogleWorkspace({getAccessToken:async()=>'owner-token',getSheetsAccessToken:async()=>'sheets-token',sheetsIdentityEmail:service,fetch:async(url,options)=>{
+  calls.push({url,token:options.headers.Authorization});
+  const data=url.includes('/about?')?{user:{emailAddress:options.headers.Authorization==='Bearer sheets-token'?service:OWNER}}:url.endsWith('/profile')?{emailAddress:OWNER}:url.includes('/messages/send')?{id:'owner-message'}:{sheets:[]};
+  return {ok:true,json:async()=>data};
+ }});
+ await google.registryMetadata('private-sheet');await google.send({to:'partner@example.org',subject:'test',text:'test',operationId:'verification'});
+ A.ok(calls.filter(c=>c.url.includes('sheets.googleapis.com')).every(c=>c.token==='Bearer sheets-token'));
+ A.ok(calls.filter(c=>c.url.includes('gmail.googleapis.com')).every(c=>c.token==='Bearer owner-token'));
+ A.ok(calls.some(c=>c.url.includes('/about?')&&c.token==='Bearer sheets-token'));
 });

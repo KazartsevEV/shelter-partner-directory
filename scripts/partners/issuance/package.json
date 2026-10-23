@@ -4,5 +4,5 @@
   "private": true,
   "description": "Operator-side encrypted package issuance; never loaded by the website",
   "engines": { "node": ">=22" },
-  "dependencies": { "@zip.js/zip.js": "2.24.0" }
+  "dependencies": { "@zip.js/zip.js": "2.24.0", "google-auth-library": "11.3.1" }
 }
