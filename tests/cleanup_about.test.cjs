@@ -32,7 +32,7 @@ test('the older C2 package guard recognizes only exact inherited C3 bytes and si
  A.throws(()=>s.packageDelta({manifest:{resources:[]}},{manifest:{resources:[rows[1]]}}),/About resource required/);
  A.deepEqual(s.normalizePackageResource({path:'other.js',bytes:1}),{path:'other.js',bytes:1});
 });
-test('all other runtime, artwork, financial fixtures, prior cleanup tools and protected workflow remain exact',()=>{
+test('all other runtime, artwork, fixtures and workflows are exact; older C2 tooling has only the explicit inherited package bridge',()=>{
  const names=execFileSync('git',['ls-tree','-r','--name-only',s.base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(?:nomad360_|portfolio_v2_).*\.(?:js|css)$/.test(f)||['Marketing_calc.HTML','US_Retail_Demo.HTML','scripts/palette/build.cjs'].includes(f)||/^(assets\/|vendor\/|tests\/fixtures\/|scripts\/cleanup\/|scripts\/cleanup-logo-mask\/|\.github\/workflows\/)/.test(f));
  for(const file of names){
   let before=execFileSync('git',['show',s.base+':'+file],{cwd:root,maxBuffer:24*1024*1024});

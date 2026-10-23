@@ -21,7 +21,8 @@ built by the accepted packer. It covers RU/EN/KK at 320, 360, 390, 430, 699,
 700, 701, 768, 999, 1000, 1001, 1280, 1440, 1920 and 2560 px; standalone
 covers 320/700/701/1000/1001/1280/2560. There are 111 pairs and 333 comparisons
 (default, service-card hover, contact focus). All About nodes and both pseudo
-elements have their complete computed styles and geometry compared. Only
+elements have their complete computed styles and geometry compared; absent
+pseudo elements are checked by their `content` value instead. Only
 before/after local URL prefixes are canonicalized; no colour/geometry masking.
 All 18 screenshot pairs must match byte for byte. A separate injected 1px
 padding change must be detected. No forms or external services are contacted.

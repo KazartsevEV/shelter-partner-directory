@@ -10,7 +10,7 @@ async function snapshot(page,origin){
  return page.evaluate(origin=>{
   const info=document.querySelector('#nomad360-information');
   const canonical=s=>s.replaceAll(origin+'/before/',origin+'/variant/').replaceAll(origin+'/after/',origin+'/variant/');
-  const style=(e,pseudo)=>{const s=getComputedStyle(e,pseudo);return [...s].sort().map(p=>[p,canonical(s.getPropertyValue(p))]);};
+  const style=(e,pseudo)=>{const s=getComputedStyle(e,pseudo);if(pseudo&&['none','normal'].includes(s.content))return [['content',s.content]];return [...s].sort().map(p=>[p,canonical(s.getPropertyValue(p))]);};
   const nodes=[info,...info.querySelectorAll('*')].map(e=>{
    const r=e.getBoundingClientRect();
    return {tag:e.tagName,id:e.id,classes:e.getAttribute('class'),text:e.textContent,href:e.getAttribute('href'),rect:[r.x,r.y,r.width,r.height],style:style(e),before:style(e,'::before'),after:style(e,'::after')};
