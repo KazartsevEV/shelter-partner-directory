@@ -69,16 +69,20 @@ async function main(){
  const args=process.argv.slice(2);
  if(args.length!==4||args[0]!=='--config'||args[2]!=='--out')throw Error('Usage: node scripts/partners/build.cjs --config config.json --out output-directory');
  const config=JSON.parse(await fs.readFile(args[1],'utf8')),out=path.resolve(args[3]);
+ const result=await buildPackage(config);
+ await writePackage(result,out);
+ console.log('PARTNER_PACKAGE_GREEN',JSON.stringify({html:path.join(out,result.filename),manifest:path.join(out,result.filename.replace(/\.html$/,'.manifest.json')),sourceRevision:result.manifest.sourceRevision,resources:result.manifest.resources.length}));
+}
+async function writePackage(result,out){
+ if(!/^[a-z0-9]+(?:-[a-z0-9]+)*\.html$/.test(result.filename))throw Error('Unsafe package output filename');
  // Exclusive writes: never overwrite a previous issued package silently.
  await fs.mkdir(out,{recursive:true});
- const result=await buildPackage(config);
  const manifestPath=path.join(out,result.filename.replace(/\.html$/,'.manifest.json'));
  const htmlPath=path.join(out,result.filename),created=[];
  try{
   await fs.writeFile(manifestPath,JSON.stringify(result.manifest,null,2)+'\n',{flag:'wx'});created.push(manifestPath);
   await fs.writeFile(htmlPath,result.html,{flag:'wx'});created.push(htmlPath);
  }catch(error){await Promise.all(created.map(file=>fs.unlink(file)));throw error;}
- console.log('PARTNER_PACKAGE_GREEN',JSON.stringify({html:htmlPath,manifest:manifestPath,sourceRevision:result.manifest.sourceRevision,resources:result.manifest.resources.length}));
 }
 if(require.main===module)main().catch(error=>{console.error(error.message);process.exitCode=1;});
-module.exports={buildPackage};
+module.exports={buildPackage,writePackage};

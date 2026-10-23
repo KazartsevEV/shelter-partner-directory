@@ -531,7 +531,7 @@ def main():
         'tests/tax_draft_storage_scope.test.cjs', 'tests/tax_draft_storage_browser.cjs',
         '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/partner-package-build.yml',
-        'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs',
+        'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
         'docs/architecture/partner-package-config.md',
         '.github/workflows/v1-engine-extraction.yml',
         'tests/marketing_calc_full_cycle.test.cjs', 'tests/marketing_calc_resale.test.cjs',
