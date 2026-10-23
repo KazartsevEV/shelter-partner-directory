@@ -4,7 +4,15 @@ Status: 23 October 2026. This plan preserves the owner's partnership request and
 follows the accepted architecture work #238–240. It complements the main task
 map; it does not authorise automatic merge or skipping user acceptance.
 
-## P1 — Versioned build configuration (PR #241, ready for acceptance)
+**Owner-approved order, 23 October:** finish product preparation without live
+credentials, prepare private builds and staging/hosting, then bind existing
+Google credentials, prove real delivery and activate the release. The
+[R1–R6 production-readiness plan](nomad360-production-readiness-plan.md) defines
+the sequence and gates. P3 remains open for operational proof; that does not
+block offline preparation. No DNS, repository-visibility or public-download
+switch is authorised by this documentation change.
+
+## P1 — Versioned build configuration (PR #241, merged)
 
 One explicit profile, package/partner ID, release version, public metadata,
 original brand/contacts and complete calculator capabilities. Build through the
@@ -16,7 +24,7 @@ Acceptance: real generated HTML and manifest, repeatable bytes, negative config
 and injection tests, unchanged source runtime, numeric/browser parity RU/EN/KK.
 This is infrastructure; the existing public download UI is not switched yet.
 
-## P2 — Partner application and consent (current)
+## P2 — Partner application and consent (PR #242, merged)
 
 Add a secondary CTA, the same size as the download CTA, beneath the embedding
 explanation: “Become a Nomad360 Business Solutions partner” (EN canonical, then
@@ -40,6 +48,13 @@ visible privacy notice and genuine backend acceptance. Submission success must
 not claim that a code was delivered before the issuance/delivery service exists.
 
 ## P3 — Issuance, email and encrypted ZIP
+
+Draft [#243](https://github.com/KazartsevEV/shelter-partner-directory/pull/243)
+at `3314ec3` implements the private operator and Google adapters; all five CI
+jobs pass. A connector-mediated owner-mailbox test is not a deployed-worker
+test. Permanent credentials, trusted intake and end-to-end real delivery are
+deferred to R5, not declared complete. Preparation R1–R4 can proceed without
+putting secrets into either public or private Git.
 
 Implement a supported issuance/storage/email channel before making delivery
 promises. Keep private configuration and credentials outside the public browser
@@ -69,6 +84,12 @@ source/manifest/output parity, preservation of V1/V2/save/restore/Excel/PDF/HTML
 The current HTML download must not be replaced by an untested delivery promise.
 
 ## P4 — Public UI, Help and privacy release
+
+Preparation is now separate from activation: R1 prepares the EN/RU/KK copy,
+states and future policy/licence in preview; R6 publishes them only after R5.
+The [editorial package](partners/partner-release-copy.md) is a draft, not current
+terms or a statement that mail delivery is operational. Keep the live download
+unchanged until the real release gate passes.
 
 At activation of the working process, update the comparison table/CTAs and all
 entrypoints to the new partnership offer. Review the already merged Help #200
