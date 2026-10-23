@@ -483,7 +483,7 @@ def main():
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
                              'scripts/audit/', 'docs/reviews/runtime-audit-01/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
-                             'docs/reviews/about-vector-218/',
+                             'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
         'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
@@ -661,6 +661,8 @@ def main():
         'nomad360_about_banner.js',
         'nomad360_about_banner.css', 'scripts/about/preview.cjs',
         'scripts/about/build_vector_scene.py',
+        'scripts/about/.gitignore',
+        'scripts/about/README.md', 'tests/banner_vector_quality.test.cjs',
         '.github/workflows/about-01-visual.yml',
         # Owner-approved IRBIS-07: only original art, scoped visual controller,
         # exact test contracts and visual receipts, no financial engine changes.

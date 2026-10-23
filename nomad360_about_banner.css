@@ -714,14 +714,19 @@
  }
  html[lang="kk"] #nomad360-information #nomad360-about
  .nomad-about-scene-copy .nomad-about-opening{
-  margin-top:calc(39vw - 84px);
+  margin-top:calc(44vw - 84px);
  }
 }
 
 /* One URL declaration serves both responsive vector compositions. Keeping it
    once also avoids repeating the large data URL in a standalone HTML export. */
-@media(max-width:700px), (min-width:1001px){
+#nomad360-information.nomad-information::before{
+ background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
+}
+@media(min-width:701px) and (max-width:1000px){
  #nomad360-information.nomad-information::before{
-  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
+  /* Fit the complete 1536px central scene without stretching. Preserve the
+     existing tablet section geometry; its remaining lower band is navy. */
+  background-size:208.333333% auto;
  }
 }

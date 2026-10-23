@@ -1,17 +1,12 @@
-"""Trace the approved Bozzhyra panorama into the About banner's real SVG paths.
+"""Compose the approved photograph in SVG without changing its image bytes.
 
-Requires ImageMagick and ``vtracer==0.6.11``. The approved WebP remains the
-source of the scene; text and service cards remain separate HTML elements.
+Python standard library only. The owner approved the same photographic
+approach as the Consulting banner. Text remains separate localized HTML.
 """
 
-from copy import deepcopy
+import base64
 from pathlib import Path
-import subprocess
-import tempfile
 import xml.etree.ElementTree as ET
-
-import vtracer
-
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp"
@@ -25,24 +20,8 @@ def element(name, **attributes):
 
 
 def main():
-    with tempfile.TemporaryDirectory() as temp_dir:
-        png = Path(temp_dir) / "approved.png"
-        traced = Path(temp_dir) / "traced.svg"
-        # VTracer's direct WebP decoder drops the source colour channels.
-        subprocess.run(["magick", str(SOURCE), str(png)], check=True)
-        vtracer.convert_image_to_svg_py(
-            str(png), str(traced), colormode="color", hierarchical="stacked",
-            mode="spline", filter_speckle=5, color_precision=6,
-            layer_difference=20, corner_threshold=60, length_threshold=5,
-            max_iterations=10, splice_threshold=45, path_precision=1,
-        )
-        contours = list(ET.parse(traced).getroot())
-
-    if len(contours) < 4000 or any(node.tag != f"{{{SVG}}}path" for node in contours):
-        raise RuntimeError("Approved landscape tracing is incomplete")
-
     scene = element("svg", width="3200", height="768", viewBox="0 0 3200 768")
-    scene.append(ET.Comment("Vector contours of the approved 1536x768 source; no raster image or text."))
+    scene.append(ET.Comment("Approved original 1536x768 photograph in an SVG composition; live text remains in HTML."))
     definitions = ET.SubElement(scene, f"{{{SVG}}}defs")
     for clip_id, x, width in (
         ("aboutLeft", "0", "832"),
@@ -60,9 +39,11 @@ def main():
         stop = ET.SubElement(fade, f"{{{SVG}}}stop", offset=offset)
         stop.set("stop-color", "#173B58")
         stop.set("stop-opacity", opacity)
-    central = ET.SubElement(definitions, f"{{{SVG}}}g", id="aboutCentralVector")
-    for contour in contours:
-        central.append(deepcopy(contour))
+    # Store the approved photograph exactly once. SVG use elements extend
+    # only the scenery at the edges; no tracing, resampling or re-encoding.
+    ET.SubElement(definitions, f"{{{SVG}}}image", id="aboutCentralScene",
+                  width="1536", height="768", preserveAspectRatio="xMidYMid meet",
+                  href="data:image/webp;base64," + base64.b64encode(SOURCE.read_bytes()).decode("ascii"))
 
     ET.SubElement(scene, f"{{{SVG}}}rect", width="3200", height="768", fill="#173B58")
     # Mirror only the lowlands on the left. On the right continue the outer
@@ -77,11 +58,11 @@ def main():
         layer = ET.SubElement(scene, f"{{{SVG}}}g")
         if clip_id:
             layer.set("clip-path", f"url(#{clip_id})")
-        ET.SubElement(layer, f"{{{SVG}}}use", href="#aboutCentralVector", transform=transform)
+        ET.SubElement(layer, f"{{{SVG}}}use", href="#aboutCentralScene", transform=transform)
     ET.SubElement(scene, f"{{{SVG}}}rect", x="2368", width="832", height="768", fill="url(#aboutRightFade)")
 
     ET.ElementTree(scene).write(DESTINATION, encoding="utf-8", xml_declaration=True)
-    print(f"{DESTINATION.relative_to(ROOT)}: {len(contours)} paths, {DESTINATION.stat().st_size} bytes")
+    print(f"{DESTINATION.relative_to(ROOT)}: original WebP stored once, {DESTINATION.stat().st_size} bytes")
 
 
 if __name__ == "__main__":

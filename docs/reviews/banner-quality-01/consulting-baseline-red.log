@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: Actual central image must reach the right edge: {"viewport":3840,"originalSceneWidth":1439.2348565356006,"size":"auto 810px"}
+    at /workspace/nomad360-banner-quality/scripts/consulting/preview.cjs:90:7 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

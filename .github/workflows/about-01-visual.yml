@@ -9,7 +9,8 @@ on:
       - 'assets/nomad360-banners/about-moonlight-horizontal-only-2048x768.svg'
       - 'assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg'
       - 'nomad360_about_banner.js'
-      - 'scripts/about/preview.cjs'
+      - 'scripts/about/**'
+      - 'tests/banner_vector_quality.test.cjs'
       - 'docs/approved-design/unified-banners/about-moon-scenery.webp'
       - '.github/workflows/about-01-visual.yml'
   workflow_dispatch:
@@ -21,6 +22,8 @@ jobs:
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -35,6 +38,7 @@ jobs:
         env:
           NODE_PATH: ${{ runner.temp }}/about-tools/node_modules
         run: |
+          node --test tests/banner_vector_quality.test.cjs tests/nomad360_v1_engine.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_v1_parity.test.cjs tests/shopper_v1_oracle.test.cjs
           node --check nomad360_about_banner.js
           node scripts/about/preview.cjs
       - uses: actions/upload-artifact@v4
