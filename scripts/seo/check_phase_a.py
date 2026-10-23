@@ -661,7 +661,7 @@ def main():
         'nomad360_about_banner.js',
         'nomad360_about_banner.css', 'scripts/about/preview.cjs',
         'scripts/about/build_vector_scene.py',
-        'scripts/about/.gitignore', 'scripts/about/package.json', 'scripts/about/package-lock.json',
+        'scripts/about/.gitignore',
         'scripts/about/README.md', 'tests/banner_vector_quality.test.cjs',
         '.github/workflows/about-01-visual.yml',
         # Owner-approved IRBIS-07: only original art, scoped visual controller,

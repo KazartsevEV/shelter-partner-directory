@@ -9,16 +9,18 @@ fs.mkdirSync(out,{recursive:true});
 const image='assets/nomad360-banners/about-bozzhyra-approved.webp';
 const expectedGitBlob='303328b9be8afb985f0e057e6f57000676bea493';
 const desktopImage='assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg';
-const expectedDesktopBlob='c782732a7394e179c88279dc3e9fb2fe9d073818';
+const expectedDesktopBlob='f4722dcb407827fd6d7cbea35416e6eb434d60c0';
 assert.equal(execFileSync('git',['hash-object',image],{cwd:root,encoding:'utf8'}).trim(),expectedGitBlob,
  'Approved original moon scene must remain byte-for-byte unchanged');
 assert.equal(execFileSync('git',['hash-object',desktopImage],{cwd:root,encoding:'utf8'}).trim(),expectedDesktopBlob,
  'Owner-approved replacement desktop moon scene must remain byte-for-byte unchanged');
-const vectorSource=fs.readFileSync(path.join(root,desktopImage),'utf8');
-assert.ok((vectorSource.match(/<path\b/g)||[]).length>=4000,
- 'The approved landscape must contain actual vector contours');
-assert.ok(!/<image\b|data:image\//i.test(vectorSource),
- 'The About SVG must not wrap embedded raster images');
+// The owner approved original raster inside SVG, matching Consulting.
+const svgSource=fs.readFileSync(path.join(root,desktopImage),'utf8');
+const embedded=[...svgSource.matchAll(/href="data:image\/webp;base64,([^"\s]+)"/g)];
+assert.equal(embedded.length,1,'Store the original image once');
+assert.deepEqual(Buffer.from(embedded[0][1],'base64'),fs.readFileSync(path.join(root,
+ 'assets/nomad360-banners/about-bozzhyra-desktop-extended-20261019.webp')),
+ 'Preserve the photograph byte for byte instead of tracing it');
 const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
 (async()=>{
  const server=http.createServer((req,res)=>{
@@ -134,9 +136,9 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
       flowBox:box(flow),contactBox:box(contactBlock),cardBoxes,cardMinHeights,cardsClip,
       leftVeil:getComputedStyle(section,'::after').backgroundImage};
    },width);
-   assert.match(layout.sceneSource,/about-moonlight-horizontal-only-3200x768\.svg/, 'All responsive layouts use the native SVG');
+   assert.match(layout.sceneSource,/about-moonlight-horizontal-only-3200x768\.svg/, 'All responsive layouts use the approved photographic SVG composition');
    if(width>=1001)assert.equal(layout.sceneSize,'auto 640.6px','Desktop SVG preserves exact scale');
-   else if(width>=701)assert.equal(layout.sceneSize,'208.333%','Tablet fits the complete native vector central scene');
+   else if(width>=701)assert.equal(layout.sceneSize,'208.333%','Tablet fits the complete photographic central scene');
    else assert.equal(layout.sceneSize,'auto '+(width/2)+'px',
     'Mobile SVG must show the complete central 1536x768 scene at its native ratio');
    assert.equal(layout.originalWidth,3200);
@@ -154,7 +156,7 @@ const mime={'.svg':'image/svg+xml','.HTML':'text/html','.html':'text/html','.js'
     }
    }else{
     assert.ok(Math.abs(layout.scenicWidth/layout.scenicHeight-(width<=700?2:1672/941))<.03,
-     'Complete central vector panorama on phones, native tablet ratio');
+     'Complete central photographic panorama on phones, native tablet ratio');
    }
    if(width>=1001){
     assert.ok(Math.abs(layout.scenicWidth-layout.clientViewport)<=2,
