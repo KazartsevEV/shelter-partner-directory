@@ -37,7 +37,7 @@ async function snapshot(page){
     const image=page.locator('.nomad-seo-logo-mask img');await image.scrollIntoViewIfNeeded();await page.waitForFunction(()=>[...document.querySelectorAll('.nomad-logo-mask img,.nomad-seo-logo-mask img')].every(x=>x.complete&&x.naturalWidth>0));await page.evaluate(()=>scrollTo(0,0));await settle(page);
     const rows=[];
     for(const view of ['home','menu','embed']){
-     if(view==='menu'){await page.locator('#nomad360-header .nomad-burger').click();await page.waitForFunction(()=>document.querySelector('#nomad360-header .nomad-burger').getAttribute('aria-expanded')==='true');}
+     if(view==='menu'){const button=page.locator('#nomad360-header .nomad-burger');if(await button.isVisible()){await button.click();await page.waitForFunction(()=>document.querySelector('#nomad360-header .nomad-burger').getAttribute('aria-expanded')==='true');}else await page.locator('#nomad360-header a').first().focus();}
      if(view==='embed'){await page.keyboard.press('Escape');await page.locator('[data-nomad-embed-toggle]').click();}
      const data=await snapshot(page);A.equal(data.overflow,false,[entry,width,language,variant,view].join('/'));A.equal(data.fallback.width,(width<=600?64:140)+'px');A.equal(data.fallback.height,data.fallback.width);A.equal(data.fallback.background,'rgb(255, 255, 255)');A.equal(data.fallback.radius,'50%');
      let screenshot=null;if(view==='home'&&entry==='Marketing_calc.HTML'&&[320,600,601,1280].includes(width)){const name=language+'-'+width+'-'+variant+'.png';const bytes=await page.locator('#nomad360-seo-banner').screenshot({path:path.join(out,name),animations:'disabled',caret:'hide'});screenshot={file:name,sha256:hash(bytes)};}
