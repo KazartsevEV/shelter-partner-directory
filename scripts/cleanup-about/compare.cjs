@@ -48,13 +48,16 @@ async function snapshot(page,origin){
     await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}'});
     await page.waitForFunction(()=>window.Nomad360UI&&document.querySelector('#nomad360-information'));
     await page.locator('#nomad360-lang-select').selectOption(language);await page.evaluate(()=>showHome());
-    await page.evaluate(async()=>{const scene=getComputedStyle(document.querySelector('#nomad360-information'),'::before').backgroundImage;const url=scene.match(/^url\("?(.*?)"?\)$/)?.[1];if(!url)throw Error('Missing scenic image');const image=new Image();image.src=url;await image.decode();});
+    if(entry==='US_Retail_Demo.HTML'){
+     A.equal(await page.locator('link[href*="nomad360_about_banner.css"]').count(),0,'US demo retains its existing non-scenic information block');
+     A.equal(await page.locator('#nomad360-information').evaluate(e=>getComputedStyle(e,'::before').backgroundImage),'none');
+    }else await page.evaluate(async()=>{const scene=getComputedStyle(document.querySelector('#nomad360-information'),'::before').backgroundImage;const url=scene.match(/^url\("?(.*?)"?\)$/)?.[1];if(!url)throw Error('Missing scenic image');const image=new Image();image.src=url;await image.decode();});
     const rows=[];
-    for(const view of ['default','card-hover','contact-focus']){
+    for(const view of ['default','service-hover','contact-focus']){
      if(view==='default')await page.locator('#nomad360-information').scrollIntoViewIfNeeded();
-     if(view==='card-hover')await page.locator('#nomad360-information .nomad-about-card').first().hover();
+     if(view==='service-hover')await page.locator(entry==='US_Retail_Demo.HTML'?'#nomad360-information .nomad-about-flow>li':'#nomad360-information .nomad-about-card').first().hover();
      if(view==='contact-focus')await page.locator('#nomad360-information .nomad-links a').first().focus();
-     const data=await snapshot(page,origin);A.equal(data.overflow,false,[entry,width,language,variant,view].join('/'));A.ok(data.fullWidth,'Full-width banner');A.equal(data.language,language);
+     const data=await snapshot(page,origin);A.equal(data.overflow,false,[entry,width,language,variant,view].join('/'));if(entry!=='US_Retail_Demo.HTML')A.ok(data.fullWidth,'Full-width banner');A.equal(data.language,language);
      let screenshot=null;
      if(view==='default'&&entry==='Marketing_calc.HTML'&&[320,700,701,1000,1001,1280].includes(width)){
       const name=language+'-'+width+'-'+variant+'.png',bytes=await page.locator('#nomad360-information').screenshot({path:path.join(out,name),animations:'disabled',caret:'hide'});
@@ -65,7 +68,7 @@ async function snapshot(page,origin){
     A.deepEqual(errors,[]);pair[variant]=rows;await ctx.close();
    }
    for(let i=0;i<pair.before.length;i++){const a=pair.before[i],b=pair.after[i];A.deepEqual({...a,screenshot:null},{...b,screenshot:null},[entry,width,language,a.view].join('/'));if(a.screenshot)A.equal(a.screenshot.sha256,b.screenshot.sha256,'Byte-identical banner PNG');}
-   cases.push({entry,width,language,...pair});console.log('C3_CASE_GREEN',entry,width,language);
+   cases.push({entry,width,language,scenic:entry!=='US_Retail_Demo.HTML',...pair});console.log('C3_CASE_GREEN',entry,width,language);
   }
   // Negative browser control: the comparator must detect a real 1px layout regression.
   const negativePage=await browser.newPage({viewport:{width:320,height:1000},reducedMotion:'reduce'});

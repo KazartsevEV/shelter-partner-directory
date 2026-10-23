@@ -20,7 +20,9 @@ The comparator uses real V1 and US-demo pages, plus actual offline packages
 built by the accepted packer. It covers RU/EN/KK at 320, 360, 390, 430, 699,
 700, 701, 768, 999, 1000, 1001, 1280, 1440, 1920 and 2560 px; standalone
 covers 320/700/701/1000/1001/1280/2560. There are 111 pairs and 333 comparisons
-(default, service-card hover, contact focus). All About nodes and both pseudo
+(default, service hover, contact focus). The 45 US-demo pairs preserve its real
+legacy information block: it has no About stylesheet, photograph or card links.
+The other 66 pairs verify the scenic banner. All About nodes and both pseudo
 elements have their complete computed styles and geometry compared; absent
 pseudo elements are checked by their `content` value instead. Only
 before/after local URL prefixes are canonicalized; no colour/geometry masking.
