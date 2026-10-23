@@ -534,6 +534,10 @@ def main():
         '.github/workflows/partner-package-build.yml',
         'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
         'docs/architecture/partner-package-config.md', 'docs/nomad360-partner-distribution-plan.md',
+        # Owner-approved preparation only: future copy is not connected to the site.
+        'docs/nomad360-production-readiness-plan.md',
+        'docs/partners/partner-release-copy.md',
+        'docs/reviews/production-readiness-01/REVIEW.md',
         'nomad360_partner_application.js', 'nomad360_partner_application_model.js', 'nomad360_partner_transport.js', 'nomad360_partner_application.css',
         'tests/partner_application.test.cjs', 'tests/partner_application_browser.cjs', 'tests/partner_application_scope.test.cjs',
         'tests/helpers/partner-application-scope.cjs', '.github/workflows/partner-application.yml', 'tests/partner_application_live.cjs',
