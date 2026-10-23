@@ -1,0 +1,62 @@
+name: Frozen runtime inventory and performance baseline
+on:
+  pull_request:
+    paths:
+      - 'scripts/audit/**'
+      - 'tests/runtime_audit.test.cjs'
+      - 'docs/reviews/runtime-audit-01/**'
+      - '.github/workflows/runtime-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  runtime-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Existing lock-pinned AST, CSS and browser tools
+        run: |
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+      - name: Parser negative cases, frozen sources and exact numeric contracts
+        run: |
+          node --check scripts/audit/runtime-inventory.cjs
+          node --check scripts/audit/runtime-browser.cjs
+          node --check scripts/audit/runtime-summary.cjs
+          node --test tests/runtime_audit.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/nomad360_price_export.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs
+          node tests/sales_tax_7b_baseline.cjs
+      - name: Compile the same local utilities used by accepted browser tests
+        run: |
+          mkdir -p artifacts/runtime-audit
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/runtime-audit.css"
+          scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/runtime-audit.css" -o artifacts/runtime-audit/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Full language/width/routes, actual restore, fresh standalone and coverage
+        run: |
+          node scripts/audit/runtime-browser.cjs artifacts/runtime-audit
+          node scripts/audit/runtime-summary.cjs artifacts/runtime-audit artifacts/runtime-audit/summary
+      - name: Real Excel downloads and unchanged PDF projection
+        run: |
+          cp artifacts/runtime-audit/utilities.css artifacts/excel-utilities.css
+          node tests/nomad360_price_export_browser.test.cjs
+          node tests/sales_tax_7b5_v1_pdf_browser.cjs | tee artifacts/runtime-audit/pdf-projection.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: runtime-audit-${{ github.sha }}
+          path: |
+            artifacts/runtime-audit/inventory.json
+            artifacts/runtime-audit/browser.json
+            artifacts/runtime-audit/summary/
+            artifacts/excel/*.json
+            artifacts/excel/*.xlsx
+            artifacts/runtime-audit/pdf-projection.log
+          retention-days: 14
