@@ -21,8 +21,8 @@ async function snapshot(page,kind){
   scrollTo(0,0);const props=['display','position','box-sizing','width','height','min-width','max-width','padding','margin','gap','grid-template-columns','grid-template-rows','flex-direction','flex-wrap','align-items','justify-content','color','background-color','border','border-radius','font-family','font-size','font-weight','line-height','overflow-x','overflow-y','white-space'];
   const visible=[...document.querySelectorAll('body *')].filter(e=>e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true}));
   const styles=visible.map(e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return {tag:e.tagName,id:e.id,classes:e.className?.baseVal??e.className,rect:[r.x,r.y,r.width,r.height],style:props.map(p=>s.getPropertyValue(p))};});
-  const grid=document.querySelector('#full-service-screen .nd-full-service-inputs');
-  const gridStyle=kind==='full'?[...getComputedStyle(grid)].map(p=>[p,getComputedStyle(grid).getPropertyValue(p)]):null;
+  const grids=[...document.querySelectorAll('#full-service-screen .nd-full-service-inputs')];
+  const gridStyle=kind==='full'?grids.map(grid=>[...getComputedStyle(grid)].map(p=>[p,getComputedStyle(grid).getPropertyValue(p)])):null;
   let numbers=null;if(kind==='full')numbers=Nomad360FullServiceUI.getResult();else if(kind==='standalone')numbers=Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState());else if(kind==='linked')numbers=LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState());else if(['self','hired','agent'].includes(kind))numbers={model:Nomad360V1Engine.calculateSimpleService({values:currentValues,mode:serviceMode,payers:agentPayers}),summary:document.getElementById("summary-table").textContent,monthly:document.getElementById("monthly-table").textContent};
   return {styles,gridStyle,numbers,overflow:document.documentElement.scrollWidth>innerWidth+1};
  },kind);
@@ -55,7 +55,7 @@ async function snapshot(page,kind){
      await route(page,kind);const data=await snapshot(page,kind);A.equal(data.overflow,false,[entry,width,language,variant,kind].join('/'));
      let screenshot=null;
      if(kind==='full'&&entry==='Marketing_calc.HTML'&&[320,1280].includes(width)){
-      const name=language+'-'+width+'-'+variant+'.png';const bytes=await page.locator('#full-service-screen .nd-full-service-inputs').screenshot({path:path.join(out,name),animations:'disabled',caret:'hide'});screenshot={file:name,sha256:hash(bytes)};
+      const name=language+'-'+width+'-'+variant+'.png';const bytes=await page.locator('#full-service-screen .nd-full-service-settings').screenshot({path:path.join(out,name),animations:'disabled',caret:'hide'});screenshot={file:name,sha256:hash(bytes)};
      }
      rows.push({kind,styleHash:hash(JSON.stringify(data.styles)),gridHash:hash(JSON.stringify(data.gridStyle)),numbersHash:hash(JSON.stringify(data.numbers)),visibleNodes:data.styles.length,screenshot});
     }

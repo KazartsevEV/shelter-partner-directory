@@ -471,6 +471,11 @@ def main():
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
+    if 'nomad360_design_system.css' in changed:
+        # C1 allows only the exact early duplicate deletion; no general CSS exemption.
+        subprocess.check_output(['node', '-e',
+            "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-service-grid-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
+            'nomad360_design_system.css'], input=(ROOT / 'nomad360_design_system.css').read_bytes(), cwd=ROOT)
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
@@ -533,7 +538,7 @@ def main():
         'tests/tax_draft_storage_scope.test.cjs', 'tests/tax_draft_storage_browser.cjs',
         '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/partner-package-build.yml',
-        'tests/cleanup_service_grid.test.cjs', 'tests/helpers/cleanup-service-grid-scope.cjs', '.github/workflows/cleanup-service-grid.yml',
+        'nomad360_design_system.css', 'tests/cleanup_service_grid.test.cjs', 'tests/helpers/cleanup-service-grid-scope.cjs', '.github/workflows/cleanup-service-grid.yml',
         'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
         'docs/architecture/partner-package-config.md', 'docs/nomad360-partner-distribution-plan.md',
         # Owner-approved preparation only: future copy is not connected to the site.
