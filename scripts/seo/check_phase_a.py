@@ -473,6 +473,7 @@ def main():
         assert subprocess.check_output(['git','hash-object','assets/nomad360-banners/hero-alpenglow-fullbleed.webp'], cwd=ROOT, text=True).strip() == '4e964652d04dd71c30ee562789090322d20014ec', 'Approved scenic source changed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
+                             'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
                              'docs/reviews/about-vector-218/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
@@ -525,6 +526,9 @@ def main():
         'nomad360_v1_engine.js', 'tests/nomad360_v1_engine.test.cjs',
         'tests/nomad360_v1_engine_scope.test.cjs', 'tests/nomad360_v1_engine_browser.cjs',
         'tests/helpers/v1-engine-scope.cjs', 'tests/helpers/v1-function-source.cjs',
+        'tests/helpers/tax-draft-storage-scope.cjs',
+        'tests/tax_draft_storage_scope.test.cjs', 'tests/tax_draft_storage_browser.cjs',
+        '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/v1-engine-extraction.yml',
         'tests/marketing_calc_full_cycle.test.cjs', 'tests/marketing_calc_resale.test.cjs',
         'tests/marketing_calc_dropship.test.cjs', 'tests/marketing_calc_offline_service.test.cjs',

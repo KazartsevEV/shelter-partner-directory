@@ -21,11 +21,13 @@ const hashes=Object.freeze({
 function digest(bytes){return crypto.createHash('sha256').update(bytes).digest('hex');}
 function verify(file,source){
   if(!Object.hasOwn(hashes,file))return source;
+  source=require('./tax-draft-storage-scope.cjs').restore(file,source);
   source=require('./v1-engine-scope.cjs').restore(file,source);
   A.equal(digest(source),hashes[file],'Unreviewed module-boundary edit: '+file);
   return source;
 }
 function restore(file,source){
+  source=require('./tax-draft-storage-scope.cjs').restore(file,source);
   verify(file,source);
   if(!Object.hasOwn(hashes,file)||file.startsWith('nomad360_draft_store')||file.startsWith('nomad360_delivery'))return source;
   const original=execFileSync('git',['show',base+':'+file],{cwd:path.resolve(__dirname,'../..'),maxBuffer:16*1024*1024});

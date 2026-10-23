@@ -5,6 +5,7 @@ const manifest=require('../fixtures/v1-engine/extraction.json');
 const root=path.resolve(__dirname,'../..');
 const digest=value=>createHash('sha256').update(value).digest('hex');
 function restore(file,source){
+ source=require('./tax-draft-storage-scope.cjs').restore(file,source);
  const expected=manifest.html[file];if(!expected)return source;
  if(digest(source)===expected.before)return source;
  A.equal(digest(source),expected.after,'Unreviewed V1 extraction HTML: '+file);

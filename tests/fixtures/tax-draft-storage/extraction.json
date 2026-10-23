@@ -1,0 +1,89 @@
+{
+  "base": "d615271cbf6b7a6aa2951370a0354b8c5cee40e7",
+  "files": {
+    "US_Retail_Demo.HTML": {
+      "before": "11dc1dfa24876b5ee4d37ca68b020709466fef62e0a5ad362c4bcbb82710a0d2",
+      "after": "b448caa797f71f5b71198ed4ceaf5e4c0b2875eb26619c3abf0d2f968f68e2f6",
+      "replacements": [
+        {
+          "before": "            const saved=readSavedProductCalculation();\n            if(saved&&new URLSearchParams(window.location.search).get('demo')!=='shopper'){\n                try {\n                    if(!productPortfolio.length)localStorage.removeItem(savedProductStorageKey);\n                    else localStorage.setItem(savedProductStorageKey,JSON.stringify({\n                        ...saved,savedAt:new Date().toISOString(),\n                        productPortfolio:productPortfolio.map(x=>JSON.parse(JSON.stringify(x))),\n                        activeProductId:productPortfolio.some(x=>Number(x.id)===Number(currentProductSequence))?\n                          currentProductSequence:productPortfolio[0].id,\n                        taxType:productBusinessTaxType,\n                        businessTaxPct:Number(document.getElementById('own-business-tax-pct')?.value)||0,\n                        salesVat:productOwnChoices.salesVat||'no',\n                        salesVatPct:Number(document.getElementById('own-sales-vat-pct')?.value)||0\n                    }));\n                } catch(e){console.warn('Nomad360: unable to persist V1 removal',e);}\n            }\n",
+          "after": "            const saved=readSavedProductCalculation();\n            if(saved&&new URLSearchParams(window.location.search).get('demo')!=='shopper'){\n                try {\n                    if(!productPortfolio.length){\n                        if(!window.Nomad360DraftStore.removeV1())throw new Error('Draft storage unavailable');\n                    }else if(!window.Nomad360DraftStore.writeV1({\n                        ...saved,savedAt:new Date().toISOString(),\n                        productPortfolio:productPortfolio.map(x=>JSON.parse(JSON.stringify(x))),\n                        activeProductId:productPortfolio.some(x=>Number(x.id)===Number(currentProductSequence))?\n                          currentProductSequence:productPortfolio[0].id,\n                        taxType:productBusinessTaxType,\n                        businessTaxPct:Number(document.getElementById('own-business-tax-pct')?.value)||0,\n                        salesVat:productOwnChoices.salesVat||'no',\n                        salesVatPct:Number(document.getElementById('own-sales-vat-pct')?.value)||0\n                    }))throw new Error('Draft storage unavailable');\n                } catch(e){console.warn('Nomad360: unable to persist V1 removal',e);}\n            }\n"
+        },
+        {
+          "before": "        const savedProductStorageKey = 'marketingCalcProductResultV1';\n\n        function readSavedProductCalculation() {\n            try {\n                const text = localStorage.getItem(savedProductStorageKey);\n                if (!text) return null;\n                const parsed = JSON.parse(text);\n                if (!Array.isArray(parsed.productPortfolio) || !parsed.productPortfolio.length ||\n                    parsed.productPortfolio.length > 100) return null;\n                const seen = new Set();\n                for (const item of parsed.productPortfolio) {\n                    if (!item || !['own','resale','dropship','offline-service'].includes(item.source) ||\n                        !Number.isSafeInteger(Number(item.id)) || Number(item.id) <= 0 ||\n                        seen.has(Number(item.id)) ||\n                        typeof item.name !== 'string' || !item.name.trim() ||\n                        !item.inputs || typeof item.inputs !== 'object') return null;\n                    seen.add(Number(item.id));\n                }\n                return parsed;\n            } catch (_) {\n                return null;\n            }\n        }\n\n",
+          "after": "        function readSavedProductCalculation() {\n            return window.Nomad360DraftStore.readV1();\n        }\n\n"
+        },
+        {
+          "before": "                localStorage.setItem(savedProductStorageKey, JSON.stringify(payload));",
+          "after": "                if (!window.Nomad360DraftStore.writeV1(payload)) throw new Error('Draft storage unavailable');"
+        }
+      ]
+    },
+    "nomad360_draft_store.js": {
+      "before": "3fba06890f6ac42c18a614f5f15ec0ab0a2b58eefbc113889ff176f783dae9a2",
+      "after": "e2cfbbf3d626960abe977b0ed40ee53b3336099148c2007c15f8d62f732ef5c4",
+      "replacements": [
+        {
+          "before": "    linked:'marketingCalcLinkedPortfolioV2'",
+          "after": "    linked:'marketingCalcLinkedPortfolioV2',\n    simpleSalesTax:'nomad360SalesTaxSimpleV1'"
+        },
+        {
+          "before": "      readV1:()=>read(keys.v1,validV1),",
+          "after": "      readV1:()=>read(keys.v1,validV1),\n      // Tax adapters historically read raw JSON before the UI validates a\n      // portfolio. Preserve that distinction, including older partial records.\n      readV1Raw:()=>read(keys.v1,()=>true),\n      readSimpleSalesTax:()=>read(keys.simpleSalesTax,()=>true),\n      writeSimpleSalesTax:value=>write(keys.simpleSalesTax,value),"
+        }
+      ]
+    },
+    "nomad360_sales_tax_v1.js": {
+      "before": "52ab362aa70209870a7461bf58a22011679bfc66163e80b2f89de959828790c1",
+      "after": "a466e4d72ea8d47137ace2b8c0ff40e9fd39825fc48a94bd7f75fec556438a00",
+      "replacements": [
+        {
+          "before": "let persisted=null;\ntry{persisted=JSON.parse(root.localStorage.getItem('marketingCalcProductResultV1')||'null');}catch(_){}",
+          "after": "const persisted=root.Nomad360DraftStore.readV1Raw();"
+        },
+        {
+          "before": "  const key='marketingCalcProductResultV1';\n  const payload=JSON.parse(localStorage.getItem(key));",
+          "after": "  const payload=root.Nomad360DraftStore.readV1Raw();"
+        },
+        {
+          "before": "  localStorage.setItem(key,JSON.stringify(payload));",
+          "after": "  if(!root.Nomad360DraftStore.writeV1(payload))throw new Error('Draft storage unavailable');"
+        },
+        {
+          "before": " let saved=null;\n try{saved=JSON.parse(localStorage.getItem('marketingCalcProductResultV1'));}catch(_){}",
+          "after": " const saved=root.Nomad360DraftStore.readV1Raw();"
+        }
+      ]
+    },
+    "nomad360_sales_tax_service_v1.js": {
+      "before": "6f3d372767dd2e74ed355e0d2bc89031953a7d0de971f417e5c175637744e3a5",
+      "after": "2df9589f4b2aee19839574e3e545139da1172594da47d953bd414538f9ce257c",
+      "replacements": [
+        {
+          "before": "const key='marketingCalcProductResultV1',simpleKey='nomad360SalesTaxSimpleV1';\nconst params=new URLSearchParams(root.location.search);",
+          "after": "const params=new URLSearchParams(root.location.search);"
+        },
+        {
+          "before": "let saved=null,simpleSaved=null;\ntry{saved=JSON.parse(localStorage.getItem(key)||'null');}catch(_){}\ntry{simpleSaved=JSON.parse(localStorage.getItem(simpleKey)||'null');}catch(_){}",
+          "after": "const saved=root.Nomad360DraftStore.readV1Raw();\nconst simpleSaved=root.Nomad360DraftStore.readSimpleSalesTax();"
+        },
+        {
+          "before": "  const p=JSON.parse(localStorage.getItem(key));",
+          "after": "  const p=root.Nomad360DraftStore.readV1Raw();"
+        },
+        {
+          "before": "  localStorage.setItem(key,JSON.stringify(p));",
+          "after": "  if(!root.Nomad360DraftStore.writeV1(p))return false;"
+        },
+        {
+          "before": " let payload=null;try{payload=JSON.parse(localStorage.getItem(key)||'null');}catch(_){}",
+          "after": " const payload=root.Nomad360DraftStore.readV1Raw();"
+        },
+        {
+          "before": " try{localStorage.setItem(simpleKey,JSON.stringify({mode:simpleMode,rate:simpleRate}));}catch(_){}",
+          "after": " root.Nomad360DraftStore.writeSimpleSalesTax({mode:simpleMode,rate:simpleRate});"
+        }
+      ]
+    }
+  }
+}

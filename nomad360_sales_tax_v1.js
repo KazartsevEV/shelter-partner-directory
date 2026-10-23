@@ -5,8 +5,7 @@
 (function(root){
 'use strict';
 const params=new URLSearchParams(root.location.search);
-let persisted=null;
-try{persisted=JSON.parse(root.localStorage.getItem('marketingCalcProductResultV1')||'null');}catch(_){}
+const persisted=root.Nomad360DraftStore.readV1Raw();
 // 7Б-5: V1 goods tax selector is visible, legacy VAT remains the default.
 
 const GOODS=new Set(['own','resale','dropship']);
@@ -171,13 +170,12 @@ root.saveProductCalculationToBrowser=function(){
  const saved=legacy.save.apply(this,arguments);
  if(!saved||!mode||hasService())return saved;
  try{
-  const key='marketingCalcProductResultV1';
-  const payload=JSON.parse(localStorage.getItem(key));
+  const payload=root.Nomad360DraftStore.readV1Raw();
   payload.taxRegime=mode;if(mode==='sales_tax')payload.salesTaxPct=rawRate;
   for(const x of payload.productPortfolio)if(GOODS.has(x.source)){
     x.taxRegime=mode;if(mode==='sales_tax')x.salesTaxPct=rawRate;
   }
-  localStorage.setItem(key,JSON.stringify(payload));
+  if(!root.Nomad360DraftStore.writeV1(payload))throw new Error('Draft storage unavailable');
  }catch(e){console.error('Could not persist Sales Tax regime',e);return false;}
  return saved;
 };
@@ -189,8 +187,7 @@ function restoreFrom(saved){
  render();
 }
 root.resumeSavedProductCalculation=function(){
- let saved=null;
- try{saved=JSON.parse(localStorage.getItem('marketingCalcProductResultV1'));}catch(_){}
+ const saved=root.Nomad360DraftStore.readV1Raw();
  const result=legacy.resume.apply(this,arguments);if(result)restoreFrom(saved);return result;
 };
 root.startFreshProductCalculation=function(){
