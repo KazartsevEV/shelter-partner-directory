@@ -22,7 +22,7 @@ async function snapshot(page,kind){
   const visible=[...document.querySelectorAll('body *')].filter(e=>e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true}));
   const styles=visible.map(e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return {tag:e.tagName,id:e.id,classes:e.className?.baseVal??e.className,rect:[r.x,r.y,r.width,r.height],style:props.map(p=>s.getPropertyValue(p))};});
   const grids=[...document.querySelectorAll('#full-service-screen .nd-full-service-inputs')];
-  const gridStyle=kind==='full'?grids.map(grid=>[...getComputedStyle(grid)].map(p=>[p,getComputedStyle(grid).getPropertyValue(p)])):null;
+  const gridStyle=kind==='full'?grids.map(grid=>[...getComputedStyle(grid)].sort().map(p=>[p,getComputedStyle(grid).getPropertyValue(p)])):null;
   let numbers=null;if(kind==='full')numbers=Nomad360FullServiceUI.getResult();else if(kind==='standalone')numbers=Nomad360PaymentUI.buildPortfolio(PortfolioV2UI.getState());else if(kind==='linked')numbers=LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState());else if(['self','hired','agent'].includes(kind))numbers={model:Nomad360V1Engine.calculateSimpleService({values:currentValues,mode:serviceMode,payers:agentPayers}),summary:document.getElementById("summary-table").textContent,monthly:document.getElementById("monthly-table").textContent};
   return {styles,gridStyle,numbers,overflow:document.documentElement.scrollWidth>innerWidth+1};
  },kind);
@@ -52,7 +52,7 @@ async function snapshot(page,kind){
     await page.goto(origin+'/'+variant+'/'+entry+'?lang='+language,{waitUntil:'domcontentloaded'});await page.addStyleTag({path:path.join(out,'utilities.css')});await page.waitForFunction(()=>window.Nomad360FullServiceUI&&window.Nomad360UI);await page.locator('#nomad360-lang-select').selectOption(language);
     const rows=[];
     for(const kind of ['full','self','hired','agent','offline','standalone','linked','home']){
-     await route(page,kind);const data=await snapshot(page,kind);A.equal(data.overflow,false,[entry,width,language,variant,kind].join('/'));
+     await route(page,kind);const data=await snapshot(page,kind);if(kind==='full')fs.writeFileSync(path.join(out,[entry,width,language,variant,'grid.json'].join('-')),JSON.stringify(data.gridStyle,null,2));A.equal(data.overflow,false,[entry,width,language,variant,kind].join('/'));
      let screenshot=null;
      if(kind==='full'&&entry==='Marketing_calc.HTML'&&[320,1280].includes(width)){
       const name=language+'-'+width+'-'+variant+'.png';const bytes=await page.locator('#full-service-screen .nd-full-service-settings').screenshot({path:path.join(out,name),animations:'disabled',caret:'hide'});screenshot={file:name,sha256:hash(bytes)};
