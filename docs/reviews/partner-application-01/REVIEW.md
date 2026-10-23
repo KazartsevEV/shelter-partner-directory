@@ -78,3 +78,10 @@ This layout-only update follows the recorded handler ACK. The transport, data
 model and submit handler remain byte-identical to the live-tested implementation;
 [submission-integrity.json](submission-integrity.json) records that narrower
 comparison. The final layout is checked by the current Chromium/CI matrix.
+
+Existing marketing acceptance now requires both visible actions before comparison
+expansion. TYPE-02 excludes only the isolated partner dialog from the calculator
+input snapshot and the new CTA from the old text equality comparison. Its geometry,
+font and overflow audits still cover the new visible action; the dedicated form
+matrix covers dialog controls. Existing calculator inputs and text remain subject
+to the original exact comparisons.
