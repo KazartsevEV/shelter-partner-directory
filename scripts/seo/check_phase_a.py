@@ -540,7 +540,7 @@ def main():
         'tests/tax_draft_storage_scope.test.cjs', 'tests/tax_draft_storage_browser.cjs',
         '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/partner-package-build.yml',
-        'tests/cleanup_logo_mask.test.cjs', 'tests/helpers/cleanup-logo-mask-scope.cjs', '.github/workflows/cleanup-logo-mask.yml',
+        'tests/cleanup_logo_mask.test.cjs', 'tests/helpers/cleanup-logo-mask-scope.cjs', 'tests/helpers/accepted-banner-248-scope.cjs', '.github/workflows/cleanup-logo-mask.yml',
         'nomad360_design_system.css', 'tests/cleanup_service_grid.test.cjs', 'tests/helpers/cleanup-service-grid-scope.cjs', '.github/workflows/cleanup-service-grid.yml',
         'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
         'docs/architecture/partner-package-config.md', 'docs/nomad360-partner-distribution-plan.md',

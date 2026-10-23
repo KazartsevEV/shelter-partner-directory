@@ -14,7 +14,7 @@ async function snapshot(page){
   const props=['display','position','width','height','min-width','max-width','padding','margin','gap','grid-template-columns','color','background-color','font-family','font-size','line-height','transform','overflow'];
   const visible=[...document.querySelectorAll('body *')].filter(e=>e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true})).map(e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return {tag:e.tagName,id:e.id,rect:[r.x,r.y,r.width,r.height],style:props.map(p=>s.getPropertyValue(p))};});
   const probe=document.createElement('div');probe.className='nomad-seo-logo-mask';probe.style.position='fixed';probe.style.left='-9999px';document.body.append(probe);const s=getComputedStyle(probe),fallback={width:s.width,height:s.height,background:s.backgroundColor,radius:s.borderRadius};probe.remove();
-  return {logos,visible,fallback,overflow:document.documentElement.scrollWidth>innerWidth+1};
+  return {logos,visible,domCount:document.querySelectorAll('body *').length,fallback,overflow:document.documentElement.scrollWidth>innerWidth+1};
  });
 }
 (async()=>{
@@ -41,7 +41,7 @@ async function snapshot(page){
      if(view==='embed'){await page.keyboard.press('Escape');await page.locator('[data-nomad-embed-toggle]').click();}
      const data=await snapshot(page);A.equal(data.overflow,false,[entry,width,language,variant,view].join('/'));A.equal(data.fallback.width,(width<=600?64:140)+'px');A.equal(data.fallback.height,data.fallback.width);A.equal(data.fallback.background,'rgb(255, 255, 255)');A.equal(data.fallback.radius,'50%');
      let screenshot=null;if(view==='home'&&entry==='Marketing_calc.HTML'&&[320,600,601,1280].includes(width)){const name=language+'-'+width+'-'+variant+'.png';const bytes=await page.locator('#nomad360-seo-banner').screenshot({path:path.join(out,name),animations:'disabled',caret:'hide'});screenshot={file:name,sha256:hash(bytes)};}
-     rows.push({view,logoHash:hash(JSON.stringify(data.logos)),visibleHash:hash(JSON.stringify(data.visible)),fallback:data.fallback,screenshot});
+     rows.push({view,domNodes:data.domCount,visibleNodes:data.visible.length,logoHash:hash(JSON.stringify(data.logos)),visibleHash:hash(JSON.stringify(data.visible)),fallback:data.fallback,screenshot});
     }
     A.deepEqual(errors,[]);pair[variant]=rows;await ctx.close();
    }

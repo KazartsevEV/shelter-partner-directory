@@ -2,7 +2,7 @@
 
 Use a clean committed checkout, Node.js 22+, the existing lock-pinned packages
 in `scripts/palette` and `scripts/localization`, and Playwright Chromium.
-Create a baseline worktree at `97b3a21deb6159622f464074f0586af815270a76` and set
+Create a baseline worktree at `6ce82985d46f9d29c4f7312753d1a0b62714a19a` and set
 `C2_BASELINE_ROOT` to its absolute path. Compile pinned utility CSS into
 `artifacts/cleanup-c2/utilities.css`, as shown in the workflow. Then run:
 
@@ -35,3 +35,9 @@ This is separate from the frozen C1 tools/evidence, which remain unchanged.
 The exact C2 scope restoration lives in historical test helpers, never on the site.
 The task-09 workflow is not modified. Its CSS guard still compares every byte
 outside this exact deletion and the already accepted logo tail.
+
+After accepted #248, the historical partner-build guard needs a separate exact
+CSS bridge for About/Consulting. It accepts only the old fixture bytes or the
+owner-accepted `6ce8298` bytes; arbitrary colour, layout or appended edits fail.
+The C2 application gate independently pins every other runtime/asset byte to
+`6ce8298`, so the bridge cannot hide an actual banner rollback or modification.

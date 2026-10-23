@@ -6,6 +6,7 @@ on:
       - 'scripts/cleanup-logo-mask/**'
       - 'tests/cleanup_logo_mask.test.cjs'
       - 'tests/helpers/cleanup-logo-mask-scope.cjs'
+      - 'tests/helpers/accepted-banner-248-scope.cjs'
       - 'docs/reviews/cleanup-logo-mask-02/**'
       - '.github/workflows/cleanup-logo-mask.yml'
   workflow_dispatch:
@@ -30,7 +31,7 @@ jobs:
           npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
           npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
           scripts/palette/node_modules/.bin/playwright install --with-deps chromium
-          git worktree add --detach "$C2_BASELINE_ROOT" 97b3a21deb6159622f464074f0586af815270a76
+          git worktree add --detach "$C2_BASELINE_ROOT" 6ce82985d46f9d29c4f7312753d1a0b62714a19a
       - name: Strict source, original logo, palette, localization and financial contracts
         run: |
           node --check scripts/cleanup-logo-mask/compare.cjs

@@ -18,3 +18,14 @@ test('all other app sources, artwork, palette, numerical fixtures and previous c
  const names=execFileSync('git',['ls-tree','-r','--name-only',s.base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(?:nomad360_|portfolio_v2_).*\.(?:js|css)$/.test(f)||['Marketing_calc.HTML','US_Retail_Demo.HTML'].includes(f)||f.startsWith('assets/')||f.startsWith('vendor/')||f.startsWith('tests/fixtures/')||f.startsWith('scripts/cleanup/')||f==='scripts/palette/build.cjs');
  for(const file of names){const old=execFileSync('git',['show',s.base+':'+file],{cwd:root,maxBuffer:24*1024*1024}),now=fs.readFileSync(path.join(root,file));A.deepEqual(s.restore(file,now),old,file);}
 });
+
+test('historical banner guard accepts only the exact approved #248 CSS, never unreviewed edits',()=>{
+ const guard=require('./helpers/accepted-banner-248-scope.cjs');
+ for(const file of guard.files){
+  const accepted=execFileSync('git',['show',guard.accepted+':'+file],{cwd:root});
+  const legacy=execFileSync('git',['show',guard.legacy+':'+file],{cwd:root});
+  A.deepEqual(guard.restore(file,accepted),legacy);A.deepEqual(guard.restore(file,legacy),legacy);
+  for(const changed of [Buffer.concat([accepted,Buffer.from('\n')]),Buffer.from(accepted.toString().replace('#173B58','#173B59'))])A.throws(()=>guard.restore(file,changed),/Only exact owner-accepted/);
+ }
+ A.equal(guard.restore('nomad360_v1_engine.js','unchanged'),'unchanged');
+});
