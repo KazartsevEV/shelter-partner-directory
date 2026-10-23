@@ -1,0 +1,53 @@
+name: Versioned partner package and numeric parity
+on:
+  pull_request:
+    paths:
+      - 'scripts/partners/**'
+      - 'tests/partner_*'
+      - 'tests/fixtures/partner-build/**'
+      - 'docs/architecture/**'
+      - 'docs/reviews/partner-build-01/**'
+      - '.github/workflows/partner-package-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  partner-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Config negative cases and immutable runtime source guard
+        run: |
+          node --check scripts/partners/config.cjs
+          node --check scripts/partners/build.cjs
+          node --check tests/partner_build_browser.cjs
+          node --test tests/partner_config.test.cjs tests/partner_build_scope.test.cjs tests/partner_build.test.cjs tests/nomad360_v1_engine.test.cjs
+      - name: Install pinned build tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/partner-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/partner-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Compile accepted utilities for browser comparisons
+        run: |
+          mkdir -p artifacts/partner-build
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/partner-input.css
+          "$RUNNER_TEMP/partner-tools/node_modules/.bin/tailwindcss" -i /tmp/partner-input.css -o artifacts/partner-build/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Real package, manifest, reproducibility, injection and full language/width parity
+        env:
+          NODE_PATH: ${{ runner.temp }}/partner-tools/node_modules
+        run: node tests/partner_build_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: partner-package-${{ github.sha }}
+          path: |
+            artifacts/partner-build/protocol.json
+            artifacts/partner-build/manifest.json
+            artifacts/partner-build/*.html
+            artifacts/partner-build/*.png
+          retention-days: 14
