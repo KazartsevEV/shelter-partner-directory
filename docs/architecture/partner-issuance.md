@@ -56,7 +56,10 @@ details stay in Formspree/Google Sheets. A local test directory is not a deploye
 website backend. No Google/GitHub public artifact contains applicant data.
 
 This adapter supports **one operator host**, with exclusive per-application
-transactions. Lock files are not automatically stolen after a crash. Inspect a
+transactions and a separate shared lock for every registry read/update. Concurrent
+commands cannot claim the same blank Sheet row. A busy projection fails without
+overwriting another application; retry that projection after the lock is released.
+Lock files are not automatically stolen after a crash. Inspect a
 stale lock and provider evidence before removing it. Multiple independent worker
 hosts require an explicitly implemented transactional repository; Google Sheet
 read-then-write is not a distributed lock. Preserve the service port/transition

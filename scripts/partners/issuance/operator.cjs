@@ -25,36 +25,43 @@ async function run(command,input,settings,{workspace,build=buildPackage}={}){
   const metadata=await google.registryMetadata(settings.spreadsheetId);
   for(const [kind,title,columns] of [['applications','Заявки','X'],['issuances','Выдачи','P'],['events','Журнал','G']]){
    const sheet=metadata.sheets?.find(s=>s.properties.title===title),{values=[]}=await google.registryValues(settings.spreadsheetId,title,columns,{headersOnly:true});
-   if(!sheet||!sheet.tables?.some(t=>t.range.startRowIndex===0&&t.range.startColumnIndex===0&&t.range.endColumnIndex===registry.headers[kind].length)||JSON.stringify(values[0])!==JSON.stringify(registry.headers[kind]))throw Error('Registry setup/schema mismatch');
+   if(!sheet||!sheet.tables?.some(t=>(t.range.startRowIndex??0)===0&&(t.range.startColumnIndex??0)===0&&t.range.endColumnIndex===registry.headers[kind].length)||JSON.stringify(values[0])!==JSON.stringify(registry.headers[kind]))throw Error('Registry setup/schema mismatch');
   }
   return {status:'setup_verified',gmailOwnerVerified:true,registryVerified:true,archiveFolderOwnerOnly:true};
  }
  const service=createService({store,vault,mailer:google,build});
  const id=input.applicationId||input.application?.application_id;
+ // Different applications share one Sheets grid. Per-application state locks
+ // alone cannot protect the first-empty-row lookup from a concurrent command.
+ const registryLock=action=>store.transaction('registry-projection',async()=>{await action();return undefined;});
  async function upsert(kind,row){
+  return registryLock(async()=>{
   const title={applications:'Заявки',issuances:'Выдачи',events:'Журнал'}[kind],columns={applications:'X',issuances:'P',events:'G'}[kind];
   const metadata=await google.registryMetadata(settings.spreadsheetId),sheet=metadata.sheets?.find(s=>s.properties.title===title);
   if(!sheet)throw Error('Registry tab missing');const {values=[]}=await google.registryValues(settings.spreadsheetId,title,columns);
   if(JSON.stringify(values[0])!==JSON.stringify(registry.headers[kind]))throw Error('Registry header/schema mismatch');
-  let index=values.findIndex((r,i)=>i>0&&r[0]===row[0]);if(index<0){index=1;while(values[index]?.[0])index++;}
+  const matches=values.flatMap((r,i)=>i>0&&r[0]===row[0]?[i]:[]);if(matches.length>1)throw Error('Duplicate registry identity requires review');
+  let index=matches[0]??-1;if(index<0){index=1;while(values[index]?.some(v=>v!==''&&v!==null&&v!==undefined))index++;}
   if(index>=1000)throw Error('Registry capacity must be extended explicitly');
-  const requests=[registry.updateRow(sheet.properties.sheetId,index,row)],table=sheet.tables?.find(t=>t.range.startRowIndex===0&&t.range.startColumnIndex===0&&t.range.endColumnIndex===row.length);
+  const requests=[registry.updateRow(sheet.properties.sheetId,index,row)],table=sheet.tables?.find(t=>(t.range.startRowIndex??0)===0&&(t.range.startColumnIndex??0)===0&&t.range.endColumnIndex===row.length);
   if(!table)throw Error('Registry native table missing');
   if(table.range.endRowIndex<=index)requests.push({updateTable:{table:{tableId:table.tableId,range:{...table.range,endRowIndex:index+1}},fields:'range'}});
   await google.sheetBatch(settings.spreadsheetId,requests);
+  });
  }
  async function project(){
   const r=await store.read(id);
   if(r.archive&&['prepared','archive_sending','delivery_accepted','send_unknown','send_failed'].includes(r.status))await upsert('issuances',registry.issuanceRow(r,{issuanceId:id+'-v1',driveId:r.archiveDriveId||''}));
   // Preserve all existing application text; update only lifecycle columns.
+  await registryLock(async()=>{
   const metadata=await google.registryMetadata(settings.spreadsheetId),sheet=metadata.sheets?.find(s=>s.properties.title==='Заявки');
   const {values=[]}=await google.registryValues(settings.spreadsheetId,'Заявки','X');
   if(!sheet||JSON.stringify(values[0])!==JSON.stringify(registry.headers.applications))throw Error('Registry schema mismatch');
-  const index=values.findIndex((row,i)=>i>0&&row[0]===id);if(index<1)throw Error('Registered application missing from Google Sheet');
-  const row=Array.from({length:24},(_,i)=>values[index][i]??'');
-  row[17]=r.emailVerifiedAt?'email_verified':r.verificationAcceptedAt?'email_sent':r.status==='send_unknown'?'unknown':'new';row[18]=r.emailVerifiedAt||'';
-  row[19]=r.domainReview?'approved':'pending';row[20]=r.config.deployment.origin;row[21]=r.domainReview?'reviewed':'pending';
-  await google.sheetBatch(settings.spreadsheetId,[registry.updateRow(sheet.properties.sheetId,index,row)]);
+  const matches=values.flatMap((row,i)=>i>0&&row[0]===id?[i]:[]);
+  if(matches.length!==1)throw Error('Registered application missing or duplicated in Google Sheet');const index=matches[0];
+  const lifecycle=[r.emailVerifiedAt?'email_verified':r.verificationAcceptedAt?'email_sent':r.status==='send_unknown'?'unknown':'new',r.emailVerifiedAt||'',r.domainReview?'approved':'pending',r.config.deployment.origin,r.domainReview?'reviewed':'pending'];
+  await google.sheetBatch(settings.spreadsheetId,[registry.updateRow(sheet.properties.sheetId,index,lifecycle,17)]);
+  });
  }
  async function event(result){await upsert('events',registry.eventRow({id:crypto.randomUUID(),at:new Date().toISOString(),applicationId:id,issuanceId:id+'-v1',operation:command,result}));}
  if(command==='register'){

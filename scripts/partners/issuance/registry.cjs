@@ -21,8 +21,8 @@ function eventRow({id,at,applicationId='',issuanceId='',operation,result,provide
  if(!id||!operation||!['pending','success','failed','unknown'].includes(result)||!Number.isFinite(Date.parse(at)))throw Error('Invalid journal event');
  return [id,at,applicationId,issuanceId,operation,result,providerId];
 }
-function updateRow(sheetId,rowIndex,values){
- if(!Number.isSafeInteger(sheetId)||sheetId<0||!Number.isSafeInteger(rowIndex)||rowIndex<1||!Array.isArray(values)||values.some(v=>!['string','number','boolean'].includes(typeof v)||typeof v==='number'&&!Number.isFinite(v)))throw Error('Invalid registry row');
- return {updateCells:{start:{sheetId,rowIndex,columnIndex:0},rows:[{values:values.map(v=>({userEnteredValue:typeof v==='boolean'?{boolValue:v}:typeof v==='number'?{numberValue:v}:{stringValue:v}}))}],fields:'userEnteredValue'}};
+function updateRow(sheetId,rowIndex,values,columnIndex=0){
+ if(!Number.isSafeInteger(sheetId)||sheetId<0||!Number.isSafeInteger(rowIndex)||rowIndex<1||!Number.isSafeInteger(columnIndex)||columnIndex<0||!Array.isArray(values)||values.some(v=>!['string','number','boolean'].includes(typeof v)||typeof v==='number'&&!Number.isFinite(v)))throw Error('Invalid registry row');
+ return {updateCells:{start:{sheetId,rowIndex,columnIndex},rows:[{values:values.map(v=>({userEnteredValue:typeof v==='boolean'?{boolValue:v}:typeof v==='number'?{numberValue:v}:{stringValue:v}}))}],fields:'userEnteredValue'}};
 }
 module.exports={headers,applicationRow,issuanceRow,eventRow,updateRow};

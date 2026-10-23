@@ -42,9 +42,11 @@ test('private operator records the actual application in Google Sheets before se
  const stateDirectory=path.join(dir,'state'),rows={applications:[registry.headers.applications],issuances:[registry.headers.issuances],events:[registry.headers.events]},calls=[];
  const titles={applications:'Заявки',issuances:'Выдачи',events:'Журнал'},ids={applications:1,issuances:2,events:3};
  const workspace={
-  registryMetadata:async()=>({sheets:Object.entries(titles).map(([k,title])=>({properties:{sheetId:ids[k],title},tables:[{tableId:'table-'+k,range:{sheetId:ids[k],startRowIndex:0,endRowIndex:2,startColumnIndex:0,endColumnIndex:registry.headers[k].length}}]}))}),
+  registryMetadata:async()=>({sheets:Object.entries(titles).map(([k,title])=>({properties:{sheetId:ids[k],title},tables:[{tableId:'table-'+k,range:{sheetId:ids[k],endRowIndex:2,endColumnIndex:registry.headers[k].length}}]}))}),
   registryValues:async(_,title)=>({values:rows[Object.keys(titles).find(k=>titles[k]===title)]}),
-  sheetBatch:async(_,requests)=>{for(const r of requests){if(!r.updateCells)continue;const key=Object.keys(ids).find(k=>ids[k]===r.updateCells.start.sheetId);rows[key][r.updateCells.start.rowIndex]=r.updateCells.rows[0].values.map(v=>Object.values(v.userEnteredValue)[0]);}},
+  sheetBatch:async(_,requests)=>{for(const r of requests){if(!r.updateCells)continue;const key=Object.keys(ids).find(k=>ids[k]===r.updateCells.start.sheetId),index=r.updateCells.start.rowIndex,column=r.updateCells.start.columnIndex;
+   if(key==='applications'&&column===17)rows[key][index][2]='Manually updated company';
+   rows[key][index]=rows[key][index]||[];r.updateCells.rows[0].values.forEach((v,i)=>{rows[key][index][column+i]=Object.values(v.userEnteredValue)[0];});}},
   send:async message=>{calls.push(message);return {id:'gmail-accepted-'+calls.length,accepted:true};},
   uploadArchive:async(folder,archive)=>{A.equal(folder,'private-folder');A.ok(archive.bytes.length>100);return {id:'private-drive-zip'};}
  };
@@ -66,6 +68,19 @@ test('private operator records the actual application in Google Sheets before se
  await run('send-archive',input,settings,{workspace});A.equal(calls.length,2);A.equal(rows.issuances[1][10],'accepted');A.equal(rows.issuances[1][11],'gmail-accepted-2');
  await A.rejects(run('send-archive',input,settings,{workspace}),/transition/);A.equal(calls.length,2);
  A.ok(!JSON.stringify(rows).includes(code));
+ A.equal(rows.applications[1][2],'Manually updated company','Lifecycle writes must not overwrite concurrent contact/company edits');
+ // Two distinct applications must not both claim the same first blank Sheet row.
+ const partial=Array(24).fill('');partial[2]='Manual draft without ID';rows.applications.push(partial);
+ const firstId=crypto.randomUUID(),secondId=crypto.randomUUID(),originalMetadata=workspace.registryMetadata;
+ let release,entered,hold=true;const started=new Promise(r=>entered=r),gate=new Promise(r=>release=r);
+ workspace.registryMetadata=async(...args)=>{if(hold){hold=false;entered();await gate;}return originalMetadata(...args);};
+ const first=run('register',{application:{...application,application_id:firstId},config:require('./fixtures/partner-build/example.json')},settings,{workspace});await started;
+ await A.rejects(run('register',{application:{...application,application_id:secondId},config:require('./fixtures/partner-build/example.json')},settings,{workspace}),/busy/);
+ release();await first;
+ await run('register',{application:{...application,application_id:secondId},config:require('./fixtures/partner-build/example.json')},settings,{workspace});
+ A.ok(rows.applications.some(row=>row[0]===firstId));A.ok(rows.applications.some(row=>row[0]===secondId));
+ A.equal(new Set(rows.applications.slice(1).map(row=>row[0])).size,rows.applications.length-1);A.equal(calls.length,2);
+ A.ok(rows.applications.some(row=>row[2]==='Manual draft without ID'));
 });
 test('the existing service identity is used only for Sheets; Gmail keeps the owner OAuth identity',async()=>{
  const calls=[],service='existing@project-example.iam.gserviceaccount.com';

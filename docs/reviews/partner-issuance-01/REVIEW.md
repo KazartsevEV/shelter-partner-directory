@@ -38,7 +38,10 @@ not claimed. This PR therefore does not close P3 or activate public issuance.
 ## Local results
 
 - 26 unit/provider/operator/source tests pass, including the full operator flow,
-  archive tampering and explicit renewal of an expired confirmation challenge.
+  archive tampering, explicit renewal of an expired confirmation challenge,
+  concurrent registration, preservation of manual/partial Sheet rows and
+  lifecycle-only updates. A shared projection lock serializes first-empty-row
+  selection across distinct applications on the supported operator host.
 - The real encrypted browser test at `462ffcc6b7346bbe1048010605179401b57bc89b`
   passed 18 language/width combinations and 1,278 scenarios with 65 source
   resources, zero numeric changes and identical independently extracted HTML.
