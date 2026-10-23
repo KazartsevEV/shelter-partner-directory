@@ -89,7 +89,11 @@ async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.wait
   }
   const flow=await about.locator('li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));if(width>=(approvedAbout?701:900))A.ok(flow[0].left<flow[1].left&&flow[1].left<flow[2].left&&Math.abs(flow[0].top-flow[2].top)<1,'Approved three-column ABOUT grid at '+width);else A.ok(flow[0].top<flow[1].top&&flow[1].top<flow[2].top,'Mobile ABOUT links stack at '+width);
   const embed=p.locator('#nomad360-embed'),toggle=embed.locator('[data-nomad-embed-toggle]'),panel=embed.locator('#nomad360-embed-comparison');
-  A.equal(await toggle.getAttribute('aria-expanded'),'false');A.equal(await panel.isVisible(),false);A.equal(await embed.locator('button:visible').count(),1);
+  A.equal(await toggle.getAttribute('aria-expanded'),'false');A.equal(await panel.isVisible(),false);
+  A.equal(await embed.locator('button:visible').count(),2,'Comparison action and separate partner application action are visible');
+  const partnerAction=embed.locator(':scope > #nomad360-partner-trigger');
+  A.equal(await partnerAction.count(),1);A.equal(await partnerAction.isVisible(),true);
+  A.equal(await partnerAction.getAttribute('aria-controls'),'nomad360-partner-dialog');
   const consultingTitles={ru:'Занимаетесь консалтингом?',en:'Do you work in consulting?',kk:'Консалтингпен айналысасыз ба?'};
   A.equal(await embed.locator('h2').textContent(),consultingTitles[lang]);
   const benefits=embed.locator('.nomad-embed-b2b-benefits');A.equal(await benefits.locator('li').count(),3);

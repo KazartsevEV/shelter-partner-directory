@@ -182,7 +182,17 @@ const {pathToFileURL}=require('node:url');
   const saveAgent=await page.evaluate(()=>saveProductCalculationToBrowser());
   A.equal(saveAgent,true,'Native V1 agent with expense payers saves');
   const originalRows=await page.evaluate(()=>readSavedProductCalculation().productPortfolio[0].serviceAgency.lineItems);
+  const savedAgentBytes=await page.evaluate(()=>{
+    const raw=localStorage.getItem(Nomad360DraftStore.keys.v1);
+    return JSON.stringify({raw,valid:Nomad360DraftStore.readV1()});
+  });
   await page.reload({waitUntil:'domcontentloaded'});
+  // Verify storage readiness across file:// navigation independently of parsing.
+  // Require the exact saved bytes AND validated payload; never seed,
+  // rewrite or retry the restore action to hide lost/corrupt data.
+  await page.waitForFunction(expected=>JSON.stringify({
+    raw:localStorage.getItem(Nomad360DraftStore.keys.v1),valid:Nomad360DraftStore.readV1()
+  })===expected,savedAgentBytes);
   A.equal(await page.evaluate(()=>resumeSavedProductCalculation()),true);
   const restored=await page.evaluate(()=>({
     channel:serviceChannel,role:selectedServiceRole,

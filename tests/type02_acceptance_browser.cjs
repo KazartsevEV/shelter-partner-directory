@@ -11,8 +11,8 @@ function standalone(){return {version:2,currency:'KZT',businessCurrency:'KZT',as
 function linked(){const p=fixture();return {...Linked.fromV1({...p,currency:'USD'}),resources:p.resources,offers:p.offers,forecastMonths:p.forecastMonths,recurringDemandApproved:true,importedAt:'2026-10-12T00:00:00Z'};}
 function snapshot(route){
  if(route==='v1')return {currency:Nomad360Currency.get(),product:productPortfolio[0],model:calculateProductPortfolio(),cash:calculateProductCashFlow(calculateProductPortfolio()),cycle:aggregatePlanMetrics(productPortfolio[0]),credit:calculateAggregateCredit(productPortfolio[0]),priceList:calculatePriceListRange(productPortfolio[0])};
- // Task 09 fields are isolated support UI, not calculator inputs or finances.
- if(route==='home')return {currency:Nomad360Currency.get(),inputs:[...document.querySelectorAll('input,select,textarea')].filter(e=>e.id!=='nomad360-lang-select'&&!e.closest('[data-sales-tax-v1-widget],[data-sales-tax-service],#nomad360-bug-dialog,.nomad-help-panel')).map(e=>[e.id,e.value,e.checked])};
+ // Support and partner dialogs are isolated UI, not calculator inputs or finances.
+ if(route==='home')return {currency:Nomad360Currency.get(),inputs:[...document.querySelectorAll('input,select,textarea')].filter(e=>e.id!=='nomad360-lang-select'&&!e.closest('[data-sales-tax-v1-widget],[data-sales-tax-service],#nomad360-bug-dialog,#nomad360-partner-dialog,.nomad-help-panel')).map(e=>[e.id,e.value,e.checked])};
  const state=(route==='standalone'?PortfolioV2UI:LinkedPortfolioV2UI).getState();return {state,financial:route==='standalone'?Nomad360PaymentUI.buildPortfolio(state):LinkedPortfolioV2Engine.build(state),stored:localStorage.getItem(route==='standalone'?'marketingCalcPortfolioV2':'marketingCalcLinkedPortfolioV2')};
 }
 function audit(){
@@ -64,7 +64,9 @@ async function pictures(page,variant,lang,width,route){
      A.ok(geometry.controls.every(c=>c.size>=16),JSON.stringify(geometry.controls.filter(c=>c.size<16)));A.ok(geometry.controls.every(c=>c.height>=44),JSON.stringify(geometry.controls.filter(c=>c.height<44)));
      A.deepEqual(geometry.gaps,previous.geometry.gaps,'Preserve existing localization diagnostics');
       if(process.env.TYPE02_CURRENT_BASE){
-       const currentText=rows=>rows.filter(t=>!t.cls.split(/\s+/).includes('nomad-unit-note'));
+       // The additive partner action has its own RU/EN/KK size/contrast matrix.
+       // Keep the ordinary geometry audit above and exact accepted text for every existing node.
+       const currentText=rows=>rows.filter(t=>t.id!=='nomad360-partner-trigger'&&!t.cls.split(/\s+/).includes('nomad-unit-note'));
        A.deepEqual(currentText(geometry.text),currentText(previous.geometry.text),
          'Module extraction must preserve accepted main text and typography');
       }else A.deepEqual(geometry.text.filter(t=>!t.approvedHeroArt&&t.cls!=='nomad-lite'&&

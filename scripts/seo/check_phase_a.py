@@ -475,6 +475,7 @@ def main():
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
+                             'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
                              'docs/reviews/about-vector-218/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
@@ -533,6 +534,9 @@ def main():
         '.github/workflows/partner-package-build.yml',
         'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
         'docs/architecture/partner-package-config.md', 'docs/nomad360-partner-distribution-plan.md',
+        'nomad360_partner_application.js', 'nomad360_partner_application_model.js', 'nomad360_partner_transport.js', 'nomad360_partner_application.css',
+        'tests/partner_application.test.cjs', 'tests/partner_application_browser.cjs', 'tests/partner_application_scope.test.cjs',
+        'tests/helpers/partner-application-scope.cjs', '.github/workflows/partner-application.yml', 'tests/partner_application_live.cjs',
         '.github/workflows/v1-engine-extraction.yml',
         'tests/marketing_calc_full_cycle.test.cjs', 'tests/marketing_calc_resale.test.cjs',
         'tests/marketing_calc_dropship.test.cjs', 'tests/marketing_calc_offline_service.test.cjs',

@@ -4,7 +4,7 @@ Status: 23 October 2026. This plan preserves the owner's partnership request and
 follows the accepted architecture work #238–240. It complements the main task
 map; it does not authorise automatic merge or skipping user acceptance.
 
-## P1 — Versioned build configuration (current)
+## P1 — Versioned build configuration (PR #241, ready for acceptance)
 
 One explicit profile, package/partner ID, release version, public metadata,
 original brand/contacts and complete calculator capabilities. Build through the
@@ -16,7 +16,7 @@ Acceptance: real generated HTML and manifest, repeatable bytes, negative config
 and injection tests, unchanged source runtime, numeric/browser parity RU/EN/KK.
 This is infrastructure; the existing public download UI is not switched yet.
 
-## P2 — Partner application and consent
+## P2 — Partner application and consent (current)
 
 Add a secondary CTA, the same size as the download CTA, beneath the embedding
 explanation: “Become a Nomad360 Business Solutions partner” (EN canonical, then

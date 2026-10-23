@@ -1,0 +1,56 @@
+name: Partner application consent and isolated transport
+on:
+  pull_request:
+    paths:
+      - 'nomad360_partner*'
+      - 'Marketing_calc.HTML'
+      - 'US_Retail_Demo.HTML'
+      - 'tests/partner_application*'
+      - 'tests/helpers/partner-application-scope.cjs'
+      - 'tests/fixtures/partner-application/**'
+      - '.github/workflows/partner-application.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  partner-application:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+      - name: Syntax, payload allowlist, consent, exact source and numerical contracts
+        run: |
+          node --check nomad360_partner_application_model.js
+          node --check nomad360_partner_transport.js
+          node --check nomad360_partner_application.js
+          node --check tests/partner_application_browser.cjs
+          node --check tests/partner_application_live.cjs
+          node --test tests/partner_application.test.cjs tests/partner_application_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_refactor_scope.test.cjs tests/tax_draft_storage_scope.test.cjs tests/partner_build_scope.test.cjs
+          node scripts/localization/inventory.cjs --check
+      - name: Install pinned browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/partner-form-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/partner-form-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Compile deterministic existing utilities
+        run: |
+          mkdir -p artifacts/partner-application
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/partner-form.css
+          "$RUNNER_TEMP/partner-form-tools/node_modules/.bin/tailwindcss" -i /tmp/partner-form.css -o artifacts/partner-application/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: RU EN KK six-width two-entrypoint matrix with mocked transport only
+        env:
+          NODE_PATH: ${{ runner.temp }}/partner-form-tools/node_modules
+        run: node tests/partner_application_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: partner-application-${{ github.sha }}
+          path: |
+            artifacts/partner-application/protocol.json
+            artifacts/partner-application/*.png
+          retention-days: 14
