@@ -532,7 +532,7 @@ def main():
         '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/partner-package-build.yml',
         'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
-        'docs/architecture/partner-package-config.md',
+        'docs/architecture/partner-package-config.md', 'docs/nomad360-partner-distribution-plan.md',
         '.github/workflows/v1-engine-extraction.yml',
         'tests/marketing_calc_full_cycle.test.cjs', 'tests/marketing_calc_resale.test.cjs',
         'tests/marketing_calc_dropship.test.cjs', 'tests/marketing_calc_offline_service.test.cjs',
