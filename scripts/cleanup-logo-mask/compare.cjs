@@ -2,6 +2,7 @@
 // C2 paired presentation check. Source fixtures and financial formulae are unchanged.
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),A=require('node:assert/strict'),crypto=require('node:crypto'),zlib=require('node:zlib');
 const {chromium}=require('../palette/node_modules/playwright'),scope=require('../../tests/helpers/cleanup-logo-mask-scope.cjs'),{buildPackage}=require('../partners/build.cjs');
+const inherited=require('../../tests/helpers/cleanup-about-scope.cjs');
 const root=path.resolve(__dirname,'../..'),out=path.resolve(process.argv[2]||'artifacts/cleanup-c2'),baselineRoot=process.env.C2_BASELINE_ROOT;
 const timingOnly=process.argv.includes('--timing-only'),repetitions=timingOnly?9:3;
 const widths=[320,360,390,430,599,600,601,660,768,1199,1200,1280],languages=['ru','en','kk'];
@@ -22,8 +23,8 @@ async function snapshot(page){
  A.ok(baselineRoot,'Set C2_BASELINE_ROOT to a clean accepted checkout');A.equal(fs.readFileSync(path.join(baselineRoot,scope.file),'utf8'),scope.original);fs.mkdirSync(out,{recursive:true});
  const css=path.join(out,'utilities.css');A.ok(fs.existsSync(css),'Compile pinned utilities');const launch=()=>chromium.launch({headless:true,args:['--no-sandbox']});
  const config=require('../../tests/fixtures/partner-build/example.json'),before=await buildPackage(config,{repositoryRoot:baselineRoot,browserFactory:launch}),after=await buildPackage(config,{browserFactory:launch}),packages={before,after};
- const unchanged=p=>p.manifest.resources.filter(r=>r.path!==scope.file).sort((a,b)=>a.path.localeCompare(b.path));A.deepEqual(unchanged(before),unchanged(after));
- A.equal(Buffer.byteLength(before.html)-Buffer.byteLength(after.html),Buffer.byteLength(scope.removed));
+ const unchanged=p=>p.manifest.resources.filter(r=>r.path!==scope.file).map(inherited.normalizePackageResource).sort((a,b)=>a.path.localeCompare(b.path));A.deepEqual(unchanged(before),unchanged(after));
+ A.equal(Buffer.byteLength(before.html)-Buffer.byteLength(after.html),Buffer.byteLength(scope.removed)+inherited.packageDelta(before,after));
  const server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://local');let rel=decodeURIComponent(url.pathname).slice(1),variant=rel.startsWith('before/')?'before':'after';rel=rel.replace(/^(before|after)\//,'').replace(/^shelter-partner-directory\//,'');if(req.method!=='GET')throw Error('GET only');
  if(rel==='standalone.html'){res.setHeader('Content-Type','text/html');return res.end(packages[variant].html);}const file=path.resolve(root,rel);if(!file.startsWith(root+path.sep)||!fs.statSync(file).isFile())throw Error('file');res.setHeader('Content-Type',({'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.woff2':'font/woff2'})[path.extname(file)]||'application/octet-stream');res.end(rel===scope.file&&variant==='before'?scope.original:fs.readFileSync(file));}catch(_){res.writeHead(404);res.end();}});
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port,browser=await launch(),cases=[],timing=[];

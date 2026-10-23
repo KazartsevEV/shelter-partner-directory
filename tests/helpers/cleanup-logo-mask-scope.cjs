@@ -6,6 +6,7 @@ const original=execFileSync('git',['show',base+':'+file],{cwd:path.resolve(__dir
 A.equal(original.split(removed).length,3,'two exact declarations before C2');
 const candidate=original.replace(removed,'');
 function restore(name,source){
+ source=require('./cleanup-about-scope.cjs').restore(name,source);
  if(name!==file)return source;
  const text=source.toString();A.ok(text===original||text===candidate,'C2 permits only the exact early logo-mask duplicate deletion');
  return Buffer.isBuffer(source)?Buffer.from(original):original;

@@ -138,7 +138,6 @@
   -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 14%,#000 100%);
   mask-image:linear-gradient(90deg,transparent 0%,#000 14%,#000 100%);
  }
- #nomad360-information #nomad360-about{padding:37px 22px 0}
  #nomad360-information .nomad-info-block h2{
   font-size:clamp(30px,7.5vw,37px);margin-bottom:20px;
  }
@@ -527,11 +526,6 @@
   -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
   mask-image:linear-gradient(to bottom,#000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
   -webkit-mask-composite:initial;mask-composite:initial;
- }
- #nomad360-information.nomad-information::before{
-  /* Native-height render at ALL desktop widths; 3200×768 source covers 2560px.
-     The approved 1536×768 center remains intact at 1280px and 1440px. */
-  background-size:auto 640.6px;background-position:center top;background-repeat:no-repeat;
  }
  #nomad360-information.nomad-information::after{
   /* Soften the white cliffs behind the right-hand service card. Keep the
