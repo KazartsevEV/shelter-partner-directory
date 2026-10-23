@@ -41,3 +41,9 @@ CSS bridge for About/Consulting. It accepts only the old fixture bytes or the
 owner-accepted `6ce8298` bytes; arbitrary colour, layout or appended edits fail.
 The C2 application gate independently pins every other runtime/asset byte to
 `6ce8298`, so the bridge cannot hide an actual banner rollback or modification.
+
+For a larger paired timing sample without repeating the already completed
+visual matrix, run `node scripts/cleanup-logo-mask/compare.cjs artifacts/cleanup-c2 --timing-only`.
+It performs nine repeats per variant/width, checks the same real packages, and
+writes `timing-repeat.json` with an explicit `timing-only` profile. It does not
+replace or claim the 84-case visual protocol. CI runs both profiles.

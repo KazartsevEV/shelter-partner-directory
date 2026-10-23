@@ -3,6 +3,7 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),A=require('node:assert/strict'),crypto=require('node:crypto'),zlib=require('node:zlib');
 const {chromium}=require('../palette/node_modules/playwright'),scope=require('../../tests/helpers/cleanup-logo-mask-scope.cjs'),{buildPackage}=require('../partners/build.cjs');
 const root=path.resolve(__dirname,'../..'),out=path.resolve(process.argv[2]||'artifacts/cleanup-c2'),baselineRoot=process.env.C2_BASELINE_ROOT;
+const timingOnly=process.argv.includes('--timing-only'),repetitions=timingOnly?9:3;
 const widths=[320,360,390,430,599,600,601,660,768,1199,1200,1280],languages=['ru','en','kk'];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 async function settle(page){await page.evaluate(()=>document.fonts.ready);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));}
@@ -27,7 +28,7 @@ async function snapshot(page){
  if(rel==='standalone.html'){res.setHeader('Content-Type','text/html');return res.end(packages[variant].html);}const file=path.resolve(root,rel);if(!file.startsWith(root+path.sep)||!fs.statSync(file).isFile())throw Error('file');res.setHeader('Content-Type',({'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.woff2':'font/woff2'})[path.extname(file)]||'application/octet-stream');res.end(rel===scope.file&&variant==='before'?scope.original:fs.readFileSync(file));}catch(_){res.writeHead(404);res.end();}});
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port,browser=await launch(),cases=[],timing=[];
  try{
-  for(const entry of ['Marketing_calc.HTML','US_Retail_Demo.HTML','standalone.html'])for(const width of entry==='standalone.html'?[320,600,601,1280]:widths)for(const language of languages){
+  for(const entry of timingOnly?[]:['Marketing_calc.HTML','US_Retail_Demo.HTML','standalone.html'])for(const width of entry==='standalone.html'?[320,600,601,1280]:widths)for(const language of languages){
    const pair={};
    for(const variant of ['before','after']){
     const ctx=await browser.newContext({viewport:{width,height:950},reducedMotion:'reduce'}),page=await ctx.newPage(),errors=[];
@@ -48,11 +49,11 @@ async function snapshot(page){
    for(let i=0;i<pair.before.length;i++){const a=pair.before[i],b=pair.after[i];A.deepEqual({...a,screenshot:null},{...b,screenshot:null},[entry,width,language,a.view].join('/'));if(a.screenshot)A.equal(a.screenshot.sha256,b.screenshot.sha256,'unchanged PNG');}
    cases.push({entry,width,language,before:pair.before,after:pair.after});console.log('C2_CASE_GREEN',entry,width,language);
   }
-  for(const width of [390,1280])for(let repeat=0;repeat<3;repeat++)for(const variant of repeat%2?['after','before']:['before','after']){
+  for(const width of [390,1280])for(let repeat=0;repeat<repetitions;repeat++)for(const variant of repeat%2?['after','before']:['before','after']){
    const ctx=await browser.newContext({viewport:{width,height:950},reducedMotion:'reduce'}),page=await ctx.newPage(),cdp=await ctx.newCDPSession(page);await cdp.send('Performance.enable');await page.route('**/*',r=>r.request().url().startsWith(origin+'/')?r.continue():r.abort());const start=performance.now();await page.goto(origin+'/'+variant+'/Marketing_calc.HTML?lang=ru',{waitUntil:'domcontentloaded'});await page.addStyleTag({path:css});await page.waitForFunction(()=>window.Nomad360UI&&document.querySelector('.nomad-seo-logo-mask'));await settle(page);const readyMs=performance.now()-start;await cdp.send('HeapProfiler.collectGarbage');const m=Object.fromEntries((await cdp.send('Performance.getMetrics')).metrics.map(x=>[x.name,x.value]));timing.push({width,repeat,variant,readyMs,listeners:m.JSEventListeners,heapBytes:m.JSHeapUsedSize});await ctx.close();
   }
-  for(const width of [390,1280])for(let repeat=0;repeat<3;repeat++){const pair=timing.filter(x=>x.width===width&&x.repeat===repeat);A.equal(pair[0].listeners,pair[1].listeners);}
-  const size=s=>({bytes:Buffer.byteLength(s),gzip:zlib.gzipSync(s,{level:9}).length,brotli:zlib.brotliCompressSync(s).length});A.equal(cases.length,84);
-  const report={base:scope.base,cases,comparisons:cases.length*3,screenshotPairs:12,sizes:{before:size(scope.original),after:size(scope.candidate)},timing,packages:Object.fromEntries(Object.entries(packages).map(([k,p])=>[k,{revision:p.manifest.sourceRevision,bytes:Buffer.byteLength(p.html),resources:p.manifest.resources}]))};fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify(report,null,2)+'\n');console.log('C2_BROWSER_GREEN',JSON.stringify({cases:84,comparisons:252,screenshotPairs:12}));
+  for(const width of [390,1280])for(let repeat=0;repeat<repetitions;repeat++){const pair=timing.filter(x=>x.width===width&&x.repeat===repeat);A.equal(pair[0].listeners,pair[1].listeners);}
+  const size=s=>({bytes:Buffer.byteLength(s),gzip:zlib.gzipSync(s,{level:9}).length,brotli:zlib.brotliCompressSync(s).length});A.equal(cases.length,timingOnly?0:84);
+  const report={profile:timingOnly?'timing-only':'full',repetitions,base:scope.base,cases,comparisons:cases.length*3,screenshotPairs:timingOnly?0:12,sizes:{before:size(scope.original),after:size(scope.candidate)},timing,packages:Object.fromEntries(Object.entries(packages).map(([k,p])=>[k,{revision:p.manifest.sourceRevision,bytes:Buffer.byteLength(p.html),resources:p.manifest.resources}]))};fs.writeFileSync(path.join(out,timingOnly?'timing-repeat.json':'protocol.json'),JSON.stringify(report,null,2)+'\n');console.log(timingOnly?'C2_TIMING_GREEN':'C2_BROWSER_GREEN',JSON.stringify({cases:cases.length,comparisons:cases.length*3,screenshotPairs:timingOnly?0:12,repetitions}));
  }finally{await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e.stack);process.exitCode=1;});
