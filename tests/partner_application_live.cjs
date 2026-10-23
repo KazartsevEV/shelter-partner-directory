@@ -13,7 +13,15 @@ const {chromium}=require('playwright'),{createHash}=require('node:crypto');
  const proxy=process.env.HTTPS_PROXY||process.env.HTTP_PROXY;
  const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(proxy?{proxy:{server:proxy,bypass:'127.0.0.1,localhost'}}:{})}),page=await browser.newPage();
  try{
-  await page.route(/^https?:\/\//,r=>r.request().url().startsWith(base+'/')||r.request().url()===endpoint?r.continue():r.abort());
+  await page.route(/^https?:\/\//,async r=>{
+   if(r.request().url()===endpoint)return r.continue();
+   if(r.request().url().startsWith(base+'/')){
+    const file=path.resolve(root,'.'+decodeURIComponent(new URL(r.request().url()).pathname));
+    if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile())return r.fulfill({status:404,body:'Not found'});
+    return r.fulfill({status:200,contentType:({'.HTML':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'})[path.extname(file)]||'application/octet-stream',body:fs.readFileSync(file)});
+   }
+   return r.abort();
+  });
   await page.goto(base+'/Marketing_calc.HTML?lang=en',{waitUntil:'domcontentloaded'});await page.locator('#nomad360-lang-select').selectOption('en');
   await page.locator('[data-nomad-embed-toggle]').click();await page.locator('#nomad360-partner-trigger').click();
   const input={company:'TEST — Nomad360 partner form acceptance',activity:'Automated technical test, not a real partnership application.',intendedUse:'Verify the owner-supplied partner endpoint. No calculator model or personal customer data is included.',employees:'0',fullName:'Nomad360 technical test',email:'nomad260393@gmail.com'};
