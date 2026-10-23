@@ -31,15 +31,19 @@ async function financial(page){return page.evaluate(()=>{const model=calculatePr
    await trigger.click();await page.waitForFunction(()=>document.getElementById('nomad360-partner-dialog').open);
    const fieldStyle=await page.locator('#partner-activity').evaluate(e=>({border:getComputedStyle(e).borderTopWidth,padding:getComputedStyle(e).paddingLeft}));A.equal(fieldStyle.border,'1px');A.equal(fieldStyle.padding,'12px');
    A.equal(await page.locator('#partner-consentProcessing').isChecked(),false);A.equal(await page.locator('#partner-consentPublicProfile').isChecked(),false);
+   // Publish empty-state UI only. No entered contact/application values in screenshots.
+   A.equal(await page.evaluate(keys=>keys.every(key=>document.getElementById('partner-'+key).value===''),Object.keys(input)),true);
+   await page.locator('#nomad360-partner-dialog').evaluate(e=>e.scrollTop=0);
+   await page.screenshot({path:path.join(artifact,entry.replace('.HTML','')+'-'+language+'-'+width+'-top.png')});
+   await page.locator('#nomad360-partner-dialog').evaluate(e=>e.scrollTop=e.scrollHeight);
+   await page.screenshot({path:path.join(artifact,entry.replace('.HTML','')+'-'+language+'-'+width+'-bottom.png')});
+   await page.locator('[data-partner-close]').focus();await page.keyboard.press('Shift+Tab');A.equal(await page.evaluate(()=>!!document.activeElement.closest('#nomad360-partner-dialog')),true);
+   await page.keyboard.press('Tab');A.equal(await page.evaluate(()=>!!document.activeElement.closest('#nomad360-partner-dialog')),true);
    const submit=page.locator('#nomad360-partner-submit');await submit.click();A.equal(requests.length,0);A.equal(await page.locator('#partner-activity').getAttribute('aria-invalid'),'true');
    for(const [key,value] of Object.entries(input)){const field=page.locator('#partner-'+key);if(key==='clientSegment')await field.selectOption(value);else await field.fill(value);}
    await submit.click();A.equal(requests.length,0);A.equal(await page.locator('#partner-consentProcessing').getAttribute('aria-invalid'),'true');
    await page.locator('#partner-consentProcessing').check();
    const publish=(widths.indexOf(width)+langs.indexOf(language))%2===1;if(publish)await page.locator('#partner-consentPublicProfile').check();
-   await page.locator('#nomad360-partner-dialog').evaluate(e=>e.scrollTop=0);
-   await page.screenshot({path:path.join(artifact,entry.replace('.HTML','')+'-'+language+'-'+width+'-top.png')});
-   await page.locator('#nomad360-partner-dialog').evaluate(e=>e.scrollTop=e.scrollHeight);
-   await page.screenshot({path:path.join(artifact,entry.replace('.HTML','')+'-'+language+'-'+width+'-bottom.png')});
    // Preserve inputs/consents across real language rerenders and footer reconstruction.
    const other=language==='en'?'kk':'en';
    await page.evaluate(other=>Nomad360UI.setLanguage(other),other);

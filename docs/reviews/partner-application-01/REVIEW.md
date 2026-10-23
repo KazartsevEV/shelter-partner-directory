@@ -58,3 +58,15 @@ in the PR description and committed live evidence. Initial local live networking
 failed without a response; no success was shown. The execution environment's
 configured proxy/CA trust was then used for the controlled acceptance attempt.
 No claim of mailbox delivery or archive-code delivery is made from a handler ACK.
+
+
+## Recorded live acceptance
+
+A labelled synthetic application was accepted by the owner-supplied partner
+handler: HTTP 200, JSON `ok: true`, at `2026-10-23T08:00:19.813Z`.
+The implementation at `41bbf0883e24f8f9e5e015043c38fe7069bcb83d` is identified by
+UI/model/transport/CSS SHA-256 values in [live-acceptance.json](live-acceptance.json).
+The published evidence contains no application or contact field values.
+Review screenshots show the empty form only, before entering test data.
+Mailbox arrival, production deployment and archive-code delivery are separate
+checks and are not claimed from the handler ACK.
