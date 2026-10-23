@@ -15,7 +15,7 @@ test at tests/partner_build_scope.test.cjs:5:1
   AssertionError [ERR_ASSERTION]: nomad360_about_banner.css
   + actual - expected
   ... Skipped lines
-  
+
   + Buffer(30635) [Uint8Array] [
   - Buffer(30394) [Uint8Array] [
       47,
@@ -391,7 +391,7 @@ test at tests/partner_build_scope.test.cjs:5:1
       125,
       10
     ]
-  
+
       at TestContext.<anonymous> (/workspace/nomad360-c2-baseline/tests/partner_build_scope.test.cjs:8:28)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
