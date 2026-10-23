@@ -13,6 +13,7 @@ Compile the same utility CSS as the accepted tests into
 node --test tests/cleanup_service_grid.test.cjs
 node scripts/palette/build.cjs --check
 node scripts/cleanup/compare-service-grid.cjs artifacts/cleanup-c1
+node scripts/cleanup/verify-report.cjs artifacts/cleanup-c1/protocol.json
 ```
 
 The workflow contains the full reproducible commands and unchanged Excel/print

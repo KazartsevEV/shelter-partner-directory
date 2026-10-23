@@ -45,7 +45,9 @@ jobs:
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c1.css"
           scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c1.css" -o artifacts/cleanup-c1/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
       - name: Paired desktop/mobile/styles/numbers and real autonomous packages
-        run: node scripts/cleanup/compare-service-grid.cjs artifacts/cleanup-c1
+        run: |
+          node scripts/cleanup/compare-service-grid.cjs artifacts/cleanup-c1
+          node scripts/cleanup/verify-report.cjs artifacts/cleanup-c1/protocol.json
       - name: Unchanged actual Excel and print regression
         run: |
           cp artifacts/cleanup-c1/utilities.css artifacts/excel-utilities.css
