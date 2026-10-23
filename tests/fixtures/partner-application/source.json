@@ -1,0 +1,43 @@
+{
+  "base": "8a150115193b0e1117b6d12babfdf9e50ad15ae0",
+  "files": {
+    "Marketing_calc.HTML": {
+      "before": "1cebc8d28646d1a7e57c03b18b7d1b3669cf96870eb26b6f139bfa67a8287205",
+      "after": "e52a299d7cb344eb9547809a7c917ccf4a7ad8252a5701eace258975d1dc2843",
+      "replacements": [
+        [
+          "    <link rel=\"stylesheet\" href=\"./nomad360_bug_report.css\">",
+          "    <link rel=\"stylesheet\" href=\"./nomad360_bug_report.css\">\n    <link rel=\"stylesheet\" href=\"./nomad360_partner_application.css\">"
+        ],
+        [
+          "<script src=\"./nomad360_bug_report.js\"></script>",
+          "<script src=\"./nomad360_bug_report.js\"></script>\n<script src=\"./nomad360_partner_application_model.js\"></script>\n<script src=\"./nomad360_partner_transport.js\"></script>\n<script src=\"./nomad360_partner_application.js\"></script>"
+        ]
+      ],
+      "historical": [
+        "68201ecfb8ac0ff4c18785db60bb867b75ee39409ab592ff7842733a52f1e27f",
+        "20135b7594a34e29ecf26c6a63c847f4b34db53e0a3b5d8759aebf0bbf6e81d9",
+        "1cebc8d28646d1a7e57c03b18b7d1b3669cf96870eb26b6f139bfa67a8287205"
+      ]
+    },
+    "US_Retail_Demo.HTML": {
+      "before": "b448caa797f71f5b71198ed4ceaf5e4c0b2875eb26619c3abf0d2f968f68e2f6",
+      "after": "b6eaba8e38ffca2e5ba4ea0ec1df4e239ea804416001a022a6590066e3e6284a",
+      "replacements": [
+        [
+          "    <link rel=\"stylesheet\" href=\"./nomad360_bug_report.css\">",
+          "    <link rel=\"stylesheet\" href=\"./nomad360_bug_report.css\">\n    <link rel=\"stylesheet\" href=\"./nomad360_partner_application.css\">"
+        ],
+        [
+          "<script src=\"./nomad360_bug_report.js\"></script>",
+          "<script src=\"./nomad360_bug_report.js\"></script>\n<script src=\"./nomad360_partner_application_model.js\"></script>\n<script src=\"./nomad360_partner_transport.js\"></script>\n<script src=\"./nomad360_partner_application.js\"></script>"
+        ]
+      ],
+      "historical": [
+        "36da913425d973a471aceae74dd3a2259872124bee729df5820f207ba7b03d03",
+        "11dc1dfa24876b5ee4d37ca68b020709466fef62e0a5ad362c4bcbb82710a0d2",
+        "1556bb0941eaee8105d308401f373252fcf52ee3e1ca3adfc0157ea6e1858bb8"
+      ]
+    }
+  }
+}

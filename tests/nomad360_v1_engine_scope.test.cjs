@@ -30,7 +30,7 @@ test('all 18 extracted financial functions remain byte-identical to accepted mai
    .replace('    <script src="./nomad360_v1_engine.js"></script>\n','');
   A.equal(reverted,old,file+': changed outside the reviewed engine boundary');
   A.equal(restore(file,current),old);
-  A.throws(()=>restore(file,current.replace('calculateProductPortfolio()','calculateChanged()')),/Unreviewed (?:V1 extraction|tax\/draft storage)/);
+  A.throws(()=>restore(file,current.replace('calculateProductPortfolio()','calculateChanged()')),/Unreviewed (?:V1 extraction|tax\/draft storage|partner application HTML)/);
  }
 });
 test('canonical engine has no browser, persistence, transport or localization dependencies',()=>{

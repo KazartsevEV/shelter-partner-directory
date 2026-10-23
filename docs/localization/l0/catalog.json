@@ -3,8 +3,8 @@
   "sources": [
     {
       "file": "Marketing_calc.HTML",
-      "sha256": "b378f6421084aeb2faf192edc924eaeabeb9f0f86036d0065a29fb9c1facf9e1",
-      "bytes": 516140,
+      "sha256": "a51e0a7ffcf4d8a861823697331ef0e81f7d3e5684a6f51764b69b24bfb80598",
+      "bytes": 516388,
       "owner": "Marketing_calc.HTML"
     },
     {
@@ -90,6 +90,30 @@
       "sha256": "d8538ea4e8313d8826c3d0d54df9e09a52509d8f834c339cb1908a30f4f6ff6f",
       "bytes": 282757,
       "owner": "nomad360_palette.css"
+    },
+    {
+      "file": "nomad360_partner_application.css",
+      "sha256": "11b9b443814f06e069543ce970dd2b6b89881e209283fe3a4b4f92c1737c927f",
+      "bytes": 4565,
+      "owner": "nomad360_partner_application.css"
+    },
+    {
+      "file": "nomad360_partner_application.js",
+      "sha256": "dc8e2e019d2d021e799defd1af8f1baea16f22119771192826da232b3de2b855",
+      "bytes": 17334,
+      "owner": "nomad360_partner_application.js"
+    },
+    {
+      "file": "nomad360_partner_application_model.js",
+      "sha256": "ef5a4dff7b52ee014a1e849fe9613f061cb1712d70ab08eea8024f6faf277fa9",
+      "bytes": 2559,
+      "owner": "nomad360_partner_application_model.js"
+    },
+    {
+      "file": "nomad360_partner_transport.js",
+      "sha256": "3756b61f37ca4c0e1a14e4124cb3f72c0323106561ba060c31acceddbcf23364",
+      "bytes": 1196,
+      "owner": "nomad360_partner_transport.js"
     },
     {
       "file": "nomad360_payment_ui.js",
@@ -264,7 +288,7 @@
     {
       "id": "Marketing_calc.HTML:labels:19956:button",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "button",
       "translations": {
@@ -276,7 +300,7 @@
     {
       "id": "Marketing_calc.HTML:labels:19956:desc",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "desc",
       "translations": {
@@ -288,7 +312,7 @@
     {
       "id": "Marketing_calc.HTML:labels:19956:intro",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "intro",
       "translations": {
@@ -300,7 +324,7 @@
     {
       "id": "Marketing_calc.HTML:labels:19956:offline",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "offline",
       "translations": {
@@ -312,7 +336,7 @@
     {
       "id": "Marketing_calc.HTML:labels:19956:online",
       "file": "Marketing_calc.HTML",
-      "line": 1983,
+      "line": 1984,
       "kind": "module-key",
       "key": "online",
       "translations": {
@@ -24550,6 +24574,438 @@
       }
     },
     {
+      "id": "nomad360_partner_application.js:COPY:450:activity",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "activity",
+      "translations": {
+        "ru": "Чем занимается ваш бизнес? *",
+        "en": "What does your business do? *",
+        "kk": "Бизнесіңіз немен айналысады? *"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:business",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "business",
+      "translations": {
+        "ru": "О вашем бизнесе",
+        "en": "Your business",
+        "kk": "Бизнесіңіз туралы"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:choose",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "choose",
+      "translations": {
+        "ru": "Выберите сегмент",
+        "en": "Select a segment",
+        "kk": "Сегментті таңдаңыз"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:clientSegment",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "clientSegment",
+      "translations": {
+        "ru": "Основной сегмент клиентов *",
+        "en": "Main client segment *",
+        "kk": "Клиенттердің негізгі сегменті *"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:close",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "close",
+      "translations": {
+        "ru": "Закрыть",
+        "en": "Close",
+        "kk": "Жабу"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:company",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "company",
+      "translations": {
+        "ru": "Название компании (необязательно)",
+        "en": "Company name (optional)",
+        "kk": "Компания атауы (міндетті емес)"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:consentProcessing",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "consentProcessing",
+      "translations": {
+        "ru": "Согласен на обработку этих сведений Nomad360 для рассмотрения заявки и связи со мной.",
+        "en": "I consent to Nomad360 processing these details to review my application and contact me.",
+        "kk": "Өтінімді қарау және менімен байланысу үшін осы деректерді Nomad360 өңдеуіне келісемін."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:consentPublicProfile",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "consentPublicProfile",
+      "translations": {
+        "ru": "После проверки Nomad360 может разместить название моей компании, сайт и сферу деятельности в каталоге партнёров. Мои личные контактные данные останутся закрытыми.",
+        "en": "After review, Nomad360 may publish my company name, website and business activity in its partner directory. My personal contact details will stay private.",
+        "kk": "Тексеруден кейін Nomad360 компаниямның атауын, сайтын және қызмет саласын серіктестер каталогында жариялай алады. Жеке байланыс деректерім құпия қалады."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:consentRequired",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "consentRequired",
+      "translations": {
+        "ru": "Для отправки необходимо согласие на обработку данных.",
+        "en": "Consent to processing is required to send the application.",
+        "kk": "Жіберу үшін деректерді өңдеуге келісім қажет."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:contact",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "contact",
+      "translations": {
+        "ru": "Контактные данные",
+        "en": "Contact details",
+        "kk": "Байланыс деректері"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:email",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "email",
+      "translations": {
+        "ru": "Почта *",
+        "en": "Email *",
+        "kk": "Email *"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:employees",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "employees",
+      "translations": {
+        "ru": "Количество сотрудников *",
+        "en": "Number of employees *",
+        "kk": "Қызметкерлер саны *"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:failure",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "failure",
+      "translations": {
+        "ru": "Не удалось отправить заявку. Введённые данные сохранены в форме. Попробуйте ещё раз.",
+        "en": "The application could not be sent. Your entries are still here. Please try again.",
+        "kk": "Өтінім жіберілмеді. Енгізілген деректер нысанда сақталды. Қайталап көріңіз."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:fullName",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "fullName",
+      "translations": {
+        "ru": "ФИО *",
+        "en": "Full name *",
+        "kk": "Аты-жөніңіз *"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:intendedUse",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "intendedUse",
+      "translations": {
+        "ru": "Как хотите использовать наш продукт? *",
+        "en": "How would you use our product? *",
+        "kk": "Өнімімізді қалай пайдаланғыңыз келеді? *"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:intro",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "intro",
+      "translations": {
+        "ru": "Расскажите о своём бизнесе и о том, как хотите использовать калькулятор. Поля со знаком * обязательны.",
+        "en": "Tell us about your business and how you would like to use our calculator. Fields marked * are required.",
+        "kk": "Бизнесіңіз және калькуляторды қалай пайдаланғыңыз келетіні туралы айтыңыз. * белгісі бар өрістер міндетті."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:invalid",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "invalid",
+      "translations": {
+        "ru": "Укажите корректное значение.",
+        "en": "Please enter a valid value.",
+        "kk": "Дұрыс мәнді енгізіңіз."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:phoneMessenger",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "phoneMessenger",
+      "translations": {
+        "ru": "Телефон или мессенджер (необязательно)",
+        "en": "Phone or messenger (optional)",
+        "kk": "Телефон немесе мессенджер (міндетті емес)"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:privacy",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "privacy",
+      "translations": {
+        "ru": "Заявка и выбранные согласия поступят в Nomad360 через Formspree. Провайдер может получать IP-адрес и домен сайта. Данные калькулятора и сохранённые расчёты не передаются. Для исправления или удаления заявки напишите на",
+        "en": "Your application and consent choices will be sent to Nomad360 through Formspree. The provider may receive your IP address and site origin. Calculator inputs and saved drafts are not sent. To correct or delete your application, email",
+        "kk": "Өтінім мен таңдалған келісімдер Nomad360 қызметіне Formspree арқылы жіберіледі. Провайдер IP-мекенжай мен сайт доменін алуы мүмкін. Калькулятор деректері мен сақталған есептер жіберілмейді. Өтінімді түзету немесе жою үшін мына email мекенжайына жазыңыз:"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:rejected",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "rejected",
+      "translations": {
+        "ru": "Сервис отклонил заявку. Проверьте поля и повторите отправку.",
+        "en": "The form service rejected the application. Check your entries and try again.",
+        "kk": "Қызмет өтінімді қабылдамады. Өрістерді тексеріп, қайта жіберіңіз."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:required",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "required",
+      "translations": {
+        "ru": "Заполните это поле.",
+        "en": "Please complete this field.",
+        "kk": "Бұл өрісті толтырыңыз."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:role",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "role",
+      "translations": {
+        "ru": "Должность (необязательно)",
+        "en": "Role (optional)",
+        "kk": "Лауазымыңыз (міндетті емес)"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:segments.0",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "segments.0",
+      "translations": {
+        "ru": "Самозанятые / микробизнес",
+        "en": "Self-employed / micro businesses",
+        "kk": "Өзін-өзі жұмыспен қамтығандар / микробизнес"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:segments.1",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "segments.1",
+      "translations": {
+        "ru": "Малый бизнес",
+        "en": "Small businesses",
+        "kk": "Шағын бизнес"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:segments.2",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "segments.2",
+      "translations": {
+        "ru": "Средний бизнес",
+        "en": "Medium-sized businesses",
+        "kk": "Орта бизнес"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:segments.3",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "segments.3",
+      "translations": {
+        "ru": "Крупный бизнес",
+        "en": "Large businesses",
+        "kk": "Ірі бизнес"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:segments.4",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "segments.4",
+      "translations": {
+        "ru": "Бизнесы разного размера",
+        "en": "Mixed business sizes",
+        "kk": "Көлемі әртүрлі бизнестер"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:segments.5",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "segments.5",
+      "translations": {
+        "ru": "Частные лица",
+        "en": "Individuals",
+        "kk": "Жеке тұлғалар"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:send",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "send",
+      "translations": {
+        "ru": "Отправить заявку",
+        "en": "Send application",
+        "kk": "Өтінімді жіберу"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:sending",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "sending",
+      "translations": {
+        "ru": "Отправляем…",
+        "en": "Sending…",
+        "kk": "Жіберілуде…"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:success",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "success",
+      "translations": {
+        "ru": "Спасибо! Заявка получена. Мы свяжемся с вами по указанной почте.",
+        "en": "Thank you! Your application has been received. We will contact you at the email you provided.",
+        "kk": "Рақмет! Өтініміңіз қабылданды. Көрсетілген email арқылы хабарласамыз."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:title",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "title",
+      "translations": {
+        "ru": "Заявка на партнёрство",
+        "en": "Partner application",
+        "kk": "Серіктестікке өтінім"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:tooMany",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "tooMany",
+      "translations": {
+        "ru": "Слишком много запросов. Повторите позже.",
+        "en": "Too many requests. Please try again later.",
+        "kk": "Сұрау тым көп. Кейінірек қайталаңыз."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:trigger",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "trigger",
+      "translations": {
+        "ru": "Стать партнёром Nomad360 Business Solutions",
+        "en": "Become a Nomad360 Business Solutions partner",
+        "kk": "Nomad360 Business Solutions серіктесі болу"
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:unavailable",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "unavailable",
+      "translations": {
+        "ru": "Приём заявок пока не подключён. Форму можно посмотреть, отправка недоступна.",
+        "en": "Applications are not connected yet. You can review the form; sending is unavailable.",
+        "kk": "Өтінім қабылдау әлі қосылмаған. Нысанды көруге болады, жіберу қолжетімсіз."
+      }
+    },
+    {
+      "id": "nomad360_partner_application.js:COPY:450:website",
+      "file": "nomad360_partner_application.js",
+      "line": 8,
+      "kind": "module-key",
+      "key": "website",
+      "translations": {
+        "ru": "Сайт компании (необязательно)",
+        "en": "Company website (optional)",
+        "kk": "Компания сайты (міндетті емес)"
+      }
+    },
+    {
       "id": "nomad360_payment_ui.js:words:241:business",
       "file": "nomad360_payment_ui.js",
       "line": 5,
@@ -27975,6 +28431,21 @@
       "file": "entries/nomad360_palette.css/001.json",
       "owner": "nomad360_palette.css",
       "count": 2
+    },
+    {
+      "file": "entries/nomad360_partner_application.js/001.json",
+      "owner": "nomad360_partner_application.js",
+      "count": 255
+    },
+    {
+      "file": "entries/nomad360_partner_application_model.js/001.json",
+      "owner": "nomad360_partner_application_model.js",
+      "count": 31
+    },
+    {
+      "file": "entries/nomad360_partner_transport.js/001.json",
+      "owner": "nomad360_partner_transport.js",
+      "count": 17
     },
     {
       "file": "entries/nomad360_payment_ui.js/001.json",

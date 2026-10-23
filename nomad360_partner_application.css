@@ -1,0 +1,38 @@
+@layer nomad360-partner-important,nomad360-palette-important,nomad360-palette;
+#nomad360-embed .nomad-partner-actions{display:grid;grid-auto-rows:1fr;gap:12px}
+/* Partnership form only. Approved Nomad360 paints, original Inter. */
+#nomad360-embed .nomad-partner-trigger{margin-top:0;min-height:48px;width:100%;box-sizing:border-box;background:#FFFFFF!important;color:#173B58!important;--p10-fg:#173B58;--p10-line:#173B58;border:2px solid #173B58!important;font:600 16px/1.45 var(--nd-font,Inter,system-ui,sans-serif)}
+#nomad360-embed .nomad-partner-trigger:hover,#nomad360-embed .nomad-partner-trigger:active{background:#173B58!important;color:#FFFFFF!important;--p10-fg:#FFFFFF}
+#nomad360-partner-dialog{box-sizing:border-box;width:min(680px,calc(100vw - 24px));max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);overflow-y:auto;overscroll-behavior:contain;padding:clamp(16px,3vw,28px);border:2px solid #173B58;border-radius:12px;background:#FFFFFF;color:#173B58;--p10-fg:#173B58;--p10-line:#38678B;font:400 16px/1.5 var(--nd-font,Inter,system-ui,sans-serif)}
+#nomad360-partner-dialog[open]{position:fixed;inset:0;margin:auto}
+#nomad360-partner-dialog::backdrop{background:#173B58}
+#nomad360-partner-dialog .nomad-partner-heading{display:flex;align-items:start;justify-content:space-between;gap:12px}
+#nomad360-partner-dialog h2{margin:0;font-size:24px;line-height:1.3}
+#nomad360-partner-dialog .nomad-partner-close{flex:none;min-height:44px;min-width:44px;padding:0;border:2px solid #173B58;background:#FFFFFF;color:#173B58;font:600 28px/1 var(--nd-font,Inter,system-ui,sans-serif)}
+#nomad360-partner-dialog fieldset{min-width:0;padding:0;border:0;margin:22px 0}
+#nomad360-partner-dialog legend{font-size:20px;font-weight:600;padding:0}
+#nomad360-partner-dialog .nomad-partner-field{min-width:0;margin:14px 0}
+#nomad360-partner-dialog label{display:block;margin:0 0 5px;font-weight:600}
+#nomad360-partner-dialog :is(input:not([type="checkbox"]),select,textarea){display:block;box-sizing:border-box;min-width:0;width:100%;max-width:100%;min-height:44px;padding:10px 12px;border:1px solid #38678B;border-radius:6px;background:#FFFFFF;color:#173B58;font:400 16px/1.5 var(--nd-font,Inter,system-ui,sans-serif)}
+#nomad360-partner-dialog textarea{resize:vertical}
+#nomad360-partner-dialog .nomad-partner-privacy{padding:12px;border:1px solid #38678B;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+#nomad360-partner-dialog label.nomad-partner-check{display:flex;gap:12px;align-items:flex-start;margin:18px 0;font-weight:400}
+#nomad360-partner-dialog input[type="checkbox"]{flex:none;min-width:20px;min-height:20px;margin:3px 0;accent-color:#173B58}
+#nomad360-partner-dialog .nomad-partner-error{margin:5px 0;font-size:14px;font-weight:600}
+#nomad360-partner-dialog [hidden]{display:none!important}
+#nomad360-partner-dialog #nomad360-partner-submit{min-height:48px;width:100%;padding:12px;border:2px solid #173B58;background:#FF913F!important;color:#173B58!important;--p10-fg:#173B58;font:600 16px/1.5 var(--nd-font,Inter,system-ui,sans-serif)}
+#nomad360-partner-dialog #nomad360-partner-submit:active{background:#173B58!important;color:#FFFFFF!important;--p10-fg:#FFFFFF}
+#nomad360-partner-dialog :is(button,input,textarea,select,a):focus-visible{outline:3px solid #173B58;outline-offset:3px}
+#nomad360-partner-dialog button:disabled{opacity:1;border-style:dashed;cursor:not-allowed}
+#nomad360-partner-status{min-height:24px;font-weight:600;overflow-wrap:anywhere}
+
+/* Important paints use an earlier layer than the generated palette; geometry
+   stays unlayered so Tailwind's reset cannot remove field borders or padding. */
+@layer nomad360-partner-important {
+ #nomad360-partner-dialog{background:#FFFFFF!important;color:#173B58!important;--p10-fg:#173B58!important;--p10-line:#38678B!important}
+ #nomad360-partner-dialog :is(input:not([type="checkbox"]),select,textarea){background:#FFFFFF!important;color:#173B58!important;--p10-fg:#173B58!important}
+ #nomad360-partner-dialog #nomad360-partner-submit{background:#FF913F!important;color:#173B58!important;--p10-fg:#173B58!important}
+ #nomad360-partner-dialog #nomad360-partner-submit:active{background:#173B58!important;color:#FFFFFF!important;--p10-fg:#FFFFFF!important}
+ #nomad360-embed .nomad-partner-trigger{background:#FFFFFF!important;color:#173B58!important;--p10-fg:#173B58!important;border-color:#173B58!important}
+ #nomad360-embed .nomad-partner-trigger:hover,#nomad360-embed .nomad-partner-trigger:active{background:#173B58!important;color:#FFFFFF!important;--p10-fg:#FFFFFF!important}
+}
