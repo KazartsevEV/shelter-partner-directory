@@ -3,7 +3,7 @@
 const A=require('node:assert/strict'),fs=require('node:fs'),cp=require('node:child_process');
 const file='nomad360_calculator_ui.css';
 const baseline=cp.execFileSync('git',['show','origin/main:'+file],{encoding:'utf8',maxBuffer:8e6});
-const present=fs.readFileSync(file,'utf8');
+const present=require('./cleanup-logo-mask-scope.cjs').restore(file,fs.readFileSync(file,'utf8'));
 const marker='\n/* PINNED-CONTROLS-01: desktop header and mobile floating navigation, no financial layout changes. */';
 A.equal(present.split(marker).length,2,'exactly one appended nav-only section');
 const withoutLogo=require('./task10-logo-scope.cjs').stripTask10Logo(file,present);

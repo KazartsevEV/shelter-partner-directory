@@ -153,7 +153,7 @@ def main():
     }
     for name, expected in manifest['files'].items():
         raw = (ROOT / name).read_bytes()
-        if name in ('nomad360_design_system.css', 'Marketing_calc.HTML', 'nomad360_header.js',
+        if name in ('nomad360_calculator_ui.css', 'nomad360_design_system.css', 'Marketing_calc.HTML', 'nomad360_header.js',
                     'portfolio_v2_ui.js', 'portfolio_v2_linked_ui.js',
                     'nomad360_irbis_banner.js'):
             # The architecture PR moves only persistence/delivery boundaries.
@@ -480,6 +480,7 @@ def main():
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
                              'scripts/cleanup/', 'docs/reviews/cleanup-service-grid-01/',
+                             'scripts/cleanup-logo-mask/', 'docs/reviews/cleanup-logo-mask-02/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
                              'scripts/audit/', 'docs/reviews/runtime-audit-01/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
@@ -539,6 +540,7 @@ def main():
         'tests/tax_draft_storage_scope.test.cjs', 'tests/tax_draft_storage_browser.cjs',
         '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/partner-package-build.yml',
+        'tests/cleanup_logo_mask.test.cjs', 'tests/helpers/cleanup-logo-mask-scope.cjs', '.github/workflows/cleanup-logo-mask.yml',
         'nomad360_design_system.css', 'tests/cleanup_service_grid.test.cjs', 'tests/helpers/cleanup-service-grid-scope.cjs', '.github/workflows/cleanup-service-grid.yml',
         'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
         'docs/architecture/partner-package-config.md', 'docs/nomad360-partner-distribution-plan.md',
