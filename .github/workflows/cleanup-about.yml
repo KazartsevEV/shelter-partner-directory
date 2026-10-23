@@ -31,6 +31,20 @@ jobs:
           npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
           scripts/palette/node_modules/.bin/playwright install --with-deps chromium
           git worktree add --detach "$C3_BASELINE_ROOT" c45187fa5190ee6ce4bc88a6266337439867a8f6
+      - name: Reproduce the old asymmetric guard on accepted main
+        run: |
+          mkdir -p artifacts/cleanup-c3
+          cd "$C3_BASELINE_ROOT"
+          node - <<'JS' > "$GITHUB_WORKSPACE/artifacts/cleanup-c3/main-pinned-guard-red.log"
+          let rejected=false;
+          try{require('./tests/helpers/pinned-controls-css-scope.cjs');}
+          catch(e){
+            if(e.code!=='ERR_ASSERTION'||!e.message.startsWith('approved CSS must be byte-identical'))throw Error('Unexpected baseline error: '+e.message.split('\n')[0]);
+            rejected=true;console.log('ACCEPTED_MAIN_PINNED_GUARD_RED_CONFIRMED',e.message.split('\n')[0]);
+          }
+          if(!rejected)throw Error('Expected the asymmetric pre-C3 guard to reject merged C2');
+          JS
+          cat "$GITHUB_WORKSPACE/artifacts/cleanup-c3/main-pinned-guard-red.log"
       - name: Exact source, negative guards, original image and financial contracts
         run: |
           node --check scripts/cleanup-about/compare.cjs
@@ -55,4 +69,5 @@ jobs:
           path: |
             artifacts/cleanup-c3/*.json
             artifacts/cleanup-c3/*.png
+            artifacts/cleanup-c3/*.log
           retention-days: 14

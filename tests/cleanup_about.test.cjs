@@ -19,6 +19,9 @@ test('C3 removes the early copies while retaining later rules and all intervenin
 test('C3 rejects changed colours, fonts, source image, geometry, later-copy deletion and extra bytes',()=>{
  A.equal(s.restore(s.file,s.candidate),s.original);A.deepEqual(s.restore(s.file,Buffer.from(s.candidate)),Buffer.from(s.original));
  for(const source of [s.candidate+'\n',s.candidate.replace('#173B58','#173B59'),s.candidate.replace('Inter','Arial'),s.candidate.replace('padding:37px 22px 0','padding:38px 22px 0'),s.candidate.replace(s.mobile,''),s.candidate.replace('about-moonlight-horizontal-only-3200x768.svg','other.svg')])A.throws(()=>s.restore(s.file,source),/C3 permits only/);
+ const late=s.original.lastIndexOf(s.mobile);
+ const wrongCopy=(s.original.slice(0,late)+s.original.slice(late+s.mobile.length)).replace(s.desktop,'');
+ A.throws(()=>s.restore(s.file,wrongCopy),/C3 permits only/,'Deleting the later copy is not authorized');
  A.equal(s.restore('unrelated.js','untouched'),'untouched');
  const historic=require('./helpers/partner-application-scope.cjs');
  A.deepEqual(historic.restore(s.file,Buffer.from(s.candidate)),historic.restore(s.file,Buffer.from(s.original)));
