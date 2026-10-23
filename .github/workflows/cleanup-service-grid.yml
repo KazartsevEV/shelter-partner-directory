@@ -1,0 +1,64 @@
+name: C1 service grid paired cleanup acceptance
+on:
+  pull_request:
+    paths:
+      - 'nomad360_design_system.css'
+      - 'scripts/cleanup/**'
+      - 'tests/cleanup_service_grid.test.cjs'
+      - 'tests/helpers/cleanup-service-grid-scope.cjs'
+      - 'tests/helpers/refactor-boundaries-scope.cjs'
+      - 'docs/reviews/cleanup-service-grid-01/**'
+      - '.github/workflows/cleanup-service-grid.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  service-grid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+      C1_BASELINE_ROOT: ${{ github.workspace }}/.c1-baseline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Existing lock-pinned tooling and accepted baseline
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+          git worktree add --detach "$C1_BASELINE_ROOT" c4536e9edd60003efb0a9087ec60915d4c070bdd
+      - name: Strict deletion contract, historical guards and numeric oracles
+        run: |
+          node --check scripts/cleanup/compare-service-grid.cjs
+          node scripts/palette/build.cjs --check
+          node --test tests/cleanup_service_grid.test.cjs tests/task10_palette_source.test.cjs tests/nomad360_marketing_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_full_service.test.cjs tests/portfolio_v2_full_service_linked.test.cjs tests/nomad360_price_export.test.cjs
+          node tests/sales_tax_7b_baseline.cjs
+          python scripts/seo/check_phase_a.py
+      - name: Compile pinned utilities
+        run: |
+          mkdir -p artifacts/cleanup-c1
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c1.css"
+          scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c1.css" -o artifacts/cleanup-c1/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Paired desktop/mobile/styles/numbers and real autonomous packages
+        run: node scripts/cleanup/compare-service-grid.cjs artifacts/cleanup-c1
+      - name: Unchanged actual Excel and print regression
+        run: |
+          cp artifacts/cleanup-c1/utilities.css artifacts/excel-utilities.css
+          node tests/nomad360_price_export_browser.test.cjs
+          node tests/sales_tax_7b5_v1_pdf_browser.cjs | tee artifacts/cleanup-c1/pdf-projection.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cleanup-c1-${{ github.sha }}
+          path: |
+            artifacts/cleanup-c1/*.json
+            artifacts/cleanup-c1/*.png
+            artifacts/cleanup-c1/*.log
+            artifacts/excel/*.json
+            artifacts/excel/*.xlsx
+          retention-days: 14

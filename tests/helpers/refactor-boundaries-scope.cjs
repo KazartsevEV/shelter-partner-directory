@@ -28,6 +28,7 @@ function verify(file,source){
   return source;
 }
 function restore(file,source){
+  source=require('./cleanup-service-grid-scope.cjs').restore(file,source);
   source=require('./partner-application-scope.cjs').restore(file,source);
   source=require('./tax-draft-storage-scope.cjs').restore(file,source);
   verify(file,source);
