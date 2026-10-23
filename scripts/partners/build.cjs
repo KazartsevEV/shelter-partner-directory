@@ -3,7 +3,7 @@ const fs=require('node:fs/promises'),path=require('node:path'),http=require('nod
 const {execFileSync}=require('node:child_process');
 const {normalize,sha256}=require('./config.cjs');
 const root=path.resolve(__dirname,'../..');
-const mime={'.html':'text/html','.HTML':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
+const mime={'.html':'text/html; charset=utf-8','.HTML':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
 async function buildPackage(input,{repositoryRoot=root,browserFactory}={}){
  const config=normalize(input); // Reject unknown or unsupported settings before any network/file output.
  const revision=execFileSync('git',['rev-parse','HEAD'],{cwd:repositoryRoot,encoding:'utf8'}).trim();
@@ -13,7 +13,7 @@ async function buildPackage(input,{repositoryRoot=root,browserFactory}={}){
  const server=http.createServer(async(req,res)=>{
   try{
    const url=new URL(req.url,'http://localhost');
-   if(url.pathname==='/__partner_builder__'){res.setHeader('Content-Type','text/html');return res.end('<!doctype html><title>Build</title>');}
+   if(url.pathname==='/__partner_builder__'){res.setHeader('Content-Type','text/html; charset=utf-8');return res.end('<!doctype html><meta charset="utf-8"><title>Build</title>');}
    const relative=decodeURIComponent(url.pathname).slice(1);
    if(relative.split('/').some(p=>p.startsWith('.')||p==='..'))throw Error('Invalid path');
    const file=path.resolve(repositoryRoot,relative);if(!file.startsWith(repositoryRoot+path.sep))throw Error('Outside build root');
@@ -55,7 +55,7 @@ async function buildPackage(input,{repositoryRoot=root,browserFactory}={}){
   const assetList=[...resources.values()].sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
   if(!assetList.some(x=>x.path==='nomad360_v1_engine.js')||!assetList.some(x=>x.path==='portfolio_v2_engine.js'))throw Error('Incomplete financial sources');
   // Check fetched bytes against the exact source checkout, not just response metadata.
-  for(const record of assetList){if(!tracked.has(record.path))throw Error('Untracked source resource: '+record.path);const bytes=await fs.readFile(path.join(repositoryRoot,record.path));if(sha256(bytes)!==record.sha256)throw Error('Source/resource mismatch: '+record.path);}
+  for(const record of assetList){if(!tracked.has(record.path))throw Error('Untracked source resource: '+record.path);const bytes=await fs.readFile(path.join(repositoryRoot,record.path));if(sha256(bytes)!==record.sha256)throw Error('Source/resource mismatch: '+record.path+' (response '+record.bytes+' bytes, source '+bytes.length+' bytes)');}
   const finalRevision=execFileSync('git',['rev-parse','HEAD'],{cwd:repositoryRoot,encoding:'utf8'}).trim();
   if(finalRevision!==revision||execFileSync('git',['status','--porcelain','--untracked-files=no'],{cwd:repositoryRoot,encoding:'utf8'}).trim())throw Error('Source checkout changed during build');
   const filename=config.packageId+'.html';
