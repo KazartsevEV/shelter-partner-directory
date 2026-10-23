@@ -475,6 +475,7 @@ def main():
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
+                             'docs/reviews/partner-release-preview-01/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
                              'docs/reviews/about-vector-218/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
@@ -538,6 +539,8 @@ def main():
         'docs/nomad360-production-readiness-plan.md',
         'docs/partners/partner-release-copy.md',
         'docs/reviews/production-readiness-01/REVIEW.md',
+        'tests/partner_release_preview.test.cjs', 'tests/partner_release_preview_browser.cjs',
+        '.github/workflows/partner-release-preview.yml',
         'nomad360_partner_application.js', 'nomad360_partner_application_model.js', 'nomad360_partner_transport.js', 'nomad360_partner_application.css',
         'tests/partner_application.test.cjs', 'tests/partner_application_browser.cjs', 'tests/partner_application_scope.test.cjs',
         'tests/helpers/partner-application-scope.cjs', '.github/workflows/partner-application.yml', 'tests/partner_application_live.cjs',
