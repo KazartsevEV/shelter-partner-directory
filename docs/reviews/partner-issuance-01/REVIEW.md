@@ -1,0 +1,34 @@
+# P3 — private partner issuance implementation
+
+Base: merged PR #242, `d7df6102f8961e83e5eea78c91ae4d9fd0d55bae`.
+Owner choice: Gmail `nomad260393@gmail.com`; applications/issuance registry on
+their private Google Drive. No website runtime or financial code changes.
+
+Implemented: independent package/vault/state/mail/registry adapters, one-time
+email confirmation, explicit operator review, complete-package provenance,
+AES-256 ZIP, Google owner checks, private Drive upload, Gmail MIME/attachments,
+literal Google Sheet values and an explicit private operator command entrypoint.
+
+The actual private Google Sheet has instructions plus three native tables:
+applications, issuances and events. Sharing was read back: owner only. Its IDs
+and application/contact data are excluded from the public repo. No real partner
+application was invented; one technical delivery is clearly labelled as a test.
+
+A real calculator ZIP and manifest were encrypted and independently extracted
+with pyzipper. Both files reject a wrong password. Extracted HTML equals the
+accepted build. A private Drive copy and one owner-directed Gmail message were
+created with the connected tools; the sent message was read back with INBOX and
+SENT labels. The public receipt records no password, token, Drive link or Gmail
+message ID. This was a connector-mediated test, not a deployed worker run.
+
+Automated checks cover state transitions, replay/expiry/attempts, secret purpose
+binding, concurrency, corruption, missing consent, immutable registration,
+uncertain sends, correct Google identity, shared-folder rejection, MIME and
+formula injection. The encrypted browser suite applies the existing real
+source/package numeric and demo matrix to HTML extracted by the independent
+reader, including RU/EN/KK and mobile widths. No live sends happen in CI.
+
+Limitations are explicit in [the architecture contract](../../architecture/partner-issuance.md).
+The permanent OAuth runtime and trusted Formspree intake are not configured.
+External-recipient confirmation and the exact production worker's mail send are
+not claimed. This PR therefore does not close P3 or activate public issuance.

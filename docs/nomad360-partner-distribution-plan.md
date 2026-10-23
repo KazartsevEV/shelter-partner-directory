@@ -4,7 +4,7 @@ Status: 23 October 2026. This plan preserves the owner's partnership request and
 follows the accepted architecture work #238–240. It complements the main task
 map; it does not authorise automatic merge or skipping user acceptance.
 
-## P1 — Versioned build configuration (PR #241, ready for acceptance)
+## P1 — Versioned build configuration (PR #241, merged)
 
 One explicit profile, package/partner ID, release version, public metadata,
 original brand/contacts and complete calculator capabilities. Build through the
@@ -16,7 +16,7 @@ Acceptance: real generated HTML and manifest, repeatable bytes, negative config
 and injection tests, unchanged source runtime, numeric/browser parity RU/EN/KK.
 This is infrastructure; the existing public download UI is not switched yet.
 
-## P2 — Partner application and consent (current)
+## P2 — Partner application and consent (PR #242, merged)
 
 Add a secondary CTA, the same size as the download CTA, beneath the embedding
 explanation: “Become a Nomad360 Business Solutions partner” (EN canonical, then
@@ -40,6 +40,13 @@ visible privacy notice and genuine backend acceptance. Submission success must
 not claim that a code was delivered before the issuance/delivery service exists.
 
 ## P3 — Issuance, email and encrypted ZIP
+
+**Current implementation:** [private operator and Google Workspace contract](architecture/partner-issuance.md).
+The owner selected `nomad260393@gmail.com` and private Google Sheets/Drive.
+The registry and a real owner-mailbox encrypted-package test are complete.
+Service/adapter code is under review; permanent runtime OAuth and trusted
+Formspree intake are not configured. P3 remains open until the actual configured
+worker's end-to-end confirmation/delivery is verified. P4 is not started.
 
 Implement a supported issuance/storage/email channel before making delivery
 promises. Keep private configuration and credentials outside the public browser
