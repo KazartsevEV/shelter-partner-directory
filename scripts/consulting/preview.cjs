@@ -32,8 +32,9 @@ function assetCheck(){
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const results=[],captures=[];
  try{
-  for(const lang of ['ru','en','kk'])for(const width of [320,390,768,1280,1440,2560]){
+  for(const lang of ['ru','en','kk'])for(const width of [320,360,390,430,768,1280,1440,2560,3840]){
    if(lang!=='ru'&&![390,1440].includes(width))continue;
+   if(process.argv.includes('--coverage-only')&&(lang!=='ru'||width!==3840))continue;
    const context=await browser.newContext({
     viewport:{width,height:1750},locale:lang==='ru'?'ru-RU':lang==='kk'?'kk-KZ':'en-US',reducedMotion:'reduce',acceptDownloads:true
    });
@@ -79,6 +80,15 @@ function assetCheck(){
    A.match(state.artSrc,width<=700?/consulting-horizontal-mobile/:/consulting-horizontal-desktop/,
     'Use the actual approved original scenery without replacing');
    A.ok(state.artHeight>0&&state.artWidth>=state.viewport-2,'Scene must span viewport');
+   if(width>700){
+    const dimensions=[...state.artSize.matchAll(/([\d.]+)(%|px)/g)];
+    let paintedWidth;
+    if(state.artSize.startsWith('max('))paintedWidth=Math.max(...dimensions.map(m=>Number(m[1])*(m[2]==='%'?state.artWidth/100:1)));
+    else if(state.artSize.startsWith('auto '))paintedWidth=Number(dimensions[0][1])*3200/941;
+    else throw new Error('Unmeasured background sizing: '+state.artSize);
+    state.originalSceneWidth=paintedWidth*1672/3200;
+    A.ok(state.originalSceneWidth>=state.viewport-2,'Actual central image must reach the right edge: '+JSON.stringify({viewport:state.viewport,originalSceneWidth:state.originalSceneWidth,size:state.artSize}));
+   }
    if(width>=1200)A.ok(state.cards[0].x<state.cards[1].x&&state.cards[1].x<state.cards[2].x,
     'Desktop uses three columns');
    if(width<=700){
