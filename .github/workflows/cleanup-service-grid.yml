@@ -36,7 +36,7 @@ jobs:
         run: |
           node --check scripts/cleanup/compare-service-grid.cjs
           node scripts/palette/build.cjs --check
-          node --test tests/cleanup_service_grid.test.cjs tests/task10_palette_source.test.cjs tests/nomad360_marketing_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_full_service.test.cjs tests/portfolio_v2_full_service_linked.test.cjs tests/nomad360_price_export.test.cjs
+          node --test tests/cleanup_service_grid.test.cjs tests/partner_build_scope.test.cjs tests/task10_palette_source.test.cjs tests/nomad360_marketing_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_full_service.test.cjs tests/portfolio_v2_full_service_linked.test.cjs tests/nomad360_price_export.test.cjs
           node tests/sales_tax_7b_baseline.cjs
           python scripts/seo/check_phase_a.py
       - name: Compile pinned utilities
