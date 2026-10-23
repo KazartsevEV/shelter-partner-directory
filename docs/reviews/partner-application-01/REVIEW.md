@@ -85,3 +85,10 @@ input snapshot and the new CTA from the old text equality comparison. Its geomet
 font and overflow audits still cover the new visible action; the dedicated form
 matrix covers dialog controls. Existing calculator inputs and text remain subject
 to the original exact comparisons.
+
+The legacy file-URL service restore scenario intermittently failed immediately
+after reload in CI (and passed locally and in a subsequent CI attempt). Its test
+now checks exact stored bytes and validated draft readiness before the single
+restore action. It does not inject or rewrite a draft. Two CI attempts also ran
+out of their existing time limits after unusually slow Chromium installation;
+neither cancellation is counted as a successful check.
