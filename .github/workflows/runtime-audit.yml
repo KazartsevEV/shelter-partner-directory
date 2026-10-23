@@ -32,7 +32,7 @@ jobs:
           node --check scripts/audit/runtime-inventory.cjs
           node --check scripts/audit/runtime-browser.cjs
           node --check scripts/audit/runtime-summary.cjs
-          node --test tests/runtime_audit.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/nomad360_price_export.test.cjs
+          node --test tests/runtime_audit.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/nomad360_price_export.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs
           node tests/sales_tax_7b_baseline.cjs
       - name: Compile the same local utilities used by accepted browser tests
         run: |
