@@ -32,3 +32,19 @@ Limitations are explicit in [the architecture contract](../../architecture/partn
 The permanent OAuth runtime and trusted Formspree intake are not configured.
 External-recipient confirmation and the exact production worker's mail send are
 not claimed. This PR therefore does not close P3 or activate public issuance.
+
+## Local results
+
+- 21 unit/provider/operator/source tests pass, including the full operator flow,
+  archive tampering and explicit renewal of an expired confirmation challenge.
+- The real encrypted browser test at `462ffcc6b7346bbe1048010605179401b57bc89b`
+  passed 18 language/width combinations and 1,278 scenarios with 65 source
+  resources, zero numeric changes and identical independently extracted HTML.
+  See [browser-protocol.json](browser-protocol.json).
+- Subsequent changes add only private confirmation renewal and test/report
+  evidence; the packer, archive implementation and all browser sources remain
+  unchanged from that successful encrypted matrix.
+- The Drive copy was downloaded again through the authenticated connector;
+  its ZIP SHA-256 and independently decrypted HTML match the original.
+- JavaScript syntax and unchanged published-runtime checks pass. GitHub CI is
+  not claimed: this branch has not been published yet.

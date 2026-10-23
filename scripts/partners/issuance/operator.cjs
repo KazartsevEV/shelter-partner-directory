@@ -46,6 +46,7 @@ async function run(command,input,settings,{workspace,build=buildPackage}={}){
  }else{
   const r=await store.read(id);if(!r?.registrySaved)throw Error('Persist the application in Google Sheets before proceeding');
   if(command==='send-verification')await service.sendVerification(id);
+  else if(command==='renew-verification')await service.renewVerification(id);
   else if(command==='confirm-email')await service.verifyEmail(id,input.code);
   else if(command==='approve-domain')await service.approve(id,input.review);
   else if(command==='prepare'){
@@ -66,7 +67,7 @@ async function run(command,input,settings,{workspace,build=buildPackage}={}){
  const r=await store.read(id);return {applicationId:id,status:r.status,sourceRevision:r.archive?.sourceRevision||null};
 }
 async function main(){
- const [command,inputFile,...extra]=process.argv.slice(2),commands=['register','send-verification','confirm-email','approve-domain','prepare','send-archive','reconcile-mail','status'];
+ const [command,inputFile,...extra]=process.argv.slice(2),commands=['register','send-verification','renew-verification','confirm-email','approve-domain','prepare','send-archive','reconcile-mail','status'];
  if(!commands.includes(command)||!inputFile||extra.length||!process.env.NOMAD_PARTNER_SETTINGS)throw Error('Usage: NOMAD_PARTNER_SETTINGS=/private/settings.json node scripts/partners/issuance/operator.cjs <command> /private/input.json');
  const settings=JSON.parse(await privateFile(process.env.NOMAD_PARTNER_SETTINGS)),input=JSON.parse(await privateFile(inputFile));
  console.log('PARTNER_OPERATOR_RESULT',JSON.stringify(await run(command,input,settings)));

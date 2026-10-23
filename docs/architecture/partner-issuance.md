@@ -108,6 +108,7 @@ Commands and input shapes:
 | --- | --- |
 | `register` | `application`: original JSON payload from P2; `config`: reviewed v1 package config; optional `formspreeId` |
 | `send-verification` | `applicationId` |
+| `renew-verification` | `applicationId`; explicit operator action only for expired/blocked codes; invalidates the old code and assigns a new mail operation |
 | `confirm-email` | `applicationId`, `code` |
 | `approve-domain` | `applicationId`, `review`: `{origin, reviewReference}` |
 | `prepare` | `applicationId` |

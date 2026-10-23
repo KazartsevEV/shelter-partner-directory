@@ -20,7 +20,7 @@ function createService({store,vault,mailer,build,now=()=>new Date()}){
    const token=crypto.randomBytes(32).toString('base64url'),created=stamp();
    return {schemaVersion:1,id,email:canonicalEmail,language:application.interface_language,config,applicationSha256,
     processingConsent:true,publicProfileConsent:application.consent_public_profile===true,consentVersion:application.consent_version,consentedAt:application.consented_at,
-    createdAt:created,updatedAt:created,status:'registered',verification:{hash:digest(token),
+    createdAt:created,updatedAt:created,status:'registered',verification:{generation:1,hash:digest(token),
      secret:vault.seal(token,id+':verification'),expiresAt:new Date(now().getTime()+86400000).toISOString(),attempts:0}};
   });
  }
@@ -28,14 +28,23 @@ function createService({store,vault,mailer,build,now=()=>new Date()}){
   await store.transaction(id,r=>({...r,status:error?.definitelyNotAccepted===true?'send_failed':'send_unknown',updatedAt:stamp()}));
  }
  async function sendVerification(id){
-  const r=await claim(id,['registered'],'verification_sending',{lastOperation:id+':verification:v1'});
+  const current=await store.read(id),operationId=id+':verification:v'+(current?.verification?.generation||1);
+  const r=await claim(id,['registered'],'verification_sending',{lastOperation:operationId});
   try{
    const message=messages.verification(r,vault.open(r.verification.secret,id+':verification'));
-   const ack=await mailer.send({...message,operationId:id+':verification:v1'});
+   const ack=await mailer.send({...message,operationId});
    if(!ack?.accepted||typeof ack.id!=='string'||!ack.id)throw Error('Mail acknowledgement missing');
    await claim(id,['verification_sending'],'awaiting_email',{verificationMessageId:ack.id,verificationAcceptedAt:stamp()});
    return {status:'awaiting_email',messageId:ack.id};
   }catch(error){await failure(id,error);throw Error('Verification mail not confirmed; inspect private delivery state before retrying');}
+ }
+ async function renewVerification(id){
+  return store.transaction(id,r=>{
+   if(!r||!['verification_expired','verification_blocked'].includes(r.status))throw Error('Confirmation renewal is not allowed');
+   const token=crypto.randomBytes(32).toString('base64url');
+   return {...r,status:'registered',verificationMessageId:null,verificationAcceptedAt:null,updatedAt:stamp(),
+    verification:{generation:(r.verification.generation||1)+1,hash:digest(token),secret:vault.seal(token,id+':verification'),expiresAt:new Date(now().getTime()+86400000).toISOString(),attempts:0}};
+  });
  }
  async function verifyEmail(id,token){
   let valid=false;
@@ -82,7 +91,7 @@ function createService({store,vault,mailer,build,now=()=>new Date()}){
  // Operator/provider reconciliation only. Never expose this as an unauthenticated website action.
  async function reconcile(id,{operationId,messageId,outcome}){
   if(!['accepted','not_accepted'].includes(outcome)||typeof messageId!=='string'||!messageId)throw Error('Provider evidence is required');
-  const verification=operationId===id+':verification:v1',archive=operationId===id+':archive:v1';
+  const verification=typeof operationId==='string'&&operationId.startsWith(id+':verification:v')&&/^[1-9]\d*$/.test(operationId.slice((id+':verification:v').length)),archive=operationId===id+':archive:v1';
   if(!verification&&!archive)throw Error('Unknown mail operation');
   await store.transaction(id,r=>{
    if(!r||!['send_unknown','send_failed',verification?'verification_sending':'archive_sending'].includes(r.status))throw Error('No uncertain delivery to reconcile');
@@ -91,6 +100,6 @@ function createService({store,vault,mailer,build,now=()=>new Date()}){
     ...(outcome==='accepted'?verification?{verificationMessageId:messageId,verificationAcceptedAt:stamp()}:{archiveMessageId:messageId,archiveAcceptedAt:stamp()}:{}),updatedAt:stamp()};
   });
  }
- return Object.freeze({register,sendVerification,verifyEmail,approve,prepare,sendArchive,reconcile});
+ return Object.freeze({register,sendVerification,renewVerification,verifyEmail,approve,prepare,sendArchive,reconcile});
 }
 module.exports={createService};

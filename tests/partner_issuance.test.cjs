@@ -92,3 +92,10 @@ test('changed encrypted archive is never mailed and cannot silently be rebuilt',
  await A.rejects(s.service.sendArchive(applicationId),/not confirmed/);A.equal(s.sent.length,1);
  await A.rejects(s.service.prepare(applicationId),/transition/);
 });
+test('an expired challenge can be explicitly renewed without reusing the old code or mail operation',async t=>{
+ const s=await setup(t);await s.service.sendVerification(applicationId);const old=s.sent[0].text.split('\n\n')[1];s.setTime('2026-10-24T10:00:00.000Z');
+ await A.rejects(s.service.verifyEmail(applicationId,old));await s.service.renewVerification(applicationId);await s.service.sendVerification(applicationId);
+ const current=s.sent[1].text.split('\n\n')[1];A.notEqual(current,old);A.notEqual(s.sent[1].operationId,s.sent[0].operationId);
+ await A.rejects(s.service.verifyEmail(applicationId,old));await s.service.verifyEmail(applicationId,current);
+ await A.rejects(s.service.renewVerification(applicationId),/not allowed/);
+});
