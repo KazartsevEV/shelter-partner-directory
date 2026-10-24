@@ -44,7 +44,7 @@ test('raw current census has 31 explained retentions and zero unknown groups',()
 });
 test('runtime JS, pages, financial oracles, artwork, fonts, packer and all old workflows remain byte-exact',()=>{
  const bridge=require('./fixtures/cleanup-paint/bridges.json');
- const files=execFileSync('git',['ls-tree','-r','--name-only',s.base],{encoding:'utf8'}).trim().split('\n').filter(f=>/^(nomad360_|portfolio_v2_).*\.(js|css)$/.test(f)||['Marketing_calc.HTML','US_Retail_Demo.HTML'].includes(f)||/^(assets\/|vendor\/|tests\/fixtures\/|\.github\/workflows\/|scripts\/partners\/|scripts\/palette\/|scripts\/cleanup|scripts\/style-ownership\/)/.test(f));
- for(const f of files)A.equal(s.restore(f,fs.readFileSync(f)).toString(),read(s.base,f),f);
+ const files=execFileSync('git',['ls-tree','-r','--name-only',s.base],{encoding:'utf8'}).trim().split('\n').filter(f=>/^(nomad360_|portfolio_v2_).*\.(js|css)$/.test(f)||/\.html$/i.test(f)||/^(assets\/|vendor\/|tests\/fixtures\/|\.github\/workflows\/|scripts\/partners\/|scripts\/palette\/|scripts\/cleanup|scripts\/style-ownership\/)/.test(f));
+ for(const f of files)A.deepEqual(s.restore(f,fs.readFileSync(f)),execFileSync('git',['show',s.base+':'+f],{maxBuffer:24e6}),f);
  for(const [f,r]of Object.entries(bridge)){A.equal(fs.readFileSync(f,'utf8'),r.after,f);A.equal(read(s.base,f),r.before,f);A.throws(()=>s.restore(f,r.after+' '),/exact approved/);}
 });

@@ -21,7 +21,7 @@ permissions:
 jobs:
   paint-cascade:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     env:
       NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
       C58_BASELINE_ROOT: ${{ github.workspace }}/.c58-baseline

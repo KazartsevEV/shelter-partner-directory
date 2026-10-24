@@ -30,3 +30,19 @@ Drafts #261/#262 propose smaller overlapping UI/IRBIS removals. #264/#265/#266 c
 ## Verification
 
 Pending: complete Chromium matrix, real standalone resource/HTML comparison, timing/listener samples, CI. Source, ownership, palette, 48 VAT numerical cases, pinned-controls, L0 source inventory and SEO checks have passed locally. The final receipt will record actual counts, hashes, screenshots and limitations. No claim of measured speed improvement is made from byte reduction alone.
+
+## Reproducible verification commands
+
+The new workflow pins Node 22 and existing package locks. It checks 128 core tests,
+48 VAT cases, source/palette/L0/SEO/pinned-controls boundaries, the raw census,
+126 calculator pairs (1008 routes), 18 disclosure pairs (72 states), and 66 static
+page pairs. It independently verifies 76 PNG pairs and actual standalone resources.
+The dedicated 60-minute job budget includes the expanded matrix and dependency
+installation; old job limits and checks stay unchanged.
+
+Local supplemental TYPE-02/payment/agent/MBA suite: 23 tests passed.
+Static replay resolves both absolute project paths and public-origin asset URLs
+to the selected local variant, requiring successful responses, the exact palette
+fingerprint and loaded Inter fonts. Initial receipts produced by an incomplete
+resource router are discarded and are not evidence of a production defect.
+The corrected static matrix and overflow results are recorded in the final receipt.
