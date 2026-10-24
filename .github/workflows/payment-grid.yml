@@ -9,7 +9,7 @@ on:
       - 'tests/fixtures/payment-grid/**'
       - 'tests/helpers/payment-grid-scope.cjs'
       - 'docs/reviews/payment-grid-05-6/**'
-      - '.github/workflows/cleanup-payment-grid.yml'
+      - '.github/workflows/payment-grid.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -49,7 +49,9 @@ jobs:
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c56.css"
           scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c56.css" -o artifacts/payment-grid/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
       - name: Real fiat grid before/after, bank disclosure, hover, keyboard focus and responsive boundary
-        run: node scripts/cleanup-payment-grid/compare.cjs artifacts/payment-grid
+        run: |
+          node scripts/cleanup-payment-grid/compare.cjs artifacts/payment-grid
+          node scripts/cleanup-payment-grid/capture-classic.cjs artifacts/payment-grid
       - uses: actions/upload-artifact@v4
         if: always()
         with:

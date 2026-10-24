@@ -1,0 +1,59 @@
+{
+  "sourceRevision": "a8b49643a6b8a1f2b9efc2c80c9e1a2902fd6a40",
+  "pairs": 78,
+  "comparisons": 312,
+  "matrixPngPairs": 24,
+  "supplementalPngPairs": 1,
+  "resizePairs": 18,
+  "localePairs": 12,
+  "rawGroups": {
+    "before": 185,
+    "after": 183,
+    "retained": 19,
+    "unreviewed": 164
+  },
+  "sizes": {
+    "before": {
+      "bytes": 282111,
+      "gzip": 190275,
+      "brotli": 187476
+    },
+    "after": {
+      "bytes": 282016,
+      "gzip": 190255,
+      "brotli": 187113
+    }
+  },
+  "startup": [
+    {
+      "width": 390,
+      "beforeMedianMs": 629.0720969999675,
+      "afterMedianMs": 655.9046979999985,
+      "pairedMedianDeltaMs": 3.081609999993816,
+      "beforeRangeMs": [
+        596.479404999991,
+        686.2370319999754
+      ],
+      "afterRangeMs": [
+        578.3767440000083,
+        682.4078200000222
+      ],
+      "listeners": 259
+    },
+    {
+      "width": 1280,
+      "beforeMedianMs": 643.0097970000352,
+      "afterMedianMs": 645.8639400000102,
+      "pairedMedianDeltaMs": 1.3712240000022575,
+      "beforeRangeMs": [
+        599.5047730000224,
+        696.1878169999691
+      ],
+      "afterRangeMs": [
+        594.4006700000027,
+        674.4678249999997
+      ],
+      "listeners": 259
+    }
+  ]
+}
