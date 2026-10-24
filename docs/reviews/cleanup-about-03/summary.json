@@ -1,0 +1,76 @@
+{
+  "base": "c45187fa5190ee6ce4bc88a6266337439867a8f6",
+  "cases": 111,
+  "scenicPairs": 66,
+  "legacyUsPairs": 45,
+  "comparisons": 333,
+  "screenshotPairs": 18,
+  "negativePaddingDetected": true,
+  "allPairedDomCountsEqual": true,
+  "sizes": {
+    "before": {
+      "bytes": 30635,
+      "gzip": 7125,
+      "brotli": 5930
+    },
+    "after": {
+      "bytes": 30275,
+      "gzip": 7036,
+      "brotli": 5847
+    }
+  },
+  "standaloneBytes": {
+    "before": 13231625,
+    "after": 13231265
+  },
+  "timings": [
+    {
+      "width": 390,
+      "before": {
+        "repetitions": 9,
+        "medianMs": 669.0546659999527,
+        "minMs": 647.0082919999259,
+        "maxMs": 725.8985010000179,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5397644
+      },
+      "after": {
+        "repetitions": 9,
+        "medianMs": 684.887880000053,
+        "minMs": 614.9777540001087,
+        "maxMs": 719.7003460000269,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5397672
+      },
+      "medianDeltaPct": 2.3665052804670905
+    },
+    {
+      "width": 1280,
+      "before": {
+        "repetitions": 9,
+        "medianMs": 678.8151009998983,
+        "minMs": 627.4357539999764,
+        "maxMs": 702.8893570000073,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5453324
+      },
+      "after": {
+        "repetitions": 9,
+        "medianMs": 650.3259570000228,
+        "minMs": 613.3498220000183,
+        "maxMs": 688.5843980000354,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5453544
+      },
+      "medianDeltaPct": -4.1968930800023285
+    }
+  ]
+}
