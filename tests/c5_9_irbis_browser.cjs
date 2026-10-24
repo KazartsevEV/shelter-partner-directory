@@ -46,7 +46,7 @@ const capture=async page=>page.evaluate(selects=>{
    await page.locator('#nomad360-lang-select').selectOption(lang);
    await page.evaluate(()=>document.fonts.ready);
    await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
-   const closed=await capture(page);await page.evaluate(()=>{const el=document.getElementById('nomad360-product-details');if(el&&el.tagName==='DETAILS')el.open=true;});const open=await capture(page);A.ok(open.result['#nomad360-irbis-banner #nomad360-product-details[open]'].length>0,'Open footer disclosure must be covered');pair[variant]={closed,open};
+   const closed=await capture(page);await page.evaluate(()=>{const el=document.getElementById('nomad360-product-details');if(el&&el.tagName==='DETAILS')el.open=true;});const open=await capture(page);if(open.result['#nomad360-irbis-banner #nomad360-product-details[open]'].length===0){const diag=await page.evaluate(()=>({scene:!!document.getElementById('nomad360-irbis-banner'),products:!!document.getElementById('nomad360-product-details'),insideScene:!!document.querySelector('#nomad360-irbis-banner #nomad360-product-details'),tag:document.getElementById('nomad360-product-details')?.tagName,opened:document.getElementById('nomad360-product-details')?.open,footer:!!document.getElementById('nomad360-footer')}));console.error('C59_DISCLOSURE_DIAGNOSTIC',JSON.stringify({entry,width,lang,variant,diag}));throw Error('Open footer disclosure must be covered');}pair[variant]={closed,open};
    A.deepEqual(errors,[],entry+'/'+variant+'/'+lang);
    await context.close();
   }
