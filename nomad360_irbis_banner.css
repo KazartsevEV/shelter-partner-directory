@@ -4,7 +4,7 @@
 #nomad360-irbis-banner{
  --irbis-blue:#173B58;--irbis-white:#FFFFFF;--irbis-orange:#FF913F;--irbis-line:#38678B;
  position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;
- min-height:clamp(472px,40vw,615px);
+
  padding:clamp(28px,3.5vw,52px) clamp(24px,7vw,110px) 36px;
  font-family:var(--nd-font,Inter,sans-serif);background:var(--irbis-blue);color:var(--irbis-white)
 }
@@ -121,7 +121,7 @@
 #nomad360-irbis-banner .nomad-irbis-methods :is(.nomad-pay-kaspi,.nomad-pay-ozon,.nomad-crypto-panel){
  min-width:0;margin:0 0 14px;background:var(--irbis-blue)
 }
-#nomad360-irbis-banner #nomad360-product-details[open]{width:100%;max-width:100%}
+
 #nomad360-irbis-banner #nomad360-product-details .nomad-products-grid{
  margin:0;padding:16px 0 24px;background:var(--irbis-blue)
 }
@@ -136,7 +136,7 @@
  #nomad360-irbis-banner .nomad-return-button+.nomad-return-button{padding-left:9px}
 }
 @media(max-width:700px){
- #nomad360-irbis-banner{padding:0 0 10px;min-height:0}
+ #nomad360-irbis-banner{min-height:0}
  #nomad360-irbis-banner::before{display:none}
  #nomad360-irbis-banner #nomad360-return{
   width:100%;max-width:none;margin:0;padding:23px 20px 12px;
@@ -145,7 +145,7 @@
  #nomad360-irbis-banner .nomad-irbis-brand{font-size:20px;margin-bottom:20px}
  #nomad360-irbis-banner .nomad-irbis-dash{flex-basis:25px;width:25px;margin-bottom:16px}
  #nomad360-irbis-banner #nomad360-return h2{
-  max-width:100%;font-size:clamp(29px,8vw,42px);line-height:1.14;margin-bottom:25px
+  max-width:100%;line-height:1.14;margin-bottom:25px
  }
  #nomad360-irbis-banner .nomad-return-actions{
   grid-template-columns:minmax(0,1fr);gap:10px;width:min(100%,550px);margin:0 0 17px
@@ -164,7 +164,7 @@
   color:var(--irbis-white);margin:3px 0;font:400 clamp(15px,3.85vw,18px)/1.45 var(--nd-font,Inter,sans-serif)
  }
  #nomad360-irbis-banner .nomad-irbis-mobile-art{
-  display:block;width:calc(100% + 40px);margin:10px -20px -12px;aspect-ratio:896/614;
+  display:block;width:calc(100% + 40px);aspect-ratio:896/614;
   background:url("./assets/nomad360-banners/support-mobile.webp") center/100% 100% no-repeat;
   -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 95%,transparent 100%);
   mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 95%,transparent 100%)

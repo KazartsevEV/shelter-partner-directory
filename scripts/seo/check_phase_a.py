@@ -489,6 +489,28 @@ def main():
         subprocess.check_output(['node', '-e',
             "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-about-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
             'nomad360_about_banner.css'], input=(ROOT / 'nomad360_about_banner.css').read_bytes(), cwd=ROOT)
+    # C5-9 narrow historical allowance: only the exact IRBIS geometry deletion.
+    # Source and final CSS winner parity are independently frozen in its test.
+    c59_paths = {'.github/workflows/c5-9-irbis.yml',
+                 'docs/reviews/cleanup-irbis-05-9/REVIEW.md',
+                 'tests/c5_9_irbis_browser.cjs', 'tests/c5_9_irbis_scope.test.cjs',
+                 'nomad360_irbis_banner.css'}
+    if any(p in changed for p in c59_paths):
+        current = (ROOT / 'nomad360_irbis_banner.css').read_text()
+        original = subprocess.check_output(['git', 'show', '050bce789259867096d2d312e5b0dbea51454d5d:nomad360_irbis_banner.css'], cwd=ROOT).decode()
+        approved = [
+            (' min-height:clamp(472px,40vw,615px);', ''),
+            ('#nomad360-irbis-banner #nomad360-product-details[open]{width:100%;max-width:100%}', ''),
+            ('#nomad360-irbis-banner{padding:0 0 10px;min-height:0}',
+             '#nomad360-irbis-banner{min-height:0}'),
+            ('max-width:100%;font-size:clamp(29px,8vw,42px);line-height:1.14',
+             'max-width:100%;line-height:1.14'),
+            ('display:block;width:calc(100% + 40px);margin:10px -20px -12px;aspect-ratio:896/614;',
+             'display:block;width:calc(100% + 40px);aspect-ratio:896/614;')]
+        for before, after in approved:
+            assert original.count(before) == 1, 'C5-9 prior source drift'
+            original = original.replace(before, after)
+        assert current == original, 'C5-9 must change only the six approved declarations'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
@@ -564,6 +586,9 @@ def main():
         '.github/workflows/partner-package-build.yml',
         'tests/cleanup_typical.test.cjs', 'tests/helpers/typical-scope.cjs', '.github/workflows/cleanup-typical.yml',
         'tests/payment_grid.test.cjs', 'tests/helpers/payment-grid-scope.cjs', '.github/workflows/payment-grid.yml',
+        # C5-9 only after the exact six-declaration IRBIS source proof above.
+        '.github/workflows/c5-9-irbis.yml', 'docs/reviews/cleanup-irbis-05-9/REVIEW.md',
+        'tests/c5_9_irbis_browser.cjs', 'tests/c5_9_irbis_scope.test.cjs', 'nomad360_irbis_banner.css',
         'tests/style_ownership.test.cjs', '.github/workflows/style-ownership.yml', 'docs/architecture/nomad360-style-owners.json',
         'tests/cleanup_about_copy.test.cjs', 'tests/helpers/cleanup-about-copy-scope.cjs', 'tests/helpers/about-copy-cascade.cjs', '.github/workflows/cleanup-about-copy.yml',
         'tests/cleanup_scene_layout.test.cjs', 'tests/helpers/cleanup-scene-layout-scope.cjs', '.github/workflows/cleanup-scene-layout.yml',
