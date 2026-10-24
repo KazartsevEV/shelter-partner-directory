@@ -1,0 +1,26 @@
+name: C5-10 generated palette and fallback owner review
+on:
+  pull_request:
+    paths:
+      - "docs/reviews/c5-palette-05-10/**"
+      - "tests/c5_10_palette_review.test.cjs"
+      - ".github/workflows/c5-10-review.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  retained-owners:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Frozen owner source and 27 deliberate-retained decisions
+        run: node --test tests/c5_10_palette_review.test.cjs
+      - name: Verify generated palette is identical to approved output
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          node scripts/palette/build.cjs --check
