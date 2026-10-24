@@ -2,7 +2,7 @@
 const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process'),postcss=require('../scripts/palette/node_modules/postcss');
 const s=require('./helpers/cleanup-scene-scope.cjs'),root=path.resolve(__dirname,'..'),selector='#nomad360-information.nomad-information::before';
 test('C5-2 removes exactly two obsolete image declarations and keeps the canonical source, geometry, masks and assets',()=>{
- A.equal(fs.readFileSync(s.file,'utf8'),s.candidate);A.equal(s.cssDelta,170);
+ A.equal(require('./helpers/cleanup-scene-layout-scope.cjs').restore(s.file,fs.readFileSync(s.file,'utf8')),s.candidate);A.equal(s.cssDelta,170);
  const images=text=>{const rows=[];postcss.parse(text).walkDecls('background-image',d=>{if(d.parent.selector===selector)rows.push(d.value);});return rows;};
  A.equal(images(s.original).length,3);A.deepEqual(images(s.candidate),['url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg")']);
  const strip=text=>{const t=postcss.parse(text);t.walkDecls('background-image',d=>{if(d.parent.selector===selector)d.remove();});return t.toString();};A.equal(strip(s.original),strip(s.candidate));

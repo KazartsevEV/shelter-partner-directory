@@ -12,14 +12,6 @@
  border:0;border-radius:0;background:var(--about-navy);
  color:var(--about-white);font-family:var(--nd-font,Inter,system-ui,sans-serif);
 }
-#nomad360-information.nomad-information::before{
- content:"";position:absolute;z-index:0;pointer-events:none;top:0;right:0;
- width:min(49.5%,563px);aspect-ratio:563 / 475;
- background-repeat:no-repeat;background-size:100% 100%;background-position:center;
- /* Only the LEFT seam fades; the full moon and all right-side cliffs survive. */
- -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 100%);
- mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 100%);
-}
 #nomad360-information #nomad360-about,
 #nomad360-information #nomad360-contacts{
  position:relative;z-index:1;background:transparent;border:0;border-radius:0;
@@ -128,11 +120,6 @@
 /* Mobile: artwork remains 563:475, scaled uniformly and never covered by a
  * "photo strip"; the scene is placed BEHIND the opening like the reference. */
 @media(max-width:700px){
- #nomad360-information.nomad-information::before{
-  width:min(92%,365px);top:0;right:0;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 14%,#000 100%);
-  mask-image:linear-gradient(90deg,transparent 0%,#000 14%,#000 100%);
- }
  #nomad360-information .nomad-info-block h2{
   font-size:clamp(30px,7.5vw,37px);margin-bottom:20px;
  }
@@ -223,27 +210,6 @@
  * desktop bottom 6% is feathered to navy, not hard-cut at y=475.
  * Phone photo is uniformly scaled to 73% and remains FULLY INSIDE the frame,
  * avoiding collisions between the moon and the real heading. */
-#nomad360-information.nomad-information::before{
- -webkit-mask-image:
-  linear-gradient(90deg,transparent 0%,#000 12%,#000 100%),
-  linear-gradient(to bottom,#000 0%,#000 94%,transparent 100%);
- -webkit-mask-composite:source-in;
- mask-image:
-  linear-gradient(90deg,transparent 0%,#000 12%,#000 100%),
-  linear-gradient(to bottom,#000 0%,#000 94%,transparent 100%);
- mask-composite:intersect;
-}
-@media(max-width:700px){
- #nomad360-information.nomad-information::before{
-  width:min(73%,304px);
-  -webkit-mask-image:
-   linear-gradient(90deg,transparent 0%,#000 12%,#000 100%),
-   linear-gradient(to bottom,#000 0%,#000 93%,transparent 100%);
-  mask-image:
-   linear-gradient(90deg,transparent 0%,#000 12%,#000 100%),
-   linear-gradient(to bottom,#000 0%,#000 93%,transparent 100%);
- }
-}
 @layer nomad360-palette{
  body:has(#home-screen) #nomad360-information .nomad-about-caption{
   border-left-color:var(--p10-orange,#FF913F)!important;
@@ -291,44 +257,10 @@
 /* ABOUT-05: approved full-width night panorama. Preserve entire landscape
    on desktop. Artwork continues beneath the three services, then melts into
    the approved navy: no isolated rectangular photo layer. */
-#nomad360-information.nomad-information::before{
- top:0;left:0;right:auto;
- width:100%;height:auto;aspect-ratio:1672/941;
- background-size:100% 100%;background-position:center top;
- -webkit-mask-image:linear-gradient(to bottom,
-   #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);
- mask-image:linear-gradient(to bottom,
-   #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);
- -webkit-mask-composite:initial;mask-composite:initial;
-}
-#nomad360-information.nomad-information::after{
- content:"";pointer-events:none;position:absolute;z-index:0;
- top:0;left:0;width:100%;height:min(640px,56.3vw);
- background:linear-gradient(90deg,
-  rgba(23,59,88,.30) 0%,rgba(23,59,88,.18) 29%,
-  rgba(23,59,88,0) 58%);
-}
 @media(max-width:700px){
  /* On phones the panorama is intentionally CROPPED on the left, keeping
     the moon and characteristic pinnacles on the right. Aspect 1672/941 is
     never stretched. The picture extends across the entire viewport. */
- #nomad360-information.nomad-information::before{
-  --about-scene-h:clamp(265px,84vw,330px);
-  top:0;left:auto;right:-46px;
-  width:calc(var(--about-scene-h) * 1672 / 941);
-  height:var(--about-scene-h);
-  aspect-ratio:1672/941;background-position:center;
-  -webkit-mask-image:linear-gradient(to bottom,
-    #000 0%,#000 66%,rgba(0,0,0,.80) 79%,transparent 100%);
-  mask-image:linear-gradient(to bottom,
-    #000 0%,#000 66%,rgba(0,0,0,.80) 79%,transparent 100%);
- }
- #nomad360-information.nomad-information::after{
-  top:0;left:0;width:100%;height:clamp(265px,84vw,330px);
-  background:linear-gradient(90deg,
-   rgba(23,59,88,.86) 0%,rgba(23,59,88,.66) 32%,
-   rgba(23,59,88,.34) 52%,rgba(23,59,88,0) 78%);
- }
  #nomad360-information .nomad-about-opening::before{content:none}
  #nomad360-information .nomad-about-opening{width:82%;max-width:330px}
 }
@@ -365,22 +297,6 @@
  }
  #nomad360-information #nomad360-contacts{
   padding-top:17px;
- }
-}
-@media(min-width:701px){
- #nomad360-information.nomad-information::before{
-  -webkit-mask-image:linear-gradient(to bottom,
-   #000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
-  mask-image:linear-gradient(to bottom,
-   #000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
- }
- #nomad360-information.nomad-information::after{
-  top:0;left:0;width:100%;height:auto;aspect-ratio:1672/941;
-  background:linear-gradient(90deg,
-   rgba(23,59,88,.84) 0%,
-   rgba(23,59,88,.69) 20%,
-   rgba(23,59,88,.37) 43%,
-   rgba(23,59,88,0) 67%);
  }
 }
 @media(max-width:700px){
@@ -509,39 +425,6 @@
 /* ABOUT-10: extend only HORIZONTALLY (original 1536x768 center -> 3200x768).
  * Desktop image height is fixed to the pre-PR204 640.6px, not viewportWidth/2.
  * Text/cards/contact positions and all mobile/tablet scenes remain unchanged. */
-@media(min-width:1001px){
- #nomad360-information.nomad-information::before,
- #nomad360-information.nomad-information::after{
-  top:0;right:auto;left:calc(50% + var(--nomad-about-scene-offset,0px));
-  width:var(--nomad-about-viewport-width,100vw);
-  height:640.6px;aspect-ratio:auto;transform:translateX(-50%);
-  clip-path:inset(0);
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
-  mask-image:linear-gradient(to bottom,#000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
-  -webkit-mask-composite:initial;mask-composite:initial;
- }
- #nomad360-information.nomad-information::after{
-  /* Soften the white cliffs behind the right-hand service card. Keep the
-     existing horizontal brand-blue veil and geometry unchanged. */
-  background:
-   linear-gradient(to bottom,
-    rgba(23,59,88,0) 0%,
-    rgba(23,59,88,0) 52%,
-    rgba(23,59,88,.12) 60%,
-    rgba(23,59,88,.28) 68%,
-    rgba(23,59,88,.52) 78%,
-    rgba(23,59,88,.78) 88%,
-    rgba(23,59,88,.94) 100%),
-   linear-gradient(90deg,
-    rgba(23,59,88,.94) 0%,
-    rgba(23,59,88,.86) 20%,
-    rgba(23,59,88,.66) 40%,
-    rgba(23,59,88,.31) 58%,
-    rgba(23,59,88,0) 72%);
-  background-repeat:no-repeat;
- }
-}
-
 /* ABOUT-FULLBLEED-11 — the SAME owner-approved 3200x768 moonlight SVG
    remains native-scale on desktop and is cropped (not stretched) on phones.
    The previous max-width 1138px restricted the NAVY banner, although the
@@ -557,13 +440,6 @@
  box-sizing:border-box;width:100%;max-width:1138px;margin-left:auto;margin-right:auto;
 }
 @media(min-width:1001px){
- #nomad360-information.nomad-information::before,
- #nomad360-information.nomad-information::after{
-  left:0;right:0;transform:none;width:100%;
- }
- #nomad360-information.nomad-information::before{
-  background-size:auto 640.6px;background-position:center top;background-repeat:no-repeat;
- }
  /* Lower the exact two-line English subtitle from white cliffs into
     the navy transition, without shifting the scenic heading or artwork. */
  html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
@@ -587,15 +463,6 @@
 @media(max-width:700px){
  #nomad360-information.nomad-information{
   margin-top:28px;
- }
- #nomad360-information.nomad-information::before{
-  /* The exact SAME extended vector scene as desktop; preserve its intrinsic
-     proportions and crop its left side instead of stretching a 1138px image. */
-  --about-scene-h:clamp(265px,84vw,330px);
-  top:0;left:auto;right:-10px;
-  width:calc(var(--about-scene-h) * 3200 / 768);
-  height:var(--about-scene-h);aspect-ratio:3200/768;
-  background-size:auto var(--about-scene-h);background-position:center top;
  }
  #nomad360-information #nomad360-about{padding:37px 22px 0}
  #nomad360-information #nomad360-contacts{padding-left:22px;padding-right:22px}
@@ -673,21 +540,6 @@
  html[lang] #nomad360-information #nomad360-about .nomad-about-scene-copy{
   min-height:0;padding-bottom:18px;
  }
- #nomad360-information.nomad-information::before{
-  --about-scene-h:50vw;
-  top:0;right:0;left:0;width:100%;height:var(--about-scene-h);
-  aspect-ratio:2/1;
-  background-size:auto var(--about-scene-h);
-  background-position:center top;
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
-  mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
- }
- #nomad360-information.nomad-information::after{
-  height:50vw;
-  background:linear-gradient(90deg,
-   rgba(23,59,88,.80) 0%,rgba(23,59,88,.56) 36%,
-   rgba(23,59,88,.18) 60%,rgba(23,59,88,0) 80%);
- }
  html[lang="ru"] #nomad360-information #nomad360-about
  .nomad-about-scene-copy .nomad-about-opening{
   margin-top:calc(50vw - 75px);
@@ -704,13 +556,88 @@
 
 /* One URL declaration serves both responsive vector compositions. Keeping it
    once also avoids repeating the large data URL in a standalone HTML export. */
+
+/* C5-3: the approved scenic decoration has one base owner and three
+   responsive branches, preserving fractional viewport gaps. Keep artwork, masks and geometry unchanged. */
 #nomad360-information.nomad-information::before{
+ content:"";position:absolute;z-index:0;pointer-events:none;
+ top:0;left:0;right:auto;width:100%;height:auto;aspect-ratio:1672/941;
  background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
+ background-repeat:no-repeat;background-size:100% 100%;background-position:center top;
+ -webkit-mask-image:linear-gradient(to bottom,
+   #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);
+ mask-image:linear-gradient(to bottom,
+   #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);
+ -webkit-mask-composite:initial;mask-composite:initial;
+}
+#nomad360-information.nomad-information::after{
+ content:"";pointer-events:none;position:absolute;z-index:0;
+ top:0;left:0;width:100%;height:min(640px,56.3vw);
+ background:linear-gradient(90deg,
+  rgba(23,59,88,.30) 0%,rgba(23,59,88,.18) 29%,
+  rgba(23,59,88,0) 58%);
+}
+@media(max-width:700px){
+ #nomad360-information.nomad-information::before{
+  --about-scene-h:50vw;
+  right:0;height:var(--about-scene-h);aspect-ratio:2/1;
+  background-size:auto var(--about-scene-h);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
+ }
+ #nomad360-information.nomad-information::after{
+  height:50vw;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.80) 0%,rgba(23,59,88,.56) 36%,
+   rgba(23,59,88,.18) 60%,rgba(23,59,88,0) 80%);
+ }
+}
+@media(min-width:701px){
+ #nomad360-information.nomad-information::before{
+  -webkit-mask-image:linear-gradient(to bottom,
+   #000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+  mask-image:linear-gradient(to bottom,
+   #000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+ }
+ #nomad360-information.nomad-information::after{
+  height:auto;aspect-ratio:1672/941;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.84) 0%,
+   rgba(23,59,88,.69) 20%,
+   rgba(23,59,88,.37) 43%,
+   rgba(23,59,88,0) 67%);
+ }
 }
 @media(min-width:701px) and (max-width:1000px){
+ #nomad360-information.nomad-information::before{background-size:208.333333% auto}
+}
+@media(min-width:1001px){
+ #nomad360-information.nomad-information::before,
+ #nomad360-information.nomad-information::after{
+  right:0;height:640.6px;aspect-ratio:auto;transform:none;clip-path:inset(0);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+  -webkit-mask-composite:initial;mask-composite:initial;
+ }
  #nomad360-information.nomad-information::before{
-  /* Fit the complete 1536px central scene without stretching. Preserve the
-     existing tablet section geometry; its remaining lower band is navy. */
-  background-size:208.333333% auto;
+  background-size:auto 640.6px;
+ }
+ #nomad360-information.nomad-information::after{
+  background:
+   linear-gradient(to bottom,
+    rgba(23,59,88,0) 0%,
+    rgba(23,59,88,0) 52%,
+    rgba(23,59,88,.12) 60%,
+    rgba(23,59,88,.28) 68%,
+    rgba(23,59,88,.52) 78%,
+    rgba(23,59,88,.78) 88%,
+    rgba(23,59,88,.94) 100%),
+   linear-gradient(90deg,
+    rgba(23,59,88,.94) 0%,
+    rgba(23,59,88,.86) 20%,
+    rgba(23,59,88,.66) 40%,
+    rgba(23,59,88,.31) 58%,
+    rgba(23,59,88,0) 72%);
+  background-repeat:no-repeat;
  }
 }
