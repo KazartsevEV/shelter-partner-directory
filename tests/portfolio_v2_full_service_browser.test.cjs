@@ -190,9 +190,26 @@ const {pathToFileURL}=require('node:url');
   // Verify storage readiness across file:// navigation independently of parsing.
   // Require the exact saved bytes AND validated payload; never seed,
   // rewrite or retry the restore action to hide lost/corrupt data.
-  await page.waitForFunction(expected=>JSON.stringify({
+  try { await page.waitForFunction(expected=>JSON.stringify({
     raw:localStorage.getItem(Nomad360DraftStore.keys.v1),valid:Nomad360DraftStore.readV1()
-  })===expected,savedAgentBytes);
+  })===expected,savedAgentBytes); }
+  catch (error) {
+    try { console.error('NATIVE_V1_STORAGE_DIAGNOSTIC',JSON.stringify({errors,state:await page.evaluate(expected=>{
+      const reference=JSON.parse(expected),raw=localStorage.getItem(Nomad360DraftStore.keys.v1),valid=Nomad360DraftStore.readV1();
+      const differences=[];
+      function compare(a,b,path){
+        if(differences.length>=15||JSON.stringify(a)===JSON.stringify(b))return;
+        if(a&&b&&typeof a==='object'&&typeof b==='object'){
+          for(const key of new Set([...Object.keys(a),...Object.keys(b)]))compare(a[key],b[key],path+'.'+key);
+        }else differences.push({path,expected:a,actual:b});
+      }
+      compare(reference.valid,valid,'validated');
+      return {url:location.href,ready:document.readyState,rawExists:raw!==null,
+        rawEqual:raw===reference.raw,expectedRawLength:reference.raw?.length,actualRawLength:raw?.length,
+        valid:!!valid,differences};
+    },savedAgentBytes)})); } catch(diagnosticError) { console.error('NATIVE_V1_STORAGE_DIAGNOSTIC_UNAVAILABLE',diagnosticError.message); }
+    throw error;
+  }
   A.equal(await page.evaluate(()=>resumeSavedProductCalculation()),true);
   const restored=await page.evaluate(()=>({
     channel:serviceChannel,role:selectedServiceRole,
