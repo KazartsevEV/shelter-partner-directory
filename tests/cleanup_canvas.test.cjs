@@ -2,7 +2,7 @@
 const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process'),postcss=require('../scripts/palette/node_modules/postcss');
 const s=require('./helpers/cleanup-canvas-scope.cjs'),root=path.resolve(__dirname,'..'),selector='#nomad360-information.nomad-information';
 test('C5-1 has one canonical width/overflow owner and one mobile top margin, preserving all paint and artwork',()=>{
- A.equal(fs.readFileSync(s.file,'utf8'),s.candidate);A.equal(Buffer.byteLength(s.original)-Buffer.byteLength(s.candidate),483);
+ A.equal(require('./helpers/cleanup-scene-scope.cjs').restore(s.file,fs.readFileSync(s.file,'utf8')),s.candidate);A.equal(Buffer.byteLength(s.original)-Buffer.byteLength(s.candidate),483);
  const rules=text=>{const rows=[];postcss.parse(text).walkRules(r=>{if(r.selector===selector)rows.push(r);});return rows;};
  const after=rules(s.candidate);A.equal(after.length,3,'semantic root, canonical geometry, mobile top margin');
  const sizeRules=after.filter(r=>r.nodes.some(d=>d.prop==='width'));A.equal(sizeRules.length,1);A.equal(sizeRules[0].parent.type,'root');

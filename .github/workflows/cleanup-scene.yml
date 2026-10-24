@@ -1,0 +1,58 @@
+name: C5-2 single About scene source
+on:
+  pull_request:
+    paths:
+      - 'nomad360_about_banner.css'
+      - 'scripts/cleanup-scene/**'
+      - 'tests/cleanup_scene.test.cjs'
+      - 'tests/helpers/cleanup-scene-scope.cjs'
+      - 'docs/reviews/cleanup-scene-05-2/**'
+      - '.github/workflows/cleanup-scene.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+      C52_BASELINE_ROOT: ${{ github.workspace }}/.c52-baseline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Locked tools and accepted main
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+          git worktree add --detach "$C52_BASELINE_ROOT" 6b3bdbebea65ea8e26a8dfd983842d5eb96bb735
+      - name: Exact component boundary, negative guards and financial contracts
+        run: |
+          node --check scripts/cleanup-scene/compare.cjs
+          node --test tests/cleanup_scene.test.cjs tests/cleanup_canvas.test.cjs tests/cleanup_palette.test.cjs tests/cleanup_about.test.cjs tests/cleanup_logo_mask.test.cjs tests/partner_build_scope.test.cjs tests/banner_vector_quality.test.cjs tests/task10_palette_source.test.cjs tests/nomad360_marketing_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/nomad360_price_export.test.cjs
+          node scripts/palette/build.cjs --check
+          node scripts/localization/inventory.cjs --check
+          node tests/sales_tax_7b_baseline.cjs
+          node tests/helpers/pinned-controls-css-scope.cjs
+          python scripts/seo/check_phase_a.py
+          node scripts/cleanup-scene/ownership.cjs artifacts/cleanup-c52/ownership.json
+      - name: Pinned site utilities
+        run: |
+          mkdir -p artifacts/cleanup-c52
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c52.css"
+          scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c52.css" -o artifacts/cleanup-c52/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Accepted-main scene, real standalone, resize and negative controls
+        run: node scripts/cleanup-scene/compare.cjs artifacts/cleanup-c52
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cleanup-c52-canvas-${{ github.sha }}
+          path: |
+            artifacts/cleanup-c52/*.json
+            artifacts/cleanup-c52/*.png
+          retention-days: 14

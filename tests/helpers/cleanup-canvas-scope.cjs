@@ -22,6 +22,7 @@ for(const name of ['scripts/cleanup-about/compare.cjs','scripts/cleanup-palette/
  A.notEqual(before,after);inheritedScripts[name]={before,after};
 }
 function restore(name,source){
+ source=require('./cleanup-scene-scope.cjs').restore(name,source);
  if(name===file){const text=source.toString();A.ok([original,candidate,legacy].includes(text),'C3 permits only accepted About bytes; C5-1 permits only the exact scoped canvas consolidation');return text===legacy?source:Buffer.isBuffer(source)?Buffer.from(original):original;}
  const script=inheritedScripts[name];if(!script)return source;
  A.ok([script.before,script.after].includes(source.toString()),'Only the exact inherited C5 canvas package bridge: '+name);
@@ -29,6 +30,7 @@ function restore(name,source){
 }
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 function normalizePackageResource(record){
+ record=require('./cleanup-scene-scope.cjs').normalizePackageResource(record);
  if(record.path!==file)return record;
  if(record.sha256===hash(legacy)&&record.bytes===Buffer.byteLength(legacy))return record;
  A.ok([original,candidate].some(s=>record.sha256===hash(s)&&record.bytes===Buffer.byteLength(s)),'Only exact C3/C5 canvas resource SHA and size');
@@ -37,6 +39,6 @@ function normalizePackageResource(record){
 function packageDelta(before,after){
  const rows=[before,after].map(p=>p.manifest.resources.find(r=>r.path===file));rows.forEach(r=>A.ok(r,'About resource required'));
  // Extra bytes relative to the pre-C5 canonical canvas, excluding earlier C3 work.
- const saved=rows.map(r=>normalizePackageResource(r).bytes-r.bytes);return saved[1]-saved[0];
+ const saved=rows.map(r=>normalizePackageResource(r).bytes-r.bytes);return saved[1]-saved[0]+require('./cleanup-scene-scope.cjs').extraInlineDelta(before,after);
 }
 module.exports={base,file,original,candidate,legacy,replacements,inheritedScripts,restore,normalizePackageResource,packageDelta};
