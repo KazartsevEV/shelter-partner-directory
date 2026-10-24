@@ -1,0 +1,73 @@
+name: C3 About exact duplicate cleanup acceptance
+on:
+  pull_request:
+    paths:
+      - 'nomad360_about_banner.css'
+      - 'scripts/cleanup-about/**'
+      - 'tests/cleanup_about.test.cjs'
+      - 'tests/helpers/cleanup-about-scope.cjs'
+      - 'docs/reviews/cleanup-about-03/**'
+      - '.github/workflows/cleanup-about.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  about-cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+      C3_BASELINE_ROOT: ${{ github.workspace }}/.c3-baseline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Lock-pinned tools and accepted baseline
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+          git worktree add --detach "$C3_BASELINE_ROOT" c45187fa5190ee6ce4bc88a6266337439867a8f6
+      - name: Reproduce the old asymmetric guard on accepted main
+        run: |
+          mkdir -p artifacts/cleanup-c3
+          cd "$C3_BASELINE_ROOT"
+          node - <<'JS' > "$GITHUB_WORKSPACE/artifacts/cleanup-c3/main-pinned-guard-red.log"
+          let rejected=false;
+          try{require('./tests/helpers/pinned-controls-css-scope.cjs');}
+          catch(e){
+            if(e.code!=='ERR_ASSERTION'||!e.message.startsWith('approved CSS must be byte-identical'))throw Error('Unexpected baseline error: '+e.message.split('\n')[0]);
+            rejected=true;console.log('ACCEPTED_MAIN_PINNED_GUARD_RED_CONFIRMED',e.message.split('\n')[0]);
+          }
+          if(!rejected)throw Error('Expected the asymmetric pre-C3 guard to reject merged C2');
+          JS
+          cat "$GITHUB_WORKSPACE/artifacts/cleanup-c3/main-pinned-guard-red.log"
+      - name: Exact source, negative guards, original image and financial contracts
+        run: |
+          node --check scripts/cleanup-about/compare.cjs
+          node --check scripts/cleanup-logo-mask/compare.cjs
+          node --test tests/cleanup_about.test.cjs tests/cleanup_logo_mask.test.cjs tests/partner_build_scope.test.cjs tests/banner_vector_quality.test.cjs tests/task10_palette_source.test.cjs tests/nomad360_marketing_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/nomad360_price_export.test.cjs
+          node tests/helpers/pinned-controls-css-scope.cjs
+          node scripts/palette/build.cjs --check
+          node scripts/localization/inventory.cjs --check
+          node tests/sales_tax_7b_baseline.cjs
+          python scripts/seo/check_phase_a.py
+      - name: Compile pinned site utilities
+        run: |
+          mkdir -p artifacts/cleanup-c3
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c3.css"
+          scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c3.css" -o artifacts/cleanup-c3/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Full About and pseudo-elements before/after, real standalone, negative padding and repeated timings
+        run: node scripts/cleanup-about/compare.cjs artifacts/cleanup-c3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cleanup-c3-${{ github.sha }}
+          path: |
+            artifacts/cleanup-c3/*.json
+            artifacts/cleanup-c3/*.png
+            artifacts/cleanup-c3/*.log
+          retention-days: 14
