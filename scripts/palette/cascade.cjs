@@ -2,6 +2,8 @@
 const crypto=require('node:crypto');
 const postcss=require('postcss');
 
+// Source mode is conservative: fallback pairs, asset URLs and content are contracts.
+// Generated mode is only for this repository's deterministic four-color palette.
 const eligibleProperty=/^(?!src$|content$).+/;
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 function context(node){const out=[];for(let p=node.parent;p&&p.type!=='root';p=p.parent){if(p.type==='atrule')out.unshift('@'+p.name+' '+p.params);else return null;}return out;}
@@ -13,6 +15,7 @@ function analyze(text,{generated=false}={}){
   const selectors=rule.selectors,keys=selectors.map(s=>JSON.stringify([ctx,s,d.prop,!!d.important]));
   const row={d,rule,ctx,selectors,keys,index:rows.length};rows.push(row);for(const k of keys)last.set(k,row);
  });
+ // A grouped declaration can disappear only when EVERY selector has a later owner.
  const removable=rows.filter(r=>(generated||!r.rule.nodes.some(n=>n.type==='decl'&&n!==r.d&&n.prop===r.d.prop))&&eligibleProperty.test(r.d.prop)&&!/url\(/i.test(r.d.value)&&!/-webkit-|-moz-|\brevert(?:-layer)?\b/.test(r.d.value)&&r.keys.every(k=>{
   const winner=last.get(k);
   return winner.index>r.index&&(generated||winner.rule!==r.rule)&&!/-webkit-|-moz-|\brevert(?:-layer)?\b/.test(winner.d.value)&&
@@ -20,6 +23,7 @@ function analyze(text,{generated=false}={}){
  }));
  const removed=new Set(removable.map(r=>r.d)),empty=new Set();
  for(const r of removable)if(r.rule.nodes.every(n=>n.type==='decl'&&removed.has(n)))empty.add(r.rule);
+ // An empty named layer still establishes cascade order. Never drop its wrapper.
  let changed=true;while(changed){changed=false;root.walkAtRules(n=>{if(['media','supports'].includes(n.name)&&n.nodes?.length&&!empty.has(n)&&n.nodes.every(child=>empty.has(child))){empty.add(n);changed=true;}});}
  const edits=[],seen=new Set();
  for(const r of removable){let node=empty.has(r.rule)?r.rule:r.d;while(empty.has(node.parent))node=node.parent;if(seen.has(node))continue;seen.add(node);
