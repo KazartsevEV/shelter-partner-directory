@@ -2,7 +2,7 @@
 const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process');
 const s=require('./helpers/cleanup-logo-mask-scope.cjs'),root=path.resolve(__dirname,'..'),postcss=require('../scripts/palette/node_modules/postcss');
 test('C2 retains the later 600px rule, the frozen logo tail, and every other CSS byte',()=>{
- A.equal(fs.readFileSync(s.file,'utf8'),s.candidate);A.equal(s.original.length-s.candidate.length,s.removed.length);
+ A.equal(require('./helpers/payment-grid-scope.cjs').restore(s.file,fs.readFileSync(s.file,'utf8')),s.candidate);A.equal(s.original.length-s.candidate.length,s.removed.length);
  const rules=text=>{const a=[];postcss.parse(text).walkRules(r=>{if(r.selector==='.nomad-seo-logo-mask'&&r.parent.name==='media'&&r.parent.params==='(max-width:600px)')a.push(r);});return a;};
  const before=rules(s.original),after=rules(s.candidate);A.equal(before.length,2);A.equal(after.length,1);
  const declarations=r=>r.nodes.map(d=>[d.prop,d.value,d.important]);A.deepEqual(declarations(before[0]),declarations(before[1]));A.deepEqual(declarations(after[0]),declarations(before[1]));

@@ -1,0 +1,4316 @@
+{
+  "base": "5e2b37431948f7d866ba18809d45bda4ddc74d05",
+  "rawBefore": 185,
+  "rawAfter": 183,
+  "retired": 2,
+  "retainedReviewed": 19,
+  "unreviewed": 164,
+  "owner": {
+    "dom": "nomad360_header.js / payFiat",
+    "layout": "nomad360_calculator_ui.css / one base .nomad-pay-fiat and one max-width:900px rule",
+    "paint": "existing generated palette",
+    "metadataAndActions": "unchanged header/provider constants and copy handlers"
+  },
+  "ownedBefore": [
+    {
+      "selector": ".nomad-pay-fiat",
+      "context": [],
+      "property": "grid-template-columns",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 196,
+          "start": 251538,
+          "value": "repeat(3,minmax(0,1fr))"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 345,
+          "start": 259468,
+          "value": "repeat(2,minmax(0,1fr))"
+        }
+      ],
+      "status": "multiple values; review order/layer/media, not automatic dead-code removal"
+    },
+    {
+      "selector": ".nomad-pay-fiat",
+      "context": [],
+      "property": "margin-top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 196,
+          "start": 251538,
+          "value": "28px"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 345,
+          "start": 259468,
+          "value": "20px"
+        }
+      ],
+      "status": "multiple values; review order/layer/media, not automatic dead-code removal"
+    }
+  ],
+  "ownedAfter": [],
+  "remaining": [
+    {
+      "selector": "body",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "Marketing_calc.HTML",
+          "line": 27,
+          "start": 78,
+          "value": "#334155"
+        },
+        {
+          "file": "US_Retail_Demo.HTML",
+          "line": 27,
+          "start": 78,
+          "value": "#334155"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 4,
+          "start": 221,
+          "value": "var(--ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 32,
+          "start": 867,
+          "value": "var(--nd-text)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 736,
+          "start": 25236,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": ".card",
+      "context": [],
+      "property": "border-radius",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "Marketing_calc.HTML",
+          "line": 28,
+          "start": 167,
+          "value": "0.75rem"
+        },
+        {
+          "file": "US_Retail_Demo.HTML",
+          "line": 28,
+          "start": 167,
+          "value": "0.75rem"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 9,
+          "start": 1422,
+          "value": "8px"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".card",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "Marketing_calc.HTML",
+          "line": 28,
+          "start": 167,
+          "value": "1px solid #e2e8f0"
+        },
+        {
+          "file": "US_Retail_Demo.HTML",
+          "line": 28,
+          "start": 167,
+          "value": "1px solid #e2e8f0"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 9,
+          "start": 1422,
+          "value": "1px solid #d5dbe3"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": "a:focus-visible",
+      "context": [],
+      "property": "outline",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 19,
+          "start": 1065,
+          "value": "3px solid #FF913F"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 7,
+          "start": 479,
+          "value": "3px solid var(--orange)"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 3,
+          "start": 332,
+          "value": "3px solid #c45214"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": "a:focus-visible",
+      "context": [],
+      "property": "outline-offset",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 19,
+          "start": 1065,
+          "value": "2px"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 7,
+          "start": 479,
+          "value": "3px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 3,
+          "start": 332,
+          "value": "5px"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": "summary:focus-visible",
+      "context": [],
+      "property": "outline",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 19,
+          "start": 1065,
+          "value": "3px solid #FF913F"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 7,
+          "start": 479,
+          "value": "3px solid var(--orange)"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": "summary:focus-visible",
+      "context": [],
+      "property": "outline-offset",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 19,
+          "start": 1065,
+          "value": "2px"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 7,
+          "start": 479,
+          "value": "3px"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".help-lang span",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 23,
+          "start": 1305,
+          "value": "#173B58"
+        },
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 24,
+          "start": 1535,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".help-lang span",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 23,
+          "start": 1305,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 24,
+          "start": 1535,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": "body",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 4,
+          "start": 221,
+          "value": "var(--background)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 32,
+          "start": 867,
+          "value": "var(--nd-canvas)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 736,
+          "start": 25236,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "a",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 5,
+          "start": 383,
+          "value": "#145e9c"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 3,
+          "start": 289,
+          "value": "inherit"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": "a",
+      "context": [],
+      "property": "text-underline-offset",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 5,
+          "start": 383,
+          "value": "3px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 3,
+          "start": 289,
+          "value": ".2em"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".brand",
+      "context": [],
+      "property": "display",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 12,
+          "start": 913,
+          "value": "inline-flex"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 14,
+          "start": 2294,
+          "value": "flex"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".brand",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 12,
+          "start": 913,
+          "value": "21px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 4,
+          "start": 565,
+          "value": "20px"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".brand",
+      "context": [],
+      "property": "font-weight",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 12,
+          "start": 913,
+          "value": "800"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 4,
+          "start": 565,
+          "value": "700"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".brand img",
+      "context": [],
+      "property": "border-radius",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 14,
+          "start": 1078,
+          "value": "50%"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 14,
+          "start": 2342,
+          "value": "6px"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".intro",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 18,
+          "start": 1435,
+          "value": "var(--deep)"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 6,
+          "start": 814,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".intro",
+      "context": [],
+      "property": "border-radius",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 18,
+          "start": 1435,
+          "value": "18px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 6,
+          "start": 814,
+          "value": "10px"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".intro",
+      "context": [],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 18,
+          "start": 1435,
+          "value": "30px 34px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 6,
+          "start": 814,
+          "value": "32px"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".eyebrow",
+      "context": [],
+      "property": "font-weight",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 19,
+          "start": 1555,
+          "value": "800"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 10,
+          "start": 1536,
+          "value": "600"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".intro p",
+      "context": [],
+      "property": "max-width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 21,
+          "start": 1757,
+          "value": "850px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 7,
+          "start": 1126,
+          "value": "760px"
+        }
+      ],
+      "status": "Retained C5-5 page ownership"
+    },
+    {
+      "selector": ".nomad-embed-contact",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 239,
+          "start": 254957,
+          "value": "#f4f7fc"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 242,
+          "start": 255429,
+          "value": "transparent"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": ".nomad-embed-contact",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 239,
+          "start": 254957,
+          "value": "#16375a"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 242,
+          "start": 255429,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": ".nomad-embed-b2b-logo-mask",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 480,
+          "start": 267604,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 637,
+          "start": 280400,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": ".nomad-embed-b2b-logo-mask",
+      "context": [],
+      "property": "box-shadow",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 480,
+          "start": 267604,
+          "value": "0 6px 22px rgba(0,0,0,.14)"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 637,
+          "start": 280400,
+          "value": "none"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": ".nomad-embed-b2b-logo-mask img",
+      "context": [],
+      "property": "object-fit",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 484,
+          "start": 267766,
+          "value": "contain"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 653,
+          "start": 280857,
+          "value": "cover"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-seo-banner.nomad-seo-banner",
+      "context": [
+        "@media (max-width:600px)"
+      ],
+      "property": "grid-template-columns",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 557,
+          "start": 272639,
+          "value": "minmax(0,1fr) 64px"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 564,
+          "start": 273974,
+          "value": "minmax(0,1fr) 88px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": ".nomad-seo-logo-mask",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 563,
+          "start": 273595,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 637,
+          "start": 280400,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": ".nomad-seo-tagline span+span",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 563,
+          "start": 273906,
+          "value": "#ed8e63"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 672,
+          "start": 281514,
+          "value": "#FF913F"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-footer #nomad360-embed",
+      "context": [
+        "@media screen"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_consulting_banner.css",
+          "line": 12,
+          "start": 729,
+          "value": "100vw"
+        },
+        {
+          "file": "nomad360_consulting_banner.css",
+          "line": 12,
+          "start": 729,
+          "value": "100cqw"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-hero h1",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 113,
+          "start": 3838,
+          "value": "clamp(14px,1.35vw,16px)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 524,
+          "start": 17525,
+          "value": "15px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-hero h1",
+      "context": [],
+      "property": "font-weight",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 113,
+          "start": 3838,
+          "value": "600"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 524,
+          "start": 17525,
+          "value": "700"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-hero h1",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 113,
+          "start": 3838,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 740,
+          "start": 25281,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 818,
+          "start": 28434,
+          "value": "#ed8e63"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-hero h2",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 122,
+          "start": 4053,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 740,
+          "start": 25281,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-hero h3",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 131,
+          "start": 4248,
+          "value": "clamp(16px,1.6vw,19px)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 525,
+          "start": 17585,
+          "value": "clamp(17px,2vw,21px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-hero h3",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 131,
+          "start": 4248,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 525,
+          "start": 17585,
+          "value": "var(--nd-text)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 740,
+          "start": 25281,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-calculation-list li",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 165,
+          "start": 5098,
+          "value": "15px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 526,
+          "start": 17681,
+          "value": "var(--nd-type-body)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-calculation-list li",
+      "context": [],
+      "property": "line-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 165,
+          "start": 5098,
+          "value": "1.5"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 526,
+          "start": 17681,
+          "value": "1.57"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-calculation-list li::before",
+      "context": [],
+      "property": "font-weight",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 179,
+          "start": 5399,
+          "value": "600"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 532,
+          "start": 17816,
+          "value": "700"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-detail",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 283,
+          "start": 8284,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 534,
+          "start": 17964,
+          "value": "var(--nd-text)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-detail",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 283,
+          "start": 8284,
+          "value": "15px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 534,
+          "start": 17964,
+          "value": "var(--nd-type-body)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-detail",
+      "context": [],
+      "property": "line-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 283,
+          "start": 8284,
+          "value": "1.4"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 534,
+          "start": 17964,
+          "value": "1.52"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-note",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 289,
+          "start": 8421,
+          "value": "14px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 539,
+          "start": 18098,
+          "value": "var(--nd-type-note)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-action",
+      "context": [],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 295,
+          "start": 8557,
+          "value": "52px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 666,
+          "start": 22841,
+          "value": "62px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-action",
+      "context": [],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 295,
+          "start": 8557,
+          "value": "12px 17px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 666,
+          "start": 22841,
+          "value": "13px 16px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-action",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 295,
+          "start": 8557,
+          "value": "15px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 543,
+          "start": 18426,
+          "value": "var(--nd-type-action)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 666,
+          "start": 22841,
+          "value": "clamp(18px,1.7vw,21px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-action",
+      "context": [],
+      "property": "line-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 295,
+          "start": 8557,
+          "value": "1.3"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 666,
+          "start": 22841,
+          "value": "1.32"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-row",
+      "context": [],
+      "property": "justify-content",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 317,
+          "start": 9124,
+          "value": "space-between"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 808,
+          "start": 28111,
+          "value": "flex-start"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-title",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 326,
+          "start": 9349,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 765,
+          "start": 26314,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-title",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 326,
+          "start": 9349,
+          "value": "14px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 541,
+          "start": 18257,
+          "value": "var(--nd-type-label)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-copy p",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 332,
+          "start": 9483,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 539,
+          "start": 18098,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 765,
+          "start": 26314,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-copy p",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 332,
+          "start": 9483,
+          "value": "14px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 539,
+          "start": 18098,
+          "value": "var(--nd-type-note)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 338,
+          "start": 9619,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 693,
+          "start": 23570,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 769,
+          "start": 26436,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "border-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 338,
+          "start": 9619,
+          "value": "1px solid var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 693,
+          "start": 23570,
+          "value": "0"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 338,
+          "start": 9619,
+          "value": "14px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 542,
+          "start": 18342,
+          "value": "var(--nd-type-label)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 352,
+          "start": 9941,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 702,
+          "start": 23824,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 769,
+          "start": 26436,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-calculation-list li",
+      "context": [
+        "@media (max-width:480px)"
+      ],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 372,
+          "start": 11027,
+          "value": "14px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 545,
+          "start": 18557,
+          "value": "var(--nd-type-body)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body .nd-currency-settings select",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 432,
+          "start": 13114,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 2004,
+          "start": 74691,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary",
+      "context": [],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 599,
+          "start": 20462,
+          "value": "104px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 657,
+          "start": 22526,
+          "value": "98px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary",
+      "context": [],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 599,
+          "start": 20462,
+          "value": "20px 25px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 657,
+          "start": 22526,
+          "value": "16px clamp(18px,2vw,24px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 599,
+          "start": 20462,
+          "value": "clamp(22px,2.05vw,27px)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 657,
+          "start": 22526,
+          "value": "clamp(25px,2.2vw,29px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary",
+      "context": [],
+      "property": "line-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 599,
+          "start": 20462,
+          "value": "1.23"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 657,
+          "start": 22526,
+          "value": "1.24"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled)",
+      "context": [],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 599,
+          "start": 20462,
+          "value": "104px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 657,
+          "start": 22526,
+          "value": "98px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled)",
+      "context": [],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 599,
+          "start": 20462,
+          "value": "20px 25px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 657,
+          "start": 22526,
+          "value": "16px clamp(18px,2vw,24px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled)",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 599,
+          "start": 20462,
+          "value": "clamp(22px,2.05vw,27px)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 657,
+          "start": 22526,
+          "value": "clamp(25px,2.2vw,29px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled)",
+      "context": [],
+      "property": "line-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 599,
+          "start": 20462,
+          "value": "1.23"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 657,
+          "start": 22526,
+          "value": "1.24"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary",
+      "context": [
+        "@media (max-width:760px)"
+      ],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 652,
+          "start": 22296,
+          "value": "96px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 708,
+          "start": 24047,
+          "value": "98px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 693,
+          "start": 23570,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 769,
+          "start": 26436,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 702,
+          "start": 23824,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 769,
+          "start": 26436,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:focus-visible",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 702,
+          "start": 23824,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 769,
+          "start": 26436,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:focus-visible",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 702,
+          "start": 23824,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 769,
+          "start": 26436,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-shell",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1472,
+          "start": 53441,
+          "value": "#102c49"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1604,
+          "start": 58468,
+          "value": "#f5f7f9"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-shell",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1472,
+          "start": 53441,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1604,
+          "start": 58468,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-shell",
+      "context": [],
+      "property": "max-width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1472,
+          "start": 53441,
+          "value": "1100px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1604,
+          "start": 58468,
+          "value": "1050px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1477,
+          "start": 53672,
+          "value": "18px 0 25px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1610,
+          "start": 58607,
+          "value": "18px 0"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1620,
+          "start": 58965,
+          "value": "16px 0 18px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1477,
+          "start": 53672,
+          "value": "22px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1610,
+          "start": 58607,
+          "value": "clamp(16px,3.5vw,24px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1477,
+          "start": 53672,
+          "value": "#16375a"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1610,
+          "start": 58607,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1477,
+          "start": 53672,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1610,
+          "start": 58607,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "font",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1480,
+          "start": 53803,
+          "value": "700 clamp(25px,4vw,34px)/1.2 var(--nd-font)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1630,
+          "start": 59189,
+          "value": "700 clamp(23px,5vw,32px)/1.2 var(--nd-font)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1480,
+          "start": 53803,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1623,
+          "start": 59040,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-label",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1483,
+          "start": 53897,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1683,
+          "start": 60768,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-label :is(input,select)",
+      "context": [],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1484,
+          "start": 53991,
+          "value": "48px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1689,
+          "start": 60905,
+          "value": "50px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-label :is(input,select)",
+      "context": [],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1484,
+          "start": 53991,
+          "value": "9px 12px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1689,
+          "start": 60905,
+          "value": "10px 12px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-label :is(input,select)",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1484,
+          "start": 53991,
+          "value": "1px solid #adc3d4"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1689,
+          "start": 60905,
+          "value": "1px solid #9bacbc"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-metrics",
+      "context": [],
+      "property": "grid-template-columns",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1492,
+          "start": 54391,
+          "value": "repeat(2,minmax(0,1fr))"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1704,
+          "start": 61543,
+          "value": "repeat(3,minmax(0,1fr))"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table table",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1511,
+          "start": 55152,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1752,
+          "start": 63318,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table :is(td,th)",
+      "context": [],
+      "property": "border-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1515,
+          "start": 55346,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1756,
+          "start": 63440,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table th",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1518,
+          "start": 55492,
+          "value": "#d0e1ee"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1760,
+          "start": 63555,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-actions",
+      "context": [],
+      "property": "display",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1521,
+          "start": 55579,
+          "value": "flex"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1766,
+          "start": 63831,
+          "value": "grid"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-secondary",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1530,
+          "start": 55910,
+          "value": "1px solid #9abbd4"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1773,
+          "start": 64079,
+          "value": "1px solid #16375a"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-secondary",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1530,
+          "start": 55910,
+          "value": "#234a70"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1773,
+          "start": 64079,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen #full-service-message",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1536,
+          "start": 56159,
+          "value": "#ffd5c7"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1780,
+          "start": 64389,
+          "value": "#b42318"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen #full-service-message",
+      "context": [],
+      "property": "font",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1536,
+          "start": 56159,
+          "value": "600 14px/1.4 var(--nd-font)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1780,
+          "start": 64389,
+          "value": "600 15px/1.5 var(--nd-font)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1623,
+          "start": 59040,
+          "value": "0"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1630,
+          "start": 59189,
+          "value": "6px 0 17px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-forecast-note",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1667,
+          "start": 60248,
+          "value": "8px 0 16px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1675,
+          "start": 60544,
+          "value": "12px 0 0"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-credit p",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1667,
+          "start": 60248,
+          "value": "8px 0 16px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1703,
+          "start": 61457,
+          "value": "5px 0 14px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-ledger-row",
+      "context": [],
+      "property": "display",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1817,
+          "start": 65801,
+          "value": "flex"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 2409,
+          "start": 89238,
+          "value": "grid"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [],
+      "property": "z-index",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 15,
+          "start": 801,
+          "value": "-1"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 747,
+          "start": 32459,
+          "value": "0"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 109,
+          "start": 5810,
+          "value": "calc(100vw - 24px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 278,
+          "start": 14062,
+          "value": "calc(100vw - 20px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 109,
+          "start": 5810,
+          "value": "20px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 278,
+          "start": 14062,
+          "value": "24px 16px 21px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "border-radius",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 109,
+          "start": 5810,
+          "value": "9px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 278,
+          "start": 14062,
+          "value": "0"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5997,
+          "value": "0"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 14178,
+          "value": "10px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 503,
+          "start": 23236,
+          "value": "-4px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 514,
+          "start": 23652,
+          "value": "clamp(49px,15.4vw,64px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 573,
+          "start": 25905,
+          "value": "clamp(35px,10vw,48px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "right",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5997,
+          "value": "0"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 14178,
+          "value": "0"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 377,
+          "start": 18678,
+          "value": "-29px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 503,
+          "start": 23236,
+          "value": "-45px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 514,
+          "start": 23652,
+          "value": "-45px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5997,
+          "value": "100%"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 14178,
+          "value": "min(82%,340px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 503,
+          "start": 23236,
+          "value": "min(94%,380px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "background-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5997,
+          "value": "contain"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 14178,
+          "value": "100% 100%"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "-webkit-mask-image",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5997,
+          "value": "linear-gradient(to bottom,#000 0%,#000 74%,transparent 100%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 14178,
+          "value": "linear-gradient(90deg,transparent 0,#000 25%),linear-gradient(to bottom,#000 0,#000 67%,transparent 100%)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "mask-image",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5997,
+          "value": "linear-gradient(to bottom,#000 0%,#000 74%,transparent 100%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 14178,
+          "value": "linear-gradient(90deg,transparent 0,#000 25%),linear-gradient(to bottom,#000 0,#000 67%,transparent 100%)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #home-screen #nomad360-commercial-banner #nomad360-hero",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding-top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 117,
+          "start": 6317,
+          "value": "clamp(185px,60vw,305px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 522,
+          "start": 23941,
+          "value": "clamp(70px,21.8vw,103px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 624,
+          "start": 27883,
+          "value": "clamp(70px,21.8vw,103px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #home-screen #nomad360-commercial-banner #nomad360-hero",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 117,
+          "start": 6317,
+          "value": "0 0 24px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 295,
+          "start": 14880,
+          "value": "0 0 27px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero h2",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "max-width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 123,
+          "start": 6604,
+          "value": "550px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 300,
+          "start": 15120,
+          "value": "100%"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero h3",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "line-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 126,
+          "start": 6737,
+          "value": "1.55"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 380,
+          "start": 18966,
+          "value": "1.3"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 407,
+          "start": 19986,
+          "value": "1.27"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 127,
+          "start": 6830,
+          "value": "100%"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 309,
+          "start": 15484,
+          "value": "100%"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 381,
+          "start": 19042,
+          "value": "min(82%,295px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "margin-top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 127,
+          "start": 6830,
+          "value": "23px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 381,
+          "start": 19042,
+          "value": "14px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 410,
+          "start": 20097,
+          "value": "10px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 628,
+          "start": 28011,
+          "value": "26px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-hero-summary",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 128,
+          "start": 6947,
+          "value": "22px 18px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 314,
+          "start": 15711,
+          "value": "16px 16px 17px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-intro-lead",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "max-width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 129,
+          "start": 7042,
+          "value": "calc(100% - 102px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 318,
+          "start": 15870,
+          "value": "calc(100% - 91px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 488,
+          "start": 22750,
+          "value": "calc(100% - 69px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-intro-lead",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 129,
+          "start": 7042,
+          "value": "94px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 318,
+          "start": 15870,
+          "value": "0"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-intro li",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "gap",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 135,
+          "start": 7303,
+          "value": "14px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 326,
+          "start": 16163,
+          "value": "12px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-intro li",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 135,
+          "start": 7303,
+          "value": "14px 0"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 326,
+          "start": 16163,
+          "value": "11px 0"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-benefit-icon",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 139,
+          "start": 7454,
+          "value": "37px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 335,
+          "start": 16512,
+          "value": "38px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-benefit-icon",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 139,
+          "start": 7454,
+          "value": "43px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 335,
+          "start": 16512,
+          "value": "46px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #home-screen #nomad360-commercial-banner #nomad360-seo-banner",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 141,
+          "start": 7669,
+          "value": "25px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 346,
+          "start": 16954,
+          "value": "18px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #home-screen #nomad360-commercial-banner #nomad360-seo-banner",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 141,
+          "start": 7669,
+          "value": "92px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 346,
+          "start": 16954,
+          "value": "86px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-seo-brand",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 144,
+          "start": 7793,
+          "value": "92px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 349,
+          "start": 17060,
+          "value": "86px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-seo-brand",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "gap",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 144,
+          "start": 7793,
+          "value": "7px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 349,
+          "start": 17060,
+          "value": "5px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-seo-logo-mask",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 145,
+          "start": 7872,
+          "value": "78px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 350,
+          "start": 17139,
+          "value": "76px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-seo-logo-mask",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 145,
+          "start": 7872,
+          "value": "78px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 350,
+          "start": 17139,
+          "value": "76px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-commercial-banner .nomad-hero-summary",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 172,
+          "start": 9368,
+          "value": "rgba(23,59,88,.30)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 777,
+          "start": 34314,
+          "value": "transparent"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #home-screen #nomad360-commercial-banner #nomad360-hero",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 194,
+          "start": 10256,
+          "value": "min(52%,650px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 368,
+          "start": 17992,
+          "value": "min(52%,655px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #home-screen #nomad360-commercial-banner #nomad360-hero",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 194,
+          "start": 10256,
+          "value": "0"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 648,
+          "start": 28752,
+          "value": "max(0px,calc(var(--hero-scene-height) - 32px))"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 212,
+          "start": 10985,
+          "value": "min(100%,545px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 370,
+          "start": 18212,
+          "value": "min(100%,574px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "font-size",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 212,
+          "start": 10985,
+          "value": "clamp(19px,1.65vw,25px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 473,
+          "start": 22293,
+          "value": "clamp(21px,1.8vw,27px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-hero-summary",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 217,
+          "start": 11206,
+          "value": "358px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 395,
+          "start": 19626,
+          "value": "410px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-intro li",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 228,
+          "start": 11679,
+          "value": "120px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 398,
+          "start": 19729,
+          "value": "146px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-benefit-icon",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 236,
+          "start": 12071,
+          "value": "60px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 470,
+          "start": 22185,
+          "value": "75px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-benefit-icon",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 236,
+          "start": 12071,
+          "value": "72px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 470,
+          "start": 22185,
+          "value": "82px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::after",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 290,
+          "start": 14637,
+          "value": "270px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 518,
+          "start": 23752,
+          "value": "clamp(310px,91vw,365px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::after",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 290,
+          "start": 14637,
+          "value": "linear-gradient(90deg,rgba(23,59,88,.7),rgba(23,59,88,.32) 46%,transparent 94%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 378,
+          "start": 18740,
+          "value": "linear-gradient(90deg,rgba(23,59,88,.94),rgba(23,59,88,.64) 42%,rgba(23,59,88,.06) 95%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 518,
+          "start": 23752,
+          "value": "linear-gradient(90deg,rgba(23,59,88,.91),rgba(23,59,88,.61) 36%,rgba(23,59,88,.04) 95%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 611,
+          "start": 27449,
+          "value": "linear-gradient(90deg,\n   rgba(23,59,88,.92) 0%,\n   rgba(23,59,88,.78) 56%,\n   rgba(23,59,88,.52) 80%,\n   rgba(23,59,88,0) 100%)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 309,
+          "start": 15484,
+          "value": "53px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 381,
+          "start": 19042,
+          "value": "48px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-intro li:first-child",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding-top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 332,
+          "start": 16416,
+          "value": "3px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 425,
+          "start": 20587,
+          "value": "2px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 635,
+          "start": 28216,
+          "value": "12px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #home-screen #nomad360-commercial-banner #nomad360-hero",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "margin-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 368,
+          "start": 17992,
+          "value": "42px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 392,
+          "start": 19538,
+          "value": "34px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero h2",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "font-size",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 369,
+          "start": 18111,
+          "value": "clamp(62px,5vw,78px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 386,
+          "start": 19309,
+          "value": "clamp(63px,4.8vw,73px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-hero-summary",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "padding-top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 371,
+          "start": 18308,
+          "value": "21px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 395,
+          "start": 19626,
+          "value": "30px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-intro-lead",
+      "context": [
+        "@media (min-width:1021px)"
+      ],
+      "property": "font-size",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 372,
+          "start": 18387,
+          "value": "clamp(29px,2.25vw,36px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 437,
+          "start": 21078,
+          "value": "clamp(32px,2.55vw,39px)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 467,
+          "start": 22074,
+          "value": "clamp(34px,2.64vw,40px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding-top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 376,
+          "start": 18619,
+          "value": "15px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 403,
+          "start": 19841,
+          "value": "10px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-hero h2",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "margin-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 379,
+          "start": 18888,
+          "value": "9px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 404,
+          "start": 19901,
+          "value": "7px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body #home-screen #nomad360-commercial-banner #nomad360-hero",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "margin-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 413,
+          "start": 20194,
+          "value": "15px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 481,
+          "start": 22555,
+          "value": "25px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 522,
+          "start": 23941,
+          "value": "10px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 624,
+          "start": 27883,
+          "value": "18px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-hero-summary",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 416,
+          "start": 20282,
+          "value": "12px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 496,
+          "start": 23043,
+          "value": "8px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-intro-lead",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "margin-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 419,
+          "start": 20371,
+          "value": "10px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 478,
+          "start": 22444,
+          "value": "18px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 488,
+          "start": 22750,
+          "value": "22px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 526,
+          "start": 24069,
+          "value": "13px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-intro li",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding-top",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 422,
+          "start": 20457,
+          "value": "6px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 631,
+          "start": 28108,
+          "value": "12px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner #nomad360-intro li",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 422,
+          "start": 20457,
+          "value": "6px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 631,
+          "start": 28108,
+          "value": "14px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner .nomad-intro-lead",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "font-size",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 445,
+          "start": 21400,
+          "value": "15px"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 478,
+          "start": 22444,
+          "value": "14px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#nomad360-irbis-banner",
+      "context": [],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 4,
+          "start": 289,
+          "value": "clamp(472px,40vw,615px)"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 207,
+          "start": 11339,
+          "value": "clamp(490px,42.1vw,650px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#nomad360-irbis-banner #nomad360-product-details[open]",
+      "context": [],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 124,
+          "start": 6681,
+          "value": "100%"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 298,
+          "start": 15488,
+          "value": "58%"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#nomad360-irbis-banner #nomad360-product-details[open]",
+      "context": [],
+      "property": "max-width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 124,
+          "start": 6681,
+          "value": "100%"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 298,
+          "start": 15488,
+          "value": "775px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#nomad360-irbis-banner",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 139,
+          "start": 7478,
+          "value": "0 0 10px"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 228,
+          "start": 12221,
+          "value": "0"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#nomad360-irbis-banner #nomad360-return h2",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 147,
+          "start": 8006,
+          "value": "clamp(29px,8vw,42px)"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 230,
+          "start": 12429,
+          "value": "clamp(30px,8vw,43px)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "#nomad360-irbis-banner .nomad-irbis-mobile-art",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 166,
+          "start": 9122,
+          "value": "10px -20px -12px"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 231,
+          "start": 12505,
+          "value": "14px -20px -12px"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "transparent"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FF913F"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-hero h3",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 47642,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 51914,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56307,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-recovery-detail",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 49681,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 52070,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-example-copy p",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 50742,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 52172,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56947,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 50846,
+          "value": "var(--p10-accent)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 55832,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 57117,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-hero h1",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56307,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 57690,
+          "value": "var(--p10-accent)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 738,
+          "start": 281404,
+          "value": "#FF913F"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#38678B"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#38678B"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FF913F"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#38678B"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#38678B"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FF913F"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen #full-service-message",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73769,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 78654,
+          "value": "var(--p10-accent)"
+        }
+      ],
+      "status": "Unreviewed C5 component"
+    }
+  ]
+}

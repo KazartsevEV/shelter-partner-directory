@@ -36,6 +36,9 @@ function build(root=ROOT){
    assetSet.add('nomad360_palette.css');
    source=require('../../tests/helpers/task10-palette-scope.cjs').stripTask10PaletteHtml(source);
   }
+  // C5-6 changes only grid geometry: preserve historic text offsets through exact bytes.
+  if(f==='nomad360_calculator_ui.css'&&source.includes('.nomad-pay-fiat{'))
+   source=require('../../tests/helpers/payment-grid-scope.cjs').restore(f,source);
   // Preserve the translated-copy baseline: the approved logo color/crop
   // insertion contains no new translatable user-facing content.
   if(f==='nomad360_header.js'||f==='nomad360_calculator_ui.css')

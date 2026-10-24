@@ -25,9 +25,9 @@ async function snapshot(page,origin){
  const css=path.join(out,'utilities.css');A.ok(fs.existsSync(css),'Compile pinned utilities');
  const launch=()=>chromium.launch({headless:true,args:['--no-sandbox']}),config=require('../../tests/fixtures/partner-build/example.json');
  const packages={before:await buildPackage(config,{repositoryRoot:baselineRoot,browserFactory:launch}),after:await buildPackage(config,{browserFactory:launch})};
- const unchanged=p=>p.manifest.resources.filter(r=>r.path!==scope.file).sort((a,b)=>a.path.localeCompare(b.path));
+ const unchanged=p=>p.manifest.resources.filter(r=>r.path!==scope.file).map(require('../../tests/helpers/payment-grid-scope.cjs').normalizePackageResource).sort((a,b)=>a.path.localeCompare(b.path));
  A.deepEqual(unchanged(packages.before),unchanged(packages.after),'Every other packaged resource is exact');
- const deletedBytes=scope.cssDelta+require('../../tests/helpers/cleanup-about-copy-scope.cjs').packageDelta(packages.before,packages.after);
+ const deletedBytes=scope.cssDelta+require('../../tests/helpers/cleanup-about-copy-scope.cjs').packageDelta(packages.before,packages.after)+require('../../tests/helpers/payment-grid-scope.cjs').packageDelta(packages.before,packages.after);
  A.equal(Buffer.byteLength(packages.before.html)-Buffer.byteLength(packages.after.html),deletedBytes);
  for(const p of Object.values(packages))for(const name of scope.paths)A.equal(p.manifest.resources.some(r=>r.path===name),false,'Historic images remain absent');
  const server=http.createServer((req,res)=>{try{
