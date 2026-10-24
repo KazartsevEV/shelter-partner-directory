@@ -1,0 +1,839 @@
+{
+  "base": "050bce789259867096d2d312e5b0dbea51454d5d",
+  "source": "docs/reviews/cleanup-typical-05-7/ownership.json",
+  "rawBefore": 100,
+  "examined": 35,
+  "acceptedChange": "NONE",
+  "status": "DESIGN_REVIEW_PENDING",
+  "classifications": {
+    "palette-visual-dependency": 29,
+    "safe-removal-candidate": 2,
+    "shared-rule-fragment": 4
+  },
+  "groups": [
+    {
+      "selector": "body",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "Marketing_calc.HTML",
+          "line": 27,
+          "start": 78,
+          "value": "#334155"
+        },
+        {
+          "file": "US_Retail_Demo.HTML",
+          "line": 27,
+          "start": 78,
+          "value": "#334155"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 4,
+          "start": 221,
+          "value": "var(--ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 32,
+          "start": 867,
+          "value": "var(--nd-text)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 734,
+          "start": 24595,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 4,
+          "start": 221,
+          "value": "var(--background)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 32,
+          "start": 867,
+          "value": "var(--nd-canvas)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 734,
+          "start": 24595,
+          "value": "#16375a"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-hero h1",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 113,
+          "start": 3838,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 738,
+          "start": 24640,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 816,
+          "start": 27793,
+          "value": "#ed8e63"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-hero h2",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 122,
+          "start": 4003,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 738,
+          "start": 24640,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-hero h3",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 131,
+          "start": 4198,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 525,
+          "start": 17175,
+          "value": "var(--nd-text)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 738,
+          "start": 24640,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-detail",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 283,
+          "start": 8091,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 534,
+          "start": 17554,
+          "value": "var(--nd-text)"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-title",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 326,
+          "start": 8999,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 763,
+          "start": 25673,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-copy p",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 332,
+          "start": 9118,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 539,
+          "start": 17688,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 763,
+          "start": 25673,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 338,
+          "start": 9239,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 691,
+          "start": 22929,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "border-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 338,
+          "start": 9239,
+          "value": "1px solid var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 691,
+          "start": 22929,
+          "value": "0"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 352,
+          "start": 9546,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 700,
+          "start": 23183,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body .nd-currency-settings select",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 432,
+          "start": 12704,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 2002,
+          "start": 73695,
+          "value": "#16375a"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 691,
+          "start": 22929,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 700,
+          "start": 23183,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:focus-visible",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 700,
+          "start": 23183,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:focus-visible",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 700,
+          "start": 23183,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-shell",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1470,
+          "start": 52788,
+          "value": "#102c49"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1602,
+          "start": 57485,
+          "value": "#f5f7f9"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-shell",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1470,
+          "start": 52788,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1602,
+          "start": 57485,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1475,
+          "start": 53002,
+          "value": "#16375a"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1608,
+          "start": 57624,
+          "value": "#fff"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1475,
+          "start": 53002,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1608,
+          "start": 57624,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "font",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1478,
+          "start": 53101,
+          "value": "700 clamp(25px,4vw,34px)/1.2 var(--nd-font)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1628,
+          "start": 58206,
+          "value": "700 clamp(23px,5vw,32px)/1.2 var(--nd-font)"
+        }
+      ],
+      "classification": "safe-removal-candidate",
+      "reason": "Direct same-selector font shorthand later overrides old value; remove only with exact cascade and palette parity, all screens compared."
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1478,
+          "start": 53101,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1621,
+          "start": 58057,
+          "value": "#16375a"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-label",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1481,
+          "start": 53195,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1681,
+          "start": 59785,
+          "value": "#16375a"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-label :is(input,select)",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1482,
+          "start": 53289,
+          "value": "1px solid #adc3d4"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1687,
+          "start": 59922,
+          "value": "1px solid #9bacbc"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table table",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1509,
+          "start": 54234,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1750,
+          "start": 62335,
+          "value": "#16375a"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table :is(td,th)",
+      "context": [],
+      "property": "border-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1513,
+          "start": 54400,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1754,
+          "start": 62457,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table th",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1516,
+          "start": 54546,
+          "value": "#d0e1ee"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1758,
+          "start": 62572,
+          "value": "#16375a"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-secondary",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1528,
+          "start": 54927,
+          "value": "1px solid #9abbd4"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1771,
+          "start": 63096,
+          "value": "1px solid #16375a"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-secondary",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1528,
+          "start": 54927,
+          "value": "#234a70"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1771,
+          "start": 63096,
+          "value": "#16375a"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen #full-service-message",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1534,
+          "start": 55176,
+          "value": "#ffd5c7"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1778,
+          "start": 63406,
+          "value": "#b42318"
+        }
+      ],
+      "classification": "palette-visual-dependency",
+      "reason": "Paint, border or decoration declarations are read as theme inputs or participate in surface/restoration ownership; verify generated palette and runtime styles before removal. Current AST duplicate is not dead-code proof."
+    },
+    {
+      "selector": "body #full-service-screen #full-service-message",
+      "context": [],
+      "property": "font",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1534,
+          "start": 55176,
+          "value": "600 14px/1.4 var(--nd-font)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1778,
+          "start": 63406,
+          "value": "600 15px/1.5 var(--nd-font)"
+        }
+      ],
+      "classification": "safe-removal-candidate",
+      "reason": "Direct same-selector font shorthand later overrides old value; remove only with exact cascade and palette parity, all screens compared."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1608,
+          "start": 57624,
+          "value": "18px 0"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1618,
+          "start": 57982,
+          "value": "16px 0 18px"
+        }
+      ],
+      "classification": "shared-rule-fragment",
+      "reason": "Earlier margin is grouped with selectors still using it; cannot delete the grouped declaration without splitting owners and protecting unaffected siblings."
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1621,
+          "start": 58057,
+          "value": "0"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1628,
+          "start": 58206,
+          "value": "6px 0 17px"
+        }
+      ],
+      "classification": "shared-rule-fragment",
+      "reason": "Earlier margin is grouped with selectors still using it; cannot delete the grouped declaration without splitting owners and protecting unaffected siblings."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-forecast-note",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1665,
+          "start": 59265,
+          "value": "8px 0 16px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1673,
+          "start": 59561,
+          "value": "12px 0 0"
+        }
+      ],
+      "classification": "shared-rule-fragment",
+      "reason": "Earlier margin is grouped with selectors still using it; cannot delete the grouped declaration without splitting owners and protecting unaffected siblings."
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-credit p",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1665,
+          "start": 59265,
+          "value": "8px 0 16px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1701,
+          "start": 60474,
+          "value": "5px 0 14px"
+        }
+      ],
+      "classification": "shared-rule-fragment",
+      "reason": "Earlier margin is grouped with selectors still using it; cannot delete the grouped declaration without splitting owners and protecting unaffected siblings."
+    }
+  ]
+}
