@@ -1,0 +1,80 @@
+{
+  "base": "fda74ea466f84048f647fe7341e4b65d2a46ef70",
+  "contexts": 66,
+  "comparisons": 198,
+  "resizePairs": 21,
+  "screenshotPairs": 18,
+  "negativeCanvasDetected": true,
+  "overrideGroups": {
+    "before": 224,
+    "after": 217,
+    "componentBefore": 7,
+    "componentAfter": 0
+  },
+  "sizes": {
+    "before": {
+      "bytes": 30275,
+      "gzip": 7036,
+      "brotli": 5847
+    },
+    "after": {
+      "bytes": 29792,
+      "gzip": 6956,
+      "brotli": 5775
+    }
+  },
+  "standaloneBytes": {
+    "before": 13230361,
+    "after": 13229878
+  },
+  "timings": [
+    {
+      "width": 390,
+      "before": {
+        "repeats": 9,
+        "medianMs": 628.7401050000335,
+        "minMs": 603.4406610000296,
+        "maxMs": 669.9462840000051,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5395320
+      },
+      "after": {
+        "repeats": 9,
+        "medianMs": 644.2617149999714,
+        "minMs": 605.8461390000302,
+        "maxMs": 688.7828880000161,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5397496
+      },
+      "deltaPct": 2.468684576743696
+    },
+    {
+      "width": 1280,
+      "before": {
+        "repeats": 9,
+        "medianMs": 692.0819410000113,
+        "minMs": 596.8731309999712,
+        "maxMs": 710.479468000005,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5442916
+      },
+      "after": {
+        "repeats": 9,
+        "medianMs": 676.5139439999475,
+        "minMs": 626.4001730000018,
+        "maxMs": 710.7396060000174,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5442788
+      },
+      "deltaPct": -2.249444188294969
+    }
+  ]
+}
