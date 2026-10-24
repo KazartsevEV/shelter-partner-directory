@@ -1,7 +1,7 @@
 # C5: final cascade and palette batch
 
 Date: 2026-10-24. Base: accepted main `050bce789259867096d2d312e5b0dbea51454d5d` (#258).
-Status: local acceptance checks passed; final CI pending. Not accepted or merged. C6 and partner issuance unchanged.
+Status: local acceptance checks passed. Final CI is recorded in the current [PR #267 checks](https://github.com/KazartsevEV/shelter-partner-directory/pull/267/checks). Not accepted or merged. C6 and partner issuance unchanged.
 
 ## Change and scope
 
