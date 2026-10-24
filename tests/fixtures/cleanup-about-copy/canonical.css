@@ -1,0 +1,73 @@
+/* C5-4: one owner for the About introduction and its existing locale rhythm.
+   Keep fallback wrappers and the original media interval gaps unchanged. */
+#nomad360-information .nomad-about-opening{
+ width:min(49%,515px);max-width:515px;margin:0 0 28px;
+}
+@media(min-width:701px){
+ #nomad360-information .nomad-about-opening{width:min(48%,515px)}
+}
+@media(min-width:701px) and (max-width:1000px){
+ #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:clamp(300px,35vw,390px);
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:0;
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  width:min(62%,600px);max-width:600px;
+  margin-top:clamp(145px,21vw,225px);margin-bottom:20px;
+ }
+}
+@media(min-width:1001px){
+ #nomad360-information #nomad360-about .nomad-about-scene-copy{min-height:430px}
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy{min-height:0}
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  width:min(60%,680px);max-width:680px;
+  margin-top:clamp(235px,22vw,300px);margin-bottom:14px;
+ }
+}
+@media(max-width:700px){
+ #nomad360-information .nomad-about-opening{
+  width:82%;max-width:330px;margin:0 0 62px;
+  position:relative;isolation:isolate;
+ }
+ #nomad360-information .nomad-about-opening::before{
+  content:none;position:absolute;z-index:-1;pointer-events:none;
+  inset:-7px -4px -9px -22px;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.94) 0%,rgba(23,59,88,.79) 48%,
+   rgba(23,59,88,.40) 75%,rgba(23,59,88,0) 100%);
+  -webkit-mask-image:linear-gradient(to bottom,
+   transparent 0%,#000 15%,#000 84%,transparent 100%);
+  mask-image:linear-gradient(to bottom,
+   transparent 0%,#000 15%,#000 84%,transparent 100%);
+ }
+ #nomad360-information .nomad-about-scene-copy{
+  min-height:clamp(282px,83vw,333px);display:flow-root;
+ }
+ #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:calc(clamp(265px,84vw,330px) - 37px);
+ }
+ html[lang] #nomad360-information #nomad360-about .nomad-about-scene-copy{
+  min-height:0;padding-bottom:18px;
+ }
+ #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
+  width:82%;max-width:330px;
+  margin-top:clamp(120px,36vw,148px);margin-bottom:0;
+ }
+ html[lang="en"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening,
+ html[lang="kk"] #nomad360-information .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:clamp(68px,23vw,96px);
+ }
+ html[lang="ru"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  width:100%;max-width:326px;
+  margin-top:calc(50vw - 75px);margin-bottom:0;
+ }
+ html[lang="en"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  width:100%;max-width:none;
+  margin-top:calc(44vw - 72px);margin-bottom:24px;
+ }
+ html[lang="kk"] #nomad360-information #nomad360-about .nomad-about-scene-copy .nomad-about-opening{
+  margin-top:calc(44vw - 84px);
+ }
+}

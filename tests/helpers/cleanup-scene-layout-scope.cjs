@@ -11,10 +11,11 @@ for(const name of ['scripts/cleanup-scene/compare.cjs','scripts/cleanup-scene/ow
  A.notEqual(after,before);scripts[name]={before,after};
 }
 function restore(name,source){
+ source=require('./cleanup-about-copy-scope.cjs').restore(name,source);
  if(name===file){const text=source.toString();A.ok([original,candidate,...legacy].includes(text),'C3 permits only accepted About bytes; C5-1 permits only accepted canvas; C5-2 permits only accepted scene; C5-3 permits only exact decoration consolidation');return text===candidate?(Buffer.isBuffer(source)?Buffer.from(original):original):source;}
  const script=scripts[name];if(!script)return source;A.ok([script.before,script.after].includes(source.toString()),'Only exact inherited C5-3 decoration bridge: '+name);return Buffer.isBuffer(source)?Buffer.from(script.before):script.before;
 }
-function normalizePackageResource(record){if(record.path!==file)return record;const text=[original,candidate,...legacy].find(s=>record.sha256===hash(s)&&record.bytes===Buffer.byteLength(s));A.ok(text,'Only exact C3/C5 decoration resource SHA and size');return text===candidate?{...record,sha256:hash(original),bytes:Buffer.byteLength(original)}:record;}
+function normalizePackageResource(record){record=require('./cleanup-about-copy-scope.cjs').normalizePackageResource(record);if(record.path!==file)return record;const text=[original,candidate,...legacy].find(s=>record.sha256===hash(s)&&record.bytes===Buffer.byteLength(s));A.ok(text,'Only exact C3/C5 decoration resource SHA and size');return text===candidate?{...record,sha256:hash(original),bytes:Buffer.byteLength(original)}:record;}
 function packageDelta(before,after){const rows=[before,after].map(p=>p.manifest.resources.find(r=>r.path===file));rows.forEach(r=>A.ok(r,'About resource required'));const saved=rows.map(r=>normalizePackageResource(r).bytes-r.bytes);return saved[1]-saved[0];}
 const paths=['docs/approved-design/unified-banners/about-moon-scenery.webp','assets/nomad360-banners/about-bozzhyra-approved.webp'];
 module.exports={root,base,file,original,candidate,legacy,receipt,canonical,cssDelta,scripts,restore,normalizePackageResource,packageDelta,paths};
