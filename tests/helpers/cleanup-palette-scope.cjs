@@ -10,6 +10,7 @@ let candidate=original;for(const [first,,length] of [...pairs].reverse())candida
 const generatorAfter=generatorBefore.replace('const css=`','const rawCss=`').replace('const outputs=',"const css=require('./deduplicate.cjs').deduplicate(rawCss).css;\nconst outputs=");
 A.notEqual(generatorAfter,generatorBefore);A.ok(generatorAfter.includes('deduplicate(rawCss)'));
 function restore(name,source){
+ source=require('./cleanup-canvas-scope.cjs').restore(name,source);
  const expected=name===file?[original,candidate]:name===generator?[generatorBefore,generatorAfter]:null;
  if(!expected)return source;
  A.ok(expected.includes(source.toString()),'C4 permits only seven exact early palette-rule deletions and the exact generator hook: '+name);
@@ -17,6 +18,7 @@ function restore(name,source){
 }
 const hash=text=>crypto.createHash('sha256').update(text).digest('hex');
 function normalizePackageResource(record){
+ record=require('./cleanup-canvas-scope.cjs').normalizePackageResource(record);
  if(record.path!==file)return record;
  A.ok([original,candidate].some(s=>record.sha256===hash(s)&&record.bytes===Buffer.byteLength(s)),'Only exact C4 palette SHA and size may bridge old package guards');
  return {...record,sha256:hash(original),bytes:Buffer.byteLength(original)};

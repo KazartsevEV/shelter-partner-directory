@@ -1,0 +1,25 @@
+✔ C3 removes the early copies while retaining later rules and all intervening cascade bytes (40.643664ms)
+✔ C3 rejects changed colours, fonts, source image, geometry, later-copy deletion and extra bytes (47.472638ms)
+✔ the older C2 package guard recognizes only exact inherited C3 bytes and sizes (2.962908ms)
+✔ all other runtime, artwork, fixtures and workflows are exact; older C2 tooling has only the explicit inherited package bridge (457.346536ms)
+✔ C5-1 has one canonical width/overflow owner and one mobile top margin, preserving all paint and artwork (25.732753ms)
+✔ C5-1 exact scope rejects unknown width, breakpoint, margin, font, colour and source changes (1.767179ms)
+✔ package bridges count only inherited C5 bytes, not the older C3 delta (26.879981ms)
+✔ all other runtime, assets, fixtures, generator and existing workflows stay exact; inherited tools have only exact bridges (479.114232ms)
+✔ C2 retains the later 600px rule, the frozen logo tail, and every other CSS byte (30.99441ms)
+✔ C2 restores exactly for historical guards and rejects unrelated paint, size, crop and appended changes (51.504636ms)
+✔ all other app sources, artwork, palette, numerical fixtures and previous cleanup tools stay exact (346.838561ms)
+✔ historical banner guard accepts only the exact approved #248 CSS, never unreviewed edits (10.622222ms)
+✔ C4 independently matches seven frozen early deletions, keeps layer order, wrappers and declaration bytes (116.907013ms)
+✔ deduper preserves latest restoration, separate layer/media contexts, important and declaration order (0.695307ms)
+✔ exact C4 guards reject colours, fonts, latest-copy removal, reordered layers and wrong package hashes (17.779232ms)
+✔ all other runtime, artwork, fixtures, existing workflows and older cleanup tools stay exact except the inherited C3 package bridge (496.314989ms)
+✔ partner configuration stage preserves every existing runtime source, form, selector and filled demo (490.246037ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3007.228631

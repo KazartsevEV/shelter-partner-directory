@@ -4,7 +4,7 @@ const s=require('./helpers/cleanup-about-scope.cjs'),root=path.resolve(__dirname
 const rules=(text,selector,media)=>{const rows=[];postcss.parse(text).walkRules(r=>{if(r.selector===selector&&r.parent.name==='media'&&r.parent.params===media)rows.push(r);});return rows;};
 const decls=r=>r.nodes.filter(n=>n.type==='decl').map(d=>[d.prop,d.value,!!d.important]);
 test('C3 removes the early copies while retaining later rules and all intervening cascade bytes',()=>{
- A.equal(fs.readFileSync(path.join(root,s.file),'utf8'),s.candidate);
+ A.equal(require('./helpers/cleanup-canvas-scope.cjs').restore(s.file,fs.readFileSync(path.join(root,s.file),'utf8')),s.candidate);
  for(const [selector,media,values] of [
   ['#nomad360-information #nomad360-about','(max-width:700px)',[['padding','37px 22px 0',false]]],
   ['#nomad360-information.nomad-information::before','(min-width:1001px)',[['background-size','auto 640.6px',false],['background-position','center top',false],['background-repeat','no-repeat',false]]]
