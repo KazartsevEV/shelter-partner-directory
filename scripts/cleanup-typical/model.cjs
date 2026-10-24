@@ -37,7 +37,7 @@ module.exports={base,files,hash,analyze,apply,winners};
 if(require.main===module){
  const A=require('node:assert/strict'),{execFileSync}=require('node:child_process'),report={base,files:{}};
  for(const file of files){const before=execFileSync('git',['show',base+':'+file],{encoding:'utf8'}),r=analyze(before),after=apply(before,r.edits);A.deepEqual(winners(before),winners(after));report.files[file]={beforeSha:hash(before),afterSha:hash(after),savedBytes:Buffer.byteLength(before)-Buffer.byteLength(after),...r};
-  const actual=fs.readFileSync(file,'utf8');A.ok([before,after].includes(actual),'Refuse unknown source: '+file);
+  const raw=fs.readFileSync(file,'utf8'),actual=process.argv.includes('--check')?require('../../tests/helpers/paint-scope.cjs').restore(file,raw):raw;A.ok([before,after].includes(actual),'Refuse unknown source: '+file);
   if(process.argv.includes('--apply'))fs.writeFileSync(file,after);else if(process.argv.includes('--check'))A.equal(actual,after);
  }
  const receipt='tests/fixtures/cleanup-typical/removals.json';

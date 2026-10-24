@@ -23,5 +23,5 @@ function normalizePackageResource(record){
  A.ok([original,candidate].some(s=>record.sha256===hash(s)&&record.bytes===Buffer.byteLength(s)),'Only exact C4 palette SHA and size may bridge old package guards');
  return {...record,sha256:hash(original),bytes:Buffer.byteLength(original)};
 }
-function packageDelta(before,after){const rows=[before,after].map(p=>p.manifest.resources.find(r=>r.path===file));rows.forEach(r=>{A.ok(r,'Palette resource required');normalizePackageResource(r);});return rows[0].bytes-rows[1].bytes;}
+function packageDelta(before,after){before=require('./paint-scope.cjs').normalizePackage(before);after=require('./paint-scope.cjs').normalizePackage(after);const rows=[before,after].map(p=>p.manifest.resources.find(r=>r.path===file));rows.forEach(r=>{A.ok(r,'Palette resource required');normalizePackageResource(r);});return rows[0].bytes-rows[1].bytes;}
 module.exports={base,file,generator,original,candidate,pairs,generatorBefore,generatorAfter,restore,normalizePackageResource,packageDelta};

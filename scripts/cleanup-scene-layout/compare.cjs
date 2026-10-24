@@ -28,7 +28,7 @@ async function snapshot(page,origin){
  const unchanged=p=>p.manifest.resources.filter(r=>r.path!==scope.file).map(require('../../tests/helpers/payment-grid-scope.cjs').normalizePackageResource).sort((a,b)=>a.path.localeCompare(b.path));
  A.deepEqual(unchanged(packages.before),unchanged(packages.after),'Every other packaged resource is exact');
  const deletedBytes=scope.cssDelta+require('../../tests/helpers/cleanup-about-copy-scope.cjs').packageDelta(packages.before,packages.after)+require('../../tests/helpers/payment-grid-scope.cjs').packageDelta(packages.before,packages.after);
- A.equal(Buffer.byteLength(packages.before.html)-Buffer.byteLength(packages.after.html),deletedBytes);
+ A.equal(Buffer.byteLength(packages.before.html)-Buffer.byteLength(packages.after.html),deletedBytes+require('../../tests/helpers/paint-scope.cjs').packageDelta(packages.before,packages.after));
  for(const p of Object.values(packages))for(const name of scope.paths)A.equal(p.manifest.resources.some(r=>r.path===name),false,'Historic images remain absent');
  const server=http.createServer((req,res)=>{try{
   let rel=decodeURIComponent(new URL(req.url,'http://local').pathname).slice(1),variant=rel.startsWith('before/')?'before':'after';
