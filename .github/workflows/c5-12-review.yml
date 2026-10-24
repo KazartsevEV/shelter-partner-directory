@@ -1,0 +1,20 @@
+name: C5-12 UI and Hero risk-ledger contract
+on:
+  pull_request:
+    paths:
+      - 'docs/reviews/c5-ui-hero-05-12/**'
+      - 'tests/c5_12_ui_hero_inventory.test.cjs'
+      - '.github/workflows/c5-12-review.yml'
+permissions:
+  contents: read
+jobs:
+  owner-ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/c5_12_ui_hero_inventory.test.cjs
