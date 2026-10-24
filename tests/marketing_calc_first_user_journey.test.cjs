@@ -95,7 +95,20 @@ const pageUrl=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).hre
    assert.equal(await page.locator('#home-screen').isVisible(),true);
    // The recovery card is rendered by the deferred startup path. Wait for
    // that render instead of racing it immediately after DOMContentLoaded.
-   await page.locator('#saved-product-entry').waitFor({state:'visible'});
+   try { await page.locator('#saved-product-entry').waitFor({state:'visible'}); }
+   catch (error) {
+     try { console.error('CLEAN_USER_JOURNEY_DIAGNOSTIC',JSON.stringify({errors,state:await page.evaluate(()=>{
+       const raw=JSON.parse(localStorage.getItem('marketingCalcProductResultV1'));
+       const card=document.querySelector('#saved-product-entry');
+       return {url:location.href,ready:document.readyState,
+         stored:raw?.productPortfolio?.map(x=>({id:x.id,source:x.source,name:x.name,inputs:typeof x.inputs})),
+         valid:!!window.Nomad360DraftStore?.readV1(),
+         hidden:card?.hidden,classes:card?.className,
+         display:card&&getComputedStyle(card).display,
+         duplicates:document.querySelectorAll('#saved-product-entry').length};
+     })})); } catch(diagnosticError) { console.error('CLEAN_USER_JOURNEY_DIAGNOSTIC_UNAVAILABLE',diagnosticError.message); }
+     throw error;
+   }
    assert.equal(await page.locator('#saved-product-entry').isVisible(),true);
    assert.equal(await page.evaluate(()=>productPortfolio.length),0,'Saved file does not prepopulate a new calculation');
    await page.locator('#resume-own-product').click();
