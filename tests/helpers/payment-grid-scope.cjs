@@ -17,6 +17,9 @@ for(const name of ['scripts/cleanup-logo-mask/compare.cjs','scripts/cleanup-abou
  A.notEqual(after,before,name);scripts[name]={before,after};
 }
 {
+ const name='scripts/cleanup-about-copy/ownership.cjs',before=read(base,name),after=before.replace("text:fs.readFileSync(path.join(root,name),'utf8')","text:require('../../tests/helpers/payment-grid-scope.cjs').restore(name,fs.readFileSync(path.join(root,name),'utf8'))").replace('const report={originalAudit:',"const report={sourceNormalization:'Historical C5-4 introduction census; exact C5-6 UI grid restored. Current raw census belongs to C5-6.',originalAudit:");A.notEqual(after,before);scripts[name]={before,after};
+}
+{
  const name='scripts/style-ownership/model.cjs',before=read(base,name),after=before.replace("text:fs.readFileSync(path.join(root,f.file),'utf8')","text:require('../../tests/helpers/payment-grid-scope.cjs').restore(f.file,fs.readFileSync(path.join(root,f.file),'utf8'))").replace('let cachedCensus;',"// Historical C5-5 census: approved C5-6 grid is restored for this frozen contract.\n// The C5-6 analyzer reports current raw sources without this normalization.\nlet cachedCensus;").replace('pages:r.pages.length}',"pages:r.pages.length,sourceNormalization:'Historical C5-5; current raw census belongs to C5-6'}");A.notEqual(after,before);scripts[name]={before,after};
 }
 {
