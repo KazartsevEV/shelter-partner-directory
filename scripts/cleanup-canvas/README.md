@@ -17,6 +17,7 @@ utilities as in `.github/workflows/cleanup-canvas.yml`, and use a clean commit:
 
 ```sh
 node --test tests/cleanup_canvas.test.cjs
+node scripts/cleanup-canvas/ownership.cjs artifacts/cleanup-c5/ownership.json
 node scripts/cleanup-canvas/compare.cjs artifacts/cleanup-c5
 ```
 
@@ -34,3 +35,6 @@ CI still covers its legacy information block. Old C4's business, repeated
 navigation, actual Excel and PDF checks also run with exact inherited package
 bridges. Historical sources and numerical oracles are preserved. Full C5 and
 C6 remain pending separate component review/acceptance.
+The pure original AST analyzer is reused without changing its frozen audit or
+tools. Accepted-main/current reanalysis verifies seven canvas conflicts retire
+(224 → 217 total) and records all remaining groups as unreviewed, not dead code.

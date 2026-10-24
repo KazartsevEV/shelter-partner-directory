@@ -40,6 +40,7 @@ jobs:
           node tests/sales_tax_7b_baseline.cjs
           node tests/helpers/pinned-controls-css-scope.cjs
           python scripts/seo/check_phase_a.py
+          node scripts/cleanup-canvas/ownership.cjs artifacts/cleanup-c5/ownership.json
       - name: Pinned site utilities
         run: |
           mkdir -p artifacts/cleanup-c5
