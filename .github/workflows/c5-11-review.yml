@@ -1,0 +1,20 @@
+name: C5-11 design-system audit contract
+on:
+  pull_request:
+    paths:
+      - 'docs/reviews/c5-design-system-05-11/**'
+      - 'tests/c5_11_design_owners.test.cjs'
+      - '.github/workflows/c5-11-review.yml'
+permissions:
+  contents: read
+jobs:
+  design-owners:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/c5_11_design_owners.test.cjs
