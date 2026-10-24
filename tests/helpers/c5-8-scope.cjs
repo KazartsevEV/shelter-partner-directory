@@ -4,7 +4,6 @@ const A=require('node:assert/strict'),crypto=require('node:crypto'),{execFileSyn
 const file='nomad360_calculator_ui.css',base='050bce789259867096d2d312e5b0dbea51454d5d';
 const original=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:24e6});
 const edits=[
- ['background:#fff;border-radius:50%;box-shadow:0 6px 22px rgba(0,0,0,.14)','background:#fff;border-radius:50%'],
  ['.nomad-embed-b2b-logo-mask img{display:block;width:100%;height:100%;object-fit:contain}','.nomad-embed-b2b-logo-mask img{display:block;width:100%;height:100%}'],
  ['grid-template-columns:minmax(0,1fr) 64px;gap:16px;padding:22px','gap:16px;padding:22px']
 ];
