@@ -1,0 +1,84 @@
+/* C5-3: the approved scenic decoration has one base owner and three
+   responsive branches, preserving fractional viewport gaps. Keep artwork, masks and geometry unchanged. */
+#nomad360-information.nomad-information::before{
+ content:"";position:absolute;z-index:0;pointer-events:none;
+ top:0;left:0;right:auto;width:100%;height:auto;aspect-ratio:1672/941;
+ background-image:url("./assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg");
+ background-repeat:no-repeat;background-size:100% 100%;background-position:center top;
+ -webkit-mask-image:linear-gradient(to bottom,
+   #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);
+ mask-image:linear-gradient(to bottom,
+   #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);
+ -webkit-mask-composite:initial;mask-composite:initial;
+}
+#nomad360-information.nomad-information::after{
+ content:"";pointer-events:none;position:absolute;z-index:0;
+ top:0;left:0;width:100%;height:min(640px,56.3vw);
+ background:linear-gradient(90deg,
+  rgba(23,59,88,.30) 0%,rgba(23,59,88,.18) 29%,
+  rgba(23,59,88,0) 58%);
+}
+@media(max-width:700px){
+ #nomad360-information.nomad-information::before{
+  --about-scene-h:50vw;
+  right:0;height:var(--about-scene-h);aspect-ratio:2/1;
+  background-size:auto var(--about-scene-h);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 75%,transparent 100%);
+ }
+ #nomad360-information.nomad-information::after{
+  height:50vw;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.80) 0%,rgba(23,59,88,.56) 36%,
+   rgba(23,59,88,.18) 60%,rgba(23,59,88,0) 80%);
+ }
+}
+@media(min-width:701px){
+ #nomad360-information.nomad-information::before{
+  -webkit-mask-image:linear-gradient(to bottom,
+   #000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+  mask-image:linear-gradient(to bottom,
+   #000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+ }
+ #nomad360-information.nomad-information::after{
+  height:auto;aspect-ratio:1672/941;
+  background:linear-gradient(90deg,
+   rgba(23,59,88,.84) 0%,
+   rgba(23,59,88,.69) 20%,
+   rgba(23,59,88,.37) 43%,
+   rgba(23,59,88,0) 67%);
+ }
+}
+@media(min-width:701px) and (max-width:1000px){
+ #nomad360-information.nomad-information::before{background-size:208.333333% auto}
+}
+@media(min-width:1001px){
+ #nomad360-information.nomad-information::before,
+ #nomad360-information.nomad-information::after{
+  right:0;height:640.6px;aspect-ratio:auto;transform:none;clip-path:inset(0);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 73%,rgba(0,0,0,.85) 83%,rgba(0,0,0,.30) 94%,transparent 100%);
+  -webkit-mask-composite:initial;mask-composite:initial;
+ }
+ #nomad360-information.nomad-information::before{
+  background-size:auto 640.6px;
+ }
+ #nomad360-information.nomad-information::after{
+  background:
+   linear-gradient(to bottom,
+    rgba(23,59,88,0) 0%,
+    rgba(23,59,88,0) 52%,
+    rgba(23,59,88,.12) 60%,
+    rgba(23,59,88,.28) 68%,
+    rgba(23,59,88,.52) 78%,
+    rgba(23,59,88,.78) 88%,
+    rgba(23,59,88,.94) 100%),
+   linear-gradient(90deg,
+    rgba(23,59,88,.94) 0%,
+    rgba(23,59,88,.86) 20%,
+    rgba(23,59,88,.66) 40%,
+    rgba(23,59,88,.31) 58%,
+    rgba(23,59,88,0) 72%);
+  background-repeat:no-repeat;
+ }
+}

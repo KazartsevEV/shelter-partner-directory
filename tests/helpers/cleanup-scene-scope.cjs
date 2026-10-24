@@ -20,16 +20,18 @@ for(const name of ['scripts/cleanup-logo-mask/compare.cjs','scripts/cleanup-abou
  A.notEqual(after,before);scripts[name]={before,after};
 }
 function restore(name,source){
+ source=require('./cleanup-scene-layout-scope.cjs').restore(name,source);
  if(name===file){const text=source.toString();A.ok([original,candidate,...legacy].includes(text),'C3 permits only accepted About bytes; C5-1 permits only accepted canvas; C5-2 permits only the two exact obsolete image declarations');return text===candidate?(Buffer.isBuffer(source)?Buffer.from(original):original):source;}
  const script=scripts[name];if(!script)return source;A.ok([script.before,script.after].includes(source.toString()),'Only exact inherited scene-resource bridge: '+name);return Buffer.isBuffer(source)?Buffer.from(script.before):script.before;
 }
 function normalizePackageResource(record){
+ record=require('./cleanup-scene-layout-scope.cjs').normalizePackageResource(record);
  if(record.path!==file)return record;
  const text=[original,candidate,...legacy].find(s=>record.sha256===hash(s)&&record.bytes===Buffer.byteLength(s));A.ok(text,'Only exact C3/C5 canvas resource SHA and size for scene cleanup');
  return text===candidate?{...record,sha256:hash(original),bytes:Buffer.byteLength(original)}:record;
 }
 function keepResource(record){const asset=assets.get(record.path);if(!asset)return true;A.equal(record.bytes,asset.bytes,'Historical image size');A.equal(record.sha256,asset.sha256,'Historical image SHA');return false;}
 function rows(before,after){const r=[before,after].map(p=>p.manifest.resources.find(x=>x.path===file));r.forEach(x=>{A.ok(x,'About resource required');normalizePackageResource(x);});return r;}
-function extraInlineDelta(before,after){const r=rows(before,after);return r.reduce((sum,x,i)=>sum+(i?1:-1)*(x.sha256===hash(candidate)?extraInline:0),0);}
+function extraInlineDelta(before,after){const r=rows(before,after);return r.reduce((sum,x,i)=>sum+(i?1:-1)*(require('./cleanup-scene-layout-scope.cjs').normalizePackageResource(x).sha256===hash(candidate)?extraInline:0),0);}
 function packageDelta(before,after){const r=rows(before,after),saved=r.map(x=>normalizePackageResource(x).bytes-x.bytes);return saved[1]-saved[0]+extraInlineDelta(before,after);}
 module.exports={base,file,original,candidate,legacy,paths,removed,assets,cssDelta,htmlDelta,extraInline,scripts,restore,normalizePackageResource,keepResource,extraInlineDelta,packageDelta};
