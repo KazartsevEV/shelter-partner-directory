@@ -193,7 +193,7 @@
 .nomad-footer a:focus-visible,.nomad-footer button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .nomad-donate{scroll-margin-top:28px}
 .nomad-donate-lead{max-width:720px}
-.nomad-pay-fiat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:28px}
+.nomad-pay-fiat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
 .nomad-pay-crypto{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
 .nomad-pay{display:flex;flex-direction:column;gap:6px;padding:18px;border:1px solid var(--nf-line);background:rgba(255,255,255,.05)}
 .nomad-pay-label{font-size:14px;font-weight:600;letter-spacing:.02em;color:#f0b9a5}
@@ -224,7 +224,7 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-list{margin:0 0 12px;padding-left:20px;list-style:disc;font-size:14px;line-height:1.6;color:#344c63}
 .nomad-info-block .nomad-topics{margin-top:14px}
 @media(max-width:900px){
- .nomad-pay-fiat,.nomad-pay-crypto,.nomad-products-grid,.nomad-footer-meta{grid-template-columns:minmax(0,1fr)}
+ .nomad-pay-crypto,.nomad-products-grid,.nomad-footer-meta{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:480px){
  .nomad-pay-crypto .nomad-pay{flex-direction:column}
@@ -342,7 +342,6 @@ a.nomad-pay-value{text-decoration:underline}
  .nomad-crypto-heading{padding:12px 14px 13px}
  .nomad-crypto-embed{padding:5px 4px 6px}
 }
-.nomad-pay-fiat{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}
 .nomad-kz-flag,.nomad-ru-flag{display:inline-block;font-size:19px;vertical-align:-2px;margin-right:3px}
 .nomad-pay-kaspi .nomad-pay-hint,.nomad-pay-ozon .nomad-pay-hint{margin-top:2px}
 .nomad-pay-bank{display:block;min-width:0}
