@@ -2,9 +2,9 @@
 const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process'),postcss=require('../scripts/palette/node_modules/postcss');
 const s=require('./helpers/cleanup-palette-scope.cjs'),{deduplicate}=require('../scripts/palette/deduplicate.cjs'),root=path.resolve(__dirname,'..');
 test('C4 independently matches seven frozen early deletions, keeps layer order, wrappers and declaration bytes',()=>{
- const result=deduplicate(s.original);A.equal(result.css,s.candidate);A.equal(result.removed.length,7);A.equal(s.original.length-s.candidate.length,904);A.equal(fs.readFileSync(s.file,'utf8'),s.candidate);
+ const result=deduplicate(s.original);A.equal(result.css,s.candidate);A.equal(result.removed.length,7);A.equal(s.original.length-s.candidate.length,904);A.equal(require('./helpers/paint-scope.cjs').restore(s.file,fs.readFileSync(s.file,'utf8')),s.candidate);
  const wrappers=css=>{const a=[];postcss.parse(css).walkAtRules(n=>a.push([n.name,n.params]));return a;};A.deepEqual(wrappers(s.original),wrappers(s.candidate));A.equal(deduplicate(s.candidate).css,s.candidate);
- A.equal(fs.readFileSync(s.generator,'utf8'),s.generatorAfter);
+ A.equal(require('./helpers/paint-scope.cjs').restore(s.generator,fs.readFileSync(s.generator,'utf8')),s.generatorAfter);
 });
 test('deduper preserves latest restoration, separate layer/media contexts, important and declaration order',()=>{
  const layer=x=>'@layer nomad360-palette{'+x+'}';

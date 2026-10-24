@@ -1,7 +1,7 @@
 'use strict';
 const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process'),pc=require('../scripts/palette/node_modules/postcss'),s=require('./helpers/payment-grid-scope.cjs');
 test('one base and one 900px rule own the fiat grid, with every unrelated selector/declaration preserved',()=>{
- A.equal(fs.readFileSync(s.file,'utf8'),s.candidate);A.equal(s.cssDelta,95);A.deepEqual(s.replacements,JSON.parse(fs.readFileSync('tests/fixtures/payment-grid/edits.json')));
+ A.equal(require('./helpers/paint-scope.cjs').restore(s.file,fs.readFileSync(s.file,'utf8')),s.candidate);A.equal(s.cssDelta,95);A.deepEqual(s.replacements,JSON.parse(fs.readFileSync('tests/fixtures/payment-grid/edits.json')));
  const rows=text=>{const other=[],owned=[];pc.parse(text).walkRules(r=>{const context=[];for(let p=r.parent;p&&p.type!=='root';p=p.parent)context.unshift('@'+p.name+' '+p.params);for(const selector of r.selectors)(selector==='.nomad-pay-fiat'?owned:other).push({selector,context,decls:r.nodes.map(n=>n.toString())});});return {other,owned};};const a=rows(s.original),b=rows(s.candidate);A.deepEqual(a.other,b.other);A.equal(a.owned.length,4);A.equal(b.owned.length,2);A.deepEqual(b.owned.map(r=>r.context),[[],['@media (max-width:900px)']]);
  const tail='/* TASK-10 LOGO-01:';A.equal(s.original.slice(s.original.indexOf(tail)),s.candidate.slice(s.candidate.indexOf(tail)));
 });

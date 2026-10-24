@@ -8,13 +8,13 @@
  box-sizing:border-box;width:min(1320px,calc(100vw - 48px));max-width:none;
  margin:0 0 28px;
  padding:clamp(22px,3.8vw,50px);border-radius:12px;
- background:var(--hero-navy);font-family:var(--nd-font,Inter,system-ui,sans-serif);
+ font-family:var(--nd-font,Inter,system-ui,sans-serif);
 }
 /* The crop stays its natural rectangular shape; its damaged left edge fades into navy.
    The image is a decorative layer, NOT a picture of the UI. */
 #home-screen #nomad360-commercial-banner::before{
  content:"";top:0;right:0;
- width:54%;aspect-ratio:776 / 525;pointer-events:none;
+ width:54%;aspect-ratio:776 / 525;
  background:url("./assets/nomad360-banners/hero.webp") right top/contain no-repeat;
  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 20%);
  mask-image:linear-gradient(to right,transparent 0%,#000 20%);
@@ -109,10 +109,10 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{
  
  /* On phones the entire original art is ABOVE the copy: never overlap the headline. */
  #home-screen #nomad360-commercial-banner::before{
-  aspect-ratio:776 / 525;
-  background-position:right top;background-size:contain;
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 74%,transparent 100%);
-  mask-image:linear-gradient(to bottom,#000 0%,#000 74%,transparent 100%);
+
+  background-position:right top;
+
+
  }
  body #home-screen #nomad360-commercial-banner #nomad360-hero{
   box-sizing:border-box;
@@ -133,11 +133,11 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{
   grid-template-columns:1fr;gap:0;margin-top:20px;
  }
  #home-screen #nomad360-commercial-banner #nomad360-intro li{
-  border-bottom:1px solid var(--hero-blue);
+
   font-size:15px;
  }
  #home-screen #nomad360-commercial-banner .nomad-benefit-icon{flex-basis:37px}
- #home-screen #nomad360-commercial-banner .nomad-intro-result{border:0;font-size:18px}
+ #home-screen #nomad360-commercial-banner .nomad-intro-result{font-size:18px}
  body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{
   position:absolute;
  }
@@ -170,7 +170,7 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{
    background-color:var(--hero-orange)!important;color:var(--hero-navy)!important;
  }
  body:has(#home-screen) #nomad360-commercial-banner .nomad-hero-summary{
-   background-color:rgba(23,59,88,.30)!important;color:#FFFFFF!important;
+   color:#FFFFFF!important;
  }
 }
 
@@ -290,7 +290,7 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{
  #home-screen #nomad360-commercial-banner::after{
   content:'';position:absolute;z-index:-1;pointer-events:none;
   inset:0 0 auto 0;
-  background:linear-gradient(90deg,rgba(23,59,88,.7),rgba(23,59,88,.32) 46%,transparent 94%);
+
  }
  body #home-screen #nomad360-commercial-banner #nomad360-hero{
   width:100%;max-width:none;min-height:0;
@@ -373,7 +373,7 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
 @media(max-width:700px){
 
 
-#home-screen #nomad360-commercial-banner::after{background:linear-gradient(90deg,rgba(23,59,88,.94),rgba(23,59,88,.64) 42%,rgba(23,59,88,.06) 95%)}
+
 
 
 #home-screen #nomad360-commercial-banner #nomad360-hero .nomad-intro-cta{width:min(82%,295px);min-height:48px;font-size:14px!important;}
@@ -503,7 +503,7 @@ body #home-screen #nomad360-commercial-banner #nomad360-seo-banner{align-self:st
  }
  #home-screen #nomad360-commercial-banner::after{
   height:clamp(310px,91vw,365px);
-  background:linear-gradient(90deg,rgba(23,59,88,.91),rgba(23,59,88,.61) 36%,rgba(23,59,88,.04) 95%);
+
  }
  
  #home-screen #nomad360-commercial-banner .nomad-intro-lead{

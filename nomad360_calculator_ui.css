@@ -236,7 +236,7 @@ a.nomad-pay-value{text-decoration:underline}
 .nomad-embed-actions{display:grid;gap:12px;margin-top:0;max-width:460px}
 .nomad-license-terms{max-width:460px;margin-top:24px;padding-top:18px;border-top:1px solid var(--nf-line)}
 .nomad-embed-title{margin:0;color:#fff;font:700 17px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif}
-.nomad-embed-download,.nomad-embed-contact{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;padding:11px 14px;border:1px solid #f4f7fc;background:#f4f7fc;color:#16375a;font:700 15px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif;text-decoration:none;text-align:center;cursor:pointer}
+.nomad-embed-download,.nomad-embed-contact{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;padding:11px 14px;border:1px solid #f4f7fc;font:700 15px/1.35 'IBM Plex Sans',Inter,system-ui,sans-serif;text-decoration:none;text-align:center;cursor:pointer}
 .nomad-embed-download:hover:not(:disabled){background:#d7e2ec;border-color:#d7e2ec;color:#16375a}
 .nomad-embed-download:disabled{opacity:.65;cursor:wait}
 .nomad-embed-contact{background:transparent;border-color:#f4f7fc;color:#fff}
@@ -477,11 +477,8 @@ a.nomad-pay-value{text-decoration:underline}
   font:500 clamp(16px,1.65vw,19px)/1.5 var(--nd-font,Inter,system-ui,sans-serif)
 }
 .nomad-embed-b2b-brand{display:flex;justify-content:center;align-items:center;min-width:0}
-.nomad-embed-b2b-logo-mask{
-  display:block;width:108px;height:108px;overflow:hidden;
-  background:#fff;border-radius:50%;box-shadow:0 6px 22px rgba(0,0,0,.14)
-}
-.nomad-embed-b2b-logo-mask img{display:block;width:100%;height:100%;object-fit:contain}
+
+
 .nomad-footer #nomad360-embed .nomad-embed-b2b-benefits{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
   margin:0;padding:0;list-style:none
@@ -554,13 +551,13 @@ a.nomad-pay-value{text-decoration:underline}
 /* SEO-07 approved keyword banner; original offer unchanged. */
 body #nomad360-seo-banner.nomad-seo-banner{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;margin:0 0 24px;padding:28px;background:#16375a;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:10px;font-family:var(--nd-font,Inter,system-ui,sans-serif)}
 .nomad-seo-copy{min-width:0}body #nomad360-seo-banner.nomad-seo-banner h2{margin:0 0 14px;color:#fff;font-size:24px;font-weight:700;line-height:1.3}body #nomad360-seo-banner.nomad-seo-banner p{margin:0;color:#fff;font-size:17px;font-weight:400;line-height:1.6}.nomad-seo-logo{display:block;width:140px;height:140px;object-fit:contain}
-@media(max-width:600px){body #nomad360-seo-banner.nomad-seo-banner{grid-template-columns:minmax(0,1fr) 64px;gap:16px;padding:22px}.nomad-seo-copy{display:contents}body #nomad360-seo-banner.nomad-seo-banner h2{grid-column:1;grid-row:1;margin:0;font-size:22px}body #nomad360-seo-banner.nomad-seo-banner p{grid-column:1/-1;grid-row:2}.nomad-seo-logo{grid-column:2;grid-row:1;width:64px;height:64px}}
+@media(max-width:600px){body #nomad360-seo-banner.nomad-seo-banner{gap:16px;padding:22px}.nomad-seo-copy{display:contents}body #nomad360-seo-banner.nomad-seo-banner h2{grid-column:1;grid-row:1;margin:0;font-size:22px}body #nomad360-seo-banner.nomad-seo-banner p{grid-column:1/-1;grid-row:2}.nomad-seo-logo{grid-column:2;grid-row:1;width:64px;height:64px}}
 
 /* RET-07A presentation additions. */
 .nomad-about-icon{display:block;flex:none;align-self:center;width:88px;height:88px;color:#16375a}.nomad-about-icon-tool{stroke:#bf5425}
 .nomad-footer .nomad-embed-toggle{background:#ed8e63;color:#16375a;border-color:#ed8e63}.nomad-footer .nomad-embed-toggle:hover:not(:disabled){background:#f29d76;color:#16375a;border-color:#f29d76}.nomad-footer .nomad-embed-toggle:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
-.nomad-seo-brand{display:flex;flex-direction:column;align-items:center;gap:10px;width:140px;transform:translateY(-8px)}.nomad-seo-logo-mask{display:block;width:140px;height:140px;background:#fff;border-radius:50%;overflow:hidden}.nomad-seo-tagline{margin:0!important;color:#fff!important;text-align:center;font:600 16px/1.4 var(--nd-font,Inter,system-ui,sans-serif)}.nomad-seo-tagline span{display:inline-block;white-space:nowrap}.nomad-seo-tagline span+span{color:#ed8e63}
+.nomad-seo-brand{display:flex;flex-direction:column;align-items:center;gap:10px;width:140px;transform:translateY(-8px)}.nomad-seo-tagline{margin:0!important;color:#fff!important;text-align:center;font:600 16px/1.4 var(--nd-font,Inter,system-ui,sans-serif)}.nomad-seo-tagline span{display:inline-block;white-space:nowrap}
 @media(max-width:600px){body #nomad360-seo-banner.nomad-seo-banner{grid-template-columns:minmax(0,1fr) 88px}.nomad-seo-brand{grid-column:2;grid-row:1;width:88px;gap:8px;transform:translateY(-5px)}.nomad-seo-tagline{font-size:14px}}
 .nomad-return{margin:0 0 28px;padding:28px;border:1px solid #b4c5d6;background:#fff;color:#16375a;border-radius:10px}.nomad-return h2{color:#16375a;margin:0 0 20px;font:700 26px/1.3 var(--nd-font)}.nomad-return-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:24px}.nomad-return-button{min-width:0;min-height:52px;padding:14px 18px;border:1px solid #ed8e63;border-radius:6px;background:#ed8e63;color:#16375a;font:600 17px/1.45 var(--nd-font);cursor:pointer;white-space:normal;text-align:center}.nomad-return-button:hover{background:#f29d76}.nomad-return .nomad-return-note{margin:10px 0;color:#16375a;font:600 21px/1.45 var(--nd-font)}.nomad-return-status:empty{display:none}.nomad-return-status,.nomad-return-copy-status{font:400 16px/1.5 var(--nd-font);color:#16375a}
 /* Explicit status colour: no faded grey when installation was confirmed. */
