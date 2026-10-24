@@ -2,7 +2,7 @@
 const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process'),postcss=require('../scripts/palette/node_modules/postcss'),crypto=require('node:crypto');
 const s=require('./helpers/cleanup-scene-layout-scope.cjs'),targets=new Set(['#nomad360-information.nomad-information::before','#nomad360-information.nomad-information::after']),owned=n=>n.selectors.every(x=>targets.has(x)),hash=x=>crypto.createHash('sha256').update(x).digest('hex');
 test('C5-3 frozen decoration consolidation preserves every other selector/declaration/context and the single source URL',()=>{
- A.equal(fs.readFileSync(s.file,'utf8'),s.candidate);A.equal(s.cssDelta,3168);A.equal(s.receipt.length,17);
+ A.equal(require('./helpers/cleanup-about-copy-scope.cjs').restore(s.file,fs.readFileSync(s.file,'utf8')),s.candidate);A.equal(s.cssDelta,3168);A.equal(s.receipt.length,17);
  const inventory=text=>{const root=postcss.parse(text),other=[],scene=[];root.walkRules(n=>{const context=[];for(let p=n.parent;p&&p.type!=='root';p=p.parent)context.unshift('@'+p.name+' '+p.params);(owned(n)?scene:other).push({context,text:n.toString()});});return {other,scene};};
  const a=inventory(s.original),b=inventory(s.candidate);A.deepEqual(a.other,b.other);A.equal(a.scene.length,19);A.equal(b.scene.length,10);
  A.equal((s.candidate.match(/about-moonlight-horizontal-only-3200x768.svg/g)||[]).length,1);

@@ -1,0 +1,85 @@
+{
+  "base": "8c2f51dbfe3d497d5b6ad9dfdf5b787ea5813530",
+  "runtimeReceipt": "3681b5654387a4989b974322b855ef5f550195f6",
+  "contexts": 66,
+  "comparisons": 198,
+  "resizePairs": 21,
+  "screenshotPairs": 18,
+  "unavailablePairs": 6,
+  "fractionalPairs": 6,
+  "localePairs": 12,
+  "obsoleteBrowserRequests": 0,
+  "overrideGroups": {
+    "before": 190,
+    "after": 185,
+    "componentBefore": 5,
+    "componentAfter": 0
+  },
+  "sizes": {
+    "before": {
+      "bytes": 26454,
+      "gzip": 6430,
+      "brotli": 5330
+    },
+    "after": {
+      "bytes": 25108,
+      "gzip": 6184,
+      "brotli": 5119
+    }
+  },
+  "standaloneBytes": {
+    "before": 12977594,
+    "after": 12976248
+  },
+  "approvedSourceUnchanged": true,
+  "timings": [
+    {
+      "width": 390,
+      "before": {
+        "repeats": 9,
+        "medianMs": 660.0924309999682,
+        "minMs": 620.0542240000213,
+        "maxMs": 734.4176839999855,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5395540
+      },
+      "after": {
+        "repeats": 9,
+        "medianMs": 656.9486610000022,
+        "minMs": 614.0410059999558,
+        "maxMs": 693.7828210000298,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5399280
+      },
+      "differencePercent": -0.47626208881134113
+    },
+    {
+      "width": 1280,
+      "before": {
+        "repeats": 9,
+        "medianMs": 678.1519820000394,
+        "minMs": 608.4821519999532,
+        "maxMs": 785.1500970000052,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5442876
+      },
+      "after": {
+        "repeats": 9,
+        "medianMs": 661.7632989999838,
+        "minMs": 637.7566329999827,
+        "maxMs": 709.9915930000134,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5442896
+      },
+      "differencePercent": -2.4166681562621584
+    }
+  ]
+}
