@@ -1,0 +1,94 @@
+{
+  "runtimeReceipt": "acb51bb2050e8144bb8086e27f5619100cb14891",
+  "cases": 126,
+  "comparisons": 1008,
+  "pngPairs": 30,
+  "negativeGeometryDetected": true,
+  "rawGroups": {
+    "before": 183,
+    "after": 100,
+    "retained": 19,
+    "unreviewed": 81
+  },
+  "sizes": {
+    "nomad360_design_system.css": {
+      "before": {
+        "bytes": 90213,
+        "gzip": 17692,
+        "brotli": 14869
+      },
+      "after": {
+        "bytes": 89217,
+        "gzip": 17590,
+        "brotli": 14785
+      }
+    },
+    "nomad360_hero_banner.css": {
+      "before": {
+        "bytes": 39191,
+        "gzip": 7893,
+        "brotli": 6611
+      },
+      "after": {
+        "bytes": 36598,
+        "gzip": 7569,
+        "brotli": 6338
+      }
+    }
+  },
+  "standaloneBytes": {
+    "before": 12976153,
+    "after": 12972564
+  },
+  "resources": 63,
+  "timing": [
+    {
+      "width": 390,
+      "beforeMedianMs": 676.5877130000154,
+      "afterMedianMs": 666.2261040000012,
+      "pairedMedianDeltaMs": -10.361609000014141,
+      "beforeRangeMs": [
+        674.9576650001109,
+        690.1574740000069
+      ],
+      "afterRangeMs": [
+        639.3898969999282,
+        739.4530859999359
+      ],
+      "beforeListeners": [
+        279,
+        279,
+        279
+      ],
+      "afterListeners": [
+        279,
+        279,
+        279
+      ]
+    },
+    {
+      "width": 1280,
+      "beforeMedianMs": 652.5218960000202,
+      "afterMedianMs": 653.4233559999848,
+      "pairedMedianDeltaMs": -2.906898000044748,
+      "beforeRangeMs": [
+        633.249775000033,
+        656.4924540000502
+      ],
+      "afterRangeMs": [
+        644.1169150000205,
+        653.5855560000055
+      ],
+      "beforeListeners": [
+        279,
+        279,
+        279
+      ],
+      "afterListeners": [
+        279,
+        279,
+        279
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@ const {test}=require('node:test'),A=require('node:assert/strict'),fs=require('no
 const {base,file,original,candidate,restore}=require('./helpers/cleanup-service-grid-scope.cjs');
 const root=path.resolve(__dirname,'..'),postcss=require('../scripts/palette/node_modules/postcss');
 test('C1 removes only the early identical unlayered grid declaration; later mobile overrides remain exact',()=>{
- A.equal(fs.readFileSync(path.join(root,file),'utf8'),candidate);
+ A.equal(require('./helpers/typical-scope.cjs').restore(file,fs.readFileSync(path.join(root,file),'utf8')),candidate);
  const selector='body #full-service-screen .nd-full-service-inputs';
  const rules=s=>{const rows=[];postcss.parse(s).walkRules(r=>{if(r.selector===selector)rows.push(r);});return rows;};
  const before=rules(original),after=rules(candidate);A.equal(before.length,2);A.equal(after.length,1);
@@ -20,5 +20,5 @@ test('historical guards retain every CSS byte outside this deletion and reject e
 });
 test('all audited application sources, generated palette, financial oracles and packer remain byte-identical',()=>{
  const names=execFileSync('git',['ls-tree','-r','--name-only',base],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(?:nomad360_|portfolio_v2_).*\.(?:js|css)$/.test(f)||['Marketing_calc.HTML','US_Retail_Demo.HTML','scripts/palette/build.cjs','scripts/partners/build.cjs'].includes(f)||/^(?:en|ru|kk|license)\/.*\.html$/.test(f)||/^assets\/nomad360-[^/]+\.(?:js|css)$/.test(f)||f.startsWith('tests/fixtures/'));
- for(const name of names){const now=fs.readFileSync(path.join(root,name)),old=execFileSync('git',['show',base+':'+name],{cwd:root,maxBuffer:20*1024*1024});A.deepEqual(name===file?restore(name,now):now,old,name);}
+ for(const name of names){const now=require('./helpers/accepted-banner-248-scope.cjs').restore(name,require('./helpers/cleanup-logo-mask-scope.cjs').restore(name,fs.readFileSync(path.join(root,name)))),old=execFileSync('git',['show',base+':'+name],{cwd:root,maxBuffer:20*1024*1024});A.deepEqual(name===file?restore(name,now):now,old,name);}
 });

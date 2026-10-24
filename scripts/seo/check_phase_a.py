@@ -458,7 +458,10 @@ def main():
         old_paint = b'color:var(--nomad-burger-contrast,var(--p10-white,#FFFFFF))!important;'
         new_paint = b'color:var(--p10-fg)!important;'
         assert approved_hero.count(old_paint) == 2, 'Unexpected approved HERO CSS base'
-        current_hero = (ROOT / 'nomad360_hero_banner.css').read_bytes()
+        # Replay only the exact approved C5-7 layout removal for this historical prefix.
+        current_hero = subprocess.check_output(['node', '-e',
+            "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/typical-scope.cjs').restore('nomad360_hero_banner.css',fs.readFileSync(0)))"],
+            input=(ROOT / 'nomad360_hero_banner.css').read_bytes(), cwd=ROOT)
         # HERO-12/13 approved full-bleed, CTA and user-accepted desktop-only logo lift:
         # pin original styling and exact latest CSS/asset/controller presentation blobs.
         legacy = approved_hero.replace(old_paint, new_paint)
@@ -466,7 +469,9 @@ def main():
         # HERO-LOGO-TRANSPARENCY-01: original approved HERO prefix above is frozen;
         # the only accepted appended delta removes the dark rectangle behind
         # the imported logo in the same TASK-10 palette cascade layer, and\n        # reserves unobstructed mobile copy beside the unchanged circular mark.\n        # HERO-LANG-02 extends only the localized CTA type scale at 3 breakpoints.
-        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() == '6c8632da780aaf6f8287c0e3b5b5b097e4fdca9e', 'HERO scene geometry or approved logo-transparent delta drift'
+        # Keep hashing the ACTUAL production file. Only the old accepted blob and
+        # the exact C5-7 candidate pinned by its removal receipt are permitted.
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() in {'6c8632da780aaf6f8287c0e3b5b5b097e4fdca9e', 'acc53b2b853cf0d206bb9a02d58afa0c1ccbfb22'}, 'HERO scene geometry or approved logo-transparent delta drift'
     if 'nomad360_hero_banner.js' in changed:
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
@@ -496,6 +501,7 @@ def main():
                              'scripts/cleanup-scene-layout/', 'docs/reviews/cleanup-scene-layout-05-3/', 'tests/fixtures/cleanup-scene-layout/',
                              'scripts/cleanup-about-copy/', 'docs/reviews/cleanup-about-copy-05-4/', 'tests/fixtures/cleanup-about-copy/',
                              'scripts/style-ownership/', 'docs/reviews/style-ownership-05-5/', 'tests/fixtures/style-ownership/',
+                             'scripts/cleanup-typical/', 'docs/reviews/cleanup-typical-05-7/', 'tests/fixtures/cleanup-typical/',
                              'scripts/cleanup-payment-grid/', 'docs/reviews/payment-grid-05-6/', 'tests/fixtures/payment-grid/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
                              'scripts/audit/', 'docs/reviews/runtime-audit-01/',
@@ -556,6 +562,7 @@ def main():
         'tests/tax_draft_storage_scope.test.cjs', 'tests/tax_draft_storage_browser.cjs',
         '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/partner-package-build.yml',
+        'tests/cleanup_typical.test.cjs', 'tests/helpers/typical-scope.cjs', '.github/workflows/cleanup-typical.yml',
         'tests/payment_grid.test.cjs', 'tests/helpers/payment-grid-scope.cjs', '.github/workflows/payment-grid.yml',
         'tests/style_ownership.test.cjs', '.github/workflows/style-ownership.yml', 'docs/architecture/nomad360-style-owners.json',
         'tests/cleanup_about_copy.test.cjs', 'tests/helpers/cleanup-about-copy-scope.cjs', 'tests/helpers/about-copy-cascade.cjs', '.github/workflows/cleanup-about-copy.yml',

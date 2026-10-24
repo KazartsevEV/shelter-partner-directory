@@ -1,0 +1,2306 @@
+{
+  "base": "6a0504139af2f28f5281d49a81559f90a968dd22",
+  "rawBefore": 183,
+  "rawAfter": 100,
+  "retired": 83,
+  "retainedReviewed": 19,
+  "unreviewed": 81,
+  "files": {
+    "nomad360_design_system.css": {
+      "declarations": 51,
+      "savedBytes": 996
+    },
+    "nomad360_hero_banner.css": {
+      "declarations": 82,
+      "savedBytes": 2593
+    }
+  },
+  "remaining": [
+    {
+      "selector": "body",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "Marketing_calc.HTML",
+          "line": 27,
+          "start": 78,
+          "value": "#334155"
+        },
+        {
+          "file": "US_Retail_Demo.HTML",
+          "line": 27,
+          "start": 78,
+          "value": "#334155"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 4,
+          "start": 221,
+          "value": "var(--ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 32,
+          "start": 867,
+          "value": "var(--nd-text)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 734,
+          "start": 24595,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": ".card",
+      "context": [],
+      "property": "border-radius",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "Marketing_calc.HTML",
+          "line": 28,
+          "start": 167,
+          "value": "0.75rem"
+        },
+        {
+          "file": "US_Retail_Demo.HTML",
+          "line": 28,
+          "start": 167,
+          "value": "0.75rem"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 9,
+          "start": 1422,
+          "value": "8px"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".card",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "Marketing_calc.HTML",
+          "line": 28,
+          "start": 167,
+          "value": "1px solid #e2e8f0"
+        },
+        {
+          "file": "US_Retail_Demo.HTML",
+          "line": 28,
+          "start": 167,
+          "value": "1px solid #e2e8f0"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 9,
+          "start": 1422,
+          "value": "1px solid #d5dbe3"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": "a:focus-visible",
+      "context": [],
+      "property": "outline",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 19,
+          "start": 1065,
+          "value": "3px solid #FF913F"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 7,
+          "start": 479,
+          "value": "3px solid var(--orange)"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 3,
+          "start": 332,
+          "value": "3px solid #c45214"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": "a:focus-visible",
+      "context": [],
+      "property": "outline-offset",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 19,
+          "start": 1065,
+          "value": "2px"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 7,
+          "start": 479,
+          "value": "3px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 3,
+          "start": 332,
+          "value": "5px"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": "summary:focus-visible",
+      "context": [],
+      "property": "outline",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 19,
+          "start": 1065,
+          "value": "3px solid #FF913F"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 7,
+          "start": 479,
+          "value": "3px solid var(--orange)"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": "summary:focus-visible",
+      "context": [],
+      "property": "outline-offset",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 19,
+          "start": 1065,
+          "value": "2px"
+        },
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 7,
+          "start": 479,
+          "value": "3px"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".help-lang span",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 23,
+          "start": 1305,
+          "value": "#173B58"
+        },
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 24,
+          "start": 1535,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".help-lang span",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 23,
+          "start": 1305,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "assets/nomad360-help.css",
+          "line": 24,
+          "start": 1535,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": "body",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 4,
+          "start": 221,
+          "value": "var(--background)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 32,
+          "start": 867,
+          "value": "var(--nd-canvas)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 734,
+          "start": 24595,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "a",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 5,
+          "start": 383,
+          "value": "#145e9c"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 3,
+          "start": 289,
+          "value": "inherit"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": "a",
+      "context": [],
+      "property": "text-underline-offset",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 5,
+          "start": 383,
+          "value": "3px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 3,
+          "start": 289,
+          "value": ".2em"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".brand",
+      "context": [],
+      "property": "display",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 12,
+          "start": 913,
+          "value": "inline-flex"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 14,
+          "start": 2294,
+          "value": "flex"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".brand",
+      "context": [],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 12,
+          "start": 913,
+          "value": "21px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 4,
+          "start": 565,
+          "value": "20px"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".brand",
+      "context": [],
+      "property": "font-weight",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 12,
+          "start": 913,
+          "value": "800"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 4,
+          "start": 565,
+          "value": "700"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".brand img",
+      "context": [],
+      "property": "border-radius",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 14,
+          "start": 1078,
+          "value": "50%"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 14,
+          "start": 2342,
+          "value": "6px"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".intro",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 18,
+          "start": 1435,
+          "value": "var(--deep)"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 6,
+          "start": 814,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".intro",
+      "context": [],
+      "property": "border-radius",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 18,
+          "start": 1435,
+          "value": "18px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 6,
+          "start": 814,
+          "value": "10px"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".intro",
+      "context": [],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 18,
+          "start": 1435,
+          "value": "30px 34px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 6,
+          "start": 814,
+          "value": "32px"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".eyebrow",
+      "context": [],
+      "property": "font-weight",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 19,
+          "start": 1555,
+          "value": "800"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 10,
+          "start": 1536,
+          "value": "600"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".intro p",
+      "context": [],
+      "property": "max-width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "assets/nomad360-legal.css",
+          "line": 21,
+          "start": 1757,
+          "value": "850px"
+        },
+        {
+          "file": "assets/nomad360-seo.css",
+          "line": 7,
+          "start": 1126,
+          "value": "760px"
+        }
+      ],
+      "status": "Retained page ownership"
+    },
+    {
+      "selector": ".nomad-embed-contact",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 239,
+          "start": 254957,
+          "value": "#f4f7fc"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 242,
+          "start": 255429,
+          "value": "transparent"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": ".nomad-embed-contact",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 239,
+          "start": 254957,
+          "value": "#16375a"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 242,
+          "start": 255429,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": ".nomad-embed-b2b-logo-mask",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 480,
+          "start": 267604,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 637,
+          "start": 280400,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": ".nomad-embed-b2b-logo-mask",
+      "context": [],
+      "property": "box-shadow",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 480,
+          "start": 267604,
+          "value": "0 6px 22px rgba(0,0,0,.14)"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 637,
+          "start": 280400,
+          "value": "none"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": ".nomad-embed-b2b-logo-mask img",
+      "context": [],
+      "property": "object-fit",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 484,
+          "start": 267766,
+          "value": "contain"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 653,
+          "start": 280857,
+          "value": "cover"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-seo-banner.nomad-seo-banner",
+      "context": [
+        "@media (max-width:600px)"
+      ],
+      "property": "grid-template-columns",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 557,
+          "start": 272639,
+          "value": "minmax(0,1fr) 64px"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 564,
+          "start": 273974,
+          "value": "minmax(0,1fr) 88px"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": ".nomad-seo-logo-mask",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 563,
+          "start": 273595,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 637,
+          "start": 280400,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": ".nomad-seo-tagline span+span",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 563,
+          "start": 273906,
+          "value": "#ed8e63"
+        },
+        {
+          "file": "nomad360_calculator_ui.css",
+          "line": 672,
+          "start": 281514,
+          "value": "#FF913F"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-footer #nomad360-embed",
+      "context": [
+        "@media screen"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_consulting_banner.css",
+          "line": 12,
+          "start": 729,
+          "value": "100vw"
+        },
+        {
+          "file": "nomad360_consulting_banner.css",
+          "line": 12,
+          "start": 729,
+          "value": "100cqw"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-hero h1",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 113,
+          "start": 3838,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 738,
+          "start": 24640,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 816,
+          "start": 27793,
+          "value": "#ed8e63"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-hero h2",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 122,
+          "start": 4003,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 738,
+          "start": 24640,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-hero h3",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 131,
+          "start": 4198,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 525,
+          "start": 17175,
+          "value": "var(--nd-text)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 738,
+          "start": 24640,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-recovery-detail",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 283,
+          "start": 8091,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 534,
+          "start": 17554,
+          "value": "var(--nd-text)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-title",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 326,
+          "start": 8999,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 763,
+          "start": 25673,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-copy p",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 332,
+          "start": 9118,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 539,
+          "start": 17688,
+          "value": "var(--nd-muted)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 763,
+          "start": 25673,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 338,
+          "start": 9239,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 691,
+          "start": 22929,
+          "value": "var(--nd-ink)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "border-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 338,
+          "start": 9239,
+          "value": "1px solid var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 691,
+          "start": 22929,
+          "value": "0"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 352,
+          "start": 9546,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 700,
+          "start": 23183,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body .nd-currency-settings select",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 432,
+          "start": 12704,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 2002,
+          "start": 73695,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 691,
+          "start": 22929,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 700,
+          "start": 23183,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:focus-visible",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 700,
+          "start": 23183,
+          "value": "var(--nd-ink-deep)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #nomad360-home-secondary .nomad-example-link:focus-visible",
+      "context": [],
+      "property": "text-decoration-color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 700,
+          "start": 23183,
+          "value": "var(--nd-accent)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 767,
+          "start": 25795,
+          "value": "var(--nd-brand-vermillion)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-shell",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1470,
+          "start": 52788,
+          "value": "#102c49"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1602,
+          "start": 57485,
+          "value": "#f5f7f9"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-shell",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1470,
+          "start": 52788,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1602,
+          "start": 57485,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1475,
+          "start": 53002,
+          "value": "#16375a"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1608,
+          "start": 57624,
+          "value": "#fff"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1475,
+          "start": 53002,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1608,
+          "start": 57624,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "font",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1478,
+          "start": 53101,
+          "value": "700 clamp(25px,4vw,34px)/1.2 var(--nd-font)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1628,
+          "start": 58206,
+          "value": "700 clamp(23px,5vw,32px)/1.2 var(--nd-font)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1478,
+          "start": 53101,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1621,
+          "start": 58057,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-label",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1481,
+          "start": 53195,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1681,
+          "start": 59785,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-label :is(input,select)",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1482,
+          "start": 53289,
+          "value": "1px solid #adc3d4"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1687,
+          "start": 59922,
+          "value": "1px solid #9bacbc"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table table",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1509,
+          "start": 54234,
+          "value": "#fff"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1750,
+          "start": 62335,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table :is(td,th)",
+      "context": [],
+      "property": "border-bottom",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1513,
+          "start": 54400,
+          "value": "1px solid #557a99"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1754,
+          "start": 62457,
+          "value": "1px solid #d7e0e8"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-table th",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1516,
+          "start": 54546,
+          "value": "#d0e1ee"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1758,
+          "start": 62572,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-secondary",
+      "context": [],
+      "property": "border",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1528,
+          "start": 54927,
+          "value": "1px solid #9abbd4"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1771,
+          "start": 63096,
+          "value": "1px solid #16375a"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-secondary",
+      "context": [],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1528,
+          "start": 54927,
+          "value": "#234a70"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1771,
+          "start": 63096,
+          "value": "#16375a"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen #full-service-message",
+      "context": [],
+      "property": "color",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1534,
+          "start": 55176,
+          "value": "#ffd5c7"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1778,
+          "start": 63406,
+          "value": "#b42318"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen #full-service-message",
+      "context": [],
+      "property": "font",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1534,
+          "start": 55176,
+          "value": "600 14px/1.4 var(--nd-font)"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1778,
+          "start": 63406,
+          "value": "600 15px/1.5 var(--nd-font)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-header",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1608,
+          "start": 57624,
+          "value": "18px 0"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1618,
+          "start": 57982,
+          "value": "16px 0 18px"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen h1",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1621,
+          "start": 58057,
+          "value": "0"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1628,
+          "start": 58206,
+          "value": "6px 0 17px"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-forecast-note",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1665,
+          "start": 59265,
+          "value": "8px 0 16px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1673,
+          "start": 59561,
+          "value": "12px 0 0"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body #full-service-screen .nd-full-service-credit p",
+      "context": [],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1665,
+          "start": 59265,
+          "value": "8px 0 16px"
+        },
+        {
+          "file": "nomad360_design_system.css",
+          "line": 1701,
+          "start": 60474,
+          "value": "5px 0 14px"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "background-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5791,
+          "value": "contain"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 13236,
+          "value": "100% 100%"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "-webkit-mask-image",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5791,
+          "value": "linear-gradient(to bottom,#000 0%,#000 74%,transparent 100%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 13236,
+          "value": "linear-gradient(90deg,transparent 0,#000 25%),linear-gradient(to bottom,#000 0,#000 67%,transparent 100%)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::before",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "mask-image",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 111,
+          "start": 5791,
+          "value": "linear-gradient(to bottom,#000 0%,#000 74%,transparent 100%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 282,
+          "start": 13236,
+          "value": "linear-gradient(90deg,transparent 0,#000 25%),linear-gradient(to bottom,#000 0,#000 67%,transparent 100%)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-commercial-banner .nomad-hero-summary",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 172,
+          "start": 8583,
+          "value": "rgba(23,59,88,.30)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 760,
+          "start": 31721,
+          "value": "transparent"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#home-screen #nomad360-commercial-banner::after",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "background",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 290,
+          "start": 13657,
+          "value": "linear-gradient(90deg,rgba(23,59,88,.7),rgba(23,59,88,.32) 46%,transparent 94%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 376,
+          "start": 17163,
+          "value": "linear-gradient(90deg,rgba(23,59,88,.94),rgba(23,59,88,.64) 42%,rgba(23,59,88,.06) 95%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 504,
+          "start": 21285,
+          "value": "linear-gradient(90deg,rgba(23,59,88,.91),rgba(23,59,88,.61) 36%,rgba(23,59,88,.04) 95%)"
+        },
+        {
+          "file": "nomad360_hero_banner.css",
+          "line": 594,
+          "start": 24856,
+          "value": "linear-gradient(90deg,\n   rgba(23,59,88,.92) 0%,\n   rgba(23,59,88,.78) 56%,\n   rgba(23,59,88,.52) 80%,\n   rgba(23,59,88,0) 100%)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#nomad360-irbis-banner",
+      "context": [],
+      "property": "min-height",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 4,
+          "start": 289,
+          "value": "clamp(472px,40vw,615px)"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 207,
+          "start": 11339,
+          "value": "clamp(490px,42.1vw,650px)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#nomad360-irbis-banner #nomad360-product-details[open]",
+      "context": [],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 124,
+          "start": 6681,
+          "value": "100%"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 298,
+          "start": 15488,
+          "value": "58%"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#nomad360-irbis-banner #nomad360-product-details[open]",
+      "context": [],
+      "property": "max-width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 124,
+          "start": 6681,
+          "value": "100%"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 298,
+          "start": 15488,
+          "value": "775px"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#nomad360-irbis-banner",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "padding",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 139,
+          "start": 7478,
+          "value": "0 0 10px"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 228,
+          "start": 12221,
+          "value": "0"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#nomad360-irbis-banner #nomad360-return h2",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "font-size",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 147,
+          "start": 8006,
+          "value": "clamp(29px,8vw,42px)"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 230,
+          "start": 12429,
+          "value": "clamp(30px,8vw,43px)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "#nomad360-irbis-banner .nomad-irbis-mobile-art",
+      "context": [
+        "@media (max-width:700px)"
+      ],
+      "property": "margin",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 166,
+          "start": 9122,
+          "value": "10px -20px -12px"
+        },
+        {
+          "file": "nomad360_irbis_banner.css",
+          "line": 231,
+          "start": 12505,
+          "value": "14px -20px -12px"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "transparent"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FF913F"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-hero h3",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 47642,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 51914,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56307,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-recovery-detail",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 49681,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 52070,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-example-copy p",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 50742,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 52172,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56947,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 50846,
+          "value": "var(--p10-accent)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 55832,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 57117,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-hero h1",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56307,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 57690,
+          "value": "var(--p10-accent)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 738,
+          "start": 281404,
+          "value": "#FF913F"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#38678B"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#38678B"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FF913F"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#FFFFFF"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#38678B"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#38678B"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FF913F"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#173B58"
+        }
+      ],
+      "status": "Unreviewed C5"
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen #full-service-message",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73769,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 78654,
+          "value": "var(--p10-accent)"
+        }
+      ],
+      "status": "Unreviewed C5"
+    }
+  ]
+}

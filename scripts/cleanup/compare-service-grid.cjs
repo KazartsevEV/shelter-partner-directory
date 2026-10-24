@@ -32,7 +32,7 @@ async function snapshot(page,kind){
  fs.mkdirSync(out,{recursive:true});A.ok(fs.existsSync(path.join(out,'utilities.css')),'Compile pinned utilities first');
  const launch=()=>chromium.launch({headless:true,args:['--no-sandbox']});
  const config=require('../../tests/fixtures/partner-build/example.json');
- const beforePackage=await buildPackage(config,{repositoryRoot:baselineRoot,browserFactory:launch}),afterPackage=await buildPackage(config,{browserFactory:launch});
+ const beforePackage=await require('../cleanup-typical/c1-replay.cjs').build(config,{browserFactory:launch,original:scope.original}),afterPackage=await buildPackage(config,{browserFactory:launch});
  const packages={before:beforePackage,after:afterPackage};
  const server=http.createServer((req,res)=>{try{
   const url=new URL(req.url,'http://local');let rel=decodeURIComponent(url.pathname).slice(1),variant=rel.startsWith('before/')?'before':'after';rel=rel.replace(/^(before|after)\//,'').replace(/^shelter-partner-directory\//,'');
@@ -72,7 +72,7 @@ async function snapshot(page,kind){
   }
   for(const width of [390,1280]){const a=timing.filter(x=>x.width===width&&x.variant==='before').map(x=>x.listeners),b=timing.filter(x=>x.width===width&&x.variant==='after').map(x=>x.listeners);A.deepEqual(a,b,'listener parity');}
   const sizes=s=>({bytes:Buffer.byteLength(s),gzip:zlib.gzipSync(s,{level:9}).length,brotli:zlib.brotliCompressSync(s).length});
-  const report={base:scope.base,sourceBefore:hash(scope.original),sourceAfter:hash(scope.candidate),sizes:{before:sizes(scope.original),after:sizes(scope.candidate)},cases,comparisons:cases.length*8,timing,packages:Object.fromEntries(Object.entries(packages).map(([k,p])=>[k,{revision:p.manifest.sourceRevision,htmlBytes:Buffer.byteLength(p.html),resources:p.manifest.resources}]))};
+  const report={actualSourceSizes:{before:sizes(scope.original),after:sizes(fs.readFileSync(scope.file,'utf8'))},baselineMode:'Isolated C1 replay on current resources; local-only clean fixture commit; not the old deployed artwork',actualAfterCss:hash(fs.readFileSync(scope.file)),base:scope.base,sourceBefore:hash(scope.original),sourceAfter:hash(scope.candidate),sizes:{before:sizes(scope.original),after:sizes(scope.candidate)},cases,comparisons:cases.length*8,timing,packages:Object.fromEntries(Object.entries(packages).map(([k,p])=>[k,{revision:p.manifest.sourceRevision,htmlBytes:Buffer.byteLength(p.html),resources:p.manifest.resources}]))};
   fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify(report,null,2)+'\n');console.log('C1_BROWSER_GREEN',JSON.stringify({cases:cases.length,comparisons:report.comparisons,pairedTimings:timing.length}));
  }finally{await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e.stack);process.exitCode=1;});

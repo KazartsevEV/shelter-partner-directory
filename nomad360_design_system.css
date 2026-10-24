@@ -111,8 +111,8 @@ body #nomad360-hero {
   box-shadow:none;
 }
 body #nomad360-hero h1 {
-  font-size:clamp(14px,1.35vw,16px);
-  font-weight:600;
+  
+  
   letter-spacing:.11em;
   text-transform:uppercase;
   line-height:1.4;
@@ -131,8 +131,8 @@ body #nomad360-hero h2 {
 body #nomad360-hero h3 {
   max-width:730px;
   margin:0;
-  font-size:clamp(16px,1.6vw,19px);
-  font-weight:400;
+  
+  
   line-height:1.55;
   color:var(--nd-muted);
 }
@@ -171,17 +171,17 @@ body #nomad360-calculation-list li {
   min-width:0;
   padding:16px 0;
   border-top:1px solid #e2e7ec;
-  font-size:15px;
-  line-height:1.5;
-  font-weight:400;
+  
+  
+  
   color:var(--nd-text);
 }
 body #nomad360-calculation-list li::before {
   content:counter(deliverable,decimal-leading-zero);
   color:var(--nd-accent);
   font-family:var(--nd-font);
-  font-size:14px;
-  font-weight:600;
+  
+  
   letter-spacing:.035em;
   line-height:1.85;
   font-variant-numeric:tabular-nums;
@@ -278,34 +278,34 @@ body #nomad360-home-secondary .nomad-recovery-title {
   color:var(--nd-ink-deep);
   font-size:clamp(17px,1.8vw,21px);
   line-height:1.32;
-  font-weight:600;
+  
 }
 body #nomad360-home-secondary .nomad-recovery-detail {
   color:var(--nd-muted);
   margin:8px 0 0;
-  font-size:15px;
-  line-height:1.4;
+  
+  
 }
 body #nomad360-home-secondary .nomad-recovery-note {
   margin:12px 0 0;
   color:var(--nd-muted);
-  font-size:14px;
+  
   line-height:1.5;
 }
 body #nomad360-home-secondary .nomad-recovery-action {
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:52px;
-  padding:12px 17px;
+  
+  
   width:100%;
   border:1px solid var(--nd-line-strong);
   border-radius:var(--nd-radius) !important;
   background:#fff;
   color:var(--nd-ink);
-  font-size:15px;
-  font-weight:600;
-  line-height:1.3;
+  
+  
+  
   text-align:center;
   cursor:pointer;
 }
@@ -317,7 +317,7 @@ body #nomad360-home-secondary .nomad-recovery-action:hover:not(:disabled) {
 body #nomad360-home-secondary .nomad-example-row {
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  
   gap:18px;
   padding:19px 4px 8px;
   border-top:1px solid var(--nd-line);
@@ -325,14 +325,14 @@ body #nomad360-home-secondary .nomad-example-row {
 }
 body #nomad360-home-secondary .nomad-example-title {
   color:var(--nd-ink);
-  font-size:14px;
+  
   font-weight:600;
   line-height:1.4;
 }
 body #nomad360-home-secondary .nomad-example-copy p {
   margin:4px 0 0;
   color:var(--nd-muted);
-  font-size:14px;
+  
   line-height:1.5;
 }
 body #nomad360-home-secondary .nomad-example-link {
@@ -345,7 +345,7 @@ body #nomad360-home-secondary .nomad-example-link {
   border-bottom:1px solid var(--nd-accent);
   text-decoration:none;
   font-weight:600;
-  font-size:14px;
+  
   line-height:1.3;
   white-space:normal;
 }
@@ -369,7 +369,7 @@ body #nomad360-information { margin-top:clamp(26px,5vw,56px); }
   body #nomad360-hero{padding:24px 0 24px}
   body #nomad360-hero h2{font-size:clamp(30px,9.1vw,39px)}
   body #nomad360-calculation-list {padding:22px 18px}
-  body #nomad360-calculation-list li{grid-template-columns:23px minmax(0,1fr);gap:10px;font-size:14px;padding:13px 0}
+  body #nomad360-calculation-list li{grid-template-columns:23px minmax(0,1fr);gap:10px;padding:13px 0}
   body #nomad360-selling-choice{padding:23px 17px}
   body #nomad360-selling-choice h4{font-size:26px}
   body #nomad360-selling-choice .nomad-choice-button{font-size:clamp(21px,5.5vw,24px)}
@@ -540,7 +540,7 @@ body #nomad360-home-secondary .nomad-recovery-note,
 body #nomad360-home-secondary .nomad-example-copy p {font-size:var(--nd-type-note);color:var(--nd-muted);}
 body #nomad360-home-secondary .nomad-example-title {font-size:var(--nd-type-label);}
 body #nomad360-home-secondary .nomad-example-link {font-size:var(--nd-type-label);}
-body #nomad360-home-secondary .nomad-recovery-action {font-size:var(--nd-type-action);font-weight:600;}
+body #nomad360-home-secondary .nomad-recovery-action {font-weight:600;}
 @media(max-width:480px){
   body #nomad360-calculation-list li {font-size:var(--nd-type-body);line-height:1.56}
   body #nomad360-calculation-list li::before {font-size:14px}
@@ -599,12 +599,12 @@ body > section :is(button.nd-cta-secondary,a.nd-cta-secondary):hover:not(:disabl
 body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary,
 body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary:hover:not(:disabled) {
   justify-content:flex-start;
-  min-height:104px;
-  padding:20px 25px;
+  
+  
   text-align:left;
-  font-size:clamp(22px,2.05vw,27px);
+  
   font-weight:700;
-  line-height:1.23;
+  
   color:var(--nd-cta-text);
 }
 body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary {
@@ -648,9 +648,7 @@ body #product-tax-block .aggregate-action-confirm.nd-cta-primary:hover:not(:disa
   border-color:var(--nd-cta-hover);
   color:var(--nd-ink);
 }
-@media(max-width:760px) {
-  body #nomad360-selling-choice .nomad-choice-button.nd-cta-primary {min-height:96px}
-}
+
 
 /* MOBILE-CTA-02: type scales with the action surface; balance complete phrases
    rather than leaving single-word tails on narrow screens. */
@@ -1388,7 +1386,7 @@ body #agent-screen.nd-agent-screen h1{
   overflow-wrap:anywhere
 }
 body #agent-screen.nd-agent-screen .nd-path-card{
-  min-width:0;border-radius:var(--nd-radius);overflow-wrap:anywhere
+  border-radius:var(--nd-radius);overflow-wrap:anywhere
 }
 body #agent-screen.nd-agent-screen .nd-path-card .font-semibold{color:var(--nd-v1-navy)}
 body #calculator-screen.nd-v1-service .nd-agent-heading{
@@ -1472,26 +1470,26 @@ body #full-service-screen{font-family:var(--nd-font);color:#fff}
 body #full-service-screen .nd-full-service-shell{
   box-sizing:border-box;background:#102c49;border:1px solid #557a99;
   border-radius:var(--nd-radius);padding:clamp(16px,3.5vw,28px);
-  max-width:1100px;margin:0 auto;min-width:0
+  margin:0 auto;min-width:0
 }
 body #full-service-screen .nd-full-service-header{
-  margin:18px 0 25px;padding:22px;background:#16375a;border:1px solid #557a99
+  background:#16375a;border:1px solid #557a99
 }
 body #full-service-screen h1{
   font:700 clamp(25px,4vw,34px)/1.2 var(--nd-font);color:#fff
 }
 body #full-service-screen .nd-full-service-label{font:500 16px/1.4 var(--nd-font);color:#fff}
 body #full-service-screen .nd-full-service-label :is(input,select){
-  display:block;width:100%;max-width:100%;min-height:48px;margin-top:7px;
-  padding:9px 12px;border-radius:var(--nd-radius);color:#16375a;
+  display:block;
+  color:#16375a;
   background:#fff;border:1px solid #adc3d4;font:400 16px/1.4 var(--nd-font)
 }
 body #full-service-screen :is(input,select,button):focus-visible{
   outline:3px solid #ed8e63;outline-offset:2px
 }
 body #full-service-screen .nd-full-service-metrics{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;margin-top:24px
+  
+  margin-top:24px
 }
 body #full-service-screen .nd-full-service-metrics>div{
   padding:16px;background:#16375a;border:1px solid #557a99;min-width:0;
@@ -1505,21 +1503,21 @@ body #full-service-screen .nd-full-service-metrics strong{
   font-variant-numeric:tabular-nums;overflow-wrap:anywhere
 }
 body #full-service-screen .nd-full-service-table{
-  overflow-x:auto;max-width:100%;min-width:0;margin-top:18px;
+  margin-top:18px;
   -webkit-overflow-scrolling:touch
 }
 body #full-service-screen .nd-full-service-table table{
-  width:100%;min-width:1160px;border-collapse:collapse;
+  border-collapse:collapse;
   font:400 14px/1.5 var(--nd-font);color:#fff;font-variant-numeric:tabular-nums
 }
 body #full-service-screen .nd-full-service-table :is(td,th){
   padding:12px;text-align:right;border-bottom:1px solid #557a99;white-space:nowrap
 }
 body #full-service-screen .nd-full-service-table th{
-  color:#d0e1ee;font-weight:700
+  color:#d0e1ee;
 }
 body #full-service-screen .nd-full-service-actions{
-  display:flex;flex-wrap:wrap;gap:12px;margin-top:26px
+  flex-wrap:wrap;margin-top:26px
 }
 body #full-service-screen .nd-full-service-actions button,
 body #full-service-screen .nd-full-service-secondary{
@@ -1815,7 +1813,7 @@ body #full-service-screen .nd-full-service-month-card h3{
   font:600 19px/1.3 var(--nd-font);margin:0 0 12px;color:#16375a;
 }
 body #full-service-screen .nd-full-service-ledger-row{
-  display:flex;justify-content:space-between;align-items:baseline;
+  justify-content:space-between;align-items:baseline;
   gap:12px;padding:9px 0;border-top:1px solid #d7e0e8;
 }
 body #full-service-screen .nd-full-service-ledger-row span{
