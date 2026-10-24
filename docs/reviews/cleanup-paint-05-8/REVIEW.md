@@ -1,7 +1,7 @@
 # C5: final cascade and palette batch
 
 Date: 2026-10-24. Base: accepted main `050bce789259867096d2d312e5b0dbea51454d5d` (#258).
-Status: implementation under verification; not accepted or merged. C6 and partner issuance unchanged.
+Status: local acceptance checks passed; final CI pending. Not accepted or merged. C6 and partner issuance unchanged.
 
 ## Change and scope
 
@@ -29,7 +29,29 @@ Drafts #261/#262 propose smaller overlapping UI/IRBIS removals. #264/#265/#266 c
 
 ## Verification
 
-Pending: complete Chromium matrix, real standalone resource/HTML comparison, timing/listener samples, CI. Source, ownership, palette, 48 VAT numerical cases, pinned-controls, L0 source inventory and SEO checks have passed locally. The final receipt will record actual counts, hashes, screenshots and limitations. No claim of measured speed improvement is made from byte reduction alone.
+Local results are recorded in `verified-summary.json`, `local-checks.json`, the complete protocols and selected before/after screenshots. All runtime inputs were tested at `3086801`; later commits change test/verification code and evidence only. The actual five runtime stylesheet hashes remain pinned to the same candidate.
+
+| Check | Result |
+| --- | --- |
+| Core + supplemental tests | 128 + 23 passed (151 unique); stronger binary/source guard rechecked separately |
+| Frozen VAT values | 48/48 exact |
+| Palette / L0 / SEO / pinned controls | passed |
+| Calculator pairs | 126/126, 1008 route comparisons |
+| Banner disclosure pairs | 18/18, 72 state comparisons |
+| Independent SEO / help / legal pages | 66/66 with real palette and loaded Inter faces |
+| PNG pairs | 76/76 identical |
+| Standalone | 12,972,564 → 12,966,450 B (−6114 B) |
+| Packaged resources | 63; 58 byte-identical; only five CSS changed |
+| Listener samples | 279 before/after in all 12 samples |
+| New horizontal overflow | none |
+
+Selected screenshots: [mobile About](screenshots/banner-nomad360-about-closed-ru-320-after.png), [desktop About](screenshots/banner-nomad360-about-closed-en-1280-after.png), [mobile IRBIS](screenshots/banner-nomad360-irbis-banner-closed-ru-320-after.png), [open products](screenshots/banner-nomad360-irbis-banner-products-open-kk-1280-after.png), [RU help](screenshots/static-ru_help_index.html-320-after.png), [EN license](screenshots/static-license_en_index.html-1280-after.png). Both before/after files are committed for all selected views. The complete 152 PNG files are available in the CI artifact; all hashes are retained in the committed protocols. Selected mobile/desktop About, IRBIS, home and form images were inspected manually.
+
+Timings are laboratory observations over three paired repetitions at each width, not proof of a production speed gain. Median ready times: 390 px, 1019.7 → 913.5 ms; 1280 px, 950.2 → 929.6 ms. Heap samples remain close and are recorded raw. Byte and cascade reductions are proven; no significant speed improvement is claimed.
+
+The initial static replay missed absolute assets and its results were discarded. The corrected replay checks every successful resource response, the exact palette hash, loaded Inter faces and font errors. The earlier reported help overflow does not reproduce with actual styles; it is not a production defect. No source fix for that false diagnosis was made.
+
+C5 acceptance/merge is still required. Source-code equality and fixture tests do not complete hosting, live partner mail/issuance, C6/C7 or independent file recovery #260. No real forms, emails or payments were sent.
 
 ## Reproducible verification commands
 
@@ -45,4 +67,4 @@ Static replay resolves both absolute project paths and public-origin asset URLs
 to the selected local variant, requiring successful responses, the exact palette
 fingerprint and loaded Inter fonts. Initial receipts produced by an incomplete
 resource router are discarded and are not evidence of a production defect.
-The corrected static matrix and overflow results are recorded in the final receipt.
+The corrected matrix has no horizontal overflow; font and resource evidence is recorded per case in `static-protocol.json`.
