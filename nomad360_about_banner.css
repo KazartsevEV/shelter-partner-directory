@@ -15,7 +15,6 @@
 #nomad360-information.nomad-information::before{
  content:"";position:absolute;z-index:0;pointer-events:none;top:0;right:0;
  width:min(49.5%,563px);aspect-ratio:563 / 475;
- background-image:url("./docs/approved-design/unified-banners/about-moon-scenery.webp");
  background-repeat:no-repeat;background-size:100% 100%;background-position:center;
  /* Only the LEFT seam fades; the full moon and all right-side cliffs survive. */
  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 100%);
@@ -295,7 +294,6 @@
 #nomad360-information.nomad-information::before{
  top:0;left:0;right:auto;
  width:100%;height:auto;aspect-ratio:1672/941;
- background-image:url("./assets/nomad360-banners/about-bozzhyra-approved.webp");
  background-size:100% 100%;background-position:center top;
  -webkit-mask-image:linear-gradient(to bottom,
    #000 0%,#000 67%,rgba(0,0,0,.85) 77%,rgba(0,0,0,.30) 91%,transparent 100%);

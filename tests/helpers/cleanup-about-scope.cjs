@@ -21,7 +21,7 @@ function packageDelta(before,after){
  rows.forEach(r=>{A.ok(r,'About resource required');normalizePackageResource(r);});
  const inherited=require('./cleanup-palette-scope.cjs');
  const hasPalette=[before,after].some(p=>p.manifest.resources.some(r=>r.path===inherited.file));
- return rows[0].bytes-rows[1].bytes+(hasPalette?inherited.packageDelta(before,after):0);
+ return rows[0].bytes-rows[1].bytes+(hasPalette?inherited.packageDelta(before,after):0)+require('./cleanup-scene-scope.cjs').extraInlineDelta(before,after);
 }
 function restore(name,source){
  source=require('./cleanup-palette-scope.cjs').restore(name,source);

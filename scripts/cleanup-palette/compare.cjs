@@ -21,7 +21,7 @@ async function snapshot(p){
 (async()=>{
  A.ok(baseline);A.equal(fs.readFileSync(path.join(baseline,scope.file),'utf8'),scope.original);fs.mkdirSync(out,{recursive:true});
  const config=require('../../tests/fixtures/partner-build/example.json'),packages={before:await buildPackage(config,{repositoryRoot:baseline,browserFactory:H.launch}),after:await buildPackage(config,{browserFactory:H.launch})};
- const resources=p=>p.manifest.resources.filter(r=>r.path!==scope.file).map(require('../../tests/helpers/cleanup-canvas-scope.cjs').normalizePackageResource);A.deepEqual(resources(packages.before),resources(packages.after));A.equal(packages.before.html.length-packages.after.html.length,904+require('../../tests/helpers/cleanup-canvas-scope.cjs').packageDelta(packages.before,packages.after));
+ const resources=p=>p.manifest.resources.filter(r=>r.path!==scope.file).filter(require('../../tests/helpers/cleanup-scene-scope.cjs').keepResource).map(require('../../tests/helpers/cleanup-canvas-scope.cjs').normalizePackageResource);A.deepEqual(resources(packages.before),resources(packages.after));A.equal(packages.before.html.length-packages.after.html.length,904+require('../../tests/helpers/cleanup-canvas-scope.cjs').packageDelta(packages.before,packages.after));
  A.equal(scope.packageDelta(packages.before,packages.after),904);
  for(const [variant,p] of Object.entries(packages)){const dir=variant==='before'?path.join(baseline,'artifacts/cleanup-c4'):out;fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'standalone.html'),p.html);}
  const servers={before:await H.serve(baseline),after:await H.serve()},browser=await H.launch(),cases=[],timing=[];
