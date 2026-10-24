@@ -25,3 +25,9 @@ test('all other runtime, original artwork, fonts, numerical oracles, workflows a
  const names=execFileSync('git',['ls-tree','-r','--name-only',s.base],{cwd:s.root,encoding:'utf8'}).trim().split('\n').filter(f=>/^(nomad360_|portfolio_v2_).*\.(js|css)$/.test(f)||['Marketing_calc.HTML','US_Retail_Demo.HTML'].includes(f)||/^(assets\/|vendor\/|tests\/fixtures\/|\.github\/workflows\/|scripts\/palette\/|scripts\/cleanup\/|scripts\/cleanup-logo-mask\/|scripts\/cleanup-about\/|scripts\/cleanup-palette\/|scripts\/cleanup-canvas\/|scripts\/cleanup-scene\/)/.test(f));
  for(const name of names){const before=execFileSync('git',['show',s.base+':'+name],{cwd:s.root,maxBuffer:24e6});A.deepEqual(s.restore(name,fs.readFileSync(path.join(s.root,name))),before,name);}
 });
+
+test('fractional media-interval declaration cascade stays exact even when Chromium rounds its iframe viewport',()=>{
+ function cascade(text,width){const result={};postcss.parse(text).walkRules(rule=>{if(!owned(rule))return;for(let p=rule.parent;p&&p.type!=='root';p=p.parent){if(p.name!=='media')throw Error('Unexpected decoration context');const limits=[...p.params.matchAll(/\((min|max)-width:\s*([\d.]+)px\)/g)];A.ok(limits.length,'Known classic media intervals');if(limits.some(([,kind,n])=>kind==='min'?width<+n:width>+n))return;}
+ for(const selector of rule.selectors){const values=result[selector]||(result[selector]={});rule.walkDecls(d=>values[d.prop]=d.value.replace(/\s+/g,''));}});return result;}
+ for(const width of [700,700.5,701,1000,1000.5,1001])A.deepEqual(cascade(s.original,width),cascade(s.candidate,width),'Effective declaration cascade at '+width+'px');
+});

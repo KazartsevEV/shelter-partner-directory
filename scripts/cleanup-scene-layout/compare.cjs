@@ -80,8 +80,9 @@ async function snapshot(page,origin){
     await frame.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}'});
     await frame.locator('#nomad360-lang-select').selectOption(language);await frame.locator('#nomad360-information').scrollIntoViewIfNeeded();
     const media=await frame.evaluate(()=>({mobile:matchMedia('(max-width:700px)').matches,nonmobile:matchMedia('(min-width:701px)').matches,tablet:matchMedia('(min-width:701px) and (max-width:1000px)').matches,desktop:matchMedia('(min-width:1001px)').matches}));
-    A.deepEqual(media,{mobile:false,nonmobile:width===1000.5,tablet:false,desktop:false},'Exercise actual fractional media gap');
-    const data=await snapshot(frame,origin);A.equal(data.overflow,false);A.ok(data.fullWidth);pair[variant]={media,hash:hash(JSON.stringify(data.nodes)),fullWidth:data.fullWidth};await outer.close();
+    const viewport=await frame.evaluate(()=>({innerWidth,clientWidth:document.documentElement.clientWidth}));
+    A.equal(await outer.locator('iframe').evaluate(e=>e.getBoundingClientRect().width),width,'Actual fractional iframe CSS box');
+    const data=await snapshot(frame,origin);A.equal(data.overflow,false);A.ok(data.fullWidth);pair[variant]={media,viewport,hash:hash(JSON.stringify(data.nodes)),fullWidth:data.fullWidth};await outer.close();
    }
    A.deepEqual(pair.before,pair.after,'Fractional iframe viewport: '+width+'/'+language);fractional.push({width,language,...pair});
   }
