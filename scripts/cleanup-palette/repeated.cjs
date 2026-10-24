@@ -9,7 +9,14 @@ const out=path.resolve(process.argv[2]||'artifacts/cleanup-c4'),baseline=process
    for(const variant of ['before','after']){
     const context=await browser.newContext({viewport:{width,height:950},reducedMotion:'reduce'}),page=await context.newPage(),client=await context.newCDPSession(page);await client.send('Performance.enable');
     await H.ready(page,servers[variant].base,'Marketing_calc.HTML?lang='+language+'&demo=shopper&finance=cash');await page.waitForFunction(()=>document.getElementById('product-demo-banner')?.dataset.demoReady==='true');
-    // Match runtime-audit-01: V2 is already open before five measured round trips.
+    // Match runtime-audit-01's complete route priming, including lazily mounted dialogs.
+    for(const kind of ['v1','home','resale','dropship','standalone','linked','full-service','simple-self','simple-hired','simple-agent','offline','footer','partner','bug']){
+     if(['resale','dropship'].includes(kind))await page.evaluate(source=>{showProductBranch();selectProductSource(source);},kind);
+     else if(kind==='footer'){await route(page,'home');await page.locator('[data-nomad-embed-toggle]').click();await page.evaluate(()=>document.querySelectorAll('#nomad360-footer details').forEach(e=>e.open=true));}
+     else if(['partner','bug'].includes(kind)){await route(page,'home');await page.locator(kind==='partner'?'#nomad360-partner-trigger':'#nomad360-bug-launcher').click();await page.keyboard.press('Escape');}
+     else await route(page,kind);
+     await page.evaluate(()=>document.fonts.ready);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
+    }
     await route(page,'standalone');await page.evaluate(()=>document.fonts.ready);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
     const samples=[];
     for(let repeat=0;repeat<5;repeat++){
