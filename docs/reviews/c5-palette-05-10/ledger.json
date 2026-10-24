@@ -1,0 +1,717 @@
+{
+  "schema": "C5-owned-retained-v1",
+  "baseline": "050bce789259867096d2d312e5b0dbea51454d5d",
+  "source": "docs/reviews/cleanup-typical-05-7/ownership.json",
+  "originalCensus": {
+    "raw": 100,
+    "retainedReviewed": 19,
+    "unreviewed": 81
+  },
+  "retainedAfterThisAudit": 46,
+  "verifiedRetained": 27,
+  "reviewedCategories": {
+    "generated-palette": 26,
+    "consulting-fallback": 1
+  },
+  "entries": [
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "transparent"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) .nomad-embed-contact",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18156,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 52,
+          "start": 18677,
+          "value": "inherit"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#173B58"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#38678B"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FFFFFF"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen)",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 46074,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56101,
+          "value": "#FF913F"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-hero h3",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 47642,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 51914,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56307,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-recovery-detail",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 49681,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 52070,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-example-copy p",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 50742,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 52172,
+          "value": "var(--p10-muted)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56947,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-home-secondary .nomad-example-link:hover",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 50846,
+          "value": "var(--p10-accent)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 55832,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 57117,
+          "value": "var(--p10-fg)"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-hero h1",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 56307,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 60,
+          "start": 57690,
+          "value": "var(--p10-accent)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 738,
+          "start": 281404,
+          "value": "#FF913F"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#FFFFFF"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#173B58"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#38678B"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#38678B"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-shell",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72065,
+          "value": "#FF913F"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73866,
+          "value": "#173B58"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "background-color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#173B58"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#FFFFFF"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-fg",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#173B58"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-line",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#38678B"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-muted",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FFFFFF"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#38678B"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen .nd-full-service-header",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "--p10-accent",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 72285,
+          "value": "#FF913F"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 74116,
+          "value": "#173B58"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #full-service-screen #full-service-message",
+      "context": [
+        "@layer nomad360-palette"
+      ],
+      "property": "color",
+      "important": true,
+      "occurrences": [
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 73769,
+          "value": "var(--p10-fg)"
+        },
+        {
+          "file": "nomad360_palette.css",
+          "line": 86,
+          "start": 78654,
+          "value": "var(--p10-accent)"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "generated-palette",
+      "reason": "Generated TASK-10 surface / custom-property restoration; important layer order and original-source dependencies are part of the accepted palette. Do not delete individual output rules; only refactor the generator with byte-exact full output and before/after computed style proof."
+    },
+    {
+      "selector": "body:has(#home-screen) #nomad360-footer #nomad360-embed",
+      "context": [
+        "@media screen"
+      ],
+      "property": "width",
+      "important": false,
+      "occurrences": [
+        {
+          "file": "nomad360_consulting_banner.css",
+          "line": 12,
+          "start": 729,
+          "value": "100vw"
+        },
+        {
+          "file": "nomad360_consulting_banner.css",
+          "line": 12,
+          "start": 729,
+          "value": "100cqw"
+        }
+      ],
+      "decision": "RETAIN_REVIEWED",
+      "category": "consulting-fallback",
+      "reason": "CSS container-query-unit progressive fallback: 100vw must precede 100cqw in one declaration block, preserving older browser geometry while modern browser uses the container width."
+    }
+  ]
+}
