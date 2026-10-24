@@ -476,6 +476,10 @@ def main():
         subprocess.check_output(['node', '-e',
             "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-service-grid-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
             'nomad360_design_system.css'], input=(ROOT / 'nomad360_design_system.css').read_bytes(), cwd=ROOT)
+    if 'nomad360_palette.css' in changed:
+        subprocess.check_output(['node', '-e',
+            "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-palette-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
+            'nomad360_palette.css'], input=(ROOT / 'nomad360_palette.css').read_bytes(), cwd=ROOT)
     if 'nomad360_about_banner.css' in changed:
         subprocess.check_output(['node', '-e',
             "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-about-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
@@ -486,6 +490,7 @@ def main():
                              'scripts/cleanup/', 'docs/reviews/cleanup-service-grid-01/',
                              'scripts/cleanup-logo-mask/', 'docs/reviews/cleanup-logo-mask-02/',
                              'scripts/cleanup-about/', 'docs/reviews/cleanup-about-03/',
+                             'scripts/cleanup-palette/', 'docs/reviews/cleanup-palette-04/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
                              'scripts/audit/', 'docs/reviews/runtime-audit-01/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
@@ -545,6 +550,7 @@ def main():
         'tests/tax_draft_storage_scope.test.cjs', 'tests/tax_draft_storage_browser.cjs',
         '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/partner-package-build.yml',
+        'tests/cleanup_palette.test.cjs', 'tests/helpers/cleanup-palette-scope.cjs', '.github/workflows/cleanup-palette.yml',
         'tests/cleanup_about.test.cjs', 'tests/helpers/cleanup-about-scope.cjs', '.github/workflows/cleanup-about.yml',
         'tests/cleanup_logo_mask.test.cjs', 'tests/helpers/cleanup-logo-mask-scope.cjs', 'tests/helpers/accepted-banner-248-scope.cjs', '.github/workflows/cleanup-logo-mask.yml',
         'nomad360_design_system.css', 'tests/cleanup_service_grid.test.cjs', 'tests/helpers/cleanup-service-grid-scope.cjs', '.github/workflows/cleanup-service-grid.yml',
