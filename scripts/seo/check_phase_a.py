@@ -489,6 +489,14 @@ def main():
         subprocess.check_output(['node', '-e',
             "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-about-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
             'nomad360_about_banner.css'], input=(ROOT / 'nomad360_about_banner.css').read_bytes(), cwd=ROOT)
+    # C5-8: allow ONLY the exact two approved geometry deletions; preserve
+    # all other source and the generated palette bytes under their old checks.
+    c58_paths = {'.github/workflows/c5-8-ui.yml',
+                 'docs/reviews/cleanup-ui-05-8/REVIEW.md',
+                 'tests/c5_8_ui_browser.cjs', 'tests/c5_8_ui_scope.test.cjs',
+                 'tests/helpers/c5-8-scope.cjs'}
+    if changed and any(p in changed for p in c58_paths | {'nomad360_calculator_ui.css'}):
+        subprocess.check_call(['node', '--test', 'tests/c5_8_ui_scope.test.cjs'], cwd=ROOT)
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
@@ -564,6 +572,9 @@ def main():
         '.github/workflows/partner-package-build.yml',
         'tests/cleanup_typical.test.cjs', 'tests/helpers/typical-scope.cjs', '.github/workflows/cleanup-typical.yml',
         'tests/payment_grid.test.cjs', 'tests/helpers/payment-grid-scope.cjs', '.github/workflows/payment-grid.yml',
+        # C5-8 new tests/workflow are permitted only after exact guard above.
+        '.github/workflows/c5-8-ui.yml', 'docs/reviews/cleanup-ui-05-8/REVIEW.md',
+        'tests/c5_8_ui_browser.cjs', 'tests/c5_8_ui_scope.test.cjs', 'tests/helpers/c5-8-scope.cjs',
         'tests/style_ownership.test.cjs', '.github/workflows/style-ownership.yml', 'docs/architecture/nomad360-style-owners.json',
         'tests/cleanup_about_copy.test.cjs', 'tests/helpers/cleanup-about-copy-scope.cjs', 'tests/helpers/about-copy-cascade.cjs', '.github/workflows/cleanup-about-copy.yml',
         'tests/cleanup_scene_layout.test.cjs', 'tests/helpers/cleanup-scene-layout-scope.cjs', '.github/workflows/cleanup-scene-layout.yml',
