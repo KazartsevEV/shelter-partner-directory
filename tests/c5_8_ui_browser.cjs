@@ -22,9 +22,9 @@ const capture=async page=>page.evaluate(selects=>{
  const result={};
  for(const selector of selects){
   result[selector]=[...document.querySelectorAll(selector)].map(e=>{
-   const c=getComputedStyle(e),r=e.getBoundingClientRect();
+   const c=getComputedStyle(e),r=e.getBoundingClientRect(),canonical=v=>v.replaceAll(location.origin+'/before/',location.origin+'/variant/').replaceAll(location.origin+'/after/',location.origin+'/variant/');
    return {tag:e.tagName,hidden:!e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true}),
-      style:[...c].sort().map(prop=>[prop,c.getPropertyValue(prop)]),
+      style:[...c].sort().map(prop=>[prop,canonical(c.getPropertyValue(prop))]),
       rect:[r.x,r.y,r.width,r.height],text:e.textContent?.trim()};
   });
  }
