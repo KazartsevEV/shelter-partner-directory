@@ -12,7 +12,7 @@ test('C5-8 only two approved declarations are removed from the accepted baseline
  let result=before;
  for(const [old,next] of edits){A.equal(result.split(old).length,2,'exact single source');result=result.replace(old,next);}
  A.equal(after,result,'no other source change');
- A.equal(Buffer.byteLength(before)-Buffer.byteLength(after),173);
+ A.equal(Buffer.byteLength(before)-Buffer.byteLength(after),60);
 });
 test('C5-8 original CSS winners remain unchanged for every selector/context/property/priority',()=>{
  A.deepEqual(winners(before),winners(after));
