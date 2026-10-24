@@ -8,9 +8,8 @@
  --about-orange:var(--p10-orange,#FF913F);
  --about-line:var(--p10-blue,#38678B);
  --about-white:var(--p10-white,#FFFFFF);
- display:block;position:relative;isolation:isolate;overflow:hidden;
- box-sizing:border-box;max-width:1138px;width:min(1138px,calc(100vw - 32px));
- margin:48px auto 0;border:0;border-radius:0;background:var(--about-navy);
+ display:block;position:relative;isolation:isolate;
+ border:0;border-radius:0;background:var(--about-navy);
  color:var(--about-white);font-family:var(--nd-font,Inter,system-ui,sans-serif);
 }
 #nomad360-information.nomad-information::before{
@@ -130,9 +129,6 @@
 /* Mobile: artwork remains 563:475, scaled uniformly and never covered by a
  * "photo strip"; the scene is placed BEHIND the opening like the reference. */
 @media(max-width:700px){
- #nomad360-information.nomad-information{
-  width:calc(100vw - 20px);max-width:440px;margin:28px auto 0;
- }
  #nomad360-information.nomad-information::before{
   width:min(92%,365px);top:0;right:0;
   -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 14%,#000 100%);
@@ -516,7 +512,6 @@
  * Desktop image height is fixed to the pre-PR204 640.6px, not viewportWidth/2.
  * Text/cards/contact positions and all mobile/tablet scenes remain unchanged. */
 @media(min-width:1001px){
- #nomad360-information.nomad-information{overflow:visible}
  #nomad360-information.nomad-information::before,
  #nomad360-information.nomad-information::after{
   top:0;right:auto;left:calc(50% + var(--nomad-about-scene-offset,0px));
@@ -564,7 +559,6 @@
  box-sizing:border-box;width:100%;max-width:1138px;margin-left:auto;margin-right:auto;
 }
 @media(min-width:1001px){
- #nomad360-information.nomad-information{overflow:hidden}
  #nomad360-information.nomad-information::before,
  #nomad360-information.nomad-information::after{
   left:0;right:0;transform:none;width:100%;
@@ -594,9 +588,7 @@
 }
 @media(max-width:700px){
  #nomad360-information.nomad-information{
-  max-width:none;width:var(--nomad-about-viewport-width,100vw);min-width:0;
-  margin:28px 0 0;
-  margin-left:calc(50% - var(--nomad-about-viewport-width,100vw)/2);
+  margin-top:28px;
  }
  #nomad360-information.nomad-information::before{
   /* The exact SAME extended vector scene as desktop; preserve its intrinsic
