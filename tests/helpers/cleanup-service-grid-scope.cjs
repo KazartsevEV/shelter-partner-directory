@@ -7,6 +7,7 @@ A.equal(original.split(removed).length,2);
 const candidate=original.replace(removed,'');
 function restore(name,source){
  if(name!==file)return source;
+ if(source.toString()!==original&&source.toString()!==candidate){try{source=require('./typical-scope.cjs').restore(name,source);}catch(error){A.fail('C1 permits only its frozen source plus exact approved C5-7 layout removal: '+error.message);}}
  const text=source.toString();
  A.ok(text===original||text===candidate,'C1 permits only deletion of the exact early duplicate; all other CSS bytes are protected');
  return Buffer.isBuffer(source)?Buffer.from(original):original;

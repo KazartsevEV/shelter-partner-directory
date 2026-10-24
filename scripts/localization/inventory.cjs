@@ -36,6 +36,8 @@ function build(root=ROOT){
    assetSet.add('nomad360_palette.css');
    source=require('../../tests/helpers/task10-palette-scope.cjs').stripTask10PaletteHtml(source);
   }
+  // Preserve text offsets through the exact approved C5-7 layout-only removals.
+  source=require('../../tests/helpers/typical-scope.cjs').restore(f,source);
   // C5-6 changes only grid geometry: preserve historic text offsets through exact bytes.
   if(f==='nomad360_calculator_ui.css'&&source.includes('.nomad-pay-fiat{'))
    source=require('../../tests/helpers/payment-grid-scope.cjs').restore(f,source);
