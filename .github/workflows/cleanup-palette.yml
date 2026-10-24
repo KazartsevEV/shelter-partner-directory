@@ -1,0 +1,75 @@
+name: C4 generated palette exact duplicate cleanup
+on:
+  pull_request:
+    paths:
+      - 'nomad360_palette.css'
+      - 'scripts/palette/**'
+      - 'scripts/cleanup-palette/**'
+      - 'tests/cleanup_palette.test.cjs'
+      - 'tests/helpers/cleanup-palette-scope.cjs'
+      - 'docs/reviews/cleanup-palette-04/**'
+      - '.github/workflows/cleanup-palette.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  palette-cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+      C4_BASELINE_ROOT: ${{ github.workspace }}/.c4-baseline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Lock-pinned tools and accepted baseline
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+          git worktree add --detach "$C4_BASELINE_ROOT" 27e38c752d89938fdfd1d1da4579164a8b43963c
+      - name: Independent seven-rule receipt, negative cascade/source guards and financial contracts
+        run: |
+          node --check scripts/cleanup-palette/compare.cjs
+          node --test tests/cleanup_palette.test.cjs tests/cleanup_about.test.cjs tests/cleanup_logo_mask.test.cjs tests/partner_build_scope.test.cjs tests/banner_vector_quality.test.cjs tests/task10_palette_source.test.cjs tests/nomad360_marketing_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/nomad360_price_export.test.cjs
+          node tests/helpers/pinned-controls-css-scope.cjs
+          node scripts/palette/build.cjs --check
+          node scripts/localization/inventory.cjs --check
+          node tests/sales_tax_7b_baseline.cjs
+          python scripts/seo/check_phase_a.py
+      - name: Compile pinned utility CSS
+        run: |
+          mkdir -p artifacts/cleanup-c4 artifacts/task10-palette
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c4.css"
+          scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c4.css" -o artifacts/cleanup-c4/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+          cp artifacts/cleanup-c4/utilities.css artifacts/task10-palette/utilities.css
+      - name: Paired actual business routes, numerical results, restoration and offline packages
+        run: |
+          node scripts/cleanup-palette/compare.cjs artifacts/cleanup-c4
+          node scripts/cleanup-palette/repeated.cjs artifacts/cleanup-c4
+      - name: Actual Excel downloads, independent OOXML and PDF projection
+        run: |
+          set -o pipefail
+          cp artifacts/cleanup-c4/utilities.css artifacts/excel-utilities.css
+          node tests/nomad360_price_export_browser.test.cjs | tee artifacts/cleanup-c4/excel.log
+          python -m pip install openpyxl==3.1.5
+          python tests/nomad360_price_export_openxml.py | tee artifacts/cleanup-c4/ooxml.log
+          node tests/sales_tax_7b5_v1_pdf_browser.cjs | tee artifacts/cleanup-c4/pdf.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cleanup-c4-${{ github.sha }}
+          path: |
+            artifacts/cleanup-c4/*.json
+            artifacts/cleanup-c4/*.png
+            artifacts/cleanup-c4/*.log
+            artifacts/excel/*.json
+            artifacts/excel/*.xlsx
+          retention-days: 14

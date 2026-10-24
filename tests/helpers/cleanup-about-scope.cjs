@@ -10,6 +10,7 @@ A.equal(original.split(desktop).length,2,'Exactly one early commented desktop co
 const candidate=original.replace(mobile,'').replace(desktop,'');
 const hash=value=>require('node:crypto').createHash('sha256').update(value).digest('hex');
 function normalizePackageResource(record){
+ record=require('./cleanup-palette-scope.cjs').normalizePackageResource(record);
  if(record.path!==file)return record;
  const allowed=[original,candidate].some(text=>record.sha256===hash(text)&&record.bytes===Buffer.byteLength(text));
  A.ok(allowed,'Only exact C3 About resource bytes may bridge the older package comparison');
@@ -18,9 +19,12 @@ function normalizePackageResource(record){
 function packageDelta(before,after){
  const rows=[before,after].map(p=>p.manifest.resources.find(r=>r.path===file));
  rows.forEach(r=>{A.ok(r,'About resource required');normalizePackageResource(r);});
- return rows[0].bytes-rows[1].bytes;
+ const inherited=require('./cleanup-palette-scope.cjs');
+ const hasPalette=[before,after].some(p=>p.manifest.resources.some(r=>r.path===inherited.file));
+ return rows[0].bytes-rows[1].bytes+(hasPalette?inherited.packageDelta(before,after):0);
 }
 function restore(name,source){
+ source=require('./cleanup-palette-scope.cjs').restore(name,source);
  if(name!==file)return source;
  A.ok([original,candidate].includes(source.toString()),'C3 permits only the exact two early About duplicate deletions');
  return Buffer.isBuffer(source)?Buffer.from(original):original;

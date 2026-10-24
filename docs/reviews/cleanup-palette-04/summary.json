@@ -1,0 +1,2000 @@
+{
+  "base": "27e38c752d89938fdfd1d1da4579164a8b43963c",
+  "pairedContexts": 24,
+  "routeComparisons": 216,
+  "numericComparisons": 96,
+  "restoreChecks": 48,
+  "screenshotPairs": 8,
+  "negativeCascadeDetected": true,
+  "repeatedPairs": 18,
+  "roundTripsPerVariant": 5,
+  "repeatedListeners": 304,
+  "sizes": {
+    "before": {
+      "bytes": 282757,
+      "gzip": 18076,
+      "brotli": 13509
+    },
+    "after": {
+      "bytes": 281853,
+      "gzip": 18054,
+      "brotli": 13476
+    }
+  },
+  "standaloneBytes": {
+    "before": 13231265,
+    "after": 13230361
+  },
+  "timings": [
+    {
+      "width": 390,
+      "before": {
+        "repeats": 9,
+        "medianMs": 842.5601090000127,
+        "minMs": 785.0954889999703,
+        "maxMs": 886.7154379999847,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5378560
+      },
+      "after": {
+        "repeats": 9,
+        "medianMs": 837.8441389999934,
+        "minMs": 812.149739000015,
+        "maxMs": 928.979141000018,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5391948
+      },
+      "deltaPct": -0.5597191167306059
+    },
+    {
+      "width": 1280,
+      "before": {
+        "repeats": 9,
+        "medianMs": 833.1491120000137,
+        "minMs": 775.6284999999916,
+        "maxMs": 918.187203999958,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5435168
+      },
+      "after": {
+        "repeats": 9,
+        "medianMs": 839.3288759999559,
+        "minMs": 795.7873029999901,
+        "maxMs": 885.0908610000042,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5447184
+      },
+      "deltaPct": 0.7417356522300578
+    }
+  ],
+  "cases": [
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "ru",
+      "width": 320,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3123,
+          "stylesAndGeometry": "57e0361c28d6530926a50efa295f2545de4c2010284d3f6a60a213ccb5bd4c5b",
+          "screenshot": {
+            "file": "ru-320-v1-after.png",
+            "sha256": "88fb897a0d31193c70599ae6e04106297562fe68f4448a607859ca53813764db"
+          }
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3123,
+          "stylesAndGeometry": "38289a8898fdbd9791bc0d02534cad1c920e63eb9e5a11e8ff70a55bd6ea4401",
+          "screenshot": {
+            "file": "ru-320-home-after.png",
+            "sha256": "3f817850313cc1fb933f37827908f9775a42207493108d95e3bd58e2f1d5773e"
+          }
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3596,
+          "stylesAndGeometry": "05dd8e731815c3d5bc672cd97e24ba05fd9e8f219a0701e71a9dbd408820c395",
+          "screenshot": {
+            "file": "ru-320-standalone-after.png",
+            "sha256": "fd89f5c59ee30d73210f99784b5c67e8db95227b1452fc0219f99b781a5a51d4"
+          }
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4293,
+          "stylesAndGeometry": "751890bffacb9feac58bcc1291f9b507cdea1e8c9b16745c926c4068dced689c",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4472,
+          "stylesAndGeometry": "e5f1852475a7939bbef93c48f1a4d44c805286b055f7511d0b49c00dd8d003ca",
+          "screenshot": {
+            "file": "ru-320-full-service-after.png",
+            "sha256": "37c1bf3208acf1f6df5e3944034bd899a53a8b0124532f194c44ef0b42f42538"
+          }
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4472,
+          "stylesAndGeometry": "0a470c7db1678d811ee454200df9fd19b717c1ac8235a2fdcf60cf9ca94b68ce",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4488,
+          "stylesAndGeometry": "e921c732894142c43ba2fdda5d152c6ca8797d5890bea58982ec257d4ed44f21",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4355,
+          "stylesAndGeometry": "6e3b22a205fbc57acb1b3a97a83fdd24c0ca88c916bb5f637e0afc8f77fdf5dc",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3717,
+          "stylesAndGeometry": "2c51de52037438137dbfef04c06be2acfaec23ea739dd113f120d597220d16c0",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "ru",
+      "width": 360,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3123,
+          "stylesAndGeometry": "28972272f41617c62ecb90fc024fc50aa1ad8a8803eb4765baaf1ffd301e211e",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3123,
+          "stylesAndGeometry": "4e9b1315e2e27de88ab95fc9455b4c41ead1ae2180c3fb2b72e29046c43c006c",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3596,
+          "stylesAndGeometry": "149a9105e0571cbf10c0bc3e156a864d3e08bcd532e7251be51a020e57e03ab9",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4290,
+          "stylesAndGeometry": "743e63ba195e1d3d5400769a50513a753c83428be9b2cf26b82f2f66416921e5",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4469,
+          "stylesAndGeometry": "2f5ac4d822bade888a365f9db2609c3fd7ceda025ea1b05ea18f0d372433f6ac",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4469,
+          "stylesAndGeometry": "7257d1cb2b4b6527d911934f782df0f5f54ff2d74d53343c1cc723eac465d9d3",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4485,
+          "stylesAndGeometry": "8336f39e177f8932b83eac08f8245a1b2c94c422127f0efc07409f32418d027e",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4352,
+          "stylesAndGeometry": "d0019965082433e385586d69bfba7a04afed16ebe964d83f61bb8954749f5b53",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3714,
+          "stylesAndGeometry": "c4468d7e61bc627f2a05ac15f921c6daa2fab1ad624181ac838f1a7a3beb9a31",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "ru",
+      "width": 390,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3123,
+          "stylesAndGeometry": "296e8c8deb425244c5a8f11feea165cbe34787258ab3710b58114b2d179d05d2",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3123,
+          "stylesAndGeometry": "c06edcc55c2884f9e8f1110d61d68cb2ab3c7ad300592f97c7db6457584dfef2",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3596,
+          "stylesAndGeometry": "ccfaa12ef8ae9d357fff28be7e49fbac2052fa88b015a21d09a49c00d3191e0a",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4286,
+          "stylesAndGeometry": "54c1e7544240009e2ef09700c88c8500599c0f30705159e3e65fc12ba9e2d1ee",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4465,
+          "stylesAndGeometry": "17ba80993f66ac90e82e8ddffed69e0c1a84677182e47dc5c68d1b249c43716d",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4465,
+          "stylesAndGeometry": "3d55d5b7e04e07dc348ef399e5d5363c9b017824f37fd0a3f62e8e612cb0aa45",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4481,
+          "stylesAndGeometry": "caeaede6b2c6bdc2f69b4585a36138852c9b4633030ff1a21ecd594584708c8e",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4348,
+          "stylesAndGeometry": "8872978c8dbed80e1e7f82bd31e12692f894f9bd327a4865f37aa19226bcf1eb",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3710,
+          "stylesAndGeometry": "34184ce4a0df212f160b34b699aa3dbf7890d69ed7d0b032e43b837b5dac5727",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "ru",
+      "width": 430,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3123,
+          "stylesAndGeometry": "6a9aaf90bed32c050e59e9da7485c3081bec1d040076836a36606fe07da1af1c",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3123,
+          "stylesAndGeometry": "1766dcd7e4a8b08f3a837a71744ec4bbee7b8e3a8261c75a9a4361655ea09180",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3596,
+          "stylesAndGeometry": "b8f2cca2cadbe3d52800b52ffedea4e531974609bdacb8669e51cc32246dce82",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4284,
+          "stylesAndGeometry": "a81f369585df64929ce149f269ce3d0976d25f353157ccc375b7ef6bfb017d40",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4463,
+          "stylesAndGeometry": "f167a2ccb0086b9456837132ef1ba7fed030b1bbda4e49ccdb90b86ee1cbdf45",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4463,
+          "stylesAndGeometry": "46af9b8e75a3e70b7921c15f622c13efd31d0fe48c832897fa310b60e7762995",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4479,
+          "stylesAndGeometry": "48be9eb3f9bd0b42d706bfe6dc5f40f60906a3c8959171b22cd28c89bb91c9a3",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4346,
+          "stylesAndGeometry": "c6ad31994d052f31b9d1c986689b83f2c46efb895f6964a60fd3a0ce98337057",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3708,
+          "stylesAndGeometry": "cd7b8680fd268725c47bd75b84bfdf314075c593a80fc18db44a29e55c93cfe7",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "ru",
+      "width": 768,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3123,
+          "stylesAndGeometry": "61673826661936fad861b7f03d94812fa3ce004f785ae111928f784aab18e703",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3123,
+          "stylesAndGeometry": "fa0cb8e71db67e5ebfa59eb86151d14d9019424371065d7b1abc94f4ae77365f",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3596,
+          "stylesAndGeometry": "959ae4eaa9812a86a082f4117d3d153cca143025b0a421ae56ef3f74b1b77953",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4285,
+          "stylesAndGeometry": "0ea0c443da77e35f64f7fc9f35c4120cba7b9e2c5f46bfd4e94ba66eda1eb432",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4464,
+          "stylesAndGeometry": "d63542b0f3a1ef6689ea1bca950fc667869a7adbe9cbbeb71274db752c4e6c18",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4464,
+          "stylesAndGeometry": "60eee8fc39faa559a63f5b6c5e087b587a93ffe15dc508837f2bc50405025ca1",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4480,
+          "stylesAndGeometry": "69155331d1581dcc9a20d65ef0eb241cb0b8b1c71bb6fa4f214faa7387704d8a",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4347,
+          "stylesAndGeometry": "19230f1ac14901c7899158625d857897ea8f0cd057b401d9054b249f7059bae5",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3709,
+          "stylesAndGeometry": "5f036548011d9fa0788d94461d50a69e2e5cfffdc9b4d73d30ebb049fa6b9193",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "ru",
+      "width": 1280,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3123,
+          "stylesAndGeometry": "47f8bbec1ac25806c6b7018580a0afcce4a6acaa51301450350616a6659e3e3a",
+          "screenshot": {
+            "file": "ru-1280-v1-after.png",
+            "sha256": "4197f4e045ec765d263f40df7c2f797ec4a7a9f395787ba6a4eb55d166aff283"
+          }
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3123,
+          "stylesAndGeometry": "24d97eb2d6491d07340a2c4f49f0a1f679bee8f54ca91e022604dd917352bae4",
+          "screenshot": {
+            "file": "ru-1280-home-after.png",
+            "sha256": "a5d506671de3d5f2a74c160318f4052f9f516e3450187e8edc383b52e08148fc"
+          }
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3596,
+          "stylesAndGeometry": "4d206d26448af628fffcac2b5fd13712934c2fda2f9c0bd07e8a9cff653ae37b",
+          "screenshot": {
+            "file": "ru-1280-standalone-after.png",
+            "sha256": "458844dadb1c9362b97c4ca49e57173900984392de57e960826daf9b4c6016ad"
+          }
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4282,
+          "stylesAndGeometry": "aeb7590d78a4f9026c838e3ffc5b3f5f07f4dcc20e9386e91eafc0d9197347c3",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4461,
+          "stylesAndGeometry": "bda3a4e3e104c356f30945c56e9ca673e964f92b154fdb6b3ee140423af1a3aa",
+          "screenshot": {
+            "file": "ru-1280-full-service-after.png",
+            "sha256": "186aae111acf1f105081b03aa973dfdb232d0be10a5c84a3e1d6e200a5ff2db1"
+          }
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4461,
+          "stylesAndGeometry": "2cdd008e3b8b8be8c0f6ffd35f1cacbb901beaee452b7efd1bc8018c06e1fe9e",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4477,
+          "stylesAndGeometry": "afb541cf80a742e5fd97bbd02b6201fa998dbd62eab74e644c91de3e03297ad8",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4344,
+          "stylesAndGeometry": "f60d508e9a2c0e125d3ad565fb6a5cc4db4e6e52d9b008d43dbf7ce049d25e37",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3706,
+          "stylesAndGeometry": "646fdc00ff6d9e055e809238bf7b8b8a36cf76a0a0712a2c53d26b1bc7c5ccc1",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "en",
+      "width": 320,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3110,
+          "stylesAndGeometry": "e8426b6c8e9cce07c9d7e540218c3301b3d7d41972fcf42a887dc671c3cdddc4",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3110,
+          "stylesAndGeometry": "2259af56875030ba843c7977b3b52ac21496daaf801c2c99b1dcc09a02eb68be",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3583,
+          "stylesAndGeometry": "d521f472d4e14ede13e7d763f4cfd873e796707d10fc27081793c7a83ef52455",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4276,
+          "stylesAndGeometry": "6ac3252b9e4b27fb5d8e86d4adb760ca5ddaea37d73e3af2e376eb6d26fd2091",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4455,
+          "stylesAndGeometry": "accdc55ca101ef3e5c5b7d3bebc4261de71a2032592e44d630e349b1080823fd",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4455,
+          "stylesAndGeometry": "c5731544474f8c0c30007ce8fdf7585150bf3fae786c419694743fbb7c14080d",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4471,
+          "stylesAndGeometry": "f193966550d4f33d3e0c62cab840194d584e00cbf1abc2f5ba7c0d65c8a69edb",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4338,
+          "stylesAndGeometry": "d3fb61a1ba66a85b1c8c47f83962532ce0b30af7730952de1ee22b59af3a1f1a",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3700,
+          "stylesAndGeometry": "9e153471c6cf8de255fde2bff6a4bf67fda8a2e89cc14613b4ca32155b0b0802",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "en",
+      "width": 360,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3110,
+          "stylesAndGeometry": "02030dabc33c39ec2716a93739cccc019259e34e4b74773ee7d80eb8eb5e3903",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3110,
+          "stylesAndGeometry": "baa3611d53d611ddd9b0b62e2683134560edfe715537d330f2f28960b97188c4",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3583,
+          "stylesAndGeometry": "0bbdbcd4117ea896346049fe19d7abc693a618318298dde9694ae73b8b49ea63",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4271,
+          "stylesAndGeometry": "ad8e9dd1b65246ffce72a7c0e6b8173608c20fed93ad1eafadeff28e26da3e5c",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4450,
+          "stylesAndGeometry": "df3433443a79a9dd9f2fef4f2f4025debfb64627a4c4f9479e6f9e3e9e201c74",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4450,
+          "stylesAndGeometry": "fd5e4f2b571efbcb5fcb9dce3161a9e37d3ed8f13d6f030ae90ee3b0dae94b36",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4466,
+          "stylesAndGeometry": "009e3bc7365c27728703c1adb10c0eba027f05fb3ffb6e8c00844f74470731a2",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4333,
+          "stylesAndGeometry": "b424796398ed55b90abb15a89a541f37d01b38480188a31df340dbe3a79d6618",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3695,
+          "stylesAndGeometry": "9a5003f849a3d70f8e3aeb4479e3e8de41c085b3c2f712b8600281489c1498bc",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "en",
+      "width": 390,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3110,
+          "stylesAndGeometry": "d534ac5f3ad484364003a6d2fa43c745e6f83d749cc1e13a225793bc3bd0c795",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3110,
+          "stylesAndGeometry": "c46c01ddc8ac813c6ab5befebaa47f9c2caeeffa6f898db0a5c977ac6de83746",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3583,
+          "stylesAndGeometry": "f3d044725f3a94a2700fe0792613f7c04c3c1c9622d6b7ba15464926b25bfb63",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4270,
+          "stylesAndGeometry": "ec1a4f44beb5be260582553fecad6561d5c31733d18e4640ffe2227f999cb88d",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4449,
+          "stylesAndGeometry": "b1bb695b4f6a9d879097b94122a2719f3053849a47c4206f441cd6877c327558",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4449,
+          "stylesAndGeometry": "009048fa5e5ac86a9668cacc63cf1faf95f54ef4499895e9dc62c99da26b1b64",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4465,
+          "stylesAndGeometry": "041143f1f9072897880f1e230a7256d90d4ce4acfe9d1898b339375377ee1b82",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4332,
+          "stylesAndGeometry": "6320844c7976be29d7e81848d7bd7399a1dc4c25d92de6169936af93f43ebbc5",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3694,
+          "stylesAndGeometry": "182baffba75054b00bb207b0ddb71b0b0225c534ec74df111077df523941c3da",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "en",
+      "width": 430,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3110,
+          "stylesAndGeometry": "350644da9db876f86986159231cacab3a5ec9d52d62d85774c0fad827d85641f",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3110,
+          "stylesAndGeometry": "e42d40d9e24a188f8b8093704582f965ca7c6ea320255dbcc492ce2cb1cede9c",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3583,
+          "stylesAndGeometry": "c2fe0dbd652a7af057b94bbe2a9271f2f42a6fe8f6c08b40e6fa0a4cca9f8bb8",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4269,
+          "stylesAndGeometry": "fb03c5b510dfdb83293acfcbe20e3f221353945d9e109afcc9d640dddd2eaff7",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4448,
+          "stylesAndGeometry": "6ea923f6b3e88ccb0e0be069a93acbaefda2466f0ddf54b66de9feb09b79526c",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4448,
+          "stylesAndGeometry": "765259c401acd29092f5b4af6829feaef83755419011592e13cabbec58f26377",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4464,
+          "stylesAndGeometry": "36568e698ee71416f5744da9a18b3073bc64e9dbfbb8fd03e9c2965e73ee41a1",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4331,
+          "stylesAndGeometry": "4d20eddb340a7c88e969c92683737a93e257c911e1d2c0f1e9b6b447db849d56",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3693,
+          "stylesAndGeometry": "3e671176a3fa99503b86b51ba6b3fc02e08ccfdee988ee1ddff8d9352fbf4928",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "en",
+      "width": 768,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3110,
+          "stylesAndGeometry": "79b27e65978ad77cdf720ff6540bca6685a928b8e3fd5000dd990c520a2d1c7e",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3110,
+          "stylesAndGeometry": "185ed7427806222eeffa9a017c83de9a8277c0efaf07ef2d2f778fb205028fa0",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3583,
+          "stylesAndGeometry": "e9fa1c8842490168773704639c1ae4e38294ef87a3b3a032a19575d7e1ff0a91",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4269,
+          "stylesAndGeometry": "a9da786d0dace8078432f04ddb2f007bfeb866d7b389c8f9c255df72a9e55daf",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4448,
+          "stylesAndGeometry": "ab9b2ccca1f022b832c28c52579f62a0585b4852475b0e212e27b9b8bd4de69b",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4448,
+          "stylesAndGeometry": "a8fa2535d8636bae63a49a297198a8518a99f465398765c9328535d17b9afa08",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4464,
+          "stylesAndGeometry": "32e0a0084aa894cd70b51ffbf5cb96d87ad43c288e63750df74a5181d85477d9",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4331,
+          "stylesAndGeometry": "cb1c96830912210af514452538fd00da796df268e43f120fa88c5cd575c33eb9",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3693,
+          "stylesAndGeometry": "414336ddbc3636f1c5b0d85f1f9a5b3c1198a604a5378d06a2c2f1cfbb3a1030",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "en",
+      "width": 1280,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3110,
+          "stylesAndGeometry": "aff5ff5ccce7b52b008952a368d301f0628dec720b0ef54848015aee7e7bb1b1",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3110,
+          "stylesAndGeometry": "8d9cf255a57ac0650cd43ee6e0be138c08cea92df0f7b3fbdd30c26f348c3ff3",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3583,
+          "stylesAndGeometry": "23dd21735b081dc302122fd1fc650c6890b2d0e5d9d0f8de97ba142fdab1b8eb",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4269,
+          "stylesAndGeometry": "1ee76493e32bd027c63e3ab825b53f2cb20369f575992bea5a317c17fde87db7",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4448,
+          "stylesAndGeometry": "8523311f876e871a85630ce837e8590b0efd9fba693ea123a9763408322a4bdc",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4448,
+          "stylesAndGeometry": "c6869ea7a8cd3621c3d95758c032e594842f5644870028e26242d84e80fc291a",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4464,
+          "stylesAndGeometry": "0a0ed7d2a0b0de4ff9336f7d99089e7f24b19d731f74b0fc71e3c8084e32881b",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4331,
+          "stylesAndGeometry": "d51c6115fec7b4a768da4348bed0993bfcdbaa6205afd2889e7fbdff7f82c681",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3693,
+          "stylesAndGeometry": "7966f035c0b6fb3c873cf077bee5041d2f9df11c9c832f1a526686f7c0a9cbaa",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "kk",
+      "width": 320,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3108,
+          "stylesAndGeometry": "8a9cadfa921f842001d56724f8e8ae3e4e83ba58b0b998f509e37fd63966f194",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3108,
+          "stylesAndGeometry": "558367c687be071d32d538ddd2521598af668f7b700464f4c043e10b90fbcf53",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3583,
+          "stylesAndGeometry": "234a90d0e04f05c4575f945e7318c1bb87affa956796078a504509e5351895e8",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4277,
+          "stylesAndGeometry": "862960d32a52a985e64afc31da2eb494bd6fd8dc76f4edb0779dec387c6bac4f",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4456,
+          "stylesAndGeometry": "7e3b36ffd6be8fc2f65287183ba8e4c5d29b3581b5444fb27f4c05668d0a0aed",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4456,
+          "stylesAndGeometry": "e1a16d45cb10f1a4412d534080d691ad922a4772cc925077d0f9728736f4c986",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4472,
+          "stylesAndGeometry": "edc75e8406cc35894a4edf0008bcfbbec77c6803f1fba5819c655640b7345a6e",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4339,
+          "stylesAndGeometry": "98ebc5e29270224ea6f0df613770c57f9bba8e6d528b57d6b7dc1b47d1a7b19d",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3701,
+          "stylesAndGeometry": "2449f76b83963aeaf30c9d4fd213f102f451b43fd937fd116e963cbc76167599",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "kk",
+      "width": 360,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3108,
+          "stylesAndGeometry": "299a05e4bde0fa0e553bddf49d35ac0a6c3416d75e2b5e401da2a2448185ef86",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3108,
+          "stylesAndGeometry": "77fea1964fbb62c4e6a7aec10d6fdfa3fb1affbc1fffb771a4dcda35448c95cf",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3582,
+          "stylesAndGeometry": "86c0ba710c45b3ed6a6b52cf15dc970cfd2618daa62575b391662386a20edb39",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4271,
+          "stylesAndGeometry": "383e92bbf08f8841a3e51c45c5c48b7b3fc06dc3c31d87d59b9c3d9d27b499bc",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4450,
+          "stylesAndGeometry": "059b499425dc57b0c30d47d709a690ef2e355128927b9d7e433f3290db1a6cae",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4450,
+          "stylesAndGeometry": "6f122d4b6e6449e89415243b13e6a762d353c78a237a77b7c47673ad66f2120c",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4466,
+          "stylesAndGeometry": "a23c017171862846af5afdb71e916ed4c934abf829392d9cb41b3621b86e93c2",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4333,
+          "stylesAndGeometry": "1ce01a7760fd9021cca16129967c9dea43b841c4d57e349a9db830b3116996f7",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3695,
+          "stylesAndGeometry": "d6c3b6cff7c6ae236ad57cc60aa0ff3b2d7423880c27181f35110707b179c787",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "kk",
+      "width": 390,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3108,
+          "stylesAndGeometry": "2e8eb0e3cba80c31776608225f3be0cd5cf86a21c0e187ea7e71e09e008d50d2",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3108,
+          "stylesAndGeometry": "1902dbcf9018241e45f912b4e321bceb81ccbd2fbded69853cc6df1bb2fdd2da",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3581,
+          "stylesAndGeometry": "47710ee2a30a945e96e3931c9ff16924ce9349b0dbb5773504dd605054cf3226",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4270,
+          "stylesAndGeometry": "2a071af55d19b9948c8e405d6d256a2e210d5c05a05c233e4f80fedebb835b0f",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4449,
+          "stylesAndGeometry": "6313fd896f4cdff47d0d4142a0e57dffc0fcf36d5df96f973eb113f16a7a5e7a",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4449,
+          "stylesAndGeometry": "99c145ad759b592b495a0fc08b78dce6938011f8c0b11fbb3d4d17ebd6a97372",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4465,
+          "stylesAndGeometry": "eb0f41288a6ca4a706b3205f90f5aef86242473c39cf59815b4fe33444178166",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4332,
+          "stylesAndGeometry": "c400f6d603482ac4ba3ee8e3526a5766eaa7d95c10705fdc75738c4ac835fe8e",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3694,
+          "stylesAndGeometry": "d9f514e858c7e99524ce9a6d9d99b08cce03256d562e14c8c5caf5ca707cd90b",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "kk",
+      "width": 430,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3108,
+          "stylesAndGeometry": "8813b05db7d23f6963ec396053fdd75355e3c8888a98912e58789243cd4edb91",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3108,
+          "stylesAndGeometry": "5da55a90db5f913dd86877405d14352d39d7daf34d6cc2cec736bf527f2baa33",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3581,
+          "stylesAndGeometry": "4abf0e0d5181208794284725decf941d1409693a377e2e69285bcd11039a8cc6",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4268,
+          "stylesAndGeometry": "28545fdff91d6c3e770fd904e90b10c318dcb13613b5e0ff8752c8fb4fe74b70",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4447,
+          "stylesAndGeometry": "8cf80cb22db1744e484fd91d2c193a8b2d9b832d766223c85ae8c5d2b7856d87",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4447,
+          "stylesAndGeometry": "91f49132f38709976211ff3fcd9ba1b4910067cf434d2c66c8a9fe646ebd6fc5",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4463,
+          "stylesAndGeometry": "d3e28383bef8465a0ca7b07c21d9d40452d7b79a660bd226fcabe1a369cf8b31",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4330,
+          "stylesAndGeometry": "be4a6f5348a30bf1d9ef7691a0dfa928f5c641697d7ba1afe3b8e2870d74ecf0",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3692,
+          "stylesAndGeometry": "7b59cd31145f5e5953271624f331fe0e0f4c0759dad29567f1fe67e25edb38e4",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "kk",
+      "width": 768,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3108,
+          "stylesAndGeometry": "c06d3e2ea653668ded17e0df2331d2b9143bb28fe28c50d0aa133f4fe5ef31f4",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3108,
+          "stylesAndGeometry": "8f5baa961b147185d6b7778ec839b2386646df91beeb20fd3c432e37ec4eeff6",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3581,
+          "stylesAndGeometry": "5057c8cd2a758cd4d88121f019b58a866585b3b1750ab01c5f48f594c037ae12",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4270,
+          "stylesAndGeometry": "4f2b098fbe035eb3995d58b941737f2cf7b9861b2cb89d2080055a5764b42a72",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4449,
+          "stylesAndGeometry": "52b208877d858c5b3b82f2cfd4dd291af088fbcdf78b1384e2746ed48e48a595",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4449,
+          "stylesAndGeometry": "a61c0b38790d9ce21f86f1df58bfd3c3a27332aed4d0c5ca3771144bb451124d",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4465,
+          "stylesAndGeometry": "c3554eb05e8f0523eb0966c3479ded401d217dc49e1e1bdb87dccdb6086f3b55",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4332,
+          "stylesAndGeometry": "9cf7df5e05766453cc03cb8ae8564616436dc0140378b9d6a24af4b41bb42606",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3694,
+          "stylesAndGeometry": "a3fa342c15e07b1b03bb41714289ab0c4b5d14bc22753b5369f49fb31b24107b",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "language": "kk",
+      "width": 1280,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 3108,
+          "stylesAndGeometry": "edec27095c16c8dae0cf72612cfd677d24a8f14086a32bf6083d0159e6846fba",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3108,
+          "stylesAndGeometry": "b8a116224fbc285fd64164daed333630d92d37e268a5fc0bd3909fb8ce9a0239",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3581,
+          "stylesAndGeometry": "7baf288b2b328a3a30addf5327a3515a1b3685c7ff486fc03fa3fa3fdf00da3a",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4267,
+          "stylesAndGeometry": "19361311f5578d7870ac72298805dd01e3f3fb5162c562f28ff2c94041653d2c",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4446,
+          "stylesAndGeometry": "3f5dec08ce9b85aa1aeef3d51dfa7529ce8ab34a216804df38e297e119884d6e",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4446,
+          "stylesAndGeometry": "bd24409ae066d901487b334bbf5b80cf8164c56295b9a11d04b281b048da3cce",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4462,
+          "stylesAndGeometry": "29662d6c23717c07957f282451af13c8c211fe3a5b1de686ea7043885a61fbc2",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4329,
+          "stylesAndGeometry": "4a3b61c5196b026a5f07150d5bea8af24be03d72dc389bfda8e53b289e983fd0",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3691,
+          "stylesAndGeometry": "5caf702cc775c8823b01ff56300ef3c11fc9df964a07f4705b6f3b48622cfa29",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "artifacts/cleanup-c4/standalone.html",
+      "language": "ru",
+      "width": 320,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 2988,
+          "stylesAndGeometry": "97a63d4511e99e1ebbc3fea9cbc22c63608672dafd55a04b0e08b0c1757c696a",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 2988,
+          "stylesAndGeometry": "575fc012a299d2b818f726508ccddede9968a90f1bed56802267f9b8e66c5831",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3461,
+          "stylesAndGeometry": "38200f916d4eb9f5d8099aaf090a214507a35c770573284848dd991600ec78f1",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4158,
+          "stylesAndGeometry": "8fb26ffaaf99fa89db36c7831ac108e62344b53027221fdb08034e0f7c110322",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4337,
+          "stylesAndGeometry": "a7c4a347b659377ea40a432b078a3c83d203e3e066116dfa06c3f13ea52faad5",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4337,
+          "stylesAndGeometry": "4105dfb281f4776f157a5d60a3be25ca2b1595834f08c30d6e5a11d315bc44cd",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4353,
+          "stylesAndGeometry": "db78f1e2a95701b755a1001274f30812b4a96a0483df3ca3d960fb8889f2e106",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4220,
+          "stylesAndGeometry": "2dabae29699793e0f6abfc8d2d70c721f691a1f0a500970a62d6c16db4e0fe26",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3582,
+          "stylesAndGeometry": "6d2d2ecfb7f3cbeb5b73e6231a81bd78a8d53735df21b6efda5a8f0d5f120836",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "artifacts/cleanup-c4/standalone.html",
+      "language": "ru",
+      "width": 1280,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 2988,
+          "stylesAndGeometry": "a55211ba7ccf4cd4255c75e364eb7fe3902dde2c94ff3f291b81857a40f58435",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 2988,
+          "stylesAndGeometry": "a0e1b0c3e4d674848c88360f727f34e573c5df508f1e9eecc5e38ca2eca10ab3",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3461,
+          "stylesAndGeometry": "12cf0a933f683515ac66019344858b7146c55ae454f76b0ae9c790c538f8d149",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4147,
+          "stylesAndGeometry": "f1a8e98b669d15813ec5562c8b9247b3443fe10142febad283e3abc79a876326",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4326,
+          "stylesAndGeometry": "2b866a91b2cfc261d2011778521fa54f202e66bb9bec9d955a282f2d105921b8",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4326,
+          "stylesAndGeometry": "1e74afdaec5eafd6b088a890cb6399c9612b2b98f395be356a7fa4c0c5a95ec5",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4342,
+          "stylesAndGeometry": "bff526f799d335567a5066dd76ab8542bab63d86c7eea775024e41b58311abd2",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4209,
+          "stylesAndGeometry": "09e847a840504f0e654570ec59573f3a99fd05c0d35009b2d1b3ad468afa72b8",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3571,
+          "stylesAndGeometry": "8861f3b6c94603b60bcbeab644738fb42ea8bdd99e4bdf4950f43c1b873b603b",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "artifacts/cleanup-c4/standalone.html",
+      "language": "en",
+      "width": 320,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 2977,
+          "stylesAndGeometry": "0b4e2785ecc976f2b4f6c576195c990805fef94d80c1438dd9dd3420a0d0dbfa",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 2977,
+          "stylesAndGeometry": "8caf80c0d68ca2e1d25b3f0bc14b50f3dcd44626fb98d0142e9c3132ead9adc2",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3450,
+          "stylesAndGeometry": "1236c696df0c5ab6392fb204f2125b206e060f766490f23e1bcb7d19dc552bf5",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4143,
+          "stylesAndGeometry": "b3f9cb346d08edbb9cb376ac5f65b8a4a94fcf40addbb300a0afa644744cc86e",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4322,
+          "stylesAndGeometry": "acea1942bcaafe79cfc50eeb0f1af55516a1254cf56fd7ae0f142fd73a78c1e9",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4322,
+          "stylesAndGeometry": "9512d22bf92a343d0e61272daa20b1db3d6d9a56abf820399c17b3987e279135",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4338,
+          "stylesAndGeometry": "470eed86d3ce75ee287b314028d29473948e5b96945039ce15c466bb7847f22d",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4205,
+          "stylesAndGeometry": "7d0303076320e2e90af1d7cecaf9d5ec248f762d975f473fafa569bac260d8b5",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3567,
+          "stylesAndGeometry": "3bb88bcb647e3f071ccff38dd79ba67405908cd2fd3c5f22aed6c655bc56b7cd",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "artifacts/cleanup-c4/standalone.html",
+      "language": "en",
+      "width": 1280,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 2977,
+          "stylesAndGeometry": "366cee437b839c020c529484cb48e03df75b0fd8cbf5764617238927713ab8a1",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 2977,
+          "stylesAndGeometry": "9463b9ce0696dd61c0c3adb6b8d0854f64c8e162b2345a5a7e758219e131f3d8",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3450,
+          "stylesAndGeometry": "52a7972c75b1931fe5d546b1d6092598179b7ca3dfa0c8b577043d7ddd8b30c6",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4136,
+          "stylesAndGeometry": "72947dcd2d7cd60549c7641cfa496f12aeaa8685a3c91cbebf94c092f1d894e5",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4315,
+          "stylesAndGeometry": "aca77d8d45b5d4bc94c6f3baf71994c0a639b1d7303ca59696e7ef4aeaf4f69a",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4315,
+          "stylesAndGeometry": "273853b62e33d71a0188fd25dbcc169617003e52e32600a88468bc9693570cff",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4331,
+          "stylesAndGeometry": "3b142af52686806475424e2907e52ce540414f2b0a06879a48bbd040b000938d",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4198,
+          "stylesAndGeometry": "42f76237a1990c476d416e86053c7e5c740aaebcb09be6d6ce6a7b87d12b565a",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3560,
+          "stylesAndGeometry": "0b834756313841b83815110e824302ac0cb059bd774b524d4393ed759e45fa1e",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "artifacts/cleanup-c4/standalone.html",
+      "language": "kk",
+      "width": 320,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 2975,
+          "stylesAndGeometry": "22465655b113b32b4e793adeb4fb2401c2e468bc698fe9891ace9850c12c9d5b",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 2975,
+          "stylesAndGeometry": "9edfc57c6378acf727b20580b315644504af1f5a8438b36f33eeb9926651a8c8",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3450,
+          "stylesAndGeometry": "c34ffbc46f5c5e506506d7e567f41683c398cca9d44710ceb2ea49f5e924fda0",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4144,
+          "stylesAndGeometry": "ed5c253f634c4cdf576cf12502ec5ded4b1c1be69cc52c89e1c715caa37efa58",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4323,
+          "stylesAndGeometry": "f405eeff0e085398dc84a1d6a50596ca96f31749ac7b6397dc593ef7b7bdb41d",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4323,
+          "stylesAndGeometry": "d2738f7c6be8832fb33c1c892077856e8036149a1f2ca723b9f32a643e381c02",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4339,
+          "stylesAndGeometry": "f6827a5d90808f7b4fb4769dac24e846dcfa79766882fe6e6d878785643a9047",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4206,
+          "stylesAndGeometry": "8746dcb37c910ffa6317420706d91dd0bb42a7cd161aeab73b21f768ab50c4f6",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3568,
+          "stylesAndGeometry": "81d596760de1c749ff467222a4dc097af8e307b3a96895fd5ff409e5e8114959",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "artifacts/cleanup-c4/standalone.html",
+      "language": "kk",
+      "width": 1280,
+      "states": [
+        {
+          "kind": "v1",
+          "numeric": true,
+          "modelSha256": "66aa6fedd2ccb3fd3bd6426500eac168c5ac48ff4786260edf78da85caff2aac",
+          "domNodes": 2975,
+          "stylesAndGeometry": "775955cdad1f6f1c299c473ce0653f39733d4026883ecbe549fa7640ee4bcb4d",
+          "screenshot": null
+        },
+        {
+          "kind": "home",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 2975,
+          "stylesAndGeometry": "7d1b7761f9a142e960a05bf419327fd39fd4312b01b96b58145460eeb4f778a7",
+          "screenshot": null
+        },
+        {
+          "kind": "standalone",
+          "numeric": true,
+          "modelSha256": "6d849b1c562977e98526c4b580877e6cb43e5efe1dbb79bbb935accf25d38bd5",
+          "domNodes": 3448,
+          "stylesAndGeometry": "a3e63146dd1cb7d33fd024b4d597f936a247b201f6b4978d48af1d318947d410",
+          "screenshot": null
+        },
+        {
+          "kind": "linked",
+          "numeric": true,
+          "modelSha256": "ad4ab4d20cb00431391c9865dbda9290db7e846cfb9947103cc6c1eb7e86a625",
+          "domNodes": 4134,
+          "stylesAndGeometry": "f893e4cdb60316d4919020585a423edc17ed13c057e938d525b5a59aa4c8ecfc",
+          "screenshot": null
+        },
+        {
+          "kind": "full-service",
+          "numeric": true,
+          "modelSha256": "1d6746fa2b462966c79e9fb9b6b8ba97d4eea33c360709d71bcac9943ead7a9e",
+          "domNodes": 4313,
+          "stylesAndGeometry": "dbfea18820d9e57e36853401e986102abce3a84b5791b6b9c7c092af4980c2c0",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-self",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4313,
+          "stylesAndGeometry": "62dfbf99fa547f9e0645ca35b1966da3d9f3deb20ebe6d020a2b3ab870c65b5b",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-hired",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4329,
+          "stylesAndGeometry": "99af1427e02f843423b697928f07f29d335c0a0927d34fcc0f673e7d80ec4feb",
+          "screenshot": null
+        },
+        {
+          "kind": "simple-agent",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 4196,
+          "stylesAndGeometry": "e349692cd16fe10b876484e6a260719c3cdb5194252d316db9ca917121c9ae74",
+          "screenshot": null
+        },
+        {
+          "kind": "offline",
+          "numeric": false,
+          "modelSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "domNodes": 3558,
+          "stylesAndGeometry": "1153ba690ddf71a850c2cb2bbddbbefa8070e3d5a1224eae1c61db10ee354661",
+          "screenshot": null
+        }
+      ]
+    }
+  ]
+}
