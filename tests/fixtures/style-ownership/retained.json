@@ -1,0 +1,425 @@
+[
+  {
+    "selector": ".card",
+    "context": [],
+    "property": "border-radius",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "Marketing_calc.HTML",
+        "line": 28,
+        "start": 167,
+        "value": "0.75rem"
+      },
+      {
+        "file": "US_Retail_Demo.HTML",
+        "line": 28,
+        "start": 167,
+        "value": "0.75rem"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 9,
+        "start": 1422,
+        "value": "8px"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".card",
+    "context": [],
+    "property": "border",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "Marketing_calc.HTML",
+        "line": 28,
+        "start": 167,
+        "value": "1px solid #e2e8f0"
+      },
+      {
+        "file": "US_Retail_Demo.HTML",
+        "line": 28,
+        "start": 167,
+        "value": "1px solid #e2e8f0"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 9,
+        "start": 1422,
+        "value": "1px solid #d5dbe3"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": "a:focus-visible",
+    "context": [],
+    "property": "outline",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-help.css",
+        "line": 19,
+        "start": 1065,
+        "value": "3px solid #FF913F"
+      },
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 7,
+        "start": 479,
+        "value": "3px solid var(--orange)"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 3,
+        "start": 332,
+        "value": "3px solid #c45214"
+      }
+    ],
+    "decision": "retain-help-focus-overlay"
+  },
+  {
+    "selector": "a:focus-visible",
+    "context": [],
+    "property": "outline-offset",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-help.css",
+        "line": 19,
+        "start": 1065,
+        "value": "2px"
+      },
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 7,
+        "start": 479,
+        "value": "3px"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 3,
+        "start": 332,
+        "value": "5px"
+      }
+    ],
+    "decision": "retain-help-focus-overlay"
+  },
+  {
+    "selector": "summary:focus-visible",
+    "context": [],
+    "property": "outline",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-help.css",
+        "line": 19,
+        "start": 1065,
+        "value": "3px solid #FF913F"
+      },
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 7,
+        "start": 479,
+        "value": "3px solid var(--orange)"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": "summary:focus-visible",
+    "context": [],
+    "property": "outline-offset",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-help.css",
+        "line": 19,
+        "start": 1065,
+        "value": "2px"
+      },
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 7,
+        "start": 479,
+        "value": "3px"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".help-lang span",
+    "context": [],
+    "property": "color",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-help.css",
+        "line": 23,
+        "start": 1305,
+        "value": "#173B58"
+      },
+      {
+        "file": "assets/nomad360-help.css",
+        "line": 24,
+        "start": 1535,
+        "value": "#FFFFFF"
+      }
+    ],
+    "decision": "retain-selected-language-state"
+  },
+  {
+    "selector": ".help-lang span",
+    "context": [],
+    "property": "background",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-help.css",
+        "line": 23,
+        "start": 1305,
+        "value": "#FFFFFF"
+      },
+      {
+        "file": "assets/nomad360-help.css",
+        "line": 24,
+        "start": 1535,
+        "value": "#173B58"
+      }
+    ],
+    "decision": "retain-selected-language-state"
+  },
+  {
+    "selector": "a",
+    "context": [],
+    "property": "color",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 5,
+        "start": 383,
+        "value": "#145e9c"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 3,
+        "start": 289,
+        "value": "inherit"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": "a",
+    "context": [],
+    "property": "text-underline-offset",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 5,
+        "start": 383,
+        "value": "3px"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 3,
+        "start": 289,
+        "value": ".2em"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".brand",
+    "context": [],
+    "property": "display",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 12,
+        "start": 913,
+        "value": "inline-flex"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 14,
+        "start": 2294,
+        "value": "flex"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".brand",
+    "context": [],
+    "property": "font-size",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 12,
+        "start": 913,
+        "value": "21px"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 4,
+        "start": 565,
+        "value": "20px"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".brand",
+    "context": [],
+    "property": "font-weight",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 12,
+        "start": 913,
+        "value": "800"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 4,
+        "start": 565,
+        "value": "700"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".brand img",
+    "context": [],
+    "property": "border-radius",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 14,
+        "start": 1078,
+        "value": "50%"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 14,
+        "start": 2342,
+        "value": "6px"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".intro",
+    "context": [],
+    "property": "background",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 18,
+        "start": 1435,
+        "value": "var(--deep)"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 6,
+        "start": 814,
+        "value": "#16375a"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".intro",
+    "context": [],
+    "property": "border-radius",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 18,
+        "start": 1435,
+        "value": "18px"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 6,
+        "start": 814,
+        "value": "10px"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".intro",
+    "context": [],
+    "property": "padding",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 18,
+        "start": 1435,
+        "value": "30px 34px"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 6,
+        "start": 814,
+        "value": "32px"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".eyebrow",
+    "context": [],
+    "property": "font-weight",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 19,
+        "start": 1555,
+        "value": "800"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 10,
+        "start": 1536,
+        "value": "600"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  },
+  {
+    "selector": ".intro p",
+    "context": [],
+    "property": "max-width",
+    "important": false,
+    "occurrences": [
+      {
+        "file": "assets/nomad360-legal.css",
+        "line": 21,
+        "start": 1757,
+        "value": "850px"
+      },
+      {
+        "file": "assets/nomad360-seo.css",
+        "line": 7,
+        "start": 1126,
+        "value": "760px"
+      }
+    ],
+    "decision": "retain-page-isolation"
+  }
+]
