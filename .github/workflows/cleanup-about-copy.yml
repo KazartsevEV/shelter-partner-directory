@@ -7,6 +7,7 @@ on:
       - 'tests/cleanup_about_copy.test.cjs'
       - 'tests/fixtures/cleanup-about-copy/**'
       - 'tests/helpers/cleanup-about-copy-scope.cjs'
+      - 'tests/helpers/about-copy-cascade.cjs'
       - 'docs/reviews/cleanup-about-copy-05-4/**'
       - '.github/workflows/cleanup-about-copy.yml'
   workflow_dispatch:
