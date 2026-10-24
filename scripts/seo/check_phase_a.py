@@ -496,7 +496,17 @@ def main():
                  'tests/c5_8_ui_browser.cjs', 'tests/c5_8_ui_scope.test.cjs',
                  'tests/helpers/c5-8-scope.cjs'}
     if changed and any(p in changed for p in c58_paths | {'nomad360_calculator_ui.css'}):
-        subprocess.check_call(['node', '--test', 'tests/c5_8_ui_scope.test.cjs'], cwd=ROOT)
+        current = (ROOT / 'nomad360_calculator_ui.css').read_text()
+        original = subprocess.check_output(['git', 'show', '050bce789259867096d2d312e5b0dbea51454d5d:nomad360_calculator_ui.css'], cwd=ROOT).decode()
+        approved = [
+            ('.nomad-embed-b2b-logo-mask img{display:block;width:100%;height:100%;object-fit:contain}',
+             '.nomad-embed-b2b-logo-mask img{display:block;width:100%;height:100%}'),
+            ('grid-template-columns:minmax(0,1fr) 64px;gap:16px;padding:22px',
+             'gap:16px;padding:22px')]
+        for before, after in approved:
+            assert original.count(before) == 1, 'C5-8 prior source drift'
+            original = original.replace(before, after)
+        assert current == original, 'C5-8 must change only the exact two approved declarations'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
