@@ -51,7 +51,9 @@ jobs:
           scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c4.css" -o artifacts/cleanup-c4/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
           cp artifacts/cleanup-c4/utilities.css artifacts/task10-palette/utilities.css
       - name: Paired actual business routes, numerical results, restoration and offline packages
-        run: node scripts/cleanup-palette/compare.cjs artifacts/cleanup-c4
+        run: |
+          node scripts/cleanup-palette/compare.cjs artifacts/cleanup-c4
+          node scripts/cleanup-palette/repeated.cjs artifacts/cleanup-c4
       - name: Actual Excel downloads, independent OOXML and PDF projection
         run: |
           set -o pipefail
