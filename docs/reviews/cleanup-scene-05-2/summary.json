@@ -1,0 +1,94 @@
+{
+  "base": "6b3bdbebea65ea8e26a8dfd983842d5eb96bb735",
+  "runtimeReceipt": "698596c10cc1eab7e4ed0573853aedeb5973c496",
+  "contexts": 66,
+  "comparisons": 198,
+  "resizePairs": 21,
+  "screenshotPairs": 18,
+  "unavailablePairs": 6,
+  "obsoleteBrowserRequests": 0,
+  "overrideGroups": {
+    "before": 217,
+    "after": 216,
+    "componentBefore": 1,
+    "componentAfter": 0
+  },
+  "sizes": {
+    "before": {
+      "bytes": 29792,
+      "gzip": 6956,
+      "brotli": 5775
+    },
+    "after": {
+      "bytes": 29622,
+      "gzip": 6936,
+      "brotli": 5764
+    }
+  },
+  "standaloneBytes": {
+    "before": 13229878,
+    "after": 12980762
+  },
+  "removedPackageAssets": [
+    {
+      "path": "docs/approved-design/unified-banners/about-moon-scenery.webp",
+      "bytes": 77160,
+      "sha256": "5c7bdfed0384b6655e3e75b82f029652b566df0a33069a823b4cc9f3327bf222"
+    },
+    {
+      "path": "assets/nomad360-banners/about-bozzhyra-approved.webp",
+      "bytes": 109600,
+      "sha256": "58e2fe073939abb241a8ad16d07467269e4a9c67b24a8a1d3096be03a1546125"
+    }
+  ],
+  "timings": [
+    {
+      "width": 390,
+      "before": {
+        "repeats": 9,
+        "medianMs": 664.4372799999546,
+        "minMs": 606.5284080000129,
+        "maxMs": 743.8497379999608,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5386552
+      },
+      "after": {
+        "repeats": 9,
+        "medianMs": 652.0069999999832,
+        "minMs": 625.6243529999629,
+        "maxMs": 692.1042460000026,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5386676
+      },
+      "differencePercent": -1.8707980985010697
+    },
+    {
+      "width": 1280,
+      "before": {
+        "repeats": 9,
+        "medianMs": 678.7159059999976,
+        "minMs": 604.9174290000228,
+        "maxMs": 714.3146379999816,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5453168
+      },
+      "after": {
+        "repeats": 9,
+        "medianMs": 689.5930170000065,
+        "minMs": 628.6622659999994,
+        "maxMs": 749.4565280000097,
+        "listeners": [
+          259
+        ],
+        "medianHeapBytes": 5443048
+      },
+      "differencePercent": 1.6026014572301683
+    }
+  ]
+}

@@ -10,7 +10,7 @@ const assets=new Map(paths.map(p=>{const bytes=read(base,p);return [p,{path:p,by
 const cssDelta=Buffer.byteLength(original)-Buffer.byteLength(candidate);
 const htmlDelta=removed.reduce((sum,line,i)=>sum+Buffer.byteLength(line.replace('./'+paths[i],assets.get(paths[i]).dataUrl)),0),extraInline=htmlDelta-cssDelta;
 const scripts={};
-for(const name of ['scripts/cleanup-about/compare.cjs','scripts/cleanup-palette/compare.cjs','scripts/cleanup-canvas/compare.cjs','scripts/cleanup-canvas/ownership.cjs']){
+for(const name of ['scripts/cleanup-logo-mask/compare.cjs','scripts/cleanup-about/compare.cjs','scripts/cleanup-palette/compare.cjs','scripts/cleanup-canvas/compare.cjs','scripts/cleanup-canvas/ownership.cjs']){
  const before=read(base,name,'utf8');let after;
  if(name.endsWith('ownership.cjs'))after=before.replace("text:fs.readFileSync(path.join(root,name),'utf8')","text:require('../../tests/helpers/cleanup-scene-scope.cjs').restore(name,fs.readFileSync(path.join(root,name),'utf8'))").replace('const report={originalAudit:',"const report={sourceNormalization:'Historical C5-1 canvas contract: later scene URL cleanup restored before this older analysis',originalAudit:");
  else{

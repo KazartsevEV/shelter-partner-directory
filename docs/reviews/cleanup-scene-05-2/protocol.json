@@ -1,0 +1,5233 @@
+{
+  "base": "6b3bdbebea65ea8e26a8dfd983842d5eb96bb735",
+  "unavailable": [
+    {
+      "width": 320,
+      "language": "ru",
+      "before": {
+        "hash": "428a804d791b17359197a6bf165e3bbde43b0a13bd8c7abb67d74979e2b3f332",
+        "fullWidth": true,
+        "overflow": false
+      },
+      "after": {
+        "hash": "428a804d791b17359197a6bf165e3bbde43b0a13bd8c7abb67d74979e2b3f332",
+        "fullWidth": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 320,
+      "language": "en",
+      "before": {
+        "hash": "02d5d3cad2a4421300608bafec54843f3bf9099a4d707f898f8afc08bf1fb5ed",
+        "fullWidth": true,
+        "overflow": false
+      },
+      "after": {
+        "hash": "02d5d3cad2a4421300608bafec54843f3bf9099a4d707f898f8afc08bf1fb5ed",
+        "fullWidth": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 320,
+      "language": "kk",
+      "before": {
+        "hash": "e4ae90685fe402461529744852a335497874053821299cfd3d56d26a0a54d33e",
+        "fullWidth": true,
+        "overflow": false
+      },
+      "after": {
+        "hash": "e4ae90685fe402461529744852a335497874053821299cfd3d56d26a0a54d33e",
+        "fullWidth": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1280,
+      "language": "ru",
+      "before": {
+        "hash": "f1f665a3a5b5bf0f63e479f4d46a26dacaba5662f8b51b2e91de86bdd34c4a95",
+        "fullWidth": true,
+        "overflow": false
+      },
+      "after": {
+        "hash": "f1f665a3a5b5bf0f63e479f4d46a26dacaba5662f8b51b2e91de86bdd34c4a95",
+        "fullWidth": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1280,
+      "language": "en",
+      "before": {
+        "hash": "9f7f6a24694b2d8db162a8d4ee069ea20fd8cd4b4d7c39385512cf11f65d4ab0",
+        "fullWidth": true,
+        "overflow": false
+      },
+      "after": {
+        "hash": "9f7f6a24694b2d8db162a8d4ee069ea20fd8cd4b4d7c39385512cf11f65d4ab0",
+        "fullWidth": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1280,
+      "language": "kk",
+      "before": {
+        "hash": "e0d1657b82f2abe96cb57e021c552fada58c69fec0e8a122ac0635c76e3d0199",
+        "fullWidth": true,
+        "overflow": false
+      },
+      "after": {
+        "hash": "e0d1657b82f2abe96cb57e021c552fada58c69fec0e8a122ac0635c76e3d0199",
+        "fullWidth": true,
+        "overflow": false
+      }
+    }
+  ],
+  "obsoleteBrowserRequests": 0,
+  "removedPackageAssets": [
+    {
+      "path": "docs/approved-design/unified-banners/about-moon-scenery.webp",
+      "bytes": 77160,
+      "sha256": "5c7bdfed0384b6655e3e75b82f029652b566df0a33069a823b4cc9f3327bf222"
+    },
+    {
+      "path": "assets/nomad360-banners/about-bozzhyra-approved.webp",
+      "bytes": 109600,
+      "sha256": "58e2fe073939abb241a8ad16d07467269e4a9c67b24a8a1d3096be03a1546125"
+    }
+  ],
+  "cases": [
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 320,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "428a804d791b17359197a6bf165e3bbde43b0a13bd8c7abb67d74979e2b3f332",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-320-before.png",
+            "sha256": "bbf8f1dd89e5454001e40d4886e8eed1edbb60490542c1076e30123c9354391e"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "3c9eb42145c7e4dd45128509cd82104eb0c3518848bebf40ff25268daa96a59e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "fa2c4bd234041646fb15725b3d3f2e0075fd02f74a10985eb3a15f3e3452f482",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "428a804d791b17359197a6bf165e3bbde43b0a13bd8c7abb67d74979e2b3f332",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-320-after.png",
+            "sha256": "bbf8f1dd89e5454001e40d4886e8eed1edbb60490542c1076e30123c9354391e"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "3c9eb42145c7e4dd45128509cd82104eb0c3518848bebf40ff25268daa96a59e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "fa2c4bd234041646fb15725b3d3f2e0075fd02f74a10985eb3a15f3e3452f482",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 320,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "02d5d3cad2a4421300608bafec54843f3bf9099a4d707f898f8afc08bf1fb5ed",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-320-before.png",
+            "sha256": "c98ff149df7e7183ae31e2f8376265b86b0407edb47642376f5e1ff52ec5e86c"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "50b007ee955d0f82e62af1ff8bb5710a49fdb6a728b143a23ffde5c89ec9a983",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2f0faade60bb45018b63373de2db99f1955883462c714894ddba6e9278d5f764",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "02d5d3cad2a4421300608bafec54843f3bf9099a4d707f898f8afc08bf1fb5ed",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-320-after.png",
+            "sha256": "c98ff149df7e7183ae31e2f8376265b86b0407edb47642376f5e1ff52ec5e86c"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "50b007ee955d0f82e62af1ff8bb5710a49fdb6a728b143a23ffde5c89ec9a983",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2f0faade60bb45018b63373de2db99f1955883462c714894ddba6e9278d5f764",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 320,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "e4ae90685fe402461529744852a335497874053821299cfd3d56d26a0a54d33e",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-320-before.png",
+            "sha256": "6a70a80984ad422fe32c76f5b96b51a65319a6be3ae8d7f9a98a9e5063f0c4c9"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "4a8d89c9af76e46d069030f9c7cccd726f1093e8c642028cc5d80356ac67a8b5",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "b288c146dd999b1c2636bc651d36a0486fe3a9621a17804c4f72653f38319d2e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "e4ae90685fe402461529744852a335497874053821299cfd3d56d26a0a54d33e",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-320-after.png",
+            "sha256": "6a70a80984ad422fe32c76f5b96b51a65319a6be3ae8d7f9a98a9e5063f0c4c9"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "4a8d89c9af76e46d069030f9c7cccd726f1093e8c642028cc5d80356ac67a8b5",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "b288c146dd999b1c2636bc651d36a0486fe3a9621a17804c4f72653f38319d2e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 360,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "ec60051ad252869a5d0c769997d2e3a54646046e43eadfa7a9712a29e15be2d4",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "8eab41beebe48200d5219b67f13a12ea9a19454071759c5a6281ea5d568683e3",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "4b1d22d398d9d7e3358dc3f16fbf88d4d25007f80e1d58b5ed6e97ccb2319fc4",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "ec60051ad252869a5d0c769997d2e3a54646046e43eadfa7a9712a29e15be2d4",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "8eab41beebe48200d5219b67f13a12ea9a19454071759c5a6281ea5d568683e3",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "4b1d22d398d9d7e3358dc3f16fbf88d4d25007f80e1d58b5ed6e97ccb2319fc4",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 360,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e5b88847b9aafc32715b57df87cc58cd8ba61d89e371292f0d4e31d8ea9d3af2",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "0089412543a7c1186d663a5f948da805a63af3b55f7aee67f26a216885ea9f36",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "65a170de5bd65b074ca770f876f063133208345d6f1aa0d5851211c4f4b3bf81",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e5b88847b9aafc32715b57df87cc58cd8ba61d89e371292f0d4e31d8ea9d3af2",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "0089412543a7c1186d663a5f948da805a63af3b55f7aee67f26a216885ea9f36",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "65a170de5bd65b074ca770f876f063133208345d6f1aa0d5851211c4f4b3bf81",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 360,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "5ec57b7ac907a78489a094c3103e4475e2d6ed3093a76a09266411224e93ea60",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "002520af0df5c09bac7d5efba21d33e530edea68ec4bf0220993f161d2d46c0f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "338110b8b461cd8585b067ff854b370640fe3017eefb8f56f1abc25c35b20a76",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "5ec57b7ac907a78489a094c3103e4475e2d6ed3093a76a09266411224e93ea60",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "002520af0df5c09bac7d5efba21d33e530edea68ec4bf0220993f161d2d46c0f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "338110b8b461cd8585b067ff854b370640fe3017eefb8f56f1abc25c35b20a76",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 390,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "53edf707fc8b11ce8dd3a0c7bfe712151e29449f7784b6ff69d28cd271ee43cb",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "bba3be7974e6874e6288c40970288f16ed1f20c2820b52539570bf5b3b51072c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "7f8ac39bf90c1bedf97daf4c876a05a94b47b61120fced467b9a9152f9c12c64",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "53edf707fc8b11ce8dd3a0c7bfe712151e29449f7784b6ff69d28cd271ee43cb",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "bba3be7974e6874e6288c40970288f16ed1f20c2820b52539570bf5b3b51072c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "7f8ac39bf90c1bedf97daf4c876a05a94b47b61120fced467b9a9152f9c12c64",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 390,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "8516fbd33182b6c1db363faafbde9f45bea6e663dfbde43407044334527564d2",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "83e8cc2f745f28a9eb473af8b4e96ccfe08e6621b26777c869164228cd529914",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "21bd472f577cfc26817819ab7c83c349962ae593c8ace7572765c7c73452c420",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "8516fbd33182b6c1db363faafbde9f45bea6e663dfbde43407044334527564d2",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "83e8cc2f745f28a9eb473af8b4e96ccfe08e6621b26777c869164228cd529914",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "21bd472f577cfc26817819ab7c83c349962ae593c8ace7572765c7c73452c420",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 390,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "fbd6600ff2b607c89f4a3b6b1f41012ce0966df207e0b6513a5a672f8b3a2585",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "6aee2e515794157e951c5edd35d89cff60a8d5e186c38c4af22b0cdc4f8285c3",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c7ea523f6427cd90a0178cff8ce564b3f0a66300ac835b5cd709cb33f6132e68",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "fbd6600ff2b607c89f4a3b6b1f41012ce0966df207e0b6513a5a672f8b3a2585",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "6aee2e515794157e951c5edd35d89cff60a8d5e186c38c4af22b0cdc4f8285c3",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c7ea523f6427cd90a0178cff8ce564b3f0a66300ac835b5cd709cb33f6132e68",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 430,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d1297696048df9d2b0b62aee6453990d185f69799e76be65cfc6546b7929ccae",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "1f97a4330992afd29f323c5c82e320ecd8de5c44b471023f908512f2a4d4d7e8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "8bafb7e07d21be30a55539341d51ee86429bbff6142a8d627be6cabbc6030f32",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d1297696048df9d2b0b62aee6453990d185f69799e76be65cfc6546b7929ccae",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "1f97a4330992afd29f323c5c82e320ecd8de5c44b471023f908512f2a4d4d7e8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "8bafb7e07d21be30a55539341d51ee86429bbff6142a8d627be6cabbc6030f32",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 430,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "9eacd05c98d6391d1d6cf6b7e2b1241447999a48bc5e033213afa96740681204",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "17fecf14199050eec1359787860b6453a2a7970b343d601108a0dcbea706b4ce",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "f2a5870c7aef8b4f84bf7bae797152e78870bd5355c6594076c6892304dec439",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "9eacd05c98d6391d1d6cf6b7e2b1241447999a48bc5e033213afa96740681204",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "17fecf14199050eec1359787860b6453a2a7970b343d601108a0dcbea706b4ce",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "f2a5870c7aef8b4f84bf7bae797152e78870bd5355c6594076c6892304dec439",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 430,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "42b48aa474c863b51188c3584bf9303bb3bfacb849de095d6ead4700afcde4dc",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "09edd7d808df497b6652837d73022c4d973f3018e4fc5c1d02a8e248f3241aec",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "f3440e93eb39a58e4ba45a778f2b4375fedaccff47874c68eff5eaed2d24d9fa",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "42b48aa474c863b51188c3584bf9303bb3bfacb849de095d6ead4700afcde4dc",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "09edd7d808df497b6652837d73022c4d973f3018e4fc5c1d02a8e248f3241aec",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "f3440e93eb39a58e4ba45a778f2b4375fedaccff47874c68eff5eaed2d24d9fa",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 699,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "4e995ca3f03c39896efef2b27bb8a217df0477b844d7315f610f50cfb8bc8ab1",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "56194320ab0f5c953b225cf635c3a90bcb4db62888b23f47e8a6c57fb9a5382c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "67a70191facbc8dd4ce6e38ab246c66bdafd2c01e13f7b31c66096ea6549e31e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "4e995ca3f03c39896efef2b27bb8a217df0477b844d7315f610f50cfb8bc8ab1",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "56194320ab0f5c953b225cf635c3a90bcb4db62888b23f47e8a6c57fb9a5382c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "67a70191facbc8dd4ce6e38ab246c66bdafd2c01e13f7b31c66096ea6549e31e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 699,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "785a36240cfdf01a3d5e37957c87d206212cf91640904f264535bd1c03096249",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2a4fafbe2afe4b9ebd79f32680728abf7efa097e9f3650d920b2094a5066872f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7898dc6b021c0063309fbde6986723e38a5febc35ed20119a0345ad7eea6042a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "785a36240cfdf01a3d5e37957c87d206212cf91640904f264535bd1c03096249",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2a4fafbe2afe4b9ebd79f32680728abf7efa097e9f3650d920b2094a5066872f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7898dc6b021c0063309fbde6986723e38a5febc35ed20119a0345ad7eea6042a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 699,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "4c47c58f9face5e5cc2a089be604e130cc47e84de66d8d47767b544fe08e9d5b",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "515a0d4c62a5d1f403e5bad0a98f3d16351dacf37ea47c5b80e8bca9e227775c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "df5f9317d703a55b747e881c8174f55830afa7233d3985e4c10c90678dbb3d75",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "4c47c58f9face5e5cc2a089be604e130cc47e84de66d8d47767b544fe08e9d5b",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "515a0d4c62a5d1f403e5bad0a98f3d16351dacf37ea47c5b80e8bca9e227775c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "df5f9317d703a55b747e881c8174f55830afa7233d3985e4c10c90678dbb3d75",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 700,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "b4554e57156a7e3ac16c7f84ccb444638f7f02f55dbb4e4c7595b04f1e5809e4",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-700-before.png",
+            "sha256": "62a5a0f442a1777025431b7f59636cfef3cef421a6050238b50603bef284cc57"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "0ff5974b829580eb45b5fe6dd8065c1bfc8e8c5616a076f8c5360eebebf10520",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "15c87b3c329d5b55a459bca02338e026d71ac0a7cdc1ac4ef6bb38cce8adb5aa",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "b4554e57156a7e3ac16c7f84ccb444638f7f02f55dbb4e4c7595b04f1e5809e4",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-700-after.png",
+            "sha256": "62a5a0f442a1777025431b7f59636cfef3cef421a6050238b50603bef284cc57"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "0ff5974b829580eb45b5fe6dd8065c1bfc8e8c5616a076f8c5360eebebf10520",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "15c87b3c329d5b55a459bca02338e026d71ac0a7cdc1ac4ef6bb38cce8adb5aa",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 700,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "8f91766758805b1a4b729d4f671538fca898541da4727ae8eeb4f53d35293a34",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-700-before.png",
+            "sha256": "5e33a504e4a46909621d21895da8ee9771e2d9e759ed4e1b77b8d6ba4147b706"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "a1efad450da01af034e0510875efabaf881500a3447a38413e4a4531c19b93d4",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "5a1cdf013c3e27b4f6f2d65083b0cccd034c8803067e590123f6669fc9769c28",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "8f91766758805b1a4b729d4f671538fca898541da4727ae8eeb4f53d35293a34",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-700-after.png",
+            "sha256": "5e33a504e4a46909621d21895da8ee9771e2d9e759ed4e1b77b8d6ba4147b706"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "a1efad450da01af034e0510875efabaf881500a3447a38413e4a4531c19b93d4",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "5a1cdf013c3e27b4f6f2d65083b0cccd034c8803067e590123f6669fc9769c28",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 700,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "3dc2a18588c235406da1c71bd595b1d486cbee8ffb90024a995b1d3ee3a1c973",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-700-before.png",
+            "sha256": "b776b489c23a177ef91e5395410f231ff30a055c61e4f41d5681b52f1beda1c6"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "d0c16ed4eea5491d1d3124b6bb57367fcca48ffe907cff4c233e82cc18303c64",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "81b6fb5a9423feddda6f2c16020289999009300245c0ce0c430ea66f33e16763",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "3dc2a18588c235406da1c71bd595b1d486cbee8ffb90024a995b1d3ee3a1c973",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-700-after.png",
+            "sha256": "b776b489c23a177ef91e5395410f231ff30a055c61e4f41d5681b52f1beda1c6"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "d0c16ed4eea5491d1d3124b6bb57367fcca48ffe907cff4c233e82cc18303c64",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "81b6fb5a9423feddda6f2c16020289999009300245c0ce0c430ea66f33e16763",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 701,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "7bb032b8377906649c131a6fc847714d393533183dc5d52eda2a6d57c8a0b9d5",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-701-before.png",
+            "sha256": "e19ab39c3e2bf8a50f2f1c1086ae3f886a91476e353d8755c7068c0daee33bf0"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "c90412496aae9f1e29e2626618f84174b6e315bfffefd80f76d7831eb12dc5f1",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "fc4a2f08e9822d52f114711de0a36a471ccf1b941bdaa82e1df7ede05b3306eb",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "7bb032b8377906649c131a6fc847714d393533183dc5d52eda2a6d57c8a0b9d5",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-701-after.png",
+            "sha256": "e19ab39c3e2bf8a50f2f1c1086ae3f886a91476e353d8755c7068c0daee33bf0"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "c90412496aae9f1e29e2626618f84174b6e315bfffefd80f76d7831eb12dc5f1",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "fc4a2f08e9822d52f114711de0a36a471ccf1b941bdaa82e1df7ede05b3306eb",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 701,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "9a4fe354fed1b11e856c7e58c4fb2cbcb5d9577113a2b94ac6116a07dcee23cb",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-701-before.png",
+            "sha256": "698e86459e9eae849468677402c34c999548b6b6b4f726e6a95be88d456fee8b"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "6752f600ae8b148767117ded399b068a16a653259c70940f26bcceb3dc04e21e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "ba6e3a9e66efe37351e9fc50840271d955bd98610e287f76c89081871623919b",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "9a4fe354fed1b11e856c7e58c4fb2cbcb5d9577113a2b94ac6116a07dcee23cb",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-701-after.png",
+            "sha256": "698e86459e9eae849468677402c34c999548b6b6b4f726e6a95be88d456fee8b"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "6752f600ae8b148767117ded399b068a16a653259c70940f26bcceb3dc04e21e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "ba6e3a9e66efe37351e9fc50840271d955bd98610e287f76c89081871623919b",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 701,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "573007ae58d6dd7ad4e48ccbf9799a0a47d863b469e407b44d2851f3488100b9",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-701-before.png",
+            "sha256": "657f4b364a321ff9a746509e5b2b9d7a0ca1b8fad0fc8f00c7c2f30a898d9d88"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "1cc26f909d007923902a34bc6fd5b98db9a2e23edf0c87b6d3011d56158f4bd8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "d3a6721b5a82beb02587cf16c14eaf86acbca5cc373a327aa1fdb4574e7b602b",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "573007ae58d6dd7ad4e48ccbf9799a0a47d863b469e407b44d2851f3488100b9",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-701-after.png",
+            "sha256": "657f4b364a321ff9a746509e5b2b9d7a0ca1b8fad0fc8f00c7c2f30a898d9d88"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "1cc26f909d007923902a34bc6fd5b98db9a2e23edf0c87b6d3011d56158f4bd8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "d3a6721b5a82beb02587cf16c14eaf86acbca5cc373a327aa1fdb4574e7b602b",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 768,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "5ccee705a6ee77590edd74f8428571366118f4338da96f672f32bcd5c9d2f6c8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d1db5933d4e654a38d4dd08c55b792dce1b564291b687c4673547324bf14c9f5",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "59051ee3932b73b585725cc5ea858fe9a03453b4a2f5d1064a02e46052f5f88e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "5ccee705a6ee77590edd74f8428571366118f4338da96f672f32bcd5c9d2f6c8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d1db5933d4e654a38d4dd08c55b792dce1b564291b687c4673547324bf14c9f5",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "59051ee3932b73b585725cc5ea858fe9a03453b4a2f5d1064a02e46052f5f88e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 768,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "c47603d7bb1b65f7b7324e87cba89e02a2b38dff21107b94b5c78ced3f758216",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2bb27a7a1c64b78f3e3b06125b4b1529ebabe16e6709069d2d81e93081fd33bc",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "fe9c34d90bf380a4869f5d9cc228a49a27928193b0400c42175481f5d8a88a13",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "c47603d7bb1b65f7b7324e87cba89e02a2b38dff21107b94b5c78ced3f758216",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2bb27a7a1c64b78f3e3b06125b4b1529ebabe16e6709069d2d81e93081fd33bc",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "fe9c34d90bf380a4869f5d9cc228a49a27928193b0400c42175481f5d8a88a13",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 768,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "13eac782113f6fc7cb805645999a6233afcc8bd4c3357c51d69a9ba0c10067c4",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "52c705c426d8eb24dcc196a2b40f7570da4959d6a3ef8a5270c4776c0e3ca971",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "afd92883b221f7f6cd0c9f7586e153875e29365780c5401c7802f958ee989007",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "13eac782113f6fc7cb805645999a6233afcc8bd4c3357c51d69a9ba0c10067c4",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "52c705c426d8eb24dcc196a2b40f7570da4959d6a3ef8a5270c4776c0e3ca971",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "afd92883b221f7f6cd0c9f7586e153875e29365780c5401c7802f958ee989007",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 999,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d85b943a5483df81366954fbf25512405b857a326867b6e261cc878ff6ab5c4b",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "bdc247e6bb1615d9a9627189b7232843a41b06c3f58a1483de9b0fc605c26bf3",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "ee621c40e291b39bf2025c5141bce2ec3119710208d541d31c642e9689d2c090",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d85b943a5483df81366954fbf25512405b857a326867b6e261cc878ff6ab5c4b",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "bdc247e6bb1615d9a9627189b7232843a41b06c3f58a1483de9b0fc605c26bf3",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "ee621c40e291b39bf2025c5141bce2ec3119710208d541d31c642e9689d2c090",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 999,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7a7115a43def8969b99ab7604f461747822829490c6cf1c866f4d79666b88b04",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "1991f86395e9ec65f4ab28f01c0bb7cf37c7e19ab4c3d514e9ba644c67b6cdff",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "4e1ccb0269ee4ee7a5fdb4fd75c0ccce8634e31331fa9ed9cb5035f37d002725",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7a7115a43def8969b99ab7604f461747822829490c6cf1c866f4d79666b88b04",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "1991f86395e9ec65f4ab28f01c0bb7cf37c7e19ab4c3d514e9ba644c67b6cdff",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "4e1ccb0269ee4ee7a5fdb4fd75c0ccce8634e31331fa9ed9cb5035f37d002725",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 999,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "bcf213fdab3d1d268931332c5537bfbb214ffbbc9d1db4df5b599e3022da9353",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "b484d0370d5c0bcd76a35e537c8e54aa689f68fbe849aebc5735b464c1105fa1",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "f49bfb2819d42d53b5acc39c0611dae4c8c80c0fa383173e898c5377f6f70024",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "bcf213fdab3d1d268931332c5537bfbb214ffbbc9d1db4df5b599e3022da9353",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "b484d0370d5c0bcd76a35e537c8e54aa689f68fbe849aebc5735b464c1105fa1",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "f49bfb2819d42d53b5acc39c0611dae4c8c80c0fa383173e898c5377f6f70024",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1000,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "4ff3b98b9d92b0b4dd9ac1731b09e5e6b94eaf152a50e2f5a54a5be43bd9ac25",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-1000-before.png",
+            "sha256": "ca95a70567043208dafbac799d615ef6f3a79529679318d21b22a235e53ddf01"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "e62411ed2d6b914fae7e227f18464f99dfcdf1c9fb0edad834a7d179961795e6",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "1618837ca1355677063cf6418c692d2601a0126f87f46bb6fa83b9404295c9bc",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "4ff3b98b9d92b0b4dd9ac1731b09e5e6b94eaf152a50e2f5a54a5be43bd9ac25",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-1000-after.png",
+            "sha256": "ca95a70567043208dafbac799d615ef6f3a79529679318d21b22a235e53ddf01"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "e62411ed2d6b914fae7e227f18464f99dfcdf1c9fb0edad834a7d179961795e6",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "1618837ca1355677063cf6418c692d2601a0126f87f46bb6fa83b9404295c9bc",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1000,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "20a5f36d3121c0190ebe006db7627f1c0576046ed0108bc3f0e0a082df0470bb",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-1000-before.png",
+            "sha256": "55fa3c3a7f8bd6e65ef53dc9d84695cc5fa5e9a6805e025c8396553f902ed6f8"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "fee98dd07a18c148fb692f051acd692fea41b50bab11f2285b69b54f313c9561",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e9cdd8825d54c5132366879fed59e4fcbd540aa30bceee1c9dbdadc173a540cd",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "20a5f36d3121c0190ebe006db7627f1c0576046ed0108bc3f0e0a082df0470bb",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-1000-after.png",
+            "sha256": "55fa3c3a7f8bd6e65ef53dc9d84695cc5fa5e9a6805e025c8396553f902ed6f8"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "fee98dd07a18c148fb692f051acd692fea41b50bab11f2285b69b54f313c9561",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e9cdd8825d54c5132366879fed59e4fcbd540aa30bceee1c9dbdadc173a540cd",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1000,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "fe6d943e57ba50e35fc3a3aa55cd7bb4ce951dd1a4c91d037ece0c3048b46b10",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-1000-before.png",
+            "sha256": "e7398b796d8cf14738d44f642aff84503e5383d8e91c8689a6eff3b452a1c1df"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "9c71b380dfa8289460163888ded25c22fee3e457666b6ca0b84dd4c301a3e393",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "dedcedf391df183041c1e677924f0c60b739c5b83b6502a26923af431b93e512",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "fe6d943e57ba50e35fc3a3aa55cd7bb4ce951dd1a4c91d037ece0c3048b46b10",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-1000-after.png",
+            "sha256": "e7398b796d8cf14738d44f642aff84503e5383d8e91c8689a6eff3b452a1c1df"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "9c71b380dfa8289460163888ded25c22fee3e457666b6ca0b84dd4c301a3e393",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "dedcedf391df183041c1e677924f0c60b739c5b83b6502a26923af431b93e512",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1001,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "cc26553d0b5478a8a43638494ceff8b95f72b994d1587bd125016341b4449858",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-1001-before.png",
+            "sha256": "0da1f8b8b44546e7674578f3cb9a3f6bef0541796bbd7c65e76c77f94b0372ea"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d7083ecfee4370830a8cd0b32b0739ce0d5647ce0a24456a510d67a17a3146a6",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "1c0a73353b0ae1dc4e7499d62a5c2c48dd484ecd8c6786be78439afd8e1331a5",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "cc26553d0b5478a8a43638494ceff8b95f72b994d1587bd125016341b4449858",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-1001-after.png",
+            "sha256": "0da1f8b8b44546e7674578f3cb9a3f6bef0541796bbd7c65e76c77f94b0372ea"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d7083ecfee4370830a8cd0b32b0739ce0d5647ce0a24456a510d67a17a3146a6",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "1c0a73353b0ae1dc4e7499d62a5c2c48dd484ecd8c6786be78439afd8e1331a5",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1001,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "78415180b886fd7532334e6e175f03c348eb933c7b686c2e35243b65dc21c6d7",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-1001-before.png",
+            "sha256": "5213f41f18ed6aca12cbc9cf26542c430b6c8144801ec0bf1b5022afd6bc9443"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "0ce608d1c7e3c2e44bfd302ede7067a15c3cfb90791fd42b0014a91bda857744",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "acd2f06ce6551ddc3ddcc7f81e9d8d5aabdea98fbbf0982329ab56240d96b54d",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "78415180b886fd7532334e6e175f03c348eb933c7b686c2e35243b65dc21c6d7",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-1001-after.png",
+            "sha256": "5213f41f18ed6aca12cbc9cf26542c430b6c8144801ec0bf1b5022afd6bc9443"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "0ce608d1c7e3c2e44bfd302ede7067a15c3cfb90791fd42b0014a91bda857744",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "acd2f06ce6551ddc3ddcc7f81e9d8d5aabdea98fbbf0982329ab56240d96b54d",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1001,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "ae26dc7817a6795d4741c97bdca8391ce4dd66ee5a151b2304e159ac06320784",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-1001-before.png",
+            "sha256": "b43e43b3155900c5534fe57457399b7c35d3ce660cb27556c2b59604dca030d7"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "cfe02990b4f1fff428a0715a8fd6d573e5ca23423ab10edaa4a8431fe8e6bd2d",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "0b9b4f9c8e29fd50f83a81d315753fe61eeece80b16ea3e3964c4c04a6dafe59",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "ae26dc7817a6795d4741c97bdca8391ce4dd66ee5a151b2304e159ac06320784",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-1001-after.png",
+            "sha256": "b43e43b3155900c5534fe57457399b7c35d3ce660cb27556c2b59604dca030d7"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "cfe02990b4f1fff428a0715a8fd6d573e5ca23423ab10edaa4a8431fe8e6bd2d",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "0b9b4f9c8e29fd50f83a81d315753fe61eeece80b16ea3e3964c4c04a6dafe59",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1280,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "f1f665a3a5b5bf0f63e479f4d46a26dacaba5662f8b51b2e91de86bdd34c4a95",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-1280-before.png",
+            "sha256": "16af26d671e81d0cc4384f0fe4816ef69d0cd23284eb16ba18b14f7baeddd811"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "a66b2e0e4335ad302944a88b32c1a0db21dcea17b9cf641704add61517150c60",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "075ac9c1415d991945c803e7a8384cfd3ea17ef8c6564c8a41b83ff78b10c550",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "f1f665a3a5b5bf0f63e479f4d46a26dacaba5662f8b51b2e91de86bdd34c4a95",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "ru-1280-after.png",
+            "sha256": "16af26d671e81d0cc4384f0fe4816ef69d0cd23284eb16ba18b14f7baeddd811"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "a66b2e0e4335ad302944a88b32c1a0db21dcea17b9cf641704add61517150c60",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "075ac9c1415d991945c803e7a8384cfd3ea17ef8c6564c8a41b83ff78b10c550",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1280,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "9f7f6a24694b2d8db162a8d4ee069ea20fd8cd4b4d7c39385512cf11f65d4ab0",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-1280-before.png",
+            "sha256": "7df9a0447304d4ead628df90e29cce36562bbdb73ad73f63f2403f4b5c52c132"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7ab82e045481ebc8794ec50e2b346603bc87a08bb218442a5f561a4d6ac14358",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "6351d22b6e6d4c5bae1107101925e4894737cab351e5a8809143cf09fad79323",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "9f7f6a24694b2d8db162a8d4ee069ea20fd8cd4b4d7c39385512cf11f65d4ab0",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "en-1280-after.png",
+            "sha256": "7df9a0447304d4ead628df90e29cce36562bbdb73ad73f63f2403f4b5c52c132"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7ab82e045481ebc8794ec50e2b346603bc87a08bb218442a5f561a4d6ac14358",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "6351d22b6e6d4c5bae1107101925e4894737cab351e5a8809143cf09fad79323",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1280,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "e0d1657b82f2abe96cb57e021c552fada58c69fec0e8a122ac0635c76e3d0199",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-1280-before.png",
+            "sha256": "1a4528129e397858a4543930cabe6c151a2f2d91921ec4370dea04a986f63475"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "51a1b99a8dfdde3c91965f00a6309a03d1b5c524197fdb70c5b36487ad217265",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c67aff7a53b8ca495b3febd7464f66b54ba8b42a02c7f7792194e8d0c037d629",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "e0d1657b82f2abe96cb57e021c552fada58c69fec0e8a122ac0635c76e3d0199",
+          "fullWidth": true,
+          "screenshot": {
+            "file": "kk-1280-after.png",
+            "sha256": "1a4528129e397858a4543930cabe6c151a2f2d91921ec4370dea04a986f63475"
+          }
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "51a1b99a8dfdde3c91965f00a6309a03d1b5c524197fdb70c5b36487ad217265",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c67aff7a53b8ca495b3febd7464f66b54ba8b42a02c7f7792194e8d0c037d629",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1440,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "c298eaaf8ef1ff8455f5753a5a329ac3376ab0f00421cfc621af922bf296c6de",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "0d5386d5c741da0102735729fbd41fb0d9569d9a2f0ff099c32c7e11e4cff851",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "8bc3af6fe12441835e15400e2120a51a0a81f703d7b8a673436d0fae3f949224",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "c298eaaf8ef1ff8455f5753a5a329ac3376ab0f00421cfc621af922bf296c6de",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "0d5386d5c741da0102735729fbd41fb0d9569d9a2f0ff099c32c7e11e4cff851",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "8bc3af6fe12441835e15400e2120a51a0a81f703d7b8a673436d0fae3f949224",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1440,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "aac4afdfcf9bc754841664aaa2abd67e69f6b8315ff9ce4551c031e55089277c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "334d1d1efe3102e05d203e6817243c19f0ee41ad01c837af1a69fbf8050beeb7",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "06288e593fbca0df61932c8a72b99d0a78b111441b4a3f2e93acdf9c39fb791e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "aac4afdfcf9bc754841664aaa2abd67e69f6b8315ff9ce4551c031e55089277c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "334d1d1efe3102e05d203e6817243c19f0ee41ad01c837af1a69fbf8050beeb7",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "06288e593fbca0df61932c8a72b99d0a78b111441b4a3f2e93acdf9c39fb791e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1440,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "1c9c2ec32c40ccd240e0788db63e219d0941d1ee564c477e3176a695d8bae7c9",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c63490fa2ac90d8ad2d46fb03ed60ac6f82536d3f80a6fb304faeda551b0f76b",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "940590517b0ddfa5975691bad0bfffcf69850d3663fe4274f8244d6a7f4cf38d",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "1c9c2ec32c40ccd240e0788db63e219d0941d1ee564c477e3176a695d8bae7c9",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c63490fa2ac90d8ad2d46fb03ed60ac6f82536d3f80a6fb304faeda551b0f76b",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "940590517b0ddfa5975691bad0bfffcf69850d3663fe4274f8244d6a7f4cf38d",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1920,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "727710cf024845f4533391baf04a7002bbe6afd513d81bf36f9fd50a9a9a5fd4",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d326b5eb47e29b93465f506cd159e7c6b044b61955e82c63ba58244592189a4b",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "81a3809699a8e886f893116025b50b53d70e95a029f10a69395d2e0c5ac53c2a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "727710cf024845f4533391baf04a7002bbe6afd513d81bf36f9fd50a9a9a5fd4",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "d326b5eb47e29b93465f506cd159e7c6b044b61955e82c63ba58244592189a4b",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "81a3809699a8e886f893116025b50b53d70e95a029f10a69395d2e0c5ac53c2a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1920,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "1433562e0b5909a5d9ffdb458d95cc3789b527aef108ac5127171755915bfb8e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "67eb29db6af3289b34088c1bcd1abf9c1eb3bdc33bfee84b315c514965442c70",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "45707f1565241dab65c9de10a763176554ef6e33074c5590dbba7ae00a2bfb23",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "1433562e0b5909a5d9ffdb458d95cc3789b527aef108ac5127171755915bfb8e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "67eb29db6af3289b34088c1bcd1abf9c1eb3bdc33bfee84b315c514965442c70",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "45707f1565241dab65c9de10a763176554ef6e33074c5590dbba7ae00a2bfb23",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1920,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "e41346a16b565a92449b51c3af4e96c18fc31a63d2982f05c640b24ee1081421",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "62ca0334113dfc07f787b41383653055f9509ce826a361c5368b506af83aff04",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c7ae3317bac321e7d2896ea2b6e51f4a3116ea81356eb23420a7d3dee40a8296",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "e41346a16b565a92449b51c3af4e96c18fc31a63d2982f05c640b24ee1081421",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "62ca0334113dfc07f787b41383653055f9509ce826a361c5368b506af83aff04",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c7ae3317bac321e7d2896ea2b6e51f4a3116ea81356eb23420a7d3dee40a8296",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 2560,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "c014d0eba9e29d3d914eac32d4303f7495a3c76bd6fac4e783f1242258bc4135",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "94c37a52d2213d4137cf7b1db959c328aef6ab1bd4c977f0ea33260615029449",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "3e381c669fc3041df9d871ddaad8abb294ed78a0fcfac3adc752b78c28442891",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "c014d0eba9e29d3d914eac32d4303f7495a3c76bd6fac4e783f1242258bc4135",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "94c37a52d2213d4137cf7b1db959c328aef6ab1bd4c977f0ea33260615029449",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1922,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "3e381c669fc3041df9d871ddaad8abb294ed78a0fcfac3adc752b78c28442891",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 2560,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "6da07811fbc2254cbe2618de18a61647962ded4ca37e74d655c8e5a28154fdaa",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "3cf029d9127f0577e91336125367709d03a3c97258d8034f2c7907457c1ceb09",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "308d280604f6cd2436d731343cd63536220217b1832816bf2c203e3994053834",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "6da07811fbc2254cbe2618de18a61647962ded4ca37e74d655c8e5a28154fdaa",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "3cf029d9127f0577e91336125367709d03a3c97258d8034f2c7907457c1ceb09",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1909,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "308d280604f6cd2436d731343cd63536220217b1832816bf2c203e3994053834",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 2560,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "78bc610605e30c23916de200c67488711418192b84cfb1f5965bf50b5b1269cc",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "37ec80cc7b64780708a1e811de3c2b9646eef623b14c2fd419967ec875361d87",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "fda4479bfa4ddcbc91c67f3b9ab11f76ea9a29da9eece8115d2e8f42dd1d3786",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "78bc610605e30c23916de200c67488711418192b84cfb1f5965bf50b5b1269cc",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "37ec80cc7b64780708a1e811de3c2b9646eef623b14c2fd419967ec875361d87",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1907,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "fda4479bfa4ddcbc91c67f3b9ab11f76ea9a29da9eece8115d2e8f42dd1d3786",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 320,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "459162598d74c099b8e467b85f71d085febbd95a646a81e3a5eeb44f4fa86c37",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "39d77ee90493cde97e9dd6e201b279d7a35526e5f43b7a6df73afa748a43c7b7",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "1c344ba01ae21a925f9dde584f53faabe9553bd7607291de3a6b3b2e352f1165",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "459162598d74c099b8e467b85f71d085febbd95a646a81e3a5eeb44f4fa86c37",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "39d77ee90493cde97e9dd6e201b279d7a35526e5f43b7a6df73afa748a43c7b7",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "1c344ba01ae21a925f9dde584f53faabe9553bd7607291de3a6b3b2e352f1165",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 320,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7e9a7fcd1c8049ec3ade4e3f8561668d553aecd1eb658209b864d17621834368",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "ff4ef56e9319e6b0916c53f06fc5baa49198c2b60c01ae3fcf169d1a0de46d7c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "4009c1e7be63af881bc3db0949b9162cbe0047f5eb90bac8c2c38cdb09963ed1",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7e9a7fcd1c8049ec3ade4e3f8561668d553aecd1eb658209b864d17621834368",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "ff4ef56e9319e6b0916c53f06fc5baa49198c2b60c01ae3fcf169d1a0de46d7c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "4009c1e7be63af881bc3db0949b9162cbe0047f5eb90bac8c2c38cdb09963ed1",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 320,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c63a8cc41f6aa7b3d80af15d9aa02e9d58ccb45eef08368a9a4477a51772f18a",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "77da20e4099d1602756c5ea0c77ee93ead90220685c2f88dadc3d082f5157263",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "a3dc0a68d5b15bf278239a8092e17d84d18b84c18ca2b2f5d6b526ba9565d634",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "c63a8cc41f6aa7b3d80af15d9aa02e9d58ccb45eef08368a9a4477a51772f18a",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "77da20e4099d1602756c5ea0c77ee93ead90220685c2f88dadc3d082f5157263",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "a3dc0a68d5b15bf278239a8092e17d84d18b84c18ca2b2f5d6b526ba9565d634",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 700,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "dbbd384b6025c021369054219db2f853d3bce1374dbfcd1ffab4ce7539dca197",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "38f18cc578230fd6e532152d282dfdd9dd1fb9dc8ce25d258c561684bf6a2a8f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "abce108abd0df4162e816b41fd63f1233bdaede7cbbafe3de0aa2f365f1b35aa",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "dbbd384b6025c021369054219db2f853d3bce1374dbfcd1ffab4ce7539dca197",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "38f18cc578230fd6e532152d282dfdd9dd1fb9dc8ce25d258c561684bf6a2a8f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "abce108abd0df4162e816b41fd63f1233bdaede7cbbafe3de0aa2f365f1b35aa",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 700,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "a0924abd518361002689cbae125bc3cb70670293c208936dcaa7b462db1eb0c7",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "84de715e18cdb59cecafaa5d5664b1e18959b5448c32a6154481f6956ed9ed02",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2bf922eb0c1d6a8922976a561e2468fac2d83319cc17aa5eae7e6f2ff824fe93",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "a0924abd518361002689cbae125bc3cb70670293c208936dcaa7b462db1eb0c7",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "84de715e18cdb59cecafaa5d5664b1e18959b5448c32a6154481f6956ed9ed02",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2bf922eb0c1d6a8922976a561e2468fac2d83319cc17aa5eae7e6f2ff824fe93",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 700,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "13c55fbaa6c4847042f852f9d3593a88a815b9c6bb291b9a329972f5de757721",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "aeaadb8e0c111048cb9841d8504eb88ac933715d73e2def10b847353e4d3243e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "3b3ab3eb13ed7847cd47cfab55b1edd19a6b63b406b049959498e249f32b0ca8",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "13c55fbaa6c4847042f852f9d3593a88a815b9c6bb291b9a329972f5de757721",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "aeaadb8e0c111048cb9841d8504eb88ac933715d73e2def10b847353e4d3243e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "3b3ab3eb13ed7847cd47cfab55b1edd19a6b63b406b049959498e249f32b0ca8",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 701,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "921cb268822c932214619f9836e6ac63419c7c84ecdae4824f4f5ef2de96dedd",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "46df0e575b7acd647cf8661cc4c2aaea336f1a22d7cd9557317e10a59e9ae5f0",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "88eca725e0ff7a2402a0ce4ede07caa6b3674b616af95e10444c48ef6aea569c",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "921cb268822c932214619f9836e6ac63419c7c84ecdae4824f4f5ef2de96dedd",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "46df0e575b7acd647cf8661cc4c2aaea336f1a22d7cd9557317e10a59e9ae5f0",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "88eca725e0ff7a2402a0ce4ede07caa6b3674b616af95e10444c48ef6aea569c",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 701,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "326fb9885ae0e313958025c28a2ab78034b8d014108c065625a7f1500a4bb771",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "66511aaa41aaafcf96022a3366b8dfa805d5e30025ad6e38164007aeb6dcea8f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "5c3b49cc0babfbc2c717f50480dab4efe9372b07283d730bd92d0e0a76a2c55a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "326fb9885ae0e313958025c28a2ab78034b8d014108c065625a7f1500a4bb771",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "66511aaa41aaafcf96022a3366b8dfa805d5e30025ad6e38164007aeb6dcea8f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "5c3b49cc0babfbc2c717f50480dab4efe9372b07283d730bd92d0e0a76a2c55a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 701,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "caeff1bdc35cdf2f900d4d99c5ac06c7eac89ed27b06bc7b5a480de30d237ab8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "adaab4542140c3bb22282caef9407bef3fb2bf027fedc2021ee6d51cafbd6581",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "581d680da331ecd629ef5ed5ca70a4d5c55b306f6d1836abc26a27827ade95a1",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "caeff1bdc35cdf2f900d4d99c5ac06c7eac89ed27b06bc7b5a480de30d237ab8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "adaab4542140c3bb22282caef9407bef3fb2bf027fedc2021ee6d51cafbd6581",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "581d680da331ecd629ef5ed5ca70a4d5c55b306f6d1836abc26a27827ade95a1",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1000,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "346e33c0eae3fc57855414535557ace3f9020f53487a0848e17ca451bfdb436f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "ff310d80bdc7c09e13843ea0fe8d0a84a946392094f380da9131398797b77336",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "2c86037f1dba5682efd20afe3006ac68284128789833c2b357afb191a26dab4d",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "346e33c0eae3fc57855414535557ace3f9020f53487a0848e17ca451bfdb436f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "ff310d80bdc7c09e13843ea0fe8d0a84a946392094f380da9131398797b77336",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "2c86037f1dba5682efd20afe3006ac68284128789833c2b357afb191a26dab4d",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1000,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "b7358b9762ae40f3a674d9159121645c03afc9e365bda92b22e5b203c6f8ab09",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "39f1ac5a71c32b3d45374033198e2c6d810252da3e3e1050bd075147be371e70",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "d362f0bc8601985b89c45e8c8e0004f88eb2caab12b6ed58d34bf38f9de9d04b",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "b7358b9762ae40f3a674d9159121645c03afc9e365bda92b22e5b203c6f8ab09",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "39f1ac5a71c32b3d45374033198e2c6d810252da3e3e1050bd075147be371e70",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "d362f0bc8601985b89c45e8c8e0004f88eb2caab12b6ed58d34bf38f9de9d04b",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1000,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "2e1c0a5d32bb29ce6f0f1ecb30409acaf4b4a11f41e3f6144515b5a7b6ce92ba",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "0f9e70667bd502d13737d3e24774d3edb3ef6da4a515c0f35bef52e82f41346e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "563de706cee55b6aaba8820821aa58151ba7e0497ad63dbb4b68fea4acbd2c44",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "2e1c0a5d32bb29ce6f0f1ecb30409acaf4b4a11f41e3f6144515b5a7b6ce92ba",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "0f9e70667bd502d13737d3e24774d3edb3ef6da4a515c0f35bef52e82f41346e",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "563de706cee55b6aaba8820821aa58151ba7e0497ad63dbb4b68fea4acbd2c44",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1001,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "7dfdffc760577dd8870f06111530ff32d17b8ab9ebb532452234b5138ef4cee9",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "9d3e68192de07065da3cebf53bc82e39e2f1a19c61f474c081e3396c807b1a16",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "bb53618cb6eaad43772a0784c3588ee0d87c9fe0aac617135c907b70d345728a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "7dfdffc760577dd8870f06111530ff32d17b8ab9ebb532452234b5138ef4cee9",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "9d3e68192de07065da3cebf53bc82e39e2f1a19c61f474c081e3396c807b1a16",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "bb53618cb6eaad43772a0784c3588ee0d87c9fe0aac617135c907b70d345728a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1001,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e756997184a5f458cbb3cdc5bb928cdb7c1493a85fbf6bb25dd6fa4bf68215d8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e09613da3d1117cacbef4f8d5603c671c496c87c16119d3662a4358b68cacf29",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7260cdc6a24f5e8d1c48fa1cd9927b5872de32abe75bc41b2bf116e89b3cf5e8",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e756997184a5f458cbb3cdc5bb928cdb7c1493a85fbf6bb25dd6fa4bf68215d8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e09613da3d1117cacbef4f8d5603c671c496c87c16119d3662a4358b68cacf29",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "7260cdc6a24f5e8d1c48fa1cd9927b5872de32abe75bc41b2bf116e89b3cf5e8",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1001,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "d4368c52e6a9078a1a6070150248417687670655d161affef9d40dc644a1c69c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "352645ef7b9b2b84b74242d27b791c99c54bd33e4328627254b1c5f2a7faff73",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "427e8dafa1c854cb38572883b6d9d1a8dd63a76de046c51b15f3c1949a39e67f",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "d4368c52e6a9078a1a6070150248417687670655d161affef9d40dc644a1c69c",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "352645ef7b9b2b84b74242d27b791c99c54bd33e4328627254b1c5f2a7faff73",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "427e8dafa1c854cb38572883b6d9d1a8dd63a76de046c51b15f3c1949a39e67f",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1280,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "dbdb4de548b48f58363810d303c1e54daeba289569f6ae98c94dd98dbc3a211d",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "4b64945e98dff40bfaf9ea1e49b213509a2f35fd23e1cfe070adbef6eae7ea46",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "b9ee52ebfae2be4c21c4ec6d7030b9db22497ef1cfc4c8a7b7f1f292a5b6cebd",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "dbdb4de548b48f58363810d303c1e54daeba289569f6ae98c94dd98dbc3a211d",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "4b64945e98dff40bfaf9ea1e49b213509a2f35fd23e1cfe070adbef6eae7ea46",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "b9ee52ebfae2be4c21c4ec6d7030b9db22497ef1cfc4c8a7b7f1f292a5b6cebd",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1280,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e04b03427e7d42be2a86b98a44b617ec8e29965dcbc58a68ab0945b64ce9d51a",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "059def52a565c04e4d96d4e73f1fa052d34bc31d3fcf1b69e465368a988674b7",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2c4de2137d5f9c82a7742bfbb00bea0757f17baae404f35e56f21e4b833a2349",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e04b03427e7d42be2a86b98a44b617ec8e29965dcbc58a68ab0945b64ce9d51a",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "059def52a565c04e4d96d4e73f1fa052d34bc31d3fcf1b69e465368a988674b7",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "2c4de2137d5f9c82a7742bfbb00bea0757f17baae404f35e56f21e4b833a2349",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1280,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "569496756e77e52cd8edb0a53e00718c4da483e7d26220f5c52c39a9cfe3d3ec",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "8ba828b0dc6652f2af25896193343294c45bd037930bb385f258dbc0fe1255bd",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "dbaf9fb3d0b376f9f48ca5b0cedd8472cbe8b88f93e5d1738455e66860680c1e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "569496756e77e52cd8edb0a53e00718c4da483e7d26220f5c52c39a9cfe3d3ec",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "8ba828b0dc6652f2af25896193343294c45bd037930bb385f258dbc0fe1255bd",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "dbaf9fb3d0b376f9f48ca5b0cedd8472cbe8b88f93e5d1738455e66860680c1e",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 2560,
+      "language": "ru",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "659699a2613e1f4f24099a65e59abb0d3b9089fe61eec3380d78faaec65ae07f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "6c81edd0e191b67a301a46d8c5bee3159fa3cc6053af010597ebcade4fa21a16",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "6d4a74a95d6a1cf6785c65850d56870a108b0a1dd1433ff30e5a288553d4de7b",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "659699a2613e1f4f24099a65e59abb0d3b9089fe61eec3380d78faaec65ae07f",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "6c81edd0e191b67a301a46d8c5bee3159fa3cc6053af010597ebcade4fa21a16",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1787,
+          "bannerNodes": 72,
+          "allStylesAndGeometryHash": "6d4a74a95d6a1cf6785c65850d56870a108b0a1dd1433ff30e5a288553d4de7b",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 2560,
+      "language": "en",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "afa21efc57849689c93e1bc94df43fd5890ef8bd2a4ebdc98d4d63dc51bef7bb",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "959222f836c991103cc4c6a7a5d614837030528e726dc06bfe198c2c34ede7e8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e44d0e3429fd1fd130982adeaaab5075d512e46046944ecd21beb4b79dce9a2a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "afa21efc57849689c93e1bc94df43fd5890ef8bd2a4ebdc98d4d63dc51bef7bb",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "959222f836c991103cc4c6a7a5d614837030528e726dc06bfe198c2c34ede7e8",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1776,
+          "bannerNodes": 70,
+          "allStylesAndGeometryHash": "e44d0e3429fd1fd130982adeaaab5075d512e46046944ecd21beb4b79dce9a2a",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 2560,
+      "language": "kk",
+      "scenic": true,
+      "before": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "62a0f1942b7a3dce7b3e934f87800a99c44bc952e1703668120b83169b67ef53",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "789dc22206f8449bec071df91b73ae24f916d4b11d2b3b19f39bd20aa31340f0",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "97f162e82187c98d2915daf235e4749c13b0cc3f7e6a7923a981740274c163c8",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ],
+      "after": [
+        {
+          "view": "default",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "62a0f1942b7a3dce7b3e934f87800a99c44bc952e1703668120b83169b67ef53",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "service-hover",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "789dc22206f8449bec071df91b73ae24f916d4b11d2b3b19f39bd20aa31340f0",
+          "fullWidth": true,
+          "screenshot": null
+        },
+        {
+          "view": "contact-focus",
+          "domNodes": 1774,
+          "bannerNodes": 68,
+          "allStylesAndGeometryHash": "97f162e82187c98d2915daf235e4749c13b0cc3f7e6a7923a981740274c163c8",
+          "fullWidth": true,
+          "screenshot": null
+        }
+      ]
+    }
+  ],
+  "comparisons": 198,
+  "screenshotPairs": 18,
+  "resizes": [
+    {
+      "language": "ru",
+      "before": [
+        {
+          "width": 390,
+          "domNodes": 1922,
+          "hash": "53edf707fc8b11ce8dd3a0c7bfe712151e29449f7784b6ff69d28cd271ee43cb"
+        },
+        {
+          "width": 1280,
+          "domNodes": 1922,
+          "hash": "c9792effeba4688242faca733bc97b74c9679fa7b03e1e9e3e20d7d799a92b6e"
+        },
+        {
+          "width": 700,
+          "domNodes": 1922,
+          "hash": "df9b3320c89af4c5266f41b21867a8b09e875fa402a19dafed1436ac421ad3f4"
+        },
+        {
+          "width": 701,
+          "domNodes": 1922,
+          "hash": "ba27de917e44a76a3157f8b25ec5dda3c6590f5a4c9e6ef440d20b4d360cfc75"
+        },
+        {
+          "width": 1000,
+          "domNodes": 1922,
+          "hash": "13b4b200d60394b08189f3cd865d309b685f72e539d376818f9a70e62a46703b"
+        },
+        {
+          "width": 1001,
+          "domNodes": 1922,
+          "hash": "8673749212f475480887c582ca2d83895f18aa9786bb84d36c6ac7edd07440f7"
+        },
+        {
+          "width": 320,
+          "domNodes": 1922,
+          "hash": "8cedc4f942ae4d846f51419c5b21290b5c32107d9287c01591a7dcd881bd58e4"
+        }
+      ],
+      "after": [
+        {
+          "width": 390,
+          "domNodes": 1922,
+          "hash": "53edf707fc8b11ce8dd3a0c7bfe712151e29449f7784b6ff69d28cd271ee43cb"
+        },
+        {
+          "width": 1280,
+          "domNodes": 1922,
+          "hash": "c9792effeba4688242faca733bc97b74c9679fa7b03e1e9e3e20d7d799a92b6e"
+        },
+        {
+          "width": 700,
+          "domNodes": 1922,
+          "hash": "df9b3320c89af4c5266f41b21867a8b09e875fa402a19dafed1436ac421ad3f4"
+        },
+        {
+          "width": 701,
+          "domNodes": 1922,
+          "hash": "ba27de917e44a76a3157f8b25ec5dda3c6590f5a4c9e6ef440d20b4d360cfc75"
+        },
+        {
+          "width": 1000,
+          "domNodes": 1922,
+          "hash": "13b4b200d60394b08189f3cd865d309b685f72e539d376818f9a70e62a46703b"
+        },
+        {
+          "width": 1001,
+          "domNodes": 1922,
+          "hash": "8673749212f475480887c582ca2d83895f18aa9786bb84d36c6ac7edd07440f7"
+        },
+        {
+          "width": 320,
+          "domNodes": 1922,
+          "hash": "8cedc4f942ae4d846f51419c5b21290b5c32107d9287c01591a7dcd881bd58e4"
+        }
+      ]
+    },
+    {
+      "language": "en",
+      "before": [
+        {
+          "width": 390,
+          "domNodes": 1909,
+          "hash": "8516fbd33182b6c1db363faafbde9f45bea6e663dfbde43407044334527564d2"
+        },
+        {
+          "width": 1280,
+          "domNodes": 1909,
+          "hash": "24eeaab71d68724c731c70838902e39c7d464544324f06a67414a59f2df08151"
+        },
+        {
+          "width": 700,
+          "domNodes": 1909,
+          "hash": "343ab4af010550d1a23ca129c6a49ac24458186b6b18ae97e9fcfa5559bb4c59"
+        },
+        {
+          "width": 701,
+          "domNodes": 1909,
+          "hash": "2431269a64017f7810def9fed69b5cf35c32fa49d07c538dfd23ca6ff407b5a2"
+        },
+        {
+          "width": 1000,
+          "domNodes": 1909,
+          "hash": "a693e62fafc54befc55f5632538c14cee18863f38386ad6f82d5543185def30c"
+        },
+        {
+          "width": 1001,
+          "domNodes": 1909,
+          "hash": "4817d064e892de60f36b1c07c69add3e1e57f7a87e141a32d5633943295bc813"
+        },
+        {
+          "width": 320,
+          "domNodes": 1909,
+          "hash": "a73c5a87f32ec4c316a485f7d4787cb3e3cc381b8f4831ded393fbdd53ac461e"
+        }
+      ],
+      "after": [
+        {
+          "width": 390,
+          "domNodes": 1909,
+          "hash": "8516fbd33182b6c1db363faafbde9f45bea6e663dfbde43407044334527564d2"
+        },
+        {
+          "width": 1280,
+          "domNodes": 1909,
+          "hash": "24eeaab71d68724c731c70838902e39c7d464544324f06a67414a59f2df08151"
+        },
+        {
+          "width": 700,
+          "domNodes": 1909,
+          "hash": "343ab4af010550d1a23ca129c6a49ac24458186b6b18ae97e9fcfa5559bb4c59"
+        },
+        {
+          "width": 701,
+          "domNodes": 1909,
+          "hash": "2431269a64017f7810def9fed69b5cf35c32fa49d07c538dfd23ca6ff407b5a2"
+        },
+        {
+          "width": 1000,
+          "domNodes": 1909,
+          "hash": "a693e62fafc54befc55f5632538c14cee18863f38386ad6f82d5543185def30c"
+        },
+        {
+          "width": 1001,
+          "domNodes": 1909,
+          "hash": "4817d064e892de60f36b1c07c69add3e1e57f7a87e141a32d5633943295bc813"
+        },
+        {
+          "width": 320,
+          "domNodes": 1909,
+          "hash": "a73c5a87f32ec4c316a485f7d4787cb3e3cc381b8f4831ded393fbdd53ac461e"
+        }
+      ]
+    },
+    {
+      "language": "kk",
+      "before": [
+        {
+          "width": 390,
+          "domNodes": 1907,
+          "hash": "fbd6600ff2b607c89f4a3b6b1f41012ce0966df207e0b6513a5a672f8b3a2585"
+        },
+        {
+          "width": 1280,
+          "domNodes": 1907,
+          "hash": "98a2bbe9922b2bcc7c182945aef7414d2d9db8f5a0383a53687b81de6478acb1"
+        },
+        {
+          "width": 700,
+          "domNodes": 1907,
+          "hash": "f45d3f79695f5e8f3206925ab498be97f3624ab3939a76af21a87c6f9ed822e9"
+        },
+        {
+          "width": 701,
+          "domNodes": 1907,
+          "hash": "987cec26bb362d6331f69a6719d9623d0aaa90e826efba7c0cf601bae2c1b69e"
+        },
+        {
+          "width": 1000,
+          "domNodes": 1907,
+          "hash": "794f7a71f6fbfe3b99bdbb58721aac4a88122b84017ebe0e2cf1c9ea34666fa7"
+        },
+        {
+          "width": 1001,
+          "domNodes": 1907,
+          "hash": "814987172e35b34e68eeecb75a0cdbd3b7191f3f63c1a136952fad52df1d7a5b"
+        },
+        {
+          "width": 320,
+          "domNodes": 1907,
+          "hash": "904b8aea91a91ce548ac80d56a6765c9b94697caed298da88e18802daa7ca5aa"
+        }
+      ],
+      "after": [
+        {
+          "width": 390,
+          "domNodes": 1907,
+          "hash": "fbd6600ff2b607c89f4a3b6b1f41012ce0966df207e0b6513a5a672f8b3a2585"
+        },
+        {
+          "width": 1280,
+          "domNodes": 1907,
+          "hash": "98a2bbe9922b2bcc7c182945aef7414d2d9db8f5a0383a53687b81de6478acb1"
+        },
+        {
+          "width": 700,
+          "domNodes": 1907,
+          "hash": "f45d3f79695f5e8f3206925ab498be97f3624ab3939a76af21a87c6f9ed822e9"
+        },
+        {
+          "width": 701,
+          "domNodes": 1907,
+          "hash": "987cec26bb362d6331f69a6719d9623d0aaa90e826efba7c0cf601bae2c1b69e"
+        },
+        {
+          "width": 1000,
+          "domNodes": 1907,
+          "hash": "794f7a71f6fbfe3b99bdbb58721aac4a88122b84017ebe0e2cf1c9ea34666fa7"
+        },
+        {
+          "width": 1001,
+          "domNodes": 1907,
+          "hash": "814987172e35b34e68eeecb75a0cdbd3b7191f3f63c1a136952fad52df1d7a5b"
+        },
+        {
+          "width": 320,
+          "domNodes": 1907,
+          "hash": "904b8aea91a91ce548ac80d56a6765c9b94697caed298da88e18802daa7ca5aa"
+        }
+      ]
+    }
+  ],
+  "resizePairs": 21,
+  "negativeCanvasDetected": true,
+  "sizes": {
+    "before": {
+      "bytes": 29792,
+      "gzip": 6956,
+      "brotli": 5775
+    },
+    "after": {
+      "bytes": 29622,
+      "gzip": 6936,
+      "brotli": 5764
+    }
+  },
+  "timing": [
+    {
+      "width": 390,
+      "repeat": 0,
+      "variant": "before",
+      "readyMs": 652.8476099999971,
+      "listeners": 259,
+      "heapBytes": 5377228
+    },
+    {
+      "width": 390,
+      "repeat": 0,
+      "variant": "after",
+      "readyMs": 652.0069999999832,
+      "listeners": 259,
+      "heapBytes": 5393396
+    },
+    {
+      "width": 390,
+      "repeat": 1,
+      "variant": "after",
+      "readyMs": 692.1042460000026,
+      "listeners": 259,
+      "heapBytes": 5386336
+    },
+    {
+      "width": 390,
+      "repeat": 1,
+      "variant": "before",
+      "readyMs": 671.4248459999799,
+      "listeners": 259,
+      "heapBytes": 5401248
+    },
+    {
+      "width": 390,
+      "repeat": 2,
+      "variant": "before",
+      "readyMs": 743.8497379999608,
+      "listeners": 259,
+      "heapBytes": 5386552
+    },
+    {
+      "width": 390,
+      "repeat": 2,
+      "variant": "after",
+      "readyMs": 656.7938870000071,
+      "listeners": 259,
+      "heapBytes": 5386248
+    },
+    {
+      "width": 390,
+      "repeat": 3,
+      "variant": "after",
+      "readyMs": 625.6243529999629,
+      "listeners": 259,
+      "heapBytes": 5397628
+    },
+    {
+      "width": 390,
+      "repeat": 3,
+      "variant": "before",
+      "readyMs": 696.5576270000311,
+      "listeners": 259,
+      "heapBytes": 5398408
+    },
+    {
+      "width": 390,
+      "repeat": 4,
+      "variant": "before",
+      "readyMs": 673.9425400000182,
+      "listeners": 259,
+      "heapBytes": 5386368
+    },
+    {
+      "width": 390,
+      "repeat": 4,
+      "variant": "after",
+      "readyMs": 645.0215750000207,
+      "listeners": 259,
+      "heapBytes": 5390180
+    },
+    {
+      "width": 390,
+      "repeat": 5,
+      "variant": "after",
+      "readyMs": 650.4254450000008,
+      "listeners": 259,
+      "heapBytes": 5386596
+    },
+    {
+      "width": 390,
+      "repeat": 5,
+      "variant": "before",
+      "readyMs": 646.7868610000005,
+      "listeners": 259,
+      "heapBytes": 5401528
+    },
+    {
+      "width": 390,
+      "repeat": 6,
+      "variant": "before",
+      "readyMs": 664.4372799999546,
+      "listeners": 259,
+      "heapBytes": 5404508
+    },
+    {
+      "width": 390,
+      "repeat": 6,
+      "variant": "after",
+      "readyMs": 674.8269079999882,
+      "listeners": 259,
+      "heapBytes": 5386240
+    },
+    {
+      "width": 390,
+      "repeat": 7,
+      "variant": "after",
+      "readyMs": 670.9755430000369,
+      "listeners": 259,
+      "heapBytes": 5386676
+    },
+    {
+      "width": 390,
+      "repeat": 7,
+      "variant": "before",
+      "readyMs": 653.9012310000253,
+      "listeners": 259,
+      "heapBytes": 5385952
+    },
+    {
+      "width": 390,
+      "repeat": 8,
+      "variant": "before",
+      "readyMs": 606.5284080000129,
+      "listeners": 259,
+      "heapBytes": 5386232
+    },
+    {
+      "width": 390,
+      "repeat": 8,
+      "variant": "after",
+      "readyMs": 628.4554519999656,
+      "listeners": 259,
+      "heapBytes": 5401596
+    },
+    {
+      "width": 1280,
+      "repeat": 0,
+      "variant": "before",
+      "readyMs": 677.9380249999813,
+      "listeners": 259,
+      "heapBytes": 5442960
+    },
+    {
+      "width": 1280,
+      "repeat": 0,
+      "variant": "after",
+      "readyMs": 674.3594110000413,
+      "listeners": 259,
+      "heapBytes": 5442740
+    },
+    {
+      "width": 1280,
+      "repeat": 1,
+      "variant": "after",
+      "readyMs": 655.5474270000122,
+      "listeners": 259,
+      "heapBytes": 5458624
+    },
+    {
+      "width": 1280,
+      "repeat": 1,
+      "variant": "before",
+      "readyMs": 678.7159059999976,
+      "listeners": 259,
+      "heapBytes": 5453168
+    },
+    {
+      "width": 1280,
+      "repeat": 2,
+      "variant": "before",
+      "readyMs": 604.9174290000228,
+      "listeners": 259,
+      "heapBytes": 5458168
+    },
+    {
+      "width": 1280,
+      "repeat": 2,
+      "variant": "after",
+      "readyMs": 749.4565280000097,
+      "listeners": 259,
+      "heapBytes": 5456664
+    },
+    {
+      "width": 1280,
+      "repeat": 3,
+      "variant": "after",
+      "readyMs": 692.1808400000446,
+      "listeners": 259,
+      "heapBytes": 5456784
+    },
+    {
+      "width": 1280,
+      "repeat": 3,
+      "variant": "before",
+      "readyMs": 625.0932009999524,
+      "listeners": 259,
+      "heapBytes": 5442792
+    },
+    {
+      "width": 1280,
+      "repeat": 4,
+      "variant": "before",
+      "readyMs": 674.8148020000081,
+      "listeners": 259,
+      "heapBytes": 5442688
+    },
+    {
+      "width": 1280,
+      "repeat": 4,
+      "variant": "after",
+      "readyMs": 701.8231090000481,
+      "listeners": 259,
+      "heapBytes": 5442712
+    },
+    {
+      "width": 1280,
+      "repeat": 5,
+      "variant": "after",
+      "readyMs": 689.5930170000065,
+      "listeners": 259,
+      "heapBytes": 5442860
+    },
+    {
+      "width": 1280,
+      "repeat": 5,
+      "variant": "before",
+      "readyMs": 691.566101000004,
+      "listeners": 259,
+      "heapBytes": 5456396
+    },
+    {
+      "width": 1280,
+      "repeat": 6,
+      "variant": "before",
+      "readyMs": 679.1368190000067,
+      "listeners": 259,
+      "heapBytes": 5442584
+    },
+    {
+      "width": 1280,
+      "repeat": 6,
+      "variant": "after",
+      "readyMs": 692.6247790000052,
+      "listeners": 259,
+      "heapBytes": 5443156
+    },
+    {
+      "width": 1280,
+      "repeat": 7,
+      "variant": "after",
+      "readyMs": 628.6622659999994,
+      "listeners": 259,
+      "heapBytes": 5443048
+    },
+    {
+      "width": 1280,
+      "repeat": 7,
+      "variant": "before",
+      "readyMs": 691.5988699999871,
+      "listeners": 259,
+      "heapBytes": 5460596
+    },
+    {
+      "width": 1280,
+      "repeat": 8,
+      "variant": "before",
+      "readyMs": 714.3146379999816,
+      "listeners": 259,
+      "heapBytes": 5453892
+    },
+    {
+      "width": 1280,
+      "repeat": 8,
+      "variant": "after",
+      "readyMs": 675.3633719999925,
+      "listeners": 259,
+      "heapBytes": 5442928
+    }
+  ],
+  "packages": {
+    "before": {
+      "revision": "6b3bdbebea65ea8e26a8dfd983842d5eb96bb735",
+      "bytes": 13229878,
+      "resources": [
+        {
+          "path": "Marketing_calc.HTML",
+          "bytes": 516150,
+          "sha256": "e52a299d7cb344eb9547809a7c917ccf4a7ad8252a5701eace258975d1dc2843"
+        },
+        {
+          "path": "assets/nomad360-banners/about-bozzhyra-approved.webp",
+          "bytes": 109600,
+          "sha256": "58e2fe073939abb241a8ad16d07467269e4a9c67b24a8a1d3096be03a1546125"
+        },
+        {
+          "path": "assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg",
+          "bytes": 147278,
+          "sha256": "02b7e391d024bb6e2581b2e2fbae3703533c06cce335142a326c904ba4c3eadb"
+        },
+        {
+          "path": "assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg",
+          "bytes": 990422,
+          "sha256": "91ff1094aadf2e666488e46e070f6a301da2392f11a85f214590e958fed90a22"
+        },
+        {
+          "path": "assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg",
+          "bytes": 753281,
+          "sha256": "cc49e043ba340c6e2fe987e5e542bfd749819053884b7091f567507bb77f18b7"
+        },
+        {
+          "path": "assets/nomad360-banners/hero-alpenglow-fullbleed.webp",
+          "bytes": 30558,
+          "sha256": "c97a5b76399fc9a757c092251f727deb9b221009cd4a610d418a8ef2abee6650"
+        },
+        {
+          "path": "assets/nomad360-banners/hero.webp",
+          "bytes": 49086,
+          "sha256": "305237c34c5d17a2703cda1831e35041bc930e07b491df603af3b0fd4ab26db0"
+        },
+        {
+          "path": "assets/nomad360-banners/support-mobile.webp",
+          "bytes": 172482,
+          "sha256": "aaf737d9bf903380603174d4d8295fd43fe5ec32e41c81689007294bd813a48b"
+        },
+        {
+          "path": "assets/nomad360-banners/support-wide-extended.webp",
+          "bytes": 117162,
+          "sha256": "d18eb8efbe66bb80af6201af0e7cfd88f73d358bbaa7bce47a0b757606de347a"
+        },
+        {
+          "path": "assets/nomad360-banners/support-wide.webp",
+          "bytes": 179560,
+          "sha256": "8deed3eca326f82f0274bccd5d1430657a1ccecf8c8691d1bef67ced099a5bdf"
+        },
+        {
+          "path": "docs/approved-design/unified-banners/about-moon-scenery.webp",
+          "bytes": 77160,
+          "sha256": "5c7bdfed0384b6655e3e75b82f029652b566df0a33069a823b4cc9f3327bf222"
+        },
+        {
+          "path": "nomad360_about_banner.css",
+          "bytes": 29792,
+          "sha256": "27bf98ca73b9ea3e3f977946d807c67c297592f987c368a7015ee9f0c4fc7ec5"
+        },
+        {
+          "path": "nomad360_about_banner.js",
+          "bytes": 7573,
+          "sha256": "2bbd4373f6ac7b7da87dce618a0fa00b2084636f9836382c32cd7152afbb83c2"
+        },
+        {
+          "path": "nomad360_bug_report.css",
+          "bytes": 5067,
+          "sha256": "57ab0111c5de8c0409f051c257cf2987b192a818eefb677d16caab59126eb5ce"
+        },
+        {
+          "path": "nomad360_bug_report.js",
+          "bytes": 16456,
+          "sha256": "18964f0152d333c7c7751372f0747a9af038b324ee24bd1327523879cd453117"
+        },
+        {
+          "path": "nomad360_calculator_ui.css",
+          "bytes": 282111,
+          "sha256": "f8de79efda7f71c9301b01f10eeb55c42250a22c62bf7ce68363a3211ceb59f3"
+        },
+        {
+          "path": "nomad360_calculator_ui.js",
+          "bytes": 34201,
+          "sha256": "4a2fe0a6b36703ad2e56aaf380b4a1f0a9801f71ab1b66be2b5f6ae165e1d0b7"
+        },
+        {
+          "path": "nomad360_consulting_banner.css",
+          "bytes": 11874,
+          "sha256": "87b62568103659e29cbdb39f0a6f031759ba25ad7d1206f470bbde47889b88f0"
+        },
+        {
+          "path": "nomad360_currency.js",
+          "bytes": 4344,
+          "sha256": "815b86ededd70b9ba297828ebf954f5c0a5838a9ad2c43772bba117edb5a4d63"
+        },
+        {
+          "path": "nomad360_delivery.js",
+          "bytes": 3491,
+          "sha256": "06cdcfd2c389ba9e6ca221edae9172dc492e168b0750a5c7976e5ffecf84be00"
+        },
+        {
+          "path": "nomad360_design_system.css",
+          "bytes": 90213,
+          "sha256": "92fee51872625d6ccf8e99cf4e166670406821b2e122ff154840a67746b919ae"
+        },
+        {
+          "path": "nomad360_draft_store.js",
+          "bytes": 2736,
+          "sha256": "e2cfbbf3d626960abe977b0ed40ee53b3336099148c2007c15f8d62f732ef5c4"
+        },
+        {
+          "path": "nomad360_fx.js",
+          "bytes": 1255,
+          "sha256": "7eb8e7f3142c3a5cc83e2fb0dea63b33b51181b97950e845ee5eada626bec97c"
+        },
+        {
+          "path": "nomad360_fx_ui.js",
+          "bytes": 8707,
+          "sha256": "8a01f42820bef8da25c76b6115be6fbf57d930fe72b6374ceab9b362ad583633"
+        },
+        {
+          "path": "nomad360_header.js",
+          "bytes": 76549,
+          "sha256": "9166e9550c3545161ef55a235d580e2249145f6a41d125e790617d9e400e5cb1"
+        },
+        {
+          "path": "nomad360_hero_banner.css",
+          "bytes": 39191,
+          "sha256": "7f53b4be7f7ce7e2f9e5a31255d83fe36927b4c4d05b73d678a5cf58e10f602f"
+        },
+        {
+          "path": "nomad360_hero_banner.js",
+          "bytes": 8126,
+          "sha256": "e14208b24d2385c076d5d59ca90f855871a60acefd43fdab7dc7bcaa42bd71ef"
+        },
+        {
+          "path": "nomad360_irbis_banner.css",
+          "bytes": 25005,
+          "sha256": "b984d00b2f4a2411aaa15f51b78c379901a4b6df7c9397951935e05341d5ad08"
+        },
+        {
+          "path": "nomad360_irbis_banner.js",
+          "bytes": 7614,
+          "sha256": "f660883f6b63885f1c8405f8918058060a2cf1f1d39df2fbcfc1c966849da9c1"
+        },
+        {
+          "path": "nomad360_locale_core.js",
+          "bytes": 483009,
+          "sha256": "eceeef792460bf5ef94bd194aa76eee061b92b9ea9143119d8744066907e3248"
+        },
+        {
+          "path": "nomad360_navigation.js",
+          "bytes": 12482,
+          "sha256": "13f649d6d88491d4b510d5a117a943544694f42e1dbd45418856d7dddd6b2fb7"
+        },
+        {
+          "path": "nomad360_palette.css",
+          "bytes": 281853,
+          "sha256": "9c16bd14fe4339bf08687d7275b0454b93b9b57e262df29721d3de0c3684e234"
+        },
+        {
+          "path": "nomad360_partner_application.css",
+          "bytes": 4794,
+          "sha256": "354bc23494f0a9c5bf57dcaf762bbd4c81c256d27422a6b6b295d084750463bb"
+        },
+        {
+          "path": "nomad360_partner_application.js",
+          "bytes": 18434,
+          "sha256": "bd7467f45952f3af6042887ac312b29b1776c083a8cdef9617910b8832b6e55e"
+        },
+        {
+          "path": "nomad360_partner_application_model.js",
+          "bytes": 2559,
+          "sha256": "ef5a4dff7b52ee014a1e849fe9613f061cb1712d70ab08eea8024f6faf277fa9"
+        },
+        {
+          "path": "nomad360_partner_transport.js",
+          "bytes": 1196,
+          "sha256": "3756b61f37ca4c0e1a14e4124cb3f72c0323106561ba060c31acceddbcf23364"
+        },
+        {
+          "path": "nomad360_payment_ui.js",
+          "bytes": 11686,
+          "sha256": "e540f6c4d67c21e38a329d9920f24c5ee3cf92ee2ab085b5c98ee4d41a5832da"
+        },
+        {
+          "path": "nomad360_payments.css",
+          "bytes": 2946,
+          "sha256": "f9f89a0de2b114f5ba66c8ef43cdd8743c66637d8e28d9b39a7931e0be6d8eef"
+        },
+        {
+          "path": "nomad360_payments.js",
+          "bytes": 3687,
+          "sha256": "1a8ecc5f1974cd16720ad4d2d1ed820f84511471c1dff10ea86a9a6241e84aa4"
+        },
+        {
+          "path": "nomad360_price_export.js",
+          "bytes": 20668,
+          "sha256": "2e863a8dae2c2d6121648706253f0a57197e89d4708572f6b8ceeb33893fdc54"
+        },
+        {
+          "path": "nomad360_sales_tax.js",
+          "bytes": 2858,
+          "sha256": "fb4ad6d673b5312e6cb56bafcde0719c7bd763c753efb047a0b1372afe509a8f"
+        },
+        {
+          "path": "nomad360_sales_tax_service_v1.js",
+          "bytes": 21179,
+          "sha256": "2df9589f4b2aee19839574e3e545139da1172594da47d953bd414538f9ce257c"
+        },
+        {
+          "path": "nomad360_sales_tax_v1.js",
+          "bytes": 15016,
+          "sha256": "a466e4d72ea8d47137ace2b8c0ff40e9fd39825fc48a94bd7f75fec556438a00"
+        },
+        {
+          "path": "nomad360_sales_tax_v2.js",
+          "bytes": 7552,
+          "sha256": "a5fa186f33f53882ef99b230ae9de305ef64a55940ad180b376b7c20ef879d18"
+        },
+        {
+          "path": "nomad360_seo_language.js",
+          "bytes": 1051,
+          "sha256": "c077f1f360bd3e408dba7bd668e90f3a833628d600338eae165de88435a82603"
+        },
+        {
+          "path": "nomad360_simple_service_examples.js",
+          "bytes": 9172,
+          "sha256": "4f1e9abd22b4673ff0ff38950575b2c850cfdb8b43f0eba582a7060596ff6472"
+        },
+        {
+          "path": "nomad360_traffic.js",
+          "bytes": 2217,
+          "sha256": "cf5b5a9db8712336fd34dba87ec92ecd78a4c620c60223575ef3d4b8522ff82d"
+        },
+        {
+          "path": "nomad360_us_retail_live_entry.js",
+          "bytes": 18337,
+          "sha256": "ff7f66b96d89e2cfdba6e49a9ea18796dd5d979911504a3f194d0f8927298ef2"
+        },
+        {
+          "path": "nomad360_v1_engine.js",
+          "bytes": 114003,
+          "sha256": "e689bcd456f4a79440374b5f29d8e7100b2e92f270eafa50473f18be72010719"
+        },
+        {
+          "path": "nomad360_wolf_open_circle.png",
+          "bytes": 1503771,
+          "sha256": "072616c1ccb94722549f10ac65e0f2a9a5669faee666904ba25c2ef68dc682ee"
+        },
+        {
+          "path": "portfolio_v2_basket_ui.js",
+          "bytes": 12635,
+          "sha256": "96127e22ba78c98ce1a799f97fc171c180027f760dba9d674e4e53dec8010b04"
+        },
+        {
+          "path": "portfolio_v2_engine.js",
+          "bytes": 22737,
+          "sha256": "5b79d53afd97c57cad74fa0cf9388cdc221e75570b86736376268f0b3c97a7cd"
+        },
+        {
+          "path": "portfolio_v2_full_service.js",
+          "bytes": 12924,
+          "sha256": "22c3443ca29cefbd4caea1ad7fc8c0f71938fc5cda22e34faa39b1cfb7315ad3"
+        },
+        {
+          "path": "portfolio_v2_full_service_ui.js",
+          "bytes": 26809,
+          "sha256": "8ca5628a2be67140ff81d6566614c8727311b427fe0b29e8b1b7386b3f71bde0"
+        },
+        {
+          "path": "portfolio_v2_linked_engine.js",
+          "bytes": 52074,
+          "sha256": "4bd0be9096889206d9667d5e067303893f76a79508ec22e7308554cb5c3b828d"
+        },
+        {
+          "path": "portfolio_v2_linked_ui.js",
+          "bytes": 56935,
+          "sha256": "4bf6ee9b697fe5690bf8a7e66dff433b4b18ebbd1f2f4f1258c9335aa5bbfddb"
+        },
+        {
+          "path": "portfolio_v2_mba_observed.js",
+          "bytes": 12189,
+          "sha256": "b162323a56a34df020422524e7056705bc91c18d6b20542d76c28dfc77f33fdf"
+        },
+        {
+          "path": "portfolio_v2_mba_observed_ui.js",
+          "bytes": 15241,
+          "sha256": "8b4331061380fed98d22cd724441922e343b36f0048a52bb68581982b34170e0"
+        },
+        {
+          "path": "portfolio_v2_online_adapter.js",
+          "bytes": 8541,
+          "sha256": "09017105c9b2e7d5a39fab7bb9b59e279d9241653ab6acfa95584fc57cf080ae"
+        },
+        {
+          "path": "portfolio_v2_period_price.js",
+          "bytes": 8046,
+          "sha256": "0891aaf3e8747be12c8f09366194d59e60b8bb4841e8b3b0c055f384d06ead54"
+        },
+        {
+          "path": "portfolio_v2_pooled_media.js",
+          "bytes": 11238,
+          "sha256": "3063fb4e3ddf6e2472d7e21ea089a582973a55b2a328c7988e08dad4e9ae4742"
+        },
+        {
+          "path": "portfolio_v2_temporal.js",
+          "bytes": 8681,
+          "sha256": "63aa5c80d5a862b6f9569b205565101a0b9c8c8fd2c4d4489ed72c2638cf58bb"
+        },
+        {
+          "path": "portfolio_v2_temporal_cash.js",
+          "bytes": 29412,
+          "sha256": "a8969e00a65bf1a66610536185660e1fed1665fbf75057b322f6beeedf6023ba"
+        },
+        {
+          "path": "portfolio_v2_ui.js",
+          "bytes": 42121,
+          "sha256": "2d45c860aad91f445695cf00634bbd4554478c420f1f0fa9d6933e39b3948cd9"
+        },
+        {
+          "path": "vendor/exceljs-4.4.0.min.js",
+          "bytes": 947702,
+          "sha256": "7e49da68588e250dbb8bba190d2caa8ab3787cc0284bda1d8b2f805c4df742c9"
+        }
+      ]
+    },
+    "after": {
+      "revision": "698596c10cc1eab7e4ed0573853aedeb5973c496",
+      "bytes": 12980762,
+      "resources": [
+        {
+          "path": "Marketing_calc.HTML",
+          "bytes": 516150,
+          "sha256": "e52a299d7cb344eb9547809a7c917ccf4a7ad8252a5701eace258975d1dc2843"
+        },
+        {
+          "path": "assets/nomad360-banners/about-moonlight-horizontal-only-3200x768.svg",
+          "bytes": 147278,
+          "sha256": "02b7e391d024bb6e2581b2e2fbae3703533c06cce335142a326c904ba4c3eadb"
+        },
+        {
+          "path": "assets/nomad360-banners/consulting-horizontal-desktop-3200x941.svg",
+          "bytes": 990422,
+          "sha256": "91ff1094aadf2e666488e46e070f6a301da2392f11a85f214590e958fed90a22"
+        },
+        {
+          "path": "assets/nomad360-banners/consulting-horizontal-mobile-1200x1671.svg",
+          "bytes": 753281,
+          "sha256": "cc49e043ba340c6e2fe987e5e542bfd749819053884b7091f567507bb77f18b7"
+        },
+        {
+          "path": "assets/nomad360-banners/hero-alpenglow-fullbleed.webp",
+          "bytes": 30558,
+          "sha256": "c97a5b76399fc9a757c092251f727deb9b221009cd4a610d418a8ef2abee6650"
+        },
+        {
+          "path": "assets/nomad360-banners/hero.webp",
+          "bytes": 49086,
+          "sha256": "305237c34c5d17a2703cda1831e35041bc930e07b491df603af3b0fd4ab26db0"
+        },
+        {
+          "path": "assets/nomad360-banners/support-mobile.webp",
+          "bytes": 172482,
+          "sha256": "aaf737d9bf903380603174d4d8295fd43fe5ec32e41c81689007294bd813a48b"
+        },
+        {
+          "path": "assets/nomad360-banners/support-wide-extended.webp",
+          "bytes": 117162,
+          "sha256": "d18eb8efbe66bb80af6201af0e7cfd88f73d358bbaa7bce47a0b757606de347a"
+        },
+        {
+          "path": "assets/nomad360-banners/support-wide.webp",
+          "bytes": 179560,
+          "sha256": "8deed3eca326f82f0274bccd5d1430657a1ccecf8c8691d1bef67ced099a5bdf"
+        },
+        {
+          "path": "nomad360_about_banner.css",
+          "bytes": 29622,
+          "sha256": "e32587298ab7a2915dfa7d5f5a48c02ff5822cf0f5d737475d76b572116657c3"
+        },
+        {
+          "path": "nomad360_about_banner.js",
+          "bytes": 7573,
+          "sha256": "2bbd4373f6ac7b7da87dce618a0fa00b2084636f9836382c32cd7152afbb83c2"
+        },
+        {
+          "path": "nomad360_bug_report.css",
+          "bytes": 5067,
+          "sha256": "57ab0111c5de8c0409f051c257cf2987b192a818eefb677d16caab59126eb5ce"
+        },
+        {
+          "path": "nomad360_bug_report.js",
+          "bytes": 16456,
+          "sha256": "18964f0152d333c7c7751372f0747a9af038b324ee24bd1327523879cd453117"
+        },
+        {
+          "path": "nomad360_calculator_ui.css",
+          "bytes": 282111,
+          "sha256": "f8de79efda7f71c9301b01f10eeb55c42250a22c62bf7ce68363a3211ceb59f3"
+        },
+        {
+          "path": "nomad360_calculator_ui.js",
+          "bytes": 34201,
+          "sha256": "4a2fe0a6b36703ad2e56aaf380b4a1f0a9801f71ab1b66be2b5f6ae165e1d0b7"
+        },
+        {
+          "path": "nomad360_consulting_banner.css",
+          "bytes": 11874,
+          "sha256": "87b62568103659e29cbdb39f0a6f031759ba25ad7d1206f470bbde47889b88f0"
+        },
+        {
+          "path": "nomad360_currency.js",
+          "bytes": 4344,
+          "sha256": "815b86ededd70b9ba297828ebf954f5c0a5838a9ad2c43772bba117edb5a4d63"
+        },
+        {
+          "path": "nomad360_delivery.js",
+          "bytes": 3491,
+          "sha256": "06cdcfd2c389ba9e6ca221edae9172dc492e168b0750a5c7976e5ffecf84be00"
+        },
+        {
+          "path": "nomad360_design_system.css",
+          "bytes": 90213,
+          "sha256": "92fee51872625d6ccf8e99cf4e166670406821b2e122ff154840a67746b919ae"
+        },
+        {
+          "path": "nomad360_draft_store.js",
+          "bytes": 2736,
+          "sha256": "e2cfbbf3d626960abe977b0ed40ee53b3336099148c2007c15f8d62f732ef5c4"
+        },
+        {
+          "path": "nomad360_fx.js",
+          "bytes": 1255,
+          "sha256": "7eb8e7f3142c3a5cc83e2fb0dea63b33b51181b97950e845ee5eada626bec97c"
+        },
+        {
+          "path": "nomad360_fx_ui.js",
+          "bytes": 8707,
+          "sha256": "8a01f42820bef8da25c76b6115be6fbf57d930fe72b6374ceab9b362ad583633"
+        },
+        {
+          "path": "nomad360_header.js",
+          "bytes": 76549,
+          "sha256": "9166e9550c3545161ef55a235d580e2249145f6a41d125e790617d9e400e5cb1"
+        },
+        {
+          "path": "nomad360_hero_banner.css",
+          "bytes": 39191,
+          "sha256": "7f53b4be7f7ce7e2f9e5a31255d83fe36927b4c4d05b73d678a5cf58e10f602f"
+        },
+        {
+          "path": "nomad360_hero_banner.js",
+          "bytes": 8126,
+          "sha256": "e14208b24d2385c076d5d59ca90f855871a60acefd43fdab7dc7bcaa42bd71ef"
+        },
+        {
+          "path": "nomad360_irbis_banner.css",
+          "bytes": 25005,
+          "sha256": "b984d00b2f4a2411aaa15f51b78c379901a4b6df7c9397951935e05341d5ad08"
+        },
+        {
+          "path": "nomad360_irbis_banner.js",
+          "bytes": 7614,
+          "sha256": "f660883f6b63885f1c8405f8918058060a2cf1f1d39df2fbcfc1c966849da9c1"
+        },
+        {
+          "path": "nomad360_locale_core.js",
+          "bytes": 483009,
+          "sha256": "eceeef792460bf5ef94bd194aa76eee061b92b9ea9143119d8744066907e3248"
+        },
+        {
+          "path": "nomad360_navigation.js",
+          "bytes": 12482,
+          "sha256": "13f649d6d88491d4b510d5a117a943544694f42e1dbd45418856d7dddd6b2fb7"
+        },
+        {
+          "path": "nomad360_palette.css",
+          "bytes": 281853,
+          "sha256": "9c16bd14fe4339bf08687d7275b0454b93b9b57e262df29721d3de0c3684e234"
+        },
+        {
+          "path": "nomad360_partner_application.css",
+          "bytes": 4794,
+          "sha256": "354bc23494f0a9c5bf57dcaf762bbd4c81c256d27422a6b6b295d084750463bb"
+        },
+        {
+          "path": "nomad360_partner_application.js",
+          "bytes": 18434,
+          "sha256": "bd7467f45952f3af6042887ac312b29b1776c083a8cdef9617910b8832b6e55e"
+        },
+        {
+          "path": "nomad360_partner_application_model.js",
+          "bytes": 2559,
+          "sha256": "ef5a4dff7b52ee014a1e849fe9613f061cb1712d70ab08eea8024f6faf277fa9"
+        },
+        {
+          "path": "nomad360_partner_transport.js",
+          "bytes": 1196,
+          "sha256": "3756b61f37ca4c0e1a14e4124cb3f72c0323106561ba060c31acceddbcf23364"
+        },
+        {
+          "path": "nomad360_payment_ui.js",
+          "bytes": 11686,
+          "sha256": "e540f6c4d67c21e38a329d9920f24c5ee3cf92ee2ab085b5c98ee4d41a5832da"
+        },
+        {
+          "path": "nomad360_payments.css",
+          "bytes": 2946,
+          "sha256": "f9f89a0de2b114f5ba66c8ef43cdd8743c66637d8e28d9b39a7931e0be6d8eef"
+        },
+        {
+          "path": "nomad360_payments.js",
+          "bytes": 3687,
+          "sha256": "1a8ecc5f1974cd16720ad4d2d1ed820f84511471c1dff10ea86a9a6241e84aa4"
+        },
+        {
+          "path": "nomad360_price_export.js",
+          "bytes": 20668,
+          "sha256": "2e863a8dae2c2d6121648706253f0a57197e89d4708572f6b8ceeb33893fdc54"
+        },
+        {
+          "path": "nomad360_sales_tax.js",
+          "bytes": 2858,
+          "sha256": "fb4ad6d673b5312e6cb56bafcde0719c7bd763c753efb047a0b1372afe509a8f"
+        },
+        {
+          "path": "nomad360_sales_tax_service_v1.js",
+          "bytes": 21179,
+          "sha256": "2df9589f4b2aee19839574e3e545139da1172594da47d953bd414538f9ce257c"
+        },
+        {
+          "path": "nomad360_sales_tax_v1.js",
+          "bytes": 15016,
+          "sha256": "a466e4d72ea8d47137ace2b8c0ff40e9fd39825fc48a94bd7f75fec556438a00"
+        },
+        {
+          "path": "nomad360_sales_tax_v2.js",
+          "bytes": 7552,
+          "sha256": "a5fa186f33f53882ef99b230ae9de305ef64a55940ad180b376b7c20ef879d18"
+        },
+        {
+          "path": "nomad360_seo_language.js",
+          "bytes": 1051,
+          "sha256": "c077f1f360bd3e408dba7bd668e90f3a833628d600338eae165de88435a82603"
+        },
+        {
+          "path": "nomad360_simple_service_examples.js",
+          "bytes": 9172,
+          "sha256": "4f1e9abd22b4673ff0ff38950575b2c850cfdb8b43f0eba582a7060596ff6472"
+        },
+        {
+          "path": "nomad360_traffic.js",
+          "bytes": 2217,
+          "sha256": "cf5b5a9db8712336fd34dba87ec92ecd78a4c620c60223575ef3d4b8522ff82d"
+        },
+        {
+          "path": "nomad360_us_retail_live_entry.js",
+          "bytes": 18337,
+          "sha256": "ff7f66b96d89e2cfdba6e49a9ea18796dd5d979911504a3f194d0f8927298ef2"
+        },
+        {
+          "path": "nomad360_v1_engine.js",
+          "bytes": 114003,
+          "sha256": "e689bcd456f4a79440374b5f29d8e7100b2e92f270eafa50473f18be72010719"
+        },
+        {
+          "path": "nomad360_wolf_open_circle.png",
+          "bytes": 1503771,
+          "sha256": "072616c1ccb94722549f10ac65e0f2a9a5669faee666904ba25c2ef68dc682ee"
+        },
+        {
+          "path": "portfolio_v2_basket_ui.js",
+          "bytes": 12635,
+          "sha256": "96127e22ba78c98ce1a799f97fc171c180027f760dba9d674e4e53dec8010b04"
+        },
+        {
+          "path": "portfolio_v2_engine.js",
+          "bytes": 22737,
+          "sha256": "5b79d53afd97c57cad74fa0cf9388cdc221e75570b86736376268f0b3c97a7cd"
+        },
+        {
+          "path": "portfolio_v2_full_service.js",
+          "bytes": 12924,
+          "sha256": "22c3443ca29cefbd4caea1ad7fc8c0f71938fc5cda22e34faa39b1cfb7315ad3"
+        },
+        {
+          "path": "portfolio_v2_full_service_ui.js",
+          "bytes": 26809,
+          "sha256": "8ca5628a2be67140ff81d6566614c8727311b427fe0b29e8b1b7386b3f71bde0"
+        },
+        {
+          "path": "portfolio_v2_linked_engine.js",
+          "bytes": 52074,
+          "sha256": "4bd0be9096889206d9667d5e067303893f76a79508ec22e7308554cb5c3b828d"
+        },
+        {
+          "path": "portfolio_v2_linked_ui.js",
+          "bytes": 56935,
+          "sha256": "4bf6ee9b697fe5690bf8a7e66dff433b4b18ebbd1f2f4f1258c9335aa5bbfddb"
+        },
+        {
+          "path": "portfolio_v2_mba_observed.js",
+          "bytes": 12189,
+          "sha256": "b162323a56a34df020422524e7056705bc91c18d6b20542d76c28dfc77f33fdf"
+        },
+        {
+          "path": "portfolio_v2_mba_observed_ui.js",
+          "bytes": 15241,
+          "sha256": "8b4331061380fed98d22cd724441922e343b36f0048a52bb68581982b34170e0"
+        },
+        {
+          "path": "portfolio_v2_online_adapter.js",
+          "bytes": 8541,
+          "sha256": "09017105c9b2e7d5a39fab7bb9b59e279d9241653ab6acfa95584fc57cf080ae"
+        },
+        {
+          "path": "portfolio_v2_period_price.js",
+          "bytes": 8046,
+          "sha256": "0891aaf3e8747be12c8f09366194d59e60b8bb4841e8b3b0c055f384d06ead54"
+        },
+        {
+          "path": "portfolio_v2_pooled_media.js",
+          "bytes": 11238,
+          "sha256": "3063fb4e3ddf6e2472d7e21ea089a582973a55b2a328c7988e08dad4e9ae4742"
+        },
+        {
+          "path": "portfolio_v2_temporal.js",
+          "bytes": 8681,
+          "sha256": "63aa5c80d5a862b6f9569b205565101a0b9c8c8fd2c4d4489ed72c2638cf58bb"
+        },
+        {
+          "path": "portfolio_v2_temporal_cash.js",
+          "bytes": 29412,
+          "sha256": "a8969e00a65bf1a66610536185660e1fed1665fbf75057b322f6beeedf6023ba"
+        },
+        {
+          "path": "portfolio_v2_ui.js",
+          "bytes": 42121,
+          "sha256": "2d45c860aad91f445695cf00634bbd4554478c420f1f0fa9d6933e39b3948cd9"
+        },
+        {
+          "path": "vendor/exceljs-4.4.0.min.js",
+          "bytes": 947702,
+          "sha256": "7e49da68588e250dbb8bba190d2caa8ab3787cc0284bda1d8b2f805c4df742c9"
+        }
+      ]
+    }
+  }
+}
