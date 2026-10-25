@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "status": "PREPARATION_ONLY_NOT_DEPLOYABLE",
+  "note": "Route names are proposed, provider plan/rule capacity is not verified. Require R4 approval and deployed edge binding.",
+  "publicRoutes": [
+    {
+      "method": "POST",
+      "path": "/api/partners/register",
+      "operation": "register",
+      "waf": "provider-managed",
+      "turnstileAction": "partner_register"
+    },
+    {
+      "method": "POST",
+      "path": "/api/partners/confirm-email",
+      "operation": "confirm_email",
+      "waf": "provider-managed",
+      "turnstileAction": "partner_confirm"
+    },
+    {
+      "method": "POST",
+      "path": "/api/partners/resend-code",
+      "operation": "resend_code",
+      "waf": "provider-managed",
+      "turnstileAction": "partner_resend"
+    }
+  ],
+  "privateOnlyOperations": [
+    "prepare_zip",
+    "deliver_zip"
+  ],
+  "require": {
+    "proxiedHttps": true,
+    "originUnreachableWithoutEdge": true,
+    "turnstileSiteverify": true,
+    "sharedAtomicQuotas": true,
+    "operatorAuthentication": true,
+    "nonCacheableApi": true
+  },
+  "forbiddenPublicAssets": [
+    "scripts/security/**",
+    "scripts/partners/issuance/**",
+    ".github/**",
+    "docs/reviews/**",
+    "secrets/**",
+    "**/*.env",
+    "**/*token*"
+  ],
+  "manualAcceptance": [
+    "R4-domain-and-DNS",
+    "R4-block-direct-origin",
+    "R5-Turnstile-live",
+    "R5-Redis-atomic",
+    "R5-queue-concurrency",
+    "R5-Google-quotas",
+    "R6-controlled-release"
+  ]
+}
