@@ -87,6 +87,11 @@ negative cases pass in the 24-test C5/C6 compatibility suite. The complete
 historical CSS/finance/C6 contract suite also passes **136/136**. Runtime source
 hashes are unchanged from the initial `317fc0a` browser protocol.
 
+The actual versioned partner build also passes full byte-for-byte projection
+against accepted main: 12,966,450 → 12,969,480 bytes (+3030), 63 → 64 resources.
+Only the new module and its receipted handler changes are projected; all remaining
+HTML/resource bytes match exactly. [Raw result](package-projection.json).
+
 Completed final-HEAD CI will be linked in the PR. GREEN does not authorize merge.
 
 ## Maintenance and limits
