@@ -91,6 +91,15 @@ The [editorial package](partners/partner-release-copy.md) is a draft, not curren
 terms or a statement that mail delivery is operational. Keep the live download
 unchanged until the real release gate passes.
 
+R1 preview slice: `scripts/partners/release-preview/` uses the unchanged real form
+with a fixture transport, explicit loopback-only server and no outbound requests.
+`scripts/partners/release-policy.cjs` rejects production/issuance-enabled configs.
+See the [verification report](reviews/partner-release-preview-01/REVIEW.md).
+This is not a public feature switch or an authenticated production status API.
+Registration without a site, subsequent URL checks and complete future legal
+terms still require implementation/acceptance; the preview does not bypass the
+existing package builder's domain contract.
+
 At activation of the working process, update the comparison table/CTAs and all
 entrypoints to the new partnership offer. Review the already merged Help #200
 and H12–H16 #235: instructions must match how a partner applies, receives the

@@ -1,0 +1,47 @@
+name: Partner release preview without live credentials
+on:
+  pull_request:
+    paths:
+      - 'scripts/partners/release-policy.cjs'
+      - 'scripts/partners/release-preview/**'
+      - 'tests/partner_release_preview*'
+      - 'nomad360_partner_application*'
+      - '.github/workflows/partner-release-preview.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  release-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax, release gates, lifecycle and immutable public sources
+        run: |
+          node --check scripts/partners/release-policy.cjs
+          node --check scripts/partners/release-preview/model.js
+          node --check scripts/partners/release-preview/app.js
+          node --check scripts/partners/release-preview/server.cjs
+          node --check tests/partner_release_preview_browser.cjs
+          node --test tests/partner_release_preview.test.cjs tests/partner_application.test.cjs tests/partner_application_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/portfolio_v2_engine.test.cjs
+      - name: Install existing pinned browser version
+        run: |
+          npm install --prefix "$RUNNER_TEMP/partner-preview-tools" --no-save --no-package-lock playwright@1.58.0
+          "$RUNNER_TEMP/partner-preview-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Existing form with fixture transport, EN RU KK and six widths
+        env:
+          NODE_PATH: ${{ runner.temp }}/partner-preview-tools/node_modules
+        run: node tests/partner_release_preview_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: partner-release-preview-${{ github.sha }}
+          path: |
+            artifacts/partner-release-preview/protocol.json
+            artifacts/partner-release-preview/*.png
+          retention-days: 14
