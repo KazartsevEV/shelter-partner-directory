@@ -30,7 +30,7 @@ the existing `/shelter-partner-directory/` prefix; changing origin/path is R4.
 
 ## Checks and explicit limits
 
-Eleven negative/reproducibility tests cover prohibited files, dirty source,
+Fourteen negative/reproducibility tests cover prohibited files, dirty source,
 unknown resources, duplicate/config errors, symlinks, private-key content,
 existing output, tampering and injected files. Two independent builds from the
 same clean revision must be byte-identical.
@@ -50,7 +50,7 @@ simulated as production speed. No credentials, applications, email codes or
 financial drafts are read or copied by the builder.
 
 R1 remains untouched. Its resulting PR is reviewed separately after this slice.
-Local checks pass: 11 unit/negative tests; two byte-identical builds; 112 listed
+Local checks pass: 14 unit/negative tests; two byte-identical builds; 112 listed
 public outputs plus their release manifest; 18 language/width cases; all 25 HTML
 entrypoints; valid V1/online/full-service/both V2 results; zero missing local
 resources; downloaded standalone financial smoke with HTTP blocked; synthetic
@@ -69,3 +69,12 @@ Pages prefix are fulfilled from the same allowlisted artifact bytes, with a
 test-only CORS header, and are recorded in `absoluteFirstPartyResourcesMirrored`.
 No production URL or CORS policy is rewritten. This checks packaging completeness;
 it does not prove that absolute URLs work on a future origin.
+
+Follow-up after accepted Help #279: the branch incorporates current main without
+changing those Help/SEO files. Verification now checks the exact manifest schema,
+source-to-output identity, canonical base path and digest/revision formats as well
+as bytes. Self-consistent but invalid metadata is rejected even if its digest is
+recomputed. Unexpected empty directories and all symlink trees/roots are rejected.
+Every allowlisted source is covered by the artifact workflow's change triggers;
+a test guards this coverage when the allowlist grows. Existing publication
+workflows remain unchanged. These are packaging/verification changes only.

@@ -1,4 +1,4 @@
-import importlib.util,json,subprocess,tempfile,unittest,sys
+import importlib.util,json,subprocess,tempfile,unittest,sys,copy,fnmatch,re
 sys.dont_write_bytecode=True
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('release',Path(__file__).resolve().parents[1]/'scripts/site-release/build.py');M=importlib.util.module_from_spec(spec);spec.loader.exec_module(M)
@@ -37,4 +37,30 @@ class ReleaseTests(unittest.TestCase):
   self.out.symlink_to(Path(self.temp.name)/'missing');self.assertRaises(ValueError,self.build);self.assertTrue(self.out.is_symlink())
  def test_private_key_content_not_exported(self):
   (self.root/'Marketing_calc.HTML').write_text('-----BEGIN PRIVATE KEY-----');self.commit();self.assertRaises(ValueError,self.build);self.assertFalse(self.out.exists())
+ def rewrite_manifest(self, manifest):
+  canonical=json.dumps({'revision':manifest['sourceRevision'],'basePath':manifest['basePath'],'files':manifest['files']},sort_keys=True,separators=(',',':')).encode()
+  manifest['artifactSha256']=M.digest(canonical)
+  (self.out/'release-manifest.json').write_text(json.dumps(manifest))
+ def test_structural_manifest_errors_fail_even_with_recomputed_digest(self):
+  original=self.build()
+  mutations=[('schemaVersion',2),('schemaVersion',True),('basePath','/other/'),('sourceRevision','unknown')]
+  for key,value in mutations:
+   with self.subTest(key=key,value=value):
+    candidate=copy.deepcopy(original);candidate[key]=value;self.rewrite_manifest(candidate);self.assertRaises(ValueError,M.check,self.out)
+  for field,value in [('source','scripts/operator.js'),('source','other.HTML'),('bytes',True),('sha256','invalid'),('unknown','x')]:
+   with self.subTest(field=field,value=value):
+    candidate=copy.deepcopy(original);candidate['files'][0][field]=value;self.rewrite_manifest(candidate);self.assertRaises(ValueError,M.check,self.out)
+  candidate=copy.deepcopy(original);candidate['files']=[];self.rewrite_manifest(candidate);self.assertRaises(ValueError,M.check,self.out)
+  candidate=copy.deepcopy(original);candidate['unknown']='x';self.rewrite_manifest(candidate);self.assertRaises(ValueError,M.check,self.out)
+ def test_empty_directories_and_symlink_trees_rejected(self):
+  self.build();extra=self.out/'private';extra.mkdir();self.assertRaises(ValueError,M.check,self.out);extra.rmdir()
+  target=Path(self.temp.name)/'empty';target.mkdir();extra.symlink_to(target,target_is_directory=True);self.assertRaises(ValueError,M.check,self.out);extra.unlink()
+  link=Path(self.temp.name)/'site-link';link.symlink_to(self.out,target_is_directory=True);self.assertRaises(ValueError,M.check,link)
+ def test_all_release_sources_trigger_artifact_ci(self):
+  project=Path(__file__).resolve().parents[1]
+  sources=json.loads((project/'scripts/site-release/public-files.json').read_text())['files']
+  workflow=(project/'.github/workflows/site-release.yml').read_text()
+  patterns=re.findall(r"^      - '([^']+)'$",workflow,re.M)
+  for source in sources:
+   with self.subTest(source=source):self.assertTrue(any(fnmatch.fnmatchcase(source,p) for p in patterns),'Missing CI trigger: '+source)
 if __name__=='__main__':unittest.main()

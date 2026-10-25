@@ -6,6 +6,18 @@ on:
       - 'tests/site_release_test.py'
       - 'docs/reviews/site-release-r3/**'
       - '.github/workflows/site-release.yml'
+      - '*.HTML'
+      - '*.html'
+      - '**/*.html'
+      - '*.js'
+      - '*.css'
+      - '*.png'
+      - '*.webmanifest'
+      - 'assets/**'
+      - 'vendor/**'
+      - 'sitemap.xml'
+      - 'CALCULATOR_LICENSE.md'
+      - 'nomad360_repo_traffic.json'
   workflow_dispatch:
 permissions:
   contents: read
