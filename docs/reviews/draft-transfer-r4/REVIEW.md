@@ -75,7 +75,13 @@ accepted calculators/engines and exact four added public resources.
 - No external/provider writes; helper page performs no upload. Six full-page
   screenshots and the sanitized numerical protocol accompany the final run.
 
-Actual final protocol/CI receipts are recorded after execution. Local fixtures and
+Local built-artifact matrix passed 18/18, transferring 126 raw records; all
+before/after financial/state comparisons matched. [Protocol](protocol.json).
+Screenshots: [EN 320](en-320.png), [RU 320](ru-320.png), [KK 320](kk-320.png),
+[EN 1280](en-1280.png), [RU 1280](ru-1280.png), [KK 1280](kk-1280.png).
+The local artifact pins code revision `a4f9aea`; subsequent evidence/map-only
+commits do not change runtime source. Final HEAD CI receipts are reported in PR.
+ Local fixtures and
 HTTP origins do not certify a real hosting origin, TLS, provider delivery or R4–R6.
 The new page must be published on the OLD origin before retiring it. The accepted
 private source lock is not silently changed: import this feature into private
