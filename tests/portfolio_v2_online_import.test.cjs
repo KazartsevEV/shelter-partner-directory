@@ -75,7 +75,7 @@ test('current provenance and fixed-price guards reject corrupted input and disco
  }
  const bad=goods();bad.minimumMarginPct=0;A.equal(E.build(state(bad)).ready,false);
 });
-test('shared paid campaigns do not recategorize principal-funded demand as owner media',()=>{
+test('shared overhead keeps principal-funded demand separate from owner media',()=>{
  const a=scenario('agent',{},payers('partner')).sku,s=state(a,goods());s.resources=[{id:'shared',kind:'premises',cadence:'monthly',amount:60,skuIds:[a.id,'goods'],allocation:'revenue',pool:'none'}];
  const out=E.build(s);A.equal(out.ready,true,JSON.stringify(out.errors));eq(out.totals.media,100,'only goods advertising');eq(out.totals.monthlyResources,60,'one shared resource');eq(out.items.find(i=>i.id===a.id).adBudgetEffective,0,'principal campaign excluded');
 });
