@@ -113,11 +113,28 @@ ${related}
 </html>
 `;
 }
+// HELP-SEO-01: never advertise a Help URL until its real static page is indexable.
+function helpPages(cfg){
+ const base=cfg.origin+cfg.basePath,locales=['en','ru','kk'],out=[];
+ for(const locale of locales){
+  const name=locale+'/help/index.html',html=fs.readFileSync(path.join(ROOT,name),'utf8'),canonicalUrl=base+locale+'/help/';
+  if(!html.includes('<html lang="'+locale+'">')||!html.includes('<meta name="robots" content="index,follow">')||
+     !html.includes('<link rel="canonical" href="'+canonicalUrl+'">')||
+     (html.match(/rel="canonical"/g)||[]).length!==1)throw Error('HELP-SEO-01 not indexable: '+name);
+  for(const alt of locales)if(!html.includes('<link rel="alternate" hreflang="'+alt+'" href="'+base+alt+'/help/">'))throw Error('HELP-SEO-01 hreflang incomplete: '+name+' '+alt);
+  const ids=[...html.matchAll(/\\bid="([^"]+)"/g)].map(m=>m[1]);
+  if(ids.length!==new Set(ids).size)throw Error('HELP-SEO-01 duplicate id: '+name);
+  for(let n=1;n<=17;n++)if(ids.filter(id=>id==='h'+String(n).padStart(2,'0')).length!==1)throw Error('HELP-SEO-01 missing chapter '+n+' in '+name);
+  for(const m of html.matchAll(/href="#([^"]+)"/g))if(!ids.includes(m[1]))throw Error('HELP-SEO-01 broken fragment '+m[1]+' in '+name);
+  out.push({topic:'help',locale,canonicalUrl});
+ }
+ return out;
+}
 function mapXml(cfg,pages){
  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${pages.map(p=>`  <url><loc>${esc(p.canonicalUrl)}</loc>\n${pages.filter(x=>x.topic===p.topic).map(x=>`    <xhtml:link rel="alternate" hreflang="${x.locale}" href="${esc(x.canonicalUrl)}" />`).join("\n")}\n  </url>`).join("\n")}\n</urlset>\n`;
 }
 function generate(){const cfg=JSON.parse(fs.readFileSync(path.join(ROOT,'scripts/seo/pages.json'),'utf8'));const pages=collect(cfg,(locale,topic)=>JSON.parse(fs.readFileSync(path.join(ROOT,'docs/seo/locale-drafts',locale,topic+'.json'),'utf8')));
-const outputs={};for(const p of pages)outputs[p.path+'index.html']=render(cfg,p,pages);outputs['sitemap.xml']=mapXml(cfg,pages);
+const outputs={};for(const p of pages)outputs[p.path+'index.html']=render(cfg,p,pages);outputs['sitemap.xml']=mapXml(cfg,pages.concat(helpPages(cfg)));
 const css=fs.readFileSync(path.join(ROOT,'docs/seo/mockups/review.css'),'utf8').replaceAll('../../../vendor/','../vendor/');const anchor='.brand{display:flex;align-items:center;gap:12px}';if(css.split(anchor).length!==2)throw Error('CSS anchor drift');outputs['assets/nomad360-seo.css']=css.slice(0,css.indexOf(anchor))+fs.readFileSync(path.join(ROOT,'scripts/seo/hero_banner.css'),'utf8').trimEnd()+'\n'+'\n.brand{text-decoration:none}.skip-link{position:absolute;left:16px;top:-100px}.skip-link:focus{top:8px;z-index:2;background:white;padding:12px}\n';return {cfg,pages,outputs};}
 function main(){const argv=process.argv.slice(2);if(argv.some(x=>!['--check','--dry-run'].includes(x)))throw Error('Unexpected argument');const {outputs}=generate();for(const [name,value] of Object.entries(outputs)){const dest=path.join(ROOT,name);if(argv.includes('--check')){if(!fs.existsSync(dest)||fs.readFileSync(dest,'utf8')!==value)throw Error('Stale SEO generated file: '+name);}else if(!argv.includes('--dry-run')){fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,value,'utf8');}}console.log('SEO_BUILD_CURRENT',Object.keys(outputs).length);}
-if(require.main===module)main();module.exports={generate,collect,render,mapXml};
+if(require.main===module)main();module.exports={generate,collect,render,mapXml,helpPages};
