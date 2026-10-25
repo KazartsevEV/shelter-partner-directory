@@ -37,8 +37,7 @@ const near=(actual,match,msg)=>assert.ok(Math.abs(actual-match)<.015,msg+' got '
  try{
   for(const finance of ['cash','credit']){
    const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
-   // This legacy fixture tests RU copy explicitly; default first-visit UI is English.
-   await page.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
+   // RU is selected by the native ru-RU browser locale; no document-start storage mutation.
    const faults=[];page.on('pageerror',e=>faults.push(e.message));
    await page.route(/^https?:\/\//,r=>r.abort());
    await page.goto(url+'?demo=shopper&second=shirt&finance='+finance,{waitUntil:'domcontentloaded'});

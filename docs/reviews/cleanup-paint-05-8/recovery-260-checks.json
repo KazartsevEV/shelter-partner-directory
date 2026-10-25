@@ -1,0 +1,41 @@
+{
+  "base": "72221d1",
+  "guardBaselineViolations": [
+    "tests/simple_services_free_cash_browser.test.cjs",
+    "tests/portfolio_v2_f3_mixed_browser.test.cjs",
+    "tests/portfolio_v2_mba_browser.test.cjs",
+    "tests/portfolio_v2_full_service_browser.test.cjs",
+    "tests/marketing_calc_first_user_journey.test.cjs",
+    "tests/marketing_calc_browser_e2e.cjs",
+    "tests/marketing_calc_add_next_service_browser.test.cjs",
+    "tests/nomad360_calculator_ui_browser.test.cjs",
+    "tests/portfolio_v2_resource_lifecycle_browser.test.cjs",
+    "tests/portfolio_v2_linked_browser.test.cjs",
+    "tests/marketing_calc_offline_service_browser.test.cjs",
+    "tests/nomad360_locale_v1_final_prices_browser.test.cjs",
+    "tests/portfolio_v2_temporal_cash_browser.test.cjs",
+    "tests/marketing_calc_two_sku_demo.test.cjs",
+    "tests/portfolio_v2_period_price_browser.test.cjs",
+    "tests/portfolio_v2_mba_capacity_browser.test.cjs",
+    "tests/portfolio_v2_f4_release_browser.test.cjs",
+    "tests/nomad360_locale_v1_aggregate_cash_browser.test.cjs",
+    "tests/portfolio_v2_temporal_browser.test.cjs",
+    "tests/marketing_calc_inline_errors.test.cjs",
+    "tests/portfolio_v2_period_pnl_browser.test.cjs",
+    "tests/marketing_calc_prefilled_demo.test.cjs",
+    "tests/nomad360_units_browser.test.cjs",
+    "tests/marketing_calc_dropship_browser.test.cjs",
+    "tests/portfolio_v2_online_browser.test.cjs",
+    "tests/portfolio_v2_pooled_media_browser.test.cjs"
+  ],
+  "guardAfterViolations": [],
+  "originalJourneyAfter": {
+    "runs": 12,
+    "pass": 12,
+    "retries": 0
+  },
+  "fullServiceAgentAfter": "PASS",
+  "localizedUIAfter": "PASS",
+  "draftUnitTests": 7,
+  "applicationCodeChanged": false
+}

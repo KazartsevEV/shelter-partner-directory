@@ -9,7 +9,6 @@ const close=(a,b,label)=>A.ok(Number.isFinite(a)&&Math.abs(a-b)<.011,
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
  // Preserve explicit RU-copy test intent under first-visit English default.
- await page.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,route=>route.abort());
  try{

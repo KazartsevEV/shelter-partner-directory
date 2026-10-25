@@ -5,8 +5,7 @@ const {pathToFileURL}=require('node:url');
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
- // This legacy fixture tests RU copy explicitly; default first-visit UI is English.
- await page.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
+ // RU is selected by the native ru-RU browser locale; no document-start storage mutation.
  page.setDefaultTimeout(8000);
  const errors=[];page.on('pageerror',err=>errors.push(err.message));
  await page.route(/^https?:\/\//,route=>route.abort());
@@ -686,8 +685,7 @@ const {pathToFileURL}=require('node:url');
   // 320px customer viewport. Existing tests above cover computed monetary
   // examples and agent restore; this catches broken navigation/field branching.
   const acceptance=await browser.newPage({viewport:{width:320,height:740},locale:'ru-RU'});
-  // This legacy fixture tests RU copy explicitly; default first-visit UI is English.
-  await acceptance.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
+  // RU is selected by the native ru-RU browser locale; no document-start storage mutation.
   const acceptanceErrors=[];
   acceptance.on('pageerror',err=>acceptanceErrors.push(err.message));
   await acceptance.route(/^https?:\/\//,route=>route.abort());

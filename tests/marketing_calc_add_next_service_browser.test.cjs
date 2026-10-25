@@ -8,7 +8,6 @@ const {pathToFileURL}=require('node:url');
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const ctx=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
  // Preserve explicit RU-copy test intent under first-visit English default.
- await ctx.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
  const page=await ctx.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.route(new RegExp('^https?://'),route=>route.abort());

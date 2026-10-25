@@ -4,12 +4,14 @@ const {pathToFileURL}=require('node:url');
 const path=require('node:path');
 const {fixture}=require('./portfolio_v2_f3_fixture.cjs');
 const entry=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
-// Existing localized test cases explicitly simulate a previously saved
-// language preference; browser locale alone no longer selects the first visit.
+// Exercise a genuinely saved preference through the UI after document startup.
+// Accessing file:// localStorage inside an init script can lose unrelated keys.
 async function setStoredLocale(context,code){
- await context.addInitScript(language=>{
-  try{localStorage.setItem('nomad360PreferredLanguage',language)}catch(_){}
- },code);
+ const setup=await context.newPage();
+ await setup.route(/^https?:\/\//,route=>route.abort());
+ await setup.goto(entry,{waitUntil:'domcontentloaded'});
+ await setup.locator('#nomad360-lang-select').selectOption(code);
+ await setup.close();
 }
 async function browserCase(browser,locale,expected){
  const context=await browser.newContext({locale,viewport:{width:390,height:844}});
