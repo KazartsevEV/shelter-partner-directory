@@ -1,0 +1,10 @@
+'use strict';
+// Private mail composition. No templates are loaded by the calculator UI.
+const copy={
+ en:{verify:'Confirm your Nomad360 partner email',verification:'Enter this one-time code in the partner confirmation process:',expiry:'It expires in 24 hours. If you did not apply, ignore this message.',archive:'Your Nomad360 partner calculator',password:'Archive password:',unzip:'Extract the ZIP with an archive tool supporting WinZip AES-256, then open the HTML file. Keep the manifest with your package.',support:'Questions: nomad260393@gmail.com'},
+ ru:{verify:'Подтвердите email партнёра Nomad360',verification:'Введите одноразовый код при подтверждении партнёрской заявки:',expiry:'Код действует 24 часа. Если вы не подавали заявку, проигнорируйте письмо.',archive:'Ваш партнёрский калькулятор Nomad360',password:'Пароль ZIP-архива:',unzip:'Распакуйте ZIP архиватором с поддержкой WinZip AES-256, затем откройте HTML-файл. Сохраните манифест вместе с пакетом.',support:'Вопросы: nomad260393@gmail.com'},
+ kk:{verify:'Nomad360 серіктесінің email мекенжайын растаңыз',verification:'Серіктестік өтінімді растау кезінде бір реттік кодты енгізіңіз:',expiry:'Код 24 сағат жарамды. Өтінім жібермесеңіз, бұл хатты елемеңіз.',archive:'Сіздің Nomad360 серіктестік калькуляторыңыз',password:'ZIP архивінің құпиясөзі:',unzip:'ZIP архивін WinZip AES-256 қолдайтын архиватормен ашып, HTML файлын іске қосыңыз. Манифестті пакетпен бірге сақтаңыз.',support:'Сұрақтар: nomad260393@gmail.com'}
+};
+function verification(record,token){const t=copy[record.language];return {to:record.email,subject:t.verify,text:[t.verification,token,t.expiry,t.support].join('\n\n')};}
+function delivery(record,password,bytes){const t=copy[record.language];return {to:record.email,subject:t.archive,text:[record.config.packageId+' '+record.config.packageVersion,t.password+' '+password,t.unzip,t.support].join('\n\n'),attachments:[{filename:record.archive.filename,contentType:'application/zip',bytes}]};}
+module.exports={verification,delivery};
