@@ -191,8 +191,8 @@ RU/EN/KK, 320/360/390/430/768/desktop, сохранения/перенос/эк�
 
 ## SEC-01 — обязательный периметр доступности и anti-abuse (подготовка)
 
-SEC-01 готовится в приватном Draft KazartsevEV/lazysellerV2#492 и описан в `docs/security/SEC-01.md` (код проверки Turnstile,
-доверенного edge, серверных атомарных лимитов/квот и CI). **Это подготовка, а
+Подготовка SEC-01 **уже слита**: приватный [lazysellerV2 #492](https://github.com/KazartsevEV/lazysellerV2/pull/492) и документационный [#273](https://github.com/KazartsevEV/shelter-partner-directory/pull/273). Полная спецификация в [SEC-01](security/SEC-01.md): Turnstile,
+доверенный edge, серверные атомарные лимиты/квоты и CI. **Это подготовленный код, а
 не действующая защита GitHub Pages**: CDN/WAF, домен, Google worker, Redis,
 Turnstile-ключи и реальная почта не включены этим шагом.
 
