@@ -30,7 +30,7 @@ the existing `/shelter-partner-directory/` prefix; changing origin/path is R4.
 
 ## Checks and explicit limits
 
-Fourteen negative/reproducibility tests cover prohibited files, dirty source,
+Fifteen negative/reproducibility tests cover prohibited files, dirty source,
 unknown resources, duplicate/config errors, symlinks, private-key content,
 existing output, tampering and injected files. Two independent builds from the
 same clean revision must be byte-identical.
@@ -50,7 +50,7 @@ simulated as production speed. No credentials, applications, email codes or
 financial drafts are read or copied by the builder.
 
 R1 remains untouched. Its resulting PR is reviewed separately after this slice.
-Local checks pass: 14 unit/negative tests; two byte-identical builds; 112 listed
+Local checks pass: 15 unit/negative tests; two byte-identical builds; 112 listed
 public outputs plus their release manifest; 18 language/width cases; all 25 HTML
 entrypoints; valid V1/online/full-service/both V2 results; zero missing local
 resources; downloaded standalone financial smoke with HTTP blocked; synthetic
@@ -58,7 +58,7 @@ browser-draft/DOM marker excluded from the download.
 [Browser protocol](protocol.json), [file/commit/hash manifest](release-manifest.json).
 Screenshots: [RU mobile](ru-320.png), [EN mobile](en-320.png), [KK mobile](kk-320.png),
 [RU desktop](ru-1280.png), [EN desktop](en-1280.png), [KK desktop](kk-1280.png).
-The evidence manifest records clean build revision `e39299a`; subsequent edits
+The evidence manifest records clean build revision `7805c74`; subsequent edits
 are test instrumentation/documentation only. Final-HEAD CI will rebuild from its
 own clean checkout and is reported in the PR. The normal runtime CDN remains
 an explicit limitation; this slice does not claim to close all of R3.
@@ -78,3 +78,7 @@ recomputed. Unexpected empty directories and all symlink trees/roots are rejecte
 Every allowlisted source is covered by the artifact workflow's change triggers;
 a test guards this coverage when the allowlist grows. Existing publication
 workflows remain unchanged. These are packaging/verification changes only.
+
+Configuration symlinks, boolean schema versions and non-string allowlist items
+also fail before output creation. Evidence was refreshed against accepted Help
+#279; final CI rebuilds its own clean revision.

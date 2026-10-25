@@ -7,6 +7,7 @@ DENIED={'.git','.github','scripts','tests','docs','node_modules','state','secret
 def digest(b):return hashlib.sha256(b).hexdigest()
 def git(root,*args):return subprocess.check_output(['git',*args],cwd=root)
 def safe(name):
+ if not isinstance(name,str):raise ValueError('Public path must be a string')
  p=PurePosixPath(name)
  if not isinstance(name,str) or not name or p.is_absolute() or any(x in ('..','.') or x in DENIED or x.startswith('.') for x in p.parts) or '\\' in name or str(p)!=name:raise ValueError('Forbidden public path: '+str(name))
  if p.suffix.lower() not in {'.html','.js','.css','.json','.webmanifest','.svg','.png','.webp','.jpg','.jpeg','.ico','.woff','.woff2','.txt','.md','.xml'}:raise ValueError('Non-client release source: '+name)
@@ -82,10 +83,11 @@ def check(root):
     return manifest
 
 def build(root,out,config):
+ if config.is_symlink() or config.resolve()!=config.absolute():raise ValueError('Symlink release configuration rejected')
  spec=json.loads(config.read_text())
- if set(spec)!={'schemaVersion','basePath','files'} or spec['schemaVersion']!=1 or spec['basePath']!='/shelter-partner-directory/':raise ValueError('Unsupported release configuration; origin migration requires R4')
+ if set(spec)!={'schemaVersion','basePath','files'} or type(spec['schemaVersion']) is not int or spec['schemaVersion']!=1 or spec['basePath']!='/shelter-partner-directory/':raise ValueError('Unsupported release configuration; origin migration requires R4')
  files=spec['files']
- if not isinstance(files,list) or len(files)!=len(set(files)) or 'Marketing_calc.HTML' not in files:raise ValueError('Invalid allowlist')
+ if not isinstance(files,list) or not all(isinstance(f,str) for f in files) or len(files)!=len(set(files)) or 'Marketing_calc.HTML' not in files:raise ValueError('Invalid allowlist')
  for f in files:safe(f)
  if git(root,'status','--porcelain','--untracked-files=no').strip():raise ValueError('Commit tracked changes before release build')
  tracked=set(git(root,'ls-files','-z').decode().split('\0'))

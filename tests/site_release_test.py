@@ -56,6 +56,11 @@ class ReleaseTests(unittest.TestCase):
   self.build();extra=self.out/'private';extra.mkdir();self.assertRaises(ValueError,M.check,self.out);extra.rmdir()
   target=Path(self.temp.name)/'empty';target.mkdir();extra.symlink_to(target,target_is_directory=True);self.assertRaises(ValueError,M.check,self.out);extra.unlink()
   link=Path(self.temp.name)/'site-link';link.symlink_to(self.out,target_is_directory=True);self.assertRaises(ValueError,M.check,link)
+ def test_symlink_or_invalid_configuration_rejected(self):
+  target=Path(self.temp.name)/'external.json';self.config.rename(target);self.config.symlink_to(target)
+  self.assertRaises(ValueError,self.build);self.assertFalse(self.out.exists());self.config.unlink();target.rename(self.config)
+  for version,files in [(True,['Marketing_calc.HTML']),(1,['Marketing_calc.HTML',{}])]:
+   self.config.write_text(json.dumps({'schemaVersion':version,'basePath':'/shelter-partner-directory/','files':files}));self.commit();self.assertRaises(ValueError,self.build)
  def test_all_release_sources_trigger_artifact_ci(self):
   project=Path(__file__).resolve().parents[1]
   sources=json.loads((project/'scripts/site-release/public-files.json').read_text())['files']
