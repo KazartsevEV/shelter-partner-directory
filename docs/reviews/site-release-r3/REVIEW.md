@@ -62,3 +62,10 @@ The evidence manifest records clean build revision `e39299a`; subsequent edits
 are test instrumentation/documentation only. Final-HEAD CI will rebuild from its
 own clean checkout and is reported in the PR. The normal runtime CDN remains
 an explicit limitation; this slice does not claim to close all of R3.
+
+Additional static-page verification requires a loaded Inter face for every
+shipped HTML. Absolute first-party asset requests under the existing GitHub
+Pages prefix are fulfilled from the same allowlisted artifact bytes, with a
+test-only CORS header, and are recorded in `absoluteFirstPartyResourcesMirrored`.
+No production URL or CORS policy is rewritten. This checks packaging completeness;
+it does not prove that absolute URLs work on a future origin.
