@@ -1,6 +1,9 @@
 # SEO-07 / R2 — RU + KK: 10 редакционных исходников страниц
 
-**Статус 25.10.2026: PREPARED / НЕ ОПУБЛИКОВАНО.** В этой ветке только десять самостоятельных JSON-редакций `docs/seo/locale-drafts/{ru,kk}/`. Никакие `ru/`, `kk/`, `en/` HTML entrypoint, `scripts/seo/pages.json`, `scripts/seo/build.py`, финансовые формулы, PDF/Excel, дизайн, GitHub Pages, robots, canonical, hreflang или sitemap не меняются.
+**Исторический статус R2 на 25.10.2026: PREPARED / НЕ ОПУБЛИКОВАНО.**
+
+> **R3 (после merge #275):** [Draft PR #276](https://github.com/KazartsevEV/shelter-partner-directory/pull/276) технически подключает 15 EN/RU/KK HTML к единому генератору и готовит sitemap. R2-описание ниже фиксирует состояние при подготовке редакционных исходников, а не текущее состояние R3. Публикация RU/KK, нативная языковая приёмка и live HTTP 200 не подтверждены.
+ В этой ветке только десять самостоятельных JSON-редакций `docs/seo/locale-drafts/{ru,kk}/`. Никакие `ru/`, `kk/`, `en/` HTML entrypoint, `scripts/seo/pages.json`, `scripts/seo/build.py`, финансовые формулы, PDF/Excel, дизайн, GitHub Pages, robots, canonical, hreflang или sitemap не меняются.
 
 ## Точная карта редакционных комплектов
 
