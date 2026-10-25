@@ -5,6 +5,30 @@
 P3 реализован в Draft [#243](https://github.com/KazartsevEV/shelter-partner-directory/pull/243),
 HEAD `3314ec3`, 5/5 jobs GREEN; это не merge и не production-приёмка.
 
+## Актуальное дополнение · 25.10.2026
+
+Порядок ниже сохраняется. Приняты/объединены C7 #277, public artifact #280,
+R1 QA #281 и private source bootstrap [#493](https://github.com/KazartsevEV/lazysellerV2/pull/493)
+(`f58df5ef`). Полный R1 UI #245 и оператор #243 остаются Draft; это не завершённая
+выдача. На текущих Pages проверены 18/18 прямых HTTP 200 и ожидаемые языки
+URL sitemap: [протокол](seo/reviews/deploy-readiness-02/public-url-status.json).
+
+Новый [private Draft #494](https://github.com/KazartsevEV/lazysellerV2/pull/494)
+готовит отдельный hosting package: локальный pinned Tailwind, явный HTTPS
+origin/base path, staging noindex/блокировка реальной отправки, архив/restore и
+раздельную read-only проверку существующих Google owner OAuth/service identity.
+Работа по нему не равна закрытию всех R3–R6 или реальной Google авторизации.
+
+Владелец сообщил о поднятом self-hosted runner и разрешил использовать
+существующие Lazyseller OAuth/cloud bindings. В текущей managed execution среде
+их нет; metadata API runner/secrets недоступны (403). CI может выбрать доступный
+repo self-hosted runner или явные `NOMAD360_RUNNER_LABELS`; доказательство
+поддерживаемых проверок — фактические OS/arch/receipt, не само наличие runner.
+Секреты подключаются штатными SDK/secret bindings, без публикации значений.
+До выбора реального hosting origin, проверки доступа и production gates
+готовность всего продукта не объявлять. Смена DNS/Pages и merge новых PR требуют
+сохранённых отдельных условий приёмки.
+
 Этот документ уточняет очередь [основной карты](nomad360-codex-task-map.md),
 [P1–P4](nomad360-partner-distribution-plan.md) и
 [Issue #219](https://github.com/KazartsevEV/shelter-partner-directory/issues/219).
