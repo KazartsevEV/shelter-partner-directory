@@ -9,10 +9,10 @@ section{margin:24px 0;padding:20px;border:1px solid #38678B;border-radius:12px}a
 button{font:inherit;font-weight:600;line-height:1.5;min-height:48px;max-width:100%;border:2px solid #173B58;border-radius:8px;background:#FF913F;color:#173B58;padding:10px 16px;cursor:pointer;overflow-wrap:anywhere}
 button:active{background:#173B58;color:#FFFFFF}button:disabled{background:#FFFFFF;color:#38678B;border-color:#38678B;cursor:default}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #FF913F;outline-offset:4px}
-input[type=file]{display:block;font:inherit;max-width:100%;padding:14px 0;color:#173B58}input[type=checkbox]{width:20px;height:20px;vertical-align:middle;margin-right:10px;accent-color:#173B58}
+input[type=checkbox]{width:20px;height:20px;vertical-align:middle;margin-right:10px;accent-color:#173B58}
 [hidden]{display:none!important}[role=status]{font-weight:600;min-height:1.5em}ul{padding-left:22px}
 @media(max-width:360px){header,main{padding:16px}section{padding:14px}}
 
-input[type=file]::file-selector-button{font:inherit;min-height:44px;max-width:100%;padding:8px 10px;border:1px solid #173B58;border-radius:6px;background:#FFFFFF;color:#173B58;cursor:pointer}button:disabled{opacity:1}
+button:disabled{opacity:1}
 
 #draft-choose{display:block;margin-top:12px;background:#FFFFFF;color:#173B58}#draft-choose:active{background:#173B58;color:#FFFFFF}#draft-filename{display:block;margin-top:8px;overflow-wrap:anywhere}label[for=draft-file]{display:block}

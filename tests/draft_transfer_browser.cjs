@@ -3,13 +3,14 @@ const A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:p
 const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),T=require('../nomad360_draft_transfer.js');
 const fixtures=require('./fixtures/v1-engine/accepted-main.json'),vat=require('./fixtures/sales-tax-7b/vat-inputs.json');
+const siteRoot=path.resolve(process.env.DRAFT_SITE_ROOT||root);
 const out=path.join(root,'artifacts/draft-transfer');fs.mkdirSync(out,{recursive:true});
 const css=path.join(out,'utilities.css');
-const us=JSON.parse(fs.readFileSync(path.join(root,'docs/demos/us-main-street-12m/model.json'),'utf8')); 
+const us=JSON.parse(fs.readFileSync(path.join(root,'docs/demos/us-main-street-12m/model.json'),'utf8'));
 function server(){return http.createServer((req,res)=>{
  const url=new URL(req.url,'http://local');let name=decodeURIComponent(url.pathname);if(name.endsWith('/'))name+='index.html';
- const file=path.resolve(root,'.'+name);
- if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);return res.end();}
+ const file=path.resolve(siteRoot,'.'+name);
+ if(!file.startsWith(siteRoot+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);return res.end();}
  res.setHeader('Content-Type',({'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.woff2':'font/woff2','.json':'application/json','.png':'image/png','.svg':'image/svg+xml'})[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);
 })}
 (async()=>{
@@ -35,7 +36,7 @@ function server(){return http.createServer((req,res)=>{
    const entry=cases.length%2?'US_Retail_Demo.HTML':'Marketing_calc.HTML';
    const shopper=name.startsWith('own-');
    await page.goto(oldOrigin+'/'+entry+'?lang='+language+(shopper?'&demo=shopper&finance=credit':''),{waitUntil:'domcontentloaded'});await page.addStyleTag({path:css});
-   if(shopper){await page.waitForFunction(()=>document.getElementById('product-demo-banner')?.dataset.demoReady==='true');await page.evaluate(()=>{const url=new URL(location.href);url.searchParams.delete('demo');history.replaceState(null,'',url)})} 
+   if(shopper){await page.waitForFunction(()=>document.getElementById('product-demo-banner')?.dataset.demoReady==='true');await page.evaluate(()=>{const url=new URL(location.href);url.searchParams.delete('demo');history.replaceState(null,'',url)})}
    const before=await page.evaluate(({fixture,vat,us})=>{
     const f=fixture.input,item=JSON.parse(JSON.stringify(f.portfolio[0]));item.id=1;
     const payload={currency:'USD',activeProductId:1,productPortfolio:[item],taxType:f.businessTaxType,businessTaxPct:f.businessTaxPct,salesVat:f.salesVatChoice,salesVatPct:f.salesVatPct};
@@ -77,7 +78,7 @@ function server(){return http.createServer((req,res)=>{
    A.equal(await page.locator('h1').textContent(),{en:'Transfer saved calculations',ru:'Перенести сохранённые расчёты',kk:'Сақталған есептерді тасымалдау'}[language]);
    A.equal(await page.locator('[data-copy]').evaluateAll(nodes=>nodes.some(n=>n.textContent==='undefined')),false);
    A.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
-   A.equal(await page.evaluate(()=>getComputedStyle(document.body).fontFamily.includes('Inter')),true);
+   A.equal(await page.evaluate(()=>getComputedStyle(document.body).fontFamily.includes('Inter')&&[...document.fonts].some(font=>font.family.replaceAll('\"','').replaceAll("'",'')==='Inter'&&font.status==='loaded')),true);
    if([320,1280].includes(width))await page.screenshot({path:path.join(out,language+'-'+width+'.png'),fullPage:true});
    await page.goto(newOrigin+'/'+entry+'?lang='+language);await page.addStyleTag({path:css});
    const after=await page.evaluate(()=>{

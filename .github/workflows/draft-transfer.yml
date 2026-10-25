@@ -25,12 +25,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Syntax, failure recovery and unchanged financial engines
         run: |
           node --check nomad360_draft_transfer.js
           node --check nomad360_draft_transfer_ui.js
           node --check tests/draft_transfer_browser.cjs
           node --test tests/draft_transfer*.test.cjs tests/nomad360_draft_store.test.cjs tests/nomad360_v1_engine.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_full_service.test.cjs tests/calculator_business_oracle_v2.test.cjs
+      - name: Public artifact policy and clean source build
+        run: |
+          python tests/site_release_test.py
+          python scripts/site-release/build.py --out artifacts/draft-transfer-site
+          python scripts/site-release/build.py --verify artifacts/draft-transfer-site
       - name: Locked browser tools and deterministic test utilities
         run: |
           npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
@@ -39,4 +47,6 @@ jobs:
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/draft-transfer.css"
           scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/draft-transfer.css" -o artifacts/draft-transfer/utilities.css --content './Marketing_calc.HTML,./US_Retail_Demo.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
       - name: Real downloads, distinct origins, restore, languages and mobile widths
+        env:
+          DRAFT_SITE_ROOT: ${{ github.workspace }}/artifacts/draft-transfer-site
         run: node tests/draft_transfer_browser.cjs

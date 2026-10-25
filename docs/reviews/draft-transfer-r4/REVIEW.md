@@ -62,7 +62,8 @@ accepted calculators/engines and exact four added public resources.
 
 - 86 Node tests: transport/recovery/security/scope plus accepted storage and V1/V2
   financial suites. No skips.
-- Chromium: distinct HTTP origins, actual downloaded files and picker import,
+- 15 public artifact policy tests; clean allowlisted artifact, 116 files.
+- Chromium: distinct HTTP origins serving the built artifact, actual downloaded files and picker import,
   RU/EN/KK × 320/360/390/430/768/1280; both real calculator entrypoints; rotating
   real filled shopper and resale/dropship/full/simple/agent/online V1 fixture branches; live-generated
   dynamic rows; standalone and linked V2; canonical 10-SKU US Retail; saved service.
