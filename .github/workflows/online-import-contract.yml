@@ -1,0 +1,38 @@
+name: Current online-service import contract
+on:
+  pull_request:
+    paths:
+      - 'Marketing_calc.HTML'
+      - 'nomad360_v1_engine.js'
+      - 'portfolio_v2_online_adapter.js'
+      - 'portfolio_v2_linked_engine.js'
+      - 'tests/portfolio_v2_online*'
+      - 'tests/online_import_contract_scope.test.cjs'
+      - 'docs/reviews/online-contract-maintenance-01/**'
+      - '.github/workflows/online-import-contract.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  online-import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Current period contract and frozen financial sources
+        run: |
+          node --check tests/portfolio_v2_online_import_browser.test.cjs
+          node --test tests/online_import_contract_scope.test.cjs tests/portfolio_v2_online_import.test.cjs tests/portfolio_v2_online_adapter.test.cjs tests/nomad360_v1_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/calculator_business_oracle_v2.test.cjs
+      - name: Locked browser tooling
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+      - name: Actual UI bridge, localized matrix and saved-state recovery
+        run: |
+          node tests/portfolio_v2_online_import_browser.test.cjs
+          node tests/portfolio_v2_online_browser.test.cjs

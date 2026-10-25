@@ -1,89 +1,51 @@
-/* Real Chromium online V1 -> V2 E2E: no testing the adapter in isolation. */
-const A=require('node:assert/strict');
-const {chromium}=require('playwright');
-const path=require('node:path');
-const {pathToFileURL}=require('node:url');
+'use strict';
+/* Current real V1 UI -> V2, with independent period oracles. Historical harness
+   is preserved in docs/reviews/online-contract-maintenance-01/. */
+const A=require('node:assert/strict'),{chromium}=require('playwright');
+const path=require('node:path'),fs=require('node:fs'),{pathToFileURL}=require('node:url');
+const near=(a,b,label)=>A.ok(Number.isFinite(a)&&Math.abs(a-b)<1e-7,label+': '+a+' != '+b);
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
- const ctx=await browser.newContext({viewport:{width:390,height:844}});
- const page=await ctx.newPage(),errors=[];
- page.on('pageerror',e=>errors.push(e.message));
- await page.route(/^https?:\/\//,r=>r.abort());
- const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
- const near=(actual,expected,name)=>A.ok(Math.abs(actual-expected)<.001,
-   name+': got '+actual+' expected '+expected);
- async function open(mode,name,payer='me'){
-  await page.goto(url,{waitUntil:'domcontentloaded'});
-  await page.locator('#start-service').click();
-  await page.locator('#service-work-online').click();
-  if(mode==='agent'){
-   await page.getByRole('button',{name:'Я агент'}).click();
-   await page.getByRole('button',{name:'Мне платят % с объёма продаж'}).click();
-  }else await page.getByRole('button',{name:mode==='hired'?'Нанимаю другого':'Я сам'}).click();
-  const inputs={months:3,monthlyBudget:400,cpc:4,ctr:2,cvrLead:20,cvrDeal:50,
-    costConsult:100,costPack:200,ltv:30,mgmt:0,site:0,hosting:0,
-    dom:0,magnet:0,acq:10,taxTurnover:5};
-  if(mode==='hired')inputs.markup=25;
-  if(mode==='agent'){inputs.agentPct=20;inputs.agentTaxTurnover=10;}
-  for(const [id,v] of Object.entries(inputs))await page.locator('#in-'+id).fill(String(v));
-  if(mode==='agent')
-   await page.locator('input[name="payer-monthlyBudget"][value="'+payer+'"]').check();
-  await page.locator('#online-service-portfolio-name').fill(name);
-  A.equal(await page.evaluate(()=>openOnlineServicePortfolio()),true,
-    await page.locator('#online-service-v2-error').textContent());
-  A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
-  const state=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
-  const result=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
-  A.equal(result.ready,true,JSON.stringify(result.errors));
-  return {state,result};
- }
+ const cases=[],url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;
  try{
-  let x=await open('self','Мой онлайн-консалтинг');
-  near(x.result.totals.revenue,325,'self monthly revenue');
-  near(x.result.totals.netProfit,-123.75,'self net');
-  await page.locator('[data-linked-path="skus.0.onlineCapacity"]').fill('4');
-  const full=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
-  A.equal(full.ready,false);
-  A.ok(full.errors.some(m=>m.includes('Прогноз сделок')));
-  await page.locator('[data-linked-path="skus.0.onlineCapacity"]').fill('5');
-  const corrected=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
-  A.equal(corrected.ready,true,JSON.stringify(corrected.errors));
-  await page.locator('[data-linked-back]').click();
-  A.equal(await page.locator('#calculator-screen').isVisible(),true);
-  A.equal(await page.locator('#in-monthlyBudget').inputValue(),'400');
-  A.equal(await page.locator('#online-service-portfolio-name').inputValue(),'Мой онлайн-консалтинг');
-  x=await open('hired','Онлайн с исполнителем');
-  A.equal(x.state.skus.length,2,'first online SKU not lost');
-  near(x.result.items.find(s=>s.source==='online-hired').cogs,260,'contractor compensation');
-  x=await open('agent','Агентская онлайн-услуга','partner');
-  A.equal(x.state.skus.length,3);
-  near(x.result.items.find(s=>s.source==='online-agent').revenue,65,'agent own commission');
-  near(x.result.counterpart[0].gross,325,'partner GMV not my revenue');
-  A.match(await page.locator('#linked-results').textContent(),/Оборот принципала/);
-  A.match(await page.locator('#linked-results').textContent(),/Моя реклама/);
-  await page.locator('[data-basket-action="add"]').click();
-  A.equal(await page.locator('[data-basket-offer]').count(),1);
-  await page.locator('[data-linked-save]').click();
-  await page.reload({waitUntil:'domcontentloaded'});
-  await page.locator('#portfolio-v2-linked-resume-home button').click();
-  A.equal(await page.locator('[data-linked-sku]').count(),3);
-  A.equal(await page.locator('[data-basket-offer]').count(),1);
-  await page.locator('[data-linked-back]').click();
-  A.equal(await page.locator('#calculator-screen').isVisible(),true);
-  A.equal(await page.locator('#in-agentPct').inputValue(),'20');
-  A.equal(await page.locator('input[name="payer-monthlyBudget"][value="partner"]').isChecked(),true);
-  // A goods V1 import must retain all existing online service drafts/relationships.
-  await page.goto(url+'?demo=shopper&finance=cash',{waitUntil:'domcontentloaded'});
-  await page.locator('#product-demo-banner').waitFor({state:'visible'});
-  A.equal(await page.evaluate(()=>openLinkedPortfolioFromProducts()),true);
-  const mixed=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
-  A.equal(mixed.skus.filter(s=>s.onlineContract).length,3);
-  A.equal(mixed.skus.filter(s=>s.source==='own').length,1);
-  A.equal(mixed.offers.length,1);
-  const calc=await page.evaluate(()=>LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState()));
-  A.equal(calc.ready,true,JSON.stringify(calc.errors));
-  A.deepEqual(errors,[]);
-  console.log('ONLINE_IMPORT_BROWSER_GREEN',JSON.stringify({modes:3,skus:mixed.skus.length,
-    offers:mixed.offers.length,agentRevenue:65,partnerGross:325}));
+  for(const lang of ['en','ru','kk'])for(const width of [320,360,390,430,768,1280]){
+   const context=await browser.newContext({viewport:{width,height:900},locale:lang==='kk'?'kk-KZ':lang==='ru'?'ru-RU':'en-US'}),page=await context.newPage(),errors=[];
+   page.on('pageerror',e=>errors.push(e.message));await page.route(/^https?:\/\//,r=>r.abort());
+   try{
+    await page.goto(url,{waitUntil:'domcontentloaded'});
+    await page.locator('#nomad360-lang-select').selectOption(lang);
+    await page.locator('#start-service').click();await page.locator('#service-work-online').click();
+    const stages=[];
+    for(const [index,role]of ['self','hired','agent'].entries()){
+     if(index){await page.locator('[data-linked-back]').click();await page.evaluate(()=>showServiceChooser());}
+     if(role==='agent'){
+      await page.locator('#service-screen button[onclick="showAgentChooser()"]').click();
+      await page.locator('#agent-screen button[onclick="selectServiceMode(\'agent\')"]').click();
+     }else await page.locator('#service-screen button[onclick="selectServiceMode(\''+role+'\')"]').click();
+     for(const [key,value]of Object.entries({months:3,monthlyBudget:400,cpc:4,ctr:2,cvrLead:20,cvrDeal:50,costConsult:100,costPack:200,ltv:30,mgmt:0,site:0,hosting:0,dom:0,magnet:0,acq:10,taxTurnover:5,...(role==='hired'?{markup:25}:role==='agent'?{agentPct:20,agentTaxTurnover:10}:{})}))await page.locator('#in-'+key).fill(String(value));
+     if(role==='agent')await page.locator('input[name="payer-monthlyBudget"][value="me"]').check();
+     await page.locator('#online-v2-name').fill(lang+' '+role+' Онлайн қызмет');
+     await page.locator('#online-v2-add').click();A.equal(await page.locator('#portfolio-v2-screen').isVisible(),true);
+     const current=await page.evaluate(()=>({state:LinkedPortfolioV2UI.getState(),result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())}));
+     A.equal(current.result.ready,true,JSON.stringify(current.result.errors));A.equal(current.state.skus.length,index+1);
+     const item=current.result.items.find(x=>x.onlineRole===role);near(item.forecastOrders,25/3,role+' demand');
+     near(item.revenue,role==='agent'?235:1175,role+' monthly revenue');near(item.priceGross,role==='agent'?28.2:141,role+' fixed price');
+     if(role==='hired')near(item.cogs,940,'contractor');
+     if(role==='agent')near(item.onlineProvenance.partnerGrossRevenue,3525,'principal provenance');
+     near(current.result.totals.netProfit,[598.75,257.5,69][index],role+' cumulative profit');
+     stages.push({role,revenue:item.revenue,profit:current.result.totals.netProfit});
+    }
+    const before=await page.evaluate(()=>LinkedPortfolioV2UI.getState());
+    await page.locator('[data-linked-save]').click();await page.reload({waitUntil:'domcontentloaded'});
+    await page.locator('#portfolio-v2-linked-resume-home button').click();
+    A.equal(await page.locator('[data-linked-sku]').count(),3);
+    const after=await page.evaluate(()=>({state:LinkedPortfolioV2UI.getState(),result:LinkedPortfolioV2Engine.build(LinkedPortfolioV2UI.getState())}));
+    A.deepEqual(after.state.skus,before.skus);near(after.result.totals.netProfit,69,'restored profit');
+    A.deepEqual(errors,[]);cases.push({lang,width,stages,restored:true});console.log('ONLINE_IMPORT_CASE_GREEN',lang,width);
+   }finally{await context.close();}
+  }
+  const out=process.env.ONLINE_CONTRACT_PROTOCOL||'artifacts/online-contract/protocol.json';fs.mkdirSync(path.dirname(out),{recursive:true});
+  fs.writeFileSync(out,JSON.stringify({cases,scope:'Actual configured-period UI bridge; no retired first-month/capacity UI claims'},null,2)+'\n');
+  console.log('ONLINE_IMPORT_CURRENT_GREEN',JSON.stringify({cases:cases.length,roles:cases.length*3,restores:cases.length}));
  }finally{await browser.close();}
-})().catch(e=>{console.error('ONLINE_IMPORT_BROWSER_RED',e.stack||e);process.exitCode=1});
+})().catch(e=>{console.error('ONLINE_IMPORT_CURRENT_RED',e.stack||e);process.exitCode=1;});

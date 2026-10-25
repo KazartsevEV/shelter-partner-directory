@@ -1,194 +1,91 @@
-const {test}=require('node:test');
-const A=require('node:assert/strict');
-const adapter=require('../portfolio_v2_online_adapter.js'),E=require('../portfolio_v2_linked_engine.js');
-const close=(got,want,msg)=>A.ok(Number.isFinite(got)&&Math.abs(got-want)<.00001,
- msg+': got '+got+', independently expected '+want);
-const defaults=()=>({monthlyBudget:400,cpc:4,ctr:2,cvrLead:20,cvrDeal:50,
- costConsult:100,costPack:200,ltv:30,months:3,mgmt:0,site:0,hosting:0,dom:0,
- magnet:0,acq:10,taxTurnover:5,agentPct:20,agentTaxTurnover:10,markup:25});
-const kinds=['monthlyBudget','mgmt','site','hosting','dom','magnet'];
-const everyPayer=which=>Object.fromEntries(kinds.map(key=>[key,which]));
-const source=(mode,settings={},payers=everyPayer('me'),name='Онлайн-консультация')=>
- adapter.fromOnlineV1({mode,name,values:{...defaults(),...settings},payers});
-const build=(...skus)=>E.build(E.fromV1({skus,tax:{type:'turnover',pct:0}}));
-test('V1 30-day self — exact approved month-1 double ramp and single acquiring, tax, media',()=>{
- const s=source('self');
- close(s.forecastUnitsPerMonth,5,'month-1 deals');
- close(s.onlineGrossPerDeal,65,'weighted consultation+package');
- close(s.priceMax,65,'contractual receipt/deal');
- close(s.onlineFirstMonthRevenue,325,'real first-month V1 gross');
- const out=build(s);A.equal(out.ready,true,JSON.stringify(out.errors));
- close(out.totals.revenue,325,'V2 self revenue');
- close(out.totals.media,400,'V2 paid advertising');
- close(out.totals.cogs,0,'own online service has no invented contractor');
- close(out.totals.tax,16.25,'tax on seller gross');
- close(out.items[0].commission,32.5,'acquiring paid once');
- close(out.totals.netProfit,-123.75,'independent V1 first-month money');
- close(out.cashflow.months[0].cashFlow,-123.75,'V2 first-month owner cash');
+'use strict';
+/* Current V1 period ledger -> supported V2 DTO. Production formulas are frozen.
+   The archived first-month DTO is characterized, never silently reinterpreted. */
+const {test}=require('node:test'),A=require('node:assert/strict');
+const V1=require('../nomad360_v1_engine.js'),Adapter=require('../portfolio_v2_online_adapter.js'),E=require('../portfolio_v2_linked_engine.js');
+const eq=(got,want,label)=>A.ok(Number.isFinite(got)&&Math.abs(got-want)<1e-7,label+': '+got+' versus '+want);
+const defaults=()=>({months:3,monthlyBudget:400,cpc:4,ctr:2,cvrLead:20,cvrDeal:50,costConsult:100,costPack:200,ltv:30,mgmt:0,site:0,hosting:0,dom:0,magnet:0,acq:10,taxTurnover:5,agentPct:20,agentTaxTurnover:10,markup:25});
+const expenseKeys=['monthlyBudget','mgmt','site','hosting','dom','magnet'];
+const payers=side=>Object.fromEntries(expenseKeys.map(key=>[key,side]));
+function scenario(mode,overrides={},owners=payers('me')){
+ const values={...defaults(),...overrides},before=JSON.stringify({values,owners});
+ const ledger=V1.calculateSimpleService({mode,values,payers:owners});A.equal(ledger.ready,true,JSON.stringify(ledger.issues));
+ const t=ledger.totalMonth,period={deals:t.mDeals,grossRevenue:t.mGrossSales,agentIncome:t.mAgentIncome,executorCost:t.mExecutor,monthlyDeals:ledger.monthData.map(m=>m.mDeals)};
+ const input={mode,values,payers:owners,period,id:'online-'+mode,name:'Online '+mode},sku=Adapter.build(input);
+ A.equal(JSON.stringify({values,owners}),before,'V1 inputs/payers are immutable');
+ return {values,owners,ledger,input,sku};
+}
+const state=(...skus)=>E.fromV1({skus,tax:{type:'turnover',pct:0}});
+function build(...skus){const out=E.build(state(...skus));A.equal(out.ready,true,JSON.stringify(out.errors));return out;}
+const goods=()=>({id:'goods',name:'Cream',source:'resale',unitCost:20,forecastUnitsPerMonth:10,adBudget:100,baseCac:10,priceMin:200,priceMax:200,maxDiscountPct:20,minimumMarginPct:10,targetMarginPct:20,salesFixedMonthly:0,adManagement:0,variableSalesPct:0,creditServiceMonthly:0,vatPct:0,inventoryQty:100,materialsBatchTotal:2000,productionTotal:0,reserveAmount:0});
+test('self: actual 3-month V1 ledger, not the retired first-month template, defines the monthly V2 result',()=>{
+ const s=scenario('self'),out=build(s.sku);eq(s.ledger.totalMonth.mDeals,25,'ramped deals');eq(s.ledger.totalMonth.mGrossSales,3525,'period receipts');
+ eq(s.sku.forecastUnitsPerMonth,25/3,'monthly normalization');eq(s.sku.priceMax,141,'contract price per deal');eq(out.totals.revenue,1175,'monthly gross');
+ eq(out.items[0].commission,117.5,'acquiring once');eq(out.totals.tax,58.75,'turnover tax once');eq(out.totals.netProfit,598.75,'independent monthly profit');eq(out.totals.netProfit,s.ledger.accountingNetProfit/3,'V1 ledger reconciliation');
 });
-test('V1 30-day hired — executor receives reverse-markup amount; one deduction in V2',()=>{
- const s=source('hired'),out=build(s);
- A.equal(out.ready,true,JSON.stringify(out.errors));
- close(s.unitCost,52,'contractor paid per deal');
- close(out.totals.cogs,260,'contractor monthly wages');
- close(out.totals.revenue,325,'client revenue not contractor revenue');
- close(out.totals.netProfit,-383.75,'hired owner after cost, acquiring, tax, ads');
- close(out.cashflow.months[0].cashFlow,-383.75,'hired cash');
+test('hired: contractor cost stays direct, a genuine loss does not reprice the agreed V1 sale',()=>{
+ const s=scenario('hired'),out=build(s.sku);eq(s.sku.unitCost,112.8,'2820 paid for 25 deals');eq(out.totals.cogs,940,'monthly contractor expense');
+ eq(out.totals.revenue,1175,'gross, not netted against contractor');eq(out.totals.netProfit,-341.25,'loss');eq(out.items[0].priceGross,141,'fixed client price');A.equal(out.items[0].status,'LOSS');
 });
-test('V1 30-day agent — my commission only; partner gross separate, taxes independently',()=>{
- const s=source('agent'),out=build(s);
- A.equal(out.ready,true,JSON.stringify(out.errors));
- close(s.priceMax,13,'my commission per deal');
- close(out.totals.revenue,65,'my revenue not partner GMV');
- close(out.totals.media,400,'my media ownership');
- close(out.totals.tax,6.5,'my agent turnover tax');
- close(out.totals.netProfit,-341.5,'my agent cash/earnings');
- close(out.cashflow.months[0].cashFlow,-341.5,'my paid cash');
- close(out.counterpart[0].gross,325,'partner turnover separate');
- close(out.counterpart[0].commission,65,'partner owes me');
- close(out.counterpart[0].acquiring,32.5,'partner acquiring');
- close(out.counterpart[0].partnerTax,16.25,'partner turnover tax');
- close(out.counterpart[0].profit,211.25,'partner own P&L');
- A.equal(out.items[0].priceGross,13,'V2 shows agent fee not client check');
+test('agent: commission alone is owner revenue; principal gross remains provenance, not owner turnover',()=>{
+ const s=scenario('agent'),out=build(s.sku);eq(s.sku.onlineProvenance.partnerGrossRevenue,3525,'principal period receipts');eq(out.totals.revenue,235,'705 commission over 3 months');
+ eq(out.totals.tax,23.5,'owner commission tax');eq(out.totals.netProfit,-188.5,'owner loss after own media');eq(out.items[0].commission,0,'no second principal acquiring');eq(out.totals.netProfit,s.ledger.agentNetScenario/3,'actual V1 agent result');
 });
-test('Partner-funded campaign yields positive demand but ZERO phantom agent acquisition costs',()=>{
- const payer=everyPayer('partner'),s=source('agent',{},payer);
- const out=build(s);A.equal(out.ready,true,JSON.stringify(out.errors));
- close(s.adBudget,0,'zero own media');
- close(s.onlineExternalAdBudget,400,'partner-funded marketing');
- close(out.items[0].forecastOrders,5,'external funnel is preserved');
- close(out.totals.revenue,65,'commission unchanged');
- close(out.totals.media,0,'partner advertising is not mine');
- close(out.totals.netProfit,58.5,'agent after only own agent turnover tax');
- close(out.counterpart[0].partnerOpex,400,'partner paid advertising');
- close(out.counterpart[0].profit,-188.75,'partner P&L including own ads');
+test('partner-paid advertising creates demand without fictitious owner CAC or cash expense',()=>{
+ const s=scenario('agent',{},payers('partner')),out=build(s.sku);eq(s.sku.adBudget,0,'owner media');eq(s.sku.baseCac,0,'owner CAC');
+ eq(out.totals.forecast,25/3,'externally generated demand');eq(out.totals.media,0,'no owner ad cash');eq(out.totals.netProfit,211.5,'commission after own tax only');
+ A.equal(s.sku.onlineProvenance.originalPayers.monthlyBudget,'partner');
 });
-test('A genuinely mixed portfolio has company tax on goods and agent tax only on commission',()=>{
- const a=source('agent',{},everyPayer('partner'));
- const product={id:'cream',name:'Крем',source:'resale',unitCost:20,
-   forecastUnitsPerMonth:5,adBudget:50,baseCac:10,priceMin:70,priceMax:200,
-   maxDiscountPct:0,minimumMarginPct:10,targetMarginPct:20,
-   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,
-   creditServiceMonthly:0,vatPct:0,inventoryQty:12,materialsBatchTotal:240,
-   productionTotal:0,reserveAmount:0};
- const state=E.fromV1({skus:[a,product],tax:{type:'turnover',pct:3}});
- state.offers=[{id:'x',mode:'cross_sell',anchorSkuId:a.id,attachPct:40,
-   overlapPct:0,items:[{skuId:'cream',qty:1}]}];
- const x=E.build(state);A.equal(x.ready,true,JSON.stringify(x.errors));
- close(x.items[0].forecastOrders,5,'agent deals remain baseline');
- close(x.items[1].forecastOrders,7,'two additional creams');
- close(x.items[0].incomeTax,6.5,'agent separate 10% tax');
- close(x.totals.tax,6.5+x.items[1].revenue*.03,'company goods tax is only on goods');
- close(x.counterpart[0].gross,325,'partner gross is NOT counted as my business gross');
- close(x.cashflow.months.reduce((z,m)=>z+m.receipt,0),x.totals.revenue,
-   'cash revenue is exact owner receipts');
-});
-test('Online resource shared with product is paid once; no online inventory or phantom materials',()=>{
- const s=source('self'),product={id:'membership',name:'Подписка',source:'dropship',
-   unitCost:10,forecastUnitsPerMonth:5,adBudget:50,baseCac:10,
-   priceMin:40,priceMax:150,maxDiscountPct:0,minimumMarginPct:10,targetMarginPct:20,
-   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,creditServiceMonthly:0,
-   vatPct:0,inventoryQty:0,dropshipDeliveryDays:0,dropshipPayoutLagDays:0,
-   dropshipPayoutMode:'before',reserveAmount:0};
- const state=E.fromV1({skus:[s,product],tax:{type:'turnover',pct:0}});
- state.resources=[{id:'space',kind:'premises',label:'Помещение',amount:60,cadence:'monthly',
-   pool:'none',allocation:'usage',usage:{[s.id]:1,membership:1},skuIds:[s.id,'membership'],
-   includedBySku:{}}];
- const r=E.build(state);A.equal(r.ready,true,JSON.stringify(r.errors));
- close(r.totals.monthlyResources,60,'one shared rent');
- close(r.resources[0].bySku[s.id]+r.resources[0].bySku.membership,60,'resource conservation');
- A.ok(r.cashflow.ownerCapital>=0);
- state.resources[0].kind='warehouse';const invalid=E.build(state);
- A.equal(invalid.ready,false);
- A.ok(invalid.errors.some(e=>e.includes('Складской ресурс')));
-});
-test('Site CAPEX is paid once and amortized only in profit; no duplicate payment',()=>{
- const s=source('self',{site:120,magnet:60});
- const r=build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
- close(s.onlineCapex,180,'original asset purchases');
- close(r.totals.depreciation,15,'1 month of 12 month amortization');
- close(r.totals.netProfit,-138.75,'accounting income includes 15');
- close(r.cashflow.months[0].cashFlow,-303.75,'cash includes 180');
- close(r.cashflow.freeCash-r.cashflow.ownerCapital+r.cashflow.reserve,
-   r.totals.netProfit-165,'cash vs amortized accrual');
-});
-test('Agent payer 64 combinations conserve commission, taxes, direct costs and both balance sheets',()=>{
- const extras={mgmt:30,site:120,hosting:12,dom:6,magnet:60};
- for(let mask=0;mask<64;mask++){
-  const payers=Object.fromEntries(kinds.map((k,i)=>[k,(mask&(1<<i))?'me':'partner']));
-  const s=source('agent',extras,payers);
-  const r=build(s);A.equal(r.ready,true,'mask '+mask+' '+JSON.stringify(r.errors));
-  const ownSpend=k=>payers[k]==='me'?(k==='monthlyBudget'?400:extras[k]):0;
-  const partnerSpend=k=>payers[k]==='partner'?(k==='monthlyBudget'?400:extras[k]):0;
-  const myOps=ownSpend('monthlyBudget')+ownSpend('mgmt')+ownSpend('hosting')+ownSpend('dom');
-  const myCapex=ownSpend('site')+ownSpend('magnet');
-  const partnerOps=partnerSpend('monthlyBudget')+partnerSpend('mgmt')+
-    partnerSpend('hosting')+partnerSpend('dom');
-  const partnerCapex=partnerSpend('site')+partnerSpend('magnet');
-  close(r.totals.netProfit,65-6.5-myOps-myCapex/12,'agent income mask '+mask);
-  close(r.cashflow.months[0].cashFlow,65-6.5-myOps-myCapex,'agent cash mask '+mask);
-  close(r.counterpart[0].profit,211.25-partnerOps-partnerCapex/12,'partner profit mask '+mask);
-  close(r.counterpart[0].cash,211.25-partnerOps-partnerCapex,'partner cash mask '+mask);
-  close(r.cashflow.months[0].cashFlow+r.counterpart[0].cash,
-      325-32.5-16.25-6.5-400-30-120-12-6-60,'joint cash conservation mask '+mask);
+test('negative agent income does not shelter profit-taxed goods; owner tax streams remain separate',()=>{
+ for(const assets of [{},{site:120,magnet:60}]){
+  const s=state(goods(),scenario('agent',assets).sku);s.tax={type:'profit',pct:20};const out=E.build(s);A.equal(out.ready,true,JSON.stringify(out.errors));
+  const item=out.items.find(i=>i.id==='goods');eq(item.revenue,2000,'goods gross');eq(item.preTaxProfit,1700,'goods taxable profit before the independent 20% tax');
+  eq(out.totals.tax,363.5,'340 goods plus 23.5 agent, also with online CAPEX');
  }
 });
-test('Reject false source/corrupt taxpayer provenance and unchanged zero-conversion',()=>{
- const v=defaults();v.cvrDeal=0;
- A.throws(()=>adapter.fromOnlineV1({mode:'self',name:'bad',values:v}),/воронк/);
- const a=source('agent',{},everyPayer('partner'));delete a.onlinePartner;
- const r=build(a);A.equal(r.ready,false);
- A.ok(r.errors.some(x=>x.includes('контур партнёра')));
+test('a shared resource is paid once across two services; fixed V1 prices are not silently increased',()=>{
+ const self=scenario('self').sku,agent=scenario('agent').sku,s=state(self,agent);s.resources=[{id:'rent',kind:'premises',cadence:'monthly',amount:90,skuIds:[self.id,agent.id],allocation:'revenue',pool:'none'}];
+ const out=E.build(s);A.equal(out.ready,true,JSON.stringify(out.errors));eq(out.totals.monthlyResources,90,'one shared payment');eq(out.totals.netProfit,320.25,'598.75-188.5-90');
+ eq(out.items.find(i=>i.id===self.id).priceGross,141,'self price');eq(out.items.find(i=>i.id===agent.id).priceGross,28.2,'agent fee');
 });
-
-test('Negative owner online earnings cannot shield unrelated profit-taxed goods',()=>{
- const service=source('self'); // 325 gross - 400 media - 32.5 acquiring, 5% own turnover tax
- const goods={id:'g',name:'Цифровой товар',source:'dropship',unitCost:10,
-   forecastUnitsPerMonth:5,adBudget:50,baseCac:10,priceMin:70,priceMax:150,
-   maxDiscountPct:0,minimumMarginPct:10,targetMarginPct:20,
-   salesFixedMonthly:0,adManagement:0,variableSalesPct:0,creditServiceMonthly:0,
-   vatPct:0,inventoryQty:0,dropshipDeliveryDays:0,dropshipPayoutLagDays:0,
-   dropshipPayoutMode:'before',reserveAmount:0};
- const portfolio=E.fromV1({skus:[service,goods],tax:{type:'profit',pct:20}});
- const result=E.build(portfolio);
- A.equal(result.ready,true,JSON.stringify(result.errors));
- const realGoods=result.items.find(s=>s.id==='g');
- const independentlyTaxedGoods=Math.max(0,realGoods.preTaxProfit)*.2;
- close(result.totals.tax,16.25+independentlyTaxedGoods,'unrelated positive profits taxed independently');
- close(result.cashflow.months.reduce((a,m)=>a+m.tax,0),
-   16.25+independentlyTaxedGoods,'cash tax not shielded by another entity loss');
+test('startup assets are full cash acquisition once and 12-month depreciation once in monthly P&L',()=>{
+ const s=scenario('self',{site:120,magnet:60}),out=build(s.sku);eq(s.sku.onlineCapex,180,'paid upfront');eq(s.sku.onlineAmortMonthly,15,'monthly depreciation');
+ eq(out.totals.netProfit,583.75,'598.75 less 15 depreciation');eq(out.cashflow.freeCash-out.cashflow.ownerCapital+out.cashflow.reserve,418.75,'598.75 operating result less full 180 acquisition');
+ eq(s.ledger.simpleSpendableCash,1616.25,'actual whole V1 period cash, not a one-month balance');
 });
-test('Online service reallocation never converts partner-funded media to my costs',()=>{
- const agent=source('agent',{},everyPayer('partner'));
- const input=E.fromV1({skus:[agent],tax:{type:'turnover',pct:3}});
- input.resources.push({id:'commonCampaign',kind:'campaign',label:'Моя дополнительная реклама',
-  amount:200,cadence:'monthly',pool:'none',allocation:'usage',usage:{[agent.id]:1},
-  skuIds:[agent.id],includedBySku:{}});
- const result=E.build(input);
- A.equal(result.ready,true,JSON.stringify(result.errors));
- close(result.totals.media,200,'owner pays only incremental shared ad budget');
- close(result.items[0].forecastOrders,7.5,'partner campaign 400 + my new 200 = 1.5× demand');
- close(result.counterpart[0].gross,487.5,'partner GMV follows approved acquired deals');
- close(result.counterpart[0].partnerOpex,400,'original partner spend remains owned by partner');
- close(result.items[0].revenue,97.5,'my commission on new deals');
+test('all 64 agent expense-payer combinations conserve owner revenue, tax, operating expenses and capital',()=>{
+ for(let mask=0;mask<64;mask++){
+  const owners=Object.fromEntries(expenseKeys.map((key,i)=>[key,mask&(1<<i)?'me':'partner']));
+  const s=scenario('agent',{mgmt:30,hosting:15,dom:3,site:120,magnet:60},owners),out=build(s.sku),own=key=>owners[key]==='me';
+  const ads=own('monthlyBudget')?400:0,operations=((own('mgmt')?30:0)+(own('hosting')?15:0)+(own('dom')?3:0))/3;
+  const capital=(own('site')?120:0)+(own('magnet')?60:0),amort=capital/12;
+  eq(out.totals.revenue,235,'commission '+mask);eq(out.totals.media,ads,'own ads '+mask);eq(out.totals.tax,23.5,'own tax '+mask);
+  eq(out.totals.netProfit,211.5-ads-operations-amort,'independent owner P&L '+mask);eq(s.sku.onlineCapex,capital,'cash capital '+mask);
+  eq(s.sku.onlineProvenance.partnerGrossRevenue,3525,'principal gross retained '+mask);
+ }
 });
-
-test('Online CAPEX cannot create profit tax on company goods when online is a separate turnover taxpayer',()=>{
- const svc=source('agent',{site:120,magnet:60},everyPayer('me'));
- const state=E.fromV1({skus:[svc],tax:{type:'profit',pct:24}});
- const r=E.build(state);A.equal(r.ready,true,JSON.stringify(r.errors));
- close(r.totals.tax,6.5,'agent own turnover tax only, no artificial corporate profit tax');
- close(r.cashflow.months.reduce((a,m)=>a+m.tax,0),6.5,
-   'cash tax includes agent tax but never taxes own depreciation');
+test('unassigned nonzero payer and zero demand block import rather than inventing a plausible result',()=>{
+ const s=scenario('agent');A.throws(()=>Adapter.build({...s.input,payers:{}}),/Не распределены/);
+ A.throws(()=>Adapter.build({...s.input,period:{...s.input.period,deals:0}}),/прогноза сделок/);
+ const invalid=V1.calculateSimpleService({mode:'self',values:{...defaults(),cpc:0},payers:{}});A.equal(invalid.ready,false);
 });
-
-test('Online executor capacity: unknown is not invented; explicit limit cannot be exceeded',()=>{
- const s=source('hired');
- close(s.onlineCapacity,0,'V1 has no online capacity field');
- let r=build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
- s.onlineCapacity=4;r=build(s);A.equal(r.ready,false);
- A.ok(r.errors.some(msg=>msg.includes('Прогноз сделок')));
- s.onlineCapacity=5;r=build(s);A.equal(r.ready,true,JSON.stringify(r.errors));
- s.onlineCapacity=-1;r=build(s);A.equal(r.ready,false);
- A.ok(r.errors.some(msg=>msg.includes('Мощность онлайн-услуги')));
+test('current provenance and fixed-price guards reject corrupted input and discounting, without dropping margin checks for goods',()=>{
+ for(const patch of [{fixedPriceFromV1:false},{onlineProvenance:null},{ownerTax:{type:'profit',pct:10}},{discountSelected:10}]){
+  const s=state({...scenario('self').sku,...patch});if(patch.discountSelected)s.skus[0].discountSelected=10;A.equal(E.build(s).ready,false,JSON.stringify(patch));
+ }
+ const bad=goods();bad.minimumMarginPct=0;A.equal(E.build(state(bad)).ready,false);
+});
+test('shared overhead keeps principal-funded demand separate from owner media',()=>{
+ const a=scenario('agent',{},payers('partner')).sku,s=state(a,goods());s.resources=[{id:'shared',kind:'premises',cadence:'monthly',amount:60,skuIds:[a.id,'goods'],allocation:'revenue',pool:'none'}];
+ const out=E.build(s);A.equal(out.ready,true,JSON.stringify(out.errors));eq(out.totals.media,100,'only goods advertising');eq(out.totals.monthlyResources,60,'one shared resource');eq(out.items.find(i=>i.id===a.id).adBudgetEffective,0,'principal campaign excluded');
+});
+test('V1 snapshot and generated source stay unchanged across repeated calculations and saved-state restoration',()=>{
+ const s=scenario('hired',{site:120}),before=JSON.stringify(s.input),original=JSON.stringify(s.sku),one=build(s.sku),two=build(JSON.parse(original));
+ A.deepEqual(two,one);A.equal(JSON.stringify(s.input),before);A.equal(JSON.stringify(s.sku),original);
+});
+test('legacy first-month factory retains its old numbers and is explicitly not a supported modern portfolio DTO',()=>{
+ for(const role of ['self','hired','agent']){
+  const s=Adapter.fromOnlineV1({mode:role,name:'Legacy',values:defaults(),payers:payers('me')});eq(s.forecastUnitsPerMonth,5,'legacy month-1 deals');eq(s.onlineGrossPerDeal,65,'legacy month-1 gross/deal');
+  eq(s.priceMax,role==='agent'?13:65,'legacy contract price');A.equal(E.build(state(s)).ready,false,'never reinterpret a retired DTO as a valid current calculation');
+ }
 });
