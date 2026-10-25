@@ -107,3 +107,14 @@ credentials и проверка получателя — R5, одновреме�
 Действующие условия, скачивание HTML, PDF/Excel, математика V1/V2, черновики,
 Formspree endpoint, DNS/Pages и видимость репозиториев сохранены. Preview
 переходы не являются механизмом авторизации production и не закрывают P3.
+
+
+### Refreshed local verification
+
+30/30 unit checks and 18/18 real-form fixture-browser scenarios passed on the
+accepted main integration. The browser produced 54 screenshots and confirmed
+`liveIssuanceEnabled: false`, no outbound requests and no provider POSTs. Original
+[protocol](protocol-20261023.json) is retained separately from the refreshed
+[protocol](protocol.json). No R1 application/policy/model/copy/style/server source
+changed versus `45033dbe`; this is not an implementation of the remaining R1/R5
+features listed above. Current HEAD CI is separately reported in the PR.
