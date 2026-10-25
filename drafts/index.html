@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'">
+<meta name="robots" content="noindex,nofollow"><title>Transfer saved calculations | Nomad360</title>
+<link rel="icon" href="../assets/nomad360-icons/nomad360.ico">
+<link rel="stylesheet" href="../nomad360_static_fonts.css"><link rel="stylesheet" href="../assets/nomad360-drafts.css">
+<script src="../nomad360_draft_transfer.js" defer></script><script src="../nomad360_draft_transfer_ui.js" defer></script></head>
+<body><header><a class="brand" href="../Marketing_calc.HTML"><img src="../nomad360_wolf_open_circle.png" width="44" height="44" alt="">Nomad360 lite</a>
+<nav aria-label="Language"><a href="?lang=en" lang="en">EN</a><a href="?lang=ru" lang="ru">RU</a><a href="?lang=kk" lang="kk">KK</a></nav></header>
+<main><h1 data-copy="title">Transfer saved calculations</h1><p data-copy="lead">Save a local backup, then load it on the new website or in another browser.</p>
+<p data-copy="scope">Only saved drafts are included: V1, V2, linked V2, saved services and US Retail. Unsaved fields, PDF and Excel are not restorable drafts.</p>
+<p data-copy="privacy">The JSON file contains your financial data without encryption. Keep it private. Nothing is uploaded.</p>
+<section aria-labelledby="export-title"><h2 id="export-title" data-copy="exportTitle">1. Save on the old website</h2>
+<p data-copy="saveFirst">Save your calculation in the calculator first. Close other calculator tabs before transferring.</p>
+<button id="draft-export" data-copy="export">Save draft file</button><p id="draft-export-status" role="status" aria-live="polite"></p></section>
+<section aria-labelledby="import-title"><h2 id="import-title" data-copy="importTitle">2. Load on the new website</h2>
+<label for="draft-file" data-copy="choose">Choose your Nomad360 JSON file (up to 8 MB)</label><input id="draft-file" type="file" accept=".json,application/json" hidden><button id="draft-choose" data-copy="fileButton">Choose file</button><span id="draft-filename" aria-live="polite"></span>
+<ul id="draft-preview" aria-live="polite"></ul>
+<label id="draft-replace-label" hidden><input id="draft-replace" type="checkbox"><span data-copy="replace">Replace the conflicting drafts after saving a backup of the current browser.</span></label>
+<p data-copy="backupHint">If drafts already exist here, save them with the button above before allowing replacement.</p>
+<button id="draft-import" disabled data-copy="import">Load drafts in this browser</button><p id="draft-import-status" role="status" aria-live="polite"></p></section>
+<section><h2 data-copy="nextTitle">3. Continue your calculation</h2><p data-copy="next">After loading, open the calculator and choose its “Continue” action. Reload any calculator tab that was open. Loading does not change currencies or applied exchange rates. An identical draft is left unchanged.</p>
+<a id="draft-calculator" href="../Marketing_calc.HTML" data-copy="calculator">Open calculator</a> · <a id="draft-us" href="../US_Retail_Demo.HTML" data-copy="us">Open US Retail</a>
+<p><a id="draft-help" href="../en/help/" data-copy="help">Calculator help</a></p></section>
+<noscript>JavaScript is required to read and save local draft files. / Для работы с файлами черновиков нужен JavaScript. / Жергілікті файлдармен жұмыс істеу үшін JavaScript қажет.</noscript></main></body></html>
