@@ -490,7 +490,7 @@ def main():
             "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-about-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
             'nomad360_about_banner.css'], input=(ROOT / 'nomad360_about_banner.css').read_bytes(), cwd=ROOT)
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
-                             'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
+                             'docs/reviews/architecture-boundaries-01/', 'docs/reviews/online-contract-maintenance-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
                              'scripts/cleanup-v1/', 'tests/fixtures/v1-state/', 'docs/reviews/v1-state-06/', 'tests/fixtures/v1-operations/', 'docs/reviews/v1-operations-06/',
                              'scripts/cleanup/', 'docs/reviews/cleanup-service-grid-01/',
@@ -506,7 +506,7 @@ def main():
                              'scripts/cleanup-typical/', 'docs/reviews/cleanup-typical-05-7/', 'tests/fixtures/cleanup-typical/',
                              'scripts/cleanup-payment-grid/', 'docs/reviews/payment-grid-05-6/', 'tests/fixtures/payment-grid/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
-                             'scripts/audit/', 'docs/reviews/runtime-audit-01/', 'docs/reviews/online-contract-maintenance-01/',
+                             'scripts/audit/', 'docs/reviews/runtime-audit-01/',
                              'scripts/cleanup-history/', 'docs/reviews/cleanup-history-07/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
                              'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/',
