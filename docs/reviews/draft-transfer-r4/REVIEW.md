@@ -136,3 +136,10 @@ select history and a new component cannot mask an old-style change. The exact
 workflow delta is pinned by the same historical projection, with negative tests
 rejecting removal of any export or tax step. No jobs are disabled and no failure
 is ignored. Historical comparators themselves are retained, not called GREEN.
+
+Final local release-candidate matrix: 18/18 built-artifact cases, 126 raw records,
+three Help-link discovery checks, next-page recovery/cross-tab invalidation and a
+real denied-localStorage getter. All passed. Extended ownership/source/business
+unit set: 131/131, no skips (overlaps the transport/core set; do not add the counts).
+The private main authorization failure is separately reported above; it is not
+included in the successful public CI count.
