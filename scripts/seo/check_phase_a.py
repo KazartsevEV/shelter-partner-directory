@@ -507,6 +507,7 @@ def main():
                              'scripts/cleanup-payment-grid/', 'docs/reviews/payment-grid-05-6/', 'tests/fixtures/payment-grid/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
                              'scripts/audit/', 'docs/reviews/runtime-audit-01/',
+                             'scripts/cleanup-history/', 'docs/reviews/cleanup-history-07/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
                              'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in (
@@ -590,7 +591,7 @@ def main():
         'docs/partners/bug-report-screenshot-scope.md',
         'docs/partners/white-label-cicd-scope.md',
         'docs/reviews/production-readiness-01/REVIEW.md',
-        'tests/runtime_audit.test.cjs', '.github/workflows/runtime-audit.yml',
+        'tests/runtime_audit.test.cjs', 'tests/c7_history.test.cjs', '.github/workflows/c7-history.yml', '.github/workflows/runtime-audit.yml',
         'nomad360_partner_application.js', 'nomad360_partner_application_model.js', 'nomad360_partner_transport.js', 'nomad360_partner_application.css',
         'tests/partner_application.test.cjs', 'tests/partner_application_browser.cjs', 'tests/partner_application_scope.test.cjs',
         'tests/helpers/partner-application-scope.cjs', '.github/workflows/partner-application.yml', 'tests/partner_application_live.cjs',
