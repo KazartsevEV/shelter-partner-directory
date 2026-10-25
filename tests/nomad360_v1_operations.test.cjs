@@ -23,7 +23,7 @@ test('both entrypoints change only eight receipted hunks; globals, engines and r
  A.equal(manifest.base,'9851eff63a2c50d074ea7e1420f8ecc48812d0fc');
  A.equal(digest(fs.readFileSync(path.join(root,'nomad360_v1_operations.js'))),manifest.moduleSha256);
  for(const [file,entry] of Object.entries(manifest.files)){
-  const now=fs.readFileSync(path.join(root,file),'utf8');
+  const now=require('./helpers/v1-state-scope.cjs').restore(file,fs.readFileSync(path.join(root,file),'utf8'));
   const old=execFileSync('git',['show',manifest.base+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6});
   A.equal(entry.replacements.length,8);A.equal(digest(now),entry.after);A.equal(restore(file,now),old);
   A.throws(()=>restore(file,now.replace('const v = currentValues;','const v = {};')),/Unreviewed V1 operations edit/);
@@ -41,7 +41,7 @@ test('historical package projection accepts only the exact new module and handle
  const scope=require('./helpers/v1-operations-scope.cjs'),entry=manifest.files['Marketing_calc.HTML'];
  const loader='    <script src="./nomad360_v1_operations.js"></script>\n';
  const code=fs.readFileSync(path.join(root,'nomad360_v1_operations.js'),'utf8');
- const bundled=fs.readFileSync(path.join(root,'Marketing_calc.HTML'),'utf8').replace(loader,'    <script data-nomad-bundled="./nomad360_v1_operations.js">'+code+'</script>\n');
+ const bundled=require('./helpers/v1-state-scope.cjs').restore('Marketing_calc.HTML',fs.readFileSync(path.join(root,'Marketing_calc.HTML'),'utf8')).replace(loader,'    <script data-nomad-bundled="./nomad360_v1_operations.js">'+code+'</script>\n');
  A.equal(scope.restoreStandalone(bundled),accepted);
  A.throws(()=>scope.restoreStandalone(bundled.replace('let total = 0;','let total = 1;')),/Exact single/);
  A.notEqual(scope.restoreStandalone(bundled+'other'),accepted);
