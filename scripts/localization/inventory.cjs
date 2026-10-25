@@ -30,6 +30,9 @@ function build(root=ROOT){
  const contents=new Map(),dictionaryNodes=new Map(),core=new Map(),dictionaryIssues=[];
  const load=f=>{if(!contents.has(f)){
   let source=fs.readFileSync(path.join(root,f),'utf8');
+  // C6 moves only reviewed arithmetic/preflight code, with no new user copy.
+  // Replay its exact receipt before discovering assets or historical text offsets.
+  source=require('../../tests/helpers/v1-operations-scope.cjs').restore(f,source);
   // One passive Task10 style link adds no user copy. Preserve historical
   // text offsets while still scanning the referenced stylesheet itself.
   if(f==='Marketing_calc.HTML'&&source.includes('nomad360_palette.css')){

@@ -4,6 +4,7 @@ const {createHash}=require('node:crypto');
 const manifest=require('../fixtures/partner-application/source.json');
 const digest=value=>createHash('sha256').update(value).digest('hex');
 function restore(file,source){
+ source=require('./v1-operations-scope.cjs').restore(file,source);
  source=require('./cleanup-logo-mask-scope.cjs').restore(file,source);
  source=require('./accepted-banner-248-scope.cjs').restore(file,source);
  const entry=manifest.files[file];if(!entry)return source;

@@ -1,0 +1,82 @@
+{
+  "base": "9851eff63a2c50d074ea7e1420f8ecc48812d0fc",
+  "moduleSha256": "59c72c362663da1e241859f3bded6131e4e6722290dce0c069d7667a222b79ee",
+  "files": {
+    "Marketing_calc.HTML": {
+      "before": "e52a299d7cb344eb9547809a7c917ccf4a7ad8252a5701eace258975d1dc2843",
+      "after": "794f4b403df93ae1027eadd86cf641ca3e988069076a63312a7675f56960504d",
+      "replacements": [
+        [
+          "    <script src=\"./nomad360_v1_engine.js\"></script>",
+          "    <script src=\"./nomad360_v1_engine.js\"></script>\n    <script src=\"./nomad360_v1_operations.js\"></script>"
+        ],
+        [
+          "            let total = 0;\n\n            document.querySelectorAll('.material-cost-row').forEach(row => {",
+          "            const rows = [...document.querySelectorAll('.material-cost-row')];\n            const input = rows.map(row => {"
+        ],
+        [
+          "                const lineTotal = price * qty;\n                total += lineTotal;\n\n                const lineOut = row.querySelector('.material-cost-line-total');",
+          "                return {price,qty};\n            });\n            const {total,lineTotals} = window.Nomad360V1Operations.materialCosts(input);\n            rows.forEach((row,index) => {\n                const lineTotal = lineTotals[index];\n                const lineOut = row.querySelector('.material-cost-line-total');"
+        ],
+        [
+          "            if (productOwnChoices.vatIncluded !== 'no') return materials;\n            const vatRate = Number(document.getElementById('own-vat-rate')?.value) || 0;\n            return materials * (1 + Math.max(0, vatRate) / 100);",
+          "            const vatRate = productOwnChoices.vatIncluded === 'no'\n                ? Number(document.getElementById('own-vat-rate')?.value) || 0 : 0;\n            return window.Nomad360V1Operations.materialsCostWithVat({materials,vatIncluded:productOwnChoices.vatIncluded,vatRate});"
+        ],
+        [
+          "\n            const qty = Math.max(1, Math.floor(Number(document.getElementById('own-materials-batch-qty')?.value) || 1));\n            const materialsBase = productNumber('own-materials-cost');\n            const materialsWithVat = materialsCostWithVat();\n            const vatAdded = Math.max(0, materialsWithVat - materialsBase);\n\n            const inboundDelivery =\n                productOwnChoices.inboundIncluded === 'no'\n                    ? productNumber('own-inbound-delivery-cost')\n                    : 0;\n\n            const imported = productOwnChoices.materialsImported === 'yes';\n            const brokerPerUnit =\n                imported && productImportPayers.broker === 'me'\n                    ? productNumber('own-broker-cost') / qty\n                    : 0;\n\n            const insurancePct =\n                imported && productImportPayers.cargoInsurance === 'me'\n                    ? productNumber('own-cargo-insurance-cost')\n                    : 0;\n            const insurancePerUnit = materialsWithVat * insurancePct / 100;\n\n            const dutiesPerUnit =\n                imported && productImportPayers.duties === 'me'\n                    ? productNumber('own-duties-cost')\n                    : 0;\n\n            const certificationPerUnit =\n                imported && productImportPayers.certification === 'me'\n                    ? productNumber('own-certification-cost') / qty\n                    : 0;\n\n            const unitCost =\n                materialsBase +\n                vatAdded +\n                inboundDelivery +\n                brokerPerUnit +\n                insurancePerUnit +\n                dutiesPerUnit +\n                certificationPerUnit;\n\n",
+          "\n            const {materialsBase,vatAdded,inboundDelivery,brokerPerUnit,insurancePerUnit,dutiesPerUnit,certificationPerUnit,unitCost} =\n                window.Nomad360V1Operations.materialsLandedCost({\n                    batchQty:document.getElementById('own-materials-batch-qty')?.value,\n                    materialsBase:productNumber('own-materials-cost'),materialsWithVat:materialsCostWithVat(),\n                    choices:productOwnChoices,importPayers:productImportPayers,\n                    inboundDelivery:productNumber('own-inbound-delivery-cost'),broker:productNumber('own-broker-cost'),\n                    insurancePct:productNumber('own-cargo-insurance-cost'),duties:productNumber('own-duties-cost'),\n                    certification:productNumber('own-certification-cost')\n                });\n\n"
+        ],
+        [
+          "            const clicks = cpc > 0 ? budget / cpc : 0;\n            const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;\n            const leads = clicks * clickLeadPct / 100;\n            const orders = leads * leadSalePct / 100;\n            const units = orders;\n\n            const mediaPerUnit = units > 0 ? budget / units : 0;\n            const managementPerUnit = units > 0 ? management / units : 0;\n            const fullPerUnit = mediaPerUnit + managementPerUnit;\n            const baseCac = mediaPerUnit;\n\n",
+          "            const {clicks,impressions,leads,orders,units,mediaPerUnit,managementPerUnit,fullPerUnit,baseCac} =\n                window.Nomad360V1Operations.productAdFunnel({budget,cpc,ctrPct,clickLeadPct,leadSalePct,management});\n\n"
+        ],
+        [
+          "            const serviceInputIssues=window.Nomad360V1Engine.validateSimpleService(v);",
+          "            const operation=window.Nomad360V1Operations.prepareSimpleService({values:v,mode:serviceMode,payers:agentPayers});\n            const serviceInputIssues=operation.issues;"
+        ],
+        [
+          "            const unassignedPayers = isAgent ? unassignedAgentExpenseKeys() : [];",
+          "            const unassignedPayers = operation.unassignedPayers;"
+        ]
+      ]
+    },
+    "US_Retail_Demo.HTML": {
+      "before": "b6eaba8e38ffca2e5ba4ea0ec1df4e239ea804416001a022a6590066e3e6284a",
+      "after": "e83a5dbc5467a0f07583950064607bb8ed778b2ab0f619a6bef5793279a741fc",
+      "replacements": [
+        [
+          "    <script src=\"./nomad360_v1_engine.js\"></script>",
+          "    <script src=\"./nomad360_v1_engine.js\"></script>\n    <script src=\"./nomad360_v1_operations.js\"></script>"
+        ],
+        [
+          "            let total = 0;\n\n            document.querySelectorAll('.material-cost-row').forEach(row => {",
+          "            const rows = [...document.querySelectorAll('.material-cost-row')];\n            const input = rows.map(row => {"
+        ],
+        [
+          "                const lineTotal = price * qty;\n                total += lineTotal;\n\n                const lineOut = row.querySelector('.material-cost-line-total');",
+          "                return {price,qty};\n            });\n            const {total,lineTotals} = window.Nomad360V1Operations.materialCosts(input);\n            rows.forEach((row,index) => {\n                const lineTotal = lineTotals[index];\n                const lineOut = row.querySelector('.material-cost-line-total');"
+        ],
+        [
+          "            if (productOwnChoices.vatIncluded !== 'no') return materials;\n            const vatRate = Number(document.getElementById('own-vat-rate')?.value) || 0;\n            return materials * (1 + Math.max(0, vatRate) / 100);",
+          "            const vatRate = productOwnChoices.vatIncluded === 'no'\n                ? Number(document.getElementById('own-vat-rate')?.value) || 0 : 0;\n            return window.Nomad360V1Operations.materialsCostWithVat({materials,vatIncluded:productOwnChoices.vatIncluded,vatRate});"
+        ],
+        [
+          "\n            const qty = Math.max(1, Math.floor(Number(document.getElementById('own-materials-batch-qty')?.value) || 1));\n            const materialsBase = productNumber('own-materials-cost');\n            const materialsWithVat = materialsCostWithVat();\n            const vatAdded = Math.max(0, materialsWithVat - materialsBase);\n\n            const inboundDelivery =\n                productOwnChoices.inboundIncluded === 'no'\n                    ? productNumber('own-inbound-delivery-cost')\n                    : 0;\n\n            const imported = productOwnChoices.materialsImported === 'yes';\n            const brokerPerUnit =\n                imported && productImportPayers.broker === 'me'\n                    ? productNumber('own-broker-cost') / qty\n                    : 0;\n\n            const insurancePct =\n                imported && productImportPayers.cargoInsurance === 'me'\n                    ? productNumber('own-cargo-insurance-cost')\n                    : 0;\n            const insurancePerUnit = materialsWithVat * insurancePct / 100;\n\n            const dutiesPerUnit =\n                imported && productImportPayers.duties === 'me'\n                    ? productNumber('own-duties-cost')\n                    : 0;\n\n            const certificationPerUnit =\n                imported && productImportPayers.certification === 'me'\n                    ? productNumber('own-certification-cost') / qty\n                    : 0;\n\n            const unitCost =\n                materialsBase +\n                vatAdded +\n                inboundDelivery +\n                brokerPerUnit +\n                insurancePerUnit +\n                dutiesPerUnit +\n                certificationPerUnit;\n\n",
+          "\n            const {materialsBase,vatAdded,inboundDelivery,brokerPerUnit,insurancePerUnit,dutiesPerUnit,certificationPerUnit,unitCost} =\n                window.Nomad360V1Operations.materialsLandedCost({\n                    batchQty:document.getElementById('own-materials-batch-qty')?.value,\n                    materialsBase:productNumber('own-materials-cost'),materialsWithVat:materialsCostWithVat(),\n                    choices:productOwnChoices,importPayers:productImportPayers,\n                    inboundDelivery:productNumber('own-inbound-delivery-cost'),broker:productNumber('own-broker-cost'),\n                    insurancePct:productNumber('own-cargo-insurance-cost'),duties:productNumber('own-duties-cost'),\n                    certification:productNumber('own-certification-cost')\n                });\n\n"
+        ],
+        [
+          "            const clicks = cpc > 0 ? budget / cpc : 0;\n            const impressions = ctrPct > 0 ? clicks / (ctrPct / 100) : 0;\n            const leads = clicks * clickLeadPct / 100;\n            const orders = leads * leadSalePct / 100;\n            const units = orders;\n\n            const mediaPerUnit = units > 0 ? budget / units : 0;\n            const managementPerUnit = units > 0 ? management / units : 0;\n            const fullPerUnit = mediaPerUnit + managementPerUnit;\n            const baseCac = mediaPerUnit;\n\n",
+          "            const {clicks,impressions,leads,orders,units,mediaPerUnit,managementPerUnit,fullPerUnit,baseCac} =\n                window.Nomad360V1Operations.productAdFunnel({budget,cpc,ctrPct,clickLeadPct,leadSalePct,management});\n\n"
+        ],
+        [
+          "            const serviceInputIssues=window.Nomad360V1Engine.validateSimpleService(v);",
+          "            const operation=window.Nomad360V1Operations.prepareSimpleService({values:v,mode:serviceMode,payers:agentPayers});\n            const serviceInputIssues=operation.issues;"
+        ],
+        [
+          "            const unassignedPayers = isAgent ? unassignedAgentExpenseKeys() : [];",
+          "            const unassignedPayers = operation.unassignedPayers;"
+        ]
+      ]
+    }
+  }
+}
