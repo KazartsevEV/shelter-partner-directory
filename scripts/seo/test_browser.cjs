@@ -38,7 +38,19 @@ const snap=()=>({currency:Nomad360Currency.get(),product:productPortfolio[0],mod
   await p.locator('.skip-link').evaluate(e=>e.blur());
   const links=await p.locator('a[href]').evaluateAll(es=>es.map(e=>e.href));
   for(const href of links){const target=new URL(href);if(target.hash==='#main')continue;const res=await p.request.get(local(href));A.equal(res.status(),200,href);if(target.hash&&target.pathname.endsWith('Marketing_calc.HTML'))A.ok(['#nomad360-selling-choice','#nomad360-embed','#nomad360-data','#nomad360-license'].includes(target.hash));}
-  if([390,1280].includes(width))await p.screenshot({path:path.join(out,record.id+'-'+width+'.png'),fullPage:true});
+  if([390,1280].includes(width)){
+   // Chromium occasionally rejects capture of a fully loaded static page;
+   // re-attempt the *same* required full-page screenshot, never skip it.
+   const target=path.join(out,record.id+'-'+width+'.png');
+   for(let attempt=0;attempt<3;attempt++){
+    try{await p.screenshot({path:target,fullPage:true});break;}
+    catch(err){
+     if(attempt===2||!/Page\.captureScreenshot|Unable to capture screenshot/i.test(String(err)))throw err;
+     await p.waitForTimeout((attempt+1)*250);
+    }
+   }
+   A.ok(fs.existsSync(target)&&fs.statSync(target).size>0,'Required SEO screenshot is missing: '+target);
+  }
   pages.push({id:record.id,width,sourceBytes:Buffer.byteLength(source),requests:requests.length,sharedLogo:true,javaScript:false});await ctx.close();
  }
  async function applicationContext(stored='ru',blocked=false){

@@ -9,3 +9,4 @@ if __name__ == '__main__':
     subprocess.run(['node', str(ROOT / 'scripts/seo/build_pages.cjs'), *sys.argv[1:]], cwd=ROOT, check=True)
     if '--check' in sys.argv[1:]:
         subprocess.run(['node', str(ROOT / 'scripts/seo/test_locales.cjs')], cwd=ROOT, check=True)
+        subprocess.run(['node', str(ROOT / 'scripts/seo/test_help_index.cjs')], cwd=ROOT, check=True)
