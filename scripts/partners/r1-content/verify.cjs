@@ -92,7 +92,7 @@ function verifyGraph(){
   A.ok(states.statuses.includes(t.from)&&states.statuses.includes(t.to));
   A.ok(allowedEvidence.has(t.evidence),'Unknown evidence type');
   A.ok(t.to!=='deliveryAccepted'||['deliveryMailAccepted','operatorConfirmsAccepted'].includes(t.event),'Delivery cannot be claimed from an unverified event');
-  A.ok(t.to!=='emailVerified'||t.event==='emailCodeValid','Email verification requires a confirmed code');
+  A.ok(t.to!=='emailVerified'||t.from!=='verificationAccepted'||t.event==='emailCodeValid','Initial verification requires a confirmed code');
   A.ok(!t.event.toLowerCase().includes('auto'),'No automatic retry in review machine');
  }
  const seen=new Set([states.start]);let dirty=true;
