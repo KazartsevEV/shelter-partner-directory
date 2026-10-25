@@ -515,7 +515,8 @@ def main():
         'nomad360_draft_transfer.js', 'nomad360_draft_transfer_ui.js',
         'drafts/index.html', 'assets/nomad360-drafts.css', 'scripts/site-release/public-files.json',
         'tests/draft_transfer.test.cjs', 'tests/draft_transfer_scope.test.cjs',
-        'tests/draft_transfer_browser.cjs', 'tests/helpers/draft-transfer-scope.cjs', '.github/workflows/draft-transfer.yml',
+        'tests/draft_transfer_browser.cjs', 'tests/helpers/draft-transfer-scope.cjs',
+        'tests/style_ownership_ci_scope.test.cjs', '.github/workflows/draft-transfer.yml',
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
         'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
         'tests/nomad360_global_tree_navigation_browser.test.cjs',

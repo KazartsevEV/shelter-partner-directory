@@ -8,7 +8,7 @@ const out=path.join(root,'artifacts/draft-transfer');fs.mkdirSync(out,{recursive
 const css=path.join(out,'utilities.css');
 const us=JSON.parse(fs.readFileSync(path.join(root,'docs/demos/us-main-street-12m/model.json'),'utf8'));
 function server(){return http.createServer((req,res)=>{
- const url=new URL(req.url,'http://local');let name=decodeURIComponent(url.pathname);if(name.endsWith('/'))name+='index.html';
+ const url=new URL(req.url,'http://local');let name=decodeURIComponent(url.pathname).replace(/^\/shelter-partner-directory(?=\/)/,'');if(name.endsWith('/'))name+='index.html';
  const file=path.resolve(siteRoot,'.'+name);
  if(!file.startsWith(siteRoot+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);return res.end();}
  res.setHeader('Content-Type',({'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.woff2':'font/woff2','.json':'application/json','.png':'image/png','.svg':'image/svg+xml'})[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);
@@ -59,7 +59,11 @@ function server(){return http.createServer((req,res)=>{
    },{fixture,vat,us});
    if(shopper)A.equal(before.cash.ready,true,'Real shopper must stay calculable');
    A.equal(before.standalone.ready,true);A.equal(before.linked.ready,true);A.equal(before.us.ready,true);A.equal(before.service.ready,true);
-   await page.goto(oldOrigin+'/drafts/?lang='+language);await page.waitForFunction(()=>window.Nomad360DraftMarkup);
+   if(width===widths[0]){
+    await page.goto(oldOrigin+'/shelter-partner-directory/'+language+'/help/');
+    await page.locator('a[href="../../drafts/?lang='+language+'"]').click();
+   }else await page.goto(oldOrigin+'/drafts/?lang='+language);
+   await page.waitForFunction(()=>window.Nomad360DraftMarkup);
    const validation=await page.evaluate(()=>{
     try{return {text:Nomad360DraftTransfer.exportFile(localStorage,Nomad360DraftMarkup.validate)}}
     catch(error){return {error:error.code,html:JSON.parse(localStorage.getItem('marketingCalcProductResultV1')).productPortfolio[0].uiState?.dynamic}}

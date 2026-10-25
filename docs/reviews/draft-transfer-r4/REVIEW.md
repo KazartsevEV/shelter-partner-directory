@@ -61,7 +61,7 @@ accepted calculators/engines and exact four added public resources.
 
 ## Verification
 
-- 88 Node tests: transport/recovery/security/scope plus accepted storage and V1/V2
+- 93 local Node tests (including four CI selector tests): transport/recovery/security/scope plus accepted storage and V1/V2
   financial suites. No skips.
 - 15 public artifact policy tests; clean allowlisted artifact, 116 files.
 - Chromium: distinct HTTP origins serving the built artifact, actual downloaded files and picker import,
@@ -100,7 +100,7 @@ live HTML calls the separate `build` period-ledger adapter. Source search found 
 live UI caller of `fromOnlineV1`. Do not change accepted financial validation or
 period formulas to make the incompatible historical tests green. Retiring/migrating
 that obsolete path with current-V1 numerical oracles is a separate maintenance
-slice; these 13 are not included in the 88 successful checks above.
+slice; these 13 are not included in the 93 successful checks above.
 
 ## Historical comparison bridge
 
@@ -108,7 +108,8 @@ Initial CI caught the deliberate Help-link addition in old byte-frozen styleshee
 and partner guards. `tests/helpers/draft-transfer-scope.cjs` accepts only the pinned
 old Help script or SHA256 of the entire reviewed new script, restoring old bytes
 only for historical comparisons. Its one hook is in the existing V1 historical
-restore chain; no shipping state/financial code or workflow is altered. Negative
+restore chain; no shipping state/financial code is altered. The separately described CI routing
+change is pinned as a second exact workflow fingerprint. Negative
 tests reject changes to either the new link or the old search behavior. This does
 not skip files or permit arbitrary later Help changes.
 
@@ -116,3 +117,22 @@ Actual main-branch read-only authorization recheck `40236324539` after #494 merg
 again found no SDK owner account/ADC and no injected WIF input; legacy config was
 present but opaque. No Google authorization is certified, no messages/cloud writes
 were performed. This external runtime-binding gate remains open.
+
+## Correct browser-oracle selection
+
+The initial C4/C5 browser steps also failed before opening the transport page:
+they unconditionally compared old package snapshots with accepted C6 source
+extraction/projections. Calculator source is byte-identical to accepted main in
+this feature. A new CSS file for an independent utility page does not modify any
+of the historical owned styles.
+
+`ci_scope.cjs` now selects historical comparisons when a stylesheet owned by C4/C5 (palette inputs and the three page families)
+changes (including deletion, with rename detection disabled) or palette/cleanup
+analyzer changes. Otherwise both jobs run the existing contemporary real-browser
+suite. Manual/unknown contexts retain historical checks; malformed PR metadata
+fails closed. All source guards, arithmetic, VAT, PDF and actual Excel/OOXML steps
+remain unconditional. Four negative selector tests prove old styles/tools always
+select history and a new component cannot mask an old-style change. The exact
+workflow delta is pinned by the same historical projection, with negative tests
+rejecting removal of any export or tax step. No jobs are disabled and no failure
+is ignored. Historical comparators themselves are retained, not called GREEN.

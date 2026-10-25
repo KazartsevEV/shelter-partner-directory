@@ -27,3 +27,12 @@ test('historical Help projection permits only the exact link addition, never sea
  for(const changed of [current.replace('Transfer saved calculations','Unexpected link'),current.replace("input.addEventListener('input',run)","input.addEventListener('change',run)"),current+'\n'])A.throws(()=>bridge.restore(bridge.file,changed),/exact R4/);
  A.equal(bridge.restore('another.js','unchanged'),'unchanged');
 });
+
+test('CI projection pins all workflow commands, rejects removal of export/numeric checks and adds no blanket failure suppression',()=>{
+ const bridge=require('./helpers/draft-transfer-scope.cjs'),workflow=read(bridge.workflow),old=execFileSync('git',['show',base+':'+bridge.workflow],{cwd:root,encoding:'utf8'});
+ A.equal(bridge.restore(bridge.workflow,workflow),old);
+ for(const token of ['node tests/sales_tax_7b_baseline.cjs','node tests/nomad360_price_export_browser.test.cjs','python tests/nomad360_price_export_openxml.py','node tests/sales_tax_7b5_v1_pdf_browser.cjs']){
+  A.ok(workflow.includes(token));A.throws(()=>bridge.restore(bridge.workflow,workflow.replace(token,'true')),/exact R4/);
+ }
+ A.doesNotMatch(workflow,/continue-on-error|allow-failure/);
+});
