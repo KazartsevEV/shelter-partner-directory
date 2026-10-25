@@ -1,7 +1,7 @@
 # C5: final cascade and palette batch
 
 Date: 2026-10-24. Base: accepted main `050bce789259867096d2d312e5b0dbea51454d5d` (#258).
-Status: local acceptance checks passed. Final CI is recorded in the current [PR #267 checks](https://github.com/KazartsevEV/shelter-partner-directory/pull/267/checks). Not accepted or merged. C6 and partner issuance unchanged.
+Status: local acceptance checks passed. Final CI is recorded in the current [PR #267 checks](https://github.com/KazartsevEV/shelter-partner-directory/pull/267/checks). Accepted by the owner and merged on 2026-10-25 as `72221d1` (#267); see [closeout](CLOSEOUT.md). C6 and partner issuance unchanged.
 
 ## Change and scope
 
@@ -15,7 +15,7 @@ Source-color discovery previously coupled generated inline-style compatibility t
 
 `node scripts/cleanup-paint/ownership.cjs` reads the actual 73 audited sources. Raw groups: 100 → 31; retired: 69; reviewed retained: 31; unreviewed: 0. Original C5 count 224 → proposed final 31 (193 retired across accepted stages and this candidate).
 
-Retentions have explicit evidence in `ownership.json`: 19 accepted page-family owners; two independent body paint defaults across resources; one Consulting `100vw` → `100cqw` feature fallback; nine shared defaults with sibling selectors that still need the declaration. A nonzero raw count is expected and is not itself an error. C5 can close only after acceptance and merge of the final package.
+Retentions have explicit evidence in `ownership.json`: 19 accepted page-family owners; two independent body paint defaults across resources; one Consulting `100vw` → `100cqw` feature fallback; nine shared defaults with sibling selectors that still need the declaration. A nonzero raw count is expected and is not itself an error. The owner accepted the final package and authorized merge on 2026-10-25. The code was merged in #267; the remaining owner ledger is retained by design.
 
 ## Historical contracts
 
@@ -25,7 +25,7 @@ C1 replay keeps today's accepted artwork and all other resources, replaying only
 
 ## Existing drafts and independent work
 
-Drafts #261/#262 propose smaller overlapping UI/IRBIS removals. #264/#265/#266 classify remaining palette/design/UI/Hero groups. This consolidated alternative must be reviewed together with Issue #263; those drafts must not subsequently be merged over the consolidated source. No draft has been silently merged/closed and no audit-only PR is treated as runtime acceptance. File recovery Issue #260 and diagnostics #259 are independent; CSS cleanup does not close them.
+Drafts #261/#262 propose smaller overlapping UI/IRBIS removals. #264/#265/#266 classify remaining palette/design/UI/Hero groups. This consolidated alternative must be reviewed together with Issue #263; those drafts must not subsequently be merged over the consolidated source. After #267 merge, superseded drafts are closed with explicit replacement records; none is falsely recorded as merged or as separate runtime acceptance. The reconciled group counts are in [closeout](CLOSEOUT.md). File recovery Issue #260 and diagnostics #259 are independent; CSS cleanup does not close them.
 
 ## Verification
 
@@ -51,7 +51,7 @@ Timings are laboratory observations over three paired repetitions at each width,
 
 The initial static replay missed absolute assets and its results were discarded. The corrected replay checks every successful resource response, the exact palette hash, loaded Inter faces and font errors. The earlier reported help overflow does not reproduce with actual styles; it is not a production defect. No source fix for that false diagnosis was made.
 
-C5 acceptance/merge is still required. Source-code equality and fixture tests do not complete hosting, live partner mail/issuance, C6/C7 or independent file recovery #260. No real forms, emails or payments were sent.
+C5 acceptance/merge was authorized on 2026-10-25 and completed in #267. CI at merge was 35 success / 1 failure / 1 historical visual skip; the observed #260 failure remains open. Source-code equality and fixture tests do not complete hosting, live partner mail/issuance, C6/C7 or independent file recovery #260. No real forms, emails or payments were sent.
 
 ## Reproducible verification commands
 
