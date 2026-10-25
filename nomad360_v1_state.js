@@ -190,7 +190,7 @@ function snapshot(){
                 ),
                 uiState: uiState
             };
-        
+
 }
 function production(){            const offlineForecast=productNumberFromText('own-product-ad-units');
             const qty = productSource==='offline-service'?Math.max(1,offlineForecast):Math.max(1, Math.floor(Number(view.fields['own-production-monthly-qty']?.value) || 1));
