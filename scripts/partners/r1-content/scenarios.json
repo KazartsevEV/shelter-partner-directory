@@ -1,0 +1,1392 @@
+{
+  "schemaVersion": 1,
+  "scope": "review-fixtures-no-mail-no-archive-no-production",
+  "count": 67,
+  "cases": [
+    {
+      "id": "ok.idle.applicationProviderAccepted",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "applicationAccepted",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.idle.applicationProviderAccepted",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": false
+        }
+      ],
+      "expectedState": "idle",
+      "expectReject": true
+    },
+    {
+      "id": "ok.idle.applicationProviderRejected",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderRejected",
+          "evidence": true
+        }
+      ],
+      "expectedState": "applicationRejected",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.idle.applicationProviderRejected",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderRejected",
+          "evidence": false
+        }
+      ],
+      "expectedState": "idle",
+      "expectReject": true
+    },
+    {
+      "id": "ok.applicationRejected.reset",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderRejected",
+          "evidence": true
+        },
+        {
+          "event": "reset",
+          "evidence": true
+        }
+      ],
+      "expectedState": "idle",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.applicationRejected.reset",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderRejected",
+          "evidence": true
+        },
+        {
+          "event": "reset",
+          "evidence": false
+        }
+      ],
+      "expectedState": "applicationRejected",
+      "expectReject": true
+    },
+    {
+      "id": "ok.applicationAccepted.verificationMailAccepted",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "verificationAccepted",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.applicationAccepted.verificationMailAccepted",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": false
+        }
+      ],
+      "expectedState": "applicationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "ok.applicationAccepted.verificationMailUnknown",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": true
+        }
+      ],
+      "expectedState": "verificationUnknown",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.applicationAccepted.verificationMailUnknown",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": false
+        }
+      ],
+      "expectedState": "applicationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "ok.verificationUnknown.operatorConfirmsSent",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "operatorConfirmsSent",
+          "evidence": true
+        }
+      ],
+      "expectedState": "verificationAccepted",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.verificationUnknown.operatorConfirmsSent",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "operatorConfirmsSent",
+          "evidence": false
+        }
+      ],
+      "expectedState": "verificationUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "ok.verificationUnknown.operatorConfirmsNotSent",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "operatorConfirmsNotSent",
+          "evidence": true
+        }
+      ],
+      "expectedState": "applicationAccepted",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.verificationUnknown.operatorConfirmsNotSent",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "operatorConfirmsNotSent",
+          "evidence": false
+        }
+      ],
+      "expectedState": "verificationUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "ok.verificationAccepted.emailCodeValid",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        }
+      ],
+      "expectedState": "emailVerified",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.verificationAccepted.emailCodeValid",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": false
+        }
+      ],
+      "expectedState": "verificationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "ok.verificationAccepted.emailCodeExpired",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeExpired",
+          "evidence": true
+        }
+      ],
+      "expectedState": "expiredConfirmation",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.verificationAccepted.emailCodeExpired",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeExpired",
+          "evidence": false
+        }
+      ],
+      "expectedState": "verificationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "ok.expiredConfirmation.operatorStartsFreshConfirmation",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeExpired",
+          "evidence": true
+        },
+        {
+          "event": "operatorStartsFreshConfirmation",
+          "evidence": true
+        }
+      ],
+      "expectedState": "applicationAccepted",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.expiredConfirmation.operatorStartsFreshConfirmation",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeExpired",
+          "evidence": true
+        },
+        {
+          "event": "operatorStartsFreshConfirmation",
+          "evidence": false
+        }
+      ],
+      "expectedState": "expiredConfirmation",
+      "expectReject": true
+    },
+    {
+      "id": "ok.emailVerified.archiveBuildSucceeded",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.emailVerified.archiveBuildSucceeded",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": false
+        }
+      ],
+      "expectedState": "emailVerified",
+      "expectReject": true
+    },
+    {
+      "id": "ok.emailVerified.archiveBuildFailed",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildFailed",
+          "evidence": true
+        }
+      ],
+      "expectedState": "archiveFailed",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.emailVerified.archiveBuildFailed",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildFailed",
+          "evidence": false
+        }
+      ],
+      "expectedState": "emailVerified",
+      "expectReject": true
+    },
+    {
+      "id": "ok.archiveFailed.operatorAuthorizesRebuild",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildFailed",
+          "evidence": true
+        },
+        {
+          "event": "operatorAuthorizesRebuild",
+          "evidence": true
+        }
+      ],
+      "expectedState": "emailVerified",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.archiveFailed.operatorAuthorizesRebuild",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildFailed",
+          "evidence": true
+        },
+        {
+          "event": "operatorAuthorizesRebuild",
+          "evidence": false
+        }
+      ],
+      "expectedState": "archiveFailed",
+      "expectReject": true
+    },
+    {
+      "id": "ok.archiveReady.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "deliveryAccepted",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.archiveReady.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": false
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": true
+    },
+    {
+      "id": "ok.archiveReady.deliveryMailUnknown",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": true
+        }
+      ],
+      "expectedState": "deliveryUnknown",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.archiveReady.deliveryMailUnknown",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": false
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": true
+    },
+    {
+      "id": "ok.archiveReady.deliveryMailRejected",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailRejected",
+          "evidence": true
+        }
+      ],
+      "expectedState": "deliveryRejected",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.archiveReady.deliveryMailRejected",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailRejected",
+          "evidence": false
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": true
+    },
+    {
+      "id": "ok.deliveryUnknown.operatorConfirmsAccepted",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "operatorConfirmsAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "deliveryAccepted",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.deliveryUnknown.operatorConfirmsAccepted",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "operatorConfirmsAccepted",
+          "evidence": false
+        }
+      ],
+      "expectedState": "deliveryUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "ok.deliveryUnknown.operatorConfirmsRejected",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "operatorConfirmsRejected",
+          "evidence": true
+        }
+      ],
+      "expectedState": "deliveryRejected",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.deliveryUnknown.operatorConfirmsRejected",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "operatorConfirmsRejected",
+          "evidence": false
+        }
+      ],
+      "expectedState": "deliveryUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "ok.deliveryRejected.operatorAuthorizesRetry",
+      "kind": "transition",
+      "group": "acceptedTransitions",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailRejected",
+          "evidence": true
+        },
+        {
+          "event": "operatorAuthorizesRetry",
+          "evidence": true
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": false
+    },
+    {
+      "id": "reject.missingEvidence.deliveryRejected.operatorAuthorizesRetry",
+      "kind": "transition",
+      "group": "missingEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailRejected",
+          "evidence": true
+        },
+        {
+          "event": "operatorAuthorizesRetry",
+          "evidence": false
+        }
+      ],
+      "expectedState": "deliveryRejected",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.idle.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "idle",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.applicationAccepted.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "applicationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.applicationRejected.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderRejected",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "applicationRejected",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.verificationAccepted.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "verificationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.verificationUnknown.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "verificationUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.emailVerified.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "emailVerified",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.expiredConfirmation.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeExpired",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "expiredConfirmation",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.archiveReady.archiveBuildSucceeded",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.archiveFailed.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildFailed",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "archiveFailed",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.deliveryAccepted.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "deliveryAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.deliveryUnknown.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "deliveryUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "reject.illegal.deliveryRejected.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "illegalOrder",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": true
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": true
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": true
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailRejected",
+          "evidence": true
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": true
+        }
+      ],
+      "expectedState": "deliveryRejected",
+      "expectReject": true
+    },
+    {
+      "id": "form.validNoSite",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application",
+        "email": "partner@example.org",
+        "consent": true,
+        "directory": false,
+        "website": "",
+        "company": ""
+      },
+      "expectedAllowed": true
+    },
+    {
+      "id": "form.validNoDirectoryConsent",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application",
+        "email": "partner@example.org",
+        "consent": true,
+        "directory": false,
+        "website": "https://example.org",
+        "company": "Acme"
+      },
+      "expectedAllowed": true
+    },
+    {
+      "id": "form.withDirectory",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application",
+        "email": "partner@example.org",
+        "consent": true,
+        "directory": true,
+        "website": "",
+        "company": ""
+      },
+      "expectedAllowed": true
+    },
+    {
+      "id": "form.noConsent",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application",
+        "email": "partner@example.org",
+        "consent": false,
+        "directory": true
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "form.invalidMail",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application",
+        "email": "invalid-address",
+        "consent": true,
+        "directory": false
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "form.blankEmail",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application",
+        "email": "",
+        "consent": true
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "form.whitespaceMail",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application",
+        "email": " partner@example.org ",
+        "consent": true
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "form.noEntry",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application",
+        "consent": true
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "form.noFields",
+      "kind": "gate",
+      "group": "applicationValidation",
+      "input": {
+        "type": "application"
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "transport.screenshotDisabled",
+      "kind": "gate",
+      "group": "productionGates",
+      "input": {
+        "type": "screenshotUpload",
+        "enabled": false
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "transport.screenshotCannotForce",
+      "kind": "gate",
+      "group": "productionGates",
+      "input": {
+        "type": "screenshotUpload",
+        "enabled": true
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "transport.whiteLabelDisabled",
+      "kind": "gate",
+      "group": "productionGates",
+      "input": {
+        "type": "whiteLabelDeployment",
+        "enabled": false
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "transport.whiteLabelCannotForce",
+      "kind": "gate",
+      "group": "productionGates",
+      "input": {
+        "type": "whiteLabelDeployment",
+        "enabled": true
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "transport.intakeDisabled",
+      "kind": "gate",
+      "group": "productionGates",
+      "input": {
+        "type": "issueRealArchive",
+        "enabled": false
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "transport.intakeCannotForce",
+      "kind": "gate",
+      "group": "productionGates",
+      "input": {
+        "type": "issueRealArchive",
+        "enabled": true
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "transport.noAutomaticResend",
+      "kind": "gate",
+      "group": "productionGates",
+      "input": {
+        "type": "automaticResendAfterUnknown",
+        "enabled": true
+      },
+      "expectedAllowed": false
+    },
+    {
+      "id": "transport.legacyDownloadNoChange",
+      "kind": "gate",
+      "group": "productionGates",
+      "input": {
+        "type": "changePublicDownload",
+        "enabled": true
+      },
+      "expectedAllowed": false
+    }
+  ]
+}

@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "status": "pre-release-review-only",
+  "origin": "docs/partners/partner-release-copy.md",
+  "description": "Candidate localization strings; canonical table and state text are pinned to existing R1 editorial source. No current site or partner intake changes.",
+  "keys": [
+    {
+      "key": "partner.offer",
+      "group": "actions",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "partner.apply",
+      "group": "actions",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "partner.download",
+      "group": "actions",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "partner.zipNote",
+      "group": "actions",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "partner.confirmAction",
+      "group": "actions",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "partner.retry",
+      "group": "actions",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "bug.attach",
+      "group": "screenshot",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "bug.attachPrivacy",
+      "group": "screenshot",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "b2b.updates.free",
+      "group": "whiteLabel",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "b2b.updates.whiteLabel",
+      "group": "whiteLabel",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "b2b.terms",
+      "group": "whiteLabel",
+      "origin": "sourceTable"
+    },
+    {
+      "key": "state.applicationAccepted",
+      "group": "states",
+      "origin": "sourceState"
+    },
+    {
+      "key": "state.verificationAccepted",
+      "group": "states",
+      "origin": "sourceState"
+    },
+    {
+      "key": "state.emailVerified",
+      "group": "states",
+      "origin": "sourceState"
+    },
+    {
+      "key": "state.deliveryAccepted",
+      "group": "states",
+      "origin": "sourceState"
+    },
+    {
+      "key": "state.deliveryUnknown",
+      "group": "states",
+      "origin": "sourceState"
+    },
+    {
+      "key": "state.expiredConfirmation",
+      "group": "states",
+      "origin": "sourceState"
+    },
+    {
+      "key": "policy.purpose",
+      "group": "policyDraft",
+      "origin": "sourcePolicy",
+      "nonBinding": true
+    },
+    {
+      "key": "policy.calculations",
+      "group": "policyDraft",
+      "origin": "sourcePolicy",
+      "nonBinding": true
+    },
+    {
+      "key": "policy.directory",
+      "group": "policyDraft",
+      "origin": "sourcePolicy",
+      "nonBinding": true
+    },
+    {
+      "key": "policy.future",
+      "group": "policyDraft",
+      "origin": "sourcePolicy",
+      "nonBinding": true
+    },
+    {
+      "key": "policy.correction",
+      "group": "policyDraft",
+      "origin": "sourcePolicy",
+      "nonBinding": true
+    },
+    {
+      "key": "help.install",
+      "group": "help",
+      "origin": "sourceHelp",
+      "nonBinding": true
+    },
+    {
+      "key": "preview.title",
+      "group": "preview",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "preview.notLive",
+      "group": "preview",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "preview.noChanges",
+      "group": "preview",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.emailLabel",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.companyLabel",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.websiteLabel",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.websiteHint",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.consentLabel",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.directoryConsent",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.submitPreview",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.clearPreview",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "form.required",
+      "group": "form",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "status.archiveReady",
+      "group": "states",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "status.archiveFailed",
+      "group": "states",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "status.applicationRejected",
+      "group": "states",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "status.verificationUnknown",
+      "group": "states",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "status.deliveryRejected",
+      "group": "states",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "error.invalidEmail",
+      "group": "errors",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "error.consentMissing",
+      "group": "errors",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "error.rateLimited",
+      "group": "errors",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "error.providerUnavailable",
+      "group": "errors",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "error.networkUncertain",
+      "group": "errors",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "error.invalidCode",
+      "group": "errors",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "error.archiveUnavailable",
+      "group": "errors",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "error.deliveryUncertain",
+      "group": "errors",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "bug.previewUploadDisabled",
+      "group": "screenshot",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "bug.replace",
+      "group": "screenshot",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "bug.remove",
+      "group": "screenshot",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "bug.noAutoCapture",
+      "group": "screenshot",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "bug.noDraftData",
+      "group": "screenshot",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "b2b.freeNotice",
+      "group": "whiteLabel",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "b2b.tenantPreview",
+      "group": "whiteLabel",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "b2b.noIncludedCustom",
+      "group": "whiteLabel",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "action.contact",
+      "group": "actions",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    },
+    {
+      "key": "action.backToPreview",
+      "group": "actions",
+      "origin": "reviewAddition",
+      "nonBinding": true
+    }
+  ]
+}
