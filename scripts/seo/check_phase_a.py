@@ -621,6 +621,9 @@ def main():
         'tests/marketing_calc_first_user_journey.test.cjs',
         'tests/fixtures/seo-keyword-banner.html', 'tests/fixtures/seo-original-results.html',
         'tests/helpers/seo-html-contract.cjs', 'tests/seo_language.test.cjs',
+        # SEO-07 multilingual static pages, locked release gates and exact new tests only.
+        'sitemap.xml', 'tests/seo_multilingual_release_test.py',
+        'scripts/seo/test_multilingual_browser.cjs',
         'tests/nomad360_marketing_scope.test.cjs', 'tests/type02_scope.test.cjs',
         'tests/nomad360_locale_semantic.test.cjs',
         'tests/helpers/v2-output-truth-scope.cjs',
