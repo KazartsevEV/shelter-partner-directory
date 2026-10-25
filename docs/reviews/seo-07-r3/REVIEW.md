@@ -26,3 +26,9 @@ Run `node scripts/seo/test_locales.cjs`, `python scripts/seo/build.py --check`, 
 ## Routed-link correction
 
 The Russian legal entrypoint is `license/`, not `license/ru/`; all five RU footers and the shared renderer use that existing local route. Dedicated URL assertions are included in `test_locales.cjs`.
+
+## Owner approval / historical C5 CI compatibility
+
+Owner waived *human* KK linguistic sign-off for this release. Terminology and algorithmic editorial pass remains, and native KK quality is explicitly **not certified**. It is not permissible to claim native approval.
+
+Historical C5/C4 browser comparators used pinned bases preceding the accepted C6 V1 refactor, and compared all rebuilt downloadable HTML/resources byte-for-byte to that legacy revision. The R3-only gate `scripts/seo/r3_ci_scope.cjs` rejects every changed path outside the exact SEO generator/pages/tests/docs/workflow allowlist, asserts deterministic 15-page output, and leaves all financial engine, formula, export, legal and storage sources identical to the tested main. For R3 only, C5 runs live 15-page browser + original numeric demo/restore/oracles; C4 runs the same contemporary browser while retaining its exact financial unit tests, Excel/OOXML and PDF acceptance steps. The original historical C4/C5 comparators continue for stylesheet changes and all other branches. This is not an exemption for changed financial sources.
