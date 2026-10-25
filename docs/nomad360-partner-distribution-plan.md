@@ -50,8 +50,9 @@ not claim that a code was delivered before the issuance/delivery service exists.
 ## P3 — Issuance, email and encrypted ZIP
 
 Draft [#243](https://github.com/KazartsevEV/shelter-partner-directory/pull/243)
-at `3314ec3` implements the private operator and Google adapters; all five CI
-jobs pass. A connector-mediated owner-mailbox test is not a deployed-worker
+implements the private operator and Google adapters (original implementation
+`3314ec3`). The main synchronization keeps that operator code unchanged; its
+current CI must be revalidated, not inferred from the original five green jobs. A connector-mediated owner-mailbox test is not a deployed-worker
 test. Permanent credentials, trusted intake and end-to-end real delivery are
 deferred to R5, not declared complete. Preparation R1–R4 can proceed without
 putting secrets into either public or private Git.

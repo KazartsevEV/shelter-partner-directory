@@ -12,6 +12,8 @@ const clean=x=>JSON.parse(JSON.stringify(x));
  A.equal(first.html,second.html,'Repeated build changes package bytes');A.deepEqual(first.manifest,second.manifest);
  A.equal(sha256(first.html),first.manifest.files[0].sha256);A.equal(Buffer.byteLength(first.html),first.manifest.files[0].bytes);
  A.equal(first.manifest.configSha256,sha256(JSON.stringify(normalize(config))));
+ const encrypted=process.env.PARTNER_TEST_ENCRYPTED==='1'?await require('./helpers/partner-archive-roundtrip.cjs').roundtrip(first,config):null;
+ const deliveredHtml=encrypted?encrypted.html:first.html;
  A.ok(first.manifest.resources.length>30);A.equal(new Set(first.manifest.resources.map(x=>x.path)).size,first.manifest.resources.length);
  for(const record of first.manifest.resources){const bytes=await fs.readFile(path.join(root,record.path));A.equal(record.sha256,sha256(bytes),record.path);A.equal(record.bytes,bytes.length);}
  await fs.writeFile(path.join(artifact,first.filename),first.html);await fs.writeFile(path.join(artifact,'manifest.json'),JSON.stringify(first.manifest,null,2)+'\n');
@@ -21,7 +23,7 @@ const clean=x=>JSON.parse(JSON.stringify(x));
  const server=http.createServer(async(req,res)=>{
   try{
    const url=new URL(req.url,'http://localhost');
-   if(url.pathname==='/package.html'||url.pathname==='/hostile.html'){res.setHeader('Content-Type','text/html');return res.end(url.pathname==='/package.html'?first.html:hostile.html);}
+   if(url.pathname==='/package.html'||url.pathname==='/hostile.html'){res.setHeader('Content-Type','text/html');return res.end(url.pathname==='/package.html'?deliveredHtml:hostile.html);}
    const file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(root+path.sep))throw Error('path');
    res.setHeader('Content-Type',mime[path.extname(file)]||'application/octet-stream');res.end(await fs.readFile(file));
   }catch(_){res.writeHead(404);res.end();}
@@ -68,7 +70,7 @@ const clean=x=>JSON.parse(JSON.stringify(x));
    console.log('PARTNER_BROWSER_CASE_GREEN',width,language);
   }
   const summary={sourceRevision:first.manifest.sourceRevision,matrix:protocol.length,scenarios:protocol.reduce((n,x)=>n+x.scenarios,0),resources:first.manifest.resources.length,
-   reproducible:true,injectionBlocked:true,numericChanges:0,protocol};
+   reproducible:true,injectionBlocked:true,numericChanges:0,...(encrypted?{encryptedRoundtrip:encrypted.proof}:{}),protocol};
   await fs.writeFile(path.join(artifact,'protocol.json'),JSON.stringify(summary,null,2)+'\n');console.log('PARTNER_BROWSER_GREEN',JSON.stringify({...summary,protocol:undefined}));
  }finally{await browser.close();await new Promise(ok=>server.close(ok));}
 })().catch(error=>{console.error(error.stack||error);process.exitCode=1;});

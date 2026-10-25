@@ -1,0 +1,8 @@
+{
+  "name": "nomad360-private-partner-issuance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Operator-side encrypted package issuance; never loaded by the website",
+  "engines": { "node": ">=22" },
+  "dependencies": { "@zip.js/zip.js": "2.24.0", "google-auth-library": "11.3.1" }
+}

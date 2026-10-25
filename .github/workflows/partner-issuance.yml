@@ -1,0 +1,53 @@
+name: Private partner issuance and encrypted calculator parity
+on:
+  pull_request:
+    paths:
+      - 'scripts/partners/**'
+      - 'tests/partner_issuance*'
+      - 'tests/partner_build_browser.cjs'
+      - 'tests/helpers/partner-archive-roundtrip.cjs'
+      - 'tests/helpers/partner_archive_verify.py'
+      - '.github/workflows/partner-issuance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  partner-issuance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --prefix scripts/partners/issuance --ignore-scripts --no-audit --no-fund
+      - run: pip install -r scripts/partners/issuance/requirements-test.txt
+      - name: Syntax, state machine, Google boundaries and unchanged runtime
+        run: |
+          for file in scripts/partners/issuance/*.cjs; do node --check "$file"; done
+          node --test tests/partner_issuance*.test.cjs tests/partner_config.test.cjs tests/partner_build.test.cjs
+      - run: npm install --no-save --package-lock=false playwright@1.58.0 tailwindcss@3.4.17
+      - run: npx playwright install --with-deps chromium
+      - name: Deterministic local utilities
+        run: |
+          mkdir -p artifacts/partner-build
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/partner-issuance-utilities.css
+          npx tailwindcss -i /tmp/partner-issuance-utilities.css --content './Marketing_calc.HTML,./nomad360_*.js,./portfolio_v2_*ui.js' -o artifacts/partner-build/utilities.css --minify
+      - name: Real encrypted ZIP, independent reader, RU EN KK and numerical parity
+        run: node tests/partner_build_browser.cjs
+        env:
+          PARTNER_TEST_ENCRYPTED: '1'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: partner-issuance-protocol
+          path: |
+            artifacts/partner-build/protocol.json
+            artifacts/partner-build/*.png
+          retention-days: 14
+# CI never receives a real application, OAuth token, vault key, password or ZIP.
