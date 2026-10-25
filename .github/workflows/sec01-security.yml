@@ -1,0 +1,35 @@
+name: SEC-01 private security preparation
+on:
+  pull_request:
+    paths:
+      - 'scripts/security/**'
+      - 'tests/sec01_*'
+      - 'docs/security/**'
+      - 'docs/nomad360-production-readiness-plan.md'
+      - 'docs/nomad360-codex-task-map.md'
+      - 'scripts/seo/check_phase_a.py'
+      - '.github/workflows/sec01-security.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  security-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and fail-closed admission, Turnstile, atomic shared quotas
+        run: |
+          node --check scripts/security/admission.cjs
+          node --check scripts/security/turnstile.cjs
+          node --check scripts/security/edge-proof.cjs
+          node --check scripts/security/redis-store.cjs
+          node --test tests/sec01_admission.test.cjs tests/sec01_redis.test.cjs tests/sec01_scope.test.cjs
+      - name: Source and financial regression, no mutation
+        run: |
+          node --test tests/nomad360_v1_engine.test.cjs tests/nomad360_draft_store.test.cjs
