@@ -11,7 +11,7 @@ HEAD `3314ec3`, 5/5 jobs GREEN; это не merge и не production-приём�
 R1 QA #281 и private source bootstrap [#493](https://github.com/KazartsevEV/lazysellerV2/pull/493)
 (`f58df5ef`). Полный R1 UI #245 и оператор #243 остаются Draft; это не завершённая
 выдача. На текущих Pages проверены 18/18 прямых HTTP 200 и ожидаемые языки
-URL sitemap: [протокол](reviews/deploy-readiness-02/public-url-status.json).
+URL sitemap: [протокол](seo/reviews/deploy-readiness-02/public-url-status.json).
 
 Новый [private Draft #494](https://github.com/KazartsevEV/lazysellerV2/pull/494)
 готовит отдельный hosting package: локальный pinned Tailwind, явный HTTPS
