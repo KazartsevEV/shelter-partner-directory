@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "scope": "review-fixtures-no-mail-no-archive-no-production",
-  "count": 67,
+  "count": 86,
   "cases": [
     {
       "id": "ok.idle.applicationProviderAccepted",
@@ -10,7 +10,11 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "applicationAccepted",
@@ -23,7 +27,8 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "idle",
@@ -36,7 +41,11 @@
       "steps": [
         {
           "event": "applicationProviderRejected",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "applicationRejected",
@@ -49,7 +58,8 @@
       "steps": [
         {
           "event": "applicationProviderRejected",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "idle",
@@ -62,11 +72,19 @@
       "steps": [
         {
           "event": "applicationProviderRejected",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "reset",
-          "evidence": true
+          "evidence": {
+            "type": "manual",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "idle",
@@ -79,11 +97,16 @@
       "steps": [
         {
           "event": "applicationProviderRejected",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "reset",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "applicationRejected",
@@ -96,11 +119,19 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "verificationAccepted",
@@ -113,11 +144,16 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "applicationAccepted",
@@ -130,11 +166,19 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "verificationUnknown",
@@ -147,11 +191,16 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailUnknown",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "applicationAccepted",
@@ -164,15 +213,27 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorConfirmsSent",
-          "evidence": true
+          "evidence": {
+            "type": "operatorEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "verificationAccepted",
@@ -185,15 +246,24 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorConfirmsSent",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "verificationUnknown",
@@ -206,15 +276,27 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorConfirmsNotSent",
-          "evidence": true
+          "evidence": {
+            "type": "operatorEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "applicationAccepted",
@@ -227,15 +309,24 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorConfirmsNotSent",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "verificationUnknown",
@@ -248,15 +339,27 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "emailVerified",
@@ -269,15 +372,24 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "verificationAccepted",
@@ -290,15 +402,27 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeExpired",
-          "evidence": true
+          "evidence": {
+            "type": "expiryEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "expiredConfirmation",
@@ -311,15 +435,24 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeExpired",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "verificationAccepted",
@@ -332,19 +465,35 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeExpired",
-          "evidence": true
+          "evidence": {
+            "type": "expiryEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorStartsFreshConfirmation",
-          "evidence": true
+          "evidence": {
+            "type": "operatorEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "applicationAccepted",
@@ -357,19 +506,32 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeExpired",
-          "evidence": true
+          "evidence": {
+            "type": "expiryEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorStartsFreshConfirmation",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "expiredConfirmation",
@@ -382,19 +544,35 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "archiveReady",
@@ -407,19 +585,32 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "emailVerified",
@@ -432,19 +623,35 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildFailed",
-          "evidence": true
+          "evidence": {
+            "type": "buildError",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "archiveFailed",
@@ -457,19 +664,32 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildFailed",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "emailVerified",
@@ -482,23 +702,43 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildFailed",
-          "evidence": true
+          "evidence": {
+            "type": "buildError",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorAuthorizesRebuild",
-          "evidence": true
+          "evidence": {
+            "type": "operatorEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "emailVerified",
@@ -511,23 +751,40 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildFailed",
-          "evidence": true
+          "evidence": {
+            "type": "buildError",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorAuthorizesRebuild",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "archiveFailed",
@@ -540,23 +797,43 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "deliveryAccepted",
@@ -569,23 +846,40 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "archiveReady",
@@ -598,23 +892,43 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "deliveryUnknown",
@@ -627,23 +941,40 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailUnknown",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "archiveReady",
@@ -656,23 +987,43 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailRejected",
-          "evidence": true
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "deliveryRejected",
@@ -685,23 +1036,40 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailRejected",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "archiveReady",
@@ -714,27 +1082,51 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorConfirmsAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "operatorEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "deliveryAccepted",
@@ -747,27 +1139,48 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorConfirmsAccepted",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "deliveryUnknown",
@@ -780,27 +1193,51 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorConfirmsRejected",
-          "evidence": true
+          "evidence": {
+            "type": "operatorEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "deliveryRejected",
@@ -813,27 +1250,48 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorConfirmsRejected",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "deliveryUnknown",
@@ -846,27 +1304,51 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailRejected",
-          "evidence": true
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorAuthorizesRetry",
-          "evidence": true
+          "evidence": {
+            "type": "operatorEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         }
       ],
       "expectedState": "archiveReady",
@@ -879,27 +1361,48 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailRejected",
-          "evidence": true
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "operatorAuthorizesRetry",
-          "evidence": false
+          "evidence": null,
+          "expectReject": true
         }
       ],
       "expectedState": "deliveryRejected",
@@ -912,7 +1415,11 @@
       "steps": [
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "idle",
@@ -925,11 +1432,19 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "applicationAccepted",
@@ -942,11 +1457,19 @@
       "steps": [
         {
           "event": "applicationProviderRejected",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "applicationRejected",
@@ -959,15 +1482,27 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "verificationAccepted",
@@ -980,15 +1515,27 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "verificationUnknown",
@@ -1001,19 +1548,35 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "emailVerified",
@@ -1026,19 +1589,35 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeExpired",
-          "evidence": true
+          "evidence": {
+            "type": "expiryEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "expiredConfirmation",
@@ -1051,23 +1630,43 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "archiveReady",
@@ -1080,23 +1679,43 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildFailed",
-          "evidence": true
+          "evidence": {
+            "type": "buildError",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "archiveFailed",
@@ -1109,27 +1728,51 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "deliveryAccepted",
@@ -1142,27 +1785,51 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailUnknown",
-          "evidence": true
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "deliveryUnknown",
@@ -1175,27 +1842,51 @@
       "steps": [
         {
           "event": "applicationProviderAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "verificationMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "emailCodeValid",
-          "evidence": true
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "archiveBuildSucceeded",
-          "evidence": true
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailRejected",
-          "evidence": true
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": false
         },
         {
           "event": "deliveryMailAccepted",
-          "evidence": true
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
         }
       ],
       "expectedState": "deliveryRejected",
@@ -1387,6 +2078,737 @@
         "enabled": true
       },
       "expectedAllowed": false
+    },
+    {
+      "id": "reject.mismatchedEvidence.idle.applicationProviderAccepted",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "idle",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.idle.applicationProviderRejected",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderRejected",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "idle",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.applicationRejected.reset",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderRejected",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "reset",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "applicationRejected",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.applicationAccepted.verificationMailAccepted",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "applicationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.applicationAccepted.verificationMailUnknown",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "applicationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.verificationUnknown.operatorConfirmsSent",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "operatorConfirmsSent",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "verificationUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.verificationUnknown.operatorConfirmsNotSent",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailUnknown",
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "operatorConfirmsNotSent",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "verificationUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.verificationAccepted.emailCodeValid",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "verificationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.verificationAccepted.emailCodeExpired",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeExpired",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "verificationAccepted",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.expiredConfirmation.operatorStartsFreshConfirmation",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeExpired",
+          "evidence": {
+            "type": "expiryEvidence",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "operatorStartsFreshConfirmation",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "expiredConfirmation",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.emailVerified.archiveBuildSucceeded",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "emailVerified",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.emailVerified.archiveBuildFailed",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildFailed",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "emailVerified",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.archiveFailed.operatorAuthorizesRebuild",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildFailed",
+          "evidence": {
+            "type": "buildError",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "operatorAuthorizesRebuild",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "archiveFailed",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.archiveReady.deliveryMailAccepted",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "deliveryMailAccepted",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.archiveReady.deliveryMailUnknown",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.archiveReady.deliveryMailRejected",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "deliveryMailRejected",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "archiveReady",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.deliveryUnknown.operatorConfirmsAccepted",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "operatorConfirmsAccepted",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "deliveryUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.deliveryUnknown.operatorConfirmsRejected",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "deliveryMailUnknown",
+          "evidence": {
+            "type": "uncertainProviderOutcome",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "operatorConfirmsRejected",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "deliveryUnknown",
+      "expectReject": true
+    },
+    {
+      "id": "reject.mismatchedEvidence.deliveryRejected.operatorAuthorizesRetry",
+      "kind": "transition",
+      "group": "mismatchedEvidence",
+      "steps": [
+        {
+          "event": "applicationProviderAccepted",
+          "evidence": {
+            "type": "providerReceipt",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "verificationMailAccepted",
+          "evidence": {
+            "type": "gmailAccepted",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "emailCodeValid",
+          "evidence": {
+            "type": "verifiedCode",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "archiveBuildSucceeded",
+          "evidence": {
+            "type": "builtArchiveDigest",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "deliveryMailRejected",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": false
+        },
+        {
+          "event": "operatorAuthorizesRetry",
+          "evidence": {
+            "type": "gmailRejected",
+            "confirmed": true
+          },
+          "expectReject": true
+        }
+      ],
+      "expectedState": "deliveryRejected",
+      "expectReject": true
     }
   ]
 }

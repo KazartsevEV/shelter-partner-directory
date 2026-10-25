@@ -1,6 +1,6 @@
-# R1 · 67 review scenarios
+# R1 · 86 review scenarios
 
-All transitions are synthetic and have no side effects. For an accepted transition, the fixture supplies synthetic `evidence:true`; that is **not** real provider evidence. Missing-evidence cases assert fail-closed behavior. Scenario IDs also appear in `scenarios.json`.
+All transitions are synthetic and have no side effects. Each step requires typed, explicitly confirmed evidence and an explicit expected rejection. This verifies fixture types and ordering, not real provider authentication. Original 67 scenarios are retained; 19 mismatched-evidence cases were added.
 
 | Scenario | Group | Expected |
 | --- | --- | --- |
@@ -71,3 +71,22 @@ All transitions are synthetic and have no side effects. For an accepted transiti
 | `transport.intakeCannotForce` | productionGates | Blocked |
 | `transport.noAutomaticResend` | productionGates | Blocked |
 | `transport.legacyDownloadNoChange` | productionGates | Blocked |
+| `reject.mismatchedEvidence.idle.applicationProviderAccepted` | mismatchedEvidence | Blocked → idle |
+| `reject.mismatchedEvidence.idle.applicationProviderRejected` | mismatchedEvidence | Blocked → idle |
+| `reject.mismatchedEvidence.applicationRejected.reset` | mismatchedEvidence | Blocked → applicationRejected |
+| `reject.mismatchedEvidence.applicationAccepted.verificationMailAccepted` | mismatchedEvidence | Blocked → applicationAccepted |
+| `reject.mismatchedEvidence.applicationAccepted.verificationMailUnknown` | mismatchedEvidence | Blocked → applicationAccepted |
+| `reject.mismatchedEvidence.verificationUnknown.operatorConfirmsSent` | mismatchedEvidence | Blocked → verificationUnknown |
+| `reject.mismatchedEvidence.verificationUnknown.operatorConfirmsNotSent` | mismatchedEvidence | Blocked → verificationUnknown |
+| `reject.mismatchedEvidence.verificationAccepted.emailCodeValid` | mismatchedEvidence | Blocked → verificationAccepted |
+| `reject.mismatchedEvidence.verificationAccepted.emailCodeExpired` | mismatchedEvidence | Blocked → verificationAccepted |
+| `reject.mismatchedEvidence.expiredConfirmation.operatorStartsFreshConfirmation` | mismatchedEvidence | Blocked → expiredConfirmation |
+| `reject.mismatchedEvidence.emailVerified.archiveBuildSucceeded` | mismatchedEvidence | Blocked → emailVerified |
+| `reject.mismatchedEvidence.emailVerified.archiveBuildFailed` | mismatchedEvidence | Blocked → emailVerified |
+| `reject.mismatchedEvidence.archiveFailed.operatorAuthorizesRebuild` | mismatchedEvidence | Blocked → archiveFailed |
+| `reject.mismatchedEvidence.archiveReady.deliveryMailAccepted` | mismatchedEvidence | Blocked → archiveReady |
+| `reject.mismatchedEvidence.archiveReady.deliveryMailUnknown` | mismatchedEvidence | Blocked → archiveReady |
+| `reject.mismatchedEvidence.archiveReady.deliveryMailRejected` | mismatchedEvidence | Blocked → archiveReady |
+| `reject.mismatchedEvidence.deliveryUnknown.operatorConfirmsAccepted` | mismatchedEvidence | Blocked → deliveryUnknown |
+| `reject.mismatchedEvidence.deliveryUnknown.operatorConfirmsRejected` | mismatchedEvidence | Blocked → deliveryUnknown |
+| `reject.mismatchedEvidence.deliveryRejected.operatorAuthorizesRetry` | mismatchedEvidence | Blocked → deliveryRejected |
