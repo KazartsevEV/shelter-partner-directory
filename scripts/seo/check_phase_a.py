@@ -505,11 +505,11 @@ def main():
                              'scripts/cleanup-paint/', 'docs/reviews/cleanup-paint-05-8/', 'tests/fixtures/cleanup-paint/',
                              'scripts/cleanup-typical/', 'docs/reviews/cleanup-typical-05-7/', 'tests/fixtures/cleanup-typical/',
                              'scripts/cleanup-payment-grid/', 'docs/reviews/payment-grid-05-6/', 'tests/fixtures/payment-grid/',
-                             'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/', 'docs/reviews/partner-release-preview-01/',
+                             'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
                              'scripts/audit/', 'docs/reviews/runtime-audit-01/',
                              'scripts/cleanup-history/', 'docs/reviews/cleanup-history-07/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
-                             'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/',
+                             'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/', 'docs/reviews/partner-release-preview-01/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs'} or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
         'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
