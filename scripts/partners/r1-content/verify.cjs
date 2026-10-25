@@ -98,7 +98,7 @@ function advance(current,action){
  if(!action||typeof action!=='object'||Array.isArray(action))return {state:current,rejected:true};
  const found=stepByPair.get(current+'|'+action.event),evidence=action.evidence;
  if(!found||!evidence||typeof evidence!=='object'||Array.isArray(evidence)||
-  Object.keys(evidence).length!==2||evidence.type!==found.evidence||evidence.confirmed!==true)
+  Object.keys(evidence).sort().join(',')!=='confirmed,type'||evidence.type!==found.evidence||evidence.confirmed!==true)
   return {state:current,rejected:true};
  return {state:found.to,rejected:false};
 }

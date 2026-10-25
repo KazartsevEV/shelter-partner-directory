@@ -63,6 +63,7 @@ test('every transition accepts only matching, explicitly confirmed fixture evide
     const invalid = [true, false, 'false', 'gmailRejected', {}, [], null, undefined,
       {type:t.evidence}, {confirmed:true}, {type:t.evidence, confirmed:false},
       {type:t.evidence, confirmed:'true'}, {type:t.evidence, confirmed:true, fake:true},
+      Object.assign(Object.create(evidence(t.evidence)), {fake:1, other:2}),
       ...types.filter(type => type !== t.evidence).map(evidence)];
     for (const proof of invalid) {
       A.deepEqual(advance(t.from, {event:t.event, evidence:proof}), {state:t.from, rejected:true}, t.from + '/' + t.event);
