@@ -581,6 +581,8 @@ def main():
         'nomad360_design_system.css', 'tests/cleanup_service_grid.test.cjs', 'tests/helpers/cleanup-service-grid-scope.cjs', '.github/workflows/cleanup-service-grid.yml',
         'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
         'docs/architecture/partner-package-config.md', 'docs/nomad360-partner-distribution-plan.md',
+        # SEC-01 documentation only; server code belongs in private lazysellerV2.
+        'docs/security/SEC-01.md', 'docs/security/sec01-edge-policy.sample.json',
         # Owner-approved preparation only: future copy is not connected to the site.
         'docs/nomad360-production-readiness-plan.md',
         'docs/partners/partner-release-copy.md',
