@@ -4,7 +4,6 @@ const {pathToFileURL}=require('node:url'),path=require('node:path'),fs=require('
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({locale:'ru-RU',viewport:{width:390,height:844}});
  // Preserve explicit RU-copy test intent under first-visit English default.
- await page.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route(/^https?:\/\//,route=>route.abort());
  const url=pathToFileURL(path.join(__dirname,'..','Marketing_calc.HTML')).href;

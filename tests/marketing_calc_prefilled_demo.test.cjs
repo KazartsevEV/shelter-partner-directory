@@ -8,8 +8,7 @@ const htmlUrl = process.env.NOMAD360_TEST_URL || pathToFileURL(path.join(__dirna
 const {verify}=require('./shopper_v1_oracle.cjs');
 async function demo(browser, financing) {
     const page = await browser.newPage({locale:'ru-RU',viewport: {width: 390,height:844}});
-    // This legacy fixture tests RU copy explicitly; default first-visit UI is English.
-    await page.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
+    // RU is selected by the native ru-RU browser locale; no document-start storage mutation.
     const faults = [];
     page.on('pageerror', e=>faults.push(e.message));
     // External CSS/font assets are deliberately blocked for this offline file test;
@@ -124,8 +123,7 @@ async function demo(browser, financing) {
         await demo(browser,'cash');
         await demo(browser,'credit');
         const normal=await browser.newPage({locale:'ru-RU'});
-        // This legacy fixture tests RU copy explicitly; default first-visit UI is English.
-        await normal.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
+        // RU is selected by the native ru-RU browser locale; no document-start storage mutation.
         await normal.goto(htmlUrl,{waitUntil:'domcontentloaded'});
         assert.equal(await normal.locator('#product-demo-banner').isVisible(),false,
             'Ordinary calculator URL must remain untouched');

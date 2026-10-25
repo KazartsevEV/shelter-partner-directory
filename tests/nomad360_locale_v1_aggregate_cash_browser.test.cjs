@@ -15,8 +15,7 @@ const cashFields=['inflow','outflow','taxPaid','interestPaid','principalRepaid',
  try{
   for(const financing of ['cash','credit']){
    const ctx=await browser.newContext({locale:'ru-RU',viewport:{width:390,height:844}});
-   // This legacy fixture tests RU copy explicitly; default first-visit UI is English.
-   await ctx.addInitScript(()=>{try{localStorage.setItem('nomad360PreferredLanguage','ru')}catch(_){}});
+   // RU is selected by the native ru-RU browser locale; no document-start storage mutation.
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
    await page.route(/^https?:\/\//,r=>r.abort());

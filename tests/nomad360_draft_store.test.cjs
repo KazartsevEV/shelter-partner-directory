@@ -75,3 +75,19 @@ test('simple service tax choice retains its existing independent key, strings an
  A.equal(denied.readV1Raw(),null);A.equal(denied.readSimpleSalesTax(),null);
  A.equal(denied.writeSimpleSalesTax(simple),false);
 });
+
+test('file browser fixtures do not access the locale store from document-start scripts (#260)',()=>{
+  const fs=require('node:fs'),path=require('node:path');
+  const unsafe=source=>source.includes('pathToFileURL')&&
+    /addInitScript\([\s\S]{0,220}localStorage\.(?:getItem|setItem)\(['"]nomad360PreferredLanguage['"]/.test(source);
+  A.equal(unsafe("pathToFileURL();ctx.addInitScript(()=>localStorage.setItem('nomad360PreferredLanguage','ru'))"),true,
+    'The original bootstrap is rejected deterministically, independent of the native race');
+  A.equal(unsafe("pathToFileURL();await page.goto(url);await page.locator('#nomad360-lang-select').selectOption('ru')"),false);
+  A.equal(unsafe("http.createServer();ctx.addInitScript(()=>localStorage.setItem('nomad360PreferredLanguage','ru'))"),false,
+    'HTTP-only preference fixtures are outside the file-scheme defect');
+  for(const name of fs.readdirSync(__dirname).filter(n=>n.endsWith('.cjs'))){
+    if(name===path.basename(__filename))continue;
+    A.equal(unsafe(fs.readFileSync(path.join(__dirname,name),'utf8')),false,
+      name+': use native browser locale, or save a preference through the loaded UI');
+  }
+});
