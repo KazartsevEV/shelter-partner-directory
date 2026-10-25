@@ -46,3 +46,7 @@ No new scheduled workflow was attached in this slice to avoid overlapping C7's g
 - Integrate durable, authenticated registration and verification separately from missing-site placement; implement protected intake only with owner-approved R4/R5.
 - Select actual screenshot mail transport and privacy/storage terms, then real inbox receiving test with an actual image.
 - Prepare a White Label tenant profile and genuine deploy rollback, plus separate paid agreement. No public release before R6.
+
+## Follow-up: QA guard correction
+
+The original 67-case receipt above is historical. The [guard correction](../../r1-qa-guard-fix/REVIEW.md) replaces truthy boolean evidence with typed fixture evidence, validates each step and all canonical identities, adds 19 mismatched-evidence scenarios, and connects a separate read-only CI. Current result: 86 scenarios / 22 successful / 64 blocked, plus 11 adversarial test groups. This still does not complete R1 UI or enable production delivery.

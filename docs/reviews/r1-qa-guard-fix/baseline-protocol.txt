@@ -1,0 +1,22 @@
+R1_PARTNER_CONTENT_QA_GREEN {"locales":3,"keys":58,"translations":174,"canonical":23,"stateTransitions":19,"scenarios":67,"successful":22,"blocked":45,"forms":9,"productionEnabled":false,"externalRequests":0}
+INDEPENDENT_R1_PROBES {
+  "wrongEvidence": {
+    "state": "deliveryAccepted",
+    "rejected": false
+  },
+  "emptyEvidence": {
+    "state": "deliveryAccepted",
+    "rejected": false
+  },
+  "stringFalse": {
+    "state": "deliveryAccepted",
+    "rejected": false
+  },
+  "invalidOriginAndChangedCanonicalPassed": true,
+  "rejectedStepThenAllowedStillGreen": {
+    "id": "ok.applicationRejected.reset",
+    "successful": 22,
+    "blocked": 45,
+    "forms": 9
+  }
+}
