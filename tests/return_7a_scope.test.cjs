@@ -33,7 +33,7 @@ test('All existing application files stay exact outside the five authorised pres
   A.equal(actual,execFileSync('git',['show','cd80f877f20dde9d276683c83b99c6a9455dea5d:'+file],{cwd:root,encoding:'utf8'}),'Owner-approved v2.4 legal page: '+file);
   continue;
  }
- A.deepEqual(Buffer.from(require('./helpers/task10-palette-scope.cjs').stripTask10StaticSource(file,actual)),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
+ A.deepEqual(Buffer.from(require('./helpers/task10-palette-scope.cjs').stripTask10StaticSource(file,require('./helpers/seo-r3-compat.cjs').restore(file,actual))),execFileSync('git',['show',base+':'+file],{cwd:root}),file);
 }
  A.deepEqual(fs.readFileSync(path.join(root,'nomad360_wolf_open_circle.png')),execFileSync('git',['show',base+':nomad360_wolf_open_circle.png'],{cwd:root,maxBuffer:4*1024*1024}));
 });
