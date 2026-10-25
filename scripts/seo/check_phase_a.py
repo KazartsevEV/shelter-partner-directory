@@ -489,6 +489,16 @@ def main():
         subprocess.check_output(['node', '-e',
             "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-about-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
             'nomad360_about_banner.css'], input=(ROOT / 'nomad360_about_banner.css').read_bytes(), cwd=ROOT)
+    # SEC-01: enforce exact approved source file list and unchanged production bytes.
+    sec01_files = {'.github/workflows/sec01-security.yml',
+        'scripts/security/admission.cjs','scripts/security/edge-proof.cjs',
+        'scripts/security/policy.cjs','scripts/security/redis-store.cjs',
+        'scripts/security/turnstile.cjs',
+        'docs/security/SEC-01.md','docs/security/sec01-edge-policy.sample.json',
+        'tests/sec01_admission.test.cjs','tests/sec01_redis.test.cjs',
+        'tests/sec01_scope.test.cjs'}
+    if any(p in changed for p in sec01_files):
+        subprocess.check_call(['node','--test','tests/sec01_scope.test.cjs'],cwd=ROOT)
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
@@ -581,6 +591,13 @@ def main():
         'nomad360_design_system.css', 'tests/cleanup_service_grid.test.cjs', 'tests/helpers/cleanup-service-grid-scope.cjs', '.github/workflows/cleanup-service-grid.yml',
         'tests/partner_config.test.cjs', 'tests/partner_build_scope.test.cjs', 'tests/partner_build_browser.cjs', 'tests/partner_build.test.cjs',
         'docs/architecture/partner-package-config.md', 'docs/nomad360-partner-distribution-plan.md',
+        # SEC-01 exact code, tests and docs, gated by the source-protection test.
+        '.github/workflows/sec01-security.yml','scripts/security/admission.cjs',
+        'scripts/security/edge-proof.cjs','scripts/security/policy.cjs',
+        'scripts/security/redis-store.cjs','scripts/security/turnstile.cjs',
+        'docs/security/SEC-01.md','docs/security/sec01-edge-policy.sample.json',
+        'tests/sec01_admission.test.cjs','tests/sec01_redis.test.cjs',
+        'tests/sec01_scope.test.cjs',
         # Owner-approved preparation only: future copy is not connected to the site.
         'docs/nomad360-production-readiness-plan.md',
         'docs/partners/partner-release-copy.md',
