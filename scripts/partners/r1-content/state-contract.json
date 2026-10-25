@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "mode": "fixtureOnly",
+  "sideEffects": false,
+  "externalRequests": false,
+  "start": "idle",
+  "statuses": [
+    "idle",
+    "applicationAccepted",
+    "applicationRejected",
+    "verificationAccepted",
+    "verificationUnknown",
+    "emailVerified",
+    "expiredConfirmation",
+    "archiveReady",
+    "archiveFailed",
+    "deliveryAccepted",
+    "deliveryUnknown",
+    "deliveryRejected"
+  ],
+  "transitions": [
+    {
+      "from": "idle",
+      "event": "applicationProviderAccepted",
+      "to": "applicationAccepted",
+      "evidence": "providerReceipt"
+    },
+    {
+      "from": "idle",
+      "event": "applicationProviderRejected",
+      "to": "applicationRejected",
+      "evidence": "providerReceipt"
+    },
+    {
+      "from": "applicationRejected",
+      "event": "reset",
+      "to": "idle",
+      "evidence": "manual"
+    },
+    {
+      "from": "applicationAccepted",
+      "event": "verificationMailAccepted",
+      "to": "verificationAccepted",
+      "evidence": "gmailAccepted"
+    },
+    {
+      "from": "applicationAccepted",
+      "event": "verificationMailUnknown",
+      "to": "verificationUnknown",
+      "evidence": "uncertainProviderOutcome"
+    },
+    {
+      "from": "verificationUnknown",
+      "event": "operatorConfirmsSent",
+      "to": "verificationAccepted",
+      "evidence": "operatorEvidence"
+    },
+    {
+      "from": "verificationUnknown",
+      "event": "operatorConfirmsNotSent",
+      "to": "applicationAccepted",
+      "evidence": "operatorEvidence"
+    },
+    {
+      "from": "verificationAccepted",
+      "event": "emailCodeValid",
+      "to": "emailVerified",
+      "evidence": "verifiedCode"
+    },
+    {
+      "from": "verificationAccepted",
+      "event": "emailCodeExpired",
+      "to": "expiredConfirmation",
+      "evidence": "expiryEvidence"
+    },
+    {
+      "from": "expiredConfirmation",
+      "event": "operatorStartsFreshConfirmation",
+      "to": "applicationAccepted",
+      "evidence": "operatorEvidence"
+    },
+    {
+      "from": "emailVerified",
+      "event": "archiveBuildSucceeded",
+      "to": "archiveReady",
+      "evidence": "builtArchiveDigest"
+    },
+    {
+      "from": "emailVerified",
+      "event": "archiveBuildFailed",
+      "to": "archiveFailed",
+      "evidence": "buildError"
+    },
+    {
+      "from": "archiveFailed",
+      "event": "operatorAuthorizesRebuild",
+      "to": "emailVerified",
+      "evidence": "operatorEvidence"
+    },
+    {
+      "from": "archiveReady",
+      "event": "deliveryMailAccepted",
+      "to": "deliveryAccepted",
+      "evidence": "gmailAccepted"
+    },
+    {
+      "from": "archiveReady",
+      "event": "deliveryMailUnknown",
+      "to": "deliveryUnknown",
+      "evidence": "uncertainProviderOutcome"
+    },
+    {
+      "from": "archiveReady",
+      "event": "deliveryMailRejected",
+      "to": "deliveryRejected",
+      "evidence": "gmailRejected"
+    },
+    {
+      "from": "deliveryUnknown",
+      "event": "operatorConfirmsAccepted",
+      "to": "deliveryAccepted",
+      "evidence": "operatorEvidence"
+    },
+    {
+      "from": "deliveryUnknown",
+      "event": "operatorConfirmsRejected",
+      "to": "deliveryRejected",
+      "evidence": "operatorEvidence"
+    },
+    {
+      "from": "deliveryRejected",
+      "event": "operatorAuthorizesRetry",
+      "to": "archiveReady",
+      "evidence": "operatorEvidence"
+    }
+  ],
+  "terminal": [
+    "deliveryAccepted"
+  ],
+  "important": [
+    "Application-provider acceptance is not Gmail acceptance.",
+    "Gmail API acceptance is not inbox delivery.",
+    "An unknown outcome MUST NOT auto retry.",
+    "Application can be recorded with no website.",
+    "Directory listing consent is optional.",
+    "Production issuance remains disabled."
+  ]
+}
