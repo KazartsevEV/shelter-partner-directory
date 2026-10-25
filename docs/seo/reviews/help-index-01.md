@@ -24,3 +24,7 @@ node scripts/seo/test_help_index.cjs
 ```
 
 No change to C7 inventory/ledger or shared roadmap in this isolated PR.
+
+## Historical CI compatibility
+
+C4/C5 source guard first proves that only the two explicitly authorized Help HTML metadata lines changed versus the exact pre-release Git commit. For this content-only PR, the branch-locked `scripts/seo/help_ci_scope.cjs` blocks **all** modifications outside the exact 13-file allowlist, including formulas, CSS, standalone HTML, snapshots, export and current legal text. Old C4/C5 *visual comparison to pre-C6 code* is inapplicable and runs unchanged for other PRs; the replacement runs the full current SEO responsive/browser/numeric checks, and C5 retains VAT, independent Excel/OOXML and PDF workflows. No financial oracle is weakened. Transient Chromium capture is retried up to three times, with the screenshot remaining mandatory and nonempty.
