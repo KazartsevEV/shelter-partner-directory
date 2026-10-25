@@ -22,3 +22,7 @@ A proficient **native Kazakh reviewer must still approve all five pages**, micro
 ## Acceptance gates
 
 Run `node scripts/seo/test_locales.cjs`, `python scripts/seo/build.py --check`, existing SEO+finance CI, mobile Chromium 320/360/390/430/768/1280, real URL navigation, keyboard, overflow, source/render parity. Validate 15 real HTTPS 200, canonical, sitemap and no incorrect hreflang after authorized merge/deployment. Never claim production 200 from a branch. The only allowed new root artifact is `sitemap.xml`.
+
+## Routed-link correction
+
+The Russian legal entrypoint is `license/`, not `license/ru/`; all five RU footers and the shared renderer use that existing local route. Dedicated URL assertions are included in `test_locales.cjs`.

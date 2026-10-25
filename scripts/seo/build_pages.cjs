@@ -108,7 +108,7 @@ ${sections.join("")}
 ${related}
 <p>${esc(loc.disc)}</p>
 </main>
-<footer><div class="wrap"><p>${esc(loc.foot)}</p><nav aria-label="${esc(loc.links)}">${link(origin+"Marketing_calc.HTML?lang="+lang+"#nomad360-data",loc.privacy)}${link(origin+"license/"+lang+"/",loc.licence)}</nav></div></footer>
+<footer><div class="wrap"><p>${esc(loc.foot)}</p><nav aria-label="${esc(loc.links)}">${link(origin+"Marketing_calc.HTML?lang="+lang+"#nomad360-data",loc.privacy)}${link(origin+(lang==='ru'?'license/':'license/'+lang+'/'),loc.licence)}</nav></div></footer>
 </body>
 </html>
 `;
