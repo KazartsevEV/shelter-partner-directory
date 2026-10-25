@@ -471,7 +471,7 @@ def main():
         # the imported logo in the same TASK-10 palette cascade layer, and\n        # reserves unobstructed mobile copy beside the unchanged circular mark.\n        # HERO-LANG-02 extends only the localized CTA type scale at 3 breakpoints.
         # Keep hashing the ACTUAL production file. Only the old accepted blob and
         # the exact C5-7 candidate pinned by its removal receipt are permitted.
-        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() in {'6c8632da780aaf6f8287c0e3b5b5b097e4fdca9e', 'acc53b2b853cf0d206bb9a02d58afa0c1ccbfb22'}, 'HERO scene geometry or approved logo-transparent delta drift'
+        assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.css'], cwd=ROOT, text=True).strip() in {'6c8632da780aaf6f8287c0e3b5b5b097e4fdca9e', 'acc53b2b853cf0d206bb9a02d58afa0c1ccbfb22', 'fa7b31f3016aa542c75711fcca4209cbd68af65d'}, 'HERO scene geometry or approved logo-transparent delta drift'
     if 'nomad360_hero_banner.js' in changed:
         assert subprocess.check_output(['git','hash-object','nomad360_hero_banner.js'], cwd=ROOT, text=True).strip() == '090e52aabab6bca4f923b9eb188dbcc366602b5a', 'Only the approved CTA alignment may change the HERO controller'
     if 'assets/nomad360-banners/hero-alpenglow-fullbleed.webp' in changed:
@@ -501,6 +501,7 @@ def main():
                              'scripts/cleanup-scene-layout/', 'docs/reviews/cleanup-scene-layout-05-3/', 'tests/fixtures/cleanup-scene-layout/',
                              'scripts/cleanup-about-copy/', 'docs/reviews/cleanup-about-copy-05-4/', 'tests/fixtures/cleanup-about-copy/',
                              'scripts/style-ownership/', 'docs/reviews/style-ownership-05-5/', 'tests/fixtures/style-ownership/',
+                             'scripts/cleanup-paint/', 'docs/reviews/cleanup-paint-05-8/', 'tests/fixtures/cleanup-paint/',
                              'scripts/cleanup-typical/', 'docs/reviews/cleanup-typical-05-7/', 'tests/fixtures/cleanup-typical/',
                              'scripts/cleanup-payment-grid/', 'docs/reviews/payment-grid-05-6/', 'tests/fixtures/payment-grid/',
                              'scripts/partners/', 'tests/fixtures/partner-build/', 'docs/reviews/partner-build-01/',
@@ -562,6 +563,7 @@ def main():
         'tests/tax_draft_storage_scope.test.cjs', 'tests/tax_draft_storage_browser.cjs',
         '.github/workflows/tax-draft-storage.yml',
         '.github/workflows/partner-package-build.yml',
+        'tests/cleanup_paint.test.cjs', 'tests/helpers/paint-scope.cjs', '.github/workflows/cleanup-paint.yml',
         'tests/cleanup_typical.test.cjs', 'tests/helpers/typical-scope.cjs', '.github/workflows/cleanup-typical.yml',
         'tests/payment_grid.test.cjs', 'tests/helpers/payment-grid-scope.cjs', '.github/workflows/payment-grid.yml',
         'tests/style_ownership.test.cjs', '.github/workflows/style-ownership.yml', 'docs/architecture/nomad360-style-owners.json',

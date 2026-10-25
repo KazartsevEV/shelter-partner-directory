@@ -28,7 +28,7 @@ async function snapshot(page,origin){
  const unchanged=p=>p.manifest.resources.filter(r=>r.path!==scope.file).filter(require('../../tests/helpers/cleanup-scene-scope.cjs').keepResource).map(require('../../tests/helpers/payment-grid-scope.cjs').normalizePackageResource).sort((a,b)=>a.path.localeCompare(b.path));
  A.deepEqual(unchanged(packages.before),unchanged(packages.after),'Every other packaged resource is exact');
  const deletedBytes=Buffer.byteLength(scope.original)-Buffer.byteLength(scope.candidate);
- A.equal(Buffer.byteLength(packages.before.html)-Buffer.byteLength(packages.after.html),deletedBytes+require('../../tests/helpers/cleanup-scene-scope.cjs').packageDelta(packages.before,packages.after)+require('../../tests/helpers/payment-grid-scope.cjs').packageDelta(packages.before,packages.after));
+ A.equal(Buffer.byteLength(packages.before.html)-Buffer.byteLength(packages.after.html),deletedBytes+require('../../tests/helpers/cleanup-scene-scope.cjs').packageDelta(packages.before,packages.after)+require('../../tests/helpers/payment-grid-scope.cjs').packageDelta(packages.before,packages.after)+require('../../tests/helpers/paint-scope.cjs').packageDelta(packages.before,packages.after));
  const server=http.createServer((req,res)=>{try{
   let rel=decodeURIComponent(new URL(req.url,'http://local').pathname).slice(1),variant=rel.startsWith('before/')?'before':'after';
   rel=rel.replace(/^(before|after)\//,'').replace(/^shelter-partner-directory\//,'');A.equal(req.method,'GET');

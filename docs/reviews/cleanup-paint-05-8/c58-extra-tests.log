@@ -1,0 +1,31 @@
+✔ agent chooser and output distinguish agent from principal (1.554539ms)
+✔ agent V2 action is role-specific; approved adapter still imports commission only (0.545371ms)
+✔ payment selection preserves the original amount, without an implicit exchange rate (1.314458ms)
+✔ legacy portfolio and same-currency metadata preserve the complete financial result (3.350091ms)
+✔ foreign payments never enter the financial engine before conversion (0.265319ms)
+✔ selectors follow economic meaning and do not attach to aggregate/domestic expenses (0.120261ms)
+✔ real V1 capital and credit functions reject an unconverted payment before running financial formulas (1.977726ms)
+✔ MBA combined transactions consume dynamic worker capacity, not standalone V1 forecast (9.481707ms)
+✔ capacity reacts to cross-sell ratios and tuple quantities (3.197672ms)
+✔ negative/missing input is not coerced into phantom capacity or extra allocations (0.474524ms)
+✔ legacy manual usage continues to have identical meaning; no resource double billing (1.248439ms)
+✔ empirical support, joint denominator, directed confidence and lift, no fabricated conversions (8.950427ms)
+✔ CSV quoted separators and line_id duplicates, partial returns, canceled and refunds never create baskets (1.66868ms)
+✔ same buyer placing multiple paid orders adds multiple denominators, line repeats aggregate legitimate quantities (0.361895ms)
+✔ channel/date filtering gives one precise observational denominator per scope (0.300813ms)
+✔ a missing file, corrupt dates, negative quantity, excessive returns, or contradictory line ID fail closed (0.759192ms)
+✔ no purchases and unmapped unknown IDs never produce invented rules (0.176075ms)
+✔ conflicting currency/channel/date on one order fail rather than silently mix currencies (0.231459ms)
+✔ Nomad360 JSON and CSV samples contain exactly 3 paid receipts and parse to the same baskets (0.807084ms)
+✔ Nomad360 receipt format rejects unknown version, duplicate order ID and empty baskets (0.646954ms)
+✔ Inter preserves application logic; current task-6 presentation files have a separate exact scope guard (419.351137ms)
+✔ The single production Inter source embeds the original bytes for portable offline HTML (1.62197ms)
+✔ Candidate font assets are original OFL files with verified Kazakh coverage and real 400–700 axes (0.689528ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 704.245782

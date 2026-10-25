@@ -1,0 +1,71 @@
+name: C5-8 final cascade and palette batch
+on:
+  pull_request:
+    paths:
+      - 'nomad360_calculator_ui.css'
+      - 'nomad360_irbis_banner.css'
+      - 'nomad360_palette.css'
+      - 'scripts/palette/**'
+      - 'nomad360_design_system.css'
+      - 'nomad360_hero_banner.css'
+      - 'scripts/cleanup-paint/**'
+      - 'tests/cleanup_paint.test.cjs'
+      - 'scripts/localization/inventory.cjs'
+      - 'tests/fixtures/cleanup-paint/**'
+      - 'tests/helpers/paint-scope.cjs'
+      - 'docs/reviews/cleanup-paint-05-8/**'
+      - '.github/workflows/cleanup-paint.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  paint-cascade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+      C58_BASELINE_ROOT: ${{ github.workspace }}/.c58-baseline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Locked tools and accepted main
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          npm ci --prefix scripts/localization --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+          git worktree add --detach "$C58_BASELINE_ROOT" 050bce789259867096d2d312e5b0dbea51454d5d
+      - name: Exact component boundary, negative guards and financial contracts
+        run: |
+          node --check scripts/cleanup-paint/compare.cjs
+          node scripts/cleanup-paint/model.cjs --check
+          node scripts/cleanup-typical/model.cjs --check
+          node --test tests/cleanup_paint.test.cjs tests/cleanup_typical.test.cjs tests/cleanup_service_grid.test.cjs tests/payment_grid.test.cjs tests/style_ownership.test.cjs tests/cleanup_about_copy.test.cjs tests/cleanup_scene_layout.test.cjs tests/cleanup_scene.test.cjs tests/cleanup_canvas.test.cjs tests/cleanup_palette.test.cjs tests/cleanup_about.test.cjs tests/cleanup_logo_mask.test.cjs tests/partner_build_scope.test.cjs tests/banner_vector_quality.test.cjs tests/task10_palette_source.test.cjs tests/nomad360_marketing_scope.test.cjs tests/nomad360_v1_engine.test.cjs tests/nomad360_v1_engine_scope.test.cjs tests/nomad360_draft_store.test.cjs tests/tax_draft_storage_scope.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/nomad360_price_export.test.cjs
+          node scripts/palette/build.cjs --check
+          node scripts/localization/inventory.cjs --check
+          node tests/sales_tax_7b_baseline.cjs
+          node tests/helpers/pinned-controls-css-scope.cjs
+          python scripts/seo/check_phase_a.py
+          node scripts/cleanup-paint/ownership.cjs artifacts/paint/ownership.json
+      - name: Pinned site utilities
+        run: |
+          mkdir -p artifacts/paint
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c58.css"
+          scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c58.css" -o artifacts/paint/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Full route and layout matrix before/after, responsive boundaries and keyboard focus
+        run: |
+          node scripts/cleanup-paint/compare.cjs artifacts/paint
+          node scripts/cleanup-paint/static.cjs artifacts/paint
+          node scripts/cleanup-paint/verify.cjs artifacts/paint
+          
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: paint-cascade-${{ github.sha }}
+          path: |
+            artifacts/paint/*.json
+            artifacts/paint/*.png
+          retention-days: 14

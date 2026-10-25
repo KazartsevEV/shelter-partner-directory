@@ -23,7 +23,9 @@ for(const {file:src,tree} of trees)for(const important of [false,true]){
 const families=['slate','gray','zinc','neutral','stone','red','orange','amber','yellow','lime','green','emerald','teal','cyan','sky','blue','indigo','violet','purple','fuchsia','pink','rose'];
 for(const family of families)for(const level of [50,100,200,300,400,500,600,700,800,900,950]){const bg=level<=200?P.white:['orange','amber','yellow'].includes(family)?P.orange:level<=500?P.blue:P.navy;body.push(`[class~="bg-${family}-${level}"],[class~="hover:bg-${family}-${level}"]:hover,[class~="focus:bg-${family}-${level}"]:focus{background-color:${bg}!important;${context(bg)}}`);}
 body.push(`[class*="bg-white/"],.bg-white{background-color:${P.white}!important;${context(P.white)}}.bg-transparent{background-color:transparent!important}`);
-const candidates=new Set(Object.keys(named).filter(n=>rgb(n)));for(const f of [...sources,...fs.readdirSync(root).filter(f=>f.endsWith('.js')||f==='Marketing_calc.HTML')]){const source=fs.readFileSync(path.join(root,f),'utf8');for(const c of source.match(/#[\da-f]{3,8}\b|rgba?\([^()]+\)/gi)||[])if(rgb(c))candidates.add(c);}
+const compatibility=require('./inline-paints.json');
+if(!Array.isArray(compatibility)||!compatibility.every(c=>typeof c==='string'&&c.length<=80&&rgb(c)?.every(Number.isFinite)))throw Error('Invalid inline paint compatibility catalogue');
+const candidates=new Set([...Object.keys(named).filter(n=>rgb(n)),...compatibility]);for(const f of [...sources,...fs.readdirSync(root).filter(f=>f.endsWith('.js')||f==='Marketing_calc.HTML')]){const source=fs.readFileSync(path.join(root,f),'utf8');for(const c of source.match(/#[\da-f]{3,8}\b|rgba?\([^()]+\)/gi)||[])if(rgb(c))candidates.add(c);}
 for(const c of [...candidates]){const a=rgb(c);if(a)candidates.add('rgb('+a.map(Math.round).join(', ')+')');}
 for(const c of candidates){if(c.length>80)continue;const bg=tone(c),selectors=[];for(const prop of ['background','background-color'])for(const space of ['',' '])selectors.push(`[style*=${JSON.stringify(prop+':'+space+c)} i]`);body.push(selectors.join(',')+`{background-color:${bg}!important;${context(bg)}}`);}
 const fonts=fs.readFileSync(path.join(root,'nomad360_calculator_ui.css'),'utf8').match(/@font-face\s*\{[\s\S]*?\}/g).map((s,i)=>s.replace(/url\('[^']+'\)/,`url('./vendor/fonts/type02/${['inter-cyrillic-ext','inter-cyrillic','inter-latin-ext','inter-latin'][i]}.woff2')`)).join('\n');
@@ -49,7 +51,8 @@ body:has(#home-screen) #nomad360-header .nomad-burger[style*="--nomad-burger-con
 body:has(#home-screen) #nomad360-hero h1{color:${P.orange}!important;--p10-fg:${P.orange}!important}
 html body :is([class*="text-orange-"],[class*="text-amber-"],[class*="text-red-"],[class*="text-rose-"]){color:var(--p10-accent)!important}
 /* Brand accents retain their approved roles; orange type stays on navy. */\n.nomad-wordmark span,.nomad-seo-tagline span+span{color:${P.orange}!important}\nhtml body .nomad-wordmark .nomad-lite{color:${P.navy}!important}\n}\n`;
-const css=require('./deduplicate.cjs').deduplicate(rawCss).css;
+const deduplicated=require('./deduplicate.cjs').deduplicate(rawCss).css;
+const css=require('./cascade.cjs').prune(deduplicated,{generated:true}).css;
 const outputs=[[file,css],[path.join(root,'nomad360_static_fonts.css'),'/* Existing Inter faces for static EN/legal pages only. The calculator retains its original portable embedded faces. */\n'+fonts+'\n']];
 for(const [target,text] of outputs){if(process.argv.includes('--check')){if(!fs.existsSync(target)||fs.readFileSync(target,'utf8')!==text)throw Error('Regenerate '+path.basename(target));}else fs.writeFileSync(target,text);}
 console.log('TASK10_PALETTE_GENERATED '+JSON.stringify({bytes:Buffer.byteLength(css),surfaces:body.length,colors:P}));

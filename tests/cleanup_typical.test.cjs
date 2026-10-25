@@ -4,7 +4,7 @@ const m=require('../scripts/cleanup-typical/model.cjs'),s=require('./helpers/typ
 test('133 dead layout declarations are removed; every final selector/context/priority winner is preserved',()=>{
  let declarations=0,bytes=0;
  for(const [file,r]of Object.entries(s.receipt.files)){
-  const {before,after}=s.sources[file];A.deepEqual(m.analyze(before),{edits:r.edits,proof:r.proof});A.equal(m.apply(before,r.edits),after);A.equal(fs.readFileSync(file,'utf8'),after);A.deepEqual(m.winners(before),m.winners(after));
+  const {before,after}=s.sources[file];A.deepEqual(m.analyze(before),{edits:r.edits,proof:r.proof});A.equal(m.apply(before,r.edits),after);A.equal(require('./helpers/paint-scope.cjs').restore(file,fs.readFileSync(file,'utf8')),after);A.deepEqual(m.winners(before),m.winners(after));
   A.equal(m.hash(before),r.beforeSha);A.equal(m.hash(after),r.afterSha);declarations+=r.proof.length;bytes+=r.savedBytes;
   for(const p of r.proof){A.ok(p.winners.every(w=>w.line>p.line));}
  }
@@ -27,5 +27,5 @@ test('runtime, pages, assets, oracles, packer and old workflows stay exact; only
  const bridge=JSON.parse(fs.readFileSync('tests/fixtures/cleanup-typical/bridges.json'));
  const names=execFileSync('git',['ls-tree','-r','--name-only',m.base],{encoding:'utf8'}).trim().split('\n').filter(f=>/^(nomad360_|portfolio_v2_).*\.(js|css)$/.test(f)||['Marketing_calc.HTML','US_Retail_Demo.HTML'].includes(f)||/^(assets\/|vendor\/|tests\/fixtures\/|\.github\/workflows\/|scripts\/partners\/|scripts\/palette\/|scripts\/cleanup|scripts\/style-ownership\/)/.test(f));
  for(const file of names){const actual=fs.readFileSync(file),expected=execFileSync('git',['show',m.base+':'+file],{maxBuffer:24e6});A.deepEqual(s.restore(file,actual),expected,file);}
- for(const [file,r]of Object.entries(bridge)){A.equal(fs.readFileSync(file,'utf8'),r.after,file);A.equal(execFileSync('git',['show',m.base+':'+file],{encoding:'utf8',maxBuffer:24e6}),r.before);}
+ for(const [file,r]of Object.entries(bridge)){A.equal(require('./helpers/paint-scope.cjs').restore(file,fs.readFileSync(file,'utf8')),r.after,file);A.equal(execFileSync('git',['show',m.base+':'+file],{encoding:'utf8',maxBuffer:24e6}),r.before);}
 });
