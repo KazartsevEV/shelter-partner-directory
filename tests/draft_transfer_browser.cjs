@@ -127,7 +127,17 @@ function server(){return http.createServer((req,res)=>{
    A.deepEqual(errors,[]);cases.push({language,width,entry,scenario:shopper?'actual-shopper-credit':name,records:7,v1CashReady:before.cash.ready===true,foreignFxPreserved:true,numericParity:true,conflictBlocked:true,markupRejected:true});
    console.log('DRAFT_TRANSFER_CASE_GREEN',language,width,name);await context.close();
   }
-  A.deepEqual(badRequests,[]);fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({cases,originsDistinct:true,noProviderWrites:true},null,2));
+  const denied=await browser.newContext();
+  await denied.addInitScript(()=>Object.defineProperty(window,'localStorage',{get(){throw new DOMException('denied','SecurityError')}}));
+  const blocked=await denied.newPage(),blockedErrors=[];blocked.on('pageerror',e=>blockedErrors.push(e.message));
+  await denied.route('**/*',r=>r.request().url().startsWith(oldOrigin+'/')?r.continue():r.abort());
+  await blocked.goto(oldOrigin+'/drafts/?lang=en');await blocked.locator('#draft-export').click();
+  A.equal(await blocked.locator('#draft-export-status').getAttribute('data-state'),'storage');
+  const minimal=JSON.stringify({format:'nomad360-drafts',version:1,createdAt:'2026-01-02T00:00:00Z',records:[{key:'marketingCalcProductResultV1',value:JSON.stringify({productPortfolio:[{id:1,name:'Local draft',source:'own',inputs:{}}]})}]});
+  await blocked.locator('#draft-file').setInputFiles({name:'draft.json',mimeType:'application/json',buffer:Buffer.from(minimal)});
+  await blocked.waitForFunction(()=>document.getElementById('draft-import-status').dataset.state==='storage');
+  A.equal(await blocked.locator('#draft-import').isDisabled(),true);A.deepEqual(blockedErrors,[]);await denied.close();
+  A.deepEqual(badRequests,[]);fs.writeFileSync(path.join(out,'protocol.json'),JSON.stringify({cases,originsDistinct:true,noProviderWrites:true,storageDenied:true},null,2));
   console.log('DRAFT_TRANSFER_BROWSER_GREEN',JSON.stringify({cases:cases.length,records:cases.length*7,numericParity:true,originsDistinct:true}));
  }finally{await browser.close();await Promise.all([old,fresh].map(s=>new Promise(ok=>s.close(ok))));}
 })().catch(error=>{console.error(error);process.exitCode=1});

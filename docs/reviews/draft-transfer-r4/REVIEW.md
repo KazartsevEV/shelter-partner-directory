@@ -72,7 +72,7 @@ accepted calculators/engines and exact four added public resources.
   an applied CNY/KZT quote, with no second conversion). V1 Cash Flow includes
   eight ready and ten unchanged pending states; all 72 standalone/linked/US Retail/
   saved-service result comparisons are ready; test conflict
-  backup gate, real cross-tab invalidation, next-page recovery and unsafe markup; eleven additional markup attacks per viewport/language.
+  backup gate, real cross-tab invalidation, next-page recovery and unsafe markup and a real denied-storage getter; eleven additional markup attacks per viewport/language.
 - No external/provider writes; helper page performs no upload. Six full-page
   screenshots and the sanitized numerical protocol accompany the final run.
 

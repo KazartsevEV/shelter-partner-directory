@@ -14,6 +14,10 @@
  document.querySelectorAll('[data-copy]').forEach(el=>el.textContent=copy[el.dataset.copy]);
  document.querySelectorAll('nav [lang]').forEach(el=>{if(el.lang===language)el.setAttribute('aria-current','page')});
  const recordLabels=Object.fromEntries(Object.keys(T.keys).map((key,i)=>[key,({en:['V1','V2','Linked V2','Service tax','Legacy service','US Retail','US Retail reset'],ru:['V1','V2','Связанный V2','Налог услуги','Услуга прежнего формата','US Retail','Сброс US Retail'],kk:['V1','V2','Байланыстырылған V2','Қызмет салығы','Ескі форматтағы қызмет','US Retail','US Retail қалпына келтіру']})[language][i]]));
+ function reason(error,fallback){
+  if(['SecurityError','QuotaExceededError'].includes(error?.name))return 'storage';
+  return typeof error?.code==='string'&&['invalid','unsafe','size','storage','concurrent','recovery','empty','conflict'].includes(error.code)?error.code:fallback;
+ }
  const el=id=>document.getElementById(id),status=(id,key)=>{el(id).textContent=copy[key]||copy.invalid;el(id).dataset.state=key};
  el('draft-calculator').href='../Marketing_calc.HTML?lang='+language;
  el('draft-us').href='../US_Retail_Demo.HTML?lang='+language;
@@ -46,7 +50,7 @@
   el('draft-import').disabled=recoveryBlocked||!plan||(conflicts&&(!el('draft-replace').checked||backup!==JSON.stringify(plan.before)));
  }
  try{if(T.recover(window.localStorage))status('draft-import-status','recovered')}
- catch(error){recoveryBlocked=true;status('draft-import-status',error.code||'storage')}
+ catch(error){recoveryBlocked=true;status('draft-import-status',reason(error,'storage'))}
  sync();
  el('draft-export').addEventListener('click',()=>{
   try{
@@ -55,7 +59,7 @@
    a.href=url;a.download='nomad360-drafts-'+new Date().toISOString().slice(0,10)+'.json';a.click();
    setTimeout(()=>URL.revokeObjectURL(url),30000);backup=before;
    status('draft-export-status','exported');sync();
-  }catch(error){status('draft-export-status',error.code||'storage')}
+  }catch(error){status('draft-export-status',reason(error,'storage'))}
  });
  el('draft-choose').addEventListener('click',()=>el('draft-file').click());
  el('draft-file').addEventListener('change',async event=>{
@@ -71,7 +75,7 @@
     el('draft-preview').append(li);
    }
    el('draft-import-status').textContent=plan.conflicts.length?copy.backup:'';sync();
-  }catch(error){plan=null;status('draft-import-status',error.code||'invalid');sync();}
+  }catch(error){plan=null;status('draft-import-status',reason(error,'invalid'));sync();}
  });
  el('draft-replace').addEventListener('change',sync);
  el('draft-import').addEventListener('click',async()=>{
@@ -81,7 +85,7 @@
    const commit=()=>T.apply(window.localStorage,plan,{replace:el('draft-replace').checked,htmlValidator:safeMarkup});
    const result=navigator.locks?await navigator.locks.request('nomad360-draft-transfer',commit):commit();
    plan=null;backup=null;status('draft-import-status',result.imported?'loaded':'unchanged');sync();
-  }catch(error){plan=null;backup=null;try{recoveryBlocked=error.code==='recovery'||window.localStorage.getItem(T.journalKey)!==null}catch(_){recoveryBlocked=true}status('draft-import-status',error.code||'storage');sync();}
+  }catch(error){plan=null;backup=null;try{recoveryBlocked=error.code==='recovery'||window.localStorage.getItem(T.journalKey)!==null}catch(_){recoveryBlocked=true}status('draft-import-status',reason(error,'storage'));sync();}
  });
  window.addEventListener('storage',event=>{
   if(event.key===null||Object.hasOwn(T.keys,event.key)||event.key===T.journalKey){
