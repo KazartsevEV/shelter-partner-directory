@@ -22,7 +22,8 @@ validation logic and protected runtime rules are unchanged.
 The deterministic [compressed ledger](inventory.json.gz) contains all 2677
 historically unobserved selectors plus 64 unsupported probes, their historical
 owners/conditions, current owner-file hashes, exact-selector literal witnesses
-and token witnesses in current calculator JS/HTML. The original 171 dynamic
+and token witnesses in current calculator JS/HTML and all published EN/RU/KK
+SEO/Help/license HTML, including the accepted #276 pages. The original 171 dynamic
 selector accesses remain protected. Literal witnesses are not a scope-resolved
 reachability proof. Old observations are labelled historical: this PR does not
 pretend that its old browser census is a new exhaustive matrix. Selectors already

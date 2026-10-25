@@ -61,7 +61,9 @@ def scan():
    tokens=__import__('re').findall(r'[.#]([A-Za-z_][\w-]*)',selector)
    witnesses=[]
    for f,text in content.items():
-    if not (f in ['Marketing_calc.HTML','US_Retail_Demo.HTML'] or f.startswith(('nomad360_','portfolio_v2_')) and f.endswith('.js')):continue
+    active_html=f in ['Marketing_calc.HTML','US_Retail_Demo.HTML'] or (f.startswith(('en/','ru/','kk/','license/')) and f.endswith('.html'))
+    active_js=f.startswith(('nomad360_','portfolio_v2_')) and f.endswith('.js')
+    if not (active_html or active_js):continue
     found=[t for t in tokens if t in text]
     if found:witnesses.append({'file':f,'tokens':found})
    selectors.append({'selector':selector,'historicStatus':kind,'historicOwners':owners,'currentOwnerFingerprints':{f:sha((ROOT/f).read_bytes()) for f in fileset if (ROOT/f).exists()},'currentLiteralSelectorWitnesses':[f for f in fileset if selector in content.get(f,'')],'currentLiteralTokenWitnesses':witnesses,'decision':'no-new-removal','reason':'missing DOM observation is not proof; dynamic/hidden/export/pseudo-element and condition coverage required'})
