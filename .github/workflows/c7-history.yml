@@ -1,0 +1,28 @@
+name: C7 historical copies and selector evidence
+on:
+  pull_request:
+    paths:
+      - 'scripts/cleanup-history/**'
+      - 'tests/c7_history.test.cjs'
+      - 'docs/reviews/cleanup-history-07/**'
+      - '.github/workflows/c7-history.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  c7-history:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Immutable runtime, generated copies, selectors and publication evidence
+        run: |
+          node --test tests/c7_history.test.cjs
+          python scripts/cleanup-history/audit.py --check
