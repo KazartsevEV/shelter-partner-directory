@@ -1,6 +1,6 @@
 # SEC-01 — DDoS, bot abuse and expensive-operation protection
 
-**Status 2026-10-25: prepared in private Draft [lazysellerV2 #492](https://github.com/KazartsevEV/lazysellerV2/pull/492), NOT deployed.** Applies to future Nomad360 production R4/R5/R6; excludes the current GitHub Pages project path and unrelated SHELTER site. No DNS, Cloudflare zone, paid resources, live credentials or public download changes are authorized. A green CI is **not** evidence of online DDoS protection.
+**Status 2026-10-25: PREPARATION MERGED, NOT DEPLOYED.** Private [lazysellerV2 #492](https://github.com/KazartsevEV/lazysellerV2/pull/492), merge `c34b1435`, 17/17 CI on Windows self-hosted runner; public docs-only [#273](https://github.com/KazartsevEV/shelter-partner-directory/pull/273), merge `cfc0766`, 3/3 CI. GitHub Pages, DNS, WAF/CDN, Redis, Turnstile, worker and live client flows were NOT changed or activated. Applies to future Nomad360 production R4/R5/R6; excludes the current GitHub Pages project path and unrelated SHELTER site. No DNS, Cloudflare zone, paid resources, live credentials or public download changes are authorized. A green CI is **not** evidence of online DDoS protection.
 
 ## Threat model and trust boundaries
 
