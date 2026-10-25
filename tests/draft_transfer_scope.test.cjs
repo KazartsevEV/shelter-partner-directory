@@ -20,3 +20,10 @@ test('transport has no network, financial engine, provider, broad storage-clear 
  const colors=[...read('assets/nomad360-drafts.css').matchAll(/#[\da-fA-F]{6}/g)].map(x=>x[0]);A.ok(colors.every(c=>['#173B58','#FFFFFF','#FF913F','#38678B'].includes(c)));
  const workflow=read('.github/workflows/draft-transfer.yml');A.doesNotMatch(workflow,/secrets\.|id-token|contents: write|continue-on-error/);
 });
+
+test('historical Help projection permits only the exact link addition, never search or unrelated edits',()=>{
+ const bridge=require('./helpers/draft-transfer-scope.cjs'),old=execFileSync('git',['show',base+':'+bridge.file],{cwd:root,encoding:'utf8'}),current=read(bridge.file);
+ A.equal(bridge.restore(bridge.file,current),old);A.equal(bridge.restore(bridge.file,old),old);
+ for(const changed of [current.replace('Transfer saved calculations','Unexpected link'),current.replace("input.addEventListener('input',run)","input.addEventListener('change',run)"),current+'\n'])A.throws(()=>bridge.restore(bridge.file,changed),/exact R4/);
+ A.equal(bridge.restore('another.js','unchanged'),'unchanged');
+});

@@ -30,7 +30,7 @@
     if(name.startsWith('on')){if(!['onclick','oninput'].includes(name)||!handlers.test(value))return false;continue;}
     if(name==='style'){if(!/^(?:display:\s*(?:none|block);?\s*)?$/.test(value))return false;continue;}
     if(!attributes.has(name)&&!/^(?:data|aria)-[a-z0-9-]+$/.test(name))return false;
-    if(/[<>]/.test(value))return false;
+    if(/[<>]/.test(value)||T.unsafeText(value))return false;
     if(name==='type'&&!['button','text','number','url','checkbox','radio'].includes(value))return false;
    }
   }

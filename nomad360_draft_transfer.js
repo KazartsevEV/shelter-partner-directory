@@ -16,11 +16,20 @@
  const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
  const exact=(x,names)=>object(x)&&Object.keys(x).sort().join('|')===[...names].sort().join('|');
  const bytes=s=>new TextEncoder().encode(s).length;
+ function unsafeText(value){
+  // Link fields may later be rendered by the existing UI. Reject active/local URL
+  // schemes, including HTML numeric entities and ASCII whitespace obfuscation.
+  const decoded=value.replace(/&#(?:x([0-9a-f]+)|(\d+));?/gi,(_,hex,decimal)=>{
+   const code=parseInt(hex||decimal,hex?16:10);return code<=0x10ffff?String.fromCodePoint(code):'\ufffd';
+  }).replace(/&(?:colon|tab|newline);?/gi,token=>token.toLowerCase().startsWith('&colon')?':':' ');
+  return /^(?:javascript|vbscript|data|file|blob):/i.test(decoded.replace(/[\u0000-\u0020\u007f]/g,''));
+ }
  function inspect(value,htmlValidator){
   let nodes=0;
   function walk(v,path){
    if(++nodes>100000||path.length>40)fail('size');
    if(typeof v==='number'&&!Number.isFinite(v))fail('invalid');
+   if(typeof v==='string'&&unsafeText(v))fail('unsafe');
    if(typeof v==='string'&&/[<>]/.test(v)){
     const dynamic=path.length===6&&path[0]==='productPortfolio'&&path[2]==='uiState'&&
       path[3]==='dynamic'&&['materials','equipmentRental','equipmentPurchase'].includes(path[4])&&path[5]==='html';
@@ -141,5 +150,5 @@
   }
   return {imported:rows.length,unchanged:checked.file.records.length-rows.length};
  }
- return {keys,limit,journalKey,validate,parse,snapshot,exportFile,preview,apply,recover};
+ return {keys,limit,journalKey,unsafeText,validate,parse,snapshot,exportFile,preview,apply,recover};
 });

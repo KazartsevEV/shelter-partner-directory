@@ -37,7 +37,8 @@ by this change. Current full-service V1 drafts use the ordinary V1 resume path.
 - Dynamic V1 row HTML is validated in an inert template against allowed tags,
   attributes and exact pre-existing row handlers; arbitrary HTML, scripts, SVG,
   frames, URLs in styles/attributes, duplicate global IDs and prototype keys are
-  rejected before storage writes. Markup outside the existing V1 dynamic paths is
+  rejected before storage writes. Active/local URL schemes in saved fields
+  are also rejected, including numeric-entity/control-character obfuscation. Markup outside the existing V1 dynamic paths is
   rejected. Unsupported old/custom markup fails visibly rather than being silently
   sanitized and changing a user's saved form.
 - Format/version/inventory, 8 MiB UTF-8 limit, nesting/node bounds and safe IDs
@@ -60,7 +61,7 @@ accepted calculators/engines and exact four added public resources.
 
 ## Verification
 
-- 86 Node tests: transport/recovery/security/scope plus accepted storage and V1/V2
+- 88 Node tests: transport/recovery/security/scope plus accepted storage and V1/V2
   financial suites. No skips.
 - 15 public artifact policy tests; clean allowlisted artifact, 116 files.
 - Chromium: distinct HTTP origins serving the built artifact, actual downloaded files and picker import,
@@ -71,7 +72,7 @@ accepted calculators/engines and exact four added public resources.
   an applied CNY/KZT quote, with no second conversion). V1 Cash Flow includes
   eight ready and ten unchanged pending states; all 72 standalone/linked/US Retail/
   saved-service result comparisons are ready; test conflict
-  backup gate, real cross-tab invalidation, next-page recovery and unsafe markup; ten additional markup attacks per viewport/language.
+  backup gate, real cross-tab invalidation, next-page recovery and unsafe markup; eleven additional markup attacks per viewport/language.
 - No external/provider writes; helper page performs no upload. Six full-page
   screenshots and the sanitized numerical protocol accompany the final run.
 
@@ -79,7 +80,7 @@ Local built-artifact matrix passed 18/18, transferring 126 raw records; all
 before/after financial/state comparisons matched. [Protocol](protocol.json).
 Screenshots: [EN 320](en-320.png), [RU 320](ru-320.png), [KK 320](kk-320.png),
 [EN 1280](en-1280.png), [RU 1280](ru-1280.png), [KK 1280](kk-1280.png).
-The local artifact pins code revision `a4f9aea`; subsequent evidence/map-only
+The artifact code revision and digest are pinned in the protocol. Evidence-only
 commits do not change runtime source. Final HEAD CI receipts are reported in PR.
  Local fixtures and
 HTTP origins do not certify a real hosting origin, TLS, provider delivery or R4–R6.
@@ -99,4 +100,19 @@ live HTML calls the separate `build` period-ledger adapter. Source search found 
 live UI caller of `fromOnlineV1`. Do not change accepted financial validation or
 period formulas to make the incompatible historical tests green. Retiring/migrating
 that obsolete path with current-V1 numerical oracles is a separate maintenance
-slice; these 13 are not included in the 86 successful checks above.
+slice; these 13 are not included in the 88 successful checks above.
+
+## Historical comparison bridge
+
+Initial CI caught the deliberate Help-link addition in old byte-frozen stylesheet
+and partner guards. `tests/helpers/draft-transfer-scope.cjs` accepts only the pinned
+old Help script or SHA256 of the entire reviewed new script, restoring old bytes
+only for historical comparisons. Its one hook is in the existing V1 historical
+restore chain; no shipping state/financial code or workflow is altered. Negative
+tests reject changes to either the new link or the old search behavior. This does
+not skip files or permit arbitrary later Help changes.
+
+Actual main-branch read-only authorization recheck `40236324539` after #494 merge
+again found no SDK owner account/ADC and no injected WIF input; legacy config was
+present but opaque. No Google authorization is certified, no messages/cloud writes
+were performed. This external runtime-binding gate remains open.

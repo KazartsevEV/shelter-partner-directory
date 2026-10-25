@@ -73,3 +73,11 @@ test('pre-product V1 tax preferences survive without inventing a resumable portf
  A.equal(T.apply(dest,T.preview(dest,text)).imported,1);A.equal(dest.getItem(v1),raw);
  const store=require('../nomad360_draft_store.js').create(dest);A.equal(store.readV1(),null);A.deepEqual(store.readV1Raw(),JSON.parse(raw));
 });
+
+test('active or local link schemes, including entity and control obfuscation, cannot enter draft fields',()=>{
+ for(const url of ['javascript:alert(1)',' JaVa\nScRiPt:alert(1)','java&#x73;cript&colon;alert(1)','java&Tab;script:alert(1)','vbscript:msgbox(1)','data:text/html,script','file:///local/file','blob:https://example.invalid/123']){
+  const bad=structuredClone(payload);bad.productPortfolio[0].inputs['resale-buy-link']=url;
+  const text=file([[v1,JSON.stringify(bad)]]);fails(()=>T.parse(text),'unsafe');
+ }
+ for(const url of ['https://supplier.example/item?name=bag','http://supplier.example/a','Text with javascript: in a sentence'])A.equal(T.unsafeText(url),false);
+});
