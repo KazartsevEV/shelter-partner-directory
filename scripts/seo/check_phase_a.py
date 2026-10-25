@@ -490,7 +490,7 @@ def main():
             "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-about-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
             'nomad360_about_banner.css'], input=(ROOT / 'nomad360_about_banner.css').read_bytes(), cwd=ROOT)
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
-                             'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
+                             'docs/reviews/draft-transfer-r4/', 'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
                              'scripts/cleanup-v1/', 'tests/fixtures/v1-state/', 'docs/reviews/v1-state-06/', 'tests/fixtures/v1-operations/', 'docs/reviews/v1-operations-06/',
                              'scripts/cleanup/', 'docs/reviews/cleanup-service-grid-01/',
@@ -511,6 +511,11 @@ def main():
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
                              'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/',
                              'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs'} or p in (
+        # R4 draft transport: dedicated local page, no calculator/engine exemptions.
+        'nomad360_draft_transfer.js', 'nomad360_draft_transfer_ui.js',
+        'drafts/index.html', 'assets/nomad360-drafts.css', 'scripts/site-release/public-files.json',
+        'tests/draft_transfer.test.cjs', 'tests/draft_transfer_scope.test.cjs',
+        'tests/draft_transfer_browser.cjs', '.github/workflows/draft-transfer.yml',
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
         'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
         'tests/nomad360_global_tree_navigation_browser.test.cjs',

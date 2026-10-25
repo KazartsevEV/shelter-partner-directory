@@ -13,8 +13,8 @@ R1 QA #281 и private source bootstrap [#493](https://github.com/KazartsevEV/laz
 выдача. На текущих Pages проверены 18/18 прямых HTTP 200 и ожидаемые языки
 URL sitemap: [протокол](seo/reviews/deploy-readiness-02/public-url-status.json).
 
-Новый [private Draft #494](https://github.com/KazartsevEV/lazysellerV2/pull/494)
-готовит отдельный hosting package: локальный pinned Tailwind, явный HTTPS
+Принятый/merged [private #494](https://github.com/KazartsevEV/lazysellerV2/pull/494)
+подготовил отдельный hosting package (merge `e4dd1ce7`, CI `40231935131` GREEN): локальный pinned Tailwind, явный HTTPS
 origin/base path, staging noindex/блокировка реальной отправки, архив/restore и
 раздельную read-only проверку существующих Google owner OAuth/service identity.
 Работа по нему не равна закрытию всех R3–R6 или реальной Google авторизации.
@@ -36,6 +36,15 @@ repo self-hosted runner или явные `NOMAD360_RUNNER_LABELS`; доказа
 **подготовить продукт без ключей → приватная сборка → хостинг и домен →
 подключить существующие credentials → реальная проверка → включить выдачу**.
 Сам документ не меняет production, лицензию, видимость репозиториев или DNS.
+
+## Текущий независимый срез R4: перенос черновиков
+
+[Локальная страница переноса](reviews/draft-transfer-r4/REVIEW.md) готовится отдельно
+от финансовых форм: файл → проверка → preview → явное разрешение замены после
+резервной копии. Сохранённые значения и версии не пересчитываются. Публикация на
+старом origin до переезда обязательна; обновление private snapshot — после приёмки.
+Наличие этого кода не закрывает staging/TLS, действующие OAuth/WIF bindings, R1/P3,
+проверки SEC-01 и реальную выдачу. Секреты и хостинг в этой задаче не создаются.
 
 ## 1. Границы готовности
 

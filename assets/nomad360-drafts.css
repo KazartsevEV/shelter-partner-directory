@@ -1,0 +1,18 @@
+/* Draft transport page. Approved Nomad360 palette, no framework/runtime CDN. */
+:root{font-family:Inter,system-ui,sans-serif;color:#173B58;background:#FFFFFF;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}header,main{max-width:1000px;margin:auto;padding:20px}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:1px solid #38678B}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;text-decoration:none}.brand img{background:#FFFFFF;border-radius:50%}
+nav{display:flex;gap:8px}nav a{padding:10px;min-height:44px}nav [aria-current]{background:#173B58;color:#FFFFFF;border-radius:6px}
+h1{font-size:clamp(1.65rem,4vw,2.2rem);line-height:1.25}h2{font-size:1.35rem;line-height:1.4}p,li,label{line-height:1.6;overflow-wrap:anywhere}
+section{margin:24px 0;padding:20px;border:1px solid #38678B;border-radius:12px}a{color:inherit;text-underline-offset:.2em}
+button{font:inherit;font-weight:600;line-height:1.5;min-height:48px;max-width:100%;border:2px solid #173B58;border-radius:8px;background:#FF913F;color:#173B58;padding:10px 16px;cursor:pointer;overflow-wrap:anywhere}
+button:active{background:#173B58;color:#FFFFFF}button:disabled{background:#FFFFFF;color:#38678B;border-color:#38678B;cursor:default}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #FF913F;outline-offset:4px}
+input[type=file]{display:block;font:inherit;max-width:100%;padding:14px 0;color:#173B58}input[type=checkbox]{width:20px;height:20px;vertical-align:middle;margin-right:10px;accent-color:#173B58}
+[hidden]{display:none!important}[role=status]{font-weight:600;min-height:1.5em}ul{padding-left:22px}
+@media(max-width:360px){header,main{padding:16px}section{padding:14px}}
+
+input[type=file]::file-selector-button{font:inherit;min-height:44px;max-width:100%;padding:8px 10px;border:1px solid #173B58;border-radius:6px;background:#FFFFFF;color:#173B58;cursor:pointer}button:disabled{opacity:1}
+
+#draft-choose{display:block;margin-top:12px;background:#FFFFFF;color:#173B58}#draft-choose:active{background:#173B58;color:#FFFFFF}#draft-filename{display:block;margin-top:8px;overflow-wrap:anywhere}label[for=draft-file]{display:block}

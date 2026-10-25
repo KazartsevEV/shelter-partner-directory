@@ -1,0 +1,42 @@
+name: Local draft transfer before host migration
+on:
+  pull_request:
+    paths:
+      - 'nomad360_draft_transfer*.js'
+      - 'drafts/**'
+      - 'assets/nomad360-drafts.css'
+      - 'assets/nomad360-help.js'
+      - 'tests/draft_transfer*'
+      - 'scripts/site-release/public-files.json'
+      - '.github/workflows/draft-transfer.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  draft-transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax, failure recovery and unchanged financial engines
+        run: |
+          node --check nomad360_draft_transfer.js
+          node --check nomad360_draft_transfer_ui.js
+          node --check tests/draft_transfer_browser.cjs
+          node --test tests/draft_transfer*.test.cjs tests/nomad360_draft_store.test.cjs tests/nomad360_v1_engine.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_linked.test.cjs tests/portfolio_v2_full_service.test.cjs tests/calculator_business_oracle_v2.test.cjs
+      - name: Locked browser tools and deterministic test utilities
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+          mkdir -p artifacts/draft-transfer
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/draft-transfer.css"
+          scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/draft-transfer.css" -o artifacts/draft-transfer/utilities.css --content './Marketing_calc.HTML,./US_Retail_Demo.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Real downloads, distinct origins, restore, languages and mobile widths
+        run: node tests/draft_transfer_browser.cjs

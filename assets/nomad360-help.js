@@ -12,6 +12,15 @@
     }
   }
   syncLang();window.addEventListener('hashchange',syncLang);
+  // Same-origin local file transport; no financial data in the URL or network.
+  var transfer=document.createElement('p'),link=document.createElement('a');
+  var code=document.documentElement.lang.slice(0,2);
+  var labels={en:'Transfer saved calculations to another browser or website',ru:'Перенести сохранённые расчёты в другой браузер или на другой сайт',kk:'Сақталған есептерді басқа браузерге немесе сайтқа тасымалдау'};
+  link.textContent=labels[code]||labels.en;
+  link.href='../../drafts/?lang='+(['en','ru','kk'].indexOf(code)>=0?code:'en');
+  transfer.className='help-note';transfer.appendChild(link);
+  var main=document.getElementById('main');if(main)main.prepend(transfer);
+
   if(!box||!toc)return;
   var input=box.querySelector('input');
   var status=box.querySelector('.help-search-status');
