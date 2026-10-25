@@ -44,7 +44,7 @@ test('canonical engine has no browser, persistence, transport or localization de
 test('simple online extraction preserves the accepted arithmetic expressions, including UI-derived ratios',()=>{
  const old=execFileSync('git',['show',manifest.base+':Marketing_calc.HTML'],{cwd:root,encoding:'utf8',maxBuffer:2*1024*1024});
  const previous=declarations(old).calculate.source;
- const current=declarations(fs.readFileSync(path.join(root,'Marketing_calc.HTML'),'utf8')).calculate.source;
+ const current=declarations(require('./helpers/v1-operations-scope.cjs').restore('Marketing_calc.HTML',fs.readFileSync(path.join(root,'Marketing_calc.HTML'),'utf8'))).calculate.source;
  const module=acorn.parse(fs.readFileSync(path.join(root,'nomad360_v1_engine.js'),'utf8'),{ecmaVersion:'latest'});
  function walk(node,visit){if(!node||typeof node!=='object')return;visit(node);for(const child of Object.values(node))if(Array.isArray(child))child.forEach(n=>walk(n,visit));else if(child&&typeof child==='object')walk(child,visit);}
  const extracted=[];walk(module,n=>{if(n.type==='FunctionDeclaration'&&['calculateSimpleService','validateSimpleService','unassignedSimpleAgentExpenses'].includes(n.id.name))extracted.push(n);});

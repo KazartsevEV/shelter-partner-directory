@@ -36,7 +36,8 @@ async function snapshot(page,kind){
  const launch=()=>chromium.launch({headless:true,args:['--no-sandbox']});
  const config=require('../../tests/fixtures/partner-build/example.json');
  const beforePackage=await buildPackage(config,{repositoryRoot:baselineRoot,browserFactory:launch}),afterPackage=await buildPackage(config,{browserFactory:launch});
- A.equal(beforePackage.html,scope.restoreStandalone(afterPackage.html));A.deepEqual(beforePackage.manifest.resources.map(scope.normalizeResource),afterPackage.manifest.resources.map(scope.normalizeResource));A.equal(Buffer.byteLength(beforePackage.html)-Buffer.byteLength(afterPackage.html),3589+require('../../tests/helpers/paint-scope.cjs').packageDelta(beforePackage,afterPackage));
+ const comparableAfter=require('../../tests/helpers/v1-operations-scope.cjs').packageProjection(afterPackage);
+ A.equal(beforePackage.html,scope.restoreStandalone(comparableAfter.html));A.deepEqual(beforePackage.manifest.resources.map(scope.normalizeResource),comparableAfter.manifest.resources.map(scope.normalizeResource));A.equal(Buffer.byteLength(beforePackage.html)-Buffer.byteLength(comparableAfter.html),3589+require('../../tests/helpers/paint-scope.cjs').packageDelta(beforePackage,afterPackage));
  const packages={before:beforePackage,after:afterPackage};
  const server=http.createServer((req,res)=>{try{
   const url=new URL(req.url,'http://local');let rel=decodeURIComponent(url.pathname).slice(1),variant=rel.startsWith('before/')?'before':'after';rel=rel.replace(/^(before|after)\//,'').replace(/^shelter-partner-directory\//,'');

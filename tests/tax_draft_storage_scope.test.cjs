@@ -6,7 +6,7 @@ test('storage-only replacements reverse exactly to accepted main; engines are un
  for(const file of Object.keys(scope.manifest.files)){
   const current=fs.readFileSync(file),old=execFileSync('git',['show',scope.manifest.base+':'+file]);
   A.deepEqual(scope.restore(file,current),old,file);
-  A.throws(()=>scope.restore(file,Buffer.concat([current,Buffer.from('\n// changed')])),/Unreviewed (?:tax\/draft storage|partner application HTML)/);
+  A.throws(()=>scope.restore(file,Buffer.concat([current,Buffer.from('\n// changed')])),/Unreviewed (?:tax\/draft storage|partner application HTML|V1 operations edit)/);
  }
  for(const file of ['nomad360_v1_engine.js','nomad360_sales_tax.js','nomad360_sales_tax_v2.js',
   'portfolio_v2_engine.js','portfolio_v2_linked_engine.js','nomad360_payments.js','nomad360_fx.js','Marketing_calc.HTML'])

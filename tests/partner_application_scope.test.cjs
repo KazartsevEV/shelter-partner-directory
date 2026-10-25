@@ -5,7 +5,7 @@ const {manifest,restore}=require('./helpers/partner-application-scope.cjs');
 test('only exact paired asset loaders change in the two entrypoints',()=>{
  for(const file of Object.keys(manifest.files)){
   const current=fs.readFileSync(file);A.deepEqual(restore(file,current),execFileSync('git',['show',manifest.base+':'+file],{maxBuffer:2*1024*1024}));
-  A.throws(()=>restore(file,Buffer.concat([current,Buffer.from('\n// unreviewed')])),/Unreviewed partner application HTML/);
+  A.throws(()=>restore(file,Buffer.concat([current,Buffer.from('\n// unreviewed')])),/Unreviewed (?:partner application HTML|V1 operations edit)/);
  }
  for(const file of ['nomad360_header.js','nomad360_bug_report.js','nomad360_bug_report.css','nomad360_v1_engine.js','portfolio_v2_engine.js','portfolio_v2_linked_engine.js','nomad360_fx.js','nomad360_payments.js','nomad360_draft_store.js','nomad360_delivery.js'])
   A.deepEqual(fs.readFileSync(file),execFileSync('git',['show',manifest.base+':'+file],{maxBuffer:2*1024*1024}),file);

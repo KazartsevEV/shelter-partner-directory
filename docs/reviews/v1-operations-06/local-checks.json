@@ -1,0 +1,54 @@
+{
+  "base": "9851eff63a2c50d074ea7e1420f8ecc48812d0fc",
+  "browser": "145.0.7632.6",
+  "unit": {
+    "passed": 101,
+    "failed": 0
+  },
+  "historicalScopeSuite": {
+    "passed": 38,
+    "failed": 0,
+    "overlapsUnit": true
+  },
+  "vatIndependentCases": 48,
+  "browserPairs": 54,
+  "stateAndPixelComparisons": 978,
+  "timingPairs": 18,
+  "readyMs": {
+    "beforeMedian": 1494.7769425000297,
+    "afterMedian": 1493.6755499999854,
+    "pairedDeltaMedian": 7.521226499986369
+  },
+  "listeners": {
+    "before": [
+      321
+    ],
+    "after": [
+      321
+    ],
+    "samplesEqual": true
+  },
+  "originalJourney": "PASS",
+  "fullServiceExactRestoreAndPDF": "PASS",
+  "vatSalesTaxPDFLanguages": 3,
+  "excel": {
+    "cases": 36,
+    "downloads": 72
+  },
+  "syntax": "PASS",
+  "localizationInventory": "PASS",
+  "seo": "PASS",
+  "ci": "pending",
+  "changedResourceDelta": {
+    "bytes": 3015,
+    "gzip": 1219,
+    "brotli": 1087
+  },
+  "historicalCssAndC6Contracts": {
+    "passed": 136,
+    "failed": 0
+  },
+  "packageProjectionNegativeCases": "PASS",
+  "initialRuntimeRevision": "317fc0a3e6b06f4bbb748dc0df6c3d1e95a44674",
+  "runtimeUnchangedDuringHistoricalCiCompatibility": true
+}
