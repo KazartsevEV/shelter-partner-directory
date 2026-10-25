@@ -122,7 +122,7 @@ function helpPages(cfg){
      !html.includes('<link rel="canonical" href="'+canonicalUrl+'">')||
      (html.match(/rel="canonical"/g)||[]).length!==1)throw Error('HELP-SEO-01 not indexable: '+name);
   for(const alt of locales)if(!html.includes('<link rel="alternate" hreflang="'+alt+'" href="'+base+alt+'/help/">'))throw Error('HELP-SEO-01 hreflang incomplete: '+name+' '+alt);
-  const ids=[...html.matchAll(/\\bid="([^"]+)"/g)].map(m=>m[1]);
+  const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
   if(ids.length!==new Set(ids).size)throw Error('HELP-SEO-01 duplicate id: '+name);
   for(let n=1;n<=17;n++)if(ids.filter(id=>id==='h'+String(n).padStart(2,'0')).length!==1)throw Error('HELP-SEO-01 missing chapter '+n+' in '+name);
   for(const m of html.matchAll(/href="#([^"]+)"/g))if(!ids.includes(m[1]))throw Error('HELP-SEO-01 broken fragment '+m[1]+' in '+name);
