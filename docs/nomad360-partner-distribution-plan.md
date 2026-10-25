@@ -108,7 +108,13 @@ Acceptance: EN/RU/KK policy, form and Help agree; no stale claim of unrestricted
 public download or already-sent password; accessible mobile flow; real delivery
 proof and separate user acceptance before merge.
 
-## Связанные изменения R1/R5 — дополняют партнёрский UI\n\n**BUG-09-SCREENSHOT:** при совместной R1-доработке интерфейса партнёрской выдачи добавить запрос необязательного скриншота в независимый баг-репорт; не смешивать баги с партнёрской заявкой и её согласиями. Задача и [DoD](partners/bug-report-screenshot-scope.md): реальный MIME screenshot+message email только после R5 защищённого intake; текущий Formspree Free не позволяет обещать upload.\n\n**WL-CICD-01:** расширить future B2B сравнение Free / White Label от €600 строкой про обновления от разработчиков, совместимое развитие и сохранение фирменных стилей через согласованный CI/CD. [Архитектура/коммерческие ограничения/DoD](partners/white-label-cicd-scope.md). В R1 утвердить локализованный текст, в R3–R5 построить и доказать профиль клиента, pipeline и rollback, в R6 включить оффер вместе с действующим соглашением. Free HTML auto-update **не поддерживает**; €600 не включает бессрочные или неограниченные работы.\n\n## Separate later work
+## Связанные изменения R1/R5 — дополняют партнёрский UI
+
+**BUG-09-SCREENSHOT:** при совместной R1-доработке интерфейса партнёрской выдачи добавить запрос необязательного скриншота в независимый баг-репорт; не смешивать баги с партнёрской заявкой и её согласиями. Задача и [DoD](partners/bug-report-screenshot-scope.md): реальный MIME screenshot+message email только после R5 защищённого intake; текущий Formspree Free не позволяет обещать upload.
+
+**WL-CICD-01:** расширить future B2B сравнение Free / White Label от €600 строкой про обновления от разработчиков, совместимое развитие и сохранение фирменных стилей через согласованный CI/CD. [Архитектура/коммерческие ограничения/DoD](partners/white-label-cicd-scope.md). В R1 утвердить локализованный текст, в R3–R5 построить и доказать профиль клиента, pipeline и rollback, в R6 включить оффер вместе с действующим соглашением. Free HTML auto-update **не поддерживает**; €600 не включает бессрочные или неограниченные работы.
+
+## Separate later work
 
 A White Label profile needs the agreed licence and explicit presentation/contact
 adapter. Formula changes are never a branding setting. Thematic RU/KK SEO pages,
