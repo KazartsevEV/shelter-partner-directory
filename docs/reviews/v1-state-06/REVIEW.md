@@ -35,7 +35,21 @@ Validation:
 - Original full first-user save/restore/delete journey passes.
 - Paired browser matrix compares both entrypoints and fresh standalone HTML in
   RU/EN/KK on 320/360/390/430/768/1280, including explicit RU/KZ staff/production
-  updates. Raw protocol and measurements will be attached before acceptance.
+  updates. [Raw protocol](protocol.json): **54 pairs / 1086 state-and-pixel comparisons**,
+  **18 timing pairs**. Listener counts remain [321], with identical DOM/listener
+  samples over five repeated visits. Local median readiness: 1560.7 ms
+  before / 1570.1 ms after; median paired delta
+  +43.9 ms. These are lab measurements, not a
+  production speed claim. Resource delta: {'bytes': 6794, 'gzip': 2008, 'brotli': 2278}.
+- Original real Excel suite passes 36 cases / 72 downloaded workbooks. Full-service
+  agent restore/PDF and the original production/credit E2E pass unchanged.
+- Historical C5/C6 guards pass 26 tests; module/package projection negative cases
+  reject tampering and duplicate resources. A real versioned partner package
+  projects byte-for-byte to accepted main: [result](package-projection.json).
+- [Local summary](local-checks.json); representative unchanged hero images:
+  [RU mobile](ru-320.png), [EN mobile](en-320.png), [KK mobile](kk-320.png),
+  [RU desktop](ru-1280.png), [EN desktop](en-1280.png), [KK desktop](kk-1280.png).
+  Final HEAD CI will be linked from the PR; no merge before separate acceptance.
 
 C6 is ready to close only after completed checks and owner acceptance/merge.
 C7 and partner/hosting deployment are not started. Partner customization uses
