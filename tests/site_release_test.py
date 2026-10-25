@@ -1,4 +1,5 @@
-import importlib.util,json,subprocess,tempfile,unittest
+import importlib.util,json,subprocess,tempfile,unittest,sys
+sys.dont_write_bytecode=True
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('release',Path(__file__).resolve().parents[1]/'scripts/site-release/build.py');M=importlib.util.module_from_spec(spec);spec.loader.exec_module(M)
 class ReleaseTests(unittest.TestCase):
@@ -15,7 +16,7 @@ class ReleaseTests(unittest.TestCase):
   a=self.build();b=M.build(self.root,Path(self.temp.name)/'second',self.config)
   self.assertEqual(a,b);self.assertEqual((self.out/'index.html').read_bytes(),(self.root/'Marketing_calc.HTML').read_bytes());self.assertNotEqual((self.out/'index.html').read_bytes(),(self.root/'index.html').read_bytes());self.assertEqual(M.check(self.out),a)
  def test_forbidden_paths_and_disguised_private_files(self):
-  for p in ['../file.js','/file.js','.git/config','.github/workflows/x.yml','scripts/a.js','tests/model.json','docs/reviews/a.html','node_modules/a.js','state/queue.json','partner.zip','nomad360_credentials.json','private/key.json','index.html','a/../b','a\\b']:
+  for p in ['../file.js','/file.js','.git/config','.github/workflows/x.yml','scripts/a.js','tests/model.json','docs/reviews/a.html','node_modules/a.js','state/queue.json','partner.zip','nomad360_credentials.json','private/key.json','index.html','a/../b','a\\b','nomad360_worker.py','bytecode.pyc','config.yml']:
    with self.subTest(path=p),self.assertRaises(ValueError):M.safe(p)
  def test_refuse_dirty_source(self):
   (self.root/'Marketing_calc.HTML').write_text('changed');self.assertRaises(ValueError,self.build);self.assertFalse(self.out.exists())

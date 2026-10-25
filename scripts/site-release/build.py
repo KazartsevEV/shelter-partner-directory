@@ -9,6 +9,7 @@ def git(root,*args):return subprocess.check_output(['git',*args],cwd=root)
 def safe(name):
  p=PurePosixPath(name)
  if not isinstance(name,str) or not name or p.is_absolute() or any(x in ('..','.') or x in DENIED or x.startswith('.') for x in p.parts) or '\\' in name or str(p)!=name:raise ValueError('Forbidden public path: '+str(name))
+ if p.suffix.lower() not in {'.html','.js','.css','.json','.webmanifest','.svg','.png','.webp','.jpg','.jpeg','.ico','.woff','.woff2','.txt','.md','.xml'}:raise ValueError('Non-client release source: '+name)
  if name=='index.html' or any(x in name.lower() for x in ['credential','client_secret','refresh_token','application-state','partner-issuance']) or p.suffix.lower() in {'.zip','.pem','.key','.env','.sqlite','.db'}:raise ValueError('Forbidden public source: '+name)
  return name
 def check(root):
