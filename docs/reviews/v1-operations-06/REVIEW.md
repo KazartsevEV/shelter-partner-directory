@@ -74,7 +74,20 @@ small dependency request; hosting bundling/caching remains a separate delivery s
 All 5 repeated-visit listener/DOM samples match their baseline for every pair;
 observed listener counts: [321] before and after.
 
-Completed CI will be linked in the PR. GREEN does not authorize merge.
+The first CI run exposed three historical C5 audits whose whole-page/package
+freeze predated this runtime extraction. Their compatibility now uses seven exact
+source receipts plus the exact module hash, bundled-script content and the seven
+handler hunks. Unknown code, extra scripts, duplicate resources and wrong hashes
+still fail closed. The browser is served the actual new standalone HTML; only the
+historical equality/size assertions project C6 separately from their CSS delta.
+Raw reports retain actual bytes/resource counts, with the C6 delta explicit in
+the verified summary. No CSS, workflow skip, financial oracle or application code
+was changed to satisfy those historical assertions. Package projection and its
+negative cases pass in the 24-test C5/C6 compatibility suite. The complete
+historical CSS/finance/C6 contract suite also passes **136/136**. Runtime source
+hashes are unchanged from the initial `317fc0a` browser protocol.
+
+Completed final-HEAD CI will be linked in the PR. GREEN does not authorize merge.
 
 ## Maintenance and limits
 

@@ -37,6 +37,26 @@ test('operations have no DOM, storage, network, formatting or mutable global dep
  function walk(node){if(!node||typeof node!=='object')return;if(node.type==='Identifier')A.equal(forbidden.has(node.name),false,node.name);for(const v of Object.values(node))if(Array.isArray(v))v.forEach(walk);else if(v&&typeof v==='object')walk(v);}
  walk(acorn.parse(src,{ecmaVersion:'latest'}));A.equal(Object.isFrozen(Ops),true);
 });
+test('historical package projection accepts only the exact new module and handler hunks',()=>{
+ const scope=require('./helpers/v1-operations-scope.cjs'),entry=manifest.files['Marketing_calc.HTML'];
+ const loader='    <script src="./nomad360_v1_operations.js"></script>\n';
+ const code=fs.readFileSync(path.join(root,'nomad360_v1_operations.js'),'utf8');
+ const bundled=fs.readFileSync(path.join(root,'Marketing_calc.HTML'),'utf8').replace(loader,'    <script data-nomad-bundled="./nomad360_v1_operations.js">'+code+'</script>\n');
+ A.equal(scope.restoreStandalone(bundled),accepted);
+ A.throws(()=>scope.restoreStandalone(bundled.replace('let total = 0;','let total = 1;')),/Exact single/);
+ A.notEqual(scope.restoreStandalone(bundled+'other'),accepted);
+ const rows=[{path:'Marketing_calc.HTML',sha256:entry.after,bytes:entry.afterBytes},{path:'nomad360_v1_operations.js',sha256:manifest.moduleSha256,bytes:Buffer.byteLength(code)}];
+ const pack={html:bundled,manifest:{resources:rows}},projected=scope.packageProjection(pack);
+ A.equal(projected.html,accepted);A.equal(projected.manifest.resources.length,1);
+ A.deepEqual(projected.manifest.resources[0],{path:'Marketing_calc.HTML',sha256:entry.before,bytes:entry.beforeBytes});
+ A.equal(scope.recordProjection({htmlBytes:Buffer.byteLength(bundled),resources:rows}).htmlBytes,Buffer.byteLength(accepted));
+ A.throws(()=>scope.packageProjection({...pack,manifest:{resources:[...rows,rows[1]]}}));
+ A.throws(()=>scope.packageProjection({...pack,manifest:{resources:[rows[0],{...rows[1],sha256:'wrong'}]}}));
+ for(const [file,bridge]of Object.entries(manifest.bridges)){
+  A.equal(scope.restore(file,bridge.after),bridge.before);
+  A.throws(()=>scope.restore(file,bridge.after+' '),/exact approved/);
+ }
+});
 test('landed costs match accepted arithmetic across every import/payer branch, batches and pending FX',()=>{
  let cases=0;
  for(const batchQty of ['',0,-2,1,3.7,106])for(const materialsBase of [0,12.345,NaN])
