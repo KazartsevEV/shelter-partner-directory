@@ -586,6 +586,9 @@ def main():
         # Owner-approved preparation only: future copy is not connected to the site.
         'docs/nomad360-production-readiness-plan.md',
         'docs/partners/partner-release-copy.md',
+        # R1 planned additions: screenshot bug report and White Label CI/CD contractual boundaries.
+        'docs/partners/bug-report-screenshot-scope.md',
+        'docs/partners/white-label-cicd-scope.md',
         'docs/reviews/production-readiness-01/REVIEW.md',
         'tests/runtime_audit.test.cjs', '.github/workflows/runtime-audit.yml',
         'nomad360_partner_application.js', 'nomad360_partner_application_model.js', 'nomad360_partner_transport.js', 'nomad360_partner_application.css',
