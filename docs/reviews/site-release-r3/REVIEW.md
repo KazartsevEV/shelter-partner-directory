@@ -49,7 +49,8 @@ blocked-provider browser tests. Future host compression/cache settings are not
 simulated as production speed. No credentials, applications, email codes or
 financial drafts are read or copied by the builder.
 
-R1 remains untouched. Its resulting PR is reviewed separately after this slice.
+R1 remains untouched by this slice. Independent QA corrections are isolated in
+[PR #281](https://github.com/KazartsevEV/shelter-partner-directory/pull/281).
 Local checks pass: 15 unit/negative tests; two byte-identical builds; 112 listed
 public outputs plus their release manifest; 18 language/width cases; all 25 HTML
 entrypoints; valid V1/online/full-service/both V2 results; zero missing local
@@ -59,7 +60,8 @@ browser-draft/DOM marker excluded from the download.
 Screenshots: [RU mobile](ru-320.png), [EN mobile](en-320.png), [KK mobile](kk-320.png),
 [RU desktop](ru-1280.png), [EN desktop](en-1280.png), [KK desktop](kk-1280.png).
 The evidence manifest records clean build revision `7805c74`; subsequent edits
-are test instrumentation/documentation only. Final-HEAD CI will rebuild from its
+affect verifier policy, tests and documentation only; client bytes are unchanged.
+Final-HEAD CI rebuilds from its
 own clean checkout and is reported in the PR. The normal runtime CDN remains
 an explicit limitation; this slice does not claim to close all of R3.
 
