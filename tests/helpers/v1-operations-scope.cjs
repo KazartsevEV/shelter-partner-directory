@@ -3,6 +3,7 @@ const A=require('node:assert/strict'),{createHash}=require('node:crypto'),fs=req
 const manifest=require('../fixtures/v1-operations/extraction.json');
 const digest=value=>createHash('sha256').update(value).digest('hex');
 function restore(file,source){
+ source=require('./v1-state-scope.cjs').restore(file,source);
  const bridge=(manifest.bridges||{})[file];
  if(bridge){
   if(source.toString()===bridge.before)return source;
@@ -23,6 +24,7 @@ function restore(file,source){
 const modulePath='nomad360_v1_operations.js';
 function moduleSource(){const source=fs.readFileSync(path.resolve(__dirname,'../..',modulePath),'utf8');A.equal(digest(source),manifest.moduleSha256,'Exact C6 module');return source;}
 function restoreStandalone(html){
+ html=require('./v1-state-scope.cjs').restoreStandalone(html);
  const open='    <script data-nomad-bundled="./'+modulePath+'">';
  if(!html.includes(open))return html;
  const bundled=open+moduleSource().replace(/<\/script/gi,'<\\/script')+'</script>\n';
@@ -34,6 +36,7 @@ function restoreStandalone(html){
  return html;
 }
 function projectResources(resources){
+ resources=require('./v1-state-scope.cjs').projectResources(resources);
  const own=resources.filter(r=>r.path===modulePath);if(!own.length)return resources;
  A.equal(own.length,1);A.equal(own[0].sha256,manifest.moduleSha256);A.equal(own[0].bytes,Buffer.byteLength(moduleSource()));
  const entry=manifest.files['Marketing_calc.HTML'];let count=0;
@@ -49,6 +52,7 @@ function standaloneDelta(){
  return Buffer.byteLength(module)+manifest.files['Marketing_calc.HTML'].replacements.slice(1).reduce((n,[a,b])=>n+Buffer.byteLength(b)-Buffer.byteLength(a),0);
 }
 function recordProjection(p){
+ p=require('./v1-state-scope.cjs').recordProjection(p);
  const resources=projectResources(p.resources);if(resources===p.resources)return p;
  const key='htmlBytes'in p?'htmlBytes':'bytes';return {...p,[key]:p[key]-standaloneDelta(),resources};
 }

@@ -1,0 +1,5785 @@
+{
+  "base": "adc77e3baec5f22f0c97cdc9788f43603ac36946",
+  "browser": "145.0.7632.6",
+  "cases": [
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 320,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "34acb365878564351a9e9db5c32eacf17903234ab7065fa01ec1107db33545cd"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "a9b6d963dabf5ac1a4ae6fb1ce16e09b83a14747f5d124b8ac8c05b6af2489d5"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "546db1c591fa1f33977b82feaaabd9acbc97b1d3225f57bad42c40271cf5e094"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "9cbb1850d2a43ed99ea23629fe965ffb1fabb8853829f723af2d87279f196169"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "c1332bd8920d9eb0b79672c4af71f9600a2354b62d8a137c6497573ddbe1f4a1"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "403755836254b2034007e45e70f926fe6f0fbddc2d4cf4ff085e6d2d985868a7"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "c998b0df0461dbb1483669079218bbaf2d18c539feb26b7fd849cecacf281512"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "14788886241b00c1d6f8a418332c24075773cd4a30ad0357d7d3b69c40c64549"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "16b8b29a94937837f613ba2a6be19783cb43b637377bf97481edc5a5021d8f0d"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "47b8c25cd07dfd74ce23541dd82598b04b5901f00f893a4a6cf4d293388c1a42"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "66c34753685c7738ff3a7a190c346f7259e69864259859afd98f7be40767d6a1"
+        },
+        {
+          "name": "resale",
+          "hash": "f6eabeed2f982558e53b044dca5c1e2e5ab54770e299ac1c5b61d1710927c98b"
+        },
+        {
+          "name": "dropship",
+          "hash": "b74abea076b8b532d5139a11225897da56a225eac1ad7120a2b2234ba18765ff"
+        },
+        {
+          "name": "simple-self",
+          "hash": "ed3abbc4e02fbbb2029c8e5c655c678815a656014ef281e20b8310aaed6e5036"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "fd3c7470f3899326936d43547e6013850c0ff56c1427a0a06bba7f30de295870"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "e940278149c3e749e90040f9c90c0d9554606ba45a9430b5f728a2350703929a"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "0b16d2b93c75ffd8990df42c3dc956bf41a146778a8a4c73992b62eb3ce3e671"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "e45751c5673bbf56691e4507a2def3ab2dfd0823357329aeccc608193b5b75cc"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "b6d86167d08106fc41022fa27dc44f7f4adb4500d604ac91523d612221f6a5f0"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "cf978ce77e094d6ff2342398d634b87e60778ebc7746dae335a1eb428731aef1"
+        },
+        {
+          "name": "hero-pixels",
+          "hash": "e10961f46e938598539d39e4527d0e819c09346a43be1f10860b5743c108b3cf"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 320,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "90284991130dbb2d8938df025a784dc50f123b0185fba9e20186efc8214afd44"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "cb1e491c7b0a8b7afa1e66b28f090e40a5abd9c5ed7947643815ce41d2a5f8ea"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "4780834bec921a70da78f97aae6471ac36c6833b55f534dca6c205fba309b25e"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "7da9417aa3909087ea2b1e9a4e8e34d7bf33af3707eda09c92fe84870dac142f"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "677f048cb7fcc0cac7c50073b99d9787c8bd259a699eb7517c53c06441f995c6"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "7f7f48e44d2043706e2df2c3bc9722393c7ba0e0c0b0c8050f1b7b77df9a0a98"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "520d1d1f39d86c90cf95da065790e3a30772bd62a9da6e15ff01d4f73b126a41"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "32a30eabc55da1b2f5af71776d7fb560a28f5a2486a92315bdbc82fc17df5d6a"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "b169eba00377e320b25234a1f1965193a5dd65844934ea4fa8ba5d1c9b0966e8"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "545181b1993121880e7e5434045c694e73722aa796ea0151513c052ea6ae5285"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "f03ce0a11284bfb83c1b31d48038edb4e9d0745e483591c609cd48fb95839752"
+        },
+        {
+          "name": "resale",
+          "hash": "34ef32d8d532460d29be30e848f8d56053fc0bf8c64db3007dac03c05ddb3c33"
+        },
+        {
+          "name": "dropship",
+          "hash": "581ddd5965426dd4977d20148a0e4bd02b8f0398d8b7fa7cf18a173378ecf589"
+        },
+        {
+          "name": "simple-self",
+          "hash": "8442d0895538c6465f8050bed5755ccef40c7798cef00a6db689159c061f66c9"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "c157c0f4903f28ea1c093b4ddb46da3081b3b70af4e3ff5eb47e4fe4f57ef671"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "534466b6524c808d91e6c8f8086c68ce5c9f28d9bd29ed19c5e33395f7217713"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "704694ff73f84a2518e570ae4b7944aa48fbb86b855b38d4e0abfa3395b807e9"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "3e2491c1ff499008e8696e1a3feba908493ea15110775f3a1fabdc8f1bda8b1b"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "372b90ca8df3968a4570f051d51031474f6fc33ea18e78e4ea17f58da119f375"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "ef41f6e880b63d6f7ce986436063b6ec879bc6997666baeef221efd44ec03b5a"
+        },
+        {
+          "name": "hero-pixels",
+          "hash": "0de690cb7181c9128bd8640e2db2cc8bc0a46edc439effee3fb2a930ba8b3b9d"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 320,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "85589793a03f4b75db62d3a813ea00f96703a7887d093b29ffe44ec18b022a64"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "c788d85742c91d87fcb0d22356dfea985cbe1730044e8deb02c4e4198a346e48"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "877337016bfaf2c5804caf21c617149a82fa4442074094cc612f09e3593375c7"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "c0fcbd08cada917fa85521cde17a8a9371dc3a467cc2e81181ca646dd8b65a91"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "b3ebe2f6b461e9f8025fe3ba746e27151f7aad827ee7757d96da09b1d9ef92eb"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "adb5113eeef72d9b0cde13267ba4b1a8c57554d4e82c0e8453b6aa2cecbdb406"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "fd016252053910d893a28a0c9a688c6b63ac5d83033fb5cc890650e03384bcaa"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "7a660fc8ba4359869ade54b94e184a85857f25587cce01fac0eae5cef40e2c18"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "fb6d1785b81d5b9b0a5ff343c379631b1dc54958d239d33c53252db84ce3610e"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "75d692545b661f75e995af89def7a8a1b690e5c07fba9bb44a2fc9bfb91b21c1"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "eb329c6a5ea3fd7ca6c9c2f30366f66d32ec99e05ba1a372f7cef291584eb723"
+        },
+        {
+          "name": "resale",
+          "hash": "7bfa5298b3125e996246b06890ee78b3ff332197c00b116d2bac00b89be14ca1"
+        },
+        {
+          "name": "dropship",
+          "hash": "0f95055e651dea60b9b1ea2522aa72321096152dcb4f32131293303da5406c47"
+        },
+        {
+          "name": "simple-self",
+          "hash": "69ac3a8f4bc5c757fb62f8101a35ffafcb89a4d205800480fd7b27a2832779bd"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "af74e4dc68c260c223fe817cf522b807879189d04715c466422e31f7a4244aaa"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "494b17cf4a8d4b0b8eda571eec20bd7db6c92dbca0c4a66232f456317a7e0b54"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "a86f2569bc0d8ba3e603b2bac3f9ccb37192780fcebc81f1967a9fc9fb3b97ec"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "67a9c9ee3039441f921d7210722dd0451495182196249732bb43a1d4662dea30"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "7848e46375d90da24799c4af383158f1782031b87571c6001d943055a11dbd88"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "19d7e070f4a27a33986768816d649fa12aaaf13475ae8ccdd31763ecbb027d64"
+        },
+        {
+          "name": "hero-pixels",
+          "hash": "fa278bc8fb9b7be9ce60b5aa8972bb7957b787f934d8ecba70131325739ccf1d"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 360,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "795e8ecda17fd98be61d9996d9c902431f4dfaadfe15bc477d0379907bfd8aa6"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "fa1f0ed75b3632a0725384f5863b8e40e79739631e6ee281c22cc90675ad9dfb"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "4efcead536cef2ec422bf97873ef4a10b9293442f7b446fdac8c888398d3c4c9"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "c7e5e5a1baf228927b5f24a60b067d6295820a2848ba9ca980d995ac46c5978f"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "5ec7f21051a7015e12b2cecaa4060c766a360fb40b9ec22f87d12a0a4a985c21"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "b1e40724751cc6977ac17c8cfd7fa913a0d782ec66273138c7b85816a43b7f7a"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "8c75551c5b7c822ad4736eaff81fb0376e55786507654840e8387a574b126f50"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "d787232b9eaa77a00af20fd3c5ef0c767b885285bccdc25e449977fd2b7609d6"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "f51b85a2ac054052824b69d8706ebd4563c81d162e426b253e5cc5d74e1dd359"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "fadc4185df6516e6dc62883b2547893ebb7850c16da4fe45e4a2e908a1f3a99f"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "6a0b382dd2a74c1dfc3414d6e3acde69d6e1eb5214b45ec23144fa972db70c19"
+        },
+        {
+          "name": "resale",
+          "hash": "a26387c510ad61de02f1e71a34136ad8c3216e48ab5c093e39a98bdb2b1d58d5"
+        },
+        {
+          "name": "dropship",
+          "hash": "ac807883054b37022a7a61cfd7b89bffeea1a10df1d25423f16a5fe849ad1cbf"
+        },
+        {
+          "name": "simple-self",
+          "hash": "5ff09734ced49ec55db37fc819555706c3df2459d5c173ae9f246acd784982a8"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "5c175d6f1c80aec5100aaab6dcfe3c13627aac3e0b11cd92515ddc36238ea2bd"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "a7ddfa8190dffde69655fb5f8940d3dec93d782a19e50a15ef8b709cbe230655"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "96ea596d94c80ebcdc0565dbd66599ccdc2654d67f06ea913fc2eee5338d191b"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "b0a259880baa2e3ade1b0785240038e9b9530ec1a4884cdacaab4a521edb20cd"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "925baddc78be819e8e099233edf52c158e8617a6264b4b51a71df6758f81247a"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "7ab68cde854798cbca5478b4b71b8c71ba7ef405923f7c098afdc3c8a8aef203"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 360,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "de033c224a5d72611d0dfb1e92c9cca22af5d8e295214a66e34dd3a9b9455b02"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "839fc4a289a3c62a9351b2253ef4a0dd2dbf66ba7562f817055c51a0cc941ff7"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "7ff7f8e4e1714e1b9530173aa85108911d243bfa24bf8ab411548e1f805fb1b2"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "e460e7ee59c9691f547ea1adbc1a1e3432e4f4ef0314ead95c91df3d02aa73da"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "63124a6c622daca32a63c21c06a2c31d7676b0e43e7a33a6a41790672a1aaba3"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "c443334a34adbb81ce49744f20280eda9850a81d08dca1d6d8fe6c40a447fd53"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "505f9b2aad4ce240c99780cb478a2f57f274d62462149452a48f4acc8a4b22f7"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "9e75e2f1d2cb6b03499cd4cc81658bd72e42248e9630b2844be8444a6d477997"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "d41c2239f6bc9ded1783c0f4d1b18376c7256786176de66e4a4965dfe5c6f8b0"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "d98effe4858350743d8ab412101a8f51d1eafff3eb2c34c26afee71f4a4ed7cd"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "19bc8f3c7f2254ed4e090aaa7fb79065524c61095a71513f61b142c4d8d8b77a"
+        },
+        {
+          "name": "resale",
+          "hash": "e4e49d4398d6b38a42400874ed44d042378727743dbe8fb653a4f0923de30204"
+        },
+        {
+          "name": "dropship",
+          "hash": "483ae239f80fd3c3be1a8a15a998b5f82be5889b0fd657eceaf6ed100f1e3cda"
+        },
+        {
+          "name": "simple-self",
+          "hash": "69b0a5e2ac33ff79c87a40ebf5da12aab5721963f6a3b7aadd26de08341354ba"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "ea552fbd393bc0cb19a543a44713a8b332ebb2d8f535aae6970a7d8b1d3494ac"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "1add9378f26ad0ba040751837edab9b1c0dc01c634c8d61fe228abdba09a957a"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "ec337f136d42c484006b6d8e18adc600149ac835995897280a4d2ae8d0e3980a"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "09b14e9a034d3af0cf8d3f44fecf8d49ed51ea7109b58df6ca065e9185556b10"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "0b6875fe857c75884c95ec2846985cc35af5f65804b980831393ca9472f2cf4b"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "cb45f895e4995283beb83f60ee71b22debc7025d57799277fc63801faa65dfed"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 360,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "42f4f4cbdf6bc9d780a361458b1d3d093d7fc6ca58bd11be127112bf3c77b80b"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "47a6009b1f68fbed180c0121fa25d3944b5ff9d9d59ff82223e1b0276102f00c"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "972a49d1c643651ad8f6cbd1bb2b8feb27b3146eea8acbfbaf9ed86a0263493c"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "041046982e483099a104ce50869bb303cf8e8407e309a72e303e83232be4df89"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "0d6dc00b18f0666dacacbc60da0e11391672028361a1c780a70ac14b413f56a3"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "d4d9a618bf24eeeb1cfd31ab2fc9f30f83d86625cb0b8dc9517a4c0845a5dbde"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "26074bc48e4be11ed3eba4eeefa6ec237dde38fdfd1f20566323d6cbde279160"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "ac6ac439f01c3479d8b24a8bc3b6e654969b3db386bba80c7185325f75f7d1c9"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "945fe2f30ca0bab1cf30b47dea279859255f927a41c1c6b09bda43aac5125b16"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "a9ea264465058943238cfa7ebe7b7b28b84e0f3d7a96a53ecf5dce8a7152479a"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "b42749b0f9c46679fddbb7b144fd388a793c21103110184fc97c32eadfb20077"
+        },
+        {
+          "name": "resale",
+          "hash": "82bc3380b59d1170cec5818d94b0b771493ccab84ed6279a716dcd191e91136a"
+        },
+        {
+          "name": "dropship",
+          "hash": "2dd66df91bc5d09d83539ba0288f094678d009fbad455251f608f865b55acc75"
+        },
+        {
+          "name": "simple-self",
+          "hash": "1e3114e7f04047adac12e0a46e499e0431471233fd0b6f1d1de91cbd82357647"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "d785eddd49ae27144d7b22f7e401d63a5fbe8c36a6dd14332170c9e02116c764"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "0c26806d0e8ba4f1e10f618aafd39c5e4f924495fabffb5de35f368a1eb83e94"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "1847fda419ca37f93d49ff44bd4d265a23a59fc37e042b9203d88833a3fef564"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "dbcb2f3307a4a5aaf720283d34dc2738a616fc563f6fe5265c85dd396ee82607"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "7b807c4de35fa4d9110dd27d14d9f96c9c968e71d7da11aca1b760853cbdad18"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "1f62ef776bbc1716535f2687db24b98b5dea4cee43b92d4df2d3030bf13e8481"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 390,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "dd44a85de8e2f139c0ad286fdfa4c14fa6cc240bf44e05d2648c51a152d9ba1d"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "c582bbbb898c1a66e67bc08027996bc4070f13deba17cac0fdfde46d1514b92b"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "b6dcb86b6eeab49932201de719d3506ebb3a8be1dd4cc5178e43e34d9e01eb7b"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "93d61677a1b2ff4dee1f2d5a1a7fbc9259700d5bf71157e068d35fe25e63981e"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "5537dd987dadc891ae0612e2068582515a73f8a9997f16764f43d62e5d36bfd3"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "472b8e9e8ae3ca08776ecf076388dc2e5f1478cbf251bb46d86aedf787b0c0c5"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "2d71270a6cc08ad797cf91f51b4ef4864b1ec85b5d3324559ba06ab1fd29bd21"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "fa5a38233ef7cd466874aca4cfcdfeaad764c954ec9d2d34f2026e622cc9435d"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "e144f5f29461c3df7802c262475a7beedde7340da00a1fb653b2cf544216ea7f"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "96570c53ddd0e73fd3c90abe256512cd4ff28034e20b60c5d9f2387130d17a9e"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "4afccb1956adbd570938f5792de16d984f8b1ca803b86778a0b409b6b4c55cf0"
+        },
+        {
+          "name": "resale",
+          "hash": "51d721b43d41a83b30a1aa8d8ff43e4ff6a84cb464040e220562fceedb2d6ffe"
+        },
+        {
+          "name": "dropship",
+          "hash": "283bfd43a7e629e0a49b92c66e67260fdbb89ef84a0c4f546947f119a66d31b5"
+        },
+        {
+          "name": "simple-self",
+          "hash": "358e0902a68e75b715bc12270202fc695da4da5801d2a489fdea4e0372d65ac7"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "c8b7e717c40865de0f6083ba90307071ec1a5f8d4bdda586f56e8c2e41e9c279"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "93da203b2d0e0802593d54fcf05bd6ecd43f63061615bb9243a2695be09f6377"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "805895565df3fa5102a284e63db0a0f984750148fd8db8b368aa7fdf3fa29d5f"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "62ce7e0f0c4f0ea876a77bd7c47ea5d2605d671f0ddb685307d67cb5fee821cb"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "c6f894d5bfde158c624853c739887b09c03e850f82bb704e0ab1237281a8c205"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "facc912d91dd60192d13271e0fc8dcb965f16f4283c80ecb261ff8f21b87435d"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 390,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "6244b7213ed7e0ee8f5c0410e5b5df4cd13c81ae09c693dda414872a734d6424"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "988f93d0009093f97d72581adbd4dfd3c9812ab414b0663b029d03a7a1dcc673"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "e199700ae62393c680145099376c6e6a0b93f8296717ad54c6a77daf4f499a7e"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "3de344b4d8c5af415eac037096246bb2339c37af4ea9e995540efda797b5929d"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "388ae71d111178d382f426924fea0621b4cef8608384e0a64c9caf980b6e8892"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "79ecc8a2c1b74999d883f1872155e9983a69865acf976be5f56de2b64527a04a"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "390352ce129162b98d03e532d279e0b4955018f3c5f441c3cd108cfbb53f5800"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "097e4eab38caf3684aa9b0a1f585dfc623b0501e3664fe701e52f33d91fd1025"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "dc0ed05aaac004516c2019f03858b4a947b536e3bda2803801da404aee336fbd"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "50f30f20d6664ad90a3e14cd8ee8f62b0c9584d37b03c5d7dca3559c354ee36b"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "8c07b7f55df5544d631d37d42b490d3f35a2fe4806bf3fdcf1cd865def9b01d8"
+        },
+        {
+          "name": "resale",
+          "hash": "de5b622047dc10f95f480fa4d444b558905c3c2fa53f2bc1fc2a134391592101"
+        },
+        {
+          "name": "dropship",
+          "hash": "cde9b341d733dcf22df5f6bf8c9bfb239756c34da99f2e8b3d4b6ee1b948a053"
+        },
+        {
+          "name": "simple-self",
+          "hash": "97a14e176f4c389b8fd21db269c46363a9fb5442f45678a7f190bf68ce06346e"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "2750a96b923eee4cf9353bbbfc17c13187e9a94dbb5e4c45e92f90c272c862de"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "ef2b6f2194e9829b477611ddd62f28af32e22c8ae384eb83757d72b8076c1eb2"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "0198cc610a2a0d15690d7c760ad7ff9fcc854a3a55943369fa45d61af071cb50"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "448e0afffab34c3b8dad9dfbd6e32351f06295b0d254a2203a20dd16745e16e6"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "d75c786f63704ffc13ab5e6333b4ec65f3e6e8c49b92d8ef4c13a190844c48d8"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "fcb2257e95caf5ef64c76fdd16ad1dd8460e0d247ffab7f1f57dc66c365028a5"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 390,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "496b73403fb0e3e3592814732522054fdf408675da1332ee654afd687caa98d9"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "7114845578510151e5eb285286d2f9db46377a8da0ab881a198cd6e97df1b9dc"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "d71df200411fca31a4d74a8132fc13e4ed9975406beb7b4b8fb5630ab887dad4"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "3aafc21f0226acb3b818a832807fe4a0429c47a434447b981cef18fd7106ea32"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "affe170fbb6252baa2f25027a95e0018a9e4740e74c55b399af93759f7168f4f"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "58087a374369d97cabaf367bea290d21bc6283982143fb48f4a0ad6a354a8cb1"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "4fa95217e5a41d1fd15c64c101e5a97fc83bfd65df1c8a17ee28790aa3206f72"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "6404259c8fd105e3c697f5cdc8d1052285828718720d6008bb62b55b55d7c573"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "0c6adf74125e5d924d483d2c5c43e8aa5e637f6ef8d1a70ac906dbf0b0aad52e"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "f88ad6a505cd2afb6078d670204d21b0480c443cf4a7a79cc38f426beca14273"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "88a9e38963da41b84fa6c39fe74ec39c843c9fae6dc885060084164c69084937"
+        },
+        {
+          "name": "resale",
+          "hash": "18cb1a02540deb25a2c2fb1c9ec0b42b165853bbb46aa57fffad91dd741561b9"
+        },
+        {
+          "name": "dropship",
+          "hash": "27b27f27323bcf9819406b272756132c802dc6139582892e32e45e43b56d0f01"
+        },
+        {
+          "name": "simple-self",
+          "hash": "9562e49cfe7791067b597fede43030f33e7206ed3333d4441650b572138a442b"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "80e7c1a59dcfa5ca62951025c9ffb25d12813e7009f3caf6380a35578d5f1077"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "1b40c8508a6e518edfa0ae176d93d5bbfe599f7016151acad0e55043dc177be7"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "a58eebb1eb4a479bbdf71cbb7cf538950a80f873894537fca481d5dfe5998c02"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "b447e9a7c234b6eece38fdee200f9c0b24d688fe169ce00b1f0f99a863d347f1"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "10788b8a9ee49ed91d7ad8c02f696987d3b4b80fef7a4d883d8dd444d3be9146"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "89922e0872f9b7518763618a14d2562f3f0798a2ba391735ffb8ba4ca320ad20"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 430,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "6be9fa8c321b395262b7c8f5af7e050fe720f1a64823cb909ab435f8e1ad69ba"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "fe1cbff11e20ab415fd32024153e005849e89a65e9606bfcb263520d3c1bb040"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "6fc557c21a6d3030499a030917f9de8832eb158d8ff20acab4060ce3452e0594"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "dc4b841348b800a28769470734653e59a550362f55e6c74d425ea969824ba7e1"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "7bd35736a6522d51bf3b5f13ff40bc775cb0b47d80896b33dc0a95e4f238452a"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "7df8949e0217e49eaf1f5bca9f3271115296348c245b3bd12c07c9a22ed786c7"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "00e44cbd2bbd9ce308468aa12bdf52048a50e7e8de678c7887f16b015f911074"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "ec2b7868d456abaf5edeafc1a86749de92ba8c4ae2e0b518a29a7f2ef096373b"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "d67ef25c67dd6bd8346d3bda77f77b4b8639ffc0932f8b171c3ec75c23c53197"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "e25e7e8a2b870988bc44c17eb3d5223ab871c9c68ca957ae299e27e85638b182"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "910447023fdca76ef64fdf78f86b9c27c4c1817c32bbf055a380ef3a12e52ffb"
+        },
+        {
+          "name": "resale",
+          "hash": "c506d9f99df866e0a5689151edf3fd47e09d66a329a47316ed2036cf073426ae"
+        },
+        {
+          "name": "dropship",
+          "hash": "b6a006c0c2a53a577476ba724c0525b47ce06c030534ee0dcc3e1e95ba723855"
+        },
+        {
+          "name": "simple-self",
+          "hash": "e8bc9b1bb2e21796b15f03e6f368097bb1ef0c389057f8f2a0c0d099570f981a"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "621f83de52423078f92cf36ba17fc00d5101d2ec4f8f3fec9156747b13d4a73d"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "572cc8eb1b33e7623478677399a7ea809b012febf147d13b5ea71998fb95b7f7"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "84bab36bc5aa81b8ddc8c447d1f52a55ef925efb7e065831950642d7b75a6216"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "767fa0cce9da0f558b689980aa1aa556fcbeddd87f8dcc9316dd7f162d6cacf4"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "d97fa73f1adeb257e74ac6c51c8284532a873d83b074f234c3c845c10d9fce58"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "db01760ec9c72c70fa66e84593dbf0a580cce47da1d9f4914ed7edf4f0486516"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 430,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "76e5d92742c4f34baee90ee0a33619d515fd7646caa3d010528f88a347b31034"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "41b2f64301e899fbc515630be08f4a0897a37844552b1e2dc86e81011334f550"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "a8ea560df6923f03d7c940b231eae4e034dd666a44b6795ff1f3ee99dfb5e4af"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "5ac1ad7ea895e4e2014eb8f3e9bbd982068966a7bcc6c32d1222c42fa0abc59f"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "a1dd5982e1a6c3ae12afe6afb56602b16e218150bbc244947de4e433b8a14099"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "342bcc86086b6171846e28304ea164198b86f58de0e95c69f262dca241caf1bf"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "33bc10fa779ca2a2ca202e2849aa598f78da9f17196f8881e47ec8e280db170c"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "c8584cdb511f9694c57818c97dad50b190ea6b07d450ed9674d9f9f31d10c17c"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "d3317458c8c9ba4b9b4089ebfed972388b9cddf08ac557514b0eaf2b5703d29c"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "6f221f1798d3f72dc79ffacbc2469b7700abe038ca07830766dc34c20e02f7a4"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "8d2f7a84ae12847eec32082a9c0bf0e6faa93b52dd68672d20ff911a6fc4dd11"
+        },
+        {
+          "name": "resale",
+          "hash": "3618c0aee6c9861299b80643c5684e77903fbe6a2c2803d364ddcb83116ae35d"
+        },
+        {
+          "name": "dropship",
+          "hash": "eaca54bf51deb598c6ca9b859474e7e359042fc9cf7751fcff3aab546d09445c"
+        },
+        {
+          "name": "simple-self",
+          "hash": "e84ef9a691c18a21200b5bc5f17a720513273c83f9c3bbe8a86dd5666c7c12b2"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "b54bac5e865517a60101d8b7326e45cd40bae414ce2cab25e0d3761e8e5b50cf"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "49a1bd6c39510464fb7029cfcecc1bed2760b36d34fd8dc96dfdf4341908ea62"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "6bc443a85bbe969b45077cf0d5f91bc3e852861c0b5c1cfc10f50c2b7932bc03"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "68c11fc0673767f264b5ff9cb6c4732baea7872c9e3aeb5ae41025a3394313c8"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "a9c3e4b19ea0c1d003bcddf2ed1bc9e2d2db1a303da91cd57f840bd25b1e65cc"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "35504020eb2e528b8c8dc85e6536df6bc527db5b8888a204806bcc9830745130"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 430,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "8f77dfc65d5562c484877b590ca181ab070e011c498a62d2d0b6d5d9eb62b70f"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "d9e95f951f47b67d9ef64d706523ba59142ffd734820073c2af8634ee59e6396"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "77465cac093628f6f62d61879493dad291021e9c51a605fe06d0de77359dade8"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "023005980d4563fe18d26e551a497a547512e24bf06508e4ed2eaf711895fd0b"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "2666aa61f74666beb07f38013e62745b47105993d0a1c259cbcfc61abbbf048e"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "dc844cf8c7cdf302a4f713802a36aec9fab45f53686b6dcd561258df7d882832"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "3d77ab67a0e3d05638fba8b704aa9bf6b587d1e2e2a258e229491af5c37a64a2"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "a80f16971285d3b8a7f5a534c4d5f5e97d0bfdcfed935820a32c71bf1b48abe4"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "f0bc3b5e401aa01e0c65b03c4897d4829113f8ed33eecdb22ccf1f38c114955f"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "d89f639dbee2b0dd639a61c80b8adeb98570830426da765d79cef8b4a6461f91"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "563001fa82fed91ad9643df7cca23bd749017c57bb203390db833d90f26a3f2e"
+        },
+        {
+          "name": "resale",
+          "hash": "8a93f9fd62bd56eeaba81d5ad4a640d4ef7015bf526c178a3a5bb1f2c02ebf8c"
+        },
+        {
+          "name": "dropship",
+          "hash": "35c8aa525319d386de25924310e04c04933562f8f8dd2b63a7de34fda15e06c1"
+        },
+        {
+          "name": "simple-self",
+          "hash": "83231aa145c748bb35ba3a9b0910c7f9dd2901b1f72705596f30b99b07b721d5"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "e6f31d885b2b0d0e2799ec9e0cf24007f24743365738777dfc824107e16bf8c8"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "a13edd80a6aa24a5c107df9d8a1788440de25468a12f32f88c927a086aa8a566"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "eecde6af3cb36df9a9e1522996cfb91ed4f371a75e101a2a7b62f272fbf296b1"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "73af81873c99968b3f8ef6f06b85e2443edf4238e3933e7597c2adcaa2e38995"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "bc9fc3acfd2f497a8613a17edf8ea05149ecdd452883dd1ef6c2e4b2930043cb"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "8e5e860dee1746ed4a07533f858c2991170d523a02282ad590dbdc8794de33a6"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 768,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "3dfa7269df48b26dc150ca0918a7357df0243e5863943ace475cbcaf829616d5"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "848584388fcd4eec303906ff963d9fbfd204a83f8be7d42e967f0ba8ed2b0294"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "d8cfa2a2369b211fdd3f6e5879b5db7916ca9a8a7bba8552eb41117b93a6e503"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "56fad7a1288e89543b0a6b50833bf8c29af82ce35959cc0ba575e5eaa553a562"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "bbd69cb0341ee15125d569571f15db7157c4e6aedca39df22e890faa8de5fc6f"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "ee810c76e290821e57c8318462c753c3b9ae63f09866374bce8da428f647b1c3"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "df98c005a7309bba2a89de5d2118f4990a2304567ad302d91b455dcc29a20214"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "e917e3e86f731b6ef91f0e4c0c23e1149606ae86db3f16036b5b2d9d55e19cd5"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "0e13a911f39c1e8e0f8e74443a47fc77e6586ebfc3907c050012e72f85ddc43c"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "929cbc82bb522523d0f724a041d30bfd1a72da0b34339dff8fbedf9d61f8ec51"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "4e700035690d5ec386a8be82b8c6f92b990f11990a4354737164f0d00f17084b"
+        },
+        {
+          "name": "resale",
+          "hash": "397e08fc9b35e2de12e5bda3c3f5c1f6d6192e9f45900f897c9d174b49222426"
+        },
+        {
+          "name": "dropship",
+          "hash": "2dd3da5b7e34d4c3b40a68a32b1eb62b13adf24eecea0c9ea6fcbbdfb5cc3544"
+        },
+        {
+          "name": "simple-self",
+          "hash": "9df22330079005a6d750b8db4073e6dfd446a20b45250c555a643bedf9a98b3b"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "aea133297a45d83a3aca9c408e9ada72531c37de21810c3d1d7edcb60fbefedb"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "64a1598805bd24096c279de6797843593166a83cebe156315b7971a474ef533a"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "69948bba6f9ca8c3193b8a8dec0ba77570c7bd2087e5a1aca29b40b4bd09b3d2"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "f05d6f0f793b91dd5e4276fae7ff07ab4eb497817d9c70e9d00560d3a7eec44f"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "8315bb5155c0dd7fd94bd93529b269c617e7a69d765f919d66a97769b1083adc"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "d907ab88cf2a20e43b73e823d198f87e1b9d4d5b3070c2068a5db462166ffb00"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 768,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "7fd7637d983bbb8da3a24ac7913b32a43c6e2bcd222dcd7221bc22e2ac56e59d"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "fdfa56b1b6e2db8bb0b6df1563e57b8e7f40315249d7ce8d3fb7668e6a1bfd6f"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "dc6b224b9781c92b7120f58cc2e257933164b5847882e182368c784d3a959fc8"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "e0b740380a5ebb4ee9b6c2598394f22e1a818a328a301e0df8cb953d428b48b2"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "fd0052822b3b0f2eed15d5139f549343650da3da9afa793aeb395c2a564cd8de"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "09c4f037b0965f14abfea5e6f9e8659a94a384aff291976f4c3ab2ba8bfae168"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "a9dfde908eba3cf651ec306c79f5c788f814010887b0f5c28ad643b6fb7eac38"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "9239f63b7b0067aa13ee39faf5728e92150f23b2e23569e60a0ae6647bd8ba0e"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "5f9598394f70f7ab5ed59771a084e6a59560707f8614fc9222d7d0f4c8e7c74c"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "dbfc1f7367f6667a1f5eb5be1b6d7d5c8b5fed7abc4ec0bd6b9bb518992e8416"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "c4d648d67c3b103d14147a356eed22ade7dcb9f71b1a7ae9f8853426906ca6dc"
+        },
+        {
+          "name": "resale",
+          "hash": "1fa8a651219ee9cb48ebf07edcf21421a87e3f9910b67e6bdcfdd4e60cd758a1"
+        },
+        {
+          "name": "dropship",
+          "hash": "19d8fbb0f83ffbc1e6c27dafbf2da465a362a7a8e786b1e1492c6661abeaff22"
+        },
+        {
+          "name": "simple-self",
+          "hash": "7982fc47dbeefa963acf16fc29114934ecf7294fc5274adbe7471423b5f280b2"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "d0339e1af6c45a1681c70a6924cbe3c551927aad54ebfac2f4659adf0ffdd533"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "0696a528632d45048a7df9cb87a126ad5abb2f5cac8ed0bec90a9484344e35ca"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "628ac25c5cbfd5d36e2601eebe6d0f325d225cc70fe78657b772f2d7c0754fb5"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "b6b00fb110be6ad57518a07153a40fb114ad0ec564480c580b4bf55ea8263ca2"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "95b775e8fb53ae34fdf25744693c726f9879b9da682155f2225b45cf4411dd8e"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "6480468d43923a8cd6c9fd3e970b334ab7792733b7ad4165605981710486bce9"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 768,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "31f04df5822c5ff92c091e5f972ecb86ecff5597c84ea452ea50fb93eddf6992"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "29b81e5675719ae2adaa421fa6066155ac0f43c0bf01d8a2baeeec2d7c3d6516"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "9826a95481a58390284a6964b89a203fd0ed289cf3795263886a5de1715db7bb"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "3217bb2428b2b5201437d60d205043aee9a8f859b087ce8f719a7f704ecd3c9a"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "6aa5528da62f040b7a4cc7f1b4e6edcd1aae8379063302f03563959d7fb471d9"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "43927ac6992e3d23eef169553c62978a5af44d47ad977566c21d31d13aaf15c4"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "0c3e8869da314e9cfc4c12f9d640f26b9e4900a0114df01568e6995f55a8c405"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "2dc78b513e0d1c31958bd0162e4d729da953562e04be1a46d9636d20276ff7c4"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "b56ab876b1463c581755cace2318c18551736050edc7bc95967489663ed79187"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "dba5e3cd4c443c924b6d770eb4bbf1d4b558eaf2ac71774a2f23d477ec11c5aa"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "33a7580ef10cc9b6fbf184fda44d6132c612a7b80a960c318c24643c2e975228"
+        },
+        {
+          "name": "resale",
+          "hash": "c634c0156f2160fe62006be1519c622c244f1e56a629778dd2b463a1e6a8dc90"
+        },
+        {
+          "name": "dropship",
+          "hash": "c2f95d7d02e2de46127f0f6ac5c67226a41667ef6107ee76a15039e4573e38b2"
+        },
+        {
+          "name": "simple-self",
+          "hash": "8ea3e0ba0bec224674e7b47e04e8a104d349f8c0718878d4c49d961daf49f09e"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "b751d2f6dfab8e18fb509a6991ece670db59e074ce05f88f192b663426710f5f"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "1a5f658cd13e93e24bb0177db1edb2e649583a11891ac642c0ae05812938dbb7"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "60a1db8d83aef3db261d021051108c728f4dd63ec1a43b52da4755af614c537b"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "72348a605c05295835089dfac7917afbc5b96520d99ca68eb5522c3e33fca9f2"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "76126035912e0b0edf36bed859ca0e53859fbd073f5225dd487476d3d6972b45"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "029b8ba15f377863e2f643dd17f8ef3a72923f48fd3c911e501143b4d0875e34"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1280,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "ae56456e0226986da6daf4410f6797a0603c4e600a907ef076dab1b5e2bb1677"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "9ffed14d322ba278d19cb85222c0964e7b6e307115f69a7feb1d10b2db2bf6ba"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "2d2409db814980817f0426d8d448afc2a292b4c4a80e6b5aeb298e2879056c35"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "78a0335f952d13892022d6b35eeed93aa493c1f880ad32fe261eb45891434a86"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "818bf0fd4aeb8e3fe3065c6a433c88c191c2a2ea7e6f4adc3e9d4edfca3e5e5c"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "41fed9b36bf690564f4bf60f99fbafdc17aaa176be2bb27908c30bc64f9cbc1f"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "8451a77ebfa28c636a9505a63bd60c6d6075f2cae9e56c455173b8ebf2a1d40d"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "325b0068def178f92058a62364db0c2a118c83590e91f4824ad47fba3c3458e9"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "d9f4c4aca29f0823860ba63dcaf967e5f9ace54f1fa2f7cd14b4925596822780"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "8e26385929ceff270f6e8c713c610bb95268f0bf82f7cb4a9836b31f952da856"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "891aa1682beca6056b3fb2c6b41830e2c5b1a4282fc1c9836c535fb7717f9682"
+        },
+        {
+          "name": "resale",
+          "hash": "af7b6d8eb74c01a8cf9f3fc60d0845c8d83b5a32d84630bcdc5d2a3db68d6c8c"
+        },
+        {
+          "name": "dropship",
+          "hash": "512a23a5e638cfa31b81e9b35bfae39a3b0cd416c3c4354cf1f9cdce54c7dcec"
+        },
+        {
+          "name": "simple-self",
+          "hash": "f56ba6343b6ad73b5abce0f7e174d793e26bf5c482298682300e89f48ea7f98c"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "4e004e389f8864a9c4b45122f78cf1099016f193d65fc91a995a9a4d10c707dc"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "9a03f2926a4428de581c4b269c8c9906a26c986df27d2c1113964da8732608ca"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "4f6724b94444d4b9bbcb46603f28369da1470f13c74b9256f08ba8f00604f191"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "b06be73c5e3989017bcc1d29219636720560c12e2d08389be015b2f15c34e9e9"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "42d5c004baffa5e5ffe1dec1c9e8a2dbeab544d60ee2cd621e2d648bbc1a9349"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "9b81cb829fe93412a0650310951e6094d6979ab040d3fe7b971b69197866d883"
+        },
+        {
+          "name": "hero-pixels",
+          "hash": "d620a091f02518e299af9d616671f2f46c1009afc4adab16f2d315896debe854"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1280,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "516e66a5d44c36c4a0faa74944b6019126cbbcdd5d2fdef64c288a634f045607"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "1619e65821b9094efa64a56599b6a505f21c5b9eab9ab8a8f2618839574d2b8e"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "563997f64c049a501196c2f95ff0fdfea1a5e93503dd98766c56fdca6253bfb2"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "ca8075902f7c55ada0a890fadf23ddfb935b626e0bc8a9eb75c764fb41d8e586"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "f56b65aa8e1e6da73cbc07bd0a82a3803c7362f90d68a72270462c3fdd3de129"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "4354ec20f1d979973f2b6511aaba5439fddb8abb441461d6b2762e04978b9967"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "09d9fc7672154ecbdf11500b397192f7b478f1f4c19fe54e5427a59c0ef9bcf1"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "96eafce9161f6db54c00e248e2aabcde365f719502dc56c68cec8e576ee1cf1d"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "443c3ce42defd4a81fc1ccff131e97598b3e9ea5035dad97526896352e40d6a7"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "98b30e45c1265575c2a318261c876758e149f2cc4b01381ff642cb31782e9062"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "9dafc7087bc47f08cb3ca9f04b3f37fa1f27c0d197e79f085c709c805b2e24d3"
+        },
+        {
+          "name": "resale",
+          "hash": "4f5bc6f14a761aae2cdfe3c58082dfe1bda968b31c9e1cefb7c8893f68fe78cb"
+        },
+        {
+          "name": "dropship",
+          "hash": "499e32a22cb3f7887cae317f28888caddee8904dbd28cd134ff797c34ee105ff"
+        },
+        {
+          "name": "simple-self",
+          "hash": "6b99419fc35734c1d894d5684b6c689aaa0e73fe1b9b84ca92e7c9e06f9fffc9"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "5e0dd15b143d25bf8b7318f21108a78ff2bb445f094ec9e9ab589143c62adb5b"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "b0c9d4878aadb6dc1370176606a438be7f67d48f42a38a10d6dbf4a0a8758fc0"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "9f2eaf99e236f21708a09b06f92a60011acad7030589ae20dca880bb3e518cfc"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "12671a215e7cab64a0ed934c8a9a3f2ce9db978380e71b2a45ae469f19f9673e"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "4ab9a70026245b60be2b8bf4ab7bb77737461d5bd72109f8beae2785e9c1a4f8"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "c0917866aab0d47e978da807d92675c1b57a700af204cba1f39c0a4df0da00c0"
+        },
+        {
+          "name": "hero-pixels",
+          "hash": "65255499ecce308a7bf5a0698f5d09fb95614883ca8a192a8daa82e5250f034d"
+        }
+      ]
+    },
+    {
+      "entry": "Marketing_calc.HTML",
+      "width": 1280,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "7050244d77d0577b7a314ac40d8303791dd3d863c14f7943930524a2043d9ed8"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "9830cdd3ac1c5d0a9549011f5a5dfc5ef71fdb1bbdde1dda3336be824be57dff"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "04afbc81cc53c7eda2f1aea626fc7bac261671118cf1671ae72e20c73d452099"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "503f2fbb27f0e98974fe818272b37bbb2b936ff0dd6334e22ac716e765c2a413"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "a171bf684d22c9174851c8467d604c3d20886114e0554e4e5b8983c4a76b0eec"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "c867c595725ef7315d9173bb2f2d32b71b1a34ef2ea47555b1b0c50c28972207"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "7baf7a01e73d9f2fbb595568194242ca259f0d65c0ebdf550658a80167062f15"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "3b35f04bb1165d7628e7afefe83a88d64cf7549ab2ad7075e9c37d35f5052dfd"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "d58f474d39a4d927ca0976e486a3455c058aed14f9ee009a4b2346b42038f048"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "dfe318913ae5d120549806cc9327b33e1c3146b227a1eceaa0eea8a024f41dd1"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "a5f97a8176be36aebfff876bcbcf5a509d720bea872d871044af97aaf1bf86a2"
+        },
+        {
+          "name": "resale",
+          "hash": "8581edd0ff978f1ce9fbc5eb25a17945ec8523fa50a5f0074a85c6aaf91d00a3"
+        },
+        {
+          "name": "dropship",
+          "hash": "bd8418a0d24908b29c48de4271bb3b256500c858a8ccd227f9df2cf678633f3d"
+        },
+        {
+          "name": "simple-self",
+          "hash": "4fe44ccce423d6baace1b84c232d218a695e1ec1b40b6e2b95ff08fa53c1547e"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "e8167f72a38375d4db20603c954c5419ac6dcfd7853a78fec7d6416403b0c733"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "7cff6c8a61520dc20d3b3395cdc3c0e3e28575378cc7d8998950a92947e72155"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "9b0983898218237cfc8e2385fca551d742ca44faaa59785412cbdf9886bd23e2"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "bb8c8c9457a8446ee2bb80bcc8df8eef8d91a0d6e5cb5a86b5aca6eadf9ae5b7"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "2613b22813dc387558302ae85d89171450bba49dafb3ee7305c5e95cc53782cc"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "50212dcbd75fc6c74e3fcf1deb647f579b3886bdfda007a5309cdfeb3751e88f"
+        },
+        {
+          "name": "hero-pixels",
+          "hash": "d047525fae6bd4fd228f83162086abaab171142da73598eeb282cc6392f587af"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 320,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "107eeaf05b6f2570bc1b7c271fed6e18cc2c50c83ce27c564471240a1f141eae"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "d8c63b198f649405270ed6d436ab658aaf06798beeaf7b4c26256ad302a54961"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "853a864f7019374398d67f695f0fe43a94f09a6eabdd91c0774571a535337795"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "e092b6aa48ee87b24e3d0950a6da21c9218fbe3d6f8a3b9084ec6261ca79dae7"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "2023fe406e7c558180c5b34b29da5a54ff64525c35c819ba43875e63af997827"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "78fb99ee6a8ee54e466be4392a569eee08e7f16dda3cd2688412acd08ad2a8ad"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "ac46ac30076ca730f7e995c93b7a15f86fdad9ca6ba7dad13399d132bfcdf7f0"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "e1999dd7b4c3307f9edf9a02a2588bee9535a19c188a91afd64bb939f75233a2"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "4e2c6918b8dc66625374ef94cfe598b0f50a805d7a3840fb3c661d65554dc47e"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "62e416bfb60ba1239276c6806abadd04ba25e3456dfadabcff04dc1d73e66d60"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "fe98a0eb07678a6e796fe68bf63c06ffb1d985203bf74e8eaf126ac01249f19e"
+        },
+        {
+          "name": "resale",
+          "hash": "f75dab9a5bf6055b2622151bfe4a24b44caba70c498400e91b8bbacf416d3656"
+        },
+        {
+          "name": "dropship",
+          "hash": "72c33ad338bb9c91390cbca951b9c052c534e7f0fd6286df476793f29bd52e6d"
+        },
+        {
+          "name": "simple-self",
+          "hash": "6b8445488cd2ab3c5bdc4a4828ba84a9cf5ea5b331249373aaa68dbc3df9cabc"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "4732e27a10df7dcb2a160a1dedcb619cd2ca4a5d3fb2a68c5c929850df7ee952"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "09538b5cae36c1825bc7d34432d6ad670946d428fe78b5fbbcdd720e627f56ed"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "2b46d3f60eb291c758d748e4fff886496c7c7dfed0031cf962de5fa83cfd686b"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "868436398c7b33188d5423cbcfb6f87554fbb6afc6f20e8c816d884cf42aa458"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "db2fe8866fa1813851cad227b5164d6061f2ae1bf1dd8a35aa942e420b2b0a9b"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "e849635aca740bba9d1bacb478a49608bc5c1b7a9e94fb9cf465ae3ccebe09c2"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 320,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "9ba00e5ac64424401e841930987b139129511244aa149b2de434cb1cd12ffd2c"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "4e85e0522162d493e5a0d3df67c6cd616237ace70b63aa8022a935b913b8d5d6"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "fb9b180347ca57b8022227020822af267de7e79ce5d88e6d5b938ba73ab7527b"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "1e7768a6814d19b82a9884687da06116e30b44b5448adbab8da60a6df9cedaa7"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "4a5cb5f204287866c7b01de4d12a80f29b2b5384db78fe259173d4a9b547c476"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "d94e96824a9c03001f221cb49e96c6397b6cb462c091eefed448ed33f7c6f4eb"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "1e3ce80cff5d288cceba17e18c68775add282dbb2561f5311c28901c728dfeb1"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "70eb2cda1aa679ec966a20b1509c0be8ccade2803363255e65c7ad420a4a701b"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "b677f79705b347c4a725c58a8db31591679eea5a3e6c3bb29108de0e1669b807"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "6d90e084f4991e0ffc92f9e88701db29d1301e7102343d08fb7abb15aff7f447"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "bd86c74bbb53037f8a2fd3c76d42898516adb1ff0c8abd5dc1e24caf76938958"
+        },
+        {
+          "name": "resale",
+          "hash": "954b413573eba203c1bb5b5baaa76c55e4ae97334b610aabe7e0b12643a5c75f"
+        },
+        {
+          "name": "dropship",
+          "hash": "eac612fe4d22287527a362f1e90f368f56f21865d434141b108aeadeaa2b9dff"
+        },
+        {
+          "name": "simple-self",
+          "hash": "d0ae6e0577a0570d5eb705f40211497297fac757ea0d0641495d2777cfcf9037"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "f75d96fdc1cbb528f5d6e7cdc3a286549f0172bb58b29bcf214529bc309f9afe"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "3a96ffd8f7faef41253b859307e9a0c99314a40505cf4767ec74949fd738ed8a"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "3dc3a3b7b97529d01177e0ab55033115edee1b509a329d7ccfcaad55d1137ab0"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "5c41069d6508b2cd6642c0f07d266bdf13c6d4e4f91e3eca5e7f0443a7bca468"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "a5140d6f57e93fc7b37e99a096293414b9c8f830075bc7515e3e53ee467c8a76"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "7a0258372cc7510dd90846512aa298482f586ebbbf074a18d333ff8a275dc758"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 320,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "dc4274dcae4195b76f30f24f33b00cc97d752f09e67f2984869622dd2b150c1b"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "7978ac7b24009a0bc95701fe97cca18db4b7e24a7f778f3c6e18cdad09bd13fb"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "1d8ceb287a6997e679b816f8b7cab78c99639577ea6dda3603f450d447314b48"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "27fa8cb364efcc686b3e11df9c6d90cedf7a3ddb9bd1328ef1c04d3949cfbd1d"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "e57603f8313352dbb9e28811d0f314262947ad72e0db12efa20309d36486ce91"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "0c00433c59025a2ea116d487d2341f06ed307bcff8326f8f0b4e3a8140075615"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "1223c1eb5f287257d7c01a1e6fdcd2472c43f8446255be814eae2af78794f454"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "d7e548a63a1d6773d30d3ea4de0ca1c58247dbcc43be26ed26504d101149e62e"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "7e8bc3b8250757fab936fdfd1d2de692e9dc1e60c69666aec9963c9d19cb188c"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "9e36f9247442dcd68e755fbff00695767ea9eba8e40b4dda05019876656f9dfc"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "62f0721bec7d3ac9cdb54f1252358aa9c3c2c6654e84758793b3992aa6485d05"
+        },
+        {
+          "name": "resale",
+          "hash": "f896739959d91dd884f5684f42c8485268bf95f81553700d7d992fd7afccd39c"
+        },
+        {
+          "name": "dropship",
+          "hash": "4bddff164df5875fdeacaa99bc5037ac502e1f3f27aca13ef02921ab5032f712"
+        },
+        {
+          "name": "simple-self",
+          "hash": "fa13c0b7cb12d727605d35b8cdd87d13a7b64d47b03be9d424b203a1d5021b79"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "cdcc6dd1a1e5bc7a61b653d5c8ec9fb45508120c3af4a488b9d14809734cf0b4"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "6ea2aade706f7204498b32a832eb7261399575c815706bb6e670acfcf949d3d3"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "d2cded959b4bdb4c3d977bfe1f28d4fdece977b9cbf9da269729be7eaef4590a"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "a59a5c1e66a2a0f2dff1f200ca2a5e878945612d8b8560361521a4d82ad983a8"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "59cf8d92627a5cead8c62e799795c9e5e881bdfe6c99064045a0e00d222dce14"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "3128d6e253e8cb26c758d5cc17460a65fb8b23817672b18cdf13af6f8e3fb6f9"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 360,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "7c52b60146d927a3c9f2cd5fa2fff2fabe5c93a8ca0a26db4a67d729e17e351c"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "daf83e3492406f36f81c79a42a6e912e9f0c8a662edfcb2426fc8efa30b9926f"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "95e16aa9d685af0e888b0730d448018eaa3f0f2d19d15d3121ad40045312bb5d"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "1b546bf8e934a7ab20f978b9a2a935b6b0e3acbc6e46925a3ea64c7082de443f"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "f5e7b2a80c67d04e146b8ca646b14f7e11f1ebd1828c9a9ac107bd057dc31cdb"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "b9ab417be8fa4bba0d2fe6d87f9bc7a3dff54cf69165d06b7c4271fc399fa6f6"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "f8a69eb56bece45c9cc956b48514ae7c5e3d0d17b862da930ccbe4ce1686910e"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "004374ecfbb45d3e416241ab47de5dbbedf14add53be1ce64cbe523a96f764b6"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "7953a6ab54389cc8a7f980a540698c8b4527dc9d87dc13b36a03e0da687601b3"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "34357eb7b43f633acdae4bb45ddfb1b2a544f906c088f32790d4fb21a2a64717"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "b3de0530daaf847081f479b84bc3d1a579c625d5b0b3bcb375b517393d89f57f"
+        },
+        {
+          "name": "resale",
+          "hash": "c755c3be89f40bf6afadbbef22bfbfe6a44d1b2871154788c736ff43ba977955"
+        },
+        {
+          "name": "dropship",
+          "hash": "3922f2836483abc3dfd246288d017bff4a8947bae98293d6cc8f6599ea7104c6"
+        },
+        {
+          "name": "simple-self",
+          "hash": "510c0e1832414f6296aed9368c652f5555ec7d7cef2f7113f57b91e46dc8a41b"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "66bd289697e9cd756e16307a2c1c045e2f1c962b12fec6f51ae5aa2b5b6755de"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "2f8f22b6e6c9062fc73ca3199482574cac418856d5d0a4fe1b66ac48d77884e9"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "5b13aa3567e6b03f4dc1f398d08b37ab970a8d0a26d1bb4650dc64ac113f154b"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "80bcbe6c4af07e084f89b8012b6e30e69772c793986b441655f566a95754ed61"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "28356294d03f07b44b7c3eb6f8c872b3daa6ee46a283c47cfe6704af437b90f8"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "8347737924d2d4e303831fe18f04cc10fa305995039bbc6aff06e584f98ac24b"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 360,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "83e3eb7680c97757e5864a3dac07725d67d0871251c6247dea564cb1f7bf46d2"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "15c22b042c355778dc3c937b445af0149389a8413678712b0243a729d48a2f96"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "da39709278cae3cfb3cf61d1b6138ef9fa1617af08d40464cd95b5180c998d89"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "a92c046225a80e152edd5bf75961b4fab260a1b0040419ab34f825fb0c9bde83"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "e6607c151e6f277185d5a66c25e9b2d3fe7d6d60b7b0b36dcd1c4b5e213fa8b8"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "fcbc52de3a99a01100ccc59fa4eb1343cdda3fb235d7a3fcb223497a3b351b04"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "84a5074c52ab5953ff3f0a82f3f80bc60817a4dc9e9fba4055adec3234f970d7"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "f35838a358fad70e276dd9c4eb883710e5826f388da6144ab3bb3b95a7bfcc73"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "49633659af7ae75e13be9ca3e777e853005bfe971d59dd8a5552a76db5f86940"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "b45323f0bcb46820b40605cea9821359401d9919eaa492ccd4dda3b756e6a4f8"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "e41633944cf06b242ab66381a62c11428fee4cc41f0c630c471712f28bdb2c84"
+        },
+        {
+          "name": "resale",
+          "hash": "30b1cebd3588c025cf44466e43cae25fc370eccd7cd3402b9c787416913f7aa3"
+        },
+        {
+          "name": "dropship",
+          "hash": "ff7dd7e66c172cac0fba87fb34e79c55d125b40524a6d54f59cc6c918629642c"
+        },
+        {
+          "name": "simple-self",
+          "hash": "1c1a7cafecec2562f57a744e30fe71fec26414536a81c5b58ba3bd31ac7bebc0"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "2508b71bc3236e4dbddbfd105780077fb6739b40792b09e03b041b59a2553249"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "4bc078138364049e53f59641c568ea8575151236a9818794704447d257711ba4"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "d7c7ce2a1f74664c001cc190074042fa974ca2098513274b8c77404a00d917d1"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "a1c73a60e9e4f072ca4400adc0c40601f11da10b92881a13c8f45b0ed12b7a83"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "81a87511b4653fe63f34fa2cbb588eec9ecffa12cb8118aba422719163df7065"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "434d21877db737665863da8234e63f802258d0ee62baba685d0245d9a9868118"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 360,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "5aa1c2cb9895d057118a7d2adf94080e6a041a406ad68ff58a1795cef5fb0dcc"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "7100c35f443009aa7be9dd754b780d4c5f6e343d2ff4e75c901f9ffdf4e0c727"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "86c02badf50de92f400a09a20f3fd3753b302ef6b7642bd15f66d583ed5b2254"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "b53ede329ea566728ec725a503dd65623e1b54014c8b251bd724b25759c605e4"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "0595bd4f1a31cbba2c63fd84c6ea5d2b3229b7ca15d4a2bb5b7de470b4e2c3f9"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "824549c6933062339ddd0383a267f1bb32c66460cbf38d982d9e4aad0c66cd68"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "27214a646c87b2d6ce8e2a8f146ed68cc938afe3a1d705ea3e675714752b1f0a"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "85ecc7d34c888b309fe7a5c7d11fb81c44e4fab9b7be35201927ec472c4672a9"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "445ebcde3107930563c4538b09d1409699dc78dedddb358ca03aecfaf7616a51"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "9b659dbc0db002705929841cc0ded9b53581c84b2b67244999ff78f3f990a8a5"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "c03def401ccceab7b0a00b1359e77e067eb66ac9916183fd655fdd9ee4be138a"
+        },
+        {
+          "name": "resale",
+          "hash": "72007e0f8a5b103e92e686523686c981205cf1ee1084cdb2de5369aa48112e14"
+        },
+        {
+          "name": "dropship",
+          "hash": "bad85c94c6b178a603e08c96f7a6d426244ef7e33b0367b01f99e552da4698be"
+        },
+        {
+          "name": "simple-self",
+          "hash": "440a3585e4b95e65bc50292be817421467ceef5dd16b1f06432f36052fad55d2"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "8b6fd169100ee3ed8f6260ed8dff151d4b5b9e67c7566a53ab76331264e7f721"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "cb835db8d0c2eef1c25ddcf121c799ceb1eb1e77cb49df46e43bec836e0bf1fe"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "7dc9cb8365b8115a2c663265b4a196e61d0998837c1f238e425defa1747cc9f0"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "d04c124ccfad4e8fa8c01f203ea6f97e6df44f1e2caa01d914f4c5145b1a09d3"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "06fb55665c90544c7075a79c4ac47b307659fdcf9dc22ef8a6345275d4598c26"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "5b1babc9affa3b25caeb22985c752d951747424c1458c53b0ebb2ad26cf99d86"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 390,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "6b6bdf1c87e0e46a83a8fe2114b11e79a657d13a8037d24c4ac0cbc1b621e183"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "573cde37b121e662acef2ce20812e4c97bffafec208cfce9ff07f014f4d15ef3"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "e144863d397eda783200bb1d5a86d93e0e49aa0b05941229838fdbd8c9ed9a47"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "f8e11db3a435a4e1e7a22cd6820586d80bfc2a41848ad7f91d99e1e9e0353d1c"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "295cf86e679a79575a4cbad363abe98b7383937994dee89dec50034a8e32cfd1"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "f57ac438aba98d03dae054ff7620eca0dd26a98c754337b5a64fdc1b80088556"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "8ff536738909dc3558f35854550c1920b98f1927badf19dfb47feedb72b311f1"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "cd1b70cfd7bd8dd121f99fd7eb4eb4aeaf6b128fb072dc4a4249e897899cede8"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "556f0d814529f2abb30596484f883f2854aba34aca1b26984dc4af1e773fe4f8"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "e1636eb49a9165870367a6dc913cc01f5b8e87d93aa39df5f0655478f6b8bbf6"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "191847cd569676f974346e545b442e119f7bae3953bd03e3382684d1aad4d6f2"
+        },
+        {
+          "name": "resale",
+          "hash": "6ef74b424e1117a45585d2035e85665b7c322d280721fe1fd4861f89882e1a2e"
+        },
+        {
+          "name": "dropship",
+          "hash": "6ef776826f7e9c611853c53c70081e78ea6c17b5ad7f57efb6ae44826c871df9"
+        },
+        {
+          "name": "simple-self",
+          "hash": "635d68ec5553eaa852fa640f8110ca4d462c0dfe5f1402c0b3d22869eb1eae26"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "848eacfd4e59e11e6dc62a6339b7c5c049a1d940bdf1da07381414012d69a288"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "110602582f10b618fa579a7a45bab12b34498a06cbe648f83a2b5bde27d7cc24"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "321dbfcc965c4dfbd71b964d58e1bd126b135c04bfad3719d30fb6242a6894b6"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "3f2722ba0469ce575ed02cc005a21696799689b501adb9b7d0193ac60ea4d0b8"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "0724615b216d148a9c4c561cb96eec78192d3dd48dfcd666fa04ae85d7be437b"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "524e9b78ec3e18f6e793c02bcc7140abc819a44ed079cc2036ffcdd3c8a50415"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 390,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "d453d63a1f803b838beca4de173208b284e408c27116846aee96db5a4eb2a380"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "23576eb22af2c0ec69068d65a570e688cbd9db17eb501f12c06ebe6c8e9f3562"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "7a28de3730542ba9d003709dcc46cd111422a71293bb56899e540ae2b6a96083"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "9897cdcce16519a6033198dd13d5470fbde360a67ca0e2fc27810e8e789ca3e7"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "c7266e5f5c62552dcbf4576e657c5be9af715848ec276db59e0b3b67005a6f28"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "0c13c67ca972ef2001e2b47e8233175efba6d7ee54b70b47008b5b2b0285da83"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "91b8be0a65e61869a0b8d2f5f6e4cfa0f97b1bc1440094c4754f645b814d3b93"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "f47b72bd807ce3a302bbb16337488e841fbd1b84b2848d465cd08834b410643f"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "47150da38be40c193bbf4eb47f5ebe3fe3a46892310bb0207ed8f1ddfc4940be"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "de4bfeb7ba4c77be9adf250556227c5dfe928884400519c6d27f931a7aef0fb8"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "86ace9bc8af9585d95f68a9e896af391f7cfe2981ff7dea7c3a4bffae9aadb85"
+        },
+        {
+          "name": "resale",
+          "hash": "bfd806a7f916f1cfe2cb58e0f3029f0689bec4af4237e96a9cc00db03c82213f"
+        },
+        {
+          "name": "dropship",
+          "hash": "15165d881761eae3a3ff8ebf3127592f67d6183226741f6309545430fce7d07c"
+        },
+        {
+          "name": "simple-self",
+          "hash": "66a6038648fc61d4c85b1cf426bae936f15583d338d3d11f73463a8a5fa3d1de"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "f2e3e5a87ba71b9676ddb645f765300a9c6bc4d9337195523b1db5697a358fe1"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "3ca6124c166993998827eb7e9df88c774421869a0c33200e1e68c20a263f0ba6"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "20d05cd775d8178c6e7d19b76b07e0f4ac92ceabadf5827f7ff392f29af77dfb"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "079a5264c042bd222edc9c8b6a57b136700b63936b73cb8b6d1f5f3942caf93a"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "4362e968a8e3c56aa62cdda6b46e19c4c5c4010c9435ee27f8efb8ac68b50824"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "bf49d7332c1506f69cd0534f14d7eef5726dbd659778f6c7bc3bd014ba7ab9c8"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 390,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "f20b1dc34e7f1d0e9c7a74daa2a079f0c815c3cdf19c03f0b1629c1286db708a"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "d694c7e8377cf8d8a67ba0383b418cdf3a3a3192078c71079713ba992bec4b57"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "72ad0a575f2f2a4f2a5916cd909b70338a432597aa068969e0a8dfeb95416ba7"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "a69f132d23d28ff31913d7ceae9577e1f46774f42fa2b2b13615523ccce8e70c"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "ca38b75ed47990dc636d1e2a713d508a75a45f2f5cc01aaea492321a922972f9"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "8110e7cdc9b1509a2a9e02929dacd1169d60d1223fe83531388b5f52ee808731"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "3011b6fb156a24ca0370d0581113ba8c070a66fe6e66832f845c958b056ee11f"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "584503b83ae02ee1ccc0c75f76f3112e24b9851459baf5b3b1df6cbdd4f25fab"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "83cfc36b3d4bfeea47939c573f1defb8f714d578338e0010e53a0b935c060ed0"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "5e6a5f4addb65882d03c33350a3230f9b33cc08b983480c07fe984c172180444"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "76953a924e593d7fc9240a566d37969efeb86458db14cfe938c2adfda8cf6718"
+        },
+        {
+          "name": "resale",
+          "hash": "a1e5ac71cfe4c57690d49fca5d08d6cef8edc4ea2210ef988a70f6581a2ab82d"
+        },
+        {
+          "name": "dropship",
+          "hash": "439299ce4cec0b930d04b408a6ae8e52ecbc80654aa3bcce4a616772012231c7"
+        },
+        {
+          "name": "simple-self",
+          "hash": "ce1b7af582fc5dcfca3e9a18541fd78a6dbae9088062940bc0a7fb1cc36c12fc"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "97e039a75bdff576f05896c8b1f8d2259f72b429117c66504ce30a749241196d"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "10b1c40168bf675b2ff9c8816ef21360d1bfd5475ed46b07b10f2b6ae7ab3592"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "1d1c9fecdf1db339b811f8650aa9e0e09f5c450a9031be8bce5daca8e73cd943"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "2242009ff4636e553fde3905055de869dfbaf96ea725b866d9651109343b8731"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "9cbcb10f4dbbc72559fa1b380f942d70f7dc4b67140d83eb5470d85f589f972b"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "c7aed87ebb2969b24f9a216ff16f7f6e988e46a6858aac0b3cdb6aa28fd050b4"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 430,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "047d30590c318293180958fb5cb46793d1186c7e20be2f450919872456d9edd7"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "4d79f3d420fbb51e1f2181d46fe89494460c2afc98243ebefe0a65b346019f1a"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "6d3db2f80e489f9f427f8b55a45c7ae1d1ad6a9ca49d1173c97500a2cc6fa879"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "248c53a09213a08207fc0c31a8dd0dc7e1314b00b3740fdf8382ef9f5ba1c731"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "b3dbfeaaad00d744c1f7eef37e3f0abf08224807d528d5ab73141a73eb71a857"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "7352f48fe12e3cce8ac57d594f385d42cf91f191a63cfc4bdf819db3db49d5a7"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "520c0fec7c6c6b0a12806b51b44b4f6354cc4c96f62c20c07089c6fb9220d3dc"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "6612429d25d0156a7a2ca3f7ee118d3938a51e9f0c6df35710c7959eb631247d"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "a5a8b4d45adde81ac92766ec52e61943fb1360e99f2a75068ad8eb073028abd9"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "a99581f7f277a1ffb0e719c59904337a68056c96a25fbf73b7aee83c93c483b5"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "fc8f59f7a465cc36db6f573afb6a8860a7d54b20b40d00058e20d09d980fe473"
+        },
+        {
+          "name": "resale",
+          "hash": "a8f8fd1672333ad3a001d0b9e38ba216fc667a27e4a07d53eb402d8fc26ea69e"
+        },
+        {
+          "name": "dropship",
+          "hash": "15aaa662a635482d54d8ae4848bbbaabfab05205b536437157c0b1e2aae22998"
+        },
+        {
+          "name": "simple-self",
+          "hash": "46d70fba35b539b13b8e074fbca29ab17bfd6685cdd3dadb11002a36645def1c"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "cd2a991194bae50f95057ff0a45c542a75c033a7e9fa6f78799803b5fdc75209"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "4111dec0f61855d639e6b26308c84e726645b29379b18424529d124a47fa3cc2"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "e15aae0ebd3ce6baef11a9ec2476707ad0700110a3925de3a665218fee5d6207"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "c77c31bdba80f0aa4891356d7c162b41de90ade4ab8e4e3d1b4da014d90afbe9"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "939dcc11204f417a6e1e44e93e5ec6b54092fb263d9e3957e1d7717fb2570670"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "ee09bcabe722dcb2b4ee10868713a0f3174fff616db05668c7fc64a12a7c4f26"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 430,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "53a8de9b426ccacbb7e44f9085441e9420cac0313d6c836308713494372c9e2c"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "cd16b4d7b6e0edc6a563bdd72dddd81fc7ef12712eabcd9141a29271f3b28e30"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "765fe0108d67ed10c9720510a3232f72571a8e90d33adc1306d0d679880fe156"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "c0b40f0cc6e516d07b236414d84150bd0afbc614ec005e61f9817ff4c34ba4d2"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "1997657d8bc215d6b003d4855702bade63ec5447cb28cc4a40d30cc0cff6ff07"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "fde8376698df49abb64678f19c6d799aed67fdc2e45106760c911012b27aa3c8"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "334474022b770d1ab072c8815f1d0e78fb09aecb9d52ca9eedffee839b3f9bb9"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "df39b454ffb28fb372eb2e3c7e678ceff59dd9d665d7ea4714573bb4d00a2e16"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "ff6287350794ec18254ad83a7c46902fb0b90cad5510db4e52639837ca78e719"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "885941813cdaa78763131a3ad280e9d5f79ea07732b110d3277aba9d742eee66"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "0300482c2aff4a681ecf633f9ab21ecbc7e84d088aa4232a66920f8e7a28398f"
+        },
+        {
+          "name": "resale",
+          "hash": "7088584622896fe321a5dc4733280684df585f9225babaed12d257a3996a2d7f"
+        },
+        {
+          "name": "dropship",
+          "hash": "3f256d495ca84e2950eb446853095d4905576da07456006f31d1d77abc62d46a"
+        },
+        {
+          "name": "simple-self",
+          "hash": "bc2490702ba49da24db36eb2de7d7f619d910e226b8cccf0c71280c5e2040ff8"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "7d07e8085f8076a7c91fc89681dbab461255f0e90b1e9991d465a8d988667e9f"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "37f8e73d00f05fc26f29d83251914b3f09529eb54e31942ba962321465d16e06"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "488af86392571f6771dbf9e9376679f635b83a215adbc9393e5f8dbfaba51367"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "fa74346a220b849f751939b4c57ccc7f6e88bdc06f0880b2d9c66ccaf43e12d9"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "71d57479b953c1ba8c26743eb11a501d59e7ce1799b038b1831c7d0615d23a54"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "0f99f87550168a8b518971c9c86532e9b76a4f37f3121a5340a9bdf0b0c425ae"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 430,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "7112cb35511b8169bc14a43845f021a3e1fd33e5c1412a650a82ea0f3d08238d"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "bc4bcfc607c860cd2154949dd7ba0d7f669cd348a9e45d23d76b9eee1d9d535a"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "fac76330fc3bb0027b99e2ec007b58f9bb7f57c1e88cfee9aa7838a8dca766ec"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "0a050e5d2fef7190aa80893e13ed73b1922e9da92741623b149c1aa76d0ee1d0"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "f39ad3e4b388abbb391d9615890b2d9c82170b6cbfccbeb1abb3a18fd6c82323"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "590b56d3687a7a19b8696a6e610cf33033e9855d494c2d9f87331e85284bc0c8"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "80c5aca2658caaf332551c9b8cef77cebb24fbcf18dc398a3a9f739220cf62a6"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "e49d2b1a828b394ceed5c8668ddcacefc97564b17e74f63b51df1037b327429d"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "5b84a572b53c15b60c7e8891443a288449c90722e9c5f11cd1dd345bc23c4a19"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "477174088553e25dc8f96004f888b0b4c0fee0a0d8d16838ca22615282cf1e6e"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "e15cd2fae18f1a59e2632a01b2c76a3ae5e5f342ece8f629ad2b977f2f049385"
+        },
+        {
+          "name": "resale",
+          "hash": "0cd278e2fef9a9c6259e5987d5368fc09e526cc2157d00f01169467e1de08bd0"
+        },
+        {
+          "name": "dropship",
+          "hash": "49a6bcb433e4dccfc6109c7ab83ef034ec653f12d864c3f40a30595017a28753"
+        },
+        {
+          "name": "simple-self",
+          "hash": "40c4133da4cf9d76a385b1c5f0a0ecbd5d43493780360ff806a0c31cacbe47a2"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "4c54b6ea63742b2ee7fac194fc10cb43a4915a855f7ad06ac6667f9bbbc7243e"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "0252502dbd2f3d686371d2a606a2d65ab4ce5d1139865ded29deb13275fc9d8b"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "a66f5f38094e753be3844323e7e8573d6e9cf00bb1d16907ec6aa33bbc7c1544"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "436d4596f4642bccd5a7db7153d15344fc6af07dca121e25bd74e38a4da0025f"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "33038f0bf31ae2a248322631324bad0947fbe6e54c8656d3914b8d429ee81efb"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "155ae06c07badda92f502f5104591c3bad5881b29392324e2cb4c0657ae3754e"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 768,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "5379437e700cd43247232e2a9a5bf16689a6e478818ed46ea1306977448e2bbe"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "6b2fb33640fe4818ad16d114536a774f6d40039f2f8fc200e122e809a0ea647c"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "f9f07cbacb1424cdd0d5cf258e4d65cc035ac18c08634a49bf4057860067110f"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "b1f0eb5e16701c5157238db2c72ede03bff90b0bc0d1ed5d922f13328dc0b00b"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "8f2a07460e06d53d3f72eb49b9fcf2c2d520290b4c05e2e0df438d25c76f83e8"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "0dbd62604113f0ef8e379e01a4510d1be03de8358be4f0edbd809f7214152720"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "7aa6dc0a47a9713d2dcd7acc86424e495b49eef99fd59ab229830655375a76bb"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "2bf0ef14fcb9261f3ad95cb271f7074686ed513e007c335da87d9c6d7f73877b"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "afd2bdecf125132ac569efcc77511d5bbc7e176e9fae9dd9c9eae0f8fcf1d2f8"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "b7cdb871067a33d68e36e18439c29fce0436f43a4b0f13e288bb521f33031c85"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "6322f4c4ad5aa25d3f1104a2174765b6fba16b573b390a91082d1db54900b3a2"
+        },
+        {
+          "name": "resale",
+          "hash": "7ac7653eef2baf56f2c5185a90f959deb0c783ea0454c6b294ccd206a418088a"
+        },
+        {
+          "name": "dropship",
+          "hash": "ac2de195c72e0c9a3f31170803277f6edee043ed2feaaf99fa40659f8af28c7c"
+        },
+        {
+          "name": "simple-self",
+          "hash": "c4ea4406a15110a97918cfe0b799b75fb147472032e32780a04849fd24bfc194"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "6132f924a07715b7abae379935fa15b626bccab0da750de219ef1f5766e22da5"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "511e3a25831ea8a2c94fc8da68937da1c8aacf2cdd5874096da8b2540a73132d"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "0ae40d23ab7d9719b6557c7ab3d8291468751d3f34c9419f658254406ccffa24"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "b9ce7a673101a1df85fdeddfcd486d390c7ded20d9f689a9f7ad7c4d466099e9"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "54ef1c19dd467e1047a5d89cfea673ada0bc1ebdd9fa81ebb381b5eefef98f03"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "e909124a4654083edfa979b2b9c837d091f03e6fca918d8466e0890d2fa23e56"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 768,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "3f58616c3f0a44324890cacc87f498b25c940ece47f67eab12336b494a08d161"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "9c8c812024d43ca143fc2ab1fadd4f78ef51ebdf60c494d64922e4f6150f3c0b"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "0117e0c0fe0d46ee427d8346c32b35795511340e482096371edf6618e218a771"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "75a0cb2e0b662814aca37c040099f7a514810ab91d0cb9bc00ee2f301e3b3cf1"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "03fcb17691f8bc37777d3e20a7f175ee895d6048bd137288bc21d3fa3b767909"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "79893d08d238a84d4414488073a89d1cace2e84e64d6f5321f6de91ebacec79d"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "4fd635405d7161bd3f3053e69a63da4098526a786caaf07be0db158e97696d84"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "d4c6431b5ffc1cbac78ac219a020fd424fed6f22abd93c2f4ef0ad3131208bd9"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "35a2931467ddfef20db2bd892c805649c0778181a9032868bb2edeb450bff0e8"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "2d1354e6002b25e24e3298861a05bbd0a6d338cabcec02522a4737409428abb6"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "e5c635f68aa71f7de09dc5c934505237c246ebd55daf12046bffe01833f4c3ee"
+        },
+        {
+          "name": "resale",
+          "hash": "be6199be544149ea005207e2456d814a8ff26aa5d0e37c4a707a54034fd65d16"
+        },
+        {
+          "name": "dropship",
+          "hash": "e33d65a54cb8c2ecea53500a6c4cf476e2e91c91cccafe915922860ad67f32a1"
+        },
+        {
+          "name": "simple-self",
+          "hash": "d6774139ad5f44410e1dc483c3943ceb4548291335c2ed91d09a197e8ed58e1b"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "4968b19ad807553649258e7c15620bd8dd47ff6aec36fcf355a925c3dd1e87e1"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "50ad5f9d6637b0be424ee0d7309ace72cd205c06d73f56e9f510188fae113ce6"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "2601b12de34bfadc8b83fec0135d2ab8d2099cc050835f0b46b82ae12f8f2982"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "2c153e15a70d94c58246a0102cd943294857425bc9bf715d2b95adf635f0afce"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "6b0530b63bd20d0d19da9a041bb92d5c2f302f7b042546f4e706386d5b2ade4f"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "f418415db783cd6d6441a3cf4503eb875a48f2e56a26289192e8c21b3a025fd0"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 768,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "8a5d171a04a5dc1a9aa710abb15d1d70f3fcf08d38e337d74858ac6668a9bed4"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "46cae246861c8d75a7d60308afd3dd15bb2e7b2655385060ed690347577098b0"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "6e8c33853d9728af9ea77f77e5527c1c1e678004ccfc57b68768fe5221881fd4"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "0d869b699eac3f473686115e470f36a8381173024df2d949e63c27531aeb7653"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "2c665b8388581830d440edf64692e16988d87e06a01bcdbd622ad379b21b2002"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "5e2994096873eca509abf489986c0d84af200184c2946bc7f0bf774814d292c1"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "35873f66a31181a0072c16a6bbd60243124ad866ae2efe48841673118779ea92"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "7e9677b189686e6f8307a8153ff21061fc794e6fa1f8943ae7583873b7b8539d"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "ec303590568ab3766e985d52ff823f42ab887f54b44c9e135a5eb45269d03d28"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "14be73c98285a42b4d91e6e3b7830b8c4f33f50c9b90c6a42bf6199bd3e54e6c"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "1cd7681cedcbf90999247fb439119c1741f824ad517bbeb38ce6ac1e0df17aaf"
+        },
+        {
+          "name": "resale",
+          "hash": "48adf2fe123bf93d93cd28768bc5a2d962545fa6202ed70c09d8ecd8045a8dfe"
+        },
+        {
+          "name": "dropship",
+          "hash": "6a16749903d17dcd3b492fb1d7162c5fedd12a52d3ce669d449e508f435ab50f"
+        },
+        {
+          "name": "simple-self",
+          "hash": "0c3ee6d87536b4676097623b89f2568d3422699f479bef284ca54207e1811d09"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "08976648f69f965ddecdbbd70724f0c36d03eccbee9c8b9bfa1d5ad71005b12d"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "95bdc6ce47fcf7635b908a1f8f5ae8b7fdf11a060b4f86e289c7d023ac7644dc"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "ffdfa3581116e792cc9b17a570a667ebaff065394257898182c4e7db81ddc6ff"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "6840fd9a7743880dc3c0e68b0d8ea5efd0e18ab8623e909dce4364b77041f992"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "0474d6c3a470eb63127199e198d5f18e2f75b3a6be0d01b355186aee8fa00c59"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "505387e2ca62482db0534ac4b91cb97a48aed982a8d26c16925d643a631a1184"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 1280,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "ef67a133bd1c62a5ef71d67d5380797d136bba7183f4e8faec9bb6d9acd6ecd3"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "c0da7edc62221668fb4cd6a47f456be289512473dfcea7e9435649f4a7e42d1b"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "ee5d59306dccde679717a456cb5139b110e3e097de48553e6968b851d2f59a97"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "dd3da4d0977b282da6252585f580b9061f0f263c74c484d0432ed0d71021f668"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "9381d7cb229fb7e659f8f0fe160b4ad2fdbfd75a2dbbc50b4421cb5c3b062709"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "e5d24a1286be64ac6576917a980748d48bc72b839ed1f1247410b734ed5686bd"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "e78030b9ffd3901cff0e71bf437199858419d7613b9f1bc346df03655fea9dc9"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "b0b4cad8385cfe4977d7ed9d532e2881c24982ea95e3689ff65b580a92190795"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "8f6bf9cf8ab6300b561317f9040de9f0fca28c73c251dcbc141a613d1979f18f"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "fe00616d96a5d2a0b1b491549c868dc1d04ce04deaa66f1ba667560e78bb9e1e"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "d27f3b1cdb1f7c4ff27a750a69681f28a2bfae25abc6d2ecdfca2ebee7f90786"
+        },
+        {
+          "name": "resale",
+          "hash": "a33149b79ae236e291364e16f3d7e4f8d5365b8fddc80ec49245765fbf449b3c"
+        },
+        {
+          "name": "dropship",
+          "hash": "df42413bb83e4f2e83422ef7fd06f0a4c4ecbfcd633f037d099faad9d39ede1f"
+        },
+        {
+          "name": "simple-self",
+          "hash": "f0f9189da5e0b197456bb3bda3a6f5f5f29bc379cd2dd3de16fee55ffd89b018"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "cb04228789d720007d64f05c3ae93bdc4b31f99dfd763d223e2abaf32c425fee"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "6d2a39572cc45881d2a0fb856bf58a9733fdf7fbcfc57c9e40fd94eb97e666d7"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "4cd708329b9f0aca36a654bdaf7650698954ae318c79be06b225db14a186c387"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "d0528037d6342a65b79aec6829241bc87cc519ae4e87ca709c08a857ce1d167f"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "cb12667fb90a13bfba4c4057faba12d42fe89bee6b4cc2c60cf4deffcbe95c4e"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "86862ef33112d2a73c199a6e2b63435503847ce40dab24f9cab83bdf33c5fb1e"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 1280,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "24c99b3bbfe0d9662c46cd56ede05ac49564bf499aabf2feee3a49b5fe85efaf"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "cae60da96cd1e8d46f15c49432a1d5387b622b3ad349693921a7011fccae9494"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "a3d6c1f32d937f22aa05cc4bacc3096900ed0eb36b4871a757986843e81b44b4"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "5d118184e2cf22f66c3ec48520300bbf4e3634c72e38d4c4b66c2a84b4ca931d"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "d2d6947d3644b41ca3325da978463c05d807c909bd729d5160c23f05436dcbad"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "b3872e7c32fc4d226c92726778bb4c625abc2b9ae3904f4ebb21584a8780cb69"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "290bb8ec4a6a65bdb5573dfd05f84964e0291dc8dcbe26e0f1e3d5063b64f064"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "b082a6732f7ac771a4b980e29249259f3778ed13a713417e95f81559df8f3a84"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "d07feedd67b9d18687f1613a1cf8d21a463f1a3ee8b4cce4d8dbe5d698642d4b"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "9224a6be0ee5157786f4c5848cd5c78947646d55aeeffbaa9483accc28c027be"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "54d08136f0986e4fe7fad830486f83962dd3707432670b5a05859a5f2f547f57"
+        },
+        {
+          "name": "resale",
+          "hash": "d372485396ab514484b0782295e0cc8badb16727b7ebf9f36253520ba0932335"
+        },
+        {
+          "name": "dropship",
+          "hash": "ac922f50b79dbfdf59ec9377f79a54ca6bf25fccd2ab4eeb346df0a967ea9b24"
+        },
+        {
+          "name": "simple-self",
+          "hash": "1d19f0c46b6781e9c6f8e58ce39700a32d74755479cea2f96143591ee354935c"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "01c62f38c0f02d7910b978056afb690039b85ab59de9faf25b3964ec96bc0b63"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "2c6b06a2b0a9cafde20e7dd4bebc33594b446d3178ef58c59a4b0bcbc6956677"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "3396367e66e82eab0f6cc29d0005a75306f9ef3955f1382484180dd9cdb3ebe7"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "524b69e9d62295e41a38fa62bd8a29d674683c3f03bff9604f2f933f93035dcc"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "3b98c80f9465f16782a35398175efe52519d36348e8d2ede3a056fd3336ac001"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "f2e261c4bc605b85e75a99555465e3fc4902a943e03c10254445da69fbc25069"
+        }
+      ]
+    },
+    {
+      "entry": "US_Retail_Demo.HTML",
+      "width": 1280,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "daea981ec52b07a94e0eb1ff6b4ec473be048c65cb5816e7c5211e2928efa688"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "ab12e9b824bc88726d6179b947af46e874a71352b4ab858b1fc772e9d42395e0"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "6d7021dc577453954f6c4271a6f18d5969440ece25b4e7112e256b3df6130565"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "ec89e50e6391a9a513bda96e2fe8d9687751d0c3a42b2d40c4a742b886381fcb"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "f789f53bc425a6dc90855276e676f66490467ace0a066ef13b1df38e165aee14"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "8ae791b42868d836329eb370bde2d8315d856d51ae5bd3b2a68754c8f5be79fd"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "3232cc74af2577f66d9f3642f0569c2c628a16a2144c9d01ccbaf8fbfe86b08f"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "45a59b797855e88318a07bb76a77b8688e05bf90a1fcbd23bd72d15309cac8fe"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "a95636bd429847b656289c9e814f8e82d5ab4826c338ae99f5a7221a1ce9e045"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "bc9f23d75df8ac31a6cd8c3ccb9eb1bed24605f7c340cffb889f733e5f3ede1a"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "3367215aa4f8bfef96c38fca7df7a1ac159a1006031d625339519289cbe036ab"
+        },
+        {
+          "name": "resale",
+          "hash": "44730bc6518c88a361ff991ab3c34ea3af5bdc6f546dd1d96c8fa9b8608ccc66"
+        },
+        {
+          "name": "dropship",
+          "hash": "1596d36035f9d1f3150145ea87ff8d2de320103d2ecf9b3d1f7d1ab09aee9885"
+        },
+        {
+          "name": "simple-self",
+          "hash": "18b446bb68c413800b8315d30f89489e1f560eac868aa6e0527ef637404a57e5"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "24a69a52c68f42db59eb22747393ae175a2128699100f066c875cd136c74042f"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "6648bf403135a79bf6eef2e7be34dbd4cff2427a34fda7e003aa5cc3378d5abb"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "8739802eab92f4cc86bb6bfb6671edc3370dee9ce165b3da1905538278b58256"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "527eb130ceac2aca7722bb643a33c6e32e418017625c461f7fbfd052254666b4"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "03e72e3df3697f26f18a3924387f50469d2f9d7c3b29c230b3f39949cefe3217"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "91282b19309b82126d6942079d9e29f3679a96b99f7aecb67e8917c4c1a73a79"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 320,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "61037d404889feeeac6d9fa82e2485018c4fa4b33465accb7e60c64c4cc30169"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "dff1925905af0cfe213a3e26c853cfd150e3c018b134c2004e8aac697f3dedeb"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "32e132f68587d225bf4e7bc72e42c26596ca36b119abea6c032aa769c64f8a4d"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "3b06ea1463ff444228b8e703ec480acf46636b58f304175ccb2773636c5b228f"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "e2706f09cd09fab79d4f0a99bebef98b2998cffadf3383b622bac8997b8bcb8e"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "8100c64fe800906eced53b5445dd4788e9c145acd436498ab88347c7fbd90ce3"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "8aa1879ed8130782ca96c85998ef8da44b037070612a403c411072bfeb2eebfd"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "93f1768405b4981dee5073650ead92f47bb158725ba6b71b6b49275d54f0ba8e"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "c2e8d5995a74db1f3df3ba5c4cc528332f199a0cac14a0e8a222d8f15e3027da"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "25347d336f6f3bde992617d04f4f514c08e0a8ad50f239534aaf8884a9c1f794"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "0ca233033d2bf08d099c604af7aad7c7ab5402d9729f2a00f39ad9fea00eff06"
+        },
+        {
+          "name": "resale",
+          "hash": "51207dd3a59789461553051d9e0185f3fba20a85867ae0992dba9bf545082e1d"
+        },
+        {
+          "name": "dropship",
+          "hash": "37fa93ad9e965e78cc986793491e0a7f3d1abaa4d3fc3f75020d69270bea7321"
+        },
+        {
+          "name": "simple-self",
+          "hash": "0c36e957af8ade3dd9d233c2359d4ab386c0be3cdfe3e71507393fb80962cc8f"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "a4bc00ad5188aee28cb341ade367f3d359cb4859bcebb05a7e8cc09f33a1305a"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "65b28a45cf1afe5918fc23f54e6ace78811981affbbf7708ba577e4a821daafe"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "2d7eda7a9fd116a2c244e74df6e79af6259c49cb20df54277fe9a52b363e88d6"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "42d00f31345d75b7bf150972871c91050aad920e371cdbd507a442f7e522d5bb"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "a7642b546f589a0b553e79ffee9494af6b45c6cd1249ee2977ad515b9d8f141c"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "d8cc45c7a38090256a328c067e7ece971ae754831ca3431b948968e7c5307665"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 320,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "8eaa8a77cb647c2d31fe5ed7e1bc039b7a4020a9c1badb208382fd07b9aeaf0a"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "af26c99364e6a480cb1e998e768bbf9203eb8bff44448c51c48ebe26077919c4"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "a9f0220e54b07a7764e22f2ff526f1a596e5d2c5ae02b8a8e53494997c1543dc"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "0f2ddfc3e4ffa70e38a9c708df17b9426c9bb30cdf0616d4c9c3cb856d27afbc"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "e471811edb02d19f0f5847668cc5eddeb68b06cd65f08045ee990f979f12cef6"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "731ba87998145cabe92b728585c31411a57592936d445d63c71f87baa8423ec9"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "507cbbc5a4ed4a53568d27a90915487d13a2227ce0d92183cac81b30ea129cdd"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "2a8fbab84e60cfbaf6b6798e0e4d8f56fbe25c08949b1989bb00c0f41f8548a4"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "363db661bf4f5bf860a6285e821250a193b3b0c0f156f1d57d7f731004ef1652"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "c2a551f33acf38c3b1ef5ece63aad1ecbee83624aea4589b8a897ed6e088cd40"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "660fbfcb019c10a9bf78f3af16e2bf89cb5c6e0e2108698102b118c3e9cba5ce"
+        },
+        {
+          "name": "resale",
+          "hash": "e3b8b3e380978976481f2d89b2b853fae204e153ee714bb9f9a7e2d65d1fb5a5"
+        },
+        {
+          "name": "dropship",
+          "hash": "fd3cb79f31e4de251b82089bf6e4844464ac5f637faf6300a1843fb3460e791a"
+        },
+        {
+          "name": "simple-self",
+          "hash": "2c1c00dde6cdf3ac1fac829d3e080d1ccabaa69496e71330526e81f889589de6"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "a45f6a1db33232c5076df17e1a6ea00d8d7092ef8cfecc33c976fb16450e2d51"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "7e3c020e0d0d0946459e720f3c240b94c1eee6d9334c4154fa19a100cdd000b9"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "2c679b1e1ba630987a7e9db72207cb3d583f0eb9250b25af5a2f5ef8bb808e29"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "101e5d0ce3640a0960db5209fce76f4843a107e61cdf80ef63836a41a288a361"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "93707d98027553efd4fff638cb177029f2ea01f71f3977f5f0b6c4326152010f"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "f2d946dc0ace051ae8a346566d143ed15a71359b7cbbffcef53b764d46c66293"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 320,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "ccf9348a3d06912350b3d3ba486ec70dff07a9fd53e0eb792f6a2a346af5d290"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "fceae694c987b8139d11f9fa133da6ad103a88ea84cb7354b44226757b237ce2"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "96812953b38210a72bd77f7871746fb86798b1eadb37374ab50dc57adad264f2"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "f87482332dfdfc29f01a8d0f7aa037b893bf42ee7f95b9b941331d9aa6f59db0"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "547e6cae11790727e2a7f8dd07a9c03703b6560ce4db0902c7363de66453d9a9"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "6cff2a4ae4513d252fb3c3e67f96a2b44eb982924eb2bb2cefcfcbada9cd4272"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "ac9a24aa89d2adacf60e03f6ea114bafaf51097130f681c35868d7cd6cde9d74"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "cf05962903797d199c170f82e68c8209c3c3f577a5002cc3ae2b65cbf874f762"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "013b3645454a202fda49df16fa998dff526c78f321d777be2dc9c15ac6634847"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "fa2e3a3e66b008264acbdd442834c51102bef3698e36e61b44401f29b15c75a1"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "4b756ef2dc76a84e697679b29c625d2fc07ab07c9bc98c9cd2b5848517d43598"
+        },
+        {
+          "name": "resale",
+          "hash": "067e7c3da5c949b1f30b847f71cc4ccb59e3c21d3d571f222a5603e621b0f147"
+        },
+        {
+          "name": "dropship",
+          "hash": "6308349cf2a98ae628a775d45e2c164a5930b918b22705605f98bbcf79bc5dd6"
+        },
+        {
+          "name": "simple-self",
+          "hash": "71c43f7c6325901f0358b50ae65281b0d98a5821331d3c40587cca6346b7057b"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "ab2bf24cb0240f12cdc967478cfdb881e6aed056ddae02d12055fa7a74596c29"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "1146e846b7936ad8ab9c8bc8a7fdb1e9cf76c936ab2539b9dc52d95c61bafc84"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "8fd3133c2bc8b4aa14db3902b9c7d495923e4c654426a9a857ad605550d56f38"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "2cec23253612ecc0e050efce669006c08abf4bafd26182de4cfbe54fa129a84c"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "368623836fbd3690e047f82492fd74419f7a8bdf8ba88eb65d2d108d36735c2a"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "11e3d5361269c0f7a655a803696d65154831212d9e4165e89d8bc59d6001bf14"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 360,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "671e9bcfe1dbb53734cf9326cbaef3cc54a4f9018eac761f745d4699b9bb8739"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "d15cc01778f981c1defd9a4dbeb6357945508904cf714fbd25a2e4d3d88c56ee"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "f6c08f18427ce463c5c5be607814d9da41a922d4bdc6c14fc169cc8020871990"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "4d02a6477ded45a3293a260fe75d36e90f0bb87c9970ac1b8f3b9a063bceba30"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "466d3aaa76b9a950959b98b0a4a2f48a98f05522a30d48d3e3ad8d8613f792de"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "4dccd014dd443622a6364f7ea3f6557a0861ed2cb69e05885879a45f4a8d12d8"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "68a14c488f817828893dfecbe587151a8c63fda9f94d230797e07bb770518ce8"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "38529f37ff7196146c09d43093cc1d17cf9c7c383be6fa447d7c26201903c06d"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "a34e82f028da8291c0e58aee972befe52b1d8b7ecb6518bdaebba8f76b0f61bc"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "0cb2b854f006a9e633cdc6d20b51817c322b60f466e09859e0d7e3bd42bb906d"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "5059e4aff1136b4cb402dbad9256d8e2dac7d1d8e443748bcdfed8d5dffe7609"
+        },
+        {
+          "name": "resale",
+          "hash": "106f861783c34fbf86a11f2c17f256d11c6f776ebcfc1e0c42f44b6309addaf7"
+        },
+        {
+          "name": "dropship",
+          "hash": "40be4763f248a1de056940b6109c6908fecf7c84663bd966893c0f2d10484e0e"
+        },
+        {
+          "name": "simple-self",
+          "hash": "dec387bd4c4c9ed53fd0af88135d2f8e4e365aad00d1c45f584b4141642dce0e"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "55f586368dc8158d92fe6e77f125d39543ca2f53d68f9b0badd262ea50cd96b7"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "a798e459dcbda8d731b7f51b41c81803e93163f237bb146c2a9207c75eb3b585"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "5f84a576eca52160d910bdf2dd33a4000eaeefeab4a88c71dff8d24c666e5c8d"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "5b2002b953eba2f85da25c894f7e66ff102e10dbb028e006273035c14beb0cbd"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "cdefe2fffaeb510d659b6bc14be5f000163d9b3563190cc535e0ed1d820d6d6a"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "f41a44fe8e9ce6cae6939c0f3d0134f4e8ec04cc6d185be0c7d9f24a47ee6db6"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 360,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "c26ca9f0cf578c282cc0199a4364b47059017e2864c1633837e1cb3c4d8008ce"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "8e1b81575b3a6596b08a2374f92078cb98806a7cb89bcc52e77bbb5e7a2e3ad4"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "3b9ecbadc3f27c7b2072aa5866fdcb0ef5fded5abaaa520fa9c19db9e5738b7a"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "017e06b2958fb3c02316020490b6abedb1d0ef21a4cffedb1210716f62982649"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "7f69161d450a3f2b56b7c292e2718cf0f226396a9c27da1896b128e50236d752"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "7e6b9e213f5a9f7584a701dc1d97d4770e5fece26bbeb9add405e960783b52cb"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "dc78db92c232b9a750b62d077e117fe97ef6a58d599d30b66813b11351429004"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "3ccad6b3fc7c36d151ae73494a923024f1d7df5dc1a7acc7bdece6453c581be5"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "e47a7f95064bc06ecefe38272af920d59f90e1b0112e6784fa18c6f3044e2702"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "788574d600c873121192d836e2e4bc9ea63e80918e27d794df7ec5316ed6de09"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "2e0c745410538d651c9e8a77ed5948268641d5fc45772c8f103e511c21b9d2f8"
+        },
+        {
+          "name": "resale",
+          "hash": "366532db57079839846dcde5b0919f37c2cec056039de2c69a2d5537591b763f"
+        },
+        {
+          "name": "dropship",
+          "hash": "2e8b24eb683d5209daaf9f18d31d3f6e926e75dc5cc38d6acc388241b07b8e3c"
+        },
+        {
+          "name": "simple-self",
+          "hash": "a42547df9157ca5180e904138b9714282cbff2ad578b792ce49dc67c907c62fc"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "1ac903ae8f0f3f8aca01ece5ffdfae5283677ba834b058573ead7fa3091fed8b"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "8794b8bd6d4d20df7d22031a3986f28134d590038513ea26b7cbd3986d4f2926"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "575a2dcf85d416ff55f247354a9978aa87397ef4ad709335524c6e741bd72a5c"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "a76721af1205865dd1b11a68581f1c6184a1a63f3127f02c8358f2c7d63d5bc0"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "dfa6398442b127eeccb9e18151a48f910fd3fed3a0610e04a4515022f1cad69b"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "9e84d5f3f93a59c156b1fde044c1ab08c07c5241419497e4d62b951166965264"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 360,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "1d32c005eafbe6da7035ddd266a516d7a32f62bc13483f358bd0cfb69bb7c4a8"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "3f34a34d6be97954855d369e6d88cced40cfc25106de147321acd125709192e1"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "7d4fe772c604dcaa312090dbc689cf3fdc76b0f3fb3046bc67966529da9018b9"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "0ae7f728aee3ef2170c6a9cd611ae39c3561446110088fd8d9d1f096182eb9c3"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "dcf67e381e91ec15924e019f357696acdee3a425e34d7c2122f2096bb92133db"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "570a0acf841d755a1d1b20890409e8f10662fc70ba1412907e5d843a25b1b3be"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "c2f2eb83f8f4af965fcf5a7ea5b9e25861888ad7e9849944d2a477d146303240"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "f16eb04d1584fe0ac6c366bea772c41049596f99bee36c2df277757d78838ecf"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "13cfbbafa54426d3b6b16c9be9d2ed2120dfabc0a3f1c00f2ff35214894580ee"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "58d7bbc8438d22d624ca439f0d0c9ac6abafd936bc7fa26b775472d47e67337e"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "947174e8322c2a292cb44f7504d44d7fe09479f47553a144fbc0fe7ec9082ca4"
+        },
+        {
+          "name": "resale",
+          "hash": "306b8198b994076583abab7e5732b5317bff080c825da60484fb274f06232b4a"
+        },
+        {
+          "name": "dropship",
+          "hash": "08c1ec7b9d5ca352d4e8aa80ef2a6d3171ab699d1bc4ada8a6679399fa9d98c3"
+        },
+        {
+          "name": "simple-self",
+          "hash": "b15902b5738a73c33be345edca225d96f457edfe4245723bf2c53a60a40ee95e"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "2afcb56eaddb4cb9430a1b679a81dc7063f57a4b807b85b42f6c1fbc712d9850"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "ade02106f7b39f93c5d7f87df82e01eb95ce8305e254b262ceabba3fcd9a452b"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "eab36f5a794ba8de5ccca114c67f8faf2a1cfaef39e297ab8af2d623155f2e31"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "bc2072dfe792c3b52fa40d48a80f26a681986088671fb8359326462fe64b30db"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "77697368fc9adca372a8d92efec2072edb9307677cbc6c2bc39e3884cbb6da94"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "9920db19b5b98325c3df24b77e32ed0567e441695117ba72dc23a3785ed12344"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 390,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "c019bddcf76f26886f643cffe702d20610ab19666f682e0400e1bdfdce2e1088"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "eff23d16a8911fa74fd250a25e4e1ad36c7c786f701be02cbfcfe8ab4f9f7beb"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "0b869bf2b608da4557d69bf3d3747e1ec090711ac4f223d0566b24e2a7939594"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "dfb9e086e50c14f5c0af1f7f99e9543a7cb1eca6272e52e585e981b266642cd4"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "0bde5d91a0d2ce24dae20aec3b84027142fab33cb7dc665bff03a3f66e78f0f5"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "19f7842ac72a322407f62a96e4190289a5252e50978681d2f881631b95d2a82a"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "d7042df322daaa065ae8de79f3ca784bb27aab039d11ddf8c88575967776bdca"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "93f59705c4482dc6af4f5b873993a12224fcfb9cfef3475005d83676e6cf1245"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "ec96ab5233dd1d9103dad97f9dca22c2df74a943688814b71451cbffb7f50613"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "15fd65d9387fb2112585893d0f18a4473815be0aa0006eb282fbde48e5f9484d"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "1ab052b6270f546fbf953d21f27fe01101c9911b239bbcedbd389587e26feeba"
+        },
+        {
+          "name": "resale",
+          "hash": "daefe5a3df39d67a074db633d653a3b3fde79e1fe39fa7bec5d3ecbae0b3941d"
+        },
+        {
+          "name": "dropship",
+          "hash": "898afdf545db58935e1db63718ccbcb2ea108a0dc8c48a3f23bad8b420d7a411"
+        },
+        {
+          "name": "simple-self",
+          "hash": "067e7c3210d87f053b73bd6fe3afa2f616bffc7d80b313e402ea4da3d46f1492"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "98a8b25ce4002afedeab16f32f55a1dccdf099500f67214c72ddd470fac01526"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "76610f93186eccbbc7d49cf2b242c6d48560d0be3e98cc8c634b6e788fe86609"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "63586c8389c706ac48b3e726a628f6292f9a0f24cdaf60d2f7342b61aa70c451"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "623879f2ae5ec2176f38ef2f26d64c2ac4775996df46c6b39304f7921296743f"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "1b7d864308b9fae4b7d4b44415085cad940cc90a2f99c64afa7e0b6711c072eb"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "17d07ce752cc0b4502b3655c2ab953f65e6b632df47b94b8c4f469a2f79eaae4"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 390,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "90ba89438762a53a6654d4a8201b2493a824b5051e1ecce63a3ad491ff88cb8b"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "cc85b84b489c8fe105d5af2ab21ef1a6ac4526fbb71971e491c92a6a4b05c681"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "4aed00d899f8fa9310592e7b65c2422e9d5e76ed7ed84e901f5bd21ddfb750fc"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "e5d046851aff456a31f7ce3083d9f04d99747910e6df35a7c403f2faa9c86856"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "cc876489379d40b5b105b468a62fedb14c189d3ae9cf23368398c7f34355573b"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "afff311f296f6a91eeec0400213f4a75f188383f25853ab7e80c0222c9d3be31"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "1adefab9859ed6e570a62e5e70c9245b30b20e1d57fe0841d3636d1f903fc80a"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "261703d0915cff3dd034d5a0f9e5b529c95fcad542fd6dd238c30fcc896d3330"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "cc53be1fb6134e74e9f5a9e4657392d4044708b3d8467cfc76920d0e72ff5526"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "ad10724c6a97e24db6613c217fecccde2782bf0dbcfc5136af4bfc9c2121e3a3"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "07890562a16f9c5bcbcc62e8ec047587edb30a7a1c174725583f7c85cf52bc24"
+        },
+        {
+          "name": "resale",
+          "hash": "3d5077bf69acc8b02548ced08f205194241d0086ecc27754c69f2565bb8276fe"
+        },
+        {
+          "name": "dropship",
+          "hash": "7cc2fb94f6a78d00236263db43a56ccd2820814ac3fe14763a34ed22840595d3"
+        },
+        {
+          "name": "simple-self",
+          "hash": "1b60f82c3e5bcf51bf3ac6ab6dff3c8d7a50b118c317f255a6eb7e110f9bd996"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "226ef527918a174ba291773cd65eef279b74d67e239190ea90e4e9b70f14744d"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "0979bc849c4ab43d0e552f5f6fdd7a0ef9c1df6a833844278f0d957cc2e7d30b"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "2c149996579a68908be06e4012d08dcd595ff35491f18d1beadf32905bf71cc6"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "4343eed309126b517bfbf8782a39a93bda9d89d38440e5f3728ca82a73585125"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "e79b19800e90e1b06216d0b1654366fafbf82ec42982657df85adb05b453f34b"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "5e579561873139386e874eb5d6bc03c709e256e8985f42f0c41bb3d532c2875b"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 390,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "016694fb90f62b6fa53720989e7ba2c73e5f4f5c6735b23251e74e1efcaa2aa1"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "5b817d7624f4f63bfd13553a67058457b8d6e35f4905e74768301540e5dea190"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "640e2876aee15082b3907eb6b87ed847f566eaff299c647cf0f72724540d485a"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "3c9b8b235b7a640b8eb5184e021d5d52dd9fc6817d916847cc77837908696920"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "f8610f2d9629a587edd84588e2ac9b602adb3dd043d879b95a8cdb7f95a8d288"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "ded70b746719ac30227fd8c29366e2e6f1cd78cd7cb0eb19aa2f437739bb2bc6"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "33efec40a74c36363c883a74c54a1df4a8bf206978e897632158bed72c3a499f"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "6759d7171ca16de6d78f8acc405d2722c020861715ec357f66790b6c90116ac9"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "0ca2b147aec325dc4a7a9934b58b2e44d13179b67a5646f3040e24cb0b862df8"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "4e769e520a0636135301fcf0a1e34b0bbafec4404b50b8bdf21d10bed1b17674"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "5986a39058003a78b5ac1137d19d78228b108cd839cba3f18f775afe5c81ccb8"
+        },
+        {
+          "name": "resale",
+          "hash": "8f01262f1f5a5f1d5a432a1239a51115285bdc6758eb2826b0d41e1877026581"
+        },
+        {
+          "name": "dropship",
+          "hash": "a4e5fa87f4f75adca828389a09215e6a9c884c9a41a1b998b7ca9fa0aeb7ee97"
+        },
+        {
+          "name": "simple-self",
+          "hash": "c757fe51f65140237440695b25e10f58371349297c53f57306cfa85623136360"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "62af04de17462cfdab2a84ff6317123b5dfa0a99f3e132b759fb4bee28477d4e"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "9454e7508e119a8a0d9a99b4926cfb980475951d12f601a100adad8507c1676c"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "cd8e68d87b7319deb716ffeafda8da09d102567d1ac5f4e2801eac8510d9a17d"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "faa16a488c382437633ee7d541b4453c4271db5aa05f4d661f387133e3548d47"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "9cd325a580c597f2f05ff4d6e75d109dfe643071be4c6bd7860226ce47e0000e"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "fc9bc7d974f048379c832715b84bbd1b13c91181313be0ea78d842acd71cdbef"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 430,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "e74df61574c3b11dbddb926b74e0f69c8eb93f1886ae33ec4a879b2495f857a5"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "5ff310c3e6bb794c22e263bf523a0f4ee6312f5bd02f01401f753f3a8bda4abd"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "a4314b4aa629f69a7644fa02e7694c9cc373fc20c4cf732d99b930b077a54d58"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "4f0591e7b59cb47b415e1cda057a8013ee5a18aaf33125070099e41276a02ac4"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "9afdcb3c0b20b671d2df06ef4b1ce9b4c6c3f972f035d43ea4d4b34c5e97343c"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "a8a8cb8c6ea221e74a95f21cc3b912ef6350f2836a0dffeadf261ce3c0eab33b"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "0e34b0cd7bc638b91435c6f141c2b13e9df42c0600b76aa5ae0903bd1d9d52c6"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "d5f9f69e3ff89429b0e693feb6a68c1ec9bf26bddb77c03734b5f8392851805e"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "8f1989a21599a84eecc763e5569634d7e09bb63bdb8de8bbf58d23201006c40d"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "b9a8fee7b2c1a17d6c1f71adb022788340097d67bec7406d8213f19ae6626a88"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "cd6fb6f3d53ee39b2efecf6371b05312740f89bfbf0361c8c41581d819f32411"
+        },
+        {
+          "name": "resale",
+          "hash": "16355dedbc041a194a7cc1105befeda8bdc5bbd0c2249e301ba60cae3d52bd61"
+        },
+        {
+          "name": "dropship",
+          "hash": "c3913d41bd59414d4a8b0118e0dd386c68cba3307edaec1fef81ca14295eb7c8"
+        },
+        {
+          "name": "simple-self",
+          "hash": "ecbdf4c7518e3bc1363ce79607ea5938e4216338bf3f12bd4b661ba3e585147e"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "28feb3c8b83bea18f23e61ece35c6dd7acc8b7ef58602c083f2a53ad4ca8a8e5"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "434504078c6f4615137a612f75863376aed16052e45ff9b1b8e44cc0edd48cbc"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "1c413e883419c2fd14573d1ac19a39b46f028a89209c4c92c8f8c51212a1bbe0"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "97f21c0d50148a47b3014843b70acba14c4287e9db3780401b7b528e7b3850fb"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "bc9ebfaadcdd6fefc7f7379cf66c641adc9a743ab76dd841e6568715dd957883"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "c7e105c59af184e9ecbca643dbb9a2c92754a2368155fa46f98fdf28a5937251"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 430,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "d40013ee1d28c25606a5b0967c980c70b4d3853ac5697fcfa564409c8d381b96"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "b34afa0130172898fc8189732ba97c80f0c2357b798b21f4385b5151e0b7be36"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "274f11da63d6983533e21cf4265a6d5640a131046ba8128df5b6450418b276f4"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "1990ffab50c3f1fd96f0bf425f4be50dab0ba14f5d9bc75728e21f350e110dd7"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "505e1627813483d0987f54b0f7b38621e9872097274ba38b22dbf381c627a713"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "23e136123ab13b704a7b73b54dc14a6cb4d230ce6da248f8ddddf4b12ff31db8"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "438baacf6c3b26cc896d6e05129ea90784f71bf6f993962c07596f1ee9a35689"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "ee85c6ef4c2e2b9ac4be842fd6f0c534f2152008043c6c7bb6b05193e8bde5fb"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "1938babf6846152a31db1424a1a9ce48474965aa0f19bfc06370072afda84d93"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "325accc91999b0b204c47de0d699c66f1966249a096d5c48d29f21c2831cdfe9"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "76afddd8fa1be43944ec0ed76430ecf194a0dae81d323938bab3d5950dffb333"
+        },
+        {
+          "name": "resale",
+          "hash": "f8a5139ea78b7785db4d0815afc843a7035a0d11a0b30e39cfb8beb32b4e52fc"
+        },
+        {
+          "name": "dropship",
+          "hash": "da6324b201bb85b82b696649c57b05de154f60f238584f29fedd11656d28d2f7"
+        },
+        {
+          "name": "simple-self",
+          "hash": "ed40f132fd32c6c046009abfa3e7c69925aae68347537d0a6607aceee85acab5"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "68f2fc8ca8b8832acbadfc44fdefd0dba45d9e57e765614024afff37daf3e8c2"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "d157cee9b9b50dd95d95df4fd1e041d30509d8bed0f454c8834b1b5ac96d387b"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "19644b0fe5fc7482dd8584d905e28d1cc87e7e81d1e6a105f22ae65292ce8e4c"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "7d0ef661f36159e46b88348d457a551f85d24c5960692833a99599f39f0c482b"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "89c829b9a96354a6582a551d9d867859fd5c5d9ccade4bd924c9caade21ffe38"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "cb86c20bf30467828b3ab8fb8e91898df78b6f7e374eaf8cb619ae7af4d9eeec"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 430,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "aaec6c7800c97af5f76782a5fac732729153ad4aa7ce8bed5c1c281a4ef9a3af"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "825f8912b1413ca2d7e25fcc5416cd8a9666aa54de20e142177824bcef545f2e"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "6435c6a7e08c441e8ca0222529462eb8356835834a85478137bab0a77b370649"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "5a50ea2348d9eb33b02df90d8e4f4ca58d82c138d14e9b6f45d1c6eedf116e3e"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "83eb88f4e3ab3634f574f80c9e5c52c445515121017de46fb070c35eb6a12039"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "dc0dc638cd5c337c8ec34040edaf05b85e91f530fdf6678bdf226516720d6dab"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "b87fb7853044dbe7d5348bb8a90a5b5dd14dc5855c9ac501ccd2af832db54891"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "5d5550f396bb9c627fb3f4150e9c632e9469272ab5fb3a3636194a47702dc797"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "f9cbf2acd75d7a1691edd6bf0c12d139cb796e807920beeb98d42af1f226d9d9"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "09451d5947a01391fb781c912a63eccf774c006b2e04326e826638c47e402c61"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "3782c98ec96fd674f14d8b6ad1d4e7458d3d5bfa47e95382b639edc1d85c0551"
+        },
+        {
+          "name": "resale",
+          "hash": "b6e70d02859e827a212e1c548768ad5ac45bf1751303084b0417e7f6e9b12a4a"
+        },
+        {
+          "name": "dropship",
+          "hash": "8abff6906083155272e7e61dfae91fceaa7324ce623fb569c2529b9ca5d9c1d6"
+        },
+        {
+          "name": "simple-self",
+          "hash": "b8d12746d139cb1644ba10df9f3679af94241003f59afb9f8b03d4f920b9dd74"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "29fc3a49187a8445b12319857ae500f623e38049547cba2b4658ba18e59261f6"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "aadd3d7aa2ca14e999d1057696849b3e34acc4363a170ae7dcfe4d3f1acbde5f"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "2ed45810cb195801ed0a249d03a9ea71d3ed7c6a8b6f879cc054b7f37f97c5bb"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "5a88d04b6a4de4ff7c93e4fdd5d196ceb444e92c54a248332788a6a99a2ed85f"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "47db0dce861af671fd22a3d271dc74437ee90f6dae70c8d5efae517c545aed0a"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "bcd2b93db8e133d6b3e2e188be328e0801e633c7757eff8f490bd13ec2b009a7"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 768,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "e6c30dc6b9c5f95b5a439f0edfb651cbf7355f763d2423eb48fde877e46832fc"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "6cbc0f9d8689844123900cf8e5174c52f8636a28af2f16b4eb43a2fcbdbdf921"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "caacbe559b9b7b60f584d80859312311f4cfd9e468cb45320b40b3bdb5cb77c6"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "bfcfb9b23cf47f5f4fb62e00b550a675b740f8b463cd918f21442795514951ce"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "f59fd72ee5f188d897f88fb01ddab66d6734913b5a263cc3ac11e694bbd83116"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "a4a9041c55aafc5f615044c952bf0dd04acaad96a4e90be5f879c7fc9e21654c"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "6671222178c0c32b26faf027b7e75af982f181ead66c44dabb6b99ea1a53e073"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "5d9e550481afc99543009fb779be0b9c9372168e2b7a2c1f4508a131db2a5b26"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "9a8e912ffee5ad2e43a8f963581cf1287b4e581678bcf63778fe999a05236d9e"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "77210b3f0a2cbf44e9302968e2804ff405abf1282e23a3071e573abb7c95eaf7"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "7f30cae21e7096308e7ac87923ac7f5877586c6136c71eb1666005901260e028"
+        },
+        {
+          "name": "resale",
+          "hash": "f0fdb4bfbd9e4250f9154f771d1ae5706767ed91902e510383726dcac2491b05"
+        },
+        {
+          "name": "dropship",
+          "hash": "de605b5341819bf84bdff3d1eb2cd7f0069d9f580a8f3a6fd653231296984a61"
+        },
+        {
+          "name": "simple-self",
+          "hash": "3089d79723d5eba192b17c79010f96dab600a573d2d8206afb89d1cb013074c7"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "ade5a29582ac02057b3bc6c6eb0b0b5b2fe3d621a6a3afea6fe500aca8101293"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "89d57245b4a82796b935e3f65a4f9f05f7cebcfc0a6323d08cb9fea9d8d08c77"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "47510ffdb617a637490c778b8581cc95996746486c481c890bcf1f6483978ad1"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "bcf6bcfb414466acc9b2ed965f47a65fe1ba604f8b9e603ca740fe45535f53b1"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "670f3ba38574e41690261e7a1e377d4427acbf35fc77d2bce8b533348f2681c6"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "ead7ff4dafef0a0ea6490f375a71bfc5dcbcbcbd219412277e7b45e59199ecf9"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 768,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "941f194b02d590bbf2e90c4d4a63de9402c97332d8035169a7aedf5acc40efc1"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "a66523f735a50028098bc41afbb201febf4c1bf9010c6f78fb0c8a3b9aa45f40"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "a30df9b4ce38beb118a358ecf1a9e80cc1ed2a028515450e134d1b3b072c12fb"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "ecd81623607096e3086da81d1752bdb0eb4ce217ed16e1b3f4a47a60bddbf793"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "5c4cc6682b5c6dabeede453a629ff2bc083b5776eb6c468d38a652cd79197f07"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "43e45c6e4c34cd9cb2ce36e3490e7d658453b65e7066ea4723635702cf5b6528"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "cd0435e0d5430930429d5b3f3fb900bebf62a5016dd3bb0b5492a050bf58911c"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "4cb7a999db7a83a3dade26f35c68795e7f88a41fc14fbc394d55ca12530e68fe"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "a928a6dc65791b6aaa6505c94760c578e10da21144af8b5e0874f0edf1b0d066"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "5991b180f5a5c66f43b2317499c476c9c3494306c2096fb0c51a2cb45c1330db"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "05d471645d4e57235465d4a6de2ab1a88c259ef91a0aaf1f728716f0fae1825b"
+        },
+        {
+          "name": "resale",
+          "hash": "1d57a0e798d7ee9821e173cd0aaaf7cb41ae83586d6bd107e198d23208c1fa09"
+        },
+        {
+          "name": "dropship",
+          "hash": "b6225b70ebc63d3166116b480017c96637ca19b598a71c57a32d4ea0cc3d9b5d"
+        },
+        {
+          "name": "simple-self",
+          "hash": "841ec00d16005379aa238963f5b46751cc54f543edfd331e6c17d7523a9db77b"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "5f3953f1d63e349a8c9c67e32250cb4258e8d9b773757fa7ecf4159d66a232cd"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "5799211634011cd00ec7ac0c694331e7b46055ca0ae296fc199387ae40456bf4"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "eb0c6d275bda1f4fab86806aed2d451f638bbe205f7af0b3cb8312113b79d64d"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "8771ed67c4c21f6da3f3d5534511a6bba96e0fee8c39cc6561b00a2028a10d83"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "412e28a35267932dec64313a69e67492bd1c0ec243f85bbc8d3183c711a3deab"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "423c473ef13a486309d7952696d540535eab8c245d975877af4ff30cc5026179"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 768,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "1c206d5845b59d37cdfd4b2eb96cd455b3454ad214b9ac0b2f774d7c202068a3"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "b8f8f9cd232c36860792ae57a1b7d00df4badf05fcaa74bfc8718bd8f93c345c"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "3b22e8df064b18a0a93cb84f4becbbad410834f6d6ffec103073de7445eb853a"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "c60d9d069455671e93d7cc76d98668f4928bbbc8b669682cf083d1e6bece4c2e"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "40b3c3bf3f4c958f1d9190c781dab2b02dfde9e794d6a02357878caf0de0cbae"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "a273e7cb2e734352a25796032b5dcf57be32ab05d5e905eb942c230a34e525c1"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "f6ddc7fa827c68acc9446ba13ed4eec57ef60fcbba0d556837dd164236febdc1"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "7ad12461d9fe62ae5b8422f6ba86c743b8ac0f98a802b2ee1802489ed1f48326"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "a15637fb2dc3a7034c68623cb7d8e1b0def3c02853a5a259a09fa80046fd9ca7"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "435e39b2ae695099cd55d87acd6e94a8784f72cece0afeb0074e6d53e7b38090"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "204c0cd51af2fc00a8c9f7e3102ee365f6b3efe1434562759ecfc80cbac27dff"
+        },
+        {
+          "name": "resale",
+          "hash": "9a269cd9fdbfb547230771ddf9eb9541f5a0aee22695fa41fb9f0eaeb3ed1ee7"
+        },
+        {
+          "name": "dropship",
+          "hash": "d9973170d4345ca39b87822227761a0ce06c4316c4c9ff9c374554f090eb6a56"
+        },
+        {
+          "name": "simple-self",
+          "hash": "9e93316c9ebf388f6d2bf7cdcc6b85af431f5d6b947aeeee190aeb4f737a7d57"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "17115d3562d61bb70fb7f3e6fa0bbdc0d0e7a9c07b6b5d38d13d21f417c183c7"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "935115d5019ca3c462728b3cff22761c42625dbb75d199e5a2a1b2ba0ba71412"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "2b76cbb11d06f7fcd687697f681db0dd1d7c63218b60865f3a89388d2e5460d3"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "000416dfff12878166d56bb2c8475ef6bc33c9bec6e51788dff8ed4af342812c"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "7995af271c7e76635f5e41e9cb4be8d32cb7e98e485928176d793ca0ba9b812b"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "917cb0c555272165fe9d059f784553050297b3860a7f06fd8075d6251037c10e"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1280,
+      "language": "ru",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "2907e6aa769a92dd903a7571596e881c823fbf3340a89c31c8afed9abc50499a"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "a1a0588727c7f2fd75d5851c0edbbe09ed97f194c2ff65d0cd32d07307b14f88"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "d9fee79d6087a7a0623bbdf822f31e6bf4fb59865c532893a41ebac33e5fac7c"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "60789007635905bf1cab8c07fb1b0143c981812ed1eb522c087f0cbb41e6b6d4"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "207138cb30c7b93e5c4749900052e9ad588c0e0daf46e15f825d20c25a791d5f"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "4a6a4a92b8f9d89239d8ec6bed43f4efd9add94c5cb78bea8313ab76c575fb6c"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "6edd6cbf6473263b28905da365bda6d3a3df5937332ac82b4e4f8d1edd5a9841"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "f3c17fe51173c282016971215ef37f11d736fdac032d6c1f34dc5bbe0fd99728"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "03999a9a12602e831d3a93418677d2ed9877e92301d9f07668fc97024bf4c4fc"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "62432673fa7d7dd824b747553150385759bb67787773af9938c0b62459cc6730"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "c87b67f38c7bca11db17c8116602153b9cb7964943ec9a5e3d1978df83b05bc9"
+        },
+        {
+          "name": "resale",
+          "hash": "54fe6d83949683153cb47fe0b5f6c968f451baac7b71eca41fedb6904715c58e"
+        },
+        {
+          "name": "dropship",
+          "hash": "38d40aa469673db7b15863aaed3fc42b60e8cc51b9e6bb8d132c9ab46d4d9a80"
+        },
+        {
+          "name": "simple-self",
+          "hash": "6d4ca5e4b9e19e4dc2456bc88c3ed934ccd80622bfbc108bdafee824b24b5ecd"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "31133c75e1871de73679aba1e4e0d43eacaaf0d9aeb4fb481859e997e2ef77a3"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "d542401dc5b80d87b26cbddb524e3a04db2accd6c8a25d3cf3cab4c6c4204931"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "aa5120af636b5773bf7e9326129730b610b922aedde1decc4809293fb6b349e1"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "6aab7377f7ed5501a7aeb9b1d673d7a46ad3738655d25e028d871c69f7ae4c38"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "57955176df6168106bb5c43daf4dfccc88cacdc45a00d9743bdca28f31c457fb"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "b671c35cb92528de26467a71d6960595d85729a56d86ad98fd7b541f041e4c50"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1280,
+      "language": "en",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "2d852ec5612a947aa4b02004717bc2bf31b8c0a97ade21e903c158959d5d9e71"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "095e8851f647eccd0e43bc475f79402c38c8bdd1aa6415e254adca63a8710fb7"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "45a4d51e3c28c6bbc273f2906d96a6511fe5b5ece072fdeac2c94cd111cded77"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "ad7afa55bdbcb7babf203f13f4ea7261c616012bb628ebaec6f33b1c2f8d2b6c"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "cba3bf041f40c3328612903e0c51025e9f7fee03c3e7f0df8cf409275483cdd2"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "4b61ef4690994e1a60183a13ed1c8f6ece0b656cedf0114792b396ff171c86d6"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "907f34ec6a4f883f55e4859904548e1445b14669b1c78421e1d7bc238b0e29c2"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "52e5775426774404ba25c477622340048f7e5fa67a221038c2f0efbc897c9afd"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "f5c7e457f9f6df46139c028b24192a60ff3d20e35851f22c018d04737a8aa755"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "7350db90e680598d1902f4aaa0b13477916a4176aef37c153319c89df2c25d36"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "8b2807badbabe3e51fbb83eef3d9ade681926c5e69a2351b99ae1d1240de9be9"
+        },
+        {
+          "name": "resale",
+          "hash": "23877a261cbf94f4dc23a52e86e1601056ebb76376b7b138fee09dacf3925413"
+        },
+        {
+          "name": "dropship",
+          "hash": "a7659d55ba0049d9af478fa7cffd65c79ba47f3c572ea42e4d870592fbaa66c6"
+        },
+        {
+          "name": "simple-self",
+          "hash": "ff2951efff6c5fe5cdb507b6391b5b06d2dd77caa86f1356a5c6c0fae5a15551"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "d1cdb87ae3352936cb25a0c434b5a1d2a31407a1b22f338d2f299d5b0f793423"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "c21f7adb081c223732c66bc6910401193ff8e0387738f1ace9510e4b60bba338"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "eaa2add9b52c7129122be3cd186bc621998446ca0892d4f7c1f8e4e907e7fc0f"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "7b3fb7a463b630a2d211f206f14bc02281a82c563babc033a669ba13d4982394"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "4dfd42b37fa0f25a38743f5d64575bc7c4890902afe714559e52b3df126184a4"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "6817add4a5441cd2b1f369b00b6c0999f7f4e439f9af6e8f000a0b3d3feec77f"
+        }
+      ]
+    },
+    {
+      "entry": "standalone.html",
+      "width": 1280,
+      "language": "kk",
+      "scenarios": [
+        {
+          "name": "accepted-shopper",
+          "hash": "325c6c63d59bb36ec9c3a90b20854b7a9f9b30431bfce040f4ba2fd6b761f956"
+        },
+        {
+          "name": "fractional-material",
+          "hash": "e44aab63293dc45674facdf88929c0ae20753a215658df5924daa50f721475f9"
+        },
+        {
+          "name": "pending-material-fx",
+          "hash": "ed5c9d7cf16f1060a507097a164741ba60bbd498af7df47758004487b54a64c6"
+        },
+        {
+          "name": "material-currency-restored",
+          "hash": "f0339f2f3f20ed8de37ab3e3ade764c5e89bfb81e1f953794e3f4cda73a9a049"
+        },
+        {
+          "name": "all-import-payments",
+          "hash": "e45bffb711a0fcefa5703858035f2962de3de2568436bb702936a21aa85ed2f4"
+        },
+        {
+          "name": "domestic-no-import-fees",
+          "hash": "c27dad02cde89e14467129cf5013121819fe739820f9ebdb16865966a79bda5a"
+        },
+        {
+          "name": "zero-cpc",
+          "hash": "c3724830ceb16c62c7eaa383b33d365465032c626554b4ec7ebbf44e88d71bda"
+        },
+        {
+          "name": "fractional-funnel",
+          "hash": "8f6055d3ad97ea4c779dfdaa6ad80a0c44ecd2f7a39dbd567f6f840a7ab2daaa"
+        },
+        {
+          "name": "service-forecast-sync",
+          "hash": "346c6ed8cb6ac25cfd0c7ca2795c69aa016c60b7f6235b48a8bb45ce35306c84"
+        },
+        {
+          "name": "payroll-production-RU",
+          "hash": "7d377acdf441fa3f2ab7e2ebeac831282493a9634ab14c176fbcc8c06716c403"
+        },
+        {
+          "name": "payroll-production-KZ",
+          "hash": "2cb50ba22a2760d115e4b5d60ddc3c782c7bab3ae8088e7b1cf11a9a2cb66f3f"
+        },
+        {
+          "name": "resale",
+          "hash": "d5aee8f9a84a70c8d31e2bcf8d37b94d8553806f371e97c0d9f93eb6847a6211"
+        },
+        {
+          "name": "dropship",
+          "hash": "28ec0f1d921e97918719546325b6fc80bb5ebb2affe441c92d31f61bcf91ea06"
+        },
+        {
+          "name": "simple-self",
+          "hash": "aa7105528256de50e4b1b571a6604b776c4ac83eb56fd006a82a8532d71cd3f6"
+        },
+        {
+          "name": "invalid-self",
+          "hash": "d0b157af843daa34e6acb392809b6439306b2e4d13c55ae4789e26a5ddea6f8a"
+        },
+        {
+          "name": "simple-hired",
+          "hash": "f99109cdfdb1afd1fb811ba1df3fc136e5865c3838adabe5ba19068870b56e6a"
+        },
+        {
+          "name": "invalid-hired",
+          "hash": "8a74d9d8113f39b7eaf07f5359de74922a45cc5fa62d66770455065ac6e6df80"
+        },
+        {
+          "name": "simple-agent",
+          "hash": "6ba855aa38754b5f01b9ef9cda3bad540677cbb5b77022bd726c798d64628624"
+        },
+        {
+          "name": "agent-payers-pending",
+          "hash": "870a7c078fda2e8d28ca17280a6ea80745055bf5a5abac143b52a9da62e9f977"
+        },
+        {
+          "name": "invalid-agent",
+          "hash": "0129fdf800bdf92a43203185fb61639be19160048e8477b89b8fb8aff0556a7b"
+        }
+      ]
+    }
+  ],
+  "timings": [
+    {
+      "width": 390,
+      "language": "ru",
+      "repeat": 0,
+      "before": {
+        "readyMs": 1993.319111000048,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 2235.118783999933,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "language": "ru",
+      "repeat": 1,
+      "after": {
+        "readyMs": 2468.8131900000153,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      },
+      "before": {
+        "readyMs": 2170.1044809999876,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "language": "ru",
+      "repeat": 2,
+      "before": {
+        "readyMs": 2210.604682999896,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 2253.0907180000795,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "repeat": 0,
+      "before": {
+        "readyMs": 2434.193210999947,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 2491.149134999956,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "repeat": 1,
+      "after": {
+        "readyMs": 2390.1534329999704,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      },
+      "before": {
+        "readyMs": 2239.226847999962,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "repeat": 2,
+      "before": {
+        "readyMs": 2332.5653900000034,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 2252.293074999936,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "language": "kk",
+      "repeat": 0,
+      "before": {
+        "readyMs": 2337.8347769998945,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 2421.657879999955,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "language": "kk",
+      "repeat": 1,
+      "after": {
+        "readyMs": 2211.5797500000335,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      },
+      "before": {
+        "readyMs": 1770.1490670000203,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "language": "kk",
+      "repeat": 2,
+      "before": {
+        "readyMs": 1519.7295370000647,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 1510.7979980000528,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "ru",
+      "repeat": 0,
+      "before": {
+        "readyMs": 1430.100174000021,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 1475.4592890000204,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "ru",
+      "repeat": 1,
+      "after": {
+        "readyMs": 1560.020266000065,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      },
+      "before": {
+        "readyMs": 1333.0720539999893,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "ru",
+      "repeat": 2,
+      "before": {
+        "readyMs": 1379.3001759999897,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 1471.6041030000197,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          },
+          {
+            "listeners": 321,
+            "dom": 3123
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "en",
+      "repeat": 0,
+      "before": {
+        "readyMs": 1544.4573580001015,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 1408.1660000000848,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "en",
+      "repeat": 1,
+      "after": {
+        "readyMs": 1474.7840190000134,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      },
+      "before": {
+        "readyMs": 1525.01601199992,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "en",
+      "repeat": 2,
+      "before": {
+        "readyMs": 1476.7486280000303,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 1505.5715420000488,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          },
+          {
+            "listeners": 321,
+            "dom": 3110
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "kk",
+      "repeat": 0,
+      "before": {
+        "readyMs": 1526.939766000025,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 1549.2388589999173,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "kk",
+      "repeat": 1,
+      "after": {
+        "readyMs": 1580.081229000003,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      },
+      "before": {
+        "readyMs": 1576.98917299998,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "language": "kk",
+      "repeat": 2,
+      "before": {
+        "readyMs": 1494.9603039999492,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      },
+      "after": {
+        "readyMs": 1501.4582690000534,
+        "samples": [
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          },
+          {
+            "listeners": 321,
+            "dom": 3108
+          }
+        ]
+      }
+    }
+  ],
+  "resources": {
+    "before": [
+      {
+        "file": "Marketing_calc.HTML",
+        "bytes": 515335,
+        "gzip": 101808,
+        "brotli": 74042,
+        "sha256": "794f4b403df93ae1027eadd86cf641ca3e988069076a63312a7675f56960504d"
+      },
+      {
+        "file": "nomad360_v1_engine.js",
+        "bytes": 114003,
+        "gzip": 22557,
+        "brotli": 18745,
+        "sha256": "e689bcd456f4a79440374b5f29d8e7100b2e92f270eafa50473f18be72010719"
+      },
+      {
+        "file": "nomad360_v1_operations.js",
+        "bytes": 3830,
+        "gzip": 1264,
+        "brotli": 1078,
+        "sha256": "59c72c362663da1e241859f3bded6131e4e6722290dce0c069d7667a222b79ee"
+      }
+    ],
+    "after": [
+      {
+        "file": "Marketing_calc.HTML",
+        "bytes": 495949,
+        "gzip": 98836,
+        "brotli": 71933,
+        "sha256": "a57b743edaeb5cc4887a769e72382035ebb7a1acedb67852ef9b535ed86b6f9f"
+      },
+      {
+        "file": "nomad360_v1_engine.js",
+        "bytes": 114003,
+        "gzip": 22557,
+        "brotli": 18745,
+        "sha256": "e689bcd456f4a79440374b5f29d8e7100b2e92f270eafa50473f18be72010719"
+      },
+      {
+        "file": "nomad360_v1_operations.js",
+        "bytes": 3830,
+        "gzip": 1264,
+        "brotli": 1078,
+        "sha256": "59c72c362663da1e241859f3bded6131e4e6722290dce0c069d7667a222b79ee"
+      },
+      {
+        "file": "nomad360_v1_state.js",
+        "bytes": 26180,
+        "gzip": 4980,
+        "brotli": 4387,
+        "sha256": "36751ebed7c2f1f6e9ec75e84541e471b44dcb6fb615ae0870a5e8dad9b9a031"
+      }
+    ]
+  },
+  "standalone": {
+    "before": {
+      "bytes": 12968768,
+      "sha256": "b2eeb1739242de147ed3c5afd1e2a475124f704a555b56956a1df92985162bea"
+    },
+    "after": {
+      "bytes": 12975585,
+      "sha256": "8f78991e700edcc420f024a52250fd36feec76c63e0975cf94a426df771e2ceb"
+    }
+  }
+}
