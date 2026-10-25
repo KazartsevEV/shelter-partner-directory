@@ -509,7 +509,7 @@ def main():
                              'scripts/audit/', 'docs/reviews/runtime-audit-01/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
                              'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/',
-                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p == 'sitemap.xml' or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md'} or p in (
         # HERO-LANG-01: explicit RU fixture setup only; no engine or UI math edits.
         'tests/nomad360_locale_core_browser.test.cjs',  # Browser-locale matrix and saved-choice priority only.
         'tests/nomad360_global_tree_navigation_browser.test.cjs',
