@@ -17,7 +17,7 @@ function createAdmission({edgeSecret,hashSecret,publicOrigin,turnstile,store,now
   ok:false,status,code,headers:Object.freeze({'cache-control':'no-store',
    ...(retryAfterSeconds?{'retry-after':String(retryAfterSeconds)}:{})})
  });
- const badBudget=result)=>!result||result.allowed!==true;
+ const badBudget=(result)=>!result||result.allowed!==true;
  const retry=result=>Number.isFinite(result?.retryAfterMs)?Math.max(1,Math.ceil(result.retryAfterMs/1000)):60;
  async function admit({operation,request,context}={}){
   if(!enabled)return deny(503,'unavailable');
