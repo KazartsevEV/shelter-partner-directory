@@ -30,7 +30,7 @@ the existing `/shelter-partner-directory/` prefix; changing origin/path is R4.
 
 ## Checks and explicit limits
 
-Nine negative/reproducibility tests cover prohibited files, dirty source,
+Eleven negative/reproducibility tests cover prohibited files, dirty source,
 unknown resources, duplicate/config errors, symlinks, private-key content,
 existing output, tampering and injected files. Two independent builds from the
 same clean revision must be byte-identical.
@@ -50,4 +50,15 @@ simulated as production speed. No credentials, applications, email codes or
 financial drafts are read or copied by the builder.
 
 R1 remains untouched. Its resulting PR is reviewed separately after this slice.
-Final measurements and CI are attached to the PR before acceptance.
+Local checks pass: 11 unit/negative tests; two byte-identical builds; 112 listed
+public outputs plus their release manifest; 18 language/width cases; all 25 HTML
+entrypoints; valid V1/online/full-service/both V2 results; zero missing local
+resources; downloaded standalone financial smoke with HTTP blocked; synthetic
+browser-draft/DOM marker excluded from the download.
+[Browser protocol](protocol.json), [file/commit/hash manifest](release-manifest.json).
+Screenshots: [RU mobile](ru-320.png), [EN mobile](en-320.png), [KK mobile](kk-320.png),
+[RU desktop](ru-1280.png), [EN desktop](en-1280.png), [KK desktop](kk-1280.png).
+The evidence manifest records clean build revision `e39299a`; subsequent edits
+are test instrumentation/documentation only. Final-HEAD CI will rebuild from its
+own clean checkout and is reported in the PR. The normal runtime CDN remains
+an explicit limitation; this slice does not claim to close all of R3.
