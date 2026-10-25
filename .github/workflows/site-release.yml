@@ -1,0 +1,62 @@
+name: R3 public artifact preparation
+on:
+  pull_request:
+    paths:
+      - 'scripts/site-release/**'
+      - 'tests/site_release_test.py'
+      - 'docs/reviews/site-release-r3/**'
+      - '.github/workflows/site-release.yml'
+      - '*.HTML'
+      - '*.html'
+      - '**/*.html'
+      - '*.js'
+      - '*.css'
+      - '*.png'
+      - '*.webmanifest'
+      - 'assets/**'
+      - 'vendor/**'
+      - 'sitemap.xml'
+      - 'CALCULATOR_LICENSE.md'
+      - 'nomad360_repo_traffic.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  site-artifact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Negative policies and deterministic local build
+        run: |
+          python tests/site_release_test.py
+          python scripts/site-release/build.py --out artifacts/public-site
+          python scripts/site-release/build.py --verify artifacts/public-site
+          python scripts/site-release/build.py --out artifacts/repro-site
+          diff -r artifacts/public-site artifacts/repro-site
+      - name: Pinned browser tools and test utilities
+        run: |
+          npm ci --prefix scripts/palette --ignore-scripts --no-audit --no-fund
+          scripts/palette/node_modules/.bin/playwright install --with-deps chromium
+          mkdir -p artifacts/site-verification
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/site.css"
+          scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/site.css" -o artifacts/site-verification/utilities.css --content './Marketing_calc.HTML,./US_Retail_Demo.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
+      - name: Serve artifact alone, all locales and widths, restored models and fresh standalone
+        run: node scripts/site-release/browser.cjs artifacts/public-site artifacts/site-verification
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-site-preparation-${{ github.sha }}
+          path: |
+            artifacts/public-site/
+            artifacts/site-verification/*.json
+            artifacts/site-verification/*.png
+          retention-days: 14
