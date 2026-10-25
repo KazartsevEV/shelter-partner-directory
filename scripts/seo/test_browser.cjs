@@ -17,14 +17,14 @@ const snap=()=>({currency:Nomad360Currency.get(),product:productPortfolio[0],mod
  const local=url=>url.replace(config.origin,origin);
  const browser=await chromium.launch({headless:true}),pages=[],handoff=[],demos=[],downloads=[];
  try{
- for(const record of config.pages)for(const width of [320,360,390,430,768,1280,1440]){
+ for(const record of require('./build_pages.cjs').generate().pages)for(const width of [320,360,390,430,768,1280,1440]){
   const ctx=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:900}}),p=await ctx.newPage(),requests=[];
   p.on('request',r=>requests.push(r.url()));const response=await p.goto(local(record.canonicalUrl));A.equal(response.status(),200);
   const source=await response.text();A.ok(source.includes(record.h1));A.doesNotMatch(source,/<script\b/i);
-  A.equal(await p.title(),record.title);A.equal(await p.locator('html').getAttribute('lang'),'en');A.equal(await p.locator('h1').count(),1);A.equal(await p.locator('h1').textContent(),record.h1);
+  A.equal(await p.title(),record.title);A.equal(await p.locator('html').getAttribute('lang'),record.locale);A.equal(await p.locator('h1').count(),1);A.equal(await p.locator('h1').textContent(),record.h1);
   A.equal(await p.locator('link[rel=canonical]').count(),1);A.equal(await p.locator('link[rel=canonical]').getAttribute('href'),record.canonicalUrl);
   A.equal(await p.locator('meta[name=description]').getAttribute('content'),record.description);
-  A.equal(await p.locator('link[hreflang]').count(),1);A.equal(await p.locator('link[hreflang=en]').getAttribute('href'),record.canonicalUrl);
+  A.equal(await p.locator('link[hreflang]').count(),3);for(const lang of ['en','ru','kk'])A.equal(await p.locator('link[hreflang='+lang+']').getAttribute('href'),record.canonicalUrl.replace('/'+record.locale+'/','/'+lang+'/'));
   A.equal(await p.locator('a.cta').getAttribute('href'),record.primaryCtaHref);
   const logo=await p.locator('img').evaluateAll(es=>es.map(e=>({src:e.currentSrc,loaded:e.complete&&e.naturalWidth===1024,width:e.getBoundingClientRect().width})));
   A.equal(logo.length,2);A.equal(logo[0].src,logo[1].src);A.ok(logo.every(r=>r.loaded));A.equal(requests.filter(u=>u.endsWith('/nomad360_wolf_open_circle.png')).length,1,'Header/banner must share one image request');
