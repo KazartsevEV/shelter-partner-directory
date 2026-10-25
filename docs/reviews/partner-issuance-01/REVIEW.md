@@ -81,3 +81,15 @@ Repository secrets listing is denied to this integration (403); secrets are not
 extracted through workflows or source files. The reuse path accepts an existing
 credential selector and does not create a new Google project/client or grant
 mailbox access to a service account.
+
+
+### Current-main local verification
+
+26/26 operator/config/auth boundary tests passed. The refreshed browser protocol
+uses local integration revision `e1f504f`: 18/18 RU/EN/KK × six-width cases,
+1278 numerical/scenario comparisons, 65 bundled resources, zero numerical changes.
+The real WinZip AES-256 archive was opened with independent pyzipper 0.3.6;
+extracted HTML was byte-identical and the wrong password was rejected. The
+[original protocol](browser-protocol-20261023.json) is preserved separately.
+No real application or mail/Google write was used. Current HEAD CI is reported
+in the PR, independently of the historical receipt below/above.
