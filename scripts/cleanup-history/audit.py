@@ -5,7 +5,7 @@ from pathlib import Path
 from html.parser import HTMLParser
 from datetime import datetime,timezone
 ROOT=Path(__file__).resolve().parents[2]
-BASE='5ede24e538b044f320ff5f211bb397e8f86de46c'
+BASE='0e47899e0583b3654c6b7f438ca246f80963e489'
 CANDIDATES=['index.html','.github/workflows/index.html','.github/workflows/Marketing_calc.HTML','US_Retail_Demo_FILLED.html','US_Retail_Demo_EN_FILLED.html']
 def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT)
 def sha(data):return hashlib.sha256(data).hexdigest()
@@ -42,7 +42,7 @@ def scan():
   if f.startswith(('vendor/','docs/localization/l0/','tests/fixtures/')):continue
   data=(ROOT/f).read_bytes()
   if len(data)<3000000:content[f]=data.decode('utf8','replace')
- runtime={f:{'bytes':len((ROOT/f).read_bytes()),'sha256':sha((ROOT/f).read_bytes())} for f in files if (f.startswith(('nomad360_','portfolio_v2_','vendor/','assets/')) or f in CANDIDATES+['Marketing_calc.HTML','US_Retail_Demo.HTML','CALCULATOR_LICENSE.md','.github/workflows/static.yml','.github/workflows/deploy-static.yml','.github/workflows/us-retail-filled-html.yml']) and (ROOT/f).is_file()}
+ runtime={f:{'bytes':len((ROOT/f).read_bytes()),'sha256':sha((ROOT/f).read_bytes())} for f in files if (f.startswith(('nomad360_','portfolio_v2_','vendor/','assets/')) or (f.startswith(('en/','ru/','kk/','license/')) and f.endswith('.html')) or f in CANDIDATES+['sitemap.xml','robots.txt','Marketing_calc.HTML','US_Retail_Demo.HTML','CALCULATOR_LICENSE.md','.github/workflows/static.yml','.github/workflows/deploy-static.yml','.github/workflows/us-retail-filled-html.yml']) and (ROOT/f).is_file()}
  rows=[]
  for f in CANDIDATES:
   data=(ROOT/f).read_bytes();p=Links();p.feed(data.decode('utf8','replace'))

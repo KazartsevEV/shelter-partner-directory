@@ -27,6 +27,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Validate narrowly scoped SEO R3 changes against current main
+        run: node scripts/seo/r3_ci_scope.cjs
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -51,8 +53,14 @@ jobs:
           mkdir -p artifacts/style-ownership
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c55.css"
           scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c55.css" -o artifacts/style-ownership/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
-      - name: Real page-family stylesheets, keyboard probes and byte-identical standalone
+      - name: Historical C5 browser comparisons for stylesheet changes
+        if: env.SEO_R3_SCOPE != 'true'
         run: node scripts/style-ownership/browser.cjs artifacts/style-ownership
+      - name: SEO R3 real-browser pages, keyboard, navigation, model and offline regression
+        if: env.SEO_R3_SCOPE == 'true'
+        run: |
+          node scripts/seo/test_locales.cjs
+          node scripts/seo/test_browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -71,6 +79,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Validate narrowly scoped SEO R3 changes against current main
+        run: node scripts/seo/r3_ci_scope.cjs
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -98,10 +108,17 @@ jobs:
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/c4.css"
           scripts/palette/node_modules/.bin/tailwindcss -i "$RUNNER_TEMP/c4.css" -o artifacts/cleanup-c4/utilities.css --content './Marketing_calc.HTML,./portfolio_v2_*ui.js,./nomad360_*.js' --minify
           cp artifacts/cleanup-c4/utilities.css artifacts/task10-palette/utilities.css
-      - name: Paired actual business routes, numerical results, restoration and offline packages
+      - name: Historical C4 paired CSS and business comparison
+        if: env.SEO_R3_SCOPE != 'true'
         run: |
           node scripts/cleanup-palette/compare.cjs artifacts/cleanup-c4
           node scripts/cleanup-palette/repeated.cjs artifacts/cleanup-c4
+      - name: SEO R3 contemporary financial browser and original source integrity
+        if: env.SEO_R3_SCOPE == 'true'
+        run: |
+          node scripts/seo/test_locales.cjs
+          node scripts/seo/test_browser.cjs
+          node tests/sales_tax_7b_baseline.cjs
       - name: Actual Excel downloads, independent OOXML and PDF projection
         run: |
           set -o pipefail

@@ -7,8 +7,8 @@ function verifySources(expected,read=file=>fs.readFileSync(file)){
 const oldBrowser=JSON.parse(z.gunzipSync(fs.readFileSync('docs/reviews/runtime-audit-01/runtime-browser.json.gz')));
 const expectedSelectors=['notObserved','unsupported'].flatMap(kind=>oldBrowser.selectors[kind].map(selector=>[selector,kind]));
 function verifySelectors(rows){A.deepEqual(rows.map(r=>[r.selector,r.historicStatus]),expectedSelectors);}
-test('C7 preserves all 104 baseline runtime/assets/entrypoints and both generated downloads',()=>{
- A.equal(data.base,'5ede24e538b044f320ff5f211bb397e8f86de46c');A.equal(Object.keys(data.runtime).length,104);
+test('C7 preserves all 126 baseline runtime/assets/entrypoints and both generated downloads',()=>{
+ A.equal(data.base,'0e47899e0583b3654c6b7f438ca246f80963e489');A.equal(Object.keys(data.runtime).length,126);
  cp.execFileSync('git',['diff','--exit-code',data.base,'--',...Object.keys(data.runtime)],{stdio:'pipe'});
  verifySources(data.runtime);
  cp.execFileSync('git',['diff','--exit-code',data.base,'--','docs/reviews/runtime-audit-01/runtime-browser.json.gz','docs/reviews/runtime-audit-01/runtime-inventory.json.gz'],{stdio:'pipe'});

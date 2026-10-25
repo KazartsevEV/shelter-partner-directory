@@ -1,6 +1,6 @@
 # C7 — historical HTML and unmatched-selector disposition
 
-Base: accepted main `5ede24e`, including #271 and the later #274/#275 documentation/editorial updates. C6 accepted/merged; no C7 deletion is
+Base: accepted main `0e47899`, including accepted #271, #274/#275 and the merged #276 multilingual publication. C6 accepted/merged; no C7 deletion is
 inferred from lack of coverage. This PR completes the requested conservative C7
 review and records five explicit retention decisions, not a speculative cleanup.
 
@@ -40,7 +40,7 @@ with deterministic metadata and rebuilt by `scripts/cleanup-history/audit.py`.
 
 ## Acceptance and limit
 
-All 104 baseline runtime/asset/entrypoint files are pinned to the accepted base
+All 126 baseline runtime/asset/entrypoint files are pinned to the accepted base
 and checked byte-for-byte. No financial logic, CSS, generated HTML, live URL,
 SHELTER content or delivery behavior changes, so numerical/browser retesting
 cannot demonstrate a new runtime effect; the accepted #271 39/39 checks remain
@@ -55,6 +55,7 @@ and receive the separate decision required by the queue. C7 audit acceptance and
 merge remain separate; partner/hosting steps are not started.
 
 The refreshed map retains SEC-01, BUG-09-SCREENSHOT and WL-CICD-01 as future
-R1–R6 obligations. #275 is merged editorial JSON, not live RU/KK SEO HTML.
+R1–R6 obligations. #275 is the merged editorial base; #276 has since merged the 15 multilingual
+HTML pages and sitemap. C7 preserves that publication and does not repeat R3.
 C7 does not activate screenshot uploads, partner issuance, White Label updates
 or production WAF/CDN. Those updated contracts are preserved.
