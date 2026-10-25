@@ -31,6 +31,10 @@ class ReleaseTests(unittest.TestCase):
   self.build();(self.out/'evil.json').write_text('x');self.assertRaises(ValueError,M.check,self.out);(self.out/'evil.json').unlink();(self.out/'Marketing_calc.HTML').write_text('tampered');self.assertRaises(ValueError,M.check,self.out)
  def test_symlink_resource_or_manifest(self):
   (self.root/'public.js').symlink_to(self.root/'Marketing_calc.HTML');self.config.write_text(json.dumps({'schemaVersion':1,'basePath':'/shelter-partner-directory/','files':['Marketing_calc.HTML','public.js']}));self.commit();self.assertRaises(ValueError,self.build)
+ def test_manifest_symlink_rejected(self):
+  self.build();original=self.out/'release-manifest.json';target=Path(self.temp.name)/'manifest.json';original.rename(target);original.symlink_to(target);self.assertRaises(ValueError,M.check,self.out)
+ def test_existing_broken_output_link_is_not_replaced(self):
+  self.out.symlink_to(Path(self.temp.name)/'missing');self.assertRaises(ValueError,self.build);self.assertTrue(self.out.is_symlink())
  def test_private_key_content_not_exported(self):
   (self.root/'Marketing_calc.HTML').write_text('-----BEGIN PRIVATE KEY-----');self.commit();self.assertRaises(ValueError,self.build);self.assertFalse(self.out.exists())
 if __name__=='__main__':unittest.main()

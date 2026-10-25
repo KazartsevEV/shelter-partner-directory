@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build a local, verified public site directory; never deploys or reads credentials."""
-import argparse,hashlib,json,os,shutil,subprocess,tempfile
+import argparse,hashlib,json,re,shutil,subprocess,tempfile
 from pathlib import Path,PurePosixPath
 ROOT=Path(__file__).resolve().parents[2]
 DENIED={'.git','.github','scripts','tests','docs','node_modules','state','secrets','private','operator'}
@@ -51,7 +51,7 @@ def build(root,out,config):
    src=root/name
    if src.is_symlink() or src.resolve()!=src.absolute() or not src.is_file():raise ValueError('Invalid release source: '+name)
    b=src.read_bytes()
-   if b'-----BEGIN PRIVATE KEY-----' in b or b'-----BEGIN RSA PRIVATE KEY-----' in b:raise ValueError('Private key material rejected')
+   if re.search(br'-----BEGIN [A-Z ]*PRIVATE KEY-----',b):raise ValueError('Private key material rejected')
    target=temp/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(b)
    rows.append({'path':name,'source':name,'bytes':len(b),'sha256':digest(b)})
   b=(temp/'Marketing_calc.HTML').read_bytes();(temp/'index.html').write_bytes(b)
