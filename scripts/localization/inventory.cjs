@@ -53,6 +53,7 @@ function build(root=ROOT){
   // retain stable historic offsets for the translation census.
   if(f==='nomad360_header.js')
    source=require('../../tests/helpers/return-contract.cjs').stripConsultingExport(source);
+  source=require('../../tests/helpers/tax-notice-copy-scope.cjs').current(f,source);
   contents.set(f,source);
  }return contents.get(f);};
  function stage(f,context=''){
