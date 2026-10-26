@@ -143,3 +143,11 @@ real denied-localStorage getter. All passed. Extended ownership/source/business
 unit set: 131/131, no skips (overlaps the transport/core set; do not add the counts).
 The private main authorization failure is separately reported above; it is not
 included in the successful public CI count.
+
+## Delivery update · 26 October 2026
+
+Owner accepted and authorized merge: #283 merged as `985e56ba`. #243/#245/#284
+also merged; current public main `0f0d547d`. Private hosting refresh #495 imports
+the same accepted utility and adds an actual baseline → restored hosting archive
+cross-origin/path migration test. Its CI and acceptance are separate. No host,
+domain, Google bindings, trusted intake or production issuance is activated.
