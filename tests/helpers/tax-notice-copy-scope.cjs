@@ -111,4 +111,12 @@ function restore(file,source){
  A.equal(digest(text),rule.before,'Tax notice changed outside approved copy: '+file);
  return Buffer.isBuffer(source)?Buffer.from(text):text;
 }
-module.exports={restore};
+// Localization scans actual current copy even when historical guards project it.
+function current(file,source){
+ const rule=rules[file];if(!file.endsWith('.js')||!rule||digest(source)!==rule.before)return source;
+ let text=source.toString();
+ for(const {before,after}of rule.replacements){A.equal(text.split(before).length,2);text=text.replace(before,after);}
+ A.equal(digest(text),rule.after,'Exact current tax hint copy for localization');
+ return Buffer.isBuffer(source)?Buffer.from(text):text;
+}
+module.exports={restore,current};
