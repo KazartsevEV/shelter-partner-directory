@@ -1,0 +1,41 @@
+{
+  "file": "nomad360_design_system.css",
+  "beforeSha256": "18ecb834ac787840fdaf4a66480019ca769d572992ffcaeafe4b9b991464d804",
+  "afterSha256": "0c1c1fdc2e5b8728cc28aa87476ab483b1878b23b90eade9b24a1e673b4445ba",
+  "beforeBytes": 87684,
+  "afterBytes": 88123,
+  "edits": [
+    {
+      "before": "body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate\n  :is(.aggregate-action-confirm,.aggregate-action-recalc){\n  background:#fff;",
+      "after": "body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate\n  :is(.aggregate-action-confirm,.aggregate-action-recalc){\n  font-size:clamp(18px,4.8vw,23px);\n  line-height:1.25;\n  background:#fff;"
+    },
+    {
+      "before": "/* Warning and loss classes retain their controller-defined semantic colors. */",
+      "after": "@media(max-width:480px){\n  body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate\n    .grid:has(> [data-pricing-decision]){\n    grid-template-columns:minmax(0,1fr);\n  }\n  body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate\n    :is(.aggregate-action-confirm,.aggregate-action-recalc){\n    font-size:clamp(20px,5.8vw,24px);\n  }\n}\n/* Warning and loss classes retain their controller-defined semantic colors. */"
+    }
+  ],
+  "files": {
+    "nomad360_design_system.css": {
+      "beforeSha256": "18ecb834ac787840fdaf4a66480019ca769d572992ffcaeafe4b9b991464d804",
+      "afterSha256": "0c1c1fdc2e5b8728cc28aa87476ab483b1878b23b90eade9b24a1e673b4445ba"
+    },
+    "US_Retail_Demo_FILLED.html": {
+      "beforeSha256": "0a864c2b0799c6a0b7a290a0cfc0d8950af0803f2debc4a41d30aacce030ca42",
+      "afterSha256": "8003d958ff8c3beba647d3f02418e2abbefc6e8e206f67d0c185f2bdc789112f"
+    },
+    "US_Retail_Demo_EN_FILLED.html": {
+      "beforeSha256": "645800af1fa8be63d4a9099fe0e89f4aaa63ca1e98641f3b3d3c76cc233781f0",
+      "afterSha256": "730476da16d6bbd93a15b5d259217de32b58e129b23f36bd0f3fab0961824514"
+    },
+    "scripts/seo/check_phase_a.py": {
+      "beforeSha256": "0fc14260cabdbf7b532fdf2f861b8ac843f6967c1b546439bff9294eef3f61f6",
+      "afterSha256": "8eb1d5626c288b4eb835073c9986ab32a7476090969f4520cc9a4b2c23cce750",
+      "edits": [
+        {
+          "before": "                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs', 'tests/helpers/tax-notice-copy-scope.cjs', 'docs/reviews/tax-notice-dedup/REVIEW.md'} or p in (\n",
+          "after": "                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs', 'tests/helpers/tax-notice-copy-scope.cjs', 'docs/reviews/tax-notice-dedup/REVIEW.md', 'docs/reviews/pricing-decision-type/REVIEW.md', 'tests/helpers/pricing-decision-type-scope.cjs', 'tests/fixtures/pricing-decision-type/changes.json'} or p in (\n"
+        }
+      ]
+    }
+  }
+}
