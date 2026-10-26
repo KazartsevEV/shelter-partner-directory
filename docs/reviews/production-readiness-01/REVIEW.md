@@ -160,3 +160,10 @@ actual Google/mail/erase, client staging updates/rollback/physicalmobile и R6
 скачивание и другие продукты не менялись. Нет fake GREEN/нового OAuth проекта/
 обхода artifact quota/отменённых старых CI. KK — editorial, не новое носительское
 одобрение. Публичный diff — только шесть ранее разрешённых Markdown-документов.
+
+Контроль перед отчётом: public main продвинулся до `8fdc1b83` — автоматическое
+обновление только nomad360_repo_traffic.json поверх df3e87c9. Оно включено в
+документационную ветку обычным merge текущего main, не переопределено старой
+копией. Diff PR относительно актуальной базы по-прежнему только шесть Markdown.
+Приватный financial/runtime snapshot остаётся принятой immutable версией 0f0d547d;
+это изменение aggregate traffic не является новой финансовой реализацией.
