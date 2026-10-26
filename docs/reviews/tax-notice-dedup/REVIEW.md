@@ -33,3 +33,8 @@ CI follow-up: regenerated the L0 source inventory after the approved text edits.
 The first runs correctly rejected stale offsets. Source normalization also covers
 the two exact offline bundles so historical partner guards retain their original
 byte comparisons.
+
+Historical CI compatibility follows exact accepted SEO/Help and R4 workflow
+bytes. The C6 raw-module check now projects only the hash-bound approved hint
+copy. Two known audit metadata scripts have explicit SHA-bound historical
+bridges; arbitrary edits still fail. No workflow or original fixture changed.

@@ -3,10 +3,12 @@ const A=require('node:assert/strict'),{createHash}=require('node:crypto'),fs=req
 const manifest=require('../fixtures/v1-operations/extraction.json');
 const digest=value=>createHash('sha256').update(value).digest('hex');
 function restore(file,source){
+ const seo=require('./seo-r3-compat.cjs');if(seo.isR3Page(file)||['en/help/index.html','ru/help/index.html','kk/help/index.html'].includes(file))source=seo.restore(file,source);
  source=require('./tax-notice-copy-scope.cjs').restore(file,source);
  source=require('./v1-state-scope.cjs').restore(file,source);
  const bridge=(manifest.bridges||{})[file];
  if(bridge){
+  source=require('./tax-notice-copy-scope.cjs').historicalBridge(file,source,bridge.after);
   if(source.toString()===bridge.before)return source;
   A.equal(source.toString(),bridge.after,'Only exact approved C6 historical bridge: '+file);
   return Buffer.isBuffer(source)?Buffer.from(bridge.before):bridge.before;
