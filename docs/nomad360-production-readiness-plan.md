@@ -28,21 +28,93 @@ repo self-hosted runner или явные `NOMAD360_RUNNER_LABELS`; доказа
 готовность всего продукта не объявлять. Смена DNS/Pages и merge новых PR требуют
 сохранённых отдельных условий приёмки.
 
-### Сверка · 26.10.2026
+### Подготовленные срезы — 26 октября, без активации
 
-- По разрешению владельца #283/#243/#245/#284 объединены; актуальный public
-  main `0f0d547d`. Перенос черновиков доступен из Help. Старый online-import
-  harness исправлен и принят отдельно, без изменения финансовых формул.
-- Private main `e4dd1ce7`; [#495](https://github.com/KazartsevEV/lazysellerV2/pull/495)
-  готовит обновление исходников/hosting package и настоящий перенос черновиков
-  baseline → восстановленный tar на другом origin и base path. Локальная
-  матрица 18/18, 126 записей и 108 сравнений моделей совпали; CI/приёмка — в PR.
-- Хостинг/домен владелец пока отложил. Подготовка продолжается без выбора
-  выдуманного адреса и без отправки настоящих писем. `.invalid` — только QA.
-- **Не только ключи:** private runtime оператора, полный R1 (в том числе без
-  сайта и с последующей проверкой URL/брендинга), trusted intake, screenshot /
-  White Label, реальные Google/SEC-01/эксплуатационные проверки остаются gates.
-  Merge preview/operator не означает автоматическую production-активацию.
+- По разрешению владельца private #495 объединён (`a14b750d`), public #285 —
+  `df3e87c9` (только документация). Accepted runtime snapshot — `0f0d547d`.
+  #495 CI остаётся **QUEUED**, локальные проверки не называются CI GREEN.
+  Публичный #285 прошёл 2/2 CI.
+- [Private #496](https://github.com/KazartsevEV/lazysellerV2/pull/496): оператор
+  в private source, версия no-site config, подтверждение email до появления
+  сайта, последующая SSRF-safe проверка точного выданного HTML, guarded CLI и
+  сборка из отдельно одобренного native release. Локально **42/42** Linux tests,
+  **18/18** реальных автономных зашифрованных пакетов / **108** проверок моделей;
+  независимый AES-256 reader и отказ с чужим паролем. Draft; CI в очереди.
+- [Private #497](https://github.com/KazartsevEV/lazysellerV2/pull/497): будущий
+  R1 EN/RU/KK и отдельный инертный screenshot UX. Реальная форма в loopback
+  preview, полный путь ZIP → HTML → HTTPS URL → iframe/ручное обновление,
+  будущие условия и квалифицированное White Label от €600. Локально 5 unit
+  groups, две матрицы **18/18**; ни файл, ни заявка не отправляются. Draft;
+  текущая форма/публичные условия не переключены, CI в очереди.
+- [Private #498](https://github.com/KazartsevEV/lazysellerV2/pull/498): проверяемые
+  tenant theme/header overlays, исходный release + content-contract hash,
+  manifest/builder hash, безопасный tar/restore, path-scoped workflow.
+  Локально **12 Python + 1 Node**, **18/18** / **108** моделей, offline-branding.
+  Только синтетический fixture и ограниченный `header-and-theme` scope;
+  нет реального клиента/договора, deploy-прав или двух настоящих staging-релизов.
+  `activationAllowed:false`. Draft; CI в очереди.
+- [Private #499](https://github.com/KazartsevEV/lazysellerV2/pull/499), на #496:
+  выбранный владельцем **закрытый Node.js backend + Google**; пять защищённых
+  JSON routes, зашифрованный intake, непрозрачные account/issuance IDs, durable
+  очередь, восстановление прерванных записей/подтверждения, запрет повтора
+  неизвестной отправки; disabled loopback supervisor и persistent Redis.
+  Локально Node **22.23.4**: **38 backend/SEC-01 + 42 operator + 90 numeric**,
+  реальный Redis **7.2.16** AOF restart сохраняет квоты/idempotency.
+  Ни Google, ни production listener не запускались. Draft, без CI GREEN.
+- [Private #500](https://github.com/KazartsevEV/lazysellerV2/pull/500), на #499:
+  реальный portal регистрации/подтверждения/статусов/проверки размещения, RU/EN/KK,
+  без обязательного сайта/компании. **3 unit groups + 18 Chromium**, actual HTTP /
+  controller с synthetic provider ports. Сохранение полей при языке, 429,
+  потеря ответа после записи, повтор без новой выдачи, исправление неверного
+  кода. Ссылки подтверждения очищают fragment до third-party widget и при
+  same-document переходе; CAPTCHA compact помещается на 320px.
+- [Private #501](https://github.com/KazartsevEV/lazysellerV2/pull/501), на #499:
+  отдельные защищённые screenshot routes/budgets, one-codec limit, Sharp0.35.5,
+  raster decode/re-encode, удаление метаданных, **одно MIME-письмо** с текстом и
+  PNG. Адаптер принятого виджета сохраняет необязательный email/файл/анонимность.
+  **9 unit groups + 18 Chromium**, 38 backend/SEC и 42 operator locally PASS.
+  Valid animated WebP / >12MP PNG / spoofing блокируются; unknown не отправляет
+  повтор. Публичный Formspree остаётся text-only.
+- [Private #502](https://github.com/KazartsevEV/lazysellerV2/pull/502), на #501:
+  полный executor утверждённых сроков, **18 retention +42 operator +38 backend/
+  SEC +9 screenshot** locally PASS. Все управляемые копии обязательны: private
+  state/indexes/ZIP, Gmail, Drive, Sheets, backups. Точный SHA плана + свежее
+  одобрение, повторная проверка срока перед каждым удалением, журнал/absence
+  proof/возобновление. Lifetime leases исключают очистку работающих сервисов.
+  Физические удаления — только synthetic temp fixtures. Реальные Google
+  permissions проверяются по ответу OAuth; gmail.send не даёт permanent delete.
+  Shared/unindexed backup не считается очищенным. Привязка конкретного backup
+  producer и фактические API-права остаются хост-зависимой R5-проверкой.
+- [Private #503](https://github.com/KazartsevEV/lazysellerV2/pull/503): общий
+  supervisor/preflight/rollback/drain и публичный пакет всех поверхностей.
+  Base `integration/nomad360-prehost-20261026` содержит pending Draft #496–502,
+  **не main и не скрытое разрешение на их merge**. Отдельная строгая scope/source
+  проверка интеграции сохраняет 132 файла сайта и остальные private продукты.
+  **100 component +90 numeric +11 package/startup/scope**, **111 Chromium**,
+  **12 Python tenant** locally PASS. Native18/108models, portal18, bug18,
+  actual CAPTCHA-in-modal3, R1 preview18, screenshot18, tenant18/offline.
+  Пакет **142 файла + манифест**, tar **7 248 142 байта**, проверен после restore;
+  Node22 даёт те же байты. Default collection/public cutover отключены.
+  Исходный native fixture ранее проверен и его source hashes перепроверены;
+  это не заявление о новой production-сборке на выбранном хосте.
+- **Решения владельца сохранены:** Node.js + Google; неподтверждённые заявки
+  30 дней, партнёрские данные до конца сотрудничества +12 календарных месяцев,
+  скриншоты 30 дней. Политика должна назвать фактический private hosting processor.
+  Реальная очистка/новый сбор/публикация условий здесь не активировались.
+- **Итог до подключения хостинга:** source-подготовка перечисленных открытых
+  frontend/receiver/retention пунктов выполнена; каждый Draft требует CI и
+  пользовательской приёмки. Private jobs пока QUEUED без назначенного runner;
+  локальные результаты не называются CI GREEN. Новые PR автоматически не слиты.
+- **Дальше только после выбора/подключения:** domain/TLS/redirects/private edge,
+  реальные диски/Redis/backup producer/restore/load, существующие OAuth/cloud
+  bindings и scopes/ACL, actual email/ZIP/image/erase и восстановление unknown,
+  два реальных tenant staging update/rollback, physical mobile. Затем отдельно
+  принятый R6 меняет actual CTA/Help/licence/privacy/traffic согласованно с выдачей.
+  Текущий prepared package нельзя превратить в public production одним флагом.
+  Без выбранного хоста эти операционные факты подтвердить нельзя; `.invalid`
+  остаётся только QA. В managed-среде готовых secret/identity bindings нет,
+  хотя проект/клиент/аккаунт владельца существуют. Ничего не создавалось заново.
+
 
 Этот документ уточняет очередь [основной карты](nomad360-codex-task-map.md),
 [P1–P4](nomad360-partner-distribution-plan.md) и
@@ -145,7 +217,10 @@ P3 остаётся **открытым по интеграции и эксплу
 Выделить Nomad360 в собственный каталог и path-scoped CI, не затрагивая
 Lazyseller/Infourok/Product Factory. Не переносить секреты, персональные заявки,
 почтовые коды или рабочий state через Git. В заданиях приватной сборки — только
-непрозрачный ID и допустимая конфигурация; приложение/контакты остаются в Google.
+непрозрачный ID и допустимая конфигурация; контакты не передаются через Git.
+Google хранит анкету/переписку, а закрытый host временно хранит зашифрованный
+intake и минимальный контакт/состояние доставки; это надо явно раскрыть в
+будущей политике и удалить по согласованному сроку во всех копиях.
 
 Собирать отдельный публичный каталог сайта по проверяемому allowlist и манифесту
 ресурсов. В него не входят `.git`, `.github`, `scripts`, `tests`, `docs/reviews`,
@@ -212,11 +287,15 @@ RU/EN/KK, 320/360/390/430/768/desktop, сохранения/перенос/эк�
 не в Git даже приватного репозитория, клиентском JS, ZIP или CI-артефактах.
 Сервисный аккаунт сам по себе не даёт отправлять письма из личного Gmail.
 
-Настроить доверенный intake Formspree: проверенное серверное происхождение,
-разрешённые поля, идемпотентный ID, защита от повтора и ограничение запросов.
-Произвольный клиентский JSON не является доказательством заявки/согласия.
-Уточнить реальный путь без молчаливого выбора между Apps Script из #219 и
-оператором #243; постоянный intake/worker ещё не реализован этим документом.
+**Решение владельца 26.10: закрытый Node.js backend + Google.** Apps Script
+не выбран. Formspree остаётся текущим обработчиком до отдельного R6-переключения;
+не изображать его будущим авторизованным webhook или обработчиком вложений.
+Private #499 готовит прямой собственный intake: доверенный edge/Origin,
+серверная action-bound Turnstile, строгие поля и версия условий, opaque IDs,
+идемпотентность/квоты и подтверждение владения email до выдачи. JSON клиента сам
+по себе не доказывает владение адресом; ни оплата, ни контакты не выдаются за
+серверное подтверждение. Реальная frontend/backend-интеграция, origin isolation
+и согласие/почта проверяются в R5, а не объявляются готовыми по source fixtures.
 
 Проверить отдельным согласованным техническим получателем: форму, запись в
 реестре, подтверждение/истечение email, повторную заявку, подготовку ZIP,

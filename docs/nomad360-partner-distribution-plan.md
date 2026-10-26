@@ -18,12 +18,35 @@ Owner-authorized merges: #283 (local draft transfer), #243 (operator), #245
 (loopback R1 preview) and #284 (current online import test contract). Current
 public main is `0f0d547d`; this is not live issuance or complete R1.
 Private hosting refresh [#495](https://github.com/KazartsevEV/lazysellerV2/pull/495)
-adds the accepted draft utility/tests and tests migration from an old origin/path
-to the restored native-CSS release. Existing calculator/formula source is unchanged.
-Hosting/domain are deliberately deferred; a reserved QA profile is not deployment.
-The operator still needs private runtime/trusted intake/no-site and placement
-contracts plus actual Google and operational acceptance. Do not switch published
-terms/download instructions before the complete accepted R6 release.
+is merged (`a14b750d`); public status #285 merged `df3e87c9` (docs only).
+The accepted runtime snapshot remains `0f0d547d`. Private #495 CI is queued,
+not GREEN. Host/domain are deliberately deferred.
+
+New private Draft preparation: [#496 operator/no-site](https://github.com/KazartsevEV/lazysellerV2/pull/496),
+[#497 future R1/screenshot UX](https://github.com/KazartsevEV/lazysellerV2/pull/497),
+[#498 tenant theme/pipeline](https://github.com/KazartsevEV/lazysellerV2/pull/498),
+[#499 Node/Google intake](https://github.com/KazartsevEV/lazysellerV2/pull/499)
+(last stacked on #496). Local proofs are recorded in each PR; their private CI
+queues and user acceptance remain separate. No public release is activated.
+
+The owner explicitly selected **private Node.js backend + Google**, not Apps
+Script. Current Formspree remains until R6. Approved future retention: unconfirmed
+applications 30 days; partner data until partnership end +12 calendar months;
+screenshots 30 days. #499 dry-run is now complemented by the disabled reviewed
+executor in [#502](https://github.com/KazartsevEV/lazysellerV2/pull/502). No real
+Google/customer erasure has occurred. Private
+host processing of encrypted intake/minimum delivery contacts must be disclosed
+alongside Google; no application contacts enter GitHub. The actual frontend [#500](https://github.com/KazartsevEV/lazysellerV2/pull/500),
+screenshot endpoint/widget [#501](https://github.com/KazartsevEV/lazysellerV2/pull/501)
+and erasure executor #502 are now prepared and tested locally. Combined
+[#503](https://github.com/KazartsevEV/lazysellerV2/pull/503) provides the private
+supervisor and verified inert public tar: 100 component +90 financial +11
+package/startup/scope tests,111 Chromium,142 public files plus manifest. These
+Drafts still need CI/user acceptance; private jobs are queued, not GREEN.
+Actual hosting/edge/Google/delivery/erasure/backups and client staging/rollback
+are R4/R5 gates; separately accepted R6 performs the public cutover.
+Do not claim that keys are the only missing item or switch terms/download before
+complete accepted R6. See the [current readiness status](nomad360-production-readiness-plan.md#подготовленные-срезы--26-октября-без-активации).
 
 ## P1 — Versioned build configuration (PR #241, merged)
 
