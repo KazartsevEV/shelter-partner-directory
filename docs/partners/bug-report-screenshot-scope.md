@@ -1,6 +1,6 @@
 # BUG-09-SCREENSHOT — скриншот вместе с обращением об ошибке
 
-**Статус: ТЗ / NOT IMPLEMENTED (25.10.2026).** Выполнять как узкое дополнение к задаче №9 в том же цикле доработки UI партнёрской регистрации (R1 → R5). Не переписывать принятую форму, её анонимность или финансовые расчёты. Исходник `nomad360_bug_report.js` сейчас **строго text-only**: allowlist полей и отсутствие attachments намеренно проверяются тестами. Это новый контракт, а не описание существующей функции.
+**Статус 26.10: PREPARATION / private Draft [#501](https://github.com/KazartsevEV/lazysellerV2/pull/501), в общем handoff [#503](https://github.com/KazartsevEV/lazysellerV2/pull/503).** Actual widget + защищённый HTTP/codec/MIME реализованы и проверены локально (9 unit groups, 18 Chromium); actual Google и public release не включены, CI/приёмка отдельно. Изображение выбирается вручную, PNG/JPEG/WebP нормализуются в PNG без metadata; текст и файл входят в одно письмо. [#502](https://github.com/KazartsevEV/lazysellerV2/pull/502) готовит retention; реальное удаление Gmail/backups требует R5 прав и выбранного host producer. Текущий публичный `nomad360_bug_report.js` остаётся строго text-only/Formspree. Исходные требования ниже сохранены: R5 настоящее письмо, R6 согласованный cutover, не объявлять fixture приёмом реальных файлов.
 
 ## Пользовательский сценарий
 

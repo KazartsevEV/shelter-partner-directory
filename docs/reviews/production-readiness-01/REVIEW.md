@@ -134,3 +134,29 @@ Label, host/domain/TLS, Google worker proof, активного WAF или пр�
 Первый CI #286 отклонил новый каталог review из-за действующего точного
 allowlist SEO-аудита. Запись перенесена в этот существующий журнал подготовки;
 workflow/allowlist не менялись, проверки не пропускались.
+
+---
+
+## PREHOST-CURRENT-05 · завершение независимой подготовки
+
+26.10.2026: private Draft #500 (actual portal), #501 (screenshot receiver/codec/
+MIME/actual widget), #502 (reviewed all-copy retention) и #503 (combined handoff)
+подготовлены. Существующие решения Node+Google/30 дней/12 месяцев/30 дней сохранены.
+В карте прежние source-пункты больше не помечены нереализованными. Draft/CI/
+эксплуатационная приёмка не подменены фактом написания кода.
+
+Совместно локально: 100 component behavior +90 financial +11 startup/scope/package,
+111 Chromium (native18/108models,portal18,bug18,CAPTCHA-in-modal3,R1preview18,
+screenshot18,tenant18),12 Python tenant. Все 132 принятых файла сайта неизменны.
+Полный публичный tar 7 248 142 байта,142 файла + manifest, verified restore;
+отправка/публичное переключение выключены. Ни реальные заявки/ключи, ни private
+runtime в tar не попадают; QA fixture не является production адресом.
+
+Private #496–503 всё ещё Draft и CIQUEUED/no assigned runner. Branch
+integration/nomad360-prehost-20261026 — сборочная база для проверки, не main.
+Настоящий host/domain/TLS/edge/disks/Redis/backup producer/OAuth grants/ACL,
+actual Google/mail/erase, client staging updates/rollback/physicalmobile и R6
+остаются необходимыми реальными этапами. DNS/Pages, текущий Formspree, лицензия,
+скачивание и другие продукты не менялись. Нет fake GREEN/нового OAuth проекта/
+обхода artifact quota/отменённых старых CI. KK — editorial, не новое носительское
+одобрение. Публичный diff — только шесть ранее разрешённых Markdown-документов.

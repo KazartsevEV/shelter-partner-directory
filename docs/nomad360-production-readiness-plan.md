@@ -61,19 +61,59 @@ repo self-hosted runner или явные `NOMAD360_RUNNER_LABELS`; доказа
   Локально Node **22.23.4**: **38 backend/SEC-01 + 42 operator + 90 numeric**,
   реальный Redis **7.2.16** AOF restart сохраняет квоты/idempotency.
   Ни Google, ни production listener не запускались. Draft, без CI GREEN.
-- **Утверждено владельцем для будущего выпуска:** неподтверждённые заявки
-  30 дней; партнёрские данные до конца сотрудничества +12 **календарных**
-  месяцев; скриншоты 30 дней. Dry-run inventory в #499 включает Gmail и backups,
-  всегда `executionAllowed:false`; исполнители полного удаления не готовы.
-- Хостинг/домен отложены владельцем. `.invalid` — только QA, не выбранный домен.
-  В текущей managed-среде привязанных Google secrets/identities нет. Наличие
-  OAuth-проекта/аккаунта у владельца этим не опровергается.
-- **Открытая подготовка до хостинга:** полноценный frontend регистрации /
-  fragment-confirmation и статусов на выбранном backend; независимый screenshot
-  receiver/codec/одно MIME-письмо; исполнители утверждённого retention и их
-  тесты на фикстурах. Не считать эти пункты закрытыми UI-preview или dry-run.
-  Дальше — реальные host/TLS/edge/Google/Redis/почта, клиентский staging/rollback
-  и отдельно принятый R6. Нельзя сообщать «кроме ключей всё готово».
+- [Private #500](https://github.com/KazartsevEV/lazysellerV2/pull/500), на #499:
+  реальный portal регистрации/подтверждения/статусов/проверки размещения, RU/EN/KK,
+  без обязательного сайта/компании. **3 unit groups + 18 Chromium**, actual HTTP /
+  controller с synthetic provider ports. Сохранение полей при языке, 429,
+  потеря ответа после записи, повтор без новой выдачи, исправление неверного
+  кода. Ссылки подтверждения очищают fragment до third-party widget и при
+  same-document переходе; CAPTCHA compact помещается на 320px.
+- [Private #501](https://github.com/KazartsevEV/lazysellerV2/pull/501), на #499:
+  отдельные защищённые screenshot routes/budgets, one-codec limit, Sharp0.35.5,
+  raster decode/re-encode, удаление метаданных, **одно MIME-письмо** с текстом и
+  PNG. Адаптер принятого виджета сохраняет необязательный email/файл/анонимность.
+  **9 unit groups + 18 Chromium**, 38 backend/SEC и 42 operator locally PASS.
+  Valid animated WebP / >12MP PNG / spoofing блокируются; unknown не отправляет
+  повтор. Публичный Formspree остаётся text-only.
+- [Private #502](https://github.com/KazartsevEV/lazysellerV2/pull/502), на #501:
+  полный executor утверждённых сроков, **18 retention +42 operator +38 backend/
+  SEC +9 screenshot** locally PASS. Все управляемые копии обязательны: private
+  state/indexes/ZIP, Gmail, Drive, Sheets, backups. Точный SHA плана + свежее
+  одобрение, повторная проверка срока перед каждым удалением, журнал/absence
+  proof/возобновление. Lifetime leases исключают очистку работающих сервисов.
+  Физические удаления — только synthetic temp fixtures. Реальные Google
+  permissions проверяются по ответу OAuth; gmail.send не даёт permanent delete.
+  Shared/unindexed backup не считается очищенным. Привязка конкретного backup
+  producer и фактические API-права остаются хост-зависимой R5-проверкой.
+- [Private #503](https://github.com/KazartsevEV/lazysellerV2/pull/503): общий
+  supervisor/preflight/rollback/drain и публичный пакет всех поверхностей.
+  Base `integration/nomad360-prehost-20261026` содержит pending Draft #496–502,
+  **не main и не скрытое разрешение на их merge**. Отдельная строгая scope/source
+  проверка интеграции сохраняет 132 файла сайта и остальные private продукты.
+  **100 component +90 numeric +11 package/startup/scope**, **111 Chromium**,
+  **12 Python tenant** locally PASS. Native18/108models, portal18, bug18,
+  actual CAPTCHA-in-modal3, R1 preview18, screenshot18, tenant18/offline.
+  Пакет **142 файла + манифест**, tar **7 248 142 байта**, проверен после restore;
+  Node22 даёт те же байты. Default collection/public cutover отключены.
+  Исходный native fixture ранее проверен и его source hashes перепроверены;
+  это не заявление о новой production-сборке на выбранном хосте.
+- **Решения владельца сохранены:** Node.js + Google; неподтверждённые заявки
+  30 дней, партнёрские данные до конца сотрудничества +12 календарных месяцев,
+  скриншоты 30 дней. Политика должна назвать фактический private hosting processor.
+  Реальная очистка/новый сбор/публикация условий здесь не активировались.
+- **Итог до подключения хостинга:** source-подготовка перечисленных открытых
+  frontend/receiver/retention пунктов выполнена; каждый Draft требует CI и
+  пользовательской приёмки. Private jobs пока QUEUED без назначенного runner;
+  локальные результаты не называются CI GREEN. Новые PR автоматически не слиты.
+- **Дальше только после выбора/подключения:** domain/TLS/redirects/private edge,
+  реальные диски/Redis/backup producer/restore/load, существующие OAuth/cloud
+  bindings и scopes/ACL, actual email/ZIP/image/erase и восстановление unknown,
+  два реальных tenant staging update/rollback, physical mobile. Затем отдельно
+  принятый R6 меняет actual CTA/Help/licence/privacy/traffic согласованно с выдачей.
+  Текущий prepared package нельзя превратить в public production одним флагом.
+  Без выбранного хоста эти операционные факты подтвердить нельзя; `.invalid`
+  остаётся только QA. В managed-среде готовых secret/identity bindings нет,
+  хотя проект/клиент/аккаунт владельца существуют. Ничего не создавалось заново.
 
 
 Этот документ уточняет очередь [основной карты](nomad360-codex-task-map.md),

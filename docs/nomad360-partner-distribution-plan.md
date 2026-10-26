@@ -32,11 +32,19 @@ queues and user acceptance remain separate. No public release is activated.
 The owner explicitly selected **private Node.js backend + Google**, not Apps
 Script. Current Formspree remains until R6. Approved future retention: unconfirmed
 applications 30 days; partner data until partnership end +12 calendar months;
-screenshots 30 days. #499 only plans erasure; it does not execute it. Private
+screenshots 30 days. #499 dry-run is now complemented by the disabled reviewed
+executor in [#502](https://github.com/KazartsevEV/lazysellerV2/pull/502). No real
+Google/customer erasure has occurred. Private
 host processing of encrypted intake/minimum delivery contacts must be disclosed
-alongside Google; no application contacts enter GitHub. Full frontend transport,
-screenshot receiving and erasure executors are still pre-host work; actual
-hosting/edge/Google/delivery and client staging/rollback are R4/R5 gates.
+alongside Google; no application contacts enter GitHub. The actual frontend [#500](https://github.com/KazartsevEV/lazysellerV2/pull/500),
+screenshot endpoint/widget [#501](https://github.com/KazartsevEV/lazysellerV2/pull/501)
+and erasure executor #502 are now prepared and tested locally. Combined
+[#503](https://github.com/KazartsevEV/lazysellerV2/pull/503) provides the private
+supervisor and verified inert public tar: 100 component +90 financial +11
+package/startup/scope tests,111 Chromium,142 public files plus manifest. These
+Drafts still need CI/user acceptance; private jobs are queued, not GREEN.
+Actual hosting/edge/Google/delivery/erasure/backups and client staging/rollback
+are R4/R5 gates; separately accepted R6 performs the public cutover.
 Do not claim that keys are the only missing item or switch terms/download before
 complete accepted R6. See the [current readiness status](nomad360-production-readiness-plan.md#подготовленные-срезы--26-октября-без-активации).
 
