@@ -12,6 +12,19 @@ the sequence and gates. P3 remains open for operational proof; that does not
 block offline preparation. No DNS, repository-visibility or public-download
 switch is authorised by this documentation change.
 
+## Accepted preparation update · 26 October 2026
+
+Owner-authorized merges: #283 (local draft transfer), #243 (operator), #245
+(loopback R1 preview) and #284 (current online import test contract). Current
+public main is `0f0d547d`; this is not live issuance or complete R1.
+Private hosting refresh [#495](https://github.com/KazartsevEV/lazysellerV2/pull/495)
+adds the accepted draft utility/tests and tests migration from an old origin/path
+to the restored native-CSS release. Existing calculator/formula source is unchanged.
+Hosting/domain are deliberately deferred; a reserved QA profile is not deployment.
+The operator still needs private runtime/trusted intake/no-site and placement
+contracts plus actual Google and operational acceptance. Do not switch published
+terms/download instructions before the complete accepted R6 release.
+
 ## P1 — Versioned build configuration (PR #241, merged)
 
 One explicit profile, package/partner ID, release version, public metadata,
@@ -49,10 +62,10 @@ not claim that a code was delivered before the issuance/delivery service exists.
 
 ## P3 — Issuance, email and encrypted ZIP
 
-Draft [#243](https://github.com/KazartsevEV/shelter-partner-directory/pull/243)
+Merged preparation [#243](https://github.com/KazartsevEV/shelter-partner-directory/pull/243)
 implements the private operator and Google adapters (original implementation
 `3314ec3`). The main synchronization keeps that operator code unchanged; its
-current CI must be revalidated, not inferred from the original five green jobs. A connector-mediated owner-mailbox test is not a deployed-worker
+accepted refreshed HEAD `7581cb84` passed 5/5 CI and merged as `97a5528f`. A connector-mediated owner-mailbox test is not a deployed-worker
 test. Permanent credentials, trusted intake and end-to-end real delivery are
 deferred to R5, not declared complete. Preparation R1–R4 can proceed without
 putting secrets into either public or private Git.
