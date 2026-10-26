@@ -167,3 +167,14 @@ actual Google/mail/erase, client staging updates/rollback/physicalmobile и R6
 копией. Diff PR относительно актуальной базы по-прежнему только шесть Markdown.
 Приватный financial/runtime snapshot остаётся принятой immutable версией 0f0d547d;
 это изменение aggregate traffic не является новой финансовой реализацией.
+
+## ZERO-NEW-COST · correction 26.10
+
+Владелец отменил обязательность нового VPS/Redis/domain/always-on server и требует
+нулевых новых обязательных расходов. Переработаны действующие R4–R6, верх карты
+и distribution plan. Private #504 остаётся Draft; аудит #503 разделяет browser,
+static build, batch worker и trusted intake/state/erasure. Старые GREEN/фикстуры
+не принимают новую схему. Existing Windows CI подтверждён как runner, не как
+поддерживаемый POSIX production operator. Apps Script/Google-ledger/function
+варианты лишь предложены с CORS/quota/atomicity/codec/retention ограничениями;
+реального переключения не было. Четыре Markdown-файла; runtime/формулы неизменны.
