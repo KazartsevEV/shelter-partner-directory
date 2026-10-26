@@ -3,6 +3,7 @@ const A=require('node:assert/strict'),{createHash}=require('node:crypto'),fs=req
 const manifest=require('../fixtures/v1-operations/extraction.json');
 const digest=value=>createHash('sha256').update(value).digest('hex');
 function restore(file,source){
+ source=require('./tax-notice-copy-scope.cjs').restore(file,source);
  source=require('./v1-state-scope.cjs').restore(file,source);
  const bridge=(manifest.bridges||{})[file];
  if(bridge){
