@@ -13,12 +13,13 @@ common localization entry, layout or tax-selection behavior changes.
 Historical storage/source guards normalize only the exact three approved hint
 strings per adapter, bound to complete before/after SHA256 hashes. All original
 storage and financial byte comparisons, including rejection of appended edits,
-remain enforced. No workflow or historical fixture was replaced.
+remain enforced. No workflow or historical fixture was replaced. The historical SEO path check
+allows only the two exact new review/helper paths; source comparisons stay strict.
 
 Validation:
 
 - JavaScript syntax checks for both adapters and the copy guard.
-- 32 existing tests passed: tax quoting/projection/final audit, semantic financial
+- 33 existing tests passed: tax quoting/projection/final audit, semantic financial
   AST protection, storage and module-boundary guards. Zero failures/skips.
 - Chromium:18 checks — goods, full services and simple services; RU/EN/KK;
   widths320/1280. Each rendered hint contains the full shared warning exactly once
@@ -27,3 +28,8 @@ Validation:
 Base: public `main` at `2c83c35`. Separate branch from the private Release1 work;
 no change to private frozen calculator snapshots, cloud configuration or public
 deployment. GitHub CI is recorded separately in the PR.
+
+CI follow-up: regenerated the L0 source inventory after the approved text edits.
+The first runs correctly rejected stale offsets. Source normalization also covers
+the two exact offline bundles so historical partner guards retain their original
+byte comparisons.

@@ -39,6 +39,66 @@ const rules={
         "after": "hint:'Салық жеңілдіктен кейін сатып алушы төлейтін бағаға қосылады. Транзиттік салық табысқа, пайдаға және ақша ағынына кірмейді.'"
       }
     ]
+  },
+  "US_Retail_Demo_FILLED.html": {
+    "before": "0e7a769cb3702775e7ba92c326dcdae527579c614768e3316553fcc0ea8cdd45",
+    "after": "0a864c2b0799c6a0b7a290a0cfc0d8950af0803f2debc4a41d30aacce030ca42",
+    "replacements": [
+      {
+        "before": "hint:'Sales Tax начисляется после скидки. Он не является выручкой и не вычитается из прибыли дважды. Индивидуальные вычеты и льготы не учитываются — обратитесь к бухгалтеру.'",
+        "after": "hint:'Sales Tax начисляется после скидки. Он не является выручкой и не вычитается из прибыли дважды.'"
+      },
+      {
+        "before": "hint:'Sales Tax is added after discounts. It is not business revenue and is not deducted twice. Individual deductions and reliefs are not included; consult an accountant.'",
+        "after": "hint:'Sales Tax is added after discounts. It is not business revenue and is not deducted twice.'"
+      },
+      {
+        "before": "hint:'Sales Tax жеңілдіктен кейін қосылады, кәсіпорынның табысы емес. Жеке шегерімдер мен жеңілдіктер ескерілмейді. Бухгалтермен кеңесіңіз.'",
+        "after": "hint:'Sales Tax жеңілдіктен кейін қосылады, кәсіпорынның табысы емес.'"
+      },
+      {
+        "before": "hint:'Налог добавляется к цене покупателя после скидки. Выручка, прибыль и Cash Flow остаются без транзитного налога. Вычеты и льготы не учтены — проконсультируйтесь с бухгалтером.'",
+        "after": "hint:'Налог добавляется к цене покупателя после скидки. Выручка, прибыль и Cash Flow остаются без транзитного налога.'"
+      },
+      {
+        "before": "hint:'Tax is added to the buyer price after discounts. Transit tax is excluded from revenue, profit and cash flow. Individual reliefs are excluded; consult an accountant.'",
+        "after": "hint:'Tax is added to the buyer price after discounts. Transit tax is excluded from revenue, profit and cash flow.'"
+      },
+      {
+        "before": "hint:'Салық жеңілдіктен кейін сатып алушы төлейтін бағаға қосылады. Транзиттік салық табысқа, пайдаға және ақша ағынына кірмейді. Жеке жеңілдіктер есептелмейді; бухгалтермен кеңесіңіз.'",
+        "after": "hint:'Салық жеңілдіктен кейін сатып алушы төлейтін бағаға қосылады. Транзиттік салық табысқа, пайдаға және ақша ағынына кірмейді.'"
+      }
+    ]
+  },
+  "US_Retail_Demo_EN_FILLED.html": {
+    "before": "e24f325531576c71cd21f1b3dbee86f8b2b34642572809c354abb84caeb83c94",
+    "after": "645800af1fa8be63d4a9099fe0e89f4aaa63ca1e98641f3b3d3c76cc233781f0",
+    "replacements": [
+      {
+        "before": "hint:'Sales Tax начисляется после скидки. Он не является выручкой и не вычитается из прибыли дважды. Индивидуальные вычеты и льготы не учитываются — обратитесь к бухгалтеру.'",
+        "after": "hint:'Sales Tax начисляется после скидки. Он не является выручкой и не вычитается из прибыли дважды.'"
+      },
+      {
+        "before": "hint:'Sales Tax is added after discounts. It is not business revenue and is not deducted twice. Individual deductions and reliefs are not included; consult an accountant.'",
+        "after": "hint:'Sales Tax is added after discounts. It is not business revenue and is not deducted twice.'"
+      },
+      {
+        "before": "hint:'Sales Tax жеңілдіктен кейін қосылады, кәсіпорынның табысы емес. Жеке шегерімдер мен жеңілдіктер ескерілмейді. Бухгалтермен кеңесіңіз.'",
+        "after": "hint:'Sales Tax жеңілдіктен кейін қосылады, кәсіпорынның табысы емес.'"
+      },
+      {
+        "before": "hint:'Налог добавляется к цене покупателя после скидки. Выручка, прибыль и Cash Flow остаются без транзитного налога. Вычеты и льготы не учтены — проконсультируйтесь с бухгалтером.'",
+        "after": "hint:'Налог добавляется к цене покупателя после скидки. Выручка, прибыль и Cash Flow остаются без транзитного налога.'"
+      },
+      {
+        "before": "hint:'Tax is added to the buyer price after discounts. Transit tax is excluded from revenue, profit and cash flow. Individual reliefs are excluded; consult an accountant.'",
+        "after": "hint:'Tax is added to the buyer price after discounts. Transit tax is excluded from revenue, profit and cash flow.'"
+      },
+      {
+        "before": "hint:'Салық жеңілдіктен кейін сатып алушы төлейтін бағаға қосылады. Транзиттік салық табысқа, пайдаға және ақша ағынына кірмейді. Жеке жеңілдіктер есептелмейді; бухгалтермен кеңесіңіз.'",
+        "after": "hint:'Салық жеңілдіктен кейін сатып алушы төлейтін бағаға қосылады. Транзиттік салық табысқа, пайдаға және ақша ағынына кірмейді.'"
+      }
+    ]
   }
 };
 function restore(file,source){
