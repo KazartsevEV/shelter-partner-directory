@@ -23,3 +23,18 @@ package whose HTML size it compares. Mixing raw and projected package rows
 subtracted the approved594 typography bytes twice. Raw source remains unchanged,
 and all exact HTML/resource comparisons remain enabled. Payment-grid full local
 acceptance passed78 pairs/312 comparisons; other full browser matrices continue.
+
+C6 root-cause follow-up: a bounded reproduction fails on the first320px/RU
+snapshot before alignment. All text-number rows, inputs, portfolios, landed cost,
+model, cash, call counters and overflow match; the notice and decision-button
+font differ as requested. Both C6 snapshots now use the exact same approved UI
+alignment as the other historical suites. The separate current-source typography
+probe remains unaligned. Failure comparison still uses full deep equality, with
+`util.isDeepStrictEqual` plus a bounded boolean assertion and a full saved JSON
+pair; Node no longer formats a giant nested assertion diff. Earlier Actions
+reported SIGKILL/runner shutdown, not a numeric assertion. This avoids the costly
+diff path instead of hiding comparison failures.
+
+Local operations smoke:3 pairs/55 scenarios/6 listener+DOM timing pairs GREEN
+(Marketing,US demo,actual standalone;320px/RU, timings390/1280). State smoke also passes3 pairs/61 scenarios/6 timing pairs. Full C58 matrix passed126 cases/1080 comparisons/12 paired timings;
+payment grid passed78 pairs/312 comparisons, including resize/locale negatives.
