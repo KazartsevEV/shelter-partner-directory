@@ -126,4 +126,18 @@ function historicalBridge(file,source,expected){
  return Buffer.isBuffer(source)?Buffer.from(expected):expected;
 }
 function hintChanges(){return ['nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js'].flatMap(f=>rules[f].replacements.map(r=>({before:r.before.slice(6,-1),after:r.after.slice(6,-1)})));}
-module.exports={restore,current,historicalBridge,hintChanges};
+function normalizeResource(row){
+ const rule=rules[row.path];if(!rule||row.sha256!==rule.after)return row;
+ const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../..',row.path));
+ A.equal(digest(source),rule.after);A.equal(row.bytes,source.length);
+ const before=restore(row.path,source);return {...row,sha256:rule.before,bytes:before.length};
+}
+function restoreStandalone(html){
+ for(const file of ['nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js']){
+  const pattern=new RegExp('(<script\\b[^>]*data-nomad-bundled="\\./'+file.replaceAll('.','\\.')+'"[^>]*>)([\\s\\S]*?)(</script>)','g');
+  html=html.replace(pattern,(_,open,source,close)=>open+restore(file,source)+close);
+ }
+ return html;
+}
+module.exports={restore,current,historicalBridge,hintChanges,normalizeResource,restoreStandalone};
+
