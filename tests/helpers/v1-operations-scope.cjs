@@ -4,6 +4,7 @@ const manifest=require('../fixtures/v1-operations/extraction.json');
 const digest=value=>createHash('sha256').update(value).digest('hex');
 function restore(file,source){
  const seo=require('./seo-r3-compat.cjs');if(seo.isR3Page(file)||['en/help/index.html','ru/help/index.html','kk/help/index.html'].includes(file))source=seo.restore(file,source);
+ source=require('./pricing-decision-type-scope.cjs').restore(file,source);
  source=require('./tax-notice-copy-scope.cjs').restore(file,source);
  source=require('./v1-state-scope.cjs').restore(file,source);
  const bridge=(manifest.bridges||{})[file];
@@ -27,6 +28,7 @@ function restore(file,source){
 const modulePath='nomad360_v1_operations.js';
 function moduleSource(){const source=fs.readFileSync(path.resolve(__dirname,'../..',modulePath),'utf8');A.equal(digest(source),manifest.moduleSha256,'Exact C6 module');return source;}
 function restoreStandalone(html){
+ html=require('./pricing-decision-type-scope.cjs').restoreStandalone(html);
  html=require('./tax-notice-copy-scope.cjs').restoreStandalone(html);
  html=require('./v1-state-scope.cjs').restoreStandalone(html);
  const open='    <script data-nomad-bundled="./'+modulePath+'">';
@@ -40,6 +42,7 @@ function restoreStandalone(html){
  return html;
 }
 function projectResources(resources){
+ resources=resources.map(require('./pricing-decision-type-scope.cjs').normalizeResource);
  resources=resources.map(require('./tax-notice-copy-scope.cjs').normalizeResource);
  resources=require('./v1-state-scope.cjs').projectResources(resources);
  const own=resources.filter(r=>r.path===modulePath);if(!own.length)return resources;

@@ -125,6 +125,7 @@ function historicalBridge(file,source,expected){
  if(!expected||digest(source)!==metadataHashes[file])return source;
  return Buffer.isBuffer(source)?Buffer.from(expected):expected;
 }
+function hintChanges(){return ['nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js'].flatMap(f=>rules[f].replacements.map(r=>({before:r.before.slice(6,-1),after:r.after.slice(6,-1)})));}
 function normalizeResource(row){
  const rule=rules[row.path];if(!rule||row.sha256!==rule.after)return row;
  const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../..',row.path));
@@ -138,4 +139,5 @@ function restoreStandalone(html){
  }
  return html;
 }
-module.exports={restore,current,historicalBridge,normalizeResource,restoreStandalone};
+module.exports={restore,current,historicalBridge,hintChanges,normalizeResource,restoreStandalone};
+

@@ -1,0 +1,72 @@
+{
+  "file": "nomad360_design_system.css",
+  "beforeSha256": "18ecb834ac787840fdaf4a66480019ca769d572992ffcaeafe4b9b991464d804",
+  "afterSha256": "8ef31ea3b5a3a4428150732b43902ce468e00d0e9e7ec57199d2b578448956cc",
+  "beforeBytes": 87684,
+  "afterBytes": 88278,
+  "edits": [
+    {
+      "before": "/* Warning and loss classes retain their controller-defined semantic colors. */",
+      "after": "/* Pricing decisions share type without changing other aggregate actions. */\nbody #product-screen.nd-v1-product #product-tax-block.product-business-aggregate\n  [data-pricing-decision]{\n  font-size:clamp(18px,4.8vw,23px);\n  line-height:1.25;\n}\n@media(max-width:480px){\n  body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate\n    .grid:has(> [data-pricing-decision]){\n    grid-template-columns:minmax(0,1fr);\n  }\n  body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate\n    [data-pricing-decision]{\n    font-size:clamp(20px,5.8vw,24px);\n  }\n}\n/* Warning and loss classes retain their controller-defined semantic colors. */"
+    }
+  ],
+  "files": {
+    "nomad360_design_system.css": {
+      "beforeSha256": "18ecb834ac787840fdaf4a66480019ca769d572992ffcaeafe4b9b991464d804",
+      "afterSha256": "8ef31ea3b5a3a4428150732b43902ce468e00d0e9e7ec57199d2b578448956cc"
+    },
+    "US_Retail_Demo_FILLED.html": {
+      "beforeSha256": "0a864c2b0799c6a0b7a290a0cfc0d8950af0803f2debc4a41d30aacce030ca42",
+      "afterSha256": "6cc16f6fd37ca3b6ede9b78cd449a21871742dbd435d9387d1fee07ed902832d"
+    },
+    "US_Retail_Demo_EN_FILLED.html": {
+      "beforeSha256": "645800af1fa8be63d4a9099fe0e89f4aaa63ca1e98641f3b3d3c76cc233781f0",
+      "afterSha256": "3dd07e1e3df4166bfa5fb89a42e1a8c9bfcc908aa14bd09088a765fcca041ea1"
+    },
+    "scripts/seo/check_phase_a.py": {
+      "beforeSha256": "0fc14260cabdbf7b532fdf2f861b8ac843f6967c1b546439bff9294eef3f61f6",
+      "afterSha256": "7219cf93f4f1271edb06959e67a1d92531ce696a1ffc3286bcf2ac770f0e45c0",
+      "edits": [
+        {
+          "before": "                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs', 'tests/helpers/tax-notice-copy-scope.cjs', 'docs/reviews/tax-notice-dedup/REVIEW.md'} or p in (\n",
+          "after": "                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs', 'tests/helpers/tax-notice-copy-scope.cjs', 'docs/reviews/tax-notice-dedup/REVIEW.md', 'docs/reviews/pricing-decision-type/REVIEW.md', 'docs/reviews/pricing-decision-type/browser.json', 'docs/reviews/pricing-decision-type/ru-320-buttons.png', 'docs/reviews/pricing-decision-type/ru-1280-buttons.png', 'tests/helpers/pricing-decision-type-scope.cjs', 'tests/helpers/approved-ui-comparison.cjs', 'tests/pricing_decision_type_browser.cjs', 'tests/fixtures/pricing-decision-type/changes.json'} or p in (\n"
+        }
+      ]
+    },
+    "scripts/cleanup-paint/compare.cjs": {
+      "beforeSha256": "aa4a67d83c638a2f01059d7c0478580e34993c73935ccce3ec9ecba8c4297d0c",
+      "afterSha256": "f1acd30d81a05d5cfabe707a77c0a98e8645c3bc061857d91a13d7492a15dc85",
+      "baseRevision": "e0534a5d7a6a89cda5be6ff68880d3691a762368"
+    },
+    "scripts/cleanup-typical/compare.cjs": {
+      "beforeSha256": "b44fb46f0c7e6b49f1d29c90f15d399849c751dc7e51733b80ef2a639124bae9",
+      "afterSha256": "0379a02754e7b65ab1f3bc47ed1df0da65dcfcc560f738a0ac29b859f9b63f72",
+      "baseRevision": "e0534a5d7a6a89cda5be6ff68880d3691a762368"
+    },
+    "scripts/cleanup/compare-service-grid.cjs": {
+      "beforeSha256": "66fd14f60ef88f9c05bbb023c68206e5de9c30fde8dabbecc6fd941102e29423",
+      "afterSha256": "d8637ff21033a4aafd14071ca2fbaa18f3200bf79960c32bd9129c0a860ce306",
+      "baseRevision": "e0534a5d7a6a89cda5be6ff68880d3691a762368"
+    },
+    "scripts/cleanup-payment-grid/compare.cjs": {
+      "beforeSha256": "780b8fc8fb90ab3f0330331272b2e742135f1655a12ec59b803f0dbd3aeb22ff",
+      "afterSha256": "e765a84cae7da38ef9a6768b246a1515259c34c8a838868c7a1bae6bdbb4971a",
+      "baseRevision": "e0534a5d7a6a89cda5be6ff68880d3691a762368"
+    },
+    "scripts/cleanup-paint/model.cjs": {
+      "beforeSha256": "5c3dba7d5a6e0a8be31d9d56a3404789b9ddb12c2ed487f84afd41f6adeacbc6",
+      "afterSha256": "1c18061b8324b0eb3bde45128a92ced80860ed8111995956ff2e58c2d925a7aa",
+      "baseRevision": "e0534a5d7a6a89cda5be6ff68880d3691a762368"
+    },
+    "tests/type02_acceptance_browser.cjs": {
+      "beforeSha256": "ecee1b937e75692368ffe6bee9d3dbc92d85c0587f75f6eca61583aeb19201b5",
+      "afterSha256": "a6d42efd3f3a1feda59e04282bc5621e7986339fb212c7755fa652588570b405",
+      "baseRevision": "e0534a5d7a6a89cda5be6ff68880d3691a762368"
+    },
+    "scripts/cleanup/verify-report.cjs": {
+      "beforeSha256": "48173f7f87c8433aca94d728d2c97a5c1c1a10673c6b161e5037e69fed4ab304",
+      "afterSha256": "cc43142878b391496173c40851a7475af28833fc94bf1df905da6ac70a7bfdb4",
+      "baseRevision": "e0534a5d7a6a89cda5be6ff68880d3691a762368"
+    }
+  }
+}
