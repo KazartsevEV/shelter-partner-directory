@@ -38,3 +38,9 @@ diff path instead of hiding comparison failures.
 Local operations smoke:3 pairs/55 scenarios/6 listener+DOM timing pairs GREEN
 (Marketing,US demo,actual standalone;320px/RU, timings390/1280). State smoke also passes3 pairs/61 scenarios/6 timing pairs. Full C58 matrix passed126 cases/1080 comparisons/12 paired timings;
 payment grid passed78 pairs/312 comparisons, including resize/locale negatives.
+
+C58 final report verification now projects byte totals together with exact UI
+resource hashes: the typography addition and tax-copy removal leave a net24-byte
+raw delta. Source and generated HTML comparison already passed; this fixes the
+report metadata without changing actual runtime/artifact bytes or the6114-byte
+historical cleanup expectation.

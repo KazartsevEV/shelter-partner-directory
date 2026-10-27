@@ -60,6 +60,9 @@ function standaloneDelta(){
  return Buffer.byteLength(module)+manifest.files['Marketing_calc.HTML'].replacements.slice(1).reduce((n,[a,b])=>n+Buffer.byteLength(b)-Buffer.byteLength(a),0);
 }
 function recordProjection(p){
+ const rows=p.resources.map(require('./pricing-decision-type-scope.cjs').normalizeResource).map(require('./tax-notice-copy-scope.cjs').normalizeResource);
+ const uiDelta=rows.reduce((n,row,i)=>n+row.bytes-p.resources[i].bytes,0), sizeKey='htmlBytes'in p?'htmlBytes':'bytes';
+ p={...p,[sizeKey]:p[sizeKey]+uiDelta,resources:rows};
  p=require('./v1-state-scope.cjs').recordProjection(p);
  const resources=projectResources(p.resources);if(resources===p.resources)return p;
  const key='htmlBytes'in p?'htmlBytes':'bytes';return {...p,[key]:p[key]-standaloneDelta(),resources};
