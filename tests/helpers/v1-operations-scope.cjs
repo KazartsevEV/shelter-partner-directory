@@ -2,7 +2,7 @@
 const A=require('node:assert/strict'),{createHash}=require('node:crypto'),fs=require('node:fs'),path=require('node:path');
 const manifest=require('../fixtures/v1-operations/extraction.json');
 const digest=value=>createHash('sha256').update(value).digest('hex');
-function restore(file,source){
+function restore(file,source){source=require('./runner-image-scope.cjs').restore(file,source);
  const seo=require('./seo-r3-compat.cjs');if(seo.isR3Page(file)||['en/help/index.html','ru/help/index.html','kk/help/index.html'].includes(file))source=seo.restore(file,source);
  source=require('./pricing-decision-type-scope.cjs').restore(file,source);
  source=require('./tax-notice-copy-scope.cjs').restore(file,source);

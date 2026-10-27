@@ -489,6 +489,12 @@ def main():
         subprocess.check_output(['node', '-e',
             "const fs=require('node:fs');process.stdout.write(require('./tests/helpers/cleanup-about-scope.cjs').restore(process.argv[1],fs.readFileSync(0)))",
             'nomad360_about_banner.css'], input=(ROOT / 'nomad360_about_banner.css').read_bytes(), cwd=ROOT)
+    runner_receipt = json.loads((ROOT / 'tests/fixtures/runner-image/changes.json').read_text())
+    runner_workflows = {p for p in runner_receipt if p.startswith('.github/workflows/')}
+    for p in set(changed) & runner_workflows:
+        subprocess.check_output(['node', '-e',
+            "require('./tests/helpers/runner-image-scope.cjs').verify(process.argv[1],require('node:fs').readFileSync(0))", p],
+            input=(ROOT / p).read_bytes(), cwd=ROOT)
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'docs/reviews/draft-transfer-r4/', 'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
@@ -510,7 +516,7 @@ def main():
                              'scripts/cleanup-history/', 'docs/reviews/cleanup-history-07/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
                              'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/', 'docs/reviews/partner-release-preview-01/',
-                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs', 'tests/helpers/tax-notice-copy-scope.cjs', 'docs/reviews/tax-notice-dedup/REVIEW.md', 'docs/reviews/pricing-decision-type/REVIEW.md', 'docs/reviews/pricing-decision-type/browser.json', 'docs/reviews/pricing-decision-type/ru-320-buttons.png', 'docs/reviews/pricing-decision-type/ru-1280-buttons.png', 'tests/helpers/pricing-decision-type-scope.cjs', 'tests/helpers/approved-ui-comparison.cjs', 'tests/pricing_decision_type_browser.cjs', 'tests/fixtures/pricing-decision-type/changes.json'} or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in runner_workflows or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs', 'tests/helpers/tax-notice-copy-scope.cjs', 'docs/reviews/tax-notice-dedup/REVIEW.md', 'docs/reviews/pricing-decision-type/REVIEW.md', 'docs/reviews/pricing-decision-type/browser.json', 'docs/reviews/pricing-decision-type/ru-320-buttons.png', 'docs/reviews/pricing-decision-type/ru-1280-buttons.png', 'tests/helpers/pricing-decision-type-scope.cjs', 'tests/helpers/approved-ui-comparison.cjs', 'tests/pricing_decision_type_browser.cjs', 'tests/fixtures/pricing-decision-type/changes.json', 'tests/helpers/runner-image-scope.cjs', 'tests/fixtures/runner-image/changes.json', 'docs/reviews/ci-ubuntu-24/REVIEW.md'} or p in (
         # R4 draft transport: dedicated local page, no calculator/engine exemptions.
         'nomad360_draft_transfer.js', 'nomad360_draft_transfer_ui.js',
         'drafts/index.html', 'assets/nomad360-drafts.css', 'scripts/site-release/public-files.json',

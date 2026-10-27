@@ -16,7 +16,7 @@ permissions:
   contents: read
 jobs:
   typical-layout:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
       NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules
