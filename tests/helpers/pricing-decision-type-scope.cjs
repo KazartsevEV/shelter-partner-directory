@@ -20,4 +20,8 @@ function restoreStandalone(html){
  const pattern=/(<style\b[^>]*data-nomad-bundled="\.\/nomad360_design_system\.css"[^>]*>)([\s\S]*?)(<\/style>)/g;
  return html.replace(pattern,(_,open,css,close)=>open+restore(changes.file,css)+close);
 }
-module.exports={restore,normalizeResource,restoreStandalone};
+function packageDelta(before,after){
+ const delta=p=>p.manifest.resources.reduce((n,r)=>n+normalizeResource(r).bytes-r.bytes,0);
+ return delta(after)-delta(before);
+}
+module.exports={restore,normalizeResource,restoreStandalone,packageDelta};

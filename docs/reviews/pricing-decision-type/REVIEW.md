@@ -44,3 +44,8 @@ immediately before capture. Baseline files remain untouched; numeric, clipping,
 contrast, all other text/style and package comparisons stay enabled. Whole-source
 SHA guards and the independent unaligned current-UI probe prevent this comparison
 alignment from masking unrelated changes. No workflow or baseline fixture edit.
+
+Historical package checks now project the exact inline CSS/script bytes together
+with their resource hashes and byte counts. C1 continues reporting actual source
+sizes and includes the explicit typography delta instead of attributing it to
+the earlier cascade cleanup. No runtime or workflow change accompanies this fix.
