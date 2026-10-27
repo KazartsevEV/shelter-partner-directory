@@ -5089,12 +5089,16 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
 }
 body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
   :is(.aggregate-action-confirm,.aggregate-action-recalc){
-  font-size:clamp(18px,4.8vw,23px);
-  line-height:1.25;
   background:#fff;
   border:1px solid var(--nd-v1-navy);
   color:var(--nd-v1-navy);
   border-radius:var(--nd-radius);
+}
+/* Pricing decisions share type without changing other aggregate actions. */
+body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
+  [data-pricing-decision]{
+  font-size:clamp(18px,4.8vw,23px);
+  line-height:1.25;
 }
 @media(max-width:480px){
   body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
@@ -5102,7 +5106,7 @@ body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
     grid-template-columns:minmax(0,1fr);
   }
   body #product-screen.nd-v1-product #product-tax-block.product-business-aggregate
-    :is(.aggregate-action-confirm,.aggregate-action-recalc){
+    [data-pricing-decision]{
     font-size:clamp(20px,5.8vw,24px);
   }
 }

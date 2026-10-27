@@ -125,4 +125,5 @@ function historicalBridge(file,source,expected){
  if(!expected||digest(source)!==metadataHashes[file])return source;
  return Buffer.isBuffer(source)?Buffer.from(expected):expected;
 }
-module.exports={restore,current,historicalBridge};
+function hintChanges(){return ['nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js'].flatMap(f=>rules[f].replacements.map(r=>({before:r.before.slice(6,-1),after:r.after.slice(6,-1)})));}
+module.exports={restore,current,historicalBridge,hintChanges};

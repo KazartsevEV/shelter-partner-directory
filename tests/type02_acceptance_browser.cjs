@@ -53,10 +53,12 @@ async function pictures(page,variant,lang,width,route){
  const server=http.createServer((req,res)=>{const u=new URL(req.url,'http://localhost'),isBase=u.pathname.startsWith('/baseline/'),dir=isBase?baseline:root,file=path.resolve(dir,decodeURIComponent(isBase?u.pathname.slice(10):u.pathname.slice(1)));if(!file.startsWith(dir+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end();return;}res.writeHead(200,{'Content-Type':({'.HTML':'text/html','.html':'text/html','.js':'text/javascript','.css':'text/css','.woff2':'font/woff2','.json':'application/json'})[path.extname(file)]||'application/octet-stream'});fs.createReadStream(file).pipe(res);});await new Promise(r=>server.listen(0,'127.0.0.1',r));baseURL='http://127.0.0.1:'+server.address().port+'/';
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox']}),receipts=[],extras=[],fonts=[];
  try{
+  console.log('PRICING_ACTUAL_UI_GREEN',JSON.stringify(await require('./pricing_decision_type_browser.cjs').run({browser,baseUrl:baseURL,utilities:fs.readFileSync(utilities,'utf8')})));
   for(const lang of langs)for(const width of widths)for(const route of ['home','v1','standalone','linked']){
    let previous;
    for(const variant of ['before','after']){
     const context=await browser.newContext({viewport:{width,height:1000}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await prepare(page,variant,lang,route);
+    await require('./helpers/approved-ui-comparison.cjs').align(page);
     const data=await page.evaluate(snapshot,route),geometry=await page.evaluate(audit);fs.writeFileSync(path.join(out,'latest-audit.json'),JSON.stringify({lang,width,route,variant,geometry},null,2));A.deepEqual(errors,[]);
     if(variant==='before')previous={data,geometry};else{
      A.deepEqual(data,previous.data,`${lang}/${width}/${route}: source, saved bytes and calculated results`);A.equal(geometry.overflow,false,`${lang}/${width}/${route}: page overflow`);

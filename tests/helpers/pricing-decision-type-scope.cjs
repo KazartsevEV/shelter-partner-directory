@@ -6,6 +6,7 @@ const hash=s=>createHash('sha256').update(s).digest('hex');
 function restore(file,source){
  const rule=changes.files?.[file]||(file===changes.file?{beforeSha256:changes.beforeSha256,afterSha256:changes.afterSha256}:null);
  if(!rule||hash(source)!==rule.afterSha256)return source;
+ if(rule.baseRevision){const old=require('node:child_process').execFileSync('git',['show',rule.baseRevision+':'+file],{cwd:require('node:path').resolve(__dirname,'../..'),maxBuffer:24e6});A.equal(hash(old),rule.beforeSha256);return Buffer.isBuffer(source)?old:old.toString();}
  let text=source.toString();
  for(const {before,after}of rule.edits||changes.edits){A.equal(text.split(after).length,2,'Exact pricing button typography rule');text=text.replace(after,before);}
  A.equal(hash(text),rule.beforeSha256,'Only approved button typography bytes');

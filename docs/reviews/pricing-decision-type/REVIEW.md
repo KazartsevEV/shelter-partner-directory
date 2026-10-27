@@ -31,3 +31,16 @@ are not rewritten. No broad source exemption or disabled check.
 Relevant existing numerical/source/font suites, C1/C5/payment-grid/C6 guards,
 palette reproducibility, localization inventory and SEO checks are recorded in
 the PR. No deployment or merge; stacked on the tax-notice correction #289.
+
+Additional regression: the unmodified current UI is tested before any historical
+alignment.18 cases compare all2436 other button instances before/after this CSS
+change, and require exact matching type, color and background; only the pricing
+decision pair changes. Current deduction advice is also required exactly once.
+This caught and removed an initially overbroad aggregate-action selector.
+
+For historical cleanup/reference browser comparisons, a QA-only helper applies
+the exact approved pricing CSS and literal hint correction to BOTH peer DOMs
+immediately before capture. Baseline files remain untouched; numeric, clipping,
+contrast, all other text/style and package comparisons stay enabled. Whole-source
+SHA guards and the independent unaligned current-UI probe prevent this comparison
+alignment from masking unrelated changes. No workflow or baseline fixture edit.
