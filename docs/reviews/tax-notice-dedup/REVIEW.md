@@ -1,0 +1,46 @@
+# Tax notice deduplication
+
+The V1 Sales Tax hints contained their own short deduction/accountant warning and
+then appended the shared `tax.v2NoticeFull` warning. Users saw the same advice
+twice in one paragraph.
+
+Removed only the short warning from the goods and service hints in RU/EN/KK.
+The Sales Tax explanation and shared full warning remain. Both downloadable
+filled HTML examples receive exactly the same six literal copy edits; their
+remaining bundled sources are preserved. No financial formula, rate, saved state,
+common localization entry, layout or tax-selection behavior changes.
+
+Historical storage/source guards normalize only the exact three approved hint
+strings per adapter, bound to complete before/after SHA256 hashes. All original
+storage and financial byte comparisons, including rejection of appended edits,
+remain enforced. No workflow or historical fixture was replaced. The historical SEO path check
+allows only the two exact new review/helper paths; source comparisons stay strict.
+
+Validation:
+
+- JavaScript syntax checks for both adapters and the copy guard.
+- 33 existing tests passed: tax quoting/projection/final audit, semantic financial
+  AST protection, storage and module-boundary guards. Zero failures/skips.
+- Chromium:18 checks — goods, full services and simple services; RU/EN/KK;
+  widths320/1280. Each rendered hint contains the full shared warning exactly once
+  and mentions the accountant once. No page errors.
+
+Base: public `main` at `2c83c35`. Separate branch from the private Release1 work;
+no change to private frozen calculator snapshots, cloud configuration or public
+deployment. GitHub CI is recorded separately in the PR.
+
+CI follow-up: regenerated the L0 source inventory after the approved text edits.
+The first runs correctly rejected stale offsets. Source normalization also covers
+the two exact offline bundles so historical partner guards retain their original
+byte comparisons.
+
+Historical CI compatibility follows exact accepted SEO/Help and R4 workflow
+bytes. The C6 raw-module check now projects only the hash-bound approved hint
+copy. Two known audit metadata scripts have explicit SHA-bound historical
+bridges; arbitrary edits still fail. No workflow or original fixture changed.
+
+Historical offline-package comparisons now project the same two exact adapter
+script hashes as source comparisons. Bundled scripts and manifest byte counts
+are checked together; actual runtime and generated downloads remain deduplicated.
+The 20 affected source/financial contract tests pass locally. Interrupted C6
+Actions reported runner shutdown; no financial exception was recorded.
