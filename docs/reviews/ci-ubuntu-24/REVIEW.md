@@ -17,3 +17,9 @@ passed before this CI pin; the expanded30 contract tests also pass; current CI i
 The current branch is for19 workflows triggered by the UI changes. Other dormant
 legacy `ubuntu-latest` workflows are not certified against Ubuntu26.04 by this
 patch and require their own review before use. Private Windows CI is unaffected.
+
+Follow-up: C57 now computes its historic size delta from the same projected
+package whose HTML size it compares. Mixing raw and projected package rows
+subtracted the approved594 typography bytes twice. Raw source remains unchanged,
+and all exact HTML/resource comparisons remain enabled. Payment-grid full local
+acceptance passed78 pairs/312 comparisons; other full browser matrices continue.
