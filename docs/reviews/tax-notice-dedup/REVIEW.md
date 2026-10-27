@@ -38,3 +38,9 @@ Historical CI compatibility follows exact accepted SEO/Help and R4 workflow
 bytes. The C6 raw-module check now projects only the hash-bound approved hint
 copy. Two known audit metadata scripts have explicit SHA-bound historical
 bridges; arbitrary edits still fail. No workflow or original fixture changed.
+
+Historical offline-package comparisons now project the same two exact adapter
+script hashes as source comparisons. Bundled scripts and manifest byte counts
+are checked together; actual runtime and generated downloads remain deduplicated.
+The 20 affected source/financial contract tests pass locally. Interrupted C6
+Actions reported runner shutdown; no financial exception was recorded.
