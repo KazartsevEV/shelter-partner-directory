@@ -11,6 +11,7 @@ const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 const inputs=require('../../tests/fixtures/v1-engine/accepted-main.json');
 async function settle(page){await page.evaluate(()=>document.fonts.ready);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));}
 async function snapshot(page){
+ await require('../../tests/helpers/approved-ui-comparison.cjs').align(page);
  await settle(page);
  return page.evaluate(()=>{
   // Form helpers scroll to the next section. Compare identical document
@@ -113,7 +114,7 @@ async function main(){
     A.deepEqual(errors,[],variant+'/'+entry+'/'+width+'/'+language);await ctx.close();
    }
    fs.writeFileSync(path.join(out,'latest-pair.json'),JSON.stringify(pair));
-   A.deepEqual(pair.after,pair.before,entry+'/'+width+'/'+language);
+   A.ok(require('node:util').isDeepStrictEqual(pair.after,pair.before),entry+'/'+width+'/'+language+': full snapshots differ; inspect latest-pair.json');
    fs.unlinkSync(path.join(out,'latest-pair.json'));
    cases.push({entry,width,language,scenarios:pair.after.map(({name,hash})=>({name,hash}))});console.log('C6_CASE_GREEN',entry,width,language);
   }

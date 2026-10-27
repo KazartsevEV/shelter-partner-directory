@@ -2,7 +2,7 @@
 const A=require('node:assert/strict'),{createHash}=require('node:crypto'),fs=require('node:fs'),path=require('node:path');
 const manifest=require('../fixtures/v1-operations/extraction.json');
 const digest=value=>createHash('sha256').update(value).digest('hex');
-function restore(file,source){
+function restore(file,source){source=require('./runner-image-scope.cjs').restore(file,source);
  const seo=require('./seo-r3-compat.cjs');if(seo.isR3Page(file)||['en/help/index.html','ru/help/index.html','kk/help/index.html'].includes(file))source=seo.restore(file,source);
  source=require('./pricing-decision-type-scope.cjs').restore(file,source);
  source=require('./tax-notice-copy-scope.cjs').restore(file,source);
@@ -60,6 +60,9 @@ function standaloneDelta(){
  return Buffer.byteLength(module)+manifest.files['Marketing_calc.HTML'].replacements.slice(1).reduce((n,[a,b])=>n+Buffer.byteLength(b)-Buffer.byteLength(a),0);
 }
 function recordProjection(p){
+ const rows=p.resources.map(require('./pricing-decision-type-scope.cjs').normalizeResource).map(require('./tax-notice-copy-scope.cjs').normalizeResource);
+ const uiDelta=rows.reduce((n,row,i)=>n+row.bytes-p.resources[i].bytes,0), sizeKey='htmlBytes'in p?'htmlBytes':'bytes';
+ p={...p,[sizeKey]:p[sizeKey]+uiDelta,resources:rows};
  p=require('./v1-state-scope.cjs').recordProjection(p);
  const resources=projectResources(p.resources);if(resources===p.resources)return p;
  const key='htmlBytes'in p?'htmlBytes':'bytes';return {...p,[key]:p[key]-standaloneDelta(),resources};
