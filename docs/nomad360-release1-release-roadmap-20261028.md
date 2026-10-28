@@ -29,6 +29,8 @@
 
 **Критический путь:** 01 → (02 + 03) → 04 → 05 → 06 → 07 → 08 → 09 → 10. Структуру all-copy inventory, спецификацию бизнес-контракта и публичную QA-матрицу можно готовить параллельно без секретов и внешних побочных эффектов; включать реальные операции — только после необходимых доказательств.
 
+> **R1-GCP-01, факт на 28.10:** в приватном [Draft PR #548](https://github.com/KazartsevEV/lazysellerV2/pull/548) добавлен отдельный **manual trusted-main GitHub-hosted WIF proof** без checkout, без общего Windows runner, с ограниченным short-lived read-only token и без credentials file. Source-only: до разрешённого merge в `main` и восстановления **точных проверенных** существующих WIF/provider и service-account значений запуск невозможен. Владельцем подтверждено отсутствие repository secrets; через GitHub невозможно восстановить их ранее удалённые значения или узнать полный ID существующего облачного провайдера. Для подтверждения ID нужен ранее сохранённый owner-controlled GCP inventory/запись, не новый WIF и не сервисный ключ. Успех WIF proof всё ещё не доказывает доступ к owner Drive, Sheets, Cloud Run или биллинг.
+
 ## Ближайшая работа через GitHub / PowerShell без Codex
 
 1. Установлено владельцем: `gh auth` работает; `AI_MARKETER_GCP_WORKLOAD_IDENTITY_PROVIDER` и `AI_MARKETER_GCP_SERVICE_ACCOUNT` **отсутствуют в repository Actions secrets**; GitHub Environments = NONE; одноимённые repo variables отсутствуют. Проверить организационную область, если она действительно используется, и источники существующей cloud identity. **Не генерировать новый WIF/SA вместо восстановления старого.**
