@@ -601,6 +601,9 @@ def main():
         'docs/security/SEC-01.md', 'docs/security/sec01-edge-policy.sample.json',
         # Owner-approved preparation only: future copy is not connected to the site.
         'docs/nomad360-production-readiness-plan.md',
+        # Release1 planning only: exact route/closeout documents, no runtime waiver.
+        'docs/nomad360-release1-release-roadmap-20261028.md',
+        'docs/nomad360-release1-closeout-overview.md',
         'docs/partners/partner-release-copy.md',
         # R1 planned additions: screenshot bug report and White Label CI/CD contractual boundaries.
         'docs/partners/bug-report-screenshot-scope.md',
