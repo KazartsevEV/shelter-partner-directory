@@ -495,17 +495,6 @@ def main():
         subprocess.check_output(['node', '-e',
             "require('./tests/helpers/runner-image-scope.cjs').verify(process.argv[1],require('node:fs').readFileSync(0))", p],
             input=(ROOT / p).read_bytes(), cwd=ROOT)
-    # U3 reviewed runner pin: the localization workflow was not part of the
-    # earlier runner-image receipt. Accept only the exact known source bytes
-    # with the single supported OS selection; never exempt its arbitrary edits.
-    localization_runner = '.github/workflows/localization-l0.yml'
-    if localization_runner in changed:
-        approved = subprocess.check_output(['git', 'show',
-            '42e7dd6269d05d97379c03e3af360fc28674450c:' + localization_runner], cwd=ROOT)
-        obsolete = b'runs-on: ubuntu-latest'
-        assert approved.count(obsolete) == 1, 'Unique accepted localization runner source required'
-        assert (ROOT / localization_runner).read_bytes() == approved.replace(
-            obsolete, b'runs-on: ubuntu-24.04'), 'Only the reviewed localization runner pin is allowed'
     assert all(p.startswith(('docs/seo/', 'scripts/seo/', 'en/', 'ru/', 'kk/', 'docs/localization/l0/',
                              'docs/reviews/draft-transfer-r4/', 'docs/reviews/architecture-boundaries-01/', 'docs/reviews/v1-engine-01/', 'tests/fixtures/v1-engine/',
                              'docs/reviews/tax-draft-storage-01/', 'tests/fixtures/tax-draft-storage/',
@@ -527,7 +516,7 @@ def main():
                              'scripts/cleanup-history/', 'docs/reviews/cleanup-history-07/',
                              'tests/fixtures/partner-application/', 'docs/reviews/partner-application-01/',
                              'docs/reviews/about-vector-218/', 'docs/reviews/banner-quality-01/', 'docs/reviews/partner-release-preview-01/',
-                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in runner_workflows or p == localization_runner or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs', 'tests/helpers/tax-notice-copy-scope.cjs', 'docs/reviews/tax-notice-dedup/REVIEW.md', 'docs/reviews/pricing-decision-type/REVIEW.md', 'docs/reviews/pricing-decision-type/browser.json', 'docs/reviews/pricing-decision-type/ru-320-buttons.png', 'docs/reviews/pricing-decision-type/ru-1280-buttons.png', 'tests/helpers/pricing-decision-type-scope.cjs', 'tests/helpers/approved-ui-comparison.cjs', 'tests/pricing_decision_type_browser.cjs', 'tests/fixtures/pricing-decision-type/changes.json', 'tests/helpers/runner-image-scope.cjs', 'tests/fixtures/runner-image/changes.json', 'docs/reviews/ci-ubuntu-24/REVIEW.md'} or p in (
+                             'license/', 'scripts/legal/', 'docs/reviews/return-7a/', 'scripts/palette/', 'tests/fixtures/task10-palette/', 'docs/reviews/task10-palette/', 'docs/reviews/us-retail-v2/', 'docs/reviews/v2-output-truth-01/')) or p in runner_workflows or p in {'sitemap.xml', 'docs/nomad360-codex-task-map.md', 'docs/reviews/seo-07-r3/REVIEW.md', 'tests/helpers/seo-r3-compat.cjs', 'tests/helpers/tax-notice-copy-scope.cjs', 'docs/reviews/tax-notice-dedup/REVIEW.md', 'docs/reviews/pricing-decision-type/REVIEW.md', 'docs/reviews/pricing-decision-type/browser.json', 'docs/reviews/pricing-decision-type/ru-320-buttons.png', 'docs/reviews/pricing-decision-type/ru-1280-buttons.png', 'tests/helpers/pricing-decision-type-scope.cjs', 'tests/helpers/approved-ui-comparison.cjs', 'tests/pricing_decision_type_browser.cjs', 'tests/fixtures/pricing-decision-type/changes.json', 'tests/helpers/runner-image-scope.cjs', 'tests/fixtures/runner-image/changes.json', 'docs/reviews/ci-ubuntu-24/REVIEW.md'} or p in (
         # R4 draft transport: dedicated local page, no calculator/engine exemptions.
         'nomad360_draft_transfer.js', 'nomad360_draft_transfer_ui.js',
         'drafts/index.html', 'assets/nomad360-drafts.css', 'scripts/site-release/public-files.json',
