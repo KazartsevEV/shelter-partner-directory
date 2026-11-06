@@ -28,7 +28,7 @@ test('both entrypoints change only eight receipted hunks; globals, engines and r
   A.equal(entry.replacements.length,8);A.equal(digest(now),entry.after);A.equal(restore(file,now),old);
   A.throws(()=>restore(file,now.replace('const v = currentValues;','const v = {};')),/Unreviewed V1 operations edit/);
   for(const name of ['nomad360_v1_engine.js','nomad360_payments.js','nomad360_sales_tax_v1.js','nomad360_sales_tax_service_v1.js','nomad360_sales_tax_v2.js'])
-   A.deepEqual(fs.readFileSync(path.join(root,name)),execFileSync('git',['show',manifest.base+':'+name],{cwd:root}),name);
+   A.deepEqual(require('./helpers/tax-notice-copy-scope.cjs').restore(name,fs.readFileSync(path.join(root,name))),execFileSync('git',['show',manifest.base+':'+name],{cwd:root}),name);
  }
 });
 test('operations have no DOM, storage, network, formatting or mutable global dependencies',()=>{

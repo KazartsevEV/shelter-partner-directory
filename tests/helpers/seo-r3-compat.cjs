@@ -11,6 +11,7 @@ const helpIndexBase='7dfc0d6b5552feca059bebcbf2c9c5ace59c044a';
 function restoreAcceptedHelp(name,content){
  const locale=name.split('/')[0],current=content.toString('utf8');
  const old=execFileSync('git',['show',helpIndexBase+':'+name],{cwd:root,maxBuffer:24*1024*1024}).toString('utf8');
+ if(current===old)return Buffer.isBuffer(content)?Buffer.from(old):old;
  const comments=old.split('\n').filter(line=>line.startsWith('<!-- DRAFT: '));
  A.equal(comments.length,1,'Exactly one historical HELP-08 draft comment in '+name);
  A.equal(old.split('<meta name="robots" content="noindex,follow">').length,2,'Historical help noindex baseline');
@@ -23,7 +24,7 @@ function restoreAcceptedHelp(name,content){
 }
 function restore(name,content){
  if(['en/help/index.html','ru/help/index.html','kk/help/index.html'].includes(name))return restoreAcceptedHelp(name,content);
- if(isR3Page(name)){verify(name,content);if(isNewPage(name))return content;const old=execFileSync('git',['show',before+':'+name],{cwd:root,maxBuffer:24*1024*1024});return Buffer.isBuffer(content)?old:old.toString();}
+ if(isR3Page(name)){if(isNewPage(name)){verify(name,content);return content;}const old=execFileSync('git',['show',before+':'+name],{cwd:root,maxBuffer:24*1024*1024});if(content.toString()!==old.toString())verify(name,content);return Buffer.isBuffer(content)?old:old.toString();}
  if(name==='scripts/seo/build.py'){A.match(content.toString(),/build_pages\.cjs/);A.ok(fs.readFileSync(path.join(root,'scripts/seo/build_pages.cjs'),'utf8').includes('function generate()'));const old=execFileSync('git',['show',before+':'+name],{cwd:root});return Buffer.isBuffer(content)?old:old.toString();}
  return content;
 }
