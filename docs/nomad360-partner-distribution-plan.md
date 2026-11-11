@@ -1,5 +1,16 @@
 # Nomad360 partner distribution: remaining product stages
 
+**Owner correction,26 October: zero new mandatory expenditure.** No new VPS,
+Redis service, domain or always-on dedicated machine is a default dependency.
+Existing resources/quotas must be inventoried first; paid plans, billing,
+overages and recurring obligations require separate prior approval. #504 stays
+Draft. #503's current POSIX/Redis/listener composition is an implementation to
+review, not proof that the product requires a purchase. Code GREEN does not
+approve deployment or erase this budget gate. Revised [R4–R6](nomad360-production-readiness-plan.md)
+controls the earlier hosting sequence below. Batch/Google/service alternatives
+need new adapters and explicit functional/security acceptance; no provider is
+silently switched and no reduced automation is presented as already delivered.
+
 Status: 23 October 2026. This plan preserves the owner's partnership request and
 follows the accepted architecture work #238–240. It complements the main task
 map; it does not authorise automatic merge or skipping user acceptance.
