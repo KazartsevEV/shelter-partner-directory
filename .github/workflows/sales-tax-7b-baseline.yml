@@ -15,7 +15,7 @@ permissions:
   contents: read
 jobs:
   baseline-engine:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -44,7 +44,7 @@ jobs:
           node --check tests/sales_tax_7b_vat_browser.cjs
           node tests/sales_tax_7b_baseline.cjs
   baseline-browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4

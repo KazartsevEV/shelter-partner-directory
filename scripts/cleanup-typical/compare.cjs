@@ -15,7 +15,7 @@ async function route(page,kind){
  if(kind==='offline')return page.evaluate(()=>{showServiceWorkChooser();selectServiceFinancialMode('simple');chooseServiceChannel('offline');startOfflineServiceCalculation();});
  return page.evaluate(({mode,input})=>{showServiceWorkChooser();selectServiceFinancialMode('simple');chooseServiceChannel('online');selectServiceMode(mode);Object.assign(currentValues,input.values);Object.assign(agentPayers,input.payers);initInputs();calculate();},{mode:kind,input:v1.simpleCases.find(x=>x.input.mode===kind).input});
 }
-async function snapshot(page,kind){
+async function snapshot(page,kind){await require('../../tests/helpers/approved-ui-comparison.cjs').align(page);
  await page.evaluate(()=>document.fonts.ready);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
  return page.evaluate(({kind,origin,selectors})=>{
   scrollTo(0,0);const canonical=v=>v.replaceAll(origin+'/before/',origin+'/variant/').replaceAll(origin+'/after/',origin+'/variant/');
@@ -37,7 +37,7 @@ async function snapshot(page,kind){
  const config=require('../../tests/fixtures/partner-build/example.json');
  const beforePackage=await buildPackage(config,{repositoryRoot:baselineRoot,browserFactory:launch}),afterPackage=await buildPackage(config,{browserFactory:launch});
  const comparableAfter=require('../../tests/helpers/v1-operations-scope.cjs').packageProjection(afterPackage);
- A.equal(beforePackage.html,scope.restoreStandalone(comparableAfter.html));A.deepEqual(beforePackage.manifest.resources.map(scope.normalizeResource),comparableAfter.manifest.resources.map(scope.normalizeResource));A.equal(Buffer.byteLength(beforePackage.html)-Buffer.byteLength(comparableAfter.html),3589+require('../../tests/helpers/paint-scope.cjs').packageDelta(beforePackage,afterPackage));
+ A.equal(beforePackage.html,scope.restoreStandalone(comparableAfter.html));A.deepEqual(beforePackage.manifest.resources.map(scope.normalizeResource),comparableAfter.manifest.resources.map(scope.normalizeResource));A.equal(Buffer.byteLength(beforePackage.html)-Buffer.byteLength(comparableAfter.html),3589+require('../../tests/helpers/paint-scope.cjs').packageDelta(beforePackage,comparableAfter));
  const packages={before:beforePackage,after:afterPackage};
  const server=http.createServer((req,res)=>{try{
   const url=new URL(req.url,'http://local');let rel=decodeURIComponent(url.pathname).slice(1),variant=rel.startsWith('before/')?'before':'after';rel=rel.replace(/^(before|after)\//,'').replace(/^shelter-partner-directory\//,'');

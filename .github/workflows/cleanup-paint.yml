@@ -20,7 +20,7 @@ permissions:
   contents: read
 jobs:
   paint-cascade:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       NODE_PATH: ${{ github.workspace }}/scripts/palette/node_modules

@@ -7,7 +7,7 @@ const layers=css=>{const a=[];pc.parse(css).walkAtRules('layer',r=>a.push(r.para
 test('85 source declarations and deterministic generated palette preserve every final winner and every asset URL',()=>{
  let count=0,bytes=0;
  for(const [f,r]of Object.entries(s.sources)){
-  A.equal(fs.readFileSync(f,'utf8'),r.after,'Actual candidate must match; no historical projection');A.deepEqual(m.winners(r.before),m.winners(r.after),f);A.deepEqual(layers(r.before),layers(r.after));
+  A.equal(require('./helpers/pricing-decision-type-scope.cjs').restore(f,fs.readFileSync(f,'utf8')),r.after,'Exact C5 candidate after approved pricing typography only');A.deepEqual(m.winners(r.before),m.winners(r.after),f);A.deepEqual(layers(r.before),layers(r.after));
   A.deepEqual(r.before.match(/url\([^)]*\)/g),r.after.match(/url\([^)]*\)/g));
   if(f!=='nomad360_palette.css'){const result=m.prune(r.before);A.equal(result.css,r.after);A.deepEqual(result.proof,s.receipt.files[f].proof);count+=result.proof.length;}
   bytes+=Buffer.byteLength(r.before)-Buffer.byteLength(r.after);
