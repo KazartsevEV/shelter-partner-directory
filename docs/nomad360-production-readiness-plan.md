@@ -1,5 +1,10 @@
 # Nomad360 — подготовка продукта и перенос в production
 
+> **27.10.2026 — Утверждена новая целевая схема первого релиза Lite (не означает production-запуск).** Вместо постоянного VPS/Redis и отдельного платного диска: статический сайт и домен — Cloudflare Pages с прямым GitHub deploy; приватный Node.js 22 API/упаковщик — Cloud Run в **существующем** Google Cloud через GitHub WIF CI/CD; SQLite оставлена без замены на Firestore/Postgres, временные локальные файлы Cloud Run допускаются только вместе с **проверенной устойчивой версионированной копией/журналом на Google Drive владельца**. Эта Drive-схема является **гипотезой, требующей доказательства атомарности и единственного писателя между инстансами/ревизиями**: обычный upload/download базы в ответ на HTTP-запрос небезопасен. Без прошедшего fail-closed recovery/3 конкурентных ZIP/real Google acceptance — **NO GO**. Личная машина — только факультативный runner CI, не production. Никаких новых GCP проектов, платных ресурсов, автоматических обновлений партнёрских установок или урезаний остального Lean функционала. Детали и статус см. [верх карты разработки](nomad360-codex-task-map.md) и private [Release 1 Google Drive SQLite contract](https://github.com/KazartsevEV/lazysellerV2/blob/docs/nomad360-lean-r1-cloudrun-drive-20261027/nomad360/launch/docs/release1-cloudrun-drive-sqlite.md). Бюджет $0–5/мес. — **цель, не доказанная стоимость**. Отдельная R1-фаза текста/партнёрского UI ниже сохраняется и не означает готовность Release 1 Lite.
+>
+> **CI/проекты на дату решения:** приватные Draft #505–520 сохраняются, #516/#518/#519/#520 CI SUCCESS на синтетике; независимая GCP инвентаризация private #522 CI SUCCESS, реальный GCP job SKIPPED до допуска из `main`; живой Cloud Run/Drive SQLite не создан и не испытан. Accepted public site/SEO/финансовая математика не меняются.
+
+
 Статус: **порядок согласован владельцем 23.10.2026**. База сверки:
 `main` `a82fad09290602a16e4f0c3b8d89f8177a9afa42` после #241/#242.
 P3 реализован в Draft [#243](https://github.com/KazartsevEV/shelter-partner-directory/pull/243),
