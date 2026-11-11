@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "asset_id": "ayla.face.master.v1",
+  "role": "CANONICAL_FACE_REFERENCE",
+  "status": "OWNER_APPROVED_BINARY_VERIFIED",
+  "path": "ayla/assets/ayla-face-canon-v1.jpg",
+  "mime_type": "image/jpeg",
+  "width": 1229,
+  "height": 1536,
+  "size_bytes": 314480,
+  "sha256": "3e866ee23d366f1736a60ac04c5d3e002e34d1eb1653b0ceb4080baf15c4f298",
+  "git_blob_sha1": "0a8d1765c3ea15113a16c76e0a5e72571711c726",
+  "approved_on": "2026-10-21",
+  "original_upload_name": "1792529333385.png",
+  "original_declared_ext": "png",
+  "original_verified_format": "JPEG",
+  "asset_mode": "immutable",
+  "generation_contract": {
+    "reference_image_required": true,
+    "reference_asset_id": "ayla.face.master.v1",
+    "prompt_only_generation_for_ayla_face_forbidden": true,
+    "source_bytes_must_match_sha256": true,
+    "provider_must_support_reference_image_conditioning": true,
+    "outputs_are_derived_artifacts": true,
+    "derived_images_do_not_replace_master": true,
+    "visual_identity_qa_required": true,
+    "approval_for_new_master_version": "owner-only"
+  },
+  "notes": "The asset is the exact owner-approved master. Frozen means immutable source plus required image conditioning and QA; it does not guarantee deterministic identical face across models."
+}

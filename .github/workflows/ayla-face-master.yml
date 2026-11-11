@@ -1,0 +1,35 @@
+name: Ayla face master integrity
+
+on:
+  push:
+    paths:
+      - "ayla/**"
+      - ".github/workflows/ayla-face-master.yml"
+  pull_request:
+    paths:
+      - "ayla/**"
+      - ".github/workflows/ayla-face-master.yml"
+
+jobs:
+  verified-face-master:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Frozen reference and prompt-only guard unit tests
+        run: python -m unittest discover -s ayla/tests -p 'test_*.py' -v
+      - name: Approved JPEG immutable bytes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          image = Path("ayla/assets/ayla-face-canon-v1.jpg")
+          actual = hashlib.sha256(image.read_bytes()).hexdigest()
+          expected = "3e866ee23d366f1736a60ac04c5d3e002e34d1eb1653b0ceb4080baf15c4f298"
+          assert actual == expected, f"Frozen Ayla face master changed: {actual}"
+          print("Approved image bytes are unchanged:", actual)
+          PY
