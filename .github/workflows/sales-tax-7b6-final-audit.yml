@@ -1,0 +1,131 @@
+name: SALES-TAX-07B stage 6 final cross-cutting audit
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/sales-tax-7b6-final-audit.yml'
+      - 'docs/reviews/sales-tax-7b/**'
+      - 'docs/nomad360-codex-task-map.md'
+      - 'tests/sales_tax_7b*'
+      - 'tests/v1_service_v2_numeric_parity.test.cjs'
+      - 'Marketing_calc.HTML'
+      - 'nomad360_*.js'
+      - 'portfolio_v2_*.js'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  historical-vat:
+    name: Frozen VAT / 48 engines and 78 Chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Guard code-only finance contracts against merged 7B-5 main
+        run: |
+          git fetch --no-tags origin main
+          if git diff --name-only origin/main...HEAD -- Marketing_calc.HTML nomad360_*.js portfolio_v2_*.js tests/sales_tax_7b_baseline.cjs tests/sales_tax_7b_vat_browser.cjs tests/fixtures/sales-tax-7b docs/reviews/sales-tax-7b/baseline | grep .; then
+            echo "7B-6 must not change production finance, VAT fixtures or historical comparators" >&2
+            exit 1
+          fi
+      - name: Historical manifest must be exact and frozen
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('docs/reviews/sales-tax-7b')
+          manifest=json.loads((root/'baseline-manifest.json').read_text())
+          assert manifest['source']=='12c1ad7d8490c08f0f11b2899b6df4e801d024a5'
+          for relative,digest in manifest['files'].items():
+              target=root/relative
+              assert target.is_file(),f'Missing historical evidence {relative}'
+              assert hashlib.sha256(target.read_bytes()).hexdigest()==digest,f'Changed VAT evidence: {relative}'
+          fixture=json.loads(pathlib.Path('tests/fixtures/sales-tax-7b/vat-inputs.json').read_text())
+          assert fixture['source']==manifest['source']
+          assert len(fixture['cases'])==48,'Historical V2 engine case count changed'
+          print(f'7B6_FROZEN_MANIFEST_GREEN files={len(manifest["files"])} cases=48 source={manifest["source"]}')
+          PY
+      - name: Exact VAT engine comparison
+        run: |
+          node --check tests/sales_tax_7b_baseline.cjs
+          node tests/sales_tax_7b_baseline.cjs
+      - name: Install pinned Chromium and offline Tailwind
+        run: |
+          npm install --prefix "$RUNNER_TEMP/sales-tax-7b6-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/sales-tax-7b6-tools/node_modules/.bin/playwright" install --with-deps chromium
+          mkdir -p artifacts/sales-tax-7b
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > "$RUNNER_TEMP/sales-tax-7b6-utilities.css"
+          "$RUNNER_TEMP/sales-tax-7b6-tools/node_modules/.bin/tailwindcss" -i "$RUNNER_TEMP/sales-tax-7b6-utilities.css" --content './Marketing_calc.HTML,./nomad360_*.js,./portfolio_v2_*ui.js' -o artifacts/sales-tax-7b/utilities.css --minify
+      - name: Exact VAT browser parity / expected 78 cases, including PDF and Excel
+        env:
+          NODE_PATH: ${{ runner.temp }}/sales-tax-7b6-tools/node_modules
+        run: |
+          node tests/sales_tax_7b_vat_browser.cjs | tee artifacts/sales-tax-7b/vat-stage-6.log
+          grep -Eq 'SALES_TAX_7B_VAT_BROWSER_GREEN .*"cases":78' artifacts/sales-tax-7b/vat-stage-6.log
+      - name: Upload frozen VAT comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sales-tax-7b6-vat-parity
+          path: artifacts/sales-tax-7b/
+          retention-days: 14
+
+  sales-tax-e2e:
+    name: Sales Tax V1/V2, principal/agent, Excel/PDF/offline HTML
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Immutable engine baseline plus exact pure numeric cases
+        run: |
+          node tests/sales_tax_7b_baseline.cjs
+          node --test tests/sales_tax_7b_pure.test.cjs tests/sales_tax_7b_v2_projection.test.cjs tests/v1_service_v2_numeric_parity.test.cjs tests/sales_tax_7b5_price_export.test.cjs tests/nomad360_price_export.test.cjs tests/portfolio_v2_engine.test.cjs tests/portfolio_v2_online_adapter.test.cjs
+      - name: Install pinned Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/sales-tax-7b6-tools" --no-save --no-package-lock playwright@1.58.0 tailwindcss@3.4.17
+          "$RUNNER_TEMP/sales-tax-7b6-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Real V1 goods and services / V1 to V2 / linked V2 / exports in 3 locales
+        env:
+          NODE_PATH: ${{ runner.temp }}/sales-tax-7b6-tools/node_modules
+        run: |
+          mkdir -p artifacts/sales-tax-7b6
+          set -o pipefail
+          node tests/sales_tax_7b_goods_browser.cjs | tee artifacts/sales-tax-7b6/v1-goods.log
+          node tests/sales_tax_7b_services_browser.cjs | tee artifacts/sales-tax-7b6/v1-services.log
+          node tests/sales_tax_7b_v2_browser.cjs | tee artifacts/sales-tax-7b6/v2-offers.log
+          node tests/sales_tax_7b5_v1_pdf_browser.cjs | tee artifacts/sales-tax-7b6/v1-pdf.log
+          node tests/sales_tax_7b5_v2_export_browser.cjs | tee artifacts/sales-tax-7b6/v2-export.log
+      - name: Require real mobile/desktop RU/EN/KK export receipts
+        run: |
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('artifacts/sales-tax-7b6')
+          checks={'v1-pdf.log':('7B5_V1_PDF_AND_NONE_GREEN',6),'v2-export.log':('7B5_V2_EXPORT_BROWSER_GREEN',12)}
+          for filename,(tag,n) in checks.items():
+              lines=[s for s in (p/filename).read_text().splitlines() if s.startswith(tag+' ')]
+              assert len(lines)==1,f'{filename}: missing unique result marker'
+              entries=json.loads(lines[0].split(' ',1)[1])
+              assert len(entries)==n,f'{filename}: {len(entries)} != {n}'
+              if filename=='v2-export.log':
+                  assert {(e['kind'],e['lang'],e['width']) for e in entries}=={(k,l,w) for k in ('standalone','linked') for l in ('ru','en','kk') for w in (390,1280)}
+                  assert all(e['excel'] and e['pdf'] and e['restore'] and e['languagePreserved'] for e in entries)
+              else:
+                  assert {(e['language'],e['width']) for e in entries}=={(l,w) for l in ('ru','en','kk') for w in (390,1280)}
+                  assert all(e['noneRestored'] for e in entries)
+          print('7B6_EXPORTED_BROWSER_MATRIX_GREEN v1=6 v2=12')
+          PY
+      - name: Upload final Sales Tax browser receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sales-tax-7b6-all-routes
+          path: artifacts/sales-tax-7b6/
+          retention-days: 14
