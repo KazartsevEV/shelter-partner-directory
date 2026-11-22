@@ -15,7 +15,7 @@ async function route(page,kind){
  if(kind==='offline')return page.evaluate(()=>{showServiceWorkChooser();selectServiceFinancialMode('simple');chooseServiceChannel('offline');startOfflineServiceCalculation();});
  return page.evaluate(({mode,input})=>{showServiceWorkChooser();selectServiceFinancialMode('simple');chooseServiceChannel('online');selectServiceMode(mode);Object.assign(currentValues,input.values);Object.assign(agentPayers,input.payers);initInputs();calculate();},{mode:kind,input:v1.simpleCases.find(x=>x.input.mode===kind).input});
 }
-async function snapshot(page,kind){
+async function snapshot(page,kind){await require('../../tests/helpers/approved-ui-comparison.cjs').align(page);
  await page.evaluate(()=>document.fonts.ready);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
  return page.evaluate(kind=>{
   scrollTo(0,0);const props=['display','position','box-sizing','width','height','min-width','max-width','padding','margin','gap','grid-template-columns','grid-template-rows','flex-direction','flex-wrap','align-items','justify-content','color','background-color','border','border-radius','font-family','font-size','font-weight','line-height','overflow-x','overflow-y','white-space'];

@@ -21,7 +21,7 @@ jobs:
     # This historical design audit freezes all non-presentation sources at stage 2.
     # Feature PRs have their own behavior/finance acceptance workflows.
     if: startsWith(github.head_ref, 'feature/v2-')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
